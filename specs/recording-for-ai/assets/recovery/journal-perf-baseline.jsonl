@@ -1,0 +1,6 @@
+{"gapped":false,"intervals":1,"readSeconds":0.05521702766418457,"records":10000,"writeSeconds":0.066558957099914551}
+{"gapped":true,"intervals":10000,"readSeconds":0.070151925086975098,"records":10000,"writeSeconds":0.064364075660705566}
+{"gapped":false,"intervals":1,"readSeconds":0.11093795299530029,"records":20000,"writeSeconds":0.13125801086425781}
+{"gapped":true,"intervals":20000,"readSeconds":0.17575490474700928,"records":20000,"writeSeconds":0.12418210506439209}
+{"gapped":false,"intervals":1,"readSeconds":0.21830999851226807,"records":40000,"writeSeconds":0.22345006465911865}
+{"gapped":true,"intervals":40000,"readSeconds":0.47821199893951416,"records":40000,"writeSeconds":0.22584402561187744}

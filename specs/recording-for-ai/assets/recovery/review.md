@@ -24,3 +24,6 @@ is not a strict universal five-second bound.
 
 Outstanding: accepted review fixes, reusable kill harness, physical audio capture/audition, kill during finalization, app/service relaunch and
 catalog reconciliation. This report does not close slice 02.
+
+The [performance audit](performance.md) records a measured gap-accumulation copying
+problem and an isolated candidate fix; production integration remains pending.

@@ -1,0 +1,4 @@
+{"gapped":false,"intervals":1,"readSeconds":0.48835897445678711,"records":80000,"writeSeconds":0.51991903781890869}
+{"gapped":true,"intervals":80000,"readSeconds":2.2035279273986816,"records":80000,"writeSeconds":0.63789796829223633}
+{"gapped":false,"intervals":1,"readSeconds":0.8881080150604248,"records":160000,"writeSeconds":1.0306919813156128}
+{"gapped":true,"intervals":160000,"readSeconds":6.4166619777679443,"records":160000,"writeSeconds":1.1290789842605591}
