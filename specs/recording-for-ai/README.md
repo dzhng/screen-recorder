@@ -52,6 +52,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
+  - [ ] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
