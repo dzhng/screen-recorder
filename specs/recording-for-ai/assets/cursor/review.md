@@ -67,3 +67,18 @@ precedes enqueue on the separate sampler producer, and the controlled red/green
 regression demonstrates the lost geometry. An asserted single-queue proof does not
 order those independent producer timestamps. No extra unreachable-call guard or
 unmeasured display/region claim is being adopted.
+
+## Corrected integration
+
+Cursor correction `9c1f7e2` retains geometry by delivered-reading watermark, bounds
+placement history, returns journal stream status and exposes recorded display-space
+changes. Real sampler pause/resume and blocked-queue tests pass. Independent review
+of that commit found no actionable regressions; its native execution was restricted,
+so acceptance uses root's native run. Root additionally reproduced a frame whose
+metadata has no source location yet incorrectly lending a real epoch to an
+`unknownGeometry` sample; that regression now passes with epoch zero.
+
+The corrected app builds and the own-window fixture completed again; see
+[the corrected measurements](corrected-window-measurements.json). This confirms the
+ordinary placement path after reader changes. Deliberate gestures, display/region
+capture and display reconfiguration remain open; no new visual styling was added.

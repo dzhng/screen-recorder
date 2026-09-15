@@ -121,6 +121,13 @@ func runCursorGeometryTests() throws {
     precondition(
         unexplained.outputPixel(forGlobalPoint: CGPoint(x: 0, y: 0)) == nil,
         "Geometry no frame has explained cannot place a point")
+    var unlocated = CursorTrack(batchSize: 1)
+    _ = unlocated.observe(unexplained, hostUs: 0)
+    let unlocatedSample = unlocated.accept(
+        reading(hostUs: 1_000, x: 300, y: 455), sourceUs: 1_000)?.first
+    precondition(
+        unlocatedSample?.eligibility == "unknownGeometry" && unlocatedSample?.geometryEpoch == 0,
+        "A frame with no source placement cannot claim a projected epoch, got \(String(describing: unlocatedSample))")
     print("PASS a region uses its requested global rect and unexplained geometry places nothing")
 
     // AppKit reports the pointer in a bottom-left space anchored to the zero-origin display.

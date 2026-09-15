@@ -1,0 +1,1187 @@
+{
+  "command": "bun run lab:cursor-geometry",
+  "generatedAt": "2026-09-15T11:00:16.006Z",
+  "output": "/tmp/screenrec-cursor-corrected-run",
+  "displays": [
+    {
+      "height": 982,
+      "width": 1512,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "height": 1440,
+      "width": 2560,
+      "x": 1228,
+      "y": -1440
+    }
+  ],
+  "outputPixels": {
+    "width": 1640,
+    "height": 1104
+  },
+  "capture": {
+    "state": "complete",
+    "durationUs": 22610577,
+    "pauses": [
+      {
+        "atSourceUs": 16012940,
+        "elapsedPauseUs": 1402265
+      }
+    ],
+    "cursor": {
+      "afterSeal": 0,
+      "droppedReadings": 0,
+      "forgottenPlacements": 0,
+      "geometryEpochs": 5,
+      "omittedPaused": 0,
+      "sampled": 1358,
+      "skippedTicks": 0
+    }
+  },
+  "cursorSamples": {
+    "atCalibrations": [
+      {
+        "buttons": 0,
+        "eligibility": "outside",
+        "geometryEpoch": 1,
+        "globalX": 1217.88671875,
+        "globalY": 411.875,
+        "sourceUs": 2412443,
+        "x": 2195.7734375,
+        "y": 443.75
+      },
+      {
+        "buttons": 1,
+        "eligibility": "outside",
+        "geometryEpoch": 2,
+        "globalX": 1245.74609375,
+        "globalY": 208.47265625,
+        "sourceUs": 7412891,
+        "x": 1891.4921875,
+        "y": 152.9453125
+      },
+      {
+        "buttons": 0,
+        "eligibility": "inside",
+        "geometryEpoch": 3,
+        "globalX": 742.67578125,
+        "globalY": 565.71875,
+        "sourceUs": 11412356,
+        "x": 698.0656794039533,
+        "y": 840.0565196946263
+      },
+      {
+        "buttons": 1,
+        "eligibility": "outside",
+        "geometryEpoch": 4,
+        "globalX": 657.96484375,
+        "globalY": 533.234375,
+        "sourceUs": 15429507,
+        "x": -2097.3632041877136,
+        "y": 2496.638909224421
+      },
+      {
+        "buttons": 1,
+        "eligibility": "inside",
+        "geometryEpoch": 5,
+        "globalX": 1355.62109375,
+        "globalY": 502.51953125,
+        "sourceUs": 19810527,
+        "x": 1025.979452864267,
+        "y": 461.28081537317485
+      }
+    ],
+    "calibrationDistanceUs": [
+      571,
+      2174,
+      7403,
+      3716,
+      1868
+    ],
+    "calibrationDriftPoints": [
+      2.8935479309847714,
+      11.942766396001101,
+      458.5036378838872,
+      261.5427913920129,
+      1.3046875
+    ],
+    "count": 1358,
+    "firstSourceUs": 10810,
+    "inside": 730,
+    "lastSourceUs": 22610533,
+    "maxGapUs": 18551,
+    "medianGapUs": 16667,
+    "outside": 628,
+    "unknownGeometry": 0
+  },
+  "expectedSamplesAtCadence": 1357,
+  "geometryEpochs": 5,
+  "placements": [
+    {
+      "label": "start",
+      "index": 0,
+      "windowFrameAppKit": {
+        "height": 552,
+        "width": 820,
+        "x": 120,
+        "y": 240
+      },
+      "epoch": 1,
+      "geometry": {
+        "boundingRect": {
+          "height": 552,
+          "width": 820,
+          "x": 0,
+          "y": 0
+        },
+        "contentRect": {
+          "height": 552,
+          "width": 820,
+          "x": 0,
+          "y": 0
+        },
+        "contentScale": 1,
+        "outputHeight": 1104,
+        "outputWidth": 1640,
+        "scaleFactor": 2,
+        "screenRect": {
+          "height": 552,
+          "width": 820,
+          "x": 120,
+          "y": 190
+        }
+      },
+      "frame": {
+        "file": "/tmp/screenrec-cursor-corrected-run/frame-0-start.png",
+        "actualSourceUs": 210000,
+        "bytes": 105719,
+        "distanceUs": 10000,
+        "height": 1104,
+        "mediaType": "image/png",
+        "requestedSourceUs": 200000,
+        "sourceHeight": 1104,
+        "sourceWidth": 1640,
+        "width": 1640
+      },
+      "measured": [
+        {
+          "x": 48,
+          "y": 112,
+          "side": 24
+        },
+        {
+          "x": 1568,
+          "y": 168,
+          "side": 24
+        },
+        {
+          "x": 623,
+          "y": 646.5,
+          "side": 24
+        },
+        {
+          "x": 1600,
+          "y": 984,
+          "side": 24
+        },
+        {
+          "x": 56,
+          "y": 1060,
+          "side": 24
+        }
+      ],
+      "predicted": [
+        {
+          "x": 48,
+          "y": 112
+        },
+        {
+          "x": 1568,
+          "y": 168
+        },
+        {
+          "x": 623.2,
+          "y": 646.4000000000001
+        },
+        {
+          "x": 1600,
+          "y": 984
+        },
+        {
+          "x": 56,
+          "y": 1060
+        }
+      ],
+      "errorsPx": [
+        0,
+        0,
+        0.22360679774997896,
+        0,
+        0
+      ],
+      "maxErrorPx": 0.22360679774997896,
+      "overlay": "/tmp/screenrec-cursor-corrected-run/overlay-0-start.png"
+    },
+    {
+      "label": "moved",
+      "index": 1,
+      "windowFrameAppKit": {
+        "height": 520,
+        "width": 820,
+        "x": 300,
+        "y": 330
+      },
+      "epoch": 2,
+      "geometry": {
+        "boundingRect": {
+          "height": 520,
+          "width": 820,
+          "x": 0,
+          "y": 0
+        },
+        "contentRect": {
+          "height": 520,
+          "width": 820,
+          "x": 0,
+          "y": 0
+        },
+        "contentScale": 1,
+        "outputHeight": 1104,
+        "outputWidth": 1640,
+        "scaleFactor": 2,
+        "screenRect": {
+          "height": 520,
+          "width": 820,
+          "x": 300,
+          "y": 132
+        }
+      },
+      "frame": {
+        "file": "/tmp/screenrec-cursor-corrected-run/frame-1-moved.png",
+        "actualSourceUs": 4276667,
+        "bytes": 203060,
+        "distanceUs": 4916,
+        "height": 1104,
+        "mediaType": "image/png",
+        "requestedSourceUs": 4271751,
+        "sourceHeight": 1104,
+        "sourceWidth": 1640,
+        "width": 1640
+      },
+      "measured": [
+        {
+          "x": 48,
+          "y": 112,
+          "side": 24
+        },
+        {
+          "x": 1568,
+          "y": 168,
+          "side": 24
+        },
+        {
+          "x": 623,
+          "y": 610.5,
+          "side": 24
+        },
+        {
+          "x": 1600,
+          "y": 920,
+          "side": 24
+        },
+        {
+          "x": 56,
+          "y": 996,
+          "side": 24
+        }
+      ],
+      "predicted": [
+        {
+          "x": 48,
+          "y": 112
+        },
+        {
+          "x": 1568,
+          "y": 168
+        },
+        {
+          "x": 623.2,
+          "y": 610.56
+        },
+        {
+          "x": 1600,
+          "y": 920
+        },
+        {
+          "x": 56,
+          "y": 996
+        }
+      ],
+      "errorsPx": [
+        0,
+        0,
+        0.20880613017823887,
+        0,
+        0
+      ],
+      "maxErrorPx": 0.20880613017823887,
+      "overlay": "/tmp/screenrec-cursor-corrected-run/overlay-1-moved.png"
+    },
+    {
+      "label": "resized",
+      "index": 2,
+      "windowFrameAppKit": {
+        "height": 660,
+        "width": 1040,
+        "x": 300,
+        "y": 289
+      },
+      "epoch": 3,
+      "geometry": {
+        "boundingRect": {
+          "height": 520.3846335411072,
+          "width": 820.0000286102295,
+          "x": 0,
+          "y": 0
+        },
+        "contentRect": {
+          "height": 520.3846335411072,
+          "width": 820.0000286102295,
+          "x": 0,
+          "y": 0
+        },
+        "contentScale": 0.7884615659713745,
+        "outputHeight": 1104,
+        "outputWidth": 1640,
+        "scaleFactor": 2,
+        "screenRect": {
+          "height": 660,
+          "width": 1040,
+          "x": 300,
+          "y": 33
+        }
+      },
+      "frame": {
+        "file": "/tmp/screenrec-cursor-corrected-run/frame-2-resized.png",
+        "actualSourceUs": 8243333,
+        "bytes": 409346,
+        "distanceUs": 5590,
+        "height": 1104,
+        "mediaType": "image/png",
+        "requestedSourceUs": 8237743,
+        "sourceHeight": 1104,
+        "sourceWidth": 1640,
+        "width": 1640
+      },
+      "measured": [
+        {
+          "x": 38,
+          "y": 88,
+          "side": 18
+        },
+        {
+          "x": 1584,
+          "y": 132.5,
+          "side": 18
+        },
+        {
+          "x": 623.580118694362,
+          "y": 605.0222551928783,
+          "side": 19
+        },
+        {
+          "x": 1609.0263157894738,
+          "y": 946.0263157894736,
+          "side": 18
+        },
+        {
+          "x": 44,
+          "y": 1006,
+          "side": 18
+        }
+      ],
+      "predicted": [
+        {
+          "x": 37.84615516662598,
+          "y": 88.30769538879395
+        },
+        {
+          "x": 1583.23082447052,
+          "y": 132.46154308319092
+        },
+        {
+          "x": 623.2000217437745,
+          "y": 605.033867263794
+        },
+        {
+          "x": 1608.461594581604,
+          "y": 946.1538791656494
+        },
+        {
+          "x": 44.15384769439697,
+          "y": 1006.0769581794739
+        }
+      ],
+      "errorsPx": [
+        0.3440126233744021,
+        0.7701363058584298,
+        0.3802742852689967,
+        0.5789494430079652,
+        0.17202230802776058
+      ],
+      "maxErrorPx": 0.7701363058584298,
+      "overlay": "/tmp/screenrec-cursor-corrected-run/overlay-2-resized.png"
+    },
+    {
+      "label": "otherDisplay",
+      "index": 3,
+      "windowFrameAppKit": {
+        "height": 660,
+        "width": 1040,
+        "x": 1988,
+        "y": 1372
+      },
+      "epoch": 4,
+      "geometry": {
+        "boundingRect": {
+          "height": 520.3846335411072,
+          "width": 820.0000286102295,
+          "x": 0,
+          "y": 0
+        },
+        "contentRect": {
+          "height": 520.3846335411072,
+          "width": 820.0000286102295,
+          "x": 0,
+          "y": 0
+        },
+        "contentScale": 0.7884615659713745,
+        "outputHeight": 1104,
+        "outputWidth": 1640,
+        "scaleFactor": 2,
+        "screenRect": {
+          "height": 660,
+          "width": 1040,
+          "x": 1988,
+          "y": -1050
+        }
+      },
+      "frame": {
+        "file": "/tmp/screenrec-cursor-corrected-run/frame-3-otherDisplay.png",
+        "actualSourceUs": 12248333,
+        "bytes": 240149,
+        "distanceUs": 4323,
+        "height": 1104,
+        "mediaType": "image/png",
+        "requestedSourceUs": 12244010,
+        "sourceHeight": 1104,
+        "sourceWidth": 1640,
+        "width": 1640
+      },
+      "measured": [
+        {
+          "x": 38,
+          "y": 88,
+          "side": 18
+        },
+        {
+          "x": 1584,
+          "y": 132.5,
+          "side": 18
+        },
+        {
+          "x": 623.580118694362,
+          "y": 605.0192878338279,
+          "side": 19
+        },
+        {
+          "x": 1609.0263157894738,
+          "y": 946.0263157894736,
+          "side": 18
+        },
+        {
+          "x": 44,
+          "y": 1006,
+          "side": 18
+        }
+      ],
+      "predicted": [
+        {
+          "x": 37.84615516662598,
+          "y": 88.30769538879395
+        },
+        {
+          "x": 1583.23082447052,
+          "y": 132.46154308319092
+        },
+        {
+          "x": 623.2000217437741,
+          "y": 605.033867263794
+        },
+        {
+          "x": 1608.461594581604,
+          "y": 946.1538791656494
+        },
+        {
+          "x": 44.15384769439697,
+          "y": 1006.0769581794739
+        }
+      ],
+      "errorsPx": [
+        0.3440126233744021,
+        0.7701363058584298,
+        0.3803764603972997,
+        0.5789494430079652,
+        0.17202230802776058
+      ],
+      "maxErrorPx": 0.7701363058584298,
+      "overlay": "/tmp/screenrec-cursor-corrected-run/overlay-3-otherDisplay.png"
+    },
+    {
+      "label": "underPointer",
+      "index": 4,
+      "windowFrameAppKit": {
+        "height": 660,
+        "width": 1040,
+        "x": 705,
+        "y": 112
+      },
+      "epoch": 5,
+      "geometry": {
+        "boundingRect": {
+          "height": 520.3846335411072,
+          "width": 820.0000286102295,
+          "x": 0,
+          "y": 0
+        },
+        "contentRect": {
+          "height": 520.3846335411072,
+          "width": 820.0000286102295,
+          "x": 0,
+          "y": 0
+        },
+        "contentScale": 0.7884615659713745,
+        "outputHeight": 1104,
+        "outputWidth": 1640,
+        "scaleFactor": 2,
+        "screenRect": {
+          "height": 660,
+          "width": 1040,
+          "x": 705,
+          "y": 210
+        }
+      },
+      "frame": {
+        "file": "/tmp/screenrec-cursor-corrected-run/frame-4-underPointer.png",
+        "actualSourceUs": 16853333,
+        "bytes": 585342,
+        "distanceUs": 3330,
+        "height": 1104,
+        "mediaType": "image/png",
+        "requestedSourceUs": 16850003,
+        "sourceHeight": 1104,
+        "sourceWidth": 1640,
+        "width": 1640
+      },
+      "measured": [
+        {
+          "x": 38,
+          "y": 88,
+          "side": 18
+        },
+        {
+          "x": 1584,
+          "y": 132.5,
+          "side": 18
+        },
+        {
+          "x": 623.5532544378698,
+          "y": 605.0443786982248,
+          "side": 19
+        },
+        {
+          "x": 1609.0263157894738,
+          "y": 946.0263157894736,
+          "side": 18
+        },
+        {
+          "x": 44,
+          "y": 1006,
+          "side": 18
+        }
+      ],
+      "predicted": [
+        {
+          "x": 37.84615516662598,
+          "y": 88.30769538879395
+        },
+        {
+          "x": 1583.23082447052,
+          "y": 132.46154308319092
+        },
+        {
+          "x": 623.2000217437745,
+          "y": 605.033867263794
+        },
+        {
+          "x": 1608.461594581604,
+          "y": 946.1538791656494
+        },
+        {
+          "x": 44.15384769439697,
+          "y": 1006.0769581794739
+        }
+      ],
+      "errorsPx": [
+        0.3440126233744021,
+        0.7701363058584298,
+        0.3533890581661863,
+        0.5789494430079652,
+        0.17202230802776058
+      ],
+      "maxErrorPx": 0.7701363058584298,
+      "overlay": "/tmp/screenrec-cursor-corrected-run/overlay-4-underPointer.png"
+    }
+  ],
+  "calibrations": [
+    {
+      "label": "placed",
+      "geometryEpoch": 1,
+      "pointerGlobal": {
+        "x": 1217.88671875,
+        "y": 411.875
+      },
+      "predictedPointer": {
+        "x": 2195.7734375,
+        "y": 443.75
+      },
+      "predictedEligibility": "outside",
+      "pointerDriftPoints": 2.8935479309847714,
+      "pointerStillForMs": 300,
+      "comparable": false,
+      "nearestSampleDistanceUs": 571,
+      "nearestSample": {
+        "buttons": 0,
+        "eligibility": "outside",
+        "geometryEpoch": 1,
+        "globalX": 1217.88671875,
+        "globalY": 411.875,
+        "sourceUs": 2412443,
+        "x": 2195.7734375,
+        "y": 443.75
+      },
+      "changedPixels": 0,
+      "measuredPointerOrigin": null,
+      "expectedPointerOrigin": {
+        "x": 2186.9734375,
+        "y": 425.15
+      },
+      "pointerErrorPx": null,
+      "recordedPointerBox": null,
+      "fiducials": {
+        "measured": [
+          {
+            "x": 48,
+            "y": 112,
+            "side": 24
+          },
+          {
+            "x": 1568,
+            "y": 168,
+            "side": 24
+          },
+          {
+            "x": 623,
+            "y": 646.5,
+            "side": 24
+          },
+          {
+            "x": 1600,
+            "y": 984,
+            "side": 24
+          },
+          {
+            "x": 56,
+            "y": 1060,
+            "side": 24
+          }
+        ],
+        "predicted": [
+          {
+            "x": 48,
+            "y": 112
+          },
+          {
+            "x": 1568,
+            "y": 168
+          },
+          {
+            "x": 623.2,
+            "y": 646.4000000000001
+          },
+          {
+            "x": 1600,
+            "y": 984
+          },
+          {
+            "x": 56,
+            "y": 1060
+          }
+        ],
+        "errorsPx": [
+          0,
+          0,
+          0.22360679774997896,
+          0,
+          0
+        ],
+        "maxErrorPx": 0.22360679774997896
+      },
+      "images": [
+        "calibration-0-clean.png",
+        "calibration-0-pointer.png"
+      ]
+    },
+    {
+      "label": "moved",
+      "geometryEpoch": 2,
+      "pointerGlobal": {
+        "x": 1245.74609375,
+        "y": 208.47265625
+      },
+      "predictedPointer": {
+        "x": 1891.4921875,
+        "y": 152.9453125
+      },
+      "predictedEligibility": "outside",
+      "pointerDriftPoints": 11.942766396001101,
+      "pointerStillForMs": null,
+      "comparable": false,
+      "nearestSampleDistanceUs": 2174,
+      "nearestSample": {
+        "buttons": 1,
+        "eligibility": "outside",
+        "geometryEpoch": 2,
+        "globalX": 1245.74609375,
+        "globalY": 208.47265625,
+        "sourceUs": 7412891,
+        "x": 1891.4921875,
+        "y": 152.9453125
+      },
+      "changedPixels": 0,
+      "measuredPointerOrigin": null,
+      "expectedPointerOrigin": {
+        "x": 1881.4921875,
+        "y": 150.9453125
+      },
+      "pointerErrorPx": null,
+      "recordedPointerBox": null,
+      "fiducials": {
+        "measured": [
+          {
+            "x": 48,
+            "y": 112,
+            "side": 24
+          },
+          {
+            "x": 1568,
+            "y": 168,
+            "side": 24
+          },
+          {
+            "x": 623,
+            "y": 610.5,
+            "side": 24
+          },
+          {
+            "x": 1600,
+            "y": 920,
+            "side": 24
+          },
+          {
+            "x": 56,
+            "y": 996,
+            "side": 24
+          }
+        ],
+        "predicted": [
+          {
+            "x": 48,
+            "y": 112
+          },
+          {
+            "x": 1568,
+            "y": 168
+          },
+          {
+            "x": 623.2,
+            "y": 610.56
+          },
+          {
+            "x": 1600,
+            "y": 920
+          },
+          {
+            "x": 56,
+            "y": 996
+          }
+        ],
+        "errorsPx": [
+          0,
+          0,
+          0.20880613017823887,
+          0,
+          0
+        ],
+        "maxErrorPx": 0.20880613017823887
+      },
+      "images": [
+        "calibration-1-clean.png",
+        "calibration-1-pointer.png"
+      ]
+    },
+    {
+      "label": "resized",
+      "geometryEpoch": 3,
+      "pointerGlobal": {
+        "x": 742.67578125,
+        "y": 565.71875
+      },
+      "predictedPointer": {
+        "x": 698.0656794039533,
+        "y": 840.0565196946263
+      },
+      "predictedEligibility": "inside",
+      "pointerDriftPoints": 458.5036378838872,
+      "pointerStillForMs": null,
+      "comparable": false,
+      "nearestSampleDistanceUs": 7403,
+      "nearestSample": {
+        "buttons": 0,
+        "eligibility": "inside",
+        "geometryEpoch": 3,
+        "globalX": 742.67578125,
+        "globalY": 565.71875,
+        "sourceUs": 11412356,
+        "x": 698.0656794039533,
+        "y": 840.0565196946263
+      },
+      "changedPixels": 304,
+      "measuredPointerOrigin": {
+        "x": 696,
+        "y": 837
+      },
+      "expectedPointerOrigin": {
+        "x": 696.3310639588162,
+        "y": 837.5334426835179
+      },
+      "pointerErrorPx": 0.6278251678818619,
+      "recordedPointerBox": {
+        "file": "/tmp/screenrec-cursor-corrected-run/recorded-2-resized.png",
+        "actualSourceUs": 11398333,
+        "box": {
+          "x": 676,
+          "y": 817,
+          "width": 80,
+          "height": 80
+        },
+        "recordedPixelsDiffering": 0,
+        "recordedControlPixelsDiffering": 0,
+        "drawnPixelsDiffering": 183
+      },
+      "fiducials": {
+        "measured": [
+          {
+            "x": 38,
+            "y": 88,
+            "side": 18
+          },
+          {
+            "x": 1584,
+            "y": 132.5,
+            "side": 18
+          },
+          {
+            "x": 623.5,
+            "y": 605.05,
+            "side": 19
+          },
+          {
+            "x": 1609.5,
+            "y": 946.5,
+            "side": 19
+          },
+          {
+            "x": 44,
+            "y": 1006,
+            "side": 18
+          }
+        ],
+        "predicted": [
+          {
+            "x": 37.84615516662598,
+            "y": 88.30769538879395
+          },
+          {
+            "x": 1583.23082447052,
+            "y": 132.46154308319092
+          },
+          {
+            "x": 623.2000217437745,
+            "y": 605.033867263794
+          },
+          {
+            "x": 1608.461594581604,
+            "y": 946.1538791656494
+          },
+          {
+            "x": 44.15384769439697,
+            "y": 1006.0769581794739
+          }
+        ],
+        "errorsPx": [
+          0.3440126233744021,
+          0.7701363058584298,
+          0.30041174974618556,
+          1.0945708953401372,
+          0.17202230802776058
+        ],
+        "maxErrorPx": 1.0945708953401372
+      },
+      "images": [
+        "calibration-2-clean.png",
+        "calibration-2-pointer.png"
+      ],
+      "overlay": "/tmp/screenrec-cursor-corrected-run/pointer-2-resized.png"
+    },
+    {
+      "label": "otherDisplay",
+      "geometryEpoch": 4,
+      "pointerGlobal": {
+        "x": 657.96484375,
+        "y": 533.234375
+      },
+      "predictedPointer": {
+        "x": -2097.3632041877136,
+        "y": 2496.638909224421
+      },
+      "predictedEligibility": "outside",
+      "pointerDriftPoints": 261.5427913920129,
+      "pointerStillForMs": null,
+      "comparable": false,
+      "nearestSampleDistanceUs": 3716,
+      "nearestSample": {
+        "buttons": 1,
+        "eligibility": "outside",
+        "geometryEpoch": 4,
+        "globalX": 657.96484375,
+        "globalY": 533.234375,
+        "sourceUs": 15429507,
+        "x": -2097.3632041877136,
+        "y": 2496.638909224421
+      },
+      "changedPixels": 0,
+      "measuredPointerOrigin": null,
+      "expectedPointerOrigin": {
+        "x": -2104.3016659682617,
+        "y": 2481.973524097353
+      },
+      "pointerErrorPx": null,
+      "recordedPointerBox": null,
+      "fiducials": {
+        "measured": [
+          {
+            "x": 38,
+            "y": 88,
+            "side": 18
+          },
+          {
+            "x": 1584,
+            "y": 132.5,
+            "side": 18
+          },
+          {
+            "x": 623.5,
+            "y": 605.05,
+            "side": 19
+          },
+          {
+            "x": 1609.5,
+            "y": 946.5,
+            "side": 19
+          },
+          {
+            "x": 44,
+            "y": 1006,
+            "side": 18
+          }
+        ],
+        "predicted": [
+          {
+            "x": 37.84615516662598,
+            "y": 88.30769538879395
+          },
+          {
+            "x": 1583.23082447052,
+            "y": 132.46154308319092
+          },
+          {
+            "x": 623.2000217437741,
+            "y": 605.033867263794
+          },
+          {
+            "x": 1608.461594581604,
+            "y": 946.1538791656494
+          },
+          {
+            "x": 44.15384769439697,
+            "y": 1006.0769581794739
+          }
+        ],
+        "errorsPx": [
+          0.3440126233744021,
+          0.7701363058584298,
+          0.3004117497466397,
+          1.0945708953401372,
+          0.17202230802776058
+        ],
+        "maxErrorPx": 1.0945708953401372
+      },
+      "images": [
+        "calibration-3-clean.png",
+        "calibration-3-pointer.png"
+      ]
+    },
+    {
+      "label": "underPointer",
+      "geometryEpoch": 5,
+      "pointerGlobal": {
+        "x": 1355.62109375,
+        "y": 502.51953125
+      },
+      "predictedPointer": {
+        "x": 1025.979452864267,
+        "y": 461.28081537317485
+      },
+      "predictedEligibility": "inside",
+      "pointerDriftPoints": 1.3046875,
+      "pointerStillForMs": 300,
+      "comparable": true,
+      "nearestSampleDistanceUs": 1868,
+      "nearestSample": {
+        "buttons": 1,
+        "eligibility": "inside",
+        "geometryEpoch": 5,
+        "globalX": 1355.62109375,
+        "globalY": 502.51953125,
+        "sourceUs": 19810527,
+        "x": 1025.979452864267,
+        "y": 461.28081537317485
+      },
+      "changedPixels": 285,
+      "measuredPointerOrigin": {
+        "x": 1024,
+        "y": 458
+      },
+      "expectedPointerOrigin": {
+        "x": 1024.24483741913,
+        "y": 458.75773836206645
+      },
+      "pointerErrorPx": 0.7963119910897596,
+      "recordedPointerBox": {
+        "file": "/tmp/screenrec-cursor-corrected-run/recorded-4-underPointer.png",
+        "actualSourceUs": 19815000,
+        "box": {
+          "x": 1004,
+          "y": 438,
+          "width": 80,
+          "height": 80
+        },
+        "recordedPixelsDiffering": 0,
+        "recordedControlPixelsDiffering": 0,
+        "drawnPixelsDiffering": 191
+      },
+      "fiducials": {
+        "measured": [
+          {
+            "x": 38,
+            "y": 88,
+            "side": 18
+          },
+          {
+            "x": 1584,
+            "y": 132.5,
+            "side": 18
+          },
+          {
+            "x": 623.5,
+            "y": 605.05,
+            "side": 19
+          },
+          {
+            "x": 1609.5,
+            "y": 946.5,
+            "side": 19
+          },
+          {
+            "x": 44,
+            "y": 1006,
+            "side": 18
+          }
+        ],
+        "predicted": [
+          {
+            "x": 37.84615516662598,
+            "y": 88.30769538879395
+          },
+          {
+            "x": 1583.23082447052,
+            "y": 132.46154308319092
+          },
+          {
+            "x": 623.2000217437745,
+            "y": 605.033867263794
+          },
+          {
+            "x": 1608.461594581604,
+            "y": 946.1538791656494
+          },
+          {
+            "x": 44.15384769439697,
+            "y": 1006.0769581794739
+          }
+        ],
+        "errorsPx": [
+          0.3440126233744021,
+          0.7701363058584298,
+          0.30041174974618556,
+          1.0945708953401372,
+          0.17202230802776058
+        ],
+        "maxErrorPx": 1.0945708953401372
+      },
+      "images": [
+        "calibration-4-clean.png",
+        "calibration-4-pointer.png"
+      ],
+      "overlay": "/tmp/screenrec-cursor-corrected-run/pointer-4-underPointer.png"
+    }
+  ],
+  "maxFiducialErrorPx": 1.0945708953401372,
+  "maxPointerErrorPx": 0.7963119910897596,
+  "pointerOutsideAgreements": [
+    {
+      "label": "placed",
+      "drawnPixels": 0
+    },
+    {
+      "label": "moved",
+      "drawnPixels": 0
+    },
+    {
+      "label": "otherDisplay",
+      "drawnPixels": 0
+    }
+  ]
+}

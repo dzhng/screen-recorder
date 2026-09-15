@@ -250,3 +250,35 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   library can be opened as well as the socket. A damaged catalog prevents a false
   ready state and is reported through the existing bounded startup path.
 - **Verdict:** Sound. **Confidence:** Medium.
+
+## Cursor retention and recording lifecycle
+
+### Sound — medium confidence
+
+- **Choice:** Keep at most 240 recent native geometry placements in memory while
+  preserving the full recorded geometry journal. If a delayed reading predates that
+  retained window, keep its raw point and mark its projection unknown.
+- **Gap:** Sampling was required to be bounded; retention during a long pause with
+  continuing window movement was unspecified.
+- **Reach:** A very delayed point may need later reconstruction from the journal;
+  the worker does not invent a placement to hide a dropped in-memory entry.
+- **Verdict:** Sound. **Confidence:** Medium; the count remains a measured tuning
+  point rather than a promise about a fixed number of seconds.
+
+### Sound — high confidence
+
+- **Choice:** Retain a canceled take's catalog identity as a tombstone, excluded
+  from latest and unavailable to revision/history/edit reads.
+- **Gap:** Cancel removes a take from discovery, but request replay still needs to
+  resolve its former identity and reject late capture results.
+- **Reach:** Media deletion remains service work; the retained metadata prevents
+  a replayed start from creating a second take or reviving discarded evidence.
+- **Verdict:** Sound. **Confidence:** High.
+
+- **Choice:** Finalize an interrupted take only after recovery has determined
+  whether video exists. A terminal zero-video outcome and an attached duration
+  cannot replace each other later.
+- **Gap:** The precise transaction boundary around recovery was unspecified.
+- **Reach:** Service reconciliation must finish validating media before publishing
+  a terminal interruption; it cannot use zero-video as a temporary processing state.
+- **Verdict:** Sound. **Confidence:** High.

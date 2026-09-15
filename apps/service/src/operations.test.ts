@@ -20,10 +20,45 @@ async function seed() {
     newId: randomUUID,
   });
   const recording = store.allocate();
-  store.registerSource(recording.recordingId, 10_000_000);
+  store.ingestLifecycle(recording.recordingId, {
+    sourceId: recording.sourceId,
+    sequence: 1,
+    state: "recording",
+  });
+  store.ingestLifecycle(recording.recordingId, {
+    sourceId: recording.sourceId,
+    sequence: 2,
+    state: "finalizing",
+  });
+  store.ingestLifecycle(recording.recordingId, {
+    sourceId: recording.sourceId,
+    sequence: 3,
+    state: "complete",
+    sourceDurationUs: 10_000_000,
+  });
+  const failed = store.allocate();
+  store.ingestLifecycle(failed.recordingId, {
+    sourceId: failed.sourceId,
+    sequence: 1,
+    state: "interrupted",
+    reason: "START_FAILED",
+    sourceDurationUs: null,
+  });
   const unfinished = store.allocate();
+  const canceled = store.allocate();
+  store.ingestLifecycle(canceled.recordingId, {
+    sourceId: canceled.sourceId,
+    sequence: 1,
+    state: "canceled",
+  });
   store.close();
-  return { home, recordingId: recording.recordingId, unfinishedId: unfinished.recordingId };
+  return {
+    home,
+    recordingId: recording.recordingId,
+    unfinishedId: unfinished.recordingId,
+    failedId: failed.recordingId,
+    canceledId: canceled.recordingId,
+  };
 }
 
 async function start(home: string) {
@@ -83,19 +118,27 @@ async function start(home: string) {
 }
 
 it("serves the actual catalog and persists trim/cut/undo/restore with replay across relaunch", async () => {
-  const { home, recordingId, unfinishedId } = await seed();
+  const { home, recordingId, unfinishedId, failedId, canceledId } = await seed();
   let service = await start(home);
   expect(await service.call("recording.latest")).toMatchObject({
     ok: true,
-    data: { recordingId: unfinishedId, currentRevisionId: null },
+    data: { recordingId: unfinishedId, state: "preparing", currentRevisionId: null },
   });
   expect(await service.call("revision.get", { recordingId: unfinishedId })).toMatchObject({
     ok: false,
     error: { code: "NOT_READY" },
   });
+  expect(await service.call("revision.get", { recordingId: failedId })).toMatchObject({
+    ok: false,
+    error: { code: "UNAVAILABLE", details: { interruptionReason: "START_FAILED" } },
+  });
+  expect(await service.call("revision.history", { recordingId: canceledId })).toMatchObject({
+    ok: false,
+    error: { code: "UNAVAILABLE" },
+  });
   expect(await service.call("recording.get", { recordingId })).toMatchObject({
     ok: true,
-    data: { recordingId, sourceDurationUs: 10_000_000 },
+    data: { recordingId, state: "complete", sourceDurationUs: 10_000_000 },
   });
   const cutRequest = {
     recordingId,

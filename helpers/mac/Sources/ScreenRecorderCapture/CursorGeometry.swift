@@ -286,16 +286,19 @@ public struct CursorTrack: Sendable {
         let placed = placements.last { $0.hostUs <= item.reading.hostUs }
         let pixel = placed?.geometry.outputPixel(forGlobalPoint: item.reading.global)
         let eligibility: String
+        let geometryEpoch: Int
         if let pixel, let placed {
             eligibility = placed.geometry.contains(outputPixel: pixel) ? "inside" : "outside"
+            geometryEpoch = placed.epoch
         } else {
             eligibility = "unknownGeometry"
+            geometryEpoch = 0
         }
         return CursorSample(
             sourceUs: item.sourceUs, x: pixel.map { Double($0.x) }, y: pixel.map { Double($0.y) },
             globalX: item.reading.global.x, globalY: item.reading.global.y,
             buttons: item.reading.buttons, eligibility: eligibility,
-            geometryEpoch: placed?.epoch ?? 0)
+            geometryEpoch: geometryEpoch)
     }
 
     /// Sampler readings arrive in their own timestamp order, independently of frames. An empty

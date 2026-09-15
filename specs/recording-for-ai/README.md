@@ -29,25 +29,23 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: integrate the completed cursor correction from Claude Opus in
-`/tmp/screenrec-cursor`, then finish its actual placement gates. Candidate `4f870d5`
-builds and passes integrated capture/frame/worker tests; the own-window run is in
-[the cursor checkpoint](assets/cursor/review.md). Root retained a red/green delayed
-reading regression; Opus is addressing that seeded fix, journal-reader feedback
-and real sampler tests. Fresh visual review is triaged in the checkpoint. Deliberate gestures
-and display/region placement remain unverified; computer-use access timed out.
+Current pickup: connect native capture control and journal reconciliation to the
+running service (parent 06). Durable lifecycle storage (06d) and library operation
+binding (06e) are integrated: 25 core tests and 24 service tests pass together.
+Real-service reads distinguish an unfinished take from a terminal zero-video failure
+and exclude canceled takes from latest. App-owned lifetime remains verified.
 
-In parallel, Claude Opus is implementing durable recording lifecycle storage in
-`/tmp/screenrec-recording-lifecycle`. Integrate its core-only seam before adding
-capture control and journal reconciliation. App-service lifetime (06c) and library operation binding (06e) are reviewed and
-green, including quitting during interpreter validation and durable edits through
-the real service. Recovery timing and
-journal performance fixes, native frames, timeline/revision storage, transport and
-speech probe plumbing are integrated. A separate Opus lane in
-`/tmp/screenrec-audio-excerpts` is implementing native audio excerpts from resolved
-source spans; it does not depend on the catalog lifecycle seam. Physical audio, human transcription fidelity,
-full capture recovery lifecycle and native menu interaction remain open. Corpus
-alignment is not manual timing truth; see the speech slice.
+Cursor correction `9c1f7e2` and a follow-up unknown-geometry regression are integrated;
+real sampler and native capture checks pass, and the corrected own-window fixture
+completed. See [cursor evidence](assets/cursor/review.md). Deliberate gestures and
+display/region placement remain open; computer-use access to this app timed out.
+Claude Opus is implementing native audio excerpts in `/tmp/screenrec-audio-excerpts`.
+
+Recovery timing, frame decoding, timeline edits and speech probe plumbing are
+integrated. Physical audio, human transcription fidelity, full capture recovery
+lifecycle and native menu interaction remain unverified. Corpus alignment is not
+manual timing truth; see the speech slice. Complete those gates without substituting
+synthetic speech or window-only capture for their wider requirements.
 
 Evidence: [bootstrap](assets/bootstrap/verification.md),
 [actual-agent images](assets/client-image/review.md),
@@ -66,6 +64,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
   - [x] [06b — Bounded local transport](slices/06b-local-transport.md) (independent after 00)
   - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md) (independent after 00, 06b)
+  - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md) (storage proof)
   - [x] [06e — Library operations through the service](slices/06e-library-operations.md) (independent after 06a–06c)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)

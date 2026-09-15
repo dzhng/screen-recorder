@@ -1,7 +1,7 @@
 # 06 — Single-writer library and app-managed service
 
-Status: revision storage and transport complete; app lifetime, capture ingestion
-and durable jobs remain. Dependencies: 02, 05.
+Status: revision/lifecycle storage, transport, app lifetime and library operation
+binding are integrated. Capture control, journal ingestion and durable jobs remain. Dependencies: 02, 05.
 
 The [revision transaction subpass](06a-revision-store.md) depends only on 05 and
 can proceed while native recovery is verified. It builds this slice's single
