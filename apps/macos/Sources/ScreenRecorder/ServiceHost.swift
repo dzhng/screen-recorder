@@ -17,6 +17,14 @@ struct ServiceHealth: Decodable, Sendable {
 /// only its lifetime. There is no installed daemon and no automatic restart: a child
 /// that fails or dies leaves a reported, actionable failure.
 final class ServiceHost: @unchecked Sendable {
+    /// How the service reaches this app's native capture session. The handler answers exactly
+    /// once; the channel correlates and bounds the call around it.
+    /// Parameters and results cross this boundary as JSON bytes: the two sides run on different
+    /// executors and share no object graph.
+    typealias NativeHandler = @Sendable (
+        String, Data, @escaping @Sendable (Result<Data, ServiceFailure>) -> Void
+    ) -> Void
+
     enum State: Sendable {
         case starting
         case ready(pid: Int32, socketPath: String)
@@ -56,9 +64,15 @@ final class ServiceHost: @unchecked Sendable {
     }()
 
     private let onState: @Sendable (State) -> Void
+    private let onNativeCall: NativeHandler?
+    private var inbound = 0
 
-    init(bundle: ServiceBundle, onState: @escaping @Sendable (State) -> Void) {
+    init(
+        bundle: ServiceBundle, onNativeCall: NativeHandler? = nil,
+        onState: @escaping @Sendable (State) -> Void
+    ) {
         self.bundle = bundle
+        self.onNativeCall = onNativeCall
         self.onState = onState
     }
 
@@ -66,6 +80,11 @@ final class ServiceHost: @unchecked Sendable {
         publish(state)
         child.executableURL = URL(fileURLWithPath: bundle.node)
         child.arguments = [bundle.script.path]
+        // The bundle is the one owner of where the native worker executable lives; the service
+        // resolves no bundle layout of its own.
+        var environment = ProcessInfo.processInfo.environment
+        environment["SCREENREC_NATIVE"] = bundle.native.path
+        child.environment = environment
         child.standardInput = input
         child.standardOutput = output
         // Diagnostics stay on the app's stderr; stdout carries control messages only.
@@ -105,7 +124,7 @@ final class ServiceHost: @unchecked Sendable {
     }
 
     func health(_ completion: @escaping @Sendable (Result<ServiceHealth, ServiceFailure>) -> Void) {
-        call(operation: "service.health") { result in
+        call(operation: "service.health", params: Data("{}".utf8)) { result in
             completion(
                 result.flatMap { data in
                     guard let health = try? JSONDecoder().decode(ServiceHealth.self, from: data) else {
@@ -118,8 +137,11 @@ final class ServiceHost: @unchecked Sendable {
         }
     }
 
-    private func call(
-        operation: String, _ completion: @escaping @Sendable (Result<Data, ServiceFailure>) -> Void
+    /// Calls one service operation over the inherited pipe. Every call is correlated, bounded by
+    /// the in-flight limit, and settled by an answer, a deadline or the channel ending.
+    func call(
+        operation: String, params: Data,
+        _ completion: @escaping @Sendable (Result<Data, ServiceFailure>) -> Void
     ) {
         queue.async {
             guard case .ready = self.state, !self.stopping else {
@@ -136,8 +158,12 @@ final class ServiceHost: @unchecked Sendable {
             }
             self.nextCall += 1
             let id = "app-\(self.nextCall)"
-            let request: [String: Any] = ["id": id, "operation": operation, "params": [:]]
-            guard let line = try? JSONSerialization.data(withJSONObject: request) else {
+            guard let fields = (try? JSONSerialization.jsonObject(with: params)) as? [String: Any],
+                let line = try? JSONSerialization.data(withJSONObject: [
+                    "event": "request",
+                    "request": ["id": id, "operation": operation, "params": fields],
+                ])
+            else {
                 completion(
                     .failure(ServiceFailure(code: "INVALID_REQUEST", message: "Could not encode \(operation)")))
                 return
@@ -267,6 +293,40 @@ final class ServiceHost: @unchecked Sendable {
             fail(
                 code: error?["code"] as? String ?? "SERVICE_UNAVAILABLE",
                 message: error?["message"] as? String ?? "Service reported a startup failure")
+        case "call":
+            guard let request = message["request"] as? [String: Any],
+                let id = request["id"] as? String, !id.isEmpty,
+                let operation = request["operation"] as? String, !operation.isEmpty,
+                let fields = request["params"] as? [String: Any],
+                let params = try? JSONSerialization.data(withJSONObject: fields)
+            else {
+                fail(code: "CONTROL_PROTOCOL", message: "Service sent an unreadable native call")
+                return
+            }
+            guard let onNativeCall else {
+                answer(
+                    id: id,
+                    .failure(
+                        ServiceFailure(
+                            code: "UNKNOWN_OPERATION", message: "This app owns no capture session")))
+                return
+            }
+            guard inbound < bundle.maxPendingCalls else {
+                answer(
+                    id: id,
+                    .failure(
+                        ServiceFailure(
+                            code: "LIMIT_EXCEEDED", message: "Too many native calls are in flight.")))
+                return
+            }
+            inbound += 1
+            onNativeCall(operation, params) { [weak self] result in
+                guard let self else { return }
+                queue.async {
+                    self.inbound -= 1
+                    self.answer(id: id, result)
+                }
+            }
         case "result":
             guard let response = message["response"] as? [String: Any] else {
                 fail(code: "CONTROL_PROTOCOL", message: "Service sent a result without a response")
@@ -299,6 +359,43 @@ final class ServiceHost: @unchecked Sendable {
         default:
             fail(code: "CONTROL_PROTOCOL", message: "Unknown service control event: \(event)")
         }
+    }
+
+    /// Answers one service-initiated call. A payload this process cannot encode is reported as a
+    /// failure rather than left unanswered.
+    private func answer(id: String, _ result: Result<Data, ServiceFailure>) {
+        var response: [String: Any] = ["id": id]
+        switch result {
+        case .success(let payload):
+            guard
+                let data = try? JSONSerialization.jsonObject(
+                    with: payload, options: [.fragmentsAllowed])
+            else {
+                answer(
+                    id: id,
+                    .failure(
+                        ServiceFailure(
+                            code: "INVALID_RESPONSE", message: "Capture result could not be read")))
+                return
+            }
+            response["ok"] = true
+            response["data"] = data
+        case .failure(let failure):
+            response["ok"] = false
+            response["error"] = [
+                "code": failure.code, "message": failure.message, "retryable": false, "details": [:],
+            ]
+        }
+        let message: [String: Any] = ["event": "result", "response": response]
+        guard let line = try? JSONSerialization.data(withJSONObject: message) else {
+            answer(
+                id: id,
+                .failure(
+                    ServiceFailure(
+                        code: "INVALID_RESPONSE", message: "Capture result could not be encoded")))
+            return
+        }
+        _ = send(line + Data([0x0a]))
     }
 
     private func channelClosed() {

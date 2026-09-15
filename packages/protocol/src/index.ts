@@ -47,9 +47,18 @@ export const controlMessageSchema = z.discriminatedUnion("event", [
     .strict(),
   z.object({ event: z.literal("failed"), error: operationErrorSchema }).strict(),
   z.object({ event: z.literal("result"), response: controlResponseSchema }).strict(),
+  z.object({ event: z.literal("call"), request: requestSchema }).strict(),
+]);
+
+// The same channel the other way round. Both peers issue calls and both answer them, so each
+// direction carries one labelled message kind rather than a shape the reader has to guess at.
+export const appMessageSchema = z.discriminatedUnion("event", [
+  z.object({ event: z.literal("request"), request: requestSchema }).strict(),
+  z.object({ event: z.literal("result"), response: controlResponseSchema }).strict(),
 ]);
 export type ControlResponse = z.infer<typeof controlResponseSchema>;
 export type ControlMessage = z.infer<typeof controlMessageSchema>;
 
+export * from "./capture.js";
 export * from "./framing.js";
 export * from "./operations.js";

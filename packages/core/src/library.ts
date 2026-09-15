@@ -74,9 +74,12 @@ function argumentsKey(request: EditRequest): string {
   ]);
 }
 /** A settled take can no longer leave its state, so a missing source is final rather than pending. */
-function isSettled(state: RecordingState): boolean {
+export function isSettled(state: RecordingState): boolean {
   return nextStates[state].every((next) => next === state);
 }
+const unsettledStates = (Object.keys(nextStates) as RecordingState[]).filter(
+  (state) => !isSettled(state),
+);
 function settledWithoutVideo(recording: Recording): CatalogError {
   return isSettled(recording.state)
     ? new CatalogError("UNAVAILABLE", "This take has no usable video", {
@@ -194,6 +197,19 @@ export class RevisionStore {
           ? { beforeSequence: recordings[recordings.length - 1]!.creationSequence }
           : null,
     };
+  }
+  /**
+   * Every take that can still change state, oldest first. A relaunched service reconciles these
+   * against their own durable media; nothing else may be left describing a capture that ended.
+   */
+  unsettled(): Recording[] {
+    return this.db
+      .prepare(
+        `SELECT ${recordingColumns} FROM recordings WHERE state IN (${unsettledStates
+          .map(() => "?")
+          .join(",")}) ORDER BY creationSequence`,
+      )
+      .all(...unsettledStates) as Recording[];
   }
   latest(): Recording | null {
     return (

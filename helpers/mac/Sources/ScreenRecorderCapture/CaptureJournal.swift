@@ -37,7 +37,8 @@ public struct CaptureJournalHeader: Codable, Sendable {
 public struct CaptureJournalSummary: Codable, Sendable {
     public let file = "capture.journal.jsonl"
     enum CodingKeys: String, CodingKey {
-        case file, header, originHostUs, pauses, openPauseHostUs, lastSequence, incompleteTail,
+        case file, header, originHostUs, pauses, openPauseHostUs, lastLifecycle, lastSequence,
+            incompleteTail,
             invalidAtSequence, finished, cursorSamples, firstCursorSourceUs, lastCursorSourceUs,
             geometryEpochs, lastGeometry, zeroOriginHeight
     }
@@ -57,6 +58,10 @@ public struct CaptureJournalSummary: Codable, Sendable {
     /// consumer checks the transform against the height this recording used rather than the one
     /// the display arrangement happens to have now.
     public var zeroOriginHeight: Double?
+    /// The transition this take last reported to its service, and the journal sequence that
+    /// reported it. A journal read after a crash shows what native last claimed, in the same
+    /// numbering the live reports used.
+    public var lastLifecycle: JournalLifecycle?
     public var lastSequence = 0
     /// The final line has no terminator: a crash cut the journal mid-record.
     public var incompleteTail = false
@@ -128,6 +133,13 @@ public final class CaptureJournal {
         try append(
             "displaySpace",
             data: JournalDisplaySpace(hostUs: hostUs, zeroOriginHeight: zeroOriginHeight))
+    }
+    /// Records one device transition this take reports to its service and hands back the journal
+    /// sequence that carries it. The journal is the single producer of these numbers, so a live
+    /// report and the same take read back from disk cannot disagree about their order.
+    public func recordLifecycle(state: String, reason: String?) throws -> Int {
+        try append("lifecycle", data: JournalLifecycle(state: state, reason: reason), durable: true)
+        return sequence
     }
     public func recordFinished(_ result: CaptureResult) throws {
         try append("finished", data: result, durable: true)
@@ -272,12 +284,20 @@ public final class CaptureJournal {
             summary.zeroOriginHeight = try JSONDecoder().decode(
                 JournalDisplaySpace.self, from: encoded
             ).zeroOriginHeight
+        case "lifecycle":
+            summary.lastLifecycle = try JSONDecoder().decode(JournalLifecycle.self, from: encoded)
         case "finished": summary.finished = true
         default: break
         }
         summary.lastSequence = sequence
         return (name: event, data: encoded)
     }
+}
+
+/// A device transition as native reported it.
+public struct JournalLifecycle: Codable, Sendable {
+    public let state: String
+    public let reason: String?
 }
 
 struct JournalHostTime: Codable {

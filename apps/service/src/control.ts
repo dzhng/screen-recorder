@@ -1,0 +1,178 @@
+import type { Readable, Writable } from "node:stream";
+import {
+  CONTROL_FRAME_BYTES,
+  DEFAULT_CALL_TIMEOUT_MS,
+  MAX_PENDING_CONTROL_CALLS,
+  FrameError,
+  JsonLineStream,
+  appMessageSchema,
+  encodeJsonLine,
+  type ControlMessage,
+  type ControlResponse,
+  type OperationRequest,
+  type OperationResult,
+} from "@screenrec/protocol";
+
+export type ControlChannel = {
+  /** Asks the app's native side for one operation, bounded and correlated like its own calls. */
+  call(operation: string, params: Record<string, unknown>): Promise<OperationResult>;
+  emit(message: ControlMessage): void;
+  /** Settles every waiting call and stops reading. The caller owns what happens next. */
+  close(): void;
+};
+
+function error(code: string, message: string, retryable = false): OperationResult {
+  return { ok: false, error: { code, message, retryable, details: {} } };
+}
+
+function rejection(id: string | null, code: string, message: string): ControlResponse {
+  return { id, ok: false, error: { code, message, retryable: false, details: {} } };
+}
+
+/**
+ * The app's inherited pipe, in both directions. The app calls service operations and this service
+ * calls the app's native capture session; each side correlates answers by request ID, refuses more
+ * than the shared in-flight bound, and settles every waiting call when the channel ends. A call
+ * that is never answered fails on its own deadline rather than waiting forever.
+ */
+export function openControl(options: {
+  input: Readable;
+  output: Writable;
+  dispatch: (request: OperationRequest) => Promise<OperationResult>;
+  onEnd: () => void;
+  timeoutMs?: number;
+}): ControlChannel {
+  const timeoutMs = options.timeoutMs ?? DEFAULT_CALL_TIMEOUT_MS;
+  const pending = new Map<string, (result: OperationResult) => void>();
+  const stream = new JsonLineStream(CONTROL_FRAME_BYTES);
+  let inbound = 0;
+  let outbound = 0;
+  let ended = false;
+
+  // A frame this process cannot encode, and a peer that stopped reading, both have to stay
+  // reportable: neither may become an uncaught failure that skips listener cleanup.
+  const write = (message: ControlMessage): boolean => {
+    let frame: Buffer;
+    try {
+      frame = encodeJsonLine(message, CONTROL_FRAME_BYTES);
+    } catch (failure) {
+      if (failure instanceof FrameError) return false;
+      throw failure;
+    }
+    try {
+      options.output.write(frame);
+    } catch {
+      // The stream is already torn down, so there is nowhere to put this frame. Its error
+      // event, or the input reaching EOF, owns closing the channel.
+    }
+    return true;
+  };
+  const emit = (message: ControlMessage) => void write(message);
+  const oversized = "Response exceeds the control byte limit.";
+  const reply = (response: ControlResponse): void => {
+    if (write({ event: "result", response })) return;
+    const bounded = rejection(response.id, "LIMIT_EXCEEDED", oversized);
+    if (write({ event: "result", response: bounded })) return;
+    // Even the bounded form does not fit, so the correlation ID itself is the excess.
+    emit({ event: "result", response: rejection(null, "LIMIT_EXCEEDED", oversized) });
+  };
+
+  const answer = (request: OperationRequest): void => {
+    if (inbound >= MAX_PENDING_CONTROL_CALLS) {
+      reply(
+        rejection(request.id, "LIMIT_EXCEEDED", "Too many control requests are already in flight."),
+      );
+      return;
+    }
+    inbound += 1;
+    void Promise.resolve()
+      .then(() => options.dispatch(request))
+      .catch(() => error("INTERNAL_ERROR", "Service handler failed"))
+      .then((result) => {
+        inbound -= 1;
+        reply({ id: request.id, ...result });
+      });
+  };
+
+  const settle = (id: string, result: OperationResult): void => {
+    const waiting = pending.get(id);
+    if (!waiting) return;
+    pending.delete(id);
+    waiting(result);
+  };
+
+  const dispatch = (value: unknown): void => {
+    const parsed = appMessageSchema.safeParse(value);
+    if (!parsed.success) {
+      const message = value as { request?: { id?: unknown }; response?: { id?: unknown } };
+      const id = message?.request?.id ?? message?.response?.id;
+      reply(
+        rejection(
+          typeof id === "string" && id.length > 0 ? id : null,
+          "INVALID_REQUEST",
+          "Expected a labelled control request or result.",
+        ),
+      );
+      return;
+    }
+    if (parsed.data.event === "request") answer(parsed.data.request);
+    else if (parsed.data.response.id !== null)
+      settle(
+        parsed.data.response.id,
+        parsed.data.response.ok
+          ? { ok: true, data: parsed.data.response.data }
+          : { ok: false, error: parsed.data.response.error },
+      );
+  };
+
+  options.input.on("data", (chunk: Buffer) => {
+    for (const outcome of stream.push(chunk)) {
+      if (outcome.ok) dispatch(outcome.value);
+      else if (outcome.error.code === "FRAME_TOO_LARGE")
+        reply(rejection(null, "LIMIT_EXCEEDED", "Control frame exceeds the byte limit."));
+      else
+        reply(rejection(null, "INVALID_REQUEST", "Expected a labelled control request or result."));
+    }
+  });
+
+  const close = (): void => {
+    if (ended) return;
+    ended = true;
+    options.input.pause();
+    // Settling deletes the entry it answers, which a live Map iteration tolerates.
+    for (const id of pending.keys())
+      settle(id, error("SERVICE_STOPPED", "The control channel closed before an answer", true));
+    options.onEnd();
+  };
+  for (const event of ["end", "close", "error"] as const) options.input.on(event, close);
+  // A dead reader breaks control output before EOF reaches the input.
+  options.output.on("error", close);
+
+  return {
+    emit,
+    close,
+    call: (operation, params) =>
+      new Promise<OperationResult>((resolve) => {
+        if (ended) {
+          resolve(error("SERVICE_STOPPED", "The control channel is closed", true));
+          return;
+        }
+        if (pending.size >= MAX_PENDING_CONTROL_CALLS) {
+          resolve(error("LIMIT_EXCEEDED", "Too many native calls are already in flight."));
+          return;
+        }
+        outbound += 1;
+        const id = `service-${outbound}`;
+        const timer = setTimeout(
+          () => settle(id, error("TIMEOUT", `${operation} did not answer in time`, true)),
+          timeoutMs,
+        );
+        pending.set(id, (result) => {
+          clearTimeout(timer);
+          resolve(result);
+        });
+        if (!write({ event: "call", request: { id, operation, params } }))
+          settle(id, error("LIMIT_EXCEEDED", `${operation} exceeds the control byte limit`));
+      }),
+  };
+}

@@ -1,6 +1,13 @@
 import Foundation
 
 public struct CaptureRegion: Codable, Sendable {
+    public init(x: Double, y: Double, width: Double, height: Double) {
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+    }
+
     public let x: Double
     public let y: Double
     public let width: Double
@@ -25,8 +32,23 @@ public struct CaptureSource: Codable, Sendable {
 }
 
 public struct CaptureRequest: Codable, Sendable {
+    public init(
+        source: CaptureSource, outputDirectory: String, sourceId: String? = nil,
+        microphone: Bool = false, microphoneDeviceID: String? = nil, systemAudio: Bool = false
+    ) {
+        self.source = source
+        self.outputDirectory = outputDirectory
+        self.sourceId = sourceId
+        self.microphone = microphone
+        self.microphoneDeviceID = microphoneDeviceID
+        self.systemAudio = systemAudio
+    }
+
     public var source: CaptureSource
     public let outputDirectory: String
+    /// The capture-source identity the library allocated for this take, stamped into the journal
+    /// so a source directory names the take it belongs to. Absent for a standalone probe run.
+    public var sourceId: String?
     public let microphone: Bool
     public let microphoneDeviceID: String?
     public let systemAudio: Bool

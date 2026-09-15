@@ -12,11 +12,16 @@ public final class NativeCapture {
     private var microphoneObserver: NSObjectProtocol?
     public var onInterruption: ((CaptureFailure) -> Void)?
     private var failure: CaptureFailure?
-    private enum State { case idle, selecting, recording, paused, finalizing }
+    private enum State: String { case idle, selecting, recording, paused, finalizing }
     private var state = State.idle
+    /// The device state this session is in. Only this type changes it.
+    public var deviceState: String { state.rawValue }
     /// Output pixel dimensions of the running take, fixed when streaming began. A moved or resized
     /// source never changes them.
     public private(set) var outputSize: (width: Int, height: Int)?
+    /// The journal sequence of the transition this take last recorded. The journal numbers these,
+    /// so whoever stores them stores the take's own numbering rather than inventing a second one.
+    public private(set) var lifecycleSequence: Int?
 
     public static var screenPermission: Bool { CGPreflightScreenCaptureAccess() }
     public static var microphonePermission: String {
@@ -142,7 +147,8 @@ public final class NativeCapture {
             Task { @MainActor in await self?.interrupt(reason, generation: generation) }
         }
         let writer = try CaptureWriter(
-            request: request, width: width, height: height, sessionID: generation.uuidString,
+            request: request, width: width, height: height,
+            sessionID: request.sourceId ?? generation.uuidString,
             requestedSourceRect: requestedSourceRect, onFailure: onFailure)
         var started = false
         defer {
@@ -212,6 +218,7 @@ public final class NativeCapture {
         state = .recording
         started = true
         writer.startCursorSampling()
+        lifecycleSequence = writer.note("recording", reason: nil)
         if let microphone {
             let deviceID = microphone.uniqueID
             microphoneObserver = NotificationCenter.default.addObserver(
@@ -227,6 +234,14 @@ public final class NativeCapture {
                 }
             }
         }
+    }
+
+    /// Records one reported transition in the running take's journal. The caller reports what the
+    /// device did; this never decides a transition of its own.
+    @discardableResult
+    public func note(_ state: String, reason: String? = nil) -> Int? {
+        lifecycleSequence = sink?.note(state, reason: reason)
+        return lifecycleSequence
     }
 
     public func pause() throws {
@@ -268,12 +283,31 @@ public final class NativeCapture {
             }
         }
         let result = await sink.finish(failure: failure)
+        lifecycleSequence = sink.note(result.state, reason: result.failure?.code)
         outputSize = nil
         self.sink = nil
         streamDelegate = nil
         generations.end(generation)
         state = .idle
         return result
+    }
+
+    /// Ends a take whose media is being thrown away. The writers are canceled rather than
+    /// finalized, so no partial file is left claiming to be a recording.
+    public func discard() async {
+        guard let sink, let generation = generations.current, state != .idle else { return }
+        state = .finalizing
+        sink.cancel()
+        if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
+        microphoneObserver = nil
+        let stopping = streams
+        streams = []
+        for stream in stopping { try? await stream.stopCapture() }
+        outputSize = nil
+        self.sink = nil
+        streamDelegate = nil
+        generations.end(generation)
+        state = .idle
     }
 
     private func interrupt(_ reason: CaptureFailure, generation: UUID) async {

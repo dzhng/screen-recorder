@@ -142,6 +142,15 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             return false
         }
     }
+    /// Records one reported transition in the take's journal and returns its sequence, so the
+    /// number the service stores is the number this file carries.
+    func note(_ state: String, reason: String?) -> Int? {
+        queue.sync {
+            var sequence: Int?
+            _ = record { sequence = try self.journal.recordLifecycle(state: state, reason: reason) }
+            return sequence
+        }
+    }
     func seal() {
         queue.sync {
             sampler?.stop()

@@ -11,6 +11,9 @@ struct ServiceFailure: Error {
 struct ServiceBundle {
     let script: URL
     let node: String
+    /// The bundled native worker the service runs for bounded media work, named once here from
+    /// this app's own executable directory.
+    let native: URL
     let controlFrameBytes: Int
     let maxPendingCalls: Int
     let callTimeout: TimeInterval
@@ -34,7 +37,8 @@ struct ServiceBundle {
         environment: [String: String] = ProcessInfo.processInfo.environment,
         completion: @escaping @Sendable (Result<ServiceBundle, ServiceFailure>) -> Void
     ) -> Operation? {
-        guard let script = bundle.url(forResource: "main", withExtension: "mjs", subdirectory: "service"),
+        guard let executable = bundle.executableURL,
+            let script = bundle.url(forResource: "main", withExtension: "mjs", subdirectory: "service"),
             let manifestURL = bundle.url(forResource: "runtime", withExtension: "json", subdirectory: "service"),
             let data = try? Data(contentsOf: manifestURL),
             let manifest = try? JSONDecoder().decode(Manifest.self, from: data)
@@ -58,6 +62,8 @@ struct ServiceBundle {
                 ServiceBundle(
                     script: script,
                     node: node,
+                    native: executable.deletingLastPathComponent().appendingPathComponent(
+                        "screenrec-native"),
                     controlFrameBytes: manifest.controlFrameBytes,
                     maxPendingCalls: manifest.maxPendingCalls,
                     callTimeout: callTimeout,

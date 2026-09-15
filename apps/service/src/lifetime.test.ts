@@ -84,13 +84,17 @@ async function startService(home: string): Promise<Service> {
       return started?.event === "started" ? started.socketPath : "";
     },
     send,
-    request: (id, operation = "service.health") =>
-      send(JSON.stringify({ id, operation, params: {} }) + "\n"),
+    request: (id, operation = "service.health") => send(controlLine({ id, operation, params: {} })),
     awaiting,
     closeInput: () => child.stdin.end(),
     dropOutput: () => child.stdout.destroy(),
     exit,
   };
+}
+
+/** One app-to-service control line: the app labels what it is sending on this channel. */
+function controlLine(request: Record<string, unknown>): string {
+  return JSON.stringify({ event: "request", request }) + "\n";
 }
 
 async function temporaryHome(): Promise<string> {
@@ -142,8 +146,7 @@ it("correlates a burst of control requests and rejects the ones past the in-flig
   await service.awaiting(1);
   const ids = Array.from({ length: MAX_PENDING_CONTROL_CALLS + 3 }, (_, index) => `burst-${index}`);
   service.send(
-    ids.map((id) => JSON.stringify({ id, operation: "service.health", params: {} })).join("\n") +
-      "\n",
+    ids.map((id) => controlLine({ id, operation: "service.health", params: {} })).join(""),
   );
   const answered = new Map(results(await service.awaiting(1 + ids.length)).map((r) => [r.id, r]));
   expect([...answered.keys()]).toHaveLength(ids.length);
@@ -156,9 +159,11 @@ it("answers unreadable and oversized control data without losing the next reques
   const service = await startService(await temporaryHome());
   await service.awaiting(1);
   service.send("{\n");
-  service.send(JSON.stringify({ id: "wrong-shape", operation: "service.health" }) + "\n");
-  service.send(`{"id":"huge","operation":"service.health","params":{"padding":"`);
-  service.send("x".repeat(CONTROL_FRAME_BYTES) + `"}}\n`);
+  service.send(controlLine({ id: "wrong-shape", operation: "service.health" }));
+  service.send(
+    `{"event":"request","request":{"id":"huge","operation":"service.health","params":{"padding":"`,
+  );
+  service.send("x".repeat(CONTROL_FRAME_BYTES) + `"}}}\n`);
   service.request("survivor");
   const answered = results(await service.awaiting(5));
   expect(answered.filter((response) => response.id === null)).toMatchObject([
@@ -175,9 +180,9 @@ it("answers unreadable and oversized control data without losing the next reques
 it("reports an unknown operation instead of pretending to own it", async () => {
   const service = await startService(await temporaryHome());
   await service.awaiting(1);
-  service.request("capture-1", "capture.start");
+  service.request("unknown-1", "library.invent");
   expect(results(await service.awaiting(2))).toMatchObject([
-    { id: "capture-1", ok: false, error: { code: "UNKNOWN_OPERATION", retryable: false } },
+    { id: "unknown-1", ok: false, error: { code: "UNKNOWN_OPERATION", retryable: false } },
   ]);
 });
 
@@ -301,7 +306,7 @@ it("refuses health parameters it does not take", async () => {
   const service = await startService(await temporaryHome());
   await service.awaiting(1);
   service.send(
-    JSON.stringify({ id: "extra", operation: "service.health", params: { verbose: true } }) + "\n",
+    controlLine({ id: "extra", operation: "service.health", params: { verbose: true } }),
   );
   service.request("plain");
   const answered = results(await service.awaiting(3));
@@ -320,7 +325,7 @@ it("bounds a reply that cannot fit the control frame instead of dying on it", as
   // fit the same frame. That must stay a correlated answer, not an unhandled failure
   // that skips listener cleanup and abandons the socket.
   const operation = "x".repeat(CONTROL_FRAME_BYTES - 200);
-  service.send(JSON.stringify({ id: "unquotable", operation, params: {} }) + "\n");
+  service.send(controlLine({ id: "unquotable", operation, params: {} }));
   service.request("after-the-limit");
   const answered = results(await service.awaiting(3));
   expect(answered.find((response) => response.id === "unquotable")).toMatchObject({

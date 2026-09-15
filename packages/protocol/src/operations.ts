@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { captureSelectionSchema } from "./capture.js";
 
 const id = z.string().min(1);
 const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -20,6 +21,44 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
     .strict()
     .describe("Read local service readiness without starting capture."),
+  z
+    .object({ operation: z.literal("capture.sources"), params: z.object({}).strict() })
+    .strict()
+    .describe("List the displays and windows this host can capture."),
+  z
+    .object({
+      operation: z.literal("capture.start"),
+      params: captureSelectionSchema.extend({ requestId: id }).strict(),
+    })
+    .strict()
+    .describe("Allocate a take and start capturing it; a repeated request ID replays one take."),
+  z
+    .object({ operation: z.literal("capture.status"), params: z.object({}).strict() })
+    .strict()
+    .describe("Read the capture device state and the take it is working on."),
+  z
+    .object({ operation: z.literal("capture.pause"), params: recording })
+    .strict()
+    .describe("Pause the named take; an already paused take answers with its current state."),
+  z
+    .object({ operation: z.literal("capture.resume"), params: recording })
+    .strict()
+    .describe("Resume the named take; an already recording take answers with its current state."),
+  z
+    .object({ operation: z.literal("capture.stop"), params: recording })
+    .strict()
+    .describe("Finalize the named take; a settled take answers with its stored outcome."),
+  z
+    .object({ operation: z.literal("capture.cancel"), params: recording })
+    .strict()
+    .describe("Discard the named take, remove its media, and drop it from discovery."),
+  z
+    .object({
+      operation: z.literal("capture.restart"),
+      params: captureSelectionSchema.extend({ recordingId: id, requestId: id }).strict(),
+    })
+    .strict()
+    .describe("Discard the named take and start a distinct new one."),
   z
     .object({ operation: z.literal("recording.latest"), params: z.object({}).strict() })
     .strict()

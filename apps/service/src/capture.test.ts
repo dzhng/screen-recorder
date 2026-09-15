@@ -1,0 +1,433 @@
+import { afterEach, expect, it } from "vitest";
+import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
+import { chmod, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
+import { join } from "node:path";
+import { callLocal } from "@screenrec/client";
+import {
+  CONTROL_FRAME_BYTES,
+  DEFAULT_CALL_TIMEOUT_MS,
+  NATIVE_SEQUENCE_LIMIT,
+  JsonLineStream,
+  controlMessageSchema,
+  type OperationResult,
+} from "@screenrec/protocol";
+
+const entry = new URL("../dist/main.js", import.meta.url).pathname;
+const cleanup: (() => Promise<void>)[] = [];
+afterEach(async () => {
+  for (const close of cleanup.splice(0).reverse()) await close();
+});
+
+/** Answers one native capture call, or nothing at all when a test needs a silent peer. */
+type NativePeer = (
+  operation: string,
+  params: Record<string, unknown>,
+) => OperationResult | undefined;
+
+async function temporaryHome(): Promise<string> {
+  const home = await mkdtemp("/tmp/scr-capture-");
+  cleanup.push(() => rm(home, { recursive: true, force: true }));
+  return home;
+}
+
+/** A stand-in for the packaged native worker, so recovery outcomes are exact and bounded. */
+async function nativeWorker(script: string): Promise<string> {
+  const path = join(await temporaryHome(), "screenrec-native");
+  await writeFile(path, `#!/bin/sh\nread line\n${script}\n`);
+  await chmod(path, 0o755);
+  return path;
+}
+
+function recovers(data: unknown): Promise<string> {
+  return nativeWorker(`printf '%s\\n' '${JSON.stringify({ id: "recover", ok: true, data })}'`);
+}
+
+/**
+ * Starts the real service with this test acting as the app: it answers the service's native
+ * capture calls and can push capture reports up the same pipe.
+ */
+async function startService(
+  home: string,
+  peer: NativePeer = () => ({
+    ok: false,
+    error: { code: "UNKNOWN_OPERATION", message: "no native peer", retryable: false, details: {} },
+  }),
+  environment: NodeJS.ProcessEnv = {},
+) {
+  const child: ChildProcessWithoutNullStreams = spawn(process.execPath, [entry], {
+    cwd: "/",
+    env: { ...process.env, SCREENREC_HOME: home, ...environment },
+    stdio: ["pipe", "pipe", "pipe"],
+  });
+  const exit = new Promise<void>((resolve) => child.once("exit", () => resolve()));
+  const close = async () => {
+    if (child.exitCode !== null || child.signalCode !== null) return;
+    child.stdin.end();
+    const kill = setTimeout(() => child.kill("SIGKILL"), 2_000);
+    await exit;
+    clearTimeout(kill);
+  };
+  cleanup.push(close);
+  let diagnostics = "";
+  const asked: string[] = [];
+  const reported = new Map<string, (response: unknown) => void>();
+  child.stderr.on("data", (bytes) => (diagnostics += bytes));
+  const send = (message: unknown) => child.stdin.write(JSON.stringify(message) + "\n");
+  const stream = new JsonLineStream(CONTROL_FRAME_BYTES);
+  const socketPath = await new Promise<string>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`Service not ready: ${diagnostics}`)), 5_000);
+    child.once("exit", () => reject(new Error(`Service exited: ${diagnostics}`)));
+    child.stdout.on("data", (bytes: Buffer) => {
+      for (const frame of stream.push(bytes)) {
+        if (!frame.ok) throw frame.error;
+        const message = controlMessageSchema.parse(frame.value);
+        if (message.event === "started") {
+          clearTimeout(timer);
+          resolve(message.socketPath);
+        }
+        if (message.event === "failed") {
+          clearTimeout(timer);
+          reject(new Error(message.error.message));
+        }
+        if (message.event === "result") reported.get(message.response.id ?? "")?.(message.response);
+        if (message.event === "call") {
+          asked.push(message.request.operation);
+          const answer = peer(message.request.operation, message.request.params);
+          if (answer) send({ event: "result", response: { id: message.request.id, ...answer } });
+        }
+      }
+    });
+  });
+  return {
+    close,
+    asked,
+    get diagnostics() {
+      return diagnostics;
+    },
+    kill: () => child.kill("SIGKILL"),
+    /** Pushes one native capture report up the private pipe and waits for its answer. */
+    report: (params: Record<string, unknown>) =>
+      new Promise<{ ok: boolean; data?: unknown; error?: { code: string } }>((resolve) => {
+        const id = randomUUID();
+        reported.set(id, resolve as (response: unknown) => void);
+        send({ event: "request", request: { id, operation: "capture.report", params } });
+      }),
+    call: (operation: string, params: Record<string, unknown> = {}) =>
+      callLocal(socketPath, { id: randomUUID(), operation, params }, { timeoutMs: 15_000 }),
+  };
+}
+
+/** A native peer that accepts one take and reports the sequences its journal would have. */
+function capturingPeer(options: { durationUs?: number | null; reason?: string } = {}): NativePeer {
+  let take: { recordingId: string; sourceId: string } | undefined;
+  let sequence = 1;
+  const report = (state: string, extra: Record<string, unknown> = {}) => ({
+    ok: true as const,
+    data: { ...take, sequence: (sequence += 1), state, ...extra },
+  });
+  return (operation, params) => {
+    if (operation === "capture.start") {
+      if (take)
+        return {
+          ok: false,
+          error: {
+            code: "INVALID_STATE",
+            message: "Another take is already capturing.",
+            retryable: false,
+            details: {},
+          },
+        };
+      take = {
+        recordingId: params.recordingId as string,
+        sourceId: params.sourceId as string,
+      };
+      return report("recording");
+    }
+    if (operation === "capture.stop") {
+      const duration = options.durationUs ?? 4_000_000;
+      const answer = report(
+        options.reason ? "interrupted" : "complete",
+        options.reason
+          ? { reason: options.reason, sourceDurationUs: duration }
+          : { sourceDurationUs: duration },
+      );
+      take = undefined;
+      return answer;
+    }
+    if (operation === "capture.cancel") {
+      const answer = report("finalizing");
+      take = undefined;
+      return answer;
+    }
+    if (operation === "capture.pause") return report("paused");
+    if (operation === "capture.resume") return report("recording");
+    if (operation === "capture.status")
+      return {
+        ok: true,
+        data: {
+          state: take ? "recording" : "idle",
+          recordingId: take?.recordingId ?? null,
+          sourceId: take?.sourceId ?? null,
+        },
+      };
+    return {
+      ok: false,
+      error: {
+        code: "UNKNOWN_OPERATION",
+        message: operation,
+        retryable: false,
+        details: {},
+      },
+    };
+  };
+}
+
+const fixtureSource = { kind: "window", windowId: 7 };
+
+it("allocates one take per start request and replays a repeated request onto it", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home, capturingPeer());
+  const first = await service.call("capture.start", { requestId: "take-1", source: fixtureSource });
+  const replay = await service.call("capture.start", {
+    requestId: "take-1",
+    source: fixtureSource,
+  });
+  expect(first).toMatchObject({ ok: true, data: { state: "recording" } });
+  expect(replay.ok && replay.data).toEqual(first.ok && first.data);
+  // One allocation, one native start, one source directory: a lost response opens no second take.
+  expect(service.asked.filter((operation) => operation === "capture.start")).toHaveLength(1);
+  expect(await readdir(join(home, "recordings"))).toHaveLength(1);
+});
+
+it("gives concurrent start requests one capturing take and one honest terminal failure", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home, capturingPeer());
+  const [first, second] = await Promise.all([
+    service.call("capture.start", { requestId: "a", source: fixtureSource }),
+    service.call("capture.start", { requestId: "b", source: fixtureSource }),
+  ]);
+  const answers = [first, second];
+  expect(answers.filter((answer) => answer.ok)).toHaveLength(1);
+  const refused = answers.find((answer) => !answer.ok);
+  expect(refused).toMatchObject({ ok: false, error: { code: "INVALID_STATE" } });
+  const failedId = (refused as unknown as { error: { details: { recordingId: string } } }).error
+    .details.recordingId;
+  // The refused take keeps its identity and a terminal reason, with no original revision.
+  expect(await service.call("recording.get", { recordingId: failedId })).toMatchObject({
+    ok: true,
+    data: { state: "interrupted", interruptionReason: "INVALID_STATE", currentRevisionId: null },
+  });
+  expect(await service.call("revision.get", { recordingId: failedId })).toMatchObject({
+    ok: false,
+    error: { code: "UNAVAILABLE" },
+  });
+});
+
+it("stores the transitions native reports and refuses one numbered in the service's range", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home, capturingPeer());
+  const started = await service.call("capture.start", { requestId: "r", source: fixtureSource });
+  if (!started.ok) throw new Error("start failed");
+  const take = started.data as { recordingId: string; sourceId: string; lifecycleSequence: number };
+  // A report that occupies the service's own numbering would silently outrank a cancel or a
+  // reconciled outcome, so the channel refuses it rather than storing it.
+  expect(
+    await service.report({
+      recordingId: take.recordingId,
+      sourceId: take.sourceId,
+      sequence: NATIVE_SEQUENCE_LIMIT + 5,
+      state: "paused",
+    }),
+  ).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
+  expect(
+    await service.report({
+      recordingId: take.recordingId,
+      sourceId: take.sourceId,
+      sequence: take.lifecycleSequence + 1,
+      state: "paused",
+    }),
+  ).toMatchObject({ ok: true });
+  expect(await service.call("recording.get", { recordingId: take.recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "paused", lifecycleSequence: take.lifecycleSequence + 1 },
+  });
+});
+
+it("cancels only the named take, removes its media, and refuses to revive it afterwards", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home, capturingPeer());
+  const kept = await service.call("capture.start", { requestId: "kept", source: fixtureSource });
+  if (!kept.ok) throw new Error("start failed");
+  const keptId = (kept.data as { recordingId: string }).recordingId;
+  await service.call("capture.stop", { recordingId: keptId });
+  const discarded = await service.call("capture.start", {
+    requestId: "discarded",
+    source: fixtureSource,
+  });
+  if (!discarded.ok) throw new Error("start failed");
+  const take = discarded.data as { recordingId: string; sourceId: string };
+  expect(await service.call("capture.cancel", { recordingId: take.recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "canceled" },
+  });
+  expect(await readdir(join(home, "recordings"))).toEqual([keptId]);
+  expect(await service.call("recording.latest")).toMatchObject({
+    ok: true,
+    data: { recordingId: keptId },
+  });
+  // A completion that was already in flight when the take was discarded must not resurrect it.
+  // The cancel this service authored outranks every sequence a journal can produce, so a late
+  // report of any age lands under it as a no-op rather than reopening the take.
+  expect(
+    await service.report({
+      recordingId: take.recordingId,
+      sourceId: take.sourceId,
+      sequence: 40,
+      state: "complete",
+      sourceDurationUs: 9_000_000,
+    }),
+  ).toMatchObject({ ok: true, data: { state: "canceled" } });
+  expect(
+    await service.report({
+      recordingId: take.recordingId,
+      sourceId: take.sourceId,
+      sequence: NATIVE_SEQUENCE_LIMIT - 1,
+      state: "complete",
+      sourceDurationUs: 9_000_000,
+    }),
+  ).toMatchObject({ ok: true, data: { state: "canceled", currentRevisionId: null } });
+  expect(await service.call("recording.get", { recordingId: take.recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "canceled", sourceDurationUs: null },
+  });
+});
+
+it("restarts into a distinct take and answers a replayed restart with that same take", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home, capturingPeer());
+  const first = await service.call("capture.start", { requestId: "first", source: fixtureSource });
+  if (!first.ok) throw new Error("start failed");
+  const firstId = (first.data as { recordingId: string }).recordingId;
+  const restarted = await service.call("capture.restart", {
+    recordingId: firstId,
+    requestId: "again",
+    source: fixtureSource,
+  });
+  if (!restarted.ok) throw new Error("restart failed");
+  const secondId = (restarted.data as { recordingId: string }).recordingId;
+  expect(secondId).not.toBe(firstId);
+  expect(restarted).toMatchObject({ ok: true, data: { state: "recording" } });
+  const replay = await service.call("capture.restart", {
+    recordingId: firstId,
+    requestId: "again",
+    source: fixtureSource,
+  });
+  expect(replay.ok && (replay.data as { recordingId: string }).recordingId).toBe(secondId);
+  expect(await readdir(join(home, "recordings"))).toEqual([secondId]);
+  expect(await service.call("recording.get", { recordingId: firstId })).toMatchObject({
+    ok: true,
+    data: { state: "canceled" },
+  });
+});
+
+it("settles a stranded take from its own recovered media when a service starts again", async () => {
+  const home = await temporaryHome();
+  const abandoned = await startService(home, capturingPeer());
+  const started = await abandoned.call("capture.start", {
+    requestId: "stranded",
+    source: fixtureSource,
+  });
+  if (!started.ok) throw new Error("start failed");
+  const recordingId = (started.data as { recordingId: string }).recordingId;
+  abandoned.kill();
+
+  const service = await startService(home, capturingPeer(), {
+    SCREENREC_NATIVE: await recovers({
+      durationUs: 5_000_000,
+      journal: { header: { sessionID: "s" } },
+    }),
+  });
+  await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
+  expect(await service.call("recording.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: {
+      state: "interrupted",
+      interruptionReason: "CAPTURE_INTERRUPTED",
+      sourceDurationUs: 5_000_000,
+    },
+  });
+  // A validated prefix registers as an ordinary original revision.
+  expect(await service.call("revision.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: { revision: { id: "r0", spans: [{ startUs: 0, endUs: 5_000_000 }] } },
+  });
+});
+
+it("settles a stranded take with no recoverable video without inventing a timeline", async () => {
+  const home = await temporaryHome();
+  const abandoned = await startService(home, capturingPeer());
+  const started = await abandoned.call("capture.start", { requestId: "s", source: fixtureSource });
+  if (!started.ok) throw new Error("start failed");
+  const recordingId = (started.data as { recordingId: string }).recordingId;
+  abandoned.kill();
+
+  const service = await startService(home, capturingPeer(), {
+    SCREENREC_NATIVE: await recovers({ durationUs: 0, journal: { header: { sessionID: "s" } } }),
+  });
+  await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
+  expect(await service.call("recording.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: {
+      state: "interrupted",
+      interruptionReason: "NO_RECOVERABLE_VIDEO",
+      sourceDurationUs: null,
+      currentRevisionId: null,
+    },
+  });
+  expect(await service.call("revision.get", { recordingId })).toMatchObject({
+    ok: false,
+    error: { code: "UNAVAILABLE", details: { interruptionReason: "NO_RECOVERABLE_VIDEO" } },
+  });
+});
+
+it("leaves a take alone when its recovery cannot run, and settles it once one can", async () => {
+  const home = await temporaryHome();
+  const abandoned = await startService(home, capturingPeer());
+  const started = await abandoned.call("capture.start", { requestId: "s", source: fixtureSource });
+  if (!started.ok) throw new Error("start failed");
+  const recordingId = (started.data as { recordingId: string }).recordingId;
+  abandoned.kill();
+
+  const blind = await startService(home, capturingPeer(), {
+    SCREENREC_NATIVE: await nativeWorker("exit 3"),
+  });
+  await expect.poll(() => blind.diagnostics).toMatch(/reconcile failed/);
+  // An unprovable outcome is never published: the take keeps the state it actually had.
+  expect(await blind.call("recording.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "recording", sourceDurationUs: null },
+  });
+  await blind.close();
+
+  const service = await startService(home, capturingPeer(), {
+    SCREENREC_NATIVE: await recovers({ durationUs: 2_000_000, journal: { header: {} } }),
+  });
+  await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
+  expect(await service.call("recording.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "interrupted", sourceDurationUs: 2_000_000 },
+  });
+});
+
+it(
+  "settles a native call that is never answered instead of waiting forever",
+  { timeout: 25_000 },
+  async () => {
+    const service = await startService(await temporaryHome(), () => undefined);
+    const started = Date.now();
+    const answer = await service.call("capture.status");
+    expect(answer).toMatchObject({ ok: false, error: { code: "TIMEOUT", retryable: true } });
+    expect(Date.now() - started).toBeLessThan(DEFAULT_CALL_TIMEOUT_MS * 2);
+  },
+);

@@ -6,17 +6,19 @@ import {
   type OperationRequest,
   type OperationResult,
 } from "@screenrec/protocol";
+import { CaptureError, type CaptureService } from "./capture.js";
 
 function failure(code: string, message: string): OperationResult {
   return { ok: false, error: { code, message, retryable: false, details: {} } };
 }
 
 /** The service composes owners; edit algebra and every catalog transaction stay in core. */
-export function operate(
+export async function operate(
   request: OperationRequest,
   store: RevisionStore,
+  capture: CaptureService,
   health: () => unknown,
-): OperationResult {
+): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
     return failure(
       "UNKNOWN_OPERATION",
@@ -33,6 +35,22 @@ export function operate(
     switch (operation.operation) {
       case "service.health":
         return { ok: true, data: health() };
+      case "capture.sources":
+        return { ok: true, data: await capture.sources() };
+      case "capture.status":
+        return { ok: true, data: await capture.status() };
+      case "capture.start":
+        return { ok: true, data: await capture.start(operation.params) };
+      case "capture.restart":
+        return { ok: true, data: await capture.restart(operation.params) };
+      case "capture.pause":
+        return { ok: true, data: await capture.pause(operation.params.recordingId) };
+      case "capture.resume":
+        return { ok: true, data: await capture.resume(operation.params.recordingId) };
+      case "capture.stop":
+        return { ok: true, data: await capture.stop(operation.params.recordingId) };
+      case "capture.cancel":
+        return { ok: true, data: await capture.cancel(operation.params.recordingId) };
       case "recording.latest":
         return { ok: true, data: store.latest() };
       case "recording.list":
@@ -87,17 +105,25 @@ export function operate(
       }
     }
   } catch (error) {
-    if (error instanceof CatalogError)
-      return {
-        ok: false,
-        error: {
-          code: error.code,
-          message: error.message,
-          details: error.details,
-          retryable: error.retryable,
-        },
-      };
-    if (error instanceof TimelineError) return failure("INVALID_RANGE", error.message);
-    throw error;
+    return operationFailure(error);
   }
+}
+
+/**
+ * Turns an owner's refusal into the shared error envelope. Core states the code, retryability and
+ * details; the service adds none of its own beyond naming an unexpected failure.
+ */
+export function operationFailure(error: unknown): OperationResult {
+  if (error instanceof CaptureError || error instanceof CatalogError)
+    return {
+      ok: false,
+      error: {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        retryable: error.retryable,
+      },
+    };
+  if (error instanceof TimelineError) return failure("INVALID_RANGE", error.message);
+  throw error;
 }

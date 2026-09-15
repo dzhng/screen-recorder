@@ -2,9 +2,12 @@
 
 `ScreenRecorderCapture` owns device state, source selection, sample timing and media
 writers. The app consumes `NativeCapture`; the JSON-file probe calls the same owner.
-The service should invoke this object through the app's control channel and
-respond to `onInterruption` by calling `stop()` to finalize and ingest partial media. The worker
-executable remains separate because capture must run under the stable app identity.
+The app's capture controller invokes this object on the service's behalf over their private
+control channel, and answers `onInterruption` by calling `stop()` so partial media is finalized
+and reported rather than abandoned. The take's identity comes from the service: `sourceId` is
+what the journal header records, while the session's own generation guard stays separate so a
+superseded session cannot interrupt a later one. The worker executable remains separate
+because capture must run under the stable app identity.
 
 `CaptureTypes.swift` is the Swift boundary. Source region coordinates are local to
 the selected display, in logical points; emitted video dimensions are pixels.
@@ -107,7 +110,9 @@ silently leaving a boundary empty, and nothing after it is believed. That is dis
 `incompleteTail`, which means only that the last line has no terminator — a crash
 boundary, not corruption. A clean journal ending alone does not mean a take finished.
 Geometry acquisition events can use the same append owner; this layer does not
-compute edit-time transforms.
+compute edit-time transforms. Reported device transitions are journal records too, so the
+sequence a live report carries is the sequence the file itself holds and a reader cannot
+disagree with what the library was told.
 
 [MediaRecovery](Sources/ScreenRecorderCapture/MediaRecovery.swift) decodes each
 source independently and returns intervals through the worker's `media.recover`
