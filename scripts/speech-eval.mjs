@@ -53,7 +53,7 @@ async function hashes(directory, prefix = "") {
 }
 function setupPlan(engine, cache) {
   const source = join(cache, "source"),
-    models = join(cache, "models");
+    models = join(cache, engine.assetDirectory);
   const plan = [
     ["git", ["clone", "--depth", "1", "--branch", engine.version, engine.repository, source]],
     ["git", ["-C", source, "rev-parse", "HEAD"]],
@@ -158,7 +158,7 @@ async function main() {
       packageResolvedSha256: existsSync(join(source, "Package.resolved"))
         ? await sha(join(source, "Package.resolved"))
         : null,
-      modelFiles: await hashes(join(cache, "models")),
+      modelFiles: await hashes(join(cache, engine.assetDirectory)),
       tokenizerFiles: engine.tokenizer ? await hashes(join(cache, "tokenizer")) : null,
     });
     return;
@@ -179,7 +179,8 @@ async function main() {
   )
     throw new Error("Prepared runtime/model identity mismatch");
   if (
-    JSON.stringify(await hashes(join(cache, "models"))) !== JSON.stringify(provenance.modelFiles) ||
+    JSON.stringify(await hashes(join(cache, engine.assetDirectory))) !==
+      JSON.stringify(provenance.modelFiles) ||
     (engine.tokenizer &&
       JSON.stringify(await hashes(join(cache, "tokenizer"))) !==
         JSON.stringify(provenance.tokenizerFiles))
@@ -191,7 +192,7 @@ async function main() {
   await mkdir(runDirectory);
   const rawDirectory = join(runDirectory, "upstream");
   await mkdir(rawDirectory);
-  const model = join(cache, "models", engine.modelFolder);
+  const model = join(cache, engine.assetDirectory, engine.modelFolder);
   const rawPath = join(
     rawDirectory,
     first === "parakeet" ? "raw.json" : basename(audio).replace(/\.[^.]*$/, "") + ".json",

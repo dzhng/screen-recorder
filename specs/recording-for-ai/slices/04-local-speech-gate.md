@@ -8,8 +8,10 @@ Evidence: [preparation](../assets/speech/preparation.json),
 [raw/normalized report retention](../assets/speech/filename-check.json).
 Dependencies: 00. Run `bun run lab:speech-eval --help`; the
 [evaluation protocol](../../../packages/test-harness/speech/protocol.md) defines
-fixture annotation and interpretation. Current Parakeet setup retry is independent
-of the passing WhisperKit plumbing probe.
+fixture annotation and interpretation. Both pinned candidates now pass actual offline synthetic inference.
+[Parakeet preparation](../assets/speech/parakeet-preparation.json) and
+[generated word report](../assets/speech/parakeet-synthetic.json) supersede its
+earlier preparation failure. Neither candidate is selected for production yet.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

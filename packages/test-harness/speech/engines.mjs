@@ -18,6 +18,7 @@ export const engines = {
       "README.md",
       "LICENSE*",
     ],
+    assetDirectory: "parakeet-tdt-0.6b-v2",
     modelFolder: "",
   },
   whisperkit: {
@@ -31,6 +32,7 @@ export const engines = {
     modelRepo: "argmaxinc/whisperkit-coreml",
     modelRevision: "0f63a7800b00dd0226abd051b906c246e1907482",
     include: ["openai_whisper-large-v3-v20240930_turbo/*", "README.md", "LICENSE*"],
+    assetDirectory: "models",
     modelFolder: "openai_whisper-large-v3-v20240930_turbo",
     tokenizer: {
       repo: "openai/whisper-large-v3",

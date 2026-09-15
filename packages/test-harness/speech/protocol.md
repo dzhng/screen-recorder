@@ -71,3 +71,11 @@ merges subword timings at whitespace boundaries. The pinned
 [WhisperKit decoder options](https://github.com/argmaxinc/argmax-oss-swift/blob/v1.1.0/Sources/WhisperKit/Core/Configurations.swift)
 require word timestamps explicitly. Both probe CLIs have broader package build
 surfaces than a final application importing the single selected Swift product.
+
+FluidAudio resolves the parent of a supplied model path and appends its own
+version-specific folder name. Its explicit asset directory therefore matches that
+name; a generic folder can trigger an unintended download attempt even with assets
+present. The probe denies network and requires a raw word report, since the upstream
+CLI may log a model error while exiting successfully. For production integration,
+set the runtime's offline mode before model loading: its ordinary retry path may
+purge cached models before attempting a download.
