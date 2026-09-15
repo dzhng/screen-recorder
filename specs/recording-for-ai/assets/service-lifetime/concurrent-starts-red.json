@@ -1,0 +1,43 @@
+[
+  {
+    "trial": 0,
+    "started": [
+      33652,
+      33640
+    ],
+    "failures": 10
+  },
+  {
+    "trial": 1,
+    "started": [
+      33654,
+      33662,
+      33663
+    ],
+    "failures": 9
+  },
+  {
+    "trial": 2,
+    "started": [
+      33699,
+      33691,
+      33696
+    ],
+    "failures": 9
+  },
+  {
+    "trial": 3,
+    "started": [
+      33704
+    ],
+    "failures": 11
+  },
+  {
+    "trial": 4,
+    "started": [
+      33930,
+      33937
+    ],
+    "failures": 10
+  }
+]

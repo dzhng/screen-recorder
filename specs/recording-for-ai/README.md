@@ -29,8 +29,9 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: integrate app-service lifetime (06c), running in a Claude Opus
-worktree. Native recovery timing/journal corrections and its measured reader
+Current pickup: correct and integrate app-service lifetime (06c). Root reproduced
+concurrent-start ownership and interpreter-deadline failures in its candidate;
+a Claude Opus correction is active. Native recovery timing/journal corrections and its measured reader
 performance fix are integrated. Cursor geometry (03) is active in a separate
 Claude Opus worktree; actual placement remains a required gate. Generated PCM
 fragmentation is verified; physical audio and full recovery lifecycle remain open. The native readiness fix and socket transport are
