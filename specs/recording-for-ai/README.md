@@ -29,21 +29,22 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: integrate and verify cursor geometry (03). App-service lifetime
-(06c) is integrated and reviewed; packaged lifecycle, transport and concurrent-start
-checks pass, including the quit-during-interpreter regression.
-Claude Opus is implementing durable recording lifecycle storage in
-`/tmp/screenrec-recording-lifecycle`; integrate its core-only seam before adding
-capture control and journal reconciliation. Cursor candidate `ffee815` is complete
-in `/tmp/screenrec-cursor`, with a separate integration review active; actual driven
-pointer gestures and display/region placement remain open.
+Current pickup: integrate the cursor correction from Claude Opus in
+`/tmp/screenrec-cursor`, then finish its actual placement gates. Candidate `4f870d5`
+builds and passes integrated capture/frame/worker tests; the own-window run is in
+[the cursor checkpoint](assets/cursor/review.md). Root retained a red/green delayed
+reading regression; Opus is addressing that seeded fix, journal-reader feedback
+and real sampler tests. Fresh visual review is also active. Deliberate gestures
+and display/region placement remain unverified; computer-use access timed out.
 
-Recovery timing and journal performance fixes, native frame decoding, timeline and
-revision storage, local transport, and speech probe plumbing are integrated. Keep
-physical audio, human transcription fidelity, full capture recovery lifecycle and
-native menu interaction explicitly unverified. Speech fixture provenance is recorded
-in the speech slice; corpus alignment is not manual timing truth. Read each owning
-slice before recreating work or accepting a downstream assumption.
+In parallel, Claude Opus is implementing durable recording lifecycle storage in
+`/tmp/screenrec-recording-lifecycle`. Integrate its core-only seam before adding
+capture control and journal reconciliation. App-service lifetime (06c) is reviewed
+and green, including quitting during interpreter validation. Recovery timing and
+journal performance fixes, native frames, timeline/revision storage, transport and
+speech probe plumbing are integrated. Physical audio, human transcription fidelity,
+full capture recovery lifecycle and native menu interaction remain open. Corpus
+alignment is not manual timing truth; see the speech slice.
 
 Evidence: [bootstrap](assets/bootstrap/verification.md),
 [actual-agent images](assets/client-image/review.md),
