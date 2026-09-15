@@ -1,7 +1,8 @@
 # Verification and review contract
 
-All gates here are planned. This specification has been reviewed; its future
-product tests have not run.
+This document defines release gates. The [main handoff](README.md#next-agent-prompt)
+and owning slices track which checks have actual evidence; an uncompleted gate
+is a requirement, not a claim about the current implementation.
 
 ## Fixtures and provenance
 

@@ -68,10 +68,10 @@ may report `NOT_READY`; source images become available after media finalization.
 
 If start fails or interruption leaves no decodable video, retain the recording's
 identity and failure details without creating `r0` or a zero-duration timeline.
-Source-dependent operations return `UNAVAILABLE` after this terminal outcome;
+Video-dependent operations return `UNAVAILABLE` after this terminal outcome;
 they do not remain pending forever. Available diagnostic/source files remain
-accounted for in storage and manual deletion. Audio alone does not create an
-editable screen recording. A usable video prefix follows normal recovered-source
+accounted for in storage and manual deletion. Surviving audio remains accessible
+under the recovery contract; audio alone does not create an editable timeline. A usable video prefix follows normal recovered-source
 registration, even when optional audio is missing.
 
 History pagination pins the highest revision ordinal visible on its first page.
