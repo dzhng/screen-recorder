@@ -1,0 +1,20 @@
+{
+  "name": "@screenrec/service",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.check.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@screenrec/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@screenrec/client": "workspace:*",
+    "@screenrec/core": "workspace:*"
+  }
+}
