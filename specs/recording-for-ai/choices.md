@@ -373,3 +373,18 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   relaunch; reusing that ID for another operation, source or audio choice fails with
   `REQUEST_CONFLICT`. Callers use a fresh ID for a new intended take.
 - **Verdict:** Sound. **Confidence:** High.
+
+## Cursor evidence styling
+
+### Sound — medium confidence
+
+- **Choice:** Keep a readable minimum trail width and pointer size in the delivered
+  image, even when the caller scales the screen down. Cap the pointer minimum on
+  tiny thumbnails. Use a magenta trail with a dark halo and a white arrow.
+- **Gap:** The spec required readable fading evidence but did not choose styling
+  or the tradeoff between small marks and covering recorded content.
+- **Reach:** Small outputs retain recognizable pointing evidence, at the cost of
+  covering more of the underlying label. Paths and hotspots never move to avoid
+  content. A clean or larger image resolves obstruction; arbitrary backgrounds
+  and very small text cannot be guaranteed readable from these fixtures.
+- **Verdict:** Sound, reversible styling. **Confidence:** Medium.

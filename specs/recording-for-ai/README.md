@@ -40,8 +40,8 @@ Next priority: native menu controls, durable jobs, then revision-bound media
 inspection. Opus is implementing controls in `/tmp/screenrec-capture-service` and
 core durable jobs in `/tmp/screenrec-durable-jobs`; these are separate worktrees.
 Native worker parent-exit ownership is integrated, including the independent-review
-registration-race correction. Cursor output sizing is integrated and passes the
-native/worker checks; fresh visual review remains pending. Core trail selection
+registration-race correction. Cursor output sizing passes integrated native/worker checks and fresh visual review
+with documented small-output limits. Core trail selection
 and scene analysis remain open. Local socket admission bounds connections and
 unfinished handlers, including abandoned requests.
 
@@ -93,7 +93,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
   - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (generated-media execution; audition still open)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
-  - [ ] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
+  - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)

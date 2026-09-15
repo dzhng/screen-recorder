@@ -1,0 +1,116 @@
+[
+  {
+    "name": "overlay-cropped.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "overlay-gap.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "overlay-pointer.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "overlay-scaled.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "overlay-trail.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-circle-10s-scaled.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-circle-10s.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-circle-2s.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-circle-crop-scaled.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-circle-crop.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-circle-scaled.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-clean-scaled.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-clean-thumbnail.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-clean.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-pointer-only-scaled.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-pointer-only-thumbnail.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-pointer-only.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-wave-2s-scaled.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  },
+  {
+    "name": "review-wave-2s.png",
+    "byteIdentical": true,
+    "changedPixels": 0,
+    "maxChannelDelta": 0
+  }
+]

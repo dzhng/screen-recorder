@@ -46,5 +46,44 @@ thumbnail, with the previous small renders kept beside them for comparison. Fram
 delivered at source size are byte-identical to the images this replaces, so the
 change is confined to what the downscale reaches.
 
-No real captured gesture, scene reset or core-selected trail has been verified, and
-the small-output renders have not yet had a fresh unprimed critique.
+## Delivered-sizing integration (2026-09-15)
+
+The integrated frame suite passes 28 checks and all 14 worker process tests pass.
+All 19 current PNGs are byte-identical to the candidate renders; see
+[sizing integration](sizing-integration.json). The same-source before/after worker
+comparisons in [delivered sizing](delivered-sizing.json) prove that small-output
+pixels changed while full-size output and reported geometry remained unchanged.
+Independent code review found no actionable sizing defect; its native runtime
+checks were blocked by sandbox cache access, so the root ran the integrated checks.
+
+A fresh Opus reviewer inspected all 19 current images and 28 nearest-neighbor
+crops. The [raw sizing critique](sizing-visual-critique.md) has these dispositions:
+
+- **Accepted limitation:** small trails cross and obscure some text. At 160 pixels,
+  the wave changes 31% of label pixels and the circle changes 17% of button pixels.
+  Root can still read both labels, but does not infer universal readability from
+  this fixture. The 48-pixel clean source itself is illegible. Default inspection
+  is 1600 pixels; callers requesting very small images can request a larger or
+  clean frame to resolve obscured content. No content-aware path displacement.
+- **Accepted styling tradeoff:** the delivered-pixel floor makes the pointer larger
+  relative to downscaled content. The alternative previously lost the pointer's
+  shape. Its floor is capped on thumbnails; these fixtures preserve the hotspot.
+- **Visible but limited:** the straight trail has small brightness steps at age-band
+  joins. It has no raster gaps: all 60 interior columns contain magenta, with minimum
+  red-minus-green 86/255. The review's missing/dotted-path diagnosis is unsupported;
+  subtle band joins remain a styling limitation, not missing cursor observations.
+- **Rejected inferred defects:** scaled/gap behavior fixtures intentionally omit a
+  pointer. The crop fixture deliberately supplies a pointer off the horizontal
+  trail; tests pin its independent hotspot. No pointer was dropped or mispositioned.
+- **Rejected changes to evidence:** circles are supplied cursor history, not click
+  rings. Their centers must not move to the current pointer or avoid labels. Crops
+  clip the requested area; insetting would change the requested coordinates.
+- **Intentional age semantics:** opacity fades along history. The 2s/10s suffixes
+  are trail durations, not mark ages, so the slower fade is correct. A black halo
+  exists and survives downscaling; the arrow is white-filled with a black outline,
+  contrary to the review's color/layering inference. No contrast guarantee over
+  arbitrary source content is claimed.
+
+Generated-media native styling is accepted with those limits. No real captured
+gesture, scene reset or core-selected trail has been verified; parent slice 10
+remains open.
