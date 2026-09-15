@@ -12,6 +12,7 @@ public struct CaptureClock: Sendable {
     private var pausedAt: Int64?
 
     public init() {}
+    public var isPaused: Bool { pausedAt != nil }
     public mutating func start(at hostUs: Int64) { if originUs == nil { originUs = hostUs } }
     public mutating func pause(at hostUs: Int64) { if pausedAt == nil { pausedAt = hostUs } }
     public mutating func resume(at hostUs: Int64) {

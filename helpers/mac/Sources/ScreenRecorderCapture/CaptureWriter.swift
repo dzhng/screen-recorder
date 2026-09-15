@@ -28,6 +28,8 @@ private final class TrackWriter {
         file = role == "video" ? "video.mov" : "\(role).mov"
         writer = try AVAssetWriter(
             outputURL: URL(fileURLWithPath: directory).appendingPathComponent(file), fileType: .mov)
+        writer.movieFragmentInterval = CMTime(value: 5, timescale: 1)
+        writer.initialMovieFragmentInterval = CMTime(value: 1, timescale: 1)
         input = AVAssetWriterInput(
             mediaType: role == "video" ? .video : .audio, outputSettings: settings,
             sourceFormatHint: format)
@@ -52,6 +54,7 @@ private final class TrackWriter {
 // All writer and clock mutations run on this queue, including control boundaries.
 final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     let queue = DispatchQueue(label: "com.david.screenrec.capture-writer")
+    private let journal: CaptureJournal
     private let request: CaptureRequest
     private let width: Int
     private let height: Int
@@ -66,7 +69,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     private var lastVideo: CMSampleBuffer?
 
     init(
-        request: CaptureRequest, width: Int, height: Int,
+        request: CaptureRequest, width: Int, height: Int, sessionID: String,
         onFailure: @escaping @Sendable (CaptureFailure) -> Void
     ) throws {
         self.onFailure = onFailure
@@ -75,6 +78,12 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         self.height = height
         try FileManager.default.createDirectory(
             atPath: request.outputDirectory, withIntermediateDirectories: true)
+        journal = try CaptureJournal(
+            directory: request.outputDirectory,
+            header: CaptureJournalHeader(
+                schemaVersion: 1, sessionID: sessionID, source: request.source, width: width,
+                height: height,
+                microphone: request.microphone, systemAudio: request.systemAudio))
         tracks["video"] = try TrackWriter(
             role: "video", directory: request.outputDirectory,
             settings: [
@@ -87,8 +96,41 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             ])
     }
 
-    func pause() { queue.sync { clock.pause(at: hostMicroseconds()) } }
-    func resume() { queue.sync { clock.resume(at: hostMicroseconds()) } }
+    func pause() {
+        queue.sync {
+            let hostUs = hostMicroseconds()
+            clock.pause(at: hostUs)
+            _ = record("pauseBegan", data: ["hostUs": hostUs], durable: true)
+        }
+    }
+    func resume() { queue.sync { resumeClock(at: hostMicroseconds()) } }
+    private func resumeClock(at hostUs: Int64) {
+        let paused = clock.isPaused
+        let count = clock.pauses.count
+        clock.resume(at: hostUs)
+        if paused {
+            _ = record(
+                "pauseEnded",
+                data: JournalPauseEnd(
+                    hostUs: hostUs, pause: clock.pauses.count > count ? clock.pauses.last : nil),
+                durable: true)
+        }
+    }
+    private func record<Event: Encodable>(_ event: String, data: Event, durable: Bool = false)
+        -> Bool
+    {
+        do {
+            try journal.append(event, data: data, durable: durable)
+            return true
+        } catch {
+            let reason = CaptureFailure("JOURNAL_FAILED", error.localizedDescription)
+            if failure == nil {
+                failure = reason
+                onFailure(reason)
+            }
+            return false
+        }
+    }
     func seal() {
         queue.sync {
             if stopHostUs == nil {
@@ -132,7 +174,10 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         let hostUs = CMTimeConvertScale(pts, timescale: 1_000_000, method: .roundHalfAwayFromZero)
             .value
         if role == "video" {
-            if clock.originUs == nil { clock.start(at: hostUs) }
+            if clock.originUs == nil {
+                clock.start(at: hostUs)
+                guard record("origin", data: ["hostUs": hostUs], durable: true) else { return }
+            }
         }
         let duration = CMSampleBufferGetDuration(sample)
         let observedDurationUs =
@@ -204,6 +249,24 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
                 throw track.writer.error
                     ?? CaptureFailure("WRITE_FAILED", "Cannot append \(role) sample.")
             }
+            if track.first == nil {
+                guard
+                    record(
+                        "trackStarted",
+                        data: JournalTrackStart(
+                            role: role, file: track.file, firstSourceUs: sourceUs,
+                            sampleRate: track.sampleRate, channelCount: track.channelCount),
+                        durable: true)
+                else { return }
+            }
+            if role != "video" {
+                guard
+                    record(
+                        "audioSamples",
+                        data: JournalAudioSamples(
+                            role: role, startUs: sourceUs, endUs: sourceUs + durationUs))
+                else { return }
+            }
             track.first = track.first ?? sourceUs
             track.end = max(track.end ?? 0, sourceUs + durationUs)
             track.samples += 1
@@ -222,7 +285,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             queue.async {
                 self.finishing = true
                 let endHost = self.stopHostUs ?? hostMicroseconds()
-                self.clock.resume(at: endHost)
+                self.resumeClock(at: endHost)
                 let duration = max(0, self.clock.sourceTime(for: endHost) ?? 0)
                 self.failure = externalFailure ?? self.failure
                 if self.tracks["video"]?.samples == 0 {
@@ -329,7 +392,16 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
                 systemAudioScope: self.request.systemAudio
                     ? "whole-system-excluding-recorder" : "disabled"
             )
-            continuation.resume(returning: result)
+            if !self.record("finished", data: result, durable: true) {
+                let failedResult = CaptureResult(
+                    state: "interrupted", source: result.source, width: result.width,
+                    height: result.height, durationUs: result.durationUs,
+                    hostOriginUs: result.hostOriginUs, pauses: result.pauses, tracks: result.tracks,
+                    failure: self.failure, systemAudioScope: result.systemAudioScope)
+                continuation.resume(returning: failedResult)
+            } else {
+                continuation.resume(returning: result)
+            }
         }
     }
 }

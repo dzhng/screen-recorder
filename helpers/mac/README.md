@@ -24,7 +24,8 @@ and actual elapsed duration.
 Video uses H.264 in MOV. Narration and system audio use separate float PCM MOV files.
 System capture requests 48 kHz stereo from ScreenCaptureKit; microphone capture
 retains the device's reported rate and channels. No app resampling or mixing occurs.
-Each result reports actual first/last sample times, rate and channels. Missing
+Each result reports submitted sample times, rate and channels. A submitted buffer can
+extend beyond the clipped file end; those statistics are not decoded availability. Missing
 requested tracks and stream failures return interrupted status, never successful
 complete media. Healthy unchanged tails hold the last available frame and report
 `heldTailUs`. Stopping routinely lands while the encoder is still draining, so
@@ -32,7 +33,7 @@ the held frame waits for the writer input to accept it instead of reading that
 backpressure as a broken take. Only a writer that has stopped accepting samples,
 or one that never drains within a bounded wait, truncates the take. An
 interruption stops at the last available sample rather than inventing captured
-tail media. Abrupt termination recovery belongs to the capture-journal slice.
+tail media.
 
 Hidden/minimized windows remain valid sources. ScreenCaptureKit can deliver
 blank frames while a window is hidden; these are preserved as delivered, not
@@ -86,3 +87,39 @@ exercise retained windows without treating them as destroyed. This is a bounded 
 future long-lived service protocol. Do not infer microphone, source-loss, drift,
 or framing acceptance from clock tests or a successful compile; those require
 real captures and decoded/auditioned media.
+
+## Recoverable acquisition
+
+Writers emit movie fragments while recording so abrupt process termination can
+leave a decodable prefix without a final stop callback. The initial fragment
+limits the vulnerable opening; subsequent fragments bound ordinary unwritten
+tail loss. A crash before the first fragment can leave no usable video. These
+are process-crash guarantees, not a power-loss durability claim.
+
+[CaptureJournal](Sources/ScreenRecorderCapture/CaptureJournal.swift) owns ordered
+acquisition evidence beside the media. Identity, source clock and pause boundaries
+are synchronized when written; audio sample ranges record which time spans actually
+arrived. The reader retains the valid prefix after a torn final record and keeps
+an unfinished pause open. A clean journal ending alone does not mean a take finished.
+Geometry acquisition events can use the same append owner; this layer does not
+compute edit-time transforms.
+
+[MediaRecovery](Sources/ScreenRecorderCapture/MediaRecovery.swift) decodes each
+source independently and returns intervals through the worker's `media.recover`
+operation. Video determines the recovered take extent. Optional audio never
+shortens video, and missing media retains an explicit per-track failure.
+Recovery is read-only: package reconciliation belongs to the service.
+
+AVFoundation can return silence for empty audio edit-list segments and unavailable
+sample durations for decoded video. Recovery excludes empty segments, uses the
+last decoded video's sample cursor for its duration, and clips to the track's
+media range. Audio also intersects the acquisition journal: decoder padding must
+not become evidence that speech was recorded. Adjacent audio ranges coalesce
+within one microsecond to absorb timestamp conversion rounding. Without a journal,
+physical audio ranges remain available but acquisition verification is false.
+
+The worker returns a compact journal summary and relative journal filename;
+consumers that need individual events stream that file. Types beside the reader
+are the response contract. Native recovery tests drive the worker with FFmpeg-made
+media fixtures; FFmpeg is a development fixture dependency, not an app dependency.
+Real device audio fragmentation and interruption still require capture evidence.

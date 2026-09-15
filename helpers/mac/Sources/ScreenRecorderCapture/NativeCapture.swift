@@ -130,7 +130,7 @@ public final class NativeCapture {
             Task { @MainActor in await self?.interrupt(reason, generation: generation) }
         }
         let writer = try CaptureWriter(
-            request: request, width: width, height: height, onFailure: onFailure)
+            request: request, width: width, height: height, sessionID: generation.uuidString, onFailure: onFailure)
         var started = false
         defer {
             if !started {
