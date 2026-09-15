@@ -2,6 +2,11 @@
 
 Status: not started. Dependencies: 02, 05.
 
+The [revision transaction subpass](06a-revision-store.md) depends only on 05 and
+can proceed while native recovery is verified. It builds this slice's single
+catalog owner, not a second storage layer. This parent closes only after capture
+journal ingestion, service lifetime and persistent jobs pass their own gates.
+
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
 harness entrypoints to create in this slice, not existing executable claims.
@@ -41,4 +46,3 @@ behavior, not implementation constants. Run the narrowest relevant checks during
 iteration; full-suite closeout belongs to slice 15.
 
 If app-child lifecycle proves unworkable, reslice that transport with evidence; retain the single-writer/public-operation contract rather than adding a second authoritative store.
-

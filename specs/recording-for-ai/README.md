@@ -40,6 +40,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
 - [ ] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
 - [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
+  - [ ] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
