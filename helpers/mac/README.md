@@ -46,6 +46,13 @@ preflight only reads authorization. Explicit probe requests with a missing
 permission fail before opening streams. The fixture command captures only its own
 visible native window with both audio inputs disabled.
 
+An explicit `--permission microphone` or `--permission screen` probe action invokes
+the corresponding macOS authorization API without starting capture. This lets a
+fresh installation request access before macOS exposes its permission toggle.
+The future recording UI uses the same native action from its permission controls.
+Denials still require the user's System Settings decision; ordinary launch and
+preflight never open a permission prompt.
+
 ## Probe contract
 
 Build the app first, then run `node scripts/native-capture-probe.mjs --preflight`

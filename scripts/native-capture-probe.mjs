@@ -10,6 +10,8 @@ const args = process.argv.slice(2);
 let nativeArgs;
 if (args.length === 0 || args[0] === "--preflight") {
   nativeArgs = ["--capture-preflight"];
+} else if (args[0] === "--permission" && args.length === 2) {
+  nativeArgs = ["--capture-permission", args[1]];
 } else if (args[0] === "--sources") {
   nativeArgs = ["--capture-sources"];
 } else if (args[0] === "--fixture") {
@@ -35,7 +37,7 @@ if (args.length === 0 || args[0] === "--preflight") {
   nativeArgs = ["--capture-probe", resolve(args[1])];
 } else {
   throw new Error(
-    "Usage: native-capture-probe.mjs [--preflight | --sources | --fixture [output-directory] | --request probe.json]",
+    "Usage: native-capture-probe.mjs [--preflight | --permission screen|microphone | --sources | --fixture [output-directory] | --request probe.json]",
   );
 }
 const result = spawnSync(app, nativeArgs, { stdio: "inherit", timeout: 3_660_000 });

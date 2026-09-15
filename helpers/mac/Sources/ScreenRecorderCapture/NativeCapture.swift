@@ -26,6 +26,14 @@ public final class NativeCapture {
         }
     }
 
+    public static func requestPermission(_ kind: String) async throws -> Bool {
+        switch kind {
+        case "screen": return CGRequestScreenCaptureAccess()
+        case "microphone": return await AVCaptureDevice.requestAccess(for: .audio)
+        default: throw CaptureFailure("INVALID_REQUEST", "Permission must be screen or microphone.")
+        }
+    }
+
     public init() {}
 
     public func start(_ request: CaptureRequest) async throws {

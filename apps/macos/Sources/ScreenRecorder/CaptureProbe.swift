@@ -40,6 +40,12 @@ func runCaptureProbe() async {
                     "screen": NativeCapture.screenPermission,
                     "microphone": NativeCapture.microphonePermission,
                 ] as [String: Any])
+        case "--capture-permission":
+            guard args.count == 3 else {
+                throw CaptureFailure("INVALID_REQUEST", "Pass screen or microphone.")
+            }
+            let granted = try await NativeCapture.requestPermission(args[2])
+            try emit(["permission": args[2], "granted": granted] as [String: Any])
         case "--capture-sources":
             guard NativeCapture.screenPermission else {
                 throw CaptureFailure(
