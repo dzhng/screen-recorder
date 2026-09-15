@@ -1,0 +1,179 @@
+{
+  "kind": "screenshot-scene-metrics",
+  "generatedAt": "2026-09-15T07:52:26.787Z",
+  "note": "Absolute per-image telemetry, no reference involved. Low values locate flat, sparse, or empty captures; they never accept or reject an image on their own.",
+  "imageCount": 9,
+  "results": [
+    {
+      "id": "close-last",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/close-last.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 73,
+        "colorEntropyBits": 2.50099,
+        "edgeDensity": 0.08712,
+        "dominantColorShare": 0.21009,
+        "transparentShare": 0,
+        "luminanceMean": 159.67097,
+        "luminanceP5": 78.8946,
+        "luminanceP95": 254,
+        "luminanceContrast": 175.1054
+      }
+    },
+    {
+      "id": "five-minute-first",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/five-minute-first.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 75,
+        "colorEntropyBits": 2.5077,
+        "edgeDensity": 0.08659,
+        "dominantColorShare": 0.20957,
+        "transparentShare": 0,
+        "luminanceMean": 159.85912,
+        "luminanceP5": 78.8946,
+        "luminanceP95": 254,
+        "luminanceContrast": 175.1054
+      }
+    },
+    {
+      "id": "five-minute-last",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/five-minute-last.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 65,
+        "colorEntropyBits": 2.49681,
+        "edgeDensity": 0.08706,
+        "dominantColorShare": 0.21048,
+        "transparentShare": 0,
+        "luminanceMean": 159.72497,
+        "luminanceP5": 78.8946,
+        "luminanceP95": 254,
+        "luminanceContrast": 175.1054
+      }
+    },
+    {
+      "id": "hide-first",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/hide-first.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 75,
+        "colorEntropyBits": 2.5077,
+        "edgeDensity": 0.08659,
+        "dominantColorShare": 0.20957,
+        "transparentShare": 0,
+        "luminanceMean": 159.85912,
+        "luminanceP5": 78.8946,
+        "luminanceP95": 254,
+        "luminanceContrast": 175.1054
+      }
+    },
+    {
+      "id": "hide-last",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/hide-last.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 1,
+        "colorEntropyBits": 0,
+        "edgeDensity": 0,
+        "dominantColorShare": 1,
+        "transparentShare": 0,
+        "luminanceMean": 253.99739,
+        "luminanceP5": 254,
+        "luminanceP95": 254,
+        "luminanceContrast": 0
+      }
+    },
+    {
+      "id": "initial",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/initial.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 77,
+        "colorEntropyBits": 2.51673,
+        "edgeDensity": 0.08719,
+        "dominantColorShare": 0.20957,
+        "transparentShare": 0,
+        "luminanceMean": 159.78731,
+        "luminanceP5": 78.8946,
+        "luminanceP95": 254,
+        "luminanceContrast": 175.1054
+      }
+    },
+    {
+      "id": "minimize-first",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/minimize-first.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 75,
+        "colorEntropyBits": 2.5077,
+        "edgeDensity": 0.08659,
+        "dominantColorShare": 0.20957,
+        "transparentShare": 0,
+        "luminanceMean": 159.85912,
+        "luminanceP5": 78.8946,
+        "luminanceP95": 254,
+        "luminanceContrast": 175.1054
+      }
+    },
+    {
+      "id": "minimize-last",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/minimize-last.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 76,
+        "colorEntropyBits": 2.50374,
+        "edgeDensity": 0.08712,
+        "dominantColorShare": 0.21003,
+        "transparentShare": 0,
+        "luminanceMean": 159.68283,
+        "luminanceP5": 78.8946,
+        "luminanceP95": 254,
+        "luminanceContrast": 175.1054
+      }
+    },
+    {
+      "id": "paused",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/capture/paused.png",
+      "dimensions": {
+        "width": 1600,
+        "height": 1064
+      },
+      "sceneMetrics": {
+        "colorBuckets": 77,
+        "colorEntropyBits": 2.51673,
+        "edgeDensity": 0.08719,
+        "dominantColorShare": 0.20957,
+        "transparentShare": 0,
+        "luminanceMean": 159.78731,
+        "luminanceP5": 78.8946,
+        "luminanceP95": 254,
+        "luminanceContrast": 175.1054
+      }
+    }
+  ]
+}

@@ -18,7 +18,7 @@ clipping, inversion, tearing or obvious corruption. Title-bar text has low contr
 main labels remain clear. The hidden-window final frame is near-white and loses all
 panels. The cause is not established by a screenshot. Hidden-window framing remains
 open; no white-pixel heuristic or inactivity timeout is used to invent source loss.
-[Metrics](metrics.json) retain the observed near-white result.
+[Metrics](visual-metrics/scene-metrics.json) retain the observed near-white result.
 
 Independent code review found two issues. Explicit permission request actions now
 exist for fresh installations, while ordinary launch/preflight remain read-only.
@@ -29,3 +29,10 @@ Temporary encoder backpressure during held-tail finalization is being fixed on
 Still unverified: display/region capture, isolated microphone/system audio, A/V
 alignment, denied permissions and microphone disconnection. Recovery and geometry
 have their own gates. The menu-bar app is not yet a complete user recording flow.
+
+The repository-local compare-screenshots helper regenerated telemetry after an
+inconsistent provisional edge metric was discarded. It reports zero detected
+edges for the near-white hidden-window image. Command: `REPO_ROOT=/Users/david/dev/game
+CANDIDATE_DIR=<this capture folder> OUT_DIR=<this folder>/visual-metrics node
+.agents/skills/compare-screenshots/scripts/visual-parity-diff.mjs`. The other repo
+supplied existing pngjs/pixelmatch dependencies only; its files were not changed.
