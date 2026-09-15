@@ -34,7 +34,7 @@ Current pickup: integrate the cursor correction from Claude Opus in
 builds and passes integrated capture/frame/worker tests; the own-window run is in
 [the cursor checkpoint](assets/cursor/review.md). Root retained a red/green delayed
 reading regression; Opus is addressing that seeded fix, journal-reader feedback
-and real sampler tests. Fresh visual review is also active. Deliberate gestures
+and real sampler tests. Fresh visual review is triaged in the checkpoint. Deliberate gestures
 and display/region placement remain unverified; computer-use access timed out.
 
 In parallel, Claude Opus is implementing durable recording lifecycle storage in
@@ -42,7 +42,9 @@ In parallel, Claude Opus is implementing durable recording lifecycle storage in
 capture control and journal reconciliation. App-service lifetime (06c) is reviewed
 and green, including quitting during interpreter validation. Recovery timing and
 journal performance fixes, native frames, timeline/revision storage, transport and
-speech probe plumbing are integrated. Physical audio, human transcription fidelity,
+speech probe plumbing are integrated. A separate Opus lane in
+`/tmp/screenrec-audio-excerpts` is implementing native audio excerpts from resolved
+source spans; it does not depend on the catalog lifecycle seam. Physical audio, human transcription fidelity,
 full capture recovery lifecycle and native menu interaction remain open. Corpus
 alignment is not manual timing truth; see the speech slice.
 

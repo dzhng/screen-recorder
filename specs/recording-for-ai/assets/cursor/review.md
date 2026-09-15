@@ -34,3 +34,36 @@ the app timed out by path and bundle identifier, so root did not drive corners,
 circles, or an off-center region. Do not infer that evidence from the stationary
 pointer measurements. Display/region capture, display reconfiguration and deliberate
 gestures remain open gates. No physical audio was recorded or verified.
+
+## Independent review dispositions
+
+[Opus inspected all 29 images](independent-visual-review.md). Its tool permissions
+allowed full-image reads but not enlarged crops, so root produced and inspected
+seven targeted crops under `/tmp/screenrec-cursor-visual-crops` before triage.
+
+- Missing pointer in the first three paired captures is expected: those samples
+  are outside the window. The pointer-free recorded images are the required clean
+  source, independently confirmed by pixel comparison. These are passing properties.
+- The start frame's bottom white border and rounded corners are visible in the
+  enlarged strip; all five fiducials are complete. The proposed clipping defect is
+  not supported. Start uses a 552-point window frame including its title bar; the
+  later 520-point frame is a real size change, retained in measurement metadata.
+- Resized and second-display color patches differ slightly. The compared flat
+  fill's per-channel standard deviation is below 0.49 of 255 levels, with at most
+  two levels of mean color shift ([metrics](flat-fill-metrics.json)). That supports
+  small native color/dither variation, not the claimed heavy corruption. Exact
+  color preservation across physical display profiles was not proved by this gate.
+- The enlarged cyan glyph is an ordinary squared-off digit 3 (right vertical
+  strokes), not a mirrored numeral. Marker numbers and target locations are legible.
+- Different system cursor bitmap shapes, padding and representation sizes are
+  diagnostic native observations, not product cursor assets. Their hotspots and
+  pixel-to-point scale are included in the calibration; no production glyph design
+  is accepted from those files. The placement verdict uses measured image deltas.
+
+The [code review](independent-code-review.md) identified useful stream status,
+display-space exposure and sampler coverage gaps now assigned to the correction.
+Its dismissal of the empty-batch ordering issue is rejected: timestamp acquisition
+precedes enqueue on the separate sampler producer, and the controlled red/green
+regression demonstrates the lost geometry. An asserted single-queue proof does not
+order those independent producer timestamps. No extra unreachable-call guard or
+unmeasured display/region claim is being adopted.
