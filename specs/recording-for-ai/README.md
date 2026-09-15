@@ -35,15 +35,21 @@ running service (parent 06). Claude Opus owns that vertical pass in
 Durable lifecycle storage (06d) and library operation
 binding (06e) are integrated: 25 core tests and 24 service tests pass together.
 Real-service reads distinguish an unfinished take from a terminal zero-video failure
-and exclude canceled takes from latest. App-owned lifetime remains verified.
+and exclude canceled takes from latest. App-owned lifetime remains verified. CLI/MCP adapters (12a) now expose the
+implemented library/edit operations through the same registry; automatic app
+discovery and media-content delivery remain open.
 
 Cursor correction `9c1f7e2` and a follow-up unknown-geometry regression are integrated;
 real sampler and native capture checks pass, and the corrected own-window fixture
 completed. See [cursor evidence](assets/cursor/review.md). Deliberate gestures and
 display/region placement remain open; computer-use access to this app timed out.
-Claude Opus is implementing native audio excerpts in `/tmp/screenrec-audio-excerpts`.
-A separate diagnostic in `/tmp/screenrec-natural-speech` runs the prepared local
-engines on public human audio; its automatic alignment is not acceptance truth.
+Claude Opus is correcting native audio excerpts in `/tmp/screenrec-audio-excerpts`: root
+reproduced cumulative sample rounding drift and requires caller-supplied acquisition
+availability before accepting the worker.
+The public human-speech diagnostic is integrated; it found major filler omissions.
+Opus is probing the specified Apple SpeechAnalyzer alternative in
+`/tmp/screenrec-apple-speech`, using installed assets only. Automatic alignment is not
+manual acceptance truth.
 
 Recovery timing, frame decoding, timeline edits and speech probe plumbing are
 integrated. Physical audio, human transcription fidelity, full capture recovery
@@ -77,6 +83,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
+  - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)
 - [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)

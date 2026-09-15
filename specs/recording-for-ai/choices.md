@@ -282,3 +282,16 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
 - **Reach:** Service reconciliation must finish validating media before publishing
   a terminal interruption; it cannot use zero-video as a temporary processing state.
 - **Verdict:** Sound. **Confidence:** High.
+
+## CLI/MCP adapter seam
+
+### Sound — high confidence
+
+- **Choice:** Keep transport correlation IDs separate from durable mutation request
+  IDs, and retain a parsed transport ID even when local JSON validation fails.
+- **Gap:** Mutations already required replay identity; the CLI's error behavior
+  before a service call was unspecified.
+- **Reach:** Automation can correlate failed invocations while retrying edits with
+  their original mutation identity. Invalid command-line syntax is diagnosed on
+  stderr, which also protects MCP's stdout before mode parsing has succeeded.
+- **Verdict:** Sound. **Confidence:** High.

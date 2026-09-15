@@ -19,7 +19,8 @@
     "lab:speech-eval": "node scripts/speech-eval.mjs",
     "lab:workbench": "bun run --cwd apps/workbench dev",
     "lab:capture": "node scripts/native-capture-probe.mjs",
-    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs"
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js"
   },
   "devDependencies": {
     "@types/node": "24.13.4",

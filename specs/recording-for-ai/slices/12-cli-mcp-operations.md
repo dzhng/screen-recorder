@@ -1,6 +1,7 @@
 # 12 — Complete CLI/MCP inspection and editing
 
-Status: not started. Dependencies: 00b, 07, 08, 11.
+Status: adapter seam implemented in [12a](12a-cli-mcp-adapters.md); full capability
+and actual-media journey remain open. Dependencies: 00b, 07, 08, 11.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
