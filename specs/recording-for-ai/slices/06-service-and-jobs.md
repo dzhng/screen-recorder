@@ -1,8 +1,9 @@
 # 06 — Single-writer library and app-managed service
 
 Status: revision/lifecycle storage, transport, app lifetime and library operation
-binding, native capture control and journal reconciliation are integrated. Durable
-artifact jobs and the wider physical capture gates remain. Dependencies: 02, 05.
+binding, native capture control and journal reconciliation are integrated. The durable
+artifact queue is integrated in core; the artifact work it schedules and the wider
+physical capture gates remain. Dependencies: 02, 05.
 
 The [revision transaction subpass](06a-revision-store.md) depends only on 05 and
 can proceed while native recovery is verified. It builds this slice's single
@@ -21,6 +22,12 @@ only; durable job failure, retry and the queue gates below remain open.
 The [library operation binding](06e-library-operations.md) gives both existing
 transports access to the core catalog and edit engine. It can be verified before
 native capture control and persistent artifact jobs are connected.
+
+The [durable job subpass](06g-durable-jobs.md) adds the queue this slice's jobs
+contract needs to the same catalog: pinned identity, deduplication, one automatic
+attempt with explicit retry, one heavy and two frame lanes, capture priority,
+cancellation and restart reconciliation. It is core proof only — no transcription,
+frame or export executor exists, and no operation exposes it yet.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

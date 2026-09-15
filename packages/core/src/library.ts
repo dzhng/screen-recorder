@@ -99,7 +99,11 @@ export type HistoryCursor = Readonly<{
   throughOrdinal: number;
 }>;
 export class RevisionStore {
-  private readonly db: DatabaseSync;
+  /**
+   * The one catalog database. Sibling core modules keep their own tables in this connection and
+   * write through {@link transaction}; nothing in this product opens a second database file.
+   */
+  readonly catalog: DatabaseSync;
   constructor(
     path: string,
     private readonly providers: { now: () => string; newId: () => string },
@@ -107,8 +111,8 @@ export class RevisionStore {
   ) {
     if (!Number.isSafeInteger(busyTimeoutMs) || busyTimeoutMs < 0 || busyTimeoutMs > 10000)
       throw new RangeError("SQLite timeout must be 0–10000 milliseconds");
-    this.db = new DatabaseSync(path, { timeout: busyTimeoutMs });
-    this.db.exec(`
+    this.catalog = new DatabaseSync(path, { timeout: busyTimeoutMs });
+    this.catalog.exec(`
    CREATE TABLE IF NOT EXISTS recordings (
     creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
     allocationRequestId TEXT UNIQUE,allocationArguments TEXT,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
@@ -129,11 +133,11 @@ export class RevisionStore {
   `);
     // Development formats are a hard cutover; opening an older catalog never migrates it.
     if (
-      !this.db
+      !this.catalog
         .prepare("SELECT 1 FROM pragma_table_info('recordings') WHERE name=?")
         .get("allocationArguments")
     ) {
-      this.db.close();
+      this.catalog.close();
       throw new CatalogError(
         "UNSUPPORTED_CATALOG",
         "This catalog predates the current format; open a library created by this version.",
@@ -141,18 +145,19 @@ export class RevisionStore {
     }
   }
   close(): void {
-    if (this.db.isOpen) this.db.close();
+    if (this.catalog.isOpen) this.catalog.close();
   }
-  private transaction<T>(run: () => T): T {
+  /** The catalog's only write boundary: one immediate transaction, reporting a lock wait as retryable. */
+  transaction<T>(run: () => T): T {
     let began = false;
     try {
-      this.db.exec("BEGIN IMMEDIATE");
+      this.catalog.exec("BEGIN IMMEDIATE");
       began = true;
       const result = run();
-      this.db.exec("COMMIT");
+      this.catalog.exec("COMMIT");
       return result;
     } catch (error) {
-      if (began) this.db.exec("ROLLBACK");
+      if (began) this.catalog.exec("ROLLBACK");
       if (error && typeof error === "object" && "errcode" in error && error.errcode === 5)
         throw new CatalogError("STORAGE_BUSY", "Catalog is locked; retry the request", {}, true);
       throw error;
@@ -168,7 +173,7 @@ export class RevisionStore {
   allocate(request?: AllocationRequest): Allocation {
     return this.transaction(() => {
       if (request) {
-        const stored = this.db
+        const stored = this.catalog
           .prepare(
             `SELECT ${recordingColumns},allocationArguments FROM recordings WHERE allocationRequestId=?`,
           )
@@ -184,7 +189,7 @@ export class RevisionStore {
         }
       }
       const recordingId = this.providers.newId();
-      this.db
+      this.catalog
         .prepare(
           "INSERT INTO recordings(recordingId,sourceId,allocationRequestId,allocationArguments,createdAt,state,lifecycleSequence) VALUES (?,?,?,?,?,'preparing',0)",
         )
@@ -199,7 +204,7 @@ export class RevisionStore {
     });
   }
   get(recordingId: string): Recording {
-    const row = this.db
+    const row = this.catalog
       .prepare(`SELECT ${recordingColumns} FROM recordings WHERE recordingId=?`)
       .get(recordingId);
     if (!row) throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
@@ -214,7 +219,7 @@ export class RevisionStore {
       throw new CatalogError("INVALID_PARAMS", "Recording page size must be 1–100");
     if (cursor && (!Number.isSafeInteger(cursor.beforeSequence) || cursor.beforeSequence < 1))
       throw new CatalogError("INVALID_PARAMS", "Invalid recording page cursor");
-    const rows = this.db
+    const rows = this.catalog
       .prepare(
         `SELECT ${recordingColumns} FROM recordings
        WHERE state!='canceled' AND creationSequence < ?
@@ -235,7 +240,7 @@ export class RevisionStore {
    * against their own durable media; nothing else may be left describing a capture that ended.
    */
   unsettled(): Recording[] {
-    return this.db
+    return this.catalog
       .prepare(
         `SELECT ${recordingColumns} FROM recordings WHERE state IN (${unsettledStates
           .map(() => "?")
@@ -245,7 +250,7 @@ export class RevisionStore {
   }
   latest(): Recording | null {
     return (
-      (this.db
+      (this.catalog
         .prepare(
           `SELECT ${recordingColumns} FROM recordings WHERE state!='canceled' ORDER BY creationSequence DESC LIMIT 1`,
         )
@@ -275,7 +280,7 @@ export class RevisionStore {
         );
       if (event.state === "complete" || event.state === "interrupted")
         this.attachSource(recording, event.sourceDurationUs);
-      this.db
+      this.catalog
         .prepare(
           "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=? WHERE recordingId=?",
         )
@@ -289,10 +294,10 @@ export class RevisionStore {
     });
   }
   private insertRevision(recordingId: string, revision: TimelineRevision): void {
-    this.db
+    this.catalog
       .prepare("INSERT INTO revisions(recordingId,id,ordinal,content) VALUES (?,?,?,?)")
       .run(recordingId, revision.id, revision.ordinal, JSON.stringify(revision));
-    this.db
+    this.catalog
       .prepare("UPDATE recordings SET currentRevisionId=? WHERE recordingId=?")
       .run(revision.id, recordingId);
   }
@@ -320,7 +325,7 @@ export class RevisionStore {
       });
     const original = createOriginalRevision(sourceDurationUs, this.providers.now());
     this.insertRevision(recording.recordingId, original);
-    this.db
+    this.catalog
       .prepare("UPDATE recordings SET sourceDurationUs=? WHERE recordingId=?")
       .run(sourceDurationUs, recording.recordingId);
   }
@@ -342,7 +347,7 @@ export class RevisionStore {
     const recording = this.readable(recordingId);
     const id = revisionId ?? recording.currentRevisionId;
     if (id === null) throw settledWithoutVideo(recording);
-    const row = this.db
+    const row = this.catalog
       .prepare("SELECT content FROM revisions WHERE recordingId=? AND id=?")
       .get(recordingId, id);
     if (!row)
@@ -356,7 +361,7 @@ export class RevisionStore {
     return this.transaction(() => {
       this.readable(recordingId);
       const fingerprint = argumentsKey(request);
-      const replay = this.db
+      const replay = this.catalog
         .prepare(
           "SELECT arguments,result FROM edit_requests WHERE recordingId=? AND operation=? AND requestId=?",
         )
@@ -380,14 +385,14 @@ export class RevisionStore {
       else if (request.operation === "restore")
         spans = this.revision(recordingId, request.targetRevisionId).spans;
       else {
-        const target = this.db
+        const target = this.catalog
           .prepare(
             "SELECT position,targetId FROM undo_stack WHERE recordingId=? ORDER BY position DESC LIMIT 1",
           )
           .get(recordingId);
         if (!target) throw new CatalogError("NOTHING_TO_UNDO", "No active edit remains to undo");
         spans = this.revision(recordingId, target.targetId as string).spans;
-        this.db
+        this.catalog
           .prepare("DELETE FROM undo_stack WHERE recordingId=? AND position=?")
           .run(recordingId, target.position!);
       }
@@ -401,14 +406,14 @@ export class RevisionStore {
             });
       if (result !== current) {
         if (request.operation !== "undo")
-          this.db
+          this.catalog
             .prepare(
               "INSERT INTO undo_stack(recordingId,position,targetId) SELECT ?,COALESCE(MAX(position),0)+1,? FROM undo_stack WHERE recordingId=?",
             )
             .run(recordingId, current.id, recordingId);
         this.insertRevision(recordingId, result);
       }
-      this.db
+      this.catalog
         .prepare(
           "INSERT INTO edit_requests(recordingId,operation,requestId,arguments,result) VALUES (?,?,?,?,?)",
         )
@@ -432,7 +437,7 @@ export class RevisionStore {
     const afterOrdinal = cursor?.afterOrdinal ?? -1;
     const throughOrdinal =
       cursor?.throughOrdinal ??
-      (this.db
+      (this.catalog
         .prepare("SELECT MAX(ordinal) AS ordinal FROM revisions WHERE recordingId=?")
         .get(recordingId)!.ordinal as number | null) ??
       -1;
@@ -447,7 +452,7 @@ export class RevisionStore {
       (cursor !== null && cursor.recordingId !== recordingId)
     )
       throw new CatalogError("INVALID_RANGE", "Invalid history page");
-    const rows = this.db
+    const rows = this.catalog
       .prepare(
         "SELECT content FROM revisions WHERE recordingId=? AND ordinal>? AND ordinal<=? ORDER BY ordinal LIMIT ?",
       )

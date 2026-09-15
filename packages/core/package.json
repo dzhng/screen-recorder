@@ -11,6 +11,10 @@
     "./library": {
       "types": "./dist/library.d.ts",
       "default": "./dist/library.js"
+    },
+    "./jobs": {
+      "types": "./dist/jobs.d.ts",
+      "default": "./dist/jobs.js"
     }
   },
   "scripts": {

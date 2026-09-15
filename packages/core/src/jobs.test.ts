@@ -1,0 +1,409 @@
+import { test, expect, afterEach } from "vitest";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { CatalogError, RevisionStore } from "./library.js";
+import { JobQueue, type Job, type JobExecutor } from "./jobs.js";
+
+/** One attempt the queue handed to the executor, held open until the test answers it. */
+type Attempt = {
+  job: Job;
+  signal: AbortSignal;
+  finish: (result: string) => void;
+  fail: (error: unknown) => void;
+};
+
+const roots: string[] = [];
+const stores: RevisionStore[] = [];
+const queues: JobQueue[] = [];
+const held: Attempt[] = [];
+
+/** A queue plus the executor it drives, where starting and settling are observed, never waited out. */
+function open(path: string, prefix: string) {
+  let id = 0;
+  const store = new RevisionStore(path, {
+    now: () => "2026-09-15T00:00:00.000Z",
+    newId: () => `${prefix}-${++id}`,
+  });
+  stores.push(store);
+  const attempts = new Map<string, Attempt>();
+  const waiting = new Map<string, () => void>();
+  const execute: JobExecutor = ({ job, signal }) =>
+    new Promise<string>((resolve, reject) => {
+      const attempt: Attempt = { job, signal, finish: resolve, fail: reject };
+      attempts.set(job.attemptId, attempt);
+      held.push(attempt);
+      waiting.get(job.attemptId)?.();
+    });
+  const queue = new JobQueue({
+    store,
+    execute,
+    providers: { newId: () => `${prefix}-${++id}` },
+  });
+  queues.push(queue);
+  const started = async (attemptId: string): Promise<Attempt> => {
+    if (!attempts.has(attemptId))
+      await new Promise<void>((resolve) => waiting.set(attemptId, resolve));
+    return attempts.get(attemptId)!;
+  };
+  return { store, queue, attempts, started };
+}
+
+function fixture(prefix = "run") {
+  const root = mkdtempSync(join(tmpdir(), "screenrec-jobs-"));
+  roots.push(root);
+  const path = join(root, "library.sqlite");
+  return { path, ...open(path, prefix) };
+}
+
+/** A finished take: it has a revision to pin, and no capture of it is still outstanding. */
+function finished(store: RevisionStore, sourceDurationUs = 20): string {
+  const { recordingId, sourceId } = store.allocate().recording;
+  store.ingestLifecycle(recordingId, { sourceId, sequence: 1, state: "recording" });
+  store.ingestLifecycle(recordingId, { sourceId, sequence: 2, state: "finalizing" });
+  store.ingestLifecycle(recordingId, {
+    sourceId,
+    sequence: 3,
+    state: "complete",
+    sourceDurationUs,
+  });
+  return recordingId;
+}
+
+afterEach(async () => {
+  for (const attempt of held.splice(0)) attempt.fail(new Error("test teardown"));
+  for (const queue of queues.splice(0)) await queue.close();
+  for (const store of stores.splice(0)) store.close();
+  for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true });
+});
+
+test("identical work is admitted once while it runs, and again only after it published", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const request = {
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy" as const,
+    input: "narration",
+  };
+  const job = queue.submit(request);
+  expect(queue.submit(request).jobId).toBe(job.jobId);
+  const attempt = await started(job.attemptId);
+  expect(queue.submit(request)).toEqual({ ...job, state: "running" });
+  attempt.finish("transcript-a");
+  await queue.idle();
+  expect(queue.status(recordingId, "transcript")).toEqual({
+    state: "ready",
+    jobId: job.jobId,
+    reason: null,
+    retryable: false,
+    published: {
+      recordingId,
+      artifact: "transcript",
+      generation: 1,
+      revisionId: "r0",
+      input: "narration",
+      result: "transcript-a",
+    },
+  });
+  expect(queue.job(job.jobId)).toMatchObject({ state: "ready", generation: 1 });
+
+  const again = queue.submit(request);
+  expect(again.jobId).not.toBe(job.jobId);
+  expect(again.state).toBe("running");
+  (await started(again.attemptId)).finish("transcript-b");
+  await queue.idle();
+  expect(queue.job(again.jobId)).toMatchObject({ state: "ready", generation: 2 });
+  expect(queue.status(recordingId, "transcript").published).toEqual({
+    recordingId,
+    artifact: "transcript",
+    generation: 2,
+    revisionId: "r0",
+    input: "narration",
+    result: "transcript-b",
+  });
+});
+
+test("a restart fails the interrupted attempt, whose late answer cannot overwrite its retry", async () => {
+  const { store, queue, path, started } = fixture("first");
+  const recordingId = finished(store);
+  const job = queue.submit({
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy",
+    input: "narration",
+  });
+  const lost = await started(job.attemptId);
+
+  const relaunched = open(path, "second");
+  expect(relaunched.queue.status(recordingId, "transcript")).toEqual({
+    state: "failed",
+    jobId: job.jobId,
+    reason: "interrupted",
+    retryable: true,
+    published: null,
+  });
+  const retried = relaunched.queue.retry(job.jobId);
+  expect(retried.attemptId).not.toBe(job.attemptId);
+  expect(retried.revisionId).toBe(job.revisionId);
+  const fresh = await relaunched.started(retried.attemptId);
+
+  lost.finish("answer-from-the-dead-process");
+  await queue.idle();
+  expect(relaunched.queue.status(recordingId, "transcript").published).toBeNull();
+  expect(relaunched.queue.job(job.jobId).state).toBe("running");
+
+  fresh.finish("answer-from-the-retry");
+  await relaunched.queue.idle();
+  expect(relaunched.queue.status(recordingId, "transcript").published).toEqual({
+    recordingId,
+    artifact: "transcript",
+    generation: 1,
+    revisionId: "r0",
+    input: "narration",
+    result: "answer-from-the-retry",
+  });
+});
+
+test("an edit during processing does not move the revision the work was admitted for", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const request = {
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy" as const,
+    input: "narration",
+  };
+  const job = queue.submit(request);
+  const attempt = await started(job.attemptId);
+  expect(attempt.job.revisionId).toBe("r0");
+  const edited = store.edit(recordingId, {
+    operation: "cut",
+    requestId: "cut-1",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 3, endUs: 5 }],
+  });
+  attempt.finish("transcript-a");
+  await queue.idle();
+  expect(store.revision(recordingId).id).toBe(edited.id);
+  expect(queue.status(recordingId, "transcript").published).toEqual({
+    recordingId,
+    artifact: "transcript",
+    generation: 1,
+    revisionId: "r0",
+    input: "narration",
+    result: "transcript-a",
+  });
+  expect(queue.submit(request).revisionId).toBe(edited.id);
+});
+
+test("one heavy and two frame attempts run at once", async () => {
+  const { store, queue, attempts, started } = fixture();
+  const recordingId = finished(store);
+  const transcript = queue.submit({
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy",
+    input: "narration",
+  });
+  const exported = queue.submit({
+    recordingId,
+    artifact: "export",
+    lane: "heavy",
+    input: "video",
+  });
+  const frames = ["5s", "6s", "7s"].map((input) =>
+    queue.submit({ recordingId, artifact: `frame-${input}`, lane: "frame", input }),
+  );
+  expect([...attempts.keys()]).toEqual([
+    transcript.attemptId,
+    frames[0]!.attemptId,
+    frames[1]!.attemptId,
+  ]);
+
+  (await started(frames[0]!.attemptId)).finish("frame-a");
+  expect((await started(frames[2]!.attemptId)).job.jobId).toBe(frames[2]!.jobId);
+  expect(queue.job(exported.jobId).state).toBe("queued");
+});
+
+test("a new heavy job waits while a take is capturing; frame work does not", async () => {
+  const { store, queue, attempts, started } = fixture();
+  const recordingId = finished(store);
+  const live = store.allocate().recording;
+  store.ingestLifecycle(live.recordingId, {
+    sourceId: live.sourceId,
+    sequence: 1,
+    state: "recording",
+  });
+  const transcript = queue.submit({
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy",
+    input: "narration",
+  });
+  const frame = queue.submit({ recordingId, artifact: "frame", lane: "frame", input: "5s" });
+  expect([...attempts.keys()]).toEqual([frame.attemptId]);
+  expect(queue.status(recordingId, "transcript")).toEqual({
+    state: "queued",
+    jobId: transcript.jobId,
+    reason: null,
+    retryable: false,
+    published: null,
+  });
+
+  store.ingestLifecycle(live.recordingId, {
+    sourceId: live.sourceId,
+    sequence: 2,
+    state: "interrupted",
+    reason: "stopped",
+    sourceDurationUs: 10,
+  });
+  queue.schedule();
+  expect((await started(transcript.attemptId)).job.jobId).toBe(transcript.jobId);
+});
+
+test("canceling a running job frees its lane only once the work settles", async () => {
+  const { store, queue, attempts, started } = fixture();
+  const recordingId = finished(store);
+  const first = queue.submit({
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy",
+    input: "narration",
+  });
+  const running = await started(first.attemptId);
+  expect(queue.cancel(first.jobId).state).toBe("canceled");
+  expect(running.signal.aborted).toBe(true);
+
+  const second = queue.submit({ recordingId, artifact: "export", lane: "heavy", input: "video" });
+  expect(attempts.has(second.attemptId)).toBe(false);
+  running.finish("answer-after-cancellation");
+  expect((await started(second.attemptId)).job.jobId).toBe(second.jobId);
+  expect(queue.status(recordingId, "transcript")).toEqual({
+    state: "not_requested",
+    jobId: first.jobId,
+    reason: "canceled",
+    retryable: false,
+    published: null,
+  });
+});
+
+test("work that outlives a discarded take publishes nothing and does not revive it", async () => {
+  const { store, queue, attempts, started } = fixture();
+  const recording = store.allocate().recording;
+  store.ingestLifecycle(recording.recordingId, {
+    sourceId: recording.sourceId,
+    sequence: 1,
+    state: "recording",
+  });
+  store.registerSource(recording.recordingId, 20);
+  const [running, alsoRunning, waiting] = ["5s", "6s", "7s"].map((input) =>
+    queue.submit({
+      recordingId: recording.recordingId,
+      artifact: `frame-${input}`,
+      lane: "frame",
+      input,
+    }),
+  );
+  const attempt = await started(running!.attemptId);
+  const other = await started(alsoRunning!.attemptId);
+  expect(attempts.has(waiting!.attemptId)).toBe(false);
+  store.ingestLifecycle(recording.recordingId, {
+    sourceId: recording.sourceId,
+    sequence: 2,
+    state: "canceled",
+  });
+
+  attempt.finish("answer-for-a-discarded-take");
+  other.fail(new Error("worker stopped"));
+  await queue.idle();
+  expect(store.get(recording.recordingId).state).toBe("canceled");
+  expect(store.list().recordings).toEqual([]);
+  expect(attempts.has(waiting!.attemptId)).toBe(false);
+  for (const job of [running!, waiting!]) {
+    expect(queue.job(job.jobId).state).toBe("canceled");
+    expect(queue.status(recording.recordingId, job.artifact)).toEqual({
+      state: "not_requested",
+      jobId: job.jobId,
+      reason: "recording_unavailable",
+      retryable: false,
+      published: null,
+    });
+  }
+});
+
+test("waiting work is bounded, while work already admitted still answers", async () => {
+  const { store, queue } = fixture();
+  const recordingId = finished(store);
+  const running = queue.submit({
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy",
+    input: "narration",
+  });
+  const queued: Job[] = [];
+  let refused: unknown;
+  for (let index = 0; index < 500; index += 1) {
+    try {
+      queued.push(
+        queue.submit({ recordingId, artifact: `frame-${index}`, lane: "heavy", input: `${index}` }),
+      );
+    } catch (error) {
+      refused = error;
+      break;
+    }
+  }
+  expect(refused).toMatchObject({ code: "LIMIT_EXCEEDED", retryable: true });
+  expect(queue.job(running.jobId).state).toBe("running");
+  const oldest = queued[0]!;
+  expect(queue.job(oldest.jobId).state).toBe("queued");
+  expect(
+    queue.submit({ recordingId, artifact: oldest.artifact, lane: "heavy", input: oldest.input })
+      .jobId,
+  ).toBe(oldest.jobId);
+
+  queue.cancel(oldest.jobId);
+  expect(queue.submit({ recordingId, artifact: "late", lane: "heavy", input: "late" }).state).toBe(
+    "queued",
+  );
+});
+
+test("a validated absence is not retryable, while an ordinary failure is", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const absent = queue.submit({
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy",
+    input: "narration",
+  });
+  (await started(absent.attemptId)).fail(
+    new CatalogError("UNAVAILABLE", "unavailable:no_narration"),
+  );
+  await queue.idle();
+  expect(queue.status(recordingId, "transcript")).toEqual({
+    state: "unavailable",
+    jobId: absent.jobId,
+    reason: "unavailable:no_narration",
+    retryable: false,
+    published: null,
+  });
+  expect(() => queue.retry(absent.jobId)).toThrow(expect.objectContaining({ code: "UNAVAILABLE" }));
+
+  const failed = queue.submit({ recordingId, artifact: "export", lane: "heavy", input: "video" });
+  (await started(failed.attemptId)).fail(new Error("encoder exited with 1"));
+  await queue.idle();
+  expect(queue.status(recordingId, "export")).toEqual({
+    state: "failed",
+    jobId: failed.jobId,
+    reason: "encoder exited with 1",
+    retryable: true,
+    published: null,
+  });
+  const retried = queue.retry(failed.jobId);
+  expect(retried.attemptId).not.toBe(failed.attemptId);
+  (await started(retried.attemptId)).finish("export-a");
+  await queue.idle();
+  expect(queue.status(recordingId, "export").published).toMatchObject({ result: "export-a" });
+  expect(queue.retry(failed.jobId)).toEqual(queue.job(failed.jobId));
+});
