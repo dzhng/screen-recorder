@@ -1,5 +1,7 @@
 export const REQUEST_FRAME_BYTES = 1024 * 1024;
 export const RESPONSE_FRAME_BYTES = 8 * 1024 * 1024;
+export const CONTROL_FRAME_BYTES = 64 * 1024;
+export const MAX_PENDING_CONTROL_CALLS = 32;
 export const DEFAULT_CALL_TIMEOUT_MS = 10_000;
 
 export class FrameError extends Error {
@@ -67,5 +69,70 @@ export class JsonLineReader {
     if (!this.complete)
       throw new FrameError("TRUNCATED_FRAME", "Connection ended before the JSON line terminator");
     return this.value;
+  }
+}
+
+export type JsonLineOutcome = { ok: true; value: unknown } | { ok: false; error: FrameError };
+
+// A long-lived pipe carries many frames, so an unreadable line must not poison the
+// rest of the stream: report it and resynchronize at the next terminator.
+export class JsonLineStream {
+  private pending: Buffer[] = [];
+  private bytes = 0;
+  private discarding = false;
+  constructor(private readonly maxBytes: number) {}
+  push(chunk: Uint8Array): JsonLineOutcome[] {
+    const outcomes: JsonLineOutcome[] = [];
+    let rest = Buffer.from(chunk.buffer, chunk.byteOffset, chunk.byteLength);
+    for (let end = rest.indexOf(10); end >= 0; end = rest.indexOf(10)) {
+      const line = rest.subarray(0, end);
+      rest = rest.subarray(end + 1);
+      if (this.discarding) {
+        this.reset();
+        continue;
+      }
+      if (this.bytes + line.byteLength + 1 > this.maxBytes) {
+        this.reset();
+        outcomes.push({ ok: false, error: new FrameError("FRAME_TOO_LARGE", OVERSIZED) });
+        continue;
+      }
+      this.pending.push(Buffer.from(line));
+      const complete = Buffer.concat(this.pending);
+      this.reset();
+      outcomes.push(decodeJsonLine(complete));
+    }
+    if (this.discarding) return outcomes;
+    if (this.bytes + rest.byteLength + 1 > this.maxBytes) {
+      this.reset();
+      this.discarding = true;
+      outcomes.push({ ok: false, error: new FrameError("FRAME_TOO_LARGE", OVERSIZED) });
+      return outcomes;
+    }
+    if (rest.byteLength > 0) {
+      this.pending.push(Buffer.from(rest));
+      this.bytes += rest.byteLength;
+    }
+    return outcomes;
+  }
+  finish(): FrameError | undefined {
+    if (this.bytes === 0 && !this.discarding) return undefined;
+    this.reset();
+    return new FrameError("TRUNCATED_FRAME", "Stream ended before the JSON line terminator");
+  }
+  private reset(): void {
+    this.pending = [];
+    this.bytes = 0;
+    this.discarding = false;
+  }
+}
+
+const OVERSIZED = "JSON frame exceeds the byte limit";
+
+function decodeJsonLine(line: Buffer): JsonLineOutcome {
+  try {
+    // Decode only a complete frame: multi-byte UTF-8 can cross pipe chunks.
+    return { ok: true, value: JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(line)) };
+  } catch {
+    return { ok: false, error: new FrameError("MALFORMED_FRAME", "Invalid UTF-8 or JSON") };
   }
 }

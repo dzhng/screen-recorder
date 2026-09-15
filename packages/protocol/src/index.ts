@@ -14,7 +14,7 @@ export function parseRequest(value: unknown): OperationRequest {
   return requestSchema.parse(value);
 }
 
-const operationErrorSchema = z.object({
+export const operationErrorSchema = z.object({
   code: z.string().min(1),
   message: z.string(),
   retryable: z.boolean(),
@@ -29,4 +29,26 @@ export const responseSchema = z.discriminatedUnion("ok", [
 ]);
 export type OperationResult = z.infer<typeof resultSchema>;
 export type OperationResponse = z.infer<typeof responseSchema>;
+
+// The app's inherited pipe carries many frames from one trusted peer, so an
+// unparsable request has no trustworthy correlation ID and answers with a null one
+// instead of closing the channel the way a single-request socket does.
+export const controlResponseSchema = z.discriminatedUnion("ok", [
+  successSchema.extend({ id: requestSchema.shape.id }),
+  failureSchema.extend({ id: requestSchema.shape.id.nullable() }),
+]);
+export const controlMessageSchema = z.discriminatedUnion("event", [
+  z
+    .object({
+      event: z.literal("started"),
+      pid: z.int().positive(),
+      socketPath: z.string().min(1),
+    })
+    .strict(),
+  z.object({ event: z.literal("failed"), error: operationErrorSchema }).strict(),
+  z.object({ event: z.literal("result"), response: controlResponseSchema }).strict(),
+]);
+export type ControlResponse = z.infer<typeof controlResponseSchema>;
+export type ControlMessage = z.infer<typeof controlMessageSchema>;
+
 export * from "./framing.js";

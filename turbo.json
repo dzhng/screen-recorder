@@ -13,6 +13,7 @@
       "dependsOn": ["build"]
     },
     "@screenrec/macos#build": {
+      "dependsOn": ["^build"],
       "cache": false,
       "outputs": []
     },

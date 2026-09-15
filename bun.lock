@@ -16,6 +16,12 @@
     "apps/macos": {
       "name": "@screenrec/macos",
       "version": "0.1.0",
+      "dependencies": {
+        "@screenrec/service": "workspace:*",
+      },
+      "devDependencies": {
+        "@screenrec/client": "workspace:*",
+      },
     },
     "apps/service": {
       "name": "@screenrec/service",
