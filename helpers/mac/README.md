@@ -27,9 +27,12 @@ retains the device's reported rate and channels. No app resampling or mixing occ
 Each result reports actual first/last sample times, rate and channels. Missing
 requested tracks and stream failures return interrupted status, never successful
 complete media. Healthy unchanged tails hold the last available frame and report
-`heldTailUs`. An interruption stops at the last available sample rather than
-inventing captured tail media. Abrupt termination recovery belongs to the
-capture-journal slice.
+`heldTailUs`. Stopping routinely lands while the encoder is still draining, so
+the held frame waits for the writer input to accept it instead of reading that
+backpressure as a broken take. Only a writer that has stopped accepting samples,
+or one that never drains within a bounded wait, truncates the take. An
+interruption stops at the last available sample rather than inventing captured
+tail media. Abrupt termination recovery belongs to the capture-journal slice.
 
 Hidden/minimized windows remain valid sources. ScreenCaptureKit can deliver
 blank frames while a window is hidden; these are preserved as delivered, not

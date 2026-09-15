@@ -223,7 +223,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
                 self.finishing = true
                 let endHost = self.stopHostUs ?? hostMicroseconds()
                 self.clock.resume(at: endHost)
-                var duration = max(0, self.clock.sourceTime(for: endHost) ?? 0)
+                let duration = max(0, self.clock.sourceTime(for: endHost) ?? 0)
                 self.failure = externalFailure ?? self.failure
                 if self.tracks["video"]?.samples == 0 {
                     self.failure =
@@ -231,88 +231,105 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
                         ?? CaptureFailure("NO_VIDEO", "Capture produced no usable video samples.")
                 }
                 if self.failure != nil {
-                    duration = min(duration, self.tracks["video"]?.end ?? 0)
+                    self.finalize(
+                        sourceDurationUs: min(duration, self.tracks["video"]?.end ?? 0),
+                        continuation: continuation)
                 } else if let video = self.tracks["video"], let last = self.lastVideo,
                     let end = video.end, duration > end
                 {
-                    var timing = CMSampleTimingInfo(
-                        duration: CMTime(value: 1, timescale: 30),
-                        presentationTimeStamp: CMTime(
-                            value: duration - 33_333, timescale: 1_000_000),
-                        decodeTimeStamp: .invalid)
-                    var tail: CMSampleBuffer?
-                    let status = CMSampleBufferCreateCopyWithNewTiming(
-                        allocator: kCFAllocatorDefault, sampleBuffer: last,
-                        sampleTimingEntryCount: 1, sampleTimingArray: &timing,
-                        sampleBufferOut: &tail)
-                    if status == noErr, let tail, video.input.isReadyForMoreMediaData,
-                        video.input.append(tail)
-                    {
-                        video.heldTailUs = duration - end
-                    } else {
-                        self.failure = CaptureFailure(
-                            "WRITE_FAILED", "Cannot preserve the final unchanged video frame.")
-                        duration = min(duration, end)
+                    self.holdTail(of: video, repeating: last, from: end, through: duration) {
+                        settled in
+                        self.finalize(sourceDurationUs: settled, continuation: continuation)
                     }
-                }
-                let sourceDuration = duration
-                let group = DispatchGroup()
-                for track in self.tracks.values {
-                    if track.samples == 0 {
-                        track.writer.cancelWriting()
-                        continue
-                    }
-                    track.writer.endSession(
-                        atSourceTime: CMTime(value: duration, timescale: 1_000_000))
-                    track.input.markAsFinished()
-                    group.enter()
-                    track.writer.finishWriting { group.leave() }
-                }
-                group.notify(queue: self.queue) {
-                    for track in self.tracks.values
-                    where track.samples > 0 && track.writer.status != .completed {
-                        self.failure =
-                            self.failure
-                            ?? CaptureFailure(
-                                "WRITE_FAILED",
-                                track.writer.error?.localizedDescription
-                                    ?? "Writer did not complete \(track.role).")
-                    }
-                    if self.request.microphone && (self.tracks["narration"]?.samples ?? 0) == 0 {
-                        self.failure =
-                            self.failure
-                            ?? CaptureFailure(
-                                "NO_NARRATION",
-                                "Microphone was requested but delivered no usable samples.")
-                    }
-                    if self.request.systemAudio && (self.tracks["system"]?.samples ?? 0) == 0 {
-                        self.failure =
-                            self.failure
-                            ?? CaptureFailure(
-                                "NO_SYSTEM_AUDIO",
-                                "System audio was requested but delivered no usable samples.")
-                    }
-                    let result = CaptureResult(
-                        state: self.failure == nil ? "complete" : "interrupted",
-                        source: self.request.source,
-                        width: self.width, height: self.height,
-                        durationUs: self.tracks["video"]?.samples == 0 ? 0 : sourceDuration,
-                        hostOriginUs: self.clock.originUs, pauses: self.clock.pauses,
-                        tracks: self.tracks.values.sorted { $0.role < $1.role }.map { track in
-                            CapturedTrack(
-                                role: track.role, file: track.file, firstSampleUs: track.first,
-                                lastSampleEndUs: track.end, samples: track.samples,
-                                droppedSamples: self.dropped[track.role, default: 0],
-                                omittedSamples: self.omitted[track.role, default: 0],
-                                heldTailUs: track.heldTailUs, sampleRate: track.sampleRate,
-                                channelCount: track.channelCount)
-                        }, failure: self.failure,
-                        systemAudioScope: self.request.systemAudio
-                            ? "whole-system-excluding-recorder" : "disabled"
-                    )
-                    continuation.resume(returning: result)
+                } else {
+                    self.finalize(sourceDurationUs: duration, continuation: continuation)
                 }
             }
+        }
+    }
+
+    /// Stretches a healthy take to its stop boundary by repeating the last delivered frame, and
+    /// reports the source duration the file actually reached. A take that cannot keep its tail
+    /// is interrupted and retains only its valid prefix.
+    private func holdTail(
+        of video: TrackWriter, repeating last: CMSampleBuffer, from lastSampleEndUs: Int64,
+        through durationUs: Int64, then settle: @escaping (Int64) -> Void
+    ) {
+        let timing = CMSampleTimingInfo(
+            duration: CMTime(value: 1, timescale: 30),
+            presentationTimeStamp: CMTime(value: durationUs - 33_333, timescale: 1_000_000),
+            decodeTimeStamp: .invalid)
+        HeldTailFrame.place(
+            last, at: timing, in: video.input, of: video.writer, on: queue
+        ) { reason in
+            guard reason == nil else {
+                self.failure = reason
+                settle(lastSampleEndUs)
+                return
+            }
+            video.heldTailUs = durationUs - lastSampleEndUs
+            settle(durationUs)
+        }
+    }
+
+    private func finalize(
+        sourceDurationUs: Int64, continuation: CheckedContinuation<CaptureResult, Never>
+    ) {
+        let group = DispatchGroup()
+        for track in tracks.values {
+            if track.samples == 0 {
+                track.writer.cancelWriting()
+                continue
+            }
+            track.writer.endSession(
+                atSourceTime: CMTime(value: sourceDurationUs, timescale: 1_000_000))
+            track.input.markAsFinished()
+            group.enter()
+            track.writer.finishWriting { group.leave() }
+        }
+        group.notify(queue: queue) {
+            for track in self.tracks.values
+            where track.samples > 0 && track.writer.status != .completed {
+                self.failure =
+                    self.failure
+                    ?? CaptureFailure(
+                        "WRITE_FAILED",
+                        track.writer.error?.localizedDescription
+                            ?? "Writer did not complete \(track.role).")
+            }
+            if self.request.microphone && (self.tracks["narration"]?.samples ?? 0) == 0 {
+                self.failure =
+                    self.failure
+                    ?? CaptureFailure(
+                        "NO_NARRATION",
+                        "Microphone was requested but delivered no usable samples.")
+            }
+            if self.request.systemAudio && (self.tracks["system"]?.samples ?? 0) == 0 {
+                self.failure =
+                    self.failure
+                    ?? CaptureFailure(
+                        "NO_SYSTEM_AUDIO",
+                        "System audio was requested but delivered no usable samples.")
+            }
+            let result = CaptureResult(
+                state: self.failure == nil ? "complete" : "interrupted",
+                source: self.request.source,
+                width: self.width, height: self.height,
+                durationUs: self.tracks["video"]?.samples == 0 ? 0 : sourceDurationUs,
+                hostOriginUs: self.clock.originUs, pauses: self.clock.pauses,
+                tracks: self.tracks.values.sorted { $0.role < $1.role }.map { track in
+                    CapturedTrack(
+                        role: track.role, file: track.file, firstSampleUs: track.first,
+                        lastSampleEndUs: track.end, samples: track.samples,
+                        droppedSamples: self.dropped[track.role, default: 0],
+                        omittedSamples: self.omitted[track.role, default: 0],
+                        heldTailUs: track.heldTailUs, sampleRate: track.sampleRate,
+                        channelCount: track.channelCount)
+                }, failure: self.failure,
+                systemAudioScope: self.request.systemAudio
+                    ? "whole-system-excluding-recorder" : "disabled"
+            )
+            continuation.resume(returning: result)
         }
     }
 }
