@@ -1,0 +1,472 @@
+{
+  "kind": "diagnostic",
+  "generatedAt": "2026-09-15",
+  "notAcceptanceEvidence": [
+    "Reference word timings are AMI automatic forced alignment, not manual truth: no filler timing precision/recall or boundary-error number is reported.",
+    "No audition of removals at returned ranges was performed.",
+    "Elapsed time and peak RSS are cold upstream-CLI process measurements including model load and first-run CoreML compilation; they are invalid for the warm resource gate and were not produced by a warm in-process production runner.",
+    "scripts/speech-eval.mjs evaluate was NOT run: no manually labeled dataset exists. Only the `run` execution path was used, with diagnostic clip manifests that carry no annotations.",
+    "No claim is made that these clips were held out of either model's pretraining; AMI is a widely redistributed public corpus and may be in either training set.",
+    "No engine is selected and no gate is passed or failed by this document."
+  ],
+  "source": {
+    "corpus": "AMI TS3003c, speaker B, headset channel 1",
+    "license": "CC BY 4.0",
+    "audio": {
+      "path": "/tmp/screenrec-speech-fixture-evidence/TS3003c.Headset-1.wav",
+      "sha256": "96989d4270d183ca3df0552fed5a655ee45378cb2059eb534e0c18549cbe5f02",
+      "unmodified": true
+    },
+    "annotation": {
+      "path": "/tmp/screenrec-speech-fixture-evidence/ami/words/TS3003c.B.words.xml",
+      "sha256": "c4f27fea8721ed687f2417edbf97dcc9111b44ad49a895e59cbe8ca3f941d788",
+      "timingProvenance": "automatic forced alignment",
+      "textProvenance": "human verbatim transcription"
+    }
+  },
+  "clipSelection": {
+    "method": "AMI speaker-B word annotations grouped at >1.5s intra-speaker gaps, merged at <4s, ranked by filler yield, greedily packed under a 300s budget; boundaries padded into the surrounding annotated silence.",
+    "annotationUsedFor": "clip windowing only; never as scoring truth",
+    "totalClipSeconds": 296.06,
+    "extraction": "ffmpeg -ss/-to re-encode to pcm_s16le 16 kHz mono; source file read-only"
+  },
+  "tokenMatching": {
+    "reference": "AMI <w> elements for speaker B inside the clip's annotated speech span, excluding punc/gap/vocalsound",
+    "normalization": "lowercase; non-alphanumeric split to whitespace (so L_C_D_ -> l c d and on/off -> on off); empty tokens dropped",
+    "alignment": "token-level Levenshtein with backtrace; equal/substitute/delete/insert",
+    "fillerVocabulary": [
+      "um",
+      "uh"
+    ],
+    "fillerRecallDefinition": "reference um/uh token aligned as equal to an emitted um/uh token",
+    "tokenErrorRate": "(sub+del+ins)/referenceTokens against the AMI reference, which annotates ONLY speaker B; insertions therefore include genuine cross-talk bleed from other speakers and are not all hallucination"
+  },
+  "engines": {
+    "parakeet": {
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+      "binarySha256": "1ee10f837a0e06c502fc4c1e14f27cb7d608181ccfb0d608a8351595023b47b4",
+      "cache": "/tmp/screenrec-speech-models/parakeet",
+      "network": "sandbox-deny-network"
+    },
+    "whisperkit": {
+      "runtimeRevision": "1e2a163736dfa5a198e637ae44c114e1c6d5cc2d",
+      "modelRevision": "0f63a7800b00dd0226abd051b906c246e1907482",
+      "binarySha256": "d9f54fc166d133b1fa69cc44733ccec799b5a0c46094b88a9644981d9105aa63",
+      "cache": "/tmp/screenrec-speech-models/whisperkit",
+      "network": "sandbox-deny-network"
+    }
+  },
+  "clips": [
+    {
+      "clipId": "ami-ts3003c-b-01",
+      "clipStartInSource": 463.67,
+      "clipEndInSource": 704.79,
+      "durationSeconds": 241.12,
+      "referenceTokens": 512,
+      "referenceUmUh": 151,
+      "referenceTruncated": 21,
+      "engines": {
+        "parakeet": {
+          "resultPath": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-01/run-1789470620397/result.json",
+          "emittedTokens": 454,
+          "emittedUmUh": 111,
+          "alignedEqual": 425,
+          "substituted": 23,
+          "deletedFromReference": 64,
+          "insertedNotInReference": 6,
+          "referenceUmUhMatched": 103,
+          "referenceUmUhDeleted": 41,
+          "referenceUmUhSubstituted": 7,
+          "referenceTruncatedDeleted": 11,
+          "tokenErrorRateVsAmiReference": 0.1816,
+          "elapsedSecondsColdCliIncludingStartup": 1.97,
+          "peakRssBytesColdCli": 146571264,
+          "warm": false,
+          "realTimeFactorColdCli": 0.008,
+          "resultSha256": "033dc7d79ad340b10162a2a9685f519542a079ba3291c9ee0964e1cf9b4d772a",
+          "upstreamRaw": [
+            {
+              "path": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-01/run-1789470620397/upstream/raw.json",
+              "sha256": "845d930bdbbe4cc940ea5086deffb74560f9f068c6970885fd14a32cd2d74d52"
+            }
+          ],
+          "resourcesTxt": {
+            "path": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-01/run-1789470620397/resources.txt",
+            "sha256": "0eacb8197dd2a165c09b6cb6e79cf0270aee1d05c6c4bc0f27f0832555a1a14a"
+          }
+        },
+        "whisperkit": {
+          "resultPath": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-01/run-1789470626606/result.json",
+          "emittedTokens": 299,
+          "emittedUmUh": 0,
+          "alignedEqual": 277,
+          "substituted": 19,
+          "deletedFromReference": 216,
+          "insertedNotInReference": 3,
+          "referenceUmUhMatched": 0,
+          "referenceUmUhDeleted": 141,
+          "referenceUmUhSubstituted": 10,
+          "referenceTruncatedDeleted": 17,
+          "tokenErrorRateVsAmiReference": 0.4648,
+          "elapsedSecondsColdCliIncludingStartup": 8.79,
+          "peakRssBytesColdCli": 588775424,
+          "warm": false,
+          "realTimeFactorColdCli": 0.036,
+          "resultSha256": "ddcf2e83498b9655ba00b7c2e3878e35ca310f498ea4f270c9f734370c7f6c2f",
+          "upstreamRaw": [
+            {
+              "path": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-01/run-1789470626606/upstream/ami-ts3003c-b-01.json",
+              "sha256": "2adfdf4a89536791f28283a2b2cd21bea297dbea894aca247fb425da2242ef82"
+            }
+          ],
+          "resourcesTxt": {
+            "path": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-01/run-1789470626606/resources.txt",
+            "sha256": "fc2572e1f3741eac4198bc858a83ba04f2e0c6dde370e4295f6de7cd2caa57d0"
+          }
+        }
+      },
+      "sourceRangeSeconds": [
+        463.67,
+        704.79
+      ],
+      "annotatedSilenceBeforeSeconds": 24.74,
+      "annotatedSilenceAfterSeconds": 5.46,
+      "boundaryRms": {
+        "head100ms": 0.00045,
+        "tail100ms": 0.00015
+      },
+      "otherSpeakerAnnotatedActivity": {
+        "A": {
+          "words": 0,
+          "seconds": 0
+        },
+        "C": {
+          "words": 0,
+          "seconds": 0
+        },
+        "D": {
+          "words": 0,
+          "seconds": 0
+        }
+      },
+      "audioSha256": "e576cb9c08808ed59d2dd019ce103482b49e83191ab8f2b5f69c398e65056d81"
+    },
+    {
+      "clipId": "ami-ts3003c-b-02",
+      "clipStartInSource": 1219.61,
+      "clipEndInSource": 1231.24,
+      "durationSeconds": 11.63,
+      "referenceTokens": 31,
+      "referenceUmUh": 10,
+      "referenceTruncated": 2,
+      "engines": {
+        "parakeet": {
+          "resultPath": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-02/run-1789470587460/result.json",
+          "emittedTokens": 28,
+          "emittedUmUh": 7,
+          "alignedEqual": 25,
+          "substituted": 2,
+          "deletedFromReference": 4,
+          "insertedNotInReference": 1,
+          "referenceUmUhMatched": 7,
+          "referenceUmUhDeleted": 2,
+          "referenceUmUhSubstituted": 1,
+          "referenceTruncatedDeleted": 1,
+          "tokenErrorRateVsAmiReference": 0.2258,
+          "elapsedSecondsColdCliIncludingStartup": 18.89,
+          "peakRssBytesColdCli": 530432000,
+          "warm": false,
+          "realTimeFactorColdCli": 1.625,
+          "resultSha256": "c38eb48d3e42ee70090651fbe67fe3f103dde81bd6287502fcc095c9a0301eee",
+          "upstreamRaw": [
+            {
+              "path": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-02/run-1789470587460/upstream/raw.json",
+              "sha256": "56ee7743f34ca0128320b509dce198714401e737835fe3c4d7aea7f315dd7961"
+            }
+          ],
+          "resourcesTxt": {
+            "path": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-02/run-1789470587460/resources.txt",
+            "sha256": "82ab90c1cf4be1d3b883520f63508db2790433f9552b9b2896d15089ea5cd410"
+          }
+        },
+        "whisperkit": {
+          "resultPath": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-02/run-1789470607636/result.json",
+          "emittedTokens": 18,
+          "emittedUmUh": 0,
+          "alignedEqual": 14,
+          "substituted": 4,
+          "deletedFromReference": 13,
+          "insertedNotInReference": 0,
+          "referenceUmUhMatched": 0,
+          "referenceUmUhDeleted": 8,
+          "referenceUmUhSubstituted": 2,
+          "referenceTruncatedDeleted": 1,
+          "tokenErrorRateVsAmiReference": 0.5484,
+          "elapsedSecondsColdCliIncludingStartup": 4.24,
+          "peakRssBytesColdCli": 378781696,
+          "warm": false,
+          "realTimeFactorColdCli": 0.364,
+          "resultSha256": "fde34517c9faf19ace83863052a4f966825bc205d5247ef36be906ea498095b9",
+          "upstreamRaw": [
+            {
+              "path": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-02/run-1789470607636/upstream/ami-ts3003c-b-02.json",
+              "sha256": "9fef0d2279cfd35ebecab5800e5ed701c142435cde13da795f02dcd7a72f791f"
+            }
+          ],
+          "resourcesTxt": {
+            "path": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-02/run-1789470607636/resources.txt",
+            "sha256": "d4734634b86a1294d15ab8ba94dab66886b1fc7d7abb037d5a4435b121428193"
+          }
+        }
+      },
+      "sourceRangeSeconds": [
+        1219.61,
+        1231.24
+      ],
+      "annotatedSilenceBeforeSeconds": 9.2,
+      "annotatedSilenceAfterSeconds": 6.97,
+      "boundaryRms": {
+        "head100ms": 0.00015,
+        "tail100ms": 0.00042
+      },
+      "otherSpeakerAnnotatedActivity": {
+        "A": {
+          "words": 1,
+          "seconds": 0.01
+        },
+        "C": {
+          "words": 0,
+          "seconds": 0
+        },
+        "D": {
+          "words": 1,
+          "seconds": 0.61
+        }
+      },
+      "audioSha256": "6c201d4ac17719643583e8259870cc7aac954eaeb12179420f2f6d17768bec47"
+    },
+    {
+      "clipId": "ami-ts3003c-b-03",
+      "clipStartInSource": 1400.29,
+      "clipEndInSource": 1434.32,
+      "durationSeconds": 34.03,
+      "referenceTokens": 70,
+      "referenceUmUh": 20,
+      "referenceTruncated": 0,
+      "engines": {
+        "parakeet": {
+          "resultPath": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-03/run-1789470612252/result.json",
+          "emittedTokens": 72,
+          "emittedUmUh": 21,
+          "alignedEqual": 67,
+          "substituted": 3,
+          "deletedFromReference": 0,
+          "insertedNotInReference": 2,
+          "referenceUmUhMatched": 18,
+          "referenceUmUhDeleted": 0,
+          "referenceUmUhSubstituted": 2,
+          "referenceTruncatedDeleted": 0,
+          "tokenErrorRateVsAmiReference": 0.0714,
+          "elapsedSecondsColdCliIncludingStartup": 0.42,
+          "peakRssBytesColdCli": 113590272,
+          "warm": false,
+          "realTimeFactorColdCli": 0.012,
+          "resultSha256": "edfb5649a31cf6f66248953ab766740b845b4cbae4759bc933473858f3449ea1",
+          "upstreamRaw": [
+            {
+              "path": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-03/run-1789470612252/upstream/raw.json",
+              "sha256": "8210456fbcda0445245b7a89e9c3fde1e5c0a2652f22c1b4f5b0efbf09491606"
+            }
+          ],
+          "resourcesTxt": {
+            "path": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-03/run-1789470612252/resources.txt",
+            "sha256": "fdd65dfd1ce29ad4219862c5d3695211d41cecfe4e128b624a4f2413fa69f55b"
+          }
+        },
+        "whisperkit": {
+          "resultPath": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-03/run-1789470613740/result.json",
+          "emittedTokens": 46,
+          "emittedUmUh": 0,
+          "alignedEqual": 42,
+          "substituted": 4,
+          "deletedFromReference": 24,
+          "insertedNotInReference": 0,
+          "referenceUmUhMatched": 0,
+          "referenceUmUhDeleted": 17,
+          "referenceUmUhSubstituted": 3,
+          "referenceTruncatedDeleted": 0,
+          "tokenErrorRateVsAmiReference": 0.4,
+          "elapsedSecondsColdCliIncludingStartup": 2.5,
+          "peakRssBytesColdCli": 354402304,
+          "warm": false,
+          "realTimeFactorColdCli": 0.073,
+          "resultSha256": "6c56b637d78ad0a2dc367b2bfd40dcad41be355d8cc2de53492eb629f876b3ed",
+          "upstreamRaw": [
+            {
+              "path": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-03/run-1789470613740/upstream/ami-ts3003c-b-03.json",
+              "sha256": "5df6251c4b0af5c9561212567b0b49faaaf5f9a6f98c1fc0395175700456b361"
+            }
+          ],
+          "resourcesTxt": {
+            "path": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-03/run-1789470613740/resources.txt",
+            "sha256": "7dc556e6aae4de9de4bf8e9377252bedd6beae33e49aab5e5056ef91f6e4dfb4"
+          }
+        }
+      },
+      "sourceRangeSeconds": [
+        1400.29,
+        1434.32
+      ],
+      "annotatedSilenceBeforeSeconds": 5.35,
+      "annotatedSilenceAfterSeconds": 10.61,
+      "boundaryRms": {
+        "head100ms": 0.0013,
+        "tail100ms": 0.00072
+      },
+      "otherSpeakerAnnotatedActivity": {
+        "A": {
+          "words": 12,
+          "seconds": 3.96
+        },
+        "C": {
+          "words": 0,
+          "seconds": 0
+        },
+        "D": {
+          "words": 0,
+          "seconds": 0
+        }
+      },
+      "audioSha256": "64354a3da89f5c0c7ccda0fb3d138193689382e345e5e5a93612f5d50417a757"
+    },
+    {
+      "clipId": "ami-ts3003c-b-04",
+      "clipStartInSource": 1614.87,
+      "clipEndInSource": 1624.15,
+      "durationSeconds": 9.28,
+      "referenceTokens": 20,
+      "referenceUmUh": 4,
+      "referenceTruncated": 0,
+      "engines": {
+        "parakeet": {
+          "resultPath": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-04/run-1789470403273/result.json",
+          "emittedTokens": 20,
+          "emittedUmUh": 5,
+          "alignedEqual": 19,
+          "substituted": 1,
+          "deletedFromReference": 0,
+          "insertedNotInReference": 0,
+          "referenceUmUhMatched": 4,
+          "referenceUmUhDeleted": 0,
+          "referenceUmUhSubstituted": 0,
+          "referenceTruncatedDeleted": 0,
+          "tokenErrorRateVsAmiReference": 0.05,
+          "elapsedSecondsColdCliIncludingStartup": 16.38,
+          "peakRssBytesColdCli": 529743872,
+          "warm": false,
+          "realTimeFactorColdCli": 1.765,
+          "resultSha256": "de3d74410cdc49767066165961cb6ba32ec8a20f1d0397b769bc320a098d1dd2",
+          "upstreamRaw": [
+            {
+              "path": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-04/run-1789470403273/upstream/raw.json",
+              "sha256": "8caaeae16e4cac725f4e1f13169bc73e79449d71ecf2f6dc65ff474686a23ebb"
+            }
+          ],
+          "resourcesTxt": {
+            "path": "/tmp/screenrec-natural-speech-evidence/runs/parakeet/ami-ts3003c-b-04/run-1789470403273/resources.txt",
+            "sha256": "f661ac13484c860cfe255ff60ff4e61297022bf4837ad2987f66718a52730735"
+          }
+        },
+        "whisperkit": {
+          "resultPath": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-04/run-1789470424528/result.json",
+          "emittedTokens": 14,
+          "emittedUmUh": 0,
+          "alignedEqual": 14,
+          "substituted": 0,
+          "deletedFromReference": 6,
+          "insertedNotInReference": 0,
+          "referenceUmUhMatched": 0,
+          "referenceUmUhDeleted": 4,
+          "referenceUmUhSubstituted": 0,
+          "referenceTruncatedDeleted": 0,
+          "tokenErrorRateVsAmiReference": 0.3,
+          "elapsedSecondsColdCliIncludingStartup": 156.87,
+          "peakRssBytesColdCli": 1636122624,
+          "warm": false,
+          "realTimeFactorColdCli": 16.904,
+          "resultSha256": "e38ff7cb8ed79982096865053bc997b5460c19d88575a2b9feeb940f4a7803fc",
+          "upstreamRaw": [
+            {
+              "path": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-04/run-1789470424528/upstream/ami-ts3003c-b-04.json",
+              "sha256": "6b7ae8e03f9cabd67875c2f822b2367523889eaf071a89cd64a1527f51e70f02"
+            }
+          ],
+          "resourcesTxt": {
+            "path": "/tmp/screenrec-natural-speech-evidence/runs/whisperkit/ami-ts3003c-b-04/run-1789470424528/resources.txt",
+            "sha256": "2442c41b8256a05da0aceda1ea48b5b416423fc192648a99f0eba8aa5e549d35"
+          }
+        }
+      },
+      "sourceRangeSeconds": [
+        1614.87,
+        1624.15
+      ],
+      "annotatedSilenceBeforeSeconds": 4.06,
+      "annotatedSilenceAfterSeconds": 8.18,
+      "boundaryRms": {
+        "head100ms": 0.00024,
+        "tail100ms": 0.00029
+      },
+      "otherSpeakerAnnotatedActivity": {
+        "A": {
+          "words": 0,
+          "seconds": 0
+        },
+        "C": {
+          "words": 0,
+          "seconds": 0
+        },
+        "D": {
+          "words": 0,
+          "seconds": 0
+        }
+      },
+      "audioSha256": "07afb7e68cfc2797d2c683906979079be5c924f95e4160d7d6949ff44c210f6e"
+    }
+  ],
+  "totals": {
+    "clips": 4,
+    "referenceTokens": 633,
+    "referenceUmUh": 185,
+    "referenceTruncatedFalseStarts": 23,
+    "byEngine": {
+      "parakeet": {
+        "emittedTokens": 574,
+        "emittedUmUh": 144,
+        "referenceUmUhMatched": 132,
+        "referenceUmUhFractionMatched": 0.714,
+        "referenceUmUhDeleted": 43,
+        "referenceUmUhSubstituted": 10,
+        "truncatedFalseStartsDeleted": 12,
+        "tokenErrorRateVsAmiReference": 0.167,
+        "coldCliElapsedSecondsTotal": 37.7,
+        "coldCliPeakRssBytesMax": 530432000,
+        "timingValidForAcceptance": false
+      },
+      "whisperkit": {
+        "emittedTokens": 377,
+        "emittedUmUh": 0,
+        "referenceUmUhMatched": 0,
+        "referenceUmUhFractionMatched": 0.0,
+        "referenceUmUhDeleted": 170,
+        "referenceUmUhSubstituted": 15,
+        "truncatedFalseStartsDeleted": 18,
+        "tokenErrorRateVsAmiReference": 0.457,
+        "coldCliElapsedSecondsTotal": 172.4,
+        "coldCliPeakRssBytesMax": 1636122624,
+        "timingValidForAcceptance": false
+      }
+    }
+  }
+}
