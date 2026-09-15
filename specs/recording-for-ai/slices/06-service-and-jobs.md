@@ -12,6 +12,10 @@ The [app-service lifetime subpass](06c-app-service-lifetime.md) depends on 00 an
 06b, so idle process ownership can be verified independently of remaining audio
 recovery gates. Its completion does not prove capture reconciliation.
 
+The [library operation binding](06e-library-operations.md) gives both existing
+transports access to the core catalog and edit engine. It can be verified before
+native capture control and persistent artifact jobs are connected.
+
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
 harness entrypoints to create in this slice, not existing executable claims.

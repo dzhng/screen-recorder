@@ -237,3 +237,16 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
 - **Reach:** Quit can take the remainder of the probe deadline and escalation;
   forced app death while probing a noncooperative executable is outside this guarantee.
 - **Verdict:** Sound. **Confidence:** High.
+
+## Service library binding
+
+### Sound — medium confidence
+
+- **Choice:** Open the catalog during service startup, after claiming ownership,
+  and make an unusable catalog a reported startup failure.
+- **Gap:** The plan specified one catalog writer but did not say whether opening
+  the database was eager or deferred until the first library call.
+- **Reach:** Ordinary launch creates the empty catalog; readiness now means the
+  library can be opened as well as the socket. A damaged catalog prevents a false
+  ready state and is reported through the existing bounded startup path.
+- **Verdict:** Sound. **Confidence:** Medium.

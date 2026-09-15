@@ -11,10 +11,10 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@screenrec/core": "workspace:*",
     "@screenrec/protocol": "workspace:*"
   },
   "devDependencies": {
-    "@screenrec/client": "workspace:*",
-    "@screenrec/core": "workspace:*"
+    "@screenrec/client": "workspace:*"
   }
 }

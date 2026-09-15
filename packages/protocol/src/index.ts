@@ -52,3 +52,4 @@ export type ControlResponse = z.infer<typeof controlResponseSchema>;
 export type ControlMessage = z.infer<typeof controlMessageSchema>;
 
 export * from "./framing.js";
+export * from "./operations.js";

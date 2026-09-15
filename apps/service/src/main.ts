@@ -1,3 +1,6 @@
+import { randomUUID } from "node:crypto";
+import { RevisionStore } from "@screenrec/core/library";
+import { operate } from "./operations.js";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 import {
@@ -14,9 +17,6 @@ import {
 } from "@screenrec/protocol";
 import { listenLocal, type LocalListener } from "./index.js";
 import { StartupFailure, claimStartup, type StartupClaim } from "./startup.js";
-
-/** How much of an unknown operation name an error message may quote back. */
-const ECHOED_OPERATION_CHARS = 120;
 
 export function serviceHome(environment: NodeJS.ProcessEnv = process.env): string {
   const override = environment.SCREENREC_HOME;
@@ -40,18 +40,6 @@ function failure(code: string, message: string): OperationResult {
 
 function rejection(id: string | null, code: string, message: string): ControlResponse {
   return { id, ok: false, error: { code, message, retryable: false, details: {} } };
-}
-
-/** Health is a no-argument operation, so nonempty params describe a caller mistake. */
-function operate(request: OperationRequest, health: () => unknown): OperationResult {
-  if (request.operation !== "service.health")
-    return failure(
-      "UNKNOWN_OPERATION",
-      `Unknown service operation: ${request.operation.slice(0, ECHOED_OPERATION_CHARS)}`,
-    );
-  if (Object.keys(request.params).length > 0)
-    return failure("INVALID_PARAMS", "service.health accepts no params");
-  return { ok: true, data: health() };
 }
 
 async function main(): Promise<void> {
@@ -87,15 +75,22 @@ async function main(): Promise<void> {
     emit({ event: "result", response: rejection(null, "LIMIT_EXCEEDED", oversized) });
   };
 
-  let claim: StartupClaim;
+  let claim: StartupClaim | undefined;
+  let store: RevisionStore | undefined;
   let listener: LocalListener;
   try {
     claim = await claimStartup(runtimeDirectory);
+    store = new RevisionStore(join(home, "library.sqlite"), {
+      now: () => new Date().toISOString(),
+      newId: randomUUID,
+    });
     listener = await listenLocal({
       runtimeDirectory,
       handler: (request) => answer(request),
     });
   } catch (error) {
+    store?.close();
+    claim?.release();
     const startup = error instanceof StartupFailure;
     const occupied = startup
       ? error.code === "SOCKET_IN_USE"
@@ -116,8 +111,10 @@ async function main(): Promise<void> {
   }
 
   const socketPath = listener.socketPath;
+  const catalog = store;
+  const ownership = claim;
   function answer(request: OperationRequest): OperationResult {
-    return operate(request, () => healthData(started, socketPath, home));
+    return operate(request, catalog, () => healthData(started, socketPath, home));
   }
 
   const stream = new JsonLineStream(CONTROL_FRAME_BYTES);
@@ -161,9 +158,12 @@ async function main(): Promise<void> {
     stopping = true;
     process.stdin.pause();
     // libuv unlinks the path it bound; nothing here removes a socket it does not own.
-    // The startup lock outlives the listener so no other starter can claim the
-    // directory until this process is actually gone.
-    void listener.close().finally(() => claim.release());
+    // The startup lock outlives both the listener and catalog, so a replacement
+    // cannot become the metadata writer before this owner has closed them.
+    void listener.close().finally(() => {
+      catalog.close();
+      ownership.release();
+    });
   };
   process.stdin.on("data", (chunk: Buffer) => {
     for (const outcome of stream.push(chunk)) {

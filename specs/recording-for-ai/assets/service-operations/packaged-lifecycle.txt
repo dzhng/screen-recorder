@@ -1,0 +1,23 @@
+✔ ordinary launch owns one service child and answers health without starting capture (246.939041ms)
+✔ a native probe run owns no service and leaves the personal root untouched (95.071792ms)
+✔ normal quit stops the service and removes its socket within the deadline (178.302917ms)
+✔ abrupt app death closes the service through control-pipe EOF (206.463042ms)
+✔ a killed service is reported once, never restarted, and its path is reclaimed on relaunch (1898.209583ms)
+✔ a second owner reports the conflict and leaves the live socket and its owner alone (344.973625ms)
+✔ normal quit ends a ready child that honours neither EOF nor SIGTERM (6658.92975ms)
+✔ a missing interpreter is a reported startup failure, not a hidden retry (1143.209333ms)
+✔ unreadable control output fails the start and ends a child that ignores SIGTERM (2476.83175ms)
+✔ oversized control output fails the start (341.67325ms)
+✔ one startup budget covers a slow interpreter probe and a silent service (10589.948041ms)
+✔ an interpreter that never answers is abandoned inside the startup budget (2431.626292ms)
+✔ an interpreter that answers endlessly is abandoned rather than buffered (2394.319083ms)
+✔ simultaneous launches against one home leave exactly one owner (258.203917ms)
+✔ quitting during interpreter validation reaps the owned probe (2383.661667ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31717.958041

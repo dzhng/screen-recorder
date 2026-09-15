@@ -29,7 +29,7 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: integrate the cursor correction from Claude Opus in
+Current pickup: integrate the completed cursor correction from Claude Opus in
 `/tmp/screenrec-cursor`, then finish its actual placement gates. Candidate `4f870d5`
 builds and passes integrated capture/frame/worker tests; the own-window run is in
 [the cursor checkpoint](assets/cursor/review.md). Root retained a red/green delayed
@@ -39,8 +39,9 @@ and display/region placement remain unverified; computer-use access timed out.
 
 In parallel, Claude Opus is implementing durable recording lifecycle storage in
 `/tmp/screenrec-recording-lifecycle`. Integrate its core-only seam before adding
-capture control and journal reconciliation. App-service lifetime (06c) is reviewed
-and green, including quitting during interpreter validation. Recovery timing and
+capture control and journal reconciliation. App-service lifetime (06c) and library operation binding (06e) are reviewed and
+green, including quitting during interpreter validation and durable edits through
+the real service. Recovery timing and
 journal performance fixes, native frames, timeline/revision storage, transport and
 speech probe plumbing are integrated. A separate Opus lane in
 `/tmp/screenrec-audio-excerpts` is implementing native audio excerpts from resolved
@@ -65,6 +66,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
   - [x] [06b — Bounded local transport](slices/06b-local-transport.md) (independent after 00)
   - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md) (independent after 00, 06b)
+  - [x] [06e — Library operations through the service](slices/06e-library-operations.md) (independent after 06a–06c)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)

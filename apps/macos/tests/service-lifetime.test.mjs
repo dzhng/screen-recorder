@@ -161,8 +161,14 @@ test("ordinary launch owns one service child and answers health without starting
     "uptimeMs",
   ]);
   assert.equal(answer.data.pid, servicePid);
-  // Idle lifetime only: no capture ran, so the personal root holds nothing but the socket.
-  assert.deepEqual(readdirSync(home), ["run"]);
+  // Startup opens the catalog, but it must not allocate a take or capture media.
+  assert.deepEqual(readdirSync(home).sort(), ["library.sqlite", "run"]);
+  const latest = await callLocal(socketPath(home), {
+    id: "idle-latest",
+    operation: "recording.latest",
+    params: {},
+  });
+  assert.deepEqual(latest, { id: "idle-latest", ok: true, data: null });
   assert.doesNotMatch(instance.diagnostics, /capture|permission/i);
 });
 
