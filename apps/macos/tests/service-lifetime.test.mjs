@@ -119,16 +119,21 @@ function health(home, id) {
   return callLocal(socketPath(home), { id, operation: "service.health", params: {} });
 }
 
-/** Writes a stand-in interpreter that passes the version gate and then misbehaves. */
-function fakeNode(body) {
+/** Writes a stand-in interpreter whose whole behaviour this test controls. */
+function interpreter(script) {
   const path = join(temporary("/tmp/scr-fake-node-"), "node");
-  writeFileSync(
-    path,
-    `#!/bin/sh\nif [ "$1" = "--version" ]; then echo "v24.14.0"; exit 0; fi\n${body}\n`,
-  );
+  writeFileSync(path, `#!/bin/sh\n${script}\n`);
   chmodSync(path, 0o755);
   return path;
 }
+
+/** A stand-in that passes the version gate and then misbehaves as the service. */
+function fakeNode(body, version = 'echo "v24.14.0"; exit 0') {
+  return interpreter(`if [ "$1" = "--version" ]; then ${version}; fi\n${body}`);
+}
+
+/** A child that ignores SIGTERM, so only real escalation can end it. */
+const ignoresTermination = 'trap "" TERM\nwhile :; do /bin/sleep 1; done';
 
 test("ordinary launch owns one service child and answers health without starting capture", async () => {
   const home = temporary("/tmp/scr-app-");
@@ -233,6 +238,28 @@ test("a second owner reports the conflict and leaves the live socket and its own
   assert.equal((await health(home, "owner-still-serving")).data.pid, owner.servicePid);
 });
 
+test("normal quit ends a ready child that honours neither EOF nor SIGTERM", async () => {
+  const home = temporary("/tmp/scr-app-");
+  // Announces a listener, then reads nothing and refuses to die politely.
+  const deaf = fakeNode(
+    `echo "{\\"event\\":\\"started\\",\\"pid\\":$$,\\"socketPath\\":\\"${socketPath(home)}\\"}"\n${ignoresTermination}`,
+  );
+  const instance = launch(home, { SCREENREC_NODE: deaf });
+  const [, pid] = await instance.waitFor(/service ready pid=(\d+)/);
+  const started = Date.now();
+  instance.kill("SIGTERM");
+  await instance.exited;
+  const elapsed = Date.now() - started;
+  // The quit budget is EOF, then SIGTERM, then SIGKILL — bounded, and against this
+  // child's PID alone. Blocking on a child that never reads would exceed it.
+  assert.ok(elapsed < 12_000, `Quit outran its bounded budget, took ${elapsed}ms`);
+  await waitFor(
+    () => !alive(Number(pid)),
+    5_000,
+    () => `The deaf service ${pid} outlived its app`,
+  );
+});
+
 test("a missing interpreter is a reported startup failure, not a hidden retry", async () => {
   const home = temporary("/tmp/scr-app-");
   const instance = launch(home, { SCREENREC_NODE: "/nonexistent/node" });
@@ -244,17 +271,20 @@ test("a missing interpreter is a reported startup failure, not a hidden retry", 
   assert.equal(exists(socketPath(home)), false);
 });
 
-test("unreadable control output fails the start and terminates that child", async () => {
+test("unreadable control output fails the start and ends a child that ignores SIGTERM", async () => {
   const home = temporary("/tmp/scr-app-");
   const instance = launch(home, {
-    SCREENREC_NODE: fakeNode("echo 'not a control message'\nexec sleep 60"),
+    SCREENREC_NODE: fakeNode(`echo 'not a control message'\n${ignoresTermination}`),
   });
   await instance.waitFor(/service failed code=CONTROL_PROTOCOL/);
+  // A terminal failure that only asks politely leaves a live child holding the runtime
+  // directory, so the cleanup has to escalate within its own bounded deadline.
   await waitFor(
     () => instance.children().length === 0,
     5_000,
     () => "The faulty child was left running",
   );
+  assert.equal(instance.running, true);
 });
 
 test("oversized control output fails the start", async () => {
@@ -269,16 +299,68 @@ test("oversized control output fails the start", async () => {
   );
 });
 
-test("a silent service fails on the startup budget instead of waiting forever", async () => {
+test("one startup budget covers a slow interpreter probe and a silent service", async () => {
   const home = temporary("/tmp/scr-app-");
   const started = Date.now();
-  const instance = launch(home, { SCREENREC_NODE: fakeNode("exec sleep 60") });
+  const slowToAnswer = fakeNode("exec sleep 60", '/bin/sleep 1; echo "v24.14.0"; exit 0');
+  const instance = launch(home, { SCREENREC_NODE: slowToAnswer });
   await instance.waitFor(/service failed code=SERVICE_TIMEOUT/, 25_000);
-  assert.ok(Date.now() - started >= 10_000, "The startup budget must not be cut short");
+  const elapsed = Date.now() - started;
+  assert.ok(elapsed >= 10_000, `The startup budget must not be cut short, took ${elapsed}ms`);
+  // The budget is one deadline over resolution and readiness together. Restarting it
+  // after the probe would push this report past the interpreter's own delay.
+  assert.ok(elapsed < 13_000, `Startup outran its one budget, took ${elapsed}ms`);
   await waitFor(
     () => instance.children().length === 0,
     5_000,
     () => "The silent child was left running",
   );
   assert.equal(instance.running, true);
+});
+
+test("an interpreter that never answers is abandoned inside the startup budget", async () => {
+  const home = temporary("/tmp/scr-app-");
+  const started = Date.now();
+  const instance = launch(home, { SCREENREC_NODE: interpreter(ignoresTermination) });
+  await instance.waitFor(/service failed code=NODE_UNAVAILABLE/, 15_000);
+  const elapsed = Date.now() - started;
+  assert.ok(elapsed < 10_000, `A hung candidate consumed the whole budget, took ${elapsed}ms`);
+  await waitFor(
+    () => instance.children().length === 0,
+    5_000,
+    () => "The hung version probe was left running",
+  );
+  assert.equal(instance.running, true);
+  assert.equal(exists(socketPath(home)), false);
+});
+
+test("an interpreter that answers endlessly is abandoned rather than buffered", async () => {
+  const home = temporary("/tmp/scr-app-");
+  const flooding = `trap "" TERM\nwhile :; do /usr/bin/head -c 200000 /dev/zero | /usr/bin/tr '\\0' 'x'; done`;
+  const instance = launch(home, { SCREENREC_NODE: interpreter(flooding) });
+  await instance.waitFor(/service failed code=NODE_UNAVAILABLE/, 15_000);
+  await waitFor(
+    () => instance.children().length === 0,
+    5_000,
+    () => "The flooding version probe was left running",
+  );
+  assert.equal(instance.running, true);
+});
+
+test("simultaneous launches against one home leave exactly one owner", async () => {
+  const home = temporary("/tmp/scr-app-");
+  const instances = [launch(home), launch(home), launch(home)];
+  const outcomes = await Promise.all(
+    instances.map((instance) => instance.waitFor(/service (?:ready pid=(\d+)|failed code=(\w+))/)),
+  );
+  const owners = outcomes.filter((match) => match[1]).map((match) => Number(match[1]));
+  const refused = outcomes.filter((match) => match[2]).map((match) => match[2]);
+  assert.equal(
+    owners.length,
+    1,
+    `Expected one owner, saw ${JSON.stringify(outcomes.map((m) => m[0]))}`,
+  );
+  assert.deepEqual(refused, ["SOCKET_IN_USE", "SOCKET_IN_USE"]);
+  assert.equal(statSync(socketPath(home)).isSocket(), true);
+  assert.equal((await health(home, "sole-owner")).data.pid, owners[0]);
 });

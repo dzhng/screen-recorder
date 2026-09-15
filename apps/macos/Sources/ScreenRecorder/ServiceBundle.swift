@@ -14,6 +14,10 @@ struct ServiceBundle {
     let controlFrameBytes: Int
     let maxPendingCalls: Int
     let callTimeout: TimeInterval
+    /// When startup as a whole must have produced an answer. It is fixed before the
+    /// interpreter is probed, so resolving an interpreter and the child reporting its
+    /// listener share one budget instead of each getting a fresh one.
+    let startupDeadline: Date
 
     private struct Manifest: Decodable {
         let nodePath: String
@@ -22,26 +26,40 @@ struct ServiceBundle {
         let callTimeoutMs: Int
     }
 
+    /// Probing interpreters runs child processes, so resolution answers on a background
+    /// queue and the caller stays responsive while the startup deadline runs down.
     static func resolve(
-        in bundle: Bundle = .main, environment: [String: String] = ProcessInfo.processInfo.environment
-    ) -> Result<ServiceBundle, ServiceFailure> {
+        in bundle: Bundle = .main,
+        environment: [String: String] = ProcessInfo.processInfo.environment,
+        completion: @escaping @Sendable (Result<ServiceBundle, ServiceFailure>) -> Void
+    ) {
         guard let script = bundle.url(forResource: "main", withExtension: "mjs", subdirectory: "service"),
             let manifestURL = bundle.url(forResource: "runtime", withExtension: "json", subdirectory: "service"),
             let data = try? Data(contentsOf: manifestURL),
             let manifest = try? JSONDecoder().decode(Manifest.self, from: data)
         else {
-            return .failure(
-                ServiceFailure(
-                    code: "SERVICE_MISSING",
-                    message: "This build has no usable service in Contents/Resources/service"))
+            completion(
+                .failure(
+                    ServiceFailure(
+                        code: "SERVICE_MISSING",
+                        message: "This build has no usable service in Contents/Resources/service")))
+            return
         }
-        return NodeRuntime.resolve(recorded: manifest.nodePath, environment: environment).map { node in
-            ServiceBundle(
-                script: script,
-                node: node,
-                controlFrameBytes: manifest.controlFrameBytes,
-                maxPendingCalls: manifest.maxPendingCalls,
-                callTimeout: TimeInterval(manifest.callTimeoutMs) / 1000)
+        let callTimeout = TimeInterval(manifest.callTimeoutMs) / 1000
+        let deadline = Date().addingTimeInterval(callTimeout)
+        DispatchQueue.global(qos: .userInitiated).async {
+            completion(
+                NodeRuntime.resolve(
+                    recorded: manifest.nodePath, environment: environment, deadline: deadline
+                ).map { node in
+                    ServiceBundle(
+                        script: script,
+                        node: node,
+                        controlFrameBytes: manifest.controlFrameBytes,
+                        maxPendingCalls: manifest.maxPendingCalls,
+                        callTimeout: callTimeout,
+                        startupDeadline: deadline)
+                })
         }
     }
 }

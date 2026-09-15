@@ -48,6 +48,26 @@ Only the app composition reclaims a stale path, and only by proving the prior ow
 gone: a refused connection means nothing is listening, while a successful one means
 a live owner that is never unlinked and never killed. A listener killed outright
 cannot unlink its own path, so without that proof one crash would block every later
-launch. Same-user external replacement of a live path is outside this lifecycle
-contract. Existing runtime directories must already be owned and private; startup
-does not change permissions on an arbitrary pre-existing directory.
+launch. Anything at that path that is not a socket is refused rather than removed,
+since this lifecycle did not create it and cannot identify it. Same-user external
+replacement of a live path is outside this lifecycle contract. Existing runtime
+directories must already be owned and private; startup does not change permissions
+on an arbitrary pre-existing directory.
+
+Proving the previous owner gone is not the same as becoming the next one. Probing
+and removing are two syscalls, so simultaneous starters can all see a refused
+connection and each go on to unlink and bind, leaving several processes announcing
+one path. Startup therefore takes an exclusive advisory lock on `run/service.lock`
+before it inspects anything, using the atomic lock `open(2)` offers, and holds it
+for the process's life. The kernel releases that lock however the process dies,
+which is what a PID file or an inode comparison cannot observe, and the lock file
+is never unlinked because a later starter must lock the same inode. Every startup
+path takes it; a starter that cannot is a reported conflict, not a queued retry.
+
+Control output is answerable under load. An accepted request can name an operation
+too long to quote back inside the same frame, so an unencodable reply degrades to a
+bounded correlated error rather than becoming an unhandled failure that skips
+listener cleanup. A broken control output — the app dying while a reply is being
+written — closes the listener through the same path EOF uses, so the promised
+cleanup is not lost to a race between the two pipes. `service.health` takes no
+parameters and refuses the ones it is given.

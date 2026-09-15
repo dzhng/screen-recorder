@@ -13,7 +13,17 @@ service can close its listener and remove its own socket, then escalates by sign
 against that child's PID alone within a bounded deadline. A quit arriving as
 SIGTERM is routed through the normal terminate path, since a menu-bar agent has no
 window to close. If the app dies abruptly instead, the same pipe reaches EOF and
-the child stands itself down.
+the child stands itself down. A terminal failure follows the same bounded
+escalation: a child that answers neither EOF nor SIGTERM is killed rather than
+left holding the runtime directory, and every pending call settles with that
+failure instead of waiting on a channel nobody is serving.
+
+Control writes are queued asynchronously and bounded by the shared control-frame
+limit. A peer that stops reading its stdin therefore surfaces as a settled
+`LIMIT_EXCEEDED` rather than filling a pipe and blocking the queue that owns every
+pending call's deadline. The menu states readiness or an actionable failure;
+process identities, socket paths and interpreter versions are diagnostics and stay
+on stderr.
 
 Node 24 is a personal-host prerequisite, not a bundled runtime. A Finder launch
 inherits launchd's minimal environment rather than a developer shell's PATH, so
@@ -22,6 +32,14 @@ prefers that, falling back to the standard install locations and only then to
 PATH. Every candidate must answer `--version` with Node 24. Set `SCREENREC_NODE`
 to an absolute path to override; an override that fails is reported rather than
 quietly replaced, which is the whole point of setting one.
+
+Probing a candidate runs a real process, so it never runs on the main thread and
+never waits unbounded on one. Each candidate gets its own short budget, its output
+is read asynchronously and capped, and a candidate that answers nothing or answers
+endlessly is terminated and then killed. One ten-second budget covers interpreter
+resolution and the child reporting its listener together: the deadline is fixed
+before the first probe, so a slow interpreter spends the same budget the service
+would have, rather than starting a fresh one behind it.
 
 Command-line arguments still select the native capture probes, which run instead
 of the menu bar and without the service. Frame, recovery and capture behavior all

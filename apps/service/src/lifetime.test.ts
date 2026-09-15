@@ -1,6 +1,6 @@
 import { afterEach, expect, it } from "vitest";
 import { spawn } from "node:child_process";
-import { mkdtemp, rm, stat } from "node:fs/promises";
+import { lstat, mkdir, mkdtemp, rm, stat, symlink, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { callLocal } from "@screenrec/client";
@@ -12,6 +12,7 @@ import {
   type ControlMessage,
 } from "@screenrec/protocol";
 import { listenLocal } from "./index.js";
+import { claimStartup } from "./startup.js";
 
 const entry = fileURLToPath(new URL("../dist/main.js", import.meta.url));
 const cleanup: (() => Promise<void>)[] = [];
@@ -26,6 +27,7 @@ type Service = {
   request(id: string, operation?: string): void;
   awaiting(count: number): Promise<ControlMessage[]>;
   closeInput(): void;
+  dropOutput(): void;
   exit: Promise<{ code: number | null; signal: NodeJS.Signals | null }>;
 };
 
@@ -86,6 +88,7 @@ async function startService(home: string): Promise<Service> {
       send(JSON.stringify({ id, operation, params: {} }) + "\n"),
     awaiting,
     closeInput: () => child.stdin.end(),
+    dropOutput: () => child.stdout.destroy(),
     exit,
   };
 }
@@ -221,4 +224,122 @@ it("reclaims a socket path whose owner was killed without closing it", async () 
   expect(
     await callLocal(stale, { id: "reclaimed", operation: "service.health", params: {} }),
   ).toMatchObject({ id: "reclaimed", ok: true });
+});
+
+it("refuses a starter while another is still between probing and binding", async () => {
+  const home = await temporaryHome();
+  const claim = await claimStartup(join(home, "run"));
+  cleanup.push(async () => claim.release());
+  // Nothing is bound yet. This is exactly the window a check-then-unlink starter left
+  // open: it saw no socket, and so did everyone else who then bound over it.
+  await expect(stat(join(home, "run/service.sock"))).rejects.toMatchObject({ code: "ENOENT" });
+  const contender = await startService(home);
+  expect((await contender.awaiting(1))[0]).toMatchObject({
+    event: "failed",
+    error: { code: "SOCKET_IN_USE" },
+  });
+  expect(await contender.exit).toMatchObject({ code: 1 });
+  // Releasing the claim the way an abrupt death releases it lets the next starter in.
+  claim.release();
+  const next = await startService(home);
+  expect((await next.awaiting(1))[0]).toMatchObject({ event: "started" });
+});
+
+it("gives one live owner to a burst of simultaneous cold starts", async () => {
+  const home = await temporaryHome();
+  // Every starter races through the reclaim path, not just the bind: a killed owner
+  // leaves the socket that each of them has to prove dead before removing it.
+  const killed = await startService(home);
+  await killed.awaiting(1);
+  process.kill(killed.pid, "SIGKILL");
+  await killed.exit;
+  expect((await stat(join(home, "run/service.sock"))).isSocket()).toBe(true);
+  const starters = await Promise.all(Array.from({ length: 12 }, () => startService(home)));
+  const announced = await Promise.all(starters.map((starter) => starter.awaiting(1)));
+  const owners = announced.flat().filter((message) => message.event === "started");
+  const refused = announced.flat().filter((message) => message.event === "failed");
+  // Proving a previous owner gone is not the same as becoming the next one. Without
+  // mutual exclusion every starter that saw a refused connection went on to unlink and
+  // bind, and several announced themselves as the owner of one path.
+  expect(owners).toHaveLength(1);
+  expect(refused.map((message) => message.event === "failed" && message.error.code)).toEqual(
+    Array.from({ length: 11 }, () => "SOCKET_IN_USE"),
+  );
+  const owner = owners[0];
+  expect(owner?.event === "started" && owner.socketPath).toBe(join(home, "run/service.sock"));
+  expect(
+    await callLocal(join(home, "run/service.sock"), {
+      id: "sole-owner",
+      operation: "service.health",
+      params: {},
+    }),
+  ).toMatchObject({ ok: true, data: { pid: owner?.event === "started" && owner.pid } });
+});
+
+it.each([
+  ["a regular file", async (path: string) => writeFile(path, "not a socket", { mode: 0o600 })],
+  ["a symlink", async (path: string) => symlink("/etc/passwd", path)],
+])("refuses a socket path occupied by %s", async (_kind, occupy) => {
+  const home = await temporaryHome();
+  const runtimeDirectory = join(home, "run");
+  await mkdir(runtimeDirectory, { recursive: true, mode: 0o700 });
+  const occupied = join(runtimeDirectory, "service.sock");
+  await occupy(occupied);
+  const before = await lstat(occupied);
+  const service = await startService(home);
+  const [failed] = await service.awaiting(1);
+  expect(failed).toMatchObject({
+    event: "failed",
+    error: { code: "SERVICE_UNAVAILABLE", message: expect.stringContaining("is not a socket") },
+  });
+  expect(await service.exit).toMatchObject({ code: 1 });
+  // Startup never removes a path this lifecycle did not create and cannot identify.
+  expect((await lstat(occupied)).ino).toBe(before.ino);
+});
+
+it("refuses health parameters it does not take", async () => {
+  const service = await startService(await temporaryHome());
+  await service.awaiting(1);
+  service.send(
+    JSON.stringify({ id: "extra", operation: "service.health", params: { verbose: true } }) + "\n",
+  );
+  service.request("plain");
+  const answered = results(await service.awaiting(3));
+  expect(answered.find((response) => response.id === "extra")).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_PARAMS", retryable: false },
+  });
+  expect(answered.find((response) => response.id === "plain")).toMatchObject({ ok: true });
+});
+
+it("bounds a reply that cannot fit the control frame instead of dying on it", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home);
+  await service.awaiting(1);
+  // An accepted request can name an operation long enough that quoting it back does not
+  // fit the same frame. That must stay a correlated answer, not an unhandled failure
+  // that skips listener cleanup and abandons the socket.
+  const operation = "x".repeat(CONTROL_FRAME_BYTES - 200);
+  service.send(JSON.stringify({ id: "unquotable", operation, params: {} }) + "\n");
+  service.request("after-the-limit");
+  const answered = results(await service.awaiting(3));
+  expect(answered.find((response) => response.id === "unquotable")).toMatchObject({
+    ok: false,
+    error: { code: "UNKNOWN_OPERATION" },
+  });
+  expect(answered.find((response) => response.id === "after-the-limit")).toMatchObject({
+    ok: true,
+  });
+  expect((await stat(service.socketPath)).isSocket()).toBe(true);
+});
+
+it("closes its listener when control output breaks before the pipe reaches EOF", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home);
+  await service.awaiting(1);
+  const socketPath = service.socketPath;
+  service.dropOutput();
+  for (let index = 0; index < 200; index += 1) service.request(`unread-${index}`);
+  expect(await service.exit).toEqual({ code: 0, signal: null });
+  await expect(stat(socketPath)).rejects.toMatchObject({ code: "ENOENT" });
 });

@@ -20,6 +20,29 @@ export type LocalHandler = (
 ) => OperationResult | Promise<OperationResult>;
 export type LocalListener = { socketPath: string; close(): Promise<void> };
 
+/** The one socket a runtime directory holds; startup and the listener name it here. */
+export function serviceSocketPath(runtimeDirectory: string): string {
+  return join(runtimeDirectory, "service.sock");
+}
+
+/**
+ * Creates a missing runtime directory privately and refuses an existing one that is not
+ * already the current user's own 0700 directory. Startup never repairs permissions on a
+ * path it did not create, and never follows a symlink into one.
+ */
+export async function prepareRuntimeDirectory(runtimeDirectory: string): Promise<string> {
+  const resolved = resolve(runtimeDirectory);
+  await mkdir(resolved, { recursive: true, mode: 0o700 });
+  const directory = await lstat(resolved);
+  if (
+    !directory.isDirectory() ||
+    directory.uid !== process.getuid?.() ||
+    (directory.mode & 0o777) !== 0o700
+  )
+    throw new Error("Runtime directory must be private (0700) and owned by this user");
+  return resolved;
+}
+
 export async function listenLocal(options: {
   runtimeDirectory: string;
   handler: LocalHandler;
@@ -28,16 +51,8 @@ export async function listenLocal(options: {
   const readTimeoutMs = options.readTimeoutMs ?? DEFAULT_CALL_TIMEOUT_MS;
   if (!Number.isSafeInteger(readTimeoutMs) || readTimeoutMs <= 0 || readTimeoutMs > 2_147_483_647)
     throw new RangeError("Read timeout must be a positive supported timer interval");
-  const runtimeDirectory = resolve(options.runtimeDirectory);
-  await mkdir(runtimeDirectory, { recursive: true, mode: 0o700 });
-  const directory = await lstat(runtimeDirectory);
-  if (
-    !directory.isDirectory() ||
-    directory.uid !== process.getuid?.() ||
-    (directory.mode & 0o777) !== 0o700
-  )
-    throw new Error("Runtime directory must be private (0700) and owned by this user");
-  const socketPath = join(runtimeDirectory, "service.sock");
+  const runtimeDirectory = await prepareRuntimeDirectory(options.runtimeDirectory);
+  const socketPath = serviceSocketPath(runtimeDirectory);
   const sockets = new Set<Socket>();
   let accepting = false;
   const server = createServer((socket) => {

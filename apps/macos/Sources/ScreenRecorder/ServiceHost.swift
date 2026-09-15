@@ -23,6 +23,10 @@ final class ServiceHost: @unchecked Sendable {
         case unavailable(code: String, message: String)
     }
 
+    /// A call answered with this has no failure to report yet: the child is still
+    /// inside its startup budget.
+    static let startingCode = "SERVICE_STARTING"
+
     /// Bounded quit budget: EOF first, then signals against this child's own PID only.
     static let eofDeadline: TimeInterval = 4
     static let signalDeadline: TimeInterval = 2
@@ -39,6 +43,17 @@ final class ServiceHost: @unchecked Sendable {
     private var nextCall = 0
     private var stopping = false
     private var finished = false
+    private var writerClosed = false
+    private var outbound = 0
+    /// Control writes go through an asynchronous channel rather than a blocking file
+    /// handle. A child that stops reading its stdin must not stall the queue that owns
+    /// every pending call's deadline, and must not grow this process's memory.
+    private lazy var writer: DispatchIO = {
+        let handle = input.fileHandleForWriting
+        return DispatchIO(
+            type: .stream, fileDescriptor: handle.fileDescriptor, queue: queue,
+            cleanupHandler: { _ in try? handle.close() })
+    }()
 
     private let onState: @Sendable (State) -> Void
 
@@ -78,13 +93,14 @@ final class ServiceHost: @unchecked Sendable {
             }
             return
         }
-        // The startup budget is the shared call budget: a child that has not announced
-        // its listener within it is a startup failure, not something to keep waiting on.
-        queue.asyncAfter(deadline: .now() + bundle.callTimeout) { [weak self] in
+        // One startup budget covers interpreter resolution and this child's readiness,
+        // so what is left of it — not a fresh copy — bounds the wait for its listener.
+        queue.asyncAfter(deadline: .now() + max(0, bundle.startupDeadline.timeIntervalSinceNow)) {
+            [weak self] in
             guard let self, case .starting = state else { return }
             fail(
                 code: "SERVICE_TIMEOUT",
-                message: "Service did not report a listener within \(Int(bundle.callTimeout))s")
+                message: "Service was not ready within \(Int(bundle.callTimeout))s of launch")
         }
     }
 
@@ -106,7 +122,7 @@ final class ServiceHost: @unchecked Sendable {
         operation: String, _ completion: @escaping @Sendable (Result<Data, ServiceFailure>) -> Void
     ) {
         queue.async {
-            guard case .ready = self.state else {
+            guard case .ready = self.state, !self.stopping else {
                 completion(.failure(self.unavailableFailure()))
                 return
             }
@@ -131,13 +147,44 @@ final class ServiceHost: @unchecked Sendable {
                 guard let self, let waiting = pending.removeValue(forKey: id) else { return }
                 waiting(.failure(ServiceFailure(code: "TIMEOUT", message: "\(operation) did not answer in time")))
             }
-            // A child that died between the readiness check and this write must surface
-            // as a settled failure, never as a signal that tears the app down.
-            do { try self.input.fileHandleForWriting.write(contentsOf: line + Data([0x0a])) } catch {
+            // A child that died, or one that stopped reading, must surface as a settled
+            // failure here, never as a signal or a blocked queue.
+            if !self.send(line + Data([0x0a])) {
                 self.pending.removeValue(forKey: id)
-                completion(.failure(ServiceFailure(code: "SERVICE_STOPPED", message: "Service control channel is closed")))
+                completion(
+                    .failure(
+                        ServiceFailure(
+                            code: "LIMIT_EXCEEDED",
+                            message: "Service is not reading its control channel.")))
             }
         }
+    }
+
+    /// Queues one control line without ever blocking this queue, refusing it once the
+    /// unwritten backlog reaches the shared control-frame bound. Reaching that bound
+    /// means the peer has stopped reading entirely, which the caller is told about.
+    private func send(_ line: Data) -> Bool {
+        guard !writerClosed, outbound + line.count <= bundle.controlFrameBytes else { return false }
+        outbound += line.count
+        let chunk = line.withUnsafeBytes { DispatchData(bytes: $0) }
+        writer.write(offset: 0, data: chunk, queue: queue) { [weak self] done, _, error in
+            guard done, let self else { return }
+            outbound -= line.count
+            // Closing this channel deliberately cancels its outstanding writes, so only
+            // an error that is not our own teardown describes a lost peer.
+            if error != 0 && !stopping && !finished {
+                fail(code: "SERVICE_STOPPED", message: "Service control channel is closed")
+            }
+        }
+        return true
+    }
+
+    /// Closing the write channel is what gives the child EOF; its cleanup handler owns
+    /// the descriptor, so nothing else ever closes it.
+    private func closeWriter() {
+        guard !writerClosed else { return }
+        writerClosed = true
+        writer.close(flags: .stop)
     }
 
     /// Normal quit: close the control pipe so the child closes its listener and unlinks
@@ -145,7 +192,7 @@ final class ServiceHost: @unchecked Sendable {
     func shutdown() {
         queue.sync {
             stopping = true
-            try? input.fileHandleForWriting.close()
+            closeWriter()
         }
         guard child.isRunning else { return }
         if waitForExit(Self.eofDeadline) { return }
@@ -273,13 +320,25 @@ final class ServiceHost: @unchecked Sendable {
         if !finished {
             finished = true
             state = .unavailable(code: code, message: message)
-            if child.isRunning {
-                try? input.fileHandleForWriting.close()
-                kill(child.processIdentifier, SIGTERM)
-            }
+            closeWriter()
+            endChild()
             publish(state)
         }
         for waiting in settled.values { waiting(.failure(ServiceFailure(code: code, message: message))) }
+    }
+
+    /// A child that ignores EOF and SIGTERM is killed within the same bounded deadline
+    /// normal quit uses, so a failed start never leaves a live process holding the
+    /// runtime socket. The escalation is scheduled rather than awaited: this queue owns
+    /// every pending deadline and must keep running.
+    private func endChild() {
+        guard child.isRunning else { return }
+        let pid = child.processIdentifier
+        child.terminate()
+        queue.asyncAfter(deadline: .now() + Self.signalDeadline) { [weak self] in
+            guard let self, child.isRunning else { return }
+            kill(pid, SIGKILL)
+        }
     }
 
     private func publish(_ value: State) {
@@ -291,6 +350,10 @@ final class ServiceHost: @unchecked Sendable {
         if case .unavailable(let code, let message) = state {
             return ServiceFailure(code: code, message: message)
         }
-        return ServiceFailure(code: "SERVICE_STARTING", message: "Service has not reported a listener yet")
+        if stopping {
+            return ServiceFailure(code: "SERVICE_STOPPED", message: "Service is shutting down")
+        }
+        return ServiceFailure(
+            code: Self.startingCode, message: "Service has not reported a listener yet")
     }
 }

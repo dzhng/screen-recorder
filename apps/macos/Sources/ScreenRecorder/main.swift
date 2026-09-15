@@ -29,26 +29,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     /// Ordinary launch owns the service only. Nothing here starts capture or touches a
-    /// permission-gated API, so launching the app prompts for nothing.
+    /// permission-gated API, so launching the app prompts for nothing. Resolving the
+    /// interpreter runs child processes, so it answers back on the main actor rather
+    /// than holding it while a candidate is probed.
     private func startService() {
-        switch ServiceBundle.resolve() {
-        case .failure(let failure):
-            report(code: failure.code, message: failure.message)
-        case .success(let bundle):
-            let host = ServiceHost(bundle: bundle) { [weak self] state in
-                Task { @MainActor in self?.apply(state) }
+        apply(.starting)
+        ServiceBundle.resolve { [weak self] result in
+            Task { @MainActor in
+                guard let self else { return }
+                switch result {
+                case .failure(let failure):
+                    self.report(code: failure.code, message: failure.message)
+                case .success(let bundle):
+                    let host = ServiceHost(bundle: bundle) { [weak self] state in
+                        Task { @MainActor in self?.apply(state) }
+                    }
+                    self.service = host
+                    host.start()
+                }
             }
-            service = host
-            host.start()
         }
     }
 
     private func apply(_ state: ServiceHost.State) {
         switch state {
         case .starting:
-            show("Service: starting…")
+            show("Screen Recorder — Starting…")
         case .ready(let pid, let socketPath):
-            show("Service: ready (pid \(pid))")
+            show("Screen Recorder — Ready")
             log("service ready pid=\(pid) socket=\(socketPath)")
             // One real control round trip proves the inherited pipe, not just the spawn.
             requestHealth { health in
@@ -64,8 +72,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             Task { @MainActor in
                 switch result {
                 case .success(let health):
-                    self?.show("Service: ready (pid \(health.pid))")
+                    self?.show("Screen Recorder — Ready")
                     describe(health)
+                case .failure(let failure) where failure.code == ServiceHost.startingCode:
+                    // Opening the menu inside the startup budget is not a failure yet.
+                    self?.show("Screen Recorder — Starting…")
                 case .failure(let failure):
                     self?.report(code: failure.code, message: failure.message)
                 }
@@ -74,9 +85,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     /// A failed service is stated in the menu and on stderr; the app stays usable and
-    /// never retries in a hidden loop.
+    /// never retries in a hidden loop. The menu carries what the person can act on;
+    /// process identities and interpreter versions stay in the stderr diagnostics.
     private func report(code: String, message: String) {
-        show("Service: unavailable — \(message)")
+        show("Screen Recorder — Unavailable: \(message)")
         log("service failed code=\(code) message=\(message)")
     }
 

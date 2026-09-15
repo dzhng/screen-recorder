@@ -1,10 +1,9 @@
-import { connect } from "node:net";
 import { homedir } from "node:os";
-import { unlink } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import {
   CONTROL_FRAME_BYTES,
   MAX_PENDING_CONTROL_CALLS,
+  FrameError,
   JsonLineStream,
   encodeJsonLine,
   requestSchema,
@@ -14,35 +13,14 @@ import {
   type OperationResult,
 } from "@screenrec/protocol";
 import { listenLocal, type LocalListener } from "./index.js";
+import { StartupFailure, claimStartup, type StartupClaim } from "./startup.js";
+
+/** How much of an unknown operation name an error message may quote back. */
+const ECHOED_OPERATION_CHARS = 120;
 
 export function serviceHome(environment: NodeJS.ProcessEnv = process.env): string {
   const override = environment.SCREENREC_HOME;
   return override ? resolve(override) : join(homedir(), ".screen-recorder");
-}
-
-/**
- * The listener refuses an occupied path, so the app composition is what proves a
- * prior service dead. A refused connection means no listener is bound and the file
- * is a leftover; a successful connection means a live owner that must never be
- * unlinked or killed.
- */
-export async function reclaimDeadSocket(socketPath: string): Promise<boolean> {
-  const live = await new Promise<boolean>((settle) => {
-    const probe = connect(socketPath);
-    const finish = (value: boolean) => {
-      clearTimeout(timer);
-      probe.destroy();
-      settle(value);
-    };
-    const timer = setTimeout(() => finish(true), 1_000);
-    probe.on("connect", () => finish(true));
-    probe.on("error", (error) =>
-      finish(!["ECONNREFUSED", "ENOENT"].includes((error as NodeJS.ErrnoException).code ?? "")),
-    );
-  });
-  if (live) return false;
-  await unlink(socketPath).catch(() => {});
-  return true;
 }
 
 export function healthData(started: number, socketPath: string, home: string): unknown {
@@ -64,29 +42,70 @@ function rejection(id: string | null, code: string, message: string): ControlRes
   return { id, ok: false, error: { code, message, retryable: false, details: {} } };
 }
 
+/** Health is a no-argument operation, so nonempty params describe a caller mistake. */
+function operate(request: OperationRequest, health: () => unknown): OperationResult {
+  if (request.operation !== "service.health")
+    return failure(
+      "UNKNOWN_OPERATION",
+      `Unknown service operation: ${request.operation.slice(0, ECHOED_OPERATION_CHARS)}`,
+    );
+  if (Object.keys(request.params).length > 0)
+    return failure("INVALID_PARAMS", "service.health accepts no params");
+  return { ok: true, data: health() };
+}
+
 async function main(): Promise<void> {
   const home = serviceHome();
   const runtimeDirectory = join(home, "run");
   const started = performance.now();
-  const emit = (message: ControlMessage) =>
-    process.stdout.write(encodeJsonLine(message, CONTROL_FRAME_BYTES));
-  const reply = (response: ControlResponse) => emit({ event: "result", response });
 
+  // A frame this process cannot encode, and a peer that stopped reading, both have to
+  // stay reportable: neither may become an uncaught failure that skips listener cleanup.
+  const write = (message: ControlMessage): boolean => {
+    let frame: Buffer;
+    try {
+      frame = encodeJsonLine(message, CONTROL_FRAME_BYTES);
+    } catch (error) {
+      if (error instanceof FrameError) return false;
+      throw error;
+    }
+    try {
+      process.stdout.write(frame);
+    } catch {
+      // The stream is already torn down, so there is nowhere to put this frame. Its
+      // error event, or stdin reaching EOF, owns closing the listener.
+    }
+    return true;
+  };
+  const emit = (message: ControlMessage) => void write(message);
+  const oversized = "Response exceeds the control byte limit.";
+  const reply = (response: ControlResponse): void => {
+    if (write({ event: "result", response })) return;
+    const bounded = rejection(response.id, "LIMIT_EXCEEDED", oversized);
+    if (write({ event: "result", response: bounded })) return;
+    // Even the bounded form does not fit, so the correlation ID itself is the excess.
+    emit({ event: "result", response: rejection(null, "LIMIT_EXCEEDED", oversized) });
+  };
+
+  let claim: StartupClaim;
   let listener: LocalListener;
   try {
-    await reclaimDeadSocket(join(runtimeDirectory, "service.sock"));
+    claim = await claimStartup(runtimeDirectory);
     listener = await listenLocal({
       runtimeDirectory,
-      handler: (request) => operate(request),
+      handler: (request) => answer(request),
     });
   } catch (error) {
-    const occupied = (error as NodeJS.ErrnoException).code === "EADDRINUSE";
+    const startup = error instanceof StartupFailure;
+    const occupied = startup
+      ? error.code === "SOCKET_IN_USE"
+      : (error as NodeJS.ErrnoException).code === "EADDRINUSE";
     emit({
       event: "failed",
       error: {
         code: occupied ? "SOCKET_IN_USE" : "SERVICE_UNAVAILABLE",
-        message: occupied
-          ? `Another live service already owns ${runtimeDirectory}/service.sock`
+        message: startup
+          ? error.message
           : `Service could not open ${runtimeDirectory}: ${(error as Error).message}`,
         retryable: false,
         details: {},
@@ -97,10 +116,8 @@ async function main(): Promise<void> {
   }
 
   const socketPath = listener.socketPath;
-  function operate(request: OperationRequest): OperationResult {
-    if (request.operation !== "service.health")
-      return failure("UNKNOWN_OPERATION", `Unknown service operation: ${request.operation}`);
-    return { ok: true, data: healthData(started, socketPath, home) };
+  function answer(request: OperationRequest): OperationResult {
+    return operate(request, () => healthData(started, socketPath, home));
   }
 
   const stream = new JsonLineStream(CONTROL_FRAME_BYTES);
@@ -130,7 +147,7 @@ async function main(): Promise<void> {
     }
     pending += 1;
     void Promise.resolve()
-      .then(() => operate(parsed.data))
+      .then(() => answer(parsed.data))
       .catch(() => failure("INTERNAL_ERROR", "Service handler failed"))
       .then((result) => {
         pending -= 1;
@@ -144,7 +161,9 @@ async function main(): Promise<void> {
     stopping = true;
     process.stdin.pause();
     // libuv unlinks the path it bound; nothing here removes a socket it does not own.
-    void listener.close();
+    // The startup lock outlives the listener so no other starter can claim the
+    // directory until this process is actually gone.
+    void listener.close().finally(() => claim.release());
   };
   process.stdin.on("data", (chunk: Buffer) => {
     for (const outcome of stream.push(chunk)) {
@@ -157,6 +176,9 @@ async function main(): Promise<void> {
   process.stdin.on("end", stop);
   process.stdin.on("close", stop);
   process.stdin.on("error", stop);
+  // A dead reader breaks control output before EOF reaches stdin. Closing the listener
+  // here is what keeps the promised parent-death cleanup from being skipped.
+  process.stdout.on("error", stop);
   for (const signal of ["SIGTERM", "SIGINT", "SIGHUP"] as const) process.on(signal, stop);
 
   emit({ event: "started", pid: process.pid, socketPath });
