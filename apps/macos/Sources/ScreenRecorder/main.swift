@@ -5,6 +5,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        if CommandLine.arguments.count > 1 {
+            Task { await runCaptureProbe() }
+            return
+        }
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         item.button?.title = "ScreenRec"
         item.button?.setAccessibilityLabel("Screen Recorder")

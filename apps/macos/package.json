@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "build": "node ../../scripts/build-macos.mjs",
-    "test": "swift build --package-path ../../helpers/mac && node --test ../../helpers/mac/Tests/*.test.mjs"
+    "test": "swift run --package-path ../../helpers/mac ScreenRecorderCaptureTests && swift build --package-path ../../helpers/mac && node --test ../../helpers/mac/Tests/*.test.mjs"
   }
 }

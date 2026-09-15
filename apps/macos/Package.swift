@@ -5,5 +5,10 @@ let package = Package(
     name: "ScreenRecorder",
     platforms: [.macOS("26.0")],
     products: [.executable(name: "ScreenRecorder", targets: ["ScreenRecorder"])],
-    targets: [.executableTarget(name: "ScreenRecorder")]
+    dependencies: [.package(path: "../../helpers/mac")],
+    targets: [
+        .executableTarget(
+            name: "ScreenRecorder",
+            dependencies: [.product(name: "ScreenRecorderCapture", package: "mac")])
+    ]
 )
