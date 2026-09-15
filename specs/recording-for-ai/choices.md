@@ -150,3 +150,44 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   the appended frame. There is no polling loop or general retry framework.
 - **Confidence:** Medium. The precise budget is an engineering default, not a
   measured universal limit; a healthy case exceeding it warrants revisiting it.
+
+## Native acquisition and frame execution
+
+### Sound — medium confidence
+
+#### Record accepted audio ranges beside media
+
+- **When:** native recovery checkpoint.
+- **Choice:** When an audio buffer is accepted by the writer, append its time range
+  to the capture journal. Recovery intersects decoded audio with those ranges. For
+  example, if narration begins a quarter-second late, decoder-generated leading
+  silence cannot be mistaken for captured speech. Without the journal, decoded audio
+  remains accessible but is explicitly unverified as acquisition evidence.
+- **Gap:** The plan required honest usable audio intervals but did not account for
+  the platform decoder synthesizing padding inside a nonempty audio track.
+- **Reach:** Transcription must consume verified acquired ranges. Per-buffer journal
+  writes are flushed by normal OS writes; durable capture transitions synchronize
+  the journal. Sudden power-loss guarantees remain outside the tested contract.
+- **Verdict:** Sound. Media decoding proves readable bytes; the acquisition journal
+  separately proves what was recorded. Neither source of evidence substitutes for
+  the other.
+- **Confidence:** Medium. Generated PCM and actual device interruption still need
+  separate verification before accepting the full recording workflow.
+
+#### Expose frame execution as a native worker operation
+
+- **When:** 09a native decoder integration.
+- **Choice:** The core supplies an immutable source path, a time interval that survives
+  the edit, and a destination for the PNG. The native worker returns the actual frame
+  timestamp and file details. It does not search the library or reinterpret edits.
+  A later service pool can cancel a worker process without putting media decoding on
+  the menu-bar app's control thread.
+- **Gap:** The plan required a worker binding but did not prescribe its internal
+  request shape or allocation boundary.
+- **Reach:** The service must resolve revisions and allocate derivative paths before
+  dispatch. Frame caching, concurrency and cancellation remain service work; this
+  operation adds no second timeline owner.
+- **Verdict:** Sound. The operation is a thin boundary over the existing decoder,
+  with strict request fields and no additional library or state store.
+- **Confidence:** Medium. Worker lifetime and reuse still need measurement when the
+  service composes it into the complete inspection path.

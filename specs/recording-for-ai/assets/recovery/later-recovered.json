@@ -1,0 +1,66 @@
+{
+  "data": {
+    "durationUs": 11013333,
+    "journal": {
+      "file": "capture.journal.jsonl",
+      "finished": false,
+      "header": {
+        "height": 1064,
+        "microphone": false,
+        "schemaVersion": 1,
+        "sessionID": "7D80DD20-44BA-4C79-BAFC-FC66D736F43D",
+        "source": {
+          "kind": "window",
+          "windowID": 8210
+        },
+        "systemAudio": false,
+        "width": 1600
+      },
+      "incompleteTail": false,
+      "lastSequence": 3,
+      "originHostUs": 324425470436,
+      "pauses": []
+    },
+    "tracks": [
+      {
+        "acquisitionVerified": true,
+        "decodedSamples": 324,
+        "decodeReachedEnd": true,
+        "file": "video.mov",
+        "intervals": [
+          {
+            "endUs": 11013333,
+            "startUs": 0
+          }
+        ],
+        "role": "video"
+      },
+      {
+        "acquisitionVerified": true,
+        "decodedSamples": 0,
+        "decodeReachedEnd": false,
+        "failure": {
+          "code": "MISSING_MEDIA",
+          "message": "No narration source file is present."
+        },
+        "file": "narration.mov",
+        "intervals": [],
+        "role": "narration"
+      },
+      {
+        "acquisitionVerified": true,
+        "decodedSamples": 0,
+        "decodeReachedEnd": false,
+        "failure": {
+          "code": "MISSING_MEDIA",
+          "message": "No system source file is present."
+        },
+        "file": "system.mov",
+        "intervals": [],
+        "role": "system"
+      }
+    ]
+  },
+  "id": "journal-later",
+  "ok": true
+}

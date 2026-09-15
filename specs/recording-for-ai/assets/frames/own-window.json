@@ -1,0 +1,53 @@
+{
+  "sourceSHA256": "7742f6b8cd87b865a37ad552774edfa933c1ea19ab0277e51ee5fc62ab9268ee",
+  "results": [
+    {
+      "data": {
+        "actualSourceUs": 0,
+        "bytes": 129201,
+        "distanceUs": 0,
+        "file": "/Users/david/dev/screen-recorder/specs/recording-for-ai/assets/frames/own-window-start.png",
+        "height": 1064,
+        "mediaType": "image/png",
+        "requestedSourceUs": 0,
+        "sourceHeight": 1064,
+        "sourceWidth": 1600,
+        "width": 1600
+      },
+      "id": "own-window-start",
+      "ok": true
+    },
+    {
+      "data": {
+        "actualSourceUs": 149991667,
+        "bytes": 211325,
+        "distanceUs": 8333,
+        "file": "/Users/david/dev/screen-recorder/specs/recording-for-ai/assets/frames/own-window-middle.png",
+        "height": 1064,
+        "mediaType": "image/png",
+        "requestedSourceUs": 150000000,
+        "sourceHeight": 1064,
+        "sourceWidth": 1600,
+        "width": 1600
+      },
+      "id": "own-window-middle",
+      "ok": true
+    },
+    {
+      "data": {
+        "actualSourceUs": 300486667,
+        "bytes": 211215,
+        "distanceUs": 3333,
+        "file": "/Users/david/dev/screen-recorder/specs/recording-for-ai/assets/frames/own-window-end.png",
+        "height": 1064,
+        "mediaType": "image/png",
+        "requestedSourceUs": 300490000,
+        "sourceHeight": 1064,
+        "sourceWidth": 1600,
+        "width": 1600
+      },
+      "id": "own-window-end",
+      "ok": true
+    }
+  ]
+}

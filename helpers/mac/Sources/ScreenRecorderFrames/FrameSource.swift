@@ -19,7 +19,7 @@ public actor FrameSource {
         guard FileManager.default.fileExists(atPath: url.path) else {
             throw FrameFailure("NATIVE_DECODE_FAILED", "No source media at \(url.path).")
         }
-        self.url = url.standardizedFileURL
+        self.url = url.resolvingSymlinksInPath().standardizedFileURL
         asset = AVURLAsset(url: url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
         guard let video = try await asset.loadTracks(withMediaType: .video).first else {
             throw FrameFailure("NATIVE_DECODE_FAILED", "Source has no video track: \(url.path).")
@@ -142,14 +142,15 @@ public actor FrameSource {
         }
         if let crop = request.crop {
             guard crop.width > 0, crop.height > 0, crop.x >= 0, crop.y >= 0,
-                crop.x + crop.width <= width, crop.y + crop.height <= height
+                crop.x <= width, crop.y <= height,
+                crop.width <= width - crop.x, crop.height <= height - crop.y
             else {
                 throw FrameFailure(
                     "INVALID_RANGE",
                     "Crop \(crop.x),\(crop.y) \(crop.width)x\(crop.height) is outside the \(width)x\(height) source image.")
             }
         }
-        guard request.output.standardizedFileURL != url else {
+        guard request.output.resolvingSymlinksInPath().standardizedFileURL != url else {
             throw FrameFailure("INVALID_OUTPUT", "Frame output would overwrite the source media.")
         }
     }

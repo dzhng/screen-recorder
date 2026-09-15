@@ -1,0 +1,12 @@
+{
+  "label": "journal-before-first",
+  "killAfterFileMs": 251,
+  "requestedKillDelayMs": 250,
+  "bytes": 0,
+  "ffprobeStatus": 1,
+  "ffprobe": "{\n\n}\n",
+  "probeError": "[mov,mp4,m4a,3gp,3g2,mj2 @ 0x85b030000] moov atom not found\n/tmp/screenrec-recovery-journal-before-first/video.mov: Invalid data found when processing input\n",
+  "decodeStatus": 183,
+  "decodeError": "[in#0 @ 0x7eb010000] moov atom not found\n[in#0 @ 0x7eb00c000] Error opening input: Invalid data found when processing input\nError opening input file /tmp/screenrec-recovery-journal-before-first/video.mov.\nError opening input files: Invalid data found when processing input\n",
+  "appStderr": ""
+}

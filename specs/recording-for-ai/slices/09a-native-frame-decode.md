@@ -1,6 +1,8 @@
 # 09a — Native frame decoding within a kept interval
 
-Status: in progress. Independent prerequisite: native workspace (00). This extracts
+Status: implemented and verified; human visual checkpoint open until approximately
+09:05 UTC on 2026-09-15. No reply is needed to continue other work.
+Independent prerequisite: native workspace (00). This extracts
 09's decoding seam so existing generated and own-window media can verify it while
 service/recovery integration proceeds. It does not close 09, caching or audio.
 
@@ -40,3 +42,12 @@ microphone access. Root integration binds the decoder to the existing native wor
 
 Decoder internals and image-encoding details are delegated within these invariants.
 No alternate timeline, cursor overlay, semantic analysis or standalone media service.
+
+## Current checkpoint
+
+[Evidence and review](../assets/frames/review.md) cover generated H.264 selection,
+real worker requests, and beginning/middle/end frames from the existing five-minute
+own-window recording. Cursor media timestamps are mapped through the track's edit
+list into recording time before selection; decoding retains exact native time.
+Two independent-review defects (crop arithmetic overflow and source aliases) are
+fixed with red/green regressions. The full 09 slice remains open.

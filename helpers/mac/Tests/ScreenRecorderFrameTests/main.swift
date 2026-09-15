@@ -288,6 +288,11 @@ let rejected = await [
             "invalid", atSourceUs: 500_000, in: whole, from: source,
             crop: FrameCrop(x: 0, y: 220, width: 40, height: 40))
     },
+    "overflowing crop": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            crop: FrameCrop(x: Int.max, y: 0, width: 1, height: 1))
+    },
     "zero-size crop": failure {
         _ = try await decode(
             "invalid", atSourceUs: 500_000, in: whole, from: source,
@@ -317,6 +322,19 @@ let overwrite = await failure {
 precondition(
     overwrite?.code == "INVALID_OUTPUT",
     "Writing the frame over its own source must be rejected, got \(String(describing: overwrite))")
+let aliasDirectory = evidence.appendingPathComponent("source-alias")
+try? FileManager.default.removeItem(at: aliasDirectory)
+try FileManager.default.createSymbolicLink(at: aliasDirectory, withDestinationURL: evidence)
+let aliasOverwrite = await failure {
+    _ = try await source.decodeFrame(
+        FrameRequest(
+            atSourceUs: 500_000, kept: whole,
+            output: aliasDirectory.appendingPathComponent(stepsFixture.lastPathComponent)))
+}
+precondition(
+    aliasOverwrite?.code == "INVALID_OUTPUT",
+    "A directory symlink must not allow overwriting source media, got \(String(describing: aliasOverwrite))")
+try FileManager.default.removeItem(at: aliasDirectory)
 let sourceAfter = try Data(contentsOf: stepsFixture)
 precondition(sourceAfter == sourceBefore, "Rejected requests must not touch the source media")
 print("PASS \(rejected.count) invalid requests rejected, source media unchanged")

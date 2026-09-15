@@ -29,7 +29,7 @@ when bootstrapping; do not copy stale version numbers merely for visual similari
 | `packages/core` | Cohesive modules for library/revisions, pure timeline mapping, evidence selection, jobs, and export planning. Split modules by concept; no package per noun. |
 | `packages/client` | User-local socket client and app discovery. Used by CLI/MCP, never a second business-logic owner. |
 | `packages/test-harness` | Media fixtures, process drivers, CLI/MCP parity, evidence reports and installed journeys. |
-| `helpers/mac` | Swift package for ScreenCaptureKit, AVFoundation frame/render operations, capture journal and cursor geometry, plus the selected local speech runtime. Consumed by the app and a bounded media-worker executable. |
+| [helpers/mac](../../helpers/mac/README.md) | Swift package for ScreenCaptureKit, AVFoundation frame/render operations, capture journal and cursor geometry, plus the selected local speech runtime. Consumed by the app and a bounded media-worker executable. |
 | `scripts` | Build/bundle/install-to-personal-location orchestration and checks. No runtime editing behavior. |
 
 Do not create an empty package merely because this table names it; materialize each

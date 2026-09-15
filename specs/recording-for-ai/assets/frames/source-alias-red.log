@@ -1,0 +1,10 @@
+Building for debugging...
+[0/4] Write sources
+[1/4] Write swift-version--1AB21518FC5DEDBE.txt
+[3/6] Emitting module ScreenRecorderFrameTests
+[4/6] Compiling ScreenRecorderFrameTests main.swift
+[4/7] Write Objects.LinkFileList
+[5/7] Linking ScreenRecorderFrameTests
+[6/7] Applying ScreenRecorderFrameTests
+Build of product 'ScreenRecorderFrameTests' complete! (1.93s)
+ScreenRecorderFrameTests/main.swift:334: Precondition failed: A directory symlink must not allow overwriting source media, got nil

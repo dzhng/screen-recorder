@@ -1,5 +1,6 @@
 import Foundation
 import ScreenRecorderCapture
+import ScreenRecorderFrames
 
 public enum NativeWire {
     public static func respond(to line: String) async -> Data {
@@ -12,7 +13,18 @@ public enum NativeWire {
             let operation = request["operation"] as? String, !operation.isEmpty,
             let params = request["params"] as? [String: Any]
         {
-            if operation == "media.recover" {
+            if operation == "media.frame" {
+                do {
+                    let result = try await FrameOperation.execute(params)
+                    let data = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
+                    response = ["id": id, "ok": true, "data": data]
+                } catch let error as FrameFailure {
+                    response = failure(id: id, code: error.code, message: error.message)
+                } catch {
+                    response = failure(
+                        id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription)
+                }
+            } else if operation == "media.recover" {
                 if Set(params.keys) == ["directory"],
                     let directory = params["directory"] as? String, !directory.isEmpty
                 {

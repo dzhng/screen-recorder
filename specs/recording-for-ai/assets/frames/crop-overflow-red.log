@@ -1,0 +1,18 @@
+[0/1] Planning build
+Building for debugging...
+[0/7] Write sources
+[1/7] Write ScreenRecorderFrameTests-entitlement.plist
+[1/7] Write sources
+[3/7] Write swift-version--1AB21518FC5DEDBE.txt
+[5/12] Compiling ScreenRecorderFrames FrameSource.swift
+[6/12] Emitting module ScreenRecorderFrames
+[7/12] Compiling ScreenRecorderFrames FrameImage.swift
+[8/12] Compiling ScreenRecorderFrames SampleSelection.swift
+[9/12] Compiling ScreenRecorderFrames FrameTypes.swift
+[10/15] Compiling ScreenRecorderFrameTests FixtureMedia.swift
+[11/15] Emitting module ScreenRecorderFrameTests
+[12/15] Compiling ScreenRecorderFrameTests main.swift
+[12/15] Write Objects.LinkFileList
+[13/15] Linking ScreenRecorderFrameTests
+[14/15] Applying ScreenRecorderFrameTests
+Build of product 'ScreenRecorderFrameTests' complete! (1.83s)

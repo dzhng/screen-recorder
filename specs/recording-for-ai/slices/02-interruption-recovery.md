@@ -1,10 +1,13 @@
 # 02 — Recover interrupted source media
 
-Status: not started. Dependencies: 01.
+Status: native recovery checkpoint integrated; full slice remains in progress.
+Dependencies: 01. Generated PCM fragmentation verification and independent review
+are running. Service relaunch/reconciliation, stop-time kill, and audio audition
+remain open.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
-[verification](../verification.md) before implementation. Commands below are planned
-harness entrypoints to create in this slice, not existing executable claims.
+[verification](../verification.md) before implementation. The `lab:recovery` entrypoint below remains planned. Existing native checks run
+through `apps/macos` tests and the worker `media.recover` operation.
 
 ## Contract and API seam
 
@@ -42,3 +45,13 @@ iteration; full-suite closeout belongs to slice 15.
 
 If neither mechanism works, this slice remains failed and source-lifecycle dependents wait. A pure timeline or speech probe may continue independently.
 
+
+## Integrated checkpoint evidence
+
+The [recovery report](../assets/recovery/review.md) records actual own-window
+process kills and the merged worker tests. Fragmentation preserves a decoded video
+prefix after its first fragment; an earlier kill honestly returns zero usable video.
+The journal retains session identity and an unfinished pause. Audio availability is
+intersected with accepted sample ranges because the platform decoder may synthesize
+padding silence. This checkpoint does not prove device audio, service restart, or
+sudden power-loss durability.

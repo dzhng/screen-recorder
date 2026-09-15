@@ -1,0 +1,12 @@
+{
+  "label": "journal-early",
+  "killAfterFileMs": 3001,
+  "requestedKillDelayMs": 3000,
+  "bytes": 156886,
+  "ffprobeStatus": 0,
+  "ffprobe": "{\n    \"format\": {\n        \"duration\": \"1.013333\",\n        \"size\": \"156886\"\n    }\n}\n",
+  "probeError": "",
+  "decodeStatus": 0,
+  "decodeError": "",
+  "appStderr": ""
+}

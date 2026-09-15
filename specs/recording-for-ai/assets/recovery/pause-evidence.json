@@ -1,0 +1,12 @@
+{
+  "label": "journal-pause",
+  "killAfterFileMs": 8002,
+  "requestedKillDelayMs": 8000,
+  "bytes": 85481,
+  "ffprobeStatus": 0,
+  "ffprobe": "{\n    \"format\": {\n        \"duration\": \"0.998333\",\n        \"size\": \"85481\"\n    }\n}\n",
+  "probeError": "",
+  "decodeStatus": 0,
+  "decodeError": "",
+  "appStderr": ""
+}

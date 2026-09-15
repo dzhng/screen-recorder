@@ -123,3 +123,18 @@ consumers that need individual events stream that file. Types beside the reader
 are the response contract. Native recovery tests drive the worker with FFmpeg-made
 media fixtures; FFmpeg is a development fixture dependency, not an app dependency.
 Real device audio fragmentation and interruption still require capture evidence.
+
+## Frame inspection
+
+[ScreenRecorderFrames](Sources/ScreenRecorderFrames) selects and decodes within a
+kept interval supplied by the timeline owner. It never interprets edits. Sample
+cursor timestamps belong to media time; edit-list mappings translate them into
+the recording timeline before comparison. The selected exact native timestamp is
+retained for decoding, and the response reports the actual sample time and distance.
+
+The worker's `media.frame` request is defined by
+[FrameOperation](Sources/ScreenRecorderWire/FrameOperation.swift). It writes a PNG
+to a caller-allocated derivative path, validates crops against oriented dimensions,
+and preserves the original even when directory aliases name it. This boundary
+executes one request at a time; service-level cancellation, concurrency and caching
+belong to the app-managed service.

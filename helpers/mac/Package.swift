@@ -11,7 +11,7 @@ let package = Package(
         .executable(name: "screenrec-native", targets: ["ScreenRecorderNative"]),
     ],
     targets: [
-        .target(name: "ScreenRecorderWire", dependencies: ["ScreenRecorderCapture"]),
+        .target(name: "ScreenRecorderWire", dependencies: ["ScreenRecorderCapture", "ScreenRecorderFrames"]),
         .target(name: "ScreenRecorderCapture"),
         .target(name: "ScreenRecorderFrames"),
         .executableTarget(

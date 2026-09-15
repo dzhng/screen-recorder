@@ -29,9 +29,10 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish crash recovery, then connect the app-managed service.
-The reviewed native readiness fix is integrated. Socket transport is integrated;
-native frame decoding remains an independent active subpass. Timeline/revision storage, speech probe
+Current pickup: resolve native recovery review and PCM fragmentation evidence, then
+connect the app-managed service. The native readiness fix and socket transport are
+integrated. Native frame decoding and worker binding pass generated and own-window
+checks and independent integration review; its visual checkpoint is open. Timeline/revision storage, speech probe
 plumbing and the localhost workbench are integrated. Human transcription fidelity,
 all-source/audio capture and native menu interaction remain unverified. Consult
 owning slices before recreating work or accepting a downstream assumption.
