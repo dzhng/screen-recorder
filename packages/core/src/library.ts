@@ -7,13 +7,43 @@ import {
   type TimelineRevision,
   type TimeRange,
 } from "./timeline.js";
+export type RecordingState =
+  | "preparing"
+  | "recording"
+  | "paused"
+  | "finalizing"
+  | "complete"
+  | "interrupted"
+  | "canceled";
 export type Recording = Readonly<{
   recordingId: string;
+  sourceId: string;
   creationSequence: number;
   createdAt: string;
+  state: RecordingState;
+  lifecycleSequence: number;
+  interruptionReason: string | null;
   sourceDurationUs: number | null;
   currentRevisionId: string | null;
 }>;
+/** A capture session reports its device transitions here; core never derives them itself. */
+export type LifecycleEvent = Readonly<{ sourceId: string; sequence: number }> &
+  Readonly<
+    | { state: "recording" | "paused" | "finalizing" | "canceled" }
+    | { state: "complete"; sourceDurationUs: number }
+    | { state: "interrupted"; reason: string; sourceDurationUs: number | null }
+  >;
+const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = {
+  preparing: ["recording", "interrupted", "canceled"],
+  recording: ["recording", "paused", "finalizing", "interrupted", "canceled"],
+  paused: ["paused", "recording", "finalizing", "interrupted", "canceled"],
+  finalizing: ["finalizing", "complete", "interrupted", "canceled"],
+  complete: ["complete"],
+  interrupted: ["interrupted"],
+  canceled: ["canceled"],
+};
+const recordingColumns =
+  "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,sourceDurationUs,currentRevisionId";
 export class CatalogError extends Error {
   constructor(
     readonly code: string,
@@ -43,6 +73,18 @@ function argumentsKey(request: EditRequest): string {
           : null,
   ]);
 }
+/** A settled take can no longer leave its state, so a missing source is final rather than pending. */
+function isSettled(state: RecordingState): boolean {
+  return nextStates[state].every((next) => next === state);
+}
+function settledWithoutVideo(recording: Recording): CatalogError {
+  return isSettled(recording.state)
+    ? new CatalogError("UNAVAILABLE", "This take has no usable video", {
+        state: recording.state,
+        interruptionReason: recording.interruptionReason,
+      })
+    : new CatalogError("NOT_READY", "Source duration is not finalized", { state: recording.state });
+}
 export type HistoryCursor = Readonly<{
   recordingId: string;
   afterOrdinal: number;
@@ -60,8 +102,9 @@ export class RevisionStore {
     this.db = new DatabaseSync(path, { timeout: busyTimeoutMs });
     this.db.exec(`
    CREATE TABLE IF NOT EXISTS recordings (
-    creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,createdAt TEXT NOT NULL,
-    sourceDurationUs INTEGER,currentRevisionId TEXT
+    creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
+    allocationRequestId TEXT UNIQUE,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
+    interruptionReason TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
    ) STRICT;
    CREATE TABLE IF NOT EXISTS revisions (
     recordingId TEXT NOT NULL REFERENCES recordings(recordingId),id TEXT NOT NULL,ordinal INTEGER NOT NULL,content TEXT NOT NULL,
@@ -95,26 +138,81 @@ export class RevisionStore {
       throw error;
     }
   }
-  allocate(): Recording {
+  /** Reserves the recording and capture-source identity a native start needs, before it runs. */
+  allocate(allocationRequestId?: string): Recording {
     return this.transaction(() => {
+      const replay =
+        allocationRequestId === undefined
+          ? undefined
+          : this.db
+              .prepare(`SELECT ${recordingColumns} FROM recordings WHERE allocationRequestId=?`)
+              .get(allocationRequestId);
+      if (replay) return replay as Recording;
       const recordingId = this.providers.newId();
       this.db
-        .prepare("INSERT INTO recordings(recordingId,createdAt) VALUES (?,?)")
-        .run(recordingId, this.providers.now());
+        .prepare(
+          "INSERT INTO recordings(recordingId,sourceId,allocationRequestId,createdAt,state,lifecycleSequence) VALUES (?,?,?,?,'preparing',0)",
+        )
+        .run(
+          recordingId,
+          this.providers.newId(),
+          allocationRequestId ?? null,
+          this.providers.now(),
+        );
       return this.get(recordingId);
     });
   }
   get(recordingId: string): Recording {
-    const row = this.db.prepare("SELECT * FROM recordings WHERE recordingId=?").get(recordingId);
+    const row = this.db
+      .prepare(`SELECT ${recordingColumns} FROM recordings WHERE recordingId=?`)
+      .get(recordingId);
     if (!row) throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
     return row as Recording;
   }
   latest(): Recording | null {
     return (
-      (this.db.prepare("SELECT * FROM recordings ORDER BY creationSequence DESC LIMIT 1").get() as
-        | Recording
-        | undefined) ?? null
+      (this.db
+        .prepare(
+          `SELECT ${recordingColumns} FROM recordings WHERE state!='canceled' ORDER BY creationSequence DESC LIMIT 1`,
+        )
+        .get() as Recording | undefined) ?? null
     );
+  }
+  /**
+   * Applies one reported capture transition. Re-delivery of an already applied sequence keeps the
+   * stored state, and an event from a superseded session or a settled take is refused outright.
+   */
+  ingestLifecycle(recordingId: string, event: LifecycleEvent): Recording {
+    if (!Number.isSafeInteger(event.sequence) || event.sequence < 1)
+      throw new RangeError("A lifecycle sequence must be a positive safe integer");
+    return this.transaction(() => {
+      const recording = this.get(recordingId);
+      if (event.sourceId !== recording.sourceId)
+        throw new CatalogError("INVALID_STATE", "Event belongs to another capture session", {
+          sourceId: recording.sourceId,
+          reportedSourceId: event.sourceId,
+        });
+      if (event.sequence <= recording.lifecycleSequence) return recording;
+      if (!nextStates[recording.state].includes(event.state))
+        throw new CatalogError(
+          "INVALID_STATE",
+          `A ${recording.state} recording cannot become ${event.state}`,
+          { state: recording.state, reportedState: event.state },
+        );
+      if (event.state === "complete" || event.state === "interrupted")
+        this.attachSource(recording, event.sourceDurationUs);
+      this.db
+        .prepare(
+          "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=? WHERE recordingId=?",
+        )
+        .run(
+          event.state,
+          event.sequence,
+          event.state === "interrupted" ? event.reason : null,
+          recordingId,
+        );
+      return this.get(recordingId);
+    });
   }
   private insertRevision(recordingId: string, revision: TimelineRevision): void {
     this.db
@@ -124,25 +222,52 @@ export class RevisionStore {
       .prepare("UPDATE recordings SET currentRevisionId=? WHERE recordingId=?")
       .run(revision.id, recordingId);
   }
+  /**
+   * A null duration is a validated report that no video survived, so it and an attached duration
+   * refuse each other in both directions rather than one silently replacing the other.
+   */
+  private attachSource(recording: Recording, sourceDurationUs: number | null): void {
+    if (recording.state === "canceled")
+      throw new CatalogError("INVALID_STATE", "A canceled take keeps no source", {
+        state: recording.state,
+      });
+    if (recording.sourceDurationUs !== null) {
+      if (recording.sourceDurationUs !== sourceDurationUs)
+        throw new CatalogError("INVALID_STATE", "Source duration is immutable", {
+          sourceDurationUs: recording.sourceDurationUs,
+        });
+      return;
+    }
+    if (sourceDurationUs === null) return;
+    if (isSettled(recording.state))
+      throw new CatalogError("INVALID_STATE", "This take already reported no usable video", {
+        state: recording.state,
+        interruptionReason: recording.interruptionReason,
+      });
+    const original = createOriginalRevision(sourceDurationUs, this.providers.now());
+    this.insertRevision(recording.recordingId, original);
+    this.db
+      .prepare("UPDATE recordings SET sourceDurationUs=? WHERE recordingId=?")
+      .run(sourceDurationUs, recording.recordingId);
+  }
+  /** Attaches the validated source duration once, creating the original revision with it. */
   registerSource(recordingId: string, sourceDurationUs: number): Recording {
     return this.transaction(() => {
-      const recording = this.get(recordingId);
-      if (recording.sourceDurationUs !== null) {
-        if (recording.sourceDurationUs !== sourceDurationUs)
-          throw new CatalogError("INVALID_STATE", "Source duration is immutable");
-        return recording;
-      }
-      const original = createOriginalRevision(sourceDurationUs, this.providers.now());
-      this.insertRevision(recordingId, original);
-      this.db
-        .prepare("UPDATE recordings SET sourceDurationUs=? WHERE recordingId=?")
-        .run(sourceDurationUs, recordingId);
+      this.attachSource(this.get(recordingId), sourceDurationUs);
       return this.get(recordingId);
     });
   }
+  /** A discarded take keeps its row for replay and refusal, but none of its timeline is readable. */
+  private readable(recordingId: string): Recording {
+    const recording = this.get(recordingId);
+    if (recording.state === "canceled")
+      throw new CatalogError("UNAVAILABLE", "This take was discarded", { state: recording.state });
+    return recording;
+  }
   revision(recordingId: string, revisionId?: string): TimelineRevision {
-    const id = revisionId ?? this.get(recordingId).currentRevisionId;
-    if (id === null) throw new CatalogError("NOT_READY", "Source duration is not finalized");
+    const recording = this.readable(recordingId);
+    const id = revisionId ?? recording.currentRevisionId;
+    if (id === null) throw settledWithoutVideo(recording);
     const row = this.db
       .prepare("SELECT content FROM revisions WHERE recordingId=? AND id=?")
       .get(recordingId, id);
@@ -155,6 +280,7 @@ export class RevisionStore {
   }
   edit(recordingId: string, request: EditRequest): TimelineRevision {
     return this.transaction(() => {
+      this.readable(recordingId);
       const fingerprint = argumentsKey(request);
       const replay = this.db
         .prepare(
@@ -228,7 +354,7 @@ export class RevisionStore {
     cursor: HistoryCursor | null = null,
     limit = 100,
   ): { revisions: TimelineRevision[]; nextCursor: HistoryCursor | null } {
-    this.get(recordingId);
+    this.readable(recordingId);
     const afterOrdinal = cursor?.afterOrdinal ?? -1;
     const throughOrdinal =
       cursor?.throughOrdinal ??
