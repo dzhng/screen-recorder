@@ -144,13 +144,58 @@ test("truncated acquisition journal preserves known audio gaps and an unfinished
     assert.equal(result.journal.originHostUs, 1_000_000);
     assert.equal(result.journal.lastSequence, 6);
     assert.equal(result.journal.incompleteTail, true);
+    assert.equal(result.journal.invalidAtSequence, undefined);
     assert.equal(result.journal.openPauseHostUs, 1_700_000);
     assert.deepEqual(result.journal.pauses, []);
+    assert.equal(result.tracks[2].failure.code, "NOT_REQUESTED");
     assert.deepEqual(result.tracks[1].intervals, [
       { startUs: 250_000, endUs: 400_000 },
       { startUs: 500_000, endUs: 700_000 },
     ]);
     assert.equal(result.tracks[1].acquisitionVerified, true);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("a journal record that will not decode is named instead of silently dropped", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-journal-invalid-test-"));
+  try {
+    audio(directory);
+    const records = [
+      {
+        sequence: 1,
+        event: "header",
+        data: {
+          schemaVersion: 1,
+          sessionID: "fixture-session",
+          source: { kind: "window", windowID: 1 },
+          width: 160,
+          height: 90,
+          microphone: true,
+          systemAudio: false,
+        },
+      },
+      { sequence: 2, event: "origin", data: { hostUs: 1_000_000 } },
+      {
+        sequence: 3,
+        event: "audioSamples",
+        data: { role: "narration", startUs: 250_000, endUs: 700_000 },
+      },
+      { sequence: 4, event: "pauseBegan", data: { hostUs: "not-a-timestamp" } },
+      { sequence: 5, event: "finished", data: { state: "complete" } },
+    ];
+    writeFileSync(
+      join(directory, "capture.journal.jsonl"),
+      records.map(JSON.stringify).join("\n") + "\n",
+    );
+    const result = recover(directory);
+    assert.equal(result.journal.invalidAtSequence, 4);
+    assert.equal(result.journal.incompleteTail, false);
+    assert.equal(result.journal.lastSequence, 3);
+    assert.equal(result.journal.originHostUs, 1_000_000);
+    assert.equal(result.journal.finished, false);
+    assert.deepEqual(result.tracks[1].intervals, [{ startUs: 250_000, endUs: 700_000 }]);
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }

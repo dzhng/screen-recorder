@@ -56,6 +56,23 @@ public struct CapturedTrack: Codable, Sendable {
 }
 
 public struct CaptureResult: Codable, Sendable {
+    public init(
+        state: String, source: CaptureSource, width: Int, height: Int, durationUs: Int64,
+        hostOriginUs: Int64?, pauses: [PauseEvent], tracks: [CapturedTrack],
+        failure: CaptureFailure?, systemAudioScope: String
+    ) {
+        self.state = state
+        self.source = source
+        self.width = width
+        self.height = height
+        self.durationUs = durationUs
+        self.hostOriginUs = hostOriginUs
+        self.pauses = pauses
+        self.tracks = tracks
+        self.failure = failure
+        self.systemAudioScope = systemAudioScope
+    }
+
     public let state: String
     public let source: CaptureSource
     public let width: Int

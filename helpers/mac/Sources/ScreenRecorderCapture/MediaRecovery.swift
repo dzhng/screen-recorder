@@ -1,5 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
+import ScreenRecorderMediaTime
 
 public struct MediaInterval: Codable, Sendable, Equatable {
     public let startUs: Int64
@@ -36,16 +37,18 @@ public enum MediaRecovery {
                 await inspectTrack(
                     role: role, directory: directory,
                     acquired: journal?.header == nil
-                        ? nil : journal?.acquiredAudio[role, default: []]))
+                        ? nil : journal?.acquiredAudio[role, default: []],
+                    requested: journal?.header?.requested(role)))
         }
         return RecoveredCapture(
-            durationUs: tracks[0].intervals.last?.endUs ?? 0, tracks: tracks, journal: journal,
-            journalFailure: journalFailure)
+            durationUs: tracks.first { $0.role == "video" }?.intervals.last?.endUs ?? 0,
+            tracks: tracks, journal: journal, journalFailure: journalFailure)
     }
 
-    private static func inspectTrack(role: String, directory: String, acquired: [MediaInterval]?)
-        async -> RecoveredTrack
-    {
+    /// `requested` is nil when no journal header says whether this take asked for the role.
+    private static func inspectTrack(
+        role: String, directory: String, acquired: [MediaInterval]?, requested: Bool?
+    ) async -> RecoveredTrack {
         let file = "\(role).mov"
         let url = URL(fileURLWithPath: directory).appendingPathComponent(file)
         var intervals: [MediaInterval] = []
@@ -54,7 +57,12 @@ public enum MediaRecovery {
         var failure: CaptureFailure?
         do {
             guard FileManager.default.fileExists(atPath: url.path) else {
-                throw CaptureFailure("MISSING_MEDIA", "No \(role) source file is present.")
+                // A role the header never requested is absent by design. Only an absence the
+                // journal cannot explain is a loss.
+                throw requested == false
+                    ? CaptureFailure(
+                        "NOT_REQUESTED", "This take did not request \(role) audio.")
+                    : CaptureFailure("MISSING_MEDIA", "No \(role) source file is present.")
             }
             let asset = AVURLAsset(url: url)
             guard
@@ -79,8 +87,10 @@ public enum MediaRecovery {
             guard reader.startReading() else {
                 throw reader.error ?? CaptureFailure("DECODE_FAILED", "Cannot read \(role).")
             }
+            let segments = SourceSegment.occupied(of: try await track.load(.segments))
             var firstVideoTime: CMTime?
             var lastVideoTime: CMTime?
+            var unknownTail: CaptureFailure?
             while let interval = autoreleasepool(invoking: { () -> MediaInterval? in
                 guard let sample = output.copyNextSampleBuffer() else { return nil }
                 let start = CMSampleBufferGetPresentationTimeStamp(sample)
@@ -111,14 +121,7 @@ public enum MediaRecovery {
                         preferredTimescale: 1_000_000_000)
                 }
                 return MediaInterval(
-                    startUs: CMTimeConvertScale(
-                        start, timescale: 1_000_000, method: .roundHalfAwayFromZero
-                    ).value,
-                    endUs: CMTimeConvertScale(
-                        CMTimeAdd(start, duration), timescale: 1_000_000,
-                        method: .roundHalfAwayFromZero
-                    ).value
-                )
+                    startUs: microseconds(start), endUs: microseconds(CMTimeAdd(start, duration)))
             }) {
                 samples += 1
                 if role == "video" { continue }
@@ -129,33 +132,30 @@ public enum MediaRecovery {
                     intervals.append(interval)
                 }
             }
-            if let first = firstVideoTime, let last = lastVideoTime,
-                let cursor = track.makeSampleCursor(presentationTimeStamp: last),
-                cursor.currentSampleDuration.isNumeric, cursor.currentSampleDuration > .zero
-            {
-                intervals = [
-                    MediaInterval(
-                        startUs: CMTimeConvertScale(
-                            first, timescale: 1_000_000, method: .roundHalfAwayFromZero
-                        ).value,
-                        endUs: CMTimeConvertScale(
-                            CMTimeAdd(last, cursor.currentSampleDuration), timescale: 1_000_000,
-                            method: .roundHalfAwayFromZero
-                        ).value
-                    )
-                ]
+            if let first = firstVideoTime, let last = lastVideoTime {
+                if let end = assetEnd(ofSamplePresentedAt: last, in: segments, of: track) {
+                    intervals = [
+                        MediaInterval(startUs: microseconds(first), endUs: microseconds(end))
+                    ]
+                } else {
+                    // Decoded samples prove coverage up to the last one's own timestamp and no
+                    // further. How long that frame stayed on screen is unknown, and the gap to the
+                    // previous sample is not evidence of it, so the shortfall is reported instead
+                    // of filled in.
+                    intervals = [
+                        MediaInterval(startUs: microseconds(first), endUs: microseconds(last))
+                    ]
+                    unknownTail = CaptureFailure(
+                        "UNKNOWN_TAIL",
+                        "Decoded \(role) through \(microseconds(last))us; no sample cursor states "
+                            + "the final frame's duration.")
+                }
             }
             // Edit-list ranges can include empty tails; use them only to clip decoded media.
             let range = try await track.load(.timeRange)
             if range.duration.isNumeric, range.duration > .zero {
-                let start = max(
-                    0,
-                    CMTimeConvertScale(
-                        range.start, timescale: 1_000_000, method: .roundHalfAwayFromZero
-                    ).value)
-                let end = CMTimeConvertScale(
-                    CMTimeRangeGetEnd(range), timescale: 1_000_000, method: .roundHalfAwayFromZero
-                ).value
+                let start = max(0, microseconds(range.start))
+                let end = microseconds(CMTimeRangeGetEnd(range))
                 intervals = intervals.compactMap { interval in
                     let clippedStart = max(start, interval.startUs)
                     let clippedEnd = min(end, interval.endUs)
@@ -164,18 +164,10 @@ public enum MediaRecovery {
                 }
             }
             if role != "video" {
-                let segments = try await track.load(.segments)
-                let occupied = segments.filter { !$0.isEmpty }.map { segment in
-                    let range = segment.timeMapping.target
-                    return MediaInterval(
-                        startUs: CMTimeConvertScale(
-                            range.start, timescale: 1_000_000, method: .roundHalfAwayFromZero
-                        ).value,
-                        endUs: CMTimeConvertScale(
-                            CMTimeRangeGetEnd(range), timescale: 1_000_000,
-                            method: .roundHalfAwayFromZero
-                        ).value
-                    )
+                let occupied = segments.map {
+                    MediaInterval(
+                        startUs: microseconds($0.asset.start),
+                        endUs: microseconds(CMTimeRangeGetEnd($0.asset)))
                 }
                 intervals = intersect(intervals, occupied)
                 if let acquired { intervals = intersect(intervals, acquired) }
@@ -186,6 +178,7 @@ public enum MediaRecovery {
                     "DECODE_FAILED",
                     reader.error?.localizedDescription ?? "A sample had invalid timing or data.")
             }
+            failure = failure ?? unknownTail
         } catch {
             failure =
                 (error as? CaptureFailure)

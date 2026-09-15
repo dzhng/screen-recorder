@@ -1,30 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
-
-func microseconds(_ time: CMTime) -> Int64 {
-    CMTimeConvertScale(time, timescale: 1_000_000, method: .roundHalfAwayFromZero).value
-}
-
-func time(microseconds value: Int64) -> CMTime {
-    CMTime(value: value, timescale: 1_000_000)
-}
-
-/// One non-empty track segment: media sample timestamps on one side, asset presentation
-/// timestamps on the other. An H.264 writer emits an edit list whenever frame reordering
-/// shifts sample timestamps, so a sample cursor's timestamp is offset from the time the
-/// caller asks about; every candidate is compared and returned in asset time.
-struct SourceSegment {
-    let media: CMTimeRange
-    let asset: CMTimeRange
-
-    func assetTime(ofMedia time: CMTime) -> CMTime {
-        CMTimeMapTimeFromRangeToRange(time, fromRange: media, toRange: asset)
-    }
-
-    func mediaTime(ofAsset time: CMTime) -> CMTime {
-        CMTimeMapTimeFromRangeToRange(time, fromRange: asset, toRange: media)
-    }
-}
+import ScreenRecorderMediaTime
 
 /// Selects the sample whose own presentation timestamp is closest to `requestedUs` among the
 /// samples inside `kept`. Earlier wins ties. Membership and distance are judged on the same
@@ -36,9 +12,7 @@ struct SampleSelector {
 
     init(track: AVAssetTrack, segments: [AVAssetTrackSegment]) {
         self.track = track
-        self.segments = segments.filter { !$0.isEmpty }.map {
-            SourceSegment(media: $0.timeMapping.source, asset: $0.timeMapping.target)
-        }
+        self.segments = SourceSegment.occupied(of: segments)
     }
 
     func nearestSample(toUs requestedUs: Int64, in kept: FrameInterval) -> (CMTime, Int64)? {

@@ -97,39 +97,55 @@ tail loss. A crash before the first fragment can leave no usable video. These
 are process-crash guarantees, not a power-loss durability claim.
 
 [CaptureJournal](Sources/ScreenRecorderCapture/CaptureJournal.swift) owns ordered
-acquisition evidence beside the media. Identity, source clock and pause boundaries
-are synchronized when written; audio sample ranges record which time spans actually
-arrived. The reader retains the valid prefix after a torn final record and keeps
-an unfinished pause open. A clean journal ending alone does not mean a take finished.
+acquisition evidence beside the media. It owns each event's name, payload type and
+durability, so the writer and the reader cannot drift apart. Identity, source clock and
+pause boundaries are synchronized when written; audio sample ranges record which time
+spans actually arrived. The reader retains the valid prefix after a torn final record and
+keeps an unfinished pause open. Every payload decodes through its written type: a record
+whose field will not decode is rejected and named by `invalidAtSequence` rather than
+silently leaving a boundary empty, and nothing after it is believed. That is distinct from
+`incompleteTail`, which means only that the last line has no terminator — a crash
+boundary, not corruption. A clean journal ending alone does not mean a take finished.
 Geometry acquisition events can use the same append owner; this layer does not
 compute edit-time transforms.
 
 [MediaRecovery](Sources/ScreenRecorderCapture/MediaRecovery.swift) decodes each
 source independently and returns intervals through the worker's `media.recover`
 operation. Video determines the recovered take extent. Optional audio never
-shortens video, and missing media retains an explicit per-track failure.
-Recovery is read-only: package reconciliation belongs to the service.
+shortens video, and missing media retains an explicit per-track failure. Audio the
+journal header never requested is reported as an allowed absence rather than a loss;
+without a header an absence stays unexplained. Recovery is read-only: package
+reconciliation belongs to the service.
 
 AVFoundation can return silence for empty audio edit-list segments and unavailable
-sample durations for decoded video. Recovery excludes empty segments, uses the
-last decoded video's sample cursor for its duration, and clips to the track's
-media range. Audio also intersects the acquisition journal: decoder padding must
-not become evidence that speech was recorded. Adjacent audio ranges coalesce
-within one microsecond to absorb timestamp conversion rounding. Without a journal,
-physical audio ranges remain available but acquisition verification is false.
+sample durations for decoded video. Recovery excludes empty segments and clips to the
+track's media range. A take's last frame has no successor to bound it, so its duration
+comes from the sample cursor that states it — positioned through
+[ScreenRecorderMediaTime](Sources/ScreenRecorderMediaTime), because readers report asset
+time while cursors navigate media time. When no cursor confirms that sample, the recovered
+interval stops at the last decoded timestamp and the track fails with `UNKNOWN_TAIL`; the
+gap to the previous sample is not evidence of how long the last one lasted, and an empty
+successful track is not an acceptable answer. Audio also intersects the acquisition
+journal: decoder padding must not become evidence that speech was recorded. Adjacent audio
+ranges coalesce within one microsecond to absorb timestamp conversion rounding. Without a
+journal, physical audio ranges remain available but acquisition verification is false.
 
 The worker returns a compact journal summary and relative journal filename;
 consumers that need individual events stream that file. Types beside the reader
-are the response contract. Native recovery tests drive the worker with FFmpeg-made
-media fixtures; FFmpeg is a development fixture dependency, not an app dependency.
-Real device audio fragmentation and interruption still require capture evidence.
+are the response contract. `ScreenRecorderCaptureTests` generates its own media through
+AVFoundation, including an unfinalized fragmented take and a take whose edit list separates
+the two time domains; the worker-level tests drive the same operation with FFmpeg-made
+fixtures. FFmpeg is a development fixture dependency, not an app dependency. Real device
+audio fragmentation and interruption still require capture evidence.
 
 ## Frame inspection
 
 [ScreenRecorderFrames](Sources/ScreenRecorderFrames) selects and decodes within a
 kept interval supplied by the timeline owner. It never interprets edits. Sample
-cursor timestamps belong to media time; edit-list mappings translate them into
-the recording timeline before comparison. The selected exact native timestamp is
+cursor timestamps belong to media time; the edit-list mappings in
+[ScreenRecorderMediaTime](Sources/ScreenRecorderMediaTime) translate them into
+the recording timeline before comparison, and recovery reads them through the same owner
+so the two cannot disagree about where a sample sits. The selected exact native timestamp is
 retained for decoding, and the response reports the actual sample time and distance.
 
 The worker's `media.frame` request is defined by

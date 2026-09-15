@@ -100,7 +100,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         queue.sync {
             let hostUs = hostMicroseconds()
             clock.pause(at: hostUs)
-            _ = record("pauseBegan", data: ["hostUs": hostUs], durable: true)
+            _ = record { try self.journal.recordPauseBegan(hostUs: hostUs) }
         }
     }
     func resume() { queue.sync { resumeClock(at: hostMicroseconds()) } }
@@ -109,18 +109,13 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         let count = clock.pauses.count
         clock.resume(at: hostUs)
         if paused {
-            _ = record(
-                "pauseEnded",
-                data: JournalPauseEnd(
-                    hostUs: hostUs, pause: clock.pauses.count > count ? clock.pauses.last : nil),
-                durable: true)
+            let pause = clock.pauses.count > count ? clock.pauses.last : nil
+            _ = record { try self.journal.recordPauseEnded(hostUs: hostUs, pause: pause) }
         }
     }
-    private func record<Event: Encodable>(_ event: String, data: Event, durable: Bool = false)
-        -> Bool
-    {
+    private func record(_ write: () throws -> Void) -> Bool {
         do {
-            try journal.append(event, data: data, durable: durable)
+            try write()
             return true
         } catch {
             let reason = CaptureFailure("JOURNAL_FAILED", error.localizedDescription)
@@ -176,7 +171,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         if role == "video" {
             if clock.originUs == nil {
                 clock.start(at: hostUs)
-                guard record("origin", data: ["hostUs": hostUs], durable: true) else { return }
+                guard record({ try self.journal.recordOrigin(hostUs: hostUs) }) else { return }
             }
         }
         let duration = CMSampleBufferGetDuration(sample)
@@ -251,20 +246,19 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             }
             if track.first == nil {
                 guard
-                    record(
-                        "trackStarted",
-                        data: JournalTrackStart(
+                    record({
+                        try self.journal.recordTrackStarted(
                             role: role, file: track.file, firstSourceUs: sourceUs,
-                            sampleRate: track.sampleRate, channelCount: track.channelCount),
-                        durable: true)
+                            sampleRate: track.sampleRate, channelCount: track.channelCount)
+                    })
                 else { return }
             }
             if role != "video" {
                 guard
-                    record(
-                        "audioSamples",
-                        data: JournalAudioSamples(
-                            role: role, startUs: sourceUs, endUs: sourceUs + durationUs))
+                    record({
+                        try self.journal.recordAudioSamples(
+                            role: role, startUs: sourceUs, endUs: sourceUs + durationUs)
+                    })
                 else { return }
             }
             track.first = track.first ?? sourceUs
@@ -392,7 +386,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
                 systemAudioScope: self.request.systemAudio
                     ? "whole-system-excluding-recorder" : "disabled"
             )
-            if !self.record("finished", data: result, durable: true) {
+            if !self.record({ try self.journal.recordFinished(result) }) {
                 let failedResult = CaptureResult(
                     state: "interrupted", source: result.source, width: result.width,
                     height: result.height, durationUs: result.durationUs,

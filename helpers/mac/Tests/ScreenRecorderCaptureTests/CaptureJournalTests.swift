@@ -1,0 +1,116 @@
+import Foundation
+import ScreenRecorderCapture
+
+private let header = CaptureJournalHeader(
+    schemaVersion: 1, sessionID: "journal-roundtrip",
+    source: CaptureSource(kind: "window", windowID: 7), width: 160, height: 120, microphone: true,
+    systemAudio: false)
+
+/// The pause a take's own clock produces across a 500ms interruption.
+private let pause: PauseEvent = {
+    var clock = CaptureClock()
+    clock.start(at: 1_000_000)
+    clock.pause(at: 1_700_000)
+    clock.resume(at: 2_200_000)
+    precondition(clock.pauses.count == 1, "A paused and resumed clock records one pause")
+    return clock.pauses[0]
+}()
+
+/// Writes the records a take writes, in the order a take writes them.
+private func writeTake(in directory: URL, finished: Bool) throws {
+    let journal = try CaptureJournal(directory: directory.path, header: header)
+    try journal.recordOrigin(hostUs: 1_000_000)
+    try journal.recordTrackStarted(
+        role: "narration", file: "narration.mov", firstSourceUs: 250_000, sampleRate: 48000,
+        channelCount: 1)
+    try journal.recordAudioSamples(role: "narration", startUs: 250_000, endUs: 300_000)
+    try journal.recordAudioSamples(role: "narration", startUs: 300_001, endUs: 400_000)
+    try journal.recordAudioSamples(role: "narration", startUs: 500_000, endUs: 700_000)
+    try journal.recordPauseBegan(hostUs: 1_700_000)
+    try journal.recordPauseEnded(hostUs: 2_200_000, pause: pause)
+    if finished {
+        try journal.recordFinished(
+            CaptureResult(
+                state: "complete", source: header.source, width: header.width,
+                height: header.height, durationUs: 700_000, hostOriginUs: 1_000_000, pauses: [],
+                tracks: [], failure: nil, systemAudioScope: "disabled"))
+    }
+}
+
+private func lines(of directory: URL) throws -> [String] {
+    try String(contentsOf: directory.appendingPathComponent("capture.journal.jsonl"), encoding: .utf8)
+        .split(separator: "\n", omittingEmptySubsequences: false).map(String.init)
+}
+
+private func write(_ lines: [String], to directory: URL) throws {
+    try lines.joined(separator: "\n")
+        .write(
+            to: directory.appendingPathComponent("capture.journal.jsonl"), atomically: true,
+            encoding: .utf8)
+}
+
+func runCaptureJournalTests() async throws {
+    let whole = RecoveryFixture.directory("journal-roundtrip")
+    defer { try? FileManager.default.removeItem(at: whole) }
+    try writeTake(in: whole, finished: true)
+    let read = try CaptureJournal.inspect(directory: whole.path)
+    precondition(read.header?.sessionID == "journal-roundtrip", "The written header must read back")
+    precondition(read.header?.source.windowID == 7, "The written source must read back")
+    precondition(read.originHostUs == 1_000_000, "The written origin must read back, got \(read.originHostUs as Int64?)")
+    precondition(
+        read.pauses == [pause] && pause.atSourceUs == 700_000 && pause.elapsedPauseUs == 500_000,
+        "The written pause must read back, got \(read.pauses)")
+    precondition(read.openPauseHostUs == nil, "A pause the writer ended must not read back as open")
+    precondition(
+        RecoveryFixture.bounds(read.acquiredAudio["narration"] ?? [])
+            == [[250_000, 400_000], [500_000, 700_000]],
+        "Written audio ranges must coalesce across rounding only, got \(read.acquiredAudio)")
+    precondition(read.finished && read.lastSequence == 9, "A finished take must read back finished")
+    precondition(
+        !read.incompleteTail && read.invalidAtSequence == nil,
+        "A whole journal has neither a torn tail nor a bad record")
+    print("PASS a written take's journal reads back through the reader")
+
+    // A host timestamp that will not decode used to leave the boundary silently nil.
+    let malformed = RecoveryFixture.directory("journal-malformed")
+    defer { try? FileManager.default.removeItem(at: malformed) }
+    try writeTake(in: malformed, finished: true)
+    var corrupted = try lines(of: malformed)
+    precondition(
+        corrupted[6].contains("\"hostUs\":1700000"), "Fixture must hold the pauseBegan record, got \(corrupted[6])")
+    corrupted[6] = corrupted[6].replacingOccurrences(
+        of: "\"hostUs\":1700000", with: "\"hostUs\":\"1700000\"")
+    try write(corrupted, to: malformed)
+    let rejected = try CaptureJournal.inspect(directory: malformed.path)
+    precondition(
+        rejected.invalidAtSequence == 7,
+        "A record that will not decode must be named, got \(rejected.invalidAtSequence as Int?)")
+    precondition(
+        !rejected.incompleteTail, "A corrupt mid-file record is not a torn crash boundary")
+    precondition(
+        rejected.originHostUs == 1_000_000 && rejected.lastSequence == 6,
+        "Proof written before the bad record must stand, got sequence \(rejected.lastSequence)")
+    precondition(
+        rejected.acquiredAudio["narration"]?.count == 2,
+        "Audio proven before the bad record must stand, got \(rejected.acquiredAudio)")
+    precondition(
+        !rejected.finished && rejected.openPauseHostUs == nil,
+        "Nothing after the bad record may be believed")
+    print("PASS a malformed host timestamp rejects its record and keeps the proof before it")
+
+    // A crash cuts the last line short; that is a boundary, not corruption.
+    let torn = RecoveryFixture.directory("journal-torn")
+    defer { try? FileManager.default.removeItem(at: torn) }
+    try writeTake(in: torn, finished: false)
+    let cut = try lines(of: torn)
+    precondition(cut.last == "" && cut.count == 9, "A whole take writes eight terminated records")
+    try write(Array(cut[0..<7]) + [String(cut[7].prefix(20))], to: torn)
+    let boundary = try CaptureJournal.inspect(directory: torn.path)
+    precondition(
+        boundary.incompleteTail && boundary.invalidAtSequence == nil,
+        "An unterminated last line is a torn tail, not a bad record: \(boundary.invalidAtSequence as Int?)")
+    precondition(
+        boundary.openPauseHostUs == 1_700_000 && boundary.lastSequence == 7,
+        "A torn journal keeps its whole prefix, got sequence \(boundary.lastSequence)")
+    print("PASS a torn last line reads as a crash boundary distinct from a bad record")
+}

@@ -1,6 +1,7 @@
 @preconcurrency import AVFoundation
 import CoreImage
 import Foundation
+import ScreenRecorderMediaTime
 
 /// Immutable source video opened once and reused for random frame requests. Each request seeks to
 /// the chosen sample instead of decoding the file from zero.
