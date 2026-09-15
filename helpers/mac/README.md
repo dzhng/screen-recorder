@@ -209,6 +209,28 @@ carries no frame metadata, so its prediction uses the take's journaled geometry 
 time, and the fiducials visible in both confirm the two surfaces agree. Pointer comparisons are
 only valid while the pointer is still, so each one reports the drift measured around it.
 
+## Worker lifetime
+
+The worker is owned work, not a service: every request it serves belongs to the process
+that spawned it, and that work must not outlive its owner. End of input cannot carry that
+meaning, because a runner writes one request and closes stdin immediately, so a worker
+still decoding has no living owner to report to yet reads nothing.
+
+[ParentLifetime](Sources/ScreenRecorderNative/ParentLifetime.swift) is the only owner of
+that rule. macOS announces a parent's exit through a Dispatch process source, watched on
+its own queue because the worker spends its life blocked in a stdin read or inside a native
+operation. Reading the parent and registering the watch cannot be one step, so the parent
+is read once more afterwards: the kernel reparents an orphan to launchd instead of
+announcing anything, so a worker whose owner is already gone ends without doing the work
+waiting on its stdin. A dead parent's process ID can also be reused, and only that second
+reading distinguishes a recycled identity from a living owner.
+
+Abandoned work exits 75 with a stderr diagnostic naming the parent, meaning the owner
+disappeared rather than the request failed. Nothing partial is left behind: frames are
+written atomically at the caller's path and sources are never opened for writing. This
+binds the worker to its spawning parent only. It is not a cancellation channel, and it
+says nothing about a worker that is itself killed.
+
 ## Frame inspection
 
 [ScreenRecorderFrames](Sources/ScreenRecorderFrames) selects and decodes within a

@@ -1,0 +1,70 @@
+✖ the worker stops when its spawning owner dies, while its stdin stays open (10579.162584ms)
+✖ a worker whose owner exits during startup does not survive the race (10032.859625ms)
+✖ a worker started with no living owner refuses the work waiting on its stdin (10054.435667ms)
+✖ an owner that dies mid-operation ends the worker and leaves the source untouched (11232.913292ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 41936.777084
+
+✖ failing tests:
+
+test at helpers/mac/Tests/lifetime.test.mjs:94:1
+✖ the worker stops when its spawning owner dies, while its stdin stays open (10579.162584ms)
+  AssertionError [ERR_ASSERTION]: worker 41839 outlived its owner 41838
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-native-worker-lifetime/helpers/mac/Tests/lifetime.test.mjs:118:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: null,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at helpers/mac/Tests/lifetime.test.mjs:127:1
+✖ a worker whose owner exits during startup does not survive the race (10032.859625ms)
+  AssertionError [ERR_ASSERTION]: worker 41881 outlived the owner that spawned it
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-native-worker-lifetime/helpers/mac/Tests/lifetime.test.mjs:140:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: null,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at helpers/mac/Tests/lifetime.test.mjs:149:1
+✖ a worker started with no living owner refuses the work waiting on its stdin (10054.435667ms)
+  AssertionError [ERR_ASSERTION]: worker 41946 kept running without an owner
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-native-worker-lifetime/helpers/mac/Tests/lifetime.test.mjs:164:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: null,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at helpers/mac/Tests/lifetime.test.mjs:173:1
+✖ an owner that dies mid-operation ends the worker and leaves the source untouched (11232.913292ms)
+  AssertionError [ERR_ASSERTION]: worker 42149 kept decoding for a dead owner 42148
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-native-worker-lifetime/helpers/mac/Tests/lifetime.test.mjs:241:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: null,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }

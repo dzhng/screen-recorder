@@ -1,0 +1,12 @@
+✔ the worker stops when its spawning owner dies, while its stdin stays open (479.374709ms)
+✔ a worker whose owner exits during startup does not survive the race (54.440416ms)
+✔ a worker started with no living owner refuses the work waiting on its stdin (519.678542ms)
+✔ an owner that dies mid-operation ends the worker and leaves the source untouched (1252.834166ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2348.877375

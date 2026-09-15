@@ -13,6 +13,11 @@ The [app-service lifetime subpass](06c-app-service-lifetime.md) depends on 00 an
 06b, so idle process ownership can be verified independently of remaining audio
 recovery gates. Its completion does not prove capture reconciliation.
 
+Native media workers are bound to the process that spawns them: a worker stops when its
+owner exits instead of finishing work nobody will read. See
+[worker lifetime evidence](../assets/worker-lifetime/review.md). That is process ownership
+only; durable job failure, retry and the queue gates below remain open.
+
 The [library operation binding](06e-library-operations.md) gives both existing
 transports access to the core catalog and edit engine. It can be verified before
 native capture control and persistent artifact jobs are connected.
