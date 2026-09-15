@@ -9,7 +9,7 @@ import {
   projectWords,
   renderPlan,
   trailBounds,
-} from "@screenrec/core";
+} from "@screenrec/core/timeline";
 
 // Synthetic 20-second source; expected intervals are stated independently below.
 const original = createOriginalRevision(20_000_000, "2026-09-15T00:00:00.000Z");

@@ -1,0 +1,197 @@
+{
+  "fixture": "synthetic 20-second labeled timeline",
+  "passed": true,
+  "expectedSpans": [
+    {
+      "startUs": 2000000,
+      "endUs": 5000000
+    },
+    {
+      "startUs": 7000000,
+      "endUs": 11000000
+    },
+    {
+      "startUs": 13000000,
+      "endUs": 18000000
+    }
+  ],
+  "revision": {
+    "id": "lab-cut",
+    "operation": "cut",
+    "createdAt": "2026-09-15T00:00:01.000Z",
+    "parentId": "lab-trim",
+    "ordinal": 2,
+    "sourceDurationUs": 20000000,
+    "durationUs": 12000000,
+    "spans": [
+      {
+        "startUs": 2000000,
+        "endUs": 5000000
+      },
+      {
+        "startUs": 7000000,
+        "endUs": 11000000
+      },
+      {
+        "startUs": 13000000,
+        "endUs": 18000000
+      }
+    ]
+  },
+  "renderPlan": [
+    {
+      "source": {
+        "startUs": 2000000,
+        "endUs": 5000000
+      },
+      "playback": {
+        "startUs": 0,
+        "endUs": 3000000
+      }
+    },
+    {
+      "source": {
+        "startUs": 7000000,
+        "endUs": 11000000
+      },
+      "playback": {
+        "startUs": 3000000,
+        "endUs": 7000000
+      }
+    },
+    {
+      "source": {
+        "startUs": 13000000,
+        "endUs": 18000000
+      },
+      "playback": {
+        "startUs": 7000000,
+        "endUs": 12000000
+      }
+    }
+  ],
+  "events": [
+    {
+      "atUs": 0,
+      "events": [
+        {
+          "kind": "cut",
+          "atSourceUs": 0,
+          "removedSourceSpans": [
+            {
+              "startUs": 0,
+              "endUs": 2000000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atUs": 3000000,
+      "events": [
+        {
+          "kind": "pause",
+          "atSourceUs": 5000000,
+          "elapsedPauseUs": 30000000
+        },
+        {
+          "kind": "cut",
+          "atSourceUs": 5000000,
+          "removedSourceSpans": [
+            {
+              "startUs": 5000000,
+              "endUs": 7000000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atUs": 7000000,
+      "events": [
+        {
+          "kind": "cut",
+          "atSourceUs": 11000000,
+          "removedSourceSpans": [
+            {
+              "startUs": 11000000,
+              "endUs": 13000000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atUs": 12000000,
+      "events": [
+        {
+          "kind": "cut",
+          "atSourceUs": 18000000,
+          "removedSourceSpans": [
+            {
+              "startUs": 18000000,
+              "endUs": 20000000
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "words": [
+    {
+      "id": "phrase",
+      "text": "free",
+      "startUs": 4000000,
+      "endUs": 8000000,
+      "partial": true,
+      "fragments": [
+        {
+          "source": {
+            "startUs": 4000000,
+            "endUs": 5000000
+          },
+          "playback": {
+            "startUs": 2000000,
+            "endUs": 3000000
+          }
+        },
+        {
+          "source": {
+            "startUs": 7000000,
+            "endUs": 8000000
+          },
+          "playback": {
+            "startUs": 3000000,
+            "endUs": 4000000
+          }
+        }
+      ]
+    }
+  ],
+  "trail": {
+    "source": {
+      "startUs": 7000000,
+      "endUs": 7500000
+    },
+    "playback": {
+      "startUs": 3000000,
+      "endUs": 3500000
+    },
+    "cutoffReason": "cut"
+  },
+  "restored": {
+    "id": "lab-restore",
+    "operation": "restore",
+    "createdAt": "2026-09-15T00:00:02.000Z",
+    "parentId": "lab-cut",
+    "ordinal": 3,
+    "sourceDurationUs": 20000000,
+    "durationUs": 20000000,
+    "spans": [
+      {
+        "startUs": 0,
+        "endUs": 20000000
+      }
+    ]
+  }
+}

@@ -17,6 +17,10 @@
       "name": "@screenrec/macos",
       "version": "0.1.0",
     },
+    "packages/core": {
+      "name": "@screenrec/core",
+      "version": "0.0.0",
+    },
     "packages/protocol": {
       "name": "@screenrec/protocol",
       "version": "0.0.0",
@@ -29,6 +33,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.30.0",
+        "@screenrec/core": "workspace:*",
         "@screenrec/protocol": "workspace:*",
         "zod": "4.6.5",
       },
@@ -154,6 +159,8 @@
     "@rolldown/binding-win32-x64-msvc": ["@rolldown/binding-win32-x64-msvc@1.2.8", "", { "os": "win32", "cpu": "x64" }, "sha512-uz2ZvfgXbxqNwijjjbxrnvALwpyODDcgc1T1N8N3rf/DXKQmaFwmB4LX4yyjggpwN2obdQLb2rgirX5ffCWYng=="],
 
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.1", "", {}, "sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw=="],
+
+    "@screenrec/core": ["@screenrec/core@workspace:packages/core"],
 
     "@screenrec/macos": ["@screenrec/macos@workspace:apps/macos"],
 
