@@ -19,12 +19,17 @@ A fresh Opus session inspected every full image plus enlarged crops. Its
 [raw critique](independent-visual-review.md) is evidence to interpret, not a list of
 instructions to change captured paths.
 
-- The small 160-pixel output does make the trail thin and the pointer tiny. Keep
-  visual acceptance open for a focused minimum-output-size styling check.
+- The small 160-pixel output did make the trail thin and the pointer tiny, and the
+  focused styling pass that followed found the cause: widths were chosen in source
+  pixels, so the long-edge bound averaged the halo into the core and left a
+  washed-out hairline with no outline. Minimums are now stated in delivered pixels.
+  See the measurements in [review](review.md) and
+  [delivered-sizing.json](delivered-sizing.json).
 - The wave crosses text and alpha blending changes its apparent color; the reviewer
   still found the text legible. A black halo is already rendered, contrary to the
-  report's assumption that none exists. Recheck contrast alongside the small-output
-  pass while preserving the required fading behavior.
+  report's assumption that none exists. Rechecked at the small output: the halo now
+  survives the downscale, and the label keeps 82% of its pixels full size and 69%
+  halved. The fading behaviour is unchanged.
 - A gesture trail is historical cursor movement, not a ring centered on today's
   pointer or the whole button. The pointer at the circle's edge is correct for the
   supplied path. Re-centering it would falsify the evidence.
@@ -36,4 +41,10 @@ instructions to change captured paths.
 - The enlarged crops used nearest-neighbor resampling, not smooth interpolation as
   the report inferred. Source text softness is already present in the clean frame.
 
-No real captured gesture, scene reset or core-selected trail has been verified.
+Every mode is now rendered at 320x240, at a 160-pixel bound and at a 48-pixel
+thumbnail, with the previous small renders kept beside them for comparison. Frames
+delivered at source size are byte-identical to the images this replaces, so the
+change is confined to what the downscale reaches.
+
+No real captured gesture, scene reset or core-selected trail has been verified, and
+the small-output renders have not yet had a fresh unprimed critique.

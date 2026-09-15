@@ -1,0 +1,143 @@
+{
+  "sourceMediaUnchanged": true,
+  "route": {
+    "route-circle-full": {
+      "delivered": "320x240",
+      "bytesBefore": 21876,
+      "bytesAfter": 21876,
+      "sha256Before": "d6f864d2ee4c277bf81186d6a7d91c52c3193a0d870bfb97b63a93319f1cc95d",
+      "sha256After": "d6f864d2ee4c277bf81186d6a7d91c52c3193a0d870bfb97b63a93319f1cc95d",
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "meanAbsoluteChannelDelta": 0,
+      "reportedOverlayUnchanged": true
+    },
+    "route-circle-160": {
+      "delivered": "160x120",
+      "bytesBefore": 7593,
+      "bytesAfter": 8107,
+      "sha256Before": "aa73a1ae190b2c552f3e3e1af5fe28a561c6a63b436a0d3d242dc32d239650c4",
+      "sha256After": "b99d478559e6925f25e25bbcaecc53b3f1871b542341b559c5bf2075424113f8",
+      "changedPixels": 455,
+      "maxChannelDelta": 239,
+      "meanAbsoluteChannelDelta": 0.8842708333333333,
+      "reportedOverlayUnchanged": true
+    },
+    "route-wave-160": {
+      "delivered": "160x120",
+      "bytesBefore": 7455,
+      "bytesAfter": 8027,
+      "sha256Before": "113277b4b8f80ea8032702b0ec9972f30cf5e636e94dd90da6c5e89c39a2f64c",
+      "sha256After": "b72102b8bd4137ef96b8f0d73efb9946b01b6b5864231ffa0c6e9cd3fca0fce2",
+      "changedPixels": 631,
+      "maxChannelDelta": 236,
+      "meanAbsoluteChannelDelta": 1.014079861111111,
+      "reportedOverlayUnchanged": true
+    },
+    "route-circle-crop-80": {
+      "delivered": "80x30",
+      "bytesBefore": 2258,
+      "bytesAfter": 2749,
+      "sha256Before": "c0a7819b31ac4f7cc061b0e6241fee08935f271079a3415ee09b44be75859314",
+      "sha256After": "564037a5c32a39f4046d027c0a39aa12f1732b506d170434adf77db0ef8b0063",
+      "changedPixels": 455,
+      "maxChannelDelta": 239,
+      "meanAbsoluteChannelDelta": 7.074166666666667,
+      "reportedOverlayUnchanged": true
+    },
+    "route-pointer-48": {
+      "delivered": "48x36",
+      "bytesBefore": 1324,
+      "bytesAfter": 1406,
+      "sha256Before": "fe3baf29457936e52072ce6ebbb112128ac45c2b1adadbd73329472eb6a70866",
+      "sha256After": "673b10035f3ca5db8ef7c854625c33b932f21aa864e1d4403700817cb8b81bf6",
+      "changedPixels": 27,
+      "maxChannelDelta": 210,
+      "meanAbsoluteChannelDelta": 0.9631558641975309,
+      "reportedOverlayUnchanged": true
+    }
+  },
+  "renders": {
+    "overlay-scaled.png": {
+      "dimensions": [
+        160,
+        120
+      ],
+      "changedPixels": 256,
+      "maxChannelDelta": 124,
+      "meanAbsoluteChannelDelta": 0.4571875
+    },
+    "review-circle-10s-scaled.png": {
+      "dimensions": [
+        160,
+        120
+      ],
+      "changedPixels": 455,
+      "maxChannelDelta": 239,
+      "meanAbsoluteChannelDelta": 1.0042881944444444
+    },
+    "review-circle-crop-scaled.png": {
+      "dimensions": [
+        80,
+        30
+      ],
+      "changedPixels": 455,
+      "maxChannelDelta": 239,
+      "meanAbsoluteChannelDelta": 7.074166666666667
+    },
+    "review-circle-scaled.png": {
+      "dimensions": [
+        160,
+        120
+      ],
+      "changedPixels": 455,
+      "maxChannelDelta": 239,
+      "meanAbsoluteChannelDelta": 0.8842708333333333
+    },
+    "review-clean-scaled.png": {
+      "dimensions": [
+        160,
+        120
+      ],
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "meanAbsoluteChannelDelta": 0
+    },
+    "review-clean-thumbnail.png": {
+      "dimensions": [
+        48,
+        36
+      ],
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "meanAbsoluteChannelDelta": 0
+    },
+    "review-pointer-only-scaled.png": {
+      "dimensions": [
+        160,
+        120
+      ],
+      "changedPixels": 110,
+      "maxChannelDelta": 239,
+      "meanAbsoluteChannelDelta": 0.40805555555555556
+    },
+    "review-pointer-only-thumbnail.png": {
+      "dimensions": [
+        48,
+        36
+      ],
+      "changedPixels": 27,
+      "maxChannelDelta": 210,
+      "meanAbsoluteChannelDelta": 0.9631558641975309
+    },
+    "review-wave-2s-scaled.png": {
+      "dimensions": [
+        160,
+        120
+      ],
+      "changedPixels": 631,
+      "maxChannelDelta": 236,
+      "meanAbsoluteChannelDelta": 1.014079861111111
+    }
+  }
+}

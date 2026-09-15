@@ -1,8 +1,9 @@
 # 10a — Native cursor and trail rendering on a requested frame
 
-Status: native execution checks pass; small-output styling review remains open. Independent prerequisite: native frame
-decoding (09a). This extracts 10's drawing seam so the pixels can be verified
-against generated media while the core's scene-boundary analyzer and trail
+Status: native execution checks pass; small-output styling is measured and sized for
+the delivered pixels, awaiting a fresh visual critique. Independent prerequisite:
+native frame decoding (09a). This extracts 10's drawing seam so the pixels can be
+verified against generated media while the core's scene-boundary analyzer and trail
 selection proceed separately. It does not close 10.
 
 ## Contract
@@ -38,9 +39,13 @@ size limit.
 real decoder: clean, pointer-only and trail modes from one source frame; first and
 last path coordinates drawn; age fading measured between the newest and oldest
 point; no path across a gap between runs; overlay coordinates preserved through a
-crop and a halved frame; identical bytes on repeat. `node --test
-helpers/mac/Tests/frames.test.mjs` drives the same modes through the worker process
-and pins the wire failures and unchanged source bytes.
+crop and a halved frame; identical bytes on repeat. Marks are also measured in the
+pixels the caller receives rather than the ones they were drawn in: a halved frame
+keeps a coloured trail core inside its dark halo and a readable pointer, a 48-pixel
+thumbnail is not covered by its own pointer, and a wave across the label leaves it
+standing at both sizes. `node --test helpers/mac/Tests/frames.test.mjs` drives the
+same modes through the worker process and pins the wire failures and unchanged
+source bytes.
 
 [Evidence and review](../assets/cursor-render/review.md) retains the rendered PNGs
 and the settled styling choices.
@@ -49,6 +54,6 @@ and the settled styling choices.
 
 Core scene analysis, trail-window selection, cutoff reporting and raw-history
 retention remain open in [10](10-cursor-trails.md); this subpass is independent of
-them. No real captured gesture has been rendered yet, and the unprimed visual
-critique found small-output readability concerns; see the
+them. No real captured gesture has been rendered yet, and the small-output renders
+have not yet had a fresh unprimed critique; see the
 [integration review](../assets/cursor-render/integration-review.md).

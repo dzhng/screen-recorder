@@ -12,6 +12,17 @@ enum CursorOverlay {
     /// the frame is bounded to its requested long edge.
     private static let pointerShare = 0.012
     private static let trailShare = 0.0025
+    /// Floors, in the pixels the caller is delivered rather than in source pixels. A share of a large
+    /// source is plenty on its own; these carry the marks on a small output, where the same share is
+    /// a fraction of a pixel. They are the smallest sizes at which a magenta core still survives the
+    /// downscale inside its own outline instead of being averaged into one washed-out hairline.
+    private static let deliveredPointerFloor = 16.0
+    private static let deliveredCoreFloor = 2.0
+    private static let deliveredHaloFloor = 2.0
+    /// How much of the delivered long edge the pointer floor is allowed to claim. The floor grows as
+    /// the frame shrinks, and on a thumbnail a glyph large enough to read is a lid over the thing it
+    /// points at; past this share the mark gives way to the content instead.
+    private static let deliveredPointerCeiling = 0.2
     /// Magenta: neither the recorded surfaces nor the fixture's own markers use it, so the trail
     /// reads as an annotation rather than as content.
     private static let trailColor = CGColor(red: 1, green: 0.22, blue: 0.70, alpha: 1)
@@ -27,11 +38,19 @@ enum CursorOverlay {
         let points: [CGPoint]
     }
 
-    static func image(_ overlay: FrameOverlay, agedFromUs: Int64, width: Int, height: Int)
-        throws -> CGImage?
-    {
+    /// `deliveredScale` is how much the frame will shrink after this raster is composited: 1 when it
+    /// is delivered at source size, 0.5 when its long edge is halved. Widths are chosen in delivered
+    /// pixels and divided back out, so a mark holds the same apparent weight at every output size.
+    static func image(
+        _ overlay: FrameOverlay, agedFromUs: Int64, width: Int, height: Int, visibleLongEdge: Double,
+        deliveredScale: Double
+    ) throws -> CGImage? {
         guard width > 0, height > 0 else {
             throw FrameFailure("NATIVE_DECODE_FAILED", "Overlay raster has no pixels.")
+        }
+        guard deliveredScale > 0 else {
+            throw FrameFailure(
+                "NATIVE_DECODE_FAILED", "Overlay raster has no scale to size its marks against.")
         }
         guard overlay.pointer != nil || overlay.trail.contains(where: { !$0.isEmpty }) else {
             return nil
@@ -50,18 +69,27 @@ enum CursorOverlay {
         context.setLineCap(.round)
         context.setLineJoin(.round)
         let longEdge = Double(max(width, height))
-        let core = max(2, (longEdge * trailShare).rounded())
+        /// Source pixels for a width stated in delivered pixels.
+        func sourcePixels(_ delivered: Double) -> Double { (delivered / deliveredScale).rounded() }
+        let core = max(sourcePixels(deliveredCoreFloor), (longEdge * trailShare).rounded())
         let strokes = strokes(for: overlay, agedFromUs: agedFromUs)
         // The whole trail is haloed before any of it is coloured, so one run crossing another is
         // never buried under the second run's dark outline. That outline is what keeps a thin
         // stroke legible over a light button and over dark text alike.
-        draw(strokes, in: context, width: core + max(2, (core * 0.8).rounded()),
+        draw(
+            strokes, in: context,
+            width: core + max(sourcePixels(deliveredHaloFloor), (core * 0.8).rounded()),
             color: CGColor(red: 0, green: 0, blue: 0, alpha: 1), alphaShare: 0.6)
         draw(strokes, in: context, width: core, color: trailColor, alphaShare: 1)
         if let pointer = overlay.pointer {
+            // A share of the visible long edge in source pixels is that same share of the delivered
+            // long edge once the bound has been applied. Only the floor is capped: a tight crop is a
+            // zoom, where a glyph sized against the source it was measured in is already right.
+            let pointerFloor = min(
+                sourcePixels(deliveredPointerFloor), visibleLongEdge * deliveredPointerCeiling)
             drawPointer(
                 context, at: CGPoint(x: pointer.x, y: pointer.y),
-                size: max(16, (longEdge * pointerShare).rounded()))
+                size: max(pointerFloor, (longEdge * pointerShare).rounded()))
         }
         guard let image = context.makeImage() else {
             throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot produce the cursor overlay image.")

@@ -27,22 +27,11 @@ struct FrameImage {
             by: flipDecoded.concatenating(transform).concatenating(flipDisplayed))
         oriented = oriented.transformed(
             by: CGAffineTransform(translationX: -oriented.extent.origin.x, y: -oriented.extent.origin.y))
-        // Drawing happens in source pixels, before the crop and the long-edge bound, so the points
-        // the core supplied are read in the geometry they were measured in.
-        if let overlay,
-            let drawn = try CursorOverlay.image(
-                overlay, agedFromUs: agedFromUs, width: Int(oriented.extent.width.rounded()),
-                height: Int(oriented.extent.height.rounded()))
-        {
-            oriented = CIImage(cgImage: drawn).composited(over: oriented)
-        }
         var visible = oriented.extent
         if let crop {
             visible = CGRect(
                 x: CGFloat(crop.x), y: oriented.extent.height - CGFloat(crop.y + crop.height),
                 width: CGFloat(crop.width), height: CGFloat(crop.height))
-            oriented = oriented.cropped(to: visible).transformed(
-                by: CGAffineTransform(translationX: -visible.origin.x, y: -visible.origin.y))
         }
         let sourceWidth = Int(visible.width.rounded())
         let sourceHeight = Int(visible.height.rounded())
@@ -50,10 +39,26 @@ struct FrameImage {
         guard longEdge > 0 else {
             throw FrameFailure("NATIVE_DECODE_FAILED", "Decoded sample has no pixels.")
         }
+        // Drawing happens in source pixels, before the crop and the long-edge bound, so the points
+        // the core supplied are read in the geometry they were measured in. The bound that follows
+        // shrinks every mark with the frame, so the overlay is told it up front and sizes its
+        // strokes for the pixels the caller will actually receive.
+        let deliveredScale = longEdge > maxLongEdge ? Double(maxLongEdge) / Double(longEdge) : 1
+        if let overlay,
+            let drawn = try CursorOverlay.image(
+                overlay, agedFromUs: agedFromUs, width: Int(oriented.extent.width.rounded()),
+                height: Int(oriented.extent.height.rounded()), visibleLongEdge: Double(longEdge),
+                deliveredScale: deliveredScale)
+        {
+            oriented = CIImage(cgImage: drawn).composited(over: oriented)
+        }
+        if crop != nil {
+            oriented = oriented.cropped(to: visible).transformed(
+                by: CGAffineTransform(translationX: -visible.origin.x, y: -visible.origin.y))
+        }
         if longEdge > maxLongEdge {
-            let ratio = Double(maxLongEdge) / Double(longEdge)
-            width = max(1, Int((Double(sourceWidth) * ratio).rounded()))
-            height = max(1, Int((Double(sourceHeight) * ratio).rounded()))
+            width = max(1, Int((Double(sourceWidth) * deliveredScale).rounded()))
+            height = max(1, Int((Double(sourceHeight) * deliveredScale).rounded()))
             image = oriented.transformed(
                 by: CGAffineTransform(
                     scaleX: CGFloat(width) / visible.width, y: CGFloat(height) / visible.height))

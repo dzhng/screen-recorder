@@ -388,6 +388,34 @@ precondition(
     "Nothing may be drawn off the scaled path, got \(ink(scaledImage, x: 100, y: 90, size: 2))")
 print("PASS the overlay is drawn before the long-edge bound and scales with the frame")
 
+/// The stroke's cross-section down one column: how many rows read as its magenta core, and how many
+/// read as the darker-than-background halo around it. Drawing happens before the long-edge bound, so
+/// a mark sized only in source pixels arrives averaged into a washed-out hairline with its outline
+/// gone; this counts what is actually left in the delivered pixels.
+func crossSection(_ image: FixtureImage, x: Int, rows: Range<Int>) -> (core: Int, halo: Int) {
+    var core = 0
+    var halo = 0
+    for row in rows {
+        let sample = image.color(x: x, y: row, width: 1, height: 1)
+        if sample.red - sample.green > 0.5 { core += 1 }
+        // The fixture's flat backdrop sits at 0.18, so anything below this is the halo, not it.
+        if (sample.red + sample.green + sample.blue) / 3 < 0.12 { halo += 1 }
+    }
+    return (core, halo)
+}
+
+// Column 120 is source column 240: along the trail run, clear of its end caps and of every fixture
+// marker, so the only thing down this column is overlay ink over the flat background.
+let scaledStroke = crossSection(scaledImage, x: 120, rows: 96..<116)
+precondition(
+    scaledStroke.core >= 2,
+    "A halved frame must keep a magenta trail core at least two delivered pixels wide, got \(scaledStroke.core)")
+precondition(
+    scaledStroke.halo >= 2,
+    "A halved frame must keep the dark halo on both sides of the trail, got \(scaledStroke.halo)")
+print(
+    "PASS a halved frame keeps \(scaledStroke.core) core and \(scaledStroke.halo) halo pixels across the trail")
+
 let repeated = try await decode(
     "overlay-repeat", atSourceUs: 2_500_000, in: whole, from: source, overlay: croppedOverlay)
 let repeatedAgain = try await decode(
@@ -455,6 +483,27 @@ let reviewModes: [(String, FrameOverlay?, FrameCrop?, Int)] = [
         "review-circle-scaled",
         FrameOverlay(trail: [circle], trailUs: 2_000_000, pointer: circle.last!), nil, 160
     ),
+    // The same modes again at the smallest output the review covers, so readability is judged on
+    // every mode's delivered pixels rather than on the full-size renders alone.
+    ("review-clean-scaled", nil, nil, 160),
+    ("review-pointer-only-scaled", FrameOverlay(pointer: circle.last!), nil, 160),
+    (
+        "review-circle-10s-scaled",
+        FrameOverlay(trail: [circle], trailUs: FrameLimits.maximumTrailUs, pointer: circle.last!),
+        nil, 160
+    ),
+    (
+        "review-wave-2s-scaled",
+        FrameOverlay(trail: [wave], trailUs: 2_000_000, pointer: wave.last!), nil, 160
+    ),
+    (
+        "review-circle-crop-scaled",
+        FrameOverlay(trail: [circle], trailUs: 2_000_000, pointer: circle.last!),
+        FrameCrop(x: 0, y: 180, width: 160, height: 60), 80
+    ),
+    // Small enough that a glyph sized to stay readable would instead cover what it points at.
+    ("review-clean-thumbnail", nil, nil, 48),
+    ("review-pointer-only-thumbnail", FrameOverlay(pointer: circle.last!), nil, 48),
 ]
 var reviewImages: [String: FixtureImage] = [:]
 for (named, overlay, crop, maxLongEdge) in reviewModes {
@@ -483,10 +532,89 @@ precondition(
         circled, from: reviewClean, x: farSide.x, y: farSide.y, width: farSide.size,
         height: farSide.size) > 0.5,
     "The same request with a trail must draw that same far side of the circle")
+// Sizing marks for the delivered pixels makes them heavier relative to the content they sit on, so
+// the same "mark it without blanketing it" bound is held at the small output too.
+let scaledClean = reviewImages["review-clean-scaled"]!
+let scaledButtonCover = changedShare(
+    reviewImages["review-circle-scaled"]!, from: scaledClean, x: FixtureFrame.buttonLeft / 2,
+    y: FixtureFrame.buttonTop / 2, width: FixtureFrame.buttonWidth / 2,
+    height: FixtureFrame.buttonHeight / 2)
+precondition(
+    scaledButtonCover > 0.02 && scaledButtonCover < 0.35,
+    "A halved circle around the button must mark it without blanketing it, covered \(scaledButtonCover)")
+
+/// The drawn glyph's extent in delivered pixels: rows and columns of a search box that the overlay
+/// moved away from the clean frame.
+func changedExtent(
+    _ drawn: FixtureImage, from base: FixtureImage, x: Int, y: Int, width boxWidth: Int,
+    height boxHeight: Int
+) -> (columns: Int, rows: Int) {
+    // A glyph near an edge is clipped by the frame, so the box is too rather than reading past it.
+    let width = max(0, min(boxWidth, drawn.width - x))
+    let height = max(0, min(boxHeight, drawn.height - y))
+    var columns = 0
+    var rows = 0
+    for row in y..<(y + height)
+    where changedShare(drawn, from: base, x: x, y: row, width: width, height: 1) > 0 {
+        rows += 1
+    }
+    for column in x..<(x + width)
+    where changedShare(drawn, from: base, x: column, y: y, width: 1, height: height) > 0 {
+        columns += 1
+    }
+    return (columns, rows)
+}
+
+// The pointer is the mark that suffers most from a hard downscale: a glyph sized in source pixels
+// arrives as a smudge too small to read as an arrow. Its hot spot is the gesture's last point.
+let scaledPointer = changedExtent(
+    reviewImages["review-pointer-only-scaled"]!, from: scaledClean,
+    x: Int(circle.last!.x / 2), y: Int(circle.last!.y / 2), width: 24, height: 24)
+precondition(
+    scaledPointer.rows >= 12 && scaledPointer.columns >= 8,
+    "A halved frame must still deliver a readable pointer, got \(scaledPointer.columns)x\(scaledPointer.rows) pixels")
+// Below that the floor would stop helping: on a 48-pixel thumbnail a 16-pixel arrow is a lid over
+// the thing it points at, so the glyph gives way to the content instead.
+let thumbnailPointer = changedExtent(
+    reviewImages["review-pointer-only-thumbnail"]!, from: reviewImages["review-clean-thumbnail"]!,
+    x: Int(circle.last!.x * 48 / 320), y: Int(circle.last!.y * 48 / 320), width: 24, height: 24)
+precondition(
+    thumbnailPointer.rows <= 8 && thumbnailPointer.columns <= 8,
+    "A 48-pixel thumbnail must not be covered by its own pointer, got \(thumbnailPointer.columns)x\(thumbnailPointer.rows) pixels")
+
+/// Share of the fixture's green label pixels the overlay covered. A trail drawn across text is
+/// allowed to cut the glyphs; it is not allowed to erase the word.
+func labelCover(_ drawn: FixtureImage, from base: FixtureImage, x: Int, y: Int, width: Int, height: Int)
+    -> Double
+{
+    var label = 0.0
+    var covered = 0.0
+    for row in y..<(y + height) {
+        for column in x..<(x + width) {
+            let clean = base.color(x: column, y: row, width: 1, height: 1)
+            guard clean.green > 0.5, clean.green - clean.red > 0.25 else { continue }
+            label += 1
+            covered += changedShare(drawn, from: base, x: column, y: row, width: 1, height: 1)
+        }
+    }
+    return label == 0 ? 0 : covered / label
+}
+
+// The "frame 25" label the wave is drawn across. The halved render pays a real premium — its stroke
+// cannot be thinner than a delivered pixel — so both sizes are bounded rather than just the one.
+let labelFull = labelCover(
+    reviewImages["review-wave-2s"]!, from: reviewClean, x: 12, y: 145, width: 175, height: 35)
+let labelScaled = labelCover(
+    reviewImages["review-wave-2s-scaled"]!, from: scaledClean, x: 6, y: 72, width: 88, height: 18)
+precondition(
+    labelFull > 0.05 && labelFull < 0.4 && labelScaled > 0.05 && labelScaled < 0.4,
+    "A wave across the label must mark it and leave it readable, covered \(labelFull) full size and \(labelScaled) halved")
 print(
     String(
-        format: "PASS circle, wave and mode renders written; the circled button keeps %.0f%% of its pixels",
-        (1 - buttonCover) * 100))
+        format:
+            "PASS mode renders written full size, halved and as a thumbnail; the circled button keeps %.0f%% of its pixels full size and %.0f%% halved, the label keeps %.0f%% and %.0f%%, and the pointer covers \(scaledPointer.columns)x\(scaledPointer.rows) halved against \(thumbnailPointer.columns)x\(thumbnailPointer.rows) on a thumbnail",
+        (1 - buttonCover) * 100, (1 - scaledButtonCover) * 100, (1 - labelFull) * 100,
+        (1 - labelScaled) * 100))
 
 let sourceBefore = try Data(contentsOf: stepsFixture)
 let rejected = await [

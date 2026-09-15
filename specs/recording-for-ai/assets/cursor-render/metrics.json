@@ -1,30 +1,12 @@
 {
-  "review-circle-10s.png": {
-    "dimensions": [
-      320,
-      240
-    ],
-    "changedPixels": 827,
-    "maxChannelDelta": 239.0,
-    "meanAbsoluteChannelDelta": 0.6252517361111111
-  },
-  "review-circle-2s.png": {
-    "dimensions": [
-      320,
-      240
-    ],
-    "changedPixels": 817,
-    "maxChannelDelta": 239.0,
-    "meanAbsoluteChannelDelta": 0.5174305555555555
-  },
   "review-clean.png": {
     "dimensions": [
       320,
       240
     ],
     "changedPixels": 0,
-    "maxChannelDelta": 0.0,
-    "meanAbsoluteChannelDelta": 0.0
+    "maxChannelDelta": 0,
+    "meanAbsoluteChannelDelta": 0
   },
   "review-pointer-only.png": {
     "dimensions": [
@@ -32,8 +14,26 @@
       240
     ],
     "changedPixels": 111,
-    "maxChannelDelta": 239.0,
+    "maxChannelDelta": 239,
     "meanAbsoluteChannelDelta": 0.13643229166666668
+  },
+  "review-circle-2s.png": {
+    "dimensions": [
+      320,
+      240
+    ],
+    "changedPixels": 817,
+    "maxChannelDelta": 239,
+    "meanAbsoluteChannelDelta": 0.5174305555555555
+  },
+  "review-circle-10s.png": {
+    "dimensions": [
+      320,
+      240
+    ],
+    "changedPixels": 827,
+    "maxChannelDelta": 239,
+    "meanAbsoluteChannelDelta": 0.6252517361111111
   },
   "review-wave-2s.png": {
     "dimensions": [
@@ -41,7 +41,70 @@
       240
     ],
     "changedPixels": 1145,
-    "maxChannelDelta": 210.0,
+    "maxChannelDelta": 210,
     "meanAbsoluteChannelDelta": 0.6467838541666666
+  },
+  "review-clean-scaled.png": {
+    "dimensions": [
+      160,
+      120
+    ],
+    "changedPixels": 0,
+    "maxChannelDelta": 0,
+    "meanAbsoluteChannelDelta": 0
+  },
+  "review-pointer-only-scaled.png": {
+    "dimensions": [
+      160,
+      120
+    ],
+    "changedPixels": 110,
+    "maxChannelDelta": 239,
+    "meanAbsoluteChannelDelta": 0.4376215277777778
+  },
+  "review-circle-scaled.png": {
+    "dimensions": [
+      160,
+      120
+    ],
+    "changedPixels": 455,
+    "maxChannelDelta": 239,
+    "meanAbsoluteChannelDelta": 1.21140625
+  },
+  "review-circle-10s-scaled.png": {
+    "dimensions": [
+      160,
+      120
+    ],
+    "changedPixels": 455,
+    "maxChannelDelta": 239,
+    "meanAbsoluteChannelDelta": 1.4058680555555556
+  },
+  "review-wave-2s-scaled.png": {
+    "dimensions": [
+      160,
+      120
+    ],
+    "changedPixels": 631,
+    "maxChannelDelta": 210,
+    "meanAbsoluteChannelDelta": 1.4741319444444445
+  },
+  "review-clean-thumbnail.png": {
+    "dimensions": [
+      48,
+      36
+    ],
+    "changedPixels": 0,
+    "maxChannelDelta": 0,
+    "meanAbsoluteChannelDelta": 0
+  },
+  "review-pointer-only-thumbnail.png": {
+    "dimensions": [
+      48,
+      36
+    ],
+    "changedPixels": 27,
+    "maxChannelDelta": 210,
+    "meanAbsoluteChannelDelta": 1.0522762345679013
   }
 }
