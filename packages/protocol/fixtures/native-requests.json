@@ -1,0 +1,69 @@
+[
+  {
+    "name": "ping",
+    "line": "{\"id\":\"ping-1\",\"operation\":\"system.ping\",\"params\":{}}",
+    "expected": {
+      "id": "ping-1",
+      "ok": true,
+      "data": {
+        "platform": "macos"
+      }
+    }
+  },
+  {
+    "name": "unknown operation",
+    "line": "{\"id\":\"unknown-1\",\"operation\":\"madeup\",\"params\":{}}",
+    "expected": {
+      "id": "unknown-1",
+      "ok": false,
+      "code": "UNKNOWN_OPERATION"
+    }
+  },
+  {
+    "name": "invalid params",
+    "line": "{\"id\":\"invalid-1\",\"operation\":\"system.ping\",\"params\":\"wrong\"}",
+    "expected": {
+      "id": "invalid-1",
+      "ok": false,
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "unknown envelope field",
+    "line": "{\"id\":\"extra-1\",\"operation\":\"system.ping\",\"params\":{},\"param\":{}}",
+    "expected": {
+      "id": "extra-1",
+      "ok": false,
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "malformed JSON",
+    "line": "{",
+    "expected": {
+      "id": null,
+      "ok": false,
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "empty operation",
+    "line": "{\"id\":\"empty-1\",\"operation\":\"\",\"params\":{}}",
+    "expected": {
+      "id": "empty-1",
+      "ok": false,
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "ping after invalid lines",
+    "line": "{\"id\":\"after-1\",\"operation\":\"system.ping\",\"params\":{}}",
+    "expected": {
+      "id": "after-1",
+      "ok": true,
+      "data": {
+        "platform": "macos"
+      }
+    }
+  }
+]

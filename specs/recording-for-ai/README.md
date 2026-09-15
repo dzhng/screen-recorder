@@ -1,7 +1,7 @@
 # Recording for AI — personal release spec
 
-Status: ready for implementation, with explicit feasibility gates. No app code has
-been written and no product validation is claimed by this planning handoff.
+Status: implementation in progress. Bootstrap code/build/conformance checks pass;
+native menu visual evidence remains pending. Capture, speech and editing are not yet implemented.
 
 ## Next Agent Prompt
 
@@ -26,7 +26,12 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-All items below are currently not started.
+Current pickup: native capture and speech preparation are delegated; implement the
+pure timeline and actual-agent image paths next. Bootstrap review fixed cache-input
+coverage; all mechanical checks pass. Continue capture, speech preparation,
+and pure timeline passes independently. Actual-client image work can proceed from
+the runnable TS/native bootstrap. Do not treat unavailable UI observation as a
+passing visual result. Evidence: [bootstrap verification](assets/bootstrap/verification.md).
 
 - [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
 - [ ] [00b — Real-agent image access](slices/00b-client-image-probe.md)

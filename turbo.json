@@ -1,0 +1,29 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "stream",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "check-types": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["build"]
+    },
+    "@screenrec/macos#build": {
+      "cache": false,
+      "outputs": []
+    },
+    "@screenrec/macos#test": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "@screenrec/test-harness#test": {
+      "dependsOn": ["build", "@screenrec/macos#build"],
+      "cache": false
+    }
+  },
+  "globalDependencies": ["tsconfig.base.json"]
+}

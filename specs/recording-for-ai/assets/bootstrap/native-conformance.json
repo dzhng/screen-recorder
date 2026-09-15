@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "nativeBinary": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+  "cases": [
+    "ping",
+    "unknown operation",
+    "invalid params",
+    "unknown envelope field",
+    "malformed JSON",
+    "empty operation",
+    "ping after invalid lines"
+  ]
+}

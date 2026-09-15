@@ -1,6 +1,10 @@
 # 00 — Workspace and runnable native harness
 
-Status: not started. Dependencies: none.
+Status: runnable bootstrap implemented and mechanically verified; native menu
+visual observation remains pending (Computer Use could not resolve the accessory
+app). Dependencies: none. See [evidence](../assets/bootstrap/verification.md).
+Independent capture, speech, timeline and actual-agent work can proceed from the
+verified build/wire boundary; no visual acceptance is claimed.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md). This is the first implementation pickup.

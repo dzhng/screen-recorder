@@ -8,7 +8,7 @@ public enum NativeWire {
         let response: [String: Any]
         if let request, let id, !id.isEmpty,
            Set(request.keys) == ["id", "operation", "params"],
-           let operation = request["operation"] as? String,
+           let operation = request["operation"] as? String, !operation.isEmpty,
            let params = request["params"] as? [String: Any] {
             if operation != "system.ping" {
                 response = failure(id: id, code: "UNKNOWN_OPERATION", message: "Unknown native operation: \(operation)")
