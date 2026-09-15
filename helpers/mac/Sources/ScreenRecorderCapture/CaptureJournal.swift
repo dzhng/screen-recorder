@@ -39,7 +39,7 @@ public struct CaptureJournalSummary: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case file, header, originHostUs, pauses, openPauseHostUs, lastSequence, incompleteTail,
             invalidAtSequence, finished, cursorSamples, firstCursorSourceUs, lastCursorSourceUs,
-            geometryEpochs, lastGeometry
+            geometryEpochs, lastGeometry, zeroOriginHeight
     }
     public var header: CaptureJournalHeader?
     public var originHostUs: Int64?
@@ -53,6 +53,10 @@ public struct CaptureJournalSummary: Codable, Sendable {
     public var lastCursorSourceUs: Int64?
     public var geometryEpochs = 0
     public var lastGeometry: CaptureGeometry?
+    /// The zero-origin display height the take last converted its pointer readings through, so a
+    /// consumer checks the transform against the height this recording used rather than the one
+    /// the display arrangement happens to have now.
+    public var zeroOriginHeight: Double?
     public var lastSequence = 0
     /// The final line has no terminator: a crash cut the journal mid-record.
     public var incompleteTail = false
@@ -61,9 +65,6 @@ public struct CaptureJournalSummary: Codable, Sendable {
     /// different things to a consumer deciding whether the take ended.
     public var invalidAtSequence: Int?
     public var finished = false
-    /// The record `apply` just accepted, for a reader that wants the event itself rather than a
-    /// summary of it. Not part of the persisted summary.
-    var lastEvent: (name: String, data: Data)?
 
     public init() {}
 }
@@ -166,50 +167,50 @@ public final class CaptureJournal {
 
     /// Streams a take's placement evidence without retaining it. A take changes geometry as often
     /// as it delivers frames and samples the pointer sixty times a second, so the caller decides
-    /// what to keep. It stops where `inspect` stops believing the file, so a consumer cannot read
-    /// samples from beyond the prefix the summary calls valid.
+    /// what to keep. The returned summary is the one `inspect` would build from the same pass, so
+    /// a consumer learns from that one pass both what the evidence was and where — at
+    /// `invalidAtSequence` or an `incompleteTail` — the file stopped being believable. A stream
+    /// that stopped early is otherwise indistinguishable from a short take.
+    @discardableResult
     public static func streamCursorEvidence(
-        directory: String, geometry: (JournalGeometry) throws -> Void,
-        samples: ([CursorSample]) throws -> Void
-    ) throws {
+        directory: String, geometry: (JournalGeometry) throws -> Void = { _ in },
+        samples: ([CursorSample]) throws -> Void = { _ in },
+        displaySpace: (JournalDisplaySpace) throws -> Void = { _ in }
+    ) throws -> CaptureJournalSummary {
         var summary = CaptureJournalSummary()
-        _ = try readRecords(directory: directory) { line in
-            var event: (name: String, data: Data)?
+        summary.incompleteTail = try readRecords(directory: directory) { line in
+            let event: (name: String, data: Data)
             do {
-                try apply(line, to: &summary)
-                event = summary.lastEvent
+                event = try apply(line, to: &summary)
             } catch {
-                // The same boundary `inspect` stops at: nothing after a bad record is believed.
+                summary.invalidAtSequence = summary.lastSequence + 1
                 return false
             }
-            guard let event else { return true }
             switch event.name {
             case "geometry":
                 try geometry(JSONDecoder().decode(JournalGeometry.self, from: event.data))
             case "cursorSamples":
                 try samples(
                     JSONDecoder().decode(JournalCursorSamples.self, from: event.data).samples)
+            case "displaySpace":
+                try displaySpace(JSONDecoder().decode(JournalDisplaySpace.self, from: event.data))
             default: break
-            }
-            return true
-        }
-    }
-
-    public static func inspect(directory: String) throws -> CaptureJournalSummary {
-        var summary = CaptureJournalSummary()
-        summary.incompleteTail = try readRecords(directory: directory) { line in
-            do {
-                try apply(line, to: &summary)
-            } catch {
-                summary.invalidAtSequence = summary.lastSequence + 1
-                return false
             }
             return true
         }
         return summary
     }
 
-    private static func apply(_ line: Data, to summary: inout CaptureJournalSummary) throws {
+    /// The same read with nothing streamed, for a consumer that only wants the summary.
+    public static func inspect(directory: String) throws -> CaptureJournalSummary {
+        try streamCursorEvidence(directory: directory)
+    }
+
+    /// Folds one record into the summary and hands back the event it was, so a streaming reader
+    /// decodes the payload this call already validated instead of re-deriving it.
+    private static func apply(_ line: Data, to summary: inout CaptureJournalSummary) throws -> (
+        name: String, data: Data
+    ) {
         guard
             let record = try JSONSerialization.jsonObject(with: line) as? [String: Any],
             let sequence = record["sequence"] as? Int,
@@ -267,11 +268,15 @@ public final class CaptureJournal {
                 summary.firstCursorSourceUs ?? batch.samples.first?.sourceUs
             summary.lastCursorSourceUs =
                 batch.samples.last?.sourceUs ?? summary.lastCursorSourceUs
+        case "displaySpace":
+            summary.zeroOriginHeight = try JSONDecoder().decode(
+                JournalDisplaySpace.self, from: encoded
+            ).zeroOriginHeight
         case "finished": summary.finished = true
         default: break
         }
-        summary.lastEvent = (name: event, data: encoded)
         summary.lastSequence = sequence
+        return (name: event, data: encoded)
     }
 }
 
@@ -311,7 +316,10 @@ struct JournalCursorSamples: Codable {
     let samples: [CursorSample]
 }
 
-struct JournalDisplaySpace: Codable {
-    let hostUs: Int64
-    let zeroOriginHeight: Double
+/// The zero-origin display height a take converted its pointer readings through, and when it
+/// started doing so. Written whenever the height changes, so the conversion is re-derivable from
+/// the journal instead of from whatever the display arrangement is when the evidence is read.
+public struct JournalDisplaySpace: Codable, Sendable {
+    public let hostUs: Int64
+    public let zeroOriginHeight: Double
 }

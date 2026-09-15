@@ -77,7 +77,14 @@ private struct CursorCalibration: Codable {
     let hostUs: Int64
     let placementIndex: Int
     let pointerAppKit: ProbePoint
+    /// `pointerAppKit` flipped through `zeroOriginHeight`, the height read live at this instant.
     let pointerGlobal: ProbePoint
+    let zeroOriginHeight: Double
+    /// The height the take itself was converting readings through at `hostUs`, from its journal.
+    /// The prediction below uses this one: a display arrangement that changed mid-take would
+    /// otherwise be validated against a height the recording never used. A disagreement with
+    /// `zeroOriginHeight` is the evidence that it changed.
+    var journaledZeroOriginHeight: Double?
     let buttons: Int
     let cursorHotSpot: ProbePoint?
     /// The pointer image in points, and the same image written out, so a measurement can find the
@@ -138,6 +145,8 @@ private struct CursorGeometryEvidence: Codable {
     let placements: [FixturePlacement]
     let calibrations: [CursorCalibration]
     let epochs: [EpochEvidence]
+    /// Every zero-origin display height the take converted readings through, in journal order.
+    let displaySpaces: [JournalDisplaySpace]
     let samples: SampleEvidence
     let displays: [ProbeRect]
 }
@@ -251,11 +260,15 @@ func runCursorGeometryProbe(configPath: String) async throws {
     if remaining > 0 { try await Task.sleep(for: .seconds(remaining)) }
     let result = try await capture.stop()
 
-    let summary = try CaptureJournal.inspect(directory: directory.path)
     var epochs: [EpochEvidence] = []
+    var displaySpaces: [JournalDisplaySpace] = []
     var samples = SampleEvidence()
     var gaps: [Int64] = []
-    try CaptureJournal.streamCursorEvidence(
+    // Matching samples to calibrations needs the take's origin and pauses, which the same pass is
+    // still reading, so the samples are held until it finishes. A probe take is capped at five
+    // minutes, so this is bounded by that cap at the sampler's cadence.
+    var recorded: [CursorSample] = []
+    let summary = try CaptureJournal.streamCursorEvidence(
         directory: directory.path,
         geometry: { event in
             let index = placementIndex(at: event.hostUs, in: placements)
@@ -284,41 +297,47 @@ func runCursorGeometryProbe(configPath: String) async throws {
                 case "outside": samples.outside += 1
                 default: samples.unknownGeometry += 1
                 }
-                for (index, calibration) in calibrations.enumerated() {
-                    let target = sourceTime(
-                        forHostUs: calibration.hostUs, origin: summary.originHostUs,
-                        pauses: summary.pauses)
-                    guard let target else { continue }
-                    let distance = abs(sample.sourceUs - target)
-                    while samples.atCalibrations.count <= index {
-                        samples.atCalibrations.append(nil)
-                        samples.calibrationDistanceUs.append(nil)
-                        samples.calibrationDriftPoints.append(nil)
-                    }
-                    if samples.calibrationDistanceUs[index].map({ distance < $0 }) ?? true {
-                        samples.atCalibrations[index] = sample
-                        samples.calibrationDistanceUs[index] = distance
-                    }
-                    if distance <= 150_000 {
-                        samples.calibrationDriftPoints[index] = max(
-                            samples.calibrationDriftPoints[index] ?? 0,
-                            hypot(
-                                sample.globalX - calibration.pointerGlobal.x,
-                                sample.globalY - calibration.pointerGlobal.y))
-                    }
-                }
             }
-        })
+            recorded.append(contentsOf: batch)
+        },
+        displaySpace: { displaySpaces.append($0) })
+    samples.atCalibrations = Array(repeating: nil, count: calibrations.count)
+    samples.calibrationDistanceUs = Array(repeating: nil, count: calibrations.count)
+    samples.calibrationDriftPoints = Array(repeating: nil, count: calibrations.count)
     for index in calibrations.indices {
-        calibrations[index].sourceUs = sourceTime(
+        let target = sourceTime(
             forHostUs: calibrations[index].hostUs, origin: summary.originHostUs,
             pauses: summary.pauses)
+        calibrations[index].sourceUs = target
+        // A calibration inside a pause has no source time at all, so no sample can be near it.
+        if let target {
+            let pointer = calibrations[index].pointerGlobal
+            for sample in recorded {
+                let distance = abs(sample.sourceUs - target)
+                if samples.calibrationDistanceUs[index].map({ distance < $0 }) ?? true {
+                    samples.atCalibrations[index] = sample
+                    samples.calibrationDistanceUs[index] = distance
+                }
+                if distance <= 150_000 {
+                    samples.calibrationDriftPoints[index] = max(
+                        samples.calibrationDriftPoints[index] ?? 0,
+                        hypot(sample.globalX - pointer.x, sample.globalY - pointer.y))
+                }
+            }
+        }
+        // Flip through the height the take was using at this instant, not the one this process can
+        // read now: the recording's own transform is what the prediction has to be checked against.
+        let height =
+            displaySpaces.last(where: { $0.hostUs <= calibrations[index].hostUs })?.zeroOriginHeight
+        calibrations[index].journaledZeroOriginHeight = height
         guard
             let event = epochs.last(where: { $0.hostUs <= calibrations[index].hostUs })
                 ?? epochs.first
         else { continue }
-        let pointer = CGPoint(
-            x: calibrations[index].pointerGlobal.x, y: calibrations[index].pointerGlobal.y)
+        let pointer = GlobalPointSpace.flip(
+            appKit: CGPoint(
+                x: calibrations[index].pointerAppKit.x, y: calibrations[index].pointerAppKit.y),
+            zeroOriginHeight: height ?? calibrations[index].zeroOriginHeight)
         let predicted = event.geometry.outputPixel(forGlobalPoint: pointer)
         calibrations[index].geometryEpoch = event.epoch
         calibrations[index].geometry = event.geometry
@@ -350,7 +369,7 @@ func runCursorGeometryProbe(configPath: String) async throws {
     let evidence = CursorGeometryEvidence(
         outputWidth: outputSize.width, outputHeight: outputSize.height, videoFile: "video.mov",
         capture: result, journal: summary, placements: placements, calibrations: calibrations,
-        epochs: epochs, samples: samples,
+        epochs: epochs, displaySpaces: displaySpaces, samples: samples,
         displays: active.prefix(Int(displayCount)).map { ProbeRect(CGDisplayBounds($0)) })
     let encoder = JSONEncoder()
     encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
@@ -450,7 +469,8 @@ private func calibrate(
     }
     return CursorCalibration(
         label: label, hostUs: hostUs, placementIndex: placementIndex,
-        pointerAppKit: ProbePoint(appKit), pointerGlobal: ProbePoint(pointer), buttons: buttons,
+        pointerAppKit: ProbePoint(appKit), pointerGlobal: ProbePoint(pointer),
+        zeroOriginHeight: height, buttons: buttons,
         cursorHotSpot: cursor.map { ProbePoint($0.hotSpot) },
         cursorImageSize: cursor.map { ProbeRect(CGRect(origin: .zero, size: $0.image.size)) },
         cursorImagePixels: imagePixels, cursorImageFile: imageFile,

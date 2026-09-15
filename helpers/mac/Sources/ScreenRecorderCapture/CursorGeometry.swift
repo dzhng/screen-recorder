@@ -171,6 +171,8 @@ public struct CursorSample: Codable, Sendable, Equatable {
     public let buttons: Int
     /// `inside`, `outside`, or `unknownGeometry`. See `CaptureGeometry.contains(outputPixel:)`.
     public let eligibility: String
+    /// The epoch whose geometry projected this sample, or 0 when none covered the reading. An
+    /// `unknownGeometry` sample never cites a real epoch it was not projected through.
     public let geometryEpoch: Int
 
     public var visible: Bool { eligibility == "inside" }
@@ -178,7 +180,8 @@ public struct CursorSample: Codable, Sendable, Equatable {
 
 public struct CursorStats: Codable, Sendable, Equatable {
     public init() {}
-    /// Readings journaled as samples.
+    /// Readings placed in source time and handed to a batch. Counted on acceptance, before the
+    /// journal writes that batch, so a take whose journal failed reports more than the file holds.
     public var sampled = 0
     /// Readings that landed in a pause or before source zero: omitted, never backfilled.
     public var omittedPaused = 0
@@ -188,6 +191,10 @@ public struct CursorStats: Codable, Sendable, Equatable {
     public var droppedReadings = 0
     /// Readings that arrived after the take sealed.
     public var afterSeal = 0
+    /// Geometry placements the counted retention bound discarded before any reading claimed them.
+    /// A reading older than every placement left cites epoch 0 rather than a placement that does
+    /// not cover it.
+    public var forgottenPlacements = 0
     public var geometryEpochs = 0
 }
 
@@ -199,8 +206,9 @@ public struct CursorStats: Codable, Sendable, Equatable {
 /// arrival would credit readings taken after a window moved to the position it just left. It never
 /// invents a reading for a tick that did not happen, and a paused take records nothing.
 public struct CursorTrack: Sendable {
-    public init(batchSize: Int = 30) {
+    public init(batchSize: Int = 30, placementLimit: Int = 240) {
         self.batchSize = batchSize
+        self.placementLimit = max(1, placementLimit)
     }
 
     private struct Placed {
@@ -214,8 +222,11 @@ public struct CursorTrack: Sendable {
     }
 
     private let batchSize: Int
+    private let placementLimit: Int
     private var placements: [Placed] = []
     private var pending: [Pending] = []
+    /// The newest reading the track has actually been handed, in host time.
+    private var lastReadingHostUs: Int64?
     private var sealed = false
     public private(set) var stats = CursorStats()
     public private(set) var epoch = 0
@@ -236,6 +247,7 @@ public struct CursorTrack: Sendable {
     /// Accepts a reading already placed in source time, returning a batch once one is full.
     /// `sourceUs` is nil when the take's clock refuses the reading's host time.
     public mutating func accept(_ reading: CursorReading, sourceUs: Int64?) -> [CursorSample]? {
+        lastReadingHostUs = reading.hostUs
         stats.skippedTicks += reading.skippedTicks
         guard !sealed else {
             stats.afterSeal += 1
@@ -283,18 +295,30 @@ public struct CursorTrack: Sendable {
             sourceUs: item.sourceUs, x: pixel.map { Double($0.x) }, y: pixel.map { Double($0.y) },
             globalX: item.reading.global.x, globalY: item.reading.global.y,
             buttons: item.reading.buttons, eligibility: eligibility,
-            geometryEpoch: placed?.epoch ?? epoch)
+            geometryEpoch: placed?.epoch ?? 0)
     }
 
-    /// Keeps only the placements an unwritten reading could still need: the one in effect when the
-    /// oldest of them was taken, and everything after it.
+    /// Sampler readings arrive in their own timestamp order, independently of frames. An empty
+    /// batch does not mean an older reading is not still in flight; only a reading the track has
+    /// actually been handed advances the point before which geometry can be forgotten.
+    ///
+    /// That watermark stops advancing while the cadence is suspended, and frames keep reporting
+    /// geometry through a pause, so retention is bounded by a count as well: past `placementLimit`
+    /// the oldest placements are forgotten and reported. The newest placements are the ones a
+    /// resumed take needs, so the bound drops from the old end.
     private mutating func forgetSupersededPlacements() {
-        let oldest = pending.first?.reading.hostUs ?? Int64.max
-        var superseded = 0
-        for (index, placed) in placements.enumerated() where placed.hostUs <= oldest {
-            superseded = index
+        if let oldest = pending.first?.reading.hostUs ?? lastReadingHostUs {
+            var superseded = 0
+            for (index, placed) in placements.enumerated() where placed.hostUs <= oldest {
+                superseded = index
+            }
+            if superseded > 0 { placements.removeFirst(superseded) }
         }
-        if superseded > 0 { placements.removeFirst(superseded) }
+        if placements.count > placementLimit {
+            let excess = placements.count - placementLimit
+            placements.removeFirst(excess)
+            stats.forgottenPlacements += excess
+        }
     }
 }
 
@@ -326,6 +350,11 @@ public enum GlobalPointSpace {
 /// no Accessibility authorization. Sampling runs on its own queue so a busy capture queue delays
 /// the write, not the reading, and the handoff is bounded: once the capture queue is that far
 /// behind, further readings are refused and counted instead of queueing without limit.
+///
+/// `NSEvent.mouseLocation` and `NSEvent.pressedMouseButtons` are read off the main thread. Both are
+/// current-state class reads rather than main-actor UI state, and AppKit does not document them as
+/// main-thread-only; the lab measured the cadence working from this queue, which is evidence that
+/// it works on this host rather than a guarantee from the platform.
 public final class CursorSampler: Sendable {
     public init(
         intervalUs: Int64 = 16_667, pendingLimit: Int = 240, target: DispatchQueue,

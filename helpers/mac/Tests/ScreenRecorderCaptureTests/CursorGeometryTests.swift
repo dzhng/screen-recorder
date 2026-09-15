@@ -1,13 +1,21 @@
 import CoreGraphics
+import Dispatch
 import Foundation
 import ScreenRecorderCapture
+import Synchronization
+
+/// The same retina window at a chosen onscreen x, so a take can be given as much geometry churn as
+/// a test needs without inventing a new shape for each step.
+private func window(atX x: Double) -> CaptureGeometry {
+    CaptureGeometry(
+        outputWidth: 1600, outputHeight: 1000,
+        contentRect: GeometryRect(x: 0, y: 0, width: 800, height: 500), contentScale: 1,
+        scaleFactor: 2, screenRect: GeometryRect(x: x, y: 80, width: 800, height: 500),
+        boundingRect: nil, requestedSourceRect: nil)
+}
 
 /// A retina window filling its surface: 800x500 points at 100,80 onscreen, 1600x1000 output pixels.
-private let placed = CaptureGeometry(
-    outputWidth: 1600, outputHeight: 1000,
-    contentRect: GeometryRect(x: 0, y: 0, width: 800, height: 500), contentScale: 1,
-    scaleFactor: 2, screenRect: GeometryRect(x: 100, y: 80, width: 800, height: 500),
-    boundingRect: nil, requestedSourceRect: nil)
+private let placed = window(atX: 100)
 
 /// The same take after the window grew to 1000x600 points. The output keeps its dimensions, so the
 /// content is scaled to 0.8 and letterboxed by ten points at the top and bottom.
@@ -165,11 +173,7 @@ private func runCursorTrackTests() throws {
         "A written batch leaves nothing pending")
 
     // A window that moves opens a new epoch under unchanged output dimensions.
-    let moved = CaptureGeometry(
-        outputWidth: 1600, outputHeight: 1000,
-        contentRect: GeometryRect(x: 0, y: 0, width: 800, height: 500), contentScale: 1,
-        scaleFactor: 2, screenRect: GeometryRect(x: 140, y: 80, width: 800, height: 500),
-        boundingRect: nil, requestedSourceRect: nil)
+    let moved = window(atX: 140)
     precondition(
         track.observe(moved, hostUs: 60_000) == 2, "A moved window opens the next epoch")
     precondition(
@@ -208,6 +212,60 @@ private func runCursorTrackTests() throws {
         projected[0].x == 400 && projected[1].x == 320,
         "A reading after the move is projected through the moved window, got \(projected)")
     print("PASS readings are projected through the geometry contemporaneous with them")
+
+    // The sampler and frame producer enqueue independently. A reading taken before a move
+    // may reach the capture queue just after the new geometry, even with no pending batch.
+    var delayedReading = CursorTrack(batchSize: 1)
+    _ = delayedReading.observe(placed, hostUs: 0)
+    _ = delayedReading.accept(reading(hostUs: 10_000, x: 300, y: 455), sourceUs: 10_000)
+    _ = delayedReading.observe(moved, hostUs: 50_000)
+    let delayedBatch = delayedReading.accept(
+        reading(hostUs: 40_000, x: 300, y: 455), sourceUs: 40_000)
+    precondition(
+        delayedBatch?.first?.geometryEpoch == 1 && delayedBatch?.first?.x == 400,
+        "A delayed reading must retain its known pre-move geometry, got \(String(describing: delayedBatch))")
+    print("PASS a delayed reading retains geometry across an empty batch")
+
+    // A reading no observed geometry covers cannot claim an epoch it was never projected through.
+    var unexplained = CursorTrack(batchSize: 1)
+    _ = unexplained.observe(placed, hostUs: 50_000)
+    guard
+        let orphan = unexplained.accept(
+            reading(hostUs: 10_000, x: 300, y: 455), sourceUs: 10_000)?.first
+    else { preconditionFailure("A batch of one is written on arrival") }
+    precondition(
+        orphan.eligibility == "unknownGeometry" && orphan.geometryEpoch == 0 && orphan.x == nil
+            && orphan.globalX == 300,
+        "An unplaced reading cites no epoch and keeps its raw global point, got \(orphan)")
+    print("PASS a reading no geometry explains cites epoch 0 and keeps its global point")
+
+    // Frames keep reporting geometry through a pause while the cadence is suspended, so the
+    // delivered-reading watermark stops advancing. Retention is bounded by a count as well, and
+    // the placements a resumed take needs are the newest ones.
+    var churn = CursorTrack(batchSize: 1, placementLimit: 3)
+    precondition(
+        churn.accept(reading(hostUs: 0, x: 300, y: 455), sourceUs: nil) == nil,
+        "A reading the paused clock refuses records no sample")
+    for step in 1...6 {
+        _ = churn.observe(window(atX: Double(100 + step * 10)), hostUs: Int64(step) * 10_000)
+    }
+    precondition(
+        churn.stats.forgottenPlacements == 3 && churn.stats.geometryEpochs == 6,
+        "Unclaimed geometry past the bound is forgotten and reported, got \(churn.stats)")
+    guard
+        let beforeBound = churn.accept(reading(hostUs: 15_000, x: 300, y: 455), sourceUs: 15_000)?
+            .first,
+        let withinBound = churn.accept(reading(hostUs: 55_000, x: 300, y: 455), sourceUs: 55_000)?
+            .first
+    else { preconditionFailure("A batch of one is written on arrival") }
+    precondition(
+        beforeBound.eligibility == "unknownGeometry" && beforeBound.geometryEpoch == 0,
+        "A reading older than every retained placement is unplaced, got \(beforeBound)")
+    precondition(
+        withinBound.geometryEpoch == 5 && withinBound.x == 300,
+        "A reading inside the bound still follows the geometry it was taken under, got \(withinBound)"
+    )
+    print("PASS geometry retained across a suspended cadence is bounded from the old end")
 
     // Pauses: the take's own clock refuses readings, and nothing is invented for that time.
     var clock = CaptureClock()
@@ -255,7 +313,92 @@ private func runCursorTrackTests() throws {
         "A gap is reported as skipped and refused readings, got \(gapped.stats)")
     print("PASS missed and refused readings are reported instead of filled in")
 
+    runCursorSamplerTests()
     try runCursorJournalTests()
+}
+
+/// Polls a condition the cadence reaches on its own schedule, so a test waits for the behaviour
+/// instead of pinning how many milliseconds this machine took to get there.
+private func reached(within milliseconds: Int, _ ready: () -> Bool) -> Bool {
+    var waited = 0
+    while waited < milliseconds {
+        if ready() { return true }
+        Thread.sleep(forTimeInterval: 0.005)
+        waited += 5
+    }
+    return ready()
+}
+
+/// A real `CursorSampler`, driving its own cadence. The sampler reads the pointer's position and
+/// button state and nothing else: no input is synthesized, no window is opened and no screen
+/// content is captured, so these observe only what a take already observes about the cursor.
+private func runCursorSamplerTests() {
+    let target = DispatchQueue(label: "com.david.screenrec.cursor-sampler-lifecycle-test")
+    let readings = Atomic<Int>(0)
+    // Deliveries land on `target`; settling past one cadence interval and then draining that queue
+    // leaves no reading in flight to arrive after a count is taken.
+    func settled() -> Int {
+        Thread.sleep(forTimeInterval: 0.05)
+        target.sync {}
+        return readings.load(ordering: .sequentiallyConsistent)
+    }
+    do {
+        let sampler = CursorSampler(intervalUs: 20_000, pendingLimit: 240, target: target) { _ in
+            readings.wrappingAdd(1, ordering: .sequentiallyConsistent)
+        }
+        sampler.start()
+        precondition(
+            reached(within: 2_000) { readings.load(ordering: .sequentiallyConsistent) >= 2 },
+            "A started cadence delivers readings, got \(readings.load(ordering: .sequentiallyConsistent))"
+        )
+        sampler.suspend()
+        let atSuspend = settled()
+        Thread.sleep(forTimeInterval: 0.2)
+        precondition(
+            settled() == atSuspend,
+            "A suspended cadence delivers nothing for ten intervals, got \(settled()) after \(atSuspend)"
+        )
+        sampler.resume()
+        precondition(
+            reached(within: 2_000) {
+                readings.load(ordering: .sequentiallyConsistent) > atSuspend
+            }, "A resumed cadence delivers again")
+        sampler.stop()
+        let atStop = settled()
+        Thread.sleep(forTimeInterval: 0.2)
+        precondition(
+            settled() == atStop, "A stopped cadence delivers nothing more, got \(settled())")
+        // A take seals and may then cancel, so stopping twice must not over-resume the source.
+        sampler.stop()
+    }
+    // Leaving the scope releases a sampler that was suspended and then stopped. An unbalanced
+    // suspend traps in libdispatch on dealloc, so reaching the next line is the balance proof.
+    print("PASS a sampler's cadence starts, suspends, resumes and stops without leaking a suspend")
+
+    // The bounded handoff, driven by the sampler rather than a hand-fed count: a capture queue
+    // that stops draining holds exactly the bound and every further reading is refused.
+    let blocked = DispatchQueue(label: "com.david.screenrec.cursor-sampler-bound-test")
+    let release = DispatchSemaphore(value: 0)
+    let arrived = Atomic<Int>(0)
+    let bounded = CursorSampler(intervalUs: 1_000, pendingLimit: 4, target: blocked) { _ in
+        arrived.wrappingAdd(1, ordering: .sequentiallyConsistent)
+    }
+    blocked.async { release.wait() }
+    bounded.start()
+    precondition(
+        reached(within: 2_000) { bounded.refusedReadings >= 8 },
+        "A blocked capture queue refuses readings repeatedly, got \(bounded.refusedReadings)")
+    precondition(
+        arrived.load(ordering: .sequentiallyConsistent) == 0,
+        "A blocked capture queue receives nothing while it is blocked")
+    // Stop the cadence before unblocking, so what drains is exactly what was in flight.
+    bounded.stop()
+    release.signal()
+    blocked.sync {}
+    precondition(
+        arrived.load(ordering: .sequentiallyConsistent) == 4,
+        "Only the bound was ever in flight, got \(arrived.load(ordering: .sequentiallyConsistent))")
+    print("PASS a blocked capture queue holds only the bound and refuses the rest")
 }
 
 private func runCursorJournalTests() throws {
@@ -289,12 +432,24 @@ private func runCursorJournalTests() throws {
     precondition(
         summary.invalidAtSequence == nil && !summary.incompleteTail && summary.originHostUs == 1_000_000,
         "Cursor records must not disturb the acquisition boundaries around them")
+    precondition(
+        summary.zeroOriginHeight == 982,
+        "A summary reports the height the take converted readings through, got \(summary.zeroOriginHeight as Double?)"
+    )
 
     var events: [JournalGeometry] = []
     var streamed: [CursorSample] = []
-    try CaptureJournal.streamCursorEvidence(
+    var spaces: [JournalDisplaySpace] = []
+    let streamedSummary = try CaptureJournal.streamCursorEvidence(
         directory: directory.path, geometry: { events.append($0) },
-        samples: { streamed.append(contentsOf: $0) })
+        samples: { streamed.append(contentsOf: $0) }, displaySpace: { spaces.append($0) })
+    precondition(
+        spaces.map(\.zeroOriginHeight) == [982] && spaces.map(\.hostUs) == [1_000_000],
+        "The height a reading was flipped through reads back through the stream, got \(spaces)")
+    precondition(
+        streamedSummary.invalidAtSequence == nil && !streamedSummary.incompleteTail
+            && streamedSummary.cursorSamples == 2,
+        "One pass reports the evidence and that the journal was believable to its end")
     precondition(
         events.map(\.epoch) == [1, 2] && events.map(\.sourceUs) == [0, nil],
         "Streamed geometry keeps its epochs and the source time each was seen at")
@@ -314,12 +469,13 @@ private func runCursorJournalTests() throws {
     try lines.joined(separator: "\n").write(to: url, atomically: true, encoding: .utf8)
     var afterBadRecord: [CursorSample] = []
     var geometryAfterBadRecord: [JournalGeometry] = []
-    try CaptureJournal.streamCursorEvidence(
+    // The same pass that streams the evidence names where it stopped, so a caller never has to
+    // re-read the file to tell a stream that stopped early from a short take.
+    let corrupted = try CaptureJournal.streamCursorEvidence(
         directory: directory.path, geometry: { geometryAfterBadRecord.append($0) },
         samples: { afterBadRecord.append(contentsOf: $0) })
-    let corrupted = try CaptureJournal.inspect(directory: directory.path)
     precondition(
-        corrupted.invalidAtSequence == 5,
+        corrupted.invalidAtSequence == 5 && !corrupted.incompleteTail,
         "The corrupted fixture names its bad record, got \(corrupted.invalidAtSequence as Int?)")
     precondition(
         afterBadRecord.isEmpty && geometryAfterBadRecord.map(\.epoch) == [1],

@@ -152,7 +152,9 @@ are reported as skipped; a gap in the evidence is never filled with movement nob
 AppKit reports the pointer in a bottom-left space anchored to the display at the global origin,
 which is not necessarily `NSScreen.main` — that one follows the key window. `GlobalPointSpace`
 converts through the zero-origin display's height, and each take journals that height whenever it
-changes, so a reading can be re-derived from raw evidence.
+changes. Both readers surface it — `inspect` keeps the last one, `streamCursorEvidence` streams each
+— so a consumer checks a reading against the height that recording used rather than the one the
+display arrangement happens to have when the evidence is read.
 
 `CaptureGeometry` is built from each delivered frame's own `SCStreamFrameInfo` attachments,
 including idle and blank frames whose pixels are never written. `contentRect` places the content
@@ -161,12 +163,20 @@ inside the surface in points, `scaleFactor` converts surface points to output pi
 letterboxed rather than rescaling the take, so fixed output dimensions do not imply fixed source
 geometry. `screenRect` reports the captured window's onscreen rect; measured on this host it is the
 window frame in global display points with a top-left origin, on the origin display and on a second
-display whose global origin is negative. Display and region captures have no per-frame screen rect,
-so the request's own global rect explains them; a region's display-local points are offset into its
-display once, natively.
+display whose global origin is negative. On the window captures measured here, display and region
+captures carried no per-frame screen rect, so the request's own global rect is what explains them
+and a region's display-local points are offset into its display once, natively; that fallback has
+not itself been measured against a display or region take, and if those do report a screen rect the
+frame's own report wins.
 
 Geometry that differs from the current one opens the next epoch of the take, and every sample
-carries the epoch it was taken under. Samples record source time, unclamped output-pixel
+carries the epoch it was taken under. A reading is projected through the geometry in effect when it
+was taken, not when it was written, and the sampler enqueues independently of the frame producer:
+an empty batch is no proof that an older reading is not still in flight, so only a reading the
+track has actually been handed lets earlier geometry be forgotten. That watermark stops advancing
+while a pause suspends the cadence, so retention is also bounded by a count, dropping the oldest
+placements and reporting them. A sample no retained geometry covers cites epoch 0 rather than an
+epoch it was never projected through. Samples record source time, unclamped output-pixel
 coordinates, the raw global point they came from, button state, eligibility and that epoch. A point
 outside the capture keeps its projected coordinates and is marked `outside`: it is never pulled onto
 an edge it never touched. Eligibility means the point falls inside the captured content, not that
@@ -177,14 +187,19 @@ The journal owns these records like any other acquisition evidence. Geometry epo
 batches are ordinary writes, and their file order guarantees an epoch is written before the samples
 citing it. `inspect` keeps only counts, the sample range and the last geometry, so a summary never
 grows with recording length; `streamCursorEvidence` streams the individual records for a consumer
-that needs them.
+that needs them. Both are the same read, and it returns that summary either way, so one pass tells a
+consumer what the evidence was and where the file stopped being believable — a stream that stopped
+at a corrupt record is otherwise indistinguishable from a short take.
 
 `node scripts/cursor-geometry-lab.mjs` (`bun run lab:cursor-geometry`) records this process's own
 fixture window with both audio inputs disabled, moves and resizes it, sends it to another display,
 pauses and resumes, and parks it under the pointer. It then measures where the fixture's fiducial
 squares actually landed in decoded video, and pairs one-shot captures of the same window with and
 without a drawn pointer to measure the pointer itself. Predictions come from the native owner
-through the journal; the script only locates blobs and subtracts coordinates. A one-shot capture
+through the journal; the script locates blobs and subtracts coordinates, and converts the cursor's
+own hot spot into output pixels through the journaled `scaleFactor * contentScale` — a second
+reader of that ratio, so a change to how `CaptureGeometry` scales has to be made in both. A
+one-shot capture
 carries no frame metadata, so its prediction uses the take's journaled geometry at the same host
 time, and the fiducials visible in both confirm the two surfaces agree. Pointer comparisons are
 only valid while the pointer is still, so each one reports the drift measured around it.
