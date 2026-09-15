@@ -95,15 +95,16 @@ public final class CaptureJournal {
                     case "audioSamples":
                         let samples = try JSONDecoder().decode(
                             JournalAudioSamples.self, from: encoded)
-                        var intervals = summary.acquiredAudio[samples.role, default: []]
-                        if let last = intervals.last, samples.startUs <= last.endUs + 1 {
-                            intervals[intervals.count - 1] = MediaInterval(
+                        // Mutate through the dictionary to avoid copying every accumulated gap.
+                        if let last = summary.acquiredAudio[samples.role]?.last,
+                            samples.startUs <= last.endUs + 1 {
+                            let index = summary.acquiredAudio[samples.role, default: []].count - 1
+                            summary.acquiredAudio[samples.role, default: []][index] = MediaInterval(
                                 startUs: last.startUs, endUs: max(last.endUs, samples.endUs))
                         } else {
-                            intervals.append(
+                            summary.acquiredAudio[samples.role, default: []].append(
                                 MediaInterval(startUs: samples.startUs, endUs: samples.endUs))
                         }
-                        summary.acquiredAudio[samples.role] = intervals
                     case "finished": summary.finished = true
                     default: break
                     }

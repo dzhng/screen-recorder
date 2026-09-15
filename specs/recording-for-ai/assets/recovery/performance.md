@@ -22,8 +22,12 @@ journal format. An isolated candidate using an in-place dictionary subscript upd
 gapped records in 0.499/1.084 seconds; every interval start/end was verified. The
 contiguous case stayed around 0.519/1.033 seconds. Candidate verification is retained
 in `journal-perf-candidate.jsonl` and `/tmp/screenrec-journal-perf`.
-The active recovery agent's worktree remains untouched; apply the verified change
-after that integration if its final reader still has the same copying pattern.
+Production now uses the in-place update. The same release-build probe verified
+every interval and read 80k/160k gapped records in 0.479/0.972 seconds; raw results
+are in `journal-perf-production.jsonl`. The native worker build and all three
+recovery tests pass. Independent read-only review confirmed interval preservation
+and the copy-on-write reasoning. Preserve this update when merging the separate
+recovery correction worktree.
 
 ## Not established — per-buffer append causes recording drops
 
