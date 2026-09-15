@@ -15,7 +15,8 @@
     "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
     "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
     "lab:client-image": "node packages/test-harness/dist/client-image.js",
-    "lab:timeline": "node packages/test-harness/dist/timeline.js"
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs"
   },
   "devDependencies": {
     "@types/node": "24.13.4",

@@ -47,7 +47,9 @@ fillers whenever emitted, including ordinary uses. Label those uses correctly so
 precision reveals this limitation. Freeze the vocabulary before held-out scoring.
 This measures the proposed literal filler detector; it does not prove contextual
 filler classification or phrase recognition. Repetitions are compared as ordered
-occurrences, rather than as a set of words. Case and punctuation are ignored.
+occurrences, rather than as a set of words. Case and punctuation are ignored. When equally good text alignments match
+different repeated occurrences, choose the alignment with the smallest total
+word-boundary distance. Timing never overrides a better text match.
 
 Boundary errors include both endpoints of exact aligned words; omitted words
 have no invented timing. The report retains matched/reference denominators,

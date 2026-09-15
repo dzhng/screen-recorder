@@ -1,0 +1,195 @@
+{
+  "scope": "slice04 preparation and synthetic plumbing only",
+  "commit": "5c47c50",
+  "tests": {
+    "command": "node --test packages/test-harness/speech/evaluate.test.mjs",
+    "passed": 8,
+    "redGreenOrFalsification": true,
+    "rootVerified": true
+  },
+  "networkCanary": {
+    "command": "sandbox-exec deny-network python socket.create_connection 1.1.1.1:80",
+    "result": "PermissionError: [Errno 1] Operation not permitted"
+  },
+  "whisperkit": {
+    "preparation": "passed",
+    "runs": [
+      {
+        "origin": "synthetic",
+        "evidencePath": "/tmp/screenrec-speech-plumbing/whisperkit/run-1789455422718/result.json",
+        "audioSha256": "c3f1124fd680949345ba0267e6513ef4e75380f05123f1c7a6e4f6ea588ef4e4",
+        "runtimeRevision": "1e2a163736dfa5a198e637ae44c114e1c6d5cc2d",
+        "modelRevision": "0f63a7800b00dd0226abd051b906c246e1907482",
+        "binarySha256": "d9f54fc166d133b1fa69cc44733ccec799b5a0c46094b88a9644981d9105aa63",
+        "network": "sandbox-deny-network",
+        "elapsedSeconds": 108.924750625,
+        "peakRssBytes": 1637122048,
+        "warm": false,
+        "text": "Open the settings panel. This is synthetic narration for testing the transcription plumbing.",
+        "words": [
+          {
+            "text": "Open",
+            "start": 0.04,
+            "end": 0.28
+          },
+          {
+            "text": "the",
+            "start": 0.28,
+            "end": 0.46
+          },
+          {
+            "text": "settings",
+            "start": 0.46,
+            "end": 0.74
+          },
+          {
+            "text": "panel.",
+            "start": 0.74,
+            "end": 1.22
+          },
+          {
+            "text": "This",
+            "start": 2.08,
+            "end": 2.2
+          },
+          {
+            "text": "is",
+            "start": 2.2,
+            "end": 2.4
+          },
+          {
+            "text": "synthetic",
+            "start": 2.4,
+            "end": 2.8
+          },
+          {
+            "text": "narration",
+            "start": 2.8,
+            "end": 3.18
+          },
+          {
+            "text": "for",
+            "start": 3.18,
+            "end": 3.6
+          },
+          {
+            "text": "testing",
+            "start": 3.6,
+            "end": 4.04
+          },
+          {
+            "text": "the",
+            "start": 4.04,
+            "end": 4.24
+          },
+          {
+            "text": "transcription",
+            "start": 4.24,
+            "end": 4.74
+          },
+          {
+            "text": "plumbing.",
+            "start": 4.74,
+            "end": 5.24
+          }
+        ]
+      },
+      {
+        "origin": "synthetic",
+        "evidencePath": "/tmp/screenrec-speech-plumbing/whisperkit/run-1789455742752/result.json",
+        "audioSha256": "c3f1124fd680949345ba0267e6513ef4e75380f05123f1c7a6e4f6ea588ef4e4",
+        "runtimeRevision": "1e2a163736dfa5a198e637ae44c114e1c6d5cc2d",
+        "modelRevision": "0f63a7800b00dd0226abd051b906c246e1907482",
+        "binarySha256": "d9f54fc166d133b1fa69cc44733ccec799b5a0c46094b88a9644981d9105aa63",
+        "network": "sandbox-deny-network",
+        "elapsedSeconds": 1.3883710420000002,
+        "peakRssBytes": 279445504,
+        "warm": false,
+        "text": "Open the settings panel. This is synthetic narration for testing the transcription plumbing.",
+        "words": [
+          {
+            "text": "Open",
+            "start": 0.04,
+            "end": 0.28
+          },
+          {
+            "text": "the",
+            "start": 0.28,
+            "end": 0.46
+          },
+          {
+            "text": "settings",
+            "start": 0.46,
+            "end": 0.74
+          },
+          {
+            "text": "panel.",
+            "start": 0.74,
+            "end": 1.22
+          },
+          {
+            "text": "This",
+            "start": 2.08,
+            "end": 2.2
+          },
+          {
+            "text": "is",
+            "start": 2.2,
+            "end": 2.4
+          },
+          {
+            "text": "synthetic",
+            "start": 2.4,
+            "end": 2.8
+          },
+          {
+            "text": "narration",
+            "start": 2.8,
+            "end": 3.18
+          },
+          {
+            "text": "for",
+            "start": 3.18,
+            "end": 3.6
+          },
+          {
+            "text": "testing",
+            "start": 3.6,
+            "end": 4.04
+          },
+          {
+            "text": "the",
+            "start": 4.04,
+            "end": 4.24
+          },
+          {
+            "text": "transcription",
+            "start": 4.24,
+            "end": 4.74
+          },
+          {
+            "text": "plumbing.",
+            "start": 4.74,
+            "end": 5.24
+          }
+        ]
+      }
+    ]
+  },
+  "parakeet": {
+    "preparation": "pending",
+    "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+    "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+    "modelCache": "/tmp/screenrec-speech-models/parakeet/models",
+    "downloadedApproxMiB": 444,
+    "reason": "SwiftPM binary artifact fetch for NemoTextProcessing.xcframework.zip exceeded bounded 300-second setup command even with --disable-default-traits. No modified upstream source or inference. Child process group terminated; no leftover worker found."
+  },
+  "pending": [
+    "human canonical edit fixture",
+    "at least 40 labeled fillers across held-out human clips",
+    "human five-minute walkthrough",
+    "actual cut audition preserving neighboring speech",
+    "warm production-runtime resource measurement",
+    "single production-engine selection"
+  ]
+}

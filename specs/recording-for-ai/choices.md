@@ -46,3 +46,29 @@
   seeing pixels from receiving a plausible file path or inferring a scripted answer.
 - **Consequence:** this establishes the transport/client boundary only; readability
   of real screen recordings and the eventual edit loop still need their own gates.
+
+## Speech evaluation
+
+### Repeated-word alignment
+
+- **When:** local speech preparation.
+- **Decision:** compare words in order, then use their times to break equally good
+  text matches. A repeated “like” close to the observed audio is preferred over a
+  distant occurrence; timing never excuses a worse transcription.
+- **Gap:** the acceptance gate specifies timing accuracy but not ambiguous matching.
+- **Rationale:** choosing the last repeated occurrence by array order can turn one
+  omitted word into an invented multi-second timing error. Sequence plus proximity
+  preserves the distinction between missing words and bad boundaries.
+- **Consequence:** ambiguous matches use the reference timing; this small annotated
+  evaluation remains evidence for the fixture, not universal speech accuracy.
+
+### Keep raw inference evidence
+
+- **When:** local speech preparation.
+- **Decision:** preserve upstream reports in a separate directory beside normalized
+  results, including when the recording itself is named “result”.
+- **Gap:** diagnostic layout was unspecified.
+- **Rationale:** separate paths prevent filename collisions without rejecting valid
+  recording names. Raw confidence/segment data remains available for review.
+- **Consequence:** the test harness retains both reports; production artifact layout
+  remains owned by the processing slice.

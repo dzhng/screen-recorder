@@ -1,9 +1,15 @@
 # 04 — Select a verbatim local speech engine
 
-Status: preparation harness on `implement/speech-eval` at `5c47c50`, awaiting
-integration/review. Synthetic offline Whisper inference proves plumbing only;
-human narration, filler/timing evaluation and production selection remain open.
-Dependencies: 00.
+Status: preparation/evaluation harness integrated; eight evaluator tests pass.
+Independent review found repeated-token alignment and raw-report filename defects;
+both are fixed, with red/green coverage and an actual offline synthetic inference
+for the filename case. Human fidelity and production-engine selection remain open.
+Evidence: [preparation](../assets/speech/preparation.json),
+[raw/normalized report retention](../assets/speech/filename-check.json).
+Dependencies: 00. Run `bun run lab:speech-eval --help`; the
+[evaluation protocol](../../../packages/test-harness/speech/protocol.md) defines
+fixture annotation and interpretation. Current Parakeet setup retry is independent
+of the passing WhisperKit plumbing probe.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

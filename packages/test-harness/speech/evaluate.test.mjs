@@ -176,3 +176,22 @@ test("median boundary error averages the middle pair for an even sample count", 
   assert.ok(Math.abs(report.boundaries.median - 0.15) < 1e-12);
   assert.ok(report.failures.includes("Median boundary error exceeds 100 ms"));
 });
+
+test("repeated words match the observed occurrence when edit costs tie", () => {
+  const clip = {
+    id: "repeated-like",
+    kind: "held-out",
+    origin: "human",
+    duration: 12,
+    words: [
+      { text: "like", start: 1, end: 1.3, filler: true },
+      { text: "like", start: 10, end: 10.3 },
+    ],
+  };
+  const result = evaluate({ clips: [clip], fillerTerms: ["like"] }, [
+    { clipId: clip.id, words: [{ text: "like", start: 1, end: 1.3 }] },
+  ]);
+  assert.equal(result.heldOut.truePositive, 1);
+  assert.equal(result.heldOut.falseNegative, 0);
+  assert.equal(result.boundaries.p95, 0);
+});

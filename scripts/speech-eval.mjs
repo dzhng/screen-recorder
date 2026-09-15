@@ -189,9 +189,11 @@ async function main() {
   await mkdir(output, { recursive: true });
   const runDirectory = join(output, `run-${Date.now()}`);
   await mkdir(runDirectory);
+  const rawDirectory = join(runDirectory, "upstream");
+  await mkdir(rawDirectory);
   const model = join(cache, "models", engine.modelFolder);
   const rawPath = join(
-    runDirectory,
+    rawDirectory,
     first === "parakeet" ? "raw.json" : basename(audio).replace(/\.[^.]*$/, "") + ".json",
   );
   const args =
@@ -220,7 +222,7 @@ async function main() {
           "--word-timestamps",
           "--report",
           "--report-path",
-          runDirectory,
+          rawDirectory,
         ];
   const binary = join(source, ".build", "release", engine.product);
   if ((await sha(binary)) !== provenance.binarySha256)

@@ -12,16 +12,38 @@ function align(expected, actual) {
   const width = actual.length + 1;
   const steps = new Uint8Array((expected.length + 1) * width);
   let previous = Uint32Array.from({ length: width }, (_, i) => i);
+  let previousTiming = new Float64Array(width);
   for (let i = 1; i <= expected.length; i++) {
     const row = new Uint32Array(width);
+    const timing = new Float64Array(width);
     row[0] = i;
     for (let j = 1; j < width; j++) {
       const same = token(expected[i - 1].text) === token(actual[j - 1].text);
       const costs = [previous[j - 1] + (same ? 0 : 1), previous[j] + 1, row[j - 1] + 1];
-      row[j] = Math.min(...costs);
-      steps[i * width + j] = costs.indexOf(row[j]);
+      // Timing breaks text-alignment ties; it never excuses a transcription error.
+      const distances = [
+        previousTiming[j - 1] +
+          (same
+            ? Math.abs(expected[i - 1].start - actual[j - 1].start) +
+              Math.abs(expected[i - 1].end - actual[j - 1].end)
+            : 0),
+        previousTiming[j],
+        timing[j - 1],
+      ];
+      let best = 0;
+      for (let choice = 1; choice < 3; choice++) {
+        if (
+          costs[choice] < costs[best] ||
+          (costs[choice] === costs[best] && distances[choice] < distances[best])
+        )
+          best = choice;
+      }
+      row[j] = costs[best];
+      timing[j] = distances[best];
+      steps[i * width + j] = best;
     }
     previous = row;
+    previousTiming = timing;
   }
   const matches = [];
   let i = expected.length,
