@@ -220,16 +220,10 @@ private struct SourceTrack {
             available: SpanMath.intersection(plan.available, occupied))
     }
 
-    /// Sums one available recording interval into the output buffer. The reader is given that
-    /// interval in asset time, so material outside the retained spans is never decoded, and the
-    /// decoded frames are converted to the excerpt's own rate by AVAudioConverter.
-    ///
-    /// The conversion is driven to end of stream. A sample rate converter still owes output when its
-    /// last input frame arrives, and a reader that resampled on its own simply stops there: the
-    /// frames its filter had not yet delivered stay unwritten, and unwritten frames are
-    /// indistinguishable from the silence an unavailable region owes the caller. Signalling end of
-    /// stream makes the converter flush what it holds, and an interval that still ends short of the
-    /// frames it owes fails rather than publishing that silence as captured audio.
+    /// AVAssetReader resampling can stop before the conversion filter delivers its tail.
+    /// Convert source-rate PCM explicitly and signal end of stream to flush that tail;
+    /// refuse incomplete coverage instead of publishing unwritten samples as captured silence.
+    /// Read bounds follow the interval's allocated output samples, including quantization.
     func mix(
         recording interval: SourceSpan, gain: Float, channelMap: [Int], sampleRate outputRate: Int,
         into samples: inout [Float], at destination: Int64, limit: Int64

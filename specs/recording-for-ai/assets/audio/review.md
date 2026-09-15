@@ -1,19 +1,23 @@
-# Native audio candidate integration review
+# Native audio integration review
 
-Candidate `4b5ed01` is not yet accepted. Root invoked its real `media.audio` worker
-on a generated 48kHz tone and 1,000 separated retained spans of 10,010 microseconds
-each. It returned 480,000 frames instead of 480,480: a ten-millisecond shortening.
-The [report](rounding-red.json) records the actual output and source hashes.
-Destination boundaries must use cumulative playback time, not a sum of separately
-rounded durations, so audio cannot drift relative to the edit timeline.
+Native execution and generated-media checks pass at `1eef825`. This does not close
+media inspection or human-output acceptance: no excerpt has been auditioned or made
+from physical microphone/system capture.
 
-The candidate also lacked the caller-supplied acquisition intervals required by
-its task. Container occupancy alone cannot distinguish known missing acquisition
-from recorded silence. The correction must intersect recovery evidence with actual
-media and report unavailable holes while refusing to read their sound into output.
-Channel widening must not copy a stereo track's last channel into arbitrary extra
-channels without a supported layout rule.
+Three reviewed defects are corrected: cumulative placement prevents drift across
+many fractional spans; caller acquisition evidence prevents missing capture from
+being relabeled as recorded silence; explicit rate conversion flushes the tail that
+AVAssetReader resampling omitted. See [rounding evidence](rounding-green.json) and
+[resampling evidence](resampling-green.json).
 
-Claude Opus owns these corrections in `/tmp/screenrec-audio-excerpts`; root will
-review and rerun the worker before integration. No excerpt has been auditioned,
-and the parent audio/media-inspection and human-output gates remain open.
+Root ran the integrated native audio suite (16 PASS groups), rebuilt the native
+worker and ran all nine worker-process tests. A separate actual worker request was
+compared with FFmpeg conversion: all seventeen previously missing mono-tail samples
+are present. Interior maximum absolute sample difference was 5.45e-6; tail difference
+was 0.00244, reflecting different filter-edge behavior. Source hashes were unchanged.
+
+Independent Codex review found no actionable regression. Its media execution was
+sandbox-blocked, so root's native runs provide runtime evidence. The reader may
+extend its nominal range by at most one output sample to fulfill cumulative sample
+quantization; this does not change the requested edit spans. Wider-than-stereo
+layouts remain explicitly unsupported.

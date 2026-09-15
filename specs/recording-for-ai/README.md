@@ -37,9 +37,8 @@ must serialize with capture mutations. Independent review reproduced these failu
 Next priority: integrate and verify capture correction, then native menu controls and
 revision-bound media inspection. Opus is implementing native-only cursor/trail drawing
 in `/tmp/screenrec-native-cursor-render`; core history cutoffs and scene analysis
-remain outside that subpass. Independent Opus work is correcting a mixed-rate
-audio tail defect in `/tmp/screenrec-audio-excerpts`; 09b remains open. The rounding
-and acquisition-availability corrections are integrated. Speech remains a feasibility
+remain outside that subpass. Native audio execution (09b) now passes integrated numerical checks, including
+resampling tails, cumulative rounding and acquisition holes; audition remains open. Speech remains a feasibility
 gate: none of the measured local engines or WhisperKit prompt configurations meets
 filler fidelity. Alternative research identified CrisperWhisper, but its current model license
 restricts operational deployment; see the
@@ -86,7 +85,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
   - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
-  - [ ] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (resampling correction pending)
+  - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (generated-media execution; audition still open)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)

@@ -310,3 +310,27 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   take. A recording that finishes meanwhile reports its current state; opening it
   by ID still resolves and pins the inspection revision separately.
 - **Verdict:** Sound. **Confidence:** High.
+
+## Native audio excerpts
+
+### Sound — medium confidence
+
+- **Choice:** Support mono and stereo excerpts; refuse wider layouts with an
+  explicit unsupported-format error. A mono track reaches both channels when mixed
+  with stereo, and no channel is copied into an invented surround position.
+- **Gap:** The app's audio contract did not specify surround-channel mapping.
+- **Reach:** Ordinary narration and system-audio inspection work; a future wider
+  input layout needs an explicit mapping and its own verification.
+- **Verdict:** Sound. **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Inspection excerpts use float PCM WAV at the higher source sample
+  rate. Output placement rounds cumulative playback time once at each boundary.
+- **Gap:** The excerpt container and mapping from microseconds to indivisible audio
+  samples were unspecified.
+- **Reach:** Many tiny cuts cannot accumulate duration drift. Rate conversion may
+  need a read ending up to one output sample beyond the nominal microsecond range
+  to produce those allocated samples. Requested edit spans remain unchanged; human
+  video encoding and its AAC soundtrack stay with the video renderer.
+- **Verdict:** Sound. **Confidence:** High.

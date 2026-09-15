@@ -1,7 +1,7 @@
 # 09 — Arbitrary clean frames and media excerpts
 
 Status: [native frame decoding](09a-native-frame-decode.md) is integrated; native
-audio is under [candidate correction](../assets/audio/review.md). Core inspection,
+audio execution passes [generated-media checks](../assets/audio/review.md). Core inspection,
 cache and full audio/edited-frame gates remain. Dependencies: 03, 05, 06.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and

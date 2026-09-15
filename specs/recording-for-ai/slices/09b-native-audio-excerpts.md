@@ -1,7 +1,7 @@
 # 09b — Native audio excerpts of retained source spans
 
-Status: mixed-rate correction integrated for verification; root native checks and
-independent review are pending. The excerpt has not been auditioned. Independent prerequisite: native workspace (00).
+Status: native execution and generated-media checks pass, including the mixed-rate
+correction and independent review. The excerpt has not been auditioned. Independent prerequisite: native workspace (00).
 This extracts 09's audio-excerpt seam, under 13's join contract, so generated media
 can verify it while revision lookup, caching and scheduling proceed elsewhere.
 It does not close 09 or 13, and claims nothing about audible quality.
@@ -177,9 +177,10 @@ evidence; root ran the suites outside the sandbox.
 
 ## Integration checks
 
-Root independently compared a candidate output with FFmpeg conversion: all seventeen
-previously missing tail samples carry the mono contribution. Final checks on the
-integrated commit remain pending. This generated-media comparison is not audition.
+Root's integrated worker comparison confirms all seventeen previously missing tail
+samples. The native audio suite and all nine worker-process tests pass; independent
+review found no actionable regression. See the [integration review](../assets/audio/review.md)
+for evidence and numerical limits. This generated-media comparison is not audition.
 
 The [rounding evidence](../assets/audio/rounding-green.json) separately records the
 thousand-span worker/ffprobe result: 480480 samples / 10.010 seconds, with unchanged

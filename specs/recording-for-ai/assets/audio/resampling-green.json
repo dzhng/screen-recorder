@@ -1,0 +1,85 @@
+{
+  "commit": "1eef825",
+  "request": {
+    "id": "integrated-tail",
+    "operation": "media.audio",
+    "params": {
+      "output": "/tmp/screenrec-audio-root-tail/integrated.wav",
+      "spans": [
+        {
+          "startUs": 1000000,
+          "endUs": 1500000
+        }
+      ],
+      "tracks": [
+        {
+          "role": "narration",
+          "source": "/tmp/screenrec-audio-resampling-evidence/fixed/narration.mov",
+          "sourceOffsetUs": 0,
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 4000000
+            }
+          ]
+        },
+        {
+          "role": "system",
+          "source": "/tmp/screenrec-audio-root-tail/mono.mov",
+          "sourceOffsetUs": 0,
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 4000000
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "response": {
+    "data": {
+      "bytes": 196096,
+      "channels": 2,
+      "durationUs": 500000,
+      "file": "/tmp/screenrec-audio-root-tail/integrated.wav",
+      "frames": 24000,
+      "mediaType": "audio/wav",
+      "sampleRate": 48000,
+      "spans": [
+        {
+          "endUs": 1500000,
+          "startUs": 1000000
+        }
+      ],
+      "tracks": [
+        {
+          "channels": 2,
+          "gain": 0.5,
+          "role": "narration",
+          "sampleRate": 48000,
+          "unavailable": []
+        },
+        {
+          "channels": 1,
+          "gain": 0.5,
+          "role": "system",
+          "sampleRate": 44100,
+          "unavailable": []
+        }
+      ]
+    },
+    "id": "integrated-tail",
+    "ok": true
+  },
+  "independentConversion": "FFmpeg atrim 1\u20131.5 seconds, asetpts, aresample=48000; 24000 mono frames",
+  "nonzeroPreviouslyMissingTailFrames": 17,
+  "interiorMaxAbsoluteDifference": 5.446374416351318e-06,
+  "tailMaxAbsoluteDifference": 0.002433858811855316,
+  "sourceHashesUnchanged": [
+    "d4de28c7cbc2c9f7669cb51a8b064afecfd9206725bc661a55fadb398b46bd83",
+    "0abcb62cc60d52548996b229eeeceb6cbeafc2cf048bc316a70d82e8801900bb"
+  ],
+  "outputSha256": "7472d077ebd139c7f4c3ed72eed260134bf83ce49a5185c2aad9b119faa6afff",
+  "scope": "Generated PCM and numerical comparison only; not an audition or physical audio capture."
+}
