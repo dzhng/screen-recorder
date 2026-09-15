@@ -28,11 +28,12 @@ struct ServiceBundle {
 
     /// Probing interpreters runs child processes, so resolution answers on a background
     /// queue and the caller stays responsive while the startup deadline runs down.
+    @discardableResult
     static func resolve(
         in bundle: Bundle = .main,
         environment: [String: String] = ProcessInfo.processInfo.environment,
         completion: @escaping @Sendable (Result<ServiceBundle, ServiceFailure>) -> Void
-    ) {
+    ) -> Operation? {
         guard let script = bundle.url(forResource: "main", withExtension: "mjs", subdirectory: "service"),
             let manifestURL = bundle.url(forResource: "runtime", withExtension: "json", subdirectory: "service"),
             let data = try? Data(contentsOf: manifestURL),
@@ -43,23 +44,28 @@ struct ServiceBundle {
                     ServiceFailure(
                         code: "SERVICE_MISSING",
                         message: "This build has no usable service in Contents/Resources/service")))
-            return
+            return nil
         }
         let callTimeout = TimeInterval(manifest.callTimeoutMs) / 1000
         let deadline = Date().addingTimeInterval(callTimeout)
-        DispatchQueue.global(qos: .userInitiated).async {
-            completion(
-                NodeRuntime.resolve(
-                    recorded: manifest.nodePath, environment: environment, deadline: deadline
-                ).map { node in
-                    ServiceBundle(
-                        script: script,
-                        node: node,
-                        controlFrameBytes: manifest.controlFrameBytes,
-                        maxPendingCalls: manifest.maxPendingCalls,
-                        callTimeout: callTimeout,
-                        startupDeadline: deadline)
-                })
+        let operation = BlockOperation()
+        operation.addExecutionBlock { [weak operation] in
+            guard let operation, !operation.isCancelled else { return }
+            let result = NodeRuntime.resolve(
+                recorded: manifest.nodePath, environment: environment, deadline: deadline,
+                isCancelled: { operation.isCancelled }
+            ).map { node in
+                ServiceBundle(
+                    script: script,
+                    node: node,
+                    controlFrameBytes: manifest.controlFrameBytes,
+                    maxPendingCalls: manifest.maxPendingCalls,
+                    callTimeout: callTimeout,
+                    startupDeadline: deadline)
+            }
+            if !operation.isCancelled { completion(result) }
         }
+        DispatchQueue.global(qos: .userInitiated).async { operation.start() }
+        return operation
     }
 }

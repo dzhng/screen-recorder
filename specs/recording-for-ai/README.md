@@ -29,17 +29,21 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: correct and integrate app-service lifetime (06c). Root reproduced
-concurrent-start ownership and interpreter-deadline failures in its candidate;
-a Claude Opus correction is active. Native recovery timing/journal corrections and its measured reader
-performance fix are integrated. Cursor geometry (03) is active in a separate
-Claude Opus worktree; actual placement remains a required gate. Generated PCM
-fragmentation is verified; physical audio and full recovery lifecycle remain open. The native readiness fix and socket transport are
-integrated. Native frame decoding and worker binding pass generated and own-window
-checks and independent integration review; its visual checkpoint is resolved. Timeline/revision storage, speech probe
-plumbing and the localhost workbench are integrated. Human transcription fidelity,
-all-source/audio capture and native menu interaction remain unverified. Consult
-owning slices before recreating work or accepting a downstream assumption.
+Current pickup: integrate and verify cursor geometry (03). App-service lifetime
+(06c) is integrated and reviewed; packaged lifecycle, transport and concurrent-start
+checks pass, including the quit-during-interpreter regression.
+Claude Opus is implementing durable recording lifecycle storage in
+`/tmp/screenrec-recording-lifecycle`; integrate its core-only seam before adding
+capture control and journal reconciliation. Cursor candidate `ffee815` is complete
+in `/tmp/screenrec-cursor`, with a separate integration review active; actual driven
+pointer gestures and display/region placement remain open.
+
+Recovery timing and journal performance fixes, native frame decoding, timeline and
+revision storage, local transport, and speech probe plumbing are integrated. Keep
+physical audio, human transcription fidelity, full capture recovery lifecycle and
+native menu interaction explicitly unverified. Speech fixture provenance is recorded
+in the speech slice; corpus alignment is not manual timing truth. Read each owning
+slice before recreating work or accepting a downstream assumption.
 
 Evidence: [bootstrap](assets/bootstrap/verification.md),
 [actual-agent images](assets/client-image/review.md),
@@ -57,7 +61,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
   - [x] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
   - [x] [06b — Bounded local transport](slices/06b-local-transport.md) (independent after 00)
-  - [ ] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md) (independent after 00, 06b)
+  - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md) (independent after 00, 06b)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)

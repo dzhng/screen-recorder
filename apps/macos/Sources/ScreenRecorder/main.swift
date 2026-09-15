@@ -6,6 +6,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var statusItem: NSStatusItem?
     private var statusEntry: NSMenuItem?
     private var service: ServiceHost?
+    private var startup: Operation?
+    private var terminating = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         if CommandLine.arguments.count > 1 {
@@ -34,9 +36,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// than holding it while a candidate is probed.
     private func startService() {
         apply(.starting)
-        ServiceBundle.resolve { [weak self] result in
+        startup = ServiceBundle.resolve { [weak self] result in
             Task { @MainActor in
-                guard let self else { return }
+                guard let self, !self.terminating else { return }
                 switch result {
                 case .failure(let failure):
                     self.report(code: failure.code, message: failure.message)
@@ -105,6 +107,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        terminating = true
+        startup?.cancel()
+        // Let the bounded in-flight probe reap its child before this process exits.
+        // Cancellation prevents another candidate or a late service launch.
+        startup?.waitUntilFinished()
         service?.shutdown()
     }
 }

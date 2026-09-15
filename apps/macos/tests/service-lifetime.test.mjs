@@ -364,3 +364,20 @@ test("simultaneous launches against one home leave exactly one owner", async () 
   assert.equal(statSync(socketPath(home)).isSocket(), true);
   assert.equal((await health(home, "sole-owner")).data.pid, owners[0]);
 });
+
+test("quitting during interpreter validation reaps the owned probe", async () => {
+  const home = temporary("/tmp/scr-app-");
+  const executable = interpreter(ignoresTermination);
+  const instance = launch(home, { SCREENREC_NODE: executable });
+  const probe = await waitFor(
+    () => instance.children().find((child) => child.command.includes(executable)),
+    3_000,
+  );
+  try {
+    instance.kill("SIGTERM");
+    await instance.exited;
+    assert.equal(alive(probe.pid), false, "Quit left the interpreter probe running");
+  } finally {
+    if (alive(probe.pid)) process.kill(probe.pid, "SIGKILL");
+  }
+});

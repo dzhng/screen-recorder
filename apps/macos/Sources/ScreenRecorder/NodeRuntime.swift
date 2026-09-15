@@ -22,11 +22,15 @@ enum NodeRuntime {
     /// How long an abandoned candidate is given to honour a signal before the next one.
     static let escalationBudget: TimeInterval = 0.25
 
-    static func resolve(recorded: String, environment: [String: String], deadline: Date) -> Result<
+    static func resolve(
+        recorded: String, environment: [String: String], deadline: Date,
+        isCancelled: () -> Bool = { false }
+    ) -> Result<
         String, ServiceFailure
     > {
         let attempted = candidates(recorded: recorded, environment: environment)
         for candidate in attempted where FileManager.default.isExecutableFile(atPath: candidate) {
+            if isCancelled() { break }
             let budget = min(candidateBudget, deadline.timeIntervalSinceNow)
             if budget <= 0 { break }
             if let version = version(of: candidate, budget: budget),

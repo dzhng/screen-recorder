@@ -1,8 +1,9 @@
 # 06c — App-owned service lifetime
 
-Status: candidate implemented; startup ownership/deadline regressions reproduced
-and correction in progress. See [review evidence](../assets/service-lifetime/review.md). Dependencies: 00 and 06b. This extracts the idle process-lifetime
-boundary from 06; capture reconciliation and durable jobs remain in the parent.
+Status: complete for idle app/service lifetime; integrated packaged lifecycle,
+transport and independent shutdown review pass. See [review evidence](../assets/service-lifetime/review.md).
+Dependencies: 00 and 06b. This extracts the idle process-lifetime boundary from 06;
+capture reconciliation and durable jobs remain in the parent.
 
 ## Contract
 

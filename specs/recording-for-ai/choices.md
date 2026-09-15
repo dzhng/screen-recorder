@@ -208,3 +208,32 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
 - **Verdict:** Sound. A real fixture showed a 300 ms under-report from mixing the
   two clocks; a single mapping prevents the corrected readers from drifting apart.
 - **Confidence:** High.
+
+## App-owned service startup
+
+### Sound — medium confidence
+
+- **Choice:** The app resolves its build-recorded Node interpreter, with explicit
+  override and conventional installation paths, instead of bundling Node. A Finder
+  launch therefore does not depend on the developer shell's PATH.
+- **Gap:** Personal-host Node 24 was specified; interpreter discovery was delegated.
+- **Reach:** Moving or removing Node requires rebuilding or setting the override.
+  Tester/public packaging remains separate work.
+- **Verdict:** Sound within the personal-host prerequisite. **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Hold an operating-system file lock for the service lifetime before
+  reclaiming a dead socket. The lock file stays in place; process death releases
+  ownership automatically.
+- **Gap:** The plan required a single owner without prescribing the lock mechanism.
+- **Reach:** Startup uses macOS file-lock semantics; no custom stale-PID lock owner
+  or extra native launcher is added.
+- **Verdict:** Sound. **Confidence:** High.
+
+- **Choice:** Normal app quit waits for a bounded interpreter probe to finish
+  cleanup, and prevents any late startup callback from launching the service.
+- **Gap:** The plan did not name ownership during interpreter validation.
+- **Reach:** Quit can take the remainder of the probe deadline and escalation;
+  forced app death while probing a noncooperative executable is outside this guarantee.
+- **Verdict:** Sound. **Confidence:** High.
