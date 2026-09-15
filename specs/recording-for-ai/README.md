@@ -29,9 +29,9 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: integrate and review speech preparation, native capture and durable
-revision transactions from their existing worktrees. Then finish native recovery
-and the shared service; do not recreate completed probes. The timeline engine and
+Current pickup: finish native capture integration and recovery, then the shared
+service. Speech evaluation and durable revision transactions are integrated; local
+engine preparation is still being verified. Do not recreate completed probes. The timeline engine and
 its package/harness integration are committed and verified. Actual-agent image
 access is complete; bootstrap native-menu observation remains pending. Human
 narration, filler preservation, word timing, isolated audio and A/V drift still
@@ -47,7 +47,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
 - [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
 - [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
-  - [ ] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
+  - [x] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)

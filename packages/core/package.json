@@ -7,6 +7,10 @@
     "./timeline": {
       "types": "./dist/timeline.d.ts",
       "default": "./dist/timeline.js"
+    },
+    "./library": {
+      "types": "./dist/library.d.ts",
+      "default": "./dist/library.js"
     }
   },
   "scripts": {

@@ -1,9 +1,11 @@
 # 06a — Durable revision transactions
 
-Status: partial implementation on `implement/revision-store`, awaiting integration
-and review. Dependency: slice 05. This is the independent storage portion
-of slice 06; capture/journal ingestion and the app/service lifetime still depend on
-native recovery. It does not close slice 06 on its own.
+Status: complete as a storage subpass. Real SQLite allocation, source registration,
+revision replay/CAS, repeated undo/restore and snapshot history are integrated.
+Core build, type check and 15 tests pass, including competing Node processes;
+independent Codex review found no actionable defects. This does not close slice 06:
+native ingestion, lifecycle request replay, source inventories and jobs remain there.
+Dependency: slice 05. Public module: `@screenrec/core/library`.
 
 ## Contract and owner
 

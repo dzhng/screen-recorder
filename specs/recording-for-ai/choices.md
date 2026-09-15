@@ -72,3 +72,17 @@
   recording names. Raw confidence/segment data remains available for review.
 - **Consequence:** the test harness retains both reports; production artifact layout
   remains owned by the processing slice.
+
+## Revision persistence
+
+### Bound database contention
+
+- **When:** durable revision transactions.
+- **Decision:** wait at most one second for a competing SQLite writer, then return
+  retryable `STORAGE_BUSY`. The same request ID can safely be retried.
+- **Gap:** the spec required bounded waiting but did not choose the duration.
+- **Rationale:** edit transactions are short; brief contention should succeed while
+  a held lock must not freeze the caller indefinitely. No custom retry loop or
+  second storage authority is needed.
+- **Consequence:** lock contention can surface as a retryable result. The service
+  must keep encoding and transcription outside these transactions.
