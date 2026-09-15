@@ -36,17 +36,20 @@ and recovery ordering, but review reproduced a retry defect. Its pending-start
 regressions also need a held, acknowledged native start, not directory polling.
 Correct public microphone defaults and terminal pause/resume errors in the same pass.
 
-Next priority: integrate and verify capture correction, then native menu controls and
-revision-bound media inspection. Native cursor/trail execution is integrated, with a raster-failure correction;
-small-output styling review remains open. Core history cutoffs and scene analysis
-remain outside that subpass. Native audio execution (09b) now passes integrated numerical checks, including
-resampling tails, cumulative rounding and acquisition holes; audition remains open. Speech remains a feasibility
-gate: none of the measured local engines or WhisperKit prompt configurations meets
-filler fidelity. Alternative research identified CrisperWhisper, but its current model license
-restricts operational deployment; see the
-[alternative review](assets/speech/verbatim-alternative.md). The research-only offline CrisperWhisper diagnostic completed
-in `/tmp/screenrec-crisper-evidence`: 164/185 reference fillers matched, and memory
-exceeded the 4 GiB target. No engine has been selected.
+Next priority: integrate capture replay correction, then native menu controls and
+revision-bound media inspection. Independent Opus work covers small-output cursor
+styling in `/tmp/screenrec-native-cursor-render` and native worker parent-exit
+ownership in `/tmp/screenrec-native-worker-lifetime`. Native trail execution and
+raster-failure propagation are integrated; core trail selection/scene analysis
+remain open. Local socket admission now bounds connections and unfinished handlers,
+including abandoned requests.
+
+Native audio execution (09b) passes integrated numerical checks for resampling tails,
+cumulative rounding and acquisition holes; audition remains open. Speech remains a
+feasibility gate. The [alternative review](assets/speech/verbatim-alternative.md)
+records the completed research-only CrisperWhisper run: 164/185 fillers matched,
+memory exceeded the 4 GiB target, and its license restricts operational deployment.
+No engine has been selected.
 
 Integrated evidence: durable lifecycle/library operations (06d/06e), app-owned service
 lifetime (06c), corrected cursor geometry, and CLI/MCP adapters (12a). Recording
