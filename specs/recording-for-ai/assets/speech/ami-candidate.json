@@ -1,0 +1,28 @@
+{
+  "source": "AMI corpus TS3003c, speaker B, headset channel 1",
+  "licenseDeclared": "CC BY 4.0",
+  "audioDurationSeconds": 2570,
+  "sampleRate": 16000,
+  "channels": 1,
+  "timedWordEntries": 1363,
+  "umUhEntries": 309,
+  "annotationTiming": "automatically generated forced alignment; NOT manually verified timing truth",
+  "files": {
+    "TS3003c.Headset-1.wav": {
+      "bytes": 82240044,
+      "sha256": "96989d4270d183ca3df0552fed5a655ee45378cb2059eb534e0c18549cbe5f02"
+    },
+    "ami/words/TS3003c.B.words.xml": {
+      "bytes": 118132,
+      "sha256": "c4f27fea8721ed687f2417edbf97dcc9111b44ad49a895e59cbe8ca3f941d788"
+    },
+    "ami/LICENCE.txt": {
+      "bytes": 13197,
+      "sha256": "d52fd9c7c19eec9f0bec3107554c10937203e261259d73b01637a61501fec7f7"
+    },
+    "ami/corpusResources/meetings.xml": {
+      "bytes": 119064,
+      "sha256": "8ab6cdcf03ed863e839418f31c7380392397a2eed892d73b9bc1b438c7ec520a"
+    }
+  }
+}

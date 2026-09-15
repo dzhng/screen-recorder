@@ -52,3 +52,9 @@ behavior, not implementation constants. Run the narrowest relevant checks during
 iteration; full-suite closeout belongs to slice 15.
 
 Failed filler fidelity does not authorize cutting the requirement or using cloud inference. Report the failed assumption and preserve the gate.
+
+## Public human fixture candidate
+
+An [AMI candidate](../assets/speech/ami-candidate.md) supplies human audio and verbatim
+transcript text, but its word timings come from automatic alignment. It cannot close
+the manual timing/filler gate until clips and boundaries are independently checked.
