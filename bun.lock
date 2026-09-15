@@ -17,6 +17,10 @@
       "name": "@screenrec/macos",
       "version": "0.1.0",
     },
+    "apps/workbench": {
+      "name": "@screenrec/workbench",
+      "version": "0.0.0",
+    },
     "packages/core": {
       "name": "@screenrec/core",
       "version": "0.0.0",
@@ -167,6 +171,8 @@
     "@screenrec/protocol": ["@screenrec/protocol@workspace:packages/protocol"],
 
     "@screenrec/test-harness": ["@screenrec/test-harness@workspace:packages/test-harness"],
+
+    "@screenrec/workbench": ["@screenrec/workbench@workspace:apps/workbench"],
 
     "@turbo/darwin-64": ["@turbo/darwin-64@2.10.13", "", { "os": "darwin", "cpu": "x64" }, "sha512-m5DBcpkxmcKpEJHHFUfqf9GLUjSmw3cDnBJM9nghPW3kjCNb5OyNKmzG7/yT5x5AwzOO+HMwKN+UI4iVKL87YA=="],
 

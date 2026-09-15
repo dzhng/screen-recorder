@@ -6,7 +6,9 @@ is a requirement, not a claim about the current implementation.
 
 ## Fixtures and provenance
 
-Use `apps/workbench` as a local deterministic website. It has an asymmetric labeled
+Run `bun run lab:workbench` for the local fixture website in `apps/workbench`.
+Its [browser review evidence](assets/workbench/review.md) covers the test surface;
+recording acceptance still requires capture of that surface. It has an asymmetric labeled
 grid, submenu bug, long scroll section, changing visual token, and optional audio
 tones. Tokens used to prove actual image visibility are not copied into transcript,
 tool text, filenames, prompts, or hidden fixture metadata given to the agent.

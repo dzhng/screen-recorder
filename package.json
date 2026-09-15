@@ -16,7 +16,8 @@
     "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
     "lab:client-image": "node packages/test-harness/dist/client-image.js",
     "lab:timeline": "node packages/test-harness/dist/timeline.js",
-    "lab:speech-eval": "node scripts/speech-eval.mjs"
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev"
   },
   "devDependencies": {
     "@types/node": "24.13.4",
