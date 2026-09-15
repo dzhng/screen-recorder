@@ -138,6 +138,57 @@ the two time domains; the worker-level tests drive the same operation with FFmpe
 fixtures. FFmpeg is a development fixture dependency, not an app dependency. Real device
 audio fragmentation and interruption still require capture evidence.
 
+## Cursor sampling and capture geometry
+
+[CursorGeometry](Sources/ScreenRecorderCapture/CursorGeometry.swift) owns pointer sampling and the
+source transform. `CursorSampler` reads `NSEvent.mouseLocation` and
+`NSEvent.pressedMouseButtons` on its own queue at a 60 Hz cadence, only while a take is actually
+recording: pausing suspends the cadence and sealing ends it. There is no event tap, no keyboard
+observation and no Accessibility authorization; screen recording permission is the only one this
+adds to. The handoff to the capture queue is bounded, so a capture queue that falls far behind
+refuses further readings and counts them rather than queueing without limit. Ticks the queue misses
+are reported as skipped; a gap in the evidence is never filled with movement nobody observed.
+
+AppKit reports the pointer in a bottom-left space anchored to the display at the global origin,
+which is not necessarily `NSScreen.main` — that one follows the key window. `GlobalPointSpace`
+converts through the zero-origin display's height, and each take journals that height whenever it
+changes, so a reading can be re-derived from raw evidence.
+
+`CaptureGeometry` is built from each delivered frame's own `SCStreamFrameInfo` attachments,
+including idle and blank frames whose pixels are never written. `contentRect` places the content
+inside the surface in points, `scaleFactor` converts surface points to output pixels, and
+`contentScale` is the source-point to surface-point ratio: a window that grows past the surface is
+letterboxed rather than rescaling the take, so fixed output dimensions do not imply fixed source
+geometry. `screenRect` reports the captured window's onscreen rect; measured on this host it is the
+window frame in global display points with a top-left origin, on the origin display and on a second
+display whose global origin is negative. Display and region captures have no per-frame screen rect,
+so the request's own global rect explains them; a region's display-local points are offset into its
+display once, natively.
+
+Geometry that differs from the current one opens the next epoch of the take, and every sample
+carries the epoch it was taken under. Samples record source time, unclamped output-pixel
+coordinates, the raw global point they came from, button state, eligibility and that epoch. A point
+outside the capture keeps its projected coordinates and is marked `outside`: it is never pulled onto
+an edge it never touched. Eligibility means the point falls inside the captured content, not that
+macOS was drawing a pointer — `CGCursorIsVisible` has been unsupported since 10.9 and this recorder
+never renders a cursor into the source at all.
+
+The journal owns these records like any other acquisition evidence. Geometry epochs and cursor
+batches are ordinary writes, and their file order guarantees an epoch is written before the samples
+citing it. `inspect` keeps only counts, the sample range and the last geometry, so a summary never
+grows with recording length; `streamCursorEvidence` streams the individual records for a consumer
+that needs them.
+
+`node scripts/cursor-geometry-lab.mjs` (`bun run lab:cursor-geometry`) records this process's own
+fixture window with both audio inputs disabled, moves and resizes it, sends it to another display,
+pauses and resumes, and parks it under the pointer. It then measures where the fixture's fiducial
+squares actually landed in decoded video, and pairs one-shot captures of the same window with and
+without a drawn pointer to measure the pointer itself. Predictions come from the native owner
+through the journal; the script only locates blobs and subtracts coordinates. A one-shot capture
+carries no frame metadata, so its prediction uses the take's journaled geometry at the same host
+time, and the fiducials visible in both confirm the two surfaces agree. Pointer comparisons are
+only valid while the pointer is still, so each one reports the drift measured around it.
+
 ## Frame inspection
 
 [ScreenRecorderFrames](Sources/ScreenRecorderFrames) selects and decodes within a

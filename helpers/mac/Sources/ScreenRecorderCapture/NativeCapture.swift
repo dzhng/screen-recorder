@@ -14,6 +14,9 @@ public final class NativeCapture {
     private var failure: CaptureFailure?
     private enum State { case idle, selecting, recording, paused, finalizing }
     private var state = State.idle
+    /// Output pixel dimensions of the running take, fixed when streaming began. A moved or resized
+    /// source never changes them.
+    public private(set) var outputSize: (width: Int, height: Int)?
 
     public static var screenPermission: Bool { CGPreflightScreenCaptureAccess() }
     public static var microphonePermission: String {
@@ -79,6 +82,9 @@ public final class NativeCapture {
             false, onScreenWindowsOnly: true)
         let filter: SCContentFilter
         var crop: CGRect?
+        // Where the request fixed its content onscreen, in global display points. A window has no
+        // such rect: only the stream reports where the window is while it is being captured.
+        var requestedSourceRect: CGRect?
         switch request.source.kind {
         case "window":
             guard
@@ -97,6 +103,7 @@ public final class NativeCapture {
                 throw CaptureFailure("SOURCE_UNAVAILABLE", "The selected display is unavailable.")
             }
             filter = SCContentFilter(display: display, excludingWindows: [])
+            requestedSourceRect = CGDisplayBounds(display.displayID)
             if request.source.kind == "region" {
                 guard let region = request.source.region else {
                     throw CaptureFailure(
@@ -114,6 +121,10 @@ public final class NativeCapture {
                         "Region must be a nonempty rectangle inside the selected display.")
                 }
                 crop = rect
+                requestedSourceRect = CGRect(
+                    x: CGDisplayBounds(display.displayID).minX + rect.minX,
+                    y: CGDisplayBounds(display.displayID).minY + rect.minY, width: rect.width,
+                    height: rect.height)
             }
         default:
             throw CaptureFailure(
@@ -126,11 +137,13 @@ public final class NativeCapture {
         let scale = min(1, 4096 / max(pixels.width, pixels.height))
         let width = max(2, Int(pixels.width * scale) / 2 * 2)
         let height = max(2, Int(pixels.height * scale) / 2 * 2)
+        outputSize = (width, height)
         let onFailure: @Sendable (CaptureFailure) -> Void = { [weak self] reason in
             Task { @MainActor in await self?.interrupt(reason, generation: generation) }
         }
         let writer = try CaptureWriter(
-            request: request, width: width, height: height, sessionID: generation.uuidString, onFailure: onFailure)
+            request: request, width: width, height: height, sessionID: generation.uuidString,
+            requestedSourceRect: requestedSourceRect, onFailure: onFailure)
         var started = false
         defer {
             if !started {
@@ -198,6 +211,7 @@ public final class NativeCapture {
         }
         state = .recording
         started = true
+        writer.startCursorSampling()
         if let microphone {
             let deviceID = microphone.uniqueID
             microphoneObserver = NotificationCenter.default.addObserver(
@@ -254,6 +268,7 @@ public final class NativeCapture {
             }
         }
         let result = await sink.finish(failure: failure)
+        outputSize = nil
         self.sink = nil
         streamDelegate = nil
         generations.end(generation)

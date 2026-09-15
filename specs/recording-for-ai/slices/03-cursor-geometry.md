@@ -1,11 +1,30 @@
 # 03 — Cursor positions in captured coordinates
 
-Status: implementation in progress in a dedicated Claude Opus worktree.
-Dependencies: 01. Actual cursor placement and hardware coverage remain open.
+Status: candidate integrated; root review and verification pending. Dependencies: 01.
+
+Native sampling, the geometry transform, epochs and the journal records exist, and
+`bun run lab:cursor-geometry` measures them against real captured pixels of the recorder's own
+fixture window. The implementing agent measured on macOS 26.6.2 with a built-in display at the global origin and an
+external display at a negative global origin: maximum landmark placement error 0.77 output pixels
+in decoded video and 1.09 in uncompressed one-shot captures, across the window placed, moved,
+resized into a letterbox, sent to the second display and parked under the pointer; maximum pointer
+placement error 1.49 output pixels where the pointer was still. Samples hold the 60 Hz target
+(1358 samples against 1357 expected, median gap 16666us) with no skipped, refused or post-seal
+readings, and a 1.4s pause removes its wall-clock time without leaving a gap or a sample. Points
+outside the capture keep unclamped coordinates, and every prediction of "outside" matched the
+system drawing no pointer at all. Recorded frames at the instants a pointer was demonstrably drawn
+in the paired capture differ from the clean image by no pixels, so the source stays cursor-free.
+
+Still open: display and region placement are covered only by generated tests, because a probe may
+record only this process's own window; deliberate pointing at grid corners, circling and leaving an
+off-center region need a driven pointer; only one external display arrangement was tested, with no
+display reconfiguration during a take. Evidence and artifacts are in
+`/tmp/screenrec-cursor-evidence` (`summary.md`, `run-13/`) pending integration by the owning root
+agent.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
-[verification](../verification.md) before implementation. Commands below are planned
-harness entrypoints to create in this slice, not existing executable claims.
+[verification](../verification.md) before implementation. `bun run lab:cursor-geometry` now exists
+and produces the measurements above; the rest of this slice's plan is unchanged.
 
 ## Contract and API seam
 

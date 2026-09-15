@@ -64,6 +64,11 @@ func runCaptureProbe() async {
                     ]
                 },
             ])
+        case "--cursor-geometry":
+            guard args.count == 3 else {
+                throw CaptureFailure("INVALID_REQUEST", "Pass one cursor geometry JSON path.")
+            }
+            try await runCursorGeometryProbe(configPath: args[2])
         case "--capture-probe":
             guard args.count == 3 else {
                 throw CaptureFailure("INVALID_REQUEST", "Pass one probe JSON path.")
@@ -214,39 +219,4 @@ func runCaptureProbe() async {
 private func emit(_ value: Any) throws {
     FileHandle.standardOutput.write(
         try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]) + Data([10]))
-}
-
-@MainActor
-private func makeCaptureFixtureWindow() -> NSWindow {
-    let window = NSWindow(
-        contentRect: NSRect(x: 100, y: 100, width: 800, height: 500),
-        styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
-    window.isReleasedWhenClosed = false
-    window.title = "Screen Recorder Capture Fixture"
-    window.contentView = CaptureFixtureView(frame: NSRect(x: 0, y: 0, width: 800, height: 500))
-    window.makeKeyAndOrderFront(nil)
-    NSApplication.shared.activate(ignoringOtherApps: true)
-    return window
-}
-
-@MainActor
-private final class CaptureFixtureView: NSView {
-    override func draw(_ dirtyRect: NSRect) {
-        NSColor.white.setFill()
-        bounds.fill()
-        let labels = ["TOP LEFT — A1", "TOP RIGHT — B2", "BOTTOM LEFT — C3", "BOTTOM RIGHT — D4"]
-        let colors: [NSColor] = [.systemRed, .systemGreen, .systemBlue, .systemYellow]
-        for index in 0..<4 {
-            let rect = NSRect(
-                x: CGFloat(index % 2) * bounds.width / 2, y: index < 2 ? bounds.height / 2 : 0,
-                width: bounds.width / 2, height: bounds.height / 2)
-            colors[index].setFill()
-            rect.insetBy(dx: 8, dy: 8).fill()
-            (labels[index] as NSString).draw(
-                at: NSPoint(x: rect.minX + 24, y: rect.midY),
-                withAttributes: [
-                    .font: NSFont.boldSystemFont(ofSize: 22), .foregroundColor: NSColor.black,
-                ])
-        }
-    }
 }

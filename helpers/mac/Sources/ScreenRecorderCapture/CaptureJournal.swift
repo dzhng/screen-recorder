@@ -38,13 +38,21 @@ public struct CaptureJournalSummary: Codable, Sendable {
     public let file = "capture.journal.jsonl"
     enum CodingKeys: String, CodingKey {
         case file, header, originHostUs, pauses, openPauseHostUs, lastSequence, incompleteTail,
-            invalidAtSequence, finished
+            invalidAtSequence, finished, cursorSamples, firstCursorSourceUs, lastCursorSourceUs,
+            geometryEpochs, lastGeometry
     }
     public var header: CaptureJournalHeader?
     public var originHostUs: Int64?
     public var pauses: [PauseEvent] = []
     public var acquiredAudio: [String: [MediaInterval]] = [:]
     public var openPauseHostUs: Int64?
+    /// Cursor evidence stays a count and a range here. A consumer that needs the samples
+    /// themselves streams the journal file; a summary never grows with recording length.
+    public var cursorSamples = 0
+    public var firstCursorSourceUs: Int64?
+    public var lastCursorSourceUs: Int64?
+    public var geometryEpochs = 0
+    public var lastGeometry: CaptureGeometry?
     public var lastSequence = 0
     /// The final line has no terminator: a crash cut the journal mid-record.
     public var incompleteTail = false
@@ -53,6 +61,11 @@ public struct CaptureJournalSummary: Codable, Sendable {
     /// different things to a consumer deciding whether the take ended.
     public var invalidAtSequence: Int?
     public var finished = false
+    /// The record `apply` just accepted, for a reader that wants the event itself rather than a
+    /// summary of it. Not part of the persisted summary.
+    var lastEvent: (name: String, data: Data)?
+
+    public init() {}
 }
 
 // One capture queue owns append order. Media bytes never enter this journal.
@@ -95,6 +108,26 @@ public final class CaptureJournal {
         try append(
             "audioSamples", data: JournalAudioSamples(role: role, startUs: startUs, endUs: endUs))
     }
+    /// Geometry epochs and cursor samples are ordinary writes, like per-buffer acquisition ranges:
+    /// they are contemporaneous evidence rather than a boundary a recovery needs to place the take
+    /// in time. Their file order still guarantees an epoch is written before the samples citing it.
+    public func recordGeometry(
+        epoch: Int, hostUs: Int64, sourceUs: Int64?, geometry: CaptureGeometry
+    ) throws {
+        try append(
+            "geometry",
+            data: JournalGeometry(
+                epoch: epoch, hostUs: hostUs, sourceUs: sourceUs, geometry: geometry))
+    }
+    public func recordCursorSamples(_ samples: [CursorSample]) throws {
+        guard !samples.isEmpty else { return }
+        try append("cursorSamples", data: JournalCursorSamples(samples: samples))
+    }
+    public func recordDisplaySpace(hostUs: Int64, zeroOriginHeight: Double) throws {
+        try append(
+            "displaySpace",
+            data: JournalDisplaySpace(hostUs: hostUs, zeroOriginHeight: zeroOriginHeight))
+    }
     public func recordFinished(_ result: CaptureResult) throws {
         try append("finished", data: result, durable: true)
     }
@@ -110,79 +143,135 @@ public final class CaptureJournal {
         if durable { try handle.synchronize() }
     }
 
-    public static func inspect(directory: String) throws -> CaptureJournalSummary {
+    /// Reads terminated records in order until the reader stops or the file ends, and reports
+    /// whether the file ended mid-record. Both the summary and the evidence stream read through
+    /// this one loop so they cannot disagree about where a journal stops being believable.
+    private static func readRecords(directory: String, _ body: (Data) throws -> Bool) throws -> Bool
+    {
         let url = URL(fileURLWithPath: directory).appendingPathComponent("capture.journal.jsonl")
         let input = try FileHandle(forReadingFrom: url)
         defer { try? input.close() }
         var pending = Data()
-        var summary = CaptureJournalSummary()
         while let chunk = try input.read(upToCount: 16_384), !chunk.isEmpty {
             pending.append(chunk)
             while let end = pending.firstIndex(of: 10) {
                 let line = Data(pending[..<end])
                 pending.removeSubrange(...end)
-                do {
-                    guard
-                        let record = try JSONSerialization.jsonObject(with: line) as? [String: Any],
-                        let sequence = record["sequence"] as? Int,
-                        sequence == summary.lastSequence + 1,
-                        let event = record["event"] as? String, sequence > 1 || event == "header",
-                        let data = record["data"] as? [String: Any]
-                    else {
-                        throw CaptureFailure("INVALID_JOURNAL", "Invalid journal record.")
-                    }
-                    let encoded = try JSONSerialization.data(withJSONObject: data)
-                    // Decode timing payloads through their written types so malformed fields
-                    // reject the record instead of silently erasing previously observed timing.
-                    switch event {
-                    case "header":
-                        let header = try JSONDecoder().decode(
-                            CaptureJournalHeader.self, from: encoded)
-                        guard sequence == 1, header.schemaVersion == 1 else {
-                            throw CaptureFailure("INVALID_JOURNAL", "Invalid journal header.")
-                        }
-                        summary.header = header
-                    case "origin":
-                        summary.originHostUs = try JSONDecoder().decode(
-                            JournalHostTime.self, from: encoded
-                        ).hostUs
-                    case "pauseBegan":
-                        summary.openPauseHostUs = try JSONDecoder().decode(
-                            JournalHostTime.self, from: encoded
-                        ).hostUs
-                    case "pauseEnded":
-                        let ended = try JSONDecoder().decode(JournalPauseEnd.self, from: encoded)
-                        summary.openPauseHostUs = nil
-                        if let pause = ended.pause { summary.pauses.append(pause) }
-                    case "audioSamples":
-                        let samples = try JSONDecoder().decode(
-                            JournalAudioSamples.self, from: encoded)
-                        // Mutate through the dictionary to avoid copying every accumulated gap.
-                        if let last = summary.acquiredAudio[samples.role]?.last,
-                            samples.startUs <= last.endUs + 1 {
-                            let index = summary.acquiredAudio[samples.role, default: []].count - 1
-                            summary.acquiredAudio[samples.role, default: []][index] = MediaInterval(
-                                startUs: last.startUs, endUs: max(last.endUs, samples.endUs))
-                        } else {
-                            summary.acquiredAudio[samples.role, default: []].append(
-                                MediaInterval(startUs: samples.startUs, endUs: samples.endUs))
-                        }
-                    case "finished": summary.finished = true
-                    default: break
-                    }
-                    summary.lastSequence = sequence
-                } catch {
-                    summary.invalidAtSequence = summary.lastSequence + 1
-                    return summary
-                }
+                guard try body(line) else { return false }
             }
-            guard pending.count <= 1_048_576 else {
-                summary.incompleteTail = true
-                return summary
-            }
+            guard pending.count <= 1_048_576 else { return true }
         }
-        summary.incompleteTail = !pending.isEmpty
+        return !pending.isEmpty
+    }
+
+    /// Streams a take's placement evidence without retaining it. A take changes geometry as often
+    /// as it delivers frames and samples the pointer sixty times a second, so the caller decides
+    /// what to keep. It stops where `inspect` stops believing the file, so a consumer cannot read
+    /// samples from beyond the prefix the summary calls valid.
+    public static func streamCursorEvidence(
+        directory: String, geometry: (JournalGeometry) throws -> Void,
+        samples: ([CursorSample]) throws -> Void
+    ) throws {
+        var summary = CaptureJournalSummary()
+        _ = try readRecords(directory: directory) { line in
+            var event: (name: String, data: Data)?
+            do {
+                try apply(line, to: &summary)
+                event = summary.lastEvent
+            } catch {
+                // The same boundary `inspect` stops at: nothing after a bad record is believed.
+                return false
+            }
+            guard let event else { return true }
+            switch event.name {
+            case "geometry":
+                try geometry(JSONDecoder().decode(JournalGeometry.self, from: event.data))
+            case "cursorSamples":
+                try samples(
+                    JSONDecoder().decode(JournalCursorSamples.self, from: event.data).samples)
+            default: break
+            }
+            return true
+        }
+    }
+
+    public static func inspect(directory: String) throws -> CaptureJournalSummary {
+        var summary = CaptureJournalSummary()
+        summary.incompleteTail = try readRecords(directory: directory) { line in
+            do {
+                try apply(line, to: &summary)
+            } catch {
+                summary.invalidAtSequence = summary.lastSequence + 1
+                return false
+            }
+            return true
+        }
         return summary
+    }
+
+    private static func apply(_ line: Data, to summary: inout CaptureJournalSummary) throws {
+        guard
+            let record = try JSONSerialization.jsonObject(with: line) as? [String: Any],
+            let sequence = record["sequence"] as? Int,
+            sequence == summary.lastSequence + 1,
+            let event = record["event"] as? String, sequence > 1 || event == "header",
+            let data = record["data"] as? [String: Any]
+        else {
+            throw CaptureFailure("INVALID_JOURNAL", "Invalid journal record.")
+        }
+        let encoded = try JSONSerialization.data(withJSONObject: data)
+        // Decode timing payloads through their written types so malformed fields
+        // reject the record instead of silently erasing previously observed timing.
+        switch event {
+        case "header":
+            let header = try JSONDecoder().decode(
+                CaptureJournalHeader.self, from: encoded)
+            guard sequence == 1, header.schemaVersion == 1 else {
+                throw CaptureFailure("INVALID_JOURNAL", "Invalid journal header.")
+            }
+            summary.header = header
+        case "origin":
+            summary.originHostUs = try JSONDecoder().decode(
+                JournalHostTime.self, from: encoded
+            ).hostUs
+        case "pauseBegan":
+            summary.openPauseHostUs = try JSONDecoder().decode(
+                JournalHostTime.self, from: encoded
+            ).hostUs
+        case "pauseEnded":
+            let ended = try JSONDecoder().decode(JournalPauseEnd.self, from: encoded)
+            summary.openPauseHostUs = nil
+            if let pause = ended.pause { summary.pauses.append(pause) }
+        case "audioSamples":
+            let samples = try JSONDecoder().decode(
+                JournalAudioSamples.self, from: encoded)
+            // Mutate through the dictionary to avoid copying every accumulated gap.
+            if let last = summary.acquiredAudio[samples.role]?.last,
+                samples.startUs <= last.endUs + 1 {
+                let index = summary.acquiredAudio[samples.role, default: []].count - 1
+                summary.acquiredAudio[samples.role, default: []][index] = MediaInterval(
+                    startUs: last.startUs, endUs: max(last.endUs, samples.endUs))
+            } else {
+                summary.acquiredAudio[samples.role, default: []].append(
+                    MediaInterval(startUs: samples.startUs, endUs: samples.endUs))
+            }
+        case "geometry":
+            let event = try JSONDecoder().decode(JournalGeometry.self, from: encoded)
+            summary.geometryEpochs = event.epoch
+            summary.lastGeometry = event.geometry
+        case "cursorSamples":
+            let batch = try JSONDecoder().decode(
+                JournalCursorSamples.self, from: encoded)
+            summary.cursorSamples += batch.samples.count
+            summary.firstCursorSourceUs =
+                summary.firstCursorSourceUs ?? batch.samples.first?.sourceUs
+            summary.lastCursorSourceUs =
+                batch.samples.last?.sourceUs ?? summary.lastCursorSourceUs
+        case "finished": summary.finished = true
+        default: break
+        }
+        summary.lastEvent = (name: event, data: encoded)
+        summary.lastSequence = sequence
     }
 }
 
@@ -207,4 +296,22 @@ struct JournalAudioSamples: Codable {
     let role: String
     let startUs: Int64
     let endUs: Int64
+}
+
+/// A geometry change and the raw frame evidence that explains it.
+public struct JournalGeometry: Codable, Sendable {
+    public let epoch: Int
+    public let hostUs: Int64
+    /// Absent when the take was paused or had no source zero yet when the frame arrived.
+    public let sourceUs: Int64?
+    public let geometry: CaptureGeometry
+}
+
+struct JournalCursorSamples: Codable {
+    let samples: [CursorSample]
+}
+
+struct JournalDisplaySpace: Codable {
+    let hostUs: Int64
+    let zeroOriginHeight: Double
 }

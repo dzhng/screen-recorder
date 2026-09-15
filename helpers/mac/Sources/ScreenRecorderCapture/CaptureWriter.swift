@@ -2,13 +2,6 @@
 import Foundation
 @preconcurrency import ScreenCaptureKit
 
-private func hostMicroseconds() -> Int64 {
-    CMTimeConvertScale(
-        CMClockGetTime(CMClockGetHostTimeClock()), timescale: 1_000_000,
-        method: .roundHalfAwayFromZero
-    ).value
-}
-
 private final class TrackWriter {
     let role: String
     let file: String
@@ -67,15 +60,20 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     private var failure: CaptureFailure?
     private var finishing = false
     private var lastVideo: CMSampleBuffer?
+    private let requestedSourceRect: CGRect?
+    private var cursor = CursorTrack()
+    private var sampler: CursorSampler?
+    private var zeroOriginHeight: Double?
 
     init(
         request: CaptureRequest, width: Int, height: Int, sessionID: String,
-        onFailure: @escaping @Sendable (CaptureFailure) -> Void
+        requestedSourceRect: CGRect?, onFailure: @escaping @Sendable (CaptureFailure) -> Void
     ) throws {
         self.onFailure = onFailure
         self.request = request
         self.width = width
         self.height = height
+        self.requestedSourceRect = requestedSourceRect
         try FileManager.default.createDirectory(
             atPath: request.outputDirectory, withIntermediateDirectories: true)
         journal = try CaptureJournal(
@@ -96,14 +94,32 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             ])
     }
 
+    /// Pointer sampling exists only while a take is actually recording: a paused take stops the
+    /// cadence instead of collecting readings its clock would then refuse.
+    func startCursorSampling() {
+        queue.sync {
+            let sampler = CursorSampler(target: queue) { [weak self] reading in
+                self?.accept(reading)
+            }
+            self.sampler = sampler
+            sampler.start()
+        }
+    }
+
     func pause() {
         queue.sync {
-            let hostUs = hostMicroseconds()
+            sampler?.suspend()
+            let hostUs = CaptureHostTime.nowUs()
             clock.pause(at: hostUs)
             _ = record { try self.journal.recordPauseBegan(hostUs: hostUs) }
         }
     }
-    func resume() { queue.sync { resumeClock(at: hostMicroseconds()) } }
+    func resume() {
+        queue.sync {
+            resumeClock(at: CaptureHostTime.nowUs())
+            if !finishing { sampler?.resume() }
+        }
+    }
     private func resumeClock(at hostUs: Int64) {
         let paused = clock.isPaused
         let count = clock.pauses.count
@@ -128,16 +144,60 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     }
     func seal() {
         queue.sync {
+            sampler?.stop()
             if stopHostUs == nil {
-                stopHostUs = hostMicroseconds()
+                stopHostUs = CaptureHostTime.nowUs()
                 finishing = true
             }
+            flushCursorSamples()
         }
     }
     func cancel() {
         queue.sync {
+            sampler?.stop()
             finishing = true
             tracks.values.forEach { $0.writer.cancelWriting() }
+        }
+    }
+
+    /// Places one pointer reading in the take's source time. A reading the clock refuses, because
+    /// the take is paused or has no source zero yet, is counted and dropped: no sample is invented
+    /// for time the recording does not contain.
+    private func accept(_ reading: CursorReading) {
+        if zeroOriginHeight != reading.zeroOriginHeight {
+            zeroOriginHeight = reading.zeroOriginHeight
+            _ = record {
+                try self.journal.recordDisplaySpace(
+                    hostUs: reading.hostUs, zeroOriginHeight: reading.zeroOriginHeight)
+            }
+        }
+        guard failure == nil,
+            let batch = cursor.accept(reading, sourceUs: clock.sourceTime(for: reading.hostUs))
+        else { return }
+        _ = record { try self.journal.recordCursorSamples(batch) }
+    }
+
+    private func flushCursorSamples() {
+        let remaining = cursor.seal()
+        cursor.note(refusedReadings: sampler?.refusedReadings ?? 0)
+        guard failure == nil, !remaining.isEmpty else { return }
+        _ = record { try self.journal.recordCursorSamples(remaining) }
+    }
+
+    /// Follows the placement each delivered frame reports. Idle and blank frames still describe
+    /// where the source is, so geometry follows them even though their pixels are not written; a
+    /// moved or resized window keeps the same output dimensions.
+    private func updateGeometry(from info: [SCStreamFrameInfo: Any], hostUs: Int64) {
+        guard
+            let observed = CaptureGeometry(
+                frameInfo: info, outputWidth: width, outputHeight: height,
+                requestedSourceRect: requestedSourceRect)
+        else { return }
+        guard let epoch = cursor.observe(observed, hostUs: hostUs) else { return }
+        _ = record {
+            try self.journal.recordGeometry(
+                epoch: epoch, hostUs: hostUs, sourceUs: self.clock.sourceTime(for: hostUs),
+                geometry: observed)
         }
     }
 
@@ -148,6 +208,10 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         guard !finishing, failure == nil, sample.isValid, CMSampleBufferDataIsReady(sample) else {
             return
         }
+        let pts = CMSampleBufferGetPresentationTimeStamp(sample)
+        guard pts.isNumeric else { return }
+        let hostUs = CMTimeConvertScale(pts, timescale: 1_000_000, method: .roundHalfAwayFromZero)
+            .value
         let role: String
         switch type {
         case .screen:
@@ -155,24 +219,22 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             guard
                 let attachments = CMSampleBufferGetSampleAttachmentsArray(
                     sample, createIfNecessary: false) as? [[SCStreamFrameInfo: Any]],
-                let status = attachments.first?[.status] as? Int,
-                status == SCFrameStatus.complete.rawValue
-                    || status == SCFrameStatus.started.rawValue,
-                sample.imageBuffer != nil
+                let info = attachments.first, let status = info[.status] as? Int
             else { return }
-        case .audio: role = "system"
-        case .microphone: role = "narration"
-        @unknown default: return
-        }
-        let pts = CMSampleBufferGetPresentationTimeStamp(sample)
-        guard pts.isNumeric else { return }
-        let hostUs = CMTimeConvertScale(pts, timescale: 1_000_000, method: .roundHalfAwayFromZero)
-            .value
-        if role == "video" {
-            if clock.originUs == nil {
+            let usable =
+                (status == SCFrameStatus.complete.rawValue
+                    || status == SCFrameStatus.started.rawValue) && sample.imageBuffer != nil
+            // Source zero belongs to the first usable frame, so the geometry that frame reports is
+            // placed at source zero rather than in the take's unplaceable prologue.
+            if usable, clock.originUs == nil {
                 clock.start(at: hostUs)
                 guard record({ try self.journal.recordOrigin(hostUs: hostUs) }) else { return }
             }
+            updateGeometry(from: info, hostUs: hostUs)
+            guard usable else { return }
+        case .audio: role = "system"
+        case .microphone: role = "narration"
+        @unknown default: return
         }
         let duration = CMSampleBufferGetDuration(sample)
         let observedDurationUs =
@@ -278,7 +340,9 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         await withCheckedContinuation { continuation in
             queue.async {
                 self.finishing = true
-                let endHost = self.stopHostUs ?? hostMicroseconds()
+                self.sampler?.stop()
+                self.flushCursorSamples()
+                let endHost = self.stopHostUs ?? CaptureHostTime.nowUs()
                 self.resumeClock(at: endHost)
                 let duration = max(0, self.clock.sourceTime(for: endHost) ?? 0)
                 self.failure = externalFailure ?? self.failure
@@ -384,14 +448,16 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
                         channelCount: track.channelCount)
                 }, failure: self.failure,
                 systemAudioScope: self.request.systemAudio
-                    ? "whole-system-excluding-recorder" : "disabled"
+                    ? "whole-system-excluding-recorder" : "disabled",
+                cursor: self.cursor.stats
             )
             if !self.record({ try self.journal.recordFinished(result) }) {
                 let failedResult = CaptureResult(
                     state: "interrupted", source: result.source, width: result.width,
                     height: result.height, durationUs: result.durationUs,
                     hostOriginUs: result.hostOriginUs, pauses: result.pauses, tracks: result.tracks,
-                    failure: self.failure, systemAudioScope: result.systemAudioScope)
+                    failure: self.failure, systemAudioScope: result.systemAudioScope,
+                    cursor: result.cursor)
                 continuation.resume(returning: failedResult)
             } else {
                 continuation.resume(returning: result)
