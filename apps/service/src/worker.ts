@@ -21,6 +21,7 @@ const DEFAULT_TIMEOUT_MS = 30_000;
 export type MediaWorker = (
   operation: string,
   params: Record<string, unknown>,
+  options?: { signal?: AbortSignal },
 ) => Promise<OperationResult>;
 
 function failure(code: string, message: string, retryable = false): OperationResult {
@@ -37,8 +38,13 @@ export function mediaWorker(
   environment: NodeJS.ProcessEnv = process.env,
   timeoutMs: number = DEFAULT_TIMEOUT_MS,
 ): MediaWorker {
-  return (operation, params) =>
+  return (operation, params, { signal } = {}) =>
     new Promise<OperationResult>((settle) => {
+      const canceled = () => failure("CANCELED", `${operation} was canceled`);
+      if (signal?.aborted) {
+        settle(canceled());
+        return;
+      }
       const executable = environment[NATIVE_EXECUTABLE_VARIABLE];
       if (!executable || !isAbsolute(executable)) {
         settle(
@@ -61,14 +67,15 @@ export function mediaWorker(
       }
       const child = spawn(executable, [], { cwd: "/", stdio: ["pipe", "pipe", "ignore"] });
       const reader = new JsonLineReader(RESPONSE_FRAME_BYTES);
-      let settled = false;
-      const finish = (result: OperationResult) => {
-        if (settled) return;
-        settled = true;
+      let result: OperationResult | undefined;
+      const finish = (value: OperationResult) => {
+        if (result !== undefined) return;
+        result = value;
         clearTimeout(deadline);
+        signal?.removeEventListener("abort", abort);
         child.kill("SIGKILL");
-        settle(result);
       };
+      const abort = () => finish(canceled());
       const deadline = setTimeout(
         () => finish(failure("MEDIA_WORKER_TIMEOUT", `${operation} did not answer in time`, true)),
         timeoutMs,
@@ -78,9 +85,13 @@ export function mediaWorker(
       );
       // `close` rather than `exit`: a child can exit with its answer still buffered in this
       // process's pipe, and that answer must not be thrown away as a failure.
-      child.on("close", () =>
-        finish(failure("MEDIA_WORKER_FAILED", `${operation} produced no result`, true)),
-      );
+      child.on("close", () => {
+        clearTimeout(deadline);
+        signal?.removeEventListener("abort", abort);
+        // A scheduler may reuse capacity as soon as this promise settles. Keep the slot
+        // until the child and its pipes are closed, even after a successful response.
+        settle(result ?? failure("MEDIA_WORKER_FAILED", `${operation} produced no result`, true));
+      });
       child.stdout.on("data", (chunk: Buffer) => {
         let value: unknown;
         try {
@@ -98,6 +109,8 @@ export function mediaWorker(
         );
       });
       child.stdin.on("error", () => {});
+      signal?.addEventListener("abort", abort, { once: true });
+      if (signal?.aborted) abort();
       child.stdin.end(frame);
     });
 }

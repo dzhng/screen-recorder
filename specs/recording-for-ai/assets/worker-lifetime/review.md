@@ -76,3 +76,23 @@ that check into `setRegistrationHandler`, matching the Dispatch SDK contract. Th
 integrated native build and all four real parent-death tests pass after this correction
 (2026-09-15). These tests cover observed process behavior; forced PID reuse during
 registration is not deterministically exercised.
+
+## Service settlement and cancellation
+
+The service media runner accepts an optional abort signal. An abort, deadline or
+answer selects the result, terminates the child, and returns only after the child's
+`close` event. A queue can therefore reuse capacity when the promise settles without
+leaving the previous worker alive. Pre-canceled work never spawns. Parent death
+remains independently enforced by the native executable.
+
+Four real-subprocess regressions failed before this change: success and timeout
+returned while the worker PID still existed, cancellation became a timeout, and
+pre-canceled work tried to spawn. All four pass with the new lifecycle; the focused
+worker plus capture service integration passes 21 tests. Service build, typecheck
+and focused lint pass. Independent Codex review found no actionable defect and
+ran the four worker tests; its wider socket tests were blocked by sandbox EPERM.
+
+The tests use a worker that acknowledges its PID and deliberately stays alive after
+answering. They verify the PID is absent at promise settlement, not after a grace
+period. This does not add durable scheduling, retries or a client-facing operation;
+the later queue must pass its cancellation signal to this existing runner.
