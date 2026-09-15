@@ -11,9 +11,10 @@ it isolated while correcting two reproduced startup failures:
   owned probe processes. This exceeds the overall startup budget and the same
   synchronous resolution blocks the app's main actor.
 
-The JSON reports preserve measurements. Independent review also identified missing
-stdout-error cleanup and a valid near-limit request whose enlarged error response
-throws during framing. Those must be handled by bounded failure/cleanup paths.
+The JSON reports preserve measurements. Root also reproduced a valid 65442-byte
+control request terminating the packaged service with FRAME_TOO_LARGE when its
+error response expanded beyond the output limit (`control-response-limit-red.json`).
+Independent review additionally identified missing stdout-error cleanup. Those must be handled by bounded failure/cleanup paths.
 No capture or permission prompts were used in these probes.
 
 Correction work is in `/tmp/screenrec-service-fixes`, branch `fix/service-startup`.
