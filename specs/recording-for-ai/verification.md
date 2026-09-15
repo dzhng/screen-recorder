@@ -47,14 +47,14 @@ boundaries. A real native capture test cannot be replaced by a mocked stream.
 ## Visual gates
 
 Every visual slice must run an unprimed
-[screenshot-critique](/Users/david/.agents/skills/screenshot-critique/SKILL.md)
+[screenshot-critique](../../.agents/skills/screenshot-critique/SKILL.md)
 as the last check before accepting its shots. Where a reference/prior shot exists,
-first run [compare-screenshots](/Users/david/.agents/skills/compare-screenshots/SKILL.md)
+first run [compare-screenshots](../../.agents/skills/compare-screenshots/SKILL.md)
 with the slice's crop/mask and variable. Retain results with the shots. Automated
 tests do not substitute for this review.
 
 Open evidence for the user with
-[preview-shots](/Users/david/.agents/skills/preview-shots/SKILL.md). Review checkpoints
+[preview-shots](../../.agents/skills/preview-shots/SKILL.md). Review checkpoints
 are non-blocking for reversible implementation choices: allow about five minutes
 while doing independent work; if no reaction, decide from the evidence, document
 the decision, close the shots, and proceed. This never authorizes recording,
