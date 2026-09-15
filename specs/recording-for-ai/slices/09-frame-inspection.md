@@ -1,6 +1,8 @@
 # 09 — Arbitrary clean frames and media excerpts
 
-Status: not started. Dependencies: 03, 05, 06.
+Status: [native frame decoding](09a-native-frame-decode.md) is integrated; native
+audio is under [candidate correction](../assets/audio/review.md). Core inspection,
+cache and full audio/edited-frame gates remain. Dependencies: 03, 05, 06.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

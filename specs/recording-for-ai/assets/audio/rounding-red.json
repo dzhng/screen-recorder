@@ -1,0 +1,17 @@
+{
+  "candidateCommit": "4b5ed01",
+  "request": {
+    "spanCount": 1000,
+    "spanDurationUs": 10010,
+    "sourceStepUs": 20000,
+    "sampleRate": 48000
+  },
+  "expectedFrames": 480480,
+  "actualFrames": 480000,
+  "expectedDurationUs": 10010000,
+  "actualDurationUs": 10000000,
+  "sourceSha256": "05df65bb2b92c02948610bef9545b32bc82f01f2e2cff8e840e968cc154957ef",
+  "outputSha256": "89bf6a0b82d2a72f640a2e59a27ad62ff5627ee6c4aefcc444a54796fc47f67e",
+  "responsePath": "/tmp/screenrec-audio-integration-review/rounding-response.json",
+  "verdict": "red: per-span rounding shortens the requested timeline by 10ms"
+}
