@@ -53,6 +53,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
   - [x] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
   - [x] [06b — Bounded local transport](slices/06b-local-transport.md) (independent after 00)
+  - [ ] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md) (independent after 00, 06b)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
@@ -137,6 +138,7 @@ pause/cut events, limits, request replay, audio mix and export semantics.
 | [05 Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md) | 00 | Expected source spans and revision examples |
 | [06a Durable revision transactions](slices/06a-revision-store.md) | 05 | Real SQLite replay, undo and competing writers |
 | [06b Bounded local transport](slices/06b-local-transport.md) | 00, 06a for edit fixture | Real socket calls and bounded failure |
+| [06c App-owned service lifetime](slices/06c-app-service-lifetime.md) | 00, 06b | Packaged app/child health, shutdown and failure |
 | [06 Single-writer library and app-managed service](slices/06-service-and-jobs.md) | 02, 05 | Real-process state/race/restart cases |
 | [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | 03, 06 | Native controls and recording state shots |
 | [08 Durable local transcription and projections](slices/08-transcript-processing.md) | 04, 06 | Word-timed transcript and retry |

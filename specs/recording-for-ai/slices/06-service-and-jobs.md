@@ -1,11 +1,16 @@
 # 06 — Single-writer library and app-managed service
 
-Status: not started. Dependencies: 02, 05.
+Status: revision storage and transport complete; app lifetime, capture ingestion
+and durable jobs remain. Dependencies: 02, 05.
 
 The [revision transaction subpass](06a-revision-store.md) depends only on 05 and
 can proceed while native recovery is verified. It builds this slice's single
 catalog owner, not a second storage layer. This parent closes only after capture
 journal ingestion, service lifetime and persistent jobs pass their own gates.
+
+The [app-service lifetime subpass](06c-app-service-lifetime.md) depends on 00 and
+06b, so idle process ownership can be verified independently of remaining audio
+recovery gates. Its completion does not prove capture reconciliation.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
