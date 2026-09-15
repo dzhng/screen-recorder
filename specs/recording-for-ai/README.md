@@ -29,10 +29,11 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: resolve native recovery review and PCM fragmentation evidence, then
-connect the app-managed service. The native readiness fix and socket transport are
+Current pickup: integrate accepted native recovery corrections and app-service
+lifetime (06c), running in separate Claude Opus worktrees. Generated PCM
+fragmentation is verified; physical audio and full recovery lifecycle remain open. The native readiness fix and socket transport are
 integrated. Native frame decoding and worker binding pass generated and own-window
-checks and independent integration review; its visual checkpoint is open. Timeline/revision storage, speech probe
+checks and independent integration review; its visual checkpoint is resolved. Timeline/revision storage, speech probe
 plumbing and the localhost workbench are integrated. Human transcription fidelity,
 all-source/audio capture and native menu interaction remain unverified. Consult
 owning slices before recreating work or accepting a downstream assumption.
@@ -57,7 +58,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
-  - [ ] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
+  - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)

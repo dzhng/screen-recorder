@@ -1,7 +1,7 @@
 # 09a — Native frame decoding within a kept interval
 
-Status: implemented and verified; human visual checkpoint open until approximately
-09:05 UTC on 2026-09-15. No reply is needed to continue other work.
+Status: complete. Native execution, integrated worker and visual evidence verified;
+the non-blocking visual checkpoint proceeds on recorded review.
 Independent prerequisite: native workspace (00). This extracts
 09's decoding seam so existing generated and own-window media can verify it while
 service/recovery integration proceeds. It does not close 09, caching or audio.

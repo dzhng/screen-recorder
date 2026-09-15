@@ -55,5 +55,8 @@ these metrics locate the color divergence but do not decide acceptance. The
 `/Users/david/dev/game` only to locate existing pngjs/pixelmatch dependencies;
 reference and candidate files came from this report's reviewed generated images.
 
-Two review images were opened in one Preview invocation at approximately 09:00 UTC
-for the non-blocking human checkpoint. Close that set after the review window.
+A two-image Preview open was attempted around 09:00 UTC. At cleanup after the
+five-minute checkpoint, CUA exposed only an Open panel; image-window display and
+app quit could not be verified. No human approval is inferred. The checkpoint
+proceeds on the retained images, direct inspection and fresh reviewer findings;
+the image files remain available in this report.

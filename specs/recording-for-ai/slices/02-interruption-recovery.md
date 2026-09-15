@@ -1,8 +1,8 @@
 # 02 — Recover interrupted source media
 
 Status: native recovery checkpoint integrated; full slice remains in progress.
-Dependencies: 01. Generated PCM fragmentation verification and independent review
-are running. Service relaunch/reconciliation, stop-time kill, and audio audition
+Dependencies: 01. Generated PCM fragmentation is verified; independent review produced
+accepted timing/journal corrections now being implemented. Service relaunch/reconciliation, stop-time kill, and audio audition
 remain open.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and

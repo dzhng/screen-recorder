@@ -1,0 +1,386 @@
+[
+  {
+    "run": "kill-before-first-fragment",
+    "killAtSeconds": 0.6063037499552593,
+    "exitSignal": -9,
+    "journal": {
+      "acceptedChunks": 28,
+      "acceptedFirstUs": 0,
+      "acceptedEndUs": 597333,
+      "lastSequence": 31,
+      "rawLineTruncated": false,
+      "acceptedFrames": 28672
+    },
+    "movBytes": 229412,
+    "recoveredIntervals": [],
+    "recoveredDecodedSamples": 0,
+    "recoveredReachedEnd": false,
+    "recoveredAcquisitionVerified": true,
+    "recoveredFailure": {
+      "code": "DECODE_FAILED",
+      "message": "Cannot Open"
+    },
+    "journalSummaryIncompleteTail": false,
+    "independentDecodedFrames": 0,
+    "independentDecodedUs": 0,
+    "independentFirstPTSUs": null,
+    "independentLastEndUs": null,
+    "independentReaderCompleted": null,
+    "independentRMS": null,
+    "independentPeak": null,
+    "chirpHeadHertz": null,
+    "chirpHeadExpectedHertz": null,
+    "chirpTailHertz": null,
+    "chirpTailExpectedHertz": null,
+    "decodedFormat": [
+      null,
+      null,
+      null
+    ],
+    "trackSegments": null,
+    "lossWindowUs": 597333,
+    "recoveredEndUs": 0
+  },
+  {
+    "run": "kill-after-first-fragment",
+    "killAtSeconds": 3.0063222080352716,
+    "exitSignal": -9,
+    "journal": {
+      "acceptedChunks": 140,
+      "acceptedFirstUs": 0,
+      "acceptedEndUs": 2986666,
+      "lastSequence": 143,
+      "rawLineTruncated": false,
+      "acceptedFrames": 143360
+    },
+    "movBytes": 1147633,
+    "recoveredIntervals": [
+      {
+        "endUs": 1002667,
+        "startUs": 0
+      }
+    ],
+    "recoveredDecodedSamples": 6,
+    "recoveredReachedEnd": true,
+    "recoveredAcquisitionVerified": true,
+    "recoveredFailure": null,
+    "journalSummaryIncompleteTail": false,
+    "independentDecodedFrames": 48128,
+    "independentDecodedUs": 1002667,
+    "independentFirstPTSUs": 0,
+    "independentLastEndUs": 1002667,
+    "independentReaderCompleted": true,
+    "independentRMS": 0.35353428346040905,
+    "independentPeak": 0.5,
+    "chirpHeadHertz": 231.4453125,
+    "chirpHeadExpectedHertz": 200,
+    "chirpTailHertz": 574.21875,
+    "chirpTailExpectedHertz": 557.76,
+    "decodedFormat": [
+      32,
+      2,
+      "1001"
+    ],
+    "trackSegments": [
+      {
+        "empty": false,
+        "targetEndUs": 1002667,
+        "targetStartUs": 0
+      }
+    ],
+    "lossWindowUs": 1983999,
+    "recoveredEndUs": 1002667
+  },
+  {
+    "run": "kill-after-multiple-fragments",
+    "killAtSeconds": 13.004791874962393,
+    "exitSignal": -9,
+    "journal": {
+      "acceptedChunks": 609,
+      "acceptedFirstUs": 0,
+      "acceptedEndUs": 12992000,
+      "lastSequence": 612,
+      "rawLineTruncated": false,
+      "acceptedFrames": 623616
+    },
+    "movBytes": 4990045,
+    "recoveredIntervals": [
+      {
+        "endUs": 11008000,
+        "startUs": 0
+      }
+    ],
+    "recoveredDecodedSamples": 66,
+    "recoveredReachedEnd": true,
+    "recoveredAcquisitionVerified": true,
+    "recoveredFailure": null,
+    "journalSummaryIncompleteTail": false,
+    "independentDecodedFrames": 528384,
+    "independentDecodedUs": 11008000,
+    "independentFirstPTSUs": 0,
+    "independentLastEndUs": 11008000,
+    "independentReaderCompleted": true,
+    "independentRMS": 0.3535534926959239,
+    "independentPeak": 0.5,
+    "chirpHeadHertz": 231.4453125,
+    "chirpHeadExpectedHertz": 200,
+    "chirpTailHertz": 4476.5625,
+    "chirpTailExpectedHertz": 4459.84,
+    "decodedFormat": [
+      32,
+      2,
+      "1001"
+    ],
+    "trackSegments": [
+      {
+        "empty": false,
+        "targetEndUs": 11008000,
+        "targetStartUs": 0
+      }
+    ],
+    "lossWindowUs": 1984000,
+    "recoveredEndUs": 11008000
+  },
+  {
+    "run": "kill-just-before-second-fragment",
+    "killAtSeconds": 5.904960499959998,
+    "exitSignal": -9,
+    "journal": {
+      "acceptedChunks": 276,
+      "acceptedFirstUs": 0,
+      "acceptedEndUs": 5888000,
+      "lastSequence": 279,
+      "rawLineTruncated": false,
+      "acceptedFrames": 282624
+    },
+    "movBytes": 2261745,
+    "recoveredIntervals": [
+      {
+        "endUs": 1002667,
+        "startUs": 0
+      }
+    ],
+    "recoveredDecodedSamples": 6,
+    "recoveredReachedEnd": true,
+    "recoveredAcquisitionVerified": true,
+    "recoveredFailure": null,
+    "journalSummaryIncompleteTail": false,
+    "independentDecodedFrames": 48128,
+    "independentDecodedUs": 1002667,
+    "independentFirstPTSUs": 0,
+    "independentLastEndUs": 1002667,
+    "independentReaderCompleted": true,
+    "independentRMS": 0.35353428346040905,
+    "independentPeak": 0.5,
+    "chirpHeadHertz": 231.4453125,
+    "chirpHeadExpectedHertz": 200,
+    "chirpTailHertz": 574.21875,
+    "chirpTailExpectedHertz": 557.76,
+    "decodedFormat": [
+      32,
+      2,
+      "1001"
+    ],
+    "trackSegments": [
+      {
+        "empty": false,
+        "targetEndUs": 1002667,
+        "targetStartUs": 0
+      }
+    ],
+    "lossWindowUs": 4885333,
+    "recoveredEndUs": 1002667
+  },
+  {
+    "run": "kill-just-after-second-fragment",
+    "killAtSeconds": 6.306832499976736,
+    "exitSignal": -9,
+    "journal": {
+      "acceptedChunks": 294,
+      "acceptedFirstUs": 0,
+      "acceptedEndUs": 6272000,
+      "lastSequence": 297,
+      "rawLineTruncated": false,
+      "acceptedFrames": 301056
+    },
+    "movBytes": 2409393,
+    "recoveredIntervals": [
+      {
+        "endUs": 6016000,
+        "startUs": 0
+      }
+    ],
+    "recoveredDecodedSamples": 36,
+    "recoveredReachedEnd": true,
+    "recoveredAcquisitionVerified": true,
+    "recoveredFailure": null,
+    "journalSummaryIncompleteTail": false,
+    "independentDecodedFrames": 288768,
+    "independentDecodedUs": 6016000,
+    "independentFirstPTSUs": 0,
+    "independentLastEndUs": 6016000,
+    "independentReaderCompleted": true,
+    "independentRMS": 0.35355215422272107,
+    "independentPeak": 0.5,
+    "chirpHeadHertz": 231.4453125,
+    "chirpHeadExpectedHertz": 200,
+    "chirpTailHertz": 2531.25,
+    "chirpTailExpectedHertz": 2512.96,
+    "decodedFormat": [
+      32,
+      2,
+      "1001"
+    ],
+    "trackSegments": [
+      {
+        "empty": false,
+        "targetEndUs": 6016000,
+        "targetStartUs": 0
+      }
+    ],
+    "lossWindowUs": 256000,
+    "recoveredEndUs": 6016000
+  },
+  {
+    "run": "kill-just-before-first-fragment",
+    "killAtSeconds": 0.9548415829776786,
+    "exitSignal": -9,
+    "journal": {
+      "acceptedChunks": 44,
+      "acceptedFirstUs": 0,
+      "acceptedEndUs": 938666,
+      "lastSequence": 47,
+      "rawLineTruncated": false,
+      "acceptedFrames": 45056
+    },
+    "movBytes": 360484,
+    "recoveredIntervals": [],
+    "recoveredDecodedSamples": 0,
+    "recoveredReachedEnd": false,
+    "recoveredAcquisitionVerified": true,
+    "recoveredFailure": {
+      "code": "DECODE_FAILED",
+      "message": "Cannot Open"
+    },
+    "journalSummaryIncompleteTail": false,
+    "independentDecodedFrames": 0,
+    "independentDecodedUs": 0,
+    "independentFirstPTSUs": null,
+    "independentLastEndUs": null,
+    "independentReaderCompleted": null,
+    "independentRMS": null,
+    "independentPeak": null,
+    "chirpHeadHertz": null,
+    "chirpHeadExpectedHertz": null,
+    "chirpTailHertz": null,
+    "chirpTailExpectedHertz": null,
+    "decodedFormat": [
+      null,
+      null,
+      null
+    ],
+    "trackSegments": null,
+    "lossWindowUs": 938666,
+    "recoveredEndUs": 0
+  },
+  {
+    "run": "kill-just-after-first-fragment",
+    "killAtSeconds": 1.1541703330003656,
+    "exitSignal": -9,
+    "journal": {
+      "acceptedChunks": 54,
+      "acceptedFirstUs": 0,
+      "acceptedEndUs": 1152000,
+      "lastSequence": 57,
+      "rawLineTruncated": false,
+      "acceptedFrames": 55296
+    },
+    "movBytes": 443121,
+    "recoveredIntervals": [
+      {
+        "endUs": 1002667,
+        "startUs": 0
+      }
+    ],
+    "recoveredDecodedSamples": 6,
+    "recoveredReachedEnd": true,
+    "recoveredAcquisitionVerified": true,
+    "recoveredFailure": null,
+    "journalSummaryIncompleteTail": false,
+    "independentDecodedFrames": 48128,
+    "independentDecodedUs": 1002667,
+    "independentFirstPTSUs": 0,
+    "independentLastEndUs": 1002667,
+    "independentReaderCompleted": true,
+    "independentRMS": 0.35353428346040905,
+    "independentPeak": 0.5,
+    "chirpHeadHertz": 231.4453125,
+    "chirpHeadExpectedHertz": 200,
+    "chirpTailHertz": 574.21875,
+    "chirpTailExpectedHertz": 557.76,
+    "decodedFormat": [
+      32,
+      2,
+      "1001"
+    ],
+    "trackSegments": [
+      {
+        "empty": false,
+        "targetEndUs": 1002667,
+        "targetStartUs": 0
+      }
+    ],
+    "lossWindowUs": 149333,
+    "recoveredEndUs": 1002667
+  },
+  {
+    "run": "normal-finalization",
+    "killAtSeconds": null,
+    "exitSignal": 0,
+    "journal": {
+      "acceptedChunks": 375,
+      "acceptedFirstUs": 0,
+      "acceptedEndUs": 8000000,
+      "lastSequence": 379,
+      "rawLineTruncated": false,
+      "acceptedFrames": 384000
+    },
+    "movBytes": 3074058,
+    "recoveredIntervals": [
+      {
+        "endUs": 8000000,
+        "startUs": 0
+      }
+    ],
+    "recoveredDecodedSamples": 48,
+    "recoveredReachedEnd": true,
+    "recoveredAcquisitionVerified": true,
+    "recoveredFailure": null,
+    "journalSummaryIncompleteTail": false,
+    "independentDecodedFrames": 384000,
+    "independentDecodedUs": 8000000,
+    "independentFirstPTSUs": 0,
+    "independentLastEndUs": 8000000,
+    "independentReaderCompleted": true,
+    "independentRMS": 0.35355356179829317,
+    "independentPeak": 0.5,
+    "chirpHeadHertz": 231.4453125,
+    "chirpHeadExpectedHertz": 200,
+    "chirpTailHertz": 3298.828125,
+    "chirpTailExpectedHertz": 3286.72,
+    "decodedFormat": [
+      32,
+      2,
+      "1001"
+    ],
+    "trackSegments": [
+      {
+        "empty": false,
+        "targetEndUs": 8000000,
+        "targetStartUs": 0
+      }
+    ],
+    "lossWindowUs": 0,
+    "recoveredEndUs": 8000000
+  }
+]

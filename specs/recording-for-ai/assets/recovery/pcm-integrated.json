@@ -1,0 +1,136 @@
+[
+  {
+    "run": "kill-before-first-fragment",
+    "sourceSHA256": "0840375dc24ee2cd3bb99eb2b47f5ccbca4f36639242a43fca4d4f1bfb49612a",
+    "track": {
+      "acquisitionVerified": true,
+      "decodedSamples": 0,
+      "decodeReachedEnd": false,
+      "failure": {
+        "code": "DECODE_FAILED",
+        "message": "Cannot Open"
+      },
+      "file": "narration.mov",
+      "intervals": [],
+      "role": "narration"
+    }
+  },
+  {
+    "run": "kill-after-first-fragment",
+    "sourceSHA256": "2c576a0120fb3e93ac324f5ef5249c7c4bf5f13deb0e324c20f3d360ef2fb5ba",
+    "track": {
+      "acquisitionVerified": true,
+      "decodedSamples": 6,
+      "decodeReachedEnd": true,
+      "file": "narration.mov",
+      "intervals": [
+        {
+          "endUs": 1002667,
+          "startUs": 0
+        }
+      ],
+      "role": "narration"
+    }
+  },
+  {
+    "run": "kill-after-multiple-fragments",
+    "sourceSHA256": "e9b3318059ae4ad0dcfe90eb93c83943823a2d9fea740b8c2833bd1367a6f89b",
+    "track": {
+      "acquisitionVerified": true,
+      "decodedSamples": 66,
+      "decodeReachedEnd": true,
+      "file": "narration.mov",
+      "intervals": [
+        {
+          "endUs": 11008000,
+          "startUs": 0
+        }
+      ],
+      "role": "narration"
+    }
+  },
+  {
+    "run": "kill-just-before-second-fragment",
+    "sourceSHA256": "778093503f260d85f9044381528c56670397ace4c2b4218ece54f5abdac77918",
+    "track": {
+      "acquisitionVerified": true,
+      "decodedSamples": 6,
+      "decodeReachedEnd": true,
+      "file": "narration.mov",
+      "intervals": [
+        {
+          "endUs": 1002667,
+          "startUs": 0
+        }
+      ],
+      "role": "narration"
+    }
+  },
+  {
+    "run": "kill-just-after-second-fragment",
+    "sourceSHA256": "026259925bd718fcff322a7ebec58f4f83b69ed8cbcfa2785190b76ce55b2dbc",
+    "track": {
+      "acquisitionVerified": true,
+      "decodedSamples": 36,
+      "decodeReachedEnd": true,
+      "file": "narration.mov",
+      "intervals": [
+        {
+          "endUs": 6016000,
+          "startUs": 0
+        }
+      ],
+      "role": "narration"
+    }
+  },
+  {
+    "run": "kill-just-before-first-fragment",
+    "sourceSHA256": "cd04d6973ea583bbb66240322070805af2cf01db85df88ae8c2720dfe53f18f5",
+    "track": {
+      "acquisitionVerified": true,
+      "decodedSamples": 0,
+      "decodeReachedEnd": false,
+      "failure": {
+        "code": "DECODE_FAILED",
+        "message": "Cannot Open"
+      },
+      "file": "narration.mov",
+      "intervals": [],
+      "role": "narration"
+    }
+  },
+  {
+    "run": "kill-just-after-first-fragment",
+    "sourceSHA256": "be86d48e33f0f4a043aba01ebfc4bdbef98a4e88ad5b7188be1484f787aa2cad",
+    "track": {
+      "acquisitionVerified": true,
+      "decodedSamples": 6,
+      "decodeReachedEnd": true,
+      "file": "narration.mov",
+      "intervals": [
+        {
+          "endUs": 1002667,
+          "startUs": 0
+        }
+      ],
+      "role": "narration"
+    }
+  },
+  {
+    "run": "normal-finalization",
+    "sourceSHA256": "6c0f70acf4302b79cddaf571b50af860c5c2e025cd498bfd9e1a317b664412fe",
+    "track": {
+      "acquisitionVerified": true,
+      "decodedSamples": 48,
+      "decodeReachedEnd": true,
+      "file": "narration.mov",
+      "intervals": [
+        {
+          "endUs": 8000000,
+          "startUs": 0
+        }
+      ],
+      "role": "narration"
+    }
+  }
+]
