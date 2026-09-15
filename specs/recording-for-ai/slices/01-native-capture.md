@@ -1,8 +1,11 @@
 # 01 — Native capture and separate audio
 
-Status: partial implementation on `implement/native-capture`, not yet integrated
-or accepted. Dependencies: 00. Own-window video probes do not close the separate
-display, region, microphone, system-audio and A/V timing gates.
+Status: native capture framework/probe integrated; own-window video decoding,
+pause clock and observable source loss verified. [Checkpoint evidence](../assets/capture/review.md)
+records tests and limitations. Final-frame backpressure fix is active in Claude Opus
+worktree `/tmp/screenrec-claude-finalization`, branch `fix/capture-finalization`.
+Dependencies: 00. Display, region, microphone, system-audio and A/V timing gates
+remain open; this slice is not accepted as a whole.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

@@ -29,15 +29,18 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish native capture integration and recovery, then the shared
-service. Speech evaluation and durable revision transactions are integrated; local
-engine preparation is still being verified. Do not recreate completed probes. The timeline engine and
-its package/harness integration are committed and verified. Actual-agent image
-access is complete; bootstrap native-menu observation remains pending. Human
-narration, filler preservation, word timing, isolated audio and A/V drift still
-need evidence. Branch checkpoints are tracked in the owning slices.
+Current pickup: resolve the reviewed native finalization issue and finish crash
+recovery, then connect the app-managed service. Socket transport and native frame
+decoding are independent active subpasses. Timeline/revision storage, speech probe
+plumbing and the localhost workbench are integrated. Human transcription fidelity,
+all-source/audio capture and native menu interaction remain unverified. Consult
+owning slices before recreating work or accepting a downstream assumption.
+
 Evidence: [bootstrap](assets/bootstrap/verification.md),
-[actual-agent images](assets/client-image/review.md).
+[actual-agent images](assets/client-image/review.md),
+[native capture checkpoint](assets/capture/review.md),
+[speech gate](slices/04-local-speech-gate.md),
+[workbench](assets/workbench/review.md).
 
 - [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
 - [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)

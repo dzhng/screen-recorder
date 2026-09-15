@@ -1,0 +1,170 @@
+{
+  "scope": "own-window video only; no audio or multi-source claim",
+  "commands": [
+    "ffprobe count_frames/show_entries",
+    "ffmpeg -v error -xerror -i INPUT -map 0:v:0 -f null -"
+  ],
+  "results": [
+    {
+      "fixture": "screenrec-capture-final-pause",
+      "inputPath": "/tmp/screenrec-capture-final-pause/video.mov",
+      "sha256": "5bbbbef330826009460f9700fa80ec89a296eccab72bd8f2f753d19eaeb12fa2",
+      "decodeExitCode": 0,
+      "decodeStderr": "[null @ 0x879010500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 60 >= 60\n",
+      "durationDifferenceUs": 676.9999999995343,
+      "capture": {
+        "durationUs": 4042656,
+        "systemAudioScope": "disabled",
+        "state": "complete",
+        "hostOriginUs": 321760405501,
+        "pauses": [
+          {
+            "elapsedPauseUs": 1045880,
+            "atSourceUs": 2041538
+          }
+        ],
+        "tracks": [
+          {
+            "firstSampleUs": 0,
+            "droppedSamples": 0,
+            "lastSampleEndUs": 4070800,
+            "omittedSamples": 30,
+            "role": "video",
+            "heldTailUs": 0,
+            "file": "video.mov",
+            "samples": 121
+          }
+        ],
+        "source": {
+          "windowID": 7822,
+          "kind": "window"
+        },
+        "height": 1064,
+        "width": 1600
+      },
+      "ffprobe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1600,
+            "height": 1064,
+            "duration": "4.043333",
+            "nb_read_frames": "121"
+          }
+        ],
+        "format": {
+          "duration": "4.043333"
+        }
+      }
+    },
+    {
+      "fixture": "screenrec-capture-final-close",
+      "inputPath": "/tmp/screenrec-capture-final-close/video.mov",
+      "sha256": "7debf986aca8b9732db14f820a915ab849d4578892a7550b35112711348fa42e",
+      "decodeExitCode": 0,
+      "decodeStderr": "",
+      "durationDifferenceUs": 653.0,
+      "capture": {
+        "systemAudioScope": "disabled",
+        "hostOriginUs": 321766450281,
+        "height": 1064,
+        "pauses": [],
+        "state": "interrupted",
+        "failure": {
+          "code": "SOURCE_LOST",
+          "message": "Failed to find any displays or windows to capture"
+        },
+        "width": 1600,
+        "source": {
+          "windowID": 7835,
+          "kind": "window"
+        },
+        "tracks": [
+          {
+            "lastSampleEndUs": 2065559,
+            "firstSampleUs": 0,
+            "role": "video",
+            "file": "video.mov",
+            "omittedSamples": 0,
+            "samples": 61,
+            "droppedSamples": 0,
+            "heldTailUs": 0
+          }
+        ],
+        "durationUs": 2047680
+      },
+      "ffprobe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1600,
+            "height": 1064,
+            "duration": "2.048333",
+            "nb_read_frames": "61"
+          }
+        ],
+        "format": {
+          "duration": "2.048333"
+        }
+      }
+    },
+    {
+      "fixture": "screenrec-capture-five-minute",
+      "inputPath": "/tmp/screenrec-capture-five-minute/video.mov",
+      "sha256": "7742f6b8cd87b865a37ad552774edfa933c1ea19ab0277e51ee5fc62ab9268ee",
+      "decodeExitCode": 0,
+      "decodeStderr": "[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 574 >= 574\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 1872 >= 1872\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 1874 >= 1874\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 1877 >= 1877\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 1894 >= 1894\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 1896 >= 1896\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 2035 >= 2035\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 2037 >= 2037\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 2189 >= 2189\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 2191 >= 2191\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 2200 >= 2200\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 2207 >= 2207\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 2220 >= 2220\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 2222 >= 2222\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4338 >= 4338\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4624 >= 4624\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4631 >= 4631\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4638 >= 4638\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4704 >= 4704\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4937 >= 4937\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4939 >= 4939\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4952 >= 4952\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4954 >= 4954\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4956 >= 4956\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4970 >= 4970\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4972 >= 4972\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4974 >= 4974\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5224 >= 5224\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5240 >= 5240\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5243 >= 5243\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5265 >= 5265\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5291 >= 5291\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5713 >= 5713\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5727 >= 5727\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5729 >= 5729\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5975 >= 5975\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6008 >= 6008\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6013 >= 6013\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6017 >= 6017\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6030 >= 6030\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6032 >= 6032\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6035 >= 6035\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6259 >= 6259\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6261 >= 6261\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 6274 >= 6274\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7219 >= 7219\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7352 >= 7352\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7359 >= 7359\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7361 >= 7361\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7363 >= 7363\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7366 >= 7366\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7381 >= 7381\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7383 >= 7383\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7390 >= 7390\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7405 >= 7405\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7410 >= 7410\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7660 >= 7660\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7674 >= 7674\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 7676 >= 7676\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8012 >= 8012\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8067 >= 8067\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8070 >= 8070\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8523 >= 8523\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8540 >= 8540\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8545 >= 8545\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8562 >= 8562\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8569 >= 8569\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8578 >= 8578\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8580 >= 8580\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8602 >= 8602\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8622 >= 8622\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8624 >= 8624\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8646 >= 8646\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8664 >= 8664\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8666 >= 8666\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8670 >= 8670\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8672 >= 8672\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8688 >= 8688\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8690 >= 8690\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8710 >= 8710\n[null @ 0x9b0c1c500] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 8719 >= 8719\n",
+      "durationDifferenceUs": 492.0,
+      "capture": {
+        "source": {
+          "kind": "window",
+          "windowID": 7775
+        },
+        "tracks": [
+          {
+            "firstSampleUs": 0,
+            "lastSampleEndUs": 300519668,
+            "file": "video.mov",
+            "heldTailUs": 0,
+            "role": "video",
+            "droppedSamples": 0,
+            "omittedSamples": 147,
+            "samples": 8821
+          }
+        ],
+        "height": 1064,
+        "state": "complete",
+        "systemAudioScope": "disabled",
+        "durationUs": 300492159,
+        "pauses": [
+          {
+            "elapsedPauseUs": 5012917,
+            "atSourceUs": 150474676
+          }
+        ],
+        "width": 1600,
+        "hostOriginUs": 320903927532
+      },
+      "ffprobe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1600,
+            "height": 1064,
+            "duration": "300.491667",
+            "nb_read_frames": "8821"
+          }
+        ],
+        "format": {
+          "duration": "300.491667"
+        }
+      }
+    }
+  ]
+}

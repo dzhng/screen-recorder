@@ -1,0 +1,112 @@
+{
+  "hide-last.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 0.08451288547520885,
+    "dominantColorShare": 0.9899174528301887,
+    "luminanceRange": 1,
+    "edgeDensityAbove32": 0.031132075471698113,
+    "transparentShare": 0.0
+  },
+  "close-first.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 2.997591151197776,
+    "dominantColorShare": 0.19204009433962263,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.15459905660377357,
+    "transparentShare": 0.0
+  },
+  "five-minute-first.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 2.997591151197776,
+    "dominantColorShare": 0.19204009433962263,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.15459905660377357,
+    "transparentShare": 0.0
+  },
+  "five-minute-last.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 2.860311271244015,
+    "dominantColorShare": 0.2004127358490566,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.15418632075471697,
+    "transparentShare": 0.0
+  },
+  "minimize-last.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 2.9503677988788977,
+    "dominantColorShare": 0.19192216981132076,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.15418632075471697,
+    "transparentShare": 0.0
+  },
+  "initial.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 3.0003795574198566,
+    "dominantColorShare": 0.19204009433962263,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.1540683962264151,
+    "transparentShare": 0.0
+  },
+  "hide-first.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 2.997591151197776,
+    "dominantColorShare": 0.19204009433962263,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.15459905660377357,
+    "transparentShare": 0.0
+  },
+  "minimize-first.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 2.997591151197776,
+    "dominantColorShare": 0.19204009433962263,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.15459905660377357,
+    "transparentShare": 0.0
+  },
+  "close-last.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 2.9767823631356314,
+    "dominantColorShare": 0.1919811320754717,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.15442216981132076,
+    "transparentShare": 0.0
+  },
+  "paused.png": {
+    "size": [
+      1600,
+      1064
+    ],
+    "colorEntropyBits": 3.0003795574198566,
+    "dominantColorShare": 0.19204009433962263,
+    "luminanceRange": 231,
+    "edgeDensityAbove32": 0.1540683962264151,
+    "transparentShare": 0.0
+  }
+}

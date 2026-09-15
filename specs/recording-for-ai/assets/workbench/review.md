@@ -15,3 +15,7 @@ this is acceptable for the fixture, not a claim about captured text legibility.
 Review shots: [grid and token](top.jpg), [open submenu](menu-open.jpg),
 [sound and scrolling](sound-and-scroll.jpg). Shown together in Preview at
 2026-09-15 07:32:50 UTC for the non-blocking human review window.
+
+The curated image window was closed after approximately five minutes without
+requested changes. Proceeding with the fixture on the retained visual evidence;
+actual capture readability remains a separate gate.
