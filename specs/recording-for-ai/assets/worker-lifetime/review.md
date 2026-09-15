@@ -6,8 +6,8 @@ decoding for a dead owner kept a core busy until it completed work nobody would 
 
 ## Why end of input cannot carry the rule
 
-Every runner in the repository — the wire and frame tests, the cursor lab, the bootstrap
-conformance harness — writes one request and closes stdin immediately. EOF therefore
+The service media runner (`apps/service/src/worker.ts`) and the wire/frame fixtures
+write one request and close stdin immediately. EOF therefore
 arrives while the owner is healthy and says nothing about whether it is still there. The
 fixtures below hold the worker's stdin open from the outer test process, so parent death
 is the only variable: a FIFO opened read-write by the test survives the owner it was
@@ -23,8 +23,8 @@ rather than assumed:
   launchd before its parent is reaped.
 - The same source also fired when registered against an already-exited pid, both zombie
   and reaped. That is undocumented, so the implementation does not depend on it; the
-  second `getppid()` reading after registration is what closes the startup race, and it is
-  also the only check that survives reuse of the dead parent's process ID.
+  second `getppid()` reading in the registration handler checks the relationship after
+  the kernel watch is installed, including reuse of the dead parent's process ID.
 - A shell sends a background job's stdin to `/dev/null`. An earlier orphan fixture was
   invalid for that reason — the worker ended for want of input, not for want of an owner —
   so the retained fixture hands the request pipe on explicitly.
@@ -64,7 +64,15 @@ ScreenRecorderCaptureTests`, `ScreenRecorderFrameTests`, `ScreenRecorderAudioTes
 
 This binds a worker to its spawning parent only. It is not cancellation, it says nothing
 about a worker that is itself killed, and an interrupted atomic write can still leave the
-writer's temporary file in the caller's output directory. Pid reuse between the parent's
-exit and the first reading remains a theoretical window that the post-registration reading
-closes but does not eliminate. Durable job failure, retry and the service-wide queue gates
-are untouched.
+writer's temporary file in the caller's output directory. The registration handler checks the actual parent relationship; watching a reused PID
+cannot keep an orphan alive. Durable job failure, retry and service-wide queue gates
+remain separate work.
+
+## Integration review
+
+Independent Codex review found that `resume()` initiates registration asynchronously.
+The initial immediate relationship recheck therefore ran too early. Integration moved
+that check into `setRegistrationHandler`, matching the Dispatch SDK contract. The
+integrated native build and all four real parent-death tests pass after this correction
+(2026-09-15). These tests cover observed process behavior; forced PID reuse during
+registration is not deterministically exercised.

@@ -67,12 +67,3 @@ behavior, not implementation constants. Run the narrowest relevant checks during
 iteration; full-suite closeout belongs to slice 15.
 
 If app-child lifecycle proves unworkable, reslice that transport with evidence; retain the single-writer/public-operation contract rather than adding a second authoritative store.
-
-## Worker parent lifetime
-
-An independent native subpass in `/tmp/screenrec-native-worker-lifetime` is checking
-that a media worker exits when its original service parent dies, even with input
-still open. That ownership is separate from EOF and from the later durable queue's
-interrupted-job reconciliation. Its fixture must distinguish parent notification
-from ordinary completion; a live worker with a closed test runner is not acceptable
-cleanup evidence.

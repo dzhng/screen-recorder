@@ -24,11 +24,13 @@ enum ParentLifetime {
         // Its own queue, because the worker spends its life blocked in a stdin read or inside
         // a native operation and would never reach a handler scheduled behind that work.
         monitor.setEventHandler { abandonWork(parent: parent) }
+        // resume() registers asynchronously. Check the relationship only after the kernel
+        // watch is installed, so parent exit (including PID reuse) during setup cannot
+        // leave us watching a different process while our actual owner is gone.
+        monitor.setRegistrationHandler {
+            if getppid() != parent { abandonWork(parent: parent) }
+        }
         monitor.resume()
-        // Reading the parent and registering the watch cannot be one step, and a parent that
-        // exits inside that window is never announced. Reading the relationship once more
-        // closes the gap: reparenting is what the kernel did instead of telling us.
-        if getppid() != parent { abandonWork(parent: parent) }
         return monitor
     }
 

@@ -36,12 +36,14 @@ fixture. See [capture integration](assets/capture-service/integration-review.md)
 Keep the fresh catalog format and explicit audio defaults; old development catalogs
 are rejected rather than migrated.
 
-Next priority: native menu controls and revision-bound media inspection. Independent Opus work covers small-output cursor
-styling in `/tmp/screenrec-native-cursor-render` and native worker parent-exit
-ownership in `/tmp/screenrec-native-worker-lifetime`. Native trail execution and
-raster-failure propagation are integrated; core trail selection/scene analysis
-remain open. Local socket admission now bounds connections and unfinished handlers,
-including abandoned requests.
+Next priority: native menu controls, durable jobs, then revision-bound media
+inspection. Opus is implementing controls in `/tmp/screenrec-capture-service` and
+core durable jobs in `/tmp/screenrec-durable-jobs`; these are separate worktrees.
+Native worker parent-exit ownership is integrated, including the independent-review
+registration-race correction. Cursor output sizing is integrated and passes the
+native/worker checks; fresh visual review remains pending. Core trail selection
+and scene analysis remain open. Local socket admission bounds connections and
+unfinished handlers, including abandoned requests.
 
 Native audio execution (09b) passes integrated numerical checks for resampling tails,
 cumulative rounding and acquisition holes; audition remains open. Speech remains a
