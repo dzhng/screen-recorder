@@ -15,11 +15,10 @@ research"`, and it dropped nine consecutive reference tokens at 479.6–489.0 s
 rather than emit the hesitation. Parakeet reproduced most of them, including
 repeats (`"uh uh to do in"`) and stacked fillers (`"So uh um uh that's"`).
 
-This is a property of the decoder's language prior, not of its word-timestamp
-support. A model that never emits a filler cannot be rescued by alignment
-refinement: forced alignment cannot invent an omitted word. That is the only
-conclusion this run licenses, and it is about **verbatim emission**, not about
-timing.
+These outputs show omissions before any alignment refinement. This diagnostic did
+not isolate whether model behavior, decoding settings or preprocessing caused
+them. Refining timestamps for the emitted text alone cannot restore the omitted
+tokens; the observation concerns verbatim emission, not timing accuracy.
 
 Both engines also delete short truncated false starts (`w`, `sen`, `ch`) and
 occasionally substitute a filler for a content word — Parakeet turned `uh` into
@@ -39,7 +38,7 @@ clip cost 157 s wall against 21 s CPU); those numbers are invalid for the warm
 resource gate, which still needs an in-process production-runner measurement.
 `speech-eval evaluate` was never invoked — the clip manifests carry no
 annotations, only the `run` path was used, and no manually labeled dataset exists
-yet. AMI is a widely redistributed public corpus, so these clips are not held out
+yet. AMI is a widely redistributed public corpus, so there is no claim that these clips were held out
 of either model's pretraining.
 
 No engine is selected here.
@@ -60,8 +59,12 @@ it is not an independently verified silence.
 
 ## Next step for the gate
 
-The gap the gate actually needs is manual labeling, not another engine run: pick
-the ≥40 filler boundaries from these clips, label them by ear, and keep them apart
-from the corpus alignment. Only then do precision, recall and boundary error mean
-anything, and only then does an audition of returned ranges have something to
-audit.
+Investigate the spec's bounded local alternative and any justified decoding
+configuration before selecting an engine. The actual gate still needs at least
+40 independently labeled filler boundaries and an audition of the resulting cuts;
+keep those labels apart from the corpus's automatic alignment. Do not select only
+fillers a candidate already recognized, which would hide its omissions.
+
+Root independently verified all eight result-file hashes and recounted emitted
+um/uh tokens from their text: 144 for Parakeet and zero for WhisperKit. This confirms
+the emitted-token observation, not the alignment-based matching or timing accuracy.

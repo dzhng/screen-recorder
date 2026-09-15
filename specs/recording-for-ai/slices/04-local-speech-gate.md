@@ -58,3 +58,9 @@ Failed filler fidelity does not authorize cutting the requirement or using cloud
 An [AMI candidate](../assets/speech/ami-candidate.md) supplies human audio and verbatim
 transcript text, but its word timings come from automatic alignment. It cannot close
 the manual timing/filler gate until clips and boundaries are independently checked.
+
+The [natural-speech diagnostic](../assets/speech/natural-diagnostic.md) now records
+actual offline emissions over four public human clips. WhisperKit emitted no um/uh
+tokens; Parakeet matched 132 of 185 reference fillers. Neither is selected. An Opus
+probe in `/tmp/screenrec-apple-speech` is checking the specified Apple SpeechAnalyzer
+alternative using installed assets only; manual timing and audition remain open.
