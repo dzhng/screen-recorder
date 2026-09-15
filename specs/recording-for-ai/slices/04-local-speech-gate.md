@@ -71,3 +71,7 @@ matched 83 of 185, with substitutions and one empty clip result. Resource pressu
 complicates interpreting that empty result. No tested engine/configuration meets the
 fidelity requirement; manual timing and audition remain open. The next speech pass
 must establish a bounded viable alternative, without lowering the fidelity gate.
+
+The [CrisperWhisper alternative review](../assets/speech/verbatim-alternative.md)
+found a deployment license constraint before any model download. It has not been
+selected or benchmarked locally.

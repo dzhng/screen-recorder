@@ -35,12 +35,15 @@ recoverable, service loss/quit must own in-flight starts, and startup reconcilia
 must serialize with capture mutations. Independent review reproduced these failures.
 
 Next priority: integrate and verify capture correction, then native menu controls and
-revision-bound media inspection. Independent Opus work is correcting a mixed-rate
+revision-bound media inspection. Opus is implementing native-only cursor/trail drawing
+in `/tmp/screenrec-native-cursor-render`; core history cutoffs and scene analysis
+remain outside that subpass. Independent Opus work is correcting a mixed-rate
 audio tail defect in `/tmp/screenrec-audio-excerpts`; 09b remains open. The rounding
 and acquisition-availability corrections are integrated. Speech remains a feasibility
 gate: none of the measured local engines or WhisperKit prompt configurations meets
 filler fidelity. Alternative research identified CrisperWhisper, but its current model license
-restricts operational deployment; no engine has been selected.
+restricts operational deployment; see the
+[alternative review](assets/speech/verbatim-alternative.md). No engine has been selected.
 
 Integrated evidence: durable lifecycle/library operations (06d/06e), app-owned service
 lifetime (06c), corrected cursor geometry, and CLI/MCP adapters (12a). Recording
