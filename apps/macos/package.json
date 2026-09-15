@@ -1,0 +1,10 @@
+{
+  "name": "@screenrec/macos",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ../../scripts/build-macos.mjs",
+    "test": "swift build --package-path ../../helpers/mac && node --test ../../helpers/mac/Tests/*.test.mjs"
+  }
+}
