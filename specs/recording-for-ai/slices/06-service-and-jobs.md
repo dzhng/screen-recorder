@@ -25,6 +25,12 @@ Run bun run lab:service. Use real subprocesses and temporary SCREENREC_HOME: two
 
 Exactly one metadata writer and one winning concurrent edit; old IDs stay stale after undo. Latest returns newest not-ready take. Restart turns orphaned processing into explicit retryable failure. Late jobs cannot relabel old artifacts or recreate deleted recordings. A startup failure ends within the bounded deadline.
 
+A failed take with no decodable video retains its catalog identity and terminal
+failure, with no original revision; source reads return `UNAVAILABLE`. Exercise
+that outcome separately from a usable interrupted prefix. Lifecycle replay must
+survive relaunch, and history pagination must exclude edits added after its first
+page. Consume and extend the existing revision store for these contracts.
+
 ## Decisions delegated and scope firewall
 
 SQL layout and socket framing internals are delegated. No general migration layer or second daemon. Native capture-journal ownership stays distinct from library mutations. Promote probe functions into core; delete duplicate fixture-only stores.

@@ -1,6 +1,7 @@
 # 06a — Durable revision transactions
 
-Status: not started. Dependency: slice 05. This is the independent storage portion
+Status: partial implementation on `implement/revision-store`, awaiting integration
+and review. Dependency: slice 05. This is the independent storage portion
 of slice 06; capture/journal ingestion and the app/service lifetime still depend on
 native recovery. It does not close slice 06 on its own.
 

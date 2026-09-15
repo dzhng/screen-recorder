@@ -1,6 +1,9 @@
 # 04 — Select a verbatim local speech engine
 
-Status: not started. Dependencies: 00.
+Status: preparation harness on `implement/speech-eval` at `5c47c50`, awaiting
+integration/review. Synthetic offline Whisper inference proves plumbing only;
+human narration, filler/timing evaluation and production selection remain open.
+Dependencies: 00.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
@@ -41,4 +44,3 @@ behavior, not implementation constants. Run the narrowest relevant checks during
 iteration; full-suite closeout belongs to slice 15.
 
 Failed filler fidelity does not authorize cutting the requirement or using cloud inference. Report the failed assumption and preserve the gate.
-

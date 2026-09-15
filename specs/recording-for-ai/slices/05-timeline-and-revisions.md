@@ -1,6 +1,8 @@
 # 05 — Pure non-destructive timeline engine
 
-Status: not started. Dependencies: 00.
+Status: complete. Pure engine and package/harness integration are committed;
+nine tests, the executable fixture and independent Codex review pass. Evidence: [fixture ledger](../assets/timeline/ledger.json).
+Dependencies: 00. Durable transactions belong to 06a.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
@@ -41,4 +43,3 @@ behavior, not implementation constants. Run the narrowest relevant checks during
 iteration; full-suite closeout belongs to slice 15.
 
 If a mapping rule is ambiguous, fix it here and in contracts.md before media consumers proceed; do not let encoder code choose user-visible edit semantics.
-

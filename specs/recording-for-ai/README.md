@@ -1,13 +1,16 @@
 # Recording for AI — personal release spec
 
-Status: implementation in progress. Bootstrap code/build/conformance checks pass;
-native menu visual evidence remains pending. Capture, speech and editing are not yet implemented.
+Status: spec complete; implementation partial. Last updated: 2026-09-15.
+Bootstrap build/conformance and actual-agent image access are verified. The pure
+timeline engine passes focused tests and independent review. Native capture,
+speech preparation and revision storage have work in progress; the personal
+release and its end-to-end acceptance gates are not complete.
 
 ## Next Agent Prompt
 
 You are implementing the personal Mac release. Read this spec, its
 [contracts](contracts.md), [architecture](architecture.md), and
-[verification](verification.md), then start at [slice 00](slices/00-workspace.md).
+[verification](verification.md), then resume from the current pickup below.
 Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
 technical OPEN entries through concrete contracts or named gated slices.
 
@@ -26,9 +29,13 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: integrate the reviewed timeline and speech-preparation commits,
-then finish native capture/recovery and the shared service. Actual-agent image
-access is complete; bootstrap native-menu observation remains pending.
+Current pickup: integrate and review speech preparation, native capture and durable
+revision transactions from their existing worktrees. Then finish native recovery
+and the shared service; do not recreate completed probes. The timeline engine and
+its package/harness integration are committed and verified. Actual-agent image
+access is complete; bootstrap native-menu observation remains pending. Human
+narration, filler preservation, word timing, isolated audio and A/V drift still
+need evidence. Branch checkpoints are tracked in the owning slices.
 Evidence: [bootstrap](assets/bootstrap/verification.md),
 [actual-agent images](assets/client-image/review.md).
 
@@ -38,7 +45,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [02 — Recover interrupted source media](slices/02-interruption-recovery.md)
 - [ ] [03 — Cursor positions in captured coordinates](slices/03-cursor-geometry.md)
 - [ ] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
-- [ ] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
+- [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
 - [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
   - [ ] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
@@ -122,6 +129,7 @@ pause/cut events, limits, request replay, audio mix and export semantics.
 | [03 Cursor positions in captured coordinates](slices/03-cursor-geometry.md) | 01 | Asymmetric grid and cursor error |
 | [04 Select a verbatim local speech engine](slices/04-local-speech-gate.md) | 00 | Real narration, filler ledger, audible cuts |
 | [05 Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md) | 00 | Expected source spans and revision examples |
+| [06a Durable revision transactions](slices/06a-revision-store.md) | 05 | Real SQLite replay, undo and competing writers |
 | [06 Single-writer library and app-managed service](slices/06-service-and-jobs.md) | 02, 05 | Real-process state/race/restart cases |
 | [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | 03, 06 | Native controls and recording state shots |
 | [08 Durable local transcription and projections](slices/08-transcript-processing.md) | 04, 06 | Word-timed transcript and retry |

@@ -11,7 +11,7 @@ Human CLI accepts seconds or `mm:ss.mmm` and converts once at its boundary. All
 ranges are half-open `[startUs,endUs)`. Native retains original CMTime provenance;
 round only at the agreed boundary, not per repeated edit.
 
-A finalized recording has immutable source duration and revision `r0` retaining
+A finalized recording with usable video has immutable source duration and revision `r0` retaining
 `[0,sourceDurationUs)`. A revision has a fresh opaque ID, parent ID, monotonic ordinal,
 operation label, creation time, duration, and ordered non-overlapping kept-source
 spans. Playback is their concatenation. No reordering, duplicating, speed changes,
@@ -65,6 +65,18 @@ of readiness or edits. It returns `recordingId`, state, current/finalized revisi
 when available, and independent artifact status. Starting another take does not
 retarget subsequent ID-based calls. Active capture is discoverable but inspection
 may report `NOT_READY`; source images become available after media finalization.
+
+If start fails or interruption leaves no decodable video, retain the recording's
+identity and failure details without creating `r0` or a zero-duration timeline.
+Source-dependent operations return `UNAVAILABLE` after this terminal outcome;
+they do not remain pending forever. Available diagnostic/source files remain
+accounted for in storage and manual deletion. Audio alone does not create an
+editable screen recording. A usable video prefix follows normal recovered-source
+registration, even when optional audio is missing.
+
+History pagination pins the highest revision ordinal visible on its first page.
+Later edits do not enter that traversal; a fresh history request sees them. Return
+each retained revision once in ordinal order within that bound.
 
 Resolve omitted/current revision once at request start. Page cursors and long jobs
 pin recording, revision, artifact generation, and filters. A changed artifact never

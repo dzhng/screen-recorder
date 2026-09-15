@@ -1,6 +1,8 @@
 # 01 — Native capture and separate audio
 
-Status: not started. Dependencies: 00.
+Status: partial implementation on `implement/native-capture`, not yet integrated
+or accepted. Dependencies: 00. Own-window video probes do not close the separate
+display, region, microphone, system-audio and A/V timing gates.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
@@ -19,6 +21,14 @@ Run bun run lab:capture. Select display, window, region; narrate a short labeled
 ## Acceptance
 
 All three source choices work. Pause contributes no media/cursor time and an explicit event; a five-minute fixture meets timing target in verification.md. Permissions/source loss produce clear errors without claiming usable complete media. System audio is labeled whole-system, not tab-only isolation. Document the actual track offsets and any resampling.
+
+Source-loss detection must preserve valid hidden, minimized and static windows.
+Lack of new frames or offscreen status alone is not destruction. Exercise actual
+source-owner exit separately from hiding/minimizing. Use the native stream failure
+signal for observable loss; document cases where the OS retains a closed window
+and cannot distinguish it from a hidden live source. Healthy static tails may hold
+the last frame with an explicit duration; failed recordings retain only their valid
+prefix. Do not introduce an inactivity timeout just to make a loss fixture pass.
 
 ## Decisions delegated and scope firewall
 
@@ -41,4 +51,3 @@ behavior, not implementation constants. Run the narrowest relevant checks during
 iteration; full-suite closeout belongs to slice 15.
 
 A failed source/audio case changes the native implementation, not capture scope. Retain a minimal reproduction and reslice that boundary before depending on it.
-

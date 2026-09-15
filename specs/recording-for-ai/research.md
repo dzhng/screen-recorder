@@ -2,11 +2,19 @@
 
 ## What was actually checked
 
-Planning only: reference repository files, installed SDK headers, host/toolchain
-versions, official model/runtime documentation, and MCP specifications. No screen
-capture, model benchmark, crash-recovery test, or real-client image test has run.
-Every numeric target in the slices is a proposed acceptance gate, not a measured
-capability or a published vendor claim.
+The initial planning research checked reference repository files, installed SDK
+headers, host/toolchain versions, official model/runtime documentation and MCP
+specifications. Subsequent bootstrap and real-client image probes have retained
+evidence in [bootstrap verification](assets/bootstrap/verification.md) and
+[client image review](assets/client-image/review.md). The latter proves both MCP
+image content and CLI-file ingestion with generated fixtures.
+
+Native capture and speech preparation have additional work in progress; consult
+the [current handoff](README.md#next-agent-prompt) before treating those as integrated
+results. Synthetic speech establishes runtime plumbing only. Human filler fidelity,
+word-boundary accuracy, crash recovery and complete native audio behavior remain
+acceptance gates. Numeric targets in uncompleted slices are requirements, not
+measured capabilities or published vendor claims.
 
 ### Native capture and recovery
 

@@ -5,9 +5,9 @@ and linked slices now resolve or assign gates to the technical OPEN items below.
 This map retains discovery history; its OPEN list and copyable next request are
 superseded as execution instructions. Product decisions remain authoritative.
 
-Status: discovery handoff. Product decisions are recorded; technical unknowns below
-are explicitly OPEN. This map does not claim native capture, transcription,
-recovery, or client compatibility has been validated. No app has been implemented.
+Status: historical discovery handoff. Product decisions are recorded; technical
+unknowns below describe the discovery stage. Current implementation progress and
+verification are tracked exclusively in the [main handoff](README.md#next-agent-prompt).
 
 ## 1. Known knowns
 
