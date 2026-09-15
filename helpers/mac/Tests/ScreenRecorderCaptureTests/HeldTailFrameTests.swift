@@ -24,6 +24,7 @@ private struct Frames {
             CVPixelBufferLockBaseAddress(buffer, [])
             if let base = CVPixelBufferGetBaseAddress(buffer) {
                 let bytesPerRow = CVPixelBufferGetBytesPerRow(buffer)
+                base.initializeMemory(as: UInt8.self, repeating: 0, count: bytesPerRow * frameHeight)
                 for row in 0..<frameHeight {
                     let line = base.advanced(by: row * bytesPerRow)
                         .assumingMemoryBound(to: UInt8.self)

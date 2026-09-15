@@ -29,8 +29,8 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: resolve the reviewed native finalization issue and finish crash
-recovery, then connect the app-managed service. Socket transport is integrated;
+Current pickup: finish crash recovery, then connect the app-managed service.
+The reviewed native readiness fix is integrated. Socket transport is integrated;
 native frame decoding remains an independent active subpass. Timeline/revision storage, speech probe
 plumbing and the localhost workbench are integrated. Human transcription fidelity,
 all-source/audio capture and native menu interaction remain unverified. Consult

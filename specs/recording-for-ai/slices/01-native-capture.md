@@ -2,8 +2,9 @@
 
 Status: native capture framework/probe integrated; own-window video decoding,
 pause clock and observable source loss verified. [Checkpoint evidence](../assets/capture/review.md)
-records tests and limitations. Final-frame backpressure fix is active in Claude Opus
-worktree `/tmp/screenrec-claude-finalization`, branch `fix/capture-finalization`.
+records tests and limitations. Claude Opus final-frame backpressure fix is integrated and passes actual
+AVFoundation tests. Container-finalization stall recovery remains a parent lifecycle
+concern.
 Dependencies: 00. Display, region, microphone, system-audio and A/V timing gates
 remain open; this slice is not accepted as a whole.
 

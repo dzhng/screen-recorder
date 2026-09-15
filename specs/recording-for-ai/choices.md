@@ -130,3 +130,23 @@
 - **Confidence:** High.
 
 The no-live-unlink invariant and direct libuv-owned socket cleanup were explicitly clarified by the parent during this pass and should be treated as the updated plan, not a new inferred lifecycle mechanism. Internal names, fixture locations, and package scripts follow delegated implementation discretion.
+
+## Native finalization
+
+### Wait for a busy encoder without blocking capture control
+
+- **When:** native finalization, Claude Opus pass plus integration review.
+- **Choice:** If Stop reaches an encoder that is still busy, observe its readiness
+  and append the held final frame when it can accept data. Give that readiness wait
+  two seconds, then report an interrupted result if the frame still cannot be
+  accepted. Recheck actual writer status/readiness at the deadline. This replaces
+  immediate failure on ordinary backpressure without waiting indefinitely.
+- **Gap:** The capture contract did not choose a readiness wait mechanism or budget.
+- **Reach:** A stopped take can finish normally after a brief encoder backlog. The
+  two-second bound applies to accepting the held frame, not a guarantee about every
+  container-finalization operation. App lifetime/recovery must handle failure there.
+- **Verdict:** Sound. A single readiness observation and deadline fit the existing
+  push-style capture input; real AVFoundation tests reached backpressure and decoded
+  the appended frame. There is no polling loop or general retry framework.
+- **Confidence:** Medium. The precise budget is an engineering default, not a
+  measured universal limit; a healthy case exceeding it warrants revisiting it.

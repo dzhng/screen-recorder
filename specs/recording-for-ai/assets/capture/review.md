@@ -23,8 +23,10 @@ open; no white-pixel heuristic or inactivity timeout is used to invent source lo
 Independent code review found two issues. Explicit permission request actions now
 exist for fresh installations, while ordinary launch/preflight remain read-only.
 The actual fresh-authorization interaction still needs a suitable user-run case.
-Temporary encoder backpressure during held-tail finalization is being fixed on
-`fix/capture-finalization`; this checkpoint does not mark that finding resolved.
+Temporary encoder backpressure during held-tail finalization is fixed by an
+event-driven readiness wait. Root reran the real AVFoundation backpressure/decoded
+tail and already-stopped-writer checks successfully. The deadline bounds readiness
+only; genuinely stalled container finalization remains a lifecycle/recovery concern.
 
 Still unverified: display/region capture, isolated microphone/system audio, A/V
 alignment, denied permissions and microphone disconnection. Recovery and geometry

@@ -11,14 +11,12 @@ import Foundation
 /// than returning false. So the held frame has to wait for readiness instead of reading
 /// ordinary backpressure as a broken take.
 public enum HeldTailFrame {
-    /// What a wedged encoder costs before a stopped take gives up and finalizes as interrupted.
-    /// Draining one real-time input is a millisecond-scale operation, so this is slack rather
-    /// than a deadline anything healthy approaches.
+    /// Bounds the readiness wait before preserving only the already accepted prefix.
     static let readinessBudget = DispatchTimeInterval.seconds(2)
 
     /// Appends `frame` retimed to `timing` as the final sample of `input`, waiting out encoder
-    /// backpressure. Call on `queue`; `settle` runs on `queue` with `nil` once the frame is in
-    /// the file, or with the reason the take could not keep its tail.
+    /// backpressure. Call on `queue`; `settle` runs on `queue` with `nil` once the input accepts
+    /// the frame, or with the reason the take could not keep its tail.
     public static func place(
         _ frame: CMSampleBuffer, at timing: CMSampleTimingInfo, in input: AVAssetWriterInput,
         of writer: AVAssetWriter, on queue: DispatchQueue,
@@ -69,6 +67,7 @@ private final class TailAppend: @unchecked Sendable {
             queue.async { self.drained() }
         }
         queue.asyncAfter(deadline: .now() + HeldTailFrame.readinessBudget) { [self] in
+            drained()
             resolve(
                 CaptureFailure(
                     "WRITE_FAILED", "The encoder stayed busy and never accepted the final frame."))
