@@ -1,6 +1,6 @@
 import Foundation
 
-struct ServiceFailure: Error {
+struct ServiceFailure: Error, Sendable {
     let code: String
     let message: String
 }

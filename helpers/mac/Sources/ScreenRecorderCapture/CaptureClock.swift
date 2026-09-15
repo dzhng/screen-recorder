@@ -27,14 +27,30 @@ public struct CaptureClock: Sendable {
         guard let originUs, hostUs >= originUs else { return nil }
         let endUs = hostUs + max(0, durationUs)
         if let pausedAt, hostUs >= pausedAt || endUs > pausedAt { return nil }
-        var removed: Int64 = 0
         for interval in intervals {
             if hostUs < interval.end && endUs > interval.start { return nil }
             if hostUs >= interval.start && hostUs < interval.end { return nil }
-            if interval.end <= hostUs {
-                removed += max(0, interval.end - max(originUs, interval.start))
-            }
         }
-        return hostUs - originUs - removed
+        return hostUs - originUs - removedBefore(hostUs, originUs: originUs)
+    }
+
+    /// How much source time this take holds right now: the same playback coordinate its media is
+    /// written in, with paused time already removed. It stops advancing while the take is paused,
+    /// because paused wall time is not recording time. Whoever displays elapsed time reads this
+    /// rather than deriving a second clock of its own.
+    public func elapsedSourceUs(at hostUs: Int64) -> Int64? {
+        guard let originUs else { return nil }
+        let at = min(pausedAt ?? hostUs, hostUs)
+        guard at > originUs else { return 0 }
+        return at - originUs - removedBefore(at, originUs: originUs)
+    }
+
+    /// Paused time this take has already resumed from, before the given host instant.
+    private func removedBefore(_ hostUs: Int64, originUs: Int64) -> Int64 {
+        var removed: Int64 = 0
+        for interval in intervals where interval.end <= hostUs {
+            removed += max(0, interval.end - max(originUs, interval.start))
+        }
+        return removed
     }
 }

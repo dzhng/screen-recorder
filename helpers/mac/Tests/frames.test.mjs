@@ -127,7 +127,11 @@ test("frame worker draws the supplied pointer and trail, or nothing at all", () 
     const requests = [
       { ...params, output: clean },
       { ...params, output: drawn, overlay },
-      { ...params, output: join(directory, "a.png"), overlay: { trail, trailUs: 2000000, extra: 1 } },
+      {
+        ...params,
+        output: join(directory, "a.png"),
+        overlay: { trail, trailUs: 2000000, extra: 1 },
+      },
       {
         ...params,
         output: join(directory, "b.png"),

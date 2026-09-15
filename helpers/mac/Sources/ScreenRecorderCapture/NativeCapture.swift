@@ -23,6 +23,10 @@ public final class NativeCapture {
     /// so whoever stores them stores the take's own numbering rather than inventing a second one.
     public private(set) var lifecycleSequence: Int?
 
+    /// The playback time the running take has reached, from its own capture clock. Nil when no
+    /// take is capturing or none of its video has established source zero yet.
+    public var elapsedSourceUs: Int64? { sink?.elapsedSourceUs() }
+
     public static var screenPermission: Bool { CGPreflightScreenCaptureAccess() }
     public static var microphonePermission: String {
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
@@ -32,6 +36,23 @@ public final class NativeCapture {
         case .notDetermined: "not_determined"
         @unknown default: "unknown"
         }
+    }
+
+    /// Every microphone a take could be asked to narrate through. Enumeration alone reaches no
+    /// device and requests no authorization; an unauthorized microphone is refused when a take
+    /// asks for it, not when a menu lists what exists.
+    public static func microphoneDevices() -> [CaptureAudioDevice] {
+        let preferred = AVCaptureDevice.default(for: .audio)?.uniqueID
+        return microphoneCandidates().map {
+            CaptureAudioDevice(
+                id: $0.uniqueID, name: $0.localizedName, isDefault: $0.uniqueID == preferred)
+        }
+    }
+
+    private static func microphoneCandidates() -> [AVCaptureDevice] {
+        AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.microphone, .external], mediaType: .audio, position: .unspecified
+        ).devices
     }
 
     public static func requestPermission(_ kind: String) async throws -> Bool {
@@ -70,9 +91,7 @@ public final class NativeCapture {
                     "Microphone access is not authorized. Enable it explicitly before recording narration."
                 )
             }
-            let devices = AVCaptureDevice.DiscoverySession(
-                deviceTypes: [.microphone, .external], mediaType: .audio, position: .unspecified
-            ).devices
+            let devices = Self.microphoneCandidates()
             microphone =
                 request.microphoneDeviceID.flatMap { id in devices.first { $0.uniqueID == id } }
                 ?? (request.microphoneDeviceID == nil ? AVCaptureDevice.default(for: .audio) : nil)

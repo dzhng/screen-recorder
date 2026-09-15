@@ -1,0 +1,122 @@
+import AppKit
+import Carbon.HIToolbox
+import ScreenRecorderControls
+
+/**
+ The key combinations this app holds while it is not the active application.
+
+ A combination is only ever *asked for*. When the system refuses one — because something else
+ already holds it — that binding is left off and named in the menu, so nothing is taken away from
+ whatever the person already uses it for. Refusal is all this API reports: a combination another
+ application holds without the system objecting cannot be detected here, so the menu states what
+ this app holds rather than promising the key is free.
+ */
+@MainActor
+final class GlobalShortcuts {
+    /// Where a person states combinations of their own when a suggested one is unavailable.
+    static func overridePath(home: String) -> String { (home as NSString).appendingPathComponent("shortcuts.json") }
+
+    private var actions: [UInt32: ControlsAction] = [:]
+    private var registered: [EventHotKeyRef] = []
+    private var handler: EventHandlerRef?
+    private var perform: (ControlsAction) -> Void = { _ in }
+    private var nextIdentifier: UInt32 = 1
+
+    /// Claims what it can of the given bindings and reports both sides of the outcome: the action
+    /// IDs this app now holds, and the combinations it refused to take from something else.
+    @discardableResult
+    func claim(
+        _ bindings: [ControlsAction: Shortcut], perform: @escaping (ControlsAction) -> Void
+    ) -> (held: Set<String>, unavailable: [String]) {
+        release()
+        self.perform = perform
+        installHandler()
+        var held: Set<String> = []
+        var unavailable: [String] = []
+        // One stable order, so a launch that cannot claim two combinations names them the same way
+        // every time rather than in whatever order a dictionary happened to hold.
+        for action in bindings.keys.sorted(by: { $0.id < $1.id }) {
+            guard let shortcut = bindings[action], let key = Self.keyCode(of: shortcut.key) else {
+                continue
+            }
+            let identifier = nextIdentifier
+            nextIdentifier += 1
+            var reference: EventHotKeyRef?
+            let status = RegisterEventHotKey(
+                key, Self.carbonModifiers(of: shortcut),
+                EventHotKeyID(signature: Self.signature, id: identifier),
+                GetApplicationEventTarget(), 0, &reference)
+            guard status == noErr, let reference else {
+                unavailable.append(shortcut.display)
+                continue
+            }
+            actions[identifier] = action
+            registered.append(reference)
+            held.insert(action.id)
+        }
+        return (held, unavailable)
+    }
+
+    func release() {
+        for reference in registered { UnregisterEventHotKey(reference) }
+        registered.removeAll()
+        actions.removeAll()
+    }
+
+    private func installHandler() {
+        guard handler == nil else { return }
+        var pressed = EventTypeSpec(
+            eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
+        InstallEventHandler(
+            GetApplicationEventTarget(),
+            { _, event, context in
+                guard let event, let context else { return OSStatus(eventNotHandledErr) }
+                var identifier = EventHotKeyID()
+                let read = GetEventParameter(
+                    event, EventParamName(kEventParamDirectObject), EventParamType(typeEventHotKeyID),
+                    nil, MemoryLayout<EventHotKeyID>.size, nil, &identifier)
+                guard read == noErr, identifier.signature == GlobalShortcuts.signature else {
+                    return OSStatus(eventNotHandledErr)
+                }
+                // Carbon delivers hot keys on the main thread, which is where this app's controls
+                // and its capture session already live.
+                return MainActor.assumeIsolated {
+                    let shortcuts = Unmanaged<GlobalShortcuts>.fromOpaque(context)
+                        .takeUnretainedValue()
+                    guard let action = shortcuts.actions[identifier.id] else {
+                        return OSStatus(eventNotHandledErr)
+                    }
+                    shortcuts.perform(action)
+                    return noErr
+                }
+            }, 1, &pressed, Unmanaged.passUnretained(self).toOpaque(), &handler)
+    }
+
+    private static let signature = OSType(0x53_52_45_43)  // 'SREC'
+
+    private static func carbonModifiers(of shortcut: Shortcut) -> UInt32 {
+        var flags: UInt32 = 0
+        if shortcut.control { flags |= UInt32(controlKey) }
+        if shortcut.option { flags |= UInt32(optionKey) }
+        if shortcut.command { flags |= UInt32(cmdKey) }
+        if shortcut.shift { flags |= UInt32(shiftKey) }
+        return flags
+    }
+
+    /// Virtual key codes for the keys a binding may name. A key that is not here cannot be
+    /// claimed, and the binding is skipped rather than claimed as some other key.
+    private static let keyCodes: [String: Int] = [
+        "A": kVK_ANSI_A, "B": kVK_ANSI_B, "C": kVK_ANSI_C, "D": kVK_ANSI_D, "E": kVK_ANSI_E,
+        "F": kVK_ANSI_F, "G": kVK_ANSI_G, "H": kVK_ANSI_H, "I": kVK_ANSI_I, "J": kVK_ANSI_J,
+        "K": kVK_ANSI_K, "L": kVK_ANSI_L, "M": kVK_ANSI_M, "N": kVK_ANSI_N, "O": kVK_ANSI_O,
+        "P": kVK_ANSI_P, "Q": kVK_ANSI_Q, "R": kVK_ANSI_R, "S": kVK_ANSI_S, "T": kVK_ANSI_T,
+        "U": kVK_ANSI_U, "V": kVK_ANSI_V, "W": kVK_ANSI_W, "X": kVK_ANSI_X, "Y": kVK_ANSI_Y,
+        "Z": kVK_ANSI_Z, "0": kVK_ANSI_0, "1": kVK_ANSI_1, "2": kVK_ANSI_2, "3": kVK_ANSI_3,
+        "4": kVK_ANSI_4, "5": kVK_ANSI_5, "6": kVK_ANSI_6, "7": kVK_ANSI_7, "8": kVK_ANSI_8,
+        "9": kVK_ANSI_9,
+    ]
+
+    private static func keyCode(of key: String) -> UInt32? {
+        keyCodes[key.uppercased()].map(UInt32.init)
+    }
+}

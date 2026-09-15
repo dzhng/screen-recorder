@@ -134,11 +134,16 @@ final class CaptureController {
         let windows = content.windows.filter { window in
             fixtureWindow.map { UInt32($0.windowNumber) == window.windowID } ?? true
         }
+        // The fixture exposes only this app's own window, so it also offers no display and no
+        // microphone: a fixture take has nothing to point at but itself.
         return [
             "displays": fixtureWindow != nil
                 ? []
                 : content.displays.map {
-                    ["id": Int($0.displayID), "width": $0.width, "height": $0.height]
+                    [
+                        "id": Int($0.displayID), "name": Self.displayName(of: $0.displayID),
+                        "width": $0.width, "height": $0.height,
+                    ]
                 },
             "windows": windows.map {
                 [
@@ -146,14 +151,36 @@ final class CaptureController {
                     "application": $0.owningApplication?.applicationName ?? "",
                 ]
             },
+            "microphones": fixtureWindow != nil
+                ? []
+                : NativeCapture.microphoneDevices().map {
+                    ["id": $0.id, "name": $0.name, "isDefault": $0.isDefault]
+                },
         ]
     }
 
+    /// What a person calls this display. `SCDisplay` carries no name, so the window server's own
+    /// name for the same display ID is used, and an unmatched ID keeps its number.
+    private static func displayName(of displayID: CGDirectDisplayID) -> String {
+        let screen = NSScreen.screens.first {
+            ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?
+                .uint32Value == displayID
+        }
+        return screen?.localizedName ?? "Display \(displayID)"
+    }
+
+    /// Everything the device knows about itself right now, including the running take's playback
+    /// time and what this app is permitted to capture. Reading permission asks for nothing.
     private func status() -> [String: Any] {
         [
             "state": capture.deviceState,
             "recordingId": take?.recordingId as Any? ?? NSNull(),
             "sourceId": take?.sourceId as Any? ?? NSNull(),
+            "elapsedUs": capture.elapsedSourceUs as Any? ?? NSNull(),
+            "permissions": [
+                "screen": NativeCapture.screenPermission,
+                "microphone": NativeCapture.microphonePermission,
+            ],
         ]
     }
 

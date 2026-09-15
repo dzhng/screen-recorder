@@ -67,20 +67,44 @@ export const captureReportSchema = z
   .strict();
 export type CaptureReport = z.infer<typeof captureReportSchema>;
 
-/** The device state native owns. The catalog stores what this reports; it derives nothing. */
+/**
+ * Permission is the native session's own fact: it is read without asking for anything, so a
+ * status call never prompts. Only an explicit person-initiated request can change either value.
+ */
+export const capturePermissionsSchema = z
+  .object({
+    screen: z.boolean(),
+    microphone: z.enum(["authorized", "denied", "restricted", "not_determined", "unknown"]),
+  })
+  .strict();
+
+/**
+ * The device state native owns. The catalog stores what this reports; it derives nothing.
+ * `elapsedUs` is the running take's playback time, read from the capture clock that writes its
+ * media, so it omits paused time and freezes while paused. Nothing else derives elapsed time.
+ */
 export const captureDeviceSchema = z
   .object({
     state: z.enum(["idle", "selecting", "recording", "paused", "finalizing"]),
     recordingId: id.nullable(),
     sourceId: id.nullable(),
+    elapsedUs: z.int().nonnegative().nullable(),
+    permissions: capturePermissionsSchema,
   })
   .strict();
 
+/**
+ * Everything a take can be pointed at. Listing reaches no device and requests no permission;
+ * `microphones` names what a narrated take could use, and an empty list is an honest answer.
+ */
 export const captureSourcesSchema = z
   .object({
-    displays: z.array(z.object({ id: z.int(), width: z.int(), height: z.int() }).strict()),
+    displays: z.array(
+      z.object({ id: z.int(), name: z.string(), width: z.int(), height: z.int() }).strict(),
+    ),
     windows: z.array(
       z.object({ id: z.int(), title: z.string(), application: z.string() }).strict(),
     ),
+    microphones: z.array(z.object({ id: id, name: z.string(), isDefault: z.boolean() }).strict()),
   })
   .strict();

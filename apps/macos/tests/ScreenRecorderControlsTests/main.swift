@@ -1,0 +1,6 @@
+runElapsedFormatTests()
+runSelectionTests()
+runMenuStateTests()
+runShortcutTests()
+runRegionSelectionTests()
+print("PASS recording controls")

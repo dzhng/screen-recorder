@@ -180,6 +180,8 @@ function capturingPeer(
           state: take ? "recording" : "idle",
           recordingId: take?.recordingId ?? null,
           sourceId: take?.sourceId ?? null,
+          elapsedUs: take ? 1_500_000 : null,
+          permissions: { screen: true, microphone: "authorized" },
         },
       };
     return {
@@ -599,6 +601,8 @@ function heldStartPeer(): NativePeer {
           state: held ? "recording" : "idle",
           recordingId: held?.recordingId ?? null,
           sourceId: held?.sourceId ?? null,
+          elapsedUs: held ? 0 : null,
+          permissions: { screen: true, microphone: "authorized" },
         },
       };
     return {

@@ -250,12 +250,23 @@ test("a source this app may not capture fails the start and settles that take", 
   assert.equal(settled.state, "interrupted");
   assert.equal(settled.interruptionReason, "SOURCE_UNAVAILABLE");
   assert.equal(settled.sourceDurationUs, null);
-  // Nothing was captured, so the device is idle and free for the next take.
-  const status = await succeeds(home, "capture.status");
-  assert.deepEqual(status, {
-    device: { state: "idle", recordingId: null, sourceId: null },
-    recording: null,
-  });
+  // Nothing was captured, so the device is idle, free for the next take, and holds no clock.
+  const { device, recording } = await succeeds(home, "capture.status");
+  assert.equal(recording, null);
+  assert.deepEqual(
+    {
+      state: device.state,
+      recordingId: device.recordingId,
+      sourceId: device.sourceId,
+      elapsedUs: device.elapsedUs,
+    },
+    { state: "idle", recordingId: null, sourceId: null, elapsedUs: null },
+  );
+  assert.equal(
+    device.permissions.screen,
+    true,
+    "These checks ran, so this build holds screen recording permission",
+  );
 });
 
 test("cancel discards only its own take's media and restart names a new one", async () => {

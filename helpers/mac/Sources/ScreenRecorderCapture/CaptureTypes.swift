@@ -54,6 +54,19 @@ public struct CaptureRequest: Codable, Sendable {
     public let systemAudio: Bool
 }
 
+/// One microphone a take can narrate through, as the device layer sees it.
+public struct CaptureAudioDevice: Codable, Sendable, Equatable {
+    public init(id: String, name: String, isDefault: Bool) {
+        self.id = id
+        self.name = name
+        self.isDefault = isDefault
+    }
+
+    public let id: String
+    public let name: String
+    public let isDefault: Bool
+}
+
 public struct CaptureFailure: Error, LocalizedError, Codable, Sendable {
     public var errorDescription: String? { message }
     public let code: String

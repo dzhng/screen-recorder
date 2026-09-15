@@ -1,6 +1,7 @@
 import ScreenRecorderCapture
 
 func runCaptureClockTests() {
+    runElapsedTests()
 
     var clock = CaptureClock()
     clock.start(at: 100_000_000)
@@ -51,4 +52,38 @@ func runCaptureClockTests() {
     generations.end(secondTake)
     precondition(!generations.accepts(secondTake), "A finalized take cannot accept delayed errors")
     print("PASS stale failure and finalizer after restart")
+}
+
+
+/// Elapsed playback time is what a recording control displays. It is the take's own source time,
+/// so it freezes while the take is paused and never counts paused wall time.
+private func runElapsedTests() {
+    var clock = CaptureClock()
+    precondition(
+        clock.elapsedSourceUs(at: 100_000_000) == nil,
+        "A take with no video yet holds no playback time")
+    clock.start(at: 100_000_000)
+    precondition(clock.elapsedSourceUs(at: 100_000_000) == 0, "Source time starts at zero")
+    precondition(
+        clock.elapsedSourceUs(at: 101_500_000) == 1_500_000, "Elapsed time follows the media clock")
+    clock.pause(at: 102_000_000)
+    precondition(
+        clock.elapsedSourceUs(at: 103_000_000) == 2_000_000,
+        "A paused take freezes at the playback time it reached")
+    precondition(
+        clock.elapsedSourceUs(at: 190_000_000) == 2_000_000,
+        "A long pause adds no playback time however long it lasts")
+    clock.resume(at: 105_000_000)
+    precondition(
+        clock.elapsedSourceUs(at: 106_000_000) == 3_000_000,
+        "A resumed take continues from where it paused")
+    clock.pause(at: 107_000_000)
+    clock.resume(at: 110_000_000)
+    precondition(
+        clock.elapsedSourceUs(at: 111_000_000) == 5_000_000,
+        "Every pause is removed from elapsed playback time")
+    precondition(
+        clock.elapsedSourceUs(at: 111_000_000) == clock.sourceTime(for: 111_000_000),
+        "Elapsed time and sample placement share one clock")
+    print("PASS elapsed playback time freezes across pauses")
 }

@@ -8,9 +8,8 @@ func diagnostic(_ message: String) {
 }
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
-    private var statusItem: NSStatusItem?
-    private var statusEntry: NSMenuItem?
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    private var controls: RecordingControls?
     private var service: ServiceHost?
     private var controller: CaptureController?
     private var fixture: NSWindow?
@@ -23,21 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             Task { await runCaptureProbe() }
             return
         }
-        let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        item.button?.title = "ScreenRec"
-        item.button?.setAccessibilityLabel("Screen Recorder")
-        let menu = NSMenu()
-        let status = NSMenuItem(title: "Screen Recorder — Idle", action: nil, keyEquivalent: "")
-        status.isEnabled = false
-        menu.addItem(status)
-        menu.addItem(.separator())
-        let quit = NSMenuItem(title: "Quit Screen Recorder", action: #selector(quitRecorder), keyEquivalent: "q")
-        quit.target = self
-        menu.addItem(quit)
-        menu.delegate = self
-        item.menu = menu
-        statusItem = item
-        statusEntry = status
+        controls = RecordingControls(home: personalRoot()) { [weak self] in self?.quitRecorder() }
         // The capture fixture is an ordinary launch that additionally opens this app's own window
         // and refuses every other source, so the real service and controller path is what runs.
         if ProcessInfo.processInfo.environment["SCREENREC_FIXTURE_WINDOW"] == "1" {
@@ -60,7 +45,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 guard let self, !self.terminating else { return }
                 switch result {
                 case .failure(let failure):
-                    self.report(code: failure.code, message: failure.message)
+                    self.apply(.unavailable(code: failure.code, message: failure.message))
                 case .success(let bundle):
                     let capture = self.controller
                     let host = ServiceHost(
@@ -83,25 +68,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                     }
                     self.service = host
                     capture?.attach(to: host)
+                    self.controls?.attach(to: host)
                     host.start()
                 }
             }
         }
     }
 
+    /// The service's lifetime, told to whoever needs it: the controls, which cannot carry a
+    /// capture operation without it, and a running take, which has nothing left to report to.
+    /// A failed service is stated in the menu and on stderr; the app stays usable and never
+    /// retries in a hidden loop. Process identities and interpreter versions stay in the
+    /// stderr diagnostics, out of the menu a person acts on.
     private func apply(_ state: ServiceHost.State) {
+        controls?.serviceStateChanged(state)
         switch state {
         case .starting:
-            show("Screen Recorder — Starting…")
+            break
         case .ready(let pid, let socketPath):
-            show("Screen Recorder — Ready")
             diagnostic("service ready pid=\(pid) socket=\(socketPath)")
             // One real control round trip proves the inherited pipe, not just the spawn.
-            requestHealth { health in
-                diagnostic("service health status=\(health.status) pid=\(health.pid) node=v\(health.node)")
+            service?.health { result in
+                Task { @MainActor in
+                    guard case .success(let health) = result else { return }
+                    diagnostic(
+                        "service health status=\(health.status) pid=\(health.pid) node=v\(health.node)")
+                }
             }
         case .unavailable(let code, let message):
-            report(code: code, message: message)
+            diagnostic("service failed code=\(code) message=\(message)")
             // No library is listening any more, so the take is finished into its own journal and
             // left for the next service to reconcile rather than captured unindexed.
             if let controller, controller.isCapturing {
@@ -110,37 +105,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    private func requestHealth(_ describe: @escaping @MainActor (ServiceHealth) -> Void) {
-        service?.health { [weak self] result in
-            Task { @MainActor in
-                switch result {
-                case .success(let health):
-                    self?.show("Screen Recorder — Ready")
-                    describe(health)
-                case .failure(let failure) where failure.code == ServiceHost.startingCode:
-                    // Opening the menu inside the startup budget is not a failure yet.
-                    self?.show("Screen Recorder — Starting…")
-                case .failure(let failure):
-                    self?.report(code: failure.code, message: failure.message)
-                }
-            }
-        }
-    }
-
-    /// A failed service is stated in the menu and on stderr; the app stays usable and
-    /// never retries in a hidden loop. The menu carries what the person can act on;
-    /// process identities and interpreter versions stay in the stderr diagnostics.
-    private func report(code: String, message: String) {
-        show("Screen Recorder — Unavailable: \(message)")
-        diagnostic("service failed code=\(code) message=\(message)")
-    }
-
-    private func show(_ title: String) {
-        statusEntry?.title = title
-    }
-
-    func menuWillOpen(_ menu: NSMenu) {
-        requestHealth { _ in }
+    /// Where this person's recordings and settings live. The service owns the same root; this is
+    /// only where the controls read a person's own key combinations from.
+    private func personalRoot() -> String {
+        ProcessInfo.processInfo.environment["SCREENREC_HOME"]
+            ?? (NSHomeDirectory() as NSString).appendingPathComponent(".screen-recorder")
     }
 
     /// The one orderly quit this app has, for the menu item and for SIGTERM alike. A running take

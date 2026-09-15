@@ -1,5 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
+import Synchronization
 @preconcurrency import ScreenCaptureKit
 
 private final class TrackWriter {
@@ -52,6 +53,12 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     private let width: Int
     private let height: Int
     private var clock = CaptureClock()
+    /// A copy of the clock for readers outside this queue. Elapsed playback time is asked for while
+    /// a take is being finalized, and finalization occupies the writer queue for as long as the
+    /// media takes to close; a reader that waited for the queue would stall its own thread behind
+    /// that work. The copy is refreshed whenever the clock's own boundaries move, which is the only
+    /// thing that changes what elapsed time it reports.
+    private let publishedClock = Mutex(CaptureClock())
     private var tracks: [String: TrackWriter] = [:]
     private var dropped: [String: Int] = [:]
     private var omitted: [String: Int] = [:]
@@ -111,6 +118,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             sampler?.suspend()
             let hostUs = CaptureHostTime.nowUs()
             clock.pause(at: hostUs)
+            publishClock()
             _ = record { try self.journal.recordPauseBegan(hostUs: hostUs) }
         }
     }
@@ -124,6 +132,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         let paused = clock.isPaused
         let count = clock.pauses.count
         clock.resume(at: hostUs)
+        publishClock()
         if paused {
             let pause = clock.pauses.count > count ? clock.pauses.last : nil
             _ = record { try self.journal.recordPauseEnded(hostUs: hostUs, pause: pause) }
@@ -151,6 +160,19 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             return sequence
         }
     }
+    /// The playback time this take holds right now, read from the one clock its media is written
+    /// in. It is nil until video establishes source zero, and stops advancing while paused. It is
+    /// answered from the published copy, so asking what time a take has reached never waits behind
+    /// the take's own encoding or finalization.
+    func elapsedSourceUs() -> Int64? {
+        publishedClock.withLock { $0.elapsedSourceUs(at: CaptureHostTime.nowUs()) }
+    }
+
+    private func publishClock() {
+        let current = clock
+        publishedClock.withLock { $0 = current }
+    }
+
     func seal() {
         queue.sync {
             sampler?.stop()
@@ -237,6 +259,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             // placed at source zero rather than in the take's unplaceable prologue.
             if usable, clock.originUs == nil {
                 clock.start(at: hostUs)
+                publishClock()
                 guard record({ try self.journal.recordOrigin(hostUs: hostUs) }) else { return }
             }
             updateGeometry(from: info, hostUs: hostUs)
