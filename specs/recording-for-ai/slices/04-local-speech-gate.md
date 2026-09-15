@@ -61,12 +61,13 @@ the manual timing/filler gate until clips and boundaries are independently check
 
 The [natural-speech diagnostic](../assets/speech/natural-diagnostic.md) now records
 actual offline emissions over four public human clips. WhisperKit emitted no um/uh
-tokens; Parakeet matched 132 of 185 reference fillers. Neither is selected. An Opus
-probe in `/tmp/screenrec-apple-speech` is checking the specified Apple SpeechAnalyzer
-alternative using installed assets only; manual timing and audition remain open.
+tokens; Parakeet matched 132 of 185 reference fillers. Neither is selected.
 
-The [Apple diagnostic](../assets/speech/apple-diagnostic.md) also ran using already
-installed English assets: 18 of 185 reference um/uh were matched. Its returned
-alternatives expose some omitted fillers, but tested settings did not make them the
-primary transcript. A bounded WhisperKit configuration ablation is now active in
-`/tmp/screenrec-whisper-verbatim`; no reference phrases may be supplied as prompts.
+The [Apple diagnostic](../assets/speech/apple-diagnostic.md) used already installed
+English assets and matched 18 of 185 reference fillers. The
+[WhisperKit configuration diagnostic](../assets/speech/whisper-verbatim-diagnostic.md)
+then tried two generic prompts: a prose instruction restored none; filler vocabulary
+matched 83 of 185, with substitutions and one empty clip result. Resource pressure
+complicates interpreting that empty result. No tested engine/configuration meets the
+fidelity requirement; manual timing and audition remain open. The next speech pass
+must establish a bounded viable alternative, without lowering the fidelity gate.

@@ -29,34 +29,31 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: connect native capture control and journal reconciliation to the
-running service (parent 06). Claude Opus owns that vertical pass in
-`/tmp/screenrec-capture-service`; keep its changes isolated from root integration.
-Durable lifecycle storage (06d) and library operation
-binding (06e) are integrated: 25 core tests and 24 service tests pass together.
-Real-service reads distinguish an unfinished take from a terminal zero-video failure
-and exclude canceled takes from latest. App-owned lifetime remains verified. CLI/MCP adapters (12a) now expose the
-implemented library/edit operations through the same registry; automatic app
-discovery and media-content delivery remain open.
+Current pickup: correct capture-start lifecycle races before integrating 06f.
+Claude Opus owns `/tmp/screenrec-capture-service`: uncertain native starts must stay
+recoverable, service loss/quit must own in-flight starts, and startup reconciliation
+must serialize with capture mutations. Independent review reproduced these failures.
 
-Cursor correction `9c1f7e2` and a follow-up unknown-geometry regression are integrated;
-real sampler and native capture checks pass, and the corrected own-window fixture
-completed. See [cursor evidence](assets/cursor/review.md). Deliberate gestures and
-display/region placement remain open; computer-use access to this app timed out.
-Claude Opus is correcting native audio excerpts in `/tmp/screenrec-audio-excerpts`: root
-reproduced cumulative sample rounding drift and requires caller-supplied acquisition
-availability before accepting the worker.
-The public human-speech diagnostic is integrated; it found major filler omissions.
-The Apple SpeechAnalyzer diagnostic also ran and found substantial omissions.
-Opus is checking at most two supported WhisperKit decoding configurations in
-`/tmp/screenrec-whisper-verbatim`, without reference phrases in prompts. Automatic alignment is not
-manual acceptance truth.
+Next priority: integrate and verify capture correction, then native menu controls and
+revision-bound media inspection. Independent Opus work is correcting a mixed-rate
+audio tail defect in `/tmp/screenrec-audio-excerpts`; 09b remains open. The rounding
+and acquisition-availability corrections are integrated. Speech remains a feasibility
+gate: none of the measured local engines or WhisperKit prompt configurations meets
+filler fidelity. A bounded read-only alternative investigation is active; no engine
+has been selected.
 
-Recovery timing, frame decoding, timeline edits and speech probe plumbing are
-integrated. Physical audio, human transcription fidelity, full capture recovery
-lifecycle and native menu interaction remain unverified. Corpus alignment is not
-manual timing truth; see the speech slice. Complete those gates without substituting
-synthetic speech or window-only capture for their wider requirements.
+Integrated evidence: durable lifecycle/library operations (06d/06e), app-owned service
+lifetime (06c), corrected cursor geometry, and CLI/MCP adapters (12a). A real Opus
+consumer performed a cut, stale-write check and undo through production MCP; that
+check used catalog metadata, not recorded media. See
+[CLI evidence](assets/cli/review.md), [cursor evidence](assets/cursor/review.md),
+[audio regression](slices/09b-native-audio-excerpts.md), and
+[speech gate](slices/04-local-speech-gate.md).
+
+Physical audio, deliberate cursor gestures, display/region placement, human speech
+timing, full capture recovery lifecycle, native recording controls and the complete
+agent media workflow remain unverified. Computer-use access to the native app timed
+out; window-only and generated-media fixtures do not close the wider gates.
 
 Evidence: [bootstrap](assets/bootstrap/verification.md),
 [actual-agent images](assets/client-image/review.md),
@@ -81,6 +78,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
   - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
+  - [ ] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (resampling correction pending)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)

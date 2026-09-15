@@ -1,0 +1,59 @@
+{
+  "ok": true,
+  "data": {
+    "recordingId": "47825ace-bfd3-475a-bf93-7ca0a60b3fb2",
+    "revisions": [
+      {
+        "id": "r0",
+        "parentId": null,
+        "ordinal": 0,
+        "operation": "original",
+        "createdAt": "2026-09-15T11:49:42.622Z",
+        "sourceDurationUs": 10000000,
+        "durationUs": 10000000,
+        "spans": [
+          {
+            "startUs": 0,
+            "endUs": 10000000
+          }
+        ]
+      },
+      {
+        "id": "3df1ebd5-1f42-46f6-8259-ed7d5061b9ff",
+        "createdAt": "2026-09-15T11:49:53.194Z",
+        "operation": "cut",
+        "parentId": "r0",
+        "ordinal": 1,
+        "sourceDurationUs": 10000000,
+        "durationUs": 9000000,
+        "spans": [
+          {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          {
+            "startUs": 3000000,
+            "endUs": 10000000
+          }
+        ]
+      },
+      {
+        "id": "1ad03982-2baf-40af-a601-a46082d9da25",
+        "createdAt": "2026-09-15T11:50:01.912Z",
+        "operation": "undo",
+        "parentId": "3df1ebd5-1f42-46f6-8259-ed7d5061b9ff",
+        "ordinal": 2,
+        "sourceDurationUs": 10000000,
+        "durationUs": 10000000,
+        "spans": [
+          {
+            "startUs": 0,
+            "endUs": 10000000
+          }
+        ]
+      }
+    ],
+    "nextCursor": null
+  },
+  "id": "verify-history"
+}

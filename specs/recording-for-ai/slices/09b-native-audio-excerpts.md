@@ -1,7 +1,7 @@
 # 09b — Native audio excerpts of retained source spans
 
-Status: native execution and generated-media verification complete; the excerpt has
-not been auditioned. Independent prerequisite: native workspace (00).
+Status: implementation partial; mixed-rate decoding has a reproduced missing-tail
+defect under correction. The excerpt has not been auditioned. Independent prerequisite: native workspace (00).
 This extracts 09's audio-excerpt seam, under 13's join contract, so generated media
 can verify it while revision lookup, caching and scheduling proceed elsewhere.
 It does not close 09 or 13, and claims nothing about audible quality.
@@ -32,8 +32,8 @@ records mono or stereo, so an excerpt is mono or stereo: a matching layout passe
 through, a mono capture is heard on both sides of a stereo excerpt, and any other
 combination is refused as `UNSUPPORTED_FORMAT`. Repeating the last channel of a
 stereo capture into further outputs would place channels nobody recorded, and no
-surround source exists to verify a real mapping against. Each track is decoded at its
-own channel count and mapped explicitly, because the platform's remix matrix would
+surround source exists to verify a real mapping against. Each track retains its
+own channel count and is mapped explicitly, because the platform's remix matrix would
 silently restate the gains.
 
 Linear ramps of at most 5 ms sit inside the retained spans on both sides of every
@@ -95,9 +95,8 @@ the one thing the container cannot know. Failures use the shared envelope with
 
 `AVAssetReader.timeRange` was confirmed against real files to be asset time that
 honours a track's edit list, and to report asset-time presentation stamps. It was
-also measured to answer a fractional range with the ceiling of its frame count, so a
-decode always covers the frames its interval owes the output and may overrun it by
-one; writes stop at the interval's own output end for that reason. The excerpt reads
+also measured to answer a fractional range with the ceiling of its frame count, for same-rate reads, a
+decode may overrun by one frame; writes stop at the interval's own output end for that reason. The excerpt reads
 each available interval as its own bounded range: material outside the retained spans
 is never decoded, rather than decoded and discarded. A track's occupied segments come
 from the same `ScreenRecorderMediaTime` segment mapping the frame decoder uses, and
@@ -140,6 +139,21 @@ validation could reject it; that is fixed with red tests at both the library and
 process seam. Reviewer sandboxes cannot decode media, so their runtime checks are not
 evidence; root ran the suites outside the sandbox.
 
+## Open regression: resampling tail
+
+Independent review found that the supported 44.1-to-48 kHz mixture leaves its last
+17 output samples without the mono contribution, while reporting that interval as
+available. Reader completion does not establish that all requested samples arrived.
+Opus is correcting conversion and end-of-stream delivery in the audio worktree.
+Acceptance requires full-interval sample comparison, including the first and last
+samples, against independent conversion. Refusing normal mixed rates, repeating
+samples or padding the missing contribution would not satisfy this contract.
+
+Root separately reran the thousand-span duration regression: the worker and ffprobe
+both report 480480 samples / 10.010 seconds, with unchanged source bytes. See
+[rounding evidence](../assets/audio/rounding-green.json). That fix does not resolve
+the resampling defect.
+
 ## Not verified here
 
 No human has listened to an excerpt, and no excerpt has been made from real captured
@@ -167,11 +181,9 @@ One AVAssetReader is created per available interval. That is bounded by the 30
 second cap and cheap for uncompressed sources, where every frame is independently
 addressable; a compressed source would make `reset(forReadingTimeRanges:)` worth it.
 
-`SourceSpan` and `AudioFailure` deliberately restate `FrameInterval` and
-`FrameFailure`, and the wire's two operation branches are near-identical, because
-this pass may not edit the frame decoder. Promoting one interval type and one
-failure protocol into a shared owner, and collapsing the wire branches onto it, is
-the first cleanup for whichever pass may touch both.
+Audio and frame execution have separate domain errors and request types. Shared
+asset-time mapping belongs to `ScreenRecorderMediaTime`; revision and interval
+resolution remain in the TypeScript timeline owner.
 
 ## Stay green and feedback
 

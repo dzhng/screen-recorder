@@ -1,0 +1,19 @@
+{
+  "nativeCommit": "a1c41b6",
+  "request": {
+    "spanCount": 1000,
+    "spanDurationUs": 10010,
+    "sourceStepUs": 20000,
+    "sampleRate": 48000
+  },
+  "expectedFrames": 480480,
+  "workerFrames": 480480,
+  "ffprobe": {
+    "sample_rate": "48000",
+    "duration_ts": 480480,
+    "duration": "10.010000"
+  },
+  "sourceUnchanged": true,
+  "sourceSha256": "05df65bb2b92c02948610bef9545b32bc82f01f2e2cff8e840e968cc154957ef",
+  "outputSha256": "f85e7e7b2f9c1c1d85892af848e2af8e020d8495726c98fa977e647ce4e4011f"
+}

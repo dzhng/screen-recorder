@@ -94,7 +94,7 @@
   {
    "lever": "--no-speech-threshold / --logprob-threshold / --compression-ratio-threshold",
    "evidence": "Every segment of the retained baseline reports temperature 0, noSpeechProb 0.0, compressionRatio <= 1.82 (< 2.4) and avgLogprob -0.20..-0.57 (> -1.0).",
-   "conclusion": "No fallback and no silence skip fired in the baseline; relaxing these thresholds cannot change those outputs. Not run."
+   "conclusion": "Retained baseline segments do not show fallback or silence rejection. Omitted windows are not described by retained segments, so this does not exclude every threshold effect. Threshold relaxation was not run."
   },
   {
    "lever": "--prefix",

@@ -20,3 +20,16 @@ Focused lint/format and `bun run screenrec --help` also pass.
 This proves current library/edit adapter behavior, not the full actual-agent media
 journey. Connection selection is currently explicit `--socket`; automatic personal
 app discovery, media content blocks and the rest of parent12's operations remain.
+
+## Actual Opus consumer
+
+A fresh Claude Opus session, with only this production MCP server allowed, made
+seven tool calls: it discovered the latest fixture, cut one second, read history,
+received a stale-write error and undid the cut into a fresh revision. Root then
+queried the service's actual history independently: exactly original/cut/undo,
+with durations 10/9/10 seconds. The [tool exchange](actual-agent-exchange.json) and
+[history](actual-agent-history.json) retain that evidence. Session configuration
+excluded other MCP servers, file tools and shell tools.
+
+The catalog was seeded with a known extent; no media was captured for this check.
+This is actual-agent metadata/edit proof, not image, speech or rendered-video proof.
