@@ -73,5 +73,6 @@ fidelity requirement; manual timing and audition remain open. The next speech pa
 must establish a bounded viable alternative, without lowering the fidelity gate.
 
 The [CrisperWhisper alternative review](../assets/speech/verbatim-alternative.md)
-found a deployment license constraint before any model download. It has not been
-selected or benchmarked locally.
+found a deployment license constraint. A research-only local benchmark is now
+prepared; its first runtime attempt failed before producing a transcript. The
+compatibility retry does not select the model for deployment.

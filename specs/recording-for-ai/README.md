@@ -43,7 +43,10 @@ and acquisition-availability corrections are integrated. Speech remains a feasib
 gate: none of the measured local engines or WhisperKit prompt configurations meets
 filler fidelity. Alternative research identified CrisperWhisper, but its current model license
 restricts operational deployment; see the
-[alternative review](assets/speech/verbatim-alternative.md). No engine has been selected.
+[alternative review](assets/speech/verbatim-alternative.md). A research-only offline
+CrisperWhisper diagnostic is running in `/tmp/screenrec-crisper-evidence`; initial
+Transformers 5.17.0 execution failed, and 4.49.0 is the bounded compatibility retry.
+No engine has been selected.
 
 Integrated evidence: durable lifecycle/library operations (06d/06e), app-owned service
 lifetime (06c), corrected cursor geometry, and CLI/MCP adapters (12a). Recording
