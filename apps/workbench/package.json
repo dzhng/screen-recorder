@@ -1,0 +1,11 @@
+{
+  "name": "@screenrec/workbench",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "build": "node --check server.mjs && node --check public/app.js",
+    "test": "node --test server.test.mjs"
+  }
+}

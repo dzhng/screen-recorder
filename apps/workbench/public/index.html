@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recorder workbench</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="eyebrow">SCREEN RECORDER / LOCAL FIXTURES</div>
+      <h1>A place to point, scroll & speak.</h1>
+      <p>
+        Synthetic visual targets for recording tests. Audio starts only when you press a tone
+        button.
+      </p>
+    </header>
+    <main>
+      <section class="card" aria-labelledby="grid-title">
+        <div class="heading">
+          <div>
+            <span class="step">01 / POSITION</span>
+            <h2 id="grid-title">Asymmetric reference grid</h2>
+          </div>
+          <span class="badge">Five fixed landmarks</span>
+        </div>
+        <div class="grid" data-fixture="grid">
+          <div class="landmark top-left"><b>A1</b><span>TOP LEFT</span></div>
+          <div class="landmark top-right"><b>B7</b><span>TOP RIGHT</span></div>
+          <div class="landmark center"><b>C3 +</b><span>CENTER</span></div>
+          <div class="landmark bottom-left"><b>D9</b><span>BOTTOM LEFT</span></div>
+          <div class="landmark bottom-right"><b>E2</b><span>BOTTOM RIGHT</span></div>
+          <span class="grid-note"
+            >Trace a circle around C3. Then draw a wave between D9 and E2.</span
+          >
+        </div>
+      </section>
+      <div class="columns">
+        <section class="card" aria-labelledby="menu-title">
+          <span class="step">02 / REPRODUCE</span>
+          <h2 id="menu-title">The disappearing submenu</h2>
+          <p>
+            Hover over “Products,” then move down into the menu. It disappears as the pointer
+            crosses the gap.
+          </p>
+          <div class="menu-area">
+            <button id="products" aria-expanded="false" aria-controls="submenu">
+              Products <span aria-hidden="true">⌄</span>
+            </button>
+            <div id="submenu" hidden>
+              <button>Starter plan</button><button>Team plan</button><button>Compare plans</button>
+            </div>
+          </div>
+          <p class="footnote">Intentional fixture bug · repeat the same motion to reproduce.</p>
+        </section>
+        <section class="card" aria-labelledby="token-title">
+          <span class="step">03 / IMAGE EVIDENCE</span>
+          <h2 id="token-title">Visual token</h2>
+          <div class="token-row">
+            <canvas
+              id="token"
+              width="420"
+              height="120"
+              aria-label="Visual token. Read the code from its image."
+            ></canvas
+            ><button id="change-token">Change token</button>
+          </div>
+          <p class="footnote">The code is drawn into pixels for image inspection.</p>
+        </section>
+      </div>
+      <section class="card" aria-labelledby="motion-title">
+        <div class="heading">
+          <div>
+            <span class="step">04 / MOTION</span>
+            <h2 id="motion-title">Follow the moving target</h2>
+          </div>
+          <button id="motion" aria-pressed="false">Start motion</button>
+        </div>
+        <div class="track">
+          <div id="target" aria-label="Moving target">+</div>
+          <span>LEFT</span><span>RIGHT</span>
+        </div>
+      </section>
+      <section class="card" aria-labelledby="sound-title">
+        <span class="step">05 / OPTIONAL SOUND</span>
+        <h2 id="sound-title">Short audio cues</h2>
+        <p>
+          Each press plays a quiet, half-second tone. Use headphones when checking microphone and
+          system audio separately.
+        </p>
+        <div class="sound-buttons">
+          <button data-tone="440">Play 440 Hz</button><button data-tone="880">Play 880 Hz</button
+          ><span id="audio-status" role="status">Silent</span>
+        </div>
+      </section>
+      <section class="card reading" aria-labelledby="scroll-title">
+        <span class="step">06 / SCROLL & NARRATE</span>
+        <h2 id="scroll-title">A long page with clear waypoints</h2>
+        <p>
+          Scroll steadily through these numbered passages. Pause at a heading and point at a phrase
+          while speaking in your own words.
+        </p>
+        <article>
+          <span class="waypoint">01</span>
+          <h3>The first paragraph</h3>
+          <p>
+            This page is a recording fixture. Its landmarks make it possible to describe where a
+            pointer moved and which part of the page was visible. Scroll slowly enough to read each
+            section.
+          </p>
+        </article>
+        <article>
+          <span class="waypoint">02</span>
+          <h3>A sentence to identify</h3>
+          <p>
+            The sample offer says: <strong>“this is free.”</strong> You can mention that sentence in
+            a narration, then ask an external agent to find the spoken phrase from recorded
+            evidence.
+          </p>
+        </article>
+        <article>
+          <span class="waypoint">03</span>
+          <h3>A moment to pause</h3>
+          <p>
+            Stop scrolling here. Point at the numbered marker, move away, and return to it. A
+            stationary background with an active pointer helps separate gestures from scene changes.
+          </p>
+        </article>
+        <article>
+          <span class="waypoint">04</span>
+          <h3>The end of the route</h3>
+          <p>
+            You have reached the final waypoint. Scroll back to the reference grid to repeat the
+            same route. The top and bottom landmarks have different labels and colors, so a flipped
+            or misplaced image is easier to spot.
+          </p>
+        </article>
+        <a href="#grid-title">Back to the reference grid ↑</a>
+      </section>
+    </main>
+    <footer>Local development fixture · no recording is started by this page.</footer>
+  </body>
+</html>
