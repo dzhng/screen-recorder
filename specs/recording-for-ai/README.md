@@ -29,10 +29,12 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: correct capture-start lifecycle races before integrating 06f.
-Claude Opus owns `/tmp/screenrec-capture-service`: uncertain native starts must stay
-recoverable, service loss/quit must own in-flight starts, and startup reconciliation
-must serialize with capture mutations. Independent review reproduced these failures.
+Current pickup: complete durable capture-start replay before integrating 06f.
+Claude Opus owns `/tmp/screenrec-capture-service`: replaying an uncertain start must
+never terminalize a live take. The prior correction addressed timeout, service-loss
+and recovery ordering, but review reproduced a retry defect. Its pending-start
+regressions also need a held, acknowledged native start, not directory polling.
+Correct public microphone defaults and terminal pause/resume errors in the same pass.
 
 Next priority: integrate and verify capture correction, then native menu controls and
 revision-bound media inspection. Opus is implementing native-only cursor/trail drawing
@@ -42,10 +44,9 @@ resampling tails, cumulative rounding and acquisition holes; audition remains op
 gate: none of the measured local engines or WhisperKit prompt configurations meets
 filler fidelity. Alternative research identified CrisperWhisper, but its current model license
 restricts operational deployment; see the
-[alternative review](assets/speech/verbatim-alternative.md). A research-only offline
-CrisperWhisper diagnostic is running in `/tmp/screenrec-crisper-evidence`; initial
-Transformers 5.17.0 execution failed, and 4.49.0 is the bounded compatibility retry.
-No engine has been selected.
+[alternative review](assets/speech/verbatim-alternative.md). The research-only offline CrisperWhisper diagnostic completed
+in `/tmp/screenrec-crisper-evidence`: 164/185 reference fillers matched, and memory
+exceeded the 4 GiB target. No engine has been selected.
 
 Integrated evidence: durable lifecycle/library operations (06d/06e), app-owned service
 lifetime (06c), corrected cursor geometry, and CLI/MCP adapters (12a). Recording
