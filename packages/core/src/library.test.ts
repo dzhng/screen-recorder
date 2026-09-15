@@ -182,11 +182,11 @@ test("no-op trim persists replay without history and rejected edits leave no mut
   });
   expect(store.edit(recordingId, request).id).toBe("r0");
   expect(store.revision(recordingId).id).toBe(changed.id);
-  const page = store.history(recordingId, -1, 1);
+  const page = store.history(recordingId, null, 1);
   expect(page.revisions.map((rev) => rev.id)).toEqual(["r0"]);
-  expect(
-    store.history(recordingId, page.nextAfterOrdinal!, 1).revisions.map((rev) => rev.id),
-  ).toEqual([changed.id]);
+  expect(store.history(recordingId, page.nextCursor, 1).revisions.map((rev) => rev.id)).toEqual([
+    changed.id,
+  ]);
 });
 
 test("two processes competing on one expected revision commit one cut", async () => {
@@ -234,3 +234,31 @@ test("two processes competing on one expected revision commit one cut", async ()
     for (const worker of workers) worker.kill();
   }
 }, 5000);
+
+test("history continuation excludes revisions appended after its first page", () => {
+  const { store } = fixture();
+  const { recordingId } = store.allocate();
+  store.registerSource(recordingId, 20);
+  const a = store.edit(recordingId, {
+    operation: "cut",
+    requestId: "a",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 3, endUs: 5 }],
+  });
+  const first = store.history(recordingId, null, 1);
+  expect(first.revisions.map((revision) => revision.id)).toEqual(["r0"]);
+  const b = store.edit(recordingId, {
+    operation: "cut",
+    requestId: "b",
+    expectedRevisionId: a.id,
+    ranges: [{ startUs: 0, endUs: 2 }],
+  });
+  const second = store.history(recordingId, first.nextCursor, 1);
+  expect(second.revisions.map((revision) => revision.id)).toEqual([a.id]);
+  expect(second.nextCursor).toBeNull();
+  expect(store.history(recordingId).revisions.map((revision) => revision.id)).toEqual([
+    "r0",
+    a.id,
+    b.id,
+  ]);
+});

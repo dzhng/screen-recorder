@@ -43,6 +43,11 @@ function argumentsKey(request: EditRequest): string {
           : null,
   ]);
 }
+export type HistoryCursor = Readonly<{
+  recordingId: string;
+  afterOrdinal: number;
+  throughOrdinal: number;
+}>;
 export class RevisionStore {
   private readonly db: DatabaseSync;
   constructor(
@@ -220,26 +225,42 @@ export class RevisionStore {
 
   history(
     recordingId: string,
-    afterOrdinal = -1,
+    cursor: HistoryCursor | null = null,
     limit = 100,
-  ): { revisions: TimelineRevision[]; nextAfterOrdinal: number | null } {
+  ): { revisions: TimelineRevision[]; nextCursor: HistoryCursor | null } {
     this.get(recordingId);
+    const afterOrdinal = cursor?.afterOrdinal ?? -1;
+    const throughOrdinal =
+      cursor?.throughOrdinal ??
+      (this.db
+        .prepare("SELECT MAX(ordinal) AS ordinal FROM revisions WHERE recordingId=?")
+        .get(recordingId)!.ordinal as number | null) ??
+      -1;
     if (
       !Number.isSafeInteger(limit) ||
       limit < 1 ||
       limit > 500 ||
       !Number.isSafeInteger(afterOrdinal) ||
-      afterOrdinal < -1
+      afterOrdinal < -1 ||
+      !Number.isSafeInteger(throughOrdinal) ||
+      throughOrdinal < afterOrdinal ||
+      (cursor !== null && cursor.recordingId !== recordingId)
     )
       throw new CatalogError("INVALID_RANGE", "Invalid history page");
     const rows = this.db
       .prepare(
-        "SELECT content FROM revisions WHERE recordingId=? AND ordinal>? ORDER BY ordinal LIMIT ?",
+        "SELECT content FROM revisions WHERE recordingId=? AND ordinal>? AND ordinal<=? ORDER BY ordinal LIMIT ?",
       )
-      .all(recordingId, afterOrdinal, limit + 1);
+      .all(recordingId, afterOrdinal, throughOrdinal, limit + 1);
     const revisions = rows
       .slice(0, limit)
       .map((row) => JSON.parse(row.content as string) as TimelineRevision);
-    return { revisions, nextAfterOrdinal: rows.length > limit ? revisions.at(-1)!.ordinal : null };
+    return {
+      revisions,
+      nextCursor:
+        rows.length > limit
+          ? { recordingId, afterOrdinal: revisions.at(-1)!.ordinal, throughOrdinal }
+          : null,
+    };
   }
 }
