@@ -88,6 +88,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
   - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (generated-media execution; audition still open)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
+  - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)

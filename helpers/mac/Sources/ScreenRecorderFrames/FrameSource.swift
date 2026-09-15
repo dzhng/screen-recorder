@@ -50,7 +50,8 @@ public actor FrameSource {
         let (sampleTime, selected) = try nearestSample(atSourceUs: request.atSourceUs, in: request.kept)
         let decoded = try decode(at: sampleTime, actualUs: selected.actualSourceUs)
         let image = try FrameImage(
-            buffer: decoded, transform: transform, crop: request.crop, maxLongEdge: request.maxLongEdge)
+            buffer: decoded, transform: transform, overlay: request.overlay,
+            agedFromUs: request.atSourceUs, crop: request.crop, maxLongEdge: request.maxLongEdge)
         let data = try image.png(context: context)
         guard data.count <= request.maxEncodedBytes else {
             throw FrameFailure(
@@ -68,7 +69,8 @@ public actor FrameSource {
             file: request.output.path, mediaType: "image/png", requestedSourceUs: request.atSourceUs,
             actualSourceUs: selected.actualSourceUs, distanceUs: selected.distanceUs,
             width: image.width, height: image.height, sourceWidth: width, sourceHeight: height,
-            crop: request.crop, bytes: data.count)
+            crop: request.crop, overlay: request.overlay.map(RenderedOverlay.init),
+            bytes: data.count)
     }
 
     private func nearestSample(atSourceUs requestedUs: Int64, in kept: FrameInterval) throws
@@ -151,8 +153,56 @@ public actor FrameSource {
                     "Crop \(crop.x),\(crop.y) \(crop.width)x\(crop.height) is outside the \(width)x\(height) source image.")
             }
         }
+        if let overlay = request.overlay { try validate(overlay) }
         guard request.output.resolvingSymlinksInPath().standardizedFileURL != url else {
             throw FrameFailure("INVALID_OUTPUT", "Frame output would overwrite the source media.")
+        }
+    }
+
+    /// Bounds the drawing work and refuses evidence this library would have to guess about: points
+    /// off the source raster, points out of order, and runs that overlap in time.
+    private func validate(_ overlay: FrameOverlay) throws {
+        guard overlay.trailUs >= 0, overlay.trailUs <= FrameLimits.maximumTrailUs else {
+            throw FrameFailure(
+                "INVALID_RANGE",
+                "Trail duration \(overlay.trailUs) is outside 0...\(FrameLimits.maximumTrailUs) microseconds.")
+        }
+        var total = 0
+        var previousUs: Int64?
+        for run in overlay.trail {
+            guard !run.isEmpty else {
+                throw FrameFailure("INVALID_RANGE", "A trail run holds no points.")
+            }
+            total += run.count
+            for point in run {
+                try validate(point: point)
+                if let previousUs, point.atSourceUs <= previousUs {
+                    throw FrameFailure(
+                        "INVALID_RANGE",
+                        "Trail point at \(point.atSourceUs) does not follow \(previousUs) microseconds.")
+                }
+                previousUs = point.atSourceUs
+            }
+        }
+        guard total <= FrameLimits.maximumTrailPoints else {
+            throw FrameFailure(
+                "INVALID_RANGE",
+                "Trail holds \(total) points, over the \(FrameLimits.maximumTrailPoints) point limit.")
+        }
+        guard total == 0 || overlay.trailUs > 0 else {
+            throw FrameFailure("INVALID_RANGE", "A trail of \(total) points needs a trail duration.")
+        }
+        if let pointer = overlay.pointer { try validate(point: pointer) }
+    }
+
+    private func validate(point: CursorPoint) throws {
+        guard point.atSourceUs >= 0, point.atSourceUs <= FrameLimits.maximumMicroseconds,
+            point.x.isFinite, point.y.isFinite, point.x >= 0, point.x <= Double(width),
+            point.y >= 0, point.y <= Double(height)
+        else {
+            throw FrameFailure(
+                "INVALID_RANGE",
+                "Cursor point \(point.x),\(point.y) at \(point.atSourceUs)us is not inside the \(width)x\(height) source image.")
         }
     }
 }

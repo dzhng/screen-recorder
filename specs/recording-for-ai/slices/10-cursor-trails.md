@@ -1,6 +1,8 @@
 # 10 — Readable cursor trails on requested frames
 
-Status: not started. Dependencies: 09.
+Status: the [native rendering subpass](10a-native-cursor-render.md) draws supplied
+points on decoded frames; core scene analysis, trail selection and cutoff reporting
+are not started. Dependencies: 09.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

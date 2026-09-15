@@ -38,12 +38,21 @@ print("PASS nearest sample 140000us -> \(nearest.actualSourceUs)us showing frame
 
 func decode(
     _ named: String, atSourceUs: Int64, in kept: FrameInterval, from source: FrameSource,
-    crop: FrameCrop? = nil, maxLongEdge: Int = FrameLimits.defaultLongEdge
+    overlay: FrameOverlay? = nil, crop: FrameCrop? = nil,
+    maxLongEdge: Int = FrameLimits.defaultLongEdge
 ) async throws -> DecodedFrame {
     try await source.decodeFrame(
         FrameRequest(
             atSourceUs: atSourceUs, kept: kept, output: images.appendingPathComponent("\(named).png"),
-            crop: crop, maxLongEdge: maxLongEdge))
+            overlay: overlay, crop: crop, maxLongEdge: maxLongEdge))
+}
+
+/// How far a sampled patch sits from the fixture's flat background, 0...1. Overlay ink is the only
+/// thing that moves a background patch, so this reads "was something drawn here".
+func ink(_ image: FixtureImage, x: Int, y: Int, size: Int = 3) -> Double {
+    let sampled = image.color(x: x, y: y, width: size, height: size)
+    return max(
+        abs(sampled.red - 0.12), abs(sampled.green - 0.12), abs(sampled.blue - 0.12))
 }
 
 func failure(_ body: () async throws -> Void) async -> FrameFailure? {
@@ -258,6 +267,227 @@ precondition(
     "The same crop must succeed on the wider unrotated source, got \(sameCropUnrotated)")
 print("PASS crops are validated against the oriented image, not the stored raster")
 
+// Cursor overlay ------------------------------------------------------------------------------
+
+let clean = try await decode("overlay-clean", atSourceUs: 300_000, in: whole, from: source)
+let cleanImage = try FixtureImage(contentsOf: URL(fileURLWithPath: clean.file))
+precondition(clean.overlay == nil, "A frame requested without an overlay must report none, got \(clean)")
+
+let pointerOnly = try await decode(
+    "overlay-pointer", atSourceUs: 300_000, in: whole, from: source,
+    overlay: FrameOverlay(pointer: CursorPoint(atSourceUs: 300_000, x: 180, y: 150)))
+let pointerImage = try FixtureImage(contentsOf: URL(fileURLWithPath: pointerOnly.file))
+precondition(
+    ink(pointerImage, x: 181, y: 154) > 0.4,
+    "The pointer must be drawn at its supplied hot spot, got ink \(ink(pointerImage, x: 181, y: 154))")
+precondition(
+    ink(cleanImage, x: 181, y: 154) < 0.1,
+    "The same frame without an overlay must stay clean there, got ink \(ink(cleanImage, x: 181, y: 154))")
+precondition(
+    ink(pointerImage, x: 172, y: 148, size: 4) < 0.1 && ink(pointerImage, x: 177, y: 141, size: 4) < 0.1,
+    "The pointer glyph must sit below and right of its hot spot, not around it")
+precondition(
+    pointerOnly.overlay?.pointerSourceUs == 300_000 && pointerOnly.overlay?.trailPoints == 0
+        && pointerOnly.overlay?.trailStartUs == nil,
+    "A pointer-only overlay must report the pointer time and no trail, got \(String(describing: pointerOnly.overlay))")
+print("PASS pointer-only overlay draws an asymmetric glyph at its hot spot and leaves the clean frame clean")
+
+/// A run of points along a fixture row, newest last, ending at `endUs`.
+func row(from firstX: Int, to lastX: Int, y: Int, step: Int, endingUs: Int64, everyUs: Int64)
+    -> [CursorPoint]
+{
+    let columns = Array(stride(from: firstX, through: lastX, by: step))
+    return columns.enumerated().map { offset, x in
+        CursorPoint(
+            atSourceUs: endingUs - Int64(columns.count - 1 - offset) * everyUs, x: Double(x),
+            y: Double(y))
+    }
+}
+
+let trailRun = row(from: 150, to: 270, y: 210, step: 10, endingUs: 2_500_000, everyUs: 100_000)
+let trailed = try await decode(
+    "overlay-trail", atSourceUs: 2_500_000, in: whole, from: source,
+    overlay: FrameOverlay(
+        trail: [trailRun], trailUs: 2_000_000,
+        pointer: CursorPoint(atSourceUs: 2_500_000, x: 270, y: 210)))
+let trailImage = try FixtureImage(contentsOf: URL(fileURLWithPath: trailed.file))
+let oldestInk = ink(trailImage, x: 149, y: 209)
+let newestInk = ink(trailImage, x: 239, y: 209)
+precondition(
+    oldestInk > 0.15,
+    "The oldest supplied point must still be drawn, got ink \(oldestInk)")
+precondition(
+    newestInk > oldestInk + 0.1,
+    "A trail must fade with age: newest ink \(newestInk) against oldest \(oldestInk)")
+precondition(
+    ink(trailImage, x: 200, y: 180) < 0.1,
+    "Nothing may be drawn off the supplied path, got ink \(ink(trailImage, x: 200, y: 180))")
+precondition(
+    trailed.overlay?.trailPoints == trailRun.count
+        && trailed.overlay?.trailStartUs == trailRun.first!.atSourceUs
+        && trailed.overlay?.trailEndUs == trailRun.last!.atSourceUs,
+    "The result must report the trail it drew, got \(String(describing: trailed.overlay))")
+print(
+    String(
+        format: "PASS trail draws every supplied point and fades with age: newest %.2f, oldest %.2f",
+        newestInk, oldestInk))
+
+// Two runs separated by a gap in the evidence: an invisible or unsampled pointer.
+let gapped = try await decode(
+    "overlay-gap", atSourceUs: 2_500_000, in: whole, from: source,
+    overlay: FrameOverlay(
+        trail: [
+            row(from: 150, to: 180, y: 210, step: 10, endingUs: 1_700_000, everyUs: 100_000),
+            row(from: 240, to: 270, y: 210, step: 10, endingUs: 2_500_000, everyUs: 100_000),
+        ], trailUs: 2_000_000))
+let gapImage = try FixtureImage(contentsOf: URL(fileURLWithPath: gapped.file))
+precondition(
+    ink(gapImage, x: 149, y: 209) > 0.15 && ink(gapImage, x: 269, y: 209) > 0.15,
+    "Both runs must be drawn, got \(ink(gapImage, x: 149, y: 209)) and \(ink(gapImage, x: 269, y: 209))")
+precondition(
+    ink(gapImage, x: 209, y: 209, size: 6) < 0.1,
+    "No path may be drawn across a gap between runs, got ink \(ink(gapImage, x: 209, y: 209, size: 6))")
+precondition(
+    gapped.overlay?.trailPoints == 8 && gapped.overlay?.trailStartUs == 1_400_000
+        && gapped.overlay?.trailEndUs == 2_500_000,
+    "Gapped runs must report their real first and last times, got \(String(describing: gapped.overlay))")
+print("PASS two runs are drawn without a path across the gap between them")
+
+// Source coordinates stay valid because drawing precedes the crop: read in cropped coordinates,
+// every one of these points would land outside the 100x40 image.
+let croppedOverlay = FrameOverlay(
+    trail: [trailRun], trailUs: 2_000_000,
+    pointer: CursorPoint(atSourceUs: 2_500_000, x: 200, y: 195))
+let croppedTrail = try await decode(
+    "overlay-cropped", atSourceUs: 2_500_000, in: whole, from: source, overlay: croppedOverlay,
+    crop: FrameCrop(x: 140, y: 190, width: 100, height: 40))
+let croppedImage = try FixtureImage(contentsOf: URL(fileURLWithPath: croppedTrail.file))
+precondition(
+    croppedImage.width == 100 && croppedImage.height == 40,
+    "The crop must still bound the image, got \(croppedImage.width)x\(croppedImage.height)")
+precondition(
+    ink(croppedImage, x: 9, y: 19) > 0.15 && ink(croppedImage, x: 97, y: 19) > 0.15,
+    "The trail must appear at its source coordinates inside the crop, got \(ink(croppedImage, x: 9, y: 19)) and \(ink(croppedImage, x: 97, y: 19))")
+precondition(
+    ink(croppedImage, x: 61, y: 9) > 0.4,
+    "The pointer must appear at its source hot spot inside the crop, got \(ink(croppedImage, x: 61, y: 9))")
+print("PASS overlay coordinates are source pixels: a 140,190 crop keeps the trail and pointer in place")
+
+let scaledTrail = try await decode(
+    "overlay-scaled", atSourceUs: 2_500_000, in: whole, from: source,
+    overlay: FrameOverlay(trail: [trailRun], trailUs: 2_000_000), maxLongEdge: 160)
+let scaledImage = try FixtureImage(contentsOf: URL(fileURLWithPath: scaledTrail.file))
+precondition(
+    scaledImage.width == 160 && scaledImage.height == 120,
+    "The long-edge bound must still apply, got \(scaledImage.width)x\(scaledImage.height)")
+precondition(
+    ink(scaledImage, x: 134, y: 104, size: 2) > 0.15,
+    "A halved frame must show the newest trail point at half its coordinates, got \(ink(scaledImage, x: 134, y: 104, size: 2))")
+precondition(
+    ink(scaledImage, x: 100, y: 90, size: 2) < 0.1,
+    "Nothing may be drawn off the scaled path, got \(ink(scaledImage, x: 100, y: 90, size: 2))")
+print("PASS the overlay is drawn before the long-edge bound and scales with the frame")
+
+let repeated = try await decode(
+    "overlay-repeat", atSourceUs: 2_500_000, in: whole, from: source, overlay: croppedOverlay)
+let repeatedAgain = try await decode(
+    "overlay-repeat-again", atSourceUs: 2_500_000, in: whole, from: source, overlay: croppedOverlay)
+let repeatedBytes = try Data(contentsOf: URL(fileURLWithPath: repeated.file))
+let repeatedAgainBytes = try Data(contentsOf: URL(fileURLWithPath: repeatedAgain.file))
+precondition(
+    repeatedBytes == repeatedAgainBytes,
+    "The same overlay request must produce the same pixels, got \(repeatedBytes.count) and \(repeatedAgainBytes.count) bytes")
+print("PASS repeating an overlay request produces identical bytes")
+
+/// Share of a rectangle's pixels the overlay changed. A gesture that circles a control has to stay
+/// readable over it, so this bounds how much of the target it is allowed to cover.
+func changedShare(_ drawn: FixtureImage, from base: FixtureImage, x: Int, y: Int, width: Int, height: Int)
+    -> Double
+{
+    var changed = 0
+    for row in y..<(y + height) {
+        for column in x..<(x + width) {
+            let a = drawn.color(x: column, y: row, width: 1, height: 1)
+            let b = base.color(x: column, y: row, width: 1, height: 1)
+            if max(abs(a.red - b.red), abs(a.green - b.green), abs(a.blue - b.blue)) > 0.1 {
+                changed += 1
+            }
+        }
+    }
+    return Double(changed) / Double(width * height)
+}
+
+let gestureUs: Int64 = 2_500_000
+let circle = (0..<48).map { step -> CursorPoint in
+    let angle = Double(step) / 48 * 2 * Double.pi
+    return CursorPoint(
+        atSourceUs: gestureUs - Int64(47 - step) * 34_000,
+        x: 70 + 24 * cos(angle), y: 212 + 24 * sin(angle))
+}
+let wave = (0..<40).map { step -> CursorPoint in
+    let progress = Double(step) / 39
+    return CursorPoint(
+        atSourceUs: gestureUs - Int64(39 - step) * 31_000, x: 12 + progress * 188,
+        y: 155 + 13 * sin(progress * 3 * Double.pi))
+}
+let reviewModes: [(String, FrameOverlay?, FrameCrop?, Int)] = [
+    ("review-clean", nil, nil, FrameLimits.defaultLongEdge),
+    ("review-pointer-only", FrameOverlay(pointer: circle.last!), nil, FrameLimits.defaultLongEdge),
+    (
+        "review-circle-2s", FrameOverlay(trail: [circle], trailUs: 2_000_000, pointer: circle.last!),
+        nil, FrameLimits.defaultLongEdge
+    ),
+    (
+        "review-circle-10s",
+        FrameOverlay(trail: [circle], trailUs: FrameLimits.maximumTrailUs, pointer: circle.last!),
+        nil, FrameLimits.defaultLongEdge
+    ),
+    (
+        "review-wave-2s", FrameOverlay(trail: [wave], trailUs: 2_000_000, pointer: wave.last!), nil,
+        FrameLimits.defaultLongEdge
+    ),
+    (
+        "review-circle-crop",
+        FrameOverlay(trail: [circle], trailUs: 2_000_000, pointer: circle.last!),
+        FrameCrop(x: 0, y: 180, width: 160, height: 60), FrameLimits.defaultLongEdge
+    ),
+    (
+        "review-circle-scaled",
+        FrameOverlay(trail: [circle], trailUs: 2_000_000, pointer: circle.last!), nil, 160
+    ),
+]
+var reviewImages: [String: FixtureImage] = [:]
+for (named, overlay, crop, maxLongEdge) in reviewModes {
+    let frame = try await decode(
+        named, atSourceUs: gestureUs, in: whole, from: source, overlay: overlay, crop: crop,
+        maxLongEdge: maxLongEdge)
+    reviewImages[named] = try FixtureImage(contentsOf: URL(fileURLWithPath: frame.file))
+}
+let circled = reviewImages["review-circle-2s"]!
+let reviewClean = reviewImages["review-clean"]!
+let buttonCover = changedShare(
+    circled, from: reviewClean, x: FixtureFrame.buttonLeft, y: FixtureFrame.buttonTop,
+    width: FixtureFrame.buttonWidth, height: FixtureFrame.buttonHeight)
+precondition(
+    buttonCover > 0.02 && buttonCover < 0.35,
+    "A circle around the button must mark it without blanketing it, covered \(buttonCover)")
+// The far side of the circle, well away from the pointer that closes it.
+let farSide = (x: 44, y: 210, size: 5)
+precondition(
+    changedShare(
+        reviewImages["review-pointer-only"]!, from: reviewClean, x: farSide.x, y: farSide.y,
+        width: farSide.size, height: farSide.size) == 0,
+    "A pointer-only frame must draw no path: the far side of the circle must match the clean frame")
+precondition(
+    changedShare(
+        circled, from: reviewClean, x: farSide.x, y: farSide.y, width: farSide.size,
+        height: farSide.size) > 0.5,
+    "The same request with a trail must draw that same far side of the circle")
+print(
+    String(
+        format: "PASS circle, wave and mode renders written; the circled button keeps %.0f%% of its pixels",
+        (1 - buttonCover) * 100))
+
 let sourceBefore = try Data(contentsOf: stepsFixture)
 let rejected = await [
     "reversed interval": failure {
@@ -303,6 +533,63 @@ let rejected = await [
             "invalid", atSourceUs: 500_000, in: whole, from: source,
             maxLongEdge: FrameLimits.maximumLongEdge + 1)
     },
+    "trail point off the source raster": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(
+                trail: [[CursorPoint(atSourceUs: 400_000, x: 320.5, y: 10)]], trailUs: 2_000_000))
+    },
+    "trail point with a non-finite coordinate": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(
+                trail: [[CursorPoint(atSourceUs: 400_000, x: .nan, y: 10)]], trailUs: 2_000_000))
+    },
+    "trail points out of order": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(
+                trail: [[
+                    CursorPoint(atSourceUs: 400_000, x: 10, y: 10),
+                    CursorPoint(atSourceUs: 300_000, x: 20, y: 20),
+                ]], trailUs: 2_000_000))
+    },
+    "trail runs overlapping in time": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(
+                trail: [
+                    [CursorPoint(atSourceUs: 400_000, x: 10, y: 10)],
+                    [CursorPoint(atSourceUs: 300_000, x: 20, y: 20)],
+                ], trailUs: 2_000_000))
+    },
+    "empty trail run": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(trail: [[]], trailUs: 2_000_000))
+    },
+    "trail over the point limit": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(
+                trail: [
+                    (0...FrameLimits.maximumTrailPoints).map {
+                        CursorPoint(atSourceUs: Int64($0) * 100, x: Double($0 % 300), y: 10)
+                    }
+                ], trailUs: 2_000_000))
+    },
+    "trail duration over the maximum": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(
+                trail: [[CursorPoint(atSourceUs: 400_000, x: 10, y: 10)]],
+                trailUs: FrameLimits.maximumTrailUs + 1))
+    },
+    "trail without a duration": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(trail: [[CursorPoint(atSourceUs: 400_000, x: 10, y: 10)]]))
+    },
     "encoded limit over the maximum": failure {
         _ = try await source.decodeFrame(
             FrameRequest(
@@ -329,7 +616,10 @@ let aliasOverwrite = await failure {
     _ = try await source.decodeFrame(
         FrameRequest(
             atSourceUs: 500_000, kept: whole,
-            output: aliasDirectory.appendingPathComponent(stepsFixture.lastPathComponent)))
+            output: aliasDirectory.appendingPathComponent(stepsFixture.lastPathComponent),
+            overlay: FrameOverlay(
+                trail: [[CursorPoint(atSourceUs: 400_000, x: 10, y: 10)]], trailUs: 2_000_000,
+                pointer: CursorPoint(atSourceUs: 500_000, x: 20, y: 20))))
 }
 precondition(
     aliasOverwrite?.code == "INVALID_OUTPUT",

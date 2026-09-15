@@ -220,3 +220,16 @@ to a caller-allocated derivative path, validates crops against oriented dimensio
 and preserves the original even when directory aliases name it. This boundary
 executes one request at a time; service-level cancellation, concurrency and caching
 belong to the app-managed service.
+
+An optional `overlay` on that same request draws the pointer and its trail.
+[CursorOverlay](Sources/ScreenRecorderFrames/CursorOverlay.swift) owns those pixels
+and is composited before the crop and the long-edge bound, so overlay points and
+crop rectangles are read in the same source geometry. The core supplies every point
+in oriented source pixels with its own sample time, already clipped at pause, cut,
+scene and geometry boundaries; native selects no history, resolves no cutoff and
+draws nothing between two runs of points, because a gap between them is a gap in
+the evidence. Opacity falls with each point's age against the requested trail
+duration, measured from the requested frame time so identical parameters render
+identical pixels. An absent overlay leaves the frame clean. Points off the source
+raster, out-of-order or overlapping runs, a trail without a duration and trails past
+the ten-second or 1200-point bounds are refused without writing an image.

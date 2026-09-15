@@ -12,7 +12,10 @@ struct FrameImage {
     let width: Int
     let height: Int
 
-    init(buffer: CVPixelBuffer, transform: CGAffineTransform, crop: FrameCrop?, maxLongEdge: Int) throws {
+    init(
+        buffer: CVPixelBuffer, transform: CGAffineTransform, overlay: FrameOverlay?,
+        agedFromUs: Int64, crop: FrameCrop?, maxLongEdge: Int
+    ) throws {
         let decoded = CIImage(cvPixelBuffer: buffer)
         // A track's preferred transform is stated in display coordinates, where y grows downward;
         // Core Image grows y upward, so applying it directly turns a quarter turn into a
@@ -24,6 +27,15 @@ struct FrameImage {
             by: flipDecoded.concatenating(transform).concatenating(flipDisplayed))
         oriented = oriented.transformed(
             by: CGAffineTransform(translationX: -oriented.extent.origin.x, y: -oriented.extent.origin.y))
+        // Drawing happens in source pixels, before the crop and the long-edge bound, so the points
+        // the core supplied are read in the geometry they were measured in.
+        if let overlay,
+            let drawn = CursorOverlay.image(
+                overlay, agedFromUs: agedFromUs, width: Int(oriented.extent.width.rounded()),
+                height: Int(oriented.extent.height.rounded()))
+        {
+            oriented = CIImage(cgImage: drawn).composited(over: oriented)
+        }
         var visible = oriented.extent
         if let crop {
             visible = CGRect(

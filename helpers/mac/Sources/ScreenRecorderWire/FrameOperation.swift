@@ -9,13 +9,14 @@ enum FrameOperation {
         let atSourceUs: Int64
         let kept: FrameInterval
         let crop: FrameCrop?
+        let overlay: FrameOverlay?
         let maxLongEdge: Int?
         let maxEncodedBytes: Int?
     }
 
     static func execute(_ params: [String: Any]) async throws -> DecodedFrame {
         let required: Set<String> = ["source", "output", "atSourceUs", "kept"]
-        let optional: Set<String> = ["crop", "maxLongEdge", "maxEncodedBytes"]
+        let optional: Set<String> = ["crop", "overlay", "maxLongEdge", "maxEncodedBytes"]
         guard required.isSubset(of: Set(params.keys)),
             Set(params.keys).isSubset(of: required.union(optional)),
             let kept = params["kept"] as? [String: Any],
@@ -25,6 +26,9 @@ enum FrameOperation {
             guard let fields = crop as? [String: Any],
                 Set(fields.keys) == ["x", "y", "width", "height"]
             else { throw FrameFailure("INVALID_REQUEST", "Invalid frame crop fields.") }
+        }
+        if let overlay = params["overlay"], !(overlay is NSNull) {
+            try validateOverlayFields(overlay)
         }
         let parameters: Parameters
         do {
@@ -40,8 +44,32 @@ enum FrameOperation {
         return try await source.decodeFrame(
             FrameRequest(
                 atSourceUs: parameters.atSourceUs, kept: parameters.kept,
-                output: URL(fileURLWithPath: parameters.output), crop: parameters.crop,
+                output: URL(fileURLWithPath: parameters.output), overlay: parameters.overlay,
+                crop: parameters.crop,
                 maxLongEdge: parameters.maxLongEdge ?? FrameLimits.defaultLongEdge,
                 maxEncodedBytes: parameters.maxEncodedBytes ?? FrameLimits.maximumEncodedBytes))
+    }
+
+    /// Requests are parsed strictly: an unknown or missing overlay field is a caller mistake, not a
+    /// field to ignore. Point values themselves are the decoder's to validate against real media.
+    private static func validateOverlayFields(_ value: Any) throws {
+        guard let overlay = value as? [String: Any],
+            Set(["trail", "trailUs"]).isSubset(of: Set(overlay.keys)),
+            Set(overlay.keys).isSubset(of: ["trail", "trailUs", "pointer"]),
+            let runs = overlay["trail"] as? [Any]
+        else { throw FrameFailure("INVALID_REQUEST", "Invalid frame overlay fields.") }
+        var points: [Any] = []
+        if let pointer = overlay["pointer"], !(pointer is NSNull) { points.append(pointer) }
+        for run in runs {
+            guard let run = run as? [Any] else {
+                throw FrameFailure("INVALID_REQUEST", "Each frame overlay trail run must be a list.")
+            }
+            points.append(contentsOf: run)
+        }
+        for point in points {
+            guard let fields = point as? [String: Any],
+                Set(fields.keys) == ["atSourceUs", "x", "y"]
+            else { throw FrameFailure("INVALID_REQUEST", "Invalid cursor point fields.") }
+        }
     }
 }

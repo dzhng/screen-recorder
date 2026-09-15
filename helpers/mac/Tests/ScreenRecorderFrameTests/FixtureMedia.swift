@@ -7,13 +7,18 @@ import ImageIO
 
 /// Generated H.264 fixtures whose every frame states its own index: eight binary blocks a test can
 /// read back, plus asymmetric corner markers that expose an orientation or crop-origin mistake, and
-/// human-readable text for visual review.
+/// human-readable text and a labelled button for visual review. The button and the text are the
+/// targets an overlay must stay readable over.
 enum FixtureFrame {
     static let markerSize = 40
     static let blockSize = 30
     static let blockTop = 60
     static let blockStride = 36
     static let blockLeft = 10
+    static let buttonLeft = 10
+    static let buttonTop = 195
+    static let buttonWidth = 120
+    static let buttonHeight = 34
 
     static func blockCenter(bit: Int) -> CGPoint {
         CGPoint(
@@ -53,6 +58,10 @@ enum FixtureFrame {
         text(
             context, String(format: "t=%.3fs", Double(atUs) / 1_000_000), x: 12, y: height - 112,
             size: 26)
+        fill(context, buttonLeft, buttonTop, buttonWidth, buttonHeight, (0.88, 0.88, 0.91))
+        text(
+            context, "Send", x: buttonLeft + 16, y: buttonTop + 26, size: 24,
+            color: (0.05, 0.05, 0.08))
         return buffer
     }
 
@@ -64,7 +73,10 @@ enum FixtureFrame {
         context.fill(CGRect(x: x, y: y, width: width, height: height))
     }
 
-    private static func text(_ context: CGContext, _ value: String, x: Int, y: Int, size: CGFloat) {
+    private static func text(
+        _ context: CGContext, _ value: String, x: Int, y: Int, size: CGFloat,
+        color: (CGFloat, CGFloat, CGFloat) = (0.2, 1, 0.4)
+    ) {
         let font = CTFontCreateWithName("Helvetica-Bold" as CFString, size, nil)
         let line = CTLineCreateWithAttributedString(
             NSAttributedString(
@@ -72,7 +84,7 @@ enum FixtureFrame {
                 attributes: [
                     kCTFontAttributeName as NSAttributedString.Key: font,
                     kCTForegroundColorAttributeName as NSAttributedString.Key: CGColor(
-                        red: 0.2, green: 1, blue: 0.4, alpha: 1),
+                        red: color.0, green: color.1, blue: color.2, alpha: 1),
                 ]))
         context.saveGState()
         context.translateBy(x: CGFloat(x), y: CGFloat(y))

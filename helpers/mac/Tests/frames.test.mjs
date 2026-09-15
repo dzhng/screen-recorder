@@ -82,3 +82,89 @@ test("frame worker returns actual sample pixels and survives invalid requests", 
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+test("frame worker draws the supplied pointer and trail, or nothing at all", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-frame-overlay-"));
+  try {
+    const source = join(directory, "source.mov");
+    const fixture = spawnSync(
+      "ffmpeg",
+      [
+        "-v",
+        "error",
+        "-f",
+        "lavfi",
+        "-i",
+        "testsrc2=size=160x90:rate=10:duration=1",
+        "-an",
+        "-c:v",
+        "libx264",
+        source,
+      ],
+      { encoding: "utf8", timeout: 15000 },
+    );
+    assert.equal(fixture.status, 0, fixture.stderr);
+    const before = readFileSync(source);
+    const params = {
+      source,
+      atSourceUs: 900000,
+      kept: { startUs: 0, endUs: 1000000 },
+    };
+    const trail = [
+      [
+        { atSourceUs: 500000, x: 20, y: 70 },
+        { atSourceUs: 700000, x: 60, y: 70 },
+        { atSourceUs: 900000, x: 100, y: 70 },
+      ],
+    ];
+    const overlay = {
+      trail,
+      trailUs: 2000000,
+      pointer: { atSourceUs: 900000, x: 100, y: 70 },
+    };
+    const clean = join(directory, "clean.png");
+    const drawn = join(directory, "drawn.png");
+    const requests = [
+      { ...params, output: clean },
+      { ...params, output: drawn, overlay },
+      { ...params, output: join(directory, "a.png"), overlay: { trail, trailUs: 2000000, extra: 1 } },
+      {
+        ...params,
+        output: join(directory, "b.png"),
+        overlay: { trail: [[{ atSourceUs: 500000, x: 20, y: 70, extra: 1 }]], trailUs: 2000000 },
+      },
+      {
+        ...params,
+        output: join(directory, "c.png"),
+        overlay: { trail: [[{ atSourceUs: 500000, x: 161, y: 70 }]], trailUs: 2000000 },
+      },
+    ].map((params, id) => ({ id: String(id), operation: "media.frame", params }));
+    const run = spawnSync(executable, [], {
+      input: requests.map(JSON.stringify).join("\n") + "\n",
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(run.status, 0, run.stderr);
+    const replies = run.stdout.trim().split("\n").map(JSON.parse);
+
+    assert.equal(replies[0].ok, true, run.stdout);
+    assert.equal(replies[0].data.overlay, undefined);
+    assert.equal(replies[1].ok, true, run.stdout);
+    assert.deepEqual(replies[1].data.overlay, {
+      trailPoints: 3,
+      trailStartUs: 500000,
+      trailEndUs: 900000,
+      pointerSourceUs: 900000,
+    });
+    assert.equal(replies[1].data.width, 160);
+    assert.notDeepEqual(readFileSync(drawn), readFileSync(clean));
+    assert.equal(replies[1].data.bytes, readFileSync(drawn).length);
+
+    assert.equal(replies[2].error.code, "INVALID_REQUEST");
+    assert.equal(replies[3].error.code, "INVALID_REQUEST");
+    assert.equal(replies[4].error.code, "INVALID_RANGE");
+    assert.deepEqual(readFileSync(source), before);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
