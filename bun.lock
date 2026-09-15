@@ -17,9 +17,27 @@
       "name": "@screenrec/macos",
       "version": "0.1.0",
     },
+    "apps/service": {
+      "name": "@screenrec/service",
+      "version": "0.0.0",
+      "dependencies": {
+        "@screenrec/protocol": "workspace:*",
+      },
+      "devDependencies": {
+        "@screenrec/client": "workspace:*",
+        "@screenrec/core": "workspace:*",
+      },
+    },
     "apps/workbench": {
       "name": "@screenrec/workbench",
       "version": "0.0.0",
+    },
+    "packages/client": {
+      "name": "@screenrec/client",
+      "version": "0.0.0",
+      "dependencies": {
+        "@screenrec/protocol": "workspace:*",
+      },
     },
     "packages/core": {
       "name": "@screenrec/core",
@@ -164,11 +182,15 @@
 
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.1", "", {}, "sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw=="],
 
+    "@screenrec/client": ["@screenrec/client@workspace:packages/client"],
+
     "@screenrec/core": ["@screenrec/core@workspace:packages/core"],
 
     "@screenrec/macos": ["@screenrec/macos@workspace:apps/macos"],
 
     "@screenrec/protocol": ["@screenrec/protocol@workspace:packages/protocol"],
+
+    "@screenrec/service": ["@screenrec/service@workspace:apps/service"],
 
     "@screenrec/test-harness": ["@screenrec/test-harness@workspace:packages/test-harness"],
 

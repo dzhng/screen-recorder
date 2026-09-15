@@ -30,8 +30,8 @@ recording or permission is pending, but do not call that gate passed.
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
 Current pickup: resolve the reviewed native finalization issue and finish crash
-recovery, then connect the app-managed service. Socket transport and native frame
-decoding are independent active subpasses. Timeline/revision storage, speech probe
+recovery, then connect the app-managed service. Socket transport is integrated;
+native frame decoding remains an independent active subpass. Timeline/revision storage, speech probe
 plumbing and the localhost workbench are integrated. Human transcription fidelity,
 all-source/audio capture and native menu interaction remain unverified. Consult
 owning slices before recreating work or accepting a downstream assumption.
@@ -51,7 +51,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
 - [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
   - [x] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
-  - [ ] [06b — Bounded local transport](slices/06b-local-transport.md) (independent after 00)
+  - [x] [06b — Bounded local transport](slices/06b-local-transport.md) (independent after 00)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)

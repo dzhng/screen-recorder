@@ -1,7 +1,10 @@
 # 06b — Bounded local service transport
 
-Status: in progress. Dependency: 00; the real edit round-trip fixture also uses
-06a. This is the independent transport portion of 06. It does not establish app
+Status: complete as a transport subpass. Eighteen protocol/client/service tests,
+build and type checks pass in the integrated worktree. Independent Codex review
+found no actionable defects. [Service contract](../../../apps/service/README.md)
+owns the runtime semantics. Dependency: 00; the real edit round-trip fixture also
+uses 06a. This is the independent transport portion of 06. It does not establish app
 lifetime, native ingestion, processing jobs, or full public operation coverage.
 
 ## Contract and owner
