@@ -31,7 +31,8 @@ Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
 Current pickup: integrate app-service lifetime (06c), running in a Claude Opus
 worktree. Native recovery timing/journal corrections and its measured reader
-performance fix are integrated; cursor geometry (03) can now advance independently. Generated PCM
+performance fix are integrated. Cursor geometry (03) is active in a separate
+Claude Opus worktree; actual placement remains a required gate. Generated PCM
 fragmentation is verified; physical audio and full recovery lifecycle remain open. The native readiness fix and socket transport are
 integrated. Native frame decoding and worker binding pass generated and own-window
 checks and independent integration review; its visual checkpoint is resolved. Timeline/revision storage, speech probe

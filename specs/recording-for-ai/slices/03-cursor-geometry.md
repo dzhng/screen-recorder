@@ -1,6 +1,7 @@
 # 03 — Cursor positions in captured coordinates
 
-Status: not started. Dependencies: 01.
+Status: implementation in progress in a dedicated Claude Opus worktree.
+Dependencies: 01. Actual cursor placement and hardware coverage remain open.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
