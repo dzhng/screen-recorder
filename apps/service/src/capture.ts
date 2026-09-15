@@ -154,19 +154,22 @@ export class CaptureService {
    * Settles every take the catalog still describes as live against its own durable media. A take
    * is only ever settled from a validated recovery, so a service that cannot reach its native
    * worker leaves the take alone for the next startup instead of publishing a state it has not
-   * proved.
+   * proved. It takes the capture order ahead of every mutation, so a take being recovered cannot
+   * be restarted on the device underneath its own recovery.
    */
-  async reconcileStranded(): Promise<void> {
-    for (const recording of this.store.unsettled()) {
-      try {
-        const settled = await this.reconcile(recording);
-        this.log(
-          `reconciled ${settled.recordingId} state=${settled.state} reason=${settled.interruptionReason} durationUs=${settled.sourceDurationUs}`,
-        );
-      } catch (error) {
-        this.log(`reconcile failed for ${recording.recordingId}: ${(error as Error).message}`);
+  reconcileStranded(): Promise<void> {
+    return this.serialize(async () => {
+      for (const recording of this.store.unsettled()) {
+        try {
+          const settled = await this.reconcile(recording);
+          this.log(
+            `reconciled ${settled.recordingId} state=${settled.state} reason=${settled.interruptionReason} durationUs=${settled.sourceDurationUs}`,
+          );
+        } catch (error) {
+          this.log(`reconcile failed for ${recording.recordingId}: ${(error as Error).message}`);
+        }
       }
-    }
+    });
   }
 
   private async begin(recording: Recording, selection: CaptureSelection): Promise<Recording> {
@@ -184,19 +187,42 @@ export class CaptureService {
       }),
     );
     if (answer.ok) return this.apply(recording, answer.data);
-    // A take that never captured keeps its identity and a terminal reason rather than
-    // disappearing or waiting forever in preparing.
-    const failed = this.author(recording, {
-      state: "interrupted",
-      reason: answer.error.code,
-      sourceDurationUs: null,
-    });
+    const failed = unanswered(answer.error.code)
+      ? await this.abandon(recording)
+      : // A take native refused never captured, so it keeps its identity and that refusal's
+        // reason rather than disappearing or waiting forever in preparing.
+        this.author(recording, {
+          state: "interrupted",
+          reason: answer.error.code,
+          sourceDurationUs: null,
+        });
     throw new CaptureError(
       answer.error.code,
       answer.error.message,
       { recordingId: failed.recordingId, state: failed.state },
       answer.error.retryable,
     );
+  }
+
+  /**
+   * Ends a take whose start was never answered. A deadline or a closed channel says nothing about
+   * the device, so the take is ended on it and settled from the media that ending left behind.
+   * A take whose end cannot be proved stays unsettled, still reachable by a later stop, by the
+   * session's own reports and by the next startup's recovery.
+   */
+  private async abandon(recording: Recording): Promise<Recording> {
+    const stopped = await this.native("capture.stop", { recordingId: recording.recordingId });
+    // Either native ended this take now, or it is not holding it; both leave the media in
+    // charge of the outcome.
+    if (stopped.ok || stopped.error.code === "INVALID_STATE") {
+      try {
+        return await this.reconcile(recording);
+      } catch (error) {
+        this.log(`recovery failed for ${recording.recordingId}: ${(error as Error).message}`);
+      }
+    }
+    this.log(`unsettled start for ${recording.recordingId}: capture may still be running`);
+    return recording;
   }
 
   private async transition(recordingId: string, operation: string): Promise<Recording> {
@@ -274,6 +300,14 @@ export class CaptureService {
     if (!answer.ok) throw fromNative(answer);
     return answer.data;
   }
+}
+
+/**
+ * The codes the control channel states on its own when it cannot say whether native ran the call.
+ * Every other code is native's own answer, and so is proof of what it did.
+ */
+function unanswered(code: string): boolean {
+  return code === "TIMEOUT" || code === "SERVICE_STOPPED";
 }
 
 function fromNative(result: OperationResult & { ok: false }): CaptureError {

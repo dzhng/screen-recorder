@@ -146,11 +146,12 @@ async function main(): Promise<void> {
   };
   for (const signal of ["SIGTERM", "SIGINT", "SIGHUP"] as const) process.on(signal, stop);
 
-  control.emit({ event: "started", pid: process.pid, socketPath });
   // Takes the catalog still calls live outlived their previous service. Settling them needs the
-  // native worker and the same control order as fresh capture, so it runs once the listener is
-  // announced rather than inside the app's startup budget.
-  await capture.reconcileStranded();
+  // native worker, so it takes the capture order here — ahead of every mutation this listener
+  // can accept — and then runs outside the app's startup budget rather than inside it.
+  const reconciled = capture.reconcileStranded();
+  control.emit({ event: "started", pid: process.pid, socketPath });
+  await reconciled;
   log("reconciliation complete");
 }
 

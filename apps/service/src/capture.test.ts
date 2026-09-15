@@ -39,8 +39,15 @@ async function nativeWorker(script: string): Promise<string> {
   return path;
 }
 
-function recovers(data: unknown): Promise<string> {
-  return nativeWorker(`printf '%s\\n' '${JSON.stringify({ id: "recover", ok: true, data })}'`);
+/** The takes a service has allocated a directory for, whether or not any of them has media. */
+function takes(home: string): Promise<string[]> {
+  return readdir(join(home, "recordings")).catch(() => []);
+}
+
+function recovers(data: unknown, pauseSeconds = 0): Promise<string> {
+  return nativeWorker(
+    `${pauseSeconds ? `/bin/sleep ${pauseSeconds}\n` : ""}printf '%s\\n' '${JSON.stringify({ id: "recover", ok: true, data })}'`,
+  );
 }
 
 /**
@@ -113,13 +120,15 @@ async function startService(
         reported.set(id, resolve as (response: unknown) => void);
         send({ event: "request", request: { id, operation: "capture.report", params } });
       }),
-    call: (operation: string, params: Record<string, unknown> = {}) =>
-      callLocal(socketPath, { id: randomUUID(), operation, params }, { timeoutMs: 15_000 }),
+    call: (operation: string, params: Record<string, unknown> = {}, timeoutMs = 15_000) =>
+      callLocal(socketPath, { id: randomUUID(), operation, params }, { timeoutMs }),
   };
 }
 
 /** A native peer that accepts one take and reports the sequences its journal would have. */
-function capturingPeer(options: { durationUs?: number | null; reason?: string } = {}): NativePeer {
+function capturingPeer(
+  options: { durationUs?: number | null; reason?: string; answerStart?: boolean } = {},
+): NativePeer {
   let take: { recordingId: string; sourceId: string } | undefined;
   let sequence = 1;
   const report = (state: string, extra: Record<string, unknown> = {}) => ({
@@ -142,7 +151,9 @@ function capturingPeer(options: { durationUs?: number | null; reason?: string } 
         recordingId: params.recordingId as string,
         sourceId: params.sourceId as string,
       };
-      return report("recording");
+      // A take that is capturing while its caller hears nothing: the start is under way, so
+      // the only word about it is the channel's own deadline.
+      return options.answerStart === false ? undefined : report("recording");
     }
     if (operation === "capture.stop") {
       const duration = options.durationUs ?? 4_000_000;
@@ -429,5 +440,106 @@ it(
     const answer = await service.call("capture.status");
     expect(answer).toMatchObject({ ok: false, error: { code: "TIMEOUT", retryable: true } });
     expect(Date.now() - started).toBeLessThan(DEFAULT_CALL_TIMEOUT_MS * 2);
+  },
+);
+
+it(
+  "settles a stranded take before it accepts a start replayed onto it",
+  { timeout: 30_000 },
+  async () => {
+    const home = await temporaryHome();
+    // A service killed with its start unanswered leaves that take live and its allocation
+    // key replayable, which is what a relaunch has to recover before it captures again.
+    const abandoned = await startService(home, () => undefined);
+    abandoned
+      .call("capture.start", { requestId: "replay", source: fixtureSource })
+      .catch(() => undefined);
+    await expect.poll(async () => (await takes(home)).length).toBe(1);
+    abandoned.kill();
+    const [recordingId] = await takes(home);
+
+    const service = await startService(home, capturingPeer(), {
+      SCREENREC_NATIVE: await recovers(
+        { durationUs: 3_000_000, journal: { header: { sessionID: "s" } } },
+        2,
+      ),
+    });
+    // The listener is announced before recovery finishes, so this start arrives while the
+    // relaunched service is still settling that same take.
+    const replayed = await service.call("capture.start", {
+      requestId: "replay",
+      source: fixtureSource,
+    });
+    expect(replayed).toMatchObject({
+      ok: true,
+      data: { recordingId, state: "interrupted", sourceDurationUs: 3_000_000 },
+    });
+    // Recovery held the capture order, so nothing restarted the device behind its back.
+    expect(service.asked).toEqual([]);
+    await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
+  },
+);
+
+it(
+  "stops and recovers a take whose start went unanswered rather than calling it refused",
+  { timeout: 40_000 },
+  async () => {
+    const home = await temporaryHome();
+    const service = await startService(home, capturingPeer({ answerStart: false }), {
+      SCREENREC_NATIVE: await recovers({
+        durationUs: 6_000_000,
+        journal: { header: { sessionID: "s" } },
+      }),
+    });
+    const answer = await service.call(
+      "capture.start",
+      { requestId: "silent", source: fixtureSource },
+      30_000,
+    );
+    expect(answer).toMatchObject({ ok: false, error: { code: "TIMEOUT", retryable: true } });
+    const recordingId = (answer as unknown as { error: { details: { recordingId: string } } }).error
+      .details.recordingId;
+    // The deadline proved nothing about the device, so the take is ended on it and settled from
+    // the media that ending left behind.
+    expect(service.asked).toContain("capture.stop");
+    expect(await service.call("recording.get", { recordingId })).toMatchObject({
+      ok: true,
+      data: {
+        state: "interrupted",
+        interruptionReason: "CAPTURE_INTERRUPTED",
+        sourceDurationUs: 6_000_000,
+      },
+    });
+    expect(await service.call("capture.status")).toMatchObject({
+      ok: true,
+      data: { device: { state: "idle", recordingId: null } },
+    });
+  },
+);
+
+it(
+  "leaves a take it could not prove ended open to the native report that follows",
+  { timeout: 60_000 },
+  async () => {
+    const home = await temporaryHome();
+    const service = await startService(home, () => undefined);
+    const answer = await service.call(
+      "capture.start",
+      { requestId: "silent", source: fixtureSource },
+      40_000,
+    );
+    expect(answer).toMatchObject({
+      ok: false,
+      error: { code: "TIMEOUT", details: { state: "preparing" } },
+    });
+    const recordingId = (answer as unknown as { error: { details: { recordingId: string } } }).error
+      .details.recordingId;
+    const take = await service.call("recording.get", { recordingId });
+    if (!take.ok) throw new Error("the take must still exist");
+    const { sourceId } = take.data as { sourceId: string };
+    // Nothing was authored over the take, so the session that did start is still the later word.
+    expect(
+      await service.report({ recordingId, sourceId, sequence: 2, state: "recording" }),
+    ).toMatchObject({ ok: true, data: { state: "recording" } });
   },
 );

@@ -59,6 +59,38 @@ async function fixtureApp(home) {
   return { instance, servicePid, source: { kind: "window", windowId: Number(windowId) } };
 }
 
+/** The takes the service has allocated a directory for, before any of them has media. */
+function takes(home) {
+  try {
+    return readdirSync(join(home, "recordings"));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Asks for a take and answers with it as soon as the service has allocated its directory, which
+ * is the moment native is asked to start and has not started yet.
+ */
+async function starting(home, source, requestId) {
+  call(home, "capture.start", { requestId, source }).catch(() => undefined);
+  const [recordingId] = await waitFor(
+    () => takes(home).at(0) && takes(home),
+    5_000,
+    () => "The service never allocated the take",
+  );
+  return recordingId;
+}
+
+/** Whether this take's own journal says its capture was finished rather than left running. */
+function finalized(home, recordingId) {
+  try {
+    return journal(home, recordingId).some((record) => record.event === "finished");
+  } catch {
+    return false;
+  }
+}
+
 function sourceFiles(home, recordingId) {
   return readdirSync(join(home, "recordings", recordingId, "source")).sort();
 }
@@ -286,4 +318,52 @@ test("a normal quit during capture finalizes the take before the app exits", asy
   assert.ok(finished.sourceDurationUs > 1_000_000, `Short take: ${finished.sourceDurationUs}us`);
   const original = await succeeds(home, "revision.get", { recordingId: started.recordingId });
   assert.deepEqual(original.revision.spans, [{ startUs: 0, endUs: finished.sourceDurationUs }]);
+});
+
+test("a service lost while a take is starting finalizes it instead of capturing on", async () => {
+  requireScreenPermission();
+  const home = temporary("/tmp/scr-capture-");
+  const { instance, servicePid, source } = await fixtureApp(home);
+  const recordingId = await starting(home, source, "lost-while-starting");
+  process.kill(servicePid, "SIGKILL");
+  await instance.waitFor(/service failed code=SERVICE_STOPPED/);
+
+  // The start lands with no library left to index or control it, so the app finishes that take
+  // into its own journal rather than leaving the device capturing.
+  await waitFor(
+    () => finalized(home, recordingId),
+    15_000,
+    () => "A start that outlived its service left the device capturing",
+  );
+  assert.deepEqual(instance.children(), []);
+  assert.equal(instance.running, true, "The app must survive its service");
+  instance.kill("SIGTERM");
+  await instance.exited;
+
+  const relaunched = await fixtureApp(home);
+  await relaunched.instance.waitFor(/reconciliation complete/);
+  const settled = await succeeds(home, "recording.get", { recordingId });
+  assert.equal(settled.state, "interrupted");
+  assert.equal(
+    (await succeeds(home, "capture.status")).device.state,
+    "idle",
+    "The device must be free for the next take",
+  );
+});
+
+test("a normal quit while a take is starting finalizes it before the app exits", async () => {
+  requireScreenPermission();
+  const home = temporary("/tmp/scr-capture-");
+  const { instance, servicePid, source } = await fixtureApp(home);
+  const recordingId = await starting(home, source, "quit-while-starting");
+  instance.kill("SIGTERM");
+
+  assert.deepEqual(await instance.exited, { code: 0, signal: null });
+  assert.equal(alive(servicePid), false);
+  // Quit owns the start it already asked for: the take is finished before the app is gone.
+  assert.equal(
+    finalized(home, recordingId),
+    true,
+    "The quit abandoned a take whose start was still running",
+  );
 });

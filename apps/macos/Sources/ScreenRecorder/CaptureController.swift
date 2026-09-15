@@ -17,6 +17,13 @@ final class CaptureController {
 
     private let capture = NativeCapture()
     private var take: Take?
+    /// The take whose `capture.start` has not returned yet, and whoever is waiting for it. A start
+    /// in flight is part of this session: the app — not a service that may already be gone — owns
+    /// what happens to the take when it lands.
+    private var pendingStart: Take?
+    private var startWaiters: [CheckedContinuation<Void, Never>] = []
+    /// Set once the service that allocated the take in flight has disappeared.
+    private var serviceGone = false
     /// Set only in fixture mode: the one window of this app's own that capture may see or record.
     private let fixtureWindow: NSWindow?
     private weak var host: ServiceHost?
@@ -32,7 +39,7 @@ final class CaptureController {
         self.host = host
     }
 
-    var isCapturing: Bool { take != nil }
+    var isCapturing: Bool { take != nil || pendingStart != nil }
 
     func handle(_ operation: String, _ params: Data) async -> Result<Data, ServiceFailure> {
         do {
@@ -52,17 +59,28 @@ final class CaptureController {
     }
 
     /// Normal quit finalizes the running take and waits for the library to store its outcome, so
-    /// an ordinary quit leaves a finished recording rather than one more take to reconcile.
+    /// an ordinary quit leaves a finished recording rather than one more take to reconcile. A
+    /// start still in flight is waited for first: the quit owns the take it has already asked for.
     func finalizeBeforeQuit() async {
+        await awaitStart()
         guard take != nil else { return }
         guard let outcome = try? await finish(reason: "APP_QUIT") else { return }
         await send(report: outcome)
     }
 
     /// The service this take reports to is gone. Native still owns the media, so the take is
-    /// finalized into its own durable journal and left for the next service to reconcile.
+    /// finalized into its own durable journal and left for the next service to reconcile. A start
+    /// still in flight finalizes itself the moment it lands, so nothing is awaited here.
     func serviceLost() async {
+        serviceGone = true
         guard take != nil else { return }
+        await finishIntoJournal()
+    }
+
+    /// Finishes the take this device is holding into its own durable journal, with no service
+    /// left to tell about it. The media is native's, so it is sealed here and settled by whichever
+    /// service reads it next, rather than captured on into nothing.
+    private func finishIntoJournal() async {
         capture.note("finalizing", reason: "SERVICE_LOST")
         _ = try? await capture.stop()
         take = nil
@@ -74,18 +92,18 @@ final class CaptureController {
         case "capture.status": return status()
         case "capture.start": return try await start(params)
         case "capture.pause":
-            try expect(params)
+            try await expect(params)
             try capture.pause()
             return try transition("paused")
         case "capture.resume":
-            try expect(params)
+            try await expect(params)
             try capture.resume()
             return try transition("recording")
         case "capture.stop":
-            try expect(params)
+            try await expect(params)
             return try await finish(reason: nil)
         case "capture.cancel":
-            try expect(params)
+            try await expect(params)
             let discarded = try transition("finalizing")
             await capture.discard()
             take = nil
@@ -140,7 +158,7 @@ final class CaptureController {
             throw CaptureFailure(
                 "INVALID_REQUEST", "capture.start needs an allocated take, directory and source.")
         }
-        guard take == nil else {
+        guard take == nil, pendingStart == nil else {
             throw CaptureFailure("INVALID_STATE", "Another take is already capturing.")
         }
         let request = CaptureRequest(
@@ -148,8 +166,17 @@ final class CaptureController {
             microphone: params["microphone"] as? Bool ?? false,
             microphoneDeviceID: params["microphoneDeviceId"] as? String,
             systemAudio: params["systemAudio"] as? Bool ?? false)
+        let starting = Take(recordingId: recordingId, sourceId: sourceId)
+        pendingStart = starting
+        defer { releaseStart() }
         try await capture.start(request)
-        take = Take(recordingId: recordingId, sourceId: sourceId)
+        guard !serviceGone else {
+            // The library that allocated this take disappeared while the device was starting, so
+            // this landing start ends exactly as a take lost mid-capture does.
+            await finishIntoJournal()
+            throw CaptureFailure("SERVICE_LOST", "The service that allocated this take is gone.")
+        }
+        take = starting
         do {
             return try report(state: "recording")
         } catch {
@@ -251,14 +278,31 @@ final class CaptureController {
         return report
     }
 
-    private func expect(_ params: [String: Any]) throws {
+    /// Control for the take that is still starting waits for that start rather than answering
+    /// that this session is not holding it: the service settles a take on that answer.
+    private func expect(_ params: [String: Any]) async throws {
         guard let recordingId = params["recordingId"] as? String else {
             throw CaptureFailure("INVALID_REQUEST", "Capture control names its recording.")
         }
+        if pendingStart?.recordingId == recordingId { await awaitStart() }
         guard let take, take.recordingId == recordingId else {
             throw CaptureFailure(
                 "INVALID_STATE", "This app's capture session is not holding that take.")
         }
+    }
+
+    /// Waits for the start in flight, if there is one. It never outlives that start: every exit
+    /// from `start` releases the waiters, whether the device began capturing or refused to.
+    private func awaitStart() async {
+        guard pendingStart != nil else { return }
+        await withCheckedContinuation { startWaiters.append($0) }
+    }
+
+    private func releaseStart() {
+        let waiting = startWaiters
+        pendingStart = nil
+        startWaiters.removeAll()
+        for waiter in waiting { waiter.resume() }
     }
 
     /// Tells the library about a transition it did not ask for. The answer is awaited so a take
