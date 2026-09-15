@@ -38,9 +38,11 @@ are rejected rather than migrated.
 
 Next priority: native menu controls, durable jobs, then revision-bound media
 inspection. Opus is implementing controls in `/tmp/screenrec-capture-service` and
-core durable jobs in `/tmp/screenrec-durable-jobs`; these are separate worktrees.
+core durable jobs in `/tmp/screenrec-durable-jobs`. Client/app discovery is independent
+in `/tmp/screenrec-client-discovery`; all three use separate worktrees.
 Native worker parent-exit ownership is integrated, including the independent-review
-registration-race correction. Cursor output sizing passes integrated native/worker checks and fresh visual review
+registration-race correction. The service runner now accepts cancellation and waits
+for child closure before returning capacity. Cursor output sizing passes integrated native/worker checks and fresh visual review
 with documented small-output limits. Core trail selection
 and scene analysis remain open. Local socket admission bounds connections and
 unfinished handlers, including abandoned requests.
