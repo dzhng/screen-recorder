@@ -1,0 +1,334 @@
+{
+ "probe": "apple-speechanalyzer-file-audio-diagnostic",
+ "date": "2026-09-15",
+ "purpose": "Diagnose verbatim filler emission for Apple SpeechAnalyzer/SpeechTranscriber on the same four AMI clips already used for Parakeet and WhisperKit. Omission diagnosis only; not a timing, precision/recall, audition or acceptance measurement.",
+ "platform": {
+  "productVersion": "26.6.2",
+  "build": "25G83",
+  "kernel": "Darwin 25.6.0",
+  "arch": "arm64",
+  "toolchain": "Apple Swift 6.3.3 (swiftlang-6.3.3.1.3), CommandLineTools only, no Xcode",
+  "sdk": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk (MacOSX 26.5)",
+  "target": "arm64-apple-macos26.0"
+ },
+ "apiSource": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Speech.framework/Versions/A/Modules/Speech.swiftmodule/arm64e-apple-macos.swiftinterface",
+ "assetState": {
+  "SpeechTranscriber.isAvailable": true,
+  "SpeechTranscriber.installedLocales": [
+   "en_AU",
+   "en_CA",
+   "en_GB",
+   "en_IE",
+   "en_IN",
+   "en_NZ",
+   "en_SG",
+   "en_US",
+   "en_ZA"
+  ],
+  "SpeechTranscriber.supportedLocalesCount": 30,
+  "supportedLocaleEquivalentToEnUS": "en_US",
+  "AssetInventory.status.coldFirstCall": "supported",
+  "AssetInventory.status.afterAssetInstallationRequestConstructed": "installed",
+  "statusOrderDependence": "AssetInventory.status(forModules:) returns .supported until AssetInventory.assetInstallationRequest(supporting:) has been called in the same process, then returns .installed. Ablated with a fixed module configuration in out/inventory-request-ablation.txt; configuration and preset were ruled out as the cause in out/inventory-position-ablation.txt.",
+  "assetInstallationRequestNonNilEvenWhenInstalled": true,
+  "downloadAndInstallCalled": false,
+  "reservedLocalesBeforeProbes": [],
+  "reservedLocalesObservedMidProcess": [
+   "en_US"
+  ],
+  "reservedLocalesAfterAllProbes": [],
+  "reservationPersisted": false,
+  "userSettingsChanged": false,
+  "assetsDownloaded": false
+ },
+ "moduleConfiguration": "SpeechTranscriber(locale: en-US, transcriptionOptions: [], reportingOptions: [], attributeOptions: [.audioTimeRange, .transcriptionConfidence]) driven by SpeechAnalyzer.analyzeSequence(from: AVAudioFile) + finalizeAndFinishThroughEndOfInput()",
+ "input": {
+  "source": "same four AMI TS3003c speaker-B clips as the natural-speech diagnostic",
+  "clipsDirectory": "/tmp/screenrec-natural-speech-evidence/clips",
+  "audioFormat": "16000 Hz mono pcm_s16le; analyzer bestAvailableAudioFormat matched at 16000 Hz mono Int16 (no resampling)",
+  "referenceSelection": "AMI TS3003c.B.words.xml, same speaker-B token selection and same Levenshtein alignment as the natural-speech diagnostic",
+  "referenceTimingKind": "automatic forced alignment, not manual truth",
+  "micOrScreenCapture": false
+ },
+ "totals": {
+  "referenceTokens": 633,
+  "referenceUmUh": 185,
+  "apple": {
+   "emittedUmUh": 18,
+   "referenceUmUhMatched": 18,
+   "referenceUmUhMatchedPercent": 9.7,
+   "referenceUmUhDeleted": 151,
+   "tokenErrorRateVsAmiReference": 0.408,
+   "truncatedFalseStartsDeleted": 16
+  },
+  "parakeet": {
+   "emittedUmUh": 144,
+   "referenceUmUhMatched": 132,
+   "referenceUmUhMatchedPercent": 71.4,
+   "referenceUmUhDeleted": 43,
+   "tokenErrorRateVsAmiReference": 0.167,
+   "truncatedFalseStartsDeleted": 12
+  },
+  "whisperkit": {
+   "emittedUmUh": 0,
+   "referenceUmUhMatched": 0,
+   "referenceUmUhMatchedPercent": 0.0,
+   "referenceUmUhDeleted": 170,
+   "tokenErrorRateVsAmiReference": 0.457,
+   "truncatedFalseStartsDeleted": 18
+  }
+ },
+ "perClip": [
+  {
+   "clipId": "ami-ts3003c-b-01",
+   "sourceSeconds": [
+    463.67,
+    704.79
+   ],
+   "durationSeconds": 241.12,
+   "audioSha256": "e576cb9c08808ed59d2dd019ce103482b49e83191ab8f2b5f69c398e65056d81",
+   "referenceTokens": 512,
+   "referenceUmUh": 151,
+   "emittedTokens": 336,
+   "emittedUmUh": 16,
+   "referenceUmUhMatched": 16,
+   "referenceUmUhDeleted": 124,
+   "referenceUmUhSubstituted": 11,
+   "referenceTruncatedDeleted": 16,
+   "tokenErrorRateVsAmiReference": 0.4023,
+   "wallSecondsClientProcess": 1.81,
+   "peakRssBytesClientProcessOnly": 20758528,
+   "resultsEmitted": 36,
+   "timedRuns": 336,
+   "coverageSeconds": [
+    0,
+    240.6
+   ],
+   "rawResultPath": "/private/tmp/screenrec-apple-speech-evidence/runs/ami-ts3003c-b-01.json"
+  },
+  {
+   "clipId": "ami-ts3003c-b-02",
+   "sourceSeconds": [
+    1219.61,
+    1231.24
+   ],
+   "durationSeconds": 11.63,
+   "audioSha256": "6c201d4ac17719643583e8259870cc7aac954eaeb12179420f2f6d17768bec47",
+   "referenceTokens": 31,
+   "referenceUmUh": 10,
+   "emittedTokens": 20,
+   "emittedUmUh": 2,
+   "referenceUmUhMatched": 2,
+   "referenceUmUhDeleted": 6,
+   "referenceUmUhSubstituted": 2,
+   "referenceTruncatedDeleted": 0,
+   "tokenErrorRateVsAmiReference": 0.5161,
+   "wallSecondsClientProcess": 0.2,
+   "peakRssBytesClientProcessOnly": 19529728,
+   "resultsEmitted": 1,
+   "timedRuns": 20,
+   "coverageSeconds": [
+    0,
+    11.34
+   ],
+   "rawResultPath": "/private/tmp/screenrec-apple-speech-evidence/runs/ami-ts3003c-b-02.json"
+  },
+  {
+   "clipId": "ami-ts3003c-b-03",
+   "sourceSeconds": [
+    1400.29,
+    1434.32
+   ],
+   "durationSeconds": 34.03,
+   "audioSha256": "64354a3da89f5c0c7ccda0fb3d138193689382e345e5e5a93612f5d50417a757",
+   "referenceTokens": 70,
+   "referenceUmUh": 20,
+   "emittedTokens": 44,
+   "emittedUmUh": 0,
+   "referenceUmUhMatched": 0,
+   "referenceUmUhDeleted": 17,
+   "referenceUmUhSubstituted": 3,
+   "referenceTruncatedDeleted": 0,
+   "tokenErrorRateVsAmiReference": 0.4286,
+   "wallSecondsClientProcess": 0.33,
+   "peakRssBytesClientProcessOnly": 19955712,
+   "resultsEmitted": 5,
+   "timedRuns": 44,
+   "coverageSeconds": [
+    0,
+    33.6
+   ],
+   "rawResultPath": "/private/tmp/screenrec-apple-speech-evidence/runs/ami-ts3003c-b-03.json"
+  },
+  {
+   "clipId": "ami-ts3003c-b-04",
+   "sourceSeconds": [
+    1614.87,
+    1624.15
+   ],
+   "durationSeconds": 9.28,
+   "audioSha256": "07afb7e68cfc2797d2c683906979079be5c924f95e4160d7d6949ff44c210f6e",
+   "referenceTokens": 20,
+   "referenceUmUh": 4,
+   "emittedTokens": 15,
+   "emittedUmUh": 0,
+   "referenceUmUhMatched": 0,
+   "referenceUmUhDeleted": 4,
+   "referenceUmUhSubstituted": 0,
+   "referenceTruncatedDeleted": 0,
+   "tokenErrorRateVsAmiReference": 0.3,
+   "wallSecondsClientProcess": 0.29,
+   "peakRssBytesClientProcessOnly": 19496960,
+   "resultsEmitted": 1,
+   "timedRuns": 15,
+   "coverageSeconds": [
+    0,
+    8.28
+   ],
+   "rawResultPath": "/private/tmp/screenrec-apple-speech-evidence/runs/ami-ts3003c-b-04.json"
+  }
+ ],
+ "configurationAblation": {
+  "A-speech-baseline": {
+   "configuration": "SpeechTranscriber attr=[.audioTimeRange]",
+   "umUhByClip": {
+    "ami-ts3003c-b-01": 16,
+    "ami-ts3003c-b-02": 2,
+    "ami-ts3003c-b-03": 0,
+    "ami-ts3003c-b-04": 0
+   },
+   "umUhTotal": 18
+  },
+  "B-speech-alternatives": {
+   "configuration": "SpeechTranscriber report=[.alternativeTranscriptions] attr=[.audioTimeRange]",
+   "umUhByClip": {
+    "ami-ts3003c-b-01": 16,
+    "ami-ts3003c-b-02": 2,
+    "ami-ts3003c-b-03": 0,
+    "ami-ts3003c-b-04": 0
+   },
+   "umUhTotal": 18
+  },
+  "C-speech-contextual-fillers": {
+   "configuration": "SpeechTranscriber attr=[.audioTimeRange] + AnalysisContext.contextualStrings[.general]=[um,uh,er,erm,uh-huh,mm-hmm]",
+   "umUhByClip": {
+    "ami-ts3003c-b-01": 16,
+    "ami-ts3003c-b-02": 2,
+    "ami-ts3003c-b-03": 0,
+    "ami-ts3003c-b-04": 0
+   },
+   "umUhTotal": 18
+  },
+  "D-dictation-nopunct": {
+   "configuration": "DictationTranscriber contentHints=[] transcriptionOptions=[] attr=[.audioTimeRange]",
+   "umUhByClip": {
+    "ami-ts3003c-b-01": 0,
+    "ami-ts3003c-b-02": 0,
+    "ami-ts3003c-b-03": 0,
+    "ami-ts3003c-b-04": 0
+   },
+   "umUhTotal": 0
+  },
+  "E-dictation-punct": {
+   "configuration": "DictationTranscriber contentHints=[] transcriptionOptions=[.punctuation] attr=[.audioTimeRange]",
+   "umUhByClip": {
+    "ami-ts3003c-b-01": 0,
+    "ami-ts3003c-b-02": 0,
+    "ami-ts3003c-b-03": 0,
+    "ami-ts3003c-b-04": 0
+   },
+   "umUhTotal": 0
+  },
+  "F-dictation-atypical": {
+   "configuration": "DictationTranscriber contentHints=[.atypicalSpeech] transcriptionOptions=[] attr=[.audioTimeRange]",
+   "umUhByClip": {
+    "ami-ts3003c-b-01": 0,
+    "ami-ts3003c-b-02": 0,
+    "ami-ts3003c-b-03": 0,
+    "ami-ts3003c-b-04": 0
+   },
+   "umUhTotal": 0
+  },
+  "G-dictation-farfield": {
+   "configuration": "DictationTranscriber contentHints=[.farField] transcriptionOptions=[] attr=[.audioTimeRange]",
+   "umUhByClip": {
+    "ami-ts3003c-b-01": 0,
+    "ami-ts3003c-b-02": 0,
+    "ami-ts3003c-b-03": 0,
+    "ami-ts3003c-b-04": 0
+   },
+   "umUhTotal": 0
+  }
+ },
+ "alternativesAblation": {
+  "method": "reportingOptions=[.alternativeTranscriptions]; every alternative counted, not a retained prefix",
+  "evidence": "/private/tmp/screenrec-apple-speech-evidence/out/alternatives-ablation.txt",
+  "clip01": {
+   "top1Tokens": 336,
+   "top1UmUh": 16,
+   "alternativeCount": 267,
+   "alternativeTokens": 551,
+   "alternativeUmUh": 44
+  },
+  "clip02": {
+   "top1Tokens": 20,
+   "top1UmUh": 2,
+   "alternativeCount": 10,
+   "alternativeTokens": 25,
+   "alternativeUmUh": 3
+  },
+  "clip03": {
+   "top1Tokens": 44,
+   "top1UmUh": 0,
+   "alternativeCount": 34,
+   "alternativeTokens": 77,
+   "alternativeUmUh": 1
+  },
+  "clip04": {
+   "top1Tokens": 15,
+   "top1UmUh": 0,
+   "alternativeCount": 9,
+   "alternativeTokens": 22,
+   "alternativeUmUh": 2
+  },
+  "examplePairs": [
+   "top1='so...' / alt='so, um...'",
+   "top1='Yeah,' / alt='Um, yeah,'",
+   "top1='something about' / alt='uh something about'",
+   "top1='Findings.' / alt='So, um, Findings.'"
+  ]
+ },
+ "localExecution": {
+  "sandboxedRerun": "sandbox-exec (allow default)(deny network*) on ami-ts3003c-b-04",
+  "outputIdenticalToUnsandboxedRun": true,
+  "limit": "Inference runs out of process in Apple's speech XPC services (com.apple.siri.embeddedspeech, corespeechd), which the client sandbox does not cover. The deny-network rerun shows the client needs no network; it does not prove the daemon made none."
+ },
+ "runtimeLimits": [
+  "Wall times are client-process wall clock and exclude whatever the out-of-process speech service had already loaded. They are neither a clean cold nor a warm measurement and are invalid for the acceptance resource gate.",
+  "peakRssBytes is the client process only. Model residency lives in the system speech service and is not counted, so these figures are not comparable to the in-process Parakeet and WhisperKit numbers.",
+  "No filler precision/recall, no boundary error, no audition, no manual timing verification.",
+  "Token error rate is measured against a speaker-B-only annotation on a headset channel that carries the room, so insertions mix cross-talk with hallucination.",
+  "AMI is widely redistributed; no claim these clips are held out of Apple's training data.",
+  "No engine selected, no acceptance gate passed or failed."
+ ],
+ "artifacts": {
+  "evidenceDirectory": "/private/tmp/screenrec-apple-speech-evidence",
+  "sources": [
+   "src/inventory.swift",
+   "src/inventory2.swift",
+   "src/inventory3.swift",
+   "src/inventory4.swift",
+   "src/transcribe.swift",
+   "src/ablate.swift",
+   "src/alts.swift",
+   "src/restore.swift"
+  ],
+  "rawEmissions": "runs/ami-ts3003c-b-0N.json (every SpeechTranscriber.Result with CMTimeRange, confidence and alternatives)",
+  "comparison": [
+   "out/comparison.txt",
+   "out/summary.json",
+   "out/ablation.json"
+  ],
+  "comparisonScript": "scripts/compare.py (natural-speech compare.py with the apple engine added; normalization and alignment unchanged)"
+ }
+}
