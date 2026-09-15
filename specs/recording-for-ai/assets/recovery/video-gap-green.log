@@ -1,0 +1,24 @@
+Building for debugging...
+[0/5] Write sources
+[2/5] Write swift-version--1AB21518FC5DEDBE.txt
+[4/7] Emitting module ScreenRecorderCapture
+[5/7] Compiling ScreenRecorderCapture MediaRecovery.swift
+[6/9] Emitting module ScreenRecorderCaptureTests
+[7/9] Compiling ScreenRecorderCaptureTests MediaRecoveryTests.swift
+[7/10] Write Objects.LinkFileList
+[8/10] Linking ScreenRecorderCaptureTests
+[9/10] Applying ScreenRecorderCaptureTests
+Build of product 'ScreenRecorderCaptureTests' complete! (1.79s)
+PASS pause mapping and event
+PASS delayed samples, boundary audio, and repeated pauses
+PASS stale failure and finalizer after restart
+PASS held tail waits out encoder backpressure and decodes
+PASS stopped writer fails the held tail without waiting
+PASS a written take's journal reads back through the reader
+PASS a malformed host timestamp rejects its record and keeps the proof before it
+PASS a torn last line reads as a crash boundary distinct from a bad record
+PASS edit-list take recovers 1000000us where an asset-timestamped cursor reports 700000us
+PASS unconfirmed sample tails resolve to no duration rather than a neighbour's
+PASS unfinalized fragmented take recovers 1033333us of 2999970us submitted
+PASS unrequested audio reports NOT_REQUESTED while requested audio still reports loss
+PASS video recovery preserves an empty middle edit as a gap

@@ -141,8 +141,48 @@ private func runUnrequestedAudioTests() async throws {
     print("PASS unrequested audio reports NOT_REQUESTED while requested audio still reports loss")
 }
 
+private func runVideoGapTests() async throws {
+    let directory = RecoveryFixture.directory("recovery-video-gap")
+    defer { try? FileManager.default.removeItem(at: directory) }
+    let source = directory.appendingPathComponent("source.mov")
+    try await RecoveryFixture.writeVariableDurationVideo(
+        to: source, timesUs: (0..<10).map { Int64($0) * 100_000 }, keyFrameInterval: 1)
+    let originalAsset = AVURLAsset(url: source)
+    defer { withExtendedLifetime(originalAsset) {} }
+    let original = try await originalAsset.loadTracks(withMediaType: .video)[0]
+    let composition = AVMutableComposition()
+    let copy = composition.addMutableTrack(
+        withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
+    try copy.insertTimeRange(
+        CMTimeRange(start: .zero, duration: time(microseconds: 300_000)),
+        of: original, at: .zero)
+    copy.insertEmptyTimeRange(
+        CMTimeRange(start: time(microseconds: 300_000), duration: time(microseconds: 500_000)))
+    try copy.insertTimeRange(
+        CMTimeRange(start: time(microseconds: 300_000), duration: time(microseconds: 300_000)),
+        of: original, at: time(microseconds: 800_000))
+    let output = directory.appendingPathComponent("video.mov")
+    let export = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!
+    try await export.export(to: output, as: .mov)
+    let video = await RecoveryFixture.videoTrack(of: output)
+    let segments = try await video.load(.segments)
+    precondition(segments.contains { $0.isEmpty }, "Fixture must retain an empty video edit")
+    let decoded = await RecoveryFixture.decodedPresentationMicroseconds(of: output)
+    // AVFoundation may synthesize a padding sample for the empty edit.
+    let occupiedSamples = decoded.filter { $0 < 300_000 || $0 >= 800_000 }
+    precondition(occupiedSamples == [0, 100_000, 200_000, 800_000, 900_000, 1_000_000],
+        "Decoded occupied fixture times: \(occupiedSamples)")
+    let recovered = await MediaRecovery.inspect(directory: directory.path)
+    let intervals = RecoveryFixture.bounds(track("video", of: recovered).intervals)
+    precondition(intervals == [[0, 300_000], [800_000, 1_100_000]],
+        "Empty video edits are not acquired coverage: \(intervals)")
+    precondition(recovered.durationUs == 1_100_000)
+    print("PASS video recovery preserves an empty middle edit as a gap")
+}
+
 func runMediaRecoveryTests() async throws {
     try await runEditListTailTests()
     try await runCrashedFragmentTests()
     try await runUnrequestedAudioTests()
+    try await runVideoGapTests()
 }

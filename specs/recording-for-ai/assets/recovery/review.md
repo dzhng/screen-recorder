@@ -28,3 +28,6 @@ catalog reconciliation. This report does not close slice 02.
 
 The [performance audit](performance.md) records a measured gap-accumulation copying
 problem and the verified in-place production correction.
+
+The [empty-video-edit regression](video-gap.md) verifies that decoder padding is
+not advertised as acquired video coverage.

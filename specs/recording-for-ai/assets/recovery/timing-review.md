@@ -31,7 +31,7 @@ confirmed decoded timestamp and reports `UNKNOWN_TAIL`. The missing-cursor helpe
 branch is tested, but no real file was found that decodes while refusing its cursor;
 that whole-response case is not an end-to-end verified gate. Rate-scaled edit-list
 mapping is implemented but not exercised by a persisted rate-scaled fixture.
-Video availability still requires scrutiny for files containing empty middle edits;
-original capture fixtures have not established that case. Full service relaunch,
+A subsequent [empty-video-edit regression](video-gap.md) now verifies middle-gap
+availability using a generated persisted edit list. Full service relaunch,
 kill-during-stop, physical audio capture/audition and the complete recovery command
 remain open in slice 02.

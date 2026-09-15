@@ -163,15 +163,14 @@ public enum MediaRecovery {
                         ? MediaInterval(startUs: clippedStart, endUs: clippedEnd) : nil
                 }
             }
-            if role != "video" {
-                let occupied = segments.map {
-                    MediaInterval(
-                        startUs: microseconds($0.asset.start),
-                        endUs: microseconds(CMTimeRangeGetEnd($0.asset)))
-                }
-                intervals = intersect(intervals, occupied)
-                if let acquired { intervals = intersect(intervals, acquired) }
+            // Decoders can synthesize video or silence for empty edits. Neither is acquisition.
+            let occupied = segments.map {
+                MediaInterval(
+                    startUs: microseconds($0.asset.start),
+                    endUs: microseconds(CMTimeRangeGetEnd($0.asset)))
             }
+            intervals = intersect(intervals, occupied)
+            if role != "video", let acquired { intervals = intersect(intervals, acquired) }
             reachedEnd = reader.status == .completed
             if !reachedEnd {
                 failure = CaptureFailure(

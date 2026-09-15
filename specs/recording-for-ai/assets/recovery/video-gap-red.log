@@ -1,0 +1,10 @@
+Building for debugging...
+[0/4] Write sources
+[1/4] Write swift-version--1AB21518FC5DEDBE.txt
+[3/6] Emitting module ScreenRecorderCaptureTests
+[4/6] Compiling ScreenRecorderCaptureTests MediaRecoveryTests.swift
+[4/7] Write Objects.LinkFileList
+[5/7] Linking ScreenRecorderCaptureTests
+[6/7] Applying ScreenRecorderCaptureTests
+Build of product 'ScreenRecorderCaptureTests' complete! (1.19s)
+ScreenRecorderCaptureTests/MediaRecoveryTests.swift:176: Precondition failed: Empty video edits are not acquired coverage: [[0, 1100000]]
