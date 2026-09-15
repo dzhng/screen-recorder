@@ -24,7 +24,10 @@ mutation. Caller retries carry the same request ID. No automatic retries.
 Create the socket's private runtime directory with mode 0700 and socket mode 0600.
 Never unlink an occupied socket on startup: return a startup conflict. App lifecycle
 reconciliation in parent 06 owns proving and removing a dead prior socket. Closing
-this listener removes only its own socket. No independently installed daemon.
+this listener lets libuv remove its bound socket; do not unlink it again after
+close. This relies on the supported no-live-unlink invariant: no app recovery or
+startup path removes a live listener. Arbitrary external filesystem replacement
+is outside that ownership guarantee. No independently installed daemon.
 
 ## Review surface and verification
 
