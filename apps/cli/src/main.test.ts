@@ -139,6 +139,12 @@ it("CLI and real MCP transport share edits, replay, history and structured failu
   expect((await client.listTools()).tools.map((tool) => tool.name).sort()).toEqual(
     [...operationNames].sort(),
   );
+  const listed = cli(socket, "recording.list", { limit: 1 });
+  expect(listed.exitCode).toBe(0);
+  expect(listed.result.data).toMatchObject({ recordings: [{ recordingId }], nextCursor: null });
+  const mcpList = await client.callTool({ name: "recording.list", arguments: { limit: 1 } });
+  expect(mcpList.isError).toBe(false);
+  expect(mcpList.structuredContent).toMatchObject({ ok: true, data: listed.result.data });
   const params = {
     recordingId,
     requestId: "cut-one",

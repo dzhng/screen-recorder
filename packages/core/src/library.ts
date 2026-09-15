@@ -85,6 +85,7 @@ function settledWithoutVideo(recording: Recording): CatalogError {
       })
     : new CatalogError("NOT_READY", "Source duration is not finalized", { state: recording.state });
 }
+export type RecordingCursor = Readonly<{ beforeSequence: number }>;
 export type HistoryCursor = Readonly<{
   recordingId: string;
   afterOrdinal: number;
@@ -168,6 +169,31 @@ export class RevisionStore {
       .get(recordingId);
     if (!row) throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
     return row as Recording;
+  }
+  /** Creation sequences never move: later takes cannot enter an existing traversal. */
+  list(
+    cursor: RecordingCursor | null = null,
+    limit = 20,
+  ): { recordings: readonly Recording[]; nextCursor: RecordingCursor | null } {
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100)
+      throw new CatalogError("INVALID_PARAMS", "Recording page size must be 1–100");
+    if (cursor && (!Number.isSafeInteger(cursor.beforeSequence) || cursor.beforeSequence < 1))
+      throw new CatalogError("INVALID_PARAMS", "Invalid recording page cursor");
+    const rows = this.db
+      .prepare(
+        `SELECT ${recordingColumns} FROM recordings
+       WHERE state!='canceled' AND creationSequence < ?
+       ORDER BY creationSequence DESC LIMIT ?`,
+      )
+      .all(cursor?.beforeSequence ?? Number.MAX_SAFE_INTEGER, limit + 1) as Recording[];
+    const recordings = rows.slice(0, limit);
+    return {
+      recordings,
+      nextCursor:
+        rows.length > limit
+          ? { beforeSequence: recordings[recordings.length - 1]!.creationSequence }
+          : null,
+    };
   }
   latest(): Recording | null {
     return (

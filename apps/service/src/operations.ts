@@ -35,6 +35,8 @@ export function operate(
         return { ok: true, data: health() };
       case "recording.latest":
         return { ok: true, data: store.latest() };
+      case "recording.list":
+        return { ok: true, data: store.list(operation.params.cursor, operation.params.limit) };
       case "recording.get":
         return { ok: true, data: store.get(operation.params.recordingId) };
       case "revision.get":

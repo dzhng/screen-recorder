@@ -269,3 +269,33 @@ it("rejects malformed edits, preserves domain errors, and gives concurrent edits
     data: { revision: { durationUs: 2_000_000, spans: [{ startUs: 0, endUs: 2_000_000 }] } },
   });
 });
+
+it("pages discoverable recordings over the real transport and resumes after service relaunch", async () => {
+  const { home, unfinishedId, failedId, recordingId } = await seed();
+  let service = await start(home);
+  const first = await service.call("recording.list", { limit: 1 });
+  expect(first).toMatchObject({
+    ok: true,
+    data: {
+      recordings: [{ recordingId: unfinishedId }],
+      nextCursor: { beforeSequence: 3 },
+    },
+  });
+  await service.close();
+  service = await start(home);
+  expect(
+    await service.call("recording.list", { limit: 2, cursor: { beforeSequence: 3 } }),
+  ).toMatchObject({
+    ok: true,
+    data: {
+      recordings: [{ recordingId: failedId }, { recordingId }],
+      nextCursor: null,
+    },
+  });
+  for (const params of [{ limit: 101 }, { cursor: { beforeSequence: 0 } }]) {
+    expect(await service.call("recording.list", params)).toMatchObject({
+      ok: false,
+      error: { code: "INVALID_PARAMS" },
+    });
+  }
+});

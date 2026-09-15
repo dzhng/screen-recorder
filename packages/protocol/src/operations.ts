@@ -25,6 +25,20 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .strict()
     .describe("Read the newest discoverable take, including unfinished recordings."),
   z
+    .object({
+      operation: z.literal("recording.list"),
+      params: z
+        .object({
+          cursor: z.object({ beforeSequence: z.int().positive() }).strict().nullable().optional(),
+          limit: z.int().min(1).max(100).optional(),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Page through discoverable recordings newest first; continuation excludes newer takes.",
+    ),
+  z
     .object({ operation: z.literal("recording.get"), params: recording })
     .strict()
     .describe("Read one recording by its stable identity."),

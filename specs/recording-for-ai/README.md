@@ -39,11 +39,13 @@ revision-bound media inspection. Independent Opus work is correcting a mixed-rat
 audio tail defect in `/tmp/screenrec-audio-excerpts`; 09b remains open. The rounding
 and acquisition-availability corrections are integrated. Speech remains a feasibility
 gate: none of the measured local engines or WhisperKit prompt configurations meets
-filler fidelity. A bounded read-only alternative investigation is active; no engine
-has been selected.
+filler fidelity. Alternative research identified CrisperWhisper, but its current model license
+restricts operational deployment; no engine has been selected.
 
 Integrated evidence: durable lifecycle/library operations (06d/06e), app-owned service
-lifetime (06c), corrected cursor geometry, and CLI/MCP adapters (12a). A real Opus
+lifetime (06c), corrected cursor geometry, and CLI/MCP adapters (12a). Recording
+lists now page newest first through the same core/service/CLI/MCP path; later takes
+do not shift an existing traversal. A real Opus
 consumer performed a cut, stale-write check and undo through production MCP; that
 check used catalog metadata, not recorded media. See
 [CLI evidence](assets/cli/review.md), [cursor evidence](assets/cursor/review.md),

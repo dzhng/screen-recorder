@@ -74,6 +74,11 @@ accounted for in storage and manual deletion. Surviving audio remains accessible
 under the recovery contract; audio alone does not create an editable timeline. A usable video prefix follows normal recovered-source
 registration, even when optional audio is missing.
 
+Recording lists run newest first by creation sequence. A continuation begins
+strictly before the last returned sequence, so newer takes never enter that
+traversal. Canceled/deleted takes are absent; each returned row carries its current
+state and revision identity. The list does not freeze evolving recording metadata.
+
 History pagination pins the highest revision ordinal visible on its first page.
 Later edits do not enter that traversal; a fresh history request sees them. Return
 each retained revision once in ordinal order within that bound.

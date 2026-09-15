@@ -546,3 +546,48 @@ test("repeating a validated finalization keeps exactly one original revision", (
   ).toThrow(expect.objectContaining({ code: "INVALID_STATE", details: { sourceDurationUs: 20 } }));
   expect(store.get(recordingId).lifecycleSequence).toBe(4);
 });
+
+test("recording pages keep newest-first identity across new takes, edits and relaunch", () => {
+  const { store, path, providers } = fixture();
+  const oldest = store.allocate();
+  store.registerSource(oldest.recordingId, 20);
+  const canceled = store.allocate();
+  store.ingestLifecycle(canceled.recordingId, {
+    sourceId: canceled.sourceId,
+    sequence: 1,
+    state: "canceled",
+  });
+  const middle = store.allocate();
+  const newest = store.allocate();
+  const first = store.list(null, 1);
+  expect(first.recordings).toEqual([newest]);
+  expect(first.nextCursor).not.toBeNull();
+  const added = store.allocate();
+  const edited = store.edit(oldest.recordingId, {
+    requestId: "list-edit",
+    expectedRevisionId: "r0",
+    operation: "cut",
+    ranges: [{ startUs: 1, endUs: 2 }],
+  });
+  store.close();
+  const reopened = new RevisionStore(path, providers);
+  stores.push(reopened);
+  const rest = reopened.list(first.nextCursor, 2);
+  expect(rest.recordings.map((recording) => recording.recordingId)).toEqual([
+    middle.recordingId,
+    oldest.recordingId,
+  ]);
+  expect(rest.recordings[1]?.currentRevisionId).toBe(edited.id);
+  expect(rest.nextCursor).toBeNull();
+  expect(reopened.list(null, 1).recordings).toEqual([added]);
+});
+
+test("recording discovery has an empty end page and the specified default page bound", () => {
+  const { store } = fixture();
+  expect(store.list()).toEqual({ recordings: [], nextCursor: null });
+  const recordings = Array.from({ length: 21 }, () => store.allocate());
+  const first = store.list();
+  expect(first.recordings).toEqual(recordings.slice(1).reverse());
+  expect(store.list(first.nextCursor)).toEqual({ recordings: [recordings[0]], nextCursor: null });
+  expect(() => store.list(null, 101)).toThrow(expect.objectContaining({ code: "INVALID_PARAMS" }));
+});

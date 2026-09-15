@@ -14,7 +14,7 @@ operation dispatcher. Shutdown closes the listener and catalog before releasing
 ownership. Startup failure releases resources it already acquired.
 
 Only implemented capabilities are declared in the protocol's operation schema.
-Future CLI/MCP adapters consume that declaration; they must not maintain their own
+CLI/MCP adapters consume that declaration; they must not maintain their own
 parameter rules or advertise unimplemented work. Core owns edit algebra, revision
 identity, transaction replay and history bounds. Service code validates the wire
 shape and composes those owners.
@@ -29,3 +29,10 @@ operation. Native capture, artifact jobs and full CLI/MCP parity remain later ga
 
 The authoritative test scenarios live in `apps/service/src/operations.test.ts`;
 public parameter shapes live in `packages/protocol/src/operations.ts`.
+
+Recording discovery uses a bounded database query and a creation-sequence cursor,
+not an offset or a materialized whole-library list. Tests cover adding and editing
+takes between pages, canceled takes, continuation after reopening the catalog and
+restarting the service, and matching CLI/MCP results. This completes the recording
+list operation; storage accounting, manual deletion and artifact readiness remain
+in the parent spec.

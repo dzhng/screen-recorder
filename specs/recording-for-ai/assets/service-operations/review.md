@@ -23,3 +23,17 @@ protocol, transaction/edit behavior in core and only composition in service.
 This pass binds available library operations. It does not implement capture control,
 source reconciliation, artifact jobs, media inspection, CLI/MCP adapters or their
 complete operation parity. Those remain explicit parent/later-slice work.
+
+## Recording pages
+
+`recording.list` reaches the same core owner from the local socket, CLI and MCP.
+Core checks verify exact newest-first identities across newly allocated takes,
+edits and database reopen, plus canceled exclusion and default/maximum page bounds.
+A real service process resumes the continuation after relaunch; actual MCP and CLI
+processes return matching list data.
+
+Root verification: 27 core tests pass; service 25, CLI 3 and protocol 8 tests pass,
+with focused build/type checks (13 Turbo tasks). The initial pagination regression
+failed because the operation did not exist. Independent Codex review found no
+additional defect; its full native build was sandbox-blocked and is not evidence.
+No native behavior or schema table changed in this pass.

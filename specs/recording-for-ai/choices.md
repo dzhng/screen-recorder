@@ -295,3 +295,18 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   their original mutation identity. Invalid command-line syntax is diagnosed on
   stderr, which also protects MCP's stdout before mode parsing has succeeded.
 - **Verdict:** Sound. **Confidence:** High.
+
+## Recording discovery
+
+### Sound — high confidence
+
+- **Choice:** Browse recordings newest first using the last returned creation
+  sequence as the continuation boundary. Recording states and current revisions
+  are read when each page is requested.
+- **Gap:** The spec bounded recording lists but did not choose their order or
+  whether list pages freeze the whole recording's metadata.
+- **Reach:** If a new take starts between pages, the agent continues through older
+  takes without duplicates or a shifting offset. A new traversal finds the new
+  take. A recording that finishes meanwhile reports its current state; opening it
+  by ID still resolves and pins the inspection revision separately.
+- **Verdict:** Sound. **Confidence:** High.
