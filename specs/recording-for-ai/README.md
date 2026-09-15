@@ -37,8 +37,8 @@ regressions also need a held, acknowledged native start, not directory polling.
 Correct public microphone defaults and terminal pause/resume errors in the same pass.
 
 Next priority: integrate and verify capture correction, then native menu controls and
-revision-bound media inspection. Opus is implementing native-only cursor/trail drawing
-in `/tmp/screenrec-native-cursor-render`; core history cutoffs and scene analysis
+revision-bound media inspection. Native cursor/trail execution is integrated, with a raster-failure correction;
+small-output styling review remains open. Core history cutoffs and scene analysis
 remain outside that subpass. Native audio execution (09b) now passes integrated numerical checks, including
 resampling tails, cumulative rounding and acquisition holes; audition remains open. Speech remains a feasibility
 gate: none of the measured local engines or WhisperKit prompt configurations meets
@@ -88,7 +88,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
   - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (generated-media execution; audition still open)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
-  - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
+  - [ ] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)

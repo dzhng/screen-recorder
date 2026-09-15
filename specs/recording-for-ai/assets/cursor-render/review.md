@@ -48,8 +48,9 @@ its pixels unchanged — the test bounds that below 35% coverage. Fading from th
 oldest to the newest point is visible in every trail render, and the arrow's
 asymmetry makes a mirrored render detectable.
 
-The unprimed screenshot-critique gate has not been run on these shots and no real
-captured gesture has been rendered.
+The [integration review](integration-review.md) records root checks and the fresh
+Opus critique. Small-output styling remains open; no real captured gesture has been
+rendered.
 
 ## Settled choices
 

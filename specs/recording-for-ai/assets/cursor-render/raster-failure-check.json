@@ -1,0 +1,44 @@
+{
+  "sourceUnchanged": true,
+  "sourceSha256": "243d8a3e46172e042e3bcd251d740dcea72281669775c717b5b2bf92743f4515",
+  "runs": [
+    {
+      "injection": "old-silent-nil",
+      "response": {
+        "data": {
+          "actualSourceUs": 200000,
+          "bytes": 14443,
+          "distanceUs": 0,
+          "file": "/tmp/screenrec-cursor-render-review/old-silent-nil.png",
+          "height": 90,
+          "mediaType": "image/png",
+          "overlay": {
+            "pointerSourceUs": 200000,
+            "trailPoints": 0
+          },
+          "requestedSourceUs": 200000,
+          "sourceHeight": 90,
+          "sourceWidth": 160,
+          "width": 160
+        },
+        "id": "old-silent-nil",
+        "ok": true
+      },
+      "outputWritten": true
+    },
+    {
+      "injection": "propagated-failure",
+      "response": {
+        "error": {
+          "code": "NATIVE_DECODE_FAILED",
+          "details": {},
+          "message": "Cannot produce the cursor overlay image.",
+          "retryable": false
+        },
+        "id": "propagated-failure",
+        "ok": false
+      },
+      "outputWritten": false
+    }
+  ]
+}

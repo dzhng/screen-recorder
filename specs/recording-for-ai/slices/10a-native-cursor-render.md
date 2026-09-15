@@ -1,6 +1,6 @@
 # 10a — Native cursor and trail rendering on a requested frame
 
-Status: complete for native execution. Independent prerequisite: native frame
+Status: native execution checks pass; small-output styling review remains open. Independent prerequisite: native frame
 decoding (09a). This extracts 10's drawing seam so the pixels can be verified
 against generated media while the core's scene-boundary analyzer and trail
 selection proceed separately. It does not close 10.
@@ -50,4 +50,5 @@ and the settled styling choices.
 Core scene analysis, trail-window selection, cutoff reporting and raw-history
 retention remain open in [10](10-cursor-trails.md); this subpass is independent of
 them. No real captured gesture has been rendered yet, and the unprimed visual
-critique of these shots has not been run.
+critique found small-output readability concerns; see the
+[integration review](../assets/cursor-render/integration-review.md).

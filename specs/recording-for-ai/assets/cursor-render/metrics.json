@@ -1,0 +1,47 @@
+{
+  "review-circle-10s.png": {
+    "dimensions": [
+      320,
+      240
+    ],
+    "changedPixels": 827,
+    "maxChannelDelta": 239.0,
+    "meanAbsoluteChannelDelta": 0.6252517361111111
+  },
+  "review-circle-2s.png": {
+    "dimensions": [
+      320,
+      240
+    ],
+    "changedPixels": 817,
+    "maxChannelDelta": 239.0,
+    "meanAbsoluteChannelDelta": 0.5174305555555555
+  },
+  "review-clean.png": {
+    "dimensions": [
+      320,
+      240
+    ],
+    "changedPixels": 0,
+    "maxChannelDelta": 0.0,
+    "meanAbsoluteChannelDelta": 0.0
+  },
+  "review-pointer-only.png": {
+    "dimensions": [
+      320,
+      240
+    ],
+    "changedPixels": 111,
+    "maxChannelDelta": 239.0,
+    "meanAbsoluteChannelDelta": 0.13643229166666668
+  },
+  "review-wave-2s.png": {
+    "dimensions": [
+      320,
+      240
+    ],
+    "changedPixels": 1145,
+    "maxChannelDelta": 210.0,
+    "meanAbsoluteChannelDelta": 0.6467838541666666
+  }
+}

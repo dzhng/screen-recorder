@@ -30,7 +30,7 @@ struct FrameImage {
         // Drawing happens in source pixels, before the crop and the long-edge bound, so the points
         // the core supplied are read in the geometry they were measured in.
         if let overlay,
-            let drawn = CursorOverlay.image(
+            let drawn = try CursorOverlay.image(
                 overlay, agedFromUs: agedFromUs, width: Int(oriented.extent.width.rounded()),
                 height: Int(oriented.extent.height.rounded()))
         {

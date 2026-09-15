@@ -28,9 +28,11 @@ enum CursorOverlay {
     }
 
     static func image(_ overlay: FrameOverlay, agedFromUs: Int64, width: Int, height: Int)
-        -> CGImage?
+        throws -> CGImage?
     {
-        guard width > 0, height > 0 else { return nil }
+        guard width > 0, height > 0 else {
+            throw FrameFailure("NATIVE_DECODE_FAILED", "Overlay raster has no pixels.")
+        }
         guard overlay.pointer != nil || overlay.trail.contains(where: { !$0.isEmpty }) else {
             return nil
         }
@@ -39,7 +41,9 @@ enum CursorOverlay {
                 data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
                 space: CGColorSpaceCreateDeviceRGB(),
                 bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
-        else { return nil }
+        else {
+            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot allocate the cursor overlay raster.")
+        }
         // Overlay points are stated in top-left source pixels; Core Graphics grows y upward.
         context.translateBy(x: 0, y: CGFloat(height))
         context.scaleBy(x: 1, y: -1)
@@ -59,7 +63,10 @@ enum CursorOverlay {
                 context, at: CGPoint(x: pointer.x, y: pointer.y),
                 size: max(16, (longEdge * pointerShare).rounded()))
         }
-        return context.makeImage()
+        guard let image = context.makeImage() else {
+            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot produce the cursor overlay image.")
+        }
+        return image
     }
 
     private static func strokes(for overlay: FrameOverlay, agedFromUs: Int64) -> [Stroke] {
