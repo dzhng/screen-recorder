@@ -8,13 +8,17 @@ let package = Package(
         .library(name: "ScreenRecorderWire", targets: ["ScreenRecorderWire"]),
         .library(name: "ScreenRecorderCapture", targets: ["ScreenRecorderCapture"]),
         .library(name: "ScreenRecorderFrames", targets: ["ScreenRecorderFrames"]),
+        .library(name: "ScreenRecorderAudio", targets: ["ScreenRecorderAudio"]),
         .library(name: "ScreenRecorderMediaTime", targets: ["ScreenRecorderMediaTime"]),
         .executable(name: "screenrec-native", targets: ["ScreenRecorderNative"]),
     ],
     targets: [
-        .target(name: "ScreenRecorderWire", dependencies: ["ScreenRecorderCapture", "ScreenRecorderFrames"]),
+        .target(
+            name: "ScreenRecorderWire",
+            dependencies: ["ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames"]),
         .target(name: "ScreenRecorderCapture", dependencies: ["ScreenRecorderMediaTime"]),
         .target(name: "ScreenRecorderFrames", dependencies: ["ScreenRecorderMediaTime"]),
+        .target(name: "ScreenRecorderAudio", dependencies: ["ScreenRecorderMediaTime"]),
         .target(name: "ScreenRecorderMediaTime"),
         .executableTarget(
             name: "ScreenRecorderCaptureTests",
@@ -23,6 +27,9 @@ let package = Package(
         .executableTarget(
             name: "ScreenRecorderFrameTests", dependencies: ["ScreenRecorderFrames"],
             path: "Tests/ScreenRecorderFrameTests"),
+        .executableTarget(
+            name: "ScreenRecorderAudioTests", dependencies: ["ScreenRecorderAudio"],
+            path: "Tests/ScreenRecorderAudioTests"),
         .executableTarget(name: "ScreenRecorderNative", dependencies: ["ScreenRecorderWire"]),
     ]
 )
