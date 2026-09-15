@@ -2,7 +2,8 @@
 
 Status: native recovery checkpoint integrated; full slice remains in progress.
 Dependencies: 01. Generated PCM fragmentation is verified; independent review produced
-accepted timing/journal corrections now being implemented. Service relaunch/reconciliation, stop-time kill, and audio audition
+timing/journal corrections now integrated and tested. See the
+[timing correction report](../assets/recovery/timing-review.md) for remaining limits. Service relaunch/reconciliation, stop-time kill, and audio audition
 remain open.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and

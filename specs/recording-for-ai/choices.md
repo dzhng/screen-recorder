@@ -191,3 +191,20 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   with strict request fields and no additional library or state store.
 - **Confidence:** Medium. Worker lifetime and reuse still need measurement when the
   service composes it into the complete inspection path.
+
+## Shared native sample timing
+
+### Sound — high confidence
+
+- **When:** recovery timing correction.
+- **Choice:** Frame inspection and crash recovery share one translation between a
+  video's internal sample times and the timeline shown to a caller. If an edit
+  shifts a frame by 200 ms, both readers apply that same shift before interpreting
+  the frame's timestamp or duration.
+- **Gap:** The plan assigned native media execution one owner but did not name the
+  shared utility needed when both recovery and image selection read edit lists.
+- **Reach:** Future native media readers should use `ScreenRecorderMediaTime` rather
+  than recreating timestamp conversion. It adds one Swift target, no external dependency.
+- **Verdict:** Sound. A real fixture showed a 300 ms under-report from mixing the
+  two clocks; a single mapping prevents the corrected readers from drifting apart.
+- **Confidence:** High.

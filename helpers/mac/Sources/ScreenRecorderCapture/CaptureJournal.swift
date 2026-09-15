@@ -71,7 +71,7 @@ public final class CaptureJournal {
 
     // Each event's name, payload type and durability live here so the writer and `inspect` cannot
     // drift apart. Boundaries a recovery reads to place the take in time are synchronized when
-    // written; per-buffer acquisition ranges are not, because losing the last one costs one buffer.
+    // written; per-buffer acquisition ranges use ordinary writes. Power-loss durability is unproven.
     public func recordOrigin(hostUs: Int64) throws {
         try append("origin", data: JournalHostTime(hostUs: hostUs), durable: true)
     }
@@ -132,8 +132,8 @@ public final class CaptureJournal {
                         throw CaptureFailure("INVALID_JOURNAL", "Invalid journal record.")
                     }
                     let encoded = try JSONSerialization.data(withJSONObject: data)
-                    // Every payload decodes through its written type. A field that will not decode
-                    // rejects its record instead of silently leaving the reader's answer empty.
+                    // Decode timing payloads through their written types so malformed fields
+                    // reject the record instead of silently erasing previously observed timing.
                     switch event {
                     case "header":
                         let header = try JSONDecoder().decode(

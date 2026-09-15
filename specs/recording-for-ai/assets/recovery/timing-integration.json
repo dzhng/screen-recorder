@@ -1,0 +1,337 @@
+[
+  {
+    "data": {
+      "durationUs": 0,
+      "journal": {
+        "file": "capture.journal.jsonl",
+        "finished": false,
+        "header": {
+          "height": 1064,
+          "microphone": false,
+          "schemaVersion": 1,
+          "sessionID": "36DCB8B3-5845-4921-87D9-1F80B0F54FCA",
+          "source": {
+            "kind": "window",
+            "windowID": 8224
+          },
+          "systemAudio": false,
+          "width": 1600
+        },
+        "incompleteTail": false,
+        "lastSequence": 3,
+        "originHostUs": 324453291685,
+        "pauses": []
+      },
+      "tracks": [
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "DECODE_FAILED",
+            "message": "Cannot Open"
+          },
+          "file": "video.mov",
+          "intervals": [],
+          "role": "video"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request narration audio."
+          },
+          "file": "narration.mov",
+          "intervals": [],
+          "role": "narration"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request system audio."
+          },
+          "file": "system.mov",
+          "intervals": [],
+          "role": "system"
+        }
+      ]
+    },
+    "id": "before-first",
+    "ok": true
+  },
+  {
+    "data": {
+      "durationUs": 1013333,
+      "journal": {
+        "file": "capture.journal.jsonl",
+        "finished": false,
+        "header": {
+          "height": 1064,
+          "microphone": false,
+          "schemaVersion": 1,
+          "sessionID": "148AA259-E0B2-4E42-8DFB-37735742316B",
+          "source": {
+            "kind": "window",
+            "windowID": 8182
+          },
+          "systemAudio": false,
+          "width": 1600
+        },
+        "incompleteTail": false,
+        "lastSequence": 3,
+        "originHostUs": 324412566310,
+        "pauses": []
+      },
+      "tracks": [
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 30,
+          "decodeReachedEnd": true,
+          "file": "video.mov",
+          "intervals": [
+            {
+              "endUs": 1013333,
+              "startUs": 0
+            }
+          ],
+          "role": "video"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request narration audio."
+          },
+          "file": "narration.mov",
+          "intervals": [],
+          "role": "narration"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request system audio."
+          },
+          "file": "system.mov",
+          "intervals": [],
+          "role": "system"
+        }
+      ]
+    },
+    "id": "early",
+    "ok": true
+  },
+  {
+    "data": {
+      "durationUs": 11013333,
+      "journal": {
+        "file": "capture.journal.jsonl",
+        "finished": false,
+        "header": {
+          "height": 1064,
+          "microphone": false,
+          "schemaVersion": 1,
+          "sessionID": "7D80DD20-44BA-4C79-BAFC-FC66D736F43D",
+          "source": {
+            "kind": "window",
+            "windowID": 8210
+          },
+          "systemAudio": false,
+          "width": 1600
+        },
+        "incompleteTail": false,
+        "lastSequence": 3,
+        "originHostUs": 324425470436,
+        "pauses": []
+      },
+      "tracks": [
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 324,
+          "decodeReachedEnd": true,
+          "file": "video.mov",
+          "intervals": [
+            {
+              "endUs": 11013333,
+              "startUs": 0
+            }
+          ],
+          "role": "video"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request narration audio."
+          },
+          "file": "narration.mov",
+          "intervals": [],
+          "role": "narration"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request system audio."
+          },
+          "file": "system.mov",
+          "intervals": [],
+          "role": "system"
+        }
+      ]
+    },
+    "id": "later",
+    "ok": true
+  },
+  {
+    "data": {
+      "durationUs": 998333,
+      "journal": {
+        "file": "capture.journal.jsonl",
+        "finished": false,
+        "header": {
+          "height": 1064,
+          "microphone": false,
+          "schemaVersion": 1,
+          "sessionID": "01099775-7477-4AC3-BA13-25F7DD1E1E70",
+          "source": {
+            "kind": "window",
+            "windowID": 8196
+          },
+          "systemAudio": false,
+          "width": 1600
+        },
+        "incompleteTail": false,
+        "lastSequence": 4,
+        "openPauseHostUs": 324418473650,
+        "originHostUs": 324416465079,
+        "pauses": []
+      },
+      "tracks": [
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 29,
+          "decodeReachedEnd": true,
+          "file": "video.mov",
+          "intervals": [
+            {
+              "endUs": 998333,
+              "startUs": 0
+            }
+          ],
+          "role": "video"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request narration audio."
+          },
+          "file": "narration.mov",
+          "intervals": [],
+          "role": "narration"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request system audio."
+          },
+          "file": "system.mov",
+          "intervals": [],
+          "role": "system"
+        }
+      ]
+    },
+    "id": "pause",
+    "ok": true
+  },
+  {
+    "data": {
+      "durationUs": 5018333,
+      "journal": {
+        "file": "capture.journal.jsonl",
+        "finished": true,
+        "header": {
+          "height": 1064,
+          "microphone": false,
+          "schemaVersion": 1,
+          "sessionID": "E465717D-8CC4-4773-B5C1-40C58EC8726B",
+          "source": {
+            "kind": "window",
+            "windowID": 8243
+          },
+          "systemAudio": false,
+          "width": 1600
+        },
+        "incompleteTail": false,
+        "lastSequence": 6,
+        "originHostUs": 324522731066,
+        "pauses": [
+          {
+            "atSourceUs": 2009161,
+            "elapsedPauseUs": 1032010
+          }
+        ]
+      },
+      "tracks": [
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 147,
+          "decodeReachedEnd": true,
+          "file": "video.mov",
+          "intervals": [
+            {
+              "endUs": 5018333,
+              "startUs": 0
+            }
+          ],
+          "role": "video"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request narration audio."
+          },
+          "file": "narration.mov",
+          "intervals": [],
+          "role": "narration"
+        },
+        {
+          "acquisitionVerified": true,
+          "decodedSamples": 0,
+          "decodeReachedEnd": false,
+          "failure": {
+            "code": "NOT_REQUESTED",
+            "message": "This take did not request system audio."
+          },
+          "file": "system.mov",
+          "intervals": [],
+          "role": "system"
+        }
+      ]
+    },
+    "id": "complete",
+    "ok": true
+  }
+]

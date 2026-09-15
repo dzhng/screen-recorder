@@ -16,13 +16,14 @@ prefix and an open pause marker. Exact intervals are in the recovered reports.
 FFmpeg reports timestamp quantization warnings on some fragmented fixtures; no
 clean FFmpeg full-decode claim is made for those cases.
 
-The [review disposition](review-findings.md) tracks accepted timing/journal fixes.
+The [review disposition](review-findings.md) tracks findings; the
+[timing correction report](timing-review.md) records integrated fixes and limits.
 The [PCM report](pcm-report.md) records eight generated audio kill/finalize cases;
 root reran all eight against the integrated worker and confirmed unchanged source
 hashes (`pcm-integrated.json`). The worst sampled loss was 4.885333 seconds; this
 is not a strict universal five-second bound.
 
-Outstanding: accepted review fixes, reusable kill harness, physical audio capture/audition, kill during finalization, app/service relaunch and
+Outstanding: reusable kill harness, physical audio capture/audition, kill during finalization, app/service relaunch and
 catalog reconciliation. This report does not close slice 02.
 
 The [performance audit](performance.md) records a measured gap-accumulation copying

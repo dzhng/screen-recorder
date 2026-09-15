@@ -51,8 +51,8 @@ enum RecoveryFixture {
     }
 
     /// A finalized take whose frame `i` is presented at `timesUs[i]`, so each sample's duration is
-    /// the gap to the next one. Uneven gaps are the point: ScreenCaptureKit emits a frame only when
-    /// the screen changes, so a recovered take's last sample duration is not the average.
+    /// the gap to the next one. Uneven gaps ensure recovery cannot substitute an average frame
+    /// duration for the actual last sample.
     static func writeVariableDurationVideo(
         to url: URL, timesUs: [Int64], keyFrameInterval: Int = 60
     ) async throws {
