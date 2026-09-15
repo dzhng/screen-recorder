@@ -115,3 +115,91 @@ it("closes an incomplete request at the read deadline and stays available", asyn
     await callLocal(listener.socketPath, { id: "next", operation: "test", params: {} }),
   ).toEqual({ id: "next", ok: true, data: "available" });
 }, 1000);
+
+it("keeps abandoned work in the admission bound until its handler actually finishes", async () => {
+  const directory = await mkdtemp("/tmp/scr-admission-");
+  cleanup.push(() => rm(directory, { recursive: true, force: true }));
+  const events = new EventEmitter();
+  const entered = once(events, "entered");
+  const released = once(events, "release");
+  cleanup.push(async () => {
+    events.emit("release");
+  });
+  const listener = await listenLocal({
+    runtimeDirectory: directory,
+    maxInFlight: 1,
+    handler: async (request) => {
+      if (request.id === "held") {
+        events.emit("entered");
+        await released;
+      }
+      return { ok: true, data: request.id };
+    },
+  });
+  cleanup.push(listener.close);
+  const cancel = new AbortController();
+  const held = callLocal(
+    listener.socketPath,
+    { id: "held", operation: "test", params: {} },
+    {
+      signal: cancel.signal,
+    },
+  ).catch((error) => error);
+  await entered;
+  const rejected = () =>
+    callLocal(listener.socketPath, {
+      id: "excess",
+      operation: "test",
+      params: {},
+    });
+  expect(await rejected()).toMatchObject({
+    ok: false,
+    error: { code: "LIMIT_EXCEEDED", retryable: true },
+  });
+  cancel.abort();
+  expect(await held).toMatchObject({ code: "ABORTED" });
+  expect(await rejected()).toMatchObject({
+    ok: false,
+    error: { code: "LIMIT_EXCEEDED", retryable: true },
+  });
+  events.emit("release");
+  // Yield through the handler's completion before asking for its released slot.
+  await new Promise((resolve) => setImmediate(resolve));
+  expect(await rejected()).toMatchObject({ ok: true, data: "excess" });
+});
+
+it("closes excess connections before reading them and accepts clients after a slot is released", async () => {
+  const directory = await mkdtemp("/tmp/scr-connections-");
+  cleanup.push(() => rm(directory, { recursive: true, force: true }));
+  const events = new EventEmitter();
+  const entered = once(events, "entered");
+  const released = once(events, "release");
+  const disconnected = once(events, "disconnected");
+  cleanup.push(async () => {
+    events.emit("release");
+  });
+  const listener = await listenLocal({
+    runtimeDirectory: directory,
+    maxConnections: 1,
+    handler: async (request, signal) => {
+      if (request.id === "held") {
+        signal.addEventListener("abort", () => events.emit("disconnected"), { once: true });
+        events.emit("entered");
+        await released;
+      }
+      return { ok: true, data: request.id };
+    },
+  });
+  cleanup.push(listener.close);
+  const first = callLocal(listener.socketPath, { id: "held", operation: "test", params: {} });
+  await entered;
+  await expect(
+    callLocal(listener.socketPath, { id: "excess", operation: "test", params: {} }),
+  ).rejects.toBeInstanceOf(Error);
+  events.emit("release");
+  expect(await first).toMatchObject({ ok: true, data: "held" });
+  await disconnected;
+  expect(
+    await callLocal(listener.socketPath, { id: "next", operation: "test", params: {} }),
+  ).toMatchObject({ ok: true, data: "next" });
+});

@@ -47,7 +47,15 @@ export async function listenLocal(options: {
   runtimeDirectory: string;
   handler: LocalHandler;
   readTimeoutMs?: number;
+  maxConnections?: number;
+  maxInFlight?: number;
 }): Promise<LocalListener> {
+  const maxConnections = options.maxConnections ?? 64;
+  const maxInFlight = options.maxInFlight ?? 32;
+  for (const limit of [maxConnections, maxInFlight]) {
+    if (!Number.isSafeInteger(limit) || limit < 1)
+      throw new RangeError("Admission limits must be positive safe integers");
+  }
   const readTimeoutMs = options.readTimeoutMs ?? DEFAULT_CALL_TIMEOUT_MS;
   if (!Number.isSafeInteger(readTimeoutMs) || readTimeoutMs <= 0 || readTimeoutMs > 2_147_483_647)
     throw new RangeError("Read timeout must be a positive supported timer interval");
@@ -55,8 +63,9 @@ export async function listenLocal(options: {
   const socketPath = serviceSocketPath(runtimeDirectory);
   const sockets = new Set<Socket>();
   let accepting = false;
+  let inFlight = 0;
   const server = createServer((socket) => {
-    if (!accepting) {
+    if (!accepting || sockets.size >= maxConnections) {
       socket.destroy();
       return;
     }
@@ -111,8 +120,26 @@ export async function listenLocal(options: {
         socket.setTimeout(readTimeoutMs, () => socket.destroy());
         socket.end(frame);
       };
+      if (inFlight >= maxInFlight) {
+        reply({
+          ok: false,
+          error: {
+            code: "LIMIT_EXCEEDED",
+            message: "Local service request capacity is full; retry after existing work finishes",
+            retryable: true,
+            details: {},
+          },
+        });
+        return;
+      }
+      inFlight += 1;
       void Promise.resolve()
         .then(() => options.handler(request, controller.signal))
+        .finally(() => {
+          // Disconnecting cancels interest, but a non-cooperative handler still owns work.
+          // Keep its slot until it settles so reconnects cannot bypass the admission bound.
+          inFlight -= 1;
+        })
         .then(reply, () =>
           reply({
             ok: false,

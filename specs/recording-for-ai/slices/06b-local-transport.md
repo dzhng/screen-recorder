@@ -44,3 +44,22 @@ chunks and a truncated response at the shared framing seam. No visual gate appli
 Internal helper names are delegated. Public units, operation semantics, resource
 bounds and no-silent-retry behavior are fixed. Parent 06 integrates native lifetime
 and journal reconciliation; slice 12 binds the complete public operation registry.
+
+## Admission and abandoned work
+
+The listener bounds both accepted connections and unfinished handlers. Connection
+pressure closes excess sockets before allocating a request reader; handler pressure
+returns a retryable `LIMIT_EXCEEDED` result. There is no hidden wait queue at this
+boundary. Concrete defaults live in `apps/service/src/index.ts`.
+
+A disconnected caller does not release a still-running handler's admission slot.
+Cancellation asks that handler to stop, but cannot prove it stopped; keeping its
+slot until settlement prevents reconnects from creating unlimited abandoned work.
+This is a transport resource bound, distinct from the smaller native worker pool.
+
+Real-socket regressions hold a handler across caller cancellation, verify overload
+before and after disconnection, then verify capacity returns after completion. A
+separate case bounds simultaneous connections and waits for the server-side close
+signal before checking reuse. Both bounds were falsified independently. Root's
+service/CLI build, tests and type checks pass (nine Turbo tasks); independent review
+found no actionable defect, with its socket execution sandbox-blocked.

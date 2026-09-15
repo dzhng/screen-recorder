@@ -334,3 +334,17 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   to produce those allocated samples. Requested edit spans remain unchanged; human
   video encoding and its AAC soundtrack stay with the video renderer.
 - **Verdict:** Sound. **Confidence:** High.
+
+## Local request admission
+
+### Sound — high confidence
+
+- **Choice:** Limit open local connections separately from unfinished handlers;
+  reject excess work instead of buffering it. An abandoned handler keeps its slot
+  until it actually finishes, even if its client disconnects.
+- **Gap:** Individual frame sizes and timeouts were bounded, but simultaneous local
+  connections and requests had no total admission limit.
+- **Reach:** Repeated client timeouts cannot build an unlimited queue behind native
+  capture. A saturated handler pool gives a retryable limit error; saturation before
+  request parsing closes the connection. The caller decides whether to retry.
+- **Verdict:** Sound. **Confidence:** High.
