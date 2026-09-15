@@ -39,6 +39,19 @@ struct FixtureTone {
         return Float(0.5 * envelope * sin(2 * Double.pi * frequencies[channel] * Double(frame) / sampleRate))
     }
 
+    /// The tone at a position between two of its own frames: what a perfect rate conversion owes an
+    /// excerpt frame whose time falls between the source frames it was recorded from. The marked and
+    /// silent regions are steps rather than tone, so a fixture carrying them states values only at
+    /// its own frames.
+    func value(atFrame frame: Double, channel: Int) -> Float {
+        if frame == frame.rounded() { return sample(frame: Int(frame), channel: channel) }
+        precondition(
+            markedUs == nil && silentUs == nil,
+            "A fixture with a marked or silent region holds no tone between its frames")
+        let envelope = 0.4 + 0.6 * frame / Double(stampFrames)
+        return Float(0.5 * envelope * sin(2 * Double.pi * frequencies[channel] * frame / sampleRate))
+    }
+
     /// The frame index of a source time in this track's own timeline.
     func frame(ofUs us: Int64) -> Int { Int((Double(us) / 1_000_000 * sampleRate).rounded()) }
 }

@@ -1,7 +1,7 @@
 # 09b — Native audio excerpts of retained source spans
 
-Status: implementation partial; mixed-rate decoding has a reproduced missing-tail
-defect under correction. The excerpt has not been auditioned. Independent prerequisite: native workspace (00).
+Status: mixed-rate correction integrated for verification; root native checks and
+independent review are pending. The excerpt has not been auditioned. Independent prerequisite: native workspace (00).
 This extracts 09's audio-excerpt seam, under 13's join contract, so generated media
 can verify it while revision lookup, caching and scheduling proceed elsewhere.
 It does not close 09 or 13, and claims nothing about audible quality.
@@ -27,7 +27,11 @@ on its own instead loses up to a frame per span, which a thousand fractional spa
 turn into a visibly short excerpt: a 10.01 second plan came back as 10.000.
 
 One planned track plays at unity gain; two are summed at 0.5 each. Output sample
-rate is the widest of the planned tracks, so nothing is resampled downwards. Capture
+rate is the widest of the planned tracks, so nothing is resampled downwards. A
+narrower track is converted up into it, and every selected interval comes back whole:
+a conversion that cannot deliver all the frames its interval owes fails as
+`NATIVE_DECODE_FAILED` rather than leaving the frames it never delivered as the
+silence the report would then call captured audio. Capture
 records mono or stereo, so an excerpt is mono or stereo: a matching layout passes
 through, a mono capture is heard on both sides of a stereo excerpt, and any other
 combination is refused as `UNSUPPORTED_FORMAT`. Repeating the last channel of a
@@ -94,13 +98,24 @@ the one thing the container cannot know. Failures use the shared envelope with
 ## Implementation evidence and verification
 
 `AVAssetReader.timeRange` was confirmed against real files to be asset time that
-honours a track's edit list, and to report asset-time presentation stamps. It was
-also measured to answer a fractional range with the ceiling of its frame count, for same-rate reads, a
-decode may overrun by one frame; writes stop at the interval's own output end for that reason. The excerpt reads
-each available interval as its own bounded range: material outside the retained spans
-is never decoded, rather than decoded and discarded. A track's occupied segments come
-from the same `ScreenRecorderMediaTime` segment mapping the frame decoder uses, and
-are intersected with the caller's acquisition evidence.
+honours a track's edit list, and to report asset-time presentation stamps. The excerpt
+reads each available interval as a bounded range covering the output samples
+allocated to it. Sample quantization can extend the nominal read end by up to one
+output sample; writes stop at the interval's allocated output end.
+
+Rate conversion is `AVAudioConverter`'s, driven to end of stream. A reader asked to
+resample answers only the frames its filter had already delivered when its input ran
+out, and the rest of the interval stays unwritten: measured on the supported 44100 to
+48000 Hz mix, the last 17 frames of every interval held nothing, which a report of
+full availability then published as captured audio. The converter is given the source
+at its own rate and told when the input ends, so it flushes the tail it still owes,
+and it answers N input frames with the floor of N times the rate ratio — hence the
+read is sized by the output frames the interval owns rather than by its own
+microseconds. Each interval's coverage is then counted against what it owes.
+
+A track's occupied segments come from the same `ScreenRecorderMediaTime` segment
+mapping the frame decoder uses, and are intersected with the caller's acquisition
+evidence.
 
 Generated float PCM fixtures state their own position: each channel carries a
 distinct frequency, a monotonic amplitude envelope makes two source positions a
@@ -109,7 +124,18 @@ material no retained span includes, and one holds recorded silence. The excerpt 
 compared sample by sample against an expectation stated from those definitions, and
 the WAVE file is parsed from its own chunks rather than through the writer's API.
 
-Verified: exact frame counts and placement across disjoint spans; positive and
+Verified: every frame of an upsampled mix, of two unequal rates converting into the
+wider one, and of both intervals either side of an acquisition hole, against the tone
+the fixture itself defines at each output frame's own time — first and last sample of
+every interval included, under several retained spans, durations that are not whole
+frames, a span shorter than one output frame, both gains and the join ramps. Before
+this, those excerpts lost up to 0.216 of full scale; they now sit within 8.1e-4 of
+the reference. Also verified: a span whose last output frame the cumulative
+quantisation rounds up past what its own microseconds hold, which an interval read as
+its own microseconds cannot deliver — it comes back whole, and reading the span alone
+fails it as 70 of the 71 frames it owes rather than publishing the 71st as silence.
+
+Also verified: exact frame counts and placement across disjoint spans; positive and
 negative source offsets; unity and half gain, measured per tone; widened rate with a
 mono track reaching both channels, and a four channel file refused; linear ramps,
 their clamp on 6 ms spans, and unchanged duration; 700 spans of 10010 us holding
@@ -126,12 +152,22 @@ Every central claim was falsified once by breaking the implementation: shifted
 placement, contiguous reads across a cut, fabricated availability, ramps that shorten
 the timeline, unity gain on two tracks, a mono track confined to one channel, per-span
 quantisation, a decode overrunning an acquisition hole, availability taken from the
-container alone, and a channel repeated into every extra output.
+container alone, a channel repeated into every extra output, a conversion stopped at
+its last full buffer, and an interval read only as long as its own microseconds.
 
-Integration review found two defects, each corrected with its red test first. Per-span
-quantisation answered a thousand 10010 us spans with 480000 frames of 10 seconds
-instead of 480480 of 10.01; the same plan through the same worker now returns 480480,
-and every frame of that file matches its source with the join ramps applied. And
+Integration review found three defects, each corrected with its red test first. The
+reader's own resampling published a short read as a complete excerpt: on the supported
+44100 to 48000 Hz mix it left the last 17 frames of every selected interval silent
+while reporting nothing unavailable, and the interior frequency measurement that
+covered that path could not see it. Conversion is now the platform converter's,
+flushed at end of stream and counted against the frames each interval owes, and the
+excerpts it produces are compared frame by frame, first and last included, against the
+tone the fixture defines; run against the previous implementation those comparisons
+fail by up to 0.216 of full scale.
+
+Per-span quantisation answered a thousand 10010 us spans with 480000 frames of 10
+seconds instead of 480480 of 10.01; the same plan through the same worker now returns
+480480, and every frame of that file matches its source with the join ramps applied. And
 availability inferred from the container alone could pass an acquisition hole off as
 recorded silence, so the caller's evidence is now required and authoritative. Earlier
 review found a trap on the most negative source offset, which killed the worker before
@@ -139,20 +175,15 @@ validation could reject it; that is fixed with red tests at both the library and
 process seam. Reviewer sandboxes cannot decode media, so their runtime checks are not
 evidence; root ran the suites outside the sandbox.
 
-## Open regression: resampling tail
+## Integration checks
 
-Independent review found that the supported 44.1-to-48 kHz mixture leaves its last
-17 output samples without the mono contribution, while reporting that interval as
-available. Reader completion does not establish that all requested samples arrived.
-Opus is correcting conversion and end-of-stream delivery in the audio worktree.
-Acceptance requires full-interval sample comparison, including the first and last
-samples, against independent conversion. Refusing normal mixed rates, repeating
-samples or padding the missing contribution would not satisfy this contract.
+Root independently compared a candidate output with FFmpeg conversion: all seventeen
+previously missing tail samples carry the mono contribution. Final checks on the
+integrated commit remain pending. This generated-media comparison is not audition.
 
-Root separately reran the thousand-span duration regression: the worker and ffprobe
-both report 480480 samples / 10.010 seconds, with unchanged source bytes. See
-[rounding evidence](../assets/audio/rounding-green.json). That fix does not resolve
-the resampling defect.
+The [rounding evidence](../assets/audio/rounding-green.json) separately records the
+thousand-span worker/ffprobe result: 480480 samples / 10.010 seconds, with unchanged
+source bytes.
 
 ## Not verified here
 
@@ -161,9 +192,16 @@ audio: every fixture is generated. Layouts wider than stereo are refused rather 
 supported, so nothing here claims surround behaviour.
 
 Numerical agreement is not an audible-quality claim, and the ramp length remains a
-stated contract rather than a measured one. Real captured narration, mixed-rate
-resampling fidelity, and joins around speech belong to the owning audition gate in
-09 and 13.
+stated contract rather than a measured one. Real captured narration and joins around
+speech belong to the owning audition gate in 09 and 13.
+
+Conversion quantises, and that is stated apart from absence. A source frame does not
+land on an output frame across rates, so a converted sample sits within 8.1e-4 of the
+tone it stands for, and the frames at either end of a converted interval — measured at
+five, losing at most 15 percent of their own material at a 1.378125 ratio — are
+computed against a boundary with no material past it. That is the excerpt holding what
+it owes to the precision a conversion allows; frames it never delivers are missing
+data, and fail.
 
 ## Decisions delegated and scope firewall
 

@@ -220,28 +220,60 @@ private struct SourceTrack {
             available: SpanMath.intersection(plan.available, occupied))
     }
 
-    /// Sums one available recording interval into the output buffer. The reader is given exactly
-    /// that interval in asset time, so material outside the retained spans is never decoded; it
-    /// answers a fractional interval with one frame more than it holds, which `limit` discards.
+    /// Sums one available recording interval into the output buffer. The reader is given that
+    /// interval in asset time, so material outside the retained spans is never decoded, and the
+    /// decoded frames are converted to the excerpt's own rate by AVAudioConverter.
+    ///
+    /// The conversion is driven to end of stream. A sample rate converter still owes output when its
+    /// last input frame arrives, and a reader that resampled on its own simply stops there: the
+    /// frames its filter had not yet delivered stay unwritten, and unwritten frames are
+    /// indistinguishable from the silence an unavailable region owes the caller. Signalling end of
+    /// stream makes the converter flush what it holds, and an interval that still ends short of the
+    /// frames it owes fails rather than publishing that silence as captured audio.
     func mix(
         recording interval: SourceSpan, gain: Float, channelMap: [Int], sampleRate outputRate: Int,
         into samples: inout [Float], at destination: Int64, limit: Int64
     ) throws {
+        let owed = limit - destination
+        // A span shorter than a frame costs its playback time but owns no frame to read into.
+        guard owed > 0 else { return }
+        guard
+            let sourceFormat = AVAudioFormat(
+                commonFormat: .pcmFormatFloat32, sampleRate: Double(sampleRate),
+                channels: AVAudioChannelCount(channels), interleaved: true),
+            let excerptFormat = AVAudioFormat(
+                commonFormat: .pcmFormatFloat32, sampleRate: Double(outputRate),
+                channels: AVAudioChannelCount(channels), interleaved: true),
+            // Both sides carry this file's own channel count, so the converter changes rate only and
+            // the explicit map below places the channels; a remix matrix would restate the gains.
+            let converter = AVAudioConverter(from: sourceFormat, to: excerptFormat)
+        else {
+            throw AudioFailure(
+                "NATIVE_DECODE_FAILED",
+                "Cannot convert \(sampleRate) Hz \(channels) channel \(url.lastPathComponent) to \(outputRate) Hz.")
+        }
         let reader: AVAssetReader
         do { reader = try AVAssetReader(asset: asset) } catch {
             throw AudioFailure(
                 "NATIVE_DECODE_FAILED", "Cannot read \(url.path): \(error.localizedDescription)")
         }
+        // Read as long as the output frames this interval owns, rather than as the interval's own
+        // microseconds: a converter answers N input frames with floor(N x rate ratio) frames, so a
+        // fractional interval whose last output frame the layout quantised up would otherwise be
+        // asked for a frame the input it was given cannot reach. That end sits at most one output
+        // frame past the requested boundary, which is the frame the layout already quantised to.
+        let start = time(microseconds: interval.startUs - plan.sourceOffsetUs)
         reader.timeRange = CMTimeRange(
-            start: time(microseconds: interval.startUs - plan.sourceOffsetUs),
-            end: time(microseconds: interval.endUs - plan.sourceOffsetUs))
+            start: start,
+            end: CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate))))
         let output = AVAssetReaderTrackOutput(
             track: track,
             outputSettings: [
-                // Decoded at this file's own channel count and mapped below; the platform's own
-                // remix matrix would silently change the contract's gains.
-                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: outputRate,
-                AVNumberOfChannelsKey: self.channels, AVLinearPCMBitDepthKey: 32,
+                // Decoded at this file's own rate and channel count. Resampling inside the reader
+                // cannot be flushed, and the platform's remix matrix would silently change the
+                // contract's gains.
+                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: sampleRate,
+                AVNumberOfChannelsKey: channels, AVLinearPCMBitDepthKey: 32,
                 AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
                 AVLinearPCMIsNonInterleaved: false,
             ])
@@ -252,22 +284,34 @@ private struct SourceTrack {
         reader.add(output)
         reader.startReading()
         defer { reader.cancelReading() }
+
+        let input = ConversionInput(reading: output, as: sourceFormat)
+        // One buffer, drained into the excerpt and refilled, so a 30 second interval costs the same
+        // conversion memory as a 10 millisecond one.
+        guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192) else {
+            throw AudioFailure(
+                "NATIVE_DECODE_FAILED", "Cannot allocate a conversion buffer for \(url.lastPathComponent).")
+        }
+
         var frame = destination
-        while frame < limit, let sample = output.copyNextSampleBuffer() {
-            var list = AudioBufferList()
-            var block: CMBlockBuffer?
-            guard
-                CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
-                    sample, bufferListSizeNeededOut: nil, bufferListOut: &list,
-                    bufferListSize: MemoryLayout<AudioBufferList>.size, blockBufferAllocator: nil,
-                    blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block) == noErr,
-                let decoded = list.mBuffers.mData?.assumingMemoryBound(to: Float.self)
-            else {
+        var outcome = AVAudioConverterOutputStatus.haveData
+        while frame < limit, outcome != .endOfStream {
+            var failure: NSError?
+            outcome = converter.convert(to: converted, error: &failure) { _, status in
+                input.next(status)
+            }
+            if input.undecodable {
                 throw AudioFailure(
                     "NATIVE_DECODE_FAILED",
                     "Decoder produced no samples for [\(interval.startUs),\(interval.endUs)) of \(url.lastPathComponent).")
             }
-            for index in 0..<CMSampleBufferGetNumSamples(sample) {
+            if outcome == .error {
+                throw AudioFailure(
+                    "NATIVE_DECODE_FAILED",
+                    "Converting \(url.lastPathComponent) to \(outputRate) Hz failed: \(failure?.localizedDescription ?? "unknown error")")
+            }
+            let decoded = converted.floatChannelData![0]
+            for index in 0..<Int(converted.frameLength) {
                 if frame >= limit { break }
                 let base = Int(frame) * channelMap.count
                 for (channel, sourceChannel) in channelMap.enumerated() {
@@ -281,5 +325,63 @@ private struct SourceTrack {
                 "NATIVE_DECODE_FAILED",
                 "Reading \(url.lastPathComponent) failed: \(reader.error?.localizedDescription ?? "unknown error")")
         }
+        guard frame == limit else {
+            throw AudioFailure(
+                "NATIVE_DECODE_FAILED",
+                "[\(interval.startUs),\(interval.endUs)) of \(url.lastPathComponent) delivered \(frame - destination) of the \(owed) frames it owes the excerpt.")
+        }
+    }
+}
+
+/// One reader's decoded frames, handed to a converter one buffer at a time. AVAudioConverter calls
+/// its input block synchronously from inside `convert`, so this state is only ever reached from the
+/// thread doing the conversion; it lives in an object because that block is declared sendable.
+private final class ConversionInput: @unchecked Sendable {
+    private let output: AVAssetReaderTrackOutput
+    private let format: AVAudioFormat
+    /// The converter reads the supplied buffer during the call it was returned in, so each one is
+    /// held until the next replaces it.
+    private var supplied: AVAudioPCMBuffer?
+    private(set) var undecodable = false
+
+    init(reading output: AVAssetReaderTrackOutput, as format: AVAudioFormat) {
+        self.output = output
+        self.format = format
+    }
+
+    func next(_ status: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioPCMBuffer? {
+        // End of this interval's material, not a dry input: the converter is told the stream ended
+        // so that it flushes the output its filter still owes instead of waiting for more frames.
+        guard let sample = output.copyNextSampleBuffer() else {
+            status.pointee = .endOfStream
+            return nil
+        }
+        guard let buffer = copy(of: sample) else {
+            undecodable = true
+            status.pointee = .endOfStream
+            return nil
+        }
+        supplied = buffer
+        status.pointee = .haveData
+        return buffer
+    }
+
+    /// Copies one decoded sample buffer into a PCM buffer the converter can read. The reader hands
+    /// back samples it does not copy, so they are taken while its block buffer is still retained.
+    private func copy(of sample: CMSampleBuffer) -> AVAudioPCMBuffer? {
+        var list = AudioBufferList()
+        var block: CMBlockBuffer?
+        let frames = CMSampleBufferGetNumSamples(sample)
+        guard frames > 0,
+            CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
+                sample, bufferListSizeNeededOut: nil, bufferListOut: &list,
+                bufferListSize: MemoryLayout<AudioBufferList>.size, blockBufferAllocator: nil,
+                blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block) == noErr,
+            let decoded = list.mBuffers.mData?.assumingMemoryBound(to: Float.self),
+            let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: AVAudioFrameCount(frames))
+        else { return nil }
+        buffer.frameLength = AVAudioFrameCount(frames)
+        buffer.floatChannelData![0].update(from: decoded, count: frames * Int(format.channelCount))
+        return buffer
     }
 }

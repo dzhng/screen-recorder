@@ -78,23 +78,82 @@ precondition(
     ], "A lone available track plays at unity gain with nothing unavailable, got \(single.tracks)")
 print("PASS single span of narration is 24000 frames of its own samples at unity gain")
 
-/// The excerpt the contract describes, stated from the fixture definitions rather than from the
-/// decoder: each span's own samples concatenated, summed at the contract's gain, with linear ramps
-/// inside the spans on both sides of every join.
-func expectedExcerpt(
-    of planned: [(tone: FixtureTone, offsetUs: Int64)], spans: [SourceSpan], sampleRate: Double,
-    channels: Int
-) -> [Float] {
+/// One planned track of a converted excerpt, stated from the fixture that produced it.
+struct PlannedTone {
+    let tone: FixtureTone
+    let offsetUs: Int64
+    let available: [SourceSpan]
+    init(_ tone: FixtureTone, offsetUs: Int64 = 0, available: [SourceSpan] = capturedThroughout) {
+        self.tone = tone
+        self.offsetUs = offsetUs
+        self.available = available
+    }
+}
+
+/// The excerpt a correct conversion owes, stated from the fixture definitions rather than from any
+/// converter: every output frame holds the tone its own time names, whatever rate its track was
+/// recorded at. Each selected interval is converted from its own first source frame, so an interval
+/// that stops short of the frames it owes, starts a frame away, or fills with silence shows up at
+/// every frame it touches.
+///
+/// `edges` names the frames at either end of a converted interval. A converter holds no material
+/// past the boundary of the interval it was given, so it answers those frames from what its filter
+/// carries; they are pinned to a share of the converted material they owe, which `converted` states
+/// on its own, rather than to the summed sample. Every other frame, the excerpt's own first and last
+/// included, is pinned outright.
+struct ConversionReference {
+    let samples: [Float]
+    /// The part of each sample that came from a track recorded at another rate.
+    let converted: [Float]
+    let edges: Set<Int>
+}
+
+func expectedConversion(
+    of planned: [PlannedTone], spans: [SourceSpan], sampleRate: Double, channels: Int
+) -> ConversionReference {
     func frames(ofUs us: Int64) -> Int { Int((Double(us) / 1_000_000 * sampleRate).rounded()) }
     let gain: Float = planned.count == 1 ? 1 : 0.5
-    var samples: [Float] = []
-    // Each boundary is the cumulative playback time before it, quantised once: a span's material
-    // starts where the excerpt has played that long, not where the rounded spans before it ended.
+    // Every boundary is quantised once from cumulative playback time, as the excerpt places them.
     var playedUs: Int64 = 0
-    for (index, span) in spans.enumerated() {
-        let spanStart = frames(ofUs: playedUs)
+    var starts = [0]
+    for span in spans {
         playedUs += span.endUs - span.startUs
-        let spanFrames = frames(ofUs: playedUs) - spanStart
+        starts.append(frames(ofUs: playedUs))
+    }
+    var samples = [Float](repeating: 0, count: starts.last! * channels)
+    var converted = samples
+    var edges: Set<Int> = []
+    playedUs = 0
+    for (index, span) in spans.enumerated() {
+        for track in planned {
+            for acquired in track.available {
+                let startUs = max(acquired.startUs, span.startUs)
+                let endUs = min(acquired.endUs, span.endUs)
+                guard endUs > startUs else { continue }
+                let from = frames(ofUs: playedUs + (startUs - span.startUs))
+                let to = frames(ofUs: playedUs + (endUs - span.startUs))
+                let source = Double(track.tone.frame(ofUs: startUs - track.offsetUs))
+                let step = track.tone.sampleRate / sampleRate
+                let resampled = track.tone.sampleRate != sampleRate
+                for frame in from..<to {
+                    for channel in 0..<channels {
+                        let value =
+                            gain
+                            * track.tone.value(
+                                atFrame: source + Double(frame - from) * step,
+                                channel: min(channel, track.tone.channels - 1))
+                        samples[frame * channels + channel] += value
+                        if resampled { converted[frame * channels + channel] += value }
+                    }
+                }
+                if resampled {
+                    edges.formUnion(from..<min(from + conversionEdgeFrames, to))
+                    edges.formUnion(max(from, to - conversionEdgeFrames)..<to)
+                }
+            }
+        }
+        // Ramps scale whatever the span holds, the silence of an acquisition hole included.
+        let spanFrames = starts[index + 1] - starts[index]
         let ramp = min(frames(ofUs: 5_000), spanFrames / 2)
         for offset in 0..<spanFrames {
             var envelope: Float = 1
@@ -102,18 +161,58 @@ func expectedExcerpt(
             if index < spans.count - 1 && offset >= spanFrames - ramp {
                 envelope *= Float(spanFrames - 1 - offset) / Float(ramp)
             }
+            guard envelope != 1 else { continue }
             for channel in 0..<channels {
-                var value: Float = 0
-                for track in planned {
-                    let frame = track.tone.frame(ofUs: span.startUs - track.offsetUs) + offset
-                    value += gain * track.tone.sample(
-                        frame: frame, channel: min(channel, track.tone.channels - 1))
-                }
-                samples.append(value * envelope)
+                samples[(starts[index] + offset) * channels + channel] *= envelope
+                converted[(starts[index] + offset) * channels + channel] *= envelope
             }
         }
+        playedUs += span.endUs - span.startUs
     }
-    return samples
+    return ConversionReference(samples: samples, converted: converted, edges: edges)
+}
+
+/// How far a conversion may sit from the sample it owes. A source frame does not land on an output
+/// frame across rates, so a converter states the sample in between and no two of them round it
+/// identically. This is quantisation, not absence: measured at 8.1e-4 over these excerpts.
+let conversionTolerance: Float = 2e-3
+/// The frames at either end of a converted interval, and the share of its own material one may lose
+/// to the boundary it was computed against. Measured at 15 percent of the frame it owes, over five
+/// frames of a 1.378125 ratio; a conversion that stops at its last full buffer loses all of it.
+let conversionEdgeFrames = 8
+let conversionEdgeShare: Float = 0.25
+
+/// Compares every frame of an excerpt against what a correct conversion owes, and reports the worst
+/// deviation of each kind so the conversion's own quantisation stays visible rather than implied.
+func assertConverted(
+    _ wave: FixtureWave, _ reference: ConversionReference, _ description: String
+) -> (interior: Float, edgeShare: Float) {
+    precondition(
+        wave.samples.count == reference.samples.count,
+        "\(description): expected \(reference.samples.count) interleaved samples, got \(wave.samples.count)")
+    var worst: (interior: Float, edgeShare: Float) = (0, 0)
+    for index in 0..<reference.samples.count {
+        let owed = reference.samples[index]
+        let deviation = abs(wave.samples[index] - owed)
+        let frame = index / wave.channels
+        if reference.edges.contains(frame) {
+            // Measured against the converted material itself, with the tolerance as a floor: an edge
+            // frame keeps what it owes, while a tail that was never delivered loses all of it.
+            let owedByConversion = abs(reference.converted[index])
+            precondition(
+                deviation <= max(conversionEdgeShare * owedByConversion, conversionTolerance),
+                "\(description): edge frame \(frame) channel \(index % wave.channels) owes \(owed) including \(reference.converted[index]) converted, got \(wave.samples[index])")
+            if owedByConversion > conversionTolerance {
+                worst.edgeShare = max(worst.edgeShare, deviation / owedByConversion)
+            }
+        } else {
+            precondition(
+                deviation < conversionTolerance,
+                "\(description): frame \(frame) channel \(index % wave.channels) owes \(owed), got \(wave.samples[index])")
+            worst.interior = max(worst.interior, deviation)
+        }
+    }
+    return worst
 }
 
 func assertMatches(
@@ -138,7 +237,7 @@ precondition(
     joined.frames == 36_000 && joined.durationUs == 750_000,
     "Two spans of 500000us and 250000us must concatenate to 36000 frames, got \(joined)")
 assertMatches(
-    joinedWave, expectedExcerpt(of: [(narrationTone, 0)], spans: disjoint, sampleRate: rate, channels: 2),
+    joinedWave, expectedConversion(of: [PlannedTone(narrationTone)], spans: disjoint, sampleRate: rate, channels: 2).samples,
     "disjoint spans")
 // The join is sample-exact: material after it belongs to 4.0s, not to the removed continuation of
 // 1.5s. The ramp is 240 frames, so the comparison starts at the first unattenuated frame.
@@ -210,7 +309,7 @@ let mixedSpans = [SourceSpan(startUs: 1_000_000, endUs: 1_500_000)]
 let (alone, aloneWave) = try await excerpt(
     "system-alone", tracks: [plan(.system, system)], spans: mixedSpans)
 assertMatches(
-    aloneWave, expectedExcerpt(of: [(systemTone, 0)], spans: mixedSpans, sampleRate: rate, channels: 2),
+    aloneWave, expectedConversion(of: [PlannedTone(systemTone)], spans: mixedSpans, sampleRate: rate, channels: 2).samples,
     "system alone")
 precondition(alone.tracks[0].gain == 1, "A lone system track plays at unity, got \(alone.tracks)")
 
@@ -221,7 +320,10 @@ precondition(
     "Two summed tracks each play at half gain, got \(mixed.tracks.map(\.gain))")
 assertMatches(
     mixedWave,
-    expectedExcerpt(of: [(narrationTone, 0), (systemTone, 0)], spans: mixedSpans, sampleRate: rate, channels: 2),
+    expectedConversion(
+        of: [PlannedTone(narrationTone), PlannedTone(systemTone)], spans: mixedSpans,
+        sampleRate: rate, channels: 2
+    ).samples,
     "narration and system mix")
 // Both sources must be audible in the mix, each at about half the amplitude it has alone.
 for (frequency, channel) in [(1_000.0, 0), (1_500.0, 1), (400.0, 0), (600.0, 1)] {
@@ -245,7 +347,8 @@ precondition(
     ramped.frames == 14_400 && ramped.durationUs == 300_000,
     "Ramps must not shorten the timeline: three 100000us spans stay 14400 frames, got \(ramped)")
 assertMatches(
-    rampedWave, expectedExcerpt(of: [(narrationTone, 0)], spans: joinSpans, sampleRate: rate, channels: 2),
+    rampedWave, expectedConversion(of: [PlannedTone(narrationTone)], spans: joinSpans, sampleRate: rate, channels: 2)
+        .samples,
     "join ramps")
 func sourceSample(_ span: Int, _ offset: Int, _ channel: Int) -> Float {
     narrationTone.sample(
@@ -275,7 +378,8 @@ precondition(
     clamped.frames == 864 && clamped.durationUs == 18_000,
     "A 6000us span clamps its ramps but keeps all 288 frames, got \(clamped)")
 assertMatches(
-    clampedWave, expectedExcerpt(of: [(narrationTone, 0)], spans: shortSpans, sampleRate: rate, channels: 2),
+    clampedWave, expectedConversion(of: [PlannedTone(narrationTone)], spans: shortSpans, sampleRate: rate, channels: 2)
+        .samples,
     "clamped ramps")
 func shortSource(_ span: Int, _ offset: Int, _ channel: Int) -> Float {
     narrationTone.sample(
@@ -347,9 +451,10 @@ precondition(
     "A lone 44100 Hz mono track keeps its own rate and channel count, got \(monoAlone)")
 assertMatches(
     monoWave,
-    expectedExcerpt(
-        of: [(monoTone, 0)], spans: [SourceSpan(startUs: 500_000, endUs: 1_000_000)],
-        sampleRate: 44_100, channels: 1), "mono alone")
+    expectedConversion(
+        of: [PlannedTone(monoTone)], spans: [SourceSpan(startUs: 500_000, endUs: 1_000_000)],
+        sampleRate: 44_100, channels: 1
+    ).samples, "mono alone")
 
 let (widened, widenedWave) = try await excerpt(
     "mono-mixed", tracks: [plan(.narration, narration), plan(.system, mono)], spans: mixedSpans)
@@ -368,6 +473,120 @@ precondition(
         && widenedWave.magnitude(ofHz: 1_000, channel: 1, from: 1_000, count: 8_000) < 0.02,
     "Widening a mono track must not blur the stereo track's own channels")
 print("PASS the output takes the widest planned format and a mono track feeds both channels")
+
+// Upsampling under everything the excerpt already owes: several retained spans, durations that are
+// not whole frames, a span shorter than one output frame, both gains, and the join ramps. Span
+// boundaries are whole milliseconds, so each track's material starts on a frame of its own file and
+// the reference states one unambiguous source position per output frame.
+let convertedSpans = [
+    SourceSpan(startUs: 500_000, endUs: 510_010),
+    SourceSpan(startUs: 1_000_000, endUs: 1_003_333),
+    SourceSpan(startUs: 1_200_000, endUs: 1_200_010),
+    SourceSpan(startUs: 2_600_000, endUs: 3_100_517),
+]
+let (upsampled, upsampledWave) = try await excerpt(
+    "converted-upsampled", tracks: [plan(.narration, narration), plan(.system, mono)],
+    spans: convertedSpans)
+precondition(
+    upsampled.sampleRate == 48_000 && upsampled.channels == 2 && upsampled.frames == 24_666
+        && upsampled.durationUs == 513_875 && upsampled.tracks.allSatisfy { $0.unavailable.isEmpty },
+    "The converted excerpt owes every frame of its 513870 us of spans, got \(upsampled)")
+let upsampledReference = expectedConversion(
+    of: [PlannedTone(narrationTone), PlannedTone(monoTone)], spans: convertedSpans, sampleRate: rate,
+    channels: 2)
+let upsampledWorst = assertConverted(upsampledWave, upsampledReference, "upsampled mix")
+// What a converter that stops at its last converted buffer loses: the frames its filter still owes
+// when the input ends. They are interior material in every span but the last, where they are the
+// excerpt's own final frames, so the comparison above must be able to see them.
+let withoutSlower = expectedConversion(
+    of: [PlannedTone(narrationTone), PlannedTone(monoTone, available: [])], spans: convertedSpans,
+    sampleRate: rate, channels: 2)
+var tailMaterial: Float = 0
+for frame in (Int(upsampled.frames) - 20)..<Int(upsampled.frames) {
+    for channel in 0..<2 {
+        let index = frame * 2 + channel
+        tailMaterial = max(
+            tailMaterial, abs(upsampledReference.samples[index] - withoutSlower.samples[index]))
+    }
+}
+precondition(
+    tailMaterial > 0.05,
+    "The last 20 frames must owe the 44100 Hz track material a dropped tail would lose, got \(tailMaterial)")
+print(
+    "PASS an upsampled mix holds every frame of every span, worst deviation \(upsampledWorst.interior) and edge share \(upsampledWorst.edgeShare)"
+)
+
+// Cumulative quantisation can round a span's last output frame up past the material the span's own
+// microseconds hold: 1459 us of a 44100 Hz track carries 70 frames of 48000 Hz output, and placed
+// after 1010 us of playback the excerpt owns 71 of them there. The conversion is given the playback
+// its output frames own rather than the span's own microseconds for that reason — reading the span
+// alone leaves that frame undeliverable, and the interval fails rather than fabricating it.
+let quantisedSpans = [
+    SourceSpan(startUs: 1_000_000, endUs: 1_001_010),
+    SourceSpan(startUs: 2_600_000, endUs: 2_601_459),
+]
+let (quantised, quantisedWave) = try await excerpt(
+    "converted-quantised", tracks: [plan(.narration, narration), plan(.system, mono)],
+    spans: quantisedSpans)
+precondition(
+    quantised.frames == 119 && quantisedWave.frames == 119,
+    "1010 us and 1459 us of playback quantise to 48 and 71 frames, got \(quantised.frames)")
+let quantisedWorst = assertConverted(
+    quantisedWave,
+    expectedConversion(
+        of: [PlannedTone(narrationTone), PlannedTone(monoTone)], spans: quantisedSpans,
+        sampleRate: rate, channels: 2), "quantised spans")
+print(
+    "PASS a span quantised past its own microseconds still owes every frame, worst deviation \(quantisedWorst.interior) and edge share \(quantisedWorst.edgeShare)"
+)
+
+// Two rates that are neither each other nor the excerpt's usual one: a 32000 Hz stereo track and a
+// 44100 Hz mono track make a 44100 Hz stereo excerpt, so one track is converted at a ratio of
+// 1.378125 while the other passes through into both channels.
+let slowTone = FixtureTone(
+    frequencies: [700, 900], sampleRate: 32_000, stampFrames: Int(3 * 32_000), markedUs: nil,
+    silentUs: nil)
+let slow = evidence.appendingPathComponent("slow-32k.mov")
+try await FixtureAudioWriter.write(slowTone, frames: Int(3 * 32_000), to: slow)
+let unequalSpans = [
+    SourceSpan(startUs: 300_000, endUs: 800_000), SourceSpan(startUs: 1_500_000, endUs: 1_507_770),
+]
+let (unequal, unequalWave) = try await excerpt(
+    "converted-unequal", tracks: [plan(.narration, slow), plan(.system, mono)], spans: unequalSpans)
+precondition(
+    unequal.sampleRate == 44_100 && unequal.channels == 2 && unequal.frames == 22_393
+        && unequal.tracks.map(\.sampleRate) == [32_000, 44_100]
+        && unequal.tracks.allSatisfy { $0.unavailable.isEmpty },
+    "Unequal rates make a 44100 Hz stereo excerpt of 22393 frames, got \(unequal)")
+let unequalReference = expectedConversion(
+    of: [PlannedTone(slowTone), PlannedTone(monoTone)], spans: unequalSpans, sampleRate: 44_100,
+    channels: 2)
+let unequalWorst = assertConverted(unequalWave, unequalReference, "unequal rates")
+print(
+    "PASS unequal rates convert into the wider one, worst deviation \(unequalWorst.interior) and edge share \(unequalWorst.edgeShare)"
+)
+
+// A hole in acquisition cuts one span into two selected intervals, each converted on its own. The
+// tail of the first interval is interior to the excerpt, where silence left by a short conversion
+// would be invisible to a peak or a frequency check.
+let interrupted = [
+    SourceSpan(startUs: -60_000_000, endUs: 1_200_000), SourceSpan(startUs: 1_300_000, endUs: 60_000_000),
+]
+let (acrossHole, acrossHoleWave) = try await excerpt(
+    "converted-hole", tracks: [plan(.narration, narration), plan(.system, mono, available: interrupted)],
+    spans: mixedSpans)
+precondition(
+    acrossHole.frames == 24_000
+        && acrossHole.tracks[1].unavailable == [SourceSpan(startUs: 1_200_000, endUs: 1_300_000)],
+    "The unacquired 100000 us must be reported against a full length excerpt, got \(acrossHole)")
+let holeReference = expectedConversion(
+    of: [PlannedTone(narrationTone), PlannedTone(monoTone, available: interrupted)], spans: mixedSpans,
+    sampleRate: rate, channels: 2)
+let holeWorst = assertConverted(
+    acrossHoleWave, holeReference, "converted across an acquisition hole")
+print(
+    "PASS each interval either side of an acquisition hole is converted whole, worst deviation \(holeWorst.interior) and edge share \(holeWorst.edgeShare)"
+)
 
 // A four channel file, each channel carrying its own tone. Capture records mono or stereo, so the
 // excerpt has no layout to state for this one: the only ways to answer it are to invent a spatial
@@ -422,7 +641,8 @@ precondition(
     "Per-span quantisation would have lost 336 frames; this excerpt must not")
 assertMatches(
     fractionalWave,
-    expectedExcerpt(of: [(narrationTone, 0)], spans: fractionalSpans, sampleRate: rate, channels: 2),
+    expectedConversion(of: [PlannedTone(narrationTone)], spans: fractionalSpans, sampleRate: rate, channels: 2)
+        .samples,
     "fractional spans")
 // Placement is stated from cumulative playback time, so the last span's material is where 6.996
 // seconds of playback puts it, not 336 frames earlier.
