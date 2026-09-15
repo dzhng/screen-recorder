@@ -23,24 +23,30 @@ public enum AudioExcerpts {
         }
 
         // The excerpt never resamples below an input or drops a channel, so the widest planned
-        // track decides the output format and each narrower track is mapped onto it.
+        // track decides the output format, and every track must have an honest map onto it.
         let sampleRate = tracks.map(\.sampleRate).max()!
         let channels = tracks.map(\.channels).max()!
+        let channelMaps = try tracks.map {
+            try channelMap(from: $0.channels, to: channels, of: $0.plan.role)
+        }
         let layout = ExcerptLayout(spans: request.spans, sampleRate: sampleRate)
         // Contract: a lone track plays at unity; two summed full-scale tracks are halved.
         let gain: Float = tracks.count == 1 ? 1 : 0.5
 
         var samples = [Float](repeating: 0, count: Int(layout.totalFrames) * channels)
         var reports: [AudioTrackReport] = []
-        for track in tracks {
+        for (track, channelMap) in zip(tracks, channelMaps) {
             var unavailable: [SourceSpan] = []
             for (index, span) in request.spans.enumerated() {
                 let readable = track.available.compactMap { SpanMath.intersection(span, $0) }
                 for interval in readable {
+                    // Bounded by this interval's own output end rather than the span's: a decoder
+                    // that hands back priming or padding past the interval must not write over the
+                    // silence an unavailable region owes the caller.
                     try track.mix(
-                        recording: interval, gain: gain, channels: channels, sampleRate: sampleRate,
+                        recording: interval, gain: gain, channelMap: channelMap, sampleRate: sampleRate,
                         into: &samples, at: layout.frame(ofUs: interval.startUs, inSpan: index),
-                        limit: layout.starts[index + 1])
+                        limit: layout.frame(ofUs: interval.endUs, inSpan: index))
                 }
                 unavailable.append(contentsOf: SpanMath.subtract(span, covering: readable))
             }
@@ -57,6 +63,21 @@ public enum AudioExcerpts {
             file: request.output.path, mediaType: "audio/wav", sampleRate: sampleRate,
             channels: channels, frames: layout.totalFrames, durationUs: layout.durationUs,
             bytes: bytes, spans: request.spans, tracks: reports)
+    }
+
+    /// Output channel to source channel, for one track. Capture records mono or stereo, and those
+    /// are the only layouts this owner will state: a matching layout passes straight through, and a
+    /// mono capture is heard on both sides of a stereo output. Anything wider would need a spatial
+    /// placement nobody recorded — repeating a channel until the output is full invents one — so it
+    /// is refused under its own code rather than answered with a layout the excerpt cannot mean.
+    private static func channelMap(from source: Int, to excerpt: Int, of role: AudioRole) throws -> [Int] {
+        if excerpt <= 2 {
+            if source == excerpt { return Array(0..<excerpt) }
+            if source == 1, excerpt == 2 { return [0, 0] }
+        }
+        throw AudioFailure(
+            "UNSUPPORTED_FORMAT",
+            "Track \(role.rawValue) has \(source) channels against a \(excerpt) channel excerpt; excerpts are mono or stereo, and map only a matching layout or a mono capture into stereo.")
     }
 
     /// Linear ramps inside the retained spans on both sides of every join, so a cut does not step
@@ -134,7 +155,8 @@ public enum AudioExcerpts {
 }
 
 /// One planned source file, opened once. `available` states, in recording source time, where this
-/// file actually holds media: its occupied edit-list segments shifted by the plan's offset.
+/// excerpt may read: where the caller's acquisition evidence and the file's own occupied edit-list
+/// segments, shifted by the plan's offset, agree.
 private struct SourceTrack {
     let plan: AudioTrackPlan
     let url: URL
@@ -181,22 +203,28 @@ private struct SourceTrack {
                 "LIMIT_EXCEEDED",
                 "Source \(source.lastPathComponent) reports \(sampleRate) Hz and \(channels) channels, outside the excerpt bounds.")
         }
+        // Empty edits hold no sample. AVFoundation would read them back as silence, which is
+        // indistinguishable from recorded quiet, so absence is decided from the container's own
+        // occupied segments rather than from the samples it is willing to produce.
+        let occupied = segments.map {
+            SourceSpan(
+                startUs: microseconds($0.asset.start) + plan.sourceOffsetUs,
+                endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + plan.sourceOffsetUs)
+        }
         return SourceTrack(
             plan: plan, url: source.resolvingSymlinksInPath().standardizedFileURL, asset: asset,
             track: audio, sampleRate: sampleRate, channels: channels,
-            // Empty edits hold no sample. AVFoundation would read them back as silence, which is
-            // indistinguishable from recorded quiet, so absence is decided here and reported instead.
-            available: segments.map {
-                SourceSpan(
-                    startUs: microseconds($0.asset.start) + plan.sourceOffsetUs,
-                    endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + plan.sourceOffsetUs)
-            })
+            // A container cannot testify that acquisition happened: it will decode padding for a
+            // hole the caller knows nothing was captured over. Only where the caller's evidence and
+            // the file agree is material read; everywhere else is reported unavailable and silent.
+            available: SpanMath.intersection(plan.available, occupied))
     }
 
     /// Sums one available recording interval into the output buffer. The reader is given exactly
-    /// that interval in asset time, so material outside the retained spans is never decoded.
+    /// that interval in asset time, so material outside the retained spans is never decoded; it
+    /// answers a fractional interval with one frame more than it holds, which `limit` discards.
     func mix(
-        recording interval: SourceSpan, gain: Float, channels outputChannels: Int, sampleRate outputRate: Int,
+        recording interval: SourceSpan, gain: Float, channelMap: [Int], sampleRate outputRate: Int,
         into samples: inout [Float], at destination: Int64, limit: Int64
     ) throws {
         let reader: AVAssetReader
@@ -241,11 +269,9 @@ private struct SourceTrack {
             }
             for index in 0..<CMSampleBufferGetNumSamples(sample) {
                 if frame >= limit { break }
-                let base = Int(frame) * outputChannels
-                for channel in 0..<outputChannels {
-                    // A narrower track feeds every wider output channel, so mono narration is heard
-                    // on both sides rather than only on the left.
-                    samples[base + channel] += gain * decoded[index * channels + min(channel, channels - 1)]
+                let base = Int(frame) * channelMap.count
+                for (channel, sourceChannel) in channelMap.enumerated() {
+                    samples[base + channel] += gain * decoded[index * channels + sourceChannel]
                 }
                 frame += 1
             }

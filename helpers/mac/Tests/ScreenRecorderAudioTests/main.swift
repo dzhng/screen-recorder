@@ -24,8 +24,14 @@ let systemTone = FixtureTone(
 let system = evidence.appendingPathComponent("system.mov")
 try await FixtureAudioWriter.write(systemTone, frames: fixtureFrames, to: system)
 
-func plan(_ role: AudioRole, _ url: URL, offsetUs: Int64 = 0) -> AudioTrackPlan {
-    AudioTrackPlan(role: role, source: url.path, sourceOffsetUs: offsetUs)
+/// Acquisition evidence wide enough to cover every fixture: capture was running throughout, so the
+/// file's own occupied segments decide what is readable. Tests about acquisition state their own.
+let capturedThroughout = [SourceSpan(startUs: -60_000_000, endUs: 60_000_000)]
+
+func plan(
+    _ role: AudioRole, _ url: URL, offsetUs: Int64 = 0, available: [SourceSpan] = capturedThroughout
+) -> AudioTrackPlan {
+    AudioTrackPlan(role: role, source: url.path, sourceOffsetUs: offsetUs, available: available)
 }
 
 func excerpt(_ named: String, tracks: [AudioTrackPlan], spans: [SourceSpan]) async throws -> (AudioExcerpt, FixtureWave) {
@@ -82,8 +88,13 @@ func expectedExcerpt(
     func frames(ofUs us: Int64) -> Int { Int((Double(us) / 1_000_000 * sampleRate).rounded()) }
     let gain: Float = planned.count == 1 ? 1 : 0.5
     var samples: [Float] = []
+    // Each boundary is the cumulative playback time before it, quantised once: a span's material
+    // starts where the excerpt has played that long, not where the rounded spans before it ended.
+    var playedUs: Int64 = 0
     for (index, span) in spans.enumerated() {
-        let spanFrames = frames(ofUs: span.endUs - span.startUs)
+        let spanStart = frames(ofUs: playedUs)
+        playedUs += span.endUs - span.startUs
+        let spanFrames = frames(ofUs: playedUs) - spanStart
         let ramp = min(frames(ofUs: 5_000), spanFrames / 2)
         for offset in 0..<spanFrames {
             var envelope: Float = 1
@@ -358,6 +369,189 @@ precondition(
     "Widening a mono track must not blur the stereo track's own channels")
 print("PASS the output takes the widest planned format and a mono track feeds both channels")
 
+// A four channel file, each channel carrying its own tone. Capture records mono or stereo, so the
+// excerpt has no layout to state for this one: the only ways to answer it are to invent a spatial
+// placement nobody recorded or to drop channels, and it refuses instead.
+let quadTone = FixtureTone(
+    frequencies: [300, 500, 700, 900], sampleRate: rate, stampFrames: Int(rate), markedUs: nil,
+    silentUs: nil)
+let quad = evidence.appendingPathComponent("quad.mov")
+try await FixtureAudioWriter.write(quadTone, frames: Int(rate), to: quad)
+let quadSpans = [SourceSpan(startUs: 100_000, endUs: 600_000)]
+func layoutRefusal(_ name: String, _ tracks: [AudioTrackPlan]) async -> AudioFailure? {
+    await failure {
+        _ = try await AudioExcerpts.write(
+            AudioExcerptRequest(
+                tracks: tracks, spans: quadSpans,
+                output: evidence.appendingPathComponent("\(name).wav")))
+    }
+}
+for (name, tracks) in [
+    ("quad-alone", [plan(.system, quad)]),
+    ("stereo-into-quad", [plan(.narration, narration), plan(.system, quad)]),
+    ("mono-into-quad", [plan(.narration, mono), plan(.system, quad)]),
+] {
+    let refusal = await layoutRefusal(name, tracks)
+    precondition(
+        refusal?.code == "UNSUPPORTED_FORMAT",
+        "\(name) has no honest channel mapping and must be refused, got \(String(describing: refusal))")
+    precondition(
+        !FileManager.default.fileExists(atPath: evidence.appendingPathComponent("\(name).wav").path),
+        "A refused layout must not leave an output file behind")
+}
+// The mono and stereo contract the capture actually produces still maps: a mono track is heard on
+// both sides of a stereo excerpt, and a stereo track keeps its own two channels.
+precondition(
+    widened.channels == 2 && monoAlone.channels == 1,
+    "Mono and stereo excerpts stay supported, got \(widened.channels) and \(monoAlone.channels)")
+print("PASS mono and stereo map through and a layout with no honest mapping is refused")
+
+// Spans that are not a whole number of frames: at 48 kHz 10010 us is 480.48 frames. Quantising
+// each span on its own would drop that fraction 700 times over and hand back an excerpt a third of
+// a second short of the timeline the agent asked for, with every span after the first misplaced.
+let fractionalSpans = (0..<700).map {
+    SourceSpan(startUs: Int64($0) * 11_000, endUs: Int64($0) * 11_000 + 10_010)
+}
+let (fractional, fractionalWave) = try await excerpt(
+    "fractional-spans", tracks: [plan(.narration, narration)], spans: fractionalSpans)
+precondition(
+    fractional.frames == 336_336 && fractional.durationUs == 7_007_000,
+    "700 spans of 10010 us must hold 336336 frames of 7007000 us, got \(fractional)")
+precondition(
+    fractional.frames - 700 * 480 == 336,
+    "Per-span quantisation would have lost 336 frames; this excerpt must not")
+assertMatches(
+    fractionalWave,
+    expectedExcerpt(of: [(narrationTone, 0)], spans: fractionalSpans, sampleRate: rate, channels: 2),
+    "fractional spans")
+// Placement is stated from cumulative playback time, so the last span's material is where 6.996
+// seconds of playback puts it, not 336 frames earlier.
+let lastStart = Int((Double(699 * 10_010) / 1_000_000 * rate).rounded())
+precondition(lastStart == 335_856, "The last span opens at frame 335856, not \(lastStart)")
+// Past its 240 frame fade-in, the last span carries its own material at full amplitude.
+for offset in [240, 300, 400] {
+    for channel in 0..<2 {
+        let expected = narrationTone.sample(
+            frame: narrationTone.frame(ofUs: fractionalSpans[699].startUs) + offset, channel: channel)
+        precondition(
+            abs(fractionalWave.sample(frame: lastStart + offset, channel: channel) - expected) < 1e-6,
+            "The last span must start at output frame \(lastStart), offset \(offset) channel \(channel)")
+    }
+}
+// A span shorter than a single frame still costs its own playback time, and the excerpt still ends
+// where the requested total says.
+let subFrameSpans = (0..<8).map {
+    SourceSpan(startUs: Int64($0) * 1_000_000, endUs: Int64($0) * 1_000_000 + 10)
+}
+let (subFrame, subFrameWave) = try await excerpt(
+    "sub-frame-spans", tracks: [plan(.narration, narration)], spans: subFrameSpans)
+precondition(
+    subFrame.frames == 4 && subFrame.durationUs == 83 && subFrameWave.frames == 4,
+    "Eight 10 us spans total 80 us, which is 4 frames at 48 kHz, got \(subFrame)")
+print("PASS spans that are not whole frames neither accumulate drift nor lose their playback time")
+
+// Acquisition evidence the container cannot supply. The system fixture holds loud material over
+// its whole length and has no empty edit, so a decoder answers every range it is asked for; only
+// the caller knows that nothing was being captured between 3.00001 s and 3.5 s. The hole opens
+// half a frame from a frame boundary, where a decoder hands back one sample more than the interval
+// holds, so the excerpt has to stop at the interval's own end and not at the span's.
+let acquired = [
+    SourceSpan(startUs: 0, endUs: 3_000_010), SourceSpan(startUs: 3_500_000, endUs: 8_000_000),
+]
+let holeSpans = [SourceSpan(startUs: 2_500_000, endUs: 4_000_000)]
+let (holed, holedWave) = try await excerpt(
+    "acquisition-hole", tracks: [plan(.system, system, available: acquired)], spans: holeSpans)
+precondition(
+    holed.frames == 72_000
+        && holed.tracks[0].unavailable == [SourceSpan(startUs: 3_000_010, endUs: 3_500_000)],
+    "The interval nothing was captured over must be reported exactly, got \(holed)")
+var holeSourcePeak: Float = 0
+for frame in systemTone.frame(ofUs: 3_000_010)..<systemTone.frame(ofUs: 3_500_000) {
+    for channel in 0..<2 { holeSourcePeak = max(holeSourcePeak, abs(systemTone.sample(frame: frame, channel: channel))) }
+}
+precondition(
+    holeSourcePeak > 0.1,
+    "The source must be loud across the hole for its silence to mean anything, got \(holeSourcePeak)")
+precondition(
+    holedWave.peak(from: 24_000, count: 24_000) == 0,
+    "A known acquisition hole must be silent however much the container will decode there, got \(holedWave.peak(from: 24_000, count: 24_000))")
+// Available material either side is complete to the boundary frame: the hole is not paid for by
+// truncating what was captured, and no padding creeps across the edge.
+for (outputStart, sourceUs) in [(0, Int64(2_500_000)), (48_000, Int64(3_500_000))] {
+    for offset in Array(stride(from: 0, to: 24_000, by: 173)) + [23_999] {
+        for channel in 0..<2 {
+            precondition(
+                abs(holedWave.sample(frame: outputStart + offset, channel: channel)
+                    - systemTone.sample(frame: systemTone.frame(ofUs: sourceUs) + offset, channel: channel)) < 1e-6,
+                "Captured material must survive to the hole's edge, output frame \(outputStart + offset)")
+        }
+    }
+}
+// A track nothing was acquired for is a success whose report covers every requested span.
+let (nothing, nothingWave) = try await excerpt(
+    "nothing-acquired", tracks: [plan(.system, system, available: [])], spans: holeSpans)
+precondition(
+    nothing.tracks[0].unavailable == holeSpans && nothingWave.peak(from: 0, count: 72_000) == 0
+        && nothing.frames == 72_000,
+    "A track with no acquired interval must report every span unavailable and be silent, got \(nothing)")
+
+// Availability is recording source time, so it is read through the same offset the media is.
+let (lateAvailable, lateAvailableWave) = try await excerpt(
+    "availability-positive-offset",
+    tracks: [
+        plan(
+            .narration, narration, offsetUs: 1_000_000,
+            available: [SourceSpan(startUs: 1_500_000, endUs: 3_000_000)])
+    ], spans: [SourceSpan(startUs: 1_000_000, endUs: 3_500_000)])
+precondition(
+    lateAvailable.tracks[0].unavailable == [
+        SourceSpan(startUs: 1_000_000, endUs: 1_500_000),
+        SourceSpan(startUs: 3_000_000, endUs: 3_500_000),
+    ], "Acquisition bounds must be read in recording time, got \(lateAvailable.tracks[0].unavailable)")
+precondition(
+    lateAvailableWave.peak(from: 0, count: 24_000) == 0
+        && lateAvailableWave.peak(from: 96_000, count: 24_000) == 0,
+    "Unacquired material must be silent on both sides")
+for offset in stride(from: 0, to: 72_000, by: 331) {
+    for channel in 0..<2 {
+        precondition(
+            abs(lateAvailableWave.sample(frame: 24_000 + offset, channel: channel)
+                - narrationTone.sample(frame: narrationTone.frame(ofUs: 500_000) + offset, channel: channel)) < 1e-6,
+            "Acquired material must read the track's own 0.5 s onwards, frame \(offset)")
+    }
+}
+// A track holding material from before recording zero states its acquisition there too.
+let (earlyAvailable, earlyAvailableWave) = try await excerpt(
+    "availability-negative-offset",
+    tracks: [
+        plan(
+            .narration, narration, offsetUs: -1_000_000,
+            available: [SourceSpan(startUs: -500_000, endUs: 500_000)])
+    ], spans: [SourceSpan(startUs: 0, endUs: 1_000_000)])
+precondition(
+    earlyAvailable.tracks[0].unavailable == [SourceSpan(startUs: 500_000, endUs: 1_000_000)],
+    "A negative acquisition bound must be honoured, got \(earlyAvailable.tracks[0].unavailable)")
+precondition(
+    earlyAvailableWave.peak(from: 24_000, count: 24_000) == 0,
+    "Material past the acquired interval must be silent")
+for offset in stride(from: 0, to: 24_000, by: 173) {
+    for channel in 0..<2 {
+        precondition(
+            abs(earlyAvailableWave.sample(frame: offset, channel: channel)
+                - narrationTone.sample(frame: narrationTone.frame(ofUs: 1_000_000) + offset, channel: channel)) < 1e-6,
+            "Acquired material before recording zero must read the track's own 1.0 s onwards, frame \(offset)")
+    }
+}
+// Recorded quiet inside an acquired interval is still available: the microphone was open.
+let (acquiredQuiet, acquiredQuietWave) = try await excerpt(
+    "acquired-silence", tracks: [plan(.narration, narration, available: [SourceSpan(startUs: 0, endUs: 8_000_000)])],
+    spans: [SourceSpan(startUs: 5_000_000, endUs: 5_400_000)])
+precondition(
+    acquiredQuiet.tracks[0].unavailable.isEmpty && acquiredQuietWave.peak(from: 0, count: 19_200) == 0,
+    "Recorded silence inside an acquired interval stays available, got \(acquiredQuiet.tracks[0].unavailable)")
+print("PASS acquisition evidence decides absence, and the container cannot relabel a hole as silence")
+
+
 func failure(_ body: () async throws -> Void) async -> AudioFailure? {
     do {
         try await body()
@@ -425,7 +619,12 @@ let rejected: [String: (String, AudioFailure?)] = await [
     ),
     "relative source": (
         "INVALID_REQUEST",
-        reject([AudioTrackPlan(role: .narration, source: "narration.mov", sourceOffsetUs: 0)], valid)
+        reject(
+            [
+                AudioTrackPlan(
+                    role: .narration, source: "narration.mov", sourceOffsetUs: 0,
+                    available: capturedThroughout)
+            ], valid)
     ),
     "no spans": ("INVALID_RANGE", reject([plan(.narration, narration)], [])),
     "most negative offset": (
@@ -479,6 +678,73 @@ let rejected: [String: (String, AudioFailure?)] = await [
             (0..<(AudioLimits.maximumSpans + 1)).map {
                 SourceSpan(startUs: Int64($0) * 20, endUs: Int64($0) * 20 + 10)
             })
+    ),
+    // Acquisition evidence is held to the shape of the retained spans it is intersected with, so a
+    // malformed claim is refused rather than quietly reordered into one.
+    "reversed available interval": (
+        "INVALID_RANGE",
+        reject(
+            [plan(.narration, narration, available: [SourceSpan(startUs: 900_000, endUs: 400_000)])],
+            valid)
+    ),
+    "empty available interval": (
+        "INVALID_RANGE",
+        reject(
+            [plan(.narration, narration, available: [SourceSpan(startUs: 500_000, endUs: 500_000)])],
+            valid)
+    ),
+    "touching available intervals": (
+        "INVALID_RANGE",
+        reject(
+            [
+                plan(
+                    .narration, narration,
+                    available: [
+                        SourceSpan(startUs: 0, endUs: 1_000_000),
+                        SourceSpan(startUs: 1_000_000, endUs: 2_000_000),
+                    ])
+            ], valid)
+    ),
+    "descending available intervals": (
+        "INVALID_RANGE",
+        reject(
+            [
+                plan(
+                    .narration, narration,
+                    available: [
+                        SourceSpan(startUs: 2_000_000, endUs: 3_000_000),
+                        SourceSpan(startUs: 1_000_000, endUs: 1_500_000),
+                    ])
+            ], valid)
+    ),
+    "unsafe available interval": (
+        "INVALID_RANGE",
+        reject(
+            [
+                plan(
+                    .narration, narration,
+                    available: [SourceSpan(startUs: 0, endUs: AudioLimits.maximumMicroseconds + 1)])
+            ], valid)
+    ),
+    "unsafe negative available interval": (
+        "INVALID_RANGE",
+        reject(
+            [
+                plan(
+                    .narration, narration,
+                    available: [SourceSpan(startUs: -AudioLimits.maximumMicroseconds - 1, endUs: 0)])
+            ], valid)
+    ),
+    "too many available intervals": (
+        "LIMIT_EXCEEDED",
+        reject(
+            [
+                plan(
+                    .narration, narration,
+                    available: (0..<(AudioLimits.maximumAvailableIntervals + 1)).map {
+                        SourceSpan(startUs: Int64($0) * 20, endUs: Int64($0) * 20 + 10)
+                    })
+            ], valid)
     ),
     "output that is not a wave file": (
         "INVALID_OUTPUT",

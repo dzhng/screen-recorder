@@ -22,14 +22,24 @@ public enum AudioRole: String, Codable, Sendable, CaseIterable {
 /// `sourceOffsetUs` is the recording source time at which this file's own time zero sits. Tracks
 /// that started after the video are positive; a track carrying material from before recording
 /// source zero is negative.
+///
+/// `available` is the caller's validated acquisition evidence: the recording source intervals this
+/// track was actually capturing over, ascending and non-touching, and possibly starting before
+/// recording source zero. It is required, because a container cannot supply it — a decoder happily
+/// returns padding or codec priming for a range nothing was acquired over, and relabelling that as
+/// recorded silence would pass a hole off as evidence of a quiet microphone. The excerpt reads only
+/// where this list and the file's own occupied segments agree; an empty list means nothing was
+/// acquired and every requested span is reported unavailable.
 public struct AudioTrackPlan: Codable, Sendable, Equatable {
     public let role: AudioRole
     public let source: String
     public let sourceOffsetUs: Int64
-    public init(role: AudioRole, source: String, sourceOffsetUs: Int64) {
+    public let available: [SourceSpan]
+    public init(role: AudioRole, source: String, sourceOffsetUs: Int64, available: [SourceSpan]) {
         self.role = role
         self.source = source
         self.sourceOffsetUs = sourceOffsetUs
+        self.available = available
     }
 }
 
@@ -49,17 +59,21 @@ public enum AudioLimits {
     public static let maximumMicroseconds: Int64 = 9_007_199_254_740_991
     public static let maximumExcerptUs: Int64 = 30_000_000
     public static let maximumSpans = 1_000
+    /// Acquisition intervals one track may claim, so a plan's validation stays bounded.
+    public static let maximumAvailableIntervals = 1_000
     /// Ramp length at a join, before clamping to half of a short span.
     public static let joinRampUs: Int64 = 5_000
     /// Output bounds. A file claiming more than these would size the excerpt buffer by its own
-    /// header rather than by the requested duration.
+    /// header rather than by the requested duration. Which layouts an excerpt will actually map is
+    /// narrower still: capture records mono or stereo, and the excerpt writes only those.
     public static let maximumSampleRate = 192_000
     public static let maximumChannels = 8
 }
 
 /// What one planned track contributed. `unavailable` lists the parts of the requested spans this
-/// track holds no media for — an empty edit, material before its own zero, or past its end. Those
-/// regions are silent in the output and must never be read as recorded silence.
+/// track holds no media for — outside the caller's acquired intervals, or inside them but with no
+/// occupied segment in the file. Those regions are silent in the output and must never be read as
+/// recorded silence.
 public struct AudioTrackReport: Codable, Sendable, Equatable {
     public let role: AudioRole
     public let gain: Double
@@ -76,7 +90,8 @@ public struct AudioTrackReport: Codable, Sendable, Equatable {
 }
 
 /// `frames` and `sampleRate` are what the file actually holds; `durationUs` is derived from them
-/// and can differ from the requested total by the rounding of one frame per span.
+/// and differs from the requested span total by at most the rounding of the excerpt's final frame,
+/// however many spans it concatenates.
 public struct AudioExcerpt: Codable, Sendable, Equatable {
     public let file: String
     public let mediaType: String
@@ -89,9 +104,10 @@ public struct AudioExcerpt: Codable, Sendable, Equatable {
     public let tracks: [AudioTrackReport]
 }
 
-/// Codes: `INVALID_REQUEST` (track set), `INVALID_RANGE` (times and spans), `INVALID_OUTPUT`
-/// (output path), `LIMIT_EXCEEDED` (excerpt duration, span count, source format bounds),
-/// `NATIVE_DECODE_FAILED` (media open, decode or write).
+/// Codes: `INVALID_REQUEST` (track set), `INVALID_RANGE` (times, spans and available intervals),
+/// `INVALID_OUTPUT` (output path), `LIMIT_EXCEEDED` (excerpt duration, span and interval counts,
+/// source format bounds), `UNSUPPORTED_FORMAT` (a channel layout combination this owner will not
+/// invent a mapping for), `NATIVE_DECODE_FAILED` (media open, decode or write).
 public struct AudioFailure: Error, LocalizedError, Codable, Sendable, Equatable {
     public var errorDescription: String? { message }
     public let code: String

@@ -1,23 +1,27 @@
 import Foundation
 
 /// Where each requested span lands in the concatenated output, and how long its join ramps are.
-/// Every frame index the excerpt writes comes from here, so a span's material cannot drift by the
-/// accumulated rounding of the spans before it.
+/// Every boundary is quantised from the cumulative playback microseconds that precede it, not from
+/// the sum of the spans' own rounded lengths: rounding each span on its own loses up to a frame per
+/// span, which a thousand fractional spans turn into a visibly short excerpt. Resolving from the
+/// running total instead keeps the error of the whole excerpt, and of every boundary inside it,
+/// within half a frame of the requested playback time.
 struct ExcerptLayout {
     let spans: [SourceSpan]
     let sampleRate: Int
-    /// `spans.count + 1` boundaries; the last entry is the total frame count.
+    /// `spans.count + 1` playback microsecond boundaries; entry `i` is how much playback time the
+    /// spans before span `i` hold, and the last entry is the excerpt's requested duration.
+    let playedUs: [Int64]
+    /// `spans.count + 1` frame boundaries, each quantised from the matching `playedUs`.
     let starts: [Int64]
 
     init(spans: [SourceSpan], sampleRate: Int) {
         self.spans = spans
         self.sampleRate = sampleRate
-        var boundaries: [Int64] = [0]
-        for span in spans {
-            boundaries.append(
-                boundaries.last! + Self.frames(ofUs: span.endUs - span.startUs, at: sampleRate))
-        }
-        starts = boundaries
+        var played: [Int64] = [0]
+        for span in spans { played.append(played.last! + (span.endUs - span.startUs)) }
+        playedUs = played
+        starts = played.map { Self.frames(ofUs: $0, at: sampleRate) }
     }
 
     var totalFrames: Int64 { starts.last! }
@@ -27,8 +31,10 @@ struct ExcerptLayout {
     }
 
     /// The output frame holding recording source time `us`, which must lie inside span `index`.
+    /// Quantised from the same cumulative playback timeline as the span boundaries, so material
+    /// inside a span cannot land a frame away from where that span was placed.
     func frame(ofUs us: Int64, inSpan index: Int) -> Int64 {
-        starts[index] + Self.frames(ofUs: us - spans[index].startUs, at: sampleRate)
+        Self.frames(ofUs: playedUs[index] + (us - spans[index].startUs), at: sampleRate)
     }
 
     /// Ramp length at a join. Half of a short span, so a fade-out and a fade-in inside the same
@@ -51,6 +57,18 @@ enum SpanMath {
         let start = max(first.startUs, second.startUs)
         let end = min(first.endUs, second.endUs)
         return end > start ? SourceSpan(startUs: start, endUs: end) : nil
+    }
+
+    /// The intervals both lists hold. Both must be ascending and disjoint; the result is too.
+    static func intersection(_ first: [SourceSpan], _ second: [SourceSpan]) -> [SourceSpan] {
+        var overlap: [SourceSpan] = []
+        var left = 0
+        var right = 0
+        while left < first.count, right < second.count {
+            if let shared = intersection(first[left], second[right]) { overlap.append(shared) }
+            if first[left].endUs < second[right].endUs { left += 1 } else { right += 1 }
+        }
+        return overlap
     }
 
     static func subtract(_ span: SourceSpan, covering: [SourceSpan]) -> [SourceSpan] {
@@ -88,6 +106,7 @@ enum ExcerptValidation {
                     "INVALID_RANGE",
                     "Source offset \(track.sourceOffsetUs) is not a safe microsecond value.")
             }
+            try checkAvailability(of: track)
         }
         guard !request.spans.isEmpty else {
             throw AudioFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
@@ -125,6 +144,33 @@ enum ExcerptValidation {
             throw AudioFailure(
                 "INVALID_OUTPUT",
                 "Excerpt output must name a .wav file, got \(request.output.lastPathComponent).")
+        }
+    }
+
+    /// A track's acquired intervals are the caller's recovery evidence, so they are held to the
+    /// same shape as the retained spans: ascending, non-touching, and safe microseconds. They may
+    /// start before recording source zero, because a track may hold material from before it.
+    private static func checkAvailability(of track: AudioTrackPlan) throws {
+        guard track.available.count <= AudioLimits.maximumAvailableIntervals else {
+            throw AudioFailure(
+                "LIMIT_EXCEEDED",
+                "Track \(track.role.rawValue) lists \(track.available.count) available intervals, over the \(AudioLimits.maximumAvailableIntervals) interval limit.")
+        }
+        var previous: SourceSpan?
+        for interval in track.available {
+            guard interval.startUs >= -AudioLimits.maximumMicroseconds,
+                interval.endUs <= AudioLimits.maximumMicroseconds, interval.endUs > interval.startUs
+            else {
+                throw AudioFailure(
+                    "INVALID_RANGE",
+                    "Available interval [\(interval.startUs),\(interval.endUs)) of \(track.role.rawValue) is not a valid half-open range.")
+            }
+            if let previous, interval.startUs <= previous.endUs {
+                throw AudioFailure(
+                    "INVALID_RANGE",
+                    "Available interval [\(interval.startUs),\(interval.endUs)) of \(track.role.rawValue) is not strictly after [\(previous.startUs),\(previous.endUs)).")
+            }
+            previous = interval
         }
     }
 }

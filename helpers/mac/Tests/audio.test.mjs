@@ -10,7 +10,7 @@ const executable =
   process.env.SCREENREC_NATIVE ??
   fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
 
-function tone(path, frequency) {
+function tone(path, frequency, seconds = 2) {
   const result = spawnSync(
     "ffmpeg",
     [
@@ -19,7 +19,7 @@ function tone(path, frequency) {
       "-f",
       "lavfi",
       "-i",
-      `sine=frequency=${frequency}:sample_rate=48000:duration=2`,
+      `sine=frequency=${frequency}:sample_rate=48000:duration=${seconds}`,
       "-c:a",
       "pcm_f32le",
       path,
@@ -27,6 +27,31 @@ function tone(path, frequency) {
     { encoding: "utf8", timeout: 15000 },
   );
   assert.equal(result.status, 0, result.stderr);
+}
+
+/// The excerpt's own chunks, read without the writer's help.
+function wave(bytes) {
+  assert.equal(bytes.subarray(0, 4).toString("latin1"), "RIFF");
+  assert.equal(bytes.subarray(8, 12).toString("latin1"), "WAVE");
+  let offset = 12;
+  let format;
+  let audio;
+  while (offset + 8 <= bytes.length) {
+    const id = bytes.subarray(offset, offset + 4).toString("latin1");
+    const size = bytes.readUInt32LE(offset + 4);
+    if (id === "fmt ") {
+      format = {
+        tag: bytes.readUInt16LE(offset + 8),
+        channels: bytes.readUInt16LE(offset + 10),
+        sampleRate: bytes.readUInt32LE(offset + 12),
+        bits: bytes.readUInt16LE(offset + 22),
+      };
+    } else if (id === "data") {
+      audio = bytes.subarray(offset + 8, offset + 8 + size);
+    }
+    offset += 8 + size + (size % 2);
+  }
+  return { format, audio };
 }
 
 test("audio worker writes a concatenated excerpt and survives invalid requests", () => {
@@ -44,7 +69,14 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
         { startUs: 200000, endUs: 400000 },
         { startUs: 1000000, endUs: 1300000 },
       ],
-      tracks: [{ role: "narration", source: narration, sourceOffsetUs: 0 }],
+      tracks: [
+        {
+          role: "narration",
+          source: narration,
+          sourceOffsetUs: 0,
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
     };
     const requests = [
       { ...params, spans: [{ startUs: 0, endUs: 100000, extra: true }] },
@@ -56,9 +88,32 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
       { ...params, output: join(directory, "excerpt.caf") },
       { ...params, output: narration },
       { ...params, spans: [{ startUs: 0, endUs: 30000001 }] },
+      // Acquisition evidence is required and is shaped like everything else on this wire: a plan
+      // that omits it, mistypes it or misorders it is refused rather than answered from the file.
       {
         ...params,
-        tracks: [params.tracks[0], { role: "system", source: system, sourceOffsetUs: 250000 }],
+        tracks: [{ role: "narration", source: narration, sourceOffsetUs: 0 }],
+      },
+      {
+        ...params,
+        tracks: [{ ...params.tracks[0], available: [{ startUs: 0, endUs: 1000, extra: true }] }],
+      },
+      { ...params, tracks: [{ ...params.tracks[0], available: 1000 }] },
+      {
+        ...params,
+        tracks: [{ ...params.tracks[0], available: [{ startUs: 900000, endUs: 400000 }] }],
+      },
+      {
+        ...params,
+        tracks: [
+          params.tracks[0],
+          {
+            role: "system",
+            source: system,
+            sourceOffsetUs: 250000,
+            available: [{ startUs: 250000, endUs: 2250000 }],
+          },
+        ],
       },
       params,
     ].map((params, id) => ({ id: String(id), operation: "media.audio", params }));
@@ -67,7 +122,7 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
       output,
     )},"spans":[{"startUs":0,"endUs":1000}],"tracks":[{"role":"narration","source":${JSON.stringify(
       narration,
-    )},"sourceOffsetUs":-9223372036854775808}]}}`;
+    )},"sourceOffsetUs":-9223372036854775808,"available":[{"startUs":0,"endUs":2000000}]}]}}`;
     requests.push({ id: "ping", operation: "system.ping", params: {} });
 
     const run = spawnSync(executable, [], {
@@ -92,6 +147,10 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
       "INVALID_OUTPUT",
       "INVALID_OUTPUT",
       "LIMIT_EXCEEDED",
+      "INVALID_REQUEST",
+      "INVALID_REQUEST",
+      "INVALID_REQUEST",
+      "INVALID_RANGE",
     ].entries()) {
       assert.equal(replies[index].id, String(index));
       assert.equal(replies[index].ok, false);
@@ -102,7 +161,7 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
       );
     }
 
-    const mixed = replies[9];
+    const mixed = replies[13];
     assert.equal(mixed.ok, true, JSON.stringify(mixed.error));
     assert.deepEqual(
       mixed.data.tracks.map((track) => [track.role, track.gain]),
@@ -115,7 +174,7 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
     // it has any media.
     assert.deepEqual(mixed.data.tracks[1].unavailable, [{ startUs: 200000, endUs: 250000 }]);
 
-    const excerpt = replies[10];
+    const excerpt = replies[14];
     assert.equal(excerpt.ok, true, JSON.stringify(excerpt.error));
     assert.equal(excerpt.data.sampleRate, 48000);
     assert.equal(excerpt.data.channels, 1);
@@ -124,25 +183,10 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
     assert.equal(excerpt.data.mediaType, "audio/wav");
     assert.deepEqual(excerpt.data.tracks[0].unavailable, []);
 
-    const wave = readFileSync(output);
-    assert.equal(excerpt.data.bytes, wave.length);
-    assert.equal(wave.subarray(0, 4).toString("latin1"), "RIFF");
-    assert.equal(wave.subarray(8, 12).toString("latin1"), "WAVE");
-    let offset = 12;
-    let audio;
-    while (offset + 8 <= wave.length) {
-      const id = wave.subarray(offset, offset + 4).toString("latin1");
-      const size = wave.readUInt32LE(offset + 4);
-      if (id === "fmt ") {
-        assert.equal(wave.readUInt16LE(offset + 8), 3, "IEEE float samples");
-        assert.equal(wave.readUInt16LE(offset + 10), 1);
-        assert.equal(wave.readUInt32LE(offset + 12), 48000);
-        assert.equal(wave.readUInt16LE(offset + 22), 32);
-      } else if (id === "data") {
-        audio = wave.subarray(offset + 8, offset + 8 + size);
-      }
-      offset += 8 + size + (size % 2);
-    }
+    const bytes = readFileSync(output);
+    assert.equal(excerpt.data.bytes, bytes.length);
+    const { format, audio } = wave(bytes);
+    assert.deepEqual(format, { tag: 3, channels: 1, sampleRate: 48000, bits: 32 });
     assert.equal(audio.length, 24000 * 4);
 
     // Independently decoded source samples: the excerpt must hold exactly these, in the order its
@@ -177,10 +221,62 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
 
     // An offset no arithmetic can negate must be refused, and must not take the worker down with
     // it: the ping after it proves the process is still answering.
-    assert.equal(replies[11].id, "offset");
-    assert.equal(replies[11].error.code, "INVALID_RANGE", JSON.stringify(replies[11]));
-    assert.deepEqual(replies[12], { id: "ping", ok: true, data: { platform: "macos" } });
+    assert.equal(replies[15].id, "offset");
+    assert.equal(replies[15].error.code, "INVALID_RANGE", JSON.stringify(replies[15]));
+    assert.deepEqual(replies[16], { id: "ping", ok: true, data: { platform: "macos" } });
     assert.deepEqual(readFileSync(narration), before);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("a thousand fractional spans keep the duration the plan asked for", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-audio-rounding-"));
+  try {
+    const source = join(directory, "long.mov");
+    tone(source, 1000, 20);
+    const output = join(directory, "many-cuts.wav");
+    // 10010 us is 480.48 frames at 48 kHz. Quantising each span on its own drops that fraction a
+    // thousand times over and answers a 10.01 second plan with 10 seconds of audio.
+    const spans = Array.from({ length: 1000 }, (unused, index) => ({
+      startUs: index * 20000,
+      endUs: index * 20000 + 10010,
+    }));
+    const request = {
+      id: "many-cuts",
+      operation: "media.audio",
+      params: {
+        output,
+        spans,
+        tracks: [
+          {
+            role: "narration",
+            source,
+            sourceOffsetUs: 0,
+            available: [{ startUs: 0, endUs: 20000000 }],
+          },
+        ],
+      },
+    };
+    const run = spawnSync(executable, [], {
+      input: JSON.stringify(request) + "\n",
+      encoding: "utf8",
+      timeout: 120000,
+      maxBuffer: 1 << 26,
+    });
+    assert.equal(run.status, 0, run.stderr);
+    const reply = JSON.parse(run.stdout.trim());
+    assert.equal(reply.ok, true, JSON.stringify(reply.error));
+    assert.equal(reply.data.frames, 480480);
+    assert.equal(reply.data.durationUs, 10010000);
+    assert.deepEqual(reply.data.tracks[0].unavailable, []);
+
+    // What the worker reports and what it wrote are the same excerpt.
+    const bytes = readFileSync(output);
+    const { format, audio } = wave(bytes);
+    assert.deepEqual(format, { tag: 3, channels: 1, sampleRate: 48000, bits: 32 });
+    assert.equal(audio.length, 480480 * 4);
+    assert.equal(reply.data.bytes, bytes.length);
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }

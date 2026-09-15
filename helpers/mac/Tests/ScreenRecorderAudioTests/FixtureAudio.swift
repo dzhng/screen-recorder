@@ -49,11 +49,7 @@ enum FixtureAudioWriter {
     static func write(_ tone: FixtureTone, frames: Int, to url: URL) async throws {
         try? FileManager.default.removeItem(at: url)
         let writer = try AVAssetWriter(outputURL: url, fileType: .mov)
-        guard
-            let format = AVAudioFormat(
-                commonFormat: .pcmFormatFloat32, sampleRate: tone.sampleRate,
-                channels: AVAudioChannelCount(tone.channels), interleaved: true)
-        else { throw FixtureError.unwritable }
+        guard let format = format(of: tone) else { throw FixtureError.unwritable }
         let input = AVAssetWriterInput(mediaType: .audio, outputSettings: format.settings)
         input.expectsMediaDataInRealTime = false
         guard writer.canAdd(input) else { throw FixtureError.unwritable }
@@ -103,6 +99,22 @@ enum FixtureAudioWriter {
         input.markAsFinished()
         await writer.finishWriting()
         guard writer.status == .completed else { throw writer.error ?? FixtureError.unwritable }
+    }
+
+    /// Above stereo a format has no implied layout, so a wider fixture declares each channel as its
+    /// own discrete one. That is the shape of a file an excerpt must refuse rather than remix.
+    private static func format(of tone: FixtureTone) -> AVAudioFormat? {
+        if tone.channels <= 2 {
+            return AVAudioFormat(
+                commonFormat: .pcmFormatFloat32, sampleRate: tone.sampleRate,
+                channels: AVAudioChannelCount(tone.channels), interleaved: true)
+        }
+        var description = AudioChannelLayout()
+        description.mChannelLayoutTag = kAudioChannelLayoutTag_DiscreteInOrder | UInt32(tone.channels)
+        let layout = AVAudioChannelLayout(layout: &description)
+        return AVAudioFormat(
+            commonFormat: .pcmFormatFloat32, sampleRate: tone.sampleRate, interleaved: true,
+            channelLayout: layout)
     }
 
     /// Writes a copy of `source` whose track holds media only inside `occupied`, leaving empty

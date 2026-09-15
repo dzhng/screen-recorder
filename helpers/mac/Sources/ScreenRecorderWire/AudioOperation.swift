@@ -15,7 +15,13 @@ enum AudioOperation {
             let spans = params["spans"] as? [[String: Any]],
             spans.allSatisfy({ Set($0.keys) == ["startUs", "endUs"] }),
             let tracks = params["tracks"] as? [[String: Any]],
-            tracks.allSatisfy({ Set($0.keys) == ["role", "source", "sourceOffsetUs"] })
+            // `available` is required: a plan that omitted it would silently let the container
+            // decide what was acquired, which is the one thing it cannot know.
+            tracks.allSatisfy({ Set($0.keys) == ["role", "source", "sourceOffsetUs", "available"] }),
+            tracks.allSatisfy({
+                ($0["available"] as? [[String: Any]])?.allSatisfy { Set($0.keys) == ["startUs", "endUs"] }
+                    ?? false
+            })
         else { throw AudioFailure("INVALID_REQUEST", "Invalid media.audio parameters.") }
         let parameters: Parameters
         do {
