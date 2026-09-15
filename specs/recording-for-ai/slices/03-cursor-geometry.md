@@ -1,11 +1,11 @@
 # 03 — Cursor positions in captured coordinates
 
-Status: candidate integrated; ordering/journal corrections in progress. Dependencies: 01.
+Status: corrected implementation integrated; remaining physical placement gates open. Dependencies: 01.
 
 Native sampling and journaled geometry are implemented. Root's integrated own-window
 measurement and remaining gates are recorded in the [cursor checkpoint](../assets/cursor/review.md).
-A delayed-reading regression exposed premature geometry cleanup; correction and
-independent reader/sampler review are active. Window measurements do not close the
+The delayed-reading and unknown-geometry corrections, independent reader review
+and real sampler tests are integrated. Window measurements do not close the
 deliberate-gesture, display or region gates.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and

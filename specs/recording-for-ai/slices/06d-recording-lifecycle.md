@@ -58,8 +58,8 @@ unchanged from 06a and are still exercised by their own tests.
   validated duration independently of device state, as 06a required, and the
   `complete`/`interrupted` paths call it. It refuses a canceled take and refuses a
   changed duration, so "exactly once" holds through either entry point.
-- **No migration step.** Schema version 1 is recreated fresh, per the architecture's
-  no-migration rule for this unshipped project.
+- **No migration step.** This is a fresh development schema; pre-existing
+  development catalogs are not automatically upgraded.
 
 ## Verification
 

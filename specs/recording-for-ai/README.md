@@ -30,7 +30,9 @@ recording or permission is pending, but do not call that gate passed.
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
 Current pickup: connect native capture control and journal reconciliation to the
-running service (parent 06). Durable lifecycle storage (06d) and library operation
+running service (parent 06). Claude Opus owns that vertical pass in
+`/tmp/screenrec-capture-service`; keep its changes isolated from root integration.
+Durable lifecycle storage (06d) and library operation
 binding (06e) are integrated: 25 core tests and 24 service tests pass together.
 Real-service reads distinguish an unfinished take from a terminal zero-video failure
 and exclude canceled takes from latest. App-owned lifetime remains verified.
@@ -40,6 +42,8 @@ real sampler and native capture checks pass, and the corrected own-window fixtur
 completed. See [cursor evidence](assets/cursor/review.md). Deliberate gestures and
 display/region placement remain open; computer-use access to this app timed out.
 Claude Opus is implementing native audio excerpts in `/tmp/screenrec-audio-excerpts`.
+A separate diagnostic in `/tmp/screenrec-natural-speech` runs the prepared local
+engines on public human audio; its automatic alignment is not acceptance truth.
 
 Recovery timing, frame decoding, timeline edits and speech probe plumbing are
 integrated. Physical audio, human transcription fidelity, full capture recovery
