@@ -64,3 +64,9 @@ actual offline emissions over four public human clips. WhisperKit emitted no um/
 tokens; Parakeet matched 132 of 185 reference fillers. Neither is selected. An Opus
 probe in `/tmp/screenrec-apple-speech` is checking the specified Apple SpeechAnalyzer
 alternative using installed assets only; manual timing and audition remain open.
+
+The [Apple diagnostic](../assets/speech/apple-diagnostic.md) also ran using already
+installed English assets: 18 of 185 reference um/uh were matched. Its returned
+alternatives expose some omitted fillers, but tested settings did not make them the
+primary transcript. A bounded WhisperKit configuration ablation is now active in
+`/tmp/screenrec-whisper-verbatim`; no reference phrases may be supplied as prompts.

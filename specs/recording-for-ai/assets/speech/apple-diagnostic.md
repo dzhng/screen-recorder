@@ -7,8 +7,8 @@ speaker-B clips, the same speaker-B reference selection and the same alignment
 the two pinned candidates were measured with. Counts, hashes, asset state,
 ablations and raw-output paths are in
 [apple-diagnostic.json](apple-diagnostic.json). The Parakeet and WhisperKit
-figures it compares against come from the natural-speech diagnostic, which lands
-from the `codex/natural-speech-probe` branch; the fixture's provenance is in
+figures it compares against come from the
+[natural-speech diagnostic](natural-diagnostic.md); the fixture's provenance is in
 [ami-candidate.md](ami-candidate.md).
 
 Like that diagnostic, this one answers **which tokens were emitted** and nothing
@@ -27,12 +27,10 @@ The interesting part is *where* the fillers go. With
 `um`/`uh` at roughly twice the top-1 rate, and they do so exactly where top-1
 dropped one: top-1 `"so..."` against alternative `"so, um..."`, top-1 `"Yeah,"`
 against `"Um, yeah,"`. So the filler reaches the hypothesis space and loses the
-selection. That is a different failure from WhisperKit's, where the token never
-appears at all — but it has the same consequence for an edit range, because the
-API exposes no way to make the filler-preserving hypothesis the transcript.
-
-That last clause is what the ablation establishes, and it is the reason this
-result is a property of the framework rather than of the configuration. Seven
+selection. This shows some fillers in Apple's returned alternatives that were absent from
+its primary transcript. The tested settings did not promote those alternatives
+to the primary result. It does not establish that every public configuration or a
+separately validated selection policy would behave the same way. Seven
 configurations produced exactly two outcomes: every `SpeechTranscriber` variant
 emitted the same 18 regardless of alternatives or of an `AnalysisContext` seeded
 with filler strings, and every `DictationTranscriber` variant emitted **zero** —

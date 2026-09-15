@@ -47,8 +47,9 @@ Claude Opus is correcting native audio excerpts in `/tmp/screenrec-audio-excerpt
 reproduced cumulative sample rounding drift and requires caller-supplied acquisition
 availability before accepting the worker.
 The public human-speech diagnostic is integrated; it found major filler omissions.
-Opus is probing the specified Apple SpeechAnalyzer alternative in
-`/tmp/screenrec-apple-speech`, using installed assets only. Automatic alignment is not
+The Apple SpeechAnalyzer diagnostic also ran and found substantial omissions.
+Opus is checking at most two supported WhisperKit decoding configurations in
+`/tmp/screenrec-whisper-verbatim`, without reference phrases in prompts. Automatic alignment is not
 manual acceptance truth.
 
 Recovery timing, frame decoding, timeline edits and speech probe plumbing are
