@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "client": "2.1.265 (Claude Code)",
+  "expected": {
+    "first": "439416",
+    "second": "547844"
+  },
+  "results": [
+    {
+      "mode": "mcp",
+      "actual": {
+        "first": "439416",
+        "second": "547844"
+      }
+    },
+    {
+      "mode": "cli",
+      "actual": {
+        "first": "439416",
+        "second": "547844"
+      }
+    }
+  ]
+}

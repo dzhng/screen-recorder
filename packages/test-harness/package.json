@@ -9,6 +9,8 @@
     "test": "node dist/bootstrap.js"
   },
   "dependencies": {
-    "@screenrec/protocol": "workspace:*"
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@screenrec/protocol": "workspace:*",
+    "zod": "4.6.5"
   }
 }

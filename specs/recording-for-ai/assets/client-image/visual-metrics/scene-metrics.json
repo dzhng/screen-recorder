@@ -1,0 +1,46 @@
+{
+  "kind": "screenshot-scene-metrics",
+  "generatedAt": "2026-09-15T07:00:57.032Z",
+  "note": "Absolute per-image telemetry, no reference involved. Low values locate flat, sparse, or empty captures; they never accept or reject an image on their own.",
+  "imageCount": 2,
+  "results": [
+    {
+      "id": "first",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/client-image/first.png",
+      "dimensions": {
+        "width": 720,
+        "height": 200
+      },
+      "sceneMetrics": {
+        "colorBuckets": 16,
+        "colorEntropyBits": 0.46911,
+        "edgeDensity": 0.05169,
+        "dominantColorShare": 0.92883,
+        "transparentShare": 0,
+        "luminanceMean": 238.53256,
+        "luminanceP5": 0,
+        "luminanceP95": 255,
+        "luminanceContrast": 255
+      }
+    },
+    {
+      "id": "second",
+      "image": "../screen-recorder/specs/recording-for-ai/assets/client-image/second.png",
+      "dimensions": {
+        "width": 720,
+        "height": 200
+      },
+      "sceneMetrics": {
+        "colorBuckets": 16,
+        "colorEntropyBits": 0.44846,
+        "edgeDensity": 0.04813,
+        "dominantColorShare": 0.93039,
+        "transparentShare": 0,
+        "luminanceMean": 238.56672,
+        "luminanceP5": 0,
+        "luminanceP95": 255,
+        "luminanceContrast": 255
+      }
+    }
+  ]
+}

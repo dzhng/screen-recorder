@@ -33,3 +33,16 @@
   deletion. Swift already performs incremental compilation.
 - **Consequence:** root builds always invoke native packaging/signing, and native process checks
   execute even when inputs outside the app package change.
+
+## Actual-agent inspection
+
+### Evidence without personal recordings
+
+- **When:** image-access gate.
+- **Decision:** use randomly generated digit PNGs and an isolated Claude Code
+  session to prove both MCP image blocks and CLI-file image ingestion.
+- **Gap:** the spec needed an actual-client proof before any recorded fixture existed.
+- **Rationale:** hidden expected text plus retained tool exchanges distinguishes
+  seeing pixels from receiving a plausible file path or inferring a scripted answer.
+- **Consequence:** this establishes the transport/client boundary only; readability
+  of real screen recordings and the eventual edit loop still need their own gates.

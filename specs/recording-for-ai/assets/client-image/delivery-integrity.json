@@ -1,0 +1,24 @@
+{
+  "mcp": {
+    "deliveredImageHashes": [
+      "aa04493ac435ebb6558ecdb87d74bf13e04f90b213db93e31c2571cbf153d564",
+      "8a7af1bfeb2377b1d9b26baa9ae1d8f4f5bb651ec83dec23935dfdc8ab12da7a"
+    ],
+    "sourceHashes": [
+      "aa04493ac435ebb6558ecdb87d74bf13e04f90b213db93e31c2571cbf153d564",
+      "8a7af1bfeb2377b1d9b26baa9ae1d8f4f5bb651ec83dec23935dfdc8ab12da7a"
+    ],
+    "byteIdenticalToSource": true
+  },
+  "cli": {
+    "deliveredImageHashes": [
+      "aa04493ac435ebb6558ecdb87d74bf13e04f90b213db93e31c2571cbf153d564",
+      "8a7af1bfeb2377b1d9b26baa9ae1d8f4f5bb651ec83dec23935dfdc8ab12da7a"
+    ],
+    "sourceHashes": [
+      "aa04493ac435ebb6558ecdb87d74bf13e04f90b213db93e31c2571cbf153d564",
+      "8a7af1bfeb2377b1d9b26baa9ae1d8f4f5bb651ec83dec23935dfdc8ab12da7a"
+    ],
+    "byteIdenticalToSource": true
+  }
+}

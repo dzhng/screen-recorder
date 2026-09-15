@@ -26,15 +26,14 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: native capture and speech preparation are delegated; implement the
-pure timeline and actual-agent image paths next. Bootstrap review fixed cache-input
-coverage; all mechanical checks pass. Continue capture, speech preparation,
-and pure timeline passes independently. Actual-client image work can proceed from
-the runnable TS/native bootstrap. Do not treat unavailable UI observation as a
-passing visual result. Evidence: [bootstrap verification](assets/bootstrap/verification.md).
+Current pickup: integrate the reviewed timeline and speech-preparation commits,
+then finish native capture/recovery and the shared service. Actual-agent image
+access is complete; bootstrap native-menu observation remains pending.
+Evidence: [bootstrap](assets/bootstrap/verification.md),
+[actual-agent images](assets/client-image/review.md).
 
 - [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
-- [ ] [00b — Real-agent image access](slices/00b-client-image-probe.md)
+- [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)
 - [ ] [01 — Native capture and separate audio](slices/01-native-capture.md)
 - [ ] [02 — Recover interrupted source media](slices/02-interruption-recovery.md)
 - [ ] [03 — Cursor positions in captured coordinates](slices/03-cursor-geometry.md)

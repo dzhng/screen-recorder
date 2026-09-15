@@ -1,6 +1,6 @@
 # 00b — Real-agent image access
 
-Status: not started. Dependencies: 00 bootstrap. This gate may remain pending while independent native, speech, and timeline slices proceed. It is required by slice 12 and final acceptance.
+Status: complete. See [actual-agent evidence](../assets/client-image/review.md). Dependencies: 00 bootstrap. This gate may remain pending while independent native, speech, and timeline slices proceed. It is required by slice 12 and final acceptance.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
