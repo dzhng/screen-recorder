@@ -108,8 +108,9 @@ recovered are exact and bounded. Screen permission is never requested automatica
 fails the capture checks with an actionable message instead of substituting a mock.
 
 Not proved here: microphone or system audio capture, display and region sources, menu
-recording controls, artifact jobs, and sudden power loss. A catalog written before takes
-carried their allocation arguments still opens, but a start request ID recorded by that
-older build can no longer be replayed — there is nothing stored to prove the replay asks
-for the same take, so it answers `REQUEST_CONFLICT`. That take is still readable, still
-stoppable and still reconciled at the next startup.
+recording controls, artifact jobs, and sudden power loss. Older development catalogs without allocation arguments are rejected with
+`UNSUPPORTED_CATALOG` and left unchanged; no automatic migration is part of this
+fresh-format release.
+
+[Root integration evidence](../assets/capture-service/integration-review.md) records
+the combined checks, direct-stop correction and remaining scope.

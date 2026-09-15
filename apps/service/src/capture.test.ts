@@ -740,3 +740,52 @@ it("carries the product's audio default to native, and a caller's explicit refus
   });
   expect(requested[1]).toMatchObject({ microphone: false, systemAudio: false });
 });
+
+it(
+  "stops an unproved start and registers its recovered media on the first stop call",
+  { timeout: 40_000 },
+  async () => {
+    const home = await temporaryHome();
+    const peer = heldStartPeer();
+    const service = await startService(
+      home,
+      (operation, params) => {
+        const answer = peer(operation, params);
+        if (operation === "capture.stop" && answer?.ok) {
+          return {
+            ok: true,
+            data: { ...(answer.data as Record<string, unknown>), state: "complete", reason: null },
+          };
+        }
+        return answer;
+      },
+      { SCREENREC_NATIVE: await recovers({ durationUs: 6_000_000 }) },
+    );
+    const started = await service.call(
+      "capture.start",
+      {
+        requestId: "unproved-stop",
+        source: fixtureSource,
+      },
+      30_000,
+    );
+    expect(started).toMatchObject({ ok: false, error: { code: "TIMEOUT" } });
+    const latest = await service.call("recording.latest");
+    if (!latest.ok) throw new Error("Allocated take must be discoverable");
+    const { recordingId } = latest.data as { recordingId: string };
+    const stopped = await service.call("capture.stop", { recordingId });
+    expect(stopped).toMatchObject({
+      ok: true,
+      data: {
+        recordingId,
+        state: "interrupted",
+        sourceDurationUs: 6_000_000,
+        currentRevisionId: "r0",
+      },
+    });
+    expect(await service.call("capture.status")).toMatchObject({
+      ok: true,
+      data: { device: { state: "idle", recordingId: null } },
+    });
+  },
+);

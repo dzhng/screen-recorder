@@ -29,15 +29,14 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: complete durable capture-start replay before integrating 06f.
-Claude Opus owns `/tmp/screenrec-capture-service`: replaying an uncertain start must
-never terminalize a live take. The prior correction addressed timeout, service-loss
-and recovery ordering, but review reproduced a retry defect. Its pending-start
-regressions also need a held, acknowledged native start, not directory polling.
-Correct public microphone defaults and terminal pause/resume errors in the same pass.
+Current pickup: native recording controls over the integrated capture service.
+Capture allocation, durable replay, uncertain-start stop/recovery and stranded-take
+reconciliation are verified through real channels and the packaged own-window
+fixture. See [capture integration](assets/capture-service/integration-review.md).
+Keep the fresh catalog format and explicit audio defaults; old development catalogs
+are rejected rather than migrated.
 
-Next priority: integrate capture replay correction, then native menu controls and
-revision-bound media inspection. Independent Opus work covers small-output cursor
+Next priority: native menu controls and revision-bound media inspection. Independent Opus work covers small-output cursor
 styling in `/tmp/screenrec-native-cursor-render` and native worker parent-exit
 ownership in `/tmp/screenrec-native-worker-lifetime`. Native trail execution and
 raster-failure propagation are integrated; core trail selection/scene analysis
@@ -85,6 +84,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md) (independent after 00, 06b)
   - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md) (storage proof)
   - [x] [06e — Library operations through the service](slices/06e-library-operations.md) (independent after 06a–06c)
+  - [x] [06f — Native capture service control](slices/06f-capture-service.md) (own-window control/recovery proof)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)

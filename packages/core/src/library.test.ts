@@ -1,5 +1,6 @@
 import { test, expect, afterEach } from "vitest";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, rmSync, readFileSync } from "node:fs";
+import { DatabaseSync } from "node:sqlite";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
@@ -619,4 +620,19 @@ test("an allocation request is a durable receipt that replays and refuses differ
   expect(() =>
     reopened.allocate({ requestId: "take-1", arguments: JSON.stringify(["display", 1, false]) }),
   ).toThrow(expect.objectContaining({ code: "REQUEST_CONFLICT" }));
+});
+
+test("an older development catalog is refused without migrating its data", () => {
+  const { store, path, providers } = fixture();
+  const { recording } = store.allocate();
+  store.registerSource(recording.recordingId, 20);
+  store.close();
+  const old = new DatabaseSync(path);
+  old.exec("ALTER TABLE recordings DROP COLUMN allocationArguments");
+  old.close();
+  const before = readFileSync(path);
+  expect(() => new RevisionStore(path, providers)).toThrow(
+    expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
+  );
+  expect(readFileSync(path)).toEqual(before);
 });

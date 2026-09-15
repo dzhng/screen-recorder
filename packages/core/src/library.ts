@@ -127,13 +127,18 @@ export class RevisionStore {
     PRIMARY KEY(recordingId,position),FOREIGN KEY(recordingId,targetId) REFERENCES revisions(recordingId,id)
    ) STRICT;
   `);
-    // A catalog written before takes carried their allocation arguments still opens here.
+    // Development formats are a hard cutover; opening an older catalog never migrates it.
     if (
       !this.db
         .prepare("SELECT 1 FROM pragma_table_info('recordings') WHERE name=?")
         .get("allocationArguments")
-    )
-      this.db.exec("ALTER TABLE recordings ADD COLUMN allocationArguments TEXT");
+    ) {
+      this.db.close();
+      throw new CatalogError(
+        "UNSUPPORTED_CATALOG",
+        "This catalog predates the current format; open a library created by this version.",
+      );
+    }
   }
   close(): void {
     if (this.db.isOpen) this.db.close();

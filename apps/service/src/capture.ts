@@ -137,15 +137,15 @@ export class CaptureService {
   }
 
   /**
-   * Answers a replayed request with the take it already named. A take whose start was never
-   * answered is ended and settled here rather than started a second time: native's refusal of
+   * Resolves a replay or stop of an unproved start onto the take it already named. That take
+   * is ended and settled here rather than started a second time: native's refusal of
    * that second start would be about the take already running, and says nothing about whether
    * the first one captured media.
    */
   private async resolve(recording: Recording): Promise<Recording> {
     if (recording.state !== "preparing") return recording;
     const settled = await this.abandon(recording);
-    if (settled.state === "preparing")
+    if (!isSettled(settled.state))
       throw new CaptureError(
         "UNRESOLVED_START",
         "This take's start is still unproved; retry the same request",
@@ -167,6 +167,7 @@ export class CaptureService {
     return this.serialize(async () => {
       const recording = this.store.get(recordingId);
       if (isSettled(recording.state)) return recording;
+      if (recording.state === "preparing") return this.resolve(recording);
       const answer = await this.native("capture.stop", { recordingId });
       if (answer.ok) return this.apply(recording, answer.data);
       if (answer.error.code !== "INVALID_STATE") throw fromNative(answer);
@@ -274,8 +275,10 @@ export class CaptureService {
         this.log(`recovery failed for ${recording.recordingId}: ${(error as Error).message}`);
       }
     }
-    this.log(`unsettled start for ${recording.recordingId}: capture may still be running`);
-    return recording;
+    const current = this.store.get(recording.recordingId);
+    if (!isSettled(current.state))
+      this.log(`unsettled start for ${recording.recordingId}: capture may still be running`);
+    return current;
   }
 
   /**

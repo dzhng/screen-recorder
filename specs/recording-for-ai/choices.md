@@ -348,3 +348,28 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   capture. A saturated handler pool gives a retryable limit error; saturation before
   request parsing closes the connection. The caller decides whether to retry.
 - **Verdict:** Sound. **Confidence:** High.
+
+## Capture request recovery
+
+### Sound — medium confidence
+
+- **Choice:** If a native start and its cleanup stop both go unanswered, retain the
+  take as unproved. A retry attempts to end that same take and recover its media,
+  rather than starting another or reattaching the caller to an ongoing capture.
+- **Gap:** The spec required durable replay but did not prescribe recovery after
+  both control answers are lost while the service is still alive.
+- **Reach:** The caller may receive a recovered interrupted recording instead of a
+  continuing capture. It never receives a false terminal no-video answer while the
+  device may still be running. `UNRESOLVED_START` remains retryable until an outcome
+  can be proved.
+- **Verdict:** Sound. **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Start and restart share a capture-allocation request-ID namespace,
+  with canonical source/audio/target arguments stored beside the allocated take.
+- **Gap:** Capture replay's precise identity scope was unspecified.
+- **Reach:** Retrying the same request returns its existing identity across service
+  relaunch; reusing that ID for another operation, source or audio choice fails with
+  `REQUEST_CONFLICT`. Callers use a fresh ID for a new intended take.
+- **Verdict:** Sound. **Confidence:** High.
