@@ -26,10 +26,13 @@ final class CaptureController {
     private var serviceGone = false
     /// Set only in fixture mode: the one window of this app's own that capture may see or record.
     private let fixtureWindow: NSWindow?
+    /// Set only in fixture mode, and only when a check asked for it: the hold a pending start waits on.
+    private let startHold: FixtureStartHold?
     private weak var host: ServiceHost?
 
     init(fixtureWindow: NSWindow?) {
         self.fixtureWindow = fixtureWindow
+        self.startHold = FixtureStartHold.inFixture(fixtureWindow)
         capture.onInterruption = { [weak self] reason in
             Task { @MainActor in await self?.interrupted(reason) }
         }
@@ -62,6 +65,7 @@ final class CaptureController {
     /// an ordinary quit leaves a finished recording rather than one more take to reconcile. A
     /// start still in flight is waited for first: the quit owns the take it has already asked for.
     func finalizeBeforeQuit() async {
+        if pendingStart != nil { diagnostic("quit waiting for a start in flight") }
         await awaitStart()
         guard take != nil else { return }
         guard let outcome = try? await finish(reason: "APP_QUIT") else { return }
@@ -73,7 +77,11 @@ final class CaptureController {
     /// still in flight finalizes itself the moment it lands, so nothing is awaited here.
     func serviceLost() async {
         serviceGone = true
-        guard take != nil else { return }
+        guard take != nil else {
+            diagnostic("service lost with a start in flight")
+            return
+        }
+        diagnostic("service lost while capturing")
         await finishIntoJournal()
     }
 
@@ -150,25 +158,38 @@ final class CaptureController {
     }
 
     private func start(_ params: [String: Any]) async throws -> [String: Any] {
+        // Both audio choices are stated by every start the service sends, so this session keeps no
+        // default of its own to disagree with the one the protocol owns.
         guard let recordingId = params["recordingId"] as? String, !recordingId.isEmpty,
             let sourceId = params["sourceId"] as? String, !sourceId.isEmpty,
             let directory = params["outputDirectory"] as? String, directory.hasPrefix("/"),
-            let selected = params["source"] as? [String: Any]
+            let selected = params["source"] as? [String: Any],
+            let microphone = params["microphone"] as? Bool,
+            let systemAudio = params["systemAudio"] as? Bool
         else {
             throw CaptureFailure(
-                "INVALID_REQUEST", "capture.start needs an allocated take, directory and source.")
+                "INVALID_REQUEST",
+                "capture.start needs an allocated take, directory, source and both audio choices.")
         }
         guard take == nil, pendingStart == nil else {
             throw CaptureFailure("INVALID_STATE", "Another take is already capturing.")
         }
+        // The fixture records this app's own window and nothing else, so it reaches no audio
+        // device whatever a check asks for.
+        guard fixtureWindow == nil || !(microphone || systemAudio) else {
+            throw CaptureFailure(
+                "INVALID_REQUEST",
+                "This app is running its capture fixture and records no audio device.")
+        }
         let request = CaptureRequest(
             source: try source(from: selected), outputDirectory: directory, sourceId: sourceId,
-            microphone: params["microphone"] as? Bool ?? false,
+            microphone: microphone,
             microphoneDeviceID: params["microphoneDeviceId"] as? String,
-            systemAudio: params["systemAudio"] as? Bool ?? false)
+            systemAudio: systemAudio)
         let starting = Take(recordingId: recordingId, sourceId: sourceId)
         pendingStart = starting
         defer { releaseStart() }
+        await startHold?.hold(recordingId: recordingId)
         try await capture.start(request)
         guard !serviceGone else {
             // The library that allocated this take disappeared while the device was starting, so

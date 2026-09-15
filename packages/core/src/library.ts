@@ -89,6 +89,10 @@ function settledWithoutVideo(recording: Recording): CatalogError {
     : new CatalogError("NOT_READY", "Source duration is not finalized", { state: recording.state });
 }
 export type RecordingCursor = Readonly<{ beforeSequence: number }>;
+/** What a caller asks a take to be allocated for, canonically, so a replay can be recognized. */
+export type AllocationRequest = Readonly<{ requestId: string; arguments: string }>;
+/** A take's identity, and whether this request had already been given it. */
+export type Allocation = Readonly<{ recording: Recording; replay: boolean }>;
 export type HistoryCursor = Readonly<{
   recordingId: string;
   afterOrdinal: number;
@@ -107,7 +111,7 @@ export class RevisionStore {
     this.db.exec(`
    CREATE TABLE IF NOT EXISTS recordings (
     creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
-    allocationRequestId TEXT UNIQUE,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
+    allocationRequestId TEXT UNIQUE,allocationArguments TEXT,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
     interruptionReason TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
    ) STRICT;
    CREATE TABLE IF NOT EXISTS revisions (
@@ -123,6 +127,13 @@ export class RevisionStore {
     PRIMARY KEY(recordingId,position),FOREIGN KEY(recordingId,targetId) REFERENCES revisions(recordingId,id)
    ) STRICT;
   `);
+    // A catalog written before takes carried their allocation arguments still opens here.
+    if (
+      !this.db
+        .prepare("SELECT 1 FROM pragma_table_info('recordings') WHERE name=?")
+        .get("allocationArguments")
+    )
+      this.db.exec("ALTER TABLE recordings ADD COLUMN allocationArguments TEXT");
   }
   close(): void {
     if (this.db.isOpen) this.db.close();
@@ -142,28 +153,44 @@ export class RevisionStore {
       throw error;
     }
   }
-  /** Reserves the recording and capture-source identity a native start needs, before it runs. */
-  allocate(allocationRequestId?: string): Recording {
+  /**
+   * Reserves the recording and capture-source identity a native start needs, before it runs, and
+   * says whether this is that request's first allocation or a replay of one already stored. The
+   * receipt is durable and carries the canonical arguments it was allocated for, so a request ID
+   * replayed after a lost answer names the same take across a relaunch, and the same ID reused for
+   * a different take is refused instead of being answered with the first one.
+   */
+  allocate(request?: AllocationRequest): Allocation {
     return this.transaction(() => {
-      const replay =
-        allocationRequestId === undefined
-          ? undefined
-          : this.db
-              .prepare(`SELECT ${recordingColumns} FROM recordings WHERE allocationRequestId=?`)
-              .get(allocationRequestId);
-      if (replay) return replay as Recording;
+      if (request) {
+        const stored = this.db
+          .prepare(
+            `SELECT ${recordingColumns},allocationArguments FROM recordings WHERE allocationRequestId=?`,
+          )
+          .get(request.requestId) as (Recording & { allocationArguments: string }) | undefined;
+        if (stored) {
+          const { allocationArguments, ...recording } = stored;
+          if (allocationArguments !== request.arguments)
+            throw new CatalogError(
+              "REQUEST_CONFLICT",
+              "Request ID was already used with different arguments",
+            );
+          return { recording, replay: true };
+        }
+      }
       const recordingId = this.providers.newId();
       this.db
         .prepare(
-          "INSERT INTO recordings(recordingId,sourceId,allocationRequestId,createdAt,state,lifecycleSequence) VALUES (?,?,?,?,'preparing',0)",
+          "INSERT INTO recordings(recordingId,sourceId,allocationRequestId,allocationArguments,createdAt,state,lifecycleSequence) VALUES (?,?,?,?,?,'preparing',0)",
         )
         .run(
           recordingId,
           this.providers.newId(),
-          allocationRequestId ?? null,
+          request?.requestId ?? null,
+          request?.arguments ?? null,
           this.providers.now(),
         );
-      return this.get(recordingId);
+      return { recording: this.get(recordingId), replay: false };
     });
   }
   get(recordingId: string): Recording {

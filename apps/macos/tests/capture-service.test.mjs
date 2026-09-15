@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readdirSync, readFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { test } from "node:test";
@@ -46,6 +46,15 @@ function call(home, operation, params = {}) {
   );
 }
 
+/**
+ * What every take in this file asks for: this app's own fixture window, with the microphone and
+ * system audio explicitly refused. No test here relies on a schema default for either, and the
+ * app refuses a fixture take that asks for either one, so no check can reach a real audio device.
+ */
+function silent(requestId, source, extra = {}) {
+  return { requestId, source, microphone: false, systemAudio: false, ...extra };
+}
+
 async function succeeds(home, operation, params) {
   const answer = await call(home, operation, params);
   assert.equal(answer.ok, true, `${operation}: ${JSON.stringify(answer.error)}`);
@@ -53,10 +62,24 @@ async function succeeds(home, operation, params) {
 }
 
 /** An ordinary launch that also opens this app's own window and exposes only that window. */
-async function fixtureApp(home) {
-  const { instance, servicePid } = await launchReady(home, { SCREENREC_FIXTURE_WINDOW: "1" });
+async function fixtureApp(home, environment = {}) {
+  const { instance, servicePid } = await launchReady(home, {
+    SCREENREC_FIXTURE_WINDOW: "1",
+    ...environment,
+  });
   const [, windowId] = await instance.waitFor(/capture fixture window=(\d+)/);
   return { instance, servicePid, source: { kind: "window", windowId: Number(windowId) } };
+}
+
+/** A held start waits for this file: `holding` asks a launch to hold, `release` ends the hold. */
+function holdRelease(home) {
+  return join(home, "release-start");
+}
+function holding(home) {
+  return { SCREENREC_FIXTURE_START_HOLD: holdRelease(home) };
+}
+function release(home) {
+  writeFileSync(holdRelease(home), "");
 }
 
 /** The takes the service has allocated a directory for, before any of them has media. */
@@ -69,17 +92,19 @@ function takes(home) {
 }
 
 /**
- * Asks for a take and answers with it as soon as the service has allocated its directory, which
- * is the moment native is asked to start and has not started yet.
+ * Asks for a take and answers only once this app's own capture session has acknowledged that it
+ * holds that start pending. The start stays pending until it is released, so what follows acts on
+ * a start that is provably in flight rather than on a directory that says nothing about native.
  */
-async function starting(home, source, requestId) {
-  call(home, "capture.start", { requestId, source }).catch(() => undefined);
-  const [recordingId] = await waitFor(
-    () => takes(home).at(0) && takes(home),
-    5_000,
-    () => "The service never allocated the take",
+async function heldStart(home, instance, source, requestId) {
+  const answer = call(home, "capture.start", silent(requestId, source)).catch((error) => ({
+    ok: false,
+    error: { code: error.code ?? "CALL_FAILED", message: error.message },
+  }));
+  const [, recordingId] = await instance.waitFor(
+    /capture fixture start held recording=([0-9a-fA-F-]+)/,
   );
-  return recordingId;
+  return { recordingId, answer };
 }
 
 /** Whether this take's own journal says its capture was finished rather than left running. */
@@ -115,7 +140,7 @@ test("records its own window through the service and leaves one inspectable orig
     "Fixture mode must expose this app's own window and nothing else",
   );
 
-  const started = await succeeds(home, "capture.start", { requestId: "take-1", source });
+  const started = await succeeds(home, "capture.start", silent("take-1", source));
   assert.equal(started.state, "recording");
   assert.equal(started.currentRevisionId, null);
   // The take is discoverable immediately, and its timeline is honestly not ready yet.
@@ -144,6 +169,19 @@ test("records its own window through the service and leaves one inspectable orig
   assert.equal(stopped.recordingId, started.recordingId);
   assert.ok(stopped.sourceDurationUs > 1_000_000, `Short take: ${stopped.sourceDurationUs}us`);
 
+  // A take that has ended has no transition left to make, while stopping it again answers with
+  // the outcome it already has.
+  for (const operation of ["capture.pause", "capture.resume"]) {
+    const refused = await call(home, operation, { recordingId: started.recordingId });
+    assert.equal(refused.ok, false, `${operation} on a finished take must be refused`);
+    assert.equal(refused.error.code, "INVALID_STATE");
+    assert.equal(refused.error.details.state, "complete");
+  }
+  assert.deepEqual(
+    await succeeds(home, "capture.stop", { recordingId: started.recordingId }),
+    stopped,
+  );
+
   const original = await succeeds(home, "revision.get", { recordingId: started.recordingId });
   assert.deepEqual(original.revision.spans, [{ startUs: 0, endUs: stopped.sourceDurationUs }]);
   assert.equal(original.revision.id, "r0");
@@ -171,11 +209,11 @@ test("replays a repeated start onto one take and refuses a concurrent second one
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
   const { source } = await fixtureApp(home);
-  const request = { requestId: "once", source };
+  const request = silent("once", source);
   const started = await succeeds(home, "capture.start", request);
   assert.deepEqual(await succeeds(home, "capture.start", request), started);
 
-  const competing = await call(home, "capture.start", { requestId: "competing", source });
+  const competing = await call(home, "capture.start", silent("competing", source));
   assert.equal(competing.ok, false);
   assert.equal(competing.error.code, "INVALID_STATE");
   const refused = competing.error.details.recordingId;
@@ -199,10 +237,11 @@ test("a source this app may not capture fails the start and settles that take", 
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
   const { source } = await fixtureApp(home);
-  const refused = await call(home, "capture.start", {
-    requestId: "other-window",
-    source: { kind: "window", windowId: source.windowId + 1 },
-  });
+  const refused = await call(
+    home,
+    "capture.start",
+    silent("other-window", { kind: "window", windowId: source.windowId + 1 }),
+  );
   assert.equal(refused.ok, false);
   assert.equal(refused.error.code, "SOURCE_UNAVAILABLE");
   const settled = await succeeds(home, "recording.get", {
@@ -223,17 +262,17 @@ test("cancel discards only its own take's media and restart names a new one", as
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
   const { source } = await fixtureApp(home);
-  const kept = await succeeds(home, "capture.start", { requestId: "kept", source });
+  const kept = await succeeds(home, "capture.start", silent("kept", source));
   await delay(1_200);
   await succeeds(home, "capture.stop", { recordingId: kept.recordingId });
 
-  const discarded = await succeeds(home, "capture.start", { requestId: "discarded", source });
+  const discarded = await succeeds(home, "capture.start", silent("discarded", source));
   await delay(600);
-  const restarted = await succeeds(home, "capture.restart", {
-    recordingId: discarded.recordingId,
-    requestId: "restarted",
-    source,
-  });
+  const restarted = await succeeds(
+    home,
+    "capture.restart",
+    silent("restarted", source, { recordingId: discarded.recordingId }),
+  );
   assert.notEqual(restarted.recordingId, discarded.recordingId);
   assert.equal(restarted.state, "recording");
   assert.deepEqual(
@@ -254,7 +293,7 @@ test("a service killed mid-capture leaves a take the next service reconciles fro
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
   const { instance, servicePid, source } = await fixtureApp(home);
-  const started = await succeeds(home, "capture.start", { requestId: "orphan", source });
+  const started = await succeeds(home, "capture.start", silent("orphan", source));
   await delay(1_800);
   process.kill(servicePid, "SIGKILL");
   await instance.waitFor(/service failed code=SERVICE_STOPPED/);
@@ -283,7 +322,7 @@ test("a take killed before any media is decodable stays terminal with no timelin
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
   const { instance, source } = await fixtureApp(home);
-  const started = await succeeds(home, "capture.start", { requestId: "doomed", source });
+  const started = await succeeds(home, "capture.start", silent("doomed", source));
   // Killed before the writer's first fragment, so nothing it wrote can be decoded.
   instance.kill("SIGKILL");
   await instance.exited;
@@ -304,7 +343,7 @@ test("a normal quit during capture finalizes the take before the app exits", asy
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
   const { instance, servicePid, source } = await fixtureApp(home);
-  const started = await succeeds(home, "capture.start", { requestId: "quit", source });
+  const started = await succeeds(home, "capture.start", silent("quit", source));
   await delay(1_500);
   instance.kill("SIGTERM");
   assert.deepEqual(await instance.exited, { code: 0, signal: null });
@@ -323,10 +362,13 @@ test("a normal quit during capture finalizes the take before the app exits", asy
 test("a service lost while a take is starting finalizes it instead of capturing on", async () => {
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
-  const { instance, servicePid, source } = await fixtureApp(home);
-  const recordingId = await starting(home, source, "lost-while-starting");
+  const { instance, servicePid, source } = await fixtureApp(home, holding(home));
+  const { recordingId } = await heldStart(home, instance, source, "lost-while-starting");
   process.kill(servicePid, "SIGKILL");
   await instance.waitFor(/service failed code=SERVICE_STOPPED/);
+  // The library disappears while this app is provably still holding that start.
+  await instance.waitFor(/service lost with a start in flight/);
+  release(home);
 
   // The start lands with no library left to index or control it, so the app finishes that take
   // into its own journal rather than leaving the device capturing.
@@ -354,9 +396,12 @@ test("a service lost while a take is starting finalizes it instead of capturing 
 test("a normal quit while a take is starting finalizes it before the app exits", async () => {
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
-  const { instance, servicePid, source } = await fixtureApp(home);
-  const recordingId = await starting(home, source, "quit-while-starting");
+  const { instance, servicePid, source } = await fixtureApp(home, holding(home));
+  const { recordingId } = await heldStart(home, instance, source, "quit-while-starting");
   instance.kill("SIGTERM");
+  // The quit reaches the take it has already asked for while that start is still held.
+  await instance.waitFor(/quit waiting for a start in flight/);
+  release(home);
 
   assert.deepEqual(await instance.exited, { code: 0, signal: null });
   assert.equal(alive(servicePid), false);
@@ -366,4 +411,74 @@ test("a normal quit while a take is starting finalizes it before the app exits",
     true,
     "The quit abandoned a take whose start was still running",
   );
+});
+
+test("the fixture records no audio device, whether one is asked for or merely defaulted", async () => {
+  requireScreenPermission();
+  const home = temporary("/tmp/scr-capture-");
+  const { source } = await fixtureApp(home);
+  // Both of these are refused by this app before any capture request is built, so neither reaches
+  // an audio device and neither can prompt for one.
+  for (const params of [
+    { requestId: "asked", source, microphone: true, systemAudio: false },
+    { requestId: "defaulted", source },
+  ]) {
+    const refused = await call(home, "capture.start", params);
+    assert.equal(refused.ok, false, `${params.requestId} must not start`);
+    assert.equal(refused.error.code, "INVALID_REQUEST");
+    const settled = await succeeds(home, "recording.get", {
+      recordingId: refused.error.details.recordingId,
+    });
+    assert.equal(settled.state, "interrupted");
+    assert.equal(settled.sourceDurationUs, null);
+  }
+  const status = await succeeds(home, "capture.status");
+  assert.equal(status.device.state, "idle", "The device must be free for the next take");
+  // The silent take this file always asks for is the one the fixture accepts.
+  const started = await succeeds(home, "capture.start", silent("silent", source));
+  assert.equal(started.state, "recording");
+  await succeeds(home, "capture.stop", { recordingId: started.recordingId });
+});
+
+test("a start whose answer is lost replays onto its own take instead of starting a second one", async () => {
+  requireScreenPermission();
+  const home = temporary("/tmp/scr-capture-");
+  const { instance, source } = await fixtureApp(home, holding(home));
+  const request = silent("held", source);
+  const { recordingId, answer } = await heldStart(home, instance, source, request.requestId);
+  // Nothing about this start is answered while it is held, so the service hears only its deadline.
+  const timedOut = await answer;
+  assert.equal(timedOut.ok, false);
+  assert.equal(timedOut.error.code, "TIMEOUT");
+  assert.equal(timedOut.error.details.recordingId, recordingId);
+  assert.equal(timedOut.error.details.state, "preparing");
+
+  const replayed = await call(home, "capture.start", request);
+  // The replay names the same take and leaves it alone: its start is unproved, not refused, and
+  // the device is never asked to start it a second time.
+  assert.equal(replayed.ok, false);
+  assert.equal(replayed.error.code, "UNRESOLVED_START");
+  assert.equal(replayed.error.retryable, true);
+  assert.equal(replayed.error.details.recordingId, recordingId);
+  const unsettled = await succeeds(home, "recording.get", { recordingId });
+  assert.equal(unsettled.state, "preparing");
+  assert.equal(unsettled.interruptionReason, null);
+  assert.deepEqual(takes(home), [recordingId]);
+
+  release(home);
+  await waitFor(
+    () => finalized(home, recordingId),
+    20_000,
+    () => "The held start never finished its own take",
+  );
+  instance.kill("SIGTERM");
+  await instance.exited;
+
+  const relaunched = await fixtureApp(home);
+  await relaunched.instance.waitFor(/reconciliation complete/);
+  const settled = await succeeds(home, "recording.get", { recordingId });
+  assert.equal(settled.state, "interrupted");
+  // The receipt outlived the service that wrote it: the same request still names that one take.
+  assert.deepEqual(await succeeds(home, "capture.start", request), settled);
+  assert.deepEqual(takes(home), [recordingId]);
 });

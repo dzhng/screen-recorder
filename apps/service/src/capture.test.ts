@@ -476,6 +476,14 @@ it(
     });
     // Recovery held the capture order, so nothing restarted the device behind its back.
     expect(service.asked).toEqual([]);
+    // The receipt outlived the service that wrote it, so the same ID asking for a different take
+    // is still refused rather than answered with this one.
+    expect(
+      await service.call("capture.start", {
+        requestId: "replay",
+        source: { kind: "window", windowId: 8 },
+      }),
+    ).toMatchObject({ ok: false, error: { code: "REQUEST_CONFLICT" } });
     await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
   },
 );
@@ -543,3 +551,192 @@ it(
     ).toMatchObject({ ok: true, data: { state: "recording" } });
   },
 );
+
+/**
+ * A native peer whose first start is still running when its answer is lost: the start and the
+ * cleanup stop that follows are both unanswered, a second start meets the refusal a capturing
+ * device gives, and the next stop ends the take.
+ */
+function heldStartPeer(): NativePeer {
+  let held: { recordingId: string; sourceId: string } | undefined;
+  let stops = 0;
+  let sequence = 1;
+  return (operation, params) => {
+    if (operation === "capture.start") {
+      if (held)
+        return {
+          ok: false,
+          error: {
+            code: "INVALID_STATE",
+            message: "Another take is already capturing.",
+            retryable: false,
+            details: {},
+          },
+        };
+      held = { recordingId: params.recordingId as string, sourceId: params.sourceId as string };
+      return undefined;
+    }
+    if (operation === "capture.stop") {
+      stops += 1;
+      if (stops === 1) return undefined;
+      const answer = {
+        ok: true as const,
+        data: {
+          ...held,
+          sequence: (sequence += 1),
+          state: "interrupted",
+          reason: "CAPTURE_INTERRUPTED",
+          sourceDurationUs: 6_000_000,
+        },
+      };
+      held = undefined;
+      return answer;
+    }
+    if (operation === "capture.status")
+      return {
+        ok: true,
+        data: {
+          state: held ? "recording" : "idle",
+          recordingId: held?.recordingId ?? null,
+          sourceId: held?.sourceId ?? null,
+        },
+      };
+    return {
+      ok: false,
+      error: { code: "UNKNOWN_OPERATION", message: operation, retryable: false, details: {} },
+    };
+  };
+}
+
+it(
+  "resolves a replayed start onto its own unproved take instead of starting it again",
+  { timeout: 120_000 },
+  async () => {
+    const home = await temporaryHome();
+    const service = await startService(home, heldStartPeer(), {
+      SCREENREC_NATIVE: await recovers({
+        durationUs: 6_000_000,
+        journal: { header: { sessionID: "s" } },
+      }),
+    });
+    const request = { requestId: "lost", source: fixtureSource };
+    const first = await service.call("capture.start", request, 60_000);
+    expect(first).toMatchObject({
+      ok: false,
+      error: { code: "TIMEOUT", details: { state: "preparing" } },
+    });
+    const { recordingId } = (first as unknown as { error: { details: { recordingId: string } } })
+      .error.details;
+    // Neither the start nor the stop was answered, so the take may still be capturing.
+    expect(await service.call("recording.get", { recordingId })).toMatchObject({
+      ok: true,
+      data: { state: "preparing", sourceDurationUs: null },
+    });
+
+    const replayed = await service.call("capture.start", request, 60_000);
+    // The replay ended and settled the take it already named, from that take's own media.
+    expect(replayed).toMatchObject({
+      ok: true,
+      data: {
+        recordingId,
+        state: "interrupted",
+        interruptionReason: "CAPTURE_INTERRUPTED",
+        sourceDurationUs: 6_000_000,
+      },
+    });
+    expect(service.asked.filter((operation) => operation === "capture.start")).toHaveLength(1);
+    expect(await readdir(join(home, "recordings"))).toEqual([recordingId]);
+  },
+);
+
+it("refuses a start request ID reused for a different take instead of reinterpreting it", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home, capturingPeer());
+  const request = {
+    requestId: "same",
+    source: fixtureSource,
+    microphone: false,
+    systemAudio: false,
+  };
+  const started = await service.call("capture.start", request);
+  expect(started).toMatchObject({ ok: true, data: { state: "recording" } });
+  for (const changed of [
+    { ...request, systemAudio: true },
+    { ...request, source: { kind: "window", windowId: 8 } },
+    { ...request, microphoneDeviceId: "device-1" },
+  ])
+    expect(await service.call("capture.start", changed)).toMatchObject({
+      ok: false,
+      error: { code: "REQUEST_CONFLICT" },
+    });
+  // A refused reuse allocates nothing and starts nothing.
+  expect(service.asked.filter((operation) => operation === "capture.start")).toHaveLength(1);
+  expect(await readdir(join(home, "recordings"))).toHaveLength(1);
+  const replayed = await service.call("capture.start", request);
+  expect(replayed.ok && replayed.data).toEqual(started.ok && started.data);
+});
+
+it("refuses pause and resume on a settled take while every other repeat stays idempotent", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home, capturingPeer({ reason: "SOURCE_LOST" }));
+  const started = await service.call("capture.start", { requestId: "take", source: fixtureSource });
+  if (!started.ok) throw new Error("start failed");
+  const { recordingId } = started.data as { recordingId: string };
+  // Native alone knows what the device is doing, so repeating a live transition stays idempotent.
+  expect(await service.call("capture.pause", { recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "paused" },
+  });
+  expect(await service.call("capture.pause", { recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "paused" },
+  });
+  expect(await service.call("capture.resume", { recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "recording" },
+  });
+  expect(await service.call("capture.resume", { recordingId })).toMatchObject({
+    ok: true,
+    data: { state: "recording" },
+  });
+  const stopped = await service.call("capture.stop", { recordingId });
+  expect(stopped).toMatchObject({ ok: true, data: { state: "interrupted" } });
+
+  // A take that has ended has no transition left to make, whatever ended it.
+  for (const operation of ["capture.pause", "capture.resume"])
+    expect(await service.call(operation, { recordingId })).toMatchObject({
+      ok: false,
+      error: { code: "INVALID_STATE", details: { state: "interrupted" } },
+    });
+  // Stopping a take that already ended still answers with its stored outcome.
+  const again = await service.call("capture.stop", { recordingId });
+  expect(again.ok && again.data).toEqual(stopped.ok && stopped.data);
+  expect(service.asked.filter((operation) => operation === "capture.pause")).toHaveLength(2);
+});
+
+it("carries the product's audio default to native, and a caller's explicit refusal untouched", async () => {
+  const home = await temporaryHome();
+  const requested: Record<string, unknown>[] = [];
+  const peer = capturingPeer();
+  const service = await startService(home, (operation, params) => {
+    if (operation === "capture.start") requested.push(params);
+    return peer(operation, params);
+  });
+  const started = await service.call("capture.start", {
+    requestId: "default",
+    source: fixtureSource,
+  });
+  if (!started.ok) throw new Error("start failed");
+  // The product records the person by default; nothing here reaches a real device.
+  expect(requested[0]).toMatchObject({ microphone: true, systemAudio: false });
+  await service.call("capture.stop", {
+    recordingId: (started.data as { recordingId: string }).recordingId,
+  });
+  await service.call("capture.start", {
+    requestId: "silent",
+    source: fixtureSource,
+    microphone: false,
+    systemAudio: false,
+  });
+  expect(requested[1]).toMatchObject({ microphone: false, systemAudio: false });
+});

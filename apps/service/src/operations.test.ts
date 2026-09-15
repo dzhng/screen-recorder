@@ -19,7 +19,7 @@ async function seed() {
     now: () => "fixture",
     newId: randomUUID,
   });
-  const recording = store.allocate();
+  const recording = store.allocate().recording;
   store.ingestLifecycle(recording.recordingId, {
     sourceId: recording.sourceId,
     sequence: 1,
@@ -36,7 +36,7 @@ async function seed() {
     state: "complete",
     sourceDurationUs: 10_000_000,
   });
-  const failed = store.allocate();
+  const failed = store.allocate().recording;
   store.ingestLifecycle(failed.recordingId, {
     sourceId: failed.sourceId,
     sequence: 1,
@@ -44,8 +44,8 @@ async function seed() {
     reason: "START_FAILED",
     sourceDurationUs: null,
   });
-  const unfinished = store.allocate();
-  const canceled = store.allocate();
+  const unfinished = store.allocate().recording;
+  const canceled = store.allocate().recording;
   store.ingestLifecycle(canceled.recordingId, {
     sourceId: canceled.sourceId,
     sequence: 1,

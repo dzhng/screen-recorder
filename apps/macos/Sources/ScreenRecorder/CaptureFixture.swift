@@ -89,3 +89,41 @@ func fiducialGlobalPoints(of window: NSWindow) -> [CGPoint] {
         return GlobalPointSpace.flip(appKit: onScreen, zeroOriginHeight: height)
     }
 }
+
+/**
+ A fixture-only hold on a start this app's capture session has already accepted. A test that needs
+ to act while a start is genuinely pending releases it by creating the named file; the hold
+ announces itself first, so the test acts on an acknowledged pending start rather than on a guess
+ about timing. It exists only for a launch that already opened this app's own fixture window and
+ was given a release path, and every hold ends on its own deadline whether or not a test releases
+ it, so a failed check can never leave a take held.
+ */
+struct FixtureStartHold {
+    static let variable = "SCREENREC_FIXTURE_START_HOLD"
+    /// Longer than the control channel's own deadlines, so a check can watch a start outlive more
+    /// than one of them, and short enough that a check which never releases still ends.
+    private static let deadline: TimeInterval = 45
+    private static let poll: Duration = .milliseconds(25)
+    let releasePath: String
+
+    /// Only ever built for a fixture launch; an ordinary launch has no hold to find.
+    static func inFixture(_ fixtureWindow: NSWindow?) -> FixtureStartHold? {
+        guard fixtureWindow != nil,
+            let path = ProcessInfo.processInfo.environment[variable], !path.isEmpty
+        else { return nil }
+        return FixtureStartHold(releasePath: path)
+    }
+
+    func hold(recordingId: String) async {
+        diagnostic("capture fixture start held recording=\(recordingId)")
+        let limit = Date().addingTimeInterval(Self.deadline)
+        while !FileManager.default.fileExists(atPath: releasePath) {
+            guard Date() < limit else {
+                diagnostic("capture fixture start hold expired recording=\(recordingId)")
+                return
+            }
+            try? await Task.sleep(for: Self.poll)
+        }
+        diagnostic("capture fixture start released recording=\(recordingId)")
+    }
+}

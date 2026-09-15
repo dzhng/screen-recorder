@@ -1,6 +1,7 @@
 import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import {
+  CatalogError,
   isSettled,
   type LifecycleEvent,
   type Recording,
@@ -99,11 +100,18 @@ export class CaptureService {
     };
   }
 
-  /** Allocates identity and directory first; a repeated request ID answers with the same take. */
+  /**
+   * Allocates identity and directory first, against a durable receipt for the request that asked
+   * for them: a repeated request ID answers with the same take and never starts capture twice,
+   * and the same ID asking for a different take is refused rather than quietly reinterpreted.
+   */
   start(selection: CaptureSelection & { requestId: string }): Promise<Recording> {
     return this.serialize(async () => {
-      const allocated = this.store.allocate(selection.requestId);
-      return allocated.state === "preparing" ? this.begin(allocated, selection) : allocated;
+      const { recording, replay } = this.store.allocate({
+        requestId: selection.requestId,
+        arguments: allocationArguments("capture.start", selection),
+      });
+      return replay ? this.resolve(recording) : this.begin(recording, selection);
     });
   }
 
@@ -112,13 +120,39 @@ export class CaptureService {
     selection: CaptureSelection & { recordingId: string; requestId: string },
   ): Promise<Recording> {
     return this.serialize(async () => {
-      const fresh = this.store.allocate(selection.requestId);
-      if (fresh.state !== "preparing") return fresh;
-      if (fresh.recordingId === selection.recordingId)
-        throw new CaptureError("INVALID_STATE", "A take cannot restart itself");
-      await this.discard(selection.recordingId);
-      return this.begin(fresh, selection);
+      const { recording, replay } = this.store.allocate({
+        requestId: selection.requestId,
+        arguments: allocationArguments("capture.restart", selection),
+      });
+      if (replay) return this.resolve(recording);
+      try {
+        await this.discard(selection.recordingId);
+      } catch (error) {
+        // The take this restart named could not be discarded, so its replacement never reached
+        // the device: it is settled with that refusal instead of left as an unresolvable receipt.
+        throw this.refused(recording, error);
+      }
+      return this.begin(recording, selection);
     });
+  }
+
+  /**
+   * Answers a replayed request with the take it already named. A take whose start was never
+   * answered is ended and settled here rather than started a second time: native's refusal of
+   * that second start would be about the take already running, and says nothing about whether
+   * the first one captured media.
+   */
+  private async resolve(recording: Recording): Promise<Recording> {
+    if (recording.state !== "preparing") return recording;
+    const settled = await this.abandon(recording);
+    if (settled.state === "preparing")
+      throw new CaptureError(
+        "UNRESOLVED_START",
+        "This take's start is still unproved; retry the same request",
+        { recordingId: settled.recordingId, state: settled.state },
+        true,
+      );
+    return settled;
   }
 
   pause(recordingId: string): Promise<Recording> {
@@ -173,10 +207,14 @@ export class CaptureService {
   }
 
   private async begin(recording: Recording, selection: CaptureSelection): Promise<Recording> {
-    await mkdir(sourceDirectory(this.home, recording.recordingId), {
-      recursive: true,
-      mode: 0o700,
-    });
+    try {
+      await mkdir(sourceDirectory(this.home, recording.recordingId), {
+        recursive: true,
+        mode: 0o700,
+      });
+    } catch (error) {
+      throw this.refused(recording, error);
+    }
     const answer = await this.native(
       "capture.start",
       nativeStartSchema.parse({
@@ -187,20 +225,35 @@ export class CaptureService {
       }),
     );
     if (answer.ok) return this.apply(recording, answer.data);
-    const failed = unanswered(answer.error.code)
-      ? await this.abandon(recording)
-      : // A take native refused never captured, so it keeps its identity and that refusal's
-        // reason rather than disappearing or waiting forever in preparing.
-        this.author(recording, {
-          state: "interrupted",
-          reason: answer.error.code,
-          sourceDurationUs: null,
-        });
+    if (!unanswered(answer.error.code)) throw this.refused(recording, fromNative(answer));
+    const failed = await this.abandon(recording);
     throw new CaptureError(
       answer.error.code,
       answer.error.message,
       { recordingId: failed.recordingId, state: failed.state },
       answer.error.retryable,
+    );
+  }
+
+  /**
+   * Settles a take that never reached the device, and states why. A start native refused, or one
+   * whose preparation refused before native was asked, keeps its identity and that reason rather
+   * than disappearing or waiting forever in preparing where nothing could ever resolve it.
+   */
+  private refused(recording: Recording, error: unknown): CaptureError {
+    const refusal = error instanceof CaptureError || error instanceof CatalogError ? error : null;
+    // An owner's own code when there is one; anything else is a failure this service cannot name.
+    const code = refusal?.code ?? "INTERNAL_ERROR";
+    const failed = this.author(recording, {
+      state: "interrupted",
+      reason: code,
+      sourceDurationUs: null,
+    });
+    return new CaptureError(
+      code,
+      (error as Error).message,
+      { recordingId: failed.recordingId, state: failed.state },
+      refusal?.retryable ?? false,
     );
   }
 
@@ -225,9 +278,23 @@ export class CaptureService {
     return recording;
   }
 
-  private async transition(recordingId: string, operation: string): Promise<Recording> {
+  /**
+   * Pause and resume are transitions of a live capture, so a take that has already ended refuses
+   * them rather than answering with its stored outcome. Stopping a finished take stays idempotent;
+   * pausing a paused take and resuming a recording one stay idempotent through native's own
+   * validation, which is the only thing that knows what the device is doing.
+   */
+  private async transition(
+    recordingId: string,
+    operation: "capture.pause" | "capture.resume",
+  ): Promise<Recording> {
     const recording = this.store.get(recordingId);
-    if (isSettled(recording.state)) return recording;
+    if (isSettled(recording.state))
+      throw new CaptureError(
+        "INVALID_STATE",
+        `A ${recording.state} take cannot ${operation === "capture.pause" ? "pause" : "resume"}`,
+        { state: recording.state },
+      );
     const answer = await this.native(operation, { recordingId });
     if (!answer.ok) throw fromNative(answer);
     return this.apply(recording, answer.data);
@@ -300,6 +367,28 @@ export class CaptureService {
     if (!answer.ok) throw fromNative(answer);
     return answer.data;
   }
+}
+
+/**
+ * What a request asked for, in one canonical order, so that a replayed request ID is recognized as
+ * the same take and the same ID asking for a different one is refused. Field order is stated here
+ * rather than taken from a parsed object's key order.
+ */
+function allocationArguments(
+  operation: string,
+  selection: CaptureSelection & { recordingId?: string },
+): string {
+  const source = selection.source;
+  return JSON.stringify([
+    operation,
+    selection.recordingId ?? null,
+    source.kind,
+    source.kind === "window" ? source.windowId : source.displayId,
+    source.kind === "region" ? [source.x, source.y, source.width, source.height] : null,
+    selection.microphone,
+    selection.systemAudio,
+    selection.microphoneDeviceId ?? null,
+  ]);
 }
 
 /**

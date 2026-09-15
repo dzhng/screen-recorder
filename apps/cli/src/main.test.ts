@@ -26,7 +26,7 @@ async function serviceFixture() {
     now: () => "fixture",
     newId: randomUUID,
   });
-  const recording = store.allocate();
+  const recording = store.allocate().recording;
   store.ingestLifecycle(recording.recordingId, {
     sourceId: recording.sourceId,
     sequence: 1,

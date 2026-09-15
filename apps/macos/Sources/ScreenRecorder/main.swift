@@ -1,6 +1,12 @@
 import AppKit
 import Darwin
 
+/// One line of this app's diagnostics. Everything this app says about itself goes to stderr, in
+/// this one form, so a launch's whole story reads in order whichever part of it wrote a line.
+func diagnostic(_ message: String) {
+    FileHandle.standardError.write(Data("screenrec: \(message)\n".utf8))
+}
+
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var statusItem: NSStatusItem?
@@ -37,7 +43,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if ProcessInfo.processInfo.environment["SCREENREC_FIXTURE_WINDOW"] == "1" {
             let window = makeCaptureFixtureWindow()
             fixture = window
-            log("capture fixture window=\(window.windowNumber)")
+            diagnostic("capture fixture window=\(window.windowNumber)")
         }
         controller = CaptureController(fixtureWindow: fixture)
         startService()
@@ -89,10 +95,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             show("Screen Recorder — Starting…")
         case .ready(let pid, let socketPath):
             show("Screen Recorder — Ready")
-            log("service ready pid=\(pid) socket=\(socketPath)")
+            diagnostic("service ready pid=\(pid) socket=\(socketPath)")
             // One real control round trip proves the inherited pipe, not just the spawn.
             requestHealth { health in
-                self.log("service health status=\(health.status) pid=\(health.pid) node=v\(health.node)")
+                diagnostic("service health status=\(health.status) pid=\(health.pid) node=v\(health.node)")
             }
         case .unavailable(let code, let message):
             report(code: code, message: message)
@@ -126,15 +132,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// process identities and interpreter versions stay in the stderr diagnostics.
     private func report(code: String, message: String) {
         show("Screen Recorder — Unavailable: \(message)")
-        log("service failed code=\(code) message=\(message)")
+        diagnostic("service failed code=\(code) message=\(message)")
     }
 
     private func show(_ title: String) {
         statusEntry?.title = title
-    }
-
-    private func log(_ message: String) {
-        FileHandle.standardError.write(Data("screenrec: \(message)\n".utf8))
     }
 
     func menuWillOpen(_ menu: NSMenu) {
@@ -152,7 +154,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             NSApplication.shared.terminate(nil)
             return
         }
-        log("finalizing the running take before quitting")
+        diagnostic("finalizing the running take before quitting")
         Task { @MainActor in
             await controller.finalizeBeforeQuit()
             NSApplication.shared.terminate(nil)

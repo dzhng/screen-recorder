@@ -2,7 +2,7 @@
 
 Status: complete for machine capture control, allocation and source reconciliation.
 The packaged app's own fixture window is captured through the real service, client and
-socket; 9 app capture checks, 12 service capture checks and the existing lifetime,
+socket; 11 app capture checks, 16 service capture checks and the existing lifetime,
 library-operation and native recovery checks pass together. Dependencies: 01, 02, 06c,
 06d, 06e. This does not close parent [06](06-service-and-jobs.md): durable artifact
 jobs, `recordings.list`, storage accounting and delete remain there.
@@ -29,11 +29,34 @@ transitions. Neither side keeps a second device state machine or a second catalo
   service authors itself — a refused start, a cancel, a reconciled interruption — are
   numbered from that limit up, so a service-authored outcome is always the later word and
   a late native report cannot silently occupy or overwrite its number.
-- **Replay, not a second take.** A start request ID is the catalog's allocation key: a
-  repeated request answers with the same take and never starts capture twice. A restart
-  allocates a distinct new take and answers a replay with that same new take. A start
-  native refuses leaves an interrupted take with the refusal's reason, no original
-  revision and no media.
+- **Replay, not a second take.** A start request ID is the catalog's allocation key, and
+  allocating against it is a durable receipt: the catalog states whether a request is
+  being allocated for the first time or replayed, and stores the canonical arguments it
+  was allocated for. A repeated request answers with the same take and never starts
+  capture twice; the same ID asking for a different source or a different audio selection
+  is `REQUEST_CONFLICT`, not a second interpretation. The receipt outlives the service, so
+  a replay after a relaunch still names that one take. A restart allocates a distinct new
+  take and answers a replay with that same new take. A start native refuses leaves an
+  interrupted take with the refusal's reason, no original revision and no media, and so
+  does a take whose preparation refused before native was ever asked — a receipt that
+  could never resolve is worse than a settled failure.
+- **A replay never re-asks the device.** Replaying a take whose start was never proved
+  ends and settles that take instead of starting it again: a second start would be refused
+  because the first one may still be running, and that refusal says nothing about the media
+  the first start may already have written. A replay that still cannot prove the take
+  ended answers `UNRESOLVED_START`, retryable, with the take left unsettled — still
+  reachable by a later stop, by the session's own reports and by the next startup's
+  recovery.
+- **Only a live take transitions.** Pause and resume on a take that has already ended are
+  refused with `INVALID_STATE` rather than answered with its stored outcome. Stopping a
+  finished take stays idempotent, and pausing a paused take or resuming a recording one
+  stays idempotent through native's own validation, which is the only thing that knows
+  what the device is doing.
+- **One owner for the audio default.** The protocol's capture selection is the single place
+  either audio default is stated: these takes are narrated, so the microphone is on unless
+  a caller refuses it, and system audio stays out until it is asked for. Every start sends
+  both choices explicitly, and native refuses a start that omits either rather than keeping
+  a default of its own to disagree with.
 - **A deadline is not a refusal.** Only native's own answer says what the device did, so a
   start the channel never carried an answer for is ended on the device and settled from the
   media that ending left behind. A take whose end cannot be proved stays unsettled, still
@@ -56,19 +79,37 @@ transitions. Neither side keeps a second device state machine or a second catalo
 ## Verification
 
 `apps/macos/tests/capture-service.test.mjs` drives the packaged app, its service child
-and the local client against a temporary `SCREENREC_HOME`, capturing this app's own
-fixture window with microphone and system audio off. It covers: fixture-only source
-listing, a take discoverable before it is ready, pause/resume/stop leaving an inspectable
-`r0`, paused time absent from the source duration, the allocated source ID in the journal,
-replayed and concurrent starts, a refused source, cancel and restart, a killed service
-followed by relaunch reconciliation, a take killed before any decodable media, a normal
-quit during capture, and a service lost or a normal quit while a take is still starting.
+and the local client against a temporary `SCREENREC_HOME`. Every take it starts states
+`microphone: false` and `systemAudio: false`, and the app refuses a fixture take that asks
+for either — including one that merely defaults to the microphone — so no check can reach
+an audio device. It covers: fixture-only source listing, a take discoverable before it is
+ready, pause/resume/stop leaving an inspectable `r0`, pause and resume refused once that
+take is complete, paused time absent from the source duration, the allocated source ID in
+the journal, replayed and concurrent starts, a refused source, cancel and restart, a killed
+service followed by relaunch reconciliation, a take killed before any decodable media, a
+normal quit during capture, a service lost or a normal quit while a take is still starting,
+and a start whose answer is lost being replayed onto its own take rather than onto a second
+one.
+
+Anything that acts on a start still in flight synchronizes on a fixture-only hold: the app
+announces that it is holding an accepted start, waits for a named file to appear, and ends
+the hold on its own deadline whether or not a check releases it. Only a launch that already
+opened this app's own fixture window and was given that path can hold at all, so an ordinary
+launch has no such mechanism. Every app and every process it owns is signalled and waited
+for before the scratch directory holding its media is removed, and a process this run owns
+that outlives it fails the run.
 
 `apps/service/src/capture.test.ts` drives the real service with the test acting as the
 app, so native refusals, pushed reports, recovery outcomes, an unanswered native call, an
-unanswered start and a start replayed onto a take that is still being recovered are exact
-and bounded. Screen permission is never requested automatically: a missing permission
+unanswered start, a start whose start and cleanup stop were both unanswered and then
+replayed, a request ID reused for a different take, pause and resume on a settled take, the
+audio default reaching native, and a start replayed onto a take that is still being
+recovered are exact and bounded. Screen permission is never requested automatically: a missing permission
 fails the capture checks with an actionable message instead of substituting a mock.
 
 Not proved here: microphone or system audio capture, display and region sources, menu
-recording controls, artifact jobs, and sudden power loss.
+recording controls, artifact jobs, and sudden power loss. A catalog written before takes
+carried their allocation arguments still opens, but a start request ID recorded by that
+older build can no longer be replayed — there is nothing stored to prove the replay asks
+for the same take, so it answers `REQUEST_CONFLICT`. That take is still readable, still
+stoppable and still reconciled at the next startup.

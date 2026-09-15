@@ -8,7 +8,7 @@ const store = new RevisionStore(database, {
   now: () => new Date().toISOString(),
   newId: randomUUID,
 });
-const recording = store.allocate();
+const recording = store.allocate().recording;
 store.registerSource(recording.recordingId, 10_000_000);
 const listener = await listenLocal({
   runtimeDirectory,

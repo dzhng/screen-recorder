@@ -25,10 +25,14 @@ export const captureSourceSchema = z.discriminatedUnion("kind", [
 ]);
 export type CaptureSource = z.infer<typeof captureSourceSchema>;
 
-/** What a caller chooses about a take. Audio is off unless it is explicitly selected. */
+/**
+ * What a caller chooses about a take. These takes are narrated, so the microphone is on unless a
+ * caller refuses it, and what the machine itself plays stays out until it is asked for. This is
+ * the one place either default is stated: every peer is told both, explicitly, on every start.
+ */
 export const captureSelectionSchema = z.object({
   source: captureSourceSchema,
-  microphone: z.boolean().default(false),
+  microphone: z.boolean().default(true),
   systemAudio: z.boolean().default(false),
   microphoneDeviceId: id.optional(),
 });

@@ -19,9 +19,14 @@ export const finderEnvironment = {
 
 const scratch = [];
 const launched = [];
-after(() => {
-  for (const instance of launched) instance.kill("SIGKILL");
+// Nothing this file started may outlive it: every app and every process it owns is signalled and
+// waited for before its scratch directory — and the media inside it — is removed.
+after(async () => {
+  const surviving = [];
+  for (const instance of launched) surviving.push(...(await instance.reap()));
   for (const directory of scratch) rmSync(directory, { recursive: true, force: true });
+  if (surviving.length)
+    throw new Error(`Processes this run owns are still alive: ${surviving.join(", ")}`);
 });
 
 export function temporary(prefix) {
@@ -47,6 +52,8 @@ export function launch(home, environment = {}) {
   );
   const instance = {
     exited,
+    /** Every process this launch owns, including ones it has already outlived. */
+    owned: [],
     get diagnostics() {
       return diagnostics;
     },
@@ -57,6 +64,24 @@ export function launch(home, environment = {}) {
       if (instance.running) child.kill(signal);
     },
     children: () => childProcessesOf(child.pid),
+    /**
+     * Ends this app and everything it owns, and waits for all of them, so no test process is still
+     * running — or still holding a deleted file open — once the run is over.
+     */
+    reap: async () => {
+      const owned = new Set(instance.owned);
+      if (instance.running) for (const { pid } of instance.children()) owned.add(pid);
+      instance.kill("SIGKILL");
+      await exited;
+      const surviving = () => [...owned].filter(runsThisBuild);
+      for (const pid of surviving()) process.kill(pid, "SIGKILL");
+      try {
+        await waitFor(() => surviving().length === 0, 5_000);
+        return [];
+      } catch {
+        return surviving();
+      }
+    },
     waitFor: (pattern, timeoutMs = 20_000) =>
       waitFor(
         () => diagnostics.match(pattern),
@@ -71,6 +96,7 @@ export function launch(home, environment = {}) {
 export async function launchReady(home, environment) {
   const instance = launch(home, environment);
   const [, pid] = await instance.waitFor(/service ready pid=(\d+)/);
+  instance.owned.push(Number(pid));
   return { instance, servicePid: Number(pid) };
 }
 
@@ -92,6 +118,23 @@ export function childProcessesOf(pid) {
     .map((line) => line.trim().match(/^(\d+)\s+(\d+)\s+(.*)$/))
     .filter((match) => match && Number(match[2]) === pid)
     .map((match) => ({ pid: Number(match[1]), command: match[3] }));
+}
+
+/** The app bundle every process this harness owns runs out of, app and bundled service alike. */
+const bundle = app.slice(0, app.indexOf(".app") + 4);
+
+/**
+ * Whether this PID is still one of ours. A PID that has been reused since this run recorded it
+ * belongs to somebody else, and nothing here may inspect or signal it.
+ */
+function runsThisBuild(pid) {
+  try {
+    return execFileSync("/bin/ps", ["-o", "command=", "-p", String(pid)], {
+      encoding: "utf8",
+    }).includes(bundle);
+  } catch {
+    return false;
+  }
 }
 
 export function alive(pid) {
