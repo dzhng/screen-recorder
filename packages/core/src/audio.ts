@@ -75,29 +75,57 @@ function audioExcerptSpans(revision: TimelineRevision, range: TimeRange) {
   return spans;
 }
 
-/** One planner for live and relocated media; the caller owns asset resolution and containment. */
+type AudioSourceInput = {
+  recordingId: string;
+  sourceId: string;
+  sourceEvidence: SourceEvidenceMetadata;
+};
+
+/** Public excerpts retain their inspection limits and require an acquired track. */
 export function planAudioExcerpt(
-  input: {
-    recordingId: string;
-    sourceId: string;
+  input: AudioSourceInput & {
     revision: TimelineRevision;
     range: TimeRange;
     track: AudioInput["track"];
-    sourceEvidence: SourceEvidenceMetadata;
   },
   evidence: SourceAudioRead,
   resolveSource: (role: AudioRole) => string,
 ) {
+  const spans = audioExcerptSpans(input.revision, input.range);
+  const result = planAudioTracks(
+    { ...input, spans, track: input.track },
+    evidence,
+    resolveSource,
+    1000,
+  );
+  if (!result.tracks.length)
+    throw new CatalogError("UNAVAILABLE", "Selected audio was not acquired", {
+      missingRoles: result.missingRoles,
+    });
+  return { spans, ...result };
+}
+
+/** Acquisition truth for excerpts and complete movies, including genuinely absent tracks.
+ * Spans come from the shared timeline; callers own asset containment and request-size limits. */
+export function planAudioTracks(
+  input: AudioSourceInput & {
+    spans: readonly TimeRange[];
+    track: AudioInput["track"];
+  },
+  evidence: SourceAudioRead,
+  resolveSource: (role: AudioRole) => string,
+  maximumIntervals = 10_000,
+) {
+  const { spans, track } = input;
   if (
     input.recordingId !== input.sourceEvidence.recordingId ||
     input.sourceId !== input.sourceEvidence.sourceId
   )
     throw new CatalogError("INVALID_EVIDENCE", "Audio evidence belongs to another source");
-  const spans = audioExcerptSpans(input.revision, input.range);
-  validateTrack(input.track);
+  validateTrack(track);
   const metadata = input.sourceEvidence;
   const header = metadata.receipt.header;
-  const selected: AudioRole[] = input.track === "mix" ? ["narration", "system"] : [input.track];
+  const selected: AudioRole[] = track === "mix" ? ["narration", "system"] : [track];
   const tracks: AudioTrackPlan[] = [],
     missingRoles: MissingRole[] = [];
   for (const role of selected) {
@@ -115,8 +143,8 @@ export function planAudioExcerpt(
     const available: TimeRange[] = [];
     for (const span of spans) {
       available.push(...evidence.audio(metadata, role, span));
-      if (available.length > 1000)
-        throw new CatalogError("LIMIT_EXCEEDED", "Too many acquired intervals in audio excerpt");
+      if (available.length > maximumIntervals)
+        throw new CatalogError("LIMIT_EXCEEDED", "Too many acquired intervals in retained audio");
     }
     const source = resolveSource(role);
     if (!isAbsolute(source))
@@ -128,9 +156,7 @@ export function planAudioExcerpt(
       available,
     });
   }
-  if (!tracks.length)
-    throw new CatalogError("UNAVAILABLE", "Selected audio was not acquired", { missingRoles });
-  return { spans, tracks, missingRoles };
+  return { tracks, missingRoles };
 }
 
 /** Core owns edit projection and acquisition evidence; native owns samples, mixing and WAVE output. */

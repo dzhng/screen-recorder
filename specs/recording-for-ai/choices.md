@@ -1286,3 +1286,24 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   multiple and explicitly refuses an unrepresentable timescale. It preserves
   existing PCM rounding and exact video timing instead of inventing another cut
   or resampling policy.
+
+
+## Full-revision acquisition planning
+
+- **When:** shared retained-audio planning pass after 13c feasibility.
+- **Choice:** keep excerpt limits at the excerpt boundary. If an agent removes
+  one thousand small ranges in one allowed edit, the movie may have one thousand
+  and one remaining pieces. Planning those pieces uses the same recorded-audio
+  evidence as a short excerpt, with a bounded ten-thousand-interval movie budget;
+  the excerpt keeps its existing smaller budget. A movie with neither acquired
+  track gets explicit absent-track reasons and remains silent, while requesting
+  an audio-only excerpt still reports unavailable.
+- **Gap:** the original excerpt planner combined acquisition truth with limits
+  intended for short inspection requests. The native video plan already accepts
+  up to ten thousand retained spans, but the audio defaults originated in excerpts.
+- **Reach:** full-movie callers inherit one acquisition policy. This does not
+  eliminate the source reader's per-range budget or certify arbitrary fragmented
+  exports; paged execution remains necessary beyond current bounded plans.
+- **Verdict:** sound, medium confidence. Separating request limits prevents a valid
+  ordinary edit batch from accidentally inheriting the excerpt restriction,
+  without dropping tracks or widening the public excerpt API.

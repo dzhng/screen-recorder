@@ -7,7 +7,14 @@ import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
-import { AudioInspection, planAudioExcerpt, type AudioDecoder, type AudioRole } from "./audio.js";
+import {
+  AudioInspection,
+  planAudioExcerpt,
+  planAudioTracks,
+  type AudioDecoder,
+  type AudioRole,
+} from "./audio.js";
+import { createRevision, cutSpans } from "./timeline.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
@@ -517,4 +524,93 @@ test("shared audio planning rejects mismatched source identity and unresolved as
   expect(() => planAudioExcerpt(input, f.evidence, () => "relative.wav")).toThrow(
     expect.objectContaining({ code: "INVALID_PATH" }),
   );
+});
+
+test("full-revision audio preserves an allowed thousand-cut batch without excerpt limits", async () => {
+  const f = await fixture();
+  const original = f.store.revision(f.take.recordingId);
+  const cuts = Array.from({ length: 1000 }, (_, i) => ({
+    startUs: 10_000 + i * 30_000,
+    endUs: 15_000 + i * 30_000,
+  }));
+  const revision = createRevision(original, cutSpans(original, cuts), {
+    id: "many-cuts",
+    operation: "cut",
+    createdAt: "fixture",
+  });
+  const input = {
+    recordingId: f.take.recordingId,
+    sourceId: f.take.sourceId,
+    revision,
+    sourceEvidence: f.processing.status(f.take.recordingId).published!.evidence,
+  };
+  const resolve = (role: AudioRole) => join(f.home, role + ".mov");
+  const planned = planAudioTracks(
+    { ...input, spans: input.revision.spans, track: "mix" },
+    f.evidence,
+    resolve,
+  );
+  expect(revision.spans).toHaveLength(1001);
+  expect(revision.durationUs).toBe(35_000_000);
+  expect(planned.tracks.map((track) => track.available)).toEqual([revision.spans, revision.spans]);
+  expect(planned.missingRoles).toEqual([]);
+  expect(() =>
+    planAudioExcerpt(
+      { ...input, track: "mix", range: { startUs: 0, endUs: revision.durationUs } },
+      f.evidence,
+      resolve,
+    ),
+  ).toThrow(expect.objectContaining({ code: "LIMIT_EXCEEDED" }));
+  expect(() =>
+    planAudioExcerpt(
+      { ...input, track: "mix", range: { startUs: 0, endUs: 25_010_000 } },
+      f.evidence,
+      resolve,
+    ),
+  ).toThrow(expect.objectContaining({ code: "LIMIT_EXCEEDED" }));
+  const short = { ...input, range: { startUs: 0, endUs: 100_000 }, track: "mix" as const };
+  expect(
+    planAudioExcerpt(short, f.evidence, resolve).tracks.map((track) => track.available),
+  ).toEqual(
+    [0, 1].map(() => [
+      { startUs: 0, endUs: 10_000 },
+      { startUs: 15_000, endUs: 40_000 },
+      { startUs: 45_000, endUs: 70_000 },
+      { startUs: 75_000, endUs: 100_000 },
+      { startUs: 105_000, endUs: 120_000 },
+    ]),
+  );
+});
+
+test("silent movie planning preserves missing-role reasons without resolving absent assets", async () => {
+  const f = await fixture({ microphone: false, systemAudio: true, intervals: [] });
+  const input = {
+    recordingId: f.take.recordingId,
+    sourceId: f.take.sourceId,
+    revision: f.store.revision(f.take.recordingId),
+    sourceEvidence: f.processing.status(f.take.recordingId).published!.evidence,
+  };
+  const resolve = () => {
+    throw new Error("Absent audio has no asset");
+  };
+  const plan = planAudioTracks(
+    { ...input, spans: input.revision.spans, track: "mix" },
+    f.evidence,
+    resolve,
+  );
+  expect(plan.tracks).toEqual([]);
+  expect(plan.missingRoles).toEqual([
+    { role: "narration", reason: "not_requested" },
+    { role: "system", reason: "not_acquired" },
+  ]);
+  expect(() => planAudioExcerpt({ ...input, ...f.input }, f.evidence, resolve)).toThrow(
+    expect.objectContaining({ code: "UNAVAILABLE" }),
+  );
+  expect(() =>
+    planAudioTracks(
+      { ...input, sourceId: "other", spans: input.revision.spans, track: "mix" },
+      f.evidence,
+      resolve,
+    ),
+  ).toThrow(expect.objectContaining({ code: "INVALID_EVIDENCE" }));
 });

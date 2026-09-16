@@ -87,3 +87,6 @@ The production worker was rebuilt and still returns `UNKNOWN_OPERATION` for
 The [merged verification](merged-verification.json) records a rebuilt optional
 native target and all eight checks passing on the main checkout. Its
 [execution log](merged-tests.txt) retains the test names and terminal result.
+
+[Shared audio planning](audio-planning.md) keeps source acquisition semantics common
+to excerpts and full revisions while preserving their different request limits.
