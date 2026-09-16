@@ -620,3 +620,51 @@ test("an earlier development job catalog is rejected rather than repaired", asyn
     store.catalog.prepare("SELECT 1 FROM sqlite_master WHERE name='jobs_active_identity'").get(),
   ).toBeDefined();
 });
+
+test("regenerating an evicted artifact preserves its revision and cannot invalidate a newer publication", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const request = { recordingId, artifact: "frame", lane: "frame" as const, input: "at=10" };
+  const original = queue.submit(request);
+  (await started(original.attemptId)).finish("frame-one");
+  await queue.idle();
+  store.edit(recordingId, {
+    operation: "cut",
+    requestId: "edit",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 0, endUs: 5 }],
+  });
+  const replacement = queue.regenerate(original.jobId, original.generation);
+  expect(replacement).toMatchObject({ revisionId: "r0", generation: 2 });
+  expect(replacement.attemptId).not.toBe(original.attemptId);
+  expect(queue.status({ ...request, revisionId: "r0" }).published).toBeNull();
+  expect(queue.regenerate(original.jobId, original.generation).attemptId).toBe(
+    replacement.attemptId,
+  );
+  (await started(replacement.attemptId)).finish("frame-two");
+  await queue.idle();
+  expect(queue.regenerate(original.jobId, original.generation)).toMatchObject({
+    state: "ready",
+    generation: 2,
+    attemptId: replacement.attemptId,
+  });
+  expect(queue.status({ ...request, revisionId: "r0" }).published?.result).toBe("frame-two");
+});
+
+test("cache regeneration preserves the published artifact when queue admission is full", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const job = queue.submit({ recordingId, artifact: "frame", lane: "frame", input: "cached" });
+  (await started(job.attemptId)).finish("still-readable");
+  await queue.idle();
+  // Capture holds the heavy lane, so all pending slots remain occupied.
+  store.allocate();
+  for (let i = 0; i < 32; i++)
+    queue.submit({ recordingId, artifact: "transcript", lane: "heavy", input: `pending-${i}` });
+  expect(() => queue.regenerate(job.jobId, job.generation)).toThrow(
+    expect.objectContaining({ code: "LIMIT_EXCEEDED" }),
+  );
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "frame", input: "cached" }),
+  ).toMatchObject({ state: "ready", published: { generation: 1, result: "still-readable" } });
+});

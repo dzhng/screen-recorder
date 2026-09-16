@@ -493,3 +493,20 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
 - **Verdict:** Sound: prevents repeated interrupted attempts accumulating unused
   evidence without treating a canceled-but-running worker as safe to delete.
   **Confidence:** High.
+
+## Cache regeneration
+
+### Sound — high confidence
+
+- **Choice:** Regeneration names the exact published generation it found missing.
+  For example, two frame readers notice an evicted file; the first starts a new
+  decode, and the second cannot erase that new work using its old observation.
+  The new decode keeps the original requested edit revision even if the user cuts
+  the recording while it waits.
+- **Gap:** The cache contract required evicted files to be recreatable but did not
+  specify the queue transition or its stale-observer protection.
+- **Reach:** Disposable media owners use regeneration for cache misses; ordinary
+  retry of completed retained evidence remains idempotent. Queue admission and
+  obsolete-publication removal happen together, so a full queue loses no metadata.
+- **Verdict:** Sound: cache eviction does not weaken durable attempt identity.
+  **Confidence:** High.

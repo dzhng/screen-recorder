@@ -201,17 +201,39 @@ export class JobQueue {
           state: current.state,
           reason: current.reason,
         });
-      this.admit();
-      this.store.catalog
-        .prepare(
-          `UPDATE jobs SET state='queued',attemptId=?,reason=NULL,retryable=0,generation=generation+1,
-           queuedSequence=(SELECT COALESCE(MAX(queuedSequence),0)+1 FROM jobs) WHERE jobId=?`,
-        )
-        .run(this.newId(), jobId);
+      this.requeue(current);
       return jobId;
     });
     this.schedule();
     return this.job(retried);
+  }
+
+  /** Rebuild an evicted derivative only if the caller still names the published generation. */
+  regenerate(jobId: string, generation: number): Job {
+    this.store.transaction(() => {
+      this.requireOpen();
+      const current = this.job(jobId);
+      if (current.state !== "ready" || current.generation !== generation) return;
+      this.store.revision(current.recordingId, current.revisionId);
+      this.requeue(current);
+      this.store.catalog
+        .prepare(
+          "DELETE FROM artifacts WHERE recordingId=? AND revisionId=? AND artifact=? AND input=? AND generation=?",
+        )
+        .run(current.recordingId, current.revisionId, current.artifact, current.input, generation);
+    });
+    this.schedule();
+    return this.job(jobId);
+  }
+
+  private requeue(current: Job): void {
+    this.admit();
+    this.store.catalog
+      .prepare(
+        `UPDATE jobs SET state='queued',attemptId=?,reason=NULL,retryable=0,generation=generation+1,
+         queuedSequence=(SELECT COALESCE(MAX(queuedSequence),0)+1 FROM jobs) WHERE jobId=?`,
+      )
+      .run(this.newId(), current.jobId);
   }
 
   /**
