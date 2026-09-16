@@ -54,3 +54,8 @@ lifetime input is an interruption fixture, not a long-run synchronization proof.
 Independent Codex review and the integrating owner's review found no actionable
 issues in this production pass. No broad native scale run was used as a substitute
 for the focused lifetime checks.
+
+[Combined main verification](merged-verification.json) pins the rebuilt app worker
+and passes all ten movie/lifetime checks after integrating shared presentation
+support. The first default-debug run found a stale executable; the successful run
+explicitly selected the rebuilt bundled worker. No assertions were weakened.

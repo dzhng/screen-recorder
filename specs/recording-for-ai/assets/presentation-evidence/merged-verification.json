@@ -1,0 +1,13 @@
+{
+  "revision": "7a163a7",
+  "nativeSha256": "e91326232ae223a02e789b922aafe161ba9b0bef5665dff52d03d3476c43a2c9",
+  "buildExitCode": 0,
+  "frameTestsExitCode": 0,
+  "workerTestsPassed": 17,
+  "workerTestsExitCode": 0,
+  "scope": "Merged native presentation evidence and unchanged renderer/frame regressions",
+  "logs": {
+    "merged-frame-tests.txt": "4dfbaea3226707c3ccba5206f1cf7a0662e2984b101c7be891438a96c9316944",
+    "merged-video-tests.txt": "a27671212ca1e259d2c283a56f6c895d276c290304c55842fe138d58ad99c019"
+  }
+}

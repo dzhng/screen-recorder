@@ -1,0 +1,25 @@
+✔ video worker preserves one-microsecond-spans pixels and exact plan duration (605.521875ms)
+✔ video worker preserves subframe pixels and exact plan duration (186.309125ms)
+✔ video worker preserves fractional-two-cuts pixels and exact plan duration (195.08225ms)
+✔ video worker preserves two-middle-cuts pixels and exact plan duration (197.919125ms)
+✔ video worker preserves original pixels and exact plan duration (198.01575ms)
+✔ video worker preserves sparse-held pixels and exact plan duration (181.556959ms)
+✔ video worker preserves leading-empty pixels and exact plan duration (182.942375ms)
+✔ video worker preserves internal-empty pixels and exact plan duration (182.346834ms)
+✔ video worker preserves trailing-empty pixels and exact plan duration (182.217459ms)
+✔ video worker preserves empty-only pixels and exact plan duration (182.434666ms)
+✔ video worker refuses malformed plans and output aliases without source mutation (57.119333ms)
+✔ video publication preserves a destination created during rendering (635.241458ms)
+✔ video output preserves the native source's sRGB presentation across decoders (296.77175ms)
+✔ presentation evidence holds the displayed frame instead of nearest future still (224.934417ms)
+✔ presentation evidence clips exact rational supports across cuts and empty edits (204.905792ms)
+✔ presentation evidence refuses unsupported video tail and partial byte-budget output (223.938375ms)
+✔ presentation evidence memory stays bounded while streamed output grows (5985.89825ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10703.83325

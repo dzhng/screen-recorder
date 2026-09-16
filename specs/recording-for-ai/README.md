@@ -35,11 +35,15 @@ inspection in [14b](slices/14b-portable-inspection.md). Internal video timing
 [13a](slices/13a-native-render-timing.md), bounded audio
 [13b](slices/13b-streaming-audio.md), and package metadata
 [14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs
-production AAC/video integration, pointer composition, durable preview ownership and restart cleanup.
-The [13c assembly checkpoint](slices/13c-aac-movie-assembly.md) verifies native
-AAC alignment and exact presentation endpoints; promote its single candidate
-through the existing worker/attempt owner next. Tiny AAC has a documented
-independent-decoder limitation, and speech audition remains open.
+long A/V verification, pointer composition, durable preview ownership and restart cleanup.
+[13c assembly](slices/13c-aac-movie-assembly.md) now runs through the production
+worker and shared attempt lifetime. Its next gate is five-minute synchronization
+and memory, followed by durable preview integration. Tiny AAC has a documented
+independent-decoder limitation; speech audition remains open.
+[13d1 presentation evidence](slices/13d1-presentation-evidence.md) shares the
+renderer’s exact held-frame support. Next, make shared pointer planning consume
+that support without relaxing nearest-still selection: a held picture can begin
+before a retained cut, and support membership must stay exact.
 [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
 including native workers and frame/audio/index leases. Recent-recording delete and
 storage controls build and pass native state/identity checks, but computer-use could
@@ -151,7 +155,8 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
   - [x] [13a — Native render timing feasibility](slices/13a-native-render-timing.md) (independent of speech)
   - [x] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md) (independent of speech and video job integration)
-  - [ ] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md) (feasibility verified; production integration and long-duration checks remain)
+  - [ ] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md) (production worker/lifetime verified; long-duration checks remain)
+  - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md) (bounded exact support; pointer policy/composition remain)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
   - [ ] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)

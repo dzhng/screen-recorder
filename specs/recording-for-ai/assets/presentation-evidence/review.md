@@ -44,3 +44,6 @@ that state explicitly. The producer neither draws pointers nor chooses scenes.
 Cancellation inside the process removes staging. Hard process termination still
 requires the existing service attempt owner to reclaim its private directory;
 no public preview/export or service-death cleanup gate is claimed here.
+
+[Main-checkout verification](merged-verification.json) records the native binary
+and passing full FrameTests plus seventeen worker regressions after integration.

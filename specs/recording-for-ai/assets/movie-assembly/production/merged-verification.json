@@ -1,0 +1,12 @@
+{
+  "revision": "902bfda",
+  "nativePath": "dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+  "nativeSha256": "176be00c8c7e948721259d8c2c7e141d909e038b5f495fa5a839da00bb3671de",
+  "nativeLifetimeTargetSha256": "2e8bc0a8371028f155bf9bdb0e87ab6f6b47fd5178294d3209c165f410f944e7",
+  "workspaceBuildExitCode": 0,
+  "testsExitCode": 0,
+  "testsPassed": 10,
+  "testLogSha256": "18ba2d0cc326dbe25be3014cb064be5872e7eaa30ec0255959bf3f39db081d7c",
+  "scope": "Bundled production worker with shared presentation extraction; generated movie alignment and actual terminal lifetime",
+  "initialAttempt": "Default debug executable was stale and reported UNKNOWN_OPERATION. Terminal failed run was followed by explicit bundled-worker execution; no test expectations changed."
+}
