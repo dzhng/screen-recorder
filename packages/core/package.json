@@ -15,6 +15,10 @@
     "./jobs": {
       "types": "./dist/jobs.d.ts",
       "default": "./dist/jobs.js"
+    },
+    "./evidence": {
+      "types": "./dist/evidence.d.ts",
+      "default": "./dist/evidence.js"
     }
   },
   "scripts": {
