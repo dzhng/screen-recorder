@@ -67,3 +67,17 @@ Integrated verification: all ten scene tests pass alongside the 101-test core
 suite. Native visual observation wire tests pass on the shared tree: a 52-sample
 batch returned 484,915 bytes in 983.6 ms with 29,507,584 bytes peak RSS. Existing
 frame wire tests pass. These measurements still use generated media.
+
+
+The integrated encoded timing test passes through the native sampler and shared
+core analyzer. Three frames at 0/2/4 seconds retain held coverage through the earlier
+tie at 1 second; requesting 1.5 selects actual 2 seconds and exposes a future
+comparison without falsely reporting a past boundary. Substituting the requested
+sampling-grid timestamp for the comparison's actual timestamp makes this test fail;
+restoring actual timing passes. This proves the timing seam, not UI thresholds or
+cursor rendering. [Next policy pass](../../slices/10c-trail-timing.md).
+
+Timing-pass review found no actionable defects in the test or docs. Independent
+Codex runtime checks encountered native decode failures alongside existing tests
+inside its sandbox; the integrating host's real native run passed. Shape review
+keeps this as a consumer test of existing owners, with no second scene policy.

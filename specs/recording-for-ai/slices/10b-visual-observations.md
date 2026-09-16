@@ -36,3 +36,6 @@ predecessor across chunk edges. Decode/coverage failures remain explicit.
 orientation oracle and bounded observation execution. [Core evidence](../assets/scene-analysis/core-review.md)
 covers synthetic policy metrics and held-frame handling. Neither closes the
 requested-versus-actual overlay anchor decision or default trail acceptance.
+
+[Trail timing](10c-trail-timing.md) records the encoded sparse held/future
+selection evidence and the bounded next policy pass.

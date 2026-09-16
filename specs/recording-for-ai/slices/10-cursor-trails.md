@@ -2,16 +2,17 @@
 
 Status: bounded [native clean visual observations](../assets/visual-observations/native-review.md)
 are implemented; scene decisions remain in core. The [native rendering subpass](10a-native-cursor-render.md) draws supplied
-points on decoded frames; core scene analysis, trail selection and cutoff reporting
-are not started. Dependencies: 09.
+points on decoded frames. Bounded core scene analysis is integrated; trail selection
+and cutoff reporting remain unimplemented. [Sparse timing](10c-trail-timing.md)
+now has an encoded native/core fixture and owns the next policy decision. Dependencies: 09.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
 harness entrypoints to create in this slice, not existing executable claims.
 
 The [native ingestion seam](03-cursor-geometry.md#native-ingestion-evidence) supplies
-persistent source evidence and bounded cursor-range queries. Core scene decisions
-and trail selection remain unimplemented.
+persistent source evidence and bounded cursor-range queries. Shared core scene comparison is integrated; public boundary production and
+trail selection remain unimplemented.
 
 ## Contract and API seam
 
