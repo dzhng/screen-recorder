@@ -1,8 +1,8 @@
 # Revision-bound audio inspection
 
 Status: public integration verified for generated two-track media, cuts, gaps,
-CLI/MCP parity and cache regeneration. Public absence/retry cases and audition
-remain open. Native execution is verified in 09b; source timing is published by 06j.
+CLI/MCP parity, cache regeneration, missing roles and explicit failure/retry.
+Audition remains open. Native execution is verified in 09b; source timing is published by 06j.
 
 The core pins a revision, validates a positive playback range no longer than
 30 seconds, and uses the existing timeline trim mapping to obtain retained source
@@ -29,6 +29,11 @@ Numerical checks do not replace the existing audible-join/audition gate.
 
 
 [Public evidence](../assets/audio-inspection/review.md) distinguishes real adapter
-and native execution from the remaining public refusal/retry and listening gates.
+and native execution from the remaining listening and physical acquisition gates.
 The public unavailable intervals retain source coordinates; the requested playback
 range and retained source spans provide the projection into the excerpt.
+
+Native audio decode and I/O failures permit an explicit retry; invalid requests,
+ranges and output plans remain terminal. Retry permission means another attempt
+is allowed, not that an unreadable or corrupt source is guaranteed to recover.
+Ordinary reads retain the failed result even if the underlying condition changes.

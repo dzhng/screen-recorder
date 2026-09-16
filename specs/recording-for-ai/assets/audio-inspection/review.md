@@ -39,7 +39,43 @@ correctness/lifetime defect. Codex review found no actionable regressions; its
 socket tests were sandbox-blocked, while the integrating host ran them successfully.
 Documentation retains source-time absence and separate audition gates.
 
-Public missing-role and explicit worker retry scenarios still need real integration
-checks. Core tests cover these policies, but do not replace public execution.
 Numerical spectra do not prove listening quality or physical microphone/system
 capture. SDK audio receipt does not prove a particular AI consumer can hear it.
+
+## Absence and retry verification
+
+The packaged integration now checks both roles with the other role unrequested or
+requested but never acquired. Public refusal carries the matching absence reason;
+mix retains that reason and produces the available track at unity. Independently
+decoded PCM equals the original single-track PCM, so gain metadata alone cannot
+pass the check. Deliberately conflating the absence reasons made this test fail
+at the expected reason assertion; restoring production code returned it green.
+
+An incomplete generated fixture supplies acquired intervals but initially omits
+its audio container. Native decoding fails. The initial public test exposed that
+all native audio errors were classified terminal, preventing explicit recovery.
+The native wire now permits explicit retry for NATIVE_DECODE_FAILED only; invalid
+request/range/output plans retain their terminal classification. This error family
+covers source access, AVFoundation decoding, resource allocation and output I/O;
+it contains no parameter-validation failures. Some media failures may persist,
+so this permission makes no recovery guarantee and adds no automatic retry loop.
+
+The test creates the missing synthetic file only inside its temporary fixture.
+Three ordinary reads still return the exact failed state. Explicit audio.retry
+then publishes a one-second excerpt under the same job and pinned revision;
+repeating retry on ready reuses that publication, and the generated source hash
+remains unchanged. This is fixture repair, not a product source-repair operation.
+
+Verification on 2026-09-16: packaged build succeeded; all three public audio tests
+passed, including the prior CLI/MCP parity/cuts/cache proof; all four native wire
+audio tests passed. The new wire assertion checks retryable decode failure beside
+terminal invalid-range failure. No screen or audio capture was started. Shape and
+diff review retain the existing queue retry policy and one wire envelope owner;
+no new storage, endpoint, dependency or background loop was added.
+
+All 28 native wire tests also pass against this worktree's release worker,
+including frame, visual-sample, source-evidence and protocol neighbors. Formatting
+and focused lint pass. Independent Codex review found no actionable regression;
+it did not run tests because it looked for a debug worker, while this pass's
+runtime evidence uses the packaged release worker explicitly. Documentation links
+remain reachable from the active spec through the public-audio slice.

@@ -321,3 +321,42 @@ test("audio worker writes WAVE bytes to an opaque derivative path", () => {
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+test("audio decode failure permits explicit retry while invalid plans remain terminal", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-audio-errors-"));
+  try {
+    const params = {
+      output: join(directory, "excerpt.wav"),
+      spans: [{ startUs: 0, endUs: 100000 }],
+      tracks: [
+        {
+          role: "narration",
+          source: join(directory, "absent.mov"),
+          sourceOffsetUs: 0,
+          available: [{ startUs: 0, endUs: 100000 }],
+        },
+      ],
+    };
+    const run = spawnSync(executable, [], {
+      input:
+        [params, { ...params, spans: [] }]
+          .map((params, index) =>
+            JSON.stringify({ id: String(index), operation: "media.audio", params }),
+          )
+          .join("\n") + "\n",
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(run.status, 0, run.stderr);
+    const replies = run.stdout.trim().split("\n").map(JSON.parse);
+    assert.deepEqual(
+      replies.map((reply) => [reply.ok, reply.error.code, reply.error.retryable]),
+      [
+        [false, "NATIVE_DECODE_FAILED", true],
+        [false, "INVALID_RANGE", false],
+      ],
+    );
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});

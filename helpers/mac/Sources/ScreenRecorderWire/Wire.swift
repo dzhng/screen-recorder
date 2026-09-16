@@ -37,10 +37,13 @@ public enum NativeWire {
                     let data = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
                     response = ["id": id, "ok": true, "data": data]
                 } catch let error as AudioFailure {
-                    response = failure(id: id, code: error.code, message: error.message)
+                    response = failure(
+                        id: id, code: error.code, message: error.message,
+                        retryable: error.code == "NATIVE_DECODE_FAILED")
                 } catch {
                     response = failure(
-                        id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription)
+                        id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription,
+                        retryable: true)
                 }
             } else if operation == "media.sourceEvidence" {
                 do {
@@ -95,10 +98,12 @@ public enum NativeWire {
         return try! JSONSerialization.data(withJSONObject: response, options: [.sortedKeys])
     }
 
-    private static func failure(id: String?, code: String, message: String) -> [String: Any] {
+    private static func failure(
+        id: String?, code: String, message: String, retryable: Bool = false
+    ) -> [String: Any] {
         [
             "id": id as Any? ?? NSNull(), "ok": false,
-            "error": ["code": code, "message": message, "retryable": false, "details": [:]],
+            "error": ["code": code, "message": message, "retryable": retryable, "details": [:]],
         ]
     }
 }
