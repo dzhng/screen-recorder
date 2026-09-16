@@ -282,6 +282,8 @@ test("invalid timing record stops before emitting or clearing observed pause", (
     { event: "audioSamples", data: { role: "other", startUs: 0, endUs: 10 } },
     { event: "audioSamples", data: { role: "system", startUs: 10, endUs: 10 } },
     { event: "pauseEnded", data: { hostUs: 300, pause: { atSourceUs: 0, elapsedPauseUs: -1 } } },
+    { event: "pausePlaced", data: { atSourceUs: -1, elapsedPauseUs: 10 } },
+    { event: "pausePlaced", data: { atSourceUs: 0, elapsedPauseUs: -1 } },
   ]) {
     const f = fixture(t, [{ event: "pauseBegan", data: { hostUs: 100 } }, record]);
     const r = request(f.directory, f.output);
@@ -294,39 +296,54 @@ test("invalid timing record stops before emitting or clearing observed pause", (
   }
 });
 
-test("many audio gaps stream with bounded worker memory and a constant-size receipt", (t) => {
-  const f = fixture(t, []);
-  const count = 100_000;
-  for (let base = 0; base < count; base += 1000) {
-    appendFileSync(
-      f.journal,
-      Array.from({ length: 1000 }, (_, offset) => {
-        const i = base + offset;
-        return JSON.stringify({
-          sequence: i + 2,
-          event: "audioSamples",
-          data: { role: i % 2 ? "system" : "narration", startUs: i * 10, endUs: i * 10 + 5 },
-        });
-      }).join("\n") + "\n",
-    );
-  }
-  const result = spawnSync("/usr/bin/time", ["-l", executable], {
-    input:
-      JSON.stringify({
-        id: "timing-memory",
-        operation: "media.sourceEvidence",
-        params: { directory: f.directory, output: f.output },
-      }) + "\n",
-    encoding: "utf8",
-    timeout: 30_000,
+for (const timing of ["audio gaps", "deferred pauses"])
+  test(`many ${timing} stream with bounded worker memory and a constant-size receipt`, (t) => {
+    const f = fixture(t, []);
+    const count = 100_000;
+    for (let base = 0; base < count; base += 1000) {
+      appendFileSync(
+        f.journal,
+        Array.from({ length: 1000 }, (_, offset) => {
+          const i = base + offset;
+          return JSON.stringify({
+            sequence: i + 2,
+            event: timing === "audio gaps" ? "audioSamples" : "pausePlaced",
+            data:
+              timing === "audio gaps"
+                ? { role: i % 2 ? "system" : "narration", startUs: i * 10, endUs: i * 10 + 5 }
+                : { atSourceUs: i * 10, elapsedPauseUs: 5 },
+          });
+        }).join("\n") + "\n",
+      );
+    }
+    const result = spawnSync("/usr/bin/time", ["-l", executable], {
+      input:
+        JSON.stringify({
+          id: "timing-memory",
+          operation: "media.sourceEvidence",
+          params: { directory: f.directory, output: f.output },
+        }) + "\n",
+      encoding: "utf8",
+      timeout: 30_000,
+    });
+    assert.equal(result.status, 0, result.stderr);
+    const response = JSON.parse(result.stdout);
+    assert.equal(response.ok, true, result.stdout);
+    assert.equal(response.data[timing === "audio gaps" ? "audioIntervals" : "pauseEvents"], count);
+    assert.ok(result.stdout.length < 2048);
+    const maximumRss = Number(result.stderr.match(/(\d+)\s+maximum resident set size/)[1]);
+    assert.ok(maximumRss < 128 * 1024 * 1024, `worker RSS ${maximumRss}`);
+    t.diagnostic(`100,000 ${timing}: peak worker RSS ${maximumRss} bytes`);
+    const lines = readFileSync(f.output, "utf8").trim().split("\n");
+    assert.equal(lines.length, count);
+    if (timing === "deferred pauses") {
+      assert.deepEqual(JSON.parse(lines[0]), {
+        event: "pause",
+        data: { atSourceUs: 0, elapsedPauseUs: 5 },
+      });
+      assert.deepEqual(JSON.parse(lines.at(-1)), {
+        event: "pause",
+        data: { atSourceUs: (count - 1) * 10, elapsedPauseUs: 5 },
+      });
+    }
   });
-  assert.equal(result.status, 0, result.stderr);
-  const response = JSON.parse(result.stdout);
-  assert.equal(response.ok, true, result.stdout);
-  assert.equal(response.data.audioIntervals, count);
-  assert.ok(result.stdout.length < 2048);
-  const maximumRss = Number(result.stderr.match(/(\d+)\s+maximum resident set size/)[1]);
-  assert.ok(maximumRss < 128 * 1024 * 1024, `worker RSS ${maximumRss}`);
-  t.diagnostic(`100,000 gaps: peak worker RSS ${maximumRss} bytes`);
-  assert.equal(readFileSync(f.output, "utf8").trim().split("\n").length, count);
-});

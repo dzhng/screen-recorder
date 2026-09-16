@@ -1,5 +1,6 @@
 runCaptureClockTests()
 await runHeldTailFrameTests()
 try await runCaptureJournalTests()
+try await runDeferredPauseTests()
 try runCursorGeometryTests()
 try await runMediaRecoveryTests()

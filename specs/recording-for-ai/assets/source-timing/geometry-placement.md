@@ -49,9 +49,6 @@ Existing journals retain their missing placement; neither native export nor core
 reads fabricate a mapping. The future trail owner still needs real placement,
 pause and scene evidence and must not assume journal sequence is event time.
 
-A separate pre-existing clock edge remains: if a pause ends before source zero is
-known, then a delayed valid frame from *before* that pause establishes an earlier
-origin, the earlier pauseEnded record has no source placement. Code inspection
-shows media timing can then subtract an interval missing from normalized pause
-markers. This pass neither rewrites old pause records nor discards valid pre-pause
-frames; retroactive native pause placement needs its own acquisition-level fix.
+Delayed source zero can also make earlier completed pauses placeable. The native
+[deferred pause owner](deferred-pauses.md) records those markers without rewriting
+raw controls or discarding valid delayed media.

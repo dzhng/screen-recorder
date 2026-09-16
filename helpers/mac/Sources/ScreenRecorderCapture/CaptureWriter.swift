@@ -280,7 +280,9 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             // placed at source zero rather than in the take's unplaceable prologue.
             if usable, clock.start(at: hostUs, durationUs: durationUs) {
                 publishClock()
-                guard record({ try self.journal.recordOrigin(hostUs: hostUs) }) else { return }
+                guard record({
+                    try self.journal.recordOrigin(hostUs: hostUs, placedPauses: self.clock.pauses)
+                }) else { return }
             }
             updateGeometry(from: info, hostUs: hostUs, durationUs: durationUs, usable: usable)
             guard usable else { return }

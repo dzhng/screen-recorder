@@ -22,6 +22,18 @@ func runCaptureClockTests() {
     precondition(!delayed.start(at: 5, durationUs: 10) && delayed.originUs == nil,
         "A delayed first frame spanning a completed pause cannot establish source zero")
     precondition(delayed.start(at: 40) && delayed.sourceTime(for: 40) == 0)
+    var lateOrigin = CaptureClock()
+    lateOrigin.pause(at: 20)
+    lateOrigin.resume(at: 50)
+    precondition(lateOrigin.start(at: 10))
+    precondition(lateOrigin.sourceTime(for: 60) == 20)
+    precondition(lateOrigin.pauses.map(\.atSourceUs) == [10]
+        && lateOrigin.pauses.map(\.elapsedPauseUs) == [30],
+        "A completed pause must gain its true source marker when a valid earlier frame establishes origin")
+    precondition(!lateOrigin.start(at: 11) && lateOrigin.pauses.count == 1,
+        "Repeated origin attempts cannot duplicate deferred pause markers")
+    precondition(delayed.pauses.isEmpty,
+        "A pause wholly before the retained source origin remains unplaced")
     print("PASS source zero waits for an active usable frame")
 
     var clock = CaptureClock()

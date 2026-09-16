@@ -20,6 +20,15 @@ public struct CaptureClock: Sendable {
     public mutating func start(at hostUs: Int64, durationUs: Int64 = 0) -> Bool {
         guard originUs == nil, accepts(hostUs: hostUs, durationUs: durationUs) else { return false }
         originUs = hostUs
+        // Completed controls can arrive before the first delayed frame. Place only intervals
+        // the retained source crosses, once, using the same removed-time rule as media.
+        var removedUs: Int64 = 0
+        for interval in intervals where interval.start >= hostUs {
+            let duration = interval.end - interval.start
+            pauses.append(PauseEvent(
+                atSourceUs: interval.start - hostUs - removedUs, elapsedPauseUs: duration))
+            removedUs += duration
+        }
         return true
     }
     public mutating func seal(at hostUs: Int64) { if sealedAt == nil { sealedAt = hostUs } }

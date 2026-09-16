@@ -91,8 +91,11 @@ public final class CaptureJournal {
     // Each event's name, payload type and durability live here so the writer and `inspect` cannot
     // drift apart. Boundaries a recovery reads to place the take in time are synchronized when
     // written; per-buffer acquisition ranges use ordinary writes. Power-loss durability is unproven.
-    public func recordOrigin(hostUs: Int64) throws {
+    public func recordOrigin(hostUs: Int64, placedPauses: [PauseEvent] = []) throws {
         try append("origin", data: JournalHostTime(hostUs: hostUs), durable: true)
+        // A placement is not another resume: a later pause may still be open when a delayed
+        // frame supplies source zero. Each bounded record leaves that raw control state intact.
+        for pause in placedPauses { try append("pausePlaced", data: pause, durable: true) }
     }
     public func recordPauseBegan(hostUs: Int64) throws {
         try append("pauseBegan", data: JournalHostTime(hostUs: hostUs), durable: true)
@@ -224,6 +227,10 @@ public final class CaptureJournal {
             }
             try audioAcquired(interval)
         }
+        func emitPause(_ completed: PauseEvent) throws {
+            if retainTiming { summary.pauses.append(completed) }
+            try pause(completed)
+        }
         summary.incompleteTail = try readRecords(directory: directory, maximumBytes: maximumBytes) {
             line in
             let event: (name: String, data: Data)
@@ -238,9 +245,10 @@ public final class CaptureJournal {
                 if let completed = try JSONDecoder().decode(JournalPauseEnd.self, from: event.data)
                     .pause
                 {
-                    if retainTiming { summary.pauses.append(completed) }
-                    try pause(completed)
+                    try emitPause(completed)
                 }
+            case "pausePlaced":
+                try emitPause(JSONDecoder().decode(PauseEvent.self, from: event.data))
             case "audioSamples":
                 let next = try JSONDecoder().decode(JournalAudioSamples.self, from: event.data)
                 if let previous = pendingAudio[next.role] {
@@ -322,6 +330,11 @@ public final class CaptureJournal {
                 throw CaptureFailure("INVALID_JOURNAL", "Invalid pause interval.")
             }
             summary.openPauseHostUs = nil
+        case "pausePlaced":
+            let pause = try JSONDecoder().decode(PauseEvent.self, from: encoded)
+            guard pause.atSourceUs >= 0, pause.elapsedPauseUs >= 0 else {
+                throw CaptureFailure("INVALID_JOURNAL", "Invalid pause interval.")
+            }
         case "audioSamples":
             let samples = try JSONDecoder().decode(
                 JournalAudioSamples.self, from: encoded)

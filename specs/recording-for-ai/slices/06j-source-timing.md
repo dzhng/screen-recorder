@@ -46,3 +46,15 @@ placement; journal sequence is delivery order, and buffered cursor samples can b
 written after newer geometry. Older journals that never acquired a timed placement
 remain honestly unplaced. No exporter or TypeScript host-time reconstruction is
 introduced. See [placement verification](../assets/source-timing/geometry-placement.md).
+
+## Completed pauses whose origin arrives late
+
+Pause controls can finish before the first usable frame is delivered. When that
+frame carries a valid earlier host timestamp, the native clock retains it and
+places completed pauses crossed by its source timeline. Pauses wholly before the
+retained source origin remain raw prologue observations. Ordinary completed pauses
+continue carrying their timing in `pauseEnded`; newly placeable older markers are
+written as individual `pausePlaced` journal records when origin is established.
+That event never closes a newer open pause. Both stream as the existing normalized
+`pause` shape, using the same clock as media; no downstream time reconstruction or
+journal buffering is permitted. See [deferred pause evidence](../assets/source-timing/deferred-pauses.md).
