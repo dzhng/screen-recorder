@@ -1,6 +1,8 @@
 # Incremental screenshot selection ledger
 
-Status: next. One core selection policy, no storage, renderer or transport owner.
+Status: pure policy implemented; retained/public integration and visual acceptance remain
+in 11c. One core selection policy, no storage, renderer or transport owner.
+See [verification and decisions](../assets/screenshot-index/selection-ledger.md).
 Feeds retained index production in 11c. Three independent drafts agreed on proving
 selection before adding publication; this slice resolves their policy gaps.
 
@@ -31,6 +33,12 @@ time when a boundary is at the end of a half-open interval.
   to its origin must survive. Close after 300 ms without qualifying movement at the
   last moving observation, or emit after two seconds of continuous motion. Reset
   at pause/cut/scene/geometry and outside/unknown evidence. Flush at source end.
+- A gap closes a qualifying observed burst at its last moving sample with an explicit
+  acquisition-gap reason, never an invented idle observation. Output waits behind
+  unresolved moving endpoints. A still observation just before 300 ms can need
+  another observation or acquisition-gap timeout, so this delay is bounded by two
+  300 ms intervals. Dense pending candidates fail explicitly at the documented
+  bound instead of being discarded.
 - Preserve button-down observations as explicit cursor evidence. Duplicate times
   use the last normalized observation, consistent with trail planning. Idle requires
   observed stillness; a gap in acquisition is not proof of a stationary cursor.

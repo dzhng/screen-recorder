@@ -59,6 +59,10 @@
     "./frame-materialization": {
       "types": "./dist/frame-materialization.d.ts",
       "default": "./dist/frame-materialization.js"
+    },
+    "./selection": {
+      "types": "./dist/selection.d.ts",
+      "default": "./dist/selection.js"
     }
   },
   "scripts": {
