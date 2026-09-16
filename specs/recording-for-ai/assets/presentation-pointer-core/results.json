@@ -1,0 +1,31 @@
+{
+  "nativeJSONLRead": [
+    {
+      "records": 100,
+      "bytes": 944962,
+      "elapsedMs": 11.28649999999999,
+      "retainedHeapDelta": 184824,
+      "firstActualSourceUs": 0,
+      "lastActualSourceUs": 0,
+      "sha256": "fded3024334f990751a7a07ad621c8f2a268e290e748652c2fbbbf9216013c24"
+    },
+    {
+      "records": 5000,
+      "bytes": 47324530,
+      "elapsedMs": 181.6575,
+      "retainedHeapDelta": 1088952,
+      "firstActualSourceUs": 0,
+      "lastActualSourceUs": 66667,
+      "sha256": "76bed9e771ce1a329714830d96871a4eee5f2d30b0db1db753a06e9e1d7cc7c0"
+    }
+  ],
+  "baseCommit": "902bfda",
+  "coreTests": {
+    "passed": 274,
+    "failed": 0
+  },
+  "typeCheck": "passed",
+  "focusedLint": "passed",
+  "independentCodexReview": "No actionable defects; independently passed core type check and 274 tests",
+  "nativeFixtureProvenance": "13d1 generated support-stream-100 and support-stream-5000, unchanged native files"
+}

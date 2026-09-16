@@ -14,6 +14,7 @@ harness entrypoints to create in this slice, not existing executable claims.
 
 [13d1 — presentation evidence](13d1-presentation-evidence.md) isolates the
 held-picture versus nearest-frame distinction needed before movie pointer planning.
+[13d2](13d2-presentation-pointer-core.md) shares pointer policy over exact presentation support.
 
 ## Contract and API seam
 

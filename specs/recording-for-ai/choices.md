@@ -1358,3 +1358,25 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   to a safe platform timer. The plan did not give a movie timeout formula. This
   respects the actual two phases without raising deadlines for unrelated native
   calls or introducing another watchdog owner.
+
+## Presentation point inspection — 2026-09-17
+
+- **Validate once, then use independent forward cursors.** Before inspection starts,
+  the reader checks that the entire native file covers the pinned cuts. A cursor
+  then walks forward through that file while keeping only its current picture;
+  a second cursor can independently find the picture under an earlier pointer.
+  Backwards queries fail instead of quietly scanning the recording again.
+  **Gap:** the bounded lookup strategy was unspecified. **Reach:** sequential
+  movie work can inspect long recordings without retaining every raster, at the
+  cost of a validation read and separate forward reads. **Verdict: sound, medium
+  confidence** — an explicit sequential API fits the next movie consumer; random
+  access would need a separately justified index.
+- **Empty presentation does not carry a pointer.** When native proves that an
+  interval has no source picture, point inspection reports that state directly.
+  A pointer observation from that empty interval cannot reappear over the next
+  picture. **Gap:** pointer behavior over explicit empty edits was unspecified.
+  **Reach:** future movie planning must preserve this state instead of treating
+  missing pixels as valid black scene evidence. **Verdict: sound, medium
+  confidence; provisional for final video composition** — there is no captured
+  surface to attach pointing evidence to. Revisit only with an explicit product
+  decision and its own composition test.

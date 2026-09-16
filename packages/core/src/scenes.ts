@@ -200,7 +200,10 @@ export async function observeVisualSamples(
   return observed;
 }
 
-function report(observed: VisualObservations, request: { kept: TimeRange; range: TimeRange }) {
+export function analyzeSceneObservations(
+  observed: VisualObservations,
+  request: { kept: TimeRange; range: TimeRange },
+) {
   const analyzed = analyzeVisualSamples(observed.samples);
   return {
     ...analyzed,
@@ -253,7 +256,10 @@ export class SourceSceneAnalysis {
       this.sample,
       signal,
     );
-    const { lastSample: _lastSample, ...result } = report(observed, { range, kept });
+    const { lastSample: _lastSample, ...result } = analyzeSceneObservations(observed, {
+      range,
+      kept,
+    });
     const coverage = observed.samples.map((sample, index) => {
       const last = this.recent.at(-1);
       let stillnessRunStartUs: number;
@@ -343,7 +349,7 @@ export async function analyzeFrameScene(
       "Frame scene evidence requires a retained time and at most ten seconds of history",
     );
   const range = { startUs: Math.max(request.kept.startUs, at - request.trailUs), endUs: at };
-  const local = report(
+  const local = analyzeSceneObservations(
     await observeVisualSamples(
       {
         recordingId: request.recordingId,

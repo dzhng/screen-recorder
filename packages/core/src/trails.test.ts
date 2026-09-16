@@ -6,6 +6,9 @@ import { RevisionStore } from "./library.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import type { VisualSampler } from "./scenes.js";
 import { planFrameTrail } from "./trails.js";
+import { PresentationEvidence } from "./presentation-evidence.js";
+import { PresentationPointer } from "./presentation-pointer.js";
+import { createOriginalRevision, createRevision, type TimelineRevision } from "./timeline.js";
 
 const cleanup: (() => void)[] = [];
 afterEach(() => cleanup.splice(0).forEach((close) => close()));
@@ -71,7 +74,7 @@ async function fixture(records: { event: string; data: Record<string, unknown> }
     },
   });
   const sample =
-    (frames: [number, number][]): VisualSampler =>
+    (frames: [number, number][], size = [8, 8]): VisualSampler =>
     async (request) => ({
       sourceWidth: 100,
       sourceHeight: 80,
@@ -84,9 +87,9 @@ async function fixture(records: { event: string; data: Record<string, unknown> }
           requestedSourceUs: at,
           actualSourceUs: selected[0],
           distanceUs: Math.abs(selected[0] - at),
-          width: 8,
-          height: 8,
-          rgbBase64: Buffer.alloc(8 * 8 * 3, selected[1]).toString("base64"),
+          width: size[0]!,
+          height: size[1]!,
+          rgbBase64: Buffer.alloc(size[0]! * size[1]! * 3, selected[1]).toString("base64"),
         };
       }),
     });
@@ -391,4 +394,178 @@ test("a pause before a future identical image vetoes old evidence without acquir
   expect(plan.overlay).toEqual({ trail: [], trailUs: 2000000, pointer: null });
   expect(plan.cutoffs).toContainEqual({ reason: "pause", atSourceUs: 1800000 });
   expect(plan.pointerObservation?.sourceUs).toBe(1000000);
+});
+
+const exact = (value: number) => ({ value: String(value), timescale: 1_000_000 });
+const presentationRecord = (start: number, end: number, pts: number | null, shade = 0) => ({
+  spanIndex: 0,
+  start: exact(start),
+  end: exact(end),
+  empty: pts === null,
+  ...(pts === null
+    ? {}
+    : {
+        sampleTime: exact(pts),
+        actualSourceUs: pts,
+        width: 64,
+        height: 51,
+        rgbBase64: Buffer.alloc(64 * 51 * 3, shade).toString("base64"),
+      }),
+});
+async function withPresentation(
+  revision: TimelineRevision,
+  records: unknown[],
+  run: (source: PresentationEvidence) => Promise<void>,
+) {
+  const root = mkdtempSync(join(tmpdir(), "presentation-pointer-")),
+    file = join(root, "support.jsonl");
+  const header = {
+    version: 1 as const,
+    sourceWidth: 100,
+    sourceHeight: 80,
+    durationUs: revision.durationUs,
+    spanCount: revision.spans.length,
+  };
+  const body = [header, ...records].map((row) => JSON.stringify(row) + "\n").join("");
+  writeFileSync(file, body);
+  const source = await PresentationEvidence.open(
+    {
+      version: 1,
+      sourceWidth: 100,
+      sourceHeight: 80,
+      durationUs: revision.durationUs,
+      file,
+      records: records.length,
+      bytes: Buffer.byteLength(body),
+    },
+    revision,
+    signal(),
+  );
+  try {
+    await run(source);
+  } finally {
+    await source.close();
+    rmSync(root, { recursive: true, force: true });
+  }
+}
+
+test("presentation pointer shares cut/scene eligibility and identical still decisions when pictures agree", async () => {
+  const f = await fixture([
+    geometry(),
+    point(700_000, 10),
+    point(800_000, 20),
+    point(1_050_000, 30),
+  ]);
+  const revision = createRevision(
+    createOriginalRevision(2_000_000, "fixture"),
+    [{ startUs: 750_000, endUs: 1_250_000 }],
+    { id: "cut", operation: "cut", createdAt: "fixture" },
+  );
+  await withPresentation(
+    revision,
+    [
+      presentationRecord(750_000, 1_000_000, 0),
+      presentationRecord(1_000_000, 1_250_000, 1_000_000, 255),
+    ],
+    async (source) => {
+      const pointer = new PresentationPointer(source, f.evidence, f.identity, signal());
+      const atCut = await pointer.at(0, 750_000);
+      expect(atCut.kind === "picture" && atCut.plan.overlay.pointer).toBe(null);
+      const held = await pointer.at(0, 800_000);
+      expect(held.kind === "picture" && held.plan.overlay).toEqual({
+        trail: [],
+        trailUs: 0,
+        pointer: { atSourceUs: 800_000, x: 20, y: 20 },
+      });
+      const changed = await pointer.at(0, 1_000_000);
+      expect(changed.kind === "picture" && changed.plan.overlay.pointer).toBe(null);
+      expect(changed.kind === "picture" && changed.plan.cutoffs).toContainEqual({
+        reason: "scene",
+        atSourceUs: 1_000_000,
+      });
+      const current = await pointer.at(0, 1_100_000);
+      const still = await planFrameTrail(
+        {
+          source: "/video.mov",
+          kept: revision.spans[0]!,
+          requestedSourceUs: 1_100_000,
+          trailUs: 0,
+        },
+        {
+          ...f,
+          sample: f.sample(
+            [
+              [0, 0],
+              [1_000_000, 255],
+            ],
+            [64, 51],
+          ),
+        },
+        signal(),
+      );
+      expect(current.kind).toBe("picture");
+      if (current.kind === "picture")
+        expect(JSON.stringify(current.plan)).toBe(JSON.stringify(still));
+    },
+  );
+});
+
+test("presentation pointer keeps the same pause, geometry, outside and unknown rules", async () => {
+  const f = await fixture([
+    geometry(),
+    point(800_000, 20),
+    { event: "pause", data: { atSourceUs: 900_000, elapsedPauseUs: 2_000_000 } },
+    point(900_000, 25),
+    point(950_000, 30),
+    geometry(1_000_000, 2),
+    point(1_010_000, 40, 20, "inside", 2),
+    point(1_020_000, 45, 20, "outside", 2),
+    point(1_030_000, 50, 20, "unknownGeometry", 0),
+  ]);
+  const revision = createOriginalRevision(2_000_000, "fixture");
+  await withPresentation(
+    revision,
+    [presentationRecord(0, 1_000_000, 0), presentationRecord(1_000_000, 2_000_000, 1_000_000)],
+    async (source) => {
+      const pointer = new PresentationPointer(source, f.evidence, f.identity, signal());
+      for (const [at, expected] of [
+        [900_000, null],
+        [950_000, 30],
+        [1_000_000, null],
+        [1_010_000, 40],
+        [1_020_000, null],
+        [1_030_000, null],
+      ] as const) {
+        const result = await pointer.at(0, at);
+        if (result.kind !== "picture") throw new Error("Expected a picture");
+        expect(result.plan.overlay.pointer?.x ?? null).toBe(expected);
+        expect(result.plan.overlay.trail).toEqual([]);
+      }
+    },
+  );
+});
+
+test("empty presentation has no pointer and a pointer observed over empty time never revives", async () => {
+  const f = await fixture([geometry(), point(800_000, 20), point(1_050_000, 30)]);
+  const revision = createOriginalRevision(2_000_000, "fixture");
+  await withPresentation(
+    revision,
+    [presentationRecord(0, 1_000_000, null), presentationRecord(1_000_000, 2_000_000, 1_000_000)],
+    async (source) => {
+      const pointer = new PresentationPointer(source, f.evidence, f.identity, signal());
+      expect(await pointer.at(0, 900_000)).toMatchObject({
+        kind: "empty",
+        pointer: null,
+        record: { empty: true },
+      });
+      const stale = await pointer.at(0, 1_000_000);
+      expect(stale.kind === "picture" && stale.plan.overlay.pointer).toBe(null);
+      expect(stale.kind === "picture" && stale.plan.cutoffs).toContainEqual({
+        reason: "empty_presentation",
+        atSourceUs: 800_000,
+      });
+      const fresh = await pointer.at(0, 1_100_000);
+      expect(fresh.kind === "picture" && fresh.plan.overlay.pointer?.x).toBe(30);
+    },
+  );
 });

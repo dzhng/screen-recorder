@@ -20,7 +20,8 @@ export type TrailCutoff = {
     | "future_scene"
     | "outside"
     | "unknown_geometry"
-    | "missing_cursor";
+    | "missing_cursor"
+    | "empty_presentation";
   atSourceUs: number;
 };
 export const trailPolicy = Object.freeze({
@@ -30,6 +31,7 @@ export const trailPolicy = Object.freeze({
   maximumPoints: 1200,
   maximumObservations: 5000,
 });
+export type TrailScene = Awaited<ReturnType<typeof analyzeFrameScene>>;
 type CursorObservation = RawCursorSample & { sequence: number };
 
 /** Core selects temporal evidence; the native overlay only draws these already-clipped points. */
@@ -43,13 +45,43 @@ export async function planFrameTrail(
   signal: AbortSignal,
 ) {
   const { evidence, identity, sample } = dependencies;
-  const at = request.requestedSourceUs;
   const trailUs = request.trailUs ?? trailPolicy.defaultUs;
   const scene = await analyzeFrameScene(
     { ...request, recordingId: identity.recordingId, trailUs },
     sample,
     signal,
   );
+  return planVisualTrail(
+    request,
+    {
+      evidence,
+      identity,
+      scene,
+      readScene: (at, trailUs) =>
+        analyzeFrameScene(
+          { ...request, recordingId: identity.recordingId, requestedSourceUs: at, trailUs },
+          sample,
+          signal,
+        ),
+    },
+    signal,
+  );
+}
+
+/** One geometry, reset and cursor-eligibility policy for still and presentation evidence. */
+export async function planVisualTrail(
+  request: { kept: TimeRange; requestedSourceUs: number; trailUs?: number },
+  dependencies: {
+    evidence: SourceTrailRead;
+    identity: EvidenceIdentity;
+    scene: TrailScene;
+    readScene: (at: number, trailUs: number) => Promise<TrailScene | null>;
+  },
+  signal: AbortSignal,
+) {
+  const { evidence, identity, scene, readScene } = dependencies;
+  const at = request.requestedSourceUs;
+  const trailUs = request.trailUs ?? trailPolicy.defaultUs;
   const actual = scene.lastSample.actualSourceUs;
   const cutoffs: TrailCutoff[] = [];
   const add = (reason: TrailCutoff["reason"], atSourceUs: number) =>
@@ -137,6 +169,7 @@ export async function planFrameTrail(
   const futurePause = pauses.some((pause) => pause.atSourceUs > at && pause.atSourceUs <= actual);
   const veto = incompatible || scene.futureComparison?.boundary || futurePause;
   let stalePointerScene: Awaited<ReturnType<typeof analyzeFrameScene>> | null = null;
+  let missingPriorPicture = false;
   let stalePointerComparison: ReturnType<typeof compareVisualSamples> | null = null;
   const eligible = (observation: CursorObservation) =>
     observation.sourceUs >= reset &&
@@ -187,24 +220,20 @@ export async function planFrameTrail(
     if (latest && eligible(latest)) {
       if (latest.sourceUs < scene.range.startUs) {
         geometryAt(latest.sourceUs);
-        stalePointerScene = await analyzeFrameScene(
-          {
-            ...request,
-            recordingId: identity.recordingId,
-            requestedSourceUs: latest.sourceUs,
-            trailUs: 0,
-          },
-          sample,
-          signal,
-        );
-        const before = stalePointerScene.reference;
+        stalePointerScene = await readScene(latest.sourceUs, 0);
+        if (!stalePointerScene) {
+          missingPriorPicture = true;
+          add("empty_presentation", latest.sourceUs);
+        }
+        const before = stalePointerScene?.reference;
         const after = scene.lastSample;
-        if (before.actualSourceUs < after.actualSourceUs) {
+        if (before && before.actualSourceUs < after.actualSourceUs) {
           stalePointerComparison = compareVisualSamples(before, after);
           if (stalePointerComparison.boundary) add("scene", after.actualSourceUs);
         }
       }
-      if (!stalePointerComparison?.boundary) overlay.pointer = point(latest);
+      if (!missingPriorPicture && !stalePointerComparison?.boundary)
+        overlay.pointer = point(latest);
     } else if (latest) {
       if (latest.eligibility !== "inside")
         add(latest.eligibility === "outside" ? "outside" : "unknown_geometry", latest.sourceUs);
