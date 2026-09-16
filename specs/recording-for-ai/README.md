@@ -1,6 +1,6 @@
 # Recording for AI — personal release spec
 
-Status: spec complete; implementation partial. Last updated: 2026-09-16.
+Status: spec complete; implementation partial. Last updated: 2026-09-17.
 Bootstrap build/conformance and actual-agent image access are verified. The pure
 timeline engine passes focused tests and independent review. Native capture,
 speech preparation and revision storage have work in progress; the personal
@@ -141,6 +141,8 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
   - [ ] [13a — Native render timing feasibility](slices/13a-native-render-timing.md) (independent of speech)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
+  - [ ] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
+  - [ ] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)
@@ -228,6 +230,8 @@ pause/cut events, limits, request replay, audio mix and export semantics.
 | [12 Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md) | 00b, 07, 08, 11 | CLI/MCP parity and actual agent edit calls |
 | [13a Native render timing](slices/13a-native-render-timing.md) | 05 and native media worker | Exact cut timing and independently decoded output |
 | [13 Playable edited media and audio joins](slices/13-edited-media.md) | 09, 12 | Audition/inspect actual edited media |
+| [14a Package manifest and readiness](slices/14a-package-manifest.md) | Existing revision/evidence owners | Pinned history and prerequisite truth table |
+| [14b Portable read-only inspection](slices/14b-portable-inspection.md) | 14a and shared inspection | Relocated directory, new frame/trail/audio requests |
 | [14 Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md) | 08, 11, 13 | Two exports; moved package, new frame |
 | [15b Recording storage and manual deletion](slices/15b-storage-and-deletion.md) | 06 and cache/evidence ownership | Busy delete, restart cleanup and CLI/MCP storage totals |
 | [15 Installed personal workflow and closeout](slices/15-personal-release.md) | 00–14 | Installed localhost journey and closeout |

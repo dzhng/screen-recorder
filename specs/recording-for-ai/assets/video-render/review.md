@@ -91,6 +91,10 @@ to an absolute empty directory. The scale source was generated with FFmpeg's
 ## Remaining gates
 
 The native build and 19 focused native frame/visual/wire/render regressions pass.
+On integration, rebuilding the root debug helper resolved a stale-binary
+`UNKNOWN_OPERATION` result; all twelve renderer regressions then passed against
+the merged source. The seven adjacent frame, visual-sample and wire checks
+also pass on that build.
 The complete optional membership/playback/window entrypoint also passes after
 fixture sharing; the final reproduction shots are retained.
 
@@ -101,3 +105,26 @@ worker can leave an unpublished private staging directory; the future job owner 
 reclaim attempt artifacts after the worker is terminal. This pass does not add another
 process owner or advertise a public preview endpoint. Dimensions must currently be
 even and at most 8192 pixels; other sizes fail explicitly without resizing content.
+
+## Actual capture-file timing
+
+The optional [capture-render gate](../../../../apps/macos/tests/capture-video-render.mjs)
+records only the app-owned fixture window with microphone and system audio disabled.
+It pauses/resumes through the service, reads the actual immutable revision, then
+uses the shared timeline owner to plan a trim and middle cut. The native renderer
+processes that capture file; FFmpeg independently decodes the result and checks its
+frame count and exact planned duration. The original SHA-256 remains unchanged.
+The [merged receipt](capture-render.json) records the actual plan and dimensions.
+The harness reaps its app/service and removes only its own temporary recording.
+
+Run after building the app, core and debug native helper:
+
+```
+node --test apps/macos/tests/capture-video-render.mjs
+```
+
+This establishes capture-file compatibility and duration, not a visual join,
+physical cursor, audio, public preview or export result. The app's capture owner
+already rounds encoded dimensions to even values and caps the longest edge at
+4096 pixels; the native renderer's current even-dimension limit therefore covers
+these app-generated sources. External-media import remains outside release scope.
