@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { mediaBytes, MediaDeliveryError, consumeBatch } from "./media.js";
+import { mediaBytes, mediaFile, MediaDeliveryError, consumeBatch } from "./media.js";
 import { parseArgs } from "node:util";
 import { z } from "zod";
 import {
@@ -288,17 +288,12 @@ async function main() {
     );
   } else if (mediaOperations.has(operation)) {
     try {
-      const media = await mediaBytes(selection, result);
-      if (media && result.ok) {
-        const output = values.output
-          ? resolve(values.output)
-          : join(
-              await mkdtemp(join(tmpdir(), "screenrec-media-")),
-              media.mediaType === "image/png" ? "frame.png" : "excerpt.wav",
-            );
-        await writeFile(output, media.bytes, { flag: "wx" });
-        result = { ...result, data: { ...(result.data as Record<string, unknown>), output } };
-      }
+      const media = await mediaFile(selection, result, values.output);
+      if (media && result.ok)
+        result = {
+          ...result,
+          data: { ...(result.data as Record<string, unknown>), output: media.output },
+        };
     } catch (error) {
       result = errorResult(sending.id, error);
     }

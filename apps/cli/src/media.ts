@@ -1,4 +1,7 @@
 import { randomUUID } from "node:crypto";
+import { link, mkdtemp, open, rm } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { z } from "zod";
 import { callLocal, resolveServiceSocket, type ServiceSelection } from "@screenrec/client";
 import { resultSchema, type OperationResponse } from "@screenrec/protocol";
@@ -14,10 +17,7 @@ export class MediaDeliveryError extends Error {
 }
 const receipt = z.object({
   token: z.string().min(1),
-  bytes: z
-    .int()
-    .min(1)
-    .max(48 * 1024 * 1024),
+  bytes: z.int().min(1).max(Number.MAX_SAFE_INTEGER),
   expiresAt: z.int(),
 });
 const ready = z.object({
@@ -26,6 +26,7 @@ const ready = z.object({
   published: z.union([
     z.object({ frame: z.object({ mediaType: z.literal("image/png") }) }),
     z.object({ audio: z.object({ mediaType: z.literal("audio/wav") }) }),
+    z.object({ preview: z.object({ mediaType: z.literal("video/mp4") }) }),
   ]),
 });
 const chunk = z.object({
@@ -35,11 +36,15 @@ const chunk = z.object({
   eof: z.boolean(),
 });
 
-/** Consume the service's pinned read; metadata and media bytes never share one oversized socket frame. */
-export async function mediaBytes(
+type MediaType = "image/png" | "audio/wav" | "video/mp4";
+type MediaInfo = { bytes: number; mediaType: MediaType };
+
+/** One transport validator for buffered model content and streamed playable files. */
+async function consumeMedia<T>(
   selection: ServiceSelection,
   result: OperationResponse,
-): Promise<{ bytes: Buffer; mediaType: "image/png" | "audio/wav" } | null> {
+  consume: (info: MediaInfo, chunks: AsyncIterable<Buffer>) => Promise<T>,
+): Promise<T | null> {
   if (!result.ok) return null;
   const data = result.data as { state?: unknown } | null;
   if (!data || data.state !== "ready") return null;
@@ -47,12 +52,14 @@ export async function mediaBytes(
   if (!parsed.success)
     throw new MediaDeliveryError("INVALID_RESPONSE", "Ready media has no valid delivery");
   const { token, bytes, expiresAt } = parsed.data.delivery;
-  const mediaType = "frame" in parsed.data.published ? "image/png" : "audio/wav";
+  const mediaType: MediaType =
+    "frame" in parsed.data.published
+      ? "image/png"
+      : "audio" in parsed.data.published
+        ? "audio/wav"
+        : "video/mp4";
   const socket = await resolveServiceSocket(selection);
-  try {
-    if (bytes > (mediaType === "image/png" ? 32 : 48) * 1024 * 1024)
-      throw new MediaDeliveryError("LIMIT_EXCEEDED", "Media exceeds its delivery byte limit");
-    const output = Buffer.alloc(bytes);
+  async function* chunks() {
     let offset = 0;
     while (offset < bytes) {
       if (Date.now() >= expiresAt)
@@ -90,10 +97,20 @@ export async function mediaBytes(
           "INVALID_RESPONSE",
           "Media chunk does not advance within the delivery",
         );
-      decoded.copy(output, offset);
       offset = part.nextOffset;
+      yield decoded;
     }
-    return { bytes: output, mediaType };
+  }
+  try {
+    const limit =
+      mediaType === "image/png"
+        ? 32 * 1024 ** 2
+        : mediaType === "audio/wav"
+          ? 48 * 1024 ** 2
+          : Number.MAX_SAFE_INTEGER;
+    if (bytes > limit)
+      throw new MediaDeliveryError("LIMIT_EXCEEDED", "Media exceeds its delivery byte limit");
+    return await consume({ bytes, mediaType }, chunks());
   } finally {
     // Expiry releases the same pin if the service disappeared or the caller was canceled.
     await callLocal(
@@ -101,6 +118,67 @@ export async function mediaBytes(
       { id: randomUUID(), operation: "artifact.close", params: { token } },
       { timeoutMs: 1000 },
     ).catch(() => undefined);
+  }
+}
+
+export async function mediaBytes(
+  selection: ServiceSelection,
+  result: OperationResponse,
+): Promise<{ bytes: Buffer; mediaType: "image/png" | "audio/wav" } | null> {
+  return consumeMedia(selection, result, async ({ bytes, mediaType }, chunks) => {
+    if (mediaType === "video/mp4")
+      throw new MediaDeliveryError(
+        "INVALID_REQUEST",
+        "Playable previews must be streamed to a file",
+      );
+    const output = Buffer.alloc(bytes);
+    let offset = 0;
+    for await (const chunk of chunks) {
+      chunk.copy(output, offset);
+      offset += chunk.length;
+    }
+    return { bytes: output, mediaType };
+  });
+}
+
+/** Publish only the complete file, without replacing a caller's existing destination. */
+export async function mediaFile(
+  selection: ServiceSelection,
+  result: OperationResponse,
+  destination?: string,
+): Promise<(MediaInfo & { output: string }) | null> {
+  let ownedDirectory: string | undefined;
+  try {
+    return await consumeMedia(selection, result, async (info, chunks) => {
+      const names = {
+        "image/png": "frame.png",
+        "audio/wav": "excerpt.wav",
+        "video/mp4": "preview.mp4",
+      };
+      const output = destination
+        ? resolve(destination)
+        : join(
+            (ownedDirectory = await mkdtemp(join(tmpdir(), "screenrec-media-"))),
+            names[info.mediaType],
+          );
+      const staging = await mkdtemp(join(dirname(output), ".screenrec-media-"));
+      try {
+        const file = await open(join(staging, "media"), "wx", 0o600);
+        try {
+          for await (const part of chunks) await file.writeFile(part);
+          await file.sync();
+        } finally {
+          await file.close();
+        }
+        await link(join(staging, "media"), output);
+        return { ...info, output };
+      } finally {
+        await rm(staging, { recursive: true, force: true });
+      }
+    });
+  } catch (error) {
+    if (ownedDirectory) await rm(ownedDirectory, { recursive: true, force: true });
+    throw error;
   }
 }
 

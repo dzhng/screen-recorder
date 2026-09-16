@@ -44,6 +44,10 @@ budget failure and reopened catalog/cache. Extend the existing native render lab
 with actual retained MP4 bytes; decode the cached output after the attempt is gone.
 Keep originals unchanged and generated numerical audio distinct from audition.
 
+[CLI file delivery](../assets/preview-publication/delivery.md) now streams bounded
+chunks through the existing transport validator and publishes only a complete file.
+Inline image/audio model content retains its existing memory limits.
+
 Only expose the operation through the shared protocol/CLI/MCP registry once the
 production renderer includes accepted current-pointer composition. Reuse existing
 delivery leases with bounded reads and deletion revocation; app playback holds its

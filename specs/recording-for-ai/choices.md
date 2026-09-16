@@ -1478,3 +1478,15 @@ choices delegated by 14a. They do not alter destination names or add a public fo
 
 Parser/header selection and numeric policy were delegated by 14c; the owning slice
 records them. These choices add no public export choice or transcript readiness.
+
+## CLI media publication — 2026-09-17
+
+### Sound — high confidence
+
+- **Stream file delivery and publish after completion.** Large previews should not
+  require a movie-sized memory buffer. Single-media CLI output therefore shares
+  chunk validation with inline image/audio content, but writes to temporary staging
+  and exclusively links the completed file into place. The plan left the client
+  file-publication mechanism unspecified. A failed transfer leaves no partial output
+  and never replaces an existing destination. Inline model content keeps its bounded
+  buffers; this adds no export format or persistent publication authority.

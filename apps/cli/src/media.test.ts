@@ -1,8 +1,8 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtemp, rm, writeFile, access } from "node:fs/promises";
+import { mkdtemp, rm, writeFile, access, readFile, readdir } from "node:fs/promises";
 import { listenLocal } from "@screenrec/service";
 import type { OperationResponse } from "@screenrec/protocol";
-import { mediaBytes, consumeBatch } from "./media.js";
+import { mediaBytes, consumeBatch, mediaFile } from "./media.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -10,8 +10,8 @@ afterEach(async () => {
 });
 async function fixture(
   bytes: Buffer,
-  malformed = false,
-  mediaType: "image/png" | "audio/wav" = "image/png",
+  malformed: boolean | number = false,
+  mediaType: "image/png" | "audio/wav" | "video/mp4" = "image/png",
 ) {
   const runtimeDirectory = await mkdtemp("/tmp/scr-delivery-client-");
   let closes = 0;
@@ -30,7 +30,7 @@ async function fixture(
         ok: true,
         data: {
           offset,
-          nextOffset: malformed ? offset : offset + part.length,
+          nextOffset: malformed === true || malformed === reads ? offset : offset + part.length,
           eof: offset + part.length === bytes.length,
           data: part.toString("base64"),
         },
@@ -47,7 +47,12 @@ async function fixture(
     data: {
       state: "ready",
       delivery: { token: "lease", bytes: bytes.length, expiresAt: Date.now() + 30000 },
-      published: mediaType === "image/png" ? { frame: { mediaType } } : { audio: { mediaType } },
+      published:
+        mediaType === "image/png"
+          ? { frame: { mediaType } }
+          : mediaType === "audio/wav"
+            ? { audio: { mediaType } }
+            : { preview: { mediaType } },
     },
   };
   return {
@@ -243,4 +248,33 @@ test("selected batch metadata cannot masquerade as timestamp batch metadata", as
     ),
   ).rejects.toThrow();
   expect(f.reads()).toBe(0);
+});
+
+test("a playable preview larger than excerpt limits is streamed to an exclusive output", async () => {
+  const bytes = Buffer.alloc(49 * 1024 * 1024 + 17, 0x5d);
+  const f = await fixture(bytes, false, "video/mp4");
+  const directory = await mkdtemp("/tmp/screenrec-preview-delivery-");
+  cleanups.push(() => rm(directory, { recursive: true, force: true }));
+  const output = directory + "/preview.mp4";
+  expect(await mediaFile(f.selection, f.result, output)).toEqual({
+    output,
+    bytes: bytes.length,
+    mediaType: "video/mp4",
+  });
+  expect((await readFile(output)).equals(bytes)).toBe(true);
+  expect(f.reads()).toBeGreaterThan(1);
+  expect(f.closes()).toBe(1);
+  await expect(mediaFile(f.selection, f.result, output)).rejects.toMatchObject({ code: "EEXIST" });
+  expect((await readFile(output)).equals(bytes)).toBe(true);
+});
+
+test("a failed streamed read leaves no output or partial staging and releases its lease", async () => {
+  const f = await fixture(Buffer.alloc(512 * 1024 + 17, 0x6d), 2, "video/mp4");
+  const directory = await mkdtemp("/tmp/screenrec-preview-failure-");
+  cleanups.push(() => rm(directory, { recursive: true, force: true }));
+  await expect(mediaFile(f.selection, f.result, directory + "/preview.mp4")).rejects.toMatchObject({
+    code: "INVALID_RESPONSE",
+  });
+  expect(await readdir(directory)).toEqual([]);
+  expect(f.closes()).toBe(1);
 });
