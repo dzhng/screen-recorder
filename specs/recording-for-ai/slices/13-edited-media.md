@@ -1,6 +1,9 @@
 # 13 — Playable edited media and audio joins
 
-Status: not started. Dependencies: 09, 12.
+Status: not started. Dependencies for full completion: 09, 12.
+Start with [13a — native render timing feasibility](13a-native-render-timing.md),
+which can prove the existing render-plan/native-worker seam before speech and the
+full CLI/MCP journey are ready. This does not relax this parent's completion gates.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
