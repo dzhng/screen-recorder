@@ -1,0 +1,290 @@
+[
+  {
+    "state": "1024x700-dark",
+    "variant": "rate4",
+    "rgbMAE": 0.6439751519097222,
+    "grayMAE": 0.510892594801273,
+    "grayRMSE": 1.0766900146550804,
+    "diffRatio16": 0.0001324096012636612,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-dark",
+    "variant": "rate8",
+    "rgbMAE": 0.6096031314036885,
+    "grayMAE": 0.48468235903880724,
+    "grayRMSE": 0.9516814786776945,
+    "diffRatio16": 4.269125683060109e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-dark",
+    "variant": "baseline-interior",
+    "rgbMAE": 0.6169252378258766,
+    "grayMAE": 0.49028762033598106,
+    "grayRMSE": 0.9771789203648215,
+    "diffRatio16": 4.435888405054645e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-dark",
+    "variant": "rate2",
+    "rgbMAE": 0.6907667705487249,
+    "grayMAE": 0.5516191379567973,
+    "grayRMSE": 1.2642038975010346,
+    "diffRatio16": 0.000488614775443989,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-details",
+    "variant": "rate4",
+    "rgbMAE": 1.9923263577598473,
+    "grayMAE": 1.8342410808625615,
+    "grayRMSE": 2.240164523474795,
+    "diffRatio16": 0.0005099604038592896,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-details",
+    "variant": "rate8",
+    "rgbMAE": 1.899440744535519,
+    "grayMAE": 1.7608411795193881,
+    "grayRMSE": 2.0482096598075907,
+    "diffRatio16": 1.600922131147541e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-details",
+    "variant": "baseline-interior",
+    "rgbMAE": 1.9292459123121584,
+    "grayMAE": 1.7883238161847743,
+    "grayRMSE": 2.117301819073415,
+    "diffRatio16": 0.00012106973616803279,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-details",
+    "variant": "rate2",
+    "rgbMAE": 2.0250444255891393,
+    "grayMAE": 1.8591916006953193,
+    "grayRMSE": 2.326211565837834,
+    "diffRatio16": 0.0009955734503073771,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-scrolling",
+    "variant": "rate4",
+    "rgbMAE": 2.457304740864071,
+    "grayMAE": 2.334281209643413,
+    "grayRMSE": 2.6365244614792056,
+    "diffRatio16": 0.0012400476007513662,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-scrolling",
+    "variant": "rate8",
+    "rgbMAE": 2.353057583390255,
+    "grayMAE": 2.236945757089409,
+    "grayRMSE": 2.3775079492027444,
+    "diffRatio16": 7.671085211748634e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-scrolling",
+    "variant": "baseline-interior",
+    "rgbMAE": 2.376494082813923,
+    "grayMAE": 2.263178828338448,
+    "grayRMSE": 2.4480086940744568,
+    "diffRatio16": 0.00024680882855191257,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-scrolling",
+    "variant": "rate2",
+    "rgbMAE": 2.5300427490679076,
+    "grayMAE": 2.3884450973760805,
+    "grayRMSE": 2.850537121907808,
+    "diffRatio16": 0.0029186811603483607,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-top",
+    "variant": "rate4",
+    "rgbMAE": 2.3967714292321265,
+    "grayMAE": 2.259927789740216,
+    "grayRMSE": 2.4265957920051955,
+    "diffRatio16": 9.005186987704919e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-top",
+    "variant": "rate8",
+    "rgbMAE": 2.332704526696266,
+    "grayMAE": 2.221969619167299,
+    "grayRMSE": 2.3334938857213574,
+    "diffRatio16": 2.30132556352459e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-top",
+    "variant": "baseline-interior",
+    "rgbMAE": 2.348107398750569,
+    "grayMAE": 2.2264615275065025,
+    "grayRMSE": 2.350385883405876,
+    "diffRatio16": 3.168491717896175e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1024x700-top",
+    "variant": "rate2",
+    "rgbMAE": 2.49981689453125,
+    "grayMAE": 2.345032524734239,
+    "grayRMSE": 2.638212618693404,
+    "diffRatio16": 0.0009869017887636613,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-dark",
+    "variant": "rate4",
+    "rgbMAE": 0.5842863425230369,
+    "grayMAE": 0.4181442035381627,
+    "grayRMSE": 0.9996941514390597,
+    "diffRatio16": 6.526066706730769e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-dark",
+    "variant": "rate8",
+    "rgbMAE": 0.5676566882011218,
+    "grayMAE": 0.3991013866718015,
+    "grayRMSE": 0.8877678608234372,
+    "diffRatio16": 1.7136793870192308e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-dark",
+    "variant": "baseline-interior",
+    "rgbMAE": 0.5726142296424279,
+    "grayMAE": 0.4039632814847522,
+    "grayRMSE": 0.9159978139730142,
+    "diffRatio16": 2.9578575721153846e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-dark",
+    "variant": "rate2",
+    "rgbMAE": 0.6592925242888622,
+    "grayMAE": 0.47806420569786817,
+    "grayRMSE": 1.305063797176426,
+    "diffRatio16": 0.0006357046274038462,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-details",
+    "variant": "rate4",
+    "rgbMAE": 2.2671626946864984,
+    "grayMAE": 2.141704390305726,
+    "grayRMSE": 2.4654378235683825,
+    "diffRatio16": 0.0008620042067307692,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-details",
+    "variant": "rate8",
+    "rgbMAE": 2.176867910531851,
+    "grayMAE": 2.0613095024695633,
+    "grayRMSE": 2.249391460972444,
+    "diffRatio16": 3.990760216346154e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-details",
+    "variant": "baseline-interior",
+    "rgbMAE": 2.2067915696364184,
+    "grayMAE": 2.0938853893573337,
+    "grayRMSE": 2.3264049431845057,
+    "diffRatio16": 0.0001868614783653846,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-details",
+    "variant": "rate2",
+    "rgbMAE": 2.309174053485577,
+    "grayMAE": 2.169287124633776,
+    "grayRMSE": 2.565047431939485,
+    "diffRatio16": 0.0015491192157451924,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-scrolling",
+    "variant": "rate4",
+    "rgbMAE": 2.230274141751803,
+    "grayMAE": 2.105019951923066,
+    "grayRMSE": 2.3929295823238204,
+    "diffRatio16": 0.0005488469050480769,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-scrolling",
+    "variant": "rate8",
+    "rgbMAE": 2.171486096504407,
+    "grayMAE": 2.0545451592078474,
+    "grayRMSE": 2.2576529148480984,
+    "diffRatio16": 9.718674879807692e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-scrolling",
+    "variant": "baseline-interior",
+    "rgbMAE": 2.188926031650641,
+    "grayMAE": 2.068327823110717,
+    "grayRMSE": 2.296461012802085,
+    "diffRatio16": 0.0001964862530048077,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-scrolling",
+    "variant": "rate2",
+    "rgbMAE": 2.4422240428435495,
+    "grayMAE": 2.2911692878136165,
+    "grayRMSE": 3.117157316767277,
+    "diffRatio16": 0.004986572265625,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-top",
+    "variant": "rate4",
+    "rgbMAE": 2.3789671286558494,
+    "grayMAE": 2.2712104414719723,
+    "grayRMSE": 2.3954040715769773,
+    "diffRatio16": 7.746769831730769e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-top",
+    "variant": "rate8",
+    "rgbMAE": 2.3394197904146634,
+    "grayMAE": 2.2387457371638284,
+    "grayRMSE": 2.318775012680517,
+    "diffRatio16": 1.7606295072115383e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-top",
+    "variant": "baseline-interior",
+    "rgbMAE": 2.3437953851161857,
+    "grayMAE": 2.243040861159096,
+    "grayRMSE": 2.333031686668455,
+    "diffRatio16": 2.0658052884615386e-05,
+    "changedBytes": true
+  },
+  {
+    "state": "1280x800-top",
+    "variant": "rate2",
+    "rgbMAE": 2.456581076597556,
+    "grayMAE": 2.332776903123114,
+    "grayRMSE": 2.555546762603087,
+    "diffRatio16": 0.0007561316856971154,
+    "changedBytes": true
+  }
+]

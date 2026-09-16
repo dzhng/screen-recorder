@@ -39,9 +39,14 @@ Encoder bitrate/AVFoundation composition internals are delegated subject to read
 The [production cut-join review](../assets/video-render/joins/README.md) accepts
 frame identity/orientation. The [color-metadata correction](../assets/video-color/README.md)
 then improves source-color preservation in actual player windows and owned capture
-frames. Softened/blocky label edges remain: evaluate encoder settings with full-size
-realistic text before accepting complete human-video fidelity. This quality work
-stays distinct from exact temporal membership and from pointer placement.
+frames. The [owned browser text comparison](../assets/text-fidelity/README.md)
+then checks captured-resolution light/dark text at two sizes against three
+bitrate-only variants. Independent review finds no meaningful full-frame
+readability win over automatic bitrate; retain that default. This is bounded
+source-relative text evidence, not pixel-perfect reconstruction, motion-quality
+acceptance or disappearance of all earlier enlarged label artifacts. It stays
+distinct from exact temporal membership and pointer placement. Full-original
+preview also needs the separately observed capture/container tail mismatch fixed.
 
 Temporal joins/pointer placement only; compare near-join frames to source-span expectations, then screenshot-critique last. Listen to source and edited excerpts for audible artifacts.
 

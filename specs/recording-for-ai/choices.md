@@ -1412,3 +1412,17 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   publication transaction layout. This follows existing frame/audio ownership
   without another table or commit log. Interrupted native staging has a separate
   lifetime and must be proven before public integration.
+
+## Browser text fidelity checkpoint
+
+- **Keep AVFoundation automatic H.264 bitrate.** The spec delegates encoder
+  settings subject to readable text and timing. Three bitrate-only settings were
+  compared against the same real captured browser sources. The largest slightly
+  improves source-distance and adds roughly 5% bytes; unprimed review sees no
+  meaningful full-frame readability advantage. That does not justify a new
+  global bitrate rule. The smaller settings lose detail. The complete
+  [comparison and limitations](assets/text-fidelity/README.md) retain all variants.
+- **Keep capture-tail authority separate from text testing.** A measured 121 µs
+  stop/container mismatch refuses a full-original render. Use an explicit
+  interior revision only for this controlled comparison; do not clamp production
+  plans or claim public full-original preview is ready.

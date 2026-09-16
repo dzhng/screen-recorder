@@ -1,0 +1,7 @@
+{
+  "A": "width * height * 4 bits/sec",
+  "B": "captured source reference",
+  "C": "width * height * 8 bits/sec",
+  "D": "automatic encoder bitrate (unchanged production)",
+  "E": "width * height * 2 bits/sec"
+}

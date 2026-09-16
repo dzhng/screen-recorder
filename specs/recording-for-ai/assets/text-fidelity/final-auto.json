@@ -1,0 +1,168 @@
+{
+  "label": "final-auto",
+  "binarySHA256": "8f24338b5d2928334be90ddfee8c6d89505efabfbfcf66699b0cde2fb1306c22",
+  "results": [
+    {
+      "capture": {
+        "name": "1280x800",
+        "windowId": 22587,
+        "logicalSize": [
+          1280,
+          800
+        ],
+        "backingScale": 2,
+        "durationUs": 4194705,
+        "audio": {
+          "microphone": false,
+          "systemAudio": false
+        }
+      },
+      "sourceSHA256": "7de4459f9733a182a7b0c8c5b9ea9bbf7f0844b9bdf1c1f982d8d4aada904658",
+      "outputSHA256": "d93b040752c1e82ca03e1baf60b6dafecad96584bb8c5694e80ba2c0ae5cbecd",
+      "receipt": {
+        "bytes": 1924009,
+        "codec": "h264",
+        "durationUs": 4000000,
+        "file": "1280x800.mp4",
+        "frameCount": 118,
+        "height": 1664,
+        "mediaType": "video/mp4",
+        "width": 2560
+      },
+      "elapsedMs": 1056,
+      "maxRSS": 43171840,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "profile": "High",
+            "width": 2560,
+            "height": 1664,
+            "color_space": "bt709",
+            "color_transfer": "iec61966-2-1",
+            "color_primaries": "bt709",
+            "bit_rate": "3843676"
+          }
+        ],
+        "format": {
+          "duration": "4.000000",
+          "size": "1924009",
+          "bit_rate": "3848018"
+        }
+      },
+      "states": [
+        {
+          "state": "top",
+          "sourceUs": 585000,
+          "renderedUs": 585000,
+          "width": 2560,
+          "height": 1664
+        },
+        {
+          "state": "scrolling",
+          "sourceUs": 1365000,
+          "renderedUs": 1365000,
+          "width": 2560,
+          "height": 1664
+        },
+        {
+          "state": "details",
+          "sourceUs": 2311667,
+          "renderedUs": 2311667,
+          "width": 2560,
+          "height": 1664
+        },
+        {
+          "state": "dark",
+          "sourceUs": 3595000,
+          "renderedUs": 3595000,
+          "width": 2560,
+          "height": 1664
+        }
+      ]
+    },
+    {
+      "capture": {
+        "name": "1024x700",
+        "windowId": 22612,
+        "logicalSize": [
+          1024,
+          700
+        ],
+        "backingScale": 2,
+        "durationUs": 4316788,
+        "audio": {
+          "microphone": false,
+          "systemAudio": false
+        }
+      },
+      "sourceSHA256": "573d09bf62dd997b9b84a22866a34f7f9ee13f4a1af57a0dd2575293bb74f058",
+      "outputSHA256": "bd6774847cda34ab84931a44718a90349d09de8a8354e12fd207c0680c881e44",
+      "receipt": {
+        "bytes": 1502189,
+        "codec": "h264",
+        "durationUs": 4000000,
+        "file": "1024x700.mp4",
+        "frameCount": 117,
+        "height": 1464,
+        "mediaType": "video/mp4",
+        "width": 2048
+      },
+      "elapsedMs": 811,
+      "maxRSS": 42926080,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "profile": "High",
+            "width": 2048,
+            "height": 1464,
+            "color_space": "bt709",
+            "color_transfer": "iec61966-2-1",
+            "color_primaries": "bt709",
+            "bit_rate": "3000020"
+          }
+        ],
+        "format": {
+          "duration": "4.000000",
+          "size": "1502189",
+          "bit_rate": "3004378"
+        }
+      },
+      "states": [
+        {
+          "state": "top",
+          "sourceUs": 611667,
+          "renderedUs": 611667,
+          "width": 2048,
+          "height": 1464
+        },
+        {
+          "state": "scrolling",
+          "sourceUs": 1336667,
+          "renderedUs": 1336667,
+          "width": 2048,
+          "height": 1464
+        },
+        {
+          "state": "details",
+          "sourceUs": 2285000,
+          "renderedUs": 2285000,
+          "width": 2048,
+          "height": 1464
+        },
+        {
+          "state": "dark",
+          "sourceUs": 3610000,
+          "renderedUs": 3610000,
+          "width": 2048,
+          "height": 1464
+        }
+      ]
+    }
+  ]
+}
