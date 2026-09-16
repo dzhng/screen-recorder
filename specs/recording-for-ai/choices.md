@@ -1426,3 +1426,19 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   stop/container mismatch refuses a full-original render. Use an explicit
   interior revision only for this controlled comparison; do not clamp production
   plans or claim public full-original preview is ready.
+## Sequential pointer schedule — 2026-09-17
+
+- **Bound source work separately from output size.** A million stationary cursor
+  observations can produce a tiny schedule but still consume substantial work.
+  The caller therefore supplies both a visited-event budget and an output-byte
+  budget. Each kept span seeks directly into the existing source index; deleted
+  prefixes do not consume the event budget. **Gap:** work admission was unspecified.
+  **Reach:** the preview/export owner must set both budgets from its pinned inputs.
+  **Verdict: sound, high confidence** — compact output cannot hide unbounded work.
+- **Compress unchanged glyphs without losing fresh pointing evidence.** A stationary
+  cursor's new observations still refresh eligibility, but the schedule emits only
+  coordinate/visibility changes and each span's initial state. Native draws the
+  supplied state without adding its own age rule. **Gap:** output compaction was
+  unspecified. **Reach:** avoids encoding redundant frames when only an observation's
+  timestamp changed. **Verdict: sound, high confidence** — human movies have no
+  fading trail, so unchanged coordinates draw the same glyph.

@@ -4,9 +4,16 @@ import type { EvidenceIdentity, RawCursorSample, SourceTrailRead } from "./evide
 import {
   analyzeFrameScene,
   compareVisualSamples,
+  compareVisualRasters,
   scenePolicy,
   type VisualSampler,
 } from "./scenes.js";
+import {
+  comparePresentationTimes,
+  floorMicroseconds,
+  microsecondTime,
+  type PresentationTime,
+} from "./presentation-time.js";
 import type { TimeRange } from "./timeline.js";
 
 export type CursorPoint = { atSourceUs: number; x: number; y: number };
@@ -31,6 +38,11 @@ export const trailPolicy = Object.freeze({
   maximumPoints: 1200,
   maximumObservations: 5000,
 });
+export type PointerResetFloor = {
+  atSourceUs: number;
+  allowAtBoundary: boolean;
+  reason: TrailCutoff["reason"];
+};
 export type TrailScene = Awaited<ReturnType<typeof analyzeFrameScene>>;
 type CursorObservation = RawCursorSample & { sequence: number };
 
@@ -57,12 +69,13 @@ export async function planFrameTrail(
       evidence,
       identity,
       scene,
-      readScene: (at, trailUs) =>
-        analyzeFrameScene(
+      readScene: async (at, trailUs) => ({
+        scene: await analyzeFrameScene(
           { ...request, recordingId: identity.recordingId, requestedSourceUs: at, trailUs },
           sample,
           signal,
         ),
+      }),
     },
     signal,
   );
@@ -75,14 +88,22 @@ export async function planVisualTrail(
     evidence: SourceTrailRead;
     identity: EvidenceIdentity;
     scene: TrailScene;
-    readScene: (at: number, trailUs: number) => Promise<TrailScene | null>;
+    resetFloor?: PointerResetFloor;
+    presentationClock?: { at: PresentationTime; sampleTime: PresentationTime };
+    readScene: (
+      at: number,
+      trailUs: number,
+    ) => Promise<{ scene: TrailScene | null; presentationTime?: PresentationTime }>;
   },
   signal: AbortSignal,
 ) {
-  const { evidence, identity, scene, readScene } = dependencies;
+  const { evidence, identity, scene, readScene, resetFloor, presentationClock } = dependencies;
   const at = request.requestedSourceUs;
   const trailUs = request.trailUs ?? trailPolicy.defaultUs;
   const actual = scene.lastSample.actualSourceUs;
+  // Still selection may be future-facing; a presentation's exact sample must never
+  // admit later microsecond journal events merely because its display timestamp rounds up.
+  const selectedAt = presentationClock ? floorMicroseconds(presentationClock.sampleTime) : actual;
   const cutoffs: TrailCutoff[] = [];
   const add = (reason: TrailCutoff["reason"], atSourceUs: number) =>
     cutoffs.push({ reason, atSourceUs });
@@ -116,20 +137,22 @@ export async function planVisualTrail(
     return timed;
   };
   const requestedGeometry = geometryAt(at);
-  const selectedGeometry = geometryAt(actual);
+  const selectedGeometry = geometryAt(selectedAt);
   const latest = evidence.latestCursor(identity, at);
   const overlay: FrameOverlay = { trail: [], trailUs, pointer: null };
   let start = scene.range.startUs;
-  let reset = request.kept.startUs;
-  let pauseReset = -1;
-  const historyStart = Math.min(start, Math.max(request.kept.startUs, latest?.sourceUs ?? start));
+  let reset = Math.max(request.kept.startUs, resetFloor?.atSourceUs ?? 0);
+  let pauseReset = resetFloor && !resetFloor.allowAtBoundary ? resetFloor.atSourceUs : -1;
+  if (resetFloor) add(resetFloor.reason, resetFloor.atSourceUs);
+  const priorStart = Math.min(start, Math.max(request.kept.startUs, latest?.sourceUs ?? start));
+  const historyStart = resetFloor ? Math.min(at, Math.max(reset, priorStart)) : priorStart;
   const pauses = evidence.pauseBoundaries(identity, {
     startUs: historyStart,
-    endUs: Math.max(at, actual),
+    endUs: Math.max(at, selectedAt),
   });
   const changes = evidence.geometryChanges(identity, {
     startUs: historyStart,
-    endUs: Math.max(at, actual),
+    endUs: Math.max(at, selectedAt),
   });
   let epoch = geometryAt(historyStart).epoch;
   for (const change of changes) {
@@ -151,7 +174,7 @@ export async function planVisualTrail(
     add("scene", boundary.atSourceUs);
     reset = Math.max(reset, boundary.atSourceUs);
   }
-  start = Math.max(start, reset);
+  start = resetFloor ? Math.min(at, Math.max(start, reset)) : Math.max(start, reset);
   const raster = (geometry: typeof requestedGeometry.geometry) => ({
     outputWidth: geometry.outputWidth,
     outputHeight: geometry.outputHeight,
@@ -166,7 +189,9 @@ export async function planVisualTrail(
   if (incompatible)
     add("geometry", Math.max(requestedGeometry.sourceUs!, selectedGeometry.sourceUs!));
   if (scene.futureComparison?.boundary) add("future_scene", actual);
-  const futurePause = pauses.some((pause) => pause.atSourceUs > at && pause.atSourceUs <= actual);
+  const futurePause = pauses.some(
+    (pause) => pause.atSourceUs > at && pause.atSourceUs <= selectedAt,
+  );
   const veto = incompatible || scene.futureComparison?.boundary || futurePause;
   let stalePointerScene: Awaited<ReturnType<typeof analyzeFrameScene>> | null = null;
   let missingPriorPicture = false;
@@ -218,19 +243,36 @@ export async function planVisualTrail(
       if (run.length) overlay.trail.push(run);
     }
     if (latest && eligible(latest)) {
-      if (latest.sourceUs < scene.range.startUs) {
+      if (
+        presentationClock
+          ? comparePresentationTimes(microsecondTime(latest.sourceUs), presentationClock.at) < 0
+          : latest.sourceUs < scene.range.startUs
+      ) {
         geometryAt(latest.sourceUs);
-        stalePointerScene = await readScene(latest.sourceUs, 0);
+        const prior = await readScene(latest.sourceUs, 0);
+        stalePointerScene = prior.scene;
         if (!stalePointerScene) {
           missingPriorPicture = true;
           add("empty_presentation", latest.sourceUs);
         }
         const before = stalePointerScene?.reference;
         const after = scene.lastSample;
-        if (before && before.actualSourceUs < after.actualSourceUs) {
+        if (before && presentationClock) {
+          if (!prior.presentationTime)
+            throw new CatalogError(
+              "INVALID_EVIDENCE",
+              "Presentation scene has no exact sample clock",
+            );
+          if (comparePresentationTimes(prior.presentationTime, presentationClock.sampleTime) < 0)
+            stalePointerComparison = {
+              previousActualSourceUs: before.actualSourceUs,
+              actualSourceUs: after.actualSourceUs,
+              ...compareVisualRasters(before, after),
+            };
+        } else if (before && before.actualSourceUs < after.actualSourceUs) {
           stalePointerComparison = compareVisualSamples(before, after);
-          if (stalePointerComparison.boundary) add("scene", after.actualSourceUs);
         }
+        if (stalePointerComparison?.boundary) add("scene", after.actualSourceUs);
       }
       if (!missingPriorPicture && !stalePointerComparison?.boundary)
         overlay.pointer = point(latest);

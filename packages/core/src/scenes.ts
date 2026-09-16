@@ -48,11 +48,9 @@ function interval(range: TimeRange): void {
   if (!integer(range.startUs) || !integer(range.endUs) || range.endUs <= range.startUs)
     throw new CatalogError("INVALID_RANGE", "Scene analysis requires a nonempty source interval");
 }
-function pixels(sample: VisualSample): Buffer {
+type VisualRaster = Pick<VisualSample, "width" | "height" | "rgbBase64">;
+function rasterBytes(sample: VisualRaster): Buffer {
   if (
-    !integer(sample.requestedSourceUs) ||
-    !integer(sample.actualSourceUs) ||
-    sample.distanceUs !== Math.abs(sample.actualSourceUs - sample.requestedSourceUs) ||
     !Number.isInteger(sample.width) ||
     sample.width < 1 ||
     sample.width > 64 ||
@@ -60,13 +58,22 @@ function pixels(sample: VisualSample): Buffer {
     sample.height < 1 ||
     sample.height > 64
   )
-    invalid("Invalid visual sample timing or dimensions");
+    invalid("Invalid visual sample dimensions");
   const bytes = sample.width * sample.height * 3;
   if (sample.rgbBase64.length !== 4 * Math.ceil(bytes / 3)) invalid("Invalid RGB byte length");
   const result = Buffer.from(sample.rgbBase64, "base64");
   if (result.length !== bytes || result.toString("base64") !== sample.rgbBase64)
     invalid("Invalid RGB encoding");
   return result;
+}
+function pixels(sample: VisualSample): Buffer {
+  if (
+    !integer(sample.requestedSourceUs) ||
+    !integer(sample.actualSourceUs) ||
+    sample.distanceUs !== Math.abs(sample.actualSourceUs - sample.requestedSourceUs)
+  )
+    invalid("Invalid visual sample timing or dimensions");
+  return rasterBytes(sample);
 }
 
 /** Explicit pairs make chunk continuity and repeated held frames share one comparison policy. */
@@ -82,22 +89,36 @@ export function compareVisualSamples(
     current.height !== previous.height
   )
     invalid("Visual comparison requires later source time and matching raster dimensions");
-  const columns = Math.min(scenePolicy.gridColumns, current.width);
-  const rows = Math.min(scenePolicy.gridRows, current.height);
+  return {
+    previousActualSourceUs: previous.actualSourceUs,
+    actualSourceUs: current.actualSourceUs,
+    ...measureVisualChange(before, after, current.width, current.height),
+  };
+}
+
+/** Pixel policy is independent of the clock; exact presentation timestamps can round alike. */
+export function compareVisualRasters(previous: VisualRaster, current: VisualRaster) {
+  const before = rasterBytes(previous),
+    after = rasterBytes(current);
+  if (previous.width !== current.width || previous.height !== current.height)
+    invalid("Visual comparison requires matching raster dimensions");
+  return measureVisualChange(before, after, current.width, current.height);
+}
+function measureVisualChange(before: Buffer, after: Buffer, width: number, height: number) {
+  const columns = Math.min(scenePolicy.gridColumns, width);
+  const rows = Math.min(scenePolicy.gridRows, height);
   const changed = new Uint16Array(columns * rows),
     total = new Uint16Array(columns * rows);
   let changedPixels = 0,
     channelDifference = 0;
-  for (let y = 0; y < current.height; y++) {
-    for (let x = 0; x < current.width; x++) {
-      const offset = (y * current.width + x) * 3;
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const offset = (y * width + x) * 3;
       const differences = [0, 1, 2].map((channel) =>
         Math.abs(before[offset + channel]! - after[offset + channel]!),
       );
       channelDifference += differences[0]! + differences[1]! + differences[2]!;
-      const cell =
-        Math.floor((y * rows) / current.height) * columns +
-        Math.floor((x * columns) / current.width);
+      const cell = Math.floor((y * rows) / height) * columns + Math.floor((x * columns) / width);
       total[cell] = total[cell]! + 1;
       if (Math.max(...differences) >= scenePolicy.changedChannelDelta) {
         changedPixels++;
@@ -105,13 +126,11 @@ export function compareVisualSamples(
       }
     }
   }
-  const changedPixelFraction = changedPixels / (current.width * current.height);
+  const changedPixelFraction = changedPixels / (width * height);
   const changedCellFraction =
     Array.from(changed).filter((count, i) => count / total[i]! >= scenePolicy.activeCellFraction)
       .length / changed.length;
   return {
-    previousActualSourceUs: previous.actualSourceUs,
-    actualSourceUs: current.actualSourceUs,
     changedPixelFraction,
     changedCellFraction,
     meanAbsoluteChannelDifference: channelDifference / (before.length * 255),

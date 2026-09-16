@@ -1,29 +1,18 @@
 import { constants, type BigIntStats } from "node:fs";
 import { open, type FileHandle } from "node:fs/promises";
 import { z } from "zod";
+import {
+  presentationTimeSchema as timeSchema,
+  comparePresentationTimes as compare,
+  microsecondTime as micros,
+  roundedMicroseconds as rounded,
+} from "./presentation-time.js";
 import { isAbsolute } from "node:path";
 import { CatalogError } from "./library.js";
 import { renderPlan, type TimelineRevision } from "./timeline.js";
 
 const recordBytes = 65_536;
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
-const timeSchema = z.strictObject({
-  value: z
-    .string()
-    .regex(/^(0|[1-9]\d{0,18})$/)
-    .refine((v) => BigInt(v) <= 9_223_372_036_854_775_807n),
-  timescale: integer.min(1).max(2_147_483_647),
-});
-type ExactTime = z.infer<typeof timeSchema>;
-function compare(a: ExactTime, b: ExactTime) {
-  const delta = BigInt(a.value) * BigInt(b.timescale) - BigInt(b.value) * BigInt(a.timescale);
-  return delta < 0n ? -1 : delta > 0n ? 1 : 0;
-}
-const micros = (value: number): ExactTime => ({ value: String(value), timescale: 1_000_000 });
-const rounded = (time: ExactTime) =>
-  Number(
-    (BigInt(time.value) * 2_000_000n + BigInt(time.timescale)) / (2n * BigInt(time.timescale)),
-  );
 const interval = { spanIndex: integer, start: timeSchema, end: timeSchema };
 const pictureSchema = z.strictObject({
   ...interval,
@@ -137,6 +126,7 @@ export class PresentationEvidence {
         used += length;
         if (end < bytesRead) {
           signal.throwIfAborted();
+          if (this.closed) throw new CatalogError("UNAVAILABLE", "Presentation evidence is closed");
           let value: unknown;
           try {
             value = JSON.parse(
@@ -153,7 +143,7 @@ export class PresentationEvidence {
     }
     if (used) invalid("Unterminated presentation record");
   }
-  private async *records(signal: AbortSignal): AsyncGenerator<PresentationRecord> {
+  async *records(signal: AbortSignal): AsyncGenerator<PresentationRecord> {
     let header = false,
       spanIndex = 0,
       count = 0;

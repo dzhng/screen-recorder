@@ -107,6 +107,10 @@
     "./preview": {
       "types": "./dist/preview.d.ts",
       "default": "./dist/preview.js"
+    },
+    "./pointer-schedule": {
+      "types": "./dist/pointer-schedule.d.ts",
+      "default": "./dist/pointer-schedule.js"
     }
   },
   "scripts": {

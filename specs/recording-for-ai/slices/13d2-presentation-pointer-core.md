@@ -34,8 +34,7 @@ outside cursor, scene change and empty support independently.
 The [review and machine evidence](../assets/presentation-pointer-core/review.md)
 record the focused results and independent review.
 
-Next pickup: sequential event planning must carry a shared reset floor across
-A → B → A without new cursor input. Supply the floor, with its equality rule, to
-the existing eligibility policy instead of duplicating that policy. Point
-inspection deliberately preserves current endpoint-comparison behavior; it does
-not establish final movie reset semantics. Scheduling and composition remain open.
+Sequential reset history now belongs to [13d3](13d3-pointer-schedule.md), which
+passes a persistent floor and exact presentation clocks into the shared policy.
+Point inspection remains distinct from scheduling. Next pickup is the native
+composition checkpoint described there; parent 13 is not complete.

@@ -34,11 +34,30 @@ export abstract class SourceEvidenceReader {
   protected abstract records(identity: EvidenceIdentity, query: RecordQuery): RecordRow[];
 
   /** Export normalized records through the same orders used by inspection. */
-  *exportRecords(identity: EvidenceIdentity, index: EvidenceIndex): Generator<RecordRow[]> {
+  *exportRecords(
+    identity: EvidenceIdentity,
+    index: EvidenceIndex,
+    range?: TimeRange,
+  ): Generator<RecordRow[]> {
     this.requireComplete(identity);
-    let lower: RecordBound | undefined;
+    if (range) {
+      this.timingRange(range);
+      if (!["cursor", "geometry", "pauses"].includes(index))
+        invalid("Source ranges require cursor, geometry or pause records");
+    }
+    let lower: RecordBound | undefined = range
+      ? { key: [range.startUs, 0], inclusive: true }
+      : undefined;
+    const upper: RecordBound | undefined = range
+      ? { key: [range.endUs, 0], inclusive: false }
+      : undefined;
     for (;;) {
-      const rows = this.records(identity, { index, ...(lower ? { lower } : {}), limit: 256 });
+      const rows = this.records(identity, {
+        index,
+        ...(lower ? { lower } : {}),
+        ...(upper ? { upper } : {}),
+        limit: 256,
+      });
       if (!rows.length) return;
       yield rows;
       lower = { key: recordKey(index, rows.at(-1)!), inclusive: false };

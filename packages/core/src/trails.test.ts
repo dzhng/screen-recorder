@@ -1,13 +1,14 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtempSync, rmSync, writeFileSync, readFileSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import type { VisualSampler } from "./scenes.js";
 import { planFrameTrail } from "./trails.js";
 import { PresentationEvidence } from "./presentation-evidence.js";
 import { PresentationPointer } from "./presentation-pointer.js";
+import { writePointerSchedule } from "./pointer-schedule.js";
 import { createOriginalRevision, createRevision, type TimelineRevision } from "./timeline.js";
 
 const cleanup: (() => void)[] = [];
@@ -566,6 +567,334 @@ test("empty presentation has no pointer and a pointer observed over empty time n
       });
       const fresh = await pointer.at(0, 1_100_000);
       expect(fresh.kind === "picture" && fresh.plan.overlay.pointer?.x).toBe(30);
+    },
+  );
+});
+
+test("movie schedule keeps a pointer hidden through A-B-A until a fresh cursor observation", async () => {
+  const f = await fixture([geometry(), point(500_000, 20), point(2_500_000, 30)]);
+  const revision = createOriginalRevision(3_000_000, "fixture");
+  await withPresentation(
+    revision,
+    [
+      presentationRecord(0, 1_000_000, 0),
+      presentationRecord(1_000_000, 2_000_000, 1_000_000, 255),
+      presentationRecord(2_000_000, 3_000_000, 2_000_000),
+    ],
+    async (presentation) => {
+      const output = join(dirname(presentation.receipt.file), "pointer.jsonl");
+      const receipt = await writePointerSchedule(
+        {
+          presentation,
+          evidence: f.evidence,
+          identity: f.identity,
+          output,
+          maxBytes: 100_000,
+          maxEvents: 1000,
+        },
+        signal(),
+      );
+      const [header, ...events] = readFileSync(output, "utf8")
+        .trim()
+        .split("\n")
+        .map((line) => JSON.parse(line));
+      expect(header.revisionId).toBe(revision.id);
+      expect(receipt.records).toBe(4);
+      expect(
+        events.map((row) => [Number(row.at.value) / row.at.timescale, row.pointer?.x ?? null]),
+      ).toEqual([
+        [0, null],
+        [0.5, 20],
+        [1, null],
+        [2.5, 30],
+      ]);
+    },
+  );
+});
+
+async function scheduled(
+  presentation: PresentationEvidence,
+  f: Awaited<ReturnType<typeof fixture>>,
+  options: { maxEvents?: number; maxBytes?: number; signal?: AbortSignal } = {},
+) {
+  const output = join(dirname(presentation.receipt.file), "pointer.jsonl");
+  const receipt = await writePointerSchedule(
+    {
+      presentation,
+      evidence: f.evidence,
+      identity: f.identity,
+      output,
+      maxBytes: options.maxBytes ?? 100_000,
+      maxEvents: options.maxEvents ?? 100_000,
+    },
+    options.signal ?? signal(),
+  );
+  const [header, ...events] = readFileSync(output, "utf8")
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line));
+  return { receipt, header, events, output };
+}
+
+test("schedule drains duplicate timestamps across pages and keeps pause/geometry reset equality", async () => {
+  const f = await fixture([
+    geometry(),
+    ...Array.from({ length: 600 }, (_, i) => point(500_000, i % 80)),
+    point(500_000, 42),
+    point(600_000, 42),
+    { event: "pause", data: { atSourceUs: 700_000, elapsedPauseUs: 2_000_000 } },
+    point(700_000, 80),
+    point(700_001, 30),
+    geometry(800_000, 2),
+    point(800_001, 45, 20, "inside", 2),
+  ]);
+  await withPresentation(
+    createOriginalRevision(1_000_000, "fixture"),
+    [presentationRecord(0, 1_000_000, 0)],
+    async (presentation) => {
+      const { events } = await scheduled(presentation, f);
+      expect(
+        events.map((e) => [Number(e.at.value) / e.at.timescale, e.pointer?.x ?? null]),
+      ).toEqual([
+        [0, null],
+        [0.5, 42],
+        [0.7, null],
+        [0.700001, 30],
+        [0.8, null],
+        [0.800001, 45],
+      ]);
+    },
+  );
+});
+
+test("fractional presentation resets retain exact output time and never borrow the later cursor", async () => {
+  for (const subMicrosecond of [false, true]) {
+    const before = subMicrosecond ? 0 : 333_333,
+      after = before + 1;
+    const boundary = subMicrosecond
+      ? { value: "2", timescale: 5_000_000 }
+      : { value: "1", timescale: 3 };
+    const duration = subMicrosecond ? 2 : 1_000_000;
+    const f = await fixture([geometry(), point(before, 20), point(after, 40)]);
+    await withPresentation(
+      createOriginalRevision(duration, "fixture"),
+      [
+        { ...presentationRecord(0, 1, 0), end: boundary },
+        {
+          ...presentationRecord(1, duration, subMicrosecond ? 0 : 333_333, 255),
+          start: boundary,
+          sampleTime: boundary,
+        },
+      ],
+      async (presentation) => {
+        const { events } = await scheduled(presentation, f);
+        const atBoundary = events.find(
+          (e) => e.at.value === boundary.value && e.at.timescale === boundary.timescale,
+        );
+        expect(atBoundary?.pointer).toBe(null);
+        expect(events.find((e) => e.pointer?.x === 20)?.pointer.atSourceUs).toBe(before);
+        const fresh = events.find((e) => e.pointer?.x === 40);
+        expect(fresh.at).toEqual(exact(after));
+        expect(fresh.pointer.atSourceUs).toBe(after);
+      },
+    );
+  }
+});
+
+test("each kept span gets an initial state; deleted and empty observations cannot revive", async () => {
+  const f = await fixture([
+    geometry(),
+    point(200_000, 20),
+    point(900_000, 30),
+    point(1_200_000, 40),
+    point(1_600_000, 50),
+  ]);
+  const revision = createRevision(
+    createOriginalRevision(2_000_000, "fixture"),
+    [
+      { startUs: 0, endUs: 500_000 },
+      { startUs: 1_000_000, endUs: 2_000_000 },
+    ],
+    { id: "cut", operation: "cut", createdAt: "fixture" },
+  );
+  await withPresentation(
+    revision,
+    [
+      presentationRecord(0, 500_000, 0),
+      { ...presentationRecord(1_000_000, 1_500_000, null), spanIndex: 1 },
+      { ...presentationRecord(1_500_000, 2_000_000, 1_500_000), spanIndex: 1 },
+    ],
+    async (presentation) => {
+      const { events } = await scheduled(presentation, f);
+      expect(
+        events.map((e) => [e.spanIndex, Number(e.at.value) / e.at.timescale, e.pointer?.x ?? null]),
+      ).toEqual([
+        [0, 0, null],
+        [0, 0.2, 20],
+        [1, 1, null],
+        [1, 1.6, 50],
+      ]);
+    },
+  );
+});
+
+test("schedule budgets, cancellation and publication races never publish partial output", async () => {
+  for (const mode of ["events", "bytes", "cancel", "existing"] as const) {
+    const f = await fixture([
+      geometry(),
+      ...Array.from({ length: 600 }, (_, i) => point(mode === "events" ? 1000 : 1000 + i, i % 80)),
+    ]);
+    const abort = new AbortController();
+    if (mode === "cancel") {
+      const original = f.evidence.exportRecords.bind(f.evidence);
+      f.evidence.exportRecords = function* (identity, index) {
+        for (const page of original(identity, index)) {
+          yield page;
+          if (index === "cursor") abort.abort();
+        }
+      };
+    }
+    await withPresentation(
+      createOriginalRevision(1_000_000, "fixture"),
+      [presentationRecord(0, 1_000_000, 0)],
+      async (presentation) => {
+        const output = join(dirname(presentation.receipt.file), "pointer.jsonl");
+        if (mode === "existing") {
+          const original = f.evidence.exportRecords.bind(f.evidence);
+          f.evidence.exportRecords = function* (identity, index, range) {
+            for (const page of original(identity, index, range)) {
+              yield page;
+              if (index === "cursor" && !existsSync(output)) writeFileSync(output, "unrelated");
+            }
+          };
+        }
+        const promise = scheduled(presentation, f, {
+          maxEvents: mode === "events" ? 20 : 10_000,
+          maxBytes: mode === "bytes" ? 1 : 100_000,
+          signal: abort.signal,
+        });
+        await expect(promise).rejects.toMatchObject(
+          mode === "cancel"
+            ? { name: "AbortError" }
+            : { code: mode === "existing" ? "INVALID_OUTPUT" : "LIMIT_EXCEEDED" },
+        );
+        if (mode === "existing") expect(readFileSync(output, "utf8")).toBe("unrelated");
+        else expect(existsSync(output)).toBe(false);
+        expect(readdirSync(dirname(output)).some((n) => n.startsWith(".pointer-schedule-"))).toBe(
+          false,
+        );
+      },
+    );
+  }
+});
+
+test("a late kept span seeks past deleted cursor history while preserving geometry and pause at the cut", async () => {
+  const f = await fixture([
+    geometry(),
+    ...Array.from({ length: 600 }, (_, i) => point(1000 + i, i % 80)),
+    geometry(500_000, 2),
+    point(700_000, 20, 20, "inside", 2),
+    { event: "pause", data: { atSourceUs: 750_000, elapsedPauseUs: 1_000_000 } },
+    point(750_000, 30, 20, "inside", 2),
+    point(750_001, 40, 20, "inside", 2),
+  ]);
+  const revision = createRevision(
+    createOriginalRevision(1_000_000, "fixture"),
+    [{ startUs: 750_000, endUs: 1_000_000 }],
+    { id: "late", operation: "cut", createdAt: "fixture" },
+  );
+  await withPresentation(
+    revision,
+    [presentationRecord(750_000, 1_000_000, 500_000)],
+    async (presentation) => {
+      const { events, receipt } = await scheduled(presentation, f, { maxEvents: 10 });
+      expect(receipt.events).toBe(4);
+      expect(
+        events.map((e) => [Number(e.at.value) / e.at.timescale, e.pointer?.x ?? null]),
+      ).toEqual([
+        [0.75, null],
+        [0.750001, 40],
+      ]);
+    },
+  );
+});
+
+test("fresh cursor observations exactly at scene and kept boundaries remain eligible", async () => {
+  const f = await fixture([
+    geometry(),
+    point(200_000, 20),
+    point(1_000_000, 40),
+    point(1_500_000, 50),
+  ]);
+  const revision = createRevision(
+    createOriginalRevision(2_000_000, "fixture"),
+    [
+      { startUs: 0, endUs: 500_000 },
+      { startUs: 1_000_000, endUs: 2_000_000 },
+    ],
+    { id: "cut", operation: "cut", createdAt: "fixture" },
+  );
+  await withPresentation(
+    revision,
+    [
+      presentationRecord(0, 500_000, 0),
+      { ...presentationRecord(1_000_000, 1_500_000, 1_000_000, 255), spanIndex: 1 },
+      { ...presentationRecord(1_500_000, 2_000_000, 1_500_000), spanIndex: 1 },
+    ],
+    async (presentation) => {
+      const { events } = await scheduled(presentation, f);
+      expect(
+        events.map((e) => [Number(e.at.value) / e.at.timescale, e.pointer?.x ?? null]),
+      ).toEqual([
+        [0, null],
+        [0.2, 20],
+        [1, 40],
+        [1.5, 50],
+      ]);
+    },
+  );
+});
+
+test("a fractional picture never pulls a future pause into its event", async () => {
+  const f = await fixture([
+    geometry(),
+    point(0, 20),
+    { event: "pause", data: { atSourceUs: 1, elapsedPauseUs: 1000 } },
+  ]);
+  const boundary = { value: "3", timescale: 5_000_000 };
+  await withPresentation(
+    createOriginalRevision(2, "fixture"),
+    [
+      { ...presentationRecord(0, 1, 0), end: boundary },
+      { ...presentationRecord(1, 2, 1), start: boundary, sampleTime: boundary },
+    ],
+    async (presentation) => {
+      const { events } = await scheduled(presentation, f);
+      expect(events.map((e) => [e.at, e.pointer?.x ?? null])).toEqual([
+        [exact(0), 20],
+        [exact(1), null],
+      ]);
+    },
+  );
+});
+
+test("stale-pointer comparisons retain exact order when cumulative changes share a rounded timestamp", async () => {
+  const f = await fixture([geometry(), point(0, 20)]);
+  const one = { value: "1", timescale: 10_000_000 },
+    two = { value: "2", timescale: 10_000_000 };
+  await withPresentation(
+    createOriginalRevision(2, "fixture"),
+    [
+      { ...presentationRecord(0, 1, 0), end: one },
+      { ...presentationRecord(0, 1, 0, 16), start: one, end: two, sampleTime: one },
+      { ...presentationRecord(0, 2, 0, 32), start: two, sampleTime: two },
+    ],
+    async (presentation) => {
+      const { events } = await scheduled(presentation, f);
+      expect(events.map((e) => [e.at, e.pointer?.x ?? null])).toEqual([
+        [exact(0), 20],
+        [two, null],
+      ]);
     },
   );
 });

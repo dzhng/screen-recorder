@@ -1,0 +1,40 @@
+{
+  "baseCommit": "9725f3f",
+  "coreTests": {
+    "passed": 286,
+    "failed": 0
+  },
+  "typeCheck": "passed",
+  "focusedLint": "passed",
+  "independentReview": {
+    "firstFindings": 2,
+    "resolved": [
+      "Future pause/geometry queries admitted by rounded sample time",
+      "Cumulative stale-picture comparison skipped for same-rounded sample timestamps"
+    ],
+    "secondReview": "No actionable regressions; 286 tests and type checking passed"
+  },
+  "scale": [
+    {
+      "sourceRecords": 100,
+      "sourceBytes": 944962,
+      "records": 100,
+      "inputEvents": 101,
+      "outputBytes": 7651,
+      "elapsedMs": 159.55716599999997,
+      "retainedHeapDelta": 417968,
+      "peakRssBytes": 79544320
+    },
+    {
+      "sourceRecords": 5000,
+      "sourceBytes": 47324530,
+      "records": 5000,
+      "inputEvents": 5001,
+      "outputBytes": 383653,
+      "elapsedMs": 4995.725917,
+      "retainedHeapDelta": 667144,
+      "peakRssBytes": 110706688
+    }
+  ],
+  "scaleSource": "Unchanged 13d1 generated native streams; synthetic geometry-only source evidence"
+}

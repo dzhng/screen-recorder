@@ -1,11 +1,21 @@
 import { CatalogError } from "./library.js";
 import type { EvidenceIdentity, SourceTrailRead } from "./evidence.js";
-import { PresentationEvidence, type PresentationPicture } from "./presentation-evidence.js";
+import {
+  PresentationEvidence,
+  type PresentationPicture,
+  type PresentationRecord,
+} from "./presentation-evidence.js";
 import { analyzeSceneObservations } from "./scenes.js";
-import { planVisualTrail, type TrailScene } from "./trails.js";
+import { planVisualTrail, type TrailScene, type PointerResetFloor } from "./trails.js";
+import {
+  comparePresentationTimes,
+  floorMicroseconds,
+  type PresentationTime,
+} from "./presentation-time.js";
 import type { TimeRange } from "./timeline.js";
 
-/** Adapts proven held-picture membership; it never passes these facts through nearest-still validation. */
+/** Integer times here are cursor-query cutoffs. Exact event support stays with the caller;
+ * a fractional movie event does not claim its picture supports the earlier integer cutoff. */
 function pointScene(
   picture: PresentationPicture,
   at: number,
@@ -48,18 +58,46 @@ export class PresentationPointer {
     this.current = source.cursor(signal);
     this.prior = source.cursor(signal);
   }
-  async at(spanIndex: number, sourceUs: number) {
+  private async exclusive<T>(run: () => Promise<T>) {
     if (this.busy)
       throw new CatalogError("INVALID_RANGE", "Pointer inspection requests must be sequential");
     this.busy = true;
     try {
-      return await this.inspect(spanIndex, sourceUs);
+      return await run();
     } finally {
       this.busy = false;
     }
   }
-  private async inspect(spanIndex: number, sourceUs: number) {
-    const record = await this.current.at(spanIndex, sourceUs);
+  at(spanIndex: number, sourceUs: number) {
+    return this.exclusive(async () =>
+      this.inspect(await this.current.at(spanIndex, sourceUs), sourceUs),
+    );
+  }
+  /** Exact event membership stays separate from the integer observation-query cutoff. */
+  atEvent(record: PresentationRecord, at: PresentationTime, resetFloor: PointerResetFloor) {
+    return this.exclusive(async () => {
+      if (
+        comparePresentationTimes(at, record.start) < 0 ||
+        comparePresentationTimes(at, record.end) >= 0
+      )
+        throw new CatalogError(
+          "INVALID_RANGE",
+          "Pointer event escapes its exact presentation support",
+        );
+      return {
+        at,
+        observationCutoffUs: floorMicroseconds(at),
+        inspection: await this.inspect(record, floorMicroseconds(at), resetFloor, at),
+      };
+    });
+  }
+  private async inspect(
+    record: PresentationRecord,
+    sourceUs: number,
+    resetFloor?: PointerResetFloor,
+    eventTime?: PresentationTime,
+  ) {
+    const spanIndex = record.spanIndex;
     if (record.empty)
       return {
         kind: "empty" as const,
@@ -74,9 +112,18 @@ export class PresentationPointer {
         evidence: this.evidence,
         identity: this.identity,
         scene: pointScene(record, sourceUs, kept, this.source),
+        ...(resetFloor ? { resetFloor } : {}),
+        ...(eventTime
+          ? { presentationClock: { at: eventTime, sampleTime: record.sampleTime } }
+          : {}),
         readScene: async (at) => {
           const previous = await this.prior.at(spanIndex, at);
-          return previous.empty ? null : pointScene(previous, at, kept, this.source);
+          return previous.empty
+            ? { scene: null }
+            : {
+                scene: pointScene(previous, at, kept, this.source),
+                presentationTime: previous.sampleTime,
+              };
         },
       },
       this.signal,
