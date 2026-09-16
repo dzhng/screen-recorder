@@ -7,7 +7,8 @@
     "build": "tsc -p tsconfig.json",
     "check-types": "tsc -p tsconfig.check.json",
     "test": "node dist/bootstrap.js && node --test speech/evaluate.test.mjs",
-    "lab:index": "node --test ../../apps/macos/tests/index-lab.mjs"
+    "lab:index": "node --test ../../apps/macos/tests/index-lab.mjs",
+    "lab:index-scale": "node --test ../../apps/macos/tests/index-scale.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",
