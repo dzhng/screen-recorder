@@ -21,7 +21,8 @@ was implemented, while the nine prior delivery tests remained green.
 All ten delivery tests, all sixty service tests, service build and type checks,
 lint and diff checks pass. Independent Codex review found no actionable regression;
 its wider socket tests hit sandbox EPERM, while the host service suite completed.
-Native delivery reruns wait until the ongoing scale benchmark finishes.
+The merged workspace build and nine bundled public index/trail tests also pass,
+including CLI/MCP byte delivery and retained-index restart.
 
 Shape review: one owner field and one bounded traversal of the existing lease map;
 no table, endpoint, background worker, secondary registry or new cleanup path.
