@@ -1,7 +1,7 @@
 # Trail timing over sparse video
 
-Status: native/core timing evidence verified; trail policy and public rendering
-are not implemented. This bounded pass resolves the remaining overlay anchor
+Status: native/core timing evidence verified and bounded policy chosen. Trail
+planning and public rendering remain unimplemented. This bounded pass resolves the remaining overlay anchor
 before extending frame requests to default trails.
 
 ## Evidence that constrains the policy
@@ -26,23 +26,45 @@ rendering. It must carry separate requested time, decoded time and cursor eviden
 interval. Use the same clean visual comparisons for local requests and global
 indexing; do not introduce a second scene threshold or native edit mapper.
 
-Evaluate the candidate policy of ending cursor evidence at the later of requested
-and decoded source time. For a held earlier frame, this preserves pointing up to
-the request. For a selected future transition, the future boundary clips away the
-old path. This candidate must be tested with real cursor samples, pause/cut and
-geometry epochs before adoption; it is not an implemented default.
+Cursor evidence always ends at the requested source time R and fades from R.
+Never use max(requested, decoded): a future frame with identical pixels would then
+pull in gestures the user had not made when they asked for the image.
 
-The analysis window must cover the image actually selected as well as the requested
-trail interval. A future selection can be arbitrarily far away in sparse media:
-do not stretch bounded scene work across the entire gap. Determine the relevant
-comparison from bounded endpoint observations and retain explicit sampled coverage.
-Do not fabricate a pointer when no eligible observation exists after a reset, or
-treat geometry-mismatched coordinates as current video pixels.
+For an earlier/held decoded sample, retain eligible evidence through R if its
+geometry matches the selected image. For a future decoded sample A, compare it
+against P, the last actual sample at or before R inside the original kept span.
+If the existing scene policy detects a change, a pause intervenes, or geometry is
+incompatible, return an explicitly empty eligible overlay with that reason and
+future decoded time. Never borrow a future pointer. If the pair has no detected
+change and pause/geometry evidence permits it, retain the requested-time trail.
+This is sampled compatibility, not proof that nothing happened between endpoints.
+
+No new native selector is needed: request one existing visual observation at R
+with analysis-only kept interval [original.start, min(original.end,R+1)).
+Nearest selection inside that prefix yields P. Final image selection keeps the
+original kept interval. Missing P, decode failure or missing required analysis is
+explicit unavailable/failed trail evidence, not a successful clean fallback.
+
+Keep ordinary scene sampling within the requested trail window (at most ten
+seconds). Compare P and A directly even if separated by minutes; do not extend a
+sampling grid across that gap. Preserve endpoint observations, actual timestamps
+and sampled coverage with policy provenance.
+
+Pause and geometry markers need stable event order when their source time equals
+a cursor sample: a pre-pause point must not survive just because paused media time
+does not advance. Select raw evidence in source time, clip at the kept span and
+latest reset, and split runs on ineligible observations. Keep the observation
+timestamp of a stale pointer; do not invent an age threshold or interpolate a
+position without evidence. Reject coordinates whose geometry does not match the
+selected image.
 
 ## Acceptance
 
 - Static held frame with later circle/wave retains the gesture.
-- Nearest future changed frame receives no old path.
+- Nearest future changed frame receives no old path or future pointer.
+- Future identical frame retains only the pre-request gesture, excluding later
+  motion. Repeat both future cases across a gap longer than ten seconds with
+  constant bounded endpoint work.
 - Exact earlier tie, next kept span at a cut, pause and resize preserve their
   independent reset semantics.
 - The result exposes actual cursor interval, cutoff reasons, selected video

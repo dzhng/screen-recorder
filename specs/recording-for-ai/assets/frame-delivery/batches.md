@@ -54,3 +54,8 @@ Default cursor/trail frames, shared boundary production, selected screenshot ind
 and model-level recorded-image interpretation remain open. Maximum-size eight-image
 MCP messages have not been tested against every host; each image still observes the
 existing encoded-byte cap. This pass does not claim host-universal message support.
+
+Root integration at 473852f passed the rebuilt app/type checks, 105 core, 56
+service, 13 CLI and 9 protocol tests. The generated sparse-frame/batch test passes
+alongside all three public audio tests and the native/core scene timing test on
+the integrated tree. Sources remain synthetic; no wider visual gate is inferred.

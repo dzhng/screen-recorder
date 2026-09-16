@@ -660,3 +660,56 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   creates no automatic retry loop or source-repair capability.
 - **Verdict:** Sound: preserves deliberate retry without hidden background work.
   **Confidence:** High.
+
+## Ordered frame batches
+
+### Sound — medium confidence
+
+- **Choice:** A valid batch can succeed while individual images are pending or
+  failed. For example, five cached images remain usable when a sixth cannot be
+  read. The top-level response and CLI exit code report a valid batch; callers
+  inspect each item's explicit result. Invalid input rejects the whole batch
+  before any work starts, whereas runtime failures stay local to an item.
+- **Gap:** The eight-image limit did not choose batch failure semantics.
+- **Reach:** MCP image content indices identify ready items even when other items
+  produce no image; callers must not treat top-level success as all-images-ready.
+- **Verdict:** Sound and reversible: preserves useful results without hiding
+  individual failures. **Confidence:** Medium.
+
+### Sound — medium confidence
+
+- **Choice:** An explicit CLI batch destination is a new directory. Ordered names
+  keep repeated timestamps distinct. An existing directory is refused without
+  modifying its contents; callers polling a partly ready batch use a fresh
+  destination or request remaining images individually.
+- **Gap:** The spec did not choose multi-image output layout or collision behavior.
+- **Reach:** Prevents accidental replacement while keeping the existing shared
+  single-image transfer path and temporary-directory default.
+- **Verdict:** Sound and reversible. **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Consume each ready image in order through the existing byte reader,
+  release its held cache read, and continue after individual transfer/write errors.
+  Duplicate timestamps reuse one frame job but remain separate response items.
+- **Gap:** Batch execution and transfer lifetime were not specified.
+- **Reach:** No batch queue, new worker, or second transfer owner; each request
+  resolves one revision before admitting any of its images.
+- **Verdict:** Sound: reuses the existing bounded owners. **Confidence:** High.
+
+## Sparse-frame cursor evidence
+
+### Sound — medium confidence
+
+- **Choice:** A future decoded image may veto an old cursor path but never advance
+  cursor time. At requested second 1.5, if the nearest image is from second 2,
+  compare it with the last available image at or before 1.5. Compatible pixels and
+  pause/geometry evidence allow only gestures through 1.5. A changed screen
+  produces an explicitly empty eligible overlay; it cannot borrow a later pointer.
+- **Gap:** Nearest video selection and requested-time pointing diverge on sparse
+  sources; their compatibility rule was unspecified.
+- **Reach:** Local and global consumers share one scene comparison policy. A
+  missing past reference is unavailable evidence, not a silent clean fallback.
+  Endpoint comparison stays bounded even across long video gaps.
+- **Verdict:** Sound as the implementation rule; rendering acceptance remains
+  required. **Confidence:** Medium.

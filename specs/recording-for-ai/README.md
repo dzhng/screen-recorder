@@ -29,8 +29,13 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: integrate and verify the clean frame batch pass, then resolve
-[sparse trail timing](slices/10c-trail-timing.md) before default overlays.
+Current pickup: implement [requested-time trail planning](slices/10c-trail-timing.md).
+The clean frame batch pass is integrated and verified through the rebuilt app,
+including eight ordered CLI/MCP images and per-item failure isolation.
+[Batch evidence](assets/frame-delivery/batches.md) records the exact scope.
+Keep cursor time at the request even when a future video sample is selected.
+Source geometry reads and native placement after prologue/pause are independent
+prerequisites now in progress; nullable placement must remain explicit.
 [Audio inspection](slices/09e-public-audio.md) now passes public cuts/gaps,
 CLI/MCP byte parity, eviction/restart, missing roles and explicit retry through
 the rebuilt app. [Audio evidence](assets/audio-inspection/review.md) keeps
@@ -47,8 +52,8 @@ historical revision. [Frame evidence](assets/frame-delivery/review.md) and the
 [public-frame slice](slices/09d-public-frames.md) distinguish client receipt from
 model-level MCP visual interpretation.
 
-Next priority: frame batch integration, then shared scene/pause/
-geometry boundaries, default trails and screenshot indexing. Storage/deletion,
+Next priority: shared scene/pause/geometry evidence, requested-time trail
+selection, default trail rendering and screenshot indexing. Storage/deletion,
 remaining native controls, speech and installed workflow gates remain open. Keep
 one queue, immutable sources and explicit audio defaults. See
 [source integration](assets/source-timing/integration-review.md) for current checks.
