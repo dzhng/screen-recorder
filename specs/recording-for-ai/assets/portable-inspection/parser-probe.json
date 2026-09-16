@@ -1,0 +1,228 @@
+{
+  "scope": "Tiny parser feasibility only; no production extraction or valid product package",
+  "libarchiveVersion": "3.7.4",
+  "libarchiveConfiguration": {
+    "seekableZipOnly": true,
+    "macExtensions": false
+  },
+  "libarchive": [
+    {
+      "file": "aliased-offset.zip",
+      "entries": [],
+      "terminal": -30,
+      "error": "Invalid header"
+    },
+    {
+      "file": "bad-central-tail.zip",
+      "entries": [],
+      "terminal": -30,
+      "error": "Invalid central directory signature"
+    },
+    {
+      "file": "bad-crc.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov"
+      ],
+      "terminal": -25,
+      "error": "ZIP bad CRC: 0x1fb39795 should be 0x879cf5d9"
+    },
+    {
+      "file": "bad-local-tail.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov"
+      ],
+      "terminal": -30,
+      "error": "Damaged Zip archive"
+    },
+    {
+      "file": "duplicate-central-offset.zip",
+      "entries": [],
+      "terminal": -30,
+      "error": "Invalid header"
+    },
+    {
+      "file": "mac-metadata.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov",
+        "__MACOSX/source/._video.mov"
+      ],
+      "terminal": 1,
+      "error": ""
+    },
+    {
+      "file": "two.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov"
+      ],
+      "terminal": 1,
+      "error": ""
+    },
+    {
+      "file": "undercount-bad-tail.zip",
+      "entries": [],
+      "terminal": -30,
+      "error": "Invalid central directory signature"
+    },
+    {
+      "file": "undercount-tail.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov",
+        "unexpected.txt"
+      ],
+      "terminal": 1,
+      "error": ""
+    },
+    {
+      "file": "valid.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov",
+        "unexpected.txt"
+      ],
+      "terminal": 1,
+      "error": ""
+    }
+  ],
+  "yauzlVersion": "3.4.0",
+  "yauzl": [
+    {
+      "file": "aliased-offset.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov",
+        "unexpected.txt"
+      ],
+      "terminal": "end",
+      "crcMismatch": true,
+      "declared": 3
+    },
+    {
+      "file": "bad-central-tail.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov"
+      ],
+      "terminal": "error",
+      "crcMismatch": false,
+      "declared": 3,
+      "error": "invalid central directory file header signature: 0x21444142"
+    },
+    {
+      "file": "bad-crc.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov",
+        "unexpected.txt"
+      ],
+      "terminal": "end",
+      "crcMismatch": true,
+      "declared": 3
+    },
+    {
+      "file": "bad-local-tail.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov",
+        "unexpected.txt"
+      ],
+      "terminal": "error",
+      "crcMismatch": false,
+      "declared": 3,
+      "error": "invalid local file header signature: 0x21444142"
+    },
+    {
+      "file": "duplicate-central-offset.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov",
+        "manifest.json"
+      ],
+      "terminal": "end",
+      "crcMismatch": false,
+      "declared": 3
+    },
+    {
+      "file": "two.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov"
+      ],
+      "terminal": "end",
+      "crcMismatch": false,
+      "declared": 2
+    },
+    {
+      "file": "undercount-bad-tail.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov"
+      ],
+      "terminal": "end",
+      "crcMismatch": false,
+      "declared": 2
+    },
+    {
+      "file": "undercount-tail.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov"
+      ],
+      "terminal": "end",
+      "crcMismatch": false,
+      "declared": 2
+    },
+    {
+      "file": "valid.zip",
+      "entries": [
+        "manifest.json",
+        "source/video.mov",
+        "unexpected.txt"
+      ],
+      "terminal": "end",
+      "crcMismatch": false,
+      "declared": 3
+    }
+  ],
+  "callbackBudget": [
+    {
+      "budget": 256,
+      "bytes": 257,
+      "denied": true,
+      "macExtensionsDisabledStatus": 0,
+      "firstHeaderStatus": -30,
+      "error": ""
+    },
+    {
+      "budget": 8192,
+      "bytes": 1373,
+      "denied": false,
+      "macExtensionsDisabledStatus": 0,
+      "firstHeaderStatus": 0,
+      "error": ""
+    }
+  ],
+  "memoryMeasured": false,
+  "sdkProbe": {
+    "sdk": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+    "sdkArchiveHeadersPresent": false,
+    "sdkLinkStub": "usr/lib/libarchive.2.tbd",
+    "upstreamHeadersTag": "v3.7.4",
+    "headerSha256": {
+      "archive.h": "618cd16c8fa40ddabc44f2d3eb3a35860f6b1d1d856b62a7f4f035b7a319bdab",
+      "archive_entry.h": "3695eb0193741b16b99e06cf1fc5e6db427b68a9475696ef746c024ae0a6ae72"
+    },
+    "linkedLibrary": "archive.2",
+    "resolvedDylib": "/usr/lib/libarchive.2.dylib",
+    "ambientIncludeLibraryOverridesRemoved": true,
+    "exitCode": 0,
+    "output": [
+      "libarchive 3.7.4",
+      "seekable reader + mac-ext disabled + free: passed"
+    ]
+  }
+}

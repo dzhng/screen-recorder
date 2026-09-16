@@ -46,8 +46,10 @@ independently once their respective dependencies pass.
 ## 14c — Archive boundary and package lifetime
 
 [Archive candidate research](../assets/portable-inspection/archive-candidate.md)
-identifies a concrete malformed-tail traversal test to run before choosing a ZIP
-parser. No archive dependency has been selected.
+records malformed-tail and resource-fork probes.
+[14c1 — Bounded extraction](14c1-bounded-archive-extraction.md) selects system
+libarchive as a conditional implementation candidate and pins the next extraction
+transaction; production extraction and retained context lifetime remain open.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native
