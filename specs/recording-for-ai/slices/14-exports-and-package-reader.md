@@ -1,44 +1,115 @@
 # 14 — Two exports and relocated AI inspection
 
-Status: not started. Dependencies: 08, 11, 13.
+Status: resliced; implementation not started. Only 14a is immediately ready for
+implementation. 14b can follow without speech or movie rendering; later passes
+retain their explicit dependency gates. This plan does not close 08, 11c or 13.
 
-Read [architecture](../architecture.md), [contracts](../contracts.md), and
-[verification](../verification.md) before implementation. Commands below are planned
-harness entrypoints to create in this slice, not existing executable claims.
+Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
+and [verification](../verification.md). No public contract changes are proposed:
+there are still exactly two export choices, human video and a complete AI ZIP.
+Directory fixtures below are internal checkpoints, never a third export product.
 
-## Contract and API seam
+## Grounded ownership and dependency map
 
-Human video and a complete AI package are stable exports of one revision, and the package can answer new frame requests elsewhere.
+- [timeline](../../../packages/core/src/timeline.ts) owns revisions, mappings,
+  word/event projection and render spans. Package code never repeats that algebra.
+- [materializeFrame](../../../packages/core/src/frame-materialization.ts) already
+  receives revision, source and output explicitly. Its concrete evidence dependency,
+  [trail reads](../../../packages/core/src/trails.ts) and library-relative paths are
+  the portability work. FrameInspection and IndexProcessing also admit jobs; they
+  must not be instantiated against a reconstructed library for package reads.
+- Source/scene/index stores persist through the catalog; export ordinary evidence
+  records and retained images, not SQLite or opaque job-result JSON. In particular,
+  selected images do not replace the raw observations needed for new trail requests.
+- Production transcript storage/inspection is absent. Slice 08 remains its owner;
+  a generated manifest or fabricated word fixture cannot establish speech readiness.
+- [13a](13a-native-render-timing.md) proves only its stated timing sub-scope. Video
+  export and package playable preview require the accepted parent 13 renderer.
 
-Implement video/package export jobs, atomic staging/publish, manifest inventory/hashes, relative paths, edit history and pinned evidence. Reuse slice 13 renderer. Implement read-only package open/close with the same inspection core and native decoder, package-cache extraction bounds and unsafe-path rejection. Wire the two previously unavailable menu export actions and verify their completion/failure states. No general library import/merge or third format.
+## Passes and acceptance order
 
-## Runnable checkpoint
+| Pass | One question / seam | Dependencies and independently reviewable result |
+| --- | --- | --- |
+| [14a — Pinned manifest and readiness](14a-package-manifest.md) | Can portable identities, inventory and prerequisite states be represented without lying about completeness? | Existing revision/evidence contracts. Generated JSON report validates manifest candidates and pinned history; no archive or public export. |
+| [14b — Relocated read-only media](14b-portable-inspection.md) | Can the existing inspector answer a new request using only relocated files? | 14a and existing source/scene/frame/index owners. Internal directory fixture compares metadata, retained index, arbitrary frames/trails and audio; no original library or analysis cache. |
+| 14c — Bounded ZIP open and handle lifetime | Can validated extraction become an isolated read-only context? | 14b. Hostile archive fixture produces either a fully verified handle or an explicit error with no external writes. |
+| 14d — Pinned export intent and atomic publication | Can prerequisites wait without occupying their own execution slot, then publish exactly once? | 14a; publication containment proof and existing job/deletion lifetimes. Generated no-narration package round trip through 14c; not acceptance of narrated export. |
+| 14e — Complete AI package integration | Do accepted narration and all promised read operations survive relocation through both adapters? | 14b–d, accepted 08 transcript contract and required index evidence. Complete narrated/no-narration packages, CLI/MCP open/close and package menu action. |
+| 14f — Human video and package playable preview | Does the accepted renderer produce the pinned edit independently of speech? | Accepted 13 and 14d publication owner; 14c additionally for package preview. Video menu action and relocated preview, with audio audition and join/pointer parity. |
 
-Run bun run lab:exports. Export while another edit runs, and request a package before transcription is ready to prove prerequisite waiting does not hold the heavy-worker slot. Move both outputs out of the library, make the original root unavailable, open the package, inspect transcript/index/history and request a previously unselected frame/trail near a scene transition through both adapters, without the original scene-analysis cache. Test interrupted source and no-narration packages, failed required transcript, partial export termination and unsafe archive paths.
+14c–f are bounded next contracts, not permission to guess an unfinished dependency.
+Before implementing one, materialize its detailed seam using its actual predecessor
+artifacts. A–B expose the missing abstractions first; do not build ZIP/menu plumbing
+around a second inspection engine. Video and complete narrated packages can proceed
+independently once their respective dependencies pass.
 
-## Acceptance
+## 14c — Archive boundary and package lifetime
 
-Video plays the pinned current edit; package distinguishes original/source from edited projection and has no absolute-library dependency. A failed required artifact doesn't become a complete package. Moved package arbitrary frame agrees with pre-export evidence. No runtime/model weights are bundled; Mac CLI is the validated reader.
+Core owns package parsing/read access; the existing service owns explicit handles.
+Each handle scopes immutable content plus its disposable derivatives, active native
+workers and delivery leases. The embedded recording ID is provenance, not library
+ownership: closing a package or deleting the same-ID library recording must not
+revoke the other's resources. Extend existing lifetime owners with explicit context
+identity when integrating; do not create fake recording rows or parse path prefixes.
 
-## Decisions delegated and scope firewall
+Extract into private staging beneath the package cache. Enforce bounded actual
+expanded bytes, entry counts, path lengths and per-entry sizes while streaming,
+not only ZIP header claims. Reject absolute/traversal/backslash paths, links and
+special entries, duplicate/normalized/case-colliding names, missing/unlisted members,
+unsupported versions and inventory/hash mismatches. The manifest does not hash
+itself. Pin directory ownership through extraction, verification and cleanup;
+a prior path check followed by a later pathname write is insufficient.
 
-ZIP implementation/compression and inventory traversal internals are delegated with path/size validation. File format semantics are fixed in contracts.md. The read-only package reader consumes the same projection routines as the library.
+Expose no handle before full validation. Close cancels/drains readers and workers
+before removing extracted/cache files; retained deliveries become unusable. Exercise
+two opens of the same content, two packages with the same embedded recording ID,
+library deletion, close racing a decode, corruption and cancellation. Bound cache
+storage without evicting an active package. Package mutation requests fail explicitly.
+Archive implementation and numeric resource-policy defaults remain delegated, but
+must be explicit and tested at their limits before adding public open/close.
 
-## Visual review
+## 14d — Readiness, snapshot retention and publication
 
-Export parity/readability only. Compare relocated-package frames with original inspection at identical parameters, then screenshot-critique last. Audition exported video around cuts.
+Pin revision and history bound before waiting. Use existing job authority to expose
+required dependency IDs while waiting outside every worker slot; do not add a
+separate queue. At execution, pin the exact ready generations and hold their owned
+read lifetimes through copy/hash. Concurrent edits, retries, cleanup and deletion
+cannot replace inputs. Deletion cancels the recording's export and waits for its
+real workers/readers; already published external exports remain untouched.
 
-Follow the exact skill links and non-blocking human review procedure in
-[verification](../verification.md#visual-gates). If this slice produces no visual
-artifact, retain its machine-readable evidence instead; do not manufacture UI just
-for a screenshot gate.
+A missing/pending required artifact schedules or waits on its owner. Failure is
+an actionable export failure; retry preserves the chosen revision/history bound.
+Narration present plus failed/absent transcript is never `no_narration`. Legitimate
+absence needs acquisition evidence. Ready empty recognized speech is distinct from
+absent narration. Video never waits for transcription.
 
-## Stay green and feedback
+Write staging beside the chosen destination so publication stays on one filesystem;
+never replace an existing destination silently. Verify all copied sizes/hashes and
+required artifacts before atomic publication. Publication receipt, cancel, crash and
+restart need one defined commit point: reconcile an already committed destination
+without deleting someone else's file or claiming an incomplete output succeeded.
+Prove this with faults before publish, after publish/before receipt, source deletion,
+external directory replacement and full disk. No cross-device copy-as-atomic fallback.
+Wire native export actions only after real completion/failure semantics exist.
+Current JobQueue requires a library revision on submission. Package inspection must
+extend the existing execution owner with a context-aware admission seam before
+public native reads; a synthetic catalog recording is not an acceptable bridge.
 
-Keep dependency slices' focused checks green. Update this slice's status/evidence
-and the README Next Agent Prompt at each green checkpoint. Tests must pin consumer
-behavior, not implementation constants. Run the narrowest relevant checks during
-iteration; full-suite closeout belongs to slice 15.
+## Final gate and scope
 
-If package inspection needs the original library, the portability gate fails; don't call a folder of selected screenshots a complete package.
+Run planned `lab:exports`: export while edits advance; move ZIP and video outside
+the library; make the original root unavailable; use an empty derived cache. Inspect
+transcript, index/coverage, history, timeline, raw cursor and audio through CLI/MCP.
+Request a previously unselected annotated frame near cuts, scene changes, pauses and
+geometry changes, using relocated source media to reproduce request-local scene
+comparisons under the recorded policy/options. Check source/playback and actual
+sample times, not only pictures. Include interrupted recovered media, no narration,
+pending/failed speech, unsafe archives and partial export termination.
 
+For new visual outputs, compare identical parameters with original inspection using
+compare-screenshots, then independent screenshot-critique last; audition movie cuts.
+Follow [visual gates](../verification.md#visual-gates), including non-blocking human
+review. Keep timeline/frame/trail/audio/index, queue/deletion and adapter parity tests
+green. No model/runtime bundling, migration framework, library import/merge, Linux
+reader guarantee or hidden ZIP edits. Root handoff/status updates remain with the
+integrating agent; each pass supplies bounded receipts and unresolved gates.
