@@ -71,7 +71,10 @@
     "./screenshot-index": {
       "types": "./dist/screenshot-index.d.ts",
       "default": "./dist/screenshot-index.js"
-
+    },
+    "./index-processing": {
+      "types": "./dist/index-processing.d.ts",
+      "default": "./dist/index-processing.js"
     }
   },
   "scripts": {

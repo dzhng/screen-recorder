@@ -915,3 +915,55 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   **Reach:** The macOS integration test requires an ordinary non-root account
   whose filesystem enforces directory permissions. **Verdict:** sound; this tests
   a real storage failure and leaves the source journal intact. **Confidence:** high.
+
+## Screenshot selection and retained production — 2026-09-16
+
+### Sound — medium confidence
+
+- **Choice:** Merge separate bounded evidence streams even though a static recording
+  may require a linear scan before its first selection event. For a thirty-minute
+  still screen, the adapter searches the chunked scene reports for the next boundary
+  while keeping only one pending event per stream. An extra stored boundary index
+  could shorten that startup, but would add another durable representation to maintain.
+  **Gap:** The plan specified bounded memory without selecting the merge access plan.
+  **Reach:** Memory remains bounded; startup reads are not claimed constant-time.
+  **Verdict:** Sound for the measured baseline, with foreground latency retained as
+  a public integration gate. **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Delay candidate emission while an earlier cursor endpoint is unresolved.
+  When movement stops just before a coverage screenshot is due, the selector waits
+  for observed stillness or a bounded acquisition gap before emitting the later image.
+  The gap is labeled missing acquisition, not proof that the cursor stood still.
+  Reusing an older image for spacing also preserves any intervening uncertainty.
+  **Gap:** Idle confirmation and coverage timing can otherwise reverse output order
+  or falsely label changing content as equal. **Reach:** Retained rows remain ordered
+  and static-image reuse keeps its evidence limitations. **Verdict:** Sound; uncertainty
+  is preserved rather than repaired by sorting or invented observations.
+  **Confidence:** High.
+
+- **Choice:** Store coverage separately from selected images and keep a coverage count
+  on each image row. A long static segment can reuse one screenshot for many time
+  windows; listing that image stays bounded, while the caller pages through its
+  coverage separately. **Gap:** One image can have an unbounded number of supporting
+  intervals. **Reach:** Public listing and package readers must expose paged coverage,
+  not embed the entire interval history in each image. **Verdict:** Sound; both reads
+  and storage updates have explicit bounds. **Confidence:** High.
+
+- **Choice:** An open retained-image read keeps its file descriptor until delivery
+  releases it. If cleanup unlinks the image meanwhile, an already-started delivery
+  can finish from that descriptor. Cleanup continues through unrelated generations
+  after a failure and reports a bounded error. **Gap:** The plan required cleanup and
+  byte delivery without defining their overlap. **Reach:** Delivery can reuse the
+  existing lease lifecycle without copying files or blocking all cleanup.
+  **Verdict:** Sound for the local filesystem contract. **Confidence:** High.
+
+- **Choice:** Count a canceled index as occupying the background slot until its
+  executor exits. If decoding is still stopping, a new index receives a retryable
+  admission limit while foreground work can use the remaining slot. Releasing the
+  reservation at the cancel request would allow two decoders to overlap and consume
+  both slots. **Gap:** Durable job state alone cannot represent a closing executor.
+  **Reach:** The queue exposes active artifact ownership; index admission uses it
+  alongside queued/running rows. **Verdict:** Sound; capacity follows actual resource
+  lifetime. **Confidence:** High.

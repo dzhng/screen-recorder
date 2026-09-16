@@ -102,7 +102,12 @@ export class JobQueue {
   private readonly newId: () => string;
   private readonly attempts = new Map<
     string,
-    { lane: JobLane; controller: AbortController; done: Promise<void> }
+    {
+      lane: JobLane;
+      artifact: string;
+      controller: AbortController;
+      done: Promise<void>;
+    }
   >();
   private closed = false;
   private readonly onCapacity: (() => void) | undefined;
@@ -352,6 +357,11 @@ export class JobQueue {
     return this.attempts.has(attemptId);
   }
 
+  /** Includes canceled executors still closing, unlike durable queued/running state alone. */
+  isArtifactActive(artifact: string): boolean {
+    return [...this.attempts.values()].some((attempt) => attempt.artifact === artifact);
+  }
+
   private occupied(lane: JobLane): number {
     let count = 0;
     for (const attempt of this.attempts.values()) if (attempt.lane === lane) count += 1;
@@ -411,7 +421,12 @@ export class JobQueue {
       .finally(() => {
         this.attempts.delete(job.attemptId);
       });
-    this.attempts.set(job.attemptId, { lane: job.lane, controller, done });
+    this.attempts.set(job.attemptId, {
+      lane: job.lane,
+      artifact: job.artifact,
+      controller,
+      done,
+    });
     void done.then(
       () => this.capacityAvailable(),
       () => this.capacityAvailable(),

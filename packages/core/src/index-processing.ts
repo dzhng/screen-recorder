@@ -1,0 +1,241 @@
+import { join } from "node:path";
+import { setImmediate } from "node:timers/promises";
+import { CatalogError, type RevisionStore } from "./library.js";
+import type { JobExecution, JobQueue } from "./jobs.js";
+import type { SourceEvidenceStore, SourceEvidenceMetadata } from "./evidence.js";
+import type { SourceProcessing } from "./processing.js";
+import type { SceneProcessing } from "./scene-processing.js";
+import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
+import { selectIndex, selectionPolicy } from "./selection.js";
+import { selectionEvidence } from "./selection-evidence.js";
+import { materializeFrame, framePolicy, type FrameDecoder } from "./frame-materialization.js";
+import { trailPolicy } from "./trails.js";
+import type { VisualSampler } from "./scenes.js";
+import type { ScreenshotIndexStore, ScreenshotIndexMetadata } from "./screenshot-index.js";
+
+const artifact = "screenshot-index";
+type IndexInput = {
+  source: SourceEvidenceMetadata;
+  scenes: SceneEvidenceMetadata;
+  selectionPolicy: string;
+  framePolicy: string;
+  trailPolicy: string;
+};
+/** One index occupies one existing frame slot; dependencies are resolved before admission. */
+export class IndexProcessing {
+  constructor(
+    private readonly store: RevisionStore,
+    private readonly jobs: JobQueue,
+    private readonly index: ScreenshotIndexStore,
+    private readonly source: SourceProcessing,
+    private readonly scenes: SceneProcessing,
+    private readonly evidence: { source: SourceEvidenceStore; scenes: SceneEvidenceStore },
+    private readonly home: string,
+    private readonly render: { decode: FrameDecoder; sample: VisualSampler },
+  ) {}
+
+  request(input: { recordingId: string; revisionId?: string }) {
+    const revision = this.store.revision(input.recordingId, input.revisionId);
+    this.source.prepare(input.recordingId);
+    this.scenes.prepare(input.recordingId);
+    const source = this.source.status(input.recordingId);
+    const scenes = this.scenes.status(input.recordingId);
+    const dependencies = [
+      { artifact: "source", ...source },
+      { artifact: "scenes", ...scenes },
+    ];
+    if (!source.published || !scenes.published) {
+      const waiting =
+        dependencies.find((item) => ["failed", "unavailable"].includes(item.state)) ??
+        dependencies.find((item) => !item.published)!;
+      return {
+        recordingId: input.recordingId,
+        revisionId: revision.id,
+        state: waiting.state,
+        reason: waiting.reason,
+        retryable: waiting.retryable,
+        jobId: null,
+        published: null,
+        dependencies,
+      };
+    }
+    const options: IndexInput = {
+      source: source.published.evidence,
+      scenes: scenes.published.evidence,
+      selectionPolicy: selectionPolicy.id,
+      framePolicy,
+      trailPolicy: trailPolicy.id,
+    };
+    const identity = {
+      recordingId: input.recordingId,
+      revisionId: revision.id,
+      artifact,
+      input: JSON.stringify(options),
+    };
+    const existing = this.jobs.status(identity);
+    if (!existing.jobId) this.requireSlot();
+    this.jobs.submit({ ...identity, lane: "frame" });
+    const status = this.jobs.status(identity);
+    return {
+      recordingId: input.recordingId,
+      revisionId: revision.id,
+      ...status,
+      published: status.published
+        ? {
+            generation: status.published.generation,
+            evidence: JSON.parse(status.published.result) as ScreenshotIndexMetadata,
+          }
+        : null,
+      dependencies: [],
+    };
+  }
+
+  retry(input: { recordingId: string; revisionId?: string }) {
+    const status = this.request(input);
+    if (!status.jobId) return status;
+    const job = this.jobs.job(status.jobId);
+    if (!["queued", "running", "ready"].includes(job.state)) this.requireSlot();
+    this.jobs.retry(job.jobId);
+    return this.request({ ...input, revisionId: status.revisionId });
+  }
+  private requireSlot() {
+    if (
+      this.jobs.isArtifactActive(artifact) ||
+      this.store.catalog
+        .prepare("SELECT 1 FROM jobs WHERE artifact=? AND state IN ('queued','running') LIMIT 1")
+        .get(artifact)
+    )
+      throw new CatalogError(
+        "LIMIT_EXCEEDED",
+        "Another screenshot index is using the background frame slot",
+        {},
+        true,
+      );
+  }
+
+  async execute({ job, signal }: JobExecution): Promise<string> {
+    const input = JSON.parse(job.input) as IndexInput;
+    if (
+      job.artifact !== artifact ||
+      input.selectionPolicy !== selectionPolicy.id ||
+      input.framePolicy !== framePolicy ||
+      input.trailPolicy !== trailPolicy.id
+    )
+      throw new CatalogError("UNSUPPORTED_JOB", "Index processor cannot execute this job");
+    const revision = this.store.revision(job.recordingId, job.revisionId);
+    const sourceId = this.store.get(job.recordingId).sourceId;
+    const sourceIdentity = {
+      recordingId: job.recordingId,
+      sourceId,
+      generation: input.source.generation,
+    };
+    const sceneIdentity = {
+      recordingId: job.recordingId,
+      sourceId,
+      generation: input.scenes.generation,
+      policy: input.scenes.policy,
+    };
+    const identity = {
+      recordingId: job.recordingId,
+      sourceId,
+      revisionId: revision.id,
+      generation: job.attemptId,
+      sourceIdentity,
+      sceneIdentity,
+      selectionPolicy: input.selectionPolicy,
+      framePolicy: input.framePolicy,
+      trailPolicy: input.trailPolicy,
+    };
+    await this.cleanupRecording(job.recordingId, signal);
+    const selection = {
+      revision,
+      sourceIdentity,
+      sceneIdentity,
+      sourceWidth: input.scenes.sourceWidth,
+      sourceHeight: input.scenes.sourceHeight,
+    };
+    try {
+      await this.index.begin(identity);
+      for await (const row of selectIndex(
+        selection,
+        selectionEvidence(selection, this.evidence, signal),
+        signal,
+      )) {
+        signal.throwIfAborted();
+        if (row.kind === "coverage") await this.index.appendCoverage(identity, row);
+        else {
+          const frame = await materializeFrame(
+            {
+              recordingId: job.recordingId,
+              sourceId,
+              revision,
+              source: join(this.home, "recordings", job.recordingId, "source", "video.mov"),
+              output: this.index.outputPath(identity, row.ordinal),
+              atUs: row.requestedPlaybackUs,
+              maxLongEdge: 1600,
+              crop: null,
+              clean: false,
+              trailUs: trailPolicy.defaultUs,
+              sourceEvidence: input.source,
+            },
+            { ...this.render, evidence: this.evidence.source },
+            signal,
+          );
+          await this.index.appendCandidate(identity, row, frame);
+        }
+        await setImmediate();
+      }
+      signal.throwIfAborted();
+      const result = await this.index.finish(identity, signal);
+      signal.throwIfAborted();
+      return JSON.stringify(result);
+    } catch (error) {
+      await this.index.remove(identity);
+      throw error;
+    }
+  }
+
+  private cleanupRecording(recordingId: string, signal: AbortSignal) {
+    return this.index.reclaim(
+      recordingId,
+      (identity) => {
+        if (this.jobs.isAttemptActive(identity.generation)) return true;
+        if (
+          this.store.catalog
+            .prepare(
+              "SELECT 1 FROM jobs WHERE recordingId=? AND artifact=? AND attemptId=? AND state IN ('queued','running')",
+            )
+            .get(recordingId, artifact, identity.generation)
+        )
+          return true;
+        return !!this.store.catalog
+          .prepare(`SELECT 1 FROM artifacts WHERE recordingId=? AND artifact=?
+       AND CASE WHEN json_valid(result) THEN CASE WHEN json_type(result,'$.generation')='text'
+       THEN json_extract(result,'$.generation')=? ELSE 1 END ELSE 1 END`)
+          .get(recordingId, artifact, identity.generation);
+      },
+      signal,
+    );
+  }
+  async cleanup(signal: AbortSignal): Promise<void> {
+    let after = "",
+      firstError: unknown;
+    for (;;) {
+      signal.throwIfAborted();
+      const row = this.store.catalog
+        .prepare(
+          "SELECT recordingId FROM recordings WHERE recordingId>? ORDER BY recordingId LIMIT 1",
+        )
+        .get(after) as { recordingId: string } | undefined;
+      if (!row) break;
+      after = row.recordingId;
+      try {
+        await this.cleanupRecording(row.recordingId, signal);
+      } catch (error) {
+        signal.throwIfAborted();
+        firstError ??= error;
+      }
+    }
+    if (firstError) throw firstError;
+  }
+}

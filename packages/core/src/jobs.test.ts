@@ -668,3 +668,21 @@ test("cache regeneration preserves the published artifact when queue admission i
     queue.status({ recordingId, revisionId: "r0", artifact: "frame", input: "cached" }),
   ).toMatchObject({ state: "ready", published: { generation: 1, result: "still-readable" } });
 });
+
+test("artifact activity remains visible until a canceled executor settles", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const job = queue.submit({
+    recordingId,
+    artifact: "screenshot-index",
+    lane: "frame",
+    input: "retained",
+  });
+  const executor = await started(job.attemptId);
+  expect(queue.isArtifactActive("screenshot-index")).toBe(true);
+  queue.cancel(job.jobId);
+  expect(queue.isArtifactActive("screenshot-index")).toBe(true);
+  executor.finish("late");
+  await queue.idle();
+  expect(queue.isArtifactActive("screenshot-index")).toBe(false);
+});

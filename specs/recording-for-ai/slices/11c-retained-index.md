@@ -1,6 +1,9 @@
 # Retained revision index and public delivery
 
-Status: after 11a and 11b. Complete parent slice 11's visible result.
+Status: retained storage and core orchestration verified. Service/public operations,
+restart integration, contact sheets and scale acceptance remain open. Complete parent
+slice 11's visible result. See [retained storage evidence](../assets/screenshot-index/retained-store.md)
+and [orchestration evidence](../assets/screenshot-index/orchestration.md).
 
 IndexProcessing pins revision, source/scene generations and selection/rendering
 policies before admission. One producer streams selection into bounded catalog rows
