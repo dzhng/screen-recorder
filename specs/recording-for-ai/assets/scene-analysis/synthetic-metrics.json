@@ -1,0 +1,78 @@
+{
+  "policy": {
+    "id": "rgb-spatial-change-v1",
+    "stepUs": 200000,
+    "maximumRangeUs": 10000000,
+    "changedChannelDelta": 24,
+    "gridColumns": 8,
+    "gridRows": 8,
+    "activeCellFraction": 0.05,
+    "broadPixelFraction": 0.3,
+    "spatialPixelFraction": 0.04,
+    "broadCellFraction": 0.5
+  },
+  "fixtures": "Synthetic 64x64 RGB rasters, not decoded video or real UI",
+  "results": {
+    "static": {
+      "previousActualSourceUs": 0,
+      "actualSourceUs": 200000,
+      "changedPixelFraction": 0,
+      "changedCellFraction": 0,
+      "meanAbsoluteChannelDifference": 0,
+      "boundary": false
+    },
+    "replacement": {
+      "previousActualSourceUs": 0,
+      "actualSourceUs": 200000,
+      "changedPixelFraction": 1,
+      "changedCellFraction": 1,
+      "meanAbsoluteChannelDifference": 0.9215686274509803,
+      "boundary": true
+    },
+    "equiluminant": {
+      "previousActualSourceUs": 0,
+      "actualSourceUs": 200000,
+      "changedPixelFraction": 1,
+      "changedCellFraction": 1,
+      "meanAbsoluteChannelDifference": 0.4326797385620915,
+      "boundary": true
+    },
+    "caret": {
+      "previousActualSourceUs": 0,
+      "actualSourceUs": 200000,
+      "changedPixelFraction": 0.001953125,
+      "changedCellFraction": 0.03125,
+      "meanAbsoluteChannelDifference": 0.001953125,
+      "boundary": false
+    },
+    "button": {
+      "previousActualSourceUs": 0,
+      "actualSourceUs": 200000,
+      "changedPixelFraction": 0.03125,
+      "changedCellFraction": 0.09375,
+      "meanAbsoluteChannelDifference": 0.016544117647058824,
+      "boundary": false
+    },
+    "scroll": {
+      "previousActualSourceUs": 0,
+      "actualSourceUs": 200000,
+      "changedPixelFraction": 0.15625,
+      "changedCellFraction": 1,
+      "meanAbsoluteChannelDifference": 0.15625,
+      "boundary": true
+    },
+    "reflow": {
+      "previousActualSourceUs": 0,
+      "actualSourceUs": 200000,
+      "changedPixelFraction": 0.0859375,
+      "changedCellFraction": 0.75,
+      "meanAbsoluteChannelDifference": 0.0859375,
+      "boundary": true
+    }
+  },
+  "batch": {
+    "observations": 52,
+    "comparisons": 51,
+    "elapsedMs": 9.745875000000002
+  }
+}

@@ -35,6 +35,10 @@
     "./audio": {
       "types": "./dist/audio.d.ts",
       "default": "./dist/audio.js"
+    },
+    "./scenes": {
+      "types": "./dist/scenes.d.ts",
+      "default": "./dist/scenes.js"
     }
   },
   "scripts": {
