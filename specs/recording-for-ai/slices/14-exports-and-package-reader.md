@@ -45,6 +45,10 @@ independently once their respective dependencies pass.
 
 ## 14c — Archive boundary and package lifetime
 
+[Archive candidate research](../assets/portable-inspection/archive-candidate.md)
+identifies a concrete malformed-tail traversal test to run before choosing a ZIP
+parser. No archive dependency has been selected.
+
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native
 workers and delivery leases. The embedded recording ID is provenance, not library
