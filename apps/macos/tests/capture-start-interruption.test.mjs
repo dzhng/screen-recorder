@@ -1,13 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import {
-  copyFileSync,
-  mkdtempSync,
-  readdirSync,
-  readFileSync,
-  rmSync,
-  writeFileSync,
-} from "node:fs";
+import { copyFileSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -52,9 +45,9 @@ test(
         copyFileSync(join(fixtures, name), join(temporary, name));
       const objects = ["ScreenRecorderCapture", "ScreenRecorderMediaTime"].flatMap((target) => {
         const directory = join(bin, `${target}.build`);
-        return readdirSync(directory)
-          .filter((name) => name.endsWith(".swift.o"))
-          .map((name) => join(directory, name));
+        // SwiftPM can retain obsolete objects after a source is removed. Link only this build's map.
+        const outputs = JSON.parse(readFileSync(join(directory, "output-file-map.json"), "utf8"));
+        return Object.values(outputs).flatMap(({ object }) => (object ? [object] : []));
       });
       const executable = join(temporary, "controller-probe");
       execFileSync(
