@@ -110,11 +110,73 @@ func runMenuStateTests() {
     else { preconditionFailure("A stored take is listed") }
     precondition(takes.title.hasSuffix("— 1:05"), "A listed take states the media it holds")
     let offered = takes.submenu.filter(\.enabled).compactMap(\.action)
-    precondition(offered.isEmpty, "Preview and export have no working action to offer yet")
+    precondition(offered == [.deleteRecording("rec-9")], "Only the explicit-ID delete action is available for a stored take")
     precondition(
         takes.submenu.contains { $0.title == "Preview — not available yet" }
             && takes.submenu.contains { $0.title == "Export Video — not available yet" }
             && takes.submenu.contains { $0.title == "Export AI Package — not available yet" },
         "The two exports and preview are named and visibly unavailable, never faked")
     print("PASS the menu states what is recording, what was chosen and what cannot be done yet")
+}
+
+
+func runRecentStorageTests() {
+    var state = ready()
+    let first = ControlsState.RecentTake(recordingId: "first", createdAt: "2026-09-15T18:04:05Z",
+        state: "complete", sourceDurationUs: 1_000_000, interruptionReason: nil)
+    let sibling = ControlsState.RecentTake(recordingId: "sibling", createdAt: first.createdAt,
+        state: "complete", sourceDurationUs: 2_000_000, interruptionReason: nil)
+    state.recent = [first, sibling]
+    precondition(!state.beginDelete("unknown"), "The menu cannot invent a delete target")
+    precondition(state.beginDelete("first"), "The chosen explicit ID begins deletion")
+    precondition(!state.beginDelete("first"), "Repeated pending clicks do not issue another request")
+    var menu = RecordingMenu.entries(for: state)
+    precondition(!row(menu, "recording.delete.first").enabled, "Pending deletion cannot be clicked twice")
+    precondition(row(menu, "recording.delete.first").title == "Deleting…", "Pending is not success")
+    precondition(row(menu, "recording.delete.sibling").enabled, "Another recording remains usable")
+    // Intent hides the take from ordinary library discovery before physical cleanup completes.
+    state.recent = [sibling]
+    state.finishDelete("first", failure: "DELETE_FAILED: disk is unavailable")
+    menu = RecordingMenu.entries(for: state)
+    precondition(row(menu, "recording.delete.first").title == "Retry Delete", "A hidden failed take keeps its retry")
+    precondition(row(menu, "recording.delete.first").action == .deleteRecording("first"), "Retry keeps its original target")
+    guard let recent = menu.first(where: { $0.title == "Recent Recordings" }) else {
+        preconditionFailure("Recent recordings remain visible")
+    }
+    precondition(recent.submenu.flatMap(\.submenu).contains {
+        $0.title.contains("DELETE_FAILED: disk is unavailable")
+    }, "The failure is visible without claiming the files are gone")
+    state.service = .unavailable("offline")
+    precondition(!row(RecordingMenu.entries(for: state), "recording.delete.first").enabled,
+        "Retry waits until the service can accept it")
+    precondition(!state.beginDelete("first"), "Unavailable service refuses actions outside menu clicks too")
+    state.service = .ready
+    precondition(state.beginDelete("first"), "Retry resolves the retained target without rediscovery")
+    state.finishDelete("first", failure: nil)
+    menu = RecordingMenu.entries(for: state)
+    precondition(find(menu, "recording.delete.first") == nil, "Only confirmed success removes the pending row")
+    precondition(row(menu, "recording.delete.sibling").enabled, "Success preserves sibling actions")
+
+    precondition(menu.contains { $0.title == "Recording Storage: not measured" }, "No receipt is not zero bytes")
+    let observedAt = "2026-09-16T09:10:11.000Z"
+    precondition(ElapsedTime.shortTime(of: observedAt) == ElapsedTime.shortTime(of: "2026-09-16T09:10:11Z"),
+        "Service ISO timestamps with milliseconds use the same readable local date")
+    state.storage = .init(totalBytes: 12_345_678, observedAt: observedAt)
+    let measured = RecordingMenu.entries(for: state)
+    let expectedBytes = ByteCountFormatter.string(fromByteCount: 12_345_678, countStyle: .file)
+    precondition(measured.contains { $0.title == "Recording Storage: \(expectedBytes) (last scan)" },
+        "The total comes from the service and is labeled as an observation")
+    state.storageRefreshing = true
+    let refreshing = RecordingMenu.entries(for: state)
+    precondition(row(refreshing, "storage.refresh").title == "Measuring Storage…"
+        && !row(refreshing, "storage.refresh").enabled, "One outstanding scan has visible progress")
+    precondition(row(refreshing, "capture.startOrStop").enabled, "A storage scan does not disable capture")
+    state.storageRefreshing = false
+    state.storageFailure = "TIMEOUT: scan did not answer"
+    let failed = RecordingMenu.entries(for: state)
+    precondition(failed.contains { $0.title == "Recording Storage: \(expectedBytes) (last scan)" },
+        "Failure retains the explicitly dated old observation instead of inventing zero")
+    precondition(failed.flatMap(\.submenu).contains { $0.title == "Storage unavailable — TIMEOUT: scan did not answer" }
+        && row(failed, "storage.refresh").enabled, "A failed scan says why and offers refresh")
+    print("PASS explicit deletion retries and live storage observations remain honest")
 }

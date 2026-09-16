@@ -17,7 +17,10 @@ public enum ElapsedTime {
 
     /// When a stored take was created, in this host's own locale, for a menu of recent takes.
     public static func shortTime(of iso8601: String) -> String {
-        guard let date = ISO8601DateFormatter().date(from: iso8601) else { return iso8601 }
+        let fractional = ISO8601DateFormatter()
+        fractional.formatOptions.insert(.withFractionalSeconds)
+        guard let date = fractional.date(from: iso8601) ?? ISO8601DateFormatter().date(from: iso8601)
+        else { return iso8601 }
         let format = DateFormatter()
         format.dateStyle = .short
         format.timeStyle = .short

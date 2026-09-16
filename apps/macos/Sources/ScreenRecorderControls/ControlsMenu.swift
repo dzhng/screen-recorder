@@ -1,7 +1,7 @@
 import Foundation
 
 /// Something a person can ask the recording controls to do. Every case here is either a selection
-/// this app holds until the next start, a permission only a person can request, or one capture
+/// this app holds until the next start, a permission only a person can request, or one service
 /// operation the service already owns. Nothing here performs capture itself.
 public enum ControlsAction: Hashable, Sendable {
     case selectDisplay(Int)
@@ -15,6 +15,8 @@ public enum ControlsAction: Hashable, Sendable {
     case pauseOrResume
     case cancel
     case restart
+    case deleteRecording(String)
+    case refreshStorage
     case requestScreenPermission
     case requestMicrophonePermission
     case quit
@@ -32,6 +34,8 @@ public enum ControlsAction: Hashable, Sendable {
         case .pauseOrResume: "capture.pauseOrResume"
         case .cancel: "capture.cancel"
         case .restart: "capture.restart"
+        case .deleteRecording(let id): "recording.delete.\(id)"
+        case .refreshStorage: "storage.refresh"
         case .requestScreenPermission: "permission.screen"
         case .requestMicrophonePermission: "permission.microphone"
         case .quit: "app.quit"
@@ -104,6 +108,7 @@ public enum RecordingMenu {
         rows.append(contentsOf: transportEntries(for: state, shortcuts: shortcuts))
         rows.append(.separator())
         rows.append(MenuEntry(.status, "Recent Recordings", submenu: recentEntries(for: state)))
+        rows.append(contentsOf: storageEntries(for: state))
         rows.append(.separator())
         rows.append(MenuEntry(.command(.quit), "Quit Screen Recorder", shortcut: "⌘Q"))
         return rows
@@ -281,20 +286,53 @@ public enum RecordingMenu {
     /// unavailable: the slices that produce playable and exported media have not been built, and a
     /// control that pretended otherwise would be a lie about what this app can do.
     private static func recentEntries(for state: ControlsState) -> [MenuEntry] {
-        guard !state.recent.isEmpty else {
+        let takes = state.recent + state.deletions.values
+            .map(\.take)
+            .filter { pending in !state.recent.contains { $0.recordingId == pending.recordingId } }
+            .sorted { $0.recordingId < $1.recordingId }
+        guard !takes.isEmpty else {
             return [MenuEntry(.status, "No recordings yet.", enabled: false)]
         }
-        return state.recent.map { take in
-            MenuEntry(
-                .status, recentTitle(of: take),
-                submenu: [
-                    MenuEntry(.status, take.recordingId, enabled: false),
-                    .separator(),
-                    MenuEntry(.status, "Preview — not available yet", enabled: false),
-                    MenuEntry(.status, "Export Video — not available yet", enabled: false),
-                    MenuEntry(.status, "Export AI Package — not available yet", enabled: false),
-                ])
+        return takes.map { take in
+            let request = state.deletions[take.recordingId]
+            let pending = request?.isPending == true
+            var details = [MenuEntry(.status, take.recordingId, enabled: false)]
+            if let failure = request?.failure {
+                details.append(MenuEntry(.status, "Delete not confirmed — \(failure)", enabled: false))
+            }
+            details.append(contentsOf: [
+                .separator(),
+                MenuEntry(.status, "Preview — not available yet", enabled: false),
+                MenuEntry(.status, "Export Video — not available yet", enabled: false),
+                MenuEntry(.status, "Export AI Package — not available yet", enabled: false),
+                .separator(),
+                MenuEntry(
+                    .command(.deleteRecording(take.recordingId)),
+                    pending ? "Deleting…" : request == nil ? "Delete Recording" : "Retry Delete",
+                    enabled: state.service == .ready && !pending),
+            ])
+            let suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
+            return MenuEntry(.status, recentTitle(of: take) + suffix, submenu: details)
         }
+    }
+
+    private static func storageEntries(for state: ControlsState) -> [MenuEntry] {
+        var details: [MenuEntry] = []
+        let title: String
+        if let storage = state.storage {
+            let bytes = ByteCountFormatter.string(fromByteCount: storage.totalBytes, countStyle: .file)
+            title = "Recording Storage: \(bytes) (last scan)"
+            details.append(MenuEntry(.status, "Scanned \(ElapsedTime.shortTime(of: storage.observedAt))", enabled: false))
+        } else {
+            title = state.storageRefreshing ? "Recording Storage: measuring…" : "Recording Storage: not measured"
+        }
+        if let failure = state.storageFailure {
+            details.append(MenuEntry(.status, "Storage unavailable — \(failure)", enabled: false))
+        }
+        details.append(MenuEntry(
+            .command(.refreshStorage), state.storageRefreshing ? "Measuring Storage…" : "Refresh Storage",
+            enabled: state.service == .ready && !state.storageRefreshing))
+        return [MenuEntry(.status, title, submenu: details)]
     }
 
     public static func recentTitle(of take: ControlsState.RecentTake) -> String {

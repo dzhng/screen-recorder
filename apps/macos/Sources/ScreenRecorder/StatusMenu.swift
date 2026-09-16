@@ -8,14 +8,42 @@ import ScreenRecorderControls
  */
 @MainActor
 enum StatusMenu {
-    /// Rebuilds a menu in place. Rebuilding rather than patching keeps one description of the
-    /// menu — the rows — and no second model of which item currently means what.
+    /// Reuse compatible rows so an unrelated observation cannot tear down a tracked submenu.
+    /// The caller's last rendered entries are the comparison; NSMenu carries no second model.
     static func apply(
-        _ entries: [MenuEntry], to menu: NSMenu, target: AnyObject, action selector: Selector
+        _ entries: [MenuEntry], to menu: NSMenu, target: AnyObject, action selector: Selector,
+        previous: [MenuEntry] = []
     ) {
+        if entries.count == previous.count, menu.items.count == entries.count,
+            zip(entries, previous).allSatisfy({ pair in
+                pair.0.kind == pair.1.kind && pair.0.shortcut == pair.1.shortcut
+            }),
+            actions(in: entries) == actions(in: previous) {
+            for (index, entry) in entries.enumerated() where entry != previous[index] {
+                let item = menu.items[index]
+                item.title = entry.title
+                item.isEnabled = entry.enabled
+                item.state = entry.checked ? .on : .off
+                if let submenu = item.submenu, !entry.submenu.isEmpty {
+                    apply(entry.submenu, to: submenu, target: target, action: selector,
+                        previous: previous[index].submenu)
+                } else if entry.submenu != previous[index].submenu {
+                    // A row becoming a submenu (or losing one) changes only that row.
+                    menu.removeItem(at: index)
+                    menu.insertItem(Self.item(for: entry, target: target, selector: selector), at: index)
+                }
+            }
+            return
+        }
         menu.removeAllItems()
         menu.autoenablesItems = false
         for entry in entries { menu.addItem(item(for: entry, target: target, selector: selector)) }
+    }
+
+    private static func actions(in entries: [MenuEntry]) -> [ControlsAction] {
+        entries.flatMap { entry in
+            (entry.action.map { [$0] } ?? []) + actions(in: entry.submenu)
+        }
     }
 
     private static func item(for entry: MenuEntry, target: AnyObject, selector: Selector)

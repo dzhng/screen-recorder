@@ -1144,3 +1144,29 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
 - **Verdict:** sound; a shared observation has the same documented live semantics
   while bounding duplicate work. **Confidence:** high. Held-file and failure/retry
   regressions verify independent-scope progress and fresh reads after settlement.
+
+## Recent recording storage controls — 2026-09-16
+
+- **Choice:** The menu shows one aggregate recording-storage observation with its
+  scan time, instead of scanning every recent recording whenever the clock ticks.
+  Opening the menu, an explicit refresh, or a completed action requests another
+  observation. A separate task keeps capture status responsive during the scan.
+  **Gap:** Slice 07 requested a storage total without specifying refresh cadence
+  or per-record breakdowns. **Reach:** The service owns classification; the UI
+  retains a dated observation and shows failures without inventing zero bytes.
+  **Verdict:** sound, medium confidence; native visual review remains open.
+- **Choice:** A deletion requested from the menu keeps its explicit ID visible
+  through pending or failed cleanup, even after ordinary discovery hides the take.
+  Retry uses the same ID. The presentation lasts only for this app session;
+  durable restart cleanup remains the catalog's job. The deliberate Delete action
+  needs no extra confirmation dialog. **Gap:** Service intent hides discovery
+  before cleanup finishes, which otherwise removes the person's retry control.
+  **Reach:** No persisted UI deletion registry, implicit latest target, or second
+  deletion owner is introduced. **Verdict:** sound, high confidence.
+- **Choice:** A storage result updates compatible native menu items in place.
+  Compatibility includes nested action IDs, so changing the recording or source
+  replaces the relevant menu instead of retargeting an old action object.
+  **Gap:** The original renderer rebuilt all rows for a changed observation and
+  could remove an unrelated open submenu. **Reach:** The existing last-rendered
+  entries remain the comparison owner; actual NSMenu identity has a focused
+  regression separate from the visual gate. **Verdict:** sound, high confidence.

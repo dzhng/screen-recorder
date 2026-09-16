@@ -3,8 +3,10 @@
 Status: partial implementation; native acceptance remains open. Dependencies: 03, 06; delete/storage controls additionally require 15b.
 
 See [integration notes](../assets/recording-controls/integration.md) for the tested
-boundary, unfinished verification, and next pickup. Delete and storage total are
-still missing; this slice is not complete.
+boundary, unfinished verification, and next pickup.
+[Recent delete/storage controls](../assets/recording-controls/recent-storage.md)
+pass focused state/identity checks. Actual native interaction and visual review
+remain open; this slice is not complete.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

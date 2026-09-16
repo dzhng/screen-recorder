@@ -2,8 +2,8 @@ import Foundation
 
 /**
  Everything the recording controls know, in one value. It holds no device, no catalog and no clock:
- every field here was answered by the capture service, and the only thing this app decides for
- itself is what the person has selected to record next.
+ service answers supply recording state; local fields hold selections and outstanding user
+ requests, never a second recording lifecycle.
  */
 public struct ControlsState: Equatable, Sendable {
     public init() {}
@@ -16,6 +16,11 @@ public struct ControlsState: Equatable, Sendable {
     public var sources = SourceCatalog()
     public var selection = CaptureSelection()
     public var recent: [RecentTake] = []
+    /// Only requests made in this menu, retained while the catalog hides a pending deletion.
+    public var deletions: [String: DeleteRequest] = [:]
+    public var storage: StorageObservation?
+    public var storageRefreshing = false
+    public var storageFailure: String?
     /// The last failure a person's own action produced, kept visible until the next action.
     public var failure: String?
     /// Shortcuts whose key combination this app could not claim, so nothing was stolen.
@@ -178,6 +183,40 @@ public struct ControlsState: Equatable, Sendable {
         public let state: String
         public let sourceDurationUs: Int64?
         public let interruptionReason: String?
+    }
+
+    public struct DeleteRequest: Equatable, Sendable {
+        public let take: RecentTake
+        public var failure: String?
+        public var isPending: Bool { failure == nil }
+    }
+
+    public struct StorageObservation: Equatable, Sendable, Decodable {
+        public init(totalBytes: Int64, observedAt: String) {
+            self.totalBytes = totalBytes
+            self.observedAt = observedAt
+        }
+        public let totalBytes: Int64
+        public let observedAt: String
+    }
+
+    /// A retry keeps its original explicit identity even after ordinary discovery hides the take.
+    public mutating func beginDelete(_ recordingId: String) -> Bool {
+        guard service == .ready, deletions[recordingId]?.isPending != true,
+            let take = deletions[recordingId]?.take ?? recent.first(where: { $0.recordingId == recordingId })
+        else { return false }
+        deletions[recordingId] = DeleteRequest(take: take)
+        return true
+    }
+
+    public mutating func finishDelete(_ recordingId: String, failure: String?) {
+        guard deletions[recordingId] != nil else { return }
+        if let failure {
+            deletions[recordingId]?.failure = failure
+        } else {
+            deletions.removeValue(forKey: recordingId)
+            recent.removeAll { $0.recordingId == recordingId }
+        }
     }
 
     /// Whether a take is on the device right now. Only a live take can be stopped, paused,

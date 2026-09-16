@@ -1,6 +1,7 @@
 runElapsedFormatTests()
 runSelectionTests()
 runMenuStateTests()
+runRecentStorageTests()
 runShortcutTests()
 runRegionSelectionTests()
 print("PASS recording controls")

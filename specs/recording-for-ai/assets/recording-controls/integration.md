@@ -35,7 +35,7 @@ when the rebuilt own-window observer test runs.
 
 ## Remaining acceptance and pickup
 
-- Implement the agreed recent-recording delete action and storage total.
+- Verify the [recent-recording delete and storage controls](recent-storage.md) through actual native interaction and visual review.
 - Run authorized fixture controls tests, including a closed-menu observation of
   external start/pause/resume/stop and its clock/source/audio display. Actual menu
   actions, including restart, require native UI verification.

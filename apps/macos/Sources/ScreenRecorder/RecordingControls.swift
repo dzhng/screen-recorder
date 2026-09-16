@@ -5,7 +5,7 @@ import ScreenRecorderControls
 /**
  The status-bar recording controls.
 
- Everything a person can do here is one capture operation the service already owns: this holds what
+ Everything a person can do here is one service operation the service already owns: this holds what
  they have selected to record next, asks the service to act, and shows what the service answered.
  It keeps no device state machine, no catalog and no clock of its own — the elapsed time it shows
  is the running take's own playback time, read back through the same status call the CLI reads.
@@ -27,6 +27,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private var ticker: Timer?
     private var reading = false
     private var pendingRefresh = false
+    private var pendingStorageRefresh = false
     /// A start whose answer never arrived. Asking again for the same take replays that request
     /// rather than allocating a second one.
     private var pendingStart: (requestId: String, start: ControlsState.CaptureSelection.Start)?
@@ -117,6 +118,10 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             capture("capture.cancel", live())
         case .restart:
             restart()
+        case .deleteRecording(let recordingId):
+            deleteRecording(recordingId)
+        case .refreshStorage:
+            readStorage()
         case .requestScreenPermission:
             request("screen")
         case .requestMicrophonePermission:
@@ -195,7 +200,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         }
     }
 
-    /// Sends one capture operation and shows what came back. A refusal is stated in the menu with
+    /// Sends one service operation and shows what came back. A refusal is stated in the menu with
     /// the service's own code, so a person sees what was refused rather than a silent no-op.
     private func capture(
         _ operation: String, _ params: [String: Any]?,
@@ -212,6 +217,57 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 state.failure = "\(failure.code): \(failure.message)"
             }
             refresh()
+        }
+    }
+
+    private func deleteRecording(_ recordingId: String) {
+        guard state.beginDelete(recordingId) else { return }
+        Task { @MainActor in
+            let result = await call("recording.delete", ["recordingId": recordingId])
+            switch result {
+            case .failure(let failure):
+                state.finishDelete(recordingId, failure: "\(failure.code): \(failure.message)")
+            case .success(let value):
+                if let receipt = decode(DeleteAnswer.self, from: value),
+                    receipt.recordingId == recordingId, receipt.deleted {
+                    state.finishDelete(recordingId, failure: nil)
+                } else {
+                    state.finishDelete(recordingId, failure: "The service did not confirm deletion.")
+                }
+            }
+            render()
+            refresh()
+        }
+    }
+
+    /// A library scan may be slow. It never occupies the status read, and overlapping explicit
+    /// refreshes coalesce so a deletion finishing mid-scan gets a fresh observation afterward.
+    private func readStorage() {
+        guard host != nil, state.service == .ready else { return }
+        guard !state.storageRefreshing else {
+            pendingStorageRefresh = true
+            return
+        }
+        state.storageRefreshing = true
+        state.storageFailure = nil
+        render()
+        Task { @MainActor in
+            switch await call("storage.usage", [:]) {
+            case .success(let value):
+                if let usage = decode(ControlsState.StorageObservation.self, from: value) {
+                    state.storage = usage
+                } else {
+                    state.storageFailure = "The service returned unreadable storage usage."
+                }
+            case .failure(let failure):
+                state.storageFailure = "\(failure.code): \(failure.message)"
+            }
+            state.storageRefreshing = false
+            render()
+            if pendingStorageRefresh {
+                pendingStorageRefresh = false
+                readStorage()
+            }
         }
     }
 
@@ -235,7 +291,10 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     // MARK: reading
 
     /// Reads everything the menu shows. Used when a person looks at the controls or acts on them.
-    private func refresh() { read(everything: true) }
+    private func refresh() {
+        read(everything: true)
+        readStorage()
+    }
 
     /// Status-only polling observes external controls without re-enumerating idle sources.
     private func tick() { read(everything: false) }
@@ -358,7 +417,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         if !renderedEntries.isEmpty && entries.dropFirst().elementsEqual(renderedEntries.dropFirst()) {
             menu.items.first?.title = entries[0].title
         } else {
-            StatusMenu.apply(entries, to: menu, target: self, action: #selector(choose(_:)))
+            StatusMenu.apply(entries, to: menu, target: self, action: #selector(choose(_:)),
+                previous: renderedEntries)
         }
         renderedEntries = entries
         showStatusItem()
@@ -450,4 +510,9 @@ private struct RecentAnswer: Decodable {
         let interruptionReason: String?
     }
     let recordings: [Take]
+}
+
+private struct DeleteAnswer: Decodable {
+    let recordingId: String
+    let deleted: Bool
 }
