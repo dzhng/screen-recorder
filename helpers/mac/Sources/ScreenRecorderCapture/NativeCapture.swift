@@ -9,6 +9,7 @@ public final class NativeCapture {
     private var streamDelegate: CaptureStreamDelegate?
     private var generations = CaptureGeneration()
     private var sink: CaptureWriter?
+    private let termination = CaptureTermination<CaptureResult?>()
     private var microphoneObserver: NSObjectProtocol?
     public var onInterruption: ((CaptureFailure) -> Void)?
     private var failure: CaptureFailure?
@@ -66,7 +67,7 @@ public final class NativeCapture {
     public init() {}
 
     public func start(_ request: CaptureRequest) async throws {
-        guard state == .idle else {
+        guard state == .idle, !termination.isRunning else {
             throw CaptureFailure("INVALID_STATE", "Capture is already active.")
         }
         let generation = generations.begin()
@@ -163,7 +164,7 @@ public final class NativeCapture {
         let height = max(2, Int(pixels.height * scale) / 2 * 2)
         outputSize = (width, height)
         let onFailure: @Sendable (CaptureFailure) -> Void = { [weak self] reason in
-            Task { @MainActor in await self?.interrupt(reason, generation: generation) }
+            Task { @MainActor in self?.interrupt(reason, generation: generation) }
         }
         let writer = try CaptureWriter(
             request: request, width: width, height: height,
@@ -247,7 +248,7 @@ public final class NativeCapture {
                     return
                 }
                 Task { @MainActor in
-                    await self?.interrupt(
+                    self?.interrupt(
                         CaptureFailure("SOURCE_LOST", "The selected microphone disconnected."),
                         generation: generation)
                 }
@@ -284,58 +285,66 @@ public final class NativeCapture {
     }
 
     public func stop() async throws -> CaptureResult {
-        guard let sink, let generation = generations.current,
-            state == .recording || state == .paused
-        else {
-            throw CaptureFailure("INVALID_STATE", "No capture is ready to stop.")
-        }
-        state = .finalizing
-        sink.seal()
-        if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
-        microphoneObserver = nil
-        let stopping = streams
-        streams = []
-        for stream in stopping {
-            do { try await stream.stopCapture() } catch {
-                failure =
-                    failure ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
+        let result = try await termination.run { [self] in
+            guard let sink, let generation = generations.current,
+                state == .recording || state == .paused
+            else {
+                throw CaptureFailure("INVALID_STATE", "No capture is ready to stop.")
             }
+            state = .finalizing
+            sink.seal()
+            if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
+            microphoneObserver = nil
+            let stopping = streams
+            streams = []
+            for stream in stopping {
+                do { try await stream.stopCapture() } catch {
+                    failure =
+                        failure ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
+                }
+            }
+            let result = await sink.finish(failure: failure)
+            lifecycleSequence = sink.note(result.state, reason: result.failure?.code)
+            outputSize = nil
+            self.sink = nil
+            streamDelegate = nil
+            generations.end(generation)
+            state = .idle
+            return result
         }
-        let result = await sink.finish(failure: failure)
-        lifecycleSequence = sink.note(result.state, reason: result.failure?.code)
-        outputSize = nil
-        self.sink = nil
-        streamDelegate = nil
-        generations.end(generation)
-        state = .idle
+        guard let result else {
+            throw CaptureFailure("INVALID_STATE", "The take was discarded.")
+        }
         return result
     }
 
     /// Ends a take whose media is being thrown away. The writers are canceled rather than
     /// finalized, so no partial file is left claiming to be a recording.
     public func discard() async {
-        guard let sink, let generation = generations.current, state != .idle else { return }
-        state = .finalizing
-        sink.cancel()
-        if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
-        microphoneObserver = nil
-        let stopping = streams
-        streams = []
-        for stream in stopping { try? await stream.stopCapture() }
-        outputSize = nil
-        self.sink = nil
-        streamDelegate = nil
-        generations.end(generation)
-        state = .idle
+        _ = try? await termination.run { [self] in
+            guard let sink, let generation = generations.current, state != .idle else { return nil }
+            state = .finalizing
+            sink.cancel()
+            if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
+            microphoneObserver = nil
+            let stopping = streams
+            streams = []
+            for stream in stopping { try? await stream.stopCapture() }
+            outputSize = nil
+            self.sink = nil
+            streamDelegate = nil
+            generations.end(generation)
+            state = .idle
+            return nil
+        }
     }
 
-    private func interrupt(_ reason: CaptureFailure, generation: UUID) async {
+    private func interrupt(_ reason: CaptureFailure, generation: UUID) {
         guard generations.accepts(generation), sink != nil, failure == nil else { return }
         failure = reason
         sink?.seal()
-        let stopping = streams
-        streams = []
-        for stream in stopping { try? await stream.stopCapture() }
+        // Sealing rejects samples immediately. The notified owner ends this take through the
+        // same stop/discard operation; interruption must not retain a second stream teardown.
         onInterruption?(reason)
     }
 }

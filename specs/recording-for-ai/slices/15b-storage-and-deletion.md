@@ -1,9 +1,9 @@
 # 15b — Recording storage and manual deletion
 
-Status: catalog/queue prerequisite verified; capture quiescence remains in
-implementation, with native stop/discard/interruption races still open. See
-[catalog/queue evidence](../assets/storage/catalog-queue.md). Public deletion and
-storage usage remain unimplemented.
+Status: catalog/queue and capture shutdown prerequisites verified. See
+[catalog/queue evidence](../assets/storage/catalog-queue.md) and
+[capture shutdown evidence](../assets/storage/deletion-intent.md). Public deletion
+and storage usage remain unimplemented.
 This sharpens the existing storage/delete requirements in [12](12-cli-mcp-operations.md),
 [15](15-personal-release.md), and [contracts](../contracts.md); it does not close
 those parent slices. Implement the passes below in order. Each has its own verdict.
@@ -52,10 +52,9 @@ introduced. The existing derivative LRU remains the only cache-pressure mechanis
   startup. Deletion admission fences must therefore apply inside owners, before
   public routes exist, as well as during request dispatch.
 
-**Next implementation seam:** establish one terminal operation per native take
-across stop, discard and unsolicited interruption before enabling the pass B
-cleanup coordinator. A native idle status alone does not prove that old async
-finalization/reporting tasks have finished.
+**Next implementation seam:** pass B owned cleanup and public deletion, using the
+verified per-record queue drain and native/controller terminal barriers. Preserve
+native closure before catalog capture settlement and file removal.
 Do not begin with a route that calls `rm`: that cannot prove producer quiescence.
 
 ## A — Durable intent and per-record producer lifetime

@@ -46,8 +46,8 @@ private final class TrackWriter {
 }
 
 // All writer and clock mutations run on this queue, including control boundaries.
-final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
-    let queue = DispatchQueue(label: "com.david.screenrec.capture-writer")
+package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
+    package let queue = DispatchQueue(label: "com.david.screenrec.capture-writer")
     private let journal: CaptureJournal
     private let request: CaptureRequest
     private let width: Int
@@ -72,7 +72,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     private var sampler: CursorSampler?
     private var zeroOriginHeight: Double?
 
-    init(
+    package init(
         request: CaptureRequest, width: Int, height: Int, sessionID: String,
         requestedSourceRect: CGRect?, onFailure: @escaping @Sendable (CaptureFailure) -> Void
     ) throws {
@@ -173,7 +173,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         publishedClock.withLock { $0 = current }
     }
 
-    func seal() {
+    package func seal() {
         queue.sync {
             sampler?.stop()
             if stopHostUs == nil {
@@ -186,7 +186,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
             flushCursorSamples()
         }
     }
-    func cancel() {
+    package func cancel() {
         queue.sync {
             sampler?.stop()
             finishing = true
@@ -197,7 +197,9 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     /// Places one pointer reading in the take's source time. A reading the clock refuses, because
     /// the take is paused or has no source zero yet, is counted and dropped: no sample is invented
     /// for time the recording does not contain.
-    private func accept(_ reading: CursorReading) {
+    package func accept(_ reading: CursorReading) {
+        // A canceled sampler can still have deliveries queued behind seal/cancel.
+        guard !finishing else { return }
         if zeroOriginHeight != reading.zeroOriginHeight {
             zeroOriginHeight = reading.zeroOriginHeight
             _ = record {
@@ -243,7 +245,7 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         }
     }
 
-    func stream(
+    package func stream(
         _ stream: SCStream, didOutputSampleBuffer sample: CMSampleBuffer,
         of type: SCStreamOutputType
     ) {

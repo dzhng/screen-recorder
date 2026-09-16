@@ -17,6 +17,7 @@ final class CaptureController {
     }
 
     private let capture = NativeCapture()
+    private let termination = CaptureTermination<Data>()
     private var take: Take?
     /// The take whose `capture.start` has not returned yet, and whoever is waiting for it. A start
     /// in flight is part of this session: the app — not a service that may already be gone — owns
@@ -35,7 +36,12 @@ final class CaptureController {
         self.fixtureWindow = fixtureWindow
         self.startHold = FixtureStartHold.inFixture(fixtureWindow)
         capture.onInterruption = { [weak self] reason in
-            Task { @MainActor in await self?.interrupted(reason) }
+            guard let self, let interrupted = self.take else { return }
+            let recordingId = interrupted.recordingId
+            let sourceId = interrupted.sourceId
+            Task { @MainActor [weak self] in
+                await self?.interrupted(reason, recordingId: recordingId, sourceId: sourceId)
+            }
         }
     }
 
@@ -43,7 +49,7 @@ final class CaptureController {
         self.host = host
     }
 
-    var isCapturing: Bool { take != nil || pendingStart != nil }
+    var isCapturing: Bool { take != nil || pendingStart != nil || termination.isRunning }
 
     func handle(_ operation: String, _ params: Data) async -> Result<Data, ServiceFailure> {
         do {
@@ -69,8 +75,7 @@ final class CaptureController {
         if pendingStart != nil { diagnostic("quit waiting for a start in flight") }
         await awaitStart()
         guard take != nil else { return }
-        guard let outcome = try? await finish(reason: "APP_QUIT") else { return }
-        await send(report: outcome)
+        _ = try? await finish(reason: "APP_QUIT", notify: true)
     }
 
     /// The service this take reports to is gone. Native still owns the media, so the take is
@@ -90,9 +95,7 @@ final class CaptureController {
     /// left to tell about it. The media is native's, so it is sealed here and settled by whichever
     /// service reads it next, rather than captured on into nothing.
     private func finishIntoJournal() async {
-        capture.note("finalizing", reason: "SERVICE_LOST")
-        _ = try? await capture.stop()
-        take = nil
+        _ = try? await finish(reason: "SERVICE_LOST")
     }
 
     private func perform(_ operation: String, _ params: [String: Any]) async throws -> Any {
@@ -110,13 +113,10 @@ final class CaptureController {
             return try transition("recording")
         case "capture.stop":
             try await expect(params)
-            return try await finish(reason: nil)
+            return try JSONSerialization.jsonObject(with: await finish(reason: nil))
         case "capture.cancel":
             try await expect(params)
-            let discarded = try transition("finalizing")
-            await capture.discard()
-            take = nil
-            return discarded
+            return try JSONSerialization.jsonObject(with: await finish(reason: nil, discard: true))
         default:
             throw CaptureFailure(
                 "UNKNOWN_OPERATION", "Unknown native capture operation: \(operation)")
@@ -200,7 +200,7 @@ final class CaptureController {
                 "INVALID_REQUEST",
                 "capture.start needs an allocated take, directory, source and both audio choices.")
         }
-        guard take == nil, pendingStart == nil else {
+        guard take == nil, pendingStart == nil, !termination.isRunning else {
             throw CaptureFailure("INVALID_STATE", "Another take is already capturing.")
         }
         // The fixture records this app's own window and nothing else, so it reaches no audio
@@ -224,19 +224,18 @@ final class CaptureController {
         defer { releaseStart() }
         await startHold?.hold(recordingId: recordingId)
         try await capture.start(request)
+        take = starting
         guard !serviceGone else {
             // The library that allocated this take disappeared while the device was starting, so
             // this landing start ends exactly as a take lost mid-capture does.
             await finishIntoJournal()
             throw CaptureFailure("SERVICE_LOST", "The service that allocated this take is gone.")
         }
-        take = starting
         do {
             return try report(state: "recording")
         } catch {
             // The take is running but cannot number its own transitions, so it is not reportable.
-            await capture.discard()
-            take = nil
+            _ = try? await finish(reason: nil, discard: true)
             throw error
         }
     }
@@ -280,30 +279,44 @@ final class CaptureController {
 
     /// Finalizes the running take: the library hears that it is finalizing before the encoder is
     /// asked to close, and hears the outcome once the media is actually on disk.
-    private func finish(reason: String?) async throws -> [String: Any] {
-        guard let active = take else {
-            throw CaptureFailure("INVALID_STATE", "No take is capturing.")
+    private func finish(reason: String?, discard: Bool = false, notify: Bool = false) async throws -> Data {
+        try await termination.run { [self] in
+            guard let active = take else {
+                throw CaptureFailure("INVALID_STATE", "No take is capturing.")
+            }
+            var ended = false
+            defer {
+                if ended && take?.sourceId == active.sourceId { take = nil }
+            }
+            // Even a journal/report failure must not leave the media writer running.
+            let finalizing = Result { try transition("finalizing", reason: reason) }
+            if !discard, !serviceGone, case .success(let report) = finalizing {
+                await send(report: report)
+            }
+            let outcome: [String: Any]
+            if discard {
+                await capture.discard()
+                ended = true
+                outcome = try finalizing.get()
+            } else {
+                let result = try await capture.stop()
+                ended = true
+                let interrupted = result.failure != nil
+                outcome = try report(
+                    state: interrupted ? "interrupted" : "complete",
+                    reason: interrupted ? result.failure?.code ?? reason : nil,
+                    durationUs: interrupted && result.durationUs == 0 ? nil : result.durationUs,
+                    take: active)
+            }
+            let receipt = try JSONSerialization.data(withJSONObject: outcome)
+            if notify && !serviceGone { await send(report: outcome) }
+            return receipt
         }
-        await send(report: try transition("finalizing", reason: reason))
-        let result = try await capture.stop()
-        take = nil
-        let interrupted = result.failure != nil
-        return try report(
-            state: interrupted ? "interrupted" : "complete",
-            reason: interrupted ? result.failure?.code ?? reason : nil,
-            // A take with no decoded video reports no duration at all: that is a settled claim
-            // that nothing survived, not a zero-length recording.
-            durationUs: interrupted && result.durationUs == 0 ? nil : result.durationUs,
-            take: active)
     }
 
-    private func interrupted(_ reason: CaptureFailure) async {
-        guard take != nil else { return }
-        guard let outcome = try? await finish(reason: reason.code) else {
-            take = nil
-            return
-        }
-        await send(report: outcome)
+    private func interrupted(_ reason: CaptureFailure, recordingId: String, sourceId: String) async {
+        guard take?.recordingId == recordingId, take?.sourceId == sourceId else { return }
+        _ = try? await finish(reason: reason.code, notify: true)
     }
 
     private func transition(_ state: String, reason: String? = nil) throws -> [String: Any] {

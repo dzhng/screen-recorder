@@ -45,8 +45,10 @@ geometry-journal slice before this condition is fully explained to consumers.
 A closed window retained by its
 application can be indistinguishable from a hidden one; the recorder does not
 infer destruction from missing complete frames. Actual source destruction and
-stream errors use ScreenCaptureKit's delegate signal. The native owner stops
-streams and seals the clock immediately, then notifies `onInterruption`.
+stream errors use ScreenCaptureKit's delegate signal. The native owner
+seals the clock and writer immediately, then notifies `onInterruption`. The controller
+ends it through the same joined stop/discard operation; interruption does not own a
+second asynchronous stream teardown.
 
 The app never requests permission or starts capture at ordinary launch. Probe
 preflight only reads authorization. Explicit probe requests with a missing

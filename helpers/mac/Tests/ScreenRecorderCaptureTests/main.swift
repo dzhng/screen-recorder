@@ -1,3 +1,5 @@
+try await runCaptureTerminationTests()
+try runCaptureWriterTests()
 runCaptureClockTests()
 await runHeldTailFrameTests()
 try await runCaptureJournalTests()

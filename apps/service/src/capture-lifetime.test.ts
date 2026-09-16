@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { RevisionStore } from "@screenrec/core/library";
@@ -56,3 +56,434 @@ test("closing capture aborts recovery and waits for its worker before releasing 
     await rm(home, { recursive: true, force: true });
   }
 });
+
+test("deletion quiescence waits behind a held start and keeps source files", async () => {
+  const home = await mkdtemp("/tmp/screenrec-capture-delete-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  let releaseStart!: (result: OperationResult) => void;
+  let started!: () => void;
+  const entering = new Promise<void>((resolve) => {
+    started = resolve;
+  });
+  let releaseCancel!: (result: OperationResult) => void;
+  let cancelEntered!: () => void;
+  const canceling = new Promise<void>((resolve) => {
+    cancelEntered = resolve;
+  });
+  let calls = 0;
+  const service = new CaptureService(
+    store,
+    home,
+    async (operation) => {
+      calls++;
+      if (operation === "capture.start") {
+        started();
+        return new Promise((resolve) => {
+          releaseStart = resolve;
+        });
+      }
+      if (operation === "capture.cancel") {
+        cancelEntered();
+        return new Promise((resolve) => {
+          releaseCancel = resolve;
+        });
+      }
+      return {
+        ok: true,
+        data: {
+          state: "idle",
+          recordingId: null,
+          sourceId: null,
+          elapsedUs: null,
+          selection: null,
+          permissions: { screen: true, microphone: "authorized" },
+        },
+      };
+    },
+    async () => {
+      throw new Error("No recovery required");
+    },
+  );
+  try {
+    const start = service.start({
+      requestId: "held",
+      source: { kind: "window", windowId: 1 },
+      microphone: false,
+      systemAudio: false,
+    });
+    const startResult = start.catch((error: unknown) => error);
+    await entering;
+    const recording = store.latest()!;
+    const path = join(home, "recordings", recording.recordingId, "source", "sentinel");
+    await writeFile(path, "keep until coordinator owns deletion");
+    store.markDeleting(recording.recordingId);
+    let quiet = false;
+    const quiescing = service.quiesce(recording.recordingId).then(() => {
+      quiet = true;
+    });
+    await Promise.resolve();
+    expect(calls).toBe(1);
+    expect(quiet).toBe(false);
+    releaseStart({
+      ok: true,
+      data: {
+        recordingId: recording.recordingId,
+        sourceId: recording.sourceId,
+        sequence: 1,
+        state: "recording",
+      },
+    });
+    expect(await startResult).toMatchObject({ code: "NOT_FOUND" });
+    await canceling;
+    expect(quiet).toBe(false);
+    releaseCancel({
+      ok: true,
+      data: {
+        recordingId: recording.recordingId,
+        sourceId: recording.sourceId,
+        sequence: 2,
+        state: "finalizing",
+      },
+    });
+    await quiescing;
+    expect(await readFile(path, "utf8")).toBe("keep until coordinator owns deletion");
+    expect(store.latest()).toBeNull();
+  } finally {
+    const ended: OperationResult = {
+      ok: false,
+      error: { code: "SERVICE_STOPPED", message: "fixture ended", retryable: true, details: {} },
+    };
+    releaseStart?.(ended);
+    releaseCancel?.(ended);
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test.each(["TIMEOUT", "SERVICE_STOPPED", "INVALID_STATE"])(
+  "deletion preserves intent when %s does not prove native closure",
+  async (code) => {
+    const home = await mkdtemp("/tmp/screenrec-capture-uncertain-");
+    const store = new RevisionStore(join(home, "library.sqlite"), {
+      now: () => new Date().toISOString(),
+      newId: randomUUID,
+    });
+    const recording = store.allocate().recording;
+    store.markDeleting(recording.recordingId);
+    const service = new CaptureService(
+      store,
+      home,
+      async (operation) =>
+        operation === "capture.cancel"
+          ? { ok: false, error: { code, message: "not proved", retryable: true, details: {} } }
+          : {
+              ok: true,
+              data: {
+                state: "finalizing",
+                recordingId: recording.recordingId,
+                sourceId: recording.sourceId,
+                elapsedUs: 1,
+                selection: null,
+                permissions: { screen: true, microphone: "authorized" },
+              },
+            },
+      async () => {
+        throw new Error("No recovery requested");
+      },
+    );
+    try {
+      await expect(service.quiesce(recording.recordingId)).rejects.toMatchObject({
+        code: code === "INVALID_STATE" ? "CAPTURE_NOT_QUIET" : code,
+        retryable: true,
+      });
+      expect(store.deleting(recording.recordingId)?.sourceId).toBe(recording.sourceId);
+    } finally {
+      await service.close();
+      store.close();
+      await rm(home, { recursive: true, force: true });
+    }
+  },
+);
+
+test("deletion waits for running recovery and does not admit recovery for another marked take", async () => {
+  const home = await mkdtemp("/tmp/screenrec-capture-recover-delete-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const recording = store.allocate().recording;
+  const other = store.allocate().recording;
+  let entered!: () => void;
+  const started = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  let finish!: (result: OperationResult) => void;
+  let recoveries = 0;
+  let nativeCalls = 0;
+  const service = new CaptureService(
+    store,
+    home,
+    async (operation) => {
+      nativeCalls++;
+      return operation === "capture.cancel"
+        ? {
+            ok: false,
+            error: {
+              code: "INVALID_STATE",
+              message: "not holding take",
+              retryable: false,
+              details: {},
+            },
+          }
+        : {
+            ok: true,
+            data: {
+              state: "idle",
+              recordingId: null,
+              sourceId: null,
+              elapsedUs: null,
+              selection: null,
+              permissions: { screen: true, microphone: "authorized" },
+            },
+          };
+    },
+    async () => {
+      recoveries++;
+      entered();
+      return new Promise((resolve) => {
+        finish = resolve;
+      });
+    },
+  );
+  try {
+    const recovering = service.reconcileStranded();
+    await started;
+    store.markDeleting(recording.recordingId);
+    store.markDeleting(other.recordingId);
+    const quiet = service.quiesce(recording.recordingId);
+    await Promise.resolve();
+    expect(nativeCalls).toBe(0);
+    finish({ ok: true, data: { durationUs: 100, journal: { header: {} } } });
+    await recovering;
+    await quiet;
+    expect(recoveries).toBe(1);
+    expect(store.deleting(recording.recordingId)?.currentRevisionId).toBeNull();
+    expect(store.latest()).toBeNull();
+  } finally {
+    finish?.({
+      ok: false,
+      error: { code: "CANCELED", message: "fixture ended", retryable: true, details: {} },
+    });
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test("a marked finished take neither starts replacement capture nor touches native to quiesce", async () => {
+  const home = await mkdtemp("/tmp/screenrec-capture-finished-delete-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const recording = store.allocate().recording;
+  store.ingestLifecycle(recording.recordingId, {
+    sourceId: recording.sourceId,
+    sequence: 1,
+    state: "interrupted",
+    sourceDurationUs: null,
+    reason: "NO_SOURCE_MEDIA",
+  });
+  store.markDeleting(recording.recordingId);
+  const service = new CaptureService(
+    store,
+    home,
+    async () => {
+      throw new Error("Finished take cannot reach native");
+    },
+    async () => {
+      throw new Error("No recovery required");
+    },
+  );
+  try {
+    await service.quiesce(recording.recordingId);
+    await expect(
+      service.restart({
+        recordingId: recording.recordingId,
+        requestId: "replacement",
+        source: { kind: "window", windowId: 1 },
+        microphone: false,
+        systemAudio: false,
+      }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+    expect(store.latest()).toBeNull();
+  } finally {
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test("proved native closure releases heavy work while deletion files and intent remain", async () => {
+  const { JobQueue } = await import("@screenrec/core/jobs");
+  const home = await mkdtemp("/tmp/screenrec-capture-priority-delete-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const recording = store.allocate().recording;
+  const other = store.allocate().recording;
+  store.ingestLifecycle(other.recordingId, {
+    sourceId: other.sourceId,
+    sequence: 1,
+    state: "interrupted",
+    sourceDurationUs: 10,
+    reason: "fixture",
+  });
+  store.markDeleting(recording.recordingId);
+  const source = join(home, "recordings", recording.recordingId, "source");
+  await mkdir(source, { recursive: true });
+  await writeFile(join(source, "sentinel"), "cleanup still pending");
+  let entered!: () => void;
+  const cancelEntered = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  let finish!: (result: OperationResult) => void;
+  const queue = new JobQueue({
+    store,
+    providers: { newId: randomUUID },
+    execute: async () => "other recording processed",
+  });
+  const job = queue.submit({
+    recordingId: other.recordingId,
+    artifact: "source",
+    input: "other",
+    lane: "heavy",
+  });
+  const service = new CaptureService(
+    store,
+    home,
+    async (operation) => {
+      if (operation === "capture.cancel") {
+        entered();
+        return new Promise((resolve) => {
+          finish = resolve;
+        });
+      }
+      return {
+        ok: true,
+        data: {
+          state: "idle",
+          recordingId: null,
+          sourceId: null,
+          elapsedUs: null,
+          selection: null,
+          permissions: { screen: true, microphone: "authorized" },
+        },
+      };
+    },
+    async () => {
+      throw new Error("No recovery required");
+    },
+    () => {},
+    () => queue.schedule(),
+  );
+  try {
+    const quiet = service.quiesce(recording.recordingId);
+    await cancelEntered;
+    expect(queue.job(job.jobId).state).toBe("queued");
+    finish({
+      ok: false,
+      error: { code: "INVALID_STATE", message: "no longer held", retryable: false, details: {} },
+    });
+    await quiet;
+    await queue.idle();
+    expect(queue.status(job).published?.result).toBe("other recording processed");
+    expect(store.deleting(recording.recordingId)?.state).toBe("canceled");
+    expect(await readFile(join(source, "sentinel"), "utf8")).toBe("cleanup still pending");
+    expect(() => store.get(recording.recordingId)).toThrow(
+      expect.objectContaining({ code: "NOT_FOUND" }),
+    );
+  } finally {
+    finish?.({
+      ok: false,
+      error: { code: "SERVICE_STOPPED", message: "fixture ended", retryable: true, details: {} },
+    });
+    await service.close();
+    await queue.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test.each(["complete", "interrupted"] as const)(
+  "cancel joining %s finalization retains the finished recording",
+  async (state) => {
+    const home = await mkdtemp("/tmp/screenrec-capture-terminal-race-");
+    const store = new RevisionStore(join(home, "library.sqlite"), {
+      now: () => new Date().toISOString(),
+      newId: randomUUID,
+    });
+    const recording = store.allocate().recording;
+    store.ingestLifecycle(recording.recordingId, {
+      sourceId: recording.sourceId,
+      sequence: 1,
+      state: "recording",
+    });
+    const source = join(home, "recordings", recording.recordingId, "source");
+    await mkdir(source, { recursive: true });
+    await writeFile(join(source, "sentinel"), "finished media stays");
+    let entered!: () => void;
+    const called = new Promise<void>((resolve) => {
+      entered = resolve;
+    });
+    let finish!: (result: OperationResult) => void;
+    const service = new CaptureService(
+      store,
+      home,
+      async () => {
+        entered();
+        return new Promise((resolve) => {
+          finish = resolve;
+        });
+      },
+      async () => {
+        throw new Error("No recovery required");
+      },
+    );
+    try {
+      const canceled = service.cancel(recording.recordingId).catch((error: unknown) => error);
+      await called;
+      service.report({ ...recording, sequence: 2, state: "finalizing" });
+      const terminal = {
+        recordingId: recording.recordingId,
+        sourceId: recording.sourceId,
+        sequence: 3,
+        state,
+        sourceDurationUs: 20,
+        reason: state === "interrupted" ? "SOURCE_LOST" : undefined,
+      };
+      service.report(terminal);
+      finish({ ok: true, data: terminal });
+      expect(await canceled).toMatchObject({ code: "INVALID_STATE" });
+      expect(store.get(recording.recordingId)).toMatchObject({
+        state,
+        sourceDurationUs: 20,
+        currentRevisionId: "r0",
+      });
+      expect(await readFile(join(source, "sentinel"), "utf8")).toBe("finished media stays");
+    } finally {
+      finish?.({
+        ok: false,
+        error: { code: "SERVICE_STOPPED", message: "fixture ended", retryable: true, details: {} },
+      });
+      await service.close();
+      store.close();
+      await rm(home, { recursive: true, force: true });
+    }
+  },
+);

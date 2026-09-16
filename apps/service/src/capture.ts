@@ -132,6 +132,7 @@ export class CaptureService {
     selection: CaptureSelection & { recordingId: string; requestId: string },
   ): Promise<Recording> {
     return this.serialize(async () => {
+      this.store.get(selection.recordingId);
       const { recording, replay } = this.store.allocate({
         requestId: selection.requestId,
         arguments: allocationArguments("capture.restart", selection),
@@ -192,6 +193,35 @@ export class CaptureService {
     return this.serialize(() => this.discard(recordingId));
   }
 
+  /** Joins the capture order; success proves this take can no longer write, but removes nothing. */
+  quiesce(recordingId: string): Promise<void> {
+    return this.serialize(async () => {
+      const recording = this.store.deleting(recordingId);
+      if (!recording)
+        throw new CaptureError("INVALID_STATE", "Recording deletion has not been requested");
+      if (isSettled(recording.state)) return;
+      await this.endNativeCapture(recording);
+      // A cancel response carries its pre-discard finalizing event. Check the device after that
+      // ordered call, including when native refused because it no longer owns this take.
+      const device = captureDeviceSchema.parse(await this.ask("capture.status", {}));
+      if (
+        device.state !== "idle" &&
+        !(
+          device.recordingId !== null &&
+          device.recordingId !== recordingId &&
+          (device.state === "recording" || device.state === "paused")
+        )
+      )
+        throw new CaptureError(
+          "CAPTURE_NOT_QUIET",
+          "Native capture has not proved this take stopped",
+          { recordingId },
+          true,
+        );
+      this.observed(this.store.settleDeletingCapture(recordingId));
+    });
+  }
+
   /** Applies one transition native reported on its own, without this service asking for it. */
   report(report: CaptureReport): Recording {
     return this.observed(this.store.ingestLifecycle(report.recordingId, lifecycleEvent(report)));
@@ -207,6 +237,7 @@ export class CaptureService {
   reconcileStranded(): Promise<void> {
     return this.serialize(async () => {
       for (const recording of this.store.unsettled()) {
+        if (this.store.isDeleting(recording.recordingId)) continue;
         try {
           const settled = await this.reconcile(recording);
           this.log(
@@ -228,6 +259,7 @@ export class CaptureService {
     } catch (error) {
       throw this.refused(recording, error);
     }
+    this.store.get(recording.recordingId);
     const answer = await this.native(
       "capture.start",
       nativeStartSchema.parse({
@@ -325,15 +357,23 @@ export class CaptureService {
       );
     let current = recording;
     if (current.state !== "canceled") {
-      const answer = await this.native("capture.cancel", { recordingId });
-      if (answer.ok) current = this.apply(current, answer.data);
-      else if (answer.error.code !== "INVALID_STATE") throw fromNative(answer);
+      const report = await this.endNativeCapture(current);
+      if (report) current = this.report(report);
+      // A cancel that joined finalization can receive a finished take. The catalog's terminal
+      // rule refuses that cancellation, preserving media for an explicit library deletion.
       current = this.author(current, { state: "canceled" });
     }
     // Only this take's own allocated directory is removed, and only once it is discarded, so a
     // late native write lands in a directory nothing discovers.
     await rm(recordingDirectory(this.home, recordingId), { recursive: true, force: true });
     return current;
+  }
+
+  private async endNativeCapture(recording: Recording): Promise<CaptureReport | null> {
+    const answer = await this.native("capture.cancel", { recordingId: recording.recordingId });
+    if (answer.ok) return this.readReport(recording, answer.data);
+    if (answer.error.code === "INVALID_STATE") return null;
+    throw fromNative(answer);
   }
 
   private async reconcile(recording: Recording): Promise<Recording> {
@@ -359,13 +399,17 @@ export class CaptureService {
   }
 
   private apply(recording: Recording, data: unknown): Recording {
+    return this.report(this.readReport(recording, data));
+  }
+
+  private readReport(recording: Recording, data: unknown): CaptureReport {
     const report = captureReportSchema.parse(data);
     if (report.recordingId !== recording.recordingId || report.sourceId !== recording.sourceId)
       throw new CaptureError("INVALID_STATE", "Native reported another take", {
         recordingId: recording.recordingId,
         reportedRecordingId: report.recordingId,
       });
-    return this.report(report);
+    return report;
   }
 
   /**

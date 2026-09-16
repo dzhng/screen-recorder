@@ -16,7 +16,7 @@ owner proves native closure, `settleDeletingCapture` records the existing cancel
 terminal state while retaining the intent marker, source identity and revisions.
 A subsequent file-removal failure therefore cannot keep unrelated heavy jobs paused.
 Only the capture owner may call this after its native terminal barrier; merely
-requesting cancellation is insufficient. That native barrier is still being built.
+requesting cancellation is insufficient. See [capture shutdown evidence](deletion-intent.md) for that native barrier.
 
 ## Verification
 
