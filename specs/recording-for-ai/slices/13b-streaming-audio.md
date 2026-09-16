@@ -1,8 +1,23 @@
 # 13b — Bounded retained audio stream
 
-Status: specified; dependency-ready native execution seam. Parent
+Status: bounded stream implemented and numerical/lifetime gates verified. See the
+[comparison and scale evidence](../assets/streaming-audio/review.md). Parent
 [13](13-edited-media.md) still owns AAC/video integration, pointer, public preview
-and the complete audible editing journey. This slice does not choose an ASR engine.
+and the complete audible editing journey. No speech audition was performed; that
+gate remains explicitly open. This slice does not choose an ASR engine.
+
+## Current pickup
+
+The excerpt writer now consumes `AudioPCMStream`, the sole mixer. Its resolved
+format, exact frame count and bounded blocks are ready for an AAC consumer. All
+25 retained baseline WAVE fixtures have byte-exact PCM/format chunks; five-minute
+output and held/canceled/failing sinks pass the recorded checks. Source priming is
+also checked against an independent AAC decoder. This is not AAC encoding or A/V
+mux proof. The public excerpt limit remains thirty seconds.
+
+Next, specify and verify the AAC/movie sink using this backpressured lifetime and
+the existing job attempt owner. Preserve original acquisition-gap metadata, and
+keep adjacent-speech audition and five-minute A/V drift open until actually observed.
 
 ## One question and owner
 
@@ -10,11 +25,10 @@ Can the existing retained-audio execution produce the same samples and gap repor
 without allocating memory proportional to the movie duration?
 
 [AudioExcerpts](../../../helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift)
-already bounds decoding/conversion buffers, but accumulates the entire mixed output
-in a Float array before writing. Its 30-second API limit is therefore meaningful;
-raising that limit is not the movie implementation. Promote its mixing execution
-into one bounded PCM stream in the existing native audio module. The excerpt writer
-and later movie encoder consume that owner; do not leave separate mixing algorithms.
+previously bounded decoding/conversion buffers but accumulated the entire mixed
+output in a Float array. The implemented PCM stream removes that duration-sized
+allocation. The excerpt writer and later movie encoder consume this one owner;
+the thirty-second public inspection limit remains a separate API policy.
 PCM means decoded numeric sound samples before compression.
 
 The input remains the core's resolved ordered source spans and acquired track plans

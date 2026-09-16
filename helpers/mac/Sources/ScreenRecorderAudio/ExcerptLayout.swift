@@ -27,7 +27,8 @@ struct ExcerptLayout {
     var totalFrames: Int64 { starts.last! }
 
     var durationUs: Int64 {
-        (totalFrames * 1_000_000 + Int64(sampleRate) / 2) / Int64(sampleRate)
+        (totalFrames / Int64(sampleRate)) * 1_000_000
+            + ((totalFrames % Int64(sampleRate)) * 1_000_000 + Int64(sampleRate) / 2) / Int64(sampleRate)
     }
 
     /// The output frame holding recording source time `us`, which must lie inside span `index`.
@@ -46,7 +47,8 @@ struct ExcerptLayout {
     }
 
     static func frames(ofUs us: Int64, at sampleRate: Int) -> Int64 {
-        (us * Int64(sampleRate) + 500_000) / 1_000_000
+        (us / 1_000_000) * Int64(sampleRate)
+            + ((us % 1_000_000) * Int64(sampleRate) + 500_000) / 1_000_000
     }
 }
 
@@ -85,15 +87,15 @@ enum SpanMath {
 
 enum ExcerptValidation {
     /// Rejects everything the excerpt owner cannot execute honestly, before any media is opened.
-    static func check(_ request: AudioExcerptRequest) throws {
-        guard !request.tracks.isEmpty else {
+    static func check(tracks: [AudioTrackPlan], spans: [SourceSpan], maximumDurationUs: Int64) throws {
+        guard !tracks.isEmpty else {
             throw AudioFailure("INVALID_REQUEST", "An excerpt reads at least one planned track.")
         }
         // Capture stores one file per role, so uniqueness is also what bounds the plan's size.
-        guard Set(request.tracks.map(\.role)).count == request.tracks.count else {
+        guard Set(tracks.map(\.role)).count == tracks.count else {
             throw AudioFailure("INVALID_REQUEST", "Each track role may appear once in an excerpt plan.")
         }
-        for track in request.tracks {
+        for track in tracks {
             guard track.source.hasPrefix("/") else {
                 throw AudioFailure("INVALID_REQUEST", "Audio source paths must be absolute, got \(track.source).")
             }
@@ -108,17 +110,17 @@ enum ExcerptValidation {
             }
             try checkAvailability(of: track)
         }
-        guard !request.spans.isEmpty else {
+        guard !spans.isEmpty else {
             throw AudioFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
         }
-        guard request.spans.count <= AudioLimits.maximumSpans else {
+        guard spans.count <= AudioLimits.maximumSpans else {
             throw AudioFailure(
                 "LIMIT_EXCEEDED",
-                "Excerpt has \(request.spans.count) spans, over the \(AudioLimits.maximumSpans) span limit.")
+                "Excerpt has \(spans.count) spans, over the \(AudioLimits.maximumSpans) span limit.")
         }
         var total: Int64 = 0
         var previous: SourceSpan?
-        for span in request.spans {
+        for span in spans {
             guard span.startUs >= 0, span.endUs <= AudioLimits.maximumMicroseconds, span.endUs > span.startUs
             else {
                 throw AudioFailure(
@@ -135,10 +137,10 @@ enum ExcerptValidation {
             total += span.endUs - span.startUs
             previous = span
         }
-        guard total <= AudioLimits.maximumExcerptUs else {
+        guard total <= maximumDurationUs else {
             throw AudioFailure(
                 "LIMIT_EXCEEDED",
-                "Excerpt spans total \(total) microseconds, over the \(AudioLimits.maximumExcerptUs) microsecond limit.")
+                "Excerpt spans total \(total) microseconds, over the \(maximumDurationUs) microsecond limit.")
         }
 
     }

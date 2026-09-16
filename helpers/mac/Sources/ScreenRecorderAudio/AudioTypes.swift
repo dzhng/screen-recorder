@@ -63,9 +63,8 @@ public enum AudioLimits {
     public static let maximumAvailableIntervals = 1_000
     /// Ramp length at a join, before clamping to half of a short span.
     public static let joinRampUs: Int64 = 5_000
-    /// Output bounds. A file claiming more than these would size the excerpt buffer by its own
-    /// header rather than by the requested duration. Which layouts an excerpt will actually map is
-    /// narrower still: capture records mono or stereo, and the excerpt writes only those.
+    /// Bound format-dependent decode/conversion storage before opening sample buffers.
+    /// The supported output layouts are narrower: capture and retained playback are mono/stereo.
     public static let maximumSampleRate = 192_000
     public static let maximumChannels = 8
 }

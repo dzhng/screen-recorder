@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, truncateSync, readdirSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -356,6 +356,118 @@ test("audio decode failure permits explicit retry while invalid plans remain ter
         [false, "INVALID_RANGE", false],
       ],
     );
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("AAC source priming is removed before offset placement in streamed PCM", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-audio-priming-"));
+  try {
+    const pcm = join(directory, "source.mov"),
+      source = join(directory, "source.m4a");
+    tone(pcm, 1000, 2);
+    const encode = spawnSync("ffmpeg", ["-v", "error", "-i", pcm, "-c:a", "aac", source], {
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(encode.status, 0, encode.stderr);
+    const original = readFileSync(source),
+      output = join(directory, "primed.wav");
+    const params = {
+      output,
+      spans: [{ startUs: 0, endUs: 2125000 }],
+      tracks: [
+        {
+          role: "narration",
+          source,
+          sourceOffsetUs: 125000,
+          available: [{ startUs: 125000, endUs: 2125000 }],
+        },
+      ],
+    };
+    const rendered = spawnSync(executable, [], {
+      input: JSON.stringify({ id: "priming", operation: "media.audio", params }) + "\n",
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(rendered.status, 0, rendered.stderr);
+    const receipt = JSON.parse(rendered.stdout);
+    assert.equal(receipt.ok, true, rendered.stdout);
+    assert.equal(receipt.data.frames, 102000);
+    const actual = wave(readFileSync(output)).audio;
+    const decoded = spawnSync(
+      "ffmpeg",
+      ["-v", "error", "-i", source, "-t", "2", "-f", "f32le", "-"],
+      { timeout: 15000, maxBuffer: 1024 * 1024 },
+    );
+    assert.equal(decoded.status, 0, decoded.stderr.toString());
+    assert.equal(decoded.stdout.length, 96000 * 4);
+    assert.equal(actual.length, 102000 * 4);
+    for (let i = 0; i < 6000; i++) assert.equal(actual.readFloatLE(i * 4), 0);
+    // Independent AAC decoders differ slightly; stay below one 16-bit PCM step.
+    // A one-sample offset in this fixture disagrees by over 0.01 RMS.
+    let squared = 0;
+    for (let i = 0; i < 96000; i++)
+      squared += (actual.readFloatLE((i + 6000) * 4) - decoded.stdout.readFloatLE(i * 4)) ** 2;
+    assert.ok(
+      Math.sqrt(squared / 96000) < 1 / 32768,
+      `AAC PCM RMS disagreement ${Math.sqrt(squared / 96000)}`,
+    );
+    assert.deepEqual(receipt.data.tracks[0].unavailable, [{ startUs: 0, endUs: 125000 }]);
+    assert.deepEqual(readFileSync(source), original);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("midstream source failure leaves no completed WAVE or staging output", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-audio-truncated-"));
+  try {
+    const source = join(directory, "truncated.mov"),
+      output = join(directory, "output.wav");
+    const fixture = spawnSync(
+      "ffmpeg",
+      [
+        "-v",
+        "error",
+        "-f",
+        "lavfi",
+        "-i",
+        "sine=frequency=1000:sample_rate=48000:duration=2",
+        "-c:a",
+        "pcm_f32le",
+        "-movflags",
+        "faststart",
+        source,
+      ],
+      { encoding: "utf8", timeout: 15000 },
+    );
+    assert.equal(fixture.status, 0, fixture.stderr);
+    truncateSync(source, readFileSync(source).length - 5000);
+    const before = readFileSync(source);
+    const params = {
+      output,
+      spans: [{ startUs: 0, endUs: 2000000 }],
+      tracks: [
+        {
+          role: "narration",
+          source,
+          sourceOffsetUs: 0,
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    };
+    const result = spawnSync(executable, [], {
+      input: JSON.stringify({ id: "truncated", operation: "media.audio", params }) + "\n",
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(JSON.parse(result.stdout).error.code, "NATIVE_DECODE_FAILED");
+    assert.equal(existsSync(output), false);
+    assert.deepEqual(readdirSync(directory), ["truncated.mov"]);
+    assert.deepEqual(readFileSync(source), before);
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }

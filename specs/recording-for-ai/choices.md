@@ -1225,3 +1225,22 @@ dependency for strict schemas; timeline constructors remain the semantic owner.
 Canonical source filenames, ASCII inventory names, explicit caller-provided byte/
 entry/history/path limits and separate bounded revision JSON are internal format
 choices delegated by 14a. They do not alter destination names or add a public format.
+
+## Retained audio stream ownership — 2026-09-17
+
+- **Choice:** One finite PCM stream exposes resolved output format and exact frame
+  count before consumption, then awaits a consumer for every bounded block. The
+  excerpt WAVE writer uses it directly. **Gap:** Whole-output allocation could not
+  support movie duration, and a future encoder must not rebuild format policy or
+  quantization from track reports. **Reach:** Converter state survives block
+  boundaries; edits and acquisition intervals remain reset boundaries. No parallel
+  mixer, process, queue or public long-excerpt route is added. **Verdict:** sound,
+  high confidence from 25 byte-exact baseline comparisons and five-minute memory,
+  frame-count and failure evidence in the [stream report](assets/streaming-audio/review.md).
+- **Choice:** Keep the public thirty-second excerpt limit while the shared native
+  stream accepts longer validated timelines. Samples are interleaved Float32 with
+  explicit mono/stereo layout and valid block lengths. **Gap:** The old allocation
+  bound and the user-facing inspection bound had coincided. **Reach:** Internal
+  long WAVE output is a verification consumer; AAC, muxing, durable publication and
+  speech audition remain parent work. **Verdict:** sound, high confidence for the
+  numerical seam; no audible speech-quality claim is made.
