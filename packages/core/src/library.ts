@@ -254,6 +254,38 @@ export class RevisionStore {
         .get(recordingId) as Recording | undefined) ?? null
     );
   }
+  deletionsPage(afterId = "", limit = 50): { recordings: Recording[]; nextAfterId: string | null } {
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 200)
+      throw new CatalogError("INVALID_PARAMS", "Deletion page size must be 1–200");
+    const rows = this.catalog
+      .prepare(`SELECT ${recordingColumns} FROM recording_deletions JOIN recordings USING(recordingId)
+      WHERE recordingId>?
+      ORDER BY recordingId LIMIT ?`)
+      .all(afterId, limit + 1) as Recording[];
+    return {
+      recordings: rows.slice(0, limit),
+      nextAfterId: rows.length > limit ? rows[limit - 1]!.recordingId : null,
+    };
+  }
+  /** Finalize only after each resource owner has reclaimed its rows and files. Foreign keys keep
+   * an omitted owner from silently losing the recording identity needed to finish cleanup. */
+  finishDeletion(recordingId: string): void {
+    this.transaction(() => {
+      if (!this.deleting(recordingId)) {
+        if (this.catalog.prepare("SELECT 1 FROM recordings WHERE recordingId=?").get(recordingId))
+          throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
+        return;
+      }
+      for (const table of [
+        "undo_stack",
+        "edit_requests",
+        "revisions",
+        "recording_deletions",
+        "recordings",
+      ])
+        this.catalog.prepare(`DELETE FROM ${table} WHERE recordingId=?`).run(recordingId);
+    });
+  }
   /** Native closure ends capture priority even if later deletion cleanup fails. */
   settleDeletingCapture(recordingId: string): Recording {
     return this.transaction(() => {

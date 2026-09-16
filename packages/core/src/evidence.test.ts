@@ -620,3 +620,81 @@ test("geometry point and range reads seek through their indexes without full sor
     expect(plan).not.toContain("TEMP B-TREE");
   }
 });
+
+test("recording purge reclaims complete and unfinished generations across restart, leaving siblings", async () => {
+  const f = fixture([0, 10]);
+  await f.evidence.ingest({ ...f.identity, file: f.file, receipt: f.receipt });
+  const sibling = f.store.allocate().recording;
+  f.store.catalog
+    .prepare("INSERT INTO source_evidence_generations VALUES(?,?,?,NULL)")
+    .run(f.identity.recordingId, f.identity.sourceId, "unfinished");
+  f.store.catalog
+    .prepare("INSERT INTO source_evidence_generations VALUES(?,?,?,NULL)")
+    .run(sibling.recordingId, sibling.sourceId, "sibling");
+  f.store.markDeleting(f.identity.recordingId);
+  f.store.close();
+  const reopened = new RevisionStore(join(dirname(f.file), "library.sqlite"), {
+    now: () => "",
+    newId: () => "unused",
+  });
+  stores.push(reopened);
+  const evidence = new SourceEvidenceStore(reopened);
+  await evidence.purgeRecording(f.identity.recordingId, new AbortController().signal);
+  await evidence.purgeRecording(f.identity.recordingId, new AbortController().signal);
+  expect(
+    reopened.catalog
+      .prepare("SELECT recordingId,generation FROM source_evidence_generations")
+      .all(),
+  ).toEqual([{ recordingId: sibling.recordingId, generation: "sibling" }]);
+  expect(reopened.catalog.prepare("SELECT * FROM source_evidence_records").all()).toEqual([]);
+});
+
+test("purge yields even for empty generations and aborted cleanup can resume", async () => {
+  const f = fixture();
+  f.store.transaction(() => {
+    const insert = f.store.catalog.prepare(
+      "INSERT INTO source_evidence_generations VALUES(?,?,?,NULL)",
+    );
+    for (let i = 0; i < 130; i++)
+      insert.run(f.identity.recordingId, f.identity.sourceId, `unfinished-${i}`);
+  });
+  const controller = new AbortController();
+  setImmediate(() => controller.abort());
+  await expect(
+    f.evidence.purgeRecording(f.identity.recordingId, controller.signal),
+  ).rejects.toThrow();
+  expect(
+    f.store.catalog.prepare("SELECT generation FROM source_evidence_generations LIMIT 1").get(),
+  ).toBeDefined();
+  await f.evidence.purgeRecording(f.identity.recordingId, new AbortController().signal);
+  expect(
+    f.store.catalog.prepare("SELECT generation FROM source_evidence_generations").all(),
+  ).toEqual([]);
+});
+
+test("source purge retains unfinished generation identity across an interrupted multi-batch reclaim", async () => {
+  const f = fixture(Array.from({ length: 600 }, (_, i) => i));
+  await f.evidence.ingest({ ...f.identity, file: f.file, receipt: f.receipt });
+  f.store.catalog
+    .prepare("UPDATE source_evidence_generations SET receipt=NULL WHERE recordingId=?")
+    .run(f.identity.recordingId);
+  const original = readFileSync(f.file);
+  const controller = new AbortController();
+  setImmediate(() => controller.abort());
+  await expect(
+    f.evidence.purgeRecording(f.identity.recordingId, controller.signal),
+  ).rejects.toThrow();
+  expect(
+    f.store.catalog
+      .prepare("SELECT recordingId,sourceId,generation FROM source_evidence_generations")
+      .get(),
+  ).toEqual(f.identity);
+  const remaining = f.store.catalog
+    .prepare("SELECT recordingId,sequence FROM source_evidence_records ORDER BY sequence LIMIT 1")
+    .get() as { recordingId: string; sequence: number };
+  expect(remaining.recordingId).toBe(f.identity.recordingId);
+  expect(remaining.sequence).toBeGreaterThan(1);
+  await f.evidence.purgeRecording(f.identity.recordingId, new AbortController().signal);
+  expect(f.store.catalog.prepare("SELECT sequence FROM source_evidence_records").all()).toEqual([]);
+  expect(readFileSync(f.file).equals(original)).toBe(true);
+});

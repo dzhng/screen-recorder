@@ -446,6 +446,20 @@ export class SourceEvidenceStore {
     return rows.map((row) => ({ ...JSON.parse(row.content), sequence: row.sequence }));
   }
 
+  /** Caller has fenced admission and stopped every source evidence producer. */
+  async purgeRecording(recordingId: string, signal: AbortSignal): Promise<void> {
+    for (;;) {
+      signal.throwIfAborted();
+      const identity = this.store.catalog
+        .prepare(`SELECT recordingId,sourceId,generation
+        FROM source_evidence_generations WHERE recordingId=? ORDER BY sourceId,generation LIMIT 1`)
+        .get(recordingId) as EvidenceIdentity | undefined;
+      if (!identity) return;
+      await this.reclaim(identity, signal);
+      await setImmediate(undefined, { signal });
+    }
+  }
+
   /** Reclaim a dead generation without holding the event loop for its entire index. */
   async reclaim(identity: EvidenceIdentity, signal: AbortSignal): Promise<void> {
     const { recordingId, sourceId, generation } = identity;

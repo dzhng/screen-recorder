@@ -680,3 +680,70 @@ test("deletion intent hides a take and fences replay and late source publication
   );
   expect(reopened.latest()).toEqual(older);
 });
+
+test("final deletion requires intent and rolls back if another owner retains a reference", () => {
+  const { store } = fixture();
+  const first = store.allocate().recording,
+    sibling = store.allocate().recording;
+  store.registerSource(first.recordingId, 20);
+  const edited = store.edit(first.recordingId, {
+    operation: "cut",
+    requestId: "cut",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 2, endUs: 4 }],
+  });
+  expect(edited.id).not.toBe("r0");
+  expect(() => store.finishDeletion(first.recordingId)).toThrowError(
+    expect.objectContaining({ code: "INVALID_STATE" }),
+  );
+  store.catalog.exec(
+    "CREATE TABLE deletion_sentinel(recordingId TEXT REFERENCES recordings(recordingId))",
+  );
+  store.catalog.prepare("INSERT INTO deletion_sentinel VALUES(?)").run(first.recordingId);
+  store.markDeleting(first.recordingId);
+  expect(() => store.finishDeletion(first.recordingId)).toThrow();
+  expect(store.deleting(first.recordingId)?.sourceId).toBe(first.sourceId);
+  expect(
+    store.catalog
+      .prepare("SELECT id FROM revisions WHERE recordingId=? ORDER BY ordinal")
+      .all(first.recordingId),
+  ).toEqual([{ id: "r0" }, { id: edited.id }]);
+  store.catalog.exec("DELETE FROM deletion_sentinel");
+  store.finishDeletion(first.recordingId);
+  store.finishDeletion(first.recordingId);
+  expect(store.deleting(first.recordingId)).toBeNull();
+  expect(store.isDeleting(first.recordingId)).toBe(false);
+  expect(store.get(sibling.recordingId)).toEqual(sibling);
+  for (const table of ["recordings", "revisions", "edit_requests", "undo_stack"])
+    expect(
+      store.catalog
+        .prepare(`SELECT count(*) AS n FROM ${table} WHERE recordingId=?`)
+        .get(first.recordingId),
+    ).toEqual({ n: 0 });
+});
+
+test("deletion replay pages use stable recording IDs and survive restart", () => {
+  const { store, path, providers } = fixture();
+  const records = Array.from({ length: 5 }, () => store.allocate().recording);
+  for (const recording of [records[3]!, records[0]!, records[4]!])
+    store.markDeleting(recording.recordingId);
+  const expected = [records[0]!, records[3]!, records[4]!].sort((a, b) =>
+    a.recordingId.localeCompare(b.recordingId),
+  );
+  const first = store.deletionsPage(undefined, 2);
+  expect(first).toEqual({
+    recordings: expected.slice(0, 2),
+    nextAfterId: expected[1]!.recordingId,
+  });
+  store.close();
+  const reopened = new RevisionStore(path, providers);
+  stores.push(reopened);
+  reopened.finishDeletion(expected[0]!.recordingId);
+  expect(reopened.deletionsPage(first.nextAfterId!, 2)).toEqual({
+    recordings: [expected[2]],
+    nextAfterId: null,
+  });
+  expect(() => reopened.deletionsPage(undefined, 201)).toThrowError(
+    expect.objectContaining({ code: "INVALID_PARAMS" }),
+  );
+});

@@ -1,3 +1,4 @@
+import { setImmediate } from "node:timers/promises";
 import { CatalogError, type RevisionStore } from "./library.js";
 
 /** What an attempt occupies while it runs. Frame work is small and parallel; heavy work is not. */
@@ -341,6 +342,33 @@ export class JobQueue {
     await Promise.all(active.map((attempt) => attempt.done));
   }
 
+  /** Job metadata can disappear only after every executor, including canceled workers, has exited. */
+  async forgetRecording(recordingId: string): Promise<void> {
+    if (!this.store.isDeleting(recordingId))
+      throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
+    if (
+      [...this.attempts.values()].some((attempt) => attempt.recordingId === recordingId) ||
+      this.store.catalog
+        .prepare("SELECT 1 FROM jobs WHERE recordingId=? AND state IN ('queued','running') LIMIT 1")
+        .get(recordingId)
+    )
+      throw new CatalogError(
+        "PROCESSING_BUSY",
+        "Recording jobs have not finished closing",
+        {},
+        true,
+      );
+    for (const table of ["artifacts", "jobs"]) {
+      for (;;) {
+        const removed = this.store.catalog
+          .prepare(`DELETE FROM ${table} WHERE rowid IN
+          (SELECT rowid FROM ${table} WHERE recordingId=? LIMIT 256)`)
+          .run(recordingId);
+        if (Number(removed.changes) === 0) break;
+        await setImmediate();
+      }
+    }
+  }
   /** Resolves once no attempt is in flight. Work still queued behind a lane or capture stays queued. */
   async idle(): Promise<void> {
     while (this.attempts.size > 0)

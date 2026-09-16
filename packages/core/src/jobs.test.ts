@@ -777,3 +777,93 @@ test("intent alone fences an executor resolving before cancellation is requested
   expect(queue.job(job.jobId).state).toBe("canceled");
   expect(queue.status(job).published).toBeNull();
 });
+
+test("forgetting a recording refuses closing executors and removes only its drained jobs", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store),
+    sibling = finished(store);
+  const own = queue.submit({ recordingId, artifact: "frame", input: "own", lane: "frame" });
+  const other = queue.submit({
+    recordingId: sibling,
+    artifact: "frame",
+    input: "other",
+    lane: "frame",
+  });
+  const ownWorker = await started(own.attemptId),
+    siblingWorker = await started(other.attemptId);
+  await expect(queue.forgetRecording(recordingId)).rejects.toMatchObject({ code: "INVALID_STATE" });
+  store.markDeleting(recordingId);
+  const draining = queue.drainRecording(recordingId);
+  await expect(queue.forgetRecording(recordingId)).rejects.toMatchObject({
+    code: "PROCESSING_BUSY",
+    retryable: true,
+  });
+  ownWorker.finish("late");
+  await draining;
+  await queue.forgetRecording(recordingId);
+  await queue.forgetRecording(recordingId);
+  siblingWorker.finish("sibling-result");
+  await queue.idle();
+  expect(queue.status(other).published?.result).toBe("sibling-result");
+  expect(
+    store.catalog.prepare("SELECT jobId FROM jobs WHERE recordingId=?").all(recordingId),
+  ).toEqual([]);
+  expect(
+    store.catalog.prepare("SELECT result FROM artifacts WHERE recordingId=?").all(recordingId),
+  ).toEqual([]);
+});
+
+test("forgetting a large ready history yields and preserves another recording's publication", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store),
+    sibling = finished(store);
+  const other = queue.submit({
+    recordingId: sibling,
+    artifact: "frame",
+    input: "other",
+    lane: "frame",
+  });
+  (await started(other.attemptId)).finish("retained");
+  await queue.idle();
+  for (let i = 0; i < 260; i++) {
+    const job = queue.submit({
+      recordingId,
+      artifact: "frame",
+      input: `frame-${i}`,
+      lane: "frame",
+    });
+    (await started(job.attemptId)).finish(`result-${i}`);
+    await queue.idle();
+  }
+  store.markDeleting(recordingId);
+  await queue.drainRecording(recordingId);
+  let yielded = false;
+  setImmediate(() => {
+    yielded = true;
+  });
+  await queue.forgetRecording(recordingId);
+  expect(yielded).toBe(true);
+  expect(store.catalog.prepare("SELECT recordingId,result FROM artifacts").all()).toEqual([
+    { recordingId: sibling, result: "retained" },
+  ]);
+  expect(store.catalog.prepare("SELECT jobId FROM jobs").all()).toEqual([{ jobId: other.jobId }]);
+  store.finishDeletion(recordingId);
+  expect(store.deleting(recordingId)).toBeNull();
+  expect(queue.status(other).published?.result).toBe("retained");
+});
+
+test("forget refuses intent-marked work still queued behind capture priority", async () => {
+  const { store, queue } = fixture();
+  const recordingId = finished(store);
+  store.allocate();
+  const job = queue.submit({ recordingId, artifact: "transcript", input: "queued", lane: "heavy" });
+  expect(job.state).toBe("queued");
+  store.markDeleting(recordingId);
+  await expect(queue.forgetRecording(recordingId)).rejects.toMatchObject({
+    code: "PROCESSING_BUSY",
+  });
+  await queue.drainRecording(recordingId);
+  await queue.forgetRecording(recordingId);
+  store.finishDeletion(recordingId);
+  expect(store.isDeleting(recordingId)).toBe(false);
+});
