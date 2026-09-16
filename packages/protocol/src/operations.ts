@@ -59,6 +59,7 @@ const coverageCursor = indexReference
 // These are implemented capabilities. Adapters derive their advertised tools from
 // the same schemas the service validates, rather than promising future operations.
 export const operationSchema = z.discriminatedUnion("operation", [
+  z.object({ operation: z.literal("recording.delete"), params: recording }).strict(),
   z
     .object({
       operation: z.literal("storage.usage"),

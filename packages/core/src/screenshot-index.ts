@@ -587,6 +587,27 @@ export class ScreenshotIndexStore {
       .prepare(`DELETE FROM screenshot_index_generations WHERE ${where}`)
       .run(...key(identity));
   }
+  /** Called only after deletion has quiesced readers/producers and removed the owned tree. */
+  async forgetRecording(recordingId: string, signal: AbortSignal): Promise<void> {
+    if (!this.store.isDeleting(recordingId))
+      throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
+    for (const table of [
+      "screenshot_index_entries",
+      "screenshot_index_coverage",
+      "screenshot_index_generations",
+    ]) {
+      for (;;) {
+        signal.throwIfAborted();
+        const result = this.store.catalog
+          .prepare(
+            `DELETE FROM ${table} WHERE rowid IN (SELECT rowid FROM ${table} WHERE recordingId=? LIMIT 100)`,
+          )
+          .run(recordingId);
+        if (Number(result.changes) < 100) break;
+        await setImmediate();
+      }
+    }
+  }
   async reclaim(
     recordingId: string,
     keep: (identity: ScreenshotIndexIdentity) => boolean,

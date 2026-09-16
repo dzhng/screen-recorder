@@ -1100,3 +1100,30 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   and completion still requires every image, bounded paging and process cleanup.
   **Verdict:** Sound; this bounds a measurement without declaring its speed acceptable.
   **Confidence:** Medium.
+
+### Managed file deletion and live usage (storage/deletion integration)
+
+- **Choice:** Usage is a live scan with an explicit uncategorized owned-byte total.
+  A file created while the scan is running may be missed; callers can ask again.
+  A file under a recording that is neither source, evidence nor cache still counts
+  under `otherBytes`, so it does not disappear from the recording's total.
+- **Gap:** The plan specified live observation but did not name an owned category
+  for miscellaneous files or define concurrent directory-rename omissions.
+- **Reach:** The operation does not freeze recording, snapshot the filesystem, or
+  maintain a second byte-accounting database. Kernel no-symlink file opens prevent
+  measuring files reached through external links; totals are not an atomic snapshot.
+- **Verdict:** sound; complete categories and explicit live semantics match ongoing
+  capture and cleanup. **Confidence:** medium.
+
+
+- **Choice:** Native directory handles anchor removal. If another process replaces
+  a recording folder with a link while deletion runs, deletion continues only
+  through the directory already opened and verified. The alternative—checking a
+  name and later asking Node to remove that name—can resolve to different files.
+  Decimal strings preserve exact filesystem identities across the JSON boundary.
+- **Gap:** The plan required contained removal but did not select the filesystem
+  mechanism. A reproduced directory swap made the path-based implementation unsafe.
+- **Reach:** Cache ownership stays in core; the existing short-lived native worker
+  receives bounded file identities. No resident process or dependency is added.
+- **Verdict:** sound; removal is tied to the verified directory rather than its
+  replaceable name. **Confidence:** high.

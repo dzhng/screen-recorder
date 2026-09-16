@@ -1,14 +1,15 @@
 # 15b — Recording storage and manual deletion
 
-Status: catalog/queue and capture shutdown prerequisites verified. See
-[catalog/queue evidence](../assets/storage/catalog-queue.md) and
-[capture shutdown evidence](../assets/storage/deletion-intent.md). Public deletion
-and storage usage remain unimplemented.
-This sharpens the existing storage/delete requirements in [12](12-cli-mcp-operations.md),
-[15](15-personal-release.md), and [contracts](../contracts.md); it does not close
-those parent slices. Implement the passes below in order. Each has its own verdict.
-The delivery ownership prerequisite of B is verified; public deletion remains unbuilt.
-See [lease isolation evidence](../assets/storage/delivery-ownership.md).
+Status: public deletion and storage usage are implemented; merged closeout is in
+progress. [Catalog/queue](../assets/storage/catalog-queue.md),
+[capture shutdown](../assets/storage/deletion-intent.md),
+[lease isolation](../assets/storage/delivery-ownership.md),
+[native file containment](../assets/storage/managed-files.md), and
+[storage usage](../assets/storage/usage.md) have focused evidence. The public
+native deletion gate passes CLI/MCP calls against silent app-owned fixture takes;
+[seeded startup recovery](../assets/storage/public-deletion.md) also passes.
+Actual media-worker drainage during public deletion remains under verification. These checks do not close
+parent release, physical audio, or installed-workflow gates.
 
 ## Contract
 
@@ -23,39 +24,29 @@ failed or incomplete work. Explicit exports outside the managed home and downloa
 speech models are not recording storage. No automatic source retention policy is
 introduced. The existing derivative LRU remains the only cache-pressure mechanism.
 
-## Existing owners and the next seam
+## Ownership
 
-- [RevisionStore](../../../packages/core/src/library.ts) owns recordings, revisions,
-  edit replay and undo. `get`, `list`, `latest`, and `unsettled` have no deletion
-  intent; discovery only excludes canceled takes. Keep deletion intent here.
-- [JobQueue](../../../packages/core/src/jobs.ts) already fences late publication by
-  attempt identity and retains canceled executors until they settle. `idle()` is
-  global; the active attempt map lacks recording ownership. Extend this owner with
-  per-record cancellation and drain, without another queue.
-- [CaptureService](../../../apps/service/src/capture.ts) already serializes native
-  controls, including pending starts and recovery. `discard()` currently combines
-  native cancellation with recursive directory removal and rejects finished takes.
-  Split quiescence from file removal here; do not call global `close()` for delete.
-- [DerivedCache](../../../packages/core/src/cache.ts) owns reservations, files,
-  readers, eviction and reconciliation. `reserve()` lacks recording ownership;
-  add it at reservation, including [visual observations](../../../packages/core/src/visual-cache.ts).
-  Frame and audio executors already know the recording ID. Carry ownership through
-  the shared observation request context instead of parsing source paths or JSON.
-- [DerivativeDelivery](../../../apps/service/src/delivery.ts) owns a bounded map of
-  live read handles. Give each lease a recording ID and revoke that recording's
-  leases through the existing release path. Unlink alone does not revoke open reads.
-- Source, scene and screenshot-index stores already own bounded generation cleanup.
-  Use their deletion seams for all generations, including unfinished ones; do not
-  duplicate their SQL in the service coordinator.
-- [Service main](../../../apps/service/src/main.ts) composes these owners. Queue
-  construction can start queued work, while recovery and evidence cleanup run at
-  startup. Deletion admission fences must therefore apply inside owners, before
-  public routes exist, as well as during request dispatch.
+The [catalog](../../../packages/core/src/library.ts) owns durable intent and
+identity; the [queue](../../../packages/core/src/jobs.ts) owns executor drainage;
+[capture](../../../apps/service/src/capture.ts) owns native terminal receipts.
+The [deletion coordinator](../../../apps/service/src/deletion.ts) orders those
+owners and their existing cache/evidence cleanup. It adds no artifact job or
+second durable state machine.
 
-**Next implementation seam:** pass B owned cleanup and public deletion, using the
-verified per-record queue drain and native/controller terminal barriers. Preserve
-native closure before catalog capture settlement and file removal.
-Do not begin with a route that calls `rm`: that cannot prove producer quiescence.
+File removal crosses the [native descriptor boundary](../../../helpers/mac/Sources/ScreenRecorderWire/ManagedFiles.swift).
+Opening a directory pins its identity; subsequent removal stays relative to that
+open directory even if another process replaces its former pathname. Checking a
+path and later removing that path is insufficient: a reproduced ancestor swap
+could otherwise remove an external same-name file. Metadata is forgotten only
+after the native removal receipt. This guarantee applies to recording deletion;
+it does not claim to redesign ordinary cache eviction.
+
+[Storage measurement](../../../packages/core/src/storage.ts) is a cancellable live
+observation, not a filesystem snapshot. Kernel no-symlink opens protect byte
+measurement; concurrent renames can still omit changing entries. `otherBytes`
+keeps owned files outside source/evidence/cache visible, while `sharedBytes`
+accounts for unattributed managed files and SQLite overhead. Shutdown drains
+active scans before closing their catalog.
 
 ## A — Durable intent and per-record producer lifetime
 
@@ -176,8 +167,7 @@ capture/eviction/deletion and symlink sentinel. Compare managed aggregate catego
 with the fixture's independent file inventory; classify database/WAL separately.
 Use a large generated inventory to show bounded traversal and continued health/read
 responses. Exercise usage and delete through CLI and MCP against one scratch service.
-Add planned `bun run lab:storage` for this scratch-only checkpoint; the command does
-not exist yet. Preserve machine-readable before/after totals and operation receipts.
+Use `bun run lab:storage` for this scratch-only checkpoint. Preserve machine-readable before/after totals and operation receipts.
 
 ## Scope, review and delegated choices
 

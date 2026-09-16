@@ -24,6 +24,8 @@ type Row = {
   inode: number | null;
 };
 export type CacheFile = Readonly<{ id: string; path: string; bytes: number }>;
+export type DirectoryIdentity = Readonly<{ dev: string; ino: string }>;
+export type RemoveCacheFiles = (batch: { ids: string[]; root: DirectoryIdentity }) => Promise<void>;
 export type CacheRead = Readonly<{
   bytes: number;
   /** Positioned reads leave the shared file offset untouched. */
@@ -41,7 +43,7 @@ export class DerivedCache {
   private publication: Promise<unknown> = Promise.resolve();
   private reconciling: Promise<void> | undefined;
   private readonly held = new Map<string, number>();
-  private readonly directories: { path: string; dev: number; ino: number }[] = [];
+  private readonly directories: { path: string; dev: bigint; ino: bigint }[] = [];
   constructor(
     private readonly store: RevisionStore,
     home: string,
@@ -57,7 +59,7 @@ export class DerivedCache {
       } catch (error) {
         if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
       }
-      const stat = lstatSync(path);
+      const stat = lstatSync(path, { bigint: true });
       if (!stat.isDirectory())
         throw new CatalogError("INVALID_CACHE", "Cache directory must not be a link");
       this.directories.push({ path, dev: stat.dev, ino: stat.ino });
@@ -77,7 +79,7 @@ export class DerivedCache {
   }
   private checkRoot(): void {
     for (const directory of this.directories) {
-      const stat = lstatSync(directory.path);
+      const stat = lstatSync(directory.path, { bigint: true });
       if (!stat.isDirectory() || stat.dev !== directory.dev || stat.ino !== directory.ino)
         throw new CatalogError("INVALID_CACHE", "Cache directory changed while in use");
     }
@@ -234,7 +236,7 @@ export class DerivedCache {
   }
   /** Call after recording admission is fenced and producers/readers have settled. Publication and
    * purge share one order, so an already-queued admission cannot recreate a removed reservation. */
-  purgeRecording(recordingId: string): Promise<void> {
+  purgeRecording(recordingId: string, removeFiles: RemoveCacheFiles): Promise<void> {
     const result = this.publication.then(async () => {
       this.requireReady();
       for (;;) {
@@ -242,7 +244,21 @@ export class DerivedCache {
           .prepare("SELECT id FROM derived_cache WHERE recordingId=? ORDER BY id LIMIT 64")
           .all(recordingId) as { id: string }[];
         if (!rows.length) return;
-        for (const row of rows) this.removeFile(row.id);
+        this.checkRoot();
+        for (const row of rows)
+          if (this.held.has(row.id))
+            throw new CatalogError("CACHE_BUSY", "Derivative is being read", {}, true);
+        const root = this.directories.at(-1)!;
+        await removeFiles({
+          ids: rows.map((row) => row.id),
+          root: { dev: root.dev.toString(), ino: root.ino.toString() },
+        });
+        this.store.transaction(() => {
+          for (const row of rows)
+            this.store.catalog
+              .prepare("DELETE FROM derived_cache WHERE id=? AND recordingId=?")
+              .run(row.id, recordingId);
+        });
         await setImmediate();
       }
     });

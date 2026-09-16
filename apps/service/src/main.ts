@@ -11,6 +11,8 @@ import { VisualObservationCache } from "@screenrec/core/visual-cache";
 import { AudioInspection, type NativeAudio } from "@screenrec/core/audio";
 import { FrameInspection } from "@screenrec/core/frames";
 import type { NativeFrame } from "@screenrec/core/frame-materialization";
+import { RecordingDeletion } from "./deletion.js";
+import { ManagedFiles } from "./managed-files.js";
 import { DerivativeDelivery } from "./delivery.js";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
@@ -60,6 +62,9 @@ async function main(): Promise<void> {
   let store: RevisionStore | undefined;
   let listener: LocalListener;
   let jobs: JobQueue | undefined;
+  let evidence: SourceEvidenceStore;
+  let sceneEvidence: SceneEvidenceStore;
+  let indexEvidence: ScreenshotIndexStore;
   let processing: SourceProcessing;
   let scenes: SceneProcessing;
   let index: IndexProcessing;
@@ -95,7 +100,7 @@ async function main(): Promise<void> {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
-    const evidence = new SourceEvidenceStore(store);
+    evidence = new SourceEvidenceStore(store);
     cache = new DerivedCache(store, home);
     storage = new RecordingStorage(store, cache, home);
     cacheReady = cache.reconcile(cleanupLifetime.signal).catch((error) => {
@@ -135,12 +140,13 @@ async function main(): Promise<void> {
       ({ source, kept, atSourceUs }, signal) =>
         nativeData<VisualObservations>("media.visualSamples", { source, kept, atSourceUs }, signal),
     );
-    const sceneEvidence = new SceneEvidenceStore(store);
+    sceneEvidence = new SceneEvidenceStore(store);
+    indexEvidence = new ScreenshotIndexStore(store, home);
     scenes = new SceneProcessing(store, jobs, sceneEvidence, home, visual.sample);
     index = new IndexProcessing(
       store,
       jobs,
-      new ScreenshotIndexStore(store, home),
+      indexEvidence,
       processing,
       scenes,
       { source: evidence, scenes: sceneEvidence },
@@ -227,6 +233,22 @@ async function main(): Promise<void> {
     },
   );
 
+  const deletion = new RecordingDeletion({
+    store: catalog,
+    jobs: queue,
+    cache,
+    source: evidence,
+    scenes: sceneEvidence,
+    index: indexEvidence,
+    capture,
+    delivery: transfers,
+    files: new ManagedFiles(home, worker),
+    cleanupReady: async () => {
+      await Promise.all([cacheReady, evidenceCleanup]);
+      if (cacheFailure) throw cacheFailure;
+    },
+  });
+
   function resumeProcessing(): void {
     if (stopping) return;
     try {
@@ -243,6 +265,7 @@ async function main(): Promise<void> {
       return await operate(request, {
         index,
         storage: storageOwner,
+        deletion,
         store: catalog,
         capture,
         health: () => healthData(started, socketPath, home),
@@ -297,6 +320,7 @@ async function main(): Promise<void> {
     void Promise.all([
       listener.close(),
       storageOwner.close(),
+      deletion.close(),
       capture.close(),
       queue.close(),
       evidenceCleanup,
@@ -322,6 +346,7 @@ async function main(): Promise<void> {
       if (result.status === "rejected" && !cleanupLifetime.signal.aborted)
         log(`evidence cleanup failed: ${(result.reason as Error).message}`);
   });
+  void deletion.resume((error) => log(`recording deletion failed: ${(error as Error).message}`));
   await reconciled;
   resumeProcessing();
   log("reconciliation complete");

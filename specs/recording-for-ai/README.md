@@ -29,8 +29,9 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: fix the scale monitor’s transient SQLite contention handling, then
-rerun the full index scale gate after cache/stillness integration in
+Current pickup: finish actual media-worker drainage coverage for public recording
+deletion in [storage/deletion](slices/15b-storage-and-deletion.md).
+Then rerun the full index scale gate after cache/stillness integration in
 [retained index delivery](slices/11c-retained-index.md). Selection, retained storage,
 core orchestration and public CLI/MCP index delivery pass their generated-data
 checks; all seven generated visual fixtures now pass. Real-capture usefulness and
@@ -50,11 +51,15 @@ markers when a delayed first frame establishes source zero after pause/resume.
 Both native fixes pass merged capture/recovery fixtures and the own-window public
 capture check. Do not rebuild either clock mapping in TypeScript.
 
-Priority order: screenshot selection/index delivery, then
-remaining [storage/deletion](slices/15b-storage-and-deletion.md), controls, speech, edited video/package and installed-workflow gates.
-Storage lifetime and cache-ownership prerequisites are being implemented in isolated
-worktrees; delivery lease ownership/revocation is integrated. Keep their native
-verification separate from the next scale measurement. Keep one queue, immutable sources,
+Priority order: finish storage/deletion, rerun screenshot index scale, then controls,
+speech, edited video/package and installed-workflow gates. Catalog intent, per-record
+job drain, native capture terminal ownership and delivery revocation are integrated.
+The deletion coordinator has seven focused checks; actual bundled CLI/MCP deletion
+of active silent fixture takes and seeded startup recovery pass, along with
+storage-usage client parity. See [public deletion evidence](assets/storage/public-deletion.md). Directory-swap evidence rules out pathname-based
+removal, so deletion now uses native descriptor-relative operations. The scale monitor
+contention fix is integrated; full-scale completion remains unproven. Keep native
+verification separate from that measurement. Keep one queue, immutable sources,
 explicit dependency failure and the complete CLI/MCP surface. No more Claude use.
 
 Current evidence:
