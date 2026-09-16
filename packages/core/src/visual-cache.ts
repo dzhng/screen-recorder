@@ -7,8 +7,31 @@ import {
   observeVisualSamples,
   scenePolicy,
   type VisualObservations,
+  type VisualSample,
   type VisualSampler,
 } from "./scenes.js";
+
+function combine(
+  times: readonly number[],
+  batches: (VisualObservations | null)[],
+): VisualObservations {
+  const first = batches.find((batch) => batch !== null)!;
+  const samples = new Map<number, VisualSample>();
+  for (const batch of batches) {
+    if (!batch) continue;
+    if (batch.sourceWidth !== first.sourceWidth || batch.sourceHeight !== first.sourceHeight)
+      throw new CatalogError(
+        "INVALID_EVIDENCE",
+        "Visual observation dimensions changed within an immutable source",
+      );
+    for (const sample of batch.samples) samples.set(sample.requestedSourceUs, sample);
+  }
+  return {
+    sourceWidth: first.sourceWidth,
+    sourceHeight: first.sourceHeight,
+    samples: times.flatMap((at) => (samples.has(at) ? [samples.get(at)!] : [])),
+  };
+}
 
 /** Reuses bounded native observations; retained scene conclusions belong to scene evidence. */
 export class VisualObservationCache {
@@ -17,9 +40,13 @@ export class VisualObservationCache {
     private readonly cache: DerivedCache,
     private readonly decode: VisualSampler,
   ) {
-    store.catalog.exec(`CREATE TABLE IF NOT EXISTS visual_observation_cache (
-      identity TEXT PRIMARY KEY, cacheId TEXT NOT NULL UNIQUE REFERENCES derived_cache(id) ON DELETE CASCADE
-    ) STRICT;`);
+    // Old exact-batch lookups are disposable; their files remain budgeted until normal eviction.
+    store.catalog.exec(`DROP TABLE IF EXISTS visual_observation_cache;
+    CREATE TABLE IF NOT EXISTS visual_observation_samples (
+      identity TEXT NOT NULL,requestedUs INTEGER NOT NULL,cacheId TEXT NOT NULL REFERENCES derived_cache(id) ON DELETE CASCADE,
+      sampleOrdinal INTEGER NOT NULL,PRIMARY KEY(identity,requestedUs)
+    ) STRICT;
+    CREATE INDEX IF NOT EXISTS visual_observation_samples_file ON visual_observation_samples(cacheId);`);
   }
 
   readonly sample: VisualSampler = async (request, signal) => {
@@ -46,17 +73,18 @@ export class VisualObservationCache {
         "Visual observations require a bounded ordered retained batch",
       );
     // Finalized source paths name immutable recording media; moving a library merely misses reuse.
-    const identity = JSON.stringify([
-      scenePolicy.id,
-      request.source,
-      kept.startUs,
-      kept.endUs,
-      times,
-    ]);
-    const existing = this.read(identity);
-    if (existing) return existing;
-    const observed = await observeVisualSamples(request, this.decode, signal);
-    analyzeVisualSamples(observed.samples);
+    const identity = JSON.stringify([scenePolicy.id, request.source, kept.startUs, kept.endUs]);
+    const existing = this.read(identity, times);
+    const cachedTimes = new Set(existing?.samples.map((sample) => sample.requestedSourceUs));
+    const missing = times.filter((at) => !cachedTimes.has(at));
+    if (missing.length === 0) return existing!;
+    const observed = await observeVisualSamples(
+      { ...request, atSourceUs: missing },
+      this.decode,
+      signal,
+    );
+    const assembled = combine(times, [existing, observed]);
+    analyzeVisualSamples(assembled.samples);
     signal.throwIfAborted();
     const output = this.cache.reserve();
     try {
@@ -64,28 +92,65 @@ export class VisualObservationCache {
       signal.throwIfAborted();
       await this.cache.publish(output.id);
       signal.throwIfAborted();
-      // Independent frame lanes can miss together. Keep the first reusable publication.
-      const winner = this.read(identity);
-      if (winner) {
-        this.cache.remove(output.id);
-        return winner;
-      }
-      this.store.catalog
-        .prepare("INSERT INTO visual_observation_cache(identity,cacheId) VALUES (?,?)")
-        .run(identity, output.id);
-      return observed;
+      // Another lane may already own some requested times. Keep those first publications.
+      const winner = this.read(identity, times);
+      const result = combine(times, [assembled, winner]);
+      analyzeVisualSamples(result.samples);
+      const inserted = this.store.transaction(() => {
+        let count = 0;
+        const insert = this.store.catalog.prepare(
+          "INSERT OR IGNORE INTO visual_observation_samples(identity,requestedUs,cacheId,sampleOrdinal) VALUES(?,?,?,?)",
+        );
+        for (const [ordinal, sample] of observed.samples.entries())
+          count += Number(
+            insert.run(identity, sample.requestedSourceUs, output.id, ordinal).changes,
+          );
+        return count;
+      });
+      if (inserted === 0) this.cache.remove(output.id);
+      return result;
     } catch (error) {
       this.cache.remove(output.id);
       throw error;
     }
   };
 
-  private read(identity: string): VisualObservations | null {
-    const row = this.store.catalog
-      .prepare("SELECT cacheId FROM visual_observation_cache WHERE identity=?")
-      .get(identity) as { cacheId: string } | undefined;
-    if (!row) return null;
-    const held = this.cache.acquire(row.cacheId);
+  private read(identity: string, times: readonly number[]): VisualObservations | null {
+    const rows = this.store.catalog
+      .prepare(
+        `SELECT requestedUs,cacheId,sampleOrdinal FROM visual_observation_samples WHERE identity=? AND requestedUs IN (${times.map(() => "?").join(",")})`,
+      )
+      .all(identity, ...times) as { requestedUs: number; cacheId: string; sampleOrdinal: number }[];
+    const grouped = new Map<string, typeof rows>();
+    for (const row of rows) {
+      const group = grouped.get(row.cacheId) ?? [];
+      group.push(row);
+      grouped.set(row.cacheId, group);
+    }
+    let result: VisualObservations | null = null;
+    for (const [cacheId, group] of grouped) {
+      const observed = this.readFile(cacheId);
+      if (!observed) continue;
+      const selected = {
+        sourceWidth: observed.sourceWidth,
+        sourceHeight: observed.sourceHeight,
+        samples: group.map((row) => {
+          const sample = observed.samples[row.sampleOrdinal];
+          if (sample?.requestedSourceUs !== row.requestedUs)
+            throw new CatalogError(
+              "INVALID_CACHE",
+              "Visual observation lookup does not match its batch",
+            );
+          return sample;
+        }),
+      };
+      result = combine(times, [result, selected]);
+    }
+    return result;
+  }
+
+  private readFile(cacheId: string): VisualObservations | null {
+    const held = this.cache.acquire(cacheId);
     if (!held) return null;
     try {
       const bytes = Buffer.alloc(held.bytes);

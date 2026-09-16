@@ -1,0 +1,149 @@
+{
+  "ok": true,
+  "source": "/tmp/screenrec-index-scale-input/video.mov",
+  "executable": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+  "nativeRequests": [
+    {
+      "source": "/tmp/screenrec-index-scale-input/video.mov",
+      "kept": {
+        "startUs": 0,
+        "endUs": 1800000000
+      },
+      "atSourceUs": [
+        0,
+        200000,
+        400000,
+        600000,
+        800000,
+        1000000,
+        1200000,
+        1400000,
+        1600000,
+        1800000,
+        2000000
+      ]
+    },
+    {
+      "source": "/tmp/screenrec-index-scale-input/video.mov",
+      "kept": {
+        "startUs": 0,
+        "endUs": 1800000000
+      },
+      "atSourceUs": [
+        599999
+      ]
+    },
+    {
+      "source": "/tmp/screenrec-index-scale-input/video.mov",
+      "kept": {
+        "startUs": 0,
+        "endUs": 600000
+      },
+      "atSourceUs": [
+        599999
+      ]
+    },
+    {
+      "source": "/tmp/screenrec-index-scale-input/video.mov",
+      "kept": {
+        "startUs": 200000,
+        "endUs": 1800000000
+      },
+      "atSourceUs": [
+        400000,
+        600000
+      ]
+    },
+    {
+      "source": "/tmp/screenrec-index-scale-input/video.mov",
+      "kept": {
+        "startUs": 0,
+        "endUs": 1800000000
+      },
+      "atSourceUs": [
+        200000,
+        400000,
+        600000,
+        800000
+      ]
+    }
+  ],
+  "verdicts": [
+    {
+      "request": {
+        "source": "/tmp/screenrec-index-scale-input/video.mov",
+        "kept": {
+          "startUs": 0,
+          "endUs": 1800000000
+        },
+        "atSourceUs": [
+          200000,
+          400000,
+          599999,
+          600000,
+          800000
+        ]
+      },
+      "actualSourceUs": [
+        200000,
+        400000,
+        600000,
+        600000,
+        800000
+      ],
+      "rgbSha256": "8b924791e1936ebb67554e9600c651073ab78eb2bad2ba746435f69bc8a41ff7",
+      "equal": true
+    },
+    {
+      "request": {
+        "source": "/tmp/screenrec-index-scale-input/video.mov",
+        "kept": {
+          "startUs": 0,
+          "endUs": 600000
+        },
+        "atSourceUs": [
+          599999
+        ]
+      },
+      "actualSourceUs": [
+        566667
+      ],
+      "rgbSha256": "38af669b73d69e0e4f9ea74430d352765e2bae7543830eadee375d714870c2b3",
+      "equal": true
+    },
+    {
+      "request": {
+        "source": "/tmp/screenrec-index-scale-input/video.mov",
+        "kept": {
+          "startUs": 200000,
+          "endUs": 1800000000
+        },
+        "atSourceUs": [
+          400000,
+          600000
+        ]
+      },
+      "actualSourceUs": [
+        400000,
+        600000
+      ],
+      "rgbSha256": "8641e24a59c3df70375db870128fd6e338fd767fdcc06ee11cf3728813f03a2b",
+      "equal": true
+    }
+  ],
+  "afterEvictionRequest": {
+    "source": "/tmp/screenrec-index-scale-input/video.mov",
+    "kept": {
+      "startUs": 0,
+      "endUs": 1800000000
+    },
+    "atSourceUs": [
+      200000,
+      400000,
+      600000,
+      800000
+    ]
+  },
+  "cacheFiles": 4,
+  "lookupRows": 8
+}

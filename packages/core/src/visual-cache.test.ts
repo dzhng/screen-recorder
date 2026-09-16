@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { DerivedCache } from "./cache.js";
@@ -67,11 +67,11 @@ test("eviction removes lookup metadata and regeneration preserves selected pixel
   const f = await fixture();
   const observations = new VisualObservationCache(f.store, f.cache, f.decode);
   const expected = await observations.sample(request, signal());
-  const row = f.store.catalog.prepare("SELECT cacheId FROM visual_observation_cache").get() as {
+  const row = f.store.catalog.prepare("SELECT cacheId FROM visual_observation_samples").get() as {
     cacheId: string;
   };
   f.cache.remove(row.cacheId);
-  expect(f.store.catalog.prepare("SELECT * FROM visual_observation_cache").all()).toEqual([]);
+  expect(f.store.catalog.prepare("SELECT * FROM visual_observation_samples").all()).toEqual([]);
   expect(await observations.sample(request, signal())).toEqual(expected);
   expect(f.calls()).toBe(2);
 });
@@ -93,7 +93,7 @@ test("cancellation and invalid native observations never become reusable results
   await expect(invalid.sample(request, signal())).rejects.toMatchObject({
     code: "INVALID_EVIDENCE",
   });
-  expect(f.store.catalog.prepare("SELECT * FROM visual_observation_cache").all()).toEqual([]);
+  expect(f.store.catalog.prepare("SELECT * FROM visual_observation_samples").all()).toEqual([]);
   expect(f.cache.bytes).toBe(0);
 });
 
@@ -130,7 +130,7 @@ test("LRU eviction bounds lookup rows as well as raw bytes", async () => {
   for (let i = 0; i < 20; i++)
     await observations.sample({ ...request, source: `/immutable/take-${i}/video.mov` }, signal());
   expect(f.cache.bytes).toBeLessThanOrEqual(200);
-  expect(f.store.catalog.prepare("SELECT * FROM visual_observation_cache").all()).toHaveLength(1);
+  expect(f.store.catalog.prepare("SELECT * FROM visual_observation_samples").all()).toHaveLength(1);
   expect((await observations.sample(request, signal())).samples[0]!.actualSourceUs).toBe(8);
   expect(f.calls()).toBe(21);
 });
@@ -138,7 +138,7 @@ test("LRU eviction bounds lookup rows as well as raw bytes", async () => {
 test("a new database connection reuses persisted observations after cache reconciliation", async () => {
   const f = await fixture();
   const initial = await new VisualObservationCache(f.store, f.cache, f.decode).sample(
-    request,
+    { ...request, atSourceUs: [0, 2, 4] },
     signal(),
   );
   const reopened = new RevisionStore(join(f.home, "library.sqlite"), {
@@ -151,8 +151,175 @@ test("a new database connection reuses persisted observations after cache reconc
     const observations = new VisualObservationCache(reopened, cache, async () => {
       throw new Error("Unexpected decode after restart");
     });
-    expect(await observations.sample(request, signal())).toEqual(initial);
+    expect(await observations.sample({ ...request, atSourceUs: [2, 4] }, signal())).toEqual({
+      ...initial,
+      samples: initial.samples.slice(1),
+    });
   } finally {
     reopened.close();
   }
+});
+
+test("overlapping trail requests reuse source-grid samples and decode only missing requested times", async () => {
+  const f = await fixture();
+  const decoded: number[][] = [];
+  const observations = new VisualObservationCache(f.store, f.cache, async (input, abort) => {
+    decoded.push(input.atSourceUs);
+    return f.decode(input, abort);
+  });
+  const canonical = await observations.sample(
+    { ...request, atSourceUs: [0, 2, 4, 6, 8] },
+    signal(),
+  );
+  const overlap = await observations.sample({ ...request, atSourceUs: [2, 4, 5, 6] }, signal());
+  expect(overlap.samples).toEqual([
+    canonical.samples[1],
+    canonical.samples[2],
+    { ...canonical.samples[2], requestedSourceUs: 5, distanceUs: 3 },
+    canonical.samples[3],
+  ]);
+  const subset = await observations.sample({ ...request, atSourceUs: [4, 5] }, signal());
+  expect(subset.samples).toEqual(overlap.samples.slice(1, 3));
+  expect(decoded).toEqual([[0, 2, 4, 6, 8], [5]]);
+});
+
+test("partial eviction regenerates only lost requested times while surviving samples remain reusable", async () => {
+  const f = await fixture();
+  const decoded: number[][] = [];
+  const observations = new VisualObservationCache(f.store, f.cache, async (input, abort) => {
+    decoded.push(input.atSourceUs);
+    return f.decode(input, abort);
+  });
+  const first = await observations.sample({ ...request, atSourceUs: [0, 2, 4] }, signal());
+  const second = await observations.sample({ ...request, atSourceUs: [4, 6, 8] }, signal());
+  const row = f.store.catalog
+    .prepare("SELECT cacheId FROM visual_observation_samples WHERE requestedUs=0")
+    .get() as { cacheId: string };
+  f.cache.remove(row.cacheId);
+  const restored = await observations.sample({ ...request, atSourceUs: [0, 2, 4, 6, 8] }, signal());
+  expect(restored.samples).toEqual([...first.samples, ...second.samples.slice(1)]);
+  expect(decoded).toEqual([
+    [0, 2, 4],
+    [6, 8],
+    [0, 2, 4],
+  ]);
+  expect(
+    f.store.catalog
+      .prepare("SELECT requestedUs FROM visual_observation_samples ORDER BY requestedUs")
+      .all(),
+  ).toEqual([0, 2, 4, 6, 8].map((requestedUs) => ({ requestedUs })));
+});
+
+test("concurrent overlapping misses share first publications and retain the disjoint suffix", async () => {
+  const f = await fixture();
+  const decoded: number[][] = [];
+  const observations = new VisualObservationCache(f.store, f.cache, async (input, abort) => {
+    decoded.push(input.atSourceUs);
+    return f.decode(input, abort);
+  });
+  const [left, right] = await Promise.all([
+    observations.sample({ ...request, atSourceUs: [0, 2, 4] }, signal()),
+    observations.sample({ ...request, atSourceUs: [2, 4, 6] }, signal()),
+  ]);
+  const union = await observations.sample({ ...request, atSourceUs: [0, 2, 4, 6] }, signal());
+  expect(union.samples).toEqual([...left.samples, right.samples.at(-1)]);
+  expect(decoded).toEqual([
+    [0, 2, 4],
+    [2, 4, 6],
+  ]);
+  expect(
+    f.store.catalog
+      .prepare("SELECT requestedUs FROM visual_observation_samples ORDER BY requestedUs")
+      .all(),
+  ).toEqual([0, 2, 4, 6].map((requestedUs) => ({ requestedUs })));
+});
+
+test("canceling a partial miss retains earlier samples without publishing the canceled suffix", async () => {
+  const f = await fixture();
+  const original = new VisualObservationCache(f.store, f.cache, f.decode);
+  const before = await original.sample({ ...request, atSourceUs: [0, 2] }, signal());
+  const controller = new AbortController();
+  const canceled = new VisualObservationCache(f.store, f.cache, async (input, abort) => {
+    expect(input.atSourceUs).toEqual([4]);
+    const result = await f.decode(input, abort);
+    controller.abort();
+    return result;
+  });
+  await expect(
+    canceled.sample({ ...request, atSourceUs: [0, 2, 4] }, controller.signal),
+  ).rejects.toBeDefined();
+  expect(await original.sample({ ...request, atSourceUs: [0, 2] }, signal())).toEqual(before);
+  expect(f.calls()).toBe(2);
+  const decoded: number[][] = [];
+  const retry = new VisualObservationCache(f.store, f.cache, async (input, abort) => {
+    decoded.push(input.atSourceUs);
+    return f.decode(input, abort);
+  });
+  expect(
+    (await retry.sample({ ...request, atSourceUs: [0, 2, 4] }, signal())).samples.slice(0, 2),
+  ).toEqual(before.samples);
+  expect(decoded).toEqual([[4]]);
+});
+
+test("partial native results with changed source dimensions cannot poison reusable observations", async () => {
+  const f = await fixture();
+  const original = new VisualObservationCache(f.store, f.cache, f.decode);
+  await original.sample({ ...request, atSourceUs: [0, 2] }, signal());
+  const inconsistent = new VisualObservationCache(f.store, f.cache, async (input, abort) => ({
+    ...(await f.decode(input, abort)),
+    sourceWidth: 99,
+  }));
+  await expect(
+    inconsistent.sample({ ...request, atSourceUs: [0, 2, 4] }, signal()),
+  ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
+  expect(
+    f.store.catalog
+      .prepare("SELECT requestedUs FROM visual_observation_samples ORDER BY requestedUs")
+      .all(),
+  ).toEqual([{ requestedUs: 0 }, { requestedUs: 2 }]);
+  expect((await original.sample({ ...request, atSourceUs: [0, 2, 4] }, signal())).sourceWidth).toBe(
+    20,
+  );
+});
+
+test("partial hits stay usable when publishing missing samples evicts their old batch", async () => {
+  const f = await fixture(500);
+  const decoded: number[][] = [];
+  const observations = new VisualObservationCache(f.store, f.cache, async (input, abort) => {
+    decoded.push(input.atSourceUs);
+    return f.decode(input, abort);
+  });
+  const first = await observations.sample({ ...request, atSourceUs: [0, 2, 4] }, signal());
+  const combined = await observations.sample({ ...request, atSourceUs: [0, 2, 4, 6, 8] }, signal());
+  expect(combined.samples.slice(0, 3)).toEqual(first.samples);
+  expect((await observations.sample({ ...request, atSourceUs: [6, 8] }, signal())).samples).toEqual(
+    combined.samples.slice(3),
+  );
+  expect(decoded).toEqual([
+    [0, 2, 4],
+    [6, 8],
+  ]);
+  expect(f.cache.bytes).toBeLessThanOrEqual(500);
+});
+
+test("replacing the obsolete disposable lookup keeps old bytes budgeted and starts with a cache miss", async () => {
+  const f = await fixture();
+  const expected = await f.decode(request, signal());
+  const old = f.cache.reserve();
+  await writeFile(old.path, JSON.stringify(expected));
+  await f.cache.publish(old.id);
+  f.store.catalog.exec(
+    "CREATE TABLE visual_observation_cache(identity TEXT PRIMARY KEY,cacheId TEXT NOT NULL UNIQUE REFERENCES derived_cache(id) ON DELETE CASCADE) STRICT",
+  );
+  f.store.catalog
+    .prepare("INSERT INTO visual_observation_cache VALUES(?,?)")
+    .run("old-exact-batch", old.id);
+  const before = f.cache.bytes;
+  const observations = new VisualObservationCache(f.store, f.cache, f.decode);
+  expect(f.cache.bytes).toBe(before);
+  expect(await observations.sample(request, signal())).toEqual(expected);
+  expect(f.calls()).toBe(2);
+  f.cache.remove(old.id);
+  expect((await observations.sample(request, signal())).samples).toEqual(expected.samples);
+  expect(f.calls()).toBe(2);
 });
