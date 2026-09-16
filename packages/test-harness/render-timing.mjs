@@ -8,6 +8,9 @@ import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
 import { RevisionStore } from "@screenrec/core/library";
+import { planAudioTracks } from "@screenrec/core/audio";
+import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { journalRows } from "../../apps/macos/tests/fixtures/generated-capture.mjs";
 import { JobQueue } from "@screenrec/core/jobs";
 import {
   createOriginalRevision,
@@ -34,10 +37,22 @@ async function until(check) {
   }
   throw new Error("Timing lab made no progress");
 }
+async function ready(jobs, id) {
+  await until(() => {
+    const job = jobs.job(id);
+    if (["failed", "unavailable", "canceled"].includes(job.state))
+      throw new Error(job.reason ?? job.state);
+    return job.state === "ready";
+  });
+}
 async function staged(parent) {
   for (const child of await readdir(parent)) {
     try {
-      if ((await readdir(join(parent, child))).some((name) => name.startsWith(".video-render-")))
+      if (
+        (await readdir(join(parent, child))).some(
+          (name) => name.startsWith(".video-render-") || name.startsWith(".movie-render-"),
+        )
+      )
         return true;
     } catch (error) {
       if (error.code !== "ENOENT") throw error;
@@ -94,8 +109,30 @@ async function decode(file, frames) {
     pts: metadata.frames.map((frame) => Math.round(Number(frame.pts_time) * 1e6)),
   };
 }
+async function compareAudio(movie, wave, expectedFrames) {
+  const paths = [];
+  for (const [file, suffix] of [
+    [movie, ".aac.f32"],
+    [wave, ".pcm.f32"],
+  ]) {
+    const output = file + suffix;
+    await command("ffmpeg", ["-v", "error", "-i", file, "-map", "0:a:0", "-f", "f32le", output]);
+    const bytes = await readFile(output);
+    paths.push(
+      new Float32Array(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)),
+    );
+  }
+  const [actual, expected] = paths;
+  assert.equal(expected.length, expectedFrames);
+  assert.ok(actual.length >= expectedFrames && actual.length < expectedFrames + 1024);
+  let squared = 0;
+  for (let i = 500; i < expectedFrames - 500; i++) squared += (actual[i] - expected[i]) ** 2;
+  const rms = Math.sqrt(squared / (expectedFrames - 1000));
+  assert.ok(rms < 0.01, `Pinned movie AAC differs from retained PCM: ${rms}`);
+  return { presentationFrames: expectedFrames, independentlyDecodedFrames: actual.length, rms };
+}
 test(
-  "pinned pause/undo plans and terminal render-attempt lifetime",
+  "pinned movie audio/video plans across pause, undo and terminal render lifetime",
   { timeout: 60000 },
   async () => {
     const evidence = process.env.SCREENREC_RENDER_TIMING_EVIDENCE;
@@ -130,6 +167,24 @@ test(
       "-an",
       source,
     ]);
+    for (const [role, expression] of [
+      ["narration", "0.1*sin(2*PI*(170*t+31*t*t))"],
+      ["system", "0.1*sin(2*PI*400*t)"],
+    ])
+      await command("ffmpeg", [
+        "-v",
+        "error",
+        "-f",
+        "lavfi",
+        "-i",
+        `aevalsrc=${expression}:s=48000:d=6`,
+        "-c:a",
+        "pcm_f32le",
+        join(home, role + ".mov"),
+      ]);
+    const audioBefore = await Promise.all(
+      ["narration", "system"].map((role) => readFile(join(home, role + ".mov"))),
+    );
     const sourceBefore = await readFile(source);
     const store = new RevisionStore(join(home, "library.sqlite"), {
       now: () => new Date().toISOString(),
@@ -174,10 +229,46 @@ test(
             ),
         ),
       );
+      const raw = join(home, "journal-source");
+      await mkdir(raw);
+      const rows = journalRows({ sourceId, width: 320, height: 180, samples: [], pauses: [pause] });
+      rows[0].data.microphone = true;
+      rows[0].data.systemAudio = true;
+      rows.splice(
+        rows.length - 1,
+        0,
+        { event: "audioSamples", data: { role: "narration", startUs: 0, endUs: 3_250_000 } },
+        {
+          event: "audioSamples",
+          data: { role: "narration", startUs: 3_750_000, endUs: 6_000_000 },
+        },
+        { event: "audioSamples", data: { role: "system", startUs: 0, endUs: 6_000_000 } },
+      );
+      await writeFile(
+        join(raw, "capture.journal.jsonl"),
+        rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
+      );
+      const run = mediaWorker({ SCREENREC_NATIVE: native });
+      const normalized = join(home, "source-evidence.jsonl");
+      const exported = await run("media.sourceEvidence", { directory: raw, output: normalized });
+      assert.equal(exported.ok, true, JSON.stringify(exported));
+      const sourceEvidence = new SourceEvidenceStore(store);
+      const metadata = await sourceEvidence.ingest({
+        recordingId,
+        sourceId,
+        generation: "fixture",
+        file: normalized,
+        receipt: exported.data,
+      });
+      assert.deepEqual(
+        sourceEvidence
+          .pauseBoundaries(metadata, { startUs: 0, endUs: 6_000_000 })
+          .map(({ sequence: _sequence, ...event }) => ({ kind: "pause", ...event })),
+        [pause],
+      );
       report.pause = events;
       const gate = Promise.withResolvers(),
         started = Promise.withResolvers();
-      const run = mediaWorker({ SCREENREC_NATIVE: native });
       jobs = new JobQueue({
         store,
         providers: { newId: randomUUID },
@@ -186,15 +277,48 @@ test(
           await gate.promise;
           const revision = store.revision(recordingId, job.revisionId),
             plan = renderPlan(revision);
+          const audioPlan = planAudioTracks(
+            {
+              recordingId,
+              sourceId,
+              sourceEvidence: metadata,
+              spans: revision.spans,
+              track: "mix",
+            },
+            sourceEvidence,
+            (role) => join(home, role + ".mov"),
+          );
+          assert.deepEqual(audioPlan.missingRoles, []);
           return withRenderedMedia(
             run,
-            { source, plan, attemptParent: attempts },
+            { source, plan, tracks: audioPlan.tracks, attemptParent: attempts },
             signal,
             async (video) => {
               const file = join(home, job.revisionId + ".mp4");
               await copyFile(video.file, file);
               const decoded = await decode(file, frames);
-              const summary = { revisionId: job.revisionId, plan, file: basename(file), decoded };
+              assert.ok(video.audio, "Pinned movie must include planned audio");
+              assert.equal(video.audio.codec, "aac");
+              assert.equal(video.audio.frames, (revision.durationUs * 48_000) / 1_000_000);
+              assert.deepEqual(
+                video.audio.tracks.map((track) => track.gain),
+                [0.5, 0.5],
+              );
+              const wave = join(home, job.revisionId + ".wav");
+              const reference = await run(
+                "media.audio",
+                { tracks: audioPlan.tracks, spans: revision.spans, output: wave },
+                { signal },
+              );
+              assert.equal(reference.ok, true, JSON.stringify(reference));
+              const audio = await compareAudio(file, wave, video.audio.frames);
+              const summary = {
+                revisionId: job.revisionId,
+                plan,
+                file: basename(file),
+                decoded,
+                audio: { ...audio, tracks: video.audio.tracks },
+              };
               report.renders.push(summary);
               return JSON.stringify(summary);
             },
@@ -215,7 +339,7 @@ test(
       });
       assert.notEqual(undo.id, first.revisionId);
       gate.resolve();
-      await until(() => jobs.job(first.jobId).state === "ready");
+      await ready(jobs, first.jobId);
       assert.equal(report.renders[0].revisionId, cut.id);
       assert.deepEqual(report.renders[0].decoded, {
         durationUs: 4000000,
@@ -228,7 +352,7 @@ test(
         lane: "heavy",
         input: "generated",
       });
-      await until(() => jobs.job(second.jobId).state === "ready");
+      await ready(jobs, second.jobId);
       assert.equal(report.renders[1].revisionId, undo.id);
       assert.deepEqual(report.renders[1].decoded, {
         durationUs: 6000000,
@@ -322,6 +446,12 @@ test(
         });
       }
       assert.deepEqual(await readFile(source), sourceBefore);
+      assert.deepEqual(
+        await Promise.all(
+          ["narration", "system"].map((role) => readFile(join(home, role + ".mov"))),
+        ),
+        audioBefore,
+      );
       await writeFile(join(home, "report.json"), JSON.stringify(report, null, 2));
       console.log(
         JSON.stringify({

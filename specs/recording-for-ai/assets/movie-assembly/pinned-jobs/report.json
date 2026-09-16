@@ -1,0 +1,217 @@
+{
+  "kind": "pinned native render timing and terminal cleanup",
+  "renders": [
+    {
+      "revisionId": "310e3855-86a4-4bf6-9c74-247e874e4071",
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 2000000
+          }
+        },
+        {
+          "source": {
+            "startUs": 3000000,
+            "endUs": 4000000
+          },
+          "playback": {
+            "startUs": 2000000,
+            "endUs": 3000000
+          }
+        },
+        {
+          "source": {
+            "startUs": 5000000,
+            "endUs": 6000000
+          },
+          "playback": {
+            "startUs": 3000000,
+            "endUs": 4000000
+          }
+        }
+      ],
+      "file": "edited.mp4",
+      "decoded": {
+        "durationUs": 4000000,
+        "identities": [
+          0,
+          1,
+          3,
+          5
+        ],
+        "pts": [
+          0,
+          1000000,
+          2000000,
+          3000000
+        ]
+      },
+      "audio": {
+        "presentationFrames": 192000,
+        "independentlyDecodedFrames": 192448,
+        "rms": 0.000253895555458474,
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 0.5,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": [
+              {
+                "endUs": 3750000,
+                "startUs": 3250000
+              }
+            ]
+          },
+          {
+            "channels": 1,
+            "gain": 0.5,
+            "role": "system",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      },
+      "sha256": "781b0cb56b8bb2668c9cfe2f3e86fedf64fa46e0c44a1989b4477e82b7f235d1"
+    },
+    {
+      "revisionId": "8c19fac8-c9ee-4ff8-bf6e-38efc781c14c",
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 6000000
+          }
+        }
+      ],
+      "file": "undo.mp4",
+      "decoded": {
+        "durationUs": 6000000,
+        "identities": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "pts": [
+          0,
+          1000000,
+          2000000,
+          3000000,
+          4000000,
+          5000000
+        ]
+      },
+      "audio": {
+        "presentationFrames": 288000,
+        "independentlyDecodedFrames": 288704,
+        "rms": 0.00021710812100583893,
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 0.5,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": [
+              {
+                "endUs": 3750000,
+                "startUs": 3250000
+              }
+            ]
+          },
+          {
+            "channels": 1,
+            "gain": 0.5,
+            "role": "system",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      },
+      "sha256": "8fd42c82f3053e99c61644f4f1925815e1327284e0e78abd92965edd6695bbd2"
+    }
+  ],
+  "lifetime": [
+    {
+      "kind": "queued-job-cancel",
+      "nativeStagingObserved": true,
+      "consumed": false,
+      "attemptsRemaining": 0
+    },
+    {
+      "kind": "abort",
+      "nativeStagingObserved": true,
+      "consumed": false,
+      "attemptsRemaining": 0
+    },
+    {
+      "kind": "deadline",
+      "nativeStagingObserved": true,
+      "consumed": false,
+      "attemptsRemaining": 0
+    },
+    {
+      "kind": "late-abort",
+      "nativeStagingObserved": false,
+      "consumed": false,
+      "attemptsRemaining": 0
+    }
+  ],
+  "pause": [
+    {
+      "atUs": 2000000,
+      "events": [
+        {
+          "kind": "cut",
+          "atSourceUs": 2000000,
+          "removedSourceSpans": [
+            {
+              "startUs": 2000000,
+              "endUs": 3000000
+            }
+          ]
+        },
+        {
+          "kind": "pause",
+          "atSourceUs": 3000000,
+          "elapsedPauseUs": 60000000
+        }
+      ]
+    },
+    {
+      "atUs": 3000000,
+      "events": [
+        {
+          "kind": "cut",
+          "atSourceUs": 4000000,
+          "removedSourceSpans": [
+            {
+              "startUs": 4000000,
+              "endUs": 5000000
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "baseRevision": "060b9ef44d58222728c30b8f7590f17f7a50e54a",
+    "labSha256": "d23446d0031d73e373da5b8919ad78523e1510edc65e98a67d8c57dbaa8c962f",
+    "nativeSha256": "176be00c8c7e948721259d8c2c7e141d909e038b5f495fa5a839da00bb3671de",
+    "nativeKind": "rebuilt app bundle",
+    "testExitCode": 0,
+    "missingAudioMutationExitCode": 1,
+    "scope": "Generated real queue/edit/native movie proof; no public preview, restart publication or speech audition"
+  }
+}

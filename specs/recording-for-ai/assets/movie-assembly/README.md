@@ -91,3 +91,6 @@ native target and all eight checks passing on the main checkout. Its
 
 [Shared audio planning](audio-planning.md) keeps source acquisition semantics common
 to excerpts and full revisions while preserving their different request limits.
+
+[Pinned job integration](pinned-jobs/README.md) now verifies shared acquisition
+planning and native audio/video while a concurrent undo advances the live edit.
