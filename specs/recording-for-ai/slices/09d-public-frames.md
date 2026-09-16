@@ -70,12 +70,34 @@ chunks, and releases on completion, failure or expiry. Large images do not trave
 inside one metadata response. The CLI accepts an explicit output path or creates
 a temporary image file; it never overwrites an existing output.
 
-Next: frame batches, audio inspection and the default trail dependency. The parent remains open. Do not
-claim default trail frames, full public-frame acceptance or actual model-level MCP
-visual inspection from this clean single-frame checkpoint.
+Bounded clean batches now use the same public route; see the [batch evidence](../assets/frame-delivery/batches.md).
+Next: the default trail dependency and actual model-level MCP visual inspection.
+The parent remains open; audio acceptance is tracked in slice 09e.
 
 The generated sparse-source coverage pass adds public start/end/earlier-tie checks,
 full 2048×1152 CLI/MCP pixel equality, exact cut joins and genuine LRU eviction
 followed by pinned historical regeneration after app restart. The delegated fresh
 app build and two-test pair passed. Root reran this test with the clean-frame,
-source-processing and timing tests after source-evidence integration; all four pass. This adds no batch or trail claim.
+source-processing and timing tests after source-evidence integration; all four pass. That earlier checkpoint adds no trail claim.
+
+## Bounded batch contract
+
+`frame.batch` shares recording, optional revision and clean-frame options and takes
+an ordered `atUs` array of one to eight playback timestamps. The core resolves the
+revision once and validates every timestamp/options before admitting any work.
+Duplicates remain in the response and reuse the same existing frame job. There is
+no batch job or second queue. Each ordered item carries its timestamp and the
+usual success/error envelope; queue capacity and delivery failures affect only
+that item. Poll using the returned revision; explicitly retry a failed frame with
+`frame.retry`. A batch does not implicitly retry failed jobs.
+
+MCP returns one image block per ready successful item, with its content index in
+that item's metadata. CLI `--output` names a new directory, created exclusively;
+index-prefixed PNG names preserve duplicates and ordering. Existing directories
+are refused without overwriting files. Without `--output`, CLI creates a temporary
+directory. Partial readiness returns available images and all remaining states.
+A valid mixed batch has top-level success (MCP isError:false and CLI exit zero);
+callers must inspect each item. Invalid batch requests fail the whole operation.
+Each image retains the existing 32 MiB limit. Transfer failures remain per-item and
+must release every acquired delivery, including other ready items. These are
+reversible API choices while the product is unshipped; clean:true remains required.

@@ -237,6 +237,69 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
     await client.close();
   }
 
+  const batchParams = {
+    ...boundaryParams,
+    atUs: [1000000, 0, 1000000, 3999999, 0, 1000000, 3999999, 0],
+  };
+  const batch = await waitFor(async () => {
+    const value = await call("frame.batch", batchParams);
+    for (const item of value.items) {
+      assert.equal(item.ok, true, JSON.stringify(item));
+      if (item.data.delivery) await call("artifact.close", { token: item.data.delivery.token });
+    }
+    return value.items.every((item) => item.data.state === "ready") ? value : false;
+  }, 20000);
+  assert.deepEqual(
+    batch.items.map((item) => item.data.published.frame.actualSourceUs),
+    [4000000, 0, 4000000, 4000000, 0, 4000000, 4000000, 0],
+  );
+  const batchOutput = join(home, "batch-output");
+  const batchCli = (output) =>
+    spawnSync(
+      process.execPath,
+      [
+        cli,
+        "frame.batch",
+        "--socket",
+        socketPath(home),
+        "--params",
+        JSON.stringify(batchParams),
+        "--output",
+        output,
+      ],
+      { encoding: "utf8", timeout: 20000 },
+    );
+  const delivered = batchCli(batchOutput);
+  assert.equal(delivered.status, 0, delivered.stdout + delivered.stderr);
+  const deliveredItems = JSON.parse(delivered.stdout).data.items;
+  const images = await Promise.all(deliveredItems.map((item) => readFile(item.data.output)));
+  for (const [index, item] of deliveredItems.entries())
+    assertNumberedPixels(item.data.output, [1, 4, 7].includes(index) ? 0 : 2);
+  const colliding = JSON.parse(batchCli(batchOutput).stdout);
+  assert.ok(colliding.data.items.every((item) => !item.ok));
+  assert.deepEqual(await readFile(deliveredItems[0].data.output), images[0]);
+  const batchClient = new Client({ name: "batch-frame-proof", version: "1" });
+  try {
+    await batchClient.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [cli, "mcp", "--socket", socketPath(home)],
+        stderr: "pipe",
+      }),
+    );
+    const result = await batchClient.callTool({ name: "frame.batch", arguments: batchParams });
+    assert.equal(result.isError, false);
+    for (const [index, item] of result.structuredContent.data.items.entries()) {
+      assert.equal(item.atUs, batchParams.atUs[index]);
+      assert.deepEqual(
+        Buffer.from(result.content[item.data.contentIndex].data, "base64"),
+        images[index],
+      );
+    }
+  } finally {
+    await batchClient.close();
+  }
+
   // Change current revision before restart; regeneration must stay with the explicitly pinned one.
   const newer = await call("edit.cut", {
     recordingId: recording.recordingId,

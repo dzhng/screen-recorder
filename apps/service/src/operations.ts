@@ -41,6 +41,41 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "frame.batch": {
+        const batch = frames.batch(operation.params);
+        return {
+          ok: true,
+          data: {
+            ...batch,
+            items: batch.items.map((item) => {
+              if (!item.ok) return item;
+              try {
+                return {
+                  ...item,
+                  data: {
+                    ...item.data,
+                    delivery: item.data.published
+                      ? delivery.open(item.data.published.frame.cacheId)
+                      : null,
+                  },
+                };
+              } catch (error) {
+                return {
+                  atUs: item.atUs,
+                  ...operationFailure(
+                    error instanceof CatalogError
+                      ? error
+                      : new CatalogError(
+                          "INTERNAL_ERROR",
+                          error instanceof Error ? error.message : "Frame delivery failed",
+                        ),
+                  ),
+                };
+              }
+            }),
+          },
+        };
+      }
       case "frame.get":
       case "frame.retry": {
         const status =

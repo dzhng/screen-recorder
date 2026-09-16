@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { randomUUID } from "node:crypto";
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { mediaBytes, MediaDeliveryError } from "./media.js";
@@ -13,6 +13,7 @@ import {
   type ServiceSelection,
 } from "@screenrec/client";
 import {
+  resultSchema,
   operationNames,
   operationSchema,
   FrameError,
@@ -26,9 +27,20 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 
-const mediaOperations = new Set(["frame.get", "frame.retry", "audio.get", "audio.retry"]);
+const mediaOperations = new Set([
+  "frame.batch",
+  "frame.get",
+  "frame.retry",
+  "audio.get",
+  "audio.retry",
+]);
 
-function failure(id: string, code: string, message: string, retryable = false): OperationResponse {
+function failure(
+  id: string,
+  code: string,
+  message: string,
+  retryable = false,
+): Extract<OperationResponse, { ok: false }> {
   return { id, ok: false, error: { code, message, retryable, details: {} } };
 }
 
@@ -49,7 +61,7 @@ class UsageError extends Error {
   }
 }
 
-function errorResult(id: string, error: unknown): OperationResponse {
+function errorResult(id: string, error: unknown): Extract<OperationResponse, { ok: false }> {
   if (error instanceof MediaDeliveryError)
     return failure(id, error.code, error.message, error.retryable);
   if (error instanceof UsageError) return failure(id, error.code, error.message);
@@ -67,6 +79,46 @@ function errorResult(id: string, error: unknown): OperationResponse {
       error.message,
     );
   return failure(id, "INVALID_REQUEST", error instanceof Error ? error.message : "Invalid request");
+}
+
+const batchResponse = z.object({
+  recordingId: z.string(),
+  revisionId: z.string(),
+  items: z
+    .array(z.intersection(resultSchema, z.object({ atUs: z.number() })))
+    .min(1)
+    .max(8),
+});
+
+// Drain every ready item's lease even when another read or output write fails.
+async function consumeBatch(
+  selection: ServiceSelection,
+  result: OperationResponse,
+  consume: (
+    media: NonNullable<Awaited<ReturnType<typeof mediaBytes>>>,
+    index: number,
+  ) => Promise<Record<string, unknown>>,
+): Promise<OperationResponse> {
+  if (!result.ok) return result;
+  const batch = batchResponse.parse(result.data);
+  const items = [];
+  for (const [index, item] of batch.items.entries()) {
+    try {
+      const media = await mediaBytes(selection, { ...item, id: result.id });
+      items.push(
+        media && item.ok
+          ? {
+              ...item,
+              data: { ...(item.data as Record<string, unknown>), ...(await consume(media, index)) },
+            }
+          : item,
+      );
+    } catch (error) {
+      const failed = errorResult(result.id, error);
+      items.push({ atUs: item.atUs, ok: false, error: failed.error });
+    }
+  }
+  return { ...result, data: { ...batch, items } };
 }
 
 // Validate before discovery, because discovery can launch the personal app.
@@ -136,8 +188,27 @@ async function mcp(selection: ServiceSelection) {
     } catch (error) {
       result = errorResult(id, error);
     }
+    const images: { type: "image"; data: string; mimeType: string }[] = [];
+    if (call.params.name === "frame.batch") {
+      try {
+        result = await consumeBatch(
+          { ...selection, signal: extra.signal },
+          result,
+          async (media) => {
+            images.push({
+              type: "image",
+              data: media.bytes.toString("base64"),
+              mimeType: media.mediaType,
+            });
+            return { contentIndex: images.length };
+          },
+        );
+      } catch (error) {
+        result = errorResult(id, error);
+      }
+    }
     let media: Awaited<ReturnType<typeof mediaBytes>> = null;
-    if (mediaOperations.has(call.params.name)) {
+    if (mediaOperations.has(call.params.name) && call.params.name !== "frame.batch") {
       try {
         media = await mediaBytes({ ...selection, signal: extra.signal }, result);
       } catch (error) {
@@ -147,6 +218,7 @@ async function mcp(selection: ServiceSelection) {
     return {
       content: [
         { type: "text" as const, text: JSON.stringify(result) },
+        ...images,
         ...(media
           ? [
               {
@@ -187,7 +259,7 @@ async function main() {
       JSON.stringify(
         {
           usage:
-            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE] | screenrec mcp [--socket PATH]",
+            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH]",
           service:
             "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           timeUnits:
@@ -220,7 +292,27 @@ async function main() {
     await readParams(values.params ?? "{}"),
   );
   let result = await invoke(selection, sending);
-  if (mediaOperations.has(operation)) {
+  if (operation === "frame.batch") {
+    let directory: string | undefined;
+    let outputError: unknown;
+    result = await consumeBatch(selection, result, async (media, index) => {
+      if (outputError) throw outputError;
+      if (!directory) {
+        try {
+          directory = values.output
+            ? resolve(values.output)
+            : await mkdtemp(join(tmpdir(), "screenrec-frames-"));
+          if (values.output) await mkdir(directory);
+        } catch (error) {
+          outputError = error;
+          throw error;
+        }
+      }
+      const output = join(directory, `${String(index + 1).padStart(2, "0")}.png`);
+      await writeFile(output, media.bytes, { flag: "wx" });
+      return { output };
+    });
+  } else if (mediaOperations.has(operation)) {
     try {
       const media = await mediaBytes(selection, result);
       if (media && result.ok) {

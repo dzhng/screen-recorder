@@ -50,6 +50,15 @@ const audioParams = recording
 // the same schemas the service validates, rather than promising future operations.
 export const operationSchema = z.discriminatedUnion("operation", [
   z
+    .object({
+      operation: z.literal("frame.batch"),
+      params: frameParams.extend({ atUs: z.array(time).min(1).max(8) }),
+    })
+    .strict()
+    .describe(
+      "Request one to eight ordered clean frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry.",
+    ),
+  z
     .object({ operation: z.literal("audio.get"), params: audioParams })
     .strict()
     .describe(

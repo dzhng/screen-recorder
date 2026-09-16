@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
@@ -172,4 +172,87 @@ test("a failed frame waits for explicit retry and then publishes a fresh generat
   await f.jobs.idle();
   expect(f.frames.request(input)).toMatchObject({ state: "ready", published: { generation: 2 } });
   expect(calls).toBe(2);
+});
+
+test("a batch validates before admission, preserves ordered duplicates and pins all frames across edits", async () => {
+  const f = await fixture();
+  const input = { recordingId: f.take.recordingId, clean: true as const, atUs: [400, 100, 400] };
+  expect(() => f.frames.batch({ ...input, atUs: [100, 1000] })).toThrow(
+    expect.objectContaining({ code: "INVALID_RANGE" }),
+  );
+  await f.jobs.idle();
+  expect(f.calls()).toBe(0);
+  const first = f.frames.batch(input);
+  f.store.edit(input.recordingId, {
+    operation: "cut",
+    requestId: "cut",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 0, endUs: 200 }],
+  });
+  await f.jobs.idle();
+  const ready = f.frames.batch({ ...input, revisionId: first.revisionId });
+  expect(
+    ready.items.map((item) =>
+      item.ok ? item.data.published?.frame.actualSourceUs : item.error.code,
+    ),
+  ).toEqual([400, 100, 400]);
+  expect(ready.items.every((item) => item.ok && item.data.revisionId === "r0")).toBe(true);
+  expect(f.calls()).toBe(2);
+});
+
+test("a partially admitted batch retains ready duplicates and individual admission failures", async () => {
+  const f = await fixture();
+  const input = { recordingId: f.take.recordingId, clean: true as const, atUs: 1 };
+  f.frames.request(input);
+  await f.jobs.idle();
+  // Two decodes are active; fill all 32 remaining waiting slots synchronously.
+  for (let atUs = 10; atUs < 44; atUs++) f.frames.request({ ...input, atUs });
+  const batch = f.frames.batch({ ...input, atUs: [1, 99, 1] });
+  expect(batch.items.map((item) => (item.ok ? item.data.state : item.error.code))).toEqual([
+    "ready",
+    "LIMIT_EXCEEDED",
+    "ready",
+  ]);
+  await f.jobs.idle();
+});
+
+test("an unreadable cached frame does not prevent admission of a later batch item", async () => {
+  const f = await fixture();
+  const input = { recordingId: f.take.recordingId, clean: true as const, atUs: 1 };
+  f.frames.request(input);
+  await f.jobs.idle();
+  const file = f.frames.request(input).published!.frame.file;
+  await chmod(file, 0);
+  try {
+    const batch = f.frames.batch({ ...input, atUs: [1, 2] });
+    expect(batch.items[0]).toMatchObject({ atUs: 1, ok: false, error: { code: "INTERNAL_ERROR" } });
+    expect(batch.items[1]).toMatchObject({ atUs: 2, ok: true });
+    await f.jobs.idle();
+    expect(f.frames.request({ ...input, atUs: 2 }).published?.frame.actualSourceUs).toBe(2);
+  } finally {
+    await chmod(file, 0o600);
+  }
+});
+
+test("batch polling preserves an individual failure until frame retry is explicit", async () => {
+  let calls = 0;
+  const f = await fixture(async () => {
+    if (++calls === 1) throw new Error("temporary decode failure");
+  });
+  const input = { recordingId: f.take.recordingId, clean: true as const, atUs: [1, 2] };
+  const first = f.frames.batch(input);
+  await f.jobs.idle();
+  const pinned = { ...input, revisionId: first.revisionId };
+  expect(
+    f.frames.batch(pinned).items.map((item) => (item.ok ? item.data.state : item.error.code)),
+  ).toEqual(["failed", "ready"]);
+  await f.jobs.idle();
+  expect(calls).toBe(2);
+  f.frames.retry({ ...pinned, atUs: 1 });
+  await f.jobs.idle();
+  expect(
+    f.frames
+      .batch(pinned)
+      .items.map((item) => (item.ok ? item.data.published?.generation : item.error.code)),
+  ).toEqual([2, 1]);
 });

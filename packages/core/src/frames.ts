@@ -60,8 +60,10 @@ export class FrameInspection {
     private readonly decode: FrameDecoder,
   ) {}
 
-  request(input: FrameInput) {
-    const revision = this.store.revision(input.recordingId, input.revisionId);
+  private prepare(
+    input: FrameInput,
+    revision = this.store.revision(input.recordingId, input.revisionId),
+  ) {
     const mapped = editedToSource(revision, input.atUs);
     if (!mapped) throw new CatalogError("INVALID_RANGE", "Frame time is outside this revision");
     const maxLongEdge = input.maxLongEdge ?? 1600;
@@ -93,6 +95,49 @@ export class FrameInspection {
         crop: crop ? { x: crop.x, y: crop.y, width: crop.width, height: crop.height } : null,
       }),
     };
+    return identity;
+  }
+
+  request(input: FrameInput) {
+    return this.admit(this.prepare(input));
+  }
+
+  batch(input: Omit<FrameInput, "atUs"> & { atUs: number[] }) {
+    if (input.atUs.length < 1 || input.atUs.length > 8)
+      throw new CatalogError("INVALID_RANGE", "A frame batch requires one to eight timestamps");
+    const revision = this.store.revision(input.recordingId, input.revisionId);
+    const plans = input.atUs.map((atUs) => this.prepare({ ...input, atUs }, revision));
+    return {
+      recordingId: input.recordingId,
+      revisionId: revision.id,
+      items: plans.map((plan, index) => {
+        const atUs = input.atUs[index]!;
+        try {
+          return { atUs, ok: true as const, data: this.admit(plan) };
+        } catch (error) {
+          const failure =
+            error instanceof CatalogError
+              ? error
+              : new CatalogError(
+                  "INTERNAL_ERROR",
+                  error instanceof Error ? error.message : "Frame admission failed",
+                );
+          return {
+            atUs,
+            ok: false as const,
+            error: {
+              code: failure.code,
+              message: failure.message,
+              retryable: failure.retryable,
+              details: failure.details,
+            },
+          };
+        }
+      }),
+    };
+  }
+
+  private admit(identity: ReturnType<FrameInspection["prepare"]>) {
     this.jobs.submit({ ...identity, lane: "frame" });
     let status = this.jobs.status(identity);
     if (status.published) {
@@ -105,9 +150,9 @@ export class FrameInspection {
       }
     }
     return {
-      recordingId: input.recordingId,
-      sourceId: this.store.get(input.recordingId).sourceId,
-      revisionId: revision.id,
+      recordingId: identity.recordingId,
+      sourceId: this.store.get(identity.recordingId).sourceId,
+      revisionId: identity.revisionId,
       ...status,
       published: status.published
         ? {
