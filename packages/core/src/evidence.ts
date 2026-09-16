@@ -402,6 +402,18 @@ export class SourceEvidenceStore {
     return rows.map((row) => JSON.parse(row.content));
   }
 
+  /** A gap in a requested clip is distinct from a role never acquired anywhere in this take. */
+  hasAudio(identity: EvidenceIdentity, role: "narration" | "system"): boolean {
+    this.requireComplete(identity);
+    return Boolean(
+      this.store.catalog
+        .prepare(`SELECT 1 FROM source_evidence_records
+      WHERE recordingId=? AND sourceId=? AND generation=? AND event='audioAcquired'
+      AND json_extract(content,'$.role')=? LIMIT 1`)
+        .get(identity.recordingId, identity.sourceId, identity.generation, role),
+    );
+  }
+
   /** Coalesced per-role intervals are disjoint, so only one interval before the range can overlap it. */
   audio(identity: EvidenceIdentity, role: "narration" | "system", range: TimeRange): TimeRange[] {
     this.timingRange(range);

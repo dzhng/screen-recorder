@@ -31,6 +31,10 @@
     "./frames": {
       "types": "./dist/frames.d.ts",
       "default": "./dist/frames.js"
+    },
+    "./audio": {
+      "types": "./dist/audio.d.ts",
+      "default": "./dist/audio.js"
     }
   },
   "scripts": {
