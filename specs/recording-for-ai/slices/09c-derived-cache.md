@@ -4,7 +4,7 @@ Status: core owner implemented and tested; service/frame integration remains in 
 
 The [cache owner](../../../packages/core/src/cache.ts) keeps disposable files in a
 separate cache root and records their admission in the library catalog. Producers
-reserve an absent output path, finish writing, then publish; they must stop writing
+reserve an absent output path for an explicit recording, finish writing, then publish; they must stop writing
 before publication. Publication may evict older unheld derivatives to fit the
 budget. Native output limits still bound pending files: a reservation is not a
 promise that arbitrarily large work will be retained.
@@ -22,6 +22,12 @@ preserves persisted access ordering, forgets missing/changed files, removes
 interrupted reservations and discards untracked files only in its own filename
 namespace. The service must await reconciliation and outstanding publishers before
 closing the catalog. No source, retained evidence or model directory is scanned.
+
+Every reservation stores its recording owner independently of source paths or
+artifact JSON. Ordinary reservation, reading and publication honor catalog admission.
+Recording cleanup uses the existing publication order and pin-aware file removal,
+yielding between bounded batches. Its caller must first fence new work and stop
+producers/readers. See [deletion prerequisites](../assets/storage/cache-ownership.md).
 
 ## Evidence
 

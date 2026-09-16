@@ -66,7 +66,9 @@ observed portion; sampling cannot establish a guaranteed peak.
 At 783 seconds, the benchmark's separate read-only catalog connection raised
 `SQLITE_BUSY` while collecting metrics. The harness terminated the test and reaped
 all owned processes. This is a monitoring failure, not an observed index job failure
-or a passed full workload. Fix the monitor's bounded contention handling and rerun;
+or a passed full workload. The monitor now uses bounded SQLite-busy retries and records a missing intermediate
+measurement explicitly; completion still requires a successful snapshot. Three real
+SQLite regressions include a competing writer and permanent schema failure. Rerun;
 do not count this partial report as completion. Comparisons with the earlier partial
 baseline also differ in before-event rendering correctness, so they do not isolate
 a speedup from caching alone.

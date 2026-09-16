@@ -1071,3 +1071,17 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   per-record operations without a second queue or phase journal. **Verdict:** Sound;
   successful deletion must mean no owner can recreate or continue serving the data.
   **Confidence:** High. Implementation and its lifetime proof remain pending.
+
+## Per-record cache cleanup — 2026-09-16
+
+### Sound — high confidence
+
+- **Choice:** Run cache purge through the existing publication order. If a frame
+  publication was already queued when deletion began, it settles before purge
+  removes that recording's reservations. A later publisher finds no reservation
+  and cannot recreate it. Cleanup yields between batches, so other recordings can
+  still be read, although their new publications wait behind the purge.
+  **Gap:** The plan required safe cleanup without specifying its ordering primitive.
+  **Reach:** One existing owner controls publication and removal, with no additional
+  deletion lock or queue. **Verdict:** Sound; the recording is fenced and producers
+  stopped before this bounded cleanup begins. **Confidence:** High.
