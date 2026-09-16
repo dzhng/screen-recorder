@@ -232,16 +232,27 @@ public struct CursorTrack: Sendable {
     public private(set) var epoch = 0
     public private(set) var geometry: CaptureGeometry?
 
-    /// Records a frame's geometry, returning the new epoch when that frame changed it. `hostUs` is
-    /// the moment the frame describes, not the moment it was delivered.
-    public mutating func observe(_ observed: CaptureGeometry, hostUs: Int64) -> Int? {
-        guard !sealed, observed != geometry else { return nil }
-        geometry = observed
-        epoch += 1
-        stats.geometryEpochs = epoch
-        placements.append(Placed(hostUs: hostUs, epoch: epoch, geometry: observed))
-        forgetSupersededPlacements()
-        return epoch
+    private var geometryHasSourcePlacement = false
+
+    /// Records geometry changes even before source zero or during a pause. An epoch first seen
+    /// without source time gains one additional observation on a usable, clock-accepted frame.
+    /// That placement confirms the same epoch; it does not rewrite its raw host-time observation.
+    public mutating func observe(
+        _ observed: CaptureGeometry, hostUs: Int64, sourceUs: Int64?, usable: Bool
+    ) -> JournalGeometry? {
+        guard !sealed else { return nil }
+        if observed != geometry {
+            geometry = observed
+            epoch += 1
+            stats.geometryEpochs = epoch
+            placements.append(Placed(hostUs: hostUs, epoch: epoch, geometry: observed))
+            forgetSupersededPlacements()
+            geometryHasSourcePlacement = sourceUs != nil
+        } else {
+            guard !geometryHasSourcePlacement, usable, sourceUs != nil else { return nil }
+            geometryHasSourcePlacement = true
+        }
+        return JournalGeometry(epoch: epoch, hostUs: hostUs, sourceUs: sourceUs, geometry: observed)
     }
 
     /// Accepts a reading already placed in source time, returning a batch once one is full.

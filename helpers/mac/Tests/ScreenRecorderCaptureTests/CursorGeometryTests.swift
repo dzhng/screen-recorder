@@ -122,12 +122,13 @@ func runCursorGeometryTests() throws {
         unexplained.outputPixel(forGlobalPoint: CGPoint(x: 0, y: 0)) == nil,
         "Geometry no frame has explained cannot place a point")
     var unlocated = CursorTrack(batchSize: 1)
-    _ = unlocated.observe(unexplained, hostUs: 0)
+    _ = unlocated.observe(unexplained, hostUs: 0, sourceUs: nil, usable: true)
     let unlocatedSample = unlocated.accept(
         reading(hostUs: 1_000, x: 300, y: 455), sourceUs: 1_000)?.first
     precondition(
         unlocatedSample?.eligibility == "unknownGeometry" && unlocatedSample?.geometryEpoch == 0,
-        "A frame with no source placement cannot claim a projected epoch, got \(String(describing: unlocatedSample))")
+        "A frame with no source placement cannot claim a projected epoch, got \(String(describing: unlocatedSample))"
+    )
     print("PASS a region uses its requested global rect and unexplained geometry places nothing")
 
     // AppKit reports the pointer in a bottom-left space anchored to the zero-origin display.
@@ -146,10 +147,12 @@ func runCursorGeometryTests() throws {
 private func runCursorTrackTests() throws {
     var track = CursorTrack(batchSize: 3)
     precondition(
-        track.epoch == 0 && track.observe(placed, hostUs: 0) == 1,
+        track.epoch == 0
+            && track.observe(placed, hostUs: 0, sourceUs: nil, usable: true)?.epoch == 1,
         "A first observation opens epoch 1")
     precondition(
-        track.observe(placed, hostUs: 16_000) == nil, "An unchanged geometry keeps its epoch")
+        track.observe(placed, hostUs: 16_000, sourceUs: nil, usable: true) == nil,
+        "An unchanged geometry keeps its epoch")
     precondition(
         track.accept(reading(hostUs: 1_000, x: 300, y: 455), sourceUs: 0) == nil,
         "A partial batch is retained until it fills")
@@ -182,7 +185,8 @@ private func runCursorTrackTests() throws {
     // A window that moves opens a new epoch under unchanged output dimensions.
     let moved = window(atX: 140)
     precondition(
-        track.observe(moved, hostUs: 60_000) == 2, "A moved window opens the next epoch")
+        track.observe(moved, hostUs: 60_000, sourceUs: nil, usable: true)?.epoch == 2,
+        "A moved window opens the next epoch")
     precondition(
         track.accept(reading(hostUs: 65_000, x: 300, y: 455), sourceUs: 64_000) == nil,
         "A partial batch is retained until it fills")
@@ -205,11 +209,11 @@ private func runCursorTrackTests() throws {
     // A frame reports its placement milliseconds after the moment it describes. Readings taken
     // after a window moved must not be projected onto the position it had just left.
     var late = CursorTrack(batchSize: 100)
-    _ = late.observe(placed, hostUs: 0)
+    _ = late.observe(placed, hostUs: 0, sourceUs: nil, usable: true)
     _ = late.accept(reading(hostUs: 40_000, x: 300, y: 455), sourceUs: 40_000)
     _ = late.accept(reading(hostUs: 60_000, x: 300, y: 455), sourceUs: 60_000)
     precondition(
-        late.observe(moved, hostUs: 50_000) == 2,
+        late.observe(moved, hostUs: 50_000, sourceUs: nil, usable: true)?.epoch == 2,
         "A geometry delivered after the readings it explains still opens its epoch")
     let projected = late.seal()
     precondition(
@@ -223,19 +227,20 @@ private func runCursorTrackTests() throws {
     // The sampler and frame producer enqueue independently. A reading taken before a move
     // may reach the capture queue just after the new geometry, even with no pending batch.
     var delayedReading = CursorTrack(batchSize: 1)
-    _ = delayedReading.observe(placed, hostUs: 0)
+    _ = delayedReading.observe(placed, hostUs: 0, sourceUs: nil, usable: true)
     _ = delayedReading.accept(reading(hostUs: 10_000, x: 300, y: 455), sourceUs: 10_000)
-    _ = delayedReading.observe(moved, hostUs: 50_000)
+    _ = delayedReading.observe(moved, hostUs: 50_000, sourceUs: nil, usable: true)
     let delayedBatch = delayedReading.accept(
         reading(hostUs: 40_000, x: 300, y: 455), sourceUs: 40_000)
     precondition(
         delayedBatch?.first?.geometryEpoch == 1 && delayedBatch?.first?.x == 400,
-        "A delayed reading must retain its known pre-move geometry, got \(String(describing: delayedBatch))")
+        "A delayed reading must retain its known pre-move geometry, got \(String(describing: delayedBatch))"
+    )
     print("PASS a delayed reading retains geometry across an empty batch")
 
     // A reading no observed geometry covers cannot claim an epoch it was never projected through.
     var unexplained = CursorTrack(batchSize: 1)
-    _ = unexplained.observe(placed, hostUs: 50_000)
+    _ = unexplained.observe(placed, hostUs: 50_000, sourceUs: nil, usable: true)
     guard
         let orphan = unexplained.accept(
             reading(hostUs: 10_000, x: 300, y: 455), sourceUs: 10_000)?.first
@@ -254,7 +259,9 @@ private func runCursorTrackTests() throws {
         churn.accept(reading(hostUs: 0, x: 300, y: 455), sourceUs: nil) == nil,
         "A reading the paused clock refuses records no sample")
     for step in 1...6 {
-        _ = churn.observe(window(atX: Double(100 + step * 10)), hostUs: Int64(step) * 10_000)
+        _ = churn.observe(
+            window(atX: Double(100 + step * 10)), hostUs: Int64(step) * 10_000, sourceUs: nil,
+            usable: true)
     }
     precondition(
         churn.stats.forgottenPlacements == 3 && churn.stats.geometryEpochs == 6,
@@ -278,7 +285,7 @@ private func runCursorTrackTests() throws {
     var clock = CaptureClock()
     clock.start(at: 100_000_000)
     var paused = CursorTrack(batchSize: 100)
-    _ = paused.observe(placed, hostUs: 100_000_000)
+    _ = paused.observe(placed, hostUs: 100_000_000, sourceUs: nil, usable: true)
     let hosts: [Int64] = [
         100_000_000, 101_000_000, 102_500_000, 103_000_000, 104_000_000, 105_500_000, 106_000_000,
     ]
@@ -311,7 +318,7 @@ private func runCursorTrackTests() throws {
             && CursorSampler.skippedTicks(elapsedUs: 100_000, intervalUs: 16_667) == 5,
         "A late tick reports the readings the cadence owed")
     var gapped = CursorTrack(batchSize: 100)
-    _ = gapped.observe(placed, hostUs: 0)
+    _ = gapped.observe(placed, hostUs: 0, sourceUs: nil, usable: true)
     _ = gapped.accept(reading(hostUs: 1_000, x: 300, y: 455, skipped: 4), sourceUs: 0)
     gapped.note(refusedReadings: 7)
     precondition(
@@ -320,6 +327,7 @@ private func runCursorTrackTests() throws {
         "A gap is reported as skipped and refused readings, got \(gapped.stats)")
     print("PASS missed and refused readings are reported instead of filled in")
 
+    try runGeometryPlacementTests()
     runCursorSamplerTests()
     try runCursorJournalTests()
 }
@@ -414,13 +422,14 @@ private func runCursorJournalTests() throws {
     let journal = try CaptureJournal(
         directory: directory.path,
         header: CaptureJournalHeader(
-            schemaVersion: 1, sessionID: "cursor", source: CaptureSource(kind: "window", windowID: 3),
+            schemaVersion: 1, sessionID: "cursor",
+            source: CaptureSource(kind: "window", windowID: 3),
             width: 1600, height: 1000, microphone: false, systemAudio: false))
     try journal.recordOrigin(hostUs: 1_000_000)
     try journal.recordDisplaySpace(hostUs: 1_000_000, zeroOriginHeight: 982)
     try journal.recordGeometry(epoch: 1, hostUs: 1_000_000, sourceUs: 0, geometry: placed)
     var track = CursorTrack(batchSize: 2)
-    _ = track.observe(placed, hostUs: 1_000_000)
+    _ = track.observe(placed, hostUs: 1_000_000, sourceUs: nil, usable: true)
     _ = track.accept(reading(hostUs: 1_000_000, x: 300, y: 455), sourceUs: 0)
     guard let batch = track.accept(reading(hostUs: 1_016_000, x: 0, y: 0), sourceUs: 16_000) else {
         preconditionFailure("A full batch must be written")
@@ -437,7 +446,8 @@ private func runCursorJournalTests() throws {
         summary.geometryEpochs == 2 && summary.lastGeometry == letterboxed,
         "A summary keeps the take's last geometry and epoch count")
     precondition(
-        summary.invalidAtSequence == nil && !summary.incompleteTail && summary.originHostUs == 1_000_000,
+        summary.invalidAtSequence == nil && !summary.incompleteTail
+            && summary.originHostUs == 1_000_000,
         "Cursor records must not disturb the acquisition boundaries around them")
     precondition(
         summary.zeroOriginHeight == 982,
@@ -486,6 +496,97 @@ private func runCursorJournalTests() throws {
         "The corrupted fixture names its bad record, got \(corrupted.invalidAtSequence as Int?)")
     precondition(
         afterBadRecord.isEmpty && geometryAfterBadRecord.map(\.epoch) == [1],
-        "A stream stops where the summary stops believing the journal, got \(afterBadRecord.count) samples")
+        "A stream stops where the summary stops believing the journal, got \(afterBadRecord.count) samples"
+    )
     print("PASS geometry and cursor evidence round-trip through the journal")
+}
+
+private func runGeometryPlacementTests() throws {
+    var clock = CaptureClock()
+    var track = CursorTrack(batchSize: 100)
+    let directory = RecoveryFixture.directory("geometry-placement")
+    defer { try? FileManager.default.removeItem(at: directory) }
+    let journal = try CaptureJournal(
+        directory: directory.path,
+        header: CaptureJournalHeader(
+            schemaVersion: 1, sessionID: "placement",
+            source: CaptureSource(kind: "window", windowID: 3),
+            width: 1600, height: 1000, microphone: false, systemAudio: false))
+    func observe(_ geometry: CaptureGeometry, at hostUs: Int64, usable: Bool) throws
+        -> JournalGeometry?
+    {
+        let event = track.observe(
+            geometry, hostUs: hostUs, sourceUs: clock.sourceTime(for: hostUs), usable: usable)
+        if let event {
+            try journal.recordGeometry(
+                epoch: event.epoch, hostUs: event.hostUs, sourceUs: event.sourceUs,
+                geometry: event.geometry
+            )
+        }
+        return event
+    }
+    let prologue = try observe(placed, at: 10, usable: false)
+    precondition(prologue?.epoch == 1 && prologue?.sourceUs == nil)
+    let unchanged1 = try observe(placed, at: 20, usable: false)
+    precondition(unchanged1 == nil)
+    clock.start(at: 100)
+    try journal.recordOrigin(hostUs: 100)
+    let first = try observe(placed, at: 100, usable: true)
+    precondition(
+        first?.epoch == 1 && first?.sourceUs == 0,
+        "An unchanged first usable frame must place its prologue epoch at source zero")
+    let unchanged2 = try observe(placed, at: 150, usable: true)
+    precondition(
+        unchanged2 == nil,
+        "An already placed epoch does not repeat for every frame")
+    _ = track.accept(reading(hostUs: 150, x: 300, y: 455), sourceUs: clock.sourceTime(for: 150))
+    clock.pause(at: 200)
+    try journal.recordPauseBegan(hostUs: 200)
+    let resize = try observe(letterboxed, at: 250, usable: false)
+    let moved = try observe(aboveOrigin, at: 260, usable: false)
+    precondition(
+        resize?.epoch == 2 && resize?.sourceUs == nil && moved?.epoch == 3 && moved?.sourceUs == nil
+    )
+    let unchanged3 = try observe(aboveOrigin, at: 270, usable: true)
+    precondition(
+        unchanged3 == nil,
+        "Usable pixels during a pause cannot place a pending geometry epoch")
+    clock.resume(at: 400)
+    try journal.recordPauseEnded(hostUs: 400, pause: clock.pauses.last)
+    let unchanged4 = try observe(aboveOrigin, at: 410, usable: false)
+    precondition(
+        unchanged4 == nil,
+        "An unchanged idle frame after resume is not the first usable placement")
+    let resumed = try observe(aboveOrigin, at: 420, usable: true)
+    precondition(
+        resumed?.epoch == 3 && resumed?.sourceUs == 120,
+        "The resumed usable frame places only the current epoch, using pause-adjusted source time")
+    _ = track.accept(reading(hostUs: 425, x: -250, y: -1400), sourceUs: clock.sourceTime(for: 425))
+    let activeIdle = try observe(letterboxed, at: 430, usable: false)
+    precondition(
+        activeIdle?.epoch == 4 && activeIdle?.sourceUs == 130,
+        "New geometry observed on active idle frames retains its known source coordinate")
+    let unchanged5 = try observe(letterboxed, at: 440, usable: true)
+    precondition(unchanged5 == nil)
+    let samples = track.seal()
+    precondition(
+        samples.map(\.geometryEpoch) == [1, 3] && samples.map(\.sourceUs) == [50, 125],
+        "Delayed cursor batches retain the actual observed epoch, not the latest journal entry")
+    try journal.recordCursorSamples(samples)
+    precondition(
+        track.stats.geometryEpochs == 4,
+        "Timed placement of the same epoch is not a geometry change")
+    var events: [JournalGeometry] = []
+    var readSamples: [CursorSample] = []
+    let summary = try CaptureJournal.streamEvidence(
+        directory: directory.path,
+        geometry: { events.append($0) }, samples: { readSamples.append(contentsOf: $0) })
+    precondition(events.map(\.epoch) == [1, 1, 2, 3, 3, 4])
+    precondition(events.map(\.sourceUs) == [nil, 0, nil, nil, 120, 130])
+    precondition(events.map(\.hostUs) == [10, 100, 250, 260, 420, 430])
+    precondition(
+        summary.invalidAtSequence == nil && summary.geometryEpochs == 4 && readSamples == samples)
+    print(
+        "PASS unplaced geometry epochs gain one native timed placement without rewriting raw evidence"
+    )
 }

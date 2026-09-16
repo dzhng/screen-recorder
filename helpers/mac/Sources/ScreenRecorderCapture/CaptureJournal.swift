@@ -383,11 +383,12 @@ public struct JournalAudioSamples: Codable, Sendable {
     public let endUs: Int64
 }
 
-/// A geometry change and the raw frame evidence that explains it.
+/// A geometry observation and the raw frame evidence that explains it. An epoch can occur
+/// twice: first without source time, then confirmed on a usable frame in source time.
 public struct JournalGeometry: Codable, Sendable {
     public let epoch: Int
     public let hostUs: Int64
-    /// Absent when the take was paused or had no source zero yet when the frame arrived.
+    /// Absent when the clock could not place the observed frame (before source zero or across a pause).
     public let sourceUs: Int64?
     public let geometry: CaptureGeometry
 }

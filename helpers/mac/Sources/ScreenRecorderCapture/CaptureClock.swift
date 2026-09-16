@@ -14,7 +14,14 @@ public struct CaptureClock: Sendable {
 
     public init() {}
     public var isPaused: Bool { pausedAt != nil }
-    public mutating func start(at hostUs: Int64) { if originUs == nil { originUs = hostUs } }
+    /// Source zero belongs to a usable frame whose host-time interval excludes pauses;
+    /// delivering a paused frame after resume does not make that timestamp eligible.
+    @discardableResult
+    public mutating func start(at hostUs: Int64, durationUs: Int64 = 0) -> Bool {
+        guard originUs == nil, accepts(hostUs: hostUs, durationUs: durationUs) else { return false }
+        originUs = hostUs
+        return true
+    }
     public mutating func seal(at hostUs: Int64) { if sealedAt == nil { sealedAt = hostUs } }
     public mutating func pause(at hostUs: Int64) { if pausedAt == nil { pausedAt = hostUs } }
     public mutating func resume(at hostUs: Int64) {
@@ -26,14 +33,21 @@ public struct CaptureClock: Sendable {
         intervals.append((start, hostUs))
     }
     public func sourceTime(for hostUs: Int64, durationUs: Int64 = 0) -> Int64? {
-        guard let originUs, hostUs >= originUs else { return nil }
-        let endUs = hostUs + max(0, durationUs)
-        if let pausedAt, hostUs >= pausedAt || endUs > pausedAt { return nil }
-        for interval in intervals {
-            if hostUs < interval.end && endUs > interval.start { return nil }
-            if hostUs >= interval.start && hostUs < interval.end { return nil }
-        }
+        guard let originUs, hostUs >= originUs, accepts(hostUs: hostUs, durationUs: durationUs)
+        else { return nil }
         return hostUs - originUs - removedBefore(hostUs, originUs: originUs)
+    }
+
+    /// The same interval rule gates origin and media placement, including delayed deliveries
+    /// whose host timestamps fall inside a pause that has already ended.
+    private func accepts(hostUs: Int64, durationUs: Int64) -> Bool {
+        let endUs = hostUs + max(0, durationUs)
+        if let pausedAt, hostUs >= pausedAt || endUs > pausedAt { return false }
+        for interval in intervals {
+            if hostUs < interval.end && endUs > interval.start { return false }
+            if hostUs >= interval.start && hostUs < interval.end { return false }
+        }
+        return true
     }
 
     /// How much source time this take holds right now: the same playback coordinate its media is

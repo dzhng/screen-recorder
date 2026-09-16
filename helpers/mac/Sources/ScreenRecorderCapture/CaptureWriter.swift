@@ -221,17 +221,25 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     /// Follows the placement each delivered frame reports. Idle and blank frames still describe
     /// where the source is, so geometry follows them even though their pixels are not written; a
     /// moved or resized window keeps the same output dimensions.
-    private func updateGeometry(from info: [SCStreamFrameInfo: Any], hostUs: Int64) {
+    private func updateGeometry(
+        from info: [SCStreamFrameInfo: Any], hostUs: Int64, durationUs: Int64, usable: Bool
+    ) {
         guard
             let observed = CaptureGeometry(
                 frameInfo: info, outputWidth: width, outputHeight: height,
                 requestedSourceRect: requestedSourceRect)
         else { return }
-        guard let epoch = cursor.observe(observed, hostUs: hostUs) else { return }
+        guard
+            let event = cursor.observe(
+                observed, hostUs: hostUs,
+                sourceUs: clock.sourceTime(for: hostUs, durationUs: usable ? durationUs : 0),
+                usable: usable
+            )
+        else { return }
         _ = record {
             try self.journal.recordGeometry(
-                epoch: epoch, hostUs: hostUs, sourceUs: self.clock.sourceTime(for: hostUs),
-                geometry: observed)
+                epoch: event.epoch, hostUs: event.hostUs, sourceUs: event.sourceUs,
+                geometry: event.geometry)
         }
     }
 
@@ -246,6 +254,16 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         guard pts.isNumeric else { return }
         let hostUs = CMTimeConvertScale(pts, timescale: 1_000_000, method: .roundHalfAwayFromZero)
             .value
+        let duration = CMSampleBufferGetDuration(sample)
+        let observedDurationUs =
+            duration.isNumeric
+            ? max(
+                0,
+                CMTimeConvertScale(duration, timescale: 1_000_000, method: .roundHalfAwayFromZero)
+                    .value)
+            : 0
+        let durationUs =
+            observedDurationUs > 0 ? observedDurationUs : (type == .screen ? 33_333 : 0)
         let role: String
         switch type {
         case .screen:
@@ -260,26 +278,16 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
                     || status == SCFrameStatus.started.rawValue) && sample.imageBuffer != nil
             // Source zero belongs to the first usable frame, so the geometry that frame reports is
             // placed at source zero rather than in the take's unplaceable prologue.
-            if usable, clock.originUs == nil {
-                clock.start(at: hostUs)
+            if usable, clock.start(at: hostUs, durationUs: durationUs) {
                 publishClock()
                 guard record({ try self.journal.recordOrigin(hostUs: hostUs) }) else { return }
             }
-            updateGeometry(from: info, hostUs: hostUs)
+            updateGeometry(from: info, hostUs: hostUs, durationUs: durationUs, usable: usable)
             guard usable else { return }
         case .audio: role = "system"
         case .microphone: role = "narration"
         @unknown default: return
         }
-        let duration = CMSampleBufferGetDuration(sample)
-        let observedDurationUs =
-            duration.isNumeric
-            ? max(
-                0,
-                CMTimeConvertScale(duration, timescale: 1_000_000, method: .roundHalfAwayFromZero)
-                    .value) : 0
-        let durationUs =
-            observedDurationUs > 0 ? observedDurationUs : (role == "video" ? 33_333 : 0)
         guard let sourceUs = clock.sourceTime(for: hostUs, durationUs: durationUs) else {
             omitted[role, default: 0] += 1
             return

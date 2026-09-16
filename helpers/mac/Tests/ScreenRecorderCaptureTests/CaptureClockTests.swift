@@ -2,6 +2,27 @@ import ScreenRecorderCapture
 
 func runCaptureClockTests() {
     runElapsedTests()
+    var prologue = CaptureClock()
+    prologue.pause(at: 10)
+    precondition(
+        !prologue.start(at: 20) && prologue.originUs == nil,
+        "A usable frame during a pre-origin pause cannot establish source zero")
+    prologue.resume(at: 30)
+    precondition(
+        prologue.start(at: 40) && prologue.sourceTime(for: 40) == 0,
+        "The first active usable frame owns source zero after a pre-origin pause")
+    precondition(
+        !prologue.start(at: 50) && prologue.originUs == 40,
+        "Following frames cannot move an established origin")
+    var delayed = CaptureClock()
+    delayed.pause(at: 10)
+    delayed.resume(at: 30)
+    precondition(!delayed.start(at: 20) && delayed.originUs == nil,
+        "A delayed first frame whose timestamp was paused cannot establish source zero after resume")
+    precondition(!delayed.start(at: 5, durationUs: 10) && delayed.originUs == nil,
+        "A delayed first frame spanning a completed pause cannot establish source zero")
+    precondition(delayed.start(at: 40) && delayed.sourceTime(for: 40) == 0)
+    print("PASS source zero waits for an active usable frame")
 
     var clock = CaptureClock()
     clock.start(at: 100_000_000)
@@ -53,7 +74,6 @@ func runCaptureClockTests() {
     precondition(!generations.accepts(secondTake), "A finalized take cannot accept delayed errors")
     print("PASS stale failure and finalizer after restart")
 }
-
 
 /// Elapsed playback time is what a recording control displays. It is the take's own source time,
 /// so it freezes while the take is paused and never counts paused wall time.

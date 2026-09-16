@@ -30,3 +30,19 @@ Acceptance: real native normalized timing exports, corrupt/truncated-prefix
 honesty, bounded ingestion/query tests, no unrequested-role audio, merged-interval
 query boundaries, and the own-window source-processing/frame integration gates.
 Audio excerpt planning and the default scene/trail producer remain later work.
+
+## Geometry placement after unavailable source time
+
+Native geometry observations preserve raw host time even before source zero and
+while paused. If an epoch has no source placement, the first unchanged usable frame
+accepted by the capture clock emits a second observation of that same epoch with
+its current source time. It does not rewrite the earlier null record or invent a
+new geometry epoch. Paused frames cannot start source zero, and an unchanged idle
+frame cannot supply the deferred placement. New geometry on active idle frames
+continues to preserve its contemporaneous native source coordinate.
+
+Consumers must allow repeated geometry epochs and use source coordinates for
+placement; journal sequence is delivery order, and buffered cursor samples can be
+written after newer geometry. Older journals that never acquired a timed placement
+remain honestly unplaced. No exporter or TypeScript host-time reconstruction is
+introduced. See [placement verification](../assets/source-timing/geometry-placement.md).
