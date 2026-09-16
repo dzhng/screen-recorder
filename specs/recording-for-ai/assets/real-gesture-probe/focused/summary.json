@@ -9,7 +9,12 @@
       "microphone": false,
       "systemAudio": false,
       "sourceVideoSha256": "947a84e761941efc6c48949eb348277861560c9361880923e594bd5dbdc6c998",
-      "sourceJournalSha256": "5382c21ba2cc0fa8bd9d6173a6c3464d198e97249ac1e3692ab477ad5f8b7c22"
+      "sourceJournalSha256": "5382c21ba2cc0fa8bd9d6173a6c3464d198e97249ac1e3692ab477ad5f8b7c22",
+      "uniqueGlobalPositions": 1062,
+      "observedButtonStates": [
+        0,
+        1
+      ]
     },
     {
       "recordingId": "dafa3797-1bcf-4cb0-9a57-34b068c16703",
@@ -19,7 +24,11 @@
       "microphone": false,
       "systemAudio": false,
       "sourceVideoSha256": "a260612e8a0b7a495e87c1811a468428ac977c21e6184648c6a182a31f624599",
-      "sourceJournalSha256": "8a2910811879943e0bcbdd2162938f7663ac9ea7da1cf1aa85d4b6e24efa205d"
+      "sourceJournalSha256": "8a2910811879943e0bcbdd2162938f7663ac9ea7da1cf1aa85d4b6e24efa205d",
+      "uniqueGlobalPositions": 1,
+      "observedButtonStates": [
+        0
+      ]
     }
   ],
   "delivered": {

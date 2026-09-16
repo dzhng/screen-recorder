@@ -38,3 +38,12 @@ media remains in its temporary recording library. Both owned app/service process
 were stopped and their execution handles reached exit 0. Focusing did not establish
 captured pointing; this remains a failed automation probe, not a verified physical
 cursor gate or evidence for changing coordinate transforms.
+
+A subsequent read of the same hash-verified journals distinguishes the failed
+attempts: the first has 1,062 distinct global positions and button states 0/1,
+all outside the captured bounds; the second has exactly one global position and
+no button-down sample. Thus the second automation sequence did not produce an
+observed drag, even though its UI actions returned. These counts narrow the next
+probe: independently verify actual pointer movement over the fixture before using
+its recording to judge the geometry transform. They do not identify which control
+or coordinate layer caused the first path to remain outside.
