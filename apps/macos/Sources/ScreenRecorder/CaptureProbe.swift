@@ -34,11 +34,6 @@ func runCaptureProbe() async {
             fixtureWindow = makeCaptureFixtureWindow()
             try emit(["windowID": fixtureWindow!.windowNumber])
             try await Task.sleep(for: .seconds(3600))
-        case "--controls-shots":
-            guard args.count == 3 else {
-                throw CaptureFailure("INVALID_REQUEST", "Pass the directory to write the shots to.")
-            }
-            try ControlsShots.render(into: args[2])
         case "--capture-preflight":
             try emit(
                 [
