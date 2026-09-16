@@ -11,7 +11,8 @@
     "lab:index-scale": "node --test ../../apps/macos/tests/index-scale.mjs",
     "lab:storage": "node --test storage.mjs",
     "lab:render-timing": "node --test render-timing.mjs",
-    "lab:package-relocation": "node --test ../../apps/macos/tests/package-relocation.mjs"
+    "lab:package-relocation": "node --test ../../apps/macos/tests/package-relocation.mjs",
+    "lab:package-archive": "node --test ../../apps/macos/tests/package-archive.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",

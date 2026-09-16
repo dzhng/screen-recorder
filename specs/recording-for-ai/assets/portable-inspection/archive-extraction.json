@@ -1,0 +1,157 @@
+{
+  "scope": "Generated archive container/manifest validation; payloads are not media or accepted evidence",
+  "results": [
+    {
+      "case": "valid",
+      "archiveSha256": "c5f9d75eb8a5b45350bc7174c8b1448174b1498cf55b6051bee547bf5661b5a3",
+      "expandedBytes": 3174,
+      "memberCount": 11,
+      "parser": "libarchive 3.7.4",
+      "initialReadBytes": 14129,
+      "peakResidentBytes": 11862016
+    },
+    {
+      "case": "extra",
+      "rejected": true
+    },
+    {
+      "case": "bad-central",
+      "rejected": true
+    },
+    {
+      "case": "bad-local",
+      "rejected": true
+    },
+    {
+      "case": "undercount",
+      "rejected": true
+    },
+    {
+      "case": "undercount-bad",
+      "rejected": true
+    },
+    {
+      "case": "crc",
+      "rejected": true
+    },
+    {
+      "case": "hash",
+      "rejected": true
+    },
+    {
+      "case": "mac",
+      "rejected": true
+    },
+    {
+      "case": "duplicate",
+      "rejected": true
+    },
+    {
+      "case": "case",
+      "rejected": true
+    },
+    {
+      "case": "directory",
+      "rejected": true
+    },
+    {
+      "case": "file-directory",
+      "rejected": true
+    },
+    {
+      "case": "symlink",
+      "rejected": true
+    },
+    {
+      "case": "fifo",
+      "rejected": true
+    },
+    {
+      "case": "absolute",
+      "rejected": true
+    },
+    {
+      "case": "parent",
+      "rejected": true
+    },
+    {
+      "case": "backslash",
+      "rejected": true
+    },
+    {
+      "case": "nul",
+      "rejected": true
+    },
+    {
+      "case": "nul-empty",
+      "rejected": true
+    },
+    {
+      "case": "unicode-duplicate",
+      "rejected": true
+    },
+    {
+      "case": "unicode-parent",
+      "rejected": true
+    },
+    {
+      "case": "encrypted",
+      "rejected": true
+    },
+    {
+      "case": "size-lie",
+      "rejected": true
+    },
+    {
+      "case": "exact-limits",
+      "constraints": {
+        "expandedBytes": 3174,
+        "memberBytes": 2798,
+        "manifestBytes": 2798,
+        "entries": 11,
+        "compressedBytes": 2385,
+        "revisionBytes": 315,
+        "history": 2,
+        "pathBytes": 28,
+        "componentBytes": 21,
+        "depth": 2
+      }
+    },
+    {
+      "case": "metadata-many",
+      "peakResidentBytes": 11403264,
+      "error": "ZIP initial metadata read limit exceeded."
+    },
+    {
+      "case": "metadata-large",
+      "peakResidentBytes": 11354112,
+      "error": "ZIP initial metadata read limit exceeded."
+    },
+    {
+      "case": "metadata-default",
+      "peakResidentBytes": 33751040,
+      "error": "ZIP initial metadata read limit exceeded."
+    },
+    {
+      "case": "forced-kill-cleanup",
+      "parserPid": 9526,
+      "reaped": true
+    },
+    {
+      "case": "inner-replacement",
+      "parserPid": 9532,
+      "externalSentinelUntouched": true
+    }
+  ],
+  "nativeSha256": "95a81990c9a4738553e1bc8e309fdfd34e4abcd2f6cbdeacdcb481f180aba114",
+  "nativeBuild": "swift build --package-path helpers/mac --product screenrec-native",
+  "archiveTests": 38,
+  "managedFileTests": 8,
+  "coreTests": 267,
+  "serviceTests": 85,
+  "mutations": {
+    "tailCompletion": "red: bad local tail accepted when stopping after manifest",
+    "noFollowDirectory": "red: capture.journal.jsonl appeared outside workspace"
+  },
+  "ownedProcessesReaped": true
+}

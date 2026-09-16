@@ -1,7 +1,8 @@
 # Archive boundary research
 
-This is preparation for 14c, not an accepted extraction implementation or a new
-dependency. The moved-directory checks do not prove untrusted ZIP opening.
+This records the research behind [14c1](../../slices/14c1-bounded-archive-extraction.md).
+Its tiny probes are distinct from the later [extraction proof](archive-extraction.md);
+the moved-directory checks alone do not prove untrusted ZIP opening.
 
 The Swift-native [ZIPFoundation project](https://github.com/weichsel/ZIPFoundation)
 provides chunked extraction to a consumer closure, which could feed the existing
@@ -34,9 +35,9 @@ and delivery revocation remain later ownership work.
 
 ## Follow-up probes and conditional choice
 
-[14c1](../../slices/14c1-bounded-archive-extraction.md) now selects the system
-libarchive seekable ZIP reader as its implementation candidate, subject to that
-slice's full acceptance suite. This adds no Homebrew runtime requirement or bundled
+[14c1](../../slices/14c1-bounded-archive-extraction.md) selects the system
+libarchive seekable ZIP reader; the extraction report supplies its subsequent
+acceptance suite. This adds no Homebrew runtime requirement or bundled
 third-party binary: a minimal SwiftPM C system module vendors the unmodified, licensed
 [3.7.4 public headers](https://github.com/libarchive/libarchive/tree/v3.7.4/libarchive),
 links `archive.2`, and is consumed by the native extraction owner. The configured
@@ -89,9 +90,10 @@ and cancellation, including a single oversized metadata entry. If allocation can
 precede bounded input or loop without another callback, reject the candidate or
 add a proven library-supported limit; do not claim the byte counter solved it.
 
-Independent plan review additionally identified raw-name visibility, check-to-unlink
-races and post-kill cleanup ownership as unresolved prerequisites. They are now
-explicit first gates in 14c1; a complete extraction implementation is not yet
-dependency-ready. The receipt-only core verifier can consume bounded immutable
-manifest/revision bytes after a one-shot worker exits; keeping a native session
-alive solely for core JSON validation would add an unnecessary protocol.
+Independent plan review identified raw-name visibility, check-to-unlink races and
+post-kill cleanup ownership as prerequisites. The extraction pass settled them
+through effective-name inventory checks, explicit private workspace ownership and
+a parent-retained descriptor. Core verifies bounded immutable manifest/revision
+bytes after the one-shot child exits; no two-way resident verification protocol
+is necessary. The 14c1 slice owns the precise threat model and remaining lifetime
+boundary.

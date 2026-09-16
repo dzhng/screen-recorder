@@ -1,0 +1,5 @@
+module CLibArchive [system] {
+  header "include/archive.h"
+  header "include/archive_entry.h"
+  export *
+}

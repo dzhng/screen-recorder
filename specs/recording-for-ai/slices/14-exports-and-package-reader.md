@@ -48,8 +48,9 @@ independently once their respective dependencies pass.
 [Archive candidate research](../assets/portable-inspection/archive-candidate.md)
 records malformed-tail and resource-fork probes.
 [14c1 — Bounded extraction](14c1-bounded-archive-extraction.md) selects system
-libarchive as a conditional implementation candidate and pins the next extraction
-transaction; production extraction and retained context lifetime remain open.
+libarchive and proves an internal descriptor-owned extraction transaction.
+Its bounded receipt validates container bytes and 14a metadata; retained context
+lifetime, payload inspection and public opening remain open.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native

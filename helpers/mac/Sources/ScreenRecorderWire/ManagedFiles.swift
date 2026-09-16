@@ -15,7 +15,7 @@ struct StorageFailure: Error {
 
 /// Core selects owned identities; this boundary resolves and removes only beneath pinned directories.
 enum ManagedFiles {
-    private struct Identity {
+    struct Identity {
         let dev: UInt64
         let ino: UInt64
 
@@ -129,17 +129,39 @@ enum ManagedFiles {
             if errno == ENOENT { return }
             throw failure("Open recording directory")
         }
-        guard let stream = fdopendir(fd) else {
-            let error = failure("Enumerate recording directory")
-            close(fd)
-            throw error
-        }
-        defer { closedir(stream) }
+        defer { close(fd) }
         var opened = stat()
         guard fstat(fd, &opened) == 0 else { throw failure("Inspect opened directory") }
         guard opened.st_dev == info.st_dev, opened.st_ino == info.st_ino else {
             throw StorageFailure("INVALID_STORAGE", "Recording directory changed while opening.")
         }
+        try removeContents(fd, depth: depth)
+        if unlinkat(parent, name, AT_REMOVEDIR) != 0 && errno != ENOENT {
+            throw failure("Remove emptied recording directory")
+        }
+    }
+
+    /// The lock follows the shared open-file description while the parent retains its FD.
+    static func lockPrivateDirectory(_ fd: Int32) throws {
+        var info = stat()
+        guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
+            info.st_uid == getuid(), info.st_mode & 0o777 == 0o700,
+            flock(fd, LOCK_EX | LOCK_NB) == 0 else {
+            throw StorageFailure("INVALID_STORAGE",
+                "Workspace must be a private directory owned exclusively by this attempt.",
+                retryable: false)
+        }
+    }
+
+    // The caller exclusively owns the directory; cleanup never re-resolves its path.
+    static func removeContents(_ fd: Int32, depth: Int = 0) throws {
+        let scan = openat(fd, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard scan >= 0 else { throw failure("Open owned directory") }
+        guard let stream = fdopendir(scan) else {
+            close(scan)
+            throw failure("Enumerate owned directory")
+        }
+        defer { closedir(stream) }
         while true {
             errno = 0
             guard let entry = readdir(stream) else {
@@ -154,9 +176,6 @@ enum ManagedFiles {
                     try removeEntry(fd, child, depth: depth + 1)
                 }
             }
-        }
-        if unlinkat(parent, name, AT_REMOVEDIR) != 0 && errno != ENOENT {
-            throw failure("Remove emptied recording directory")
         }
     }
 

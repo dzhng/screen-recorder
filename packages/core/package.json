@@ -111,6 +111,10 @@
     "./pointer-schedule": {
       "types": "./dist/pointer-schedule.d.ts",
       "default": "./dist/pointer-schedule.js"
+    },
+    "./package-archive": {
+      "types": "./dist/package-archive.d.ts",
+      "default": "./dist/package-archive.js"
     }
   },
   "scripts": {

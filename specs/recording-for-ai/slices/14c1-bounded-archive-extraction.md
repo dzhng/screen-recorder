@@ -1,157 +1,115 @@
 # 14c1 — Bounded archive extraction transaction
 
-Status: feasibility gate planned, tiny parser probes completed; no production extractor,
-package handle or accepted hostile-archive boundary yet. Depends on 14a and 14b3.
-The single verdict is whether a generated no-narration archive can be completely
-verified inside a descriptor-owned transaction, or fail and clean up safely.
+Status: internal extraction implemented and reviewed; evidence below. This proves
+container enumeration, containment, hashes and existing 14a manifest/history rules.
+It does not certify media/evidence payload semantics, expose a package handle, or
+close parent 14c. Generated fixture payloads are deliberately not playable media.
 
-## One owner per concern
+## One owner and a concrete lifetime
 
-Core keeps `validateManifest`, revision/history validation and exact inventory
-comparison. Native code owns ZIP decoding, CRC checks, actual byte counts, SHA-256,
-and filesystem descriptors. Use the system libarchive **seekable ZIP reader only**
-through a minimal SwiftPM C system module (pinned upstream public headers and
-license, system `archive.2` linker library, no Homebrew runtime dependency); no handwritten ZIP parser, pathname extraction,
-second manifest validator, library catalog or new inspection engine. This is the
-selected implementation candidate, conditional on the acceptance tests below;
-[parser research](../assets/portable-inspection/archive-candidate.md) records why.
+[verifyPackageArchive](../../../apps/service/src/package-archive.ts) receives an
+absolute no-symlink archive path, an already-open empty private workspace directory
+FileHandle, the existing native worker and optional cancellation/limits/deadline.
+The caller owns that directory exclusively and keeps its handle open until the
+promise settles. Provisioning a package-cache directory and crash recovery remain
+with the later retained-context owner; this pass never invents library rows.
 
-The internal core seam is `verifyPackageArchive(input, options): Promise<Receipt>`.
-Input supplies the archive path and expected owned cache-root identity; options
-carry cancellation and explicit limits. Receipt contains the validated manifest,
-selected revision/history identities, inventory count/bytes and archive digest,
-**not** a usable staging path or package handle. Resolving means verification and
-cleanup both finished. A cleanup error must never be reported as success.
+Preparation validates device/inode identity, owner/mode and emptiness, then takes an
+advisory exclusive lock on the inherited FD. The parent retains the same open-file
+description, so the lock and cleanup authority survive preparation/extraction child
+exit. A second independent open cannot claim the workspace. Calls on one owned
+FileHandle are serialized by its caller; the lock is not protection against the
+owner starting two operations on its own shared descriptor.
 
-The target shape is a one-shot native worker emitting bounded inventory plus
-manifest/revision bytes after complete extraction and cleanup. Core validates that
-immutable receipt with its existing owners; it does not need native descriptors
-alive after the response. Never return a staging path and reopen it for core
-validation. Limit protocol bytes independently of media bytes. This receipt-only
-checkpoint proves extraction, not retained package access; 14c's retained owner
-must later adopt the same extraction result before cleanup under a separately
-proven FD lifetime, rather than introduce another verifier.
+[mediaWorker](../../../apps/service/src/worker.ts) passes `descriptors` into child
+FDs 3 onward and retains its existing close-before-settle behavior. Extraction
+inherits the workspace at FD 3 and returns one bounded receipt, including manifest
+and revision bytes. Core's [receipt verifier](../../../packages/core/src/package-archive.ts)
+uses the existing manifest/history validators plus exact observed inventory/hash
+comparison. No native FD must survive solely for core JSON parsing, and no staging
+pathname is reopened for verification.
 
-**Run these feasibility gates before substantial implementation:**
+After extraction success, parser failure, validation failure or cancellation,
+cleanup inherits the **same parent-retained FD** in another bounded worker. The
+parser is already reaped, including SIGKILL, before cleanup starts. The promise
+resolves only after cleanup empties the workspace; its root remains caller-owned.
+A failed preparation never clears a directory it could not admit empty. A cleanup
+failure returns `ARCHIVE_CLEANUP_FAILED`, preserving both operation and cleanup
+messages; the owner retains the handle for recovery. Parent-process death and
+persistent startup reclamation are later context-lifetime work, not success cases.
 
-1. Prove name validation against embedded NUL and Unicode-path override fixtures.
-   `archive_entry_pathname` is decoded and NUL-terminated; it cannot by itself
-   prove the raw-name policy below. Require a supported parser signal/API, or
-   explicitly revise the policy with containment/inventory evidence. No private ZIP
-   scanner to repair the missing signal. Candidate selection remains conditional.
-2. Prove cleanup ownership after an unresponsive parser is killed. One acceptable
-   shape is an attempt owner retaining the root FD and passing it into parser and
-   cleanup children; another is a native supervisor retaining the FD while its
-   parser child is killed. Demonstrate actual descriptor transfer/lifetimes before
-   selecting; the existing one-shot wrapper cannot retain a dead child's FDs.
-   Parent/root crash recovery is a separate explicit failure case, not successful
-   cleanup. Do not grow a resident service or new request protocol for this proof.
-3. Resolve check-to-unlink replacement with a real ownership/exclusion contract.
-   Directory FDs prevent traversal escapes, but stat then unlink is not atomic.
-   Existing ManagedFiles does not establish protection against arbitrary same-UID
-   mutation between those calls. Test that exact barrier and name which actors can
-   mutate the private tree; do not claim a mode-0700 directory excludes same-UID
-   processes. Either prove exclusion for the declared threat model or retain an
-   explicit cleanup failure/remaining-directory result. Do not silently weaken the
-   parent's no-external-write requirement.
+## Filesystem and decoding policy
 
-These unresolved choices are the next work, not delegated implementation details.
-Record their proof and settle this section before adding production extraction.
+[ArchiveOperation](../../../helpers/mac/Sources/ScreenRecorderWire/ArchiveOperation.swift)
+uses system libarchive's seekable ZIP reader only, with `zip:mac-ext` disabled so
+resource-fork entries remain visible. Its minimal C binding vendors licensed,
+unmodified upstream 3.7.4 public headers and links the SDK's `archive.2` stub; the
+SDK has no archive headers. No Homebrew runtime, bundled library, shell extraction
+or handwritten parser is used. Receipts record the actual runtime version.
 
-## Filesystem and parser contract
+The native owner opens the input without following ancestor symlinks, copies it
+through that FD into an exclusive bounded snapshot, and hashes those copied bytes.
+Replacing the input pathname cannot switch the opened source. Concurrent in-place
+writes may yield an invalid snapshot; this does not promise an atomic snapshot of
+an external file. Parsing and extraction operate on the private copied bytes.
 
-- Open the source with ancestor-aware no-follow semantics and require a regular
-  file. Copy through that FD into an exclusive private snapshot under the pinned
-  cache directory before parsing; charge compressed bytes while copying. This
-  accepts the copied byte sequence, not an atomic snapshot of a concurrently
-  modified external file. The archive digest identifies those exact copied bytes.
-- Create a random private root through `mkdirat`/`openat`, mode 0700; files use
-  exclusive descriptor-relative creation, mode 0600. Resolve every component
-  beneath pinned directory FDs, reject symlinks, retain UInt64 device/inode
-  identities, and never restore archive permissions, timestamps or extended data.
-  Reuse the existing ManagedFiles descriptor/identity primitives where valid;
-  settle its unlink race in the feasibility gate before promising shared cleanup.
-- Disable `zip:mac-ext` so resource-fork members cannot disappear from enumeration.
-  Enable no other archive formats or filters. Reject encrypted archives, links,
-  sparse/special entries and unsupported entries explicitly. Accept only normal
-  parser success and final EOF; warnings, retries, failed reads and CRC errors fail.
-- Enumerate and fully stream **every** member, including the tail after the last
-  expected manifest file. Validate raw names before normalization: ASCII relative
-  slash-separated paths only, no backslashes, empty/dot/parent components, NUL,
-  absolute roots or ambiguous encodings. Reject duplicate/case-fold collisions
-  and file/directory conflicts before any second creation.
-- Explicit directories must be zero-byte canonical ancestors of inventoried files;
-  extra directories fail too. Implicit parent creation is not an archive member.
-  Manifest is the sole inventory exception and cannot list/hash itself. Reject
-  unlisted/missing members and mismatched actual sizes/hashes. Existing 14a still
-  rejects narrated complete packages until accepted 08 payload validation exists.
-- Hold file identities through core verification, and read metadata by those
-  descriptors. A descriptor pins identity, not immutable contents: recheck streamed
-  file size/hash before accepting if any writable lifetime remains. No reopening
-  an unchecked absolute staging pathname during verification or cleanup.
-- Cleanup operates on the owned tree, checks identity before unlinking its name,
-  never follows replacements and never removes a foreign replacement. If a hostile
-  rename makes the original directory name unreachable, empty owned contents via
-  its FD and report explicit cleanup failure rather than deleting another root.
+Names are the parser's **effective decoded names**, then restricted to ASCII
+relative components. A safe Unicode-path override may represent an inventoried
+ASCII member. Raw encoding purity is not required: NUL/Unicode aliases cannot
+bypass full enumeration, duplicate/case collision checks, exact inventory or SHA.
+Traversal, absolute/backslash/empty components, links, special/sparse/encrypted
+entries and file/directory collisions fail. Explicit directories must be empty
+canonical ancestors of inventoried files. Every member is streamed, including any
+tail after all expected files; parser warnings/errors and CRC failures reject.
+Manifest is the sole inventory exception and cannot inventory itself.
 
-## Explicit resource policy
+All directory traversal/file creation uses pinned directory FDs with no-follow and
+exclusive file creation. Permissions are fixed (0700 directories, 0600 files);
+archive permissions, extended attributes and timestamps are never restored.
+[ManagedFiles](../../../helpers/mac/Sources/ScreenRecorderWire/ManagedFiles.swift)
+owns shared directory locking, identity and recursive cleanup primitives. Cleanup
+never removes the caller's root by pathname. It does not claim stat+unlink is
+atomic against a hostile same-UID process replacing every syscall target. The
+threat model is hostile archive content, cooperating service ownership, and
+controlled ancestor/member replacement: replacements are never followed and
+observed ownership loss fails explicitly. Arbitrary same-UID memory/FD mutation
+is outside this boundary.
 
-Defaults are admission bounds, not a throughput promise. Limits are injectable
-only at the internal seam so small fixtures can test exact boundaries.
+## Resource policy
 
-| Resource | Default |
-| --- | ---: |
-| Copied compressed archive / total actual expansion | 16 GiB each |
-| One regular member | 8 GiB |
-| Members, including explicit directories | 25,000 |
-| Path / component / depth | 512 ASCII bytes / 128 bytes / 16 components |
-| Manifest / aggregate revision JSON / history records | 8 MiB / 4 MiB / 1,000 |
-| Parser input before first header / I/O chunk | 8 MiB / 64 KiB |
+The [core limit owner](../../../packages/core/src/package-archive.ts) defines
+independently enforced maxima: 16 GiB compressed/expanded, 8 GiB/member, 25,000
+entries, 512-byte paths, 128-byte components, depth 16, 1,000 history records,
+2 MiB manifest, 1 MiB aggregate revisions, and 7 MiB encoded receipt. The metadata
+limits were reduced from the draft to fit the existing 8 MiB transport; no new
+streaming protocol is needed. Lower limits can be injected for focused tests.
 
-These bounds accommodate the measured 30-minute fixture's 6,459 index images plus
-normalized evidence pages without assuming every long recording fits. Pass the
-matching limits into the existing manifest owner. Actual reads/writes count even
-when header sizes lie. Stop before exposing an over-budget chunk to the parser or
-writing it; preserve the callback's limit/cancellation error even when libarchive
-has no diagnostic. Libarchive eagerly reads the central directory before its first
-header: meter **all callback bytes, including rereads**, from open until that first
-header so entry-count checks cannot follow an unbounded metadata allocation.
-Afterward enforce entry/path/actual expansion limits with fixed-size buffers.
-Use a 30-minute transaction safety deadline, with prompt cooperative cancellation
-and bounded process termination if native work stops responding. This is not a
-performance acceptance claim. No retry loop for invalid input.
+A 64 KiB buffer bounds each copy/decode step; actual bytes count before writing.
+All read-callback bytes, including rereads, are capped at 8 MiB until the first
+header because libarchive eagerly allocates central-directory state. Entry checks
+alone would occur too late. The parser never receives a byte beyond that initial
+budget. Deadline defaults to 30 minutes as a safety bound, not a performance SLA;
+cleanup has its own 30-second deadline and ignores the canceled extraction signal.
 
-## Acceptance and runnable evidence
+## Verification and continuation
 
-Add a small generated-archive harness at this seam; no capture devices or models.
-Use standard fixture writers, with byte mutations only in tests. Record parser/OS
-version, limits, structured result and owned process/FD cleanup. Verify:
+Run `swift build --package-path helpers/mac --product screenrec-native`, build
+core/protocol/service, then `bun run --cwd packages/test-harness lab:package-archive`.
+`SCREENREC_NATIVE` can select another built worker; `SCREENREC_ARCHIVE_EVIDENCE`
+records compact receipts. No devices, recordings or models are used. The native
+fixture uses Python's ZIP writer with test-only header mutations.
 
-1. Valid generated no-narration manifest, pinned old revision and complete admitted
-   history: exact receipt; original input unchanged; private stage gone on return.
-2. Valid expected members followed by malformed central/local tail, underreported
-   entry count, aliased offsets, extra macOS metadata, corrupt CRC and inventory
-   SHA: no successful receipt. A mere inventory subset match must not pass.
-3. Each byte/count/path/depth limit at and over its bound, declared-size lies,
-   highly compressible data and many empty central entries. Measure bounded RSS
-   and cancellation while the parser reads metadata before returning any header.
-4. Duplicate/case collisions, traversal, absolute/backslash/NUL paths, links,
-   special/encrypted entries, extra directories and file/directory collisions.
-5. Rename/replace source, cache/stage ancestors and entries at controlled barriers;
-   external sentinels unchanged. Cancel, pipe EOF, parser failure, disk-write fault
-   and verification rejection drain the process and remove only owned contents.
-6. Keep manifest/history, ManagedFiles deletion and relocated inspection suites
-   green. Mutate the tail-completion and no-follow guards separately and show red.
+[Extraction evidence](../assets/portable-inspection/archive-extraction.md) records
+real malformed tails, undercounts, metadata aliases, CRC/hash errors, exact limits,
+RSS, input/ancestor/member replacements, lock exclusion, SIGSTOP→kill cleanup,
+write faults and explicit cleanup failure/recovery. Tail and no-follow mutations
+must fail. Keep manifest/history, worker and ManagedFiles deletion suites green.
+No visual surface changes; review is the bounded native receipt/error matrix.
 
-No visual surface is changed. Human review is the bounded receipt/error matrix.
-Internal type/file names, fixture builders and C-module packaging are delegated;
-new limits, owner changes or parser substitutions need a recorded rationale.
-
-## Deliberate next boundary
-
-14c1 always disposes the extracted tree. Later 14c must retain it with a safe read
-resolver: current OrderedPages/retained-image leaf-only O_NOFOLLOW and a prior root
-inode check do **not** prevent ancestor replacement. Pin every read's traversal and
-native media input lifetime before exposing a context. Then integrate context-scoped
-cache/jobs/leases, close/drain/revocation and public open/close; preserve all parent
-14c same-UUID isolation and relocation gates. No public ZIP route ships from 14c1.
+Next 14c retains the same extracted content under an owned context and promotes
+this extraction/validation flow rather than adding a second verifier. It must pin
+read-time traversal and native media lifetimes: current OrderedPages/retained-image
+leaf-only O_NOFOLLOW and a prior root check do not protect ancestor replacement.
+Then add cache/jobs/leases, close/drain/revocation, startup recovery and public
+open/close with parent 14c's same-UUID isolation and relocated-media parity gates.
+Narrated manifests remain blocked by the accepted 08 payload-validator dependency.

@@ -14,7 +14,17 @@ public enum NativeWire {
             let operation = request["operation"] as? String, !operation.isEmpty,
             let params = request["params"] as? [String: Any]
         {
-            if operation == "media.frame" || operation == "media.visualSamples" {
+            if operation.hasPrefix("archive.") {
+                do {
+                    let data = try ArchiveOperation.execute(operation, params)
+                    response = ["id": id, "ok": true, "data": data]
+                } catch let error as StorageFailure {
+                    response = failure(id: id, code: error.code, message: error.message,
+                        details: ["peakResidentBytes": ArchiveOperation.peakResidentBytes()])
+                } catch {
+                    response = failure(id: id, code: "INVALID_PACKAGE", message: error.localizedDescription)
+                }
+            } else if operation == "media.frame" || operation == "media.visualSamples" {
                 do {
                     let encoded: Data
                     if operation == "media.frame" {
@@ -140,13 +150,13 @@ public enum NativeWire {
         return try! JSONSerialization.data(withJSONObject: response, options: [.sortedKeys])
     }
 
-    private static func failure(id: String?, code: String, message: String) -> [String: Any] {
+    private static func failure(id: String?, code: String, message: String, details: [String: Any] = [:]) -> [String: Any] {
         [
             "id": id as Any? ?? NSNull(), "ok": false,
             "error": [
                 "code": code, "message": message,
                 "retryable": code == "NATIVE_DECODE_FAILED" || code == "DELETE_FAILED",
-                "details": [:],
+                "details": details,
             ],
         ]
     }

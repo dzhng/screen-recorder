@@ -22,7 +22,7 @@ export const MAX_MEDIA_TIMEOUT_MS = 2_147_483_647;
 export type MediaWorker = (
   operation: string,
   params: Record<string, unknown>,
-  options?: { signal?: AbortSignal; timeoutMs?: number },
+  options?: { signal?: AbortSignal; timeoutMs?: number; descriptors?: readonly number[] },
 ) => Promise<OperationResult>;
 
 function failure(code: string, message: string, retryable = false): OperationResult {
@@ -39,7 +39,11 @@ export function mediaWorker(
   environment: NodeJS.ProcessEnv = process.env,
   timeoutMs: number = DEFAULT_TIMEOUT_MS,
 ): MediaWorker {
-  return (operation, params, { signal, timeoutMs: callTimeoutMs = timeoutMs } = {}) =>
+  return (
+    operation,
+    params,
+    { signal, timeoutMs: callTimeoutMs = timeoutMs, descriptors = [] } = {},
+  ) =>
     new Promise<OperationResult>((settle) => {
       const canceled = () => failure("CANCELED", `${operation} was canceled`);
       if (signal?.aborted) {
@@ -74,7 +78,19 @@ export function mediaWorker(
         settle(failure("INVALID_REQUEST", `Cannot encode ${operation} for the native worker`));
         return;
       }
-      const child = spawn(executable, [], { cwd: "/", stdio: ["pipe", "pipe", "ignore"] });
+      if (descriptors.some((fd) => !Number.isSafeInteger(fd) || fd < 0)) {
+        settle(failure("INVALID_REQUEST", "Inherited descriptors must be open file descriptors"));
+        return;
+      }
+      const child = spawn(executable, [], {
+        cwd: "/",
+        stdio: ["pipe", "pipe", "ignore", ...descriptors] as [
+          "pipe",
+          "pipe",
+          "ignore",
+          ...number[],
+        ],
+      });
       const reader = new JsonLineReader(RESPONSE_FRAME_BYTES);
       let result: OperationResult | undefined;
       const finish = (value: OperationResult) => {
@@ -101,7 +117,7 @@ export function mediaWorker(
         // until the child and its pipes are closed, even after a successful response.
         settle(result ?? failure("MEDIA_WORKER_FAILED", `${operation} produced no result`, true));
       });
-      child.stdout.on("data", (chunk: Buffer) => {
+      child.stdout!.on("data", (chunk: Buffer) => {
         let value: unknown;
         try {
           value = reader.push(chunk);
@@ -117,9 +133,9 @@ export function mediaWorker(
             : failure("MEDIA_WORKER_FAILED", `${operation} returned an unreadable result`),
         );
       });
-      child.stdin.on("error", () => {});
+      child.stdin!.on("error", () => {});
       signal?.addEventListener("abort", abort, { once: true });
       if (signal?.aborted) abort();
-      child.stdin.end(frame);
+      child.stdin!.end(frame);
     });
 }

@@ -1,5 +1,5 @@
 import { afterEach, expect, it } from "vitest";
-import { chmod, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdtemp, readFile, rm, writeFile, open } from "node:fs/promises";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { mediaWorker } from "./worker.js";
@@ -21,6 +21,7 @@ let input = '';
 process.stdin.on('data', bytes => input += bytes);
 process.stdin.on('end', () => {
   const request = JSON.parse(input);
+  if (request.operation === 'inherited') writeFileSync(3, 'owned bytes');
   if (request.params.ready) writeFileSync(request.params.ready, String(process.pid));
   if (request.operation === 'answer') process.stdout.write(JSON.stringify({ok:true,data:{pid:process.pid}})+'\\n');
   setInterval(() => {}, 1000);
@@ -111,4 +112,26 @@ it("one short call deadline does not change later calls on the worker", async ()
   const result = await run("answer", {});
   expect(result.ok).toBe(true);
   if (result.ok) expectGone((result.data as { pid: number }).pid);
+});
+
+it("inherited descriptor remains owned by parent after canceled worker closes", async () => {
+  const { home, run } = await fixture();
+  const file = await open(join(home, "inherited"), "w+");
+  try {
+    const controller = new AbortController();
+    const ready = join(home, "ready");
+    const pending = run(
+      "inherited",
+      { ready },
+      { descriptors: [file.fd], signal: controller.signal },
+    );
+    const pid = await readyPid(ready);
+    controller.abort();
+    expect(await pending).toMatchObject({ ok: false, error: { code: "CANCELED" } });
+    expectGone(pid);
+    expect((await file.stat()).size).toBe(11);
+    expect(await readFile(join(home, "inherited"), "utf8")).toBe("owned bytes");
+  } finally {
+    await file.close();
+  }
 });

@@ -15,7 +15,9 @@ let package = Package(
     targets: [
         .target(
             name: "ScreenRecorderWire",
-            dependencies: ["ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames"]),
+            dependencies: ["ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames", "CLibArchive"],
+            linkerSettings: [.linkedLibrary("archive.2")]),
+        .systemLibrary(name: "CLibArchive"),
         .target(name: "ScreenRecorderCapture", dependencies: ["ScreenRecorderMediaTime"]),
         .target(name: "ScreenRecorderFrames", dependencies: ["ScreenRecorderMediaTime"]),
         .target(name: "ScreenRecorderAudio", dependencies: ["ScreenRecorderMediaTime"]),

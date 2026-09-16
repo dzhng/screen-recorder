@@ -1443,6 +1443,7 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   unspecified. **Reach:** avoids encoding redundant frames when only an observation's
   timestamp changed. **Verdict: sound, high confidence** — human movies have no
   fading trail, so unchanged coordinates draw the same glyph.
+
 ## Capture source-duration authority
 
 - **Encode the existing source clock exactly.** Set capture movie/video timebases
@@ -1455,3 +1456,25 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   sample/segment ends round down, since nearest rounding can exceed actual media.
   Existing persisted revisions are not rewritten. The exact failing source and
   generated/actual proofs are in the [duration evidence](assets/capture-duration/README.md).
+
+## Archive workspace and effective names — 2026-09-17
+
+- **Sound; medium confidence:** An encoded ZIP filename may decode to a safe ASCII
+  inventory name. Accept that name when every member is enumerated, duplicates are
+  rejected and bytes match the manifest. Rejecting every unusual raw encoding would
+  require another ZIP parser without improving containment. The OS parser remains
+  a dependency, so its runtime version and adversarial alias tests travel together.
+- **Sound; high confidence:** A package verification attempt borrows an already-open
+  empty private directory from its owner. That parent-held descriptor survives a
+  killed decoder and permits cleanup without trusting the old pathname. An advisory
+  lock excludes another cooperating owner; it does not pretend to defeat arbitrary
+  same-user process tampering. Later package-context provisioning/recovery must
+  preserve this lifetime rather than expose a temporary path as authority.
+- **Sound; high confidence:** Keep verification metadata inside the existing worker
+  reply: cap manifest/revision JSON and the combined receipt, instead of adding a
+  resident two-way protocol merely to parse JSON. Limits reject an oversized package
+  explicitly. A cleanup failure overrides success and retains both failure messages
+  so the caller knows its still-owned workspace needs recovery.
+
+Parser/header selection and numeric policy were delegated by 14c; the owning slice
+records them. These choices add no public export choice or transcript readiness.
