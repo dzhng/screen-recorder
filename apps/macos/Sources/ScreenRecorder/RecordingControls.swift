@@ -16,6 +16,7 @@ import ScreenRecorderControls
 final class RecordingControls: NSObject, NSMenuDelegate {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let menu = NSMenu()
+    private var renderedEntries: [MenuEntry] = []
     private let shortcuts = GlobalShortcuts()
     private let region = RegionSelection()
     private let quit: () -> Void
@@ -25,11 +26,12 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private weak var host: ServiceHost?
     private var ticker: Timer?
     private var reading = false
+    private var pendingRefresh = false
     /// A start whose answer never arrived. Asking again for the same take replays that request
     /// rather than allocating a second one.
     private var pendingStart: (requestId: String, start: ControlsState.CaptureSelection.Start)?
 
-    /// How often a live take's elapsed time is read back while it runs.
+    /// Bounded status cadence, including controls issued by another client.
     private static let tick: TimeInterval = 0.5
     /// How many recent takes the menu lists.
     private static let recentTakes = 5
@@ -65,8 +67,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         if state.service == .ready { refresh() } else { render() }
     }
 
-    /// The live menu, so a check can read exactly what a person would see.
+    /// The live menu and status item, so a check can read exactly what a person would see.
     var visibleMenu: NSMenu { menu }
+    var statusSymbolName: String { StatusItemAppearance.symbolName(for: state) }
+    var statusElapsed: String { StatusItemAppearance.title(for: state) }
+    var isRecording: Bool { state.device?.state == .recording }
 
     func menuWillOpen(_ menu: NSMenu) { refresh() }
 
@@ -232,20 +237,30 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     /// Reads everything the menu shows. Used when a person looks at the controls or acts on them.
     private func refresh() { read(everything: true) }
 
-    /// Reads only the running take's clock. A ticking recorder asks for the one fact that changes.
+    /// Status-only polling observes external controls without re-enumerating idle sources.
     private func tick() { read(everything: false) }
 
     private func read(everything: Bool) {
-        guard host != nil, !reading else { return }
+        guard host != nil, state.service == .ready else { return }
+        guard !reading else {
+            pendingRefresh = pendingRefresh || everything
+            return
+        }
         reading = true
         Task { @MainActor in
+            let previous = state.device
             await readStatus()
-            if everything {
+            if everything || previous?.recordingId != state.device?.recordingId
+                || previous?.state != state.device?.state {
                 await readSources()
                 await readRecent()
             }
             reading = false
             render()
+            if pendingRefresh {
+                pendingRefresh = false
+                refresh()
+            }
         }
     }
 
@@ -259,6 +274,9 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             permissions: ControlsState.Permissions(
                 screen: answer.device.permissions.screen,
                 microphone: answer.device.permissions.microphone))
+        if let selection = answer.device.selection {
+            state.selection.apply(selection, catalog: state.sources)
+        }
         state.take = answer.recording.map {
             ControlsState.TakeStatus(
                 recordingId: $0.recordingId, state: $0.state,
@@ -295,28 +313,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     /// Keeps the selection to something that still exists. A window that has closed is dropped and
     /// said so, rather than left selected for a start that would only fail later.
     private func reconcileSelection() {
-        switch state.selection.source {
-        case .display(let display) where !state.sources.displays.contains(display):
-            state.selection.source = nil
-            state.failure = "\(display.name) is no longer available."
-        case .window(let window) where !state.sources.windows.contains(window):
-            state.selection.source = nil
-            state.failure = "That window has closed, so it is no longer selected."
-        case .region(let chosen) where !state.sources.displays.contains(where: { $0.id == chosen.displayId }):
-            state.selection.source = nil
-            state.failure = "\(chosen.displayName) is no longer available."
-        case nil:
-            // A person records a whole display far more often than anything else, so that is where
-            // a fresh launch points. Anything else is an explicit choice.
-            state.selection.source = state.sources.displays.first.map { .display($0) }
-        default:
-            break
-        }
-        if case .device(let id, _) = state.selection.microphone,
-            !state.sources.microphones.contains(where: { $0.id == id })
-        {
-            state.selection.microphone = .systemDefault
-        }
+        if let failure = state.reconcileSelection() { state.failure = failure }
     }
 
     private func readRecent() async {
@@ -355,39 +352,37 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     // MARK: showing
 
     private func render() {
-        StatusMenu.apply(
-            RecordingMenu.entries(
-                for: state, shortcuts: ShortcutDefaults(bindings: bindings, registered: held)),
-            to: menu, target: self, action: #selector(choose(_:)))
+        let entries = RecordingMenu.entries(
+            for: state, shortcuts: ShortcutDefaults(bindings: bindings, registered: held))
+        // Preserve the tracked menu and its open submenus when only the clock title changes.
+        if !renderedEntries.isEmpty && entries.dropFirst().elementsEqual(renderedEntries.dropFirst()) {
+            menu.items.first?.title = entries[0].title
+        } else {
+            StatusMenu.apply(entries, to: menu, target: self, action: #selector(choose(_:)))
+        }
+        renderedEntries = entries
         showStatusItem()
         pace()
     }
 
     private func showStatusItem() {
         guard let button = statusItem.button else { return }
-        let title = RecordingMenu.statusTitle(for: state)
-        button.image = NSImage(systemSymbolName: symbolName(), accessibilityDescription: title)
+        let described = RecordingMenu.statusTitle(for: state)
+        let elapsed = StatusItemAppearance.title(for: state)
+        button.image = NSImage(
+            systemSymbolName: StatusItemAppearance.symbolName(for: state),
+            accessibilityDescription: described)
         button.image?.isTemplate = state.device?.state != .recording
-        button.imagePosition = state.isLive ? .imageLeading : .imageOnly
-        button.title = state.isLive ? " \(ElapsedTime.format(state.device?.elapsedUs))" : ""
+        button.imagePosition = elapsed.isEmpty ? .imageOnly : .imageLeading
+        button.title = elapsed.isEmpty ? "" : " \(elapsed)"
         button.contentTintColor = state.device?.state == .recording ? .systemRed : nil
-        button.setAccessibilityLabel("Screen Recorder — \(title)")
+        button.setAccessibilityLabel("Screen Recorder — \(described)")
     }
 
-    private func symbolName() -> String {
-        if case .unavailable = state.service { return "exclamationmark.triangle" }
-        switch state.device?.state {
-        case .recording: return "record.circle.fill"
-        case .paused: return "pause.circle"
-        case .finalizing, .selecting: return "circle.dotted"
-        default: return "record.circle"
-        }
-    }
-
-    /// A take's clock is read back only while it is actually advancing. An idle app, and a paused
-    /// take whose clock is frozen, ask the service for nothing until something else changes.
+    /// Status remains observable while idle or paused: another client can start or resume a take.
+    /// Only one read runs at a time; catalog reads are reserved for transitions and explicit refreshes.
     private func pace() {
-        guard state.device?.state == .recording else {
+        guard state.service == .ready else {
             ticker?.invalidate()
             ticker = nil
             return
@@ -411,6 +406,7 @@ private struct StatusAnswer: Decodable {
         let state: String
         let recordingId: String?
         let elapsedUs: Int64?
+        let selection: ControlsState.CaptureSelection.Start?
         let permissions: Permissions
     }
     struct Take: Decodable {

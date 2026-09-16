@@ -81,7 +81,7 @@ private final class RegionPanel: NSPanel {
         contentView = RegionSelectionView(frame: NSRect(origin: .zero, size: screen.frame.size)) {
             [weak self] rect in
             guard let self else { return }
-            answer(
+            self.answer(
                 rect.map {
                     ControlsState.Region(
                         displayId: display.id, displayName: display.name, x: $0.minX, y: $0.minY,

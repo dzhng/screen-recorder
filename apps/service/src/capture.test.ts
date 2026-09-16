@@ -10,6 +10,7 @@ import {
   NATIVE_SEQUENCE_LIMIT,
   JsonLineStream,
   controlMessageSchema,
+  captureSelectionSchema,
   type OperationResult,
 } from "@screenrec/protocol";
 
@@ -130,6 +131,7 @@ function capturingPeer(
   options: { durationUs?: number | null; reason?: string; answerStart?: boolean } = {},
 ): NativePeer {
   let take: { recordingId: string; sourceId: string } | undefined;
+  let selection: ReturnType<typeof captureSelectionSchema.parse> | null = null;
   let sequence = 1;
   const report = (state: string, extra: Record<string, unknown> = {}) => ({
     ok: true as const,
@@ -147,6 +149,7 @@ function capturingPeer(
             details: {},
           },
         };
+      selection = captureSelectionSchema.parse(params);
       take = {
         recordingId: params.recordingId as string,
         sourceId: params.sourceId as string,
@@ -181,6 +184,7 @@ function capturingPeer(
           recordingId: take?.recordingId ?? null,
           sourceId: take?.sourceId ?? null,
           elapsedUs: take ? 1_500_000 : null,
+          selection: take ? selection : null,
           permissions: { screen: true, microphone: "authorized" },
         },
       };
@@ -211,6 +215,23 @@ it("allocates one take per start request and replays a repeated request onto it"
   // One allocation, one native start, one source directory: a lost response opens no second take.
   expect(service.asked.filter((operation) => operation === "capture.start")).toHaveLength(1);
   expect(await readdir(join(home, "recordings"))).toHaveLength(1);
+});
+
+it("reports the active source and audio choices through the public status operation", async () => {
+  const service = await startService(await temporaryHome(), capturingPeer());
+  const selection = {
+    source: { kind: "region", displayId: 3, x: 40, y: 120, width: 800, height: 600 },
+    microphone: true,
+    microphoneDeviceId: "headset",
+    systemAudio: true,
+  };
+  expect(
+    await service.call("capture.start", { requestId: "selected", ...selection }),
+  ).toMatchObject({ ok: true });
+  expect(await service.call("capture.status")).toMatchObject({
+    ok: true,
+    data: { device: { selection, elapsedUs: 1_500_000 } },
+  });
 });
 
 it("gives concurrent start requests one capturing take and one honest terminal failure", async () => {
@@ -602,6 +623,7 @@ function heldStartPeer(): NativePeer {
           recordingId: held?.recordingId ?? null,
           sourceId: held?.sourceId ?? null,
           elapsedUs: held ? 0 : null,
+          selection: null,
           permissions: { screen: true, microphone: "authorized" },
         },
       };

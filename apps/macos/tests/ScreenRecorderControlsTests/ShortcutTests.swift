@@ -30,10 +30,11 @@ func runShortcutTests() {
     let entries = RecordingMenu.entries(for: contested, shortcuts: none)
     let notes = entries.filter { !$0.enabled }.map(\.title)
     precondition(
-        notes.contains {
-            $0.contains("⌃⌥⌘R") && $0.contains("/Users/someone/.screen-recorder/shortcuts.json")
-        },
-        "A combination another application owns is named, with where to state a different one")
+        notes.contains { $0.contains("⌃⌥⌘R") && $0.contains("in use") },
+        "A combination another application owns is named rather than silently dropped")
+    precondition(
+        notes.contains { $0.contains("/Users/someone/.screen-recorder/shortcuts.json") },
+        "A person is told where to state a different combination")
     precondition(
         find(entries, "capture.startOrStop")?.shortcut == nil,
         "An unheld combination leaves the menu row without a shortcut rather than a dead one")

@@ -89,6 +89,7 @@ export const captureDeviceSchema = z
     recordingId: id.nullable(),
     sourceId: id.nullable(),
     elapsedUs: z.int().nonnegative().nullable(),
+    selection: captureSelectionSchema.nullable(),
     permissions: capturePermissionsSchema,
   })
   .strict();

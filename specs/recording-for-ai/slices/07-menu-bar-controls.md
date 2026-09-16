@@ -1,6 +1,10 @@
 # 07 — Usable menu-bar recording controls
 
-Status: not started. Dependencies: 03, 06.
+Status: partial implementation; native acceptance remains open. Dependencies: 03, 06.
+
+See [integration notes](../assets/recording-controls/integration.md) for the tested
+boundary, unfinished verification, and next pickup. Delete and storage total are
+still missing; this slice is not complete.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

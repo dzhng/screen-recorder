@@ -191,7 +191,7 @@ public struct ControlsState: Equatable, Sendable {
 extension ControlsState.CaptureSelection {
     /// What a start asks the service for. The protocol owns both audio defaults, so this always
     /// states both explicitly, and the microphone is on unless a person turned it off.
-    public struct Start: Equatable, Sendable {
+    public struct Start: Equatable, Sendable, Decodable {
         public init(source: Source, microphone: Bool, microphoneDeviceId: String?, systemAudio: Bool) {
             self.source = source
             self.microphone = microphone
@@ -204,10 +204,32 @@ extension ControlsState.CaptureSelection {
         public let microphoneDeviceId: String?
         public let systemAudio: Bool
 
-        public enum Source: Equatable, Sendable {
+        public enum Source: Equatable, Sendable, Decodable {
             case display(id: Int)
             case window(id: Int)
             case region(displayId: Int, x: Double, y: Double, width: Double, height: Double)
+
+            private enum CodingKeys: String, CodingKey {
+                case kind, displayId, windowId, x, y, width, height
+            }
+
+            public init(from decoder: Decoder) throws {
+                let fields = try decoder.container(keyedBy: CodingKeys.self)
+                switch try fields.decode(String.self, forKey: .kind) {
+                case "display": self = .display(id: try fields.decode(Int.self, forKey: .displayId))
+                case "window": self = .window(id: try fields.decode(Int.self, forKey: .windowId))
+                case "region":
+                    self = .region(
+                        displayId: try fields.decode(Int.self, forKey: .displayId),
+                        x: try fields.decode(Double.self, forKey: .x),
+                        y: try fields.decode(Double.self, forKey: .y),
+                        width: try fields.decode(Double.self, forKey: .width),
+                        height: try fields.decode(Double.self, forKey: .height))
+                default:
+                    throw DecodingError.dataCorruptedError(
+                        forKey: .kind, in: fields, debugDescription: "Unknown capture source")
+                }
+            }
         }
     }
 
@@ -234,5 +256,55 @@ extension ControlsState.CaptureSelection {
             return Start(
                 source: chosen, microphone: true, microphoneDeviceId: id, systemAudio: systemAudio)
         }
+    }
+}
+
+extension ControlsState.CaptureSelection {
+    /// A live take owns its selection, including when another client started it. Catalog labels
+    /// are presentation only; absent labels must never replace the device's source identity.
+    public mutating func apply(_ active: Start, catalog: ControlsState.SourceCatalog) {
+        switch active.source {
+        case .display(let id):
+            source = .display(catalog.displays.first { $0.id == id }
+                ?? .init(id: id, name: "Display \(id)", width: 0, height: 0))
+        case .window(let id):
+            source = .window(catalog.windows.first { $0.id == id }
+                ?? .init(id: id, title: "Window \(id)", application: ""))
+        case .region(let id, let x, let y, let width, let height):
+            source = .region(.init(
+                displayId: id, displayName: catalog.displays.first { $0.id == id }?.name ?? "Display \(id)",
+                x: x, y: y, width: width, height: height))
+        }
+        if !active.microphone { microphone = .off }
+        else if let id = active.microphoneDeviceId {
+            microphone = .device(id: id, name: catalog.microphones.first { $0.id == id }?.name ?? id)
+        } else { microphone = .systemDefault }
+        systemAudio = active.systemAudio
+    }
+}
+
+extension ControlsState {
+    /// Refresh labels by identity. A browser navigation changes a title without closing its window.
+    public mutating func reconcileSelection() -> String? {
+        var failure: String?
+        switch selection.source {
+        case .display(let selected):
+            selection.source = sources.displays.first { $0.id == selected.id }.map { .display($0) }
+            if selection.source == nil { failure = "\(selected.name) is no longer available." }
+        case .window(let selected):
+            selection.source = sources.windows.first { $0.id == selected.id }.map { .window($0) }
+            if selection.source == nil { failure = "That window has closed, so it is no longer selected." }
+        case .region(let chosen) where !sources.displays.contains(where: { $0.id == chosen.displayId }):
+            selection.source = nil
+            failure = "\(chosen.displayName) is no longer available."
+        case nil:
+            selection.source = sources.displays.first.map { .display($0) }
+        default: break
+        }
+        if case .device(let id, _) = selection.microphone,
+            !sources.microphones.contains(where: { $0.id == id }) {
+            selection.microphone = .systemDefault
+        }
+        return failure
     }
 }

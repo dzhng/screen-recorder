@@ -13,6 +13,7 @@ final class CaptureController {
     private struct Take {
         let recordingId: String
         let sourceId: String
+        let selection: [String: Any]
     }
 
     private let capture = NativeCapture()
@@ -177,6 +178,7 @@ final class CaptureController {
             "recordingId": take?.recordingId as Any? ?? NSNull(),
             "sourceId": take?.sourceId as Any? ?? NSNull(),
             "elapsedUs": capture.elapsedSourceUs as Any? ?? NSNull(),
+            "selection": (take ?? pendingStart)?.selection as Any? ?? NSNull(),
             "permissions": [
                 "screen": NativeCapture.screenPermission,
                 "microphone": NativeCapture.microphonePermission,
@@ -213,7 +215,11 @@ final class CaptureController {
             microphone: microphone,
             microphoneDeviceID: params["microphoneDeviceId"] as? String,
             systemAudio: systemAudio)
-        let starting = Take(recordingId: recordingId, sourceId: sourceId)
+        var selection: [String: Any] = [
+            "source": selected, "microphone": microphone, "systemAudio": systemAudio,
+        ]
+        if let device = request.microphoneDeviceID { selection["microphoneDeviceId"] = device }
+        let starting = Take(recordingId: recordingId, sourceId: sourceId, selection: selection)
         pendingStart = starting
         defer { releaseStart() }
         await startHold?.hold(recordingId: recordingId)

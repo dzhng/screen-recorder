@@ -139,24 +139,28 @@ public enum RecordingMenu {
             notes.append("Screen recording permission is required before recording.")
         }
         if !state.unavailableShortcuts.isEmpty {
-            let taken = state.unavailableShortcuts.joined(separator: ", ")
-            let override = state.shortcutOverridePath.map { " Set your own in \($0)." } ?? ""
-            notes.append("Shortcut already in use, so it is off: \(taken).\(override)")
+            let taken = state.unavailableShortcuts.joined(separator: " and ")
+            notes.append("\(taken) is already in use elsewhere, so it is off.")
+            if let override = state.shortcutOverridePath {
+                notes.append("Set your own shortcuts in \(override)")
+            }
         }
         return notes
     }
 
-    static func sourceTitle(for state: ControlsState) -> String {
+    public static func sourceTitle(for state: ControlsState) -> String {
         switch state.selection.source {
-        case .display(let display): "\(display.name) (\(display.width)×\(display.height))"
-        case .window(let window): "\(window.application) — \(window.title)"
+        case .display(let display):
+            display.width > 0 ? "\(display.name) (\(display.width)×\(display.height))" : display.name
+        case .window(let window):
+            window.application.isEmpty ? window.title : "\(window.application) — \(window.title)"
         case .region(let region):
             "Region \(Int(region.width))×\(Int(region.height)) of \(region.displayName)"
         case nil: "none chosen"
         }
     }
 
-    static func microphoneTitle(for state: ControlsState) -> String {
+    public static func microphoneTitle(for state: ControlsState) -> String {
         switch state.selection.microphone {
         case .off: "off"
         case .systemDefault:
@@ -293,7 +297,7 @@ public enum RecordingMenu {
         }
     }
 
-    static func recentTitle(of take: ControlsState.RecentTake) -> String {
+    public static func recentTitle(of take: ControlsState.RecentTake) -> String {
         let when = ElapsedTime.shortTime(of: take.createdAt)
         switch take.state {
         case "complete": return "\(when) — \(ElapsedTime.format(take.sourceDurationUs))"

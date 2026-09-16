@@ -10,10 +10,12 @@ public struct CaptureClock: Sendable {
     public private(set) var pauses: [PauseEvent] = []
     private var intervals: [(start: Int64, end: Int64)] = []
     private var pausedAt: Int64?
+    private var sealedAt: Int64?
 
     public init() {}
     public var isPaused: Bool { pausedAt != nil }
     public mutating func start(at hostUs: Int64) { if originUs == nil { originUs = hostUs } }
+    public mutating func seal(at hostUs: Int64) { if sealedAt == nil { sealedAt = hostUs } }
     public mutating func pause(at hostUs: Int64) { if pausedAt == nil { pausedAt = hostUs } }
     public mutating func resume(at hostUs: Int64) {
         guard let start = pausedAt, hostUs >= start else { return }
@@ -40,7 +42,7 @@ public struct CaptureClock: Sendable {
     /// rather than deriving a second clock of its own.
     public func elapsedSourceUs(at hostUs: Int64) -> Int64? {
         guard let originUs else { return nil }
-        let at = min(pausedAt ?? hostUs, hostUs)
+        let at = min(pausedAt ?? hostUs, sealedAt ?? hostUs, hostUs)
         guard at > originUs else { return 0 }
         return at - originUs - removedBefore(at, originUs: originUs)
     }

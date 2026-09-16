@@ -85,5 +85,17 @@ private func runElapsedTests() {
     precondition(
         clock.elapsedSourceUs(at: 111_000_000) == clock.sourceTime(for: 111_000_000),
         "Elapsed time and sample placement share one clock")
-    print("PASS elapsed playback time freezes across pauses")
+    clock.seal(at: 112_000_000)
+    precondition(clock.elapsedSourceUs(at: 150_000_000) == 6_000_000,
+                 "Finalization cannot add playback time past the sealed endpoint")
+    clock.seal(at: 160_000_000)
+    precondition(clock.elapsedSourceUs(at: 170_000_000) == 6_000_000,
+                 "Repeated sealing preserves the first endpoint")
+    var paused = CaptureClock()
+    paused.start(at: 10)
+    paused.pause(at: 20)
+    paused.seal(at: 30)
+    precondition(paused.elapsedSourceUs(at: 100) == 10,
+                 "Sealing a paused take retains its paused endpoint")
+    print("PASS elapsed playback time freezes across pauses and finalization")
 }

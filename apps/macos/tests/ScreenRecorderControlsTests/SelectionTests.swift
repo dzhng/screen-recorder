@@ -61,5 +61,22 @@ func runSelectionTests() {
     precondition(
         state.selection.start()?.source == .region(displayId: 3, x: 40, y: 120, width: 800, height: 600),
         "A region start carries the display-local rectangle it was selected as")
+    let active = try! JSONDecoder().decode(ControlsState.CaptureSelection.Start.self, from: Data(
+        #"{"source":{"kind":"window","windowId":88},"microphone":false,"systemAudio":true}"#.utf8))
+    state.selection.apply(active, catalog: state.sources)
+    precondition(state.selection.start() == active,
+                 "An external take replaces the menu's source and both audio choices for restart")
+    precondition(RecordingMenu.sourceTitle(for: state) == "Safari — Pricing",
+                 "An external window resolves its catalog label")
+    state.sources.windows = [.init(id: 88, title: "Checkout", application: "Safari")]
+    precondition(state.reconcileSelection() == nil,
+                 "A title change is not a closed window")
+    precondition(RecordingMenu.sourceTitle(for: state) == "Safari — Checkout",
+                 "A retained selection shows the refreshed title")
+    precondition(state.selection.start()?.source == .window(id: 88),
+                 "Renaming a window preserves its capture identity")
+    state.sources.windows = []
+    precondition(state.reconcileSelection() != nil && state.selection.source == nil,
+                 "A missing window is visibly deselected")
     print("PASS a selection becomes exactly the take it describes")
 }

@@ -177,7 +177,10 @@ final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
         queue.sync {
             sampler?.stop()
             if stopHostUs == nil {
-                stopHostUs = CaptureHostTime.nowUs()
+                let endpoint = CaptureHostTime.nowUs()
+                stopHostUs = endpoint
+                clock.seal(at: endpoint)
+                publishClock()
                 finishing = true
             }
             flushCursorSamples()

@@ -13,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var service: ServiceHost?
     private var controller: CaptureController?
     private var fixture: NSWindow?
+    private var probe: ControlsProbe?
     private var startup: Operation?
     private var terminating = false
     private var quitting = false
@@ -31,6 +32,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             diagnostic("capture fixture window=\(window.windowNumber)")
         }
         controller = CaptureController(fixtureWindow: fixture)
+        probe = ControlsProbe.inFixture(fixture, controls: controls)
         startService()
     }
 
@@ -144,6 +146,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Let the bounded in-flight probe reap its child before this process exits.
         // Cancellation prevents another candidate or a late service launch.
         startup?.waitUntilFinished()
+        probe?.stop()
         service?.shutdown()
         fixture?.close()
     }
