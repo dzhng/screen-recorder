@@ -1,0 +1,9 @@
+{
+  "revision": "9e9f058b5da489c80446a6cd44a7c68133ba543b",
+  "buildExitCode": 0,
+  "testExitCode": 0,
+  "testsPassed": 8,
+  "testBinarySha256": "50e65e9d0c6232c628419a1e437a7df94941e3c1f85be7f428bcdc80c745c5b7",
+  "logSha256": "6f37d43b72ba0918304ef2edbc89ed57c313f88c16d5e3d61466a0801789042b",
+  "scope": "Generated optional native assembly target; no production preview or speech audition"
+}

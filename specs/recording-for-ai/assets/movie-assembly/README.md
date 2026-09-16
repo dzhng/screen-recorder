@@ -83,3 +83,7 @@ one native owner rather than preserve parallel implementations.
 Independent Codex review found no actionable defects in the bounded checkpoint.
 The production worker was rebuilt and still returns `UNKNOWN_OPERATION` for
 `media.renderMovie`; only the optional proof target handles that request today.
+
+The [merged verification](merged-verification.json) records a rebuilt optional
+native target and all eight checks passing on the main checkout. Its
+[execution log](merged-tests.txt) retains the test names and terminal result.
