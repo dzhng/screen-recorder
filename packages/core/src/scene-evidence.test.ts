@@ -37,25 +37,30 @@ function fixture(durationUs = 20_000_000, sparse = false) {
   };
 }
 function sourceAnalysis(durationUs: number, sparse = false) {
-  const analysis = new SourceSceneAnalysis("unused", durationUs, async (request) => ({
-    sourceWidth: 1920,
-    sourceHeight: 1080,
-    samples: request.atSourceUs.map((requestedSourceUs) => {
-      const actualSourceUs = sparse
-        ? requestedSourceUs >= 50_000_000
-          ? 100_000_000
-          : 0
-        : requestedSourceUs;
-      return {
-        requestedSourceUs,
-        actualSourceUs,
-        distanceUs: Math.abs(requestedSourceUs - actualSourceUs),
-        width: 1,
-        height: 1,
-        rgbBase64: Buffer.alloc(3, actualSourceUs === 0 ? 0 : 255).toString("base64"),
-      };
+  const analysis = new SourceSceneAnalysis(
+    "fixture-recording",
+    "unused",
+    durationUs,
+    async (request) => ({
+      sourceWidth: 1920,
+      sourceHeight: 1080,
+      samples: request.atSourceUs.map((requestedSourceUs) => {
+        const actualSourceUs = sparse
+          ? requestedSourceUs >= 50_000_000
+            ? 100_000_000
+            : 0
+          : requestedSourceUs;
+        return {
+          requestedSourceUs,
+          actualSourceUs,
+          distanceUs: Math.abs(requestedSourceUs - actualSourceUs),
+          width: 1,
+          height: 1,
+          rgbBase64: Buffer.alloc(3, actualSourceUs === 0 ? 0 : 255).toString("base64"),
+        };
+      }),
     }),
-  }));
+  );
   return (startUs: number, endUs: number) =>
     analysis.analyze({ startUs, endUs }, new AbortController().signal);
 }

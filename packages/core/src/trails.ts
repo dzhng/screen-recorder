@@ -45,7 +45,11 @@ export async function planFrameTrail(
   const { evidence, identity, sample } = dependencies;
   const at = request.requestedSourceUs;
   const trailUs = request.trailUs ?? trailPolicy.defaultUs;
-  const scene = await analyzeFrameScene({ ...request, trailUs }, sample, signal);
+  const scene = await analyzeFrameScene(
+    { ...request, recordingId: identity.recordingId, trailUs },
+    sample,
+    signal,
+  );
   const actual = scene.lastSample.actualSourceUs;
   const cutoffs: TrailCutoff[] = [];
   const add = (reason: TrailCutoff["reason"], atSourceUs: number) =>
@@ -184,7 +188,12 @@ export async function planFrameTrail(
       if (latest.sourceUs < scene.range.startUs) {
         geometryAt(latest.sourceUs);
         stalePointerScene = await analyzeFrameScene(
-          { ...request, requestedSourceUs: latest.sourceUs, trailUs: 0 },
+          {
+            ...request,
+            recordingId: identity.recordingId,
+            requestedSourceUs: latest.sourceUs,
+            trailUs: 0,
+          },
           sample,
           signal,
         );

@@ -106,21 +106,26 @@ async function fixture({
       finished: true,
     },
   });
-  const analysis = new SourceSceneAnalysis("generated", durationUs, async (request) => ({
-    sourceWidth: 100,
-    sourceHeight: 80,
-    samples: request.atSourceUs.map((requestedSourceUs) => ({
-      requestedSourceUs,
-      actualSourceUs: actual(requestedSourceUs),
-      distanceUs: Math.abs(requestedSourceUs - actual(requestedSourceUs)),
-      ...raster,
-      rgbBase64: Buffer.from(
-        Array.from({ length: raster.width * raster.height * 3 }, (_, channel) =>
-          color(actual(requestedSourceUs), channel),
-        ),
-      ).toString("base64"),
-    })),
-  }));
+  const analysis = new SourceSceneAnalysis(
+    "fixture-recording",
+    "generated",
+    durationUs,
+    async (request) => ({
+      sourceWidth: 100,
+      sourceHeight: 80,
+      samples: request.atSourceUs.map((requestedSourceUs) => ({
+        requestedSourceUs,
+        actualSourceUs: actual(requestedSourceUs),
+        distanceUs: Math.abs(requestedSourceUs - actual(requestedSourceUs)),
+        ...raster,
+        rgbBase64: Buffer.from(
+          Array.from({ length: raster.width * raster.height * 3 }, (_, channel) =>
+            color(actual(requestedSourceUs), channel),
+          ),
+        ).toString("base64"),
+      })),
+    }),
+  );
   for (let startUs = 0; startUs < durationUs; startUs += 10_000_000) {
     const report = await analysis.analyze(
       { startUs, endUs: Math.min(startUs + 10_000_000, durationUs) },

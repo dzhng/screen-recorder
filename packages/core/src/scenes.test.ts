@@ -108,7 +108,7 @@ test("invalid ranges fail before native work", async () => {
     { startUs: 4, endUs: 4 },
   ]) {
     await expect(
-      new SourceSceneAnalysis("/video", 20_000_000, sample).analyze(
+      new SourceSceneAnalysis("fixture-recording", "/video", 20_000_000, sample).analyze(
         range,
         new AbortController().signal,
       ),
@@ -118,11 +118,16 @@ test("invalid ranges fail before native work", async () => {
 });
 
 test("held frames collapse comparisons without losing distances or covered request times", async () => {
-  const result = await new SourceSceneAnalysis("/video", 2_000_000, async ({ atSourceUs }) => ({
-    sourceWidth: 64,
-    sourceHeight: 64,
-    samples: atSourceUs.map((at) => ({ ...white, requestedSourceUs: at, distanceUs: at })),
-  })).analyze({ startUs: 0, endUs: 600_000 }, new AbortController().signal);
+  const result = await new SourceSceneAnalysis(
+    "fixture-recording",
+    "/video",
+    2_000_000,
+    async ({ atSourceUs }) => ({
+      sourceWidth: 64,
+      sourceHeight: 64,
+      samples: atSourceUs.map((at) => ({ ...white, requestedSourceUs: at, distanceUs: at })),
+    }),
+  ).analyze({ startUs: 0, endUs: 600_000 }, new AbortController().signal);
   expect(result.comparisons).toEqual([]);
   expect(result.boundaries).toEqual([]);
   expect(result.coverage.map((sample) => sample.distanceUs)).toEqual([
@@ -131,14 +136,19 @@ test("held frames collapse comparisons without losing distances or covered reque
 });
 
 test("boundaries use actual later PTS and future samples do not claim a reset in the requested range", async () => {
-  const result = await new SourceSceneAnalysis("/video", 1_000_000, async () => ({
-    sourceWidth: 64,
-    sourceHeight: 64,
-    samples: [
-      white,
-      { ...frame(300_000, () => [0, 0, 0]), requestedSourceUs: 200_000, distanceUs: 100_000 },
-    ],
-  })).analyze({ startUs: 0, endUs: 200_000 }, new AbortController().signal);
+  const result = await new SourceSceneAnalysis(
+    "fixture-recording",
+    "/video",
+    1_000_000,
+    async () => ({
+      sourceWidth: 64,
+      sourceHeight: 64,
+      samples: [
+        white,
+        { ...frame(300_000, () => [0, 0, 0]), requestedSourceUs: 200_000, distanceUs: 100_000 },
+      ],
+    }),
+  ).analyze({ startUs: 0, endUs: 200_000 }, new AbortController().signal);
   expect(result.comparisons[0]).toMatchObject({ actualSourceUs: 300_000, boundary: true });
   expect(result.boundaries).toEqual([]);
   expect(result.coverage[1]?.distanceUs).toBe(100_000);
@@ -173,6 +183,7 @@ test("invalid and inconsistent observation evidence fails explicitly", () => {
 
 test("sampler cancellation and errors propagate, partial/escaped batches never become verified coverage", async () => {
   const request = {
+    recordingId: "fixture-recording",
     source: "/video",
     kept: { startUs: 0, endUs: 1_000_000 },
     range: { startUs: 0, endUs: 200_000 },
@@ -180,25 +191,40 @@ test("sampler cancellation and errors propagate, partial/escaped batches never b
   const controller = new AbortController();
   const error = new Error("decode failed");
   await expect(
-    new SourceSceneAnalysis(request.source, request.kept.endUs, async (_request, signal) => {
-      expect(signal).toBe(controller.signal);
-      throw error;
-    }).analyze(request.range, controller.signal),
+    new SourceSceneAnalysis(
+      "fixture-recording",
+      request.source,
+      request.kept.endUs,
+      async (_request, signal) => {
+        expect(signal).toBe(controller.signal);
+        throw error;
+      },
+    ).analyze(request.range, controller.signal),
   ).rejects.toBe(error);
   for (const samples of [[white], [white, frame(1_000_000)]]) {
     await expect(
-      new SourceSceneAnalysis(request.source, request.kept.endUs, async () => ({
-        sourceWidth: 64,
-        sourceHeight: 64,
-        samples,
-      })).analyze(request.range, controller.signal),
+      new SourceSceneAnalysis(
+        "fixture-recording",
+        request.source,
+        request.kept.endUs,
+        async () => ({
+          sourceWidth: 64,
+          sourceHeight: 64,
+          samples,
+        }),
+      ).analyze(request.range, controller.signal),
     ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
   }
   await expect(
-    new SourceSceneAnalysis(request.source, request.kept.endUs, async ({ atSourceUs }) => {
-      controller.abort(error);
-      return { sourceWidth: 64, sourceHeight: 64, samples: atSourceUs.map((at) => frame(at)) };
-    }).analyze(request.range, controller.signal),
+    new SourceSceneAnalysis(
+      "fixture-recording",
+      request.source,
+      request.kept.endUs,
+      async ({ atSourceUs }) => {
+        controller.abort(error);
+        return { sourceWidth: 64, sourceHeight: 64, samples: atSourceUs.map((at) => frame(at)) };
+      },
+    ).analyze(request.range, controller.signal),
   ).rejects.toBe(error);
 });
 
@@ -222,6 +248,7 @@ test("frame scene analysis keeps requested-time coverage and compares a future f
   };
   const result = await analyzeFrameScene(
     {
+      recordingId: "fixture-recording",
       source: "/fixture.mov",
       kept: { startUs: 0, endUs: 4_000_000 },
       requestedSourceUs: 1_500_000,
@@ -264,6 +291,7 @@ test.each([0, 2_000_000, 10_000_000])(
     };
     const result = await analyzeFrameScene(
       {
+        recordingId: "fixture-recording",
         source: "/sparse.mov",
         kept: { startUs: 0, endUs: 122_000_000 },
         requestedSourceUs: requested,
@@ -289,6 +317,7 @@ test.each([0, 2_000_000, 10_000_000])(
 test("a held frame keeps requested-time coverage and needs no invented past reference", async () => {
   const result = await analyzeFrameScene(
     {
+      recordingId: "fixture-recording",
       source: "/held.mov",
       kept: { startUs: 0, endUs: 4_000_000 },
       requestedSourceUs: 1_000_000,
@@ -317,6 +346,7 @@ test("missing future-frame reference remains an explicit failure inside the kept
   await expect(
     analyzeFrameScene(
       {
+        recordingId: "fixture-recording",
         source: "/cut.mov",
         kept: { startUs: 1_100_000, endUs: 4_000_000 },
         requestedSourceUs: 1_500_000,
@@ -344,22 +374,27 @@ test("missing future-frame reference remains an explicit failure inside the kept
 });
 
 test("canonical runs preserve both sides of a chunk overlap and held source frames", async () => {
-  const analysis = new SourceSceneAnalysis("/video", 22_000_000, async ({ atSourceUs }) => ({
-    sourceWidth: 64,
-    sourceHeight: 64,
-    samples: atSourceUs.map((requestedSourceUs) => {
-      const actualSourceUs = Math.floor(requestedSourceUs / 250_000) * 250_000;
-      return {
-        ...frame(actualSourceUs, () => [
-          100 + Math.floor(actualSourceUs / 10_000_000) * 3,
-          100,
-          100,
-        ]),
-        requestedSourceUs,
-        distanceUs: requestedSourceUs - actualSourceUs,
-      };
+  const analysis = new SourceSceneAnalysis(
+    "fixture-recording",
+    "/video",
+    22_000_000,
+    async ({ atSourceUs }) => ({
+      sourceWidth: 64,
+      sourceHeight: 64,
+      samples: atSourceUs.map((requestedSourceUs) => {
+        const actualSourceUs = Math.floor(requestedSourceUs / 250_000) * 250_000;
+        return {
+          ...frame(actualSourceUs, () => [
+            100 + Math.floor(actualSourceUs / 10_000_000) * 3,
+            100,
+            100,
+          ]),
+          requestedSourceUs,
+          distanceUs: requestedSourceUs - actualSourceUs,
+        };
+      }),
     }),
-  }));
+  );
   const chunks = [];
   for (const [startUs, endUs] of [
     [0, 10_000_000],

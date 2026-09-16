@@ -17,6 +17,7 @@ import { CatalogError, type RevisionStore } from "./library.js";
 
 type Row = {
   id: string;
+  recordingId: string;
   bytes: number | null;
   touched: number;
   device: number | null;
@@ -47,6 +48,14 @@ export class DerivedCache {
     private readonly budget = 1024 ** 3,
   ) {
     if (!Number.isSafeInteger(budget) || budget < 1) throw new RangeError("Invalid cache budget");
+    const columns = store.catalog.prepare("PRAGMA table_info(derived_cache)").all() as {
+      name: string;
+    }[];
+    if (columns.length && !columns.some((column) => column.name === "recordingId"))
+      throw new CatalogError(
+        "UNSUPPORTED_CATALOG",
+        "This library has an unsupported derived cache format",
+      );
     const base = realpathSync(home);
     let path = base;
     for (const name of ["cache", "derived"]) {
@@ -63,8 +72,9 @@ export class DerivedCache {
     }
     this.root = path;
     store.catalog.exec(`CREATE TABLE IF NOT EXISTS derived_cache (
-      id TEXT PRIMARY KEY, bytes INTEGER, touched INTEGER NOT NULL, device INTEGER, inode INTEGER
-    ); CREATE INDEX IF NOT EXISTS derived_cache_lru ON derived_cache(touched,id);`);
+      id TEXT PRIMARY KEY, recordingId TEXT NOT NULL REFERENCES recordings(recordingId), bytes INTEGER, touched INTEGER NOT NULL, device INTEGER, inode INTEGER
+    ); CREATE INDEX IF NOT EXISTS derived_cache_lru ON derived_cache(touched,id);
+    CREATE INDEX IF NOT EXISTS derived_cache_recording ON derived_cache(recordingId,id);`);
   }
   get bytes(): number {
     return (
@@ -101,13 +111,14 @@ export class DerivedCache {
     if (!this.ready)
       throw new CatalogError("NOT_READY", "Cache reconciliation is pending", {}, true);
   }
-  reserve(): Readonly<{ id: string; path: string }> {
+  reserve(recordingId: string): Readonly<{ id: string; path: string }> {
     this.requireReady();
     this.checkRoot();
+    this.store.get(recordingId);
     const id = randomUUID();
     this.store.catalog
-      .prepare("INSERT INTO derived_cache(id,touched) VALUES (?,?)")
-      .run(id, this.tick());
+      .prepare("INSERT INTO derived_cache(id,recordingId,touched) VALUES (?,?,?)")
+      .run(id, recordingId, this.tick());
     return { id, path: this.path(id) };
   }
   publish(id: string): Promise<CacheFile> {
@@ -121,9 +132,10 @@ export class DerivedCache {
     const row = this.row(id);
     if (!row) throw new CatalogError("INVALID_CACHE", "No cache reservation exists");
     const path = this.path(id);
-    if (row.bytes !== null) return { id, path, bytes: row.bytes };
     let fd: number | undefined;
     try {
+      this.store.get(row.recordingId);
+      if (row.bytes !== null) return { id, path, bytes: row.bytes };
       fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
       const stat = fstatSync(fd);
       if (!stat.isFile() || stat.nlink !== 1)
@@ -132,6 +144,7 @@ export class DerivedCache {
         throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds cache budget");
       await this.makeRoom(stat.size);
       if (!this.row(id)) throw new CatalogError("INVALID_CACHE", "Cache reservation was removed");
+      this.store.get(row.recordingId);
       this.store.catalog
         .prepare("UPDATE derived_cache SET bytes=?,device=?,inode=?,touched=? WHERE id=?")
         .run(stat.size, stat.dev, stat.ino, this.tick(), id);
@@ -151,6 +164,7 @@ export class DerivedCache {
     this.checkRoot();
     const row = this.row(id);
     if (!row || row.bytes === null) return null;
+    if (touch) this.store.get(row.recordingId);
     let fd: number;
     try {
       fd = openSync(
@@ -203,6 +217,23 @@ export class DerivedCache {
   remove(id: string): void {
     this.requireReady();
     this.removeFile(id);
+  }
+  /** Call after recording admission is fenced and producers/readers have settled. Publication and
+   * purge share one order, so an already-queued admission cannot recreate a removed reservation. */
+  purgeRecording(recordingId: string): Promise<void> {
+    const result = this.publication.then(async () => {
+      this.requireReady();
+      for (;;) {
+        const rows = this.store.catalog
+          .prepare("SELECT id FROM derived_cache WHERE recordingId=? ORDER BY id LIMIT 64")
+          .all(recordingId) as { id: string }[];
+        if (!rows.length) return;
+        for (const row of rows) this.removeFile(row.id);
+        await setImmediate();
+      }
+    });
+    this.publication = result.catch(() => {});
+    return result;
   }
   private removeFile(id: string): void {
     this.checkRoot();

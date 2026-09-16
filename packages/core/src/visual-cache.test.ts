@@ -11,6 +11,7 @@ afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
 const request = {
+  recordingId: "recording-1",
   source: "/immutable/take/video.mov",
   kept: { startUs: 0, endUs: 10 },
   atSourceUs: [4],
@@ -20,8 +21,12 @@ async function fixture(budget = 1024 ** 3) {
   const home = await mkdtemp("/tmp/visual-cache-");
   const store = new RevisionStore(join(home, "library.sqlite"), {
     now: () => "",
-    newId: () => "unused",
+    newId: (() => {
+      let id = 0;
+      return () => `recording-${++id}`;
+    })(),
   });
+  store.allocate();
   const cache = new DerivedCache(store, home, budget);
   await cache.reconcile();
   cleanup.push(async () => {
@@ -143,7 +148,10 @@ test("a new database connection reuses persisted observations after cache reconc
   );
   const reopened = new RevisionStore(join(f.home, "library.sqlite"), {
     now: () => "",
-    newId: () => "unused",
+    newId: (() => {
+      let id = 0;
+      return () => `recording-${++id}`;
+    })(),
   });
   try {
     const cache = new DerivedCache(reopened, f.home);
@@ -305,7 +313,7 @@ test("partial hits stay usable when publishing missing samples evicts their old 
 test("replacing the obsolete disposable lookup keeps old bytes budgeted and starts with a cache miss", async () => {
   const f = await fixture();
   const expected = await f.decode(request, signal());
-  const old = f.cache.reserve();
+  const old = f.cache.reserve(request.recordingId);
   await writeFile(old.path, JSON.stringify(expected));
   await f.cache.publish(old.id);
   f.store.catalog.exec(
@@ -322,4 +330,26 @@ test("replacing the obsolete disposable lookup keeps old bytes budgeted and star
   f.cache.remove(old.id);
   expect((await observations.sample(request, signal())).samples).toEqual(expected.samples);
   expect(f.calls()).toBe(2);
+});
+
+test("same-path visual requests retain independent recording ownership and purge only their own lookup", async () => {
+  const f = await fixture();
+  const sibling = f.store.allocate().recording.recordingId;
+  const observations = new VisualObservationCache(f.store, f.cache, f.decode);
+  const expected = await observations.sample(request, signal());
+  expect(await observations.sample({ ...request, recordingId: sibling }, signal())).toEqual(
+    expected,
+  );
+  expect(f.calls()).toBe(2);
+  await f.cache.purgeRecording(request.recordingId);
+  expect(await observations.sample({ ...request, recordingId: sibling }, signal())).toEqual(
+    expected,
+  );
+  expect(f.calls()).toBe(2);
+  expect(await observations.sample(request, signal())).toEqual(expected);
+  expect(f.calls()).toBe(3);
+  await expect(
+    observations.sample({ ...request, recordingId: "missing" }, signal()),
+  ).rejects.toMatchObject({ code: "NOT_FOUND" });
+  expect(f.calls()).toBe(3);
 });

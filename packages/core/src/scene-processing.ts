@@ -153,7 +153,7 @@ export class SceneProcessing {
     };
     const kept = { startUs: 0, endUs: recording.sourceDurationUs };
     const source = join(this.home, "recordings", job.recordingId, "source", "video.mov");
-    const analysis = new SourceSceneAnalysis(source, kept.endUs, this.sample);
+    const analysis = new SourceSceneAnalysis(job.recordingId, source, kept.endUs, this.sample);
     try {
       for (let startUs = 0; startUs < kept.endUs; startUs += scenePolicy.maximumRangeUs) {
         signal.throwIfAborted();

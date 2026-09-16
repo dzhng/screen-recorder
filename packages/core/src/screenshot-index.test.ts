@@ -247,10 +247,10 @@ test("retained evidence survives derived cache eviction and owner-directed recla
   await f.index.finish(f.identity);
   const cache = new DerivedCache(f.catalog, f.home, png.length);
   await cache.reconcile();
-  const reserved = cache.reserve();
+  const reserved = cache.reserve(f.identity.recordingId);
   writeFileSync(reserved.path, png);
   await cache.publish(reserved.id);
-  const later = cache.reserve();
+  const later = cache.reserve(f.identity.recordingId);
   writeFileSync(later.path, png);
   await cache.publish(later.id);
   expect(cache.acquire(reserved.id)).toBeNull();

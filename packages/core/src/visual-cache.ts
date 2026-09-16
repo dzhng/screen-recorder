@@ -51,6 +51,7 @@ export class VisualObservationCache {
 
   readonly sample: VisualSampler = async (request, signal) => {
     signal.throwIfAborted();
+    this.store.get(request.recordingId);
     const { atSourceUs: times, kept } = request;
     if (
       !Number.isSafeInteger(kept.startUs) ||
@@ -73,7 +74,13 @@ export class VisualObservationCache {
         "Visual observations require a bounded ordered retained batch",
       );
     // Finalized source paths name immutable recording media; moving a library merely misses reuse.
-    const identity = JSON.stringify([scenePolicy.id, request.source, kept.startUs, kept.endUs]);
+    const identity = JSON.stringify([
+      request.recordingId,
+      scenePolicy.id,
+      request.source,
+      kept.startUs,
+      kept.endUs,
+    ]);
     const existing = this.read(identity, times);
     const cachedTimes = new Set(existing?.samples.map((sample) => sample.requestedSourceUs));
     const missing = times.filter((at) => !cachedTimes.has(at));
@@ -86,7 +93,7 @@ export class VisualObservationCache {
     const assembled = combine(times, [existing, observed]);
     analyzeVisualSamples(assembled.samples);
     signal.throwIfAborted();
-    const output = this.cache.reserve();
+    const output = this.cache.reserve(request.recordingId);
     try {
       await writeFile(output.path, JSON.stringify(observed), { flag: "wx" });
       signal.throwIfAborted();

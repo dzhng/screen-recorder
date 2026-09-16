@@ -29,7 +29,7 @@ export type VisualObservations = {
   samples: VisualSample[];
 };
 export type VisualSampler = (
-  request: { source: string; kept: TimeRange; atSourceUs: number[] },
+  request: { recordingId: string; source: string; kept: TimeRange; atSourceUs: number[] },
   signal: AbortSignal,
 ) => Promise<VisualObservations>;
 export type VisualComparison = {
@@ -237,6 +237,7 @@ export class SourceSceneAnalysis {
   private recent: { sample: VisualSample; stillnessRunStartUs: number }[] = [];
 
   constructor(
+    private readonly recordingId: string,
     private readonly source: string,
     private readonly durationUs: number,
     private readonly sample: VisualSampler,
@@ -248,7 +249,7 @@ export class SourceSceneAnalysis {
     if (range.startUs !== this.throughUs)
       invalid("Canonical scene analysis requires contiguous source chunks");
     const observed = await observeVisualSamples(
-      { source: this.source, kept, atSourceUs },
+      { recordingId: this.recordingId, source: this.source, kept, atSourceUs },
       this.sample,
       signal,
     );
@@ -318,7 +319,13 @@ export class SourceSceneAnalysis {
 
 /** A future video selection can veto past pointing; it never advances the cursor's clock. */
 export async function analyzeFrameScene(
-  request: { source: string; kept: TimeRange; requestedSourceUs: number; trailUs: number },
+  request: {
+    recordingId: string;
+    source: string;
+    kept: TimeRange;
+    requestedSourceUs: number;
+    trailUs: number;
+  },
   sample: VisualSampler,
   signal: AbortSignal,
 ) {
@@ -339,6 +346,7 @@ export async function analyzeFrameScene(
   const local = report(
     await observeVisualSamples(
       {
+        recordingId: request.recordingId,
         source: request.source,
         kept: request.kept,
         atSourceUs: range.startUs === at ? [at] : sceneSampleTimes(range, request.kept),
@@ -355,6 +363,7 @@ export async function analyzeFrameScene(
     // sample at or before the request. Final image selection retains the original kept span.
     const past = await observeVisualSamples(
       {
+        recordingId: request.recordingId,
         source: request.source,
         kept: { startUs: request.kept.startUs, endUs: at + 1 },
         atSourceUs: [at],

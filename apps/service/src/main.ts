@@ -126,8 +126,11 @@ async function main(): Promise<void> {
     processing = new SourceProcessing(store, jobs, evidence, home, (directory, output, signal) =>
       nativeData<SourceEvidenceReceipt>("media.sourceEvidence", { directory, output }, signal),
     );
-    const visual = new VisualObservationCache(store, cache, (request, signal) =>
-      nativeData<VisualObservations>("media.visualSamples", request, signal),
+    const visual = new VisualObservationCache(
+      store,
+      cache,
+      ({ source, kept, atSourceUs }, signal) =>
+        nativeData<VisualObservations>("media.visualSamples", { source, kept, atSourceUs }, signal),
     );
     const sceneEvidence = new SceneEvidenceStore(store);
     scenes = new SceneProcessing(store, jobs, sceneEvidence, home, visual.sample);

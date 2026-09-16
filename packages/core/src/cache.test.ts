@@ -24,18 +24,22 @@ async function fixture(budget = 8) {
   const home = mkdtempSync(join(tmpdir(), "derived-cache-"));
   const store = new RevisionStore(join(home, "library.sqlite"), {
     now: () => "",
-    newId: () => "unused",
+    newId: (() => {
+      let id = 0;
+      return () => `recording-${++id}`;
+    })(),
   });
   cleanups.push(
     () => rmSync(home, { recursive: true, force: true }),
     () => store.close(),
   );
+  store.allocate();
   const cache = new DerivedCache(store, home, budget);
   await cache.reconcile();
   return { home, store, cache };
 }
 async function add(cache: DerivedCache, data: string) {
-  const pending = cache.reserve();
+  const pending = cache.reserve("recording-1");
   writeFileSync(pending.path, data, { flag: "wx" });
   return cache.publish(pending.id);
 }
@@ -86,7 +90,7 @@ test("restart preserves LRU and reconciles missing, interrupted and orphan files
   const a = await add(cache, "aaaa"),
     b = await add(cache, "bbbb");
   expect(read(cache, a.id)).toBe("aaaa");
-  const pending = cache.reserve();
+  const pending = cache.reserve("recording-1");
   writeFileSync(pending.path, "partial");
   const reopened = new DerivedCache(store, home, 8);
   await reopened.reconcile();
@@ -106,15 +110,15 @@ test("oversized output and aliased files cannot consume cache or alter source", 
   const source = join(home, "source.mov");
   writeFileSync(source, "original");
   const kept = await add(cache, "keep");
-  const big = cache.reserve();
+  const big = cache.reserve("recording-1");
   writeFileSync(big.path, "too large");
   await expect(cache.publish(big.id)).rejects.toThrow("exceeds cache budget");
   expect(existsSync(big.path)).toBe(false);
   expect(read(cache, kept.id)).toBe("keep");
-  const hard = cache.reserve();
+  const hard = cache.reserve("recording-1");
   linkSync(source, hard.path);
   await expect(cache.publish(hard.id)).rejects.toThrow("independent regular file");
-  const symbolic = cache.reserve();
+  const symbolic = cache.reserve("recording-1");
   symlinkSync(source, symbolic.path);
   await expect(cache.publish(symbolic.id)).rejects.toThrow();
   cache.remove(symbolic.id);
@@ -127,7 +131,7 @@ test("startup interruption is retryable, yields, and never reconciles an active 
   const { cache, home, store } = await fixture(200);
   for (let i = 0; i < 140; i++) await add(cache, "a");
   const reopened = new DerivedCache(store, home, 200);
-  expect(() => reopened.reserve()).toThrow("reconciliation");
+  expect(() => reopened.reserve("recording-1")).toThrow("reconciliation");
   const controller = new AbortController();
   const scanning = reopened.reconcile(controller.signal);
   setImmediate(() => controller.abort());
@@ -186,12 +190,19 @@ test("eviction progresses past a batch of readers to a later disposable file", a
 test("reopening the catalog retains cache content and LRU, removing only owned orphan names", async () => {
   const home = mkdtempSync(join(tmpdir(), "derived-reopen-"));
   const connect = () =>
-    new RevisionStore(join(home, "library.sqlite"), { now: () => "", newId: () => "unused" });
+    new RevisionStore(join(home, "library.sqlite"), {
+      now: () => "",
+      newId: (() => {
+        let id = 0;
+        return () => `recording-${++id}`;
+      })(),
+    });
   let store = connect();
   cleanups.push(
     () => rmSync(home, { recursive: true, force: true }),
     () => store.close(),
   );
+  store.allocate();
   let cache = new DerivedCache(store, home, 8);
   await cache.reconcile();
   const a = await add(cache, "aaaa"),
@@ -210,4 +221,118 @@ test("reopening the catalog retains cache content and LRU, removing only owned o
   expect(read(cache, b.id)).toBeNull();
   expect(existsSync(orphan)).toBe(false);
   expect(readFileSync(unrelated, "utf8")).toBe("keep");
+});
+
+test("recording purge removes published and pending files, preserving sibling readers", async () => {
+  const { cache, store } = await fixture(100);
+  const sibling = store.allocate().recording.recordingId;
+  const a = await add(cache, "deleted");
+  const pending = cache.reserve("recording-1");
+  writeFileSync(pending.path, "unfinished");
+  const b = cache.reserve(sibling);
+  writeFileSync(b.path, "sibling");
+  await cache.publish(b.id);
+  const reader = cache.acquire(b.id)!;
+  await cache.purgeRecording("recording-1");
+  expect(existsSync(a.path)).toBe(false);
+  expect(existsSync(pending.path)).toBe(false);
+  await expect(cache.publish(pending.id)).rejects.toThrow("No cache reservation");
+  const bytes = Buffer.alloc(7);
+  reader.read(bytes, 0);
+  expect(bytes.toString()).toBe("sibling");
+  reader.release();
+  expect(read(cache, b.id)).toBe("sibling");
+  await cache.purgeRecording("recording-1");
+  await cache.purgeRecording("unknown");
+  expect(cache.bytes).toBe(7);
+});
+
+test("purge refuses pinned recording bytes and retries without releasing unrelated pins", async () => {
+  const { cache, store } = await fixture(100);
+  const sibling = store.allocate().recording.recordingId;
+  const a = await add(cache, "target");
+  const b = cache.reserve(sibling);
+  writeFileSync(b.path, "sibling");
+  await cache.publish(b.id);
+  const targetRead = cache.acquire(a.id)!,
+    siblingRead = cache.acquire(b.id)!;
+  await expect(cache.purgeRecording("recording-1")).rejects.toMatchObject({
+    code: "CACHE_BUSY",
+    retryable: true,
+  });
+  expect(readFileSync(a.path, "utf8")).toBe("target");
+  expect(read(cache, a.id)).toBe("target");
+  targetRead.release();
+  await cache.purgeRecording("recording-1");
+  expect(existsSync(a.path)).toBe(false);
+  const bytes = Buffer.alloc(7);
+  siblingRead.read(bytes, 0);
+  expect(bytes.toString()).toBe("sibling");
+  siblingRead.release();
+});
+
+test("purge yields across reservations and serializes already queued and late publication", async () => {
+  const { cache } = await fixture(200);
+  const pending = [];
+  for (let i = 0; i < 130; i++) {
+    const output = cache.reserve("recording-1");
+    writeFileSync(output.path, `partial-${i}`);
+    pending.push(output);
+  }
+  const publication = cache.publish(pending[0]!.id);
+  let heartbeat = false;
+  setImmediate(() => {
+    heartbeat = true;
+  });
+  await cache.purgeRecording("recording-1");
+  await publication;
+  expect(heartbeat).toBe(true);
+  for (const output of pending) expect(existsSync(output.path)).toBe(false);
+  await expect(cache.publish(pending[0]!.id)).rejects.toThrow("No cache reservation");
+  expect(cache.bytes).toBe(0);
+});
+
+test("unsupported cache catalogs fail before creating directories or changing owned data", () => {
+  const home = mkdtempSync(join(tmpdir(), "cache-legacy-"));
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => "",
+    newId: () => "unused",
+  });
+  cleanups.push(
+    () => rmSync(home, { recursive: true, force: true }),
+    () => store.close(),
+  );
+  store.catalog.exec(
+    "CREATE TABLE derived_cache(id TEXT PRIMARY KEY, bytes INTEGER, touched INTEGER NOT NULL, device INTEGER, inode INTEGER); INSERT INTO derived_cache VALUES ('legacy',4,1,2,3)",
+  );
+  const source = join(home, "source.mov");
+  writeFileSync(source, "keep");
+  expect(() => new DerivedCache(store, home)).toThrowError(
+    expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
+  );
+  expect(existsSync(join(home, "cache"))).toBe(false);
+  expect(readFileSync(source, "utf8")).toBe("keep");
+  expect(store.catalog.prepare("SELECT * FROM derived_cache").all()).toEqual([
+    { id: "legacy", bytes: 4, touched: 1, device: 2, inode: 3 },
+  ]);
+  expect(
+    store.catalog.prepare("SELECT name FROM pragma_table_info('derived_cache')").all(),
+  ).not.toContainEqual({ name: "recordingId" });
+});
+
+test("reservations reject missing owners and retain their owner after reopening", async () => {
+  const { cache, home, store } = await fixture(100);
+  expect(() => cache.reserve("missing")).toThrowError(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
+  const owner = store.allocate().recording.recordingId;
+  const first = await add(cache, "first");
+  const second = cache.reserve(owner);
+  writeFileSync(second.path, "second");
+  await cache.publish(second.id);
+  const reopened = new DerivedCache(store, home, 100);
+  await reopened.reconcile();
+  await reopened.purgeRecording(owner);
+  expect(read(reopened, second.id)).toBeNull();
+  expect(read(reopened, first.id)).toBe("first");
 });

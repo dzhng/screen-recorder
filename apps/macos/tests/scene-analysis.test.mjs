@@ -53,7 +53,8 @@ async function sparseFixture(t, seconds = 2, changed = true) {
   return source;
 }
 
-const sample = async (params, signal) => {
+const sample = async ({ source, kept, atSourceUs }, signal) => {
+  const params = { source, kept, atSourceUs };
   signal.throwIfAborted();
   const run = spawnSync(native, [], {
     input: JSON.stringify({ id: "scene", operation: "media.visualSamples", params }) + "\n",
@@ -70,7 +71,7 @@ test("shared scene analysis preserves held coverage and exposes a nearest future
   const source = await sparseFixture(t);
   const original = await readFile(source);
   const inspect = (endUs) =>
-    new SourceSceneAnalysis(source, 6000000, sample).analyze(
+    new SourceSceneAnalysis("native-fixture", source, 6000000, sample).analyze(
       { startUs: 0, endUs },
       new AbortController().signal,
     );
@@ -107,6 +108,7 @@ for (const changed of [false, true]) {
     const queries = [];
     const result = await analyzeFrameScene(
       {
+        recordingId: "native-fixture",
         source,
         kept: { startUs: 0, endUs: 360_000_000 },
         requestedSourceUs: 119_000_000,

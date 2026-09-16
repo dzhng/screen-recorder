@@ -200,7 +200,7 @@ export class FrameInspection {
       throw new CatalogError("UNSUPPORTED_JOB", "Frame inspector cannot execute this job");
     const revision = this.store.revision(job.recordingId, job.revisionId);
     signal.throwIfAborted();
-    const output = this.cache.reserve();
+    const output = this.cache.reserve(job.recordingId);
     try {
       const frame = await materializeFrame(
         {

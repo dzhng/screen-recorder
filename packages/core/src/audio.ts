@@ -193,7 +193,7 @@ export class AudioInspection {
     const spans = this.spans(revision, options.range);
     const { tracks, missingRoles } = this.plan(options, spans);
     signal.throwIfAborted();
-    const output = this.cache.reserve();
+    const output = this.cache.reserve(job.recordingId);
     try {
       const audio = await this.decode({ tracks, spans, output: output.path }, signal);
       signal.throwIfAborted();
