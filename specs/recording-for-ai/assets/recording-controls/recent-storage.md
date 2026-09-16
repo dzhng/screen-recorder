@@ -19,7 +19,7 @@ for the same scope join its actual running scan, so a timed-out UI reply does no
 multiply disk traversals. The service remains
 the owner of byte classification and exclusions.
 
-Preview and both export actions remain visibly unavailable. The new menu actions
+Preview is now wired through the native player; both export actions remain visibly unavailable. The new menu actions
 add no timeline editor or separate storage model.
 
 ## Verification boundary

@@ -6,7 +6,8 @@ See [integration notes](../assets/recording-controls/integration.md) for the tes
 boundary, unfinished verification, and next pickup.
 [Recent delete/storage controls](../assets/recording-controls/recent-storage.md)
 pass focused state/identity checks. Actual native interaction and visual review
-remain open; this slice is not complete.
+remain open; this slice is not complete. The [native shortcut collision probe](../assets/recording-controls/shortcut-collisions.md)
+also identifies an unresolved availability contract; exclusive registration is not a safe fix.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

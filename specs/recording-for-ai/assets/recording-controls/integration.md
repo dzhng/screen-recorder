@@ -44,8 +44,8 @@ when the rebuilt own-window observer test runs.
 - Inspect actual native idle/selecting/recording/paused/interrupted controls through
   the visual gates; schematic images do not satisfy that gate.
 - Add the owning lab entrypoint and complete slice 07 only after its acceptance
-  evidence is retained. Preview and exports remain unavailable until their owning
-  slices implement them.
+  evidence is retained. Preview is wired through the native player; both exports remain unavailable until
+  their owning slice implements them.
 
 ## Root integration checkpoint
 
@@ -79,3 +79,6 @@ distinguish a physical-hotkey defect from event-delivery limitations of the UI t
 The probe's bounded cleanup stopped the recording normally and reaped the app and
 service. Actual shortcut/menu acceptance remains open. The bundle was the merged
 pointer-policy build; this probe is not capture-duration-fix verification.
+
+[Native collision feasibility](shortcut-collisions.md) now records a two-process failure
+in the current registration mode and rejection of an unsafe exclusive candidate.

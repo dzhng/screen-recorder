@@ -1,0 +1,33 @@
+main/Probe.swift:22: Precondition failed: A shortcut owned by another process must be unavailable
+✖ native shortcut collisions are refused and released bindings can be reclaimed (2499.700042ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2527.939958
+
+✖ failing tests:
+
+test at apps/macos/tests/shortcuts-native.test.mjs:10:1
+✖ native shortcut collisions are refused and released bindings can be reclaimed (2499.700042ms)
+  Error: Command failed: /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-shortcut-Qqrd2f/shortcut-test occupied
+  main/Probe.swift:22: Precondition failed: A shortcut owned by another process must be unavailable
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/macos/tests/shortcuts-native.test.mjs:125:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    status: null,
+    signal: 'SIGTRAP',
+    output: [ null, '', 'main/Probe.swift:22: Precondition failed: A shortcut owned by another process must be unavailable\n' ],
+    pid: 68845,
+    stdout: '',
+    stderr: 'main/Probe.swift:22: Precondition failed: A shortcut owned by another process must be unavailable\n'
+  }
