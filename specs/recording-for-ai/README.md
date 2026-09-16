@@ -29,8 +29,8 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish package output release and delivery isolation, then registry
-storage reservations and startup cleanup in
+Current pickup: finish package output release, then registry storage reservations
+and startup cleanup in
 [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
 The shared queue now has [transient contexts](slices/14c3a-transient-context-jobs.md);
 public handles must use these capabilities and the retained native descriptor owner.
@@ -49,7 +49,8 @@ Recent integration evidence:
   admitted files and native workers through relocation, close and parent death.
   [Transient contexts](slices/14c3a-transient-context-jobs.md) share queue capacity
   and release terminal metadata for continued requests. Registry/storage recovery,
-  delivery ownership and public selectors remain.
+  and public selectors remain. Delivery tokens now distinguish package and library
+  ownership; merged focused tests and bundled public preview/deletion checks pass.
 - [External publication](assets/export-publication/native-owner.md) passes native
   no-clobber publication and process-crash reconciliation. Durable intent and actual
   recording-deletion integration remain next.
