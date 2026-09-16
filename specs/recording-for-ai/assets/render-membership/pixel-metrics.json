@@ -1,0 +1,70 @@
+[
+  {
+    "reference": "source-dense-1.png",
+    "candidate": "writer-subframe-1.png",
+    "dimensions": [
+      320,
+      180
+    ],
+    "grayMae": 0.2736631944444444,
+    "grayRmse": 1.168369293312502,
+    "diffRatio16": 0.0017013888888888888,
+    "diffRatio32": 0.0,
+    "diffRatio64": 0.0,
+    "edgeEnergyReference": 6.986158513194049,
+    "edgeEnergyCandidate": 6.86949556959698,
+    "edgeEnergyRatio": 0.9833008450385516,
+    "edgeDiffRatio32": 0.0
+  },
+  {
+    "reference": "source-dense-1.png",
+    "candidate": "writer-two-spans-1.png",
+    "dimensions": [
+      320,
+      180
+    ],
+    "grayMae": 0.2736631944444444,
+    "grayRmse": 1.168369293312502,
+    "diffRatio16": 0.0017013888888888888,
+    "diffRatio32": 0.0,
+    "diffRatio64": 0.0,
+    "edgeEnergyReference": 6.986158513194049,
+    "edgeEnergyCandidate": 6.86949556959698,
+    "edgeEnergyRatio": 0.9833008450385516,
+    "edgeDiffRatio32": 0.0
+  },
+  {
+    "reference": "source-dense-2.png",
+    "candidate": "writer-two-spans-2.png",
+    "dimensions": [
+      320,
+      180
+    ],
+    "grayMae": 1.0568402777777777,
+    "grayRmse": 1.2758983763085,
+    "diffRatio16": 0.0,
+    "diffRatio32": 0.0,
+    "diffRatio64": 0.0,
+    "edgeEnergyReference": 6.132645951449418,
+    "edgeEnergyCandidate": 6.097495722107737,
+    "edgeEnergyRatio": 0.9942683419815922,
+    "edgeDiffRatio32": 0.0
+  },
+  {
+    "reference": "source-sparse-1.png",
+    "candidate": "writer-sparse-1.png",
+    "dimensions": [
+      320,
+      180
+    ],
+    "grayMae": 0.24902777777777776,
+    "grayRmse": 0.971450090214509,
+    "diffRatio16": 0.0005208333333333333,
+    "diffRatio32": 0.0,
+    "diffRatio64": 0.0,
+    "edgeEnergyReference": 6.996694222874143,
+    "edgeEnergyCandidate": 6.940591897441445,
+    "edgeEnergyRatio": 0.9919815953583788,
+    "edgeDiffRatio32": 0.0
+  }
+]

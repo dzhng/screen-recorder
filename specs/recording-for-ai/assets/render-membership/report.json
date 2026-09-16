@@ -1,0 +1,873 @@
+{
+  "kind": "generated native membership feasibility",
+  "sources": {
+    "dense": {
+      "sha256": "e9da8954fc7eeee2c89f2619666107ce93a6aa562648ca99349ab03b07cc11a9",
+      "bytes": 3522,
+      "decoded": true
+    },
+    "sparse": {
+      "sha256": "7fc0e5d2e40046ede3b83c9aebc017fc5f0d603eb11d9aaae1c76c5352c01c26",
+      "bytes": 5381,
+      "decoded": true
+    },
+    "gap": {
+      "sha256": "95e93af403ec7647e3deb765be26ffd8c863cc77ccade381fef42e73039f351f",
+      "bytes": 3645
+    }
+  },
+  "cases": [
+    {
+      "name": "dense-subframe",
+      "source": "dense",
+      "plan": [
+        {
+          "source": {
+            "startUs": 10000,
+            "endUs": 20000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 10000
+          }
+        }
+      ],
+      "ledger": {
+        "composition": {
+          "durationUs": 10000,
+          "file": "dense-subframe/composition.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            }
+          ]
+        },
+        "cursor": [
+          {
+            "dtsMediaUs": 0,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 0,
+            "ptsMediaUs": 66667
+          },
+          {
+            "dtsMediaUs": 33333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 100000,
+            "ptsMediaUs": 166667
+          },
+          {
+            "dtsMediaUs": 66667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 33333,
+            "ptsMediaUs": 100000
+          },
+          {
+            "dtsMediaUs": 100000,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 66667,
+            "ptsMediaUs": 133333
+          },
+          {
+            "dtsMediaUs": 133333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 166667,
+            "ptsMediaUs": 233333
+          },
+          {
+            "dtsMediaUs": 166667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 133333,
+            "ptsMediaUs": 200000
+          }
+        ],
+        "decoded": [
+          {
+            "provenEndUs": 33333,
+            "ptsUs": 0,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 66667,
+            "ptsUs": 33333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 100000,
+            "ptsUs": 66667,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 133333,
+            "ptsUs": 100000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 166667,
+            "ptsUs": 133333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 200000,
+            "ptsUs": 166667,
+            "sampleDurationUs": null
+          }
+        ],
+        "durationUs": 200000,
+        "membership": {
+          "events": [
+            {
+              "durationUs": 10000,
+              "playbackUs": 0,
+              "sourceFrame": 0
+            }
+          ],
+          "fullyProven": true
+        },
+        "plan": [
+          {
+            "playback": {
+              "endUs": 10000,
+              "startUs": 0
+            },
+            "source": {
+              "endUs": 20000,
+              "startUs": 10000
+            }
+          }
+        ],
+        "segments": [
+          {
+            "assetDurationUs": 200000,
+            "assetStartUs": 0,
+            "empty": false,
+            "mediaDurationUs": 200000,
+            "mediaStartUs": 66667
+          }
+        ],
+        "source": "dense.mov",
+        "writer": {
+          "durationUs": 10000,
+          "file": "dense-subframe/writer.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            }
+          ]
+        }
+      },
+      "decoded": {
+        "composition": {
+          "frameCount": 0,
+          "matches": [],
+          "probe": {
+            "frames": [],
+            "format": {
+              "duration": "0.010000"
+            }
+          }
+        },
+        "writer": {
+          "frameCount": 1,
+          "matches": [
+            {
+              "sourceFrame": 0,
+              "meanAbsoluteRgbError": 0.6159143518518518
+            }
+          ],
+          "probe": {
+            "frames": [
+              {
+                "pts_time": "0.000000",
+                "side_data_list": [
+                  {}
+                ]
+              }
+            ],
+            "format": {
+              "duration": "0.010000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "dense-two-spans",
+      "source": "dense",
+      "plan": [
+        {
+          "source": {
+            "startUs": 10000,
+            "endUs": 20000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 10000
+          }
+        },
+        {
+          "source": {
+            "startUs": 43333,
+            "endUs": 53333
+          },
+          "playback": {
+            "startUs": 10000,
+            "endUs": 20000
+          }
+        }
+      ],
+      "ledger": {
+        "composition": {
+          "durationUs": 20000,
+          "file": "dense-two-spans/composition.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            },
+            {
+              "durationUs": null,
+              "ptsUs": 10000
+            }
+          ]
+        },
+        "cursor": [
+          {
+            "dtsMediaUs": 0,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 0,
+            "ptsMediaUs": 66667
+          },
+          {
+            "dtsMediaUs": 33333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 100000,
+            "ptsMediaUs": 166667
+          },
+          {
+            "dtsMediaUs": 66667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 33333,
+            "ptsMediaUs": 100000
+          },
+          {
+            "dtsMediaUs": 100000,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 66667,
+            "ptsMediaUs": 133333
+          },
+          {
+            "dtsMediaUs": 133333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 166667,
+            "ptsMediaUs": 233333
+          },
+          {
+            "dtsMediaUs": 166667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 133333,
+            "ptsMediaUs": 200000
+          }
+        ],
+        "decoded": [
+          {
+            "provenEndUs": 33333,
+            "ptsUs": 0,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 66667,
+            "ptsUs": 33333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 100000,
+            "ptsUs": 66667,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 133333,
+            "ptsUs": 100000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 166667,
+            "ptsUs": 133333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 200000,
+            "ptsUs": 166667,
+            "sampleDurationUs": null
+          }
+        ],
+        "durationUs": 200000,
+        "membership": {
+          "events": [
+            {
+              "durationUs": 10000,
+              "playbackUs": 0,
+              "sourceFrame": 0
+            },
+            {
+              "durationUs": 10000,
+              "playbackUs": 10000,
+              "sourceFrame": 1
+            }
+          ],
+          "fullyProven": true
+        },
+        "plan": [
+          {
+            "playback": {
+              "endUs": 10000,
+              "startUs": 0
+            },
+            "source": {
+              "endUs": 20000,
+              "startUs": 10000
+            }
+          },
+          {
+            "playback": {
+              "endUs": 20000,
+              "startUs": 10000
+            },
+            "source": {
+              "endUs": 53333,
+              "startUs": 43333
+            }
+          }
+        ],
+        "segments": [
+          {
+            "assetDurationUs": 200000,
+            "assetStartUs": 0,
+            "empty": false,
+            "mediaDurationUs": 200000,
+            "mediaStartUs": 66667
+          }
+        ],
+        "source": "dense.mov",
+        "writer": {
+          "durationUs": 20000,
+          "file": "dense-two-spans/writer.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            },
+            {
+              "durationUs": null,
+              "ptsUs": 10000
+            }
+          ]
+        }
+      },
+      "decoded": {
+        "composition": {
+          "frameCount": 0,
+          "matches": [],
+          "probe": {
+            "frames": [],
+            "format": {
+              "duration": "0.020000"
+            }
+          }
+        },
+        "writer": {
+          "frameCount": 2,
+          "matches": [
+            {
+              "sourceFrame": 0,
+              "meanAbsoluteRgbError": 0.6159143518518518
+            },
+            {
+              "sourceFrame": 1,
+              "meanAbsoluteRgbError": 1.3769386574074074
+            }
+          ],
+          "probe": {
+            "frames": [
+              {
+                "pts_time": "0.000000",
+                "side_data_list": [
+                  {}
+                ]
+              },
+              {
+                "pts_time": "0.010000"
+              }
+            ],
+            "format": {
+              "duration": "0.020000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "sparse-held",
+      "source": "sparse",
+      "plan": [
+        {
+          "source": {
+            "startUs": 500000,
+            "endUs": 510000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 10000
+          }
+        }
+      ],
+      "ledger": {
+        "composition": {
+          "durationUs": 10000,
+          "file": "sparse-held/composition.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            }
+          ]
+        },
+        "cursor": [
+          {
+            "dtsMediaUs": 0,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 0,
+            "ptsMediaUs": 2000000
+          },
+          {
+            "dtsMediaUs": 1000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 3000000,
+            "ptsMediaUs": 5000000
+          },
+          {
+            "dtsMediaUs": 2000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 1000000,
+            "ptsMediaUs": 3000000
+          },
+          {
+            "dtsMediaUs": 3000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 2000000,
+            "ptsMediaUs": 4000000
+          },
+          {
+            "dtsMediaUs": 4000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 5000000,
+            "ptsMediaUs": 7000000
+          },
+          {
+            "dtsMediaUs": 5000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 4000000,
+            "ptsMediaUs": 6000000
+          }
+        ],
+        "decoded": [
+          {
+            "provenEndUs": 1000000,
+            "ptsUs": 0,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 2000000,
+            "ptsUs": 1000000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 3000000,
+            "ptsUs": 2000000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 4000000,
+            "ptsUs": 3000000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 5000000,
+            "ptsUs": 4000000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 6000000,
+            "ptsUs": 5000000,
+            "sampleDurationUs": null
+          }
+        ],
+        "durationUs": 6000000,
+        "membership": {
+          "events": [
+            {
+              "durationUs": 10000,
+              "playbackUs": 0,
+              "sourceFrame": 0
+            }
+          ],
+          "fullyProven": true
+        },
+        "plan": [
+          {
+            "playback": {
+              "endUs": 10000,
+              "startUs": 0
+            },
+            "source": {
+              "endUs": 510000,
+              "startUs": 500000
+            }
+          }
+        ],
+        "segments": [
+          {
+            "assetDurationUs": 6000000,
+            "assetStartUs": 0,
+            "empty": false,
+            "mediaDurationUs": 6000000,
+            "mediaStartUs": 2000000
+          }
+        ],
+        "source": "sparse.mov",
+        "writer": {
+          "durationUs": 10000,
+          "file": "sparse-held/writer.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            }
+          ]
+        }
+      },
+      "decoded": {
+        "composition": {
+          "frameCount": 0,
+          "matches": [],
+          "probe": {
+            "frames": [],
+            "format": {
+              "duration": "0.010000"
+            }
+          }
+        },
+        "writer": {
+          "frameCount": 1,
+          "matches": [
+            {
+              "sourceFrame": 0,
+              "meanAbsoluteRgbError": 0.5611921296296296
+            }
+          ],
+          "probe": {
+            "frames": [
+              {
+                "pts_time": "0.000000",
+                "side_data_list": [
+                  {}
+                ]
+              }
+            ],
+            "format": {
+              "duration": "0.010000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "empty-edit",
+      "source": "gap",
+      "plan": [
+        {
+          "source": {
+            "startUs": 50000,
+            "endUs": 60000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 10000
+          }
+        }
+      ],
+      "ledger": {
+        "composition": {
+          "durationUs": 0,
+          "error": "Export contains no video track"
+        },
+        "cursor": [
+          {
+            "dtsMediaUs": 0,
+            "durationMediaUs": 100000,
+            "ptsAssetUs": 0,
+            "ptsMediaUs": 66667
+          },
+          {
+            "dtsMediaUs": 100000,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 200000,
+            "ptsMediaUs": 233333
+          },
+          {
+            "dtsMediaUs": 133333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 133333,
+            "ptsMediaUs": 166667
+          },
+          {
+            "dtsMediaUs": 166667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 166667,
+            "ptsMediaUs": 200000
+          },
+          {
+            "dtsMediaUs": 200000,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 266667,
+            "ptsMediaUs": 300000
+          },
+          {
+            "dtsMediaUs": 233333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 233333,
+            "ptsMediaUs": 266667
+          }
+        ],
+        "decoded": [
+          {
+            "provenEndUs": 33333,
+            "ptsUs": 0,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": null,
+            "ptsUs": 33333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 166667,
+            "ptsUs": 133333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 200000,
+            "ptsUs": 166667,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 233333,
+            "ptsUs": 200000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 266667,
+            "ptsUs": 233333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 300000,
+            "ptsUs": 266667,
+            "sampleDurationUs": null
+          }
+        ],
+        "durationUs": 300000,
+        "membership": {
+          "events": [],
+          "fullyProven": false
+        },
+        "plan": [
+          {
+            "playback": {
+              "endUs": 10000,
+              "startUs": 0
+            },
+            "source": {
+              "endUs": 60000,
+              "startUs": 50000
+            }
+          }
+        ],
+        "segments": [
+          {
+            "assetDurationUs": 33333,
+            "assetStartUs": 0,
+            "empty": false,
+            "mediaDurationUs": 33333,
+            "mediaStartUs": 66667
+          },
+          {
+            "assetDurationUs": 100000,
+            "assetStartUs": 33333,
+            "empty": true,
+            "mediaDurationUs": 100000,
+            "mediaStartUs": 0
+          },
+          {
+            "assetDurationUs": 166667,
+            "assetStartUs": 133333,
+            "empty": false,
+            "mediaDurationUs": 166667,
+            "mediaStartUs": 166667
+          }
+        ],
+        "source": "gap.mov",
+        "writer": {
+          "unsupported": "Retained time has no proven nonempty sample support"
+        }
+      },
+      "decoded": {
+        "composition": {
+          "unsupported": "Export contains no video track"
+        },
+        "writer": {
+          "unsupported": "Retained time has no proven nonempty sample support"
+        }
+      }
+    }
+  ],
+  "inspection": [
+    {
+      "source": "dense",
+      "operation": "media.frame",
+      "atUs": 15000,
+      "kept": {
+        "startUs": 10000,
+        "endUs": 20000
+      },
+      "result": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "No video sample inside [10000,20000) microseconds of dense.mov.",
+          "retryable": false
+        },
+        "id": "inspection",
+        "ok": false
+      }
+    },
+    {
+      "source": "dense",
+      "operation": "media.visualSamples",
+      "atUs": 15000,
+      "kept": {
+        "startUs": 10000,
+        "endUs": 20000
+      },
+      "result": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "No video sample inside [10000,20000) microseconds of dense.mov.",
+          "retryable": false
+        },
+        "id": "inspection",
+        "ok": false
+      }
+    },
+    {
+      "source": "gap",
+      "operation": "media.frame",
+      "atUs": 50000,
+      "kept": {
+        "startUs": 50000,
+        "endUs": 60000
+      },
+      "result": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "No video sample inside [50000,60000) microseconds of gap.mov.",
+          "retryable": false
+        },
+        "id": "inspection",
+        "ok": false
+      }
+    },
+    {
+      "source": "gap",
+      "operation": "media.visualSamples",
+      "atUs": 50000,
+      "kept": {
+        "startUs": 50000,
+        "endUs": 60000
+      },
+      "result": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "No video sample inside [50000,60000) microseconds of gap.mov.",
+          "retryable": false
+        },
+        "id": "inspection",
+        "ok": false
+      }
+    },
+    {
+      "source": "gap",
+      "operation": "media.frame",
+      "atUs": 50000,
+      "kept": {
+        "startUs": 0,
+        "endUs": 300000
+      },
+      "result": {
+        "data": {
+          "actualSourceUs": 0,
+          "bytes": 10742,
+          "distanceUs": 50000,
+          "file": "shots/nearest-gap-inspection.png",
+          "height": 180,
+          "mediaType": "image/png",
+          "requestedSourceUs": 50000,
+          "sourceHeight": 180,
+          "sourceWidth": 320,
+          "width": 320
+        },
+        "id": "inspection",
+        "ok": true
+      }
+    },
+    {
+      "source": "gap",
+      "operation": "media.visualSamples",
+      "atUs": 50000,
+      "kept": {
+        "startUs": 0,
+        "endUs": 300000
+      },
+      "result": {
+        "data": {
+          "samples": [
+            {
+              "actualSourceUs": 0,
+              "distanceUs": 50000,
+              "height": 36,
+              "requestedSourceUs": 50000,
+              "rgbBase64": "9iQA9iQA9iQA9iQA9SQA2SY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA2SY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA2CY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA2CY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv2CYy2CYy2CUz1yQz1yQxvShFWS9pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvYitjYitjYixkYixmYi1lWC9lMjFuIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvISxwISxwIixwJC9xJTFxJDFwIzBwIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIS1yIS1yIS1yIzBwJDFwJDFwIzFwIy9vJS9vJS9wJC9wJC9xJS9xJS9wJC9wJC9vIzBwIzBwIjBvIjBwIjBwIjBwIjBwIjBwIjBvIjBvIjBwIjBwIjBwIjBvIjBvIjBwIjBwIjBvIjBvIjBvIjBvIzBwJC9xJS9xJC9wJC9vIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIjBwIjBwIjBvIjBvIjBvIjBvJS9teH2TeH2Vd36Wd32XOj52eH2Wd36Ud36UJS9xJC9vX2qHdH6YbneUIjBvYWmKN0B3IzBtT1d+T1eAbniSdX+VdX+TdX+TNkB1IjBvIjBvIjBvIjBvIjBwTlaBdXyadn2YJy1wJS5vIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJTBq3eTlt73Ftr7Ftr3GX2OG09netr3Gtr3GjZOlYmmHprG4sbzGrrjDd4CXuL/Ho6e1REh1uLzClZmo0tzetL7FtL7EtL7ETVR/IzBwIjBvIjBvIjBvP0l2nae2sbrHsrrFjpOlJS5vIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJTBp7PHzUlSCUFWCUFSDaGuM0NPbUVSCUVV94enonaOvpKu2TlSAdHqTw8vQzNDXw8bOr7K81tfcpqe06fHyUFV/UFWBUFWBLjR1IzBwIjBvIjBvIjBvYGmGwczUTlOAr7W84+rpJS9uIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJTBq8vj4uL7GuL7HUFSBaGuJ5OnpvsTIub/Fo6m3o6i109rdur7FxsfNztDWztDWaGyI4Onopqi1pai16vHyuL7Htr7HeH+ZJS9wIzBvIjBvIjBvIjBvZWqGy9DXnaCpsbS86/HzJS5tIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJS9q8fX2lpuulZuvQ0l8aGuJ3ODjydDTvcPKKS9wpKi1xMnQl5utqqu5zs/WzdDWZ2yLi5Gnpqi1pai06vDyl5uvlZuwY2mNJS5xIzBwIjBvIjBvIjBvZWqG4eXqpaezRUZ17PDzJi5tIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJi9r7fDzJS9xIzBwJTBwaGyJzdDXY2mKsbfAi5Olpai1pai1IjFtaGyHzdDXzdDWZ2yLKS9upai1pKi06/Hxl5yslpytlZyrQkh6IzBwIjBvIjBvIjBvV1x/yMzTpamwl5ujyMzTJi1yIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIzButbzIIy9zIjBwIzBwUFiAnaO1JDBySlF8qbK/foSbfoScIjBsUFh9naOznaOyUVd9JzBuf4Wcf4WbtrzHuL3It73It73HTlR9IzBvIjBvIjBvIjBvKzVzgYehtbzGtbzFSU95Iy9wIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIi9zIi9yIjBwIjBvIjBwIi9zIi9xIjBvIi9uIi9vIi9vIjBtIjBtIi9uJC5sJC5sJTFvJTFvIzBvIC9yHy9zHy9zHy9wITBwIjBwIjBvIjBvIjBvIi9xIy9zHy9xHy5wIC1vIi9wIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIjBvIjBvIjBvIjBwIjBwIjBvIjBvIi9vIi9vIjBvIjBvIi9vIi9vIi9uIzJxIzJxIjBwIC9vIC9vIC9vIC9uITBvIjBvIjBvIjBvIjBvIzBwJDFwIzFwIjBvIS5uIi9vIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIzFwIzFwIjBwIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIzFwIzFwIzBwIi9vIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBuIzBtI0drJXNlJnxkJnxkJnxlJn1lJn1lJn1lJn1lJn1lJn1lIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBuIjBtJXNnNNBXOeJYOeNYOuNaOuVaOuVaOuRbOuVbOuVaOuVaIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIi9yIi9yJn1oOuRWP/hZP/hZP/laQPpbQPpbQPpbQPpbQPpbQPpbIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIi9zIi9zJn1mOuRUP/lXP/lXQPpYQPtZQPtZQPtZQPtZQPtZQPtZIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIjBwJn1kOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpY",
+              "width": 64
+            }
+          ],
+          "sourceHeight": 180,
+          "sourceWidth": 320
+        },
+        "id": "inspection",
+        "ok": true
+      }
+    }
+  ],
+  "environment": {
+    "node": "v24.14.0",
+    "architecture": "arm64",
+    "ffmpegExecutable": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+    "platform": "macOS 26.6.2",
+    "swift": "6.3.3",
+    "measuredOn": "2026-09-16"
+  }
+}

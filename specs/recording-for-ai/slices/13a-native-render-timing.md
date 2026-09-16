@@ -1,8 +1,25 @@
 # 13a — Native render timing feasibility
 
-Status: planned, not implemented. Dependency: the implemented core timeline/render
+Status: first membership feasibility checkpoint measured; product renderer and full
+gate remain unimplemented. Dependency: the implemented core timeline/render
 plan and native media worker seams. Independent of speech readiness and completion
 of the CLI/MCP journey. Parent [13](13-edited-media.md) remains open.
+
+## Current pickup
+
+[The first bounded probe](../assets/render-membership/review.md) establishes
+nonempty held-frame membership for dense/reordered and sparse generated sources.
+Timestamped writer outputs preserve the measured sub-frame intervals; the tested
+composition export does not pass independent decoding. A true empty edit exposes
+unresolved presentation semantics, so the next measurement must settle gap playback
+before a movie membership rule is finalized. Existing still-image inspection
+continues to reject gap-only/no-PTS kept intervals and needs no change on this evidence.
+
+The reproducible optional fixture is `node helpers/mac/Tests/render-membership.mjs`.
+It is a standalone SDK probe, not `lab:render-timing` or the product render worker.
+The full command and all gates below remain required. The next implementation must
+stream decoded frames; the probe's explicitly bounded sixteen-frame fixture buffer
+must not become the movie architecture. Parent 13 remains entirely open.
 
 ## One question and contract
 
