@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { CursorEvidenceStore } from "./evidence.js";
+import { SourceEvidenceStore } from "./evidence.js";
 const roots: string[] = [];
 const stores: RevisionStore[] = [];
 afterEach(() => {
@@ -47,6 +47,8 @@ function fixture(times = [0, 10, 10, 20]) {
     cursorSamples: times.length,
     geometryRecords: 0,
     displaySpaces: 0,
+    pauseEvents: 0,
+    audioIntervals: 0,
     firstCursorSourceUs: times[0] ?? null,
     lastCursorSourceUs: times.at(-1) ?? null,
     lastSequence: 5,
@@ -55,7 +57,7 @@ function fixture(times = [0, 10, 10, 20]) {
     finished: false,
     bytes: Buffer.byteLength(body),
   };
-  return { store, evidence: new CursorEvidenceStore(store), identity, file, receipt, samples };
+  return { store, evidence: new SourceEvidenceStore(store), identity, file, receipt, samples };
 }
 test("pages equal-time raw samples with explicit range and stable continuation", async () => {
   const f = fixture();
@@ -114,7 +116,7 @@ test("malformed normalized data and receipt mismatch remove all partial rows", a
     }),
   ).rejects.toThrow("Invalid normalized");
   expect(
-    f.store.catalog.prepare("SELECT count(*) AS n FROM cursor_evidence_records").get(),
+    f.store.catalog.prepare("SELECT count(*) AS n FROM source_evidence_records").get(),
   ).toEqual({ n: 0 });
   expect(() => f.evidence.page({ ...f.identity, range: { startUs: 0, endUs: 1000 } })).toThrow(
     "not indexed",
@@ -128,7 +130,7 @@ test("malformed normalized data and receipt mismatch remove all partial rows", a
     }),
   ).rejects.toThrow("receipt");
   expect(
-    g.store.catalog.prepare("SELECT count(*) AS n FROM cursor_evidence_generations").get(),
+    g.store.catalog.prepare("SELECT count(*) AS n FROM source_evidence_generations").get(),
   ).toEqual({ n: 0 });
 });
 
@@ -146,7 +148,7 @@ test("bounded batches yield and cancellation cleans a partially indexed generati
   for (let i = 0; i < 200; i++) {
     await setImmediate();
     if (
-      (f.store.catalog.prepare("SELECT count(*) AS n FROM cursor_evidence_records").get()!
+      (f.store.catalog.prepare("SELECT count(*) AS n FROM source_evidence_records").get()!
         .n as number) > 0
     ) {
       sawPartial = true;
@@ -160,10 +162,10 @@ test("bounded batches yield and cancellation cleans a partially indexed generati
   controller.abort();
   await expect(ingest).rejects.toThrow();
   expect(
-    f.store.catalog.prepare("SELECT count(*) AS n FROM cursor_evidence_records").get(),
+    f.store.catalog.prepare("SELECT count(*) AS n FROM source_evidence_records").get(),
   ).toEqual({ n: 0 });
   expect(
-    f.store.catalog.prepare("SELECT count(*) AS n FROM cursor_evidence_generations").get(),
+    f.store.catalog.prepare("SELECT count(*) AS n FROM source_evidence_generations").get(),
   ).toEqual({ n: 0 });
 });
 
@@ -196,7 +198,7 @@ test("retains geometry/display records and unknown raw fields without geometry r
   });
   expect(
     f.store.catalog
-      .prepare("SELECT event,content FROM cursor_evidence_records ORDER BY sequence")
+      .prepare("SELECT event,content FROM source_evidence_records ORDER BY sequence")
       .all()
       .map((r) => ({ event: r.event, data: JSON.parse(r.content as string) })),
   ).toEqual(records);
@@ -266,7 +268,7 @@ test("large streamed evidence pages seek through SQLite without reading the file
   expect(sequences).toEqual(Array.from({ length: 200 }, (_, i) => 49801 + i));
   const plans = f.store.catalog
     .prepare(
-      "EXPLAIN QUERY PLAN SELECT sequence,content FROM cursor_evidence_records WHERE recordingId=? AND sourceId=? AND generation=? AND event='cursorSample' AND sourceUs>=? AND sourceUs<? AND (sourceUs,sequence)>(?,?) ORDER BY sourceUs,sequence LIMIT ?",
+      "EXPLAIN QUERY PLAN SELECT sequence,content FROM source_evidence_records WHERE recordingId=? AND sourceId=? AND generation=? AND event='cursorSample' AND sourceUs>=? AND sourceUs<? AND (sourceUs,sequence)>(?,?) ORDER BY sourceUs,sequence LIMIT ?",
     )
     .all(
       f.identity.recordingId,
@@ -279,7 +281,7 @@ test("large streamed evidence pages seek through SQLite without reading the file
       18,
     );
   expect(plans.map((p) => p.detail).join(" ")).toContain(
-    "SEARCH cursor_evidence_records USING INDEX cursor_evidence_time",
+    "SEARCH source_evidence_records USING INDEX source_evidence_time",
   );
   expect(plans.map((p) => p.detail).join(" ")).not.toContain("TEMP B-TREE");
 });
@@ -324,7 +326,7 @@ test("rejects a wrong export path and nonfinite coordinates without publishing r
     }),
   ).rejects.toThrow("sample");
   expect(
-    f.store.catalog.prepare("SELECT count(*) AS n FROM cursor_evidence_generations").get(),
+    f.store.catalog.prepare("SELECT count(*) AS n FROM source_evidence_generations").get(),
   ).toEqual({ n: 0 });
 });
 
@@ -348,4 +350,76 @@ test("cursor pages honor the contract's 1000 default and inclusive 5000 maximum"
     nextSequence: null,
   });
   expect(() => f.evidence.page({ ...request, limit: 5001 })).toThrow("range or limit");
+});
+
+test("source timing queries keep pause boundaries and clip acquired audio without inventing gaps", async () => {
+  const f = fixture([]);
+  const records = [
+    { event: "pause", data: { atSourceUs: 100, elapsedPauseUs: 5000 } },
+    { event: "audioAcquired", data: { role: "narration", startUs: 0, endUs: 90 } },
+    { event: "audioAcquired", data: { role: "system", startUs: 20, endUs: 150 } },
+    { event: "audioAcquired", data: { role: "narration", startUs: 110, endUs: 200 } },
+  ];
+  const text = records.map((row) => JSON.stringify(row) + "\n").join("");
+  writeFileSync(f.file, text);
+  const receipt = {
+    ...f.receipt,
+    pauseEvents: 1,
+    audioIntervals: 3,
+    bytes: Buffer.byteLength(text),
+  };
+  await f.evidence.ingest({ ...f.identity, file: f.file, receipt });
+  const range = { startUs: 50, endUs: 120 };
+  expect(f.evidence.audio(f.identity, "narration", range)).toEqual([
+    { startUs: 50, endUs: 90 },
+    { startUs: 110, endUs: 120 },
+  ]);
+  expect(f.evidence.audio(f.identity, "system", range)).toEqual([{ startUs: 50, endUs: 120 }]);
+  expect(f.evidence.audio(f.identity, "narration", { startUs: 90, endUs: 110 })).toEqual([]);
+  expect(f.evidence.pauses(f.identity, { startUs: 0, endUs: 100 })).toEqual([
+    { atSourceUs: 100, elapsedPauseUs: 5000 },
+  ]);
+  expect(f.evidence.pauses(f.identity, { startUs: 101, endUs: 200 })).toEqual([]);
+});
+
+test("malformed overlapping audio intervals and wrong timing receipts never become readable", async () => {
+  for (const wrongCount of [false, true]) {
+    const f = fixture([]);
+    const rows = [
+      { event: "audioAcquired", data: { role: "narration", startUs: 0, endUs: 100 } },
+      {
+        event: "audioAcquired",
+        data: { role: "narration", startUs: wrongCount ? 110 : 90, endUs: 200 },
+      },
+    ];
+    const text = rows.map((row) => JSON.stringify(row) + "\n").join("");
+    writeFileSync(f.file, text);
+    await expect(
+      f.evidence.ingest({
+        ...f.identity,
+        file: f.file,
+        receipt: {
+          ...f.receipt,
+          audioIntervals: wrongCount ? 1 : 2,
+          bytes: Buffer.byteLength(text),
+        },
+      }),
+    ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
+    expect(() => f.evidence.audio(f.identity, "narration", { startUs: 0, endUs: 200 })).toThrow(
+      expect.objectContaining({ code: "NOT_READY" }),
+    );
+  }
+});
+
+test("unsupported cursor-only catalogs are refused without discarding their data", () => {
+  const f = fixture();
+  f.store.catalog.exec(
+    "CREATE TABLE cursor_evidence_generations(value TEXT); INSERT INTO cursor_evidence_generations VALUES ('retained')",
+  );
+  expect(() => new SourceEvidenceStore(f.store)).toThrow(
+    expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
+  );
+  expect(f.store.catalog.prepare("SELECT value FROM cursor_evidence_generations").get()).toEqual({
+    value: "retained",
+  });
 });

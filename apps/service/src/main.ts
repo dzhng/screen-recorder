@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { CatalogError, RevisionStore } from "@screenrec/core/library";
 import { JobQueue } from "@screenrec/core/jobs";
-import { CursorEvidenceStore, type CursorEvidenceReceipt } from "@screenrec/core/evidence";
+import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { DerivedCache } from "@screenrec/core/cache";
 import { FrameInspection, type NativeFrame } from "@screenrec/core/frames";
 import { DerivativeDelivery } from "./delivery.js";
@@ -66,7 +66,7 @@ async function main(): Promise<void> {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
-    const evidence = new CursorEvidenceStore(store);
+    const evidence = new SourceEvidenceStore(store);
     const cache = new DerivedCache(store, home);
     cacheReady = cache.reconcile(cleanupLifetime.signal).catch((error) => {
       cacheFailure = error;
@@ -93,7 +93,7 @@ async function main(): Promise<void> {
       evidence,
       home,
       async (directory, output, signal) => {
-        const result = await worker("media.cursorEvidence", { directory, output }, { signal });
+        const result = await worker("media.sourceEvidence", { directory, output }, { signal });
         if (!result.ok)
           throw new CatalogError(
             result.error.code,
@@ -101,7 +101,7 @@ async function main(): Promise<void> {
             result.error.details,
             result.error.retryable,
           );
-        return result.data as CursorEvidenceReceipt;
+        return result.data as SourceEvidenceReceipt;
       },
     );
     frames = new FrameInspection(store, jobs, cache, home, async (request, signal) => {

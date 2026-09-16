@@ -70,7 +70,12 @@ chunks, and releases on completion, failure or expiry. Large images do not trave
 inside one metadata response. The CLI accepts an explicit output path or creates
 a temporary image file; it never overwrites an existing output.
 
-Next: full-resolution and sparse public frame coverage, frame batches, audio
-inspection and the default trail dependency. The parent remains open. Do not
+Next: frame batches, audio inspection and the default trail dependency. The parent remains open. Do not
 claim default trail frames, full public-frame acceptance or actual model-level MCP
 visual inspection from this clean single-frame checkpoint.
+
+The generated sparse-source coverage pass adds public start/end/earlier-tie checks,
+full 2048×1152 CLI/MCP pixel equality, exact cut joins and genuine LRU eviction
+followed by pinned historical regeneration after app restart. The delegated fresh
+app build and two-test pair passed. Root reran this test with the clean-frame,
+source-processing and timing tests after source-evidence integration; all four pass. This adds no batch or trail claim.

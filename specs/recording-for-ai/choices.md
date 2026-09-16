@@ -554,3 +554,30 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   users who want a retained destination pass one explicitly. Temporary images are
   delivered files, separate from the service's evictable internal cache.
 - **Verdict:** Sound and reversible. **Confidence:** Medium.
+
+## Streamed source timing
+
+### Sound — high confidence
+
+- **Choice:** Emit completed audio intervals when a gap or end of input proves
+  their end, while emitting cursor observations as they arrive. A narration span
+  can therefore appear after cursor samples whose timestamps fall inside it.
+- **Gap:** The normalized evidence format did not prescribe ordering across event
+  types. Sorting the entire recording would require retaining all its events.
+- **Reach:** Consumers index explicit source timestamps instead of treating file
+  order as global chronology. Native recovery and export share the same merge
+  rule; only one pending interval per audio role is retained during streaming.
+- **Verdict:** Sound: bounded export preserves timing without inventing a second
+  clock or parser. **Confidence:** High.
+
+### Sound — high confidence
+
+- **Choice:** Malformed audio roles, negative times and empty acquisition intervals
+  end the trusted journal prefix. If a damaged record claims another audio role,
+  export keeps earlier valid evidence and reports the stopping boundary instead
+  of extending the role set or pretending the record was valid.
+- **Gap:** The source timing extension needed a corruption rule for new records.
+- **Reach:** Only captured narration/system roles enter excerpt planning; incomplete
+  pauses remain explicit without fabricated elapsed time.
+- **Verdict:** Sound: consumers can distinguish missing evidence from silence.
+  **Confidence:** High.

@@ -102,16 +102,14 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("processing.status"), params: recording })
     .strict()
-    .describe("Read source cursor-evidence processing state and its published generation."),
+    .describe("Read source-evidence processing state and its published generation."),
   z
     .object({
       operation: z.literal("processing.retry"),
-      params: recording.extend({ artifact: z.literal("cursor") }).strict(),
+      params: recording.extend({ artifact: z.literal("source") }).strict(),
     })
     .strict()
-    .describe(
-      "Explicitly start or retry source cursor-evidence processing; never duplicate active work.",
-    ),
+    .describe("Explicitly start or retry source-evidence processing; never duplicate active work."),
   z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
     .strict()

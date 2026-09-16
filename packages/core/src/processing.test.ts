@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:
 import { basename, dirname, join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { JobQueue } from "./jobs.js";
-import { CursorEvidenceStore } from "./evidence.js";
+import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -18,7 +18,7 @@ async function fixture(failFirst = false, beforeReceipt?: () => Promise<void>) {
     now: () => "2026-09-16T00:00:00Z",
     newId: () => `id-${++id}`,
   });
-  const evidence = new CursorEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store);
   let processing: SourceProcessing;
   let calls = 0;
   const jobs = new JobQueue({
@@ -51,6 +51,8 @@ async function fixture(failFirst = false, beforeReceipt?: () => Promise<void>) {
       cursorSamples: 1,
       geometryRecords: 0,
       displaySpaces: 0,
+      pauseEvents: 0,
+      audioIntervals: 0,
       firstCursorSourceUs: 100,
       lastCursorSourceUs: 100,
       lastSequence: 3,
@@ -118,7 +120,7 @@ test("failure removes only its derivative and requires explicit retry", async ()
   const failed = f.processing.status(recording.recordingId);
   expect(failed).toMatchObject({ state: "failed", retryable: true });
   expect(
-    await readdir(join(f.home, "recordings", recording.recordingId, "evidence", "cursor")),
+    await readdir(join(f.home, "recordings", recording.recordingId, "evidence", "source")),
   ).toEqual([]);
   f.processing.prepare(recording.recordingId);
   await f.jobs.idle();
@@ -157,7 +159,7 @@ async function orphan(
     "recordings",
     recording.recordingId,
     "evidence",
-    "cursor",
+    "source",
     generation,
   );
   if (mode !== "index") {
@@ -166,7 +168,7 @@ async function orphan(
   }
   if (mode !== "file") {
     f.store.catalog
-      .prepare("INSERT INTO cursor_evidence_generations VALUES(?,?,?,?)")
+      .prepare("INSERT INTO source_evidence_generations VALUES(?,?,?,?)")
       .run(
         recording.recordingId,
         recording.sourceId,
@@ -174,7 +176,7 @@ async function orphan(
         mode === "complete" ? "{}" : null,
       );
     const insert = f.store.catalog.prepare(
-      "INSERT INTO cursor_evidence_records VALUES(?,?,?,?,?,?,?)",
+      "INSERT INTO source_evidence_records VALUES(?,?,?,?,?,?,?)",
     );
     for (let sequence = 1; sequence <= 600; sequence++)
       insert.run(
@@ -214,7 +216,7 @@ test("cleanup reclaims every crash phase while preserving published evidence and
   expect(await readFile(join(source, "original.mov"), "utf8")).toBe("immutable media");
   expect(await readdir(dirname(dirname(file)))).toEqual([ready.published!.evidence.generation]);
   expect(
-    f.store.catalog.prepare("SELECT COUNT(*) AS n FROM cursor_evidence_records").get(),
+    f.store.catalog.prepare("SELECT COUNT(*) AS n FROM source_evidence_records").get(),
   ).toEqual({ n: 1 });
   expect(
     f.processing.rawCursor({
@@ -281,7 +283,7 @@ test("cleanup skips unsafe parents without starving later recordings and never f
   );
   expect(await readFile(join(source, "original.mov"), "utf8")).toBe("source");
   expect(
-    await readdir(join(f.home, "recordings", later.recordingId, "evidence", "cursor")),
+    await readdir(join(f.home, "recordings", later.recordingId, "evidence", "source")),
   ).toEqual([]);
 });
 
@@ -298,15 +300,15 @@ test("cleanup aborts between index batches and the next pass completes the remai
     ),
   ).rejects.toThrow();
   expect(
-    f.store.catalog.prepare("SELECT COUNT(*) AS n FROM cursor_evidence_records").get(),
+    f.store.catalog.prepare("SELECT COUNT(*) AS n FROM source_evidence_records").get(),
   ).toEqual({ n: 344 });
   clearImmediate(tick);
   await f.processing.cleanup(new AbortController().signal);
   expect(
-    f.store.catalog.prepare("SELECT COUNT(*) AS n FROM cursor_evidence_records").get(),
+    f.store.catalog.prepare("SELECT COUNT(*) AS n FROM source_evidence_records").get(),
   ).toEqual({ n: 0 });
   expect(
-    f.store.catalog.prepare("SELECT COUNT(*) AS n FROM cursor_evidence_generations").get(),
+    f.store.catalog.prepare("SELECT COUNT(*) AS n FROM source_evidence_generations").get(),
   ).toEqual({ n: 0 });
 });
 

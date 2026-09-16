@@ -95,7 +95,7 @@ test("a finalized own-window take publishes pageable source evidence once across
   });
   assert.deepEqual(await call("processing.status", { recordingId: take.recordingId }), ready);
   assert.equal(
-    (await call("processing.retry", { recordingId: take.recordingId, artifact: "cursor" }))
+    (await call("processing.retry", { recordingId: take.recordingId, artifact: "source" }))
       .published.evidence.generation,
     first.generation,
   );
@@ -112,7 +112,7 @@ test("a finalized own-window take publishes pageable source evidence once across
     "recordings",
     take.recordingId,
     "evidence",
-    "cursor",
+    "source",
     "abandoned-attempt",
   );
   await mkdir(abandoned);

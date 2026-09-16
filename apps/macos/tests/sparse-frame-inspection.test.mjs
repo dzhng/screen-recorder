@@ -7,8 +7,8 @@ import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { DerivedCache } from "../../../packages/core/dist/cache.js";
-import { RevisionStore } from "../../../packages/core/dist/library.js";
+import { DerivedCache } from "@screenrec/core/cache";
+import { RevisionStore } from "@screenrec/core/library";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;

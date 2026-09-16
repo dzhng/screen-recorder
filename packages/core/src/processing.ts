@@ -3,9 +3,9 @@ import { basename, dirname, join } from "node:path";
 import { CatalogError, isSettled, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import type {
-  CursorEvidenceMetadata,
-  CursorEvidenceReceipt,
-  CursorEvidenceStore,
+  SourceEvidenceMetadata,
+  SourceEvidenceReceipt,
+  SourceEvidenceStore,
 } from "./evidence.js";
 
 export type RawCursorContinuation = {
@@ -16,23 +16,23 @@ export type RawCursorContinuation = {
   afterSequence: number;
 };
 
-const artifact = "cursor-evidence";
-const policy = "native-cursor-v1";
+const artifact = "source-evidence";
+const policy = "native-source-v1";
 
-export type CursorExporter = (
+export type SourceExporter = (
   directory: string,
   output: string,
   signal: AbortSignal,
-) => Promise<CursorEvidenceReceipt>;
+) => Promise<SourceEvidenceReceipt>;
 
 /** Source processing pins r0; edits only change how later readers project this evidence. */
 export class SourceProcessing {
   constructor(
     private readonly store: RevisionStore,
     private readonly jobs: JobQueue,
-    private readonly evidence: CursorEvidenceStore,
+    private readonly evidence: SourceEvidenceStore,
     private readonly home: string,
-    private readonly exportCursor: CursorExporter,
+    private readonly exportSource: SourceExporter,
   ) {}
 
   status(recordingId: string) {
@@ -63,7 +63,7 @@ export class SourceProcessing {
       published: status.published
         ? {
             generation: status.published.generation,
-            evidence: JSON.parse(status.published.result) as CursorEvidenceMetadata,
+            evidence: JSON.parse(status.published.result) as SourceEvidenceMetadata,
           }
         : null,
     };
@@ -242,16 +242,16 @@ export class SourceProcessing {
     const { recordingId, sourceId } = recording;
     if (basename(recordingId) !== recordingId || [".", "..", ""].includes(recordingId))
       throw new CatalogError("INVALID_JOB", "Recording identity is not a path component");
-    const parent = join(this.home, "recordings", recordingId, "evidence", "cursor");
+    const parent = join(this.home, "recordings", recordingId, "evidence", "source");
     // An owned derivative path must never traverse a symlink into source or another directory.
     let path = this.home;
     let exists = true;
-    for (const component of ["recordings", recordingId, "evidence", "cursor"]) {
+    for (const component of ["recordings", recordingId, "evidence", "source"]) {
       path = join(path, component);
       try {
         const entry = await lstat(path);
         if (!entry.isDirectory() || entry.isSymbolicLink())
-          throw new CatalogError("INVALID_EVIDENCE", "Cursor evidence parent is not a directory");
+          throw new CatalogError("INVALID_EVIDENCE", "Source evidence parent is not a directory");
       } catch (error) {
         if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
         exists = false;
@@ -281,7 +281,7 @@ export class SourceProcessing {
     for (;;) {
       signal.throwIfAborted();
       const row = this.store.catalog
-        .prepare(`SELECT generation FROM cursor_evidence_generations
+        .prepare(`SELECT generation FROM source_evidence_generations
         WHERE recordingId=? AND sourceId=? AND generation>? ORDER BY generation LIMIT 1`)
         .get(recordingId, sourceId, after) as { generation: string } | undefined;
       if (!row) break;
@@ -306,7 +306,7 @@ export class SourceProcessing {
         throw new CatalogError("INVALID_JOB", "Job identity is not a path component");
     await this.cleanupRecording(recording, signal);
     const root = join(this.home, "recordings", job.recordingId);
-    const outputDirectory = join(root, "evidence", "cursor", job.attemptId);
+    const outputDirectory = join(root, "evidence", "source", job.attemptId);
     const output = join(outputDirectory, "observations.jsonl");
     const identity = {
       recordingId: job.recordingId,
@@ -317,7 +317,7 @@ export class SourceProcessing {
     await mkdir(dirname(outputDirectory), { recursive: true });
     await mkdir(outputDirectory);
     try {
-      const receipt = await this.exportCursor(join(root, "source"), output, signal);
+      const receipt = await this.exportSource(join(root, "source"), output, signal);
       signal.throwIfAborted();
       const metadata = await this.evidence.ingest({ ...identity, file: output, receipt, signal });
       signal.throwIfAborted();

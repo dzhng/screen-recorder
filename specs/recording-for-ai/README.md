@@ -29,22 +29,22 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: [revision-bound inspection and derivative cache](slices/09d-public-frames.md).
-Clean single-frame service/CLI/MCP delivery is integrated and exercised against
-a real own-window recording. Full-resolution/sparse public coverage, batches and
-audio remain; default trails still need their boundary producer. See the
-[frame checkpoint](assets/frame-delivery/review.md).
-Source cursor processing is integrated: finalization admits a durable job, raw
-pages resolve only its published generation, and startup reclaims abandoned
-unpublished derivatives. Cuts reuse original evidence. Core, service, adapter and
-real own-window/relaunch checks pass; see
-[source processing](assets/source-processing/review.md).
+Current pickup: audio excerpt planning over the published source timing evidence.
+[Source timing](slices/06j-source-timing.md) is integrated: cursor, geometry, pauses
+and acquired audio share one native-normalized generation. Raw reads remain in
+source time; edits only change projections. Fresh evidence catalogs are required.
 
-Next priority: core media planning and cache lifecycle, public frame delivery with
-actual MCP pixels, then scene/trail selection and screenshot indexing. Storage,
-remaining native controls and speech gates also remain open. Keep raw evidence in
-source time and edited views explicitly revision-bound. Preserve the fresh catalog
-format and explicit audio defaults.
+Clean single-frame CLI files and MCP image content pass real recording checks,
+including sparse/full-resolution sources and LRU eviction/restart at a pinned
+historical revision. [Frame evidence](assets/frame-delivery/review.md) and the
+[public-frame slice](slices/09d-public-frames.md) distinguish client receipt from
+model-level MCP visual interpretation.
+
+Next priority: cached audio excerpts and frame batches, then shared scene/pause/
+geometry boundaries, default trails and screenshot indexing. Storage/deletion,
+remaining native controls, speech and installed workflow gates remain open. Keep
+one queue, immutable sources and explicit audio defaults. See
+[source integration](assets/source-timing/integration-review.md) for current checks.
 
 Native controls are integrated and their closed-menu state/clock follows real
 own-window capture through external service calls. Actual UI interaction and visual
@@ -102,7 +102,8 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [06f — Native capture service control](slices/06f-capture-service.md) (own-window control/recovery proof)
   - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md) (core queue)
   - [x] [06h — Normalized cursor evidence index](slices/06h-evidence-index.md)
-  - [x] [06i — Source processing integration](slices/06i-source-processing.md) (source cursor processing; later artifacts remain)
+  - [x] [06i — Source processing integration](slices/06i-source-processing.md)
+  - [x] [06j — Source timing evidence](slices/06j-source-timing.md)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)

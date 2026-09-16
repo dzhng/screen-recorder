@@ -1,6 +1,6 @@
-# Normalized cursor evidence index
+# Normalized source evidence index
 
-Core consumes the native cursor export, never the capture journal. Native owns
+Core consumes the native source export, never the capture journal. Native owns
 coordinates, geometry epochs and journal integrity; indexing preserves its raw
 fields and receipt without interpreting pointer eligibility as OS visibility.
 
@@ -31,6 +31,6 @@ normalized file is removed. The SQL plan uses the time index without a temporary
 sort. Core build, typecheck and all 54 core tests passed. The source journal is
 never opened; the normalized export hash is unchanged by indexing.
 
-Next integration: the service passes the job attempt identity, stores the returned
-metadata in the queue publication, and resolves raw cursor requests only through
-that publication. Those service/public-protocol paths are not proved here.
+The [source processor](06i-source-processing.md) owns publication and public raw
+cursor reads. [Source timing](06j-source-timing.md) extends the same index with
+pause and acquired-audio range reads; those do not add a second journal parser.
