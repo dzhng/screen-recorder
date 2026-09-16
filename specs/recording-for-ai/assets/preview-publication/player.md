@@ -55,3 +55,21 @@ Independent review found no actionable test defect. Its execution was blocked by
 sandbox Unix-socket permissions, so host results above are the runtime evidence.
 This is real native/service playback integration, not a physical status-menu click
 or a screenshot-based visual acceptance result.
+
+
+## Cocoa event loop and bounded live inspection
+
+The integration harness runs the normal Cocoa application event loop and schedules
+its asynchronous driver on the main actor. This lets the same production player
+participate in native application discovery, rather than merely decoding media in
+an asynchronous command-line process. The [host rerun](player-cocoa-tests.txt)
+passes the existing pinned edit, renewal and deletion assertions unchanged.
+
+A temporary app wrapper using these production owners was inspected live with CUA.
+An independent unprimed reviewer saw the complete browser fixture with no blank
+pane, clipping or overlap. Main headings, prices and the action were readable;
+small raster text appeared soft. Source-font and playback-scaling contributions
+were not isolated. Playback controls and a cursor were absent in that chosen frame.
+No screenshot file was retained, so this observation does not close the screenshot
+acceptance gate, physical menu interaction or control/seek verification. The owned
+review app and its service terminated after the probe.

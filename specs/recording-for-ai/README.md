@@ -29,82 +29,44 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: extend the existing queue with isolated package-context lifetimes
-before public handles in [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
-In parallel, prove external export commit/recovery in [14d](slices/14d-export-publication.md).
-[13e](slices/13e-preview-publication.md) now has a native player using renewable
-cache leases and an actual bundled-service integration test; actual status-menu
-interaction, visual acceptance and speech audition remain open.
-[14b](slices/14b-portable-inspection.md) passes internal relocated-directory
-inspection through the same native consumers, with the original library removed.
-[14c1](slices/14c1-bounded-archive-extraction.md) now verifies bounded ZIP extraction
-and cleanup through a retained directory descriptor.
-[14c2](slices/14c2-retained-package-inspection.md) now preserves admitted file and
-native-worker lifetimes through relocated inspection, close and parent death.
-Public handles, shared queue contexts and cold-start reclamation remain next.
-Internal video timing
-[13a](slices/13a-native-render-timing.md), bounded audio
-[13b](slices/13b-streaming-audio.md), and package metadata
-[14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs actual menu/player visual acceptance and speech audition. Native pointer
-composition and durable preview ownership now have internal and public machine
-verification; broader physical-capture fidelity acceptance remains open.
-[Real browser text](assets/text-fidelity/README.md) supports retaining automatic
-bitrate; changing it brought no meaningful readability gain in the controlled set.
-[13c assembly](slices/13c-aac-movie-assembly.md) passes production-worker lifetime,
-pinned edit/undo and five-minute encoded A/V checks. Tiny AAC retains its documented
-independent-decoder limitation; numerical generated sound is not speech audition.
-[13d1 presentation evidence](slices/13d1-presentation-evidence.md) shares the
-renderer’s exact held-frame support, and [13d2 point policy](slices/13d2-presentation-pointer-core.md)
-uses it without relaxing nearest-still selection. [Sequential scheduling](slices/13d3-pointer-schedule.md)
-now preserves reset history, including A → B → A and fractional source clocks.
-[Native composition](slices/13d4-pointer-composition.md) now streams those states
-into the movie on an exact clock; the merged native tests pass.
-[Preview publication](slices/13e-preview-publication.md) now retains pinned movies
-through existing jobs/cache. Its [public machine route](assets/preview-publication/public.md)
-passes generated cursor/cut/pause checks, CLI/MCP byte parity, restart regeneration
-and deletion revocation. The native player also passes a real bundled-service
-read/edit/renew/delete check; actual menu interaction and visual acceptance remain. The [capture clock fix](assets/capture-duration/README.md) now preserves exact
-finalized endpoints and bounds legacy recovery to usable source ticks. Existing
-persisted revisions are not rewritten.
-[Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
-including native workers and frame/audio/index leases. Recent-recording delete and
-storage controls build and pass native state/identity checks, but computer-use could
-reach only their fixture window; actual menu interaction/visual review remains open
-in [07](slices/07-menu-bar-controls.md).
-The full thirty-minute generated index workload and long-input cache companion pass;
-see [performance evidence](assets/screenshot-index/performance.md). Real-capture
-selection usefulness remains open. All seven generated visual fixtures pass.
-[Shared frame materialization](slices/11b-shared-frame-materialization.md) serves
-both arbitrary and selected images. [Default public trail frames](slices/10e-public-trails.md) now pass generated
-CLI/MCP pixel and independent readability checks. The
-[requested-time scene rule](slices/10c-trail-timing.md) is verified against encoded
-sparse sources, including a two-minute gap. [Indexed evidence reads](slices/10d-trail-evidence.md)
-preserve timestamp/epoch uncertainty; normalized sequence is delivery order, not
-cross-event occurrence order.
+Current pickup: finish package output release and delivery isolation, then registry
+storage reservations and startup cleanup in
+[14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
+The shared queue now has [transient contexts](slices/14c3a-transient-context-jobs.md);
+public handles must use these capabilities and the retained native descriptor owner.
+In parallel, implement durable video export intent through real cancellation,
+restart and recording deletion in [14d](slices/14d-export-publication.md). Its native
+no-clobber publication owner is verified; dependency waiting and public exports remain.
 
-Native geometry now confirms a previously untimed epoch on a usable source frame.
-Its [evidence](assets/source-timing/geometry-placement.md) explains the repeated
-epoch. [Deferred pause placement](assets/source-timing/deferred-pauses.md) also preserves
-markers when a delayed first frame establishes source zero after pause/resume.
-Both native fixes pass merged capture/recovery fixtures and the own-window public
-capture check. Do not rebuild either clock mapping in TypeScript.
-
-The first [sequential video worker](slices/13a-native-render-timing.md) passes
-generated exact-duration and pixel-identity gates, including opaque rendering of
-proven empty edits. The [integrated job lab](assets/video-render/job-lifetime.md)
-also passes on the merged tree, including pinned edits/undo, pause projection and
-terminal attempt cleanup. Public machine preview and render-workspace recovery now have separate evidence;
-native menu/player acceptance and exports remain open.
-
-Priority order: native edited video/package execution, remaining controls and physical
+Priority order: package/export execution, remaining native controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
 Keep one queue, immutable sources, explicit dependency failure and the complete
-CLI/MCP surface. Generated scale evidence does not establish real-capture usefulness.
-[External publication](slices/14d-export-publication.md) now has an internal
-no-clobber native/service owner with process-crash reconciliation. Its next pass is
-14d2 catalog intent and deletion/retry integration, before public exports; see the
-[scoped evidence](assets/export-publication/native-owner.md).
-No more Claude use.
+CLI/MCP surface. No more Claude use.
+
+Recent integration evidence:
+
+- [Retained package inspection](slices/14c2-retained-package-inspection.md) preserves
+  admitted files and native workers through relocation, close and parent death.
+  [Transient contexts](slices/14c3a-transient-context-jobs.md) share queue capacity
+  and release terminal metadata for continued requests. Registry/storage recovery,
+  delivery ownership and public selectors remain.
+- [External publication](assets/export-publication/native-owner.md) passes native
+  no-clobber publication and process-crash reconciliation. Durable intent and actual
+  recording-deletion integration remain next.
+- [Public preview](assets/preview-publication/public.md) passes generated pointer,
+  cut/pause, CLI/MCP parity, restart and deletion checks. The
+  [native player](assets/preview-publication/player.md) passes real bundled-service
+  edit/renew/delete integration. Live window inspection confirms complete fixture
+  framing only; physical status-menu interaction, controls, full visual acceptance
+  and speech audition remain open.
+- [Capture endpoints](assets/capture-duration/README.md),
+  [geometry placement](assets/source-timing/geometry-placement.md) and
+  [pause placement](assets/source-timing/deferred-pauses.md) have merged native
+  evidence. Keep these clock mappings in their native owner.
+- [Generated index scale](assets/screenshot-index/performance.md) passes thirty
+  minutes plus the long-input cache companion. Actual capture usefulness remains
+  unverified. [Browser text](assets/text-fidelity/README.md) supports automatic
+  bitrate; the controlled alternative did not improve readability.
 
 
 Current evidence:
@@ -196,6 +158,7 @@ and unit checks do not close the full read → edit → inspect → export journ
     - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md) (shared readers and fresh-process frame/audio parity)
   - [x] [14c1 — Bounded archive extraction](slices/14c1-bounded-archive-extraction.md)
   - [x] [14c2 — Retained archive inspection](slices/14c2-retained-package-inspection.md) (native descriptor containment and parent-death lifetime; public handles remain)
+  - [x] [14c3a — Transient package job contexts](slices/14c3a-transient-context-jobs.md) (shared scheduling and bounded metadata; registry/public handles remain)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

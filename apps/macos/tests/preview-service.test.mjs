@@ -106,9 +106,20 @@ import CryptoKit
     }
 }
 @main struct Integration {
+    @MainActor static func main() {
+        let app = NSApplication.shared
+        Task { @MainActor in
+            do { try await runIntegration(); app.terminate(nil) }
+            catch {
+                FileHandle.standardError.write(Data("Integration failed: \\(error)\\n".utf8))
+                exit(1)
+            }
+        }
+        app.run()
+    }
     @MainActor static func pause() async { try? await Task.sleep(for: .milliseconds(100)) }
     @MainActor static func visible() -> NSWindow? { NSApp.windows.first { $0.isVisible && $0.title.hasPrefix("Preview —") } }
-    @MainActor static func main() async throws {
+    @MainActor static func runIntegration() async throws {
         _ = NSApplication.shared
         NSApp.setActivationPolicy(.accessory)
         let bundle = Bundle(path: CommandLine.arguments[1])!

@@ -60,3 +60,11 @@ actual retained context/read deliveries to this capability, and close them after
 queue drain. Startup orphan cleanup still requires the inherited directory lock
 proved by [14c2](14c2-retained-package-inspection.md). Registry, recovery, public
 selectors/adapters and delivery revocation remain later work.
+
+
+Merged-host verification: all 305 core tests passed. The first full service run
+passed 92 of 93 tests; the remaining capture-recovery check timed out on its
+existing one-second diagnostic-message assertion. All three focused recovery cases
+then passed unchanged, and the full service suite passed 93 of 93 with four test
+workers. No timeout or assertion was changed. This records a timing-sensitive
+verification result, not a proven product defect or a change to the default gate.

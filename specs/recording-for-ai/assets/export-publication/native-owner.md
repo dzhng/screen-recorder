@@ -24,8 +24,9 @@ so the file's identity cannot be reused during ambiguous recovery.
 Recovery observes the destination through a matching retained parent. Different
 identity, changed bytes and absence remain distinct outcomes. A late worker error
 is not proof of absence: after actual child close the service independently
-reconciles without propagating the canceled signal. All hashing operations share
-the caller's selected worker deadline. A renamed/replaced output parent on reopen
+reconciles without propagating the canceled signal. Each hashing operation uses
+the caller's selected per-call timeout budget; this is not a single absolute
+deadline for the whole publication. A renamed/replaced output parent on reopen
 is an explicit failure, never an automatic search or rebinding.
 
 The caller must durably record an observed commit before acknowledgement removes
@@ -62,7 +63,7 @@ acknowledgement; actual JobQueue deletion integration remains in 14d2.
 Removing the inode comparison made the identical-bytes/different-file regression
 return `committed` instead of `replaced`. Restoring it returned green. Independent
 Codex review found that a longer commit timeout did not extend its mandatory
-reconciliation; the owner now has one deadline for prepare, commit, recovery and
+reconciliation; the owner now applies the same per-call timeout budget to prepare, commit, recovery and
 acknowledgement, with a real short-default-worker regression. Own review also
 found concurrent close callers could return before draining; their shared close
 promise now has a red-to-green lifetime regression. The reviewer independently
@@ -76,3 +77,5 @@ retain input generations, and reconcile interrupted external outcomes before ret
 or recording deletion forgets their context. It must record acknowledgement before
 removing evidence. Both human-video and complete-package consumers then use this
 same boundary; no public route or export completeness gate is closed here.
+
+The merged native/service rerun passed all 15 tests; see [host receipt](merged-tests.txt).
