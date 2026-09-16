@@ -74,7 +74,14 @@ export function launch(home, environment = {}) {
       instance.kill("SIGKILL");
       await exited;
       const surviving = () => [...owned].filter(runsThisBuild);
-      for (const pid of surviving()) process.kill(pid, "SIGKILL");
+      for (const pid of surviving()) {
+        try {
+          process.kill(pid, "SIGKILL");
+        } catch (error) {
+          // An owned process can exit between identity verification and signalling.
+          if (error.code !== "ESRCH") throw error;
+        }
+      }
       try {
         await waitFor(() => surviving().length === 0, 5_000);
         return [];

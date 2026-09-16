@@ -1,0 +1,59 @@
+{
+  "generated": true,
+  "ownedProcessesReaped": true,
+  "usageBefore": {
+    "recordingId": "7c88f288-e5e4-4730-8e9b-37506a1cfb80",
+    "observedAt": "2026-09-16T13:00:27.217Z",
+    "measurement": "live",
+    "sourceBytes": 23791,
+    "evidenceBytes": 258,
+    "cacheBytes": 0,
+    "otherBytes": 0,
+    "sharedBytes": 0,
+    "totalBytes": 24049
+  },
+  "usageAfter": "NOT_FOUND",
+  "siblingUsage": {
+    "recordingId": "789662ee-151c-4551-bee1-17ec07287256",
+    "observedAt": "2026-09-16T13:00:27.009Z",
+    "measurement": "live",
+    "sourceBytes": 3499,
+    "evidenceBytes": 2782,
+    "cacheBytes": 102598,
+    "otherBytes": 0,
+    "sharedBytes": 0,
+    "totalBytes": 108879
+  },
+  "siblingUsageAfter": {
+    "recordingId": "789662ee-151c-4551-bee1-17ec07287256",
+    "observedAt": "2026-09-16T13:00:27.236Z",
+    "measurement": "live",
+    "sourceBytes": 3499,
+    "evidenceBytes": 2782,
+    "cacheBytes": 102598,
+    "otherBytes": 0,
+    "sharedBytes": 0,
+    "totalBytes": 108879
+  },
+  "servicePid": 28715,
+  "workerPid": 28732,
+  "workerStateBeforeDelete": "T",
+  "active": [
+    {
+      "recordingId": "7c88f288-e5e4-4730-8e9b-37506a1cfb80",
+      "artifact": "source-scenes"
+    }
+  ],
+  "observations": 12,
+  "sawDirectoryRemoved": true,
+  "deleted": {
+    "recordingId": "7c88f288-e5e4-4730-8e9b-37506a1cfb80",
+    "deleted": true
+  },
+  "workerGone": true,
+  "directoryGone": true,
+  "siblingImageSha256": "9ee703bdb41edc492b12d6e7558adbf9c6b93f87d2109a2c66cd28d4789fd8e9",
+  "siblingSourceSha256": "4f0dab10770238d0ddc890f8a57702f9dc536db85faddc989ea0bbd6222ca498",
+  "siblingUsable": true,
+  "scope": "Generated media with an OS-stopped real native worker; no capture devices or user recordings."
+}
