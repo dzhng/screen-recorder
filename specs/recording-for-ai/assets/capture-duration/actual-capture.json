@@ -1,0 +1,128 @@
+{
+  "stopped": {
+    "recordingId": "8d2153c7-5384-4fd6-b2fe-9c86facd4d8f",
+    "sourceId": "db23abc5-07c3-4ab3-b374-94ffcecfc1dc",
+    "creationSequence": 1,
+    "createdAt": "2026-09-16T22:00:18.813Z",
+    "state": "complete",
+    "lifecycleSequence": 18,
+    "interruptionReason": null,
+    "sourceDurationUs": 2415997,
+    "currentRevisionId": "r0"
+  },
+  "sourceMetadata": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "time_base": "1/1000000",
+        "duration_ts": 2415997
+      }
+    ],
+    "format": {
+      "duration": "2.415997"
+    }
+  },
+  "results": [
+    {
+      "name": "full-original",
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 2415997
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 2415997
+          }
+        }
+      ],
+      "result": {
+        "data": {
+          "bytes": 105492,
+          "codec": "h264",
+          "durationUs": 2415997,
+          "file": "/tmp/screenrec-render-capture-atf1HV/full-original.mp4",
+          "frameCount": 71,
+          "height": 1064,
+          "mediaType": "video/mp4",
+          "width": 1604
+        },
+        "id": "capture-render",
+        "ok": true
+      },
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 1604,
+            "height": 1064,
+            "nb_read_frames": "71"
+          }
+        ],
+        "format": {
+          "duration": "2.415997"
+        }
+      }
+    },
+    {
+      "name": "cut",
+      "plan": [
+        {
+          "source": {
+            "startUs": 10001,
+            "endUs": 805332
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 795331
+          }
+        },
+        {
+          "source": {
+            "startUs": 1208005,
+            "endUs": 2405996
+          },
+          "playback": {
+            "startUs": 795331,
+            "endUs": 1993322
+          }
+        }
+      ],
+      "result": {
+        "data": {
+          "bytes": 83563,
+          "codec": "h264",
+          "durationUs": 1993322,
+          "file": "/tmp/screenrec-render-capture-atf1HV/cut.mp4",
+          "frameCount": 60,
+          "height": 1064,
+          "mediaType": "video/mp4",
+          "width": 1604
+        },
+        "id": "capture-render",
+        "ok": true
+      },
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 1604,
+            "height": 1064,
+            "nb_read_frames": "60"
+          }
+        ],
+        "format": {
+          "duration": "1.993322"
+        }
+      }
+    }
+  ],
+  "sourceHash": "b394fda2d9b8e895467c211ae65146084475ecd09a2861313491dc17dc4e480d",
+  "sourceUnchanged": true
+}

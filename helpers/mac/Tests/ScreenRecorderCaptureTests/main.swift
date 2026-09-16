@@ -1,3 +1,5 @@
+try await runFractionalRecoveryDurationTest()
+try await runCaptureDurationTests()
 try await runCaptureTerminationTests()
 try runCaptureWriterTests()
 runCaptureClockTests()

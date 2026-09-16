@@ -1,0 +1,160 @@
+{
+  "sourceSHA256": "573d09bf62dd997b9b84a22866a34f7f9ee13f4a1af57a0dd2575293bb74f058",
+  "sourceUnchanged": true,
+  "reports": [
+    {
+      "name": "before",
+      "recovery": {
+        "data": {
+          "durationUs": 4316667,
+          "journalFailure": {
+            "code": "JOURNAL_UNAVAILABLE",
+            "message": "The file “capture.journal.jsonl” doesn’t exist."
+          },
+          "tracks": [
+            {
+              "acquisitionVerified": true,
+              "decodedSamples": 126,
+              "decodeReachedEnd": true,
+              "file": "video.mov",
+              "intervals": [
+                {
+                  "endUs": 4316667,
+                  "startUs": 0
+                }
+              ],
+              "role": "video"
+            },
+            {
+              "acquisitionVerified": false,
+              "decodedSamples": 0,
+              "decodeReachedEnd": false,
+              "failure": {
+                "code": "MISSING_MEDIA",
+                "message": "No narration source file is present."
+              },
+              "file": "narration.mov",
+              "intervals": [],
+              "role": "narration"
+            },
+            {
+              "acquisitionVerified": false,
+              "decodedSamples": 0,
+              "decodeReachedEnd": false,
+              "failure": {
+                "code": "MISSING_MEDIA",
+                "message": "No system source file is present."
+              },
+              "file": "system.mov",
+              "intervals": [],
+              "role": "system"
+            }
+          ]
+        },
+        "id": "probe",
+        "ok": true
+      },
+      "movie": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "Render plan exceeds a usable video source.",
+          "retryable": false
+        },
+        "id": "probe",
+        "ok": false
+      },
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 4316667
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 4316667
+          }
+        }
+      ]
+    },
+    {
+      "name": "after",
+      "recovery": {
+        "data": {
+          "durationUs": 4316666,
+          "journalFailure": {
+            "code": "JOURNAL_UNAVAILABLE",
+            "message": "The file “capture.journal.jsonl” doesn’t exist."
+          },
+          "tracks": [
+            {
+              "acquisitionVerified": true,
+              "decodedSamples": 126,
+              "decodeReachedEnd": true,
+              "file": "video.mov",
+              "intervals": [
+                {
+                  "endUs": 4316666,
+                  "startUs": 0
+                }
+              ],
+              "role": "video"
+            },
+            {
+              "acquisitionVerified": false,
+              "decodedSamples": 0,
+              "decodeReachedEnd": false,
+              "failure": {
+                "code": "MISSING_MEDIA",
+                "message": "No narration source file is present."
+              },
+              "file": "narration.mov",
+              "intervals": [],
+              "role": "narration"
+            },
+            {
+              "acquisitionVerified": false,
+              "decodedSamples": 0,
+              "decodeReachedEnd": false,
+              "failure": {
+                "code": "MISSING_MEDIA",
+                "message": "No system source file is present."
+              },
+              "file": "system.mov",
+              "intervals": [],
+              "role": "system"
+            }
+          ]
+        },
+        "id": "probe",
+        "ok": true
+      },
+      "movie": {
+        "data": {
+          "bytes": 1681875,
+          "codec": "h264",
+          "durationUs": 4316666,
+          "file": "/tmp/screenrec-legacy-tail-proof/after.mp4",
+          "frameCount": 126,
+          "height": 1464,
+          "mediaType": "video/mp4",
+          "width": 2048
+        },
+        "id": "probe",
+        "ok": true
+      },
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 4316666
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 4316666
+          }
+        }
+      ]
+    }
+  ]
+}

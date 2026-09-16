@@ -54,7 +54,7 @@ enum RecoveryFixture {
     /// the gap to the next one. Uneven gaps ensure recovery cannot substitute an average frame
     /// duration for the actual last sample.
     static func writeVariableDurationVideo(
-        to url: URL, timesUs: [Int64], keyFrameInterval: Int = 60
+        to url: URL, timesUs: [Int64], keyFrameInterval: Int = 60, endUs: Int64? = nil
     ) async throws {
         try? FileManager.default.removeItem(at: url)
         let writer = try AVAssetWriter(outputURL: url, fileType: .mov)
@@ -70,6 +70,7 @@ enum RecoveryFixture {
                 adaptor.append(frame(index), withPresentationTime: time(microseconds: us)),
                 "Fixture frame \(index) must append")
         }
+        if let endUs { writer.endSession(atSourceTime: time(microseconds: endUs)) }
         input.markAsFinished()
         await writer.finishWriting()
         precondition(

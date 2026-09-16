@@ -22,11 +22,15 @@ private final class TrackWriter {
         file = role == "video" ? "video.mov" : "\(role).mov"
         writer = try AVAssetWriter(
             outputURL: URL(fileURLWithPath: directory).appendingPathComponent(file), fileType: .mov)
+        // The source clock and final revision use microseconds. Default 600 Hz movie/
+        // video timing can round the written endpoint below the reported stop boundary.
+        writer.movieTimeScale = 1_000_000
         writer.movieFragmentInterval = CMTime(value: 5, timescale: 1)
         writer.initialMovieFragmentInterval = CMTime(value: 1, timescale: 1)
         input = AVAssetWriterInput(
             mediaType: role == "video" ? .video : .audio, outputSettings: settings,
             sourceFormatHint: format)
+        if role == "video" { input.mediaTimeScale = 1_000_000 }
         input.expectsMediaDataInRealTime = true
         sampleRate = format.flatMap {
             CMAudioFormatDescriptionGetStreamBasicDescription($0)?.pointee.mSampleRate
@@ -383,7 +387,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
         }
     }
 
-    func finish(failure externalFailure: CaptureFailure?) async -> CaptureResult {
+    package func finish(failure externalFailure: CaptureFailure?) async -> CaptureResult {
         await withCheckedContinuation { continuation in
             queue.async {
                 self.finishing = true

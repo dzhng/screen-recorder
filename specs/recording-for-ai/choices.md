@@ -1426,6 +1426,7 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   stop/container mismatch refuses a full-original render. Use an explicit
   interior revision only for this controlled comparison; do not clamp production
   plans or claim public full-original preview is ready.
+
 ## Sequential pointer schedule — 2026-09-17
 
 - **Bound source work separately from output size.** A million stationary cursor
@@ -1442,3 +1443,15 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   unspecified. **Reach:** avoids encoding redundant frames when only an observation's
   timestamp changed. **Verdict: sound, high confidence** — human movies have no
   fading trail, so unchanged coordinates draw the same glyph.
+## Capture source-duration authority
+
+- **Encode the existing source clock exactly.** Set capture movie/video timebases
+  to microseconds instead of letting the container round to its 600 Hz default.
+  Actual finalized bytes and recovered support now agree with the published
+  revision. The delegated encoder internals allow this precision fix; no source
+  duration is silently clamped and no second post-capture timeline is introduced.
+  Audio input timebases remain native per the platform contract.
+- **Recovery admits only representable supported video ticks.** Fractional legacy
+  sample/segment ends round down, since nearest rounding can exceed actual media.
+  Existing persisted revisions are not rewritten. The exact failing source and
+  generated/actual proofs are in the [duration evidence](assets/capture-duration/README.md).

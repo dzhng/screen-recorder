@@ -49,6 +49,15 @@ public enum MediaRecovery {
     private static func inspectTrack(
         role: String, directory: String, acquired: [MediaInterval]?, requested: Bool?
     ) async -> RecoveredTrack {
+        // Video bounds are half-open integer source-clock ticks. Nearest rounding may
+        // admit a tick after a fractional container/sample endpoint.
+        func endUs(_ time: CMTime) -> Int64 {
+            role == "video"
+                ? CMTimeConvertScale(
+                    time, timescale: 1_000_000, method: .roundTowardNegativeInfinity
+                ).value
+                : microseconds(time)
+        }
         let file = "\(role).mov"
         let url = URL(fileURLWithPath: directory).appendingPathComponent(file)
         var intervals: [MediaInterval] = []
@@ -135,7 +144,7 @@ public enum MediaRecovery {
             if let first = firstVideoTime, let last = lastVideoTime {
                 if let end = assetEnd(ofSamplePresentedAt: last, in: segments, of: track) {
                     intervals = [
-                        MediaInterval(startUs: microseconds(first), endUs: microseconds(end))
+                        MediaInterval(startUs: microseconds(first), endUs: endUs(end))
                     ]
                 } else {
                     // Decoded samples prove coverage up to the last one's own timestamp and no
@@ -143,7 +152,7 @@ public enum MediaRecovery {
                     // previous sample is not evidence of it, so the shortfall is reported instead
                     // of filled in.
                     intervals = [
-                        MediaInterval(startUs: microseconds(first), endUs: microseconds(last))
+                        MediaInterval(startUs: microseconds(first), endUs: endUs(last))
                     ]
                     unknownTail = CaptureFailure(
                         "UNKNOWN_TAIL",
@@ -155,7 +164,7 @@ public enum MediaRecovery {
             let range = try await track.load(.timeRange)
             if range.duration.isNumeric, range.duration > .zero {
                 let start = max(0, microseconds(range.start))
-                let end = microseconds(CMTimeRangeGetEnd(range))
+                let end = endUs(CMTimeRangeGetEnd(range))
                 intervals = intervals.compactMap { interval in
                     let clippedStart = max(start, interval.startUs)
                     let clippedEnd = min(end, interval.endUs)
@@ -167,7 +176,7 @@ public enum MediaRecovery {
             let occupied = segments.map {
                 MediaInterval(
                     startUs: microseconds($0.asset.start),
-                    endUs: microseconds(CMTimeRangeGetEnd($0.asset)))
+                    endUs: endUs(CMTimeRangeGetEnd($0.asset)))
             }
             intervals = intersect(intervals, occupied)
             if role != "video", let acquired { intervals = intersect(intervals, acquired) }

@@ -55,3 +55,11 @@ behavior, not implementation constants. Run the narrowest relevant checks during
 iteration; full-suite closeout belongs to slice 15.
 
 A failed source/audio case changes the native implementation, not capture scope. Retain a minimal reproduction and reslice that boundary before depending on it.
+
+## Finalized source duration
+
+[The duration authority regression](../assets/capture-duration/README.md) pins
+capture movie/video timebases to the microsecond source clock and recovered video
+endpoints to supported integer ticks. Full-original plans must fit the actual
+source; the renderer neither pads nor clamps them. This also verifies the real
+paused/resumed, audio-disabled app capture through full-original movie rendering.

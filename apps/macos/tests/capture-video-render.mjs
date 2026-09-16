@@ -59,6 +59,24 @@ test(
     const source = join(home, "recordings", take.recordingId, "source/video.mov");
     const before = hash(source);
     const end = stopped.sourceDurationUs;
+    const sourceMetadata = JSON.parse(
+      run("ffprobe", [
+        "-v",
+        "error",
+        "-show_entries",
+        "format=duration:stream=time_base,duration_ts",
+        "-of",
+        "json",
+        source,
+      ]),
+    );
+    assert.equal(Number(sourceMetadata.format.duration) * 1e6, end);
+    const [numerator, denominator] = sourceMetadata.streams[0].time_base.split("/").map(BigInt);
+    assert.equal(
+      BigInt(sourceMetadata.streams[0].duration_ts) * numerator * 1_000_000n,
+      BigInt(end) * denominator,
+    );
+
     const spans = [
       { startUs: 10001, endUs: Math.floor(end / 3) },
       { startUs: Math.floor(end / 2) + 7, endUs: end - 10001 },
@@ -68,48 +86,55 @@ test(
       operation: "cut",
       createdAt: "probe",
     });
-    const output = join(home, "render.mp4");
-    const plan = renderPlan(edited);
-    const result = JSON.parse(
-      run(
-        native,
-        [],
-        JSON.stringify({
-          id: "capture-render",
-          operation: "media.renderVideo",
-          params: { source, output, plan },
-        }) + "\n",
-      ),
-    );
+    const results = [];
+    for (const [name, selected, operation] of [
+      ["full-original", revision, "media.renderMovie"],
+      ["cut", edited, "media.renderVideo"],
+    ]) {
+      const output = join(home, name + ".mp4");
+      const plan = renderPlan(selected);
+      const result = JSON.parse(
+        run(
+          native,
+          [],
+          JSON.stringify({
+            id: "capture-render",
+            operation,
+            params: { source, output, plan, ...(name === "full-original" ? { tracks: [] } : {}) },
+          }) + "\n",
+        ),
+      );
 
-    assert.equal(result.ok, true, JSON.stringify(result));
-    const metadata = JSON.parse(
-      run("ffprobe", [
-        "-v",
-        "error",
-        "-show_entries",
-        "format=duration:stream=width,height,codec_type,nb_read_frames",
-        "-count_frames",
-        "-of",
-        "json",
-        output,
-      ]),
-    );
-    run("ffmpeg", ["-v", "error", "-i", output, "-f", "null", "-"]);
-    assert.equal(Math.round(Number(metadata.format.duration) * 1e6), plan.at(-1).playback.endUs);
-    assert.equal(metadata.streams.length, 1);
-    const video = metadata.streams[0];
-    assert.equal(video.codec_type, "video");
-    assert.ok(Number(video.nb_read_frames) > 0);
-    assert.equal(Number(video.nb_read_frames), result.data.frameCount);
-    assert.equal(video.width, result.data.width);
-    assert.equal(video.height, result.data.height);
-    assert.equal(hash(source), before);
+      assert.equal(result.ok, true, JSON.stringify(result));
+      const metadata = JSON.parse(
+        run("ffprobe", [
+          "-v",
+          "error",
+          "-show_entries",
+          "format=duration:stream=width,height,codec_type,nb_read_frames",
+          "-count_frames",
+          "-of",
+          "json",
+          output,
+        ]),
+      );
+      run("ffmpeg", ["-v", "error", "-i", output, "-f", "null", "-"]);
+      assert.equal(Math.round(Number(metadata.format.duration) * 1e6), plan.at(-1).playback.endUs);
+      assert.equal(metadata.streams.length, 1);
+      const video = metadata.streams[0];
+      assert.equal(video.codec_type, "video");
+      assert.ok(Number(video.nb_read_frames) > 0);
+      assert.equal(Number(video.nb_read_frames), result.data.frameCount);
+      assert.equal(video.width, result.data.width);
+      assert.equal(video.height, result.data.height);
+      assert.equal(hash(source), before);
+      results.push({ name, plan, result, metadata });
+    }
     if (evidence)
       writeFileSync(
         evidence,
         JSON.stringify(
-          { stopped, plan, result, metadata, sourceHash: before, sourceUnchanged: true },
+          { stopped, sourceMetadata, results, sourceHash: before, sourceUnchanged: true },
           null,
           2,
         ) + "\n",
