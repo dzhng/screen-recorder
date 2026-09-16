@@ -1,0 +1,277 @@
+{
+  "scope": "Internal source-only directory reader; original catalog and normalized source file removed; no native decoding or package archive claim",
+  "cursorSamples": 803,
+  "indexes": {
+    "cursor": {
+      "pages": 4,
+      "rows": 803,
+      "bytes": 153285
+    },
+    "cursorSequence": {
+      "pages": 4,
+      "rows": 803,
+      "bytes": 153285
+    },
+    "geometry": {
+      "pages": 1,
+      "rows": 2,
+      "bytes": 513
+    },
+    "geometryEpoch": {
+      "pages": 1,
+      "rows": 4,
+      "bytes": 1035
+    },
+    "unplaced": {
+      "pages": 1,
+      "rows": 2,
+      "bytes": 523
+    },
+    "pauses": {
+      "pages": 1,
+      "rows": 1,
+      "bytes": 101
+    },
+    "narration": {
+      "pages": 1,
+      "rows": 2,
+      "bytes": 236
+    },
+    "system": {
+      "pages": 0,
+      "rows": 0,
+      "bytes": 0
+    }
+  },
+  "equalTimeLatest": {
+    "sourceUs": 10,
+    "x": 1,
+    "y": 2,
+    "globalX": 1,
+    "globalY": 2,
+    "buttons": 0,
+    "eligibility": "unknownGeometry",
+    "geometryEpoch": 1,
+    "sequence": 5
+  },
+  "pauses": [
+    {
+      "atSourceUs": 20,
+      "elapsedPauseUs": 999,
+      "sequence": 6
+    }
+  ],
+  "unplacedGeometry": [
+    {
+      "epoch": 2,
+      "sourceUs": null,
+      "hostUs": 123,
+      "geometry": {
+        "outputWidth": 10,
+        "outputHeight": 10,
+        "contentScale": 1,
+        "scaleFactor": 1,
+        "contentRect": {
+          "x": 0,
+          "y": 0,
+          "width": 10,
+          "height": 10
+        }
+      },
+      "sequence": 7
+    }
+  ],
+  "acquiredAudio": [
+    {
+      "startUs": 10,
+      "endUs": 15
+    },
+    {
+      "startUs": 20,
+      "endUs": 25
+    }
+  ],
+  "trailPlan": {
+    "policy": "requested-time-trail-v1",
+    "overlay": {
+      "trail": [],
+      "trailUs": 2000000,
+      "pointer": null
+    },
+    "agedFromUs": 30,
+    "requestedSourceUs": 30,
+    "actualSourceUs": 30,
+    "evidenceRange": {
+      "startUs": 25,
+      "endUs": 30
+    },
+    "interval": null,
+    "cutoffs": [
+      {
+        "reason": "geometry",
+        "atSourceUs": 25
+      },
+      {
+        "reason": "pause",
+        "atSourceUs": 20
+      },
+      {
+        "reason": "kept_start",
+        "atSourceUs": 0
+      },
+      {
+        "reason": "geometry",
+        "atSourceUs": 30
+      }
+    ],
+    "pointerObservation": {
+      "sourceUs": 30,
+      "x": 1,
+      "y": 2,
+      "globalX": 1,
+      "globalY": 2,
+      "buttons": 0,
+      "eligibility": "inside",
+      "geometryEpoch": 1,
+      "sequence": 3
+    },
+    "geometry": {
+      "requested": {
+        "epoch": 2,
+        "sourceUs": 25,
+        "hostUs": 123,
+        "geometry": {
+          "outputWidth": 10,
+          "outputHeight": 10,
+          "contentScale": 1,
+          "scaleFactor": 1,
+          "contentRect": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 10
+          }
+        },
+        "sequence": 8
+      },
+      "selected": {
+        "epoch": 2,
+        "sourceUs": 25,
+        "hostUs": 123,
+        "geometry": {
+          "outputWidth": 10,
+          "outputHeight": 10,
+          "contentScale": 1,
+          "scaleFactor": 1,
+          "contentRect": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 10
+          }
+        },
+        "sequence": 8
+      }
+    },
+    "sourceEvidence": {
+      "recordingId": "11669d04-4ea0-423d-825b-067e9f564f81",
+      "sourceId": "bbb0606a-31e2-4efa-be80-776b68670d91",
+      "generation": "source-1"
+    },
+    "scene": {
+      "policy": "rgb-spatial-change-v2",
+      "comparisons": [
+        {
+          "previousActualSourceUs": 0,
+          "actualSourceUs": 30,
+          "changedPixelFraction": 0,
+          "changedCellFraction": 0,
+          "meanAbsoluteChannelDifference": 0,
+          "boundary": false
+        }
+      ],
+      "lastSample": {
+        "requestedSourceUs": 30,
+        "actualSourceUs": 30,
+        "distanceUs": 0,
+        "width": 8,
+        "height": 8,
+        "rgbBase64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "range": {
+        "startUs": 0,
+        "endUs": 30
+      },
+      "kept": {
+        "startUs": 0,
+        "endUs": 900
+      },
+      "sourceWidth": 10,
+      "sourceHeight": 10,
+      "coverage": [
+        {
+          "requestedSourceUs": 0,
+          "actualSourceUs": 0,
+          "distanceUs": 0,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "requestedSourceUs": 30,
+          "actualSourceUs": 30,
+          "distanceUs": 0,
+          "width": 8,
+          "height": 8
+        }
+      ],
+      "boundaries": [],
+      "reference": {
+        "requestedSourceUs": 30,
+        "actualSourceUs": 30,
+        "distanceUs": 0,
+        "width": 8,
+        "height": 8,
+        "rgbBase64": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "futureComparison": null
+    },
+    "stalePointerScene": null,
+    "stalePointerComparison": null
+  },
+  "audioPlan": {
+    "spans": [
+      {
+        "startUs": 10,
+        "endUs": 25
+      }
+    ],
+    "tracks": [
+      {
+        "role": "narration",
+        "source": "/moved/narration.mov",
+        "sourceOffsetUs": 0,
+        "available": [
+          {
+            "startUs": 10,
+            "endUs": 15
+          },
+          {
+            "startUs": 20,
+            "endUs": 25
+          }
+        ]
+      }
+    ],
+    "missingRoles": [
+      {
+        "role": "system",
+        "reason": "not_acquired"
+      }
+    ]
+  },
+  "parity": {
+    "queries": true,
+    "trailPlan": true,
+    "audioPlan": true
+  }
+}

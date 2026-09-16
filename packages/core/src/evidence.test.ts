@@ -1,4 +1,4 @@
-import { test, expect, afterEach } from "vitest";
+import { test, expect, afterEach, vi } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -569,55 +569,65 @@ test("bounded geometry and pause reads reject excess rather than truncating rese
   }
 });
 
-test("geometry point and range reads seek through their indexes without full sorting", async () => {
+test("production geometry reads and export batches seek indexes without full sorting", async () => {
   const f = fixture([]);
   await ingestRecords(f, [geometry(1, null), geometry(1, 0), geometry(2, 100)]);
-  for (const [filter, order, args, index] of [
-    [
-      "event='cursorSample' AND sourceUs<=?",
-      "sourceUs DESC,sequence DESC",
-      [100],
-      "source_evidence_time",
-    ],
-    [
-      "event='geometry' AND sourceUs<=?",
-      "sourceUs DESC,sequence DESC",
-      [100],
-      "source_evidence_geometry",
-    ],
-    [
-      "event='geometry' AND sourceUs>=? AND sourceUs<=?",
-      "sourceUs,sequence",
-      [0, 100],
-      "source_evidence_geometry",
-    ],
-    [
-      "event='geometry' AND json_extract(content,'$.epoch')=?",
-      "sequence DESC",
-      [1],
-      "source_evidence_geometry_epoch",
-    ],
-    [
-      "event='geometry' AND sourceUs IS NULL AND sequence>? AND sequence<?",
-      "sequence",
-      [0, 10],
-      "source_evidence_geometry",
-    ],
-    [
-      "event='pause' AND sourceUs>=? AND sourceUs<=?",
-      "sourceUs,sequence",
-      [0, 100],
-      "source_evidence_pauses",
-    ],
-  ] as const) {
-    const plan = f.store.catalog
-      .prepare(`EXPLAIN QUERY PLAN SELECT sequence,content FROM source_evidence_records ${filter.includes("IS NULL") ? "INDEXED BY source_evidence_geometry" : ""}
-      WHERE recordingId=? AND sourceId=? AND generation=? AND ${filter} ORDER BY ${order} LIMIT 1001`)
-      .all(f.identity.recordingId, f.identity.sourceId, f.identity.generation, ...args)
-      .map((row) => row.detail)
-      .join(" ");
-    expect(plan).toContain(`SEARCH source_evidence_records USING INDEX ${index}`);
-    expect(plan).not.toContain("TEMP B-TREE");
+  const plans: string[] = [];
+  const prepare = f.store.catalog.prepare.bind(f.store.catalog);
+  const spy = vi.spyOn(f.store.catalog, "prepare").mockImplementation((sql) => {
+    const statement = prepare(sql);
+    if (sql.startsWith("SELECT sequence,event,sourceUs,content")) {
+      const all = statement.all.bind(statement);
+      vi.spyOn(statement, "all").mockImplementation((...args) => {
+        plans.push(
+          prepare("EXPLAIN QUERY PLAN " + sql)
+            .all(...args)
+            .map((row) => row.detail)
+            .join(" "),
+        );
+        return all(...args);
+      });
+    }
+    return statement;
+  });
+  try {
+    for (const [read, index, seek] of [
+      [() => f.evidence.latestCursor(f.identity, 100), "source_evidence_time", "sourceUs"],
+      [() => f.evidence.timedGeometryAt(f.identity, 100), "source_evidence_geometry", "sourceUs"],
+      [
+        () => f.evidence.geometryChanges(f.identity, { startUs: 0, endUs: 100 }),
+        "source_evidence_geometry",
+        "sourceUs",
+      ],
+      [() => f.evidence.geometryByEpoch(f.identity, 1), "source_evidence_geometry_epoch", "<expr>"],
+      [
+        () => f.evidence.unplacedGeometry(f.identity, { afterSequence: 0 }),
+        "source_evidence_geometry",
+        "sourceUs",
+      ],
+      [
+        () => f.evidence.pauseBoundaries(f.identity, { startUs: 0, endUs: 100 }),
+        "source_evidence_pauses",
+        "sourceUs",
+      ],
+    ] as const) {
+      plans.length = 0;
+      read();
+      expect(plans).toHaveLength(1);
+      expect(plans[0]).toContain(`SEARCH source_evidence_records USING INDEX ${index}`);
+      expect(plans[0]).toContain(seek);
+      expect(plans[0]).not.toContain("TEMP B-TREE");
+    }
+    plans.length = 0;
+    expect(
+      Array.from(f.evidence.exportRecords(f.identity, "geometryEpoch"))
+        .flat()
+        .map((row) => row.sequence),
+    ).toEqual([1, 2, 3]);
+    expect(plans[1]).toContain("<expr>");
+    expect(plans[1]).not.toContain("TEMP B-TREE");
+  } finally {
+    spy.mockRestore();
   }
 });
 

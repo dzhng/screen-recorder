@@ -83,6 +83,10 @@
     "./package-manifest": {
       "types": "./dist/package-manifest.d.ts",
       "default": "./dist/package-manifest.js"
+    },
+    "./evidence-pages": {
+      "types": "./dist/evidence-pages.d.ts",
+      "default": "./dist/evidence-pages.js"
     }
   },
   "scripts": {

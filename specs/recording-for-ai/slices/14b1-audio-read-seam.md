@@ -46,7 +46,10 @@ fixture receipt is sufficient; no visual output changes. Run repository review a
 independent review before committing. This is a shared consumer boundary, not a
 claim that a complete package can already be opened.
 
-## Next: 14b2 storage proof before a generic reader
+## 14b2 storage proof before a generic reader
+
+Implemented by [14b2](14b2-source-evidence-pages.md); its source-only scope and next
+scene/index/native gates remain explicit.
 
 SourceEvidenceStore indexes normalized `{sequence,event,sourceUs,content}` records;
 sequence is delivery order, not global timestamp order. Its cursor continuation

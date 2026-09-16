@@ -1,7 +1,7 @@
 import { createReadStream } from "node:fs";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError, type RevisionStore } from "./library.js";
-import type { TimeRange } from "./timeline.js";
+import { SourceEvidenceReader, type RecordQuery, type EvidenceIndex } from "./evidence-read.js";
 
 export type EvidenceIdentity = Readonly<{
   recordingId: string;
@@ -45,7 +45,12 @@ export type SourceGeometry = Record<string, unknown> & {
   geometry: Record<string, unknown>;
   sequence: number;
 };
-type RecordRow = { sequence: number; event: string; sourceUs: number | null; content: string };
+export type RecordRow = {
+  sequence: number;
+  event: string;
+  sourceUs: number | null;
+  content: string;
+};
 const maxBytes = 268_435_456;
 function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
@@ -61,7 +66,7 @@ function object(value: unknown): Record<string, unknown> {
 function finite(value: unknown): boolean {
   return typeof value === "number" && Number.isFinite(value);
 }
-function validateRecord(event: string, data: Record<string, unknown>): void {
+export function validateRecord(event: string, data: Record<string, unknown>): void {
   if (event === "cursorSample") {
     if (
       !integer(data.sourceUs) ||
@@ -112,8 +117,9 @@ function validateRecord(event: string, data: Record<string, unknown>): void {
 }
 
 /** Indexes native-normalized evidence; the artifact queue alone decides whether to publish it. */
-export class SourceEvidenceStore {
+export class SourceEvidenceStore extends SourceEvidenceReader {
   constructor(private readonly store: RevisionStore) {
+    super();
     store.catalog.exec(`
       CREATE TABLE IF NOT EXISTS source_evidence_generations (
         recordingId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,receipt TEXT,
@@ -297,155 +303,6 @@ export class SourceEvidenceStore {
       throw error;
     }
   }
-  page(input: EvidenceIdentity & { range: TimeRange; afterSequence?: number; limit?: number }): {
-    samples: (RawCursorSample & { sequence: number })[];
-    nextSequence: number | null;
-  } {
-    const { recordingId, sourceId, generation, range, afterSequence } = input;
-    const limit = input.limit ?? 1000;
-    if (
-      !integer(range.startUs) ||
-      !integer(range.endUs) ||
-      range.endUs <= range.startUs ||
-      !integer(limit) ||
-      limit < 1 ||
-      limit > 5000 ||
-      (afterSequence != null && (!integer(afterSequence) || afterSequence < 1))
-    )
-      invalid("Invalid cursor page range or limit");
-    this.requireComplete(input);
-    let afterUs = range.startUs,
-      after = 0;
-    if (afterSequence != null) {
-      const anchor = this.store.catalog
-        .prepare(
-          "SELECT sourceUs FROM source_evidence_records WHERE recordingId=? AND sourceId=? AND generation=? AND sequence=? AND event='cursorSample'",
-        )
-        .get(recordingId, sourceId, generation, afterSequence) as { sourceUs: number } | undefined;
-      if (!anchor || anchor.sourceUs < range.startUs || anchor.sourceUs >= range.endUs)
-        invalid("Cursor continuation is outside this range");
-      afterUs = anchor.sourceUs;
-      after = afterSequence;
-    }
-    const rows = this.store.catalog
-      .prepare(`SELECT sequence,content FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='cursorSample'
-      AND sourceUs>=? AND sourceUs<? AND (sourceUs,sequence)>(?,?) ORDER BY sourceUs,sequence LIMIT ?`)
-      .all(recordingId, sourceId, generation, afterUs, range.endUs, afterUs, after, limit + 1) as {
-      sequence: number;
-      content: string;
-    }[];
-    const more = rows.length > limit;
-    if (more) rows.pop();
-    return {
-      samples: rows.map((row) => ({ ...JSON.parse(row.content), sequence: row.sequence })),
-      nextSequence: more ? rows.at(-1)!.sequence : null,
-    };
-  }
-  /** Latest observation, including outside/unknown readings; callers must not resurrect an older pointer. */
-  latestCursor(
-    identity: EvidenceIdentity,
-    atSourceUs: number,
-  ): (RawCursorSample & { sequence: number }) | null {
-    this.timingRange({ startUs: atSourceUs, endUs: atSourceUs });
-    this.requireComplete(identity);
-    const row = this.store.catalog
-      .prepare(`SELECT sequence,content FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='cursorSample'
-      AND sourceUs<=? ORDER BY sourceUs DESC,sequence DESC LIMIT 1`)
-      .get(identity.recordingId, identity.sourceId, identity.generation, atSourceUs) as
-      | { sequence: number; content: string }
-      | undefined;
-    return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
-  }
-
-  /** A timed predecessor is not proof that later null-time geometry was inactive. */
-  timedGeometryAt(identity: EvidenceIdentity, atSourceUs: number): SourceGeometry | null {
-    this.timingRange({ startUs: atSourceUs, endUs: atSourceUs });
-    this.requireComplete(identity);
-    const row = this.store.catalog
-      .prepare(`SELECT sequence,content FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
-      AND sourceUs<=? ORDER BY sourceUs DESC,sequence DESC LIMIT 1`)
-      .get(identity.recordingId, identity.sourceId, identity.generation, atSourceUs) as
-      | { sequence: number; content: string }
-      | undefined;
-    return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
-  }
-
-  /** The next known placement bounds an unresolved null-time placement without guessing its clock. */
-  nextTimedGeometry(identity: EvidenceIdentity, atSourceUs: number): SourceGeometry | null {
-    this.timingRange({ startUs: atSourceUs, endUs: atSourceUs });
-    this.requireComplete(identity);
-    const row = this.store.catalog
-      .prepare(`SELECT sequence,content FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
-      AND sourceUs>? ORDER BY sourceUs,sequence LIMIT 1`)
-      .get(identity.recordingId, identity.sourceId, identity.generation, atSourceUs) as
-      | { sequence: number; content: string }
-      | undefined;
-    return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
-  }
-
-  /** Latest recorded placement for one epoch; consumers must still inspect its source time. */
-  geometryByEpoch(identity: EvidenceIdentity, epoch: number): SourceGeometry | null {
-    if (!integer(epoch)) invalid("Invalid geometry epoch");
-    this.requireComplete(identity);
-    const row = this.store.catalog
-      .prepare(`SELECT sequence,content FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
-      AND json_extract(content,'$.epoch')=? ORDER BY sequence DESC LIMIT 1`)
-      .get(identity.recordingId, identity.sourceId, identity.generation, epoch) as
-      | { sequence: number; content: string }
-      | undefined;
-    return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
-  }
-
-  /** Inclusive timed boundaries; equal timestamps retain their original record order. */
-  geometryChanges(identity: EvidenceIdentity, range: TimeRange): SourceGeometry[] {
-    this.timingRange(range);
-    this.requireComplete(identity);
-    const rows = this.store.catalog
-      .prepare(`SELECT sequence,content FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
-      AND sourceUs>=? AND sourceUs<=? ORDER BY sourceUs,sequence LIMIT 1001`)
-      .all(
-        identity.recordingId,
-        identity.sourceId,
-        identity.generation,
-        range.startUs,
-        range.endUs,
-      ) as { sequence: number; content: string }[];
-    if (rows.length > 1000)
-      throw new CatalogError("LIMIT_EXCEEDED", "Too many geometry boundaries in this range");
-    return rows.map((row) => ({ ...JSON.parse(row.content), sequence: row.sequence }));
-  }
-
-  /** Pre-origin and paused placements have no source time; never silently promote them to zero. */
-  unplacedGeometry(
-    identity: EvidenceIdentity,
-    range: { afterSequence: number; beforeSequence?: number },
-  ): SourceGeometry[] {
-    const end = range.beforeSequence ?? Number.MAX_SAFE_INTEGER;
-    if (!integer(range.afterSequence) || !integer(end) || end <= range.afterSequence)
-      invalid("Invalid geometry sequence range");
-    this.requireComplete(identity);
-    const rows = this.store.catalog
-      .prepare(`SELECT sequence,content FROM source_evidence_records INDEXED BY source_evidence_geometry
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
-      AND sourceUs IS NULL AND sequence>? AND sequence<? ORDER BY sequence LIMIT 1001`)
-      .all(
-        identity.recordingId,
-        identity.sourceId,
-        identity.generation,
-        range.afterSequence,
-        end,
-      ) as { sequence: number; content: string }[];
-    if (rows.length > 1000)
-      throw new CatalogError("LIMIT_EXCEEDED", "Too many unplaced geometry records in this range");
-    return rows.map((row) => ({ ...JSON.parse(row.content), sequence: row.sequence }));
-  }
-
   /** Caller has fenced admission and stopped every source evidence producer. */
   async purgeRecording(recordingId: string, signal: AbortSignal): Promise<void> {
     for (;;) {
@@ -481,7 +338,7 @@ export class SourceEvidenceStore {
       .run(recordingId, sourceId, generation);
   }
 
-  private requireComplete({ recordingId, sourceId, generation }: EvidenceIdentity): void {
+  protected requireComplete({ recordingId, sourceId, generation }: EvidenceIdentity): void {
     if (
       !this.store.catalog
         .prepare(
@@ -492,87 +349,57 @@ export class SourceEvidenceStore {
       throw new CatalogError("NOT_READY", "Evidence generation is not indexed");
   }
 
-  private timingRange(range: TimeRange): void {
-    if (!integer(range.startUs) || !integer(range.endUs) || range.endUs < range.startUs)
-      throw new CatalogError("INVALID_RANGE", "Invalid source timing range");
-  }
-
-  /** Pause markers at either retained boundary survive; marker time creates no media duration. */
-  pauses(
-    identity: EvidenceIdentity,
-    range: TimeRange,
-  ): { atSourceUs: number; elapsedPauseUs: number }[] {
-    return this.pauseBoundaries(identity, range).map(({ atSourceUs, elapsedPauseUs }) => ({
-      atSourceUs,
-      elapsedPauseUs,
-    }));
-  }
-
-  /** Sequence is normalized delivery order, not occurrence order across buffered event kinds. */
-  pauseBoundaries(
-    identity: EvidenceIdentity,
-    range: TimeRange,
-  ): { atSourceUs: number; elapsedPauseUs: number; sequence: number }[] {
-    this.timingRange(range);
-    this.requireComplete(identity);
-    const rows = this.store.catalog
-      .prepare(`SELECT sequence,content FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='pause'
-      AND sourceUs>=? AND sourceUs<=? ORDER BY sourceUs,sequence LIMIT 1001`)
-      .all(
-        identity.recordingId,
-        identity.sourceId,
-        identity.generation,
-        range.startUs,
-        range.endUs,
-      ) as { sequence: number; content: string }[];
-    if (rows.length > 1000)
-      throw new CatalogError("LIMIT_EXCEEDED", "Too many pause boundaries in this range");
-    return rows.map((row) => ({ ...JSON.parse(row.content), sequence: row.sequence }));
-  }
-
-  /** A gap in a requested clip is distinct from a role never acquired anywhere in this take. */
-  hasAudio(identity: EvidenceIdentity, role: "narration" | "system"): boolean {
-    this.requireComplete(identity);
-    return Boolean(
-      this.store.catalog
-        .prepare(`SELECT 1 FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='audioAcquired'
-      AND json_extract(content,'$.role')=? LIMIT 1`)
-        .get(identity.recordingId, identity.sourceId, identity.generation, role),
-    );
-  }
-
-  /** Coalesced per-role intervals are disjoint, so only one interval before the range can overlap it. */
-  audio(identity: EvidenceIdentity, role: "narration" | "system", range: TimeRange): TimeRange[] {
-    this.timingRange(range);
-    this.requireComplete(identity);
-    if (range.startUs === range.endUs) return [];
-    const args = [identity.recordingId, identity.sourceId, identity.generation, role] as const;
-    const prefix = `SELECT content FROM source_evidence_records
-      WHERE recordingId=? AND sourceId=? AND generation=? AND event='audioAcquired'
-      AND json_extract(content,'$.role')=?`;
-    const prior = this.store.catalog
-      .prepare(prefix + " AND sourceUs<=? ORDER BY sourceUs DESC,sequence DESC LIMIT 1")
-      .get(...args, range.startUs) as { content: string } | undefined;
-    const rows = this.store.catalog
-      .prepare(prefix + " AND sourceUs>? AND sourceUs<? ORDER BY sourceUs,sequence LIMIT 1001")
-      .all(...args, range.startUs, range.endUs) as { content: string }[];
-    const intervals = [...(prior ? [prior] : []), ...rows]
-      .map((row) => {
-        const interval = JSON.parse(row.content) as TimeRange;
-        return {
-          startUs: Math.max(interval.startUs, range.startUs),
-          endUs: Math.min(interval.endUs, range.endUs),
-        };
-      })
-      .filter((interval) => interval.startUs < interval.endUs);
-    if (intervals.length > 1000)
-      throw new CatalogError(
-        "LIMIT_EXCEEDED",
-        "Too many audio acquisition intervals in this range",
-      );
-    return intervals;
+  protected records(identity: EvidenceIdentity, query: RecordQuery): RecordRow[] {
+    const indexes: Record<EvidenceIndex, { condition: string; keys: string[] }> = {
+      cursor: { condition: "event='cursorSample'", keys: ["sourceUs", "sequence"] },
+      cursorSequence: { condition: "event='cursorSample'", keys: ["sequence"] },
+      geometry: {
+        condition: "event='geometry' AND sourceUs IS NOT NULL",
+        keys: ["sourceUs", "sequence"],
+      },
+      geometryEpoch: {
+        condition: "event='geometry'",
+        keys: ["json_extract(content,'$.epoch')", "sequence"],
+      },
+      unplaced: { condition: "event='geometry' AND sourceUs IS NULL", keys: ["sequence"] },
+      pauses: { condition: "event='pause'", keys: ["sourceUs", "sequence"] },
+      narration: {
+        condition: "event='audioAcquired' AND json_extract(content,'$.role')='narration'",
+        keys: ["sourceUs", "sequence"],
+      },
+      system: {
+        condition: "event='audioAcquired' AND json_extract(content,'$.role')='system'",
+        keys: ["sourceUs", "sequence"],
+      },
+    };
+    const index = indexes[query.index];
+    const clauses = ["recordingId=? AND sourceId=? AND generation=?", index.condition];
+    const args: (string | number)[] = [
+      identity.recordingId,
+      identity.sourceId,
+      identity.generation,
+    ];
+    for (const [bound, operator] of [
+      [query.lower, ">"],
+      [query.upper, "<"],
+    ] as const) {
+      if (!bound) continue;
+      const columns = index.keys.length === 1 ? index.keys[0] : `(${index.keys.join(",")})`;
+      const placeholders =
+        index.keys.length === 1 ? "?" : `(${index.keys.map(() => "?").join(",")})`;
+      clauses.push(`${columns}${operator}${bound.inclusive ? "=" : ""}${placeholders}`);
+      args.push(...bound.key);
+      if (query.index === "geometryEpoch") {
+        // SQLite cannot seek expression indexes using the tuple bound alone.
+        clauses.push(`${index.keys[0]}${operator}=?`);
+        args.push(bound.key[0]!);
+      }
+    }
+    args.push(query.limit);
+    return this.store.catalog
+      .prepare(`SELECT sequence,event,sourceUs,content FROM source_evidence_records ${query.index === "unplaced" ? "INDEXED BY source_evidence_geometry" : ""}
+      WHERE ${clauses.join(" AND ")} ORDER BY ${index.keys.map((k) => `${k} ${query.reverse ? "DESC" : "ASC"}`).join(",")} LIMIT ?`)
+      .all(...args) as RecordRow[];
   }
 
   /** Caller must only remove a generation its artifact queue has not published. */

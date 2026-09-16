@@ -23,3 +23,6 @@ relocation and native comparison gates remain open.
 Run `bun run --cwd packages/core test src/audio.test.ts`. An optional
 `SCREENREC_AUDIO_PLAN_EVIDENCE` path emits a new generated receipt. Existing frame,
 trail, selection, audio and catalog tests remain the behavior checks for this refactor.
+
+[Source-page evidence](source-pages.md) extends this consumer checkpoint to an actual
+file-backed source reader with its original catalog unavailable.

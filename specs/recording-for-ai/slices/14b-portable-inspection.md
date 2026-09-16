@@ -2,8 +2,9 @@
 
 Status: [14b1 consumer seam](14b1-audio-read-seam.md) implemented with
 [generated path/plan evidence](../assets/portable-inspection/README.md).
-File-backed reader parity and full native relocation remain open. Next: prove the
-source-only paging/storage contract described in 14b1 before generalizing a reader.
+[14b2 source reader](14b2-source-evidence-pages.md) now matches generated source
+queries after catalog removal and directory relocation. Scene/index readers and
+full native relocation remain open; extend the proven ordered-page transport next.
 Internal generated directory fixtures only. No public ZIP reader, export menu,
 transcript integration or playable movie is claimed by this checkpoint.
 
