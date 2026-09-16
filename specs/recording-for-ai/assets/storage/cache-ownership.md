@@ -28,3 +28,9 @@ a cache-constructor-only check is insufficient.
 Structural cost: one required ownership column, foreign key and lookup index on
 the existing cache table; no new queue or table. Source and retained-image ownership
 remain separate and are never purged through this disposable-cache method.
+
+The merged catalog/cache regression marks a recording for deletion, then verifies
+new reservations, reads and pending publication are refused. An existing reader
+still protects its file until released; cleanup then removes only the target cache
+files while retaining the deletion marker and a readable sibling. Disabling the
+cache-read admission check makes this integration regression fail.
