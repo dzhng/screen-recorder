@@ -509,6 +509,9 @@ test("geometry reads preserve nullable placements, epoch identity and same-time 
   await ingestRecords(f, records);
   const row = (index: number) => ({ ...records[index]!.data, sequence: index + 1 });
   expect(f.evidence.timedGeometryAt(f.identity, 5)).toEqual(row(1));
+  expect(f.evidence.nextTimedGeometry(f.identity, 5)).toEqual(row(2));
+  expect(f.evidence.nextTimedGeometry(f.identity, 10)).toEqual(row(5));
+  expect(f.evidence.nextTimedGeometry(f.identity, 30)).toBeNull();
   expect(f.evidence.timedGeometryAt(f.identity, 10)).toEqual(row(3));
   expect(f.evidence.timedGeometryAt(f.identity, 29)).toEqual(row(3));
   expect(f.evidence.geometryChanges(f.identity, { startUs: 10, endUs: 10 })).toEqual([

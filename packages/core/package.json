@@ -39,6 +39,10 @@
     "./scenes": {
       "types": "./dist/scenes.d.ts",
       "default": "./dist/scenes.js"
+    },
+    "./trails": {
+      "types": "./dist/trails.d.ts",
+      "default": "./dist/trails.js"
     }
   },
   "scripts": {

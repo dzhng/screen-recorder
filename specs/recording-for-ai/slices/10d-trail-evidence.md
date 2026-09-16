@@ -28,3 +28,7 @@ Lists have a hard result cap and fail explicitly rather than silently discarding
 reset markers. Indexed point and interval reads operate on the published evidence
 generation; source files remain unchanged. No host-clock reconstruction, alternate
 evidence owner, or new trail policy belongs in these reads.
+
+A next-timed-placement seek lets the planner bound null-time uncertainty without
+loading future history. It is still raw evidence: a later placement resolves an
+unplaced record only when the planner can match its epoch and geometry.

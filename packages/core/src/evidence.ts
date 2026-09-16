@@ -384,6 +384,20 @@ export class SourceEvidenceStore {
     return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
   }
 
+  /** The next known placement bounds an unresolved null-time placement without guessing its clock. */
+  nextTimedGeometry(identity: EvidenceIdentity, atSourceUs: number): SourceGeometry | null {
+    this.timingRange({ startUs: atSourceUs, endUs: atSourceUs });
+    this.requireComplete(identity);
+    const row = this.store.catalog
+      .prepare(`SELECT sequence,content FROM source_evidence_records
+      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
+      AND sourceUs>? ORDER BY sourceUs,sequence LIMIT 1`)
+      .get(identity.recordingId, identity.sourceId, identity.generation, atSourceUs) as
+      | { sequence: number; content: string }
+      | undefined;
+    return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
+  }
+
   /** Latest recorded placement for one epoch; consumers must still inspect its source time. */
   geometryByEpoch(identity: EvidenceIdentity, epoch: number): SourceGeometry | null {
     if (!integer(epoch)) invalid("Invalid geometry epoch");

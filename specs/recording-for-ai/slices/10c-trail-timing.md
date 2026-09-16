@@ -1,8 +1,8 @@
 # Trail timing over sparse video
 
 Status: requested-time visual compatibility is implemented and verified with
-encoded sparse sources, including a two-minute gap. Geometry/pause selection,
-cursor runs and public rendering remain unimplemented. This pass resolves the
+encoded sparse sources, including a two-minute gap. The bounded core trail planner now selects geometry/pause resets and cursor runs.
+Public rendering and visual acceptance remain unimplemented. This pass resolves the
 overlay timing prerequisites before extending requests to default trails.
 
 ## Evidence that constrains the policy
@@ -82,3 +82,28 @@ selected image.
 [Compatibility evidence](../assets/scene-analysis/core-review.md#requested-time-frame-compatibility)
 records the shared core/native checks. The public frame API still requires clean
 mode; this prerequisite does not claim a rendered or accepted trail.
+
+
+## Core planner checkpoint
+
+[planFrameTrail](../../../packages/core/src/trails.ts) prepares shared scene evidence
+and selects a native overlay from the published source generation. Its result
+preserves requested/decoded times, selected cursor interval, reset reasons, raw
+pointer observation, geometry and sampled scene coverage. The renderer receives
+only selected points and fades from requested time.
+
+A placement-only window move resets old runs but does not invalidate a held image
+whose raster geometry is unchanged. Current-epoch pixel coordinates can still mark
+that image. Changed content placement, scaling or output dimensions cannot borrow
+coordinates from a mismatched image. Same-epoch timing confirmations do not invent
+new geometry resets. Null-time placements without matching timed confirmation
+remain unavailable, with no guessed host-to-source conversion.
+
+A stale pointer has no invented expiry. Indexed pause/geometry reads find known
+resets, while a bounded endpoint comparison supplies sampled visual compatibility
+outside the ordinary trail window. It preserves observation time and coverage;
+matching endpoints never prove intermediate states were unchanged. Missing required
+comparison fails explicitly; a detected change omits the pointer with its reason.
+
+The [planner evidence](../assets/trail-evidence/planner.md) records focused tests
+and limits. It does not activate a public default or claim rendered acceptance.
