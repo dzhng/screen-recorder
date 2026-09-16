@@ -1,0 +1,12 @@
+{
+  "root": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-publication-evvv_8fe",
+  "results": {
+    "killed_before_ack": "committed",
+    "same_bytes_new_inode": "replaced",
+    "same_inode_changed_bytes": "changed_bytes",
+    "missing": "missing",
+    "directory_replaced": "directory_changed",
+    "no_clobber": "EEXIST_preserved"
+  },
+  "scope": "Darwin local filesystem/process crash only; no production owner, catalog transaction, native cancellation fence, full-disk or power-loss proof"
+}

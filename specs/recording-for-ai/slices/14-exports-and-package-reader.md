@@ -33,7 +33,7 @@ Directory fixtures below are internal checkpoints, never a third export product.
 | [14a — Pinned manifest and readiness](14a-package-manifest.md) | Can portable identities, inventory and prerequisite states be represented without lying about completeness? | Existing revision/evidence contracts. Generated JSON report validates manifest candidates and pinned history; no archive or public export. |
 | [14b — Relocated read-only media](14b-portable-inspection.md) | Can the existing inspector answer a new request using only relocated files? | 14a and existing source/scene/frame/index owners. Internal directory fixture compares metadata, retained index, arbitrary frames/trails and audio; no original library or analysis cache. |
 | 14c — Bounded ZIP open and handle lifetime | Can validated extraction become an isolated read-only context? | 14b. Hostile archive fixture produces either a fully verified handle or an explicit error with no external writes. |
-| 14d — Pinned export intent and atomic publication | Can prerequisites wait without occupying their own execution slot, then publish exactly once? | 14a; publication containment proof and existing job/deletion lifetimes. Generated no-narration package round trip through 14c; not acceptance of narrated export. |
+| [14d — Pinned export intent and atomic publication](14d-export-publication.md) | Can prerequisites wait without occupying their own execution slot, then publish exactly once? | 14a; publication containment proof and existing job/deletion lifetimes. Generated no-narration package round trip through 14c; not acceptance of narrated export. |
 | 14e — Complete AI package integration | Do accepted narration and all promised read operations survive relocation through both adapters? | 14b–d, accepted 08 transcript contract and required index evidence. Complete narrated/no-narration packages, CLI/MCP open/close and package menu action. |
 | 14f — Human video and package playable preview | Does the accepted renderer produce the pinned edit independently of speech? | Accepted 13 and 14d publication owner; 14c additionally for package preview. Video menu action and relocated preview, with audio audition and join/pointer parity. |
 
@@ -76,6 +76,9 @@ Archive implementation and numeric resource-policy defaults remain delegated, bu
 must be explicit and tested at their limits before adding public open/close.
 
 ## 14d — Readiness, snapshot retention and publication
+
+[The materialized publication plan](14d-export-publication.md) starts with the
+external commit/recovery fault trace before choosing durable intent state.
 
 Pin revision and history bound before waiting. Use existing job authority to expose
 required dependency IDs while waiting outside every worker slot; do not add a
