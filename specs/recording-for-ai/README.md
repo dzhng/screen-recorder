@@ -29,13 +29,14 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish the public missing-role and explicit retry checks for
-[audio excerpt inspection](slices/09e-public-audio.md), then frame batches.
-Generated two-track cuts/gaps, CLI/MCP byte parity and eviction/restart pass through
-the real bundled service and native worker; [audio evidence](assets/audio-inspection/review.md)
-keeps audition separate. The [visual-observation seam](slices/10b-visual-observations.md)
-and bounded core comparison are integrated; real UI thresholds and overlay timing
-are still open.
+Current pickup: integrate and verify the clean frame batch pass, then resolve
+[sparse trail timing](slices/10c-trail-timing.md) before default overlays.
+[Audio inspection](slices/09e-public-audio.md) now passes public cuts/gaps,
+CLI/MCP byte parity, eviction/restart, missing roles and explicit retry through
+the rebuilt app. [Audio evidence](assets/audio-inspection/review.md) keeps
+audition separate. The [visual observations](slices/10b-visual-observations.md)
+and bounded core comparison are integrated; real UI thresholds and cursor overlay
+timing remain open.
 [Source timing](slices/06j-source-timing.md) is integrated: cursor, geometry, pauses
 and acquired audio share one native-normalized generation. Raw reads remain in
 source time; edits only change projections. Fresh evidence catalogs are required.
@@ -46,16 +47,16 @@ historical revision. [Frame evidence](assets/frame-delivery/review.md) and the
 [public-frame slice](slices/09d-public-frames.md) distinguish client receipt from
 model-level MCP visual interpretation.
 
-Next priority: finish audio inspection checks and frame batches, then shared scene/pause/
+Next priority: frame batch integration, then shared scene/pause/
 geometry boundaries, default trails and screenshot indexing. Storage/deletion,
 remaining native controls, speech and installed workflow gates remain open. Keep
 one queue, immutable sources and explicit audio defaults. See
 [source integration](assets/source-timing/integration-review.md) for current checks.
 
 Native controls are integrated and their closed-menu state/clock follows real
-own-window capture through external service calls. Actual UI interaction and visual
-review remain blocked by computer-use timeouts; the UI-launched app reported screen
-access unavailable. Delete/storage and display/region/audio gates remain open.
+own-window capture through external service calls. Actual native UI interaction and visual review remain unverified after prior
+computer-use timeouts; the UI-launched app reported screen access unavailable.
+Browser automation of the localhost fixture succeeds on this host. Delete/storage and display/region/audio gates remain open.
 Discovery passes client/CLI checks and a real built-app launch into a fresh home;
 installed-copy proof remains open. See [controls](assets/recording-controls/integration.md),
 [queue](assets/durable-jobs/review.md), and [discovery](slices/15a-client-discovery.md).
@@ -117,7 +118,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (generated-media execution; audition still open)
   - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md) (public delivery remains)
   - [ ] [09d — Revision-bound public frame inspection](slices/09d-public-frames.md)
-  - [ ] [09e — Revision-bound audio inspection](slices/09e-public-audio.md)
+  - [x] [09e — Revision-bound audio inspection](slices/09e-public-audio.md) (generated public-media proof; parent audition gate remains)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
   - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
   - [ ] [10b — Shared clean visual observations](slices/10b-visual-observations.md)

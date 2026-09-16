@@ -92,3 +92,7 @@ all three public audio tests. Follow-up Codex review found no actionable regress
 its sandbox blocked rebuilding and two existing frame decodes failed there. The
 host reran the same release's frame/visual tests successfully (all five), keeping
 sandbox observations separate from the host runtime proof.
+
+Root integration at b35b0cd: the rebuilt app and type checks pass, all 29 native
+wire tests pass against its release worker, and all three public audio tests pass
+alongside the encoded native/core scene timing test. No audition claim is added.

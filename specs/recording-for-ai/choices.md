@@ -644,3 +644,19 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   when the nearest frame comes from before or after the request.
 - **Verdict:** Sound: preserves the evidence needed for that later timing decision.
   **Confidence:** High.
+
+## Native decode retry classification
+
+### Sound — high confidence
+
+- **Choice:** A native media decode failure permits another explicitly requested
+  attempt. If an audio file temporarily cannot be opened, subsequent reads keep
+  reporting the failed result; a retry request may start the decoder again. The
+  same rule applies to frames. Bad request shapes and invalid ranges stay terminal.
+- **Gap:** The native error envelope had marked every failure terminal, even
+  transient file access, codec and allocation failures.
+- **Reach:** One shared wire policy owns this classification. A corrupt file can
+  still fail on every explicit attempt; retry permission promises no repair and
+  creates no automatic retry loop or source-repair capability.
+- **Verdict:** Sound: preserves deliberate retry without hidden background work.
+  **Confidence:** High.
