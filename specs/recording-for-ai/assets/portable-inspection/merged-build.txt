@@ -1,0 +1,55 @@
+$ turbo build
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running build in 8 packages
+   • Remote caching disabled
+
+@screenrec/core:build: cache miss, executing e5827b8c5a208571
+@screenrec/workbench:build: cache hit, replaying logs b2f3f22ef760b67c
+@screenrec/workbench:build: $ node --check server.mjs && node --check public/app.js
+@screenrec/protocol:build: cache hit, replaying logs c778fa0517d698e3
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:build: cache hit, replaying logs bddc6de944123949
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/service:build: cache miss, executing 4bd3b9e76f681feb
+@screenrec/test-harness:build: cache miss, executing e680a7c07d567bc5
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/test-harness:build: $ tsc -p tsconfig.json
+@screenrec/cli:build: cache miss, executing b009c4b28d1ed358
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/macos:build: cache bypass, force executing 6428906f4ede7ae5
+@screenrec/macos:build: $ node ../../scripts/build-macos.mjs
+@screenrec/macos:build: [0/1] Planning build
+@screenrec/macos:build: Building for production...
+@screenrec/macos:build: [0/12] Write sources
+@screenrec/macos:build: [4/12] Write swift-version--1AB21518FC5DEDBE.txt
+@screenrec/macos:build: [6/13] Compiling ScreenRecorderAudio AudioExcerpts.swift
+@screenrec/macos:build: [7/13] Compiling ScreenRecorderFrames CursorOverlay.swift
+@screenrec/macos:build: [8/16] Compiling ScreenRecorderWire AudioOperation.swift
+@screenrec/macos:build: [9/17] Compiling ScreenRecorderNative ParentLifetime.swift
+@screenrec/macos:build: [9/17] Write Objects.LinkFileList
+@screenrec/macos:build: [10/17] Linking screenrec-native
+@screenrec/macos:build: [12/17] Compiling ScreenRecorderAudioTests FixtureAudio.swift
+@screenrec/macos:build: [12/17] Write Objects.LinkFileList
+@screenrec/macos:build: [14/17] Compiling ScreenRecorderFrameTests FixtureMedia.swift
+@screenrec/macos:build: [14/17] Write Objects.LinkFileList
+@screenrec/macos:build: [15/17] Linking ScreenRecorderAudioTests
+@screenrec/macos:build: [16/17] Linking ScreenRecorderFrameTests
+@screenrec/macos:build: Build complete! (8.27s)
+@screenrec/macos:build: [0/1] Planning build
+@screenrec/macos:build: Building for production...
+@screenrec/macos:build: [0/3] Write swift-version--1AB21518FC5DEDBE.txt
+@screenrec/macos:build: Build complete! (0.12s)
+@screenrec/macos:build: Bundled 129 modules in 10ms
+@screenrec/macos:build: 
+@screenrec/macos:build:   main.mjs  0.94 MB  (entry point)
+@screenrec/macos:build: 
+@screenrec/macos:build: /Users/david/dev/screen-recorder/dist/ScreenRecorder.app: replacing existing signature
+@screenrec/macos:build: Built /Users/david/dev/screen-recorder/dist/ScreenRecorder.app
+
+ Tasks:    8 successful, 8 total
+Cached:    3 cached, 8 total
+  Time:    11.168s 
+

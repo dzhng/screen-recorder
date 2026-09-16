@@ -151,6 +151,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
   - [ ] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)
     - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md) (consumer planning, not full package relocation)
+    - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md) (source-only relocation; native whole-context parity remains)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

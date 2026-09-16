@@ -1,0 +1,12 @@
+{
+  "revision": "c2001dd2d556eb8e35a4b33f05b1ba0fa675d163",
+  "scope": "Rebuilt bundled app; generated public audio and trail integration; no physical capture or audition claim",
+  "buildExitCode": 0,
+  "testExitCode": 0,
+  "testsPassed": 11,
+  "nativeSha256": "355bdeb7c67da914cf238aac65706051123006766078a4b04eea012ad09782b2",
+  "logsSha256": {
+    "merged-build.txt": "d687185ca96b6b723e4f3a56be4ac67c072b745811c297ba52e6550839203e4e",
+    "merged-public-inspection.txt": "71ba98db5861dfd4fa2dd376e3e3547a878c57c7731ba81bd25858554f6c1c50"
+  }
+}

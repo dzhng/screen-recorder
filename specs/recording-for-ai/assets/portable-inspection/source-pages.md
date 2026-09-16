@@ -26,3 +26,9 @@ owns those scope boundaries and the next scene/index transport step.
 Run the core build before the full core suite (its existing concurrency fixture
 executes built modules). The source-page fixture can emit a new receipt through
 `SCREENREC_SOURCE_PAGES_EVIDENCE` while running its focused test file.
+
+The [merged bundle receipt](merged-integration.json) records a rebuilt app at the
+listed revision and eleven passing generated public audio/trail integration checks.
+These exercise CLI/MCP delivery, pinned cuts, acquisition gaps, geometry uncertainty
+and explicit retry through the live reader and native worker. They complement the
+source-only relocation proof; they do not establish native package relocation.

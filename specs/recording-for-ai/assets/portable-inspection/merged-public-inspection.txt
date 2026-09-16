@@ -1,0 +1,23 @@
+(node:67741) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ public audio preserves cuts, acquisition gaps, pinned revisions and CLI/MCP bytes (1233.840958ms)
+✔ public audio distinguishes unrequested and unacquired roles and mixes one track at unity (905.745666ms)
+✔ public audio keeps native failure until explicit retry after fixture repair (398.16725ms)
+(node:67742) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ public default trails preserve held-frame gestures, reset history and reach CLI and MCP as real pixels (3043.957875ms)
+✔ public cut clips retained history while a pinned historical revision preserves its gesture (1650.298042ms)
+✔ public window move preserves held-raster coordinates (759.245542ms)
+✔ public resize vetoes held-raster coordinates (768.478333ms)
+✔ public outside observation wins a duplicate timestamp without reviving the previous pointer (1061.853833ms)
+✔ public unknownGeometry observation wins a duplicate timestamp without reviving the previous pointer (1069.883792ms)
+✔ public missing geometry is explicit unavailability while clean delivery remains usable (709.449917ms)
+✔ public frame retry leaves a failed source dependency for explicit processing retry (866.485125ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10345.605375
