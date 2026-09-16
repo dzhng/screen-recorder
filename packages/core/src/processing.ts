@@ -93,6 +93,7 @@ export class SourceProcessing {
     const pending = this.store.catalog
       .prepare(`SELECT recordingId FROM recordings
       WHERE state IN ('complete','interrupted') AND sourceDurationUs IS NOT NULL
+      AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
       AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.recordingId=recordings.recordingId
         AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.input=?)
       ORDER BY creationSequence LIMIT 1`)

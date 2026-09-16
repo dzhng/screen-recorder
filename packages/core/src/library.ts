@@ -112,11 +112,29 @@ export class RevisionStore {
     if (!Number.isSafeInteger(busyTimeoutMs) || busyTimeoutMs < 0 || busyTimeoutMs > 10000)
       throw new RangeError("SQLite timeout must be 0–10000 milliseconds");
     this.catalog = new DatabaseSync(path, { timeout: busyTimeoutMs });
+    // Development formats are a hard cutover; opening an older catalog never migrates it.
+    if (
+      this.catalog
+        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='recordings'")
+        .get() &&
+      !this.catalog
+        .prepare("SELECT 1 FROM pragma_table_info('recordings') WHERE name=?")
+        .get("allocationArguments")
+    ) {
+      this.catalog.close();
+      throw new CatalogError(
+        "UNSUPPORTED_CATALOG",
+        "This catalog predates the current format; open a library created by this version.",
+      );
+    }
     this.catalog.exec(`
    CREATE TABLE IF NOT EXISTS recordings (
     creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
     allocationRequestId TEXT UNIQUE,allocationArguments TEXT,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
     interruptionReason TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
+   ) STRICT;
+   CREATE TABLE IF NOT EXISTS recording_deletions (
+    recordingId TEXT PRIMARY KEY REFERENCES recordings(recordingId)
    ) STRICT;
    CREATE TABLE IF NOT EXISTS revisions (
     recordingId TEXT NOT NULL REFERENCES recordings(recordingId),id TEXT NOT NULL,ordinal INTEGER NOT NULL,content TEXT NOT NULL,
@@ -131,18 +149,6 @@ export class RevisionStore {
     PRIMARY KEY(recordingId,position),FOREIGN KEY(recordingId,targetId) REFERENCES revisions(recordingId,id)
    ) STRICT;
   `);
-    // Development formats are a hard cutover; opening an older catalog never migrates it.
-    if (
-      !this.catalog
-        .prepare("SELECT 1 FROM pragma_table_info('recordings') WHERE name=?")
-        .get("allocationArguments")
-    ) {
-      this.catalog.close();
-      throw new CatalogError(
-        "UNSUPPORTED_CATALOG",
-        "This catalog predates the current format; open a library created by this version.",
-      );
-    }
   }
   close(): void {
     if (this.catalog.isOpen) this.catalog.close();
@@ -185,7 +191,7 @@ export class RevisionStore {
               "REQUEST_CONFLICT",
               "Request ID was already used with different arguments",
             );
-          return { recording, replay: true };
+          return { recording: this.get(recording.recordingId), replay: true };
         }
       }
       const recordingId = this.providers.newId();
@@ -205,10 +211,53 @@ export class RevisionStore {
   }
   get(recordingId: string): Recording {
     const row = this.catalog
-      .prepare(`SELECT ${recordingColumns} FROM recordings WHERE recordingId=?`)
+      .prepare(
+        `SELECT ${recordingColumns} FROM recordings WHERE recordingId=? AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)`,
+      )
       .get(recordingId);
     if (!row) throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
     return row as Recording;
+  }
+  /** Durable intent fences public access before asynchronous producer shutdown begins. */
+  markDeleting(recordingId: string): Recording | null {
+    return this.transaction(() => {
+      this.catalog
+        .prepare(`INSERT OR IGNORE INTO recording_deletions(recordingId)
+        SELECT recordingId FROM recordings WHERE recordingId=?`)
+        .run(recordingId);
+      return this.deleting(recordingId);
+    });
+  }
+  /** Only deletion may inspect an intent-marked recording's retained source identity. */
+  deleting(recordingId: string): Recording | null {
+    return (
+      (this.catalog
+        .prepare(`SELECT ${recordingColumns} FROM recordings
+      WHERE recordingId=? AND recordingId IN (SELECT recordingId FROM recording_deletions)`)
+        .get(recordingId) as Recording | undefined) ?? null
+    );
+  }
+  /** Native closure ends capture priority even if later deletion cleanup fails. */
+  settleDeletingCapture(recordingId: string): Recording {
+    return this.transaction(() => {
+      const recording = this.deleting(recordingId);
+      if (!recording)
+        throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
+      if (isSettled(recording.state)) return recording;
+      this.catalog
+        .prepare(
+          "UPDATE recordings SET state='canceled',interruptionReason=NULL WHERE recordingId=?",
+        )
+        .run(recordingId);
+      return { ...recording, state: "canceled", interruptionReason: null };
+    });
+  }
+  isDeleting(recordingId: string): boolean {
+    return Boolean(
+      this.catalog
+        .prepare("SELECT 1 FROM recording_deletions WHERE recordingId=?")
+        .get(recordingId),
+    );
   }
   /** Creation sequences never move: later takes cannot enter an existing traversal. */
   list(
@@ -222,7 +271,7 @@ export class RevisionStore {
     const rows = this.catalog
       .prepare(
         `SELECT ${recordingColumns} FROM recordings
-       WHERE state!='canceled' AND creationSequence < ?
+       WHERE state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions) AND creationSequence < ?
        ORDER BY creationSequence DESC LIMIT ?`,
       )
       .all(cursor?.beforeSequence ?? Number.MAX_SAFE_INTEGER, limit + 1) as Recording[];
@@ -252,7 +301,7 @@ export class RevisionStore {
     return (
       (this.catalog
         .prepare(
-          `SELECT ${recordingColumns} FROM recordings WHERE state!='canceled' ORDER BY creationSequence DESC LIMIT 1`,
+          `SELECT ${recordingColumns} FROM recordings WHERE state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions) ORDER BY creationSequence DESC LIMIT 1`,
         )
         .get() as Recording | undefined) ?? null
     );

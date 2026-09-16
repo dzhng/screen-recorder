@@ -103,6 +103,7 @@ export class JobQueue {
   private readonly attempts = new Map<
     string,
     {
+      recordingId: string;
       lane: JobLane;
       artifact: string;
       controller: AbortController;
@@ -287,7 +288,9 @@ export class JobQueue {
   status(identity: Pick<Job, "recordingId" | "revisionId" | "artifact" | "input">): ArtifactStatus {
     const job = this.existing(identity);
     const present = this.store.catalog
-      .prepare("SELECT 1 FROM recordings WHERE recordingId=? AND state!='canceled'")
+      .prepare(
+        "SELECT 1 FROM recordings WHERE recordingId=? AND state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)",
+      )
       .get(identity.recordingId);
     const published = present
       ? ((this.store.catalog
@@ -329,6 +332,22 @@ export class JobQueue {
         this.run(job);
       }
     }
+  }
+
+  /** Intent is committed first: no new attempt may enter while these executors close. */
+  async drainRecording(recordingId: string): Promise<void> {
+    if (!this.store.isDeleting(recordingId))
+      throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
+    this.store.catalog
+      .prepare(`UPDATE jobs SET state='canceled',reason='recording_unavailable',retryable=0
+      WHERE recordingId=? AND state IN ('queued','running')`)
+      .run(recordingId);
+    const active = [...this.attempts.values()].filter(
+      (attempt) => attempt.recordingId === recordingId,
+    );
+    for (const attempt of active) attempt.controller.abort();
+    this.capacityAvailable();
+    await Promise.all(active.map((attempt) => attempt.done));
   }
 
   /** Resolves once no attempt is in flight. Work still queued behind a lane or capture stays queued. */
@@ -400,7 +419,7 @@ export class JobQueue {
           .get(lane) as (JobRow & { recordingState: string }) | undefined;
         if (!row) return null;
         const { recordingState, ...fields } = row;
-        if (recordingState === "canceled") {
+        if (recordingState === "canceled" || this.store.isDeleting(row.recordingId)) {
           this.discard(row.jobId, "recording_unavailable");
           continue;
         }
@@ -422,6 +441,7 @@ export class JobQueue {
         this.attempts.delete(job.attemptId);
       });
     this.attempts.set(job.attemptId, {
+      recordingId: job.recordingId,
       lane: job.lane,
       artifact: job.artifact,
       controller,
@@ -446,6 +466,10 @@ export class JobQueue {
       // The job may have been canceled, or retried under a new attempt after a restart declared this
       // one lost. Either way this answer is stale and must not overwrite what replaced it.
       if (!current || current.attemptId !== job.attemptId || current.state !== "running") return;
+      if (this.store.isDeleting(job.recordingId)) {
+        this.discard(job.jobId, "recording_unavailable");
+        return;
+      }
       if ("error" in outcome) {
         const error = outcome.error;
         const retryable = !(error instanceof CatalogError) || error.retryable;

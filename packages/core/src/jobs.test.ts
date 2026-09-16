@@ -686,3 +686,88 @@ test("artifact activity remains visible until a canceled executor settles", asyn
   await queue.idle();
   expect(queue.isArtifactActive("screenshot-index")).toBe(false);
 });
+
+test("recording deletion drains only its held attempts and fences queued and late publication", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const other = finished(store);
+  const target = queue.submit({ recordingId, artifact: "frame", lane: "frame", input: "target" });
+  const sibling = queue.submit({
+    recordingId: other,
+    artifact: "frame",
+    lane: "frame",
+    input: "sibling",
+  });
+  const waiting = queue.submit({ recordingId, artifact: "frame", lane: "frame", input: "waiting" });
+  const targetAttempt = await started(target.attemptId);
+  const siblingAttempt = await started(sibling.attemptId);
+  queue.cancel(target.jobId);
+  store.markDeleting(recordingId);
+  let drained = false;
+  const draining = queue.drainRecording(recordingId).then(() => {
+    drained = true;
+  });
+  await Promise.resolve();
+  expect(targetAttempt.signal.aborted).toBe(true);
+  expect(siblingAttempt.signal.aborted).toBe(false);
+  expect(drained).toBe(false);
+  expect(queue.job(waiting.jobId).state).toBe("canceled");
+  expect(() => queue.retry(target.jobId)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+  expect(() =>
+    queue.submit({ recordingId, artifact: "frame", lane: "frame", input: "new" }),
+  ).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+  targetAttempt.finish("late target");
+  await draining;
+  expect(queue.status(target).published).toBeNull();
+  expect(queue.job(sibling.jobId).state).toBe("running");
+  siblingAttempt.finish("sibling kept");
+  await queue.idle();
+  expect(queue.status(sibling).published?.result).toBe("sibling kept");
+});
+
+test("startup skips deletion-marked queued work and runs the next recording", async () => {
+  const first = fixture();
+  const live = first.store.allocate().recording;
+  const recordingId = finished(first.store);
+  const sibling = finished(first.store);
+  const blocked = first.queue.submit({
+    recordingId,
+    artifact: "source",
+    lane: "heavy",
+    input: "gone",
+  });
+  const next = first.queue.submit({
+    recordingId: sibling,
+    artifact: "source",
+    lane: "heavy",
+    input: "kept",
+  });
+  first.store.markDeleting(recordingId);
+  first.store.ingestLifecycle(live.recordingId, {
+    sourceId: live.sourceId,
+    sequence: 1,
+    state: "canceled",
+  });
+  await first.queue.close();
+  queues.splice(queues.indexOf(first.queue), 1);
+  first.store.close();
+  const reopened = open(first.path, "reopen");
+  expect(reopened.queue.job(blocked.jobId).state).toBe("canceled");
+  const attempt = await reopened.started(next.attemptId);
+  expect([...reopened.attempts.values()].map((value) => value.job.recordingId)).toEqual([sibling]);
+  attempt.finish("sibling result");
+  await reopened.queue.idle();
+  expect(reopened.queue.status(next).published?.result).toBe("sibling result");
+});
+
+test("intent alone fences an executor resolving before cancellation is requested", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const job = queue.submit({ recordingId, artifact: "frame", lane: "frame", input: "late" });
+  const attempt = await started(job.attemptId);
+  store.markDeleting(recordingId);
+  attempt.finish("must not publish");
+  await queue.idle();
+  expect(queue.job(job.jobId).state).toBe("canceled");
+  expect(queue.status(job).published).toBeNull();
+});

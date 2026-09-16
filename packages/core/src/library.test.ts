@@ -628,11 +628,55 @@ test("an older development catalog is refused without migrating its data", () =>
   store.registerSource(recording.recordingId, 20);
   store.close();
   const old = new DatabaseSync(path);
-  old.exec("ALTER TABLE recordings DROP COLUMN allocationArguments");
+  old.exec(
+    "DROP TABLE recording_deletions; ALTER TABLE recordings DROP COLUMN allocationArguments",
+  );
   old.close();
   const before = readFileSync(path);
   expect(() => new RevisionStore(path, providers)).toThrow(
     expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
   );
   expect(readFileSync(path)).toEqual(before);
+});
+
+test("deletion intent hides a take and fences replay and late source publication across restart", () => {
+  const { store, path, providers } = fixture();
+  const older = store.allocate().recording;
+  const request = { requestId: "delete-me", arguments: "capture" };
+  const recording = store.allocate(request).recording;
+  store.registerSource(recording.recordingId, 20);
+  expect(store.markDeleting(recording.recordingId)?.recordingId).toBe(recording.recordingId);
+  expect(store.markDeleting(recording.recordingId)?.sourceId).toBe(recording.sourceId);
+  expect(store.markDeleting("absent")).toBeNull();
+  expect(store.latest()).toEqual(older);
+  expect(store.list().recordings).toEqual([older]);
+  expect(() => store.get(recording.recordingId)).toThrow(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
+  expect(() => store.allocate(request)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+  expect(() => store.registerSource(recording.recordingId, 20)).toThrow(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
+  expect(() =>
+    store.ingestLifecycle(recording.recordingId, {
+      sourceId: recording.sourceId,
+      sequence: 1,
+      state: "recording",
+    }),
+  ).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+  expect(store.settleDeletingCapture(recording.recordingId)).toMatchObject({
+    state: "canceled",
+    sourceDurationUs: 20,
+    currentRevisionId: "r0",
+  });
+  expect(store.isDeleting(recording.recordingId)).toBe(true);
+  expect(store.unsettled()).toEqual([older]);
+  store.close();
+  const reopened = new RevisionStore(path, providers);
+  stores.push(reopened);
+  expect(reopened.deleting(recording.recordingId)?.sourceId).toBe(recording.sourceId);
+  expect(() => reopened.revision(recording.recordingId)).toThrow(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
+  expect(reopened.latest()).toEqual(older);
 });
