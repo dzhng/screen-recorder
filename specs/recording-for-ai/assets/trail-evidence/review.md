@@ -51,6 +51,6 @@ pause API projects its original two-field contract, while the planner's pause re
 adds stable sequence explicitly. Integration must link the prerequisite slice from
 the active trail-timing handoff; that handoff is owned by the integrating pass.
 
-Merged core verification passes all115 tests, including the new scene compatibility
+Merged core verification passes all 115 tests, including the new scene compatibility
 checks. The rebuilt app and public source-timing read remain green. Public trail
 rendering has not yet consumed these reads.

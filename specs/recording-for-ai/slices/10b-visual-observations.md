@@ -1,7 +1,7 @@
 # Shared clean visual observations
 
 Status: native observations and bounded core comparison are integrated. Real UI
-policy acceptance and public integration remain open. This is a prerequisite for local trail resets and global screenshot
+policy acceptance and persisted global evidence remain open. This is a prerequisite for local trail resets and global screenshot
 selection, not a second scene detector.
 
 The native FrameSource/FrameImage owners return bounded low-resolution clean
@@ -34,8 +34,9 @@ predecessor across chunk edges. Decode/coverage failures remain explicit.
 
 [Native evidence](../assets/visual-observations/native-review.md) covers the encoded
 orientation oracle and bounded observation execution. [Core evidence](../assets/scene-analysis/core-review.md)
-covers synthetic policy metrics and held-frame handling. Neither closes the
-requested-versus-actual overlay anchor decision or default trail acceptance.
+covers synthetic policy metrics and held-frame handling. The [public trail evidence](../assets/public-trails/review.md) now verifies
+requested-time planning and delivered defaults on generated page fixtures.
+Persisted shared observations and real UI policy acceptance remain separate work.
 
 [Trail timing](10c-trail-timing.md) records the encoded sparse held/future
-selection evidence and the bounded next policy pass.
+selection evidence and the implemented bounded compatibility policy.

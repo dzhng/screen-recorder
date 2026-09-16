@@ -1,0 +1,473 @@
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { randomUUID, createHash } from "node:crypto";
+import { mkdir, writeFile, readFile, copyFile } from "node:fs/promises";
+import { join } from "node:path";
+import { test } from "node:test";
+import { callLocal } from "@screenrec/client";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { RevisionStore } from "@screenrec/core/library";
+import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
+
+const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
+const width = 1280,
+  height = 800;
+// A small deterministic raster font avoids depending on a font installation or ffmpeg drawtext.
+const glyphs = {
+  A: "0e11111f111111",
+  B: "1e11111e11111e",
+  C: "0f10101010100f",
+  D: "1e11111111111e",
+  E: "1f10101e10101f",
+  F: "1f10101e101010",
+  G: "0f10101711110f",
+  H: "1111111f111111",
+  I: "1f04040404041f",
+  J: "0702020212120c",
+  K: "11121418141211",
+  L: "1010101010101f",
+  M: "111b1515111111",
+  N: "11191513111111",
+  O: "0e11111111110e",
+  P: "1e11111e101010",
+  Q: "0e11111115120d",
+  R: "1e11111e141211",
+  S: "0f10100e01011e",
+  T: "1f040404040404",
+  U: "1111111111110e",
+  V: "11111111110a04",
+  W: "11111115151b11",
+  X: "11110a040a1111",
+  Y: "11110a04040404",
+  Z: "1f01020408101f",
+  0: "0e11131519110e",
+  1: "040c040404040e",
+  2: "0e11010204081f",
+  3: "1e01010601011e",
+  4: "02060a121f0202",
+  5: "1f10101e01011e",
+  6: "0e10101e11110e",
+  7: "1f010204080808",
+  8: "0e11110e11110e",
+  9: "0e11110f01010e",
+  " ": "00000000000000",
+};
+function page(changed) {
+  const rgb = Buffer.alloc(width * height * 3);
+  function rect(x, y, w, h, color) {
+    for (let row = y; row < y + h; row++)
+      for (let col = x; col < x + w; col++) {
+        const at = (row * width + col) * 3;
+        rgb[at] = color[0];
+        rgb[at + 1] = color[1];
+        rgb[at + 2] = color[2];
+      }
+  }
+  function text(value, x, y, scale, color) {
+    for (const [index, letter] of [...value].entries()) {
+      assert.ok(glyphs[letter], `Missing fixture glyph ${letter}`);
+      for (let row = 0; row < 7; row++) {
+        const bits = parseInt(glyphs[letter].slice(row * 2, row * 2 + 2), 16);
+        for (let col = 0; col < 5; col++)
+          if (bits & (1 << (4 - col)))
+            rect(x + index * 6 * scale + col * scale, y + row * scale, scale, scale, color);
+      }
+    }
+  }
+  rect(0, 0, width, height, changed ? [24, 40, 58] : [239, 243, 248]);
+  rect(0, 0, width, 80, [21, 34, 53]);
+  rect(24, 23, 30, 30, [235, 108, 66]);
+  text("LOCALHOST REVIEW", 75, 27, 3, [243, 246, 250]);
+  text(changed ? "SCREEN B" : "SCREEN A", 1080, 29, 2, [111, 220, 198]);
+  rect(0, 80, 220, 720, changed ? [32, 56, 73] : [255, 255, 255]);
+  const nav = ["OVERVIEW", "PROJECTS", "BILLING", "SETTINGS"];
+  nav.forEach((label, i) => {
+    if (i === 2) rect(16, 217, 187, 44, [224, 236, 248]);
+    text(label, 28, 119 + i * 56, 2, changed && i !== 2 ? [192, 213, 232] : [46, 72, 100]);
+  });
+  text(
+    changed ? "DEPLOYMENT COMPLETE" : "BILLING SETTINGS",
+    270,
+    125,
+    4,
+    changed ? [240, 246, 250] : [31, 49, 70],
+  );
+  text("REVIEW THE PLAN BEFORE SHIPPING", 272, 177, 2, changed ? [150, 182, 203] : [93, 109, 130]);
+  rect(270, 220, 920, 385, changed ? [39, 77, 89] : [255, 255, 255]);
+  rect(320, 275, 350, 240, changed ? [74, 117, 114] : [238, 247, 241]);
+  rect(725, 275, 410, 240, changed ? [73, 90, 127] : [239, 244, 253]);
+  text(changed ? "LIVE PLAN" : "FREE PLAN", 356, 302, 3, [24, 62, 51]);
+  text("0 USD", 388, 361, 5, changed ? [227, 245, 236] : [39, 88, 66]);
+  text("FOR SMALL PROJECTS", 346, 410, 2, changed ? [225, 239, 231] : [73, 101, 87]);
+  text("TEAM PLAN", 777, 303, 3, changed ? [230, 239, 254] : [34, 68, 115]);
+  text("20 USD", 798, 362, 4, changed ? [230, 239, 254] : [34, 68, 115]);
+  rect(780, 445, 290, 55, [36, 89, 153]);
+  text("UPGRADE", 854, 464, 3, [250, 252, 255]);
+  text("PLAN CHANGES APPLY NEXT MONTH", 321, 555, 2, changed ? [227, 239, 239] : [67, 86, 108]);
+  rect(270, 650, 920, 90, changed ? [75, 109, 91] : [228, 238, 230]);
+  text(changed ? "DEPLOYMENT IS LIVE" : "PREVIEW ENVIRONMENT", 300, 674, 3, [29, 65, 43]);
+  for (let i = 0; i < 7; i++) rect(950 + i * 25, 718 - i * 6, 16, 12 + i * 6, [58, 131, 98]);
+  return rgb;
+}
+function ffmpeg(args) {
+  const result = spawnSync("ffmpeg", ["-v", "error", ...args], {
+    timeout: 20000,
+    maxBuffer: 8 * 1024 * 1024,
+  });
+  assert.equal(result.status, 0, result.stderr.toString());
+  return result.stdout;
+}
+const hash = async (file) =>
+  createHash("sha256")
+    .update(await readFile(file))
+    .digest("hex");
+function pixels(file) {
+  const rgb = ffmpeg([
+    "-i",
+    file,
+    "-frames:v",
+    "1",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "pipe:1",
+  ]);
+  assert.equal(rgb.length, width * height * 3, "Delivered pixels retain full fixture dimensions");
+  return rgb;
+}
+function differences(a, b, region = { x: 0, y: 0, width, height }) {
+  let changed = 0;
+  for (let y = region.y; y < region.y + region.height; y++)
+    for (let x = region.x; x < region.x + region.width; x++) {
+      const at = (y * width + x) * 3;
+      if ([0, 1, 2].some((channel) => Math.abs(a[at + channel] - b[at + channel]) > 16)) changed++;
+    }
+  return changed;
+}
+function compact(value) {
+  if (!value || typeof value !== "object") return;
+  if (Array.isArray(value)) {
+    assert.ok(
+      !value.some((item) => item && typeof item === "object" && "x" in item && "y" in item),
+      "Public frame metadata must not dump cursor points",
+    );
+    value.forEach(compact);
+  } else
+    for (const [key, item] of Object.entries(value)) {
+      assert.notEqual(key, "rgbBase64", "Analysis rasters must not enter public tool context");
+      compact(item);
+    }
+}
+async function fixture(home) {
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const take = store.allocate().recording;
+  store.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 1,
+    state: "interrupted",
+    reason: "generated gesture fixture",
+    sourceDurationUs: 18_000_000,
+  });
+  store.close();
+  const source = join(home, "recordings", take.recordingId, "source");
+  await mkdir(source, { recursive: true });
+  for (let index = 0; index < 3; index++)
+    await writeFile(
+      join(home, `page-${index}.ppm`),
+      Buffer.concat([Buffer.from(`P6\n${width} ${height}\n255\n`), page(index === 2)]),
+    );
+  const video = join(source, "video.mov");
+  ffmpeg([
+    "-framerate",
+    "1/6",
+    "-i",
+    join(home, "page-%d.ppm"),
+    "-frames:v",
+    "3",
+    "-an",
+    "-c:v",
+    "libx264",
+    "-pix_fmt",
+    "yuv420p",
+    "-bf",
+    "0",
+    video,
+  ]);
+  const truth = spawnSync(
+    "ffprobe",
+    [
+      "-v",
+      "error",
+      "-select_streams",
+      "v:0",
+      "-show_entries",
+      "frame=pts_time",
+      "-of",
+      "json",
+      video,
+    ],
+    { encoding: "utf8", timeout: 20000 },
+  );
+  assert.equal(truth.status, 0, truth.stderr);
+  assert.deepEqual(
+    JSON.parse(truth.stdout).frames.map((frame) => Number(frame.pts_time)),
+    [0, 6, 12],
+  );
+  const samples = [];
+  const point = (sourceUs, x, y) =>
+    samples.push({
+      sourceUs,
+      x,
+      y,
+      globalX: x,
+      globalY: y,
+      buttons: 0,
+      eligibility: "inside",
+      geometryEpoch: 1,
+    });
+  for (let i = 0; i <= 52; i++)
+    point(
+      200_000 + i * 25_000,
+      490 + 120 * Math.cos((i / 52) * Math.PI * 2),
+      360 + 120 * Math.sin((i / 52) * Math.PI * 2),
+    );
+  for (let i = 0; i <= 18; i++)
+    point(
+      1_525_000 + i * 25_000,
+      650 + (320 * i) / 18,
+      455 + 18 * Math.sin((i / 18) * Math.PI * 4),
+    );
+  for (let i = 0; i <= 11; i++)
+    point(2_300_000 + i * 25_000, 340 + i * 22, 568 + 10 * Math.sin((i / 11) * Math.PI * 2));
+  for (const base of [3_500_000, 9_500_000])
+    for (let i = 0; i <= 19; i++)
+      point(base + i * 25_000, 805 + i * 8, 474 + 10 * Math.sin((i / 19) * Math.PI * 2));
+  const rows = [
+    {
+      event: "header",
+      data: {
+        schemaVersion: 1,
+        sessionID: take.sourceId,
+        source: { kind: "window", windowID: 1 },
+        width,
+        height,
+        microphone: false,
+        systemAudio: false,
+      },
+    },
+    { event: "origin", data: { hostUs: 1_000_000 } },
+    {
+      event: "geometry",
+      data: {
+        epoch: 1,
+        hostUs: 1_000_000,
+        sourceUs: 0,
+        geometry: {
+          outputWidth: width,
+          outputHeight: height,
+          contentRect: { x: 0, y: 0, width, height },
+          contentScale: 1,
+          scaleFactor: 1,
+          screenRect: { x: 0, y: 0, width, height },
+        },
+      },
+    },
+    { event: "pauseBegan", data: { hostUs: 3_250_000 } },
+    {
+      event: "pauseEnded",
+      data: { hostUs: 8_250_000, pause: { atSourceUs: 2_250_000, elapsedPauseUs: 5_000_000 } },
+    },
+  ];
+  for (let start = 0; start < samples.length; start += 30)
+    rows.push({ event: "cursorSamples", data: { samples: samples.slice(start, start + 30) } });
+  rows.push({ event: "finished", data: {} });
+  const journal = join(source, "capture.journal.jsonl");
+  await writeFile(
+    journal,
+    rows.map((row, index) => JSON.stringify({ sequence: index + 1, ...row })).join("\n") + "\n",
+  );
+  return { take, video, journal };
+}
+
+test("public default trails preserve held-frame gestures, reset history and reach CLI and MCP as real pixels", async () => {
+  const home = temporary("/tmp/scr-trail-public-");
+  const source = await fixture(home);
+  const hashes = { video: await hash(source.video), journal: await hash(source.journal) };
+  const { instance } = await launchReady(home);
+  const call = async (operation, params) => {
+    const response = await callLocal(socketPath(home), { id: randomUUID(), operation, params });
+    assert.equal(response.ok, true, JSON.stringify(response));
+    return response.data;
+  };
+  const base = {
+    recordingId: source.take.recordingId,
+    revisionId: "r0",
+    atUs: 2_000_000,
+    maxLongEdge: width,
+  };
+  const results = {};
+  async function deliver(name, options) {
+    const params = { ...base, ...options };
+    const ready = await waitFor(async () => {
+      const status = await call("frame.get", params);
+      if (["failed", "unavailable"].includes(status.state)) throw new Error(JSON.stringify(status));
+      if (status.state !== "ready") return false;
+      await call("artifact.close", { token: status.delivery.token });
+      return status;
+    }, 30000);
+    const output = join(home, `${name}.png`);
+    const command = spawnSync(
+      process.execPath,
+      [
+        cli,
+        "frame.get",
+        "--socket",
+        socketPath(home),
+        "--params",
+        JSON.stringify(params),
+        "--output",
+        output,
+      ],
+      { encoding: "utf8", timeout: 20000 },
+    );
+    assert.equal(command.status, 0, command.stdout + command.stderr);
+    const delivered = JSON.parse(command.stdout);
+    assert.deepEqual(delivered.data.published, ready.published);
+    const frame = ready.published.frame;
+    assert.equal(frame.requestedSourceUs, params.atUs);
+    assert.deepEqual([frame.width, frame.height], [width, height]);
+    compact(frame);
+    assert.ok(
+      JSON.stringify(frame).length < 16_384,
+      "Public annotation metadata must stay compact",
+    );
+    results[name] = { params, output, frame, rgb: pixels(output) };
+    return results[name];
+  }
+  await deliver("clean", { clean: true });
+  await deliver("pointer", { trailUs: 0 });
+  await deliver("default", {});
+  await deliver("short", { trailUs: 500_000 });
+  await deliver("pause-reset", { atUs: 2_600_000 });
+  await deliver("future-matching", { atUs: 4_000_000 });
+  await deliver("future-changed", { atUs: 10_000_000 });
+  await deliver("future-clean", { atUs: 10_000_000, clean: true });
+  for (const name of ["clean", "pointer", "default", "short", "pause-reset"])
+    assert.equal(
+      results[name].frame.actualSourceUs,
+      0,
+      "Cursor observation time must not be replaced by an old held-frame PTS",
+    );
+  assert.equal(results["future-matching"].frame.actualSourceUs, 6_000_000);
+  assert.equal(results["future-changed"].frame.actualSourceUs, 12_000_000);
+  const trail = results.default.frame.annotation;
+  assert.equal(trail.trailUs, 2_000_000);
+  assert.equal(trail.agedFromUs, 2_000_000);
+  assert.equal(trail.pointerObservation.sourceUs, 1_975_000);
+  assert.equal(trail.pointer.atSourceUs, 1_975_000);
+  assert.deepEqual(trail.interval, { startUs: 200_000, endUs: 1_975_000 });
+  assert.equal(results.clean.frame.annotation, null);
+  assert.equal(results.pointer.frame.annotation.interval, null);
+  assert.equal(results.pointer.frame.annotation.pointer.atSourceUs, 1_975_000);
+  assert.deepEqual(results.short.frame.annotation.interval, {
+    startUs: 1_500_000,
+    endUs: 1_975_000,
+  });
+  assert.deepEqual(results["pause-reset"].frame.annotation.interval, {
+    startUs: 2_300_000,
+    endUs: 2_575_000,
+  });
+  assert.ok(
+    results["pause-reset"].frame.annotation.cutoffs.some(
+      (cutoff) => cutoff.reason === "pause" && cutoff.atSourceUs === 2_250_000,
+    ),
+  );
+  assert.ok(
+    results["future-changed"].frame.annotation.cutoffs.some(
+      (cutoff) => cutoff.reason === "future_scene" && cutoff.atSourceUs === 12_000_000,
+    ),
+  );
+  assert.equal(results["future-changed"].frame.annotation.pointer, null);
+  assert.equal(results["future-changed"].frame.annotation.interval, null);
+  assert.equal(results["future-matching"].frame.annotation.pointer.atSourceUs, 3_975_000);
+  assert.equal(results["future-matching"].frame.annotation.scene.futureComparison.boundary, false);
+  const counts = {};
+  for (const name of ["pointer", "default", "short", "pause-reset", "future-matching"])
+    counts[name] = differences(results.clean.rgb, results[name].rgb);
+  assert.ok(counts.pointer > 20 && counts.pointer < 1000);
+  assert.ok(
+    counts.default > 1000 && counts.default > counts.short && counts.short > counts.pointer,
+  );
+  const oldCircle = { x: 360, y: 240, width: 120, height: 240 };
+  assert.ok(differences(results.clean.rgb, results.default.rgb, oldCircle) > 100);
+  for (const name of ["pointer", "short", "pause-reset"])
+    assert.equal(
+      differences(results.clean.rgb, results[name].rgb, oldCircle),
+      0,
+      `${name} must not retain the old circle arc`,
+    );
+  assert.equal(
+    differences(results["future-clean"].rgb, results["future-changed"].rgb),
+    0,
+    "A future changed page must not receive an old gesture",
+  );
+  assert.ok(
+    counts["future-matching"] > 20,
+    "A matching future image can retain the requested-time pointer",
+  );
+  const client = new Client({ name: "trail-public-proof", version: "1" });
+  try {
+    await client.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [cli, "mcp", "--socket", socketPath(home)],
+        stderr: "pipe",
+      }),
+    );
+    for (const name of ["default", "pause-reset", "future-changed"]) {
+      const response = await client.callTool({
+        name: "frame.get",
+        arguments: results[name].params,
+      });
+      assert.equal(response.isError, false);
+      assert.deepEqual(response.structuredContent.data.published.frame, results[name].frame);
+      const image = response.content.find((item) => item.type === "image");
+      assert.equal(image?.mimeType, "image/png");
+      assert.deepEqual(Buffer.from(image.data, "base64"), await readFile(results[name].output));
+    }
+  } finally {
+    await client.close();
+  }
+  assert.deepEqual(
+    { video: await hash(source.video), journal: await hash(source.journal) },
+    hashes,
+  );
+  if (process.env.SCREENREC_TRAIL_EVIDENCE) {
+    await mkdir(process.env.SCREENREC_TRAIL_EVIDENCE, { recursive: true });
+    for (const [name, result] of Object.entries(results))
+      await copyFile(result.output, join(process.env.SCREENREC_TRAIL_EVIDENCE, `${name}.png`));
+    await writeFile(
+      join(process.env.SCREENREC_TRAIL_EVIDENCE, "metrics.json"),
+      JSON.stringify(
+        {
+          syntheticObservations: true,
+          hashes,
+          changedPixels: counts,
+          frames: Object.fromEntries(
+            Object.entries(results).map(([name, result]) => [name, result.frame]),
+          ),
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+  }
+  instance.kill("SIGTERM");
+  await waitFor(() => !instance.running, 15000);
+  assert.equal((await instance.exited).code, 0);
+});

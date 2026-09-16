@@ -2,8 +2,8 @@
 
 Status: requested-time visual compatibility is implemented and verified with
 encoded sparse sources, including a two-minute gap. The bounded core trail planner now selects geometry/pause resets and cursor runs.
-Public rendering and visual acceptance remain unimplemented. This pass resolves the
-overlay timing prerequisites before extending requests to default trails.
+Generated public rendering and independent readability checks now pass through
+[public integration](10e-public-trails.md). Real captured gestures remain open.
 
 ## Evidence that constrains the policy
 
@@ -80,8 +80,8 @@ selected image.
 
 
 [Compatibility evidence](../assets/scene-analysis/core-review.md#requested-time-frame-compatibility)
-records the shared core/native checks. The public frame API still requires clean
-mode; this prerequisite does not claim a rendered or accepted trail.
+records the shared core/native checks. [Delivered public images](../assets/public-trails/review.md)
+add rendered evidence; neither substitutes for real cursor acquisition.
 
 
 ## Core planner checkpoint
@@ -106,4 +106,4 @@ matching endpoints never prove intermediate states were unchanged. Missing requi
 comparison fails explicitly; a detected change omits the pointer with its reason.
 
 The [planner evidence](../assets/trail-evidence/planner.md) records focused tests
-and limits. It does not activate a public default or claim rendered acceptance.
+and limits. The subsequent public integration supplies the rendered acceptance evidence.

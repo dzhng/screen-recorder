@@ -77,6 +77,7 @@ export class AudioInspection {
     const spans = this.spans(revision, input.range);
     if (!["narration", "system", "mix"].includes(input.track))
       throw new CatalogError("INVALID_RANGE", "Unknown audio track selection");
+    this.processing.prepare(input.recordingId);
     const source = this.processing.status(input.recordingId);
     const identity = {
       recordingId: input.recordingId,

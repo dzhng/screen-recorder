@@ -1,0 +1,1027 @@
+{
+  "syntheticObservations": true,
+  "hashes": {
+    "video": "4ca757c5329a8dedec69d9b657676f7abe537a352ec317abaee847fa79b5e79b",
+    "journal": "077a537dd544f8aeee71399241aaf02b649ebd7bd6f9d97355a11fb18993beaa"
+  },
+  "changedPixels": {
+    "pointer": 100,
+    "default": 6177,
+    "short": 2174,
+    "pause-reset": 1408,
+    "future-matching": 3540
+  },
+  "frames": {
+    "clean": {
+      "actualSourceUs": 0,
+      "bytes": 142872,
+      "distanceUs": 2000000,
+      "file": "/private/tmp/scr-trail-public-xFEAR2/cache/derived/ea62fd07-d7c6-40f1-820a-b617c1fb3c43.cache",
+      "height": 800,
+      "mediaType": "image/png",
+      "requestedSourceUs": 2000000,
+      "sourceHeight": 800,
+      "sourceWidth": 1280,
+      "width": 1280,
+      "cacheId": "ea62fd07-d7c6-40f1-820a-b617c1fb3c43",
+      "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+      "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 2000000,
+      "actualPlaybackUs": 0,
+      "kept": {
+        "startUs": 0,
+        "endUs": 18000000
+      },
+      "clean": true,
+      "annotation": null,
+      "sourceEvidence": null
+    },
+    "pointer": {
+      "actualSourceUs": 0,
+      "bytes": 164325,
+      "distanceUs": 2000000,
+      "file": "/private/tmp/scr-trail-public-xFEAR2/cache/derived/472c2911-e947-4c72-a431-4b6e94b5efb5.cache",
+      "height": 800,
+      "mediaType": "image/png",
+      "overlay": {
+        "pointerSourceUs": 1975000,
+        "trailPoints": 0
+      },
+      "requestedSourceUs": 2000000,
+      "sourceHeight": 800,
+      "sourceWidth": 1280,
+      "width": 1280,
+      "cacheId": "472c2911-e947-4c72-a431-4b6e94b5efb5",
+      "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+      "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 2000000,
+      "actualPlaybackUs": 0,
+      "kept": {
+        "startUs": 0,
+        "endUs": 18000000
+      },
+      "clean": false,
+      "annotation": {
+        "policy": "requested-time-trail-v1",
+        "trailUs": 0,
+        "agedFromUs": 2000000,
+        "requestedSourceUs": 2000000,
+        "actualSourceUs": 0,
+        "evidenceRange": {
+          "startUs": 2000000,
+          "endUs": 2000000
+        },
+        "interval": null,
+        "cutoffs": [],
+        "pointerObservation": {
+          "sourceUs": 1975000,
+          "x": 970,
+          "y": 455,
+          "eligibility": "inside",
+          "geometryEpoch": 1,
+          "sequence": 74
+        },
+        "trailPoints": 0,
+        "trailRuns": 0,
+        "pointer": {
+          "atSourceUs": 1975000,
+          "x": 970,
+          "y": 455
+        },
+        "geometry": {
+          "requestedEpoch": 1,
+          "selectedEpoch": 1
+        },
+        "scene": {
+          "policy": "rgb-spatial-change-v1",
+          "range": {
+            "startUs": 2000000,
+            "endUs": 2000000
+          },
+          "coverage": [
+            {
+              "requestedSourceUs": 2000000,
+              "actualSourceUs": 0,
+              "distanceUs": 2000000,
+              "width": 64,
+              "height": 40
+            }
+          ],
+          "comparisons": [],
+          "boundaries": [],
+          "futureComparison": null,
+          "referenceSourceUs": 0
+        },
+        "stalePointerScene": {
+          "policy": "rgb-spatial-change-v1",
+          "range": {
+            "startUs": 1975000,
+            "endUs": 1975000
+          },
+          "coverage": [
+            {
+              "requestedSourceUs": 1975000,
+              "actualSourceUs": 0,
+              "distanceUs": 1975000,
+              "width": 64,
+              "height": 40
+            }
+          ],
+          "comparisons": [],
+          "boundaries": [],
+          "futureComparison": null,
+          "referenceSourceUs": 0
+        },
+        "stalePointerComparison": null
+      },
+      "sourceEvidence": {
+        "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+        "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+        "generation": "1558edfa-07ae-4060-a2c3-bb4888cd6053",
+        "integrity": {
+          "finished": true,
+          "incompleteTail": false,
+          "invalidAtSequence": null,
+          "lastSequence": 11,
+          "openPauseHostUs": null
+        }
+      }
+    },
+    "default": {
+      "actualSourceUs": 0,
+      "bytes": 188718,
+      "distanceUs": 2000000,
+      "file": "/private/tmp/scr-trail-public-xFEAR2/cache/derived/09183aa0-12d1-4b6d-b839-945cb1e9aeef.cache",
+      "height": 800,
+      "mediaType": "image/png",
+      "overlay": {
+        "pointerSourceUs": 1975000,
+        "trailEndUs": 1975000,
+        "trailPoints": 72,
+        "trailStartUs": 200000
+      },
+      "requestedSourceUs": 2000000,
+      "sourceHeight": 800,
+      "sourceWidth": 1280,
+      "width": 1280,
+      "cacheId": "09183aa0-12d1-4b6d-b839-945cb1e9aeef",
+      "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+      "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 2000000,
+      "actualPlaybackUs": 0,
+      "kept": {
+        "startUs": 0,
+        "endUs": 18000000
+      },
+      "clean": false,
+      "annotation": {
+        "policy": "requested-time-trail-v1",
+        "trailUs": 2000000,
+        "agedFromUs": 2000000,
+        "requestedSourceUs": 2000000,
+        "actualSourceUs": 0,
+        "evidenceRange": {
+          "startUs": 0,
+          "endUs": 2000000
+        },
+        "interval": {
+          "startUs": 200000,
+          "endUs": 1975000
+        },
+        "cutoffs": [],
+        "pointerObservation": {
+          "sourceUs": 1975000,
+          "x": 970,
+          "y": 455,
+          "eligibility": "inside",
+          "geometryEpoch": 1,
+          "sequence": 74
+        },
+        "trailPoints": 72,
+        "trailRuns": 1,
+        "pointer": {
+          "atSourceUs": 1975000,
+          "x": 970,
+          "y": 455
+        },
+        "geometry": {
+          "requestedEpoch": 1,
+          "selectedEpoch": 1
+        },
+        "scene": {
+          "policy": "rgb-spatial-change-v1",
+          "range": {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          "coverage": [
+            {
+              "requestedSourceUs": 0,
+              "actualSourceUs": 0,
+              "distanceUs": 0,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 200000,
+              "actualSourceUs": 0,
+              "distanceUs": 200000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 400000,
+              "actualSourceUs": 0,
+              "distanceUs": 400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 600000,
+              "actualSourceUs": 0,
+              "distanceUs": 600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 800000,
+              "actualSourceUs": 0,
+              "distanceUs": 800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1000000,
+              "actualSourceUs": 0,
+              "distanceUs": 1000000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1200000,
+              "actualSourceUs": 0,
+              "distanceUs": 1200000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1400000,
+              "actualSourceUs": 0,
+              "distanceUs": 1400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1600000,
+              "actualSourceUs": 0,
+              "distanceUs": 1600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1800000,
+              "actualSourceUs": 0,
+              "distanceUs": 1800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2000000,
+              "actualSourceUs": 0,
+              "distanceUs": 2000000,
+              "width": 64,
+              "height": 40
+            }
+          ],
+          "comparisons": [],
+          "boundaries": [],
+          "futureComparison": null,
+          "referenceSourceUs": 0
+        },
+        "stalePointerScene": null,
+        "stalePointerComparison": null
+      },
+      "sourceEvidence": {
+        "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+        "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+        "generation": "1558edfa-07ae-4060-a2c3-bb4888cd6053",
+        "integrity": {
+          "finished": true,
+          "incompleteTail": false,
+          "invalidAtSequence": null,
+          "lastSequence": 11,
+          "openPauseHostUs": null
+        }
+      }
+    },
+    "short": {
+      "actualSourceUs": 0,
+      "bytes": 173645,
+      "distanceUs": 2000000,
+      "file": "/private/tmp/scr-trail-public-xFEAR2/cache/derived/bcb82115-c563-4bf9-9c7a-65ff7d2fad34.cache",
+      "height": 800,
+      "mediaType": "image/png",
+      "overlay": {
+        "pointerSourceUs": 1975000,
+        "trailEndUs": 1975000,
+        "trailPoints": 20,
+        "trailStartUs": 1500000
+      },
+      "requestedSourceUs": 2000000,
+      "sourceHeight": 800,
+      "sourceWidth": 1280,
+      "width": 1280,
+      "cacheId": "bcb82115-c563-4bf9-9c7a-65ff7d2fad34",
+      "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+      "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 2000000,
+      "actualPlaybackUs": 0,
+      "kept": {
+        "startUs": 0,
+        "endUs": 18000000
+      },
+      "clean": false,
+      "annotation": {
+        "policy": "requested-time-trail-v1",
+        "trailUs": 500000,
+        "agedFromUs": 2000000,
+        "requestedSourceUs": 2000000,
+        "actualSourceUs": 0,
+        "evidenceRange": {
+          "startUs": 1500000,
+          "endUs": 2000000
+        },
+        "interval": {
+          "startUs": 1500000,
+          "endUs": 1975000
+        },
+        "cutoffs": [],
+        "pointerObservation": {
+          "sourceUs": 1975000,
+          "x": 970,
+          "y": 455,
+          "eligibility": "inside",
+          "geometryEpoch": 1,
+          "sequence": 74
+        },
+        "trailPoints": 20,
+        "trailRuns": 1,
+        "pointer": {
+          "atSourceUs": 1975000,
+          "x": 970,
+          "y": 455
+        },
+        "geometry": {
+          "requestedEpoch": 1,
+          "selectedEpoch": 1
+        },
+        "scene": {
+          "policy": "rgb-spatial-change-v1",
+          "range": {
+            "startUs": 1500000,
+            "endUs": 2000000
+          },
+          "coverage": [
+            {
+              "requestedSourceUs": 1400000,
+              "actualSourceUs": 0,
+              "distanceUs": 1400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1600000,
+              "actualSourceUs": 0,
+              "distanceUs": 1600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1800000,
+              "actualSourceUs": 0,
+              "distanceUs": 1800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2000000,
+              "actualSourceUs": 0,
+              "distanceUs": 2000000,
+              "width": 64,
+              "height": 40
+            }
+          ],
+          "comparisons": [],
+          "boundaries": [],
+          "futureComparison": null,
+          "referenceSourceUs": 0
+        },
+        "stalePointerScene": null,
+        "stalePointerComparison": null
+      },
+      "sourceEvidence": {
+        "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+        "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+        "generation": "1558edfa-07ae-4060-a2c3-bb4888cd6053",
+        "integrity": {
+          "finished": true,
+          "incompleteTail": false,
+          "invalidAtSequence": null,
+          "lastSequence": 11,
+          "openPauseHostUs": null
+        }
+      }
+    },
+    "pause-reset": {
+      "actualSourceUs": 0,
+      "bytes": 167190,
+      "distanceUs": 2600000,
+      "file": "/private/tmp/scr-trail-public-xFEAR2/cache/derived/e6370c09-e9a3-4935-9072-a3d5b81b4bc2.cache",
+      "height": 800,
+      "mediaType": "image/png",
+      "overlay": {
+        "pointerSourceUs": 2575000,
+        "trailEndUs": 2575000,
+        "trailPoints": 12,
+        "trailStartUs": 2300000
+      },
+      "requestedSourceUs": 2600000,
+      "sourceHeight": 800,
+      "sourceWidth": 1280,
+      "width": 1280,
+      "cacheId": "e6370c09-e9a3-4935-9072-a3d5b81b4bc2",
+      "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+      "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 2600000,
+      "actualPlaybackUs": 0,
+      "kept": {
+        "startUs": 0,
+        "endUs": 18000000
+      },
+      "clean": false,
+      "annotation": {
+        "policy": "requested-time-trail-v1",
+        "trailUs": 2000000,
+        "agedFromUs": 2600000,
+        "requestedSourceUs": 2600000,
+        "actualSourceUs": 0,
+        "evidenceRange": {
+          "startUs": 2250000,
+          "endUs": 2600000
+        },
+        "interval": {
+          "startUs": 2300000,
+          "endUs": 2575000
+        },
+        "cutoffs": [
+          {
+            "reason": "pause",
+            "atSourceUs": 2250000
+          }
+        ],
+        "pointerObservation": {
+          "sourceUs": 2575000,
+          "x": 582,
+          "y": 568,
+          "eligibility": "inside",
+          "geometryEpoch": 1,
+          "sequence": 86
+        },
+        "trailPoints": 12,
+        "trailRuns": 1,
+        "pointer": {
+          "atSourceUs": 2575000,
+          "x": 582,
+          "y": 568
+        },
+        "geometry": {
+          "requestedEpoch": 1,
+          "selectedEpoch": 1
+        },
+        "scene": {
+          "policy": "rgb-spatial-change-v1",
+          "range": {
+            "startUs": 600000,
+            "endUs": 2600000
+          },
+          "coverage": [
+            {
+              "requestedSourceUs": 400000,
+              "actualSourceUs": 0,
+              "distanceUs": 400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 600000,
+              "actualSourceUs": 0,
+              "distanceUs": 600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 800000,
+              "actualSourceUs": 0,
+              "distanceUs": 800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1000000,
+              "actualSourceUs": 0,
+              "distanceUs": 1000000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1200000,
+              "actualSourceUs": 0,
+              "distanceUs": 1200000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1400000,
+              "actualSourceUs": 0,
+              "distanceUs": 1400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1600000,
+              "actualSourceUs": 0,
+              "distanceUs": 1600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 1800000,
+              "actualSourceUs": 0,
+              "distanceUs": 1800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2000000,
+              "actualSourceUs": 0,
+              "distanceUs": 2000000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2200000,
+              "actualSourceUs": 0,
+              "distanceUs": 2200000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2400000,
+              "actualSourceUs": 0,
+              "distanceUs": 2400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2600000,
+              "actualSourceUs": 0,
+              "distanceUs": 2600000,
+              "width": 64,
+              "height": 40
+            }
+          ],
+          "comparisons": [],
+          "boundaries": [],
+          "futureComparison": null,
+          "referenceSourceUs": 0
+        },
+        "stalePointerScene": null,
+        "stalePointerComparison": null
+      },
+      "sourceEvidence": {
+        "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+        "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+        "generation": "1558edfa-07ae-4060-a2c3-bb4888cd6053",
+        "integrity": {
+          "finished": true,
+          "incompleteTail": false,
+          "invalidAtSequence": null,
+          "lastSequence": 11,
+          "openPauseHostUs": null
+        }
+      }
+    },
+    "future-matching": {
+      "actualSourceUs": 6000000,
+      "bytes": 172655,
+      "distanceUs": 2000000,
+      "file": "/private/tmp/scr-trail-public-xFEAR2/cache/derived/dcccaee3-b49b-4f98-a560-266dc51c4f88.cache",
+      "height": 800,
+      "mediaType": "image/png",
+      "overlay": {
+        "pointerSourceUs": 3975000,
+        "trailEndUs": 3975000,
+        "trailPoints": 32,
+        "trailStartUs": 2300000
+      },
+      "requestedSourceUs": 4000000,
+      "sourceHeight": 800,
+      "sourceWidth": 1280,
+      "width": 1280,
+      "cacheId": "dcccaee3-b49b-4f98-a560-266dc51c4f88",
+      "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+      "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 4000000,
+      "actualPlaybackUs": 6000000,
+      "kept": {
+        "startUs": 0,
+        "endUs": 18000000
+      },
+      "clean": false,
+      "annotation": {
+        "policy": "requested-time-trail-v1",
+        "trailUs": 2000000,
+        "agedFromUs": 4000000,
+        "requestedSourceUs": 4000000,
+        "actualSourceUs": 6000000,
+        "evidenceRange": {
+          "startUs": 2250000,
+          "endUs": 4000000
+        },
+        "interval": {
+          "startUs": 2300000,
+          "endUs": 3975000
+        },
+        "cutoffs": [
+          {
+            "reason": "pause",
+            "atSourceUs": 2250000
+          }
+        ],
+        "pointerObservation": {
+          "sourceUs": 3975000,
+          "x": 957,
+          "y": 474,
+          "eligibility": "inside",
+          "geometryEpoch": 1,
+          "sequence": 106
+        },
+        "trailPoints": 32,
+        "trailRuns": 1,
+        "pointer": {
+          "atSourceUs": 3975000,
+          "x": 957,
+          "y": 474
+        },
+        "geometry": {
+          "requestedEpoch": 1,
+          "selectedEpoch": 1
+        },
+        "scene": {
+          "policy": "rgb-spatial-change-v1",
+          "range": {
+            "startUs": 2000000,
+            "endUs": 4000000
+          },
+          "coverage": [
+            {
+              "requestedSourceUs": 1800000,
+              "actualSourceUs": 0,
+              "distanceUs": 1800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2000000,
+              "actualSourceUs": 0,
+              "distanceUs": 2000000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2200000,
+              "actualSourceUs": 0,
+              "distanceUs": 2200000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2400000,
+              "actualSourceUs": 0,
+              "distanceUs": 2400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2600000,
+              "actualSourceUs": 0,
+              "distanceUs": 2600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 2800000,
+              "actualSourceUs": 0,
+              "distanceUs": 2800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 3000000,
+              "actualSourceUs": 0,
+              "distanceUs": 3000000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 3200000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 3400000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 3600000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 3800000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2200000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 4000000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2000000,
+              "width": 64,
+              "height": 40
+            }
+          ],
+          "comparisons": [
+            {
+              "previousActualSourceUs": 0,
+              "actualSourceUs": 6000000,
+              "changedPixelFraction": 0,
+              "changedCellFraction": 0,
+              "meanAbsoluteChannelDifference": 0.00003319035947712418,
+              "boundary": false
+            }
+          ],
+          "boundaries": [],
+          "futureComparison": {
+            "previousActualSourceUs": 0,
+            "actualSourceUs": 6000000,
+            "changedPixelFraction": 0,
+            "changedCellFraction": 0,
+            "meanAbsoluteChannelDifference": 0.00003319035947712418,
+            "boundary": false
+          },
+          "referenceSourceUs": 0
+        },
+        "stalePointerScene": null,
+        "stalePointerComparison": null
+      },
+      "sourceEvidence": {
+        "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+        "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+        "generation": "1558edfa-07ae-4060-a2c3-bb4888cd6053",
+        "integrity": {
+          "finished": true,
+          "incompleteTail": false,
+          "invalidAtSequence": null,
+          "lastSequence": 11,
+          "openPauseHostUs": null
+        }
+      }
+    },
+    "future-changed": {
+      "actualSourceUs": 12000000,
+      "bytes": 132629,
+      "distanceUs": 2000000,
+      "file": "/private/tmp/scr-trail-public-xFEAR2/cache/derived/a14adec3-e2ab-42bf-8695-8c85420a3218.cache",
+      "height": 800,
+      "mediaType": "image/png",
+      "overlay": {
+        "trailPoints": 0
+      },
+      "requestedSourceUs": 10000000,
+      "sourceHeight": 800,
+      "sourceWidth": 1280,
+      "width": 1280,
+      "cacheId": "a14adec3-e2ab-42bf-8695-8c85420a3218",
+      "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+      "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 10000000,
+      "actualPlaybackUs": 12000000,
+      "kept": {
+        "startUs": 0,
+        "endUs": 18000000
+      },
+      "clean": false,
+      "annotation": {
+        "policy": "requested-time-trail-v1",
+        "trailUs": 2000000,
+        "agedFromUs": 10000000,
+        "requestedSourceUs": 10000000,
+        "actualSourceUs": 12000000,
+        "evidenceRange": {
+          "startUs": 8000000,
+          "endUs": 10000000
+        },
+        "interval": null,
+        "cutoffs": [
+          {
+            "reason": "future_scene",
+            "atSourceUs": 12000000
+          }
+        ],
+        "pointerObservation": {
+          "sourceUs": 9975000,
+          "x": 957,
+          "y": 474,
+          "eligibility": "inside",
+          "geometryEpoch": 1,
+          "sequence": 126
+        },
+        "trailPoints": 0,
+        "trailRuns": 0,
+        "pointer": null,
+        "geometry": {
+          "requestedEpoch": 1,
+          "selectedEpoch": 1
+        },
+        "scene": {
+          "policy": "rgb-spatial-change-v1",
+          "range": {
+            "startUs": 8000000,
+            "endUs": 10000000
+          },
+          "coverage": [
+            {
+              "requestedSourceUs": 7800000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 1800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 8000000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2000000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 8200000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2200000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 8400000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 8600000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 8800000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 2800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 9000000,
+              "actualSourceUs": 6000000,
+              "distanceUs": 3000000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 9200000,
+              "actualSourceUs": 12000000,
+              "distanceUs": 2800000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 9400000,
+              "actualSourceUs": 12000000,
+              "distanceUs": 2600000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 9600000,
+              "actualSourceUs": 12000000,
+              "distanceUs": 2400000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 9800000,
+              "actualSourceUs": 12000000,
+              "distanceUs": 2200000,
+              "width": 64,
+              "height": 40
+            },
+            {
+              "requestedSourceUs": 10000000,
+              "actualSourceUs": 12000000,
+              "distanceUs": 2000000,
+              "width": 64,
+              "height": 40
+            }
+          ],
+          "comparisons": [
+            {
+              "previousActualSourceUs": 6000000,
+              "actualSourceUs": 12000000,
+              "changedPixelFraction": 0.887890625,
+              "changedCellFraction": 1,
+              "meanAbsoluteChannelDifference": 0.5815885416666666,
+              "boundary": true
+            }
+          ],
+          "boundaries": [],
+          "futureComparison": {
+            "previousActualSourceUs": 6000000,
+            "actualSourceUs": 12000000,
+            "changedPixelFraction": 0.887890625,
+            "changedCellFraction": 1,
+            "meanAbsoluteChannelDifference": 0.5815885416666666,
+            "boundary": true
+          },
+          "referenceSourceUs": 6000000
+        },
+        "stalePointerScene": null,
+        "stalePointerComparison": null
+      },
+      "sourceEvidence": {
+        "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+        "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+        "generation": "1558edfa-07ae-4060-a2c3-bb4888cd6053",
+        "integrity": {
+          "finished": true,
+          "incompleteTail": false,
+          "invalidAtSequence": null,
+          "lastSequence": 11,
+          "openPauseHostUs": null
+        }
+      }
+    },
+    "future-clean": {
+      "actualSourceUs": 12000000,
+      "bytes": 132629,
+      "distanceUs": 2000000,
+      "file": "/private/tmp/scr-trail-public-xFEAR2/cache/derived/14c1099f-0a82-4776-98c8-79130c7dc868.cache",
+      "height": 800,
+      "mediaType": "image/png",
+      "requestedSourceUs": 10000000,
+      "sourceHeight": 800,
+      "sourceWidth": 1280,
+      "width": 1280,
+      "cacheId": "14c1099f-0a82-4776-98c8-79130c7dc868",
+      "recordingId": "b9178f0e-faa9-4cba-a18f-3473abebc05d",
+      "sourceId": "5a8304e6-732f-4bde-b11a-6166a9699023",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 10000000,
+      "actualPlaybackUs": 12000000,
+      "kept": {
+        "startUs": 0,
+        "endUs": 18000000
+      },
+      "clean": true,
+      "annotation": null,
+      "sourceEvidence": null
+    }
+  }
+}

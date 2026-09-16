@@ -1,8 +1,8 @@
 # Default trail frames through the public inspector
 
-Status: core annotation jobs and dependency handling verified. Public adapters,
-rendered evidence and visual acceptance remain in integration. Clean single
-frames and batches retain their existing behavior. This pass makes their normal mode satisfy the
+Status: core and public integration pass generated-media tests and independent
+static-image review. Real captured gesture/geometry and broader vertical cases
+remain open. Clean single frames and batches retain their existing behavior. This pass makes their normal mode satisfy the
 product's pointing contract; it does not add a separate inspection API.
 
 ## Ownership and dependency
@@ -78,3 +78,12 @@ coverage/metrics. Raw RGB observations and full rendering-point arrays stay out 
 public metadata. Source integrity is retained without copying its full receipt.
 Native receipt validation permits Swift's omitted nil timestamps but requires an
 overlay receipt even when there were no eligible points to draw.
+
+## Public integration checkpoint
+
+[Delivered evidence](../assets/public-trails/review.md) covers the real bundled
+service, native rendering, CLI files and MCP images. Default, clean, pointer-only
+and short trails use the same frame route; requested-time history survives a held
+image and a compatible future image, while pause and changed-scene resets remove
+ineligible history. The current generated public fixture does not yet cover every
+geometry/edit/failure case above; core coverage is not relabeled as public proof.

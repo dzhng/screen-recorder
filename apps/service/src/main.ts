@@ -3,6 +3,7 @@ import { CatalogError, RevisionStore } from "@screenrec/core/library";
 import { JobQueue } from "@screenrec/core/jobs";
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { DerivedCache } from "@screenrec/core/cache";
+import type { VisualObservations } from "@screenrec/core/scenes";
 import { AudioInspection, type NativeAudio } from "@screenrec/core/audio";
 import { FrameInspection, type NativeFrame } from "@screenrec/core/frames";
 import { DerivativeDelivery } from "./delivery.js";
@@ -62,6 +63,21 @@ async function main(): Promise<void> {
   const cleanupLifetime = new AbortController();
   let evidenceCleanup: Promise<void> = Promise.resolve();
   const worker = mediaWorker();
+  async function nativeData<T>(
+    operation: string,
+    params: Record<string, unknown>,
+    signal: AbortSignal,
+  ): Promise<T> {
+    const result = await worker(operation, params, { signal });
+    if (!result.ok)
+      throw new CatalogError(
+        result.error.code,
+        result.error.message,
+        result.error.details,
+        result.error.retryable,
+      );
+    return result.data as T;
+  }
   try {
     claim = await claimStartup(runtimeDirectory);
     store = new RevisionStore(join(home, "library.sqlite"), {
@@ -91,52 +107,24 @@ async function main(): Promise<void> {
       },
       onCapacity: () => resumeProcessing(),
     });
-    processing = new SourceProcessing(
-      store,
-      jobs,
-      evidence,
-      home,
-      async (directory, output, signal) => {
-        const result = await worker("media.sourceEvidence", { directory, output }, { signal });
-        if (!result.ok)
-          throw new CatalogError(
-            result.error.code,
-            result.error.message,
-            result.error.details,
-            result.error.retryable,
-          );
-        return result.data as SourceEvidenceReceipt;
-      },
+    processing = new SourceProcessing(store, jobs, evidence, home, (directory, output, signal) =>
+      nativeData<SourceEvidenceReceipt>("media.sourceEvidence", { directory, output }, signal),
     );
-    frames = new FrameInspection(store, jobs, cache, home, async (request, signal) => {
-      const result = await worker("media.frame", request, { signal });
-      if (!result.ok)
-        throw new CatalogError(
-          result.error.code,
-          result.error.message,
-          result.error.details,
-          result.error.retryable,
-        );
-      return result.data as NativeFrame;
-    });
-    audio = new AudioInspection(
+    frames = new FrameInspection(
       store,
       jobs,
       cache,
-      evidence,
-      processing,
       home,
-      async (request, signal) => {
-        const result = await worker("media.audio", request, { signal });
-        if (!result.ok)
-          throw new CatalogError(
-            result.error.code,
-            result.error.message,
-            result.error.details,
-            result.error.retryable,
-          );
-        return result.data as NativeAudio;
+      (request, signal) => nativeData<NativeFrame>("media.frame", request, signal),
+      {
+        processing,
+        evidence,
+        sample: (request, signal) =>
+          nativeData<VisualObservations>("media.visualSamples", request, signal),
       },
+    );
+    audio = new AudioInspection(store, jobs, cache, evidence, processing, home, (request, signal) =>
+      nativeData<NativeAudio>("media.audio", request, signal),
     );
     listener = await listenLocal({
       runtimeDirectory,

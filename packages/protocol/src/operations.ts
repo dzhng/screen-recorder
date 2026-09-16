@@ -22,7 +22,8 @@ const frameParams = recording
   .extend({
     revisionId: id.optional(),
     atUs: time,
-    clean: z.literal(true),
+    clean: z.boolean().optional(),
+    trailUs: time.max(10_000_000).optional(),
     maxLongEdge: z.int().min(1).max(8192).optional(),
     crop: z
       .object({
@@ -56,7 +57,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request one to eight ordered clean frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry.",
+      "Request one to eight ordered frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry.",
     ),
   z
     .object({ operation: z.literal("audio.get"), params: audioParams })
@@ -75,12 +76,14 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a clean frame at edited playback time; pin the returned revision when polling pending work. The returned image has no pointer or trail overlay.",
+      "Request a frame at edited playback time with an observed pointer and two-second trail by default. Use clean:true for no overlay or trailUs:0 for pointer only. Pin the returned revision when polling.",
     ),
   z
     .object({ operation: z.literal("frame.retry"), params: frameParams })
     .strict()
-    .describe("Explicitly retry failed clean frame processing using the same pinned request."),
+    .describe(
+      "Explicitly retry failed frame processing using the same pinned request; source dependencies require their own processing retry.",
+    ),
   z
     .object({
       operation: z.literal("artifact.read"),

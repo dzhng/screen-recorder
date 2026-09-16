@@ -496,11 +496,12 @@ it("batch adapters retain partial failures, drain every lease and never overwrit
   expect(closed.slice(-3)).toEqual(["first", "second", "third"]);
 });
 
-it("batch cardinality and explicit clean mode are rejected before service discovery", () => {
+it("invalid batch cardinality and trail options are rejected before service discovery", () => {
   for (const params of [
     { recordingId: "take", clean: true, atUs: [] },
     { recordingId: "take", clean: true, atUs: Array(9).fill(0) },
-    { recordingId: "take", atUs: [0] },
+    { recordingId: "take", clean: "yes", atUs: [0] },
+    { recordingId: "take", trailUs: 10_000_001, atUs: [0] },
   ])
     expect(cli("/tmp/nonexistent-screenrec-batch.sock", "frame.batch", params)).toMatchObject({
       exitCode: 1,

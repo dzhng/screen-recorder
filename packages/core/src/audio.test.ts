@@ -238,14 +238,13 @@ test("requested but never acquired roles are absent from mixes, while explicit s
 
 test("pending and failed source evidence remain explicit dependencies without implicit retry or audio work", async () => {
   const f = await fixture({ prepare: false, sourceFailure: true });
-  expect(f.audio.request(f.input)).toMatchObject({
-    state: "not_requested",
+  const pending = f.audio.request(f.input);
+  expect(pending).toMatchObject({
     jobId: null,
     published: null,
-    dependency: { artifact: "source" },
+    dependency: { artifact: "source", jobId: expect.any(String) },
   });
-  expect(f.sourceCalls()).toBe(0);
-  f.processing.prepare(f.take.recordingId);
+  expect(["queued", "processing"]).toContain(pending.state);
   await f.jobs.idle();
   expect(f.audio.retry(f.input)).toMatchObject({
     state: "failed",
@@ -384,4 +383,18 @@ test("audio publication rejects a native byte report that differs from the actua
   await f.jobs.idle();
   expect(f.audio.request(f.input)).toMatchObject({ state: "failed", published: null });
   expect(f.cache.bytes).toBe(0);
+});
+
+test("audio demand admits its unprepared source instead of waiting for automatic backfill", async () => {
+  const f = await fixture({ prepare: false });
+  const pending = f.audio.request(f.input);
+  expect(pending.dependency?.jobId).toEqual(expect.any(String));
+  expect(["queued", "processing"]).toContain(pending.state);
+  await f.jobs.idle();
+  expect(f.processing.status(f.take.recordingId).state).toBe("ready");
+  f.audio.request(f.input);
+  await f.jobs.idle();
+  expect(f.audio.request(f.input).state).toBe("ready");
+  expect(f.sourceCalls()).toBe(1);
+  expect(f.requests).toHaveLength(1);
 });

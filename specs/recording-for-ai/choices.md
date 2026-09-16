@@ -754,3 +754,74 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   pauses remain raw controls rather than invented media intervals.
 - **Verdict:** Sound: preserves valid video and truthful timeline placeholders.
   **Confidence:** High.
+
+## Requested-time trail planning and delivery
+
+### Sound — medium confidence
+
+- **When:** Core trail planner and public frame integration.
+- **Choice:** A stationary pointer does not expire merely because its last sample
+  is old. If the pointer was last observed before the requested trail window, compare
+  the old and current screen endpoints and check intervening known pauses and
+  geometry changes. Matching endpoints permit the old position with its original
+  observation time; they do not claim every intermediate screen was identical.
+- **Gap:** The plan specified honest cursor history without an age cutoff or a
+  method for checking distant pointer evidence.
+- **Reach:** Work stays bounded over long quiet periods. A transient change and
+  return can escape sampled endpoint comparison; metadata preserves that limitation.
+- **Verdict:** Sound provisional evidence policy, with explicit sampled coverage.
+  **Confidence:** Medium.
+
+### Sound — medium confidence
+
+- **When:** Core trail planner and public frame integration.
+- **Choice:** A window move resets its old path but may retain new pointing over
+  a held image when the output pixels have unchanged dimensions and placement.
+  A resize or changed scaling cannot reuse mismatched coordinates. A point exactly
+  at a pause boundary is omitted because buffered journal delivery cannot prove
+  whether it happened before or after the pause.
+- **Gap:** Raw placement changes and equal-time controls did not fully define
+  eligibility over sparse images.
+- **Reach:** Native coordinates remain authoritative. No guessed clock conversion
+  or coordinate remapping hides uncertain acquisition evidence.
+- **Verdict:** Sound: preserves supported pointing while rejecting ambiguous resets.
+  **Confidence:** Medium.
+
+### Sound — medium confidence
+
+- **When:** Core trail planner.
+- **Choice:** A frame request fails explicitly when its bounded evidence exceeds
+  5,000 raw observations or 1,200 retained rendering points. It never silently
+  drops the middle of a gesture to fit a budget.
+- **Gap:** The ten-second request limit did not bound unusually dense journals.
+- **Reach:** Memory and native payload work stay bounded; callers can shorten the
+  requested trail after a limit error. These limits can be tuned without changing
+  the no-silent-truncation rule.
+- **Verdict:** Sound and reversible operational bounds. **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **When:** Public frame/audio integration.
+- **Choice:** Inspecting a newly recorded take admits that take's first source
+  preparation before older history that has not entered the queue. It waits behind
+  work already running or admitted; failed preparation still requires explicit retry.
+- **Gap:** One-at-a-time historical backfill left a current inspection waiting
+  behind every older recording unless demand named its source explicitly.
+- **Reach:** Frames and audio share existing idempotent preparation and queue
+  fairness, without another queue or automatic failure loop.
+- **Verdict:** Sound: useful demand makes progress without changing retry promises.
+  **Confidence:** High.
+
+### Sound — high confidence
+
+- **When:** Default frame integration.
+- **Choice:** Public image metadata carries evidence identity, measured coverage,
+  cutoff reasons and pointer timing, while raw RGB samples and complete rendering
+  point lists stay internal. A native receipt must confirm the planned selected
+  frame and overlay, even when no eligible point remains.
+- **Gap:** The plan required inspectable provenance without choosing its response
+  size or how to detect disagreement between planning and native rendering.
+- **Reach:** CLI/MCP share one compact projection. A mismatch fails rather than
+  publishing misleading pixels; raw cursor history stays available separately.
+- **Verdict:** Sound: bounded responses with explicit evidence and honest failure.
+  **Confidence:** High.
