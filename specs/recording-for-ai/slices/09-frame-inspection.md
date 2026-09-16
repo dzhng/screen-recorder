@@ -2,7 +2,9 @@
 
 Status: [native frame decoding](09a-native-frame-decode.md) is integrated; native
 audio execution passes [generated-media checks](../assets/audio/review.md). Core inspection,
-cache and full audio/edited-frame gates remain. Dependencies: 03, 05, 06.
+cache integration and full audio/edited-frame gates remain. The
+[derived-cache owner](09c-derived-cache.md) is independently verified.
+Dependencies: 03, 05, 06.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
