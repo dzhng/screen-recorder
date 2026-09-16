@@ -22,3 +22,14 @@ fixture and driver are the retained reproduction mechanism; the pixel-analysis
 script remains scratch. Production timing/color/movie regressions were not
 repeated for a production diff of zero. Earlier evidence remains authoritative
 for those distinct gates.
+
+## Merged review checkpoint
+
+The integrating agent inspected the light and dark automatic outputs and enlarged
+code comparison. Their source-relative readability supports the same bounded call:
+keep automatic bitrate. The four-image Preview set (automatic light, source light,
+code crops, automatic dark) was visibly open in one window from 21:54:52 UTC for
+more than five minutes without user correction. The owned window was closed and
+Preview's exit was verified through the app inventory. This is acceptance of the
+controlled text comparison only; it does not close the source-end mismatch or
+motion/pointer/audio gates. Merged fixture scripts pass syntax and lint checks.
