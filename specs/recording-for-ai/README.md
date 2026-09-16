@@ -140,6 +140,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)
 - [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
   - [ ] [13a — Native render timing feasibility](slices/13a-native-render-timing.md) (independent of speech)
+  - [ ] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md) (independent of speech and video job integration)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [ ] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
   - [ ] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)
@@ -229,6 +230,7 @@ pause/cut events, limits, request replay, audio mix and export semantics.
 | [11 Useful bounded screenshot index](slices/11-screenshot-selection.md) | 10 | Contact sheet with selection reasons |
 | [12 Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md) | 00b, 07, 08, 11 | CLI/MCP parity and actual agent edit calls |
 | [13a Native render timing](slices/13a-native-render-timing.md) | 05 and native media worker | Exact cut timing and independently decoded output |
+| [13b Bounded retained audio](slices/13b-streaming-audio.md) | Existing audio excerpt owner | Same sample policy with bounded streaming memory |
 | [13 Playable edited media and audio joins](slices/13-edited-media.md) | 09, 12 | Audition/inspect actual edited media |
 | [14a Package manifest and readiness](slices/14a-package-manifest.md) | Existing revision/evidence owners | Pinned history and prerequisite truth table |
 | [14b Portable read-only inspection](slices/14b-portable-inspection.md) | 14a and shared inspection | Relocated directory, new frame/trail/audio requests |

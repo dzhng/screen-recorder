@@ -25,3 +25,9 @@ are not dismissed as pixel equality.
 The final optional-command reproduction adds the complete three-shot
 `window-reproduction/` set. It repeats the same source fixture and capture code,
 with player-time brackets retained; it is not a new rendering variant.
+
+The integration checkpoint opened source-before, rendered-before and rendered-gap
+images together in Preview for a non-blocking review. No response arrived during
+the review window; the images were closed. The integrating agent accepts the
+measured timing/orientation and explicit black-gap mapping, while retaining the
+visible color differences above as unresolved fidelity rather than pixel equality.
