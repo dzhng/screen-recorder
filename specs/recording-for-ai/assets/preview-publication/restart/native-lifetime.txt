@@ -1,0 +1,12 @@
+(node:23561) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"nativeFinalization":{"canceledWhileFinishing":true,"siblingFailure":"injected compressed-video read failure","failedWithinSeconds":3},"restart":[{"preparation":false,"parentKilled":true,"liveWorkerBlockedReuse":true,"startupBarrierBlocked":true,"busyMs":0,"reusedAfterWorkerExit":true},{"preparation":true,"parentKilled":true,"liveWorkerBlockedReuse":true,"startupBarrierBlocked":true,"busyMs":0,"reusedAfterWorkerExit":true}],"descriptorCleanupSurvivedReplacement":true,"externalSentinelUnchanged":true,"abortAfterAssemblyStarted":true,"closedBeforeReclaim":true,"deadlineReclaimed":true,"successfulAudioFrames":48000}
+✔ real movie worker owns publication, abort/deadline cleanup and native finalization (5255.336208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5307.617916

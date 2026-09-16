@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "base": "a9fc2b2",
+    "managedWorkspace": "4c98946",
+    "pointerComposition": "61771fa"
+  },
+  "nativeSHA256": "7a288dc83d61ca2befa891ce9cbeb6c2c0434e11ae098a7383a88eb854379fcb",
+  "renderAdapterSHA256": "d62ac8c222641543c01d32fcce7045716725ca40a8ce2d2b733f6ba1a97be9f7",
+  "serviceTests": 19,
+  "managedFileTests": 8,
+  "orphanRenderAndPreparation": true,
+  "startupBarrierBusy": true,
+  "missingWorkspaceNoNative": true,
+  "preservedExternalSentinel": true,
+  "pinnedPointerReceiptChecked": true,
+  "descriptorMutationFailedAsExpected": true,
+  "independentReview": "No actionable defects; prior missing native pointer consumer resolved by integration",
+  "limitations": [
+    "Stable exclusively owned ancestry during path-based AVFoundation writes",
+    "Real Node render-owner death; public service route wiring remains integrating owner",
+    "No physical capture or audio audition"
+  ]
+}

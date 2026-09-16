@@ -1,13 +1,22 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { mkdtemp, mkdir, readdir, readFile, rm } from "node:fs/promises";
+import { execFile, spawn } from "node:child_process";
+import {
+  mkdtemp,
+  mkdir,
+  readdir,
+  readFile,
+  rm,
+  rename,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
 import { mediaWorker } from "../../apps/service/dist/worker.js";
-import { withRenderedMedia } from "../../apps/service/dist/render.js";
+import { clearRenderWorkspace, withRenderedMedia } from "../../apps/service/dist/render.js";
 const execute = promisify(execFile);
 const native =
   process.env.SCREENREC_NATIVE ??
@@ -38,13 +47,114 @@ async function assemblyFile(parent) {
       }
     }
 }
-async function nativePid() {
+async function nativePid(parent = process.pid) {
   const rows = (await command("ps", ["-axo", "pid=,ppid=,comm="])).split("\n");
   for (const row of rows) {
     const match = row.trim().match(/^(\d+)\s+(\d+)\s+(.+)$/);
-    if (match && Number(match[2]) === process.pid && match[3] === native) return Number(match[1]);
+    if (match && Number(match[2]) === parent && match[3] === native) return Number(match[1]);
   }
 }
+async function orphanedWorker(request, preparation, nativeWorker) {
+  const renderURL = new URL("../../apps/service/dist/render.js", import.meta.url).href;
+  const workerURL = new URL("../../apps/service/dist/worker.js", import.meta.url).href;
+  const code = `
+    import {withRenderedMedia} from ${JSON.stringify(renderURL)};
+    import {mediaWorker} from ${JSON.stringify(workerURL)};
+    import {join} from 'node:path';
+    const request=${JSON.stringify(request)};
+    if(${preparation}) request.preparePointer=async(directory, worker, signal)=>{
+      await worker('media.presentationEvidence',{source:request.source,plan:request.plan,
+        output:join(directory,'presentation.jsonl'),maxBytes:64000000},{signal});
+      throw new Error('Preparation completed before orphan proof');
+    };
+    await withRenderedMedia(mediaWorker({SCREENREC_NATIVE:${JSON.stringify(native)}}),
+      request,new AbortController().signal,async()=>{throw new Error('Render completed before orphan proof')});
+  `;
+  const owner = spawn(process.execPath, ["--input-type=module", "-e", code], {
+    stdio: ["ignore", "ignore", "pipe"],
+  });
+  let errors = "";
+  owner.stderr.on("data", (x) => (errors += x));
+  const closed = new Promise((resolve) => owner.once("close", resolve));
+  let pid;
+  try {
+    await until(async () => {
+      assert.equal(owner.exitCode, null, errors);
+      for (const entry of await readdir(request.attemptParent)) {
+        const names = await readdir(join(request.attemptParent, entry)).catch(() => []);
+        if (
+          names.some((x) =>
+            x.startsWith(preparation ? ".presentation-evidence-" : ".movie-render-"),
+          )
+        ) {
+          pid = await nativePid(owner.pid);
+          if (pid) {
+            process.kill(pid, "SIGSTOP");
+            return true;
+          }
+        }
+      }
+    });
+    owner.kill("SIGKILL");
+    await closed;
+    const abandoned = await readdir(request.attemptParent);
+    assert.ok(abandoned.length > 0);
+    const began = Date.now();
+    await assert.rejects(
+      withRenderedMedia(nativeWorker, request, new AbortController().signal, async () =>
+        assert.fail("Busy workspace consumed"),
+      ),
+      { code: "RENDER_WORKSPACE_BUSY", retryable: true },
+    );
+    assert.deepEqual(await readdir(request.attemptParent), abandoned);
+    await assert.rejects(
+      clearRenderWorkspace(nativeWorker, request.attemptParent, new AbortController().signal),
+      { code: "RENDER_WORKSPACE_BUSY", retryable: true },
+    );
+    const busyMs = Date.now() - began;
+    process.kill(pid, "SIGKILL");
+    await until(() => {
+      try {
+        process.kill(pid, 0);
+        return false;
+      } catch (e) {
+        if (e.code === "ESRCH") return true;
+        throw e;
+      }
+    });
+    pid = undefined;
+    await clearRenderWorkspace(nativeWorker, request.attemptParent, new AbortController().signal);
+    assert.deepEqual(await readdir(request.attemptParent), []);
+    const short = {
+      ...request,
+      plan: [{ source: { startUs: 0, endUs: 1000000 }, playback: { startUs: 0, endUs: 1000000 } }],
+    };
+    const bytes = await withRenderedMedia(
+      nativeWorker,
+      short,
+      new AbortController().signal,
+      async (media) => (await readFile(media.file)).length,
+    );
+    assert.ok(bytes > 0);
+    assert.deepEqual(await readdir(request.attemptParent), []);
+    return {
+      preparation,
+      parentKilled: true,
+      liveWorkerBlockedReuse: true,
+      startupBarrierBlocked: true,
+      busyMs,
+      reusedAfterWorkerExit: true,
+    };
+  } finally {
+    owner.kill("SIGKILL");
+    if (pid)
+      try {
+        process.kill(pid, "SIGKILL");
+      } catch {}
+    await closed;
+  }
+}
+
 test(
   "real movie worker owns publication, abort/deadline cleanup and native finalization",
   { timeout: 90000 },
@@ -52,7 +162,7 @@ test(
     const home = await mkdtemp(join(tmpdir(), "screenrec-movie-lifetime-"));
     try {
       const attempts = join(home, "attempts");
-      await mkdir(attempts);
+      await mkdir(attempts, { mode: 0o700 });
       const source = join(home, "video.mp4"),
         audio = join(home, "audio.mov");
       await command("ffmpeg", [
@@ -97,6 +207,7 @@ test(
       let observedPid, partial;
       const checked = async (...args) => {
         const result = await run(...args);
+        if (args[0] === "storage.clearRenderWorkspace") return result;
         assert.ok(observedPid);
         assert.throws(() => process.kill(observedPid, 0), { code: "ESRCH" });
         await readFile(partial);
@@ -113,7 +224,12 @@ test(
       assert.deepEqual(await readdir(attempts), []);
       await assert.rejects(
         withRenderedMedia(
-          (op, params, options) => run(op, params, { ...options, timeoutMs: 150 }),
+          (op, params, options) =>
+            run(
+              op,
+              params,
+              op === "storage.clearRenderWorkspace" ? options : { ...options, timeoutMs: 150 },
+            ),
           request,
           new AbortController().signal,
           async () => assert.fail("Timed out movie consumed"),
@@ -148,6 +264,32 @@ test(
         { code: "NATIVE_DECODE_FAILED" },
       );
       assert.deepEqual(await readdir(attempts), []);
+      const restart = [];
+      for (const preparation of [false, true])
+        restart.push(await orphanedWorker(request, preparation, run));
+      const external = join(home, "external"),
+        moved = join(home, "moved-attempts");
+      await mkdir(external);
+      await writeFile(join(external, "sentinel"), "outside");
+      await symlink(external, join(attempts, "abandoned-link"));
+      await withRenderedMedia(
+        run,
+        {
+          ...request,
+          plan: [
+            { source: { startUs: 0, endUs: 1000000 }, playback: { startUs: 0, endUs: 1000000 } },
+          ],
+        },
+        new AbortController().signal,
+        async (media) => {
+          assert.ok((await readFile(media.file)).length > 0);
+          await rename(attempts, moved);
+          await symlink(external, attempts);
+        },
+      );
+      assert.equal(await readFile(join(external, "sentinel"), "utf8"), "outside");
+      assert.deepEqual(await readdir(moved), []);
+      assert.deepEqual(await readdir(external), ["sentinel"]);
       const terminal = JSON.parse(await command(lifetime, [home]));
       assert.equal(terminal.canceledWhileFinishing, true);
       assert.equal(terminal.failedWithinSeconds, 3);
@@ -156,6 +298,9 @@ test(
       console.log(
         JSON.stringify({
           nativeFinalization: terminal,
+          restart,
+          descriptorCleanupSurvivedReplacement: true,
+          externalSentinelUnchanged: true,
           abortAfterAssemblyStarted: true,
           closedBeforeReclaim: true,
           deadlineReclaimed: true,

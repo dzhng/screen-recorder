@@ -1507,3 +1507,21 @@ records them. These choices add no public export choice or transcript readiness.
 - **Verdict:** Sound; the existing mono-audio regression demonstrated why unused
   container ticks cannot define the required clock.
 - **Confidence:** High.
+
+## Render workspace restart ownership
+
+- **Lock the dedicated workspace, not per-attempt PID records.** One heavy render
+  lane already owns admission, so a nonblocking exclusive directory lock gives
+  one stable lifetime shared with every native child. A dead parent is not proof
+  of child termination; inherited directory ownership is. Busy admission fails
+  retryably without polling. Startup/deletion admission uses the same locked helper,
+  skipping absent workspaces without spawning native work; no scanner or scheduler.
+- **Keep cleanup descriptor-relative and writes under an explicit ownership rule.**
+  The service keeps its private workspace ancestry stable during path-based
+  AVFoundation writes. Cleanup verifies the inherited directory identity and uses
+  shared ManagedFiles traversal, preserving replacements and external link targets.
+  The lock does not pretend to prevent arbitrary same-user filesystem mutations.
+- **Prepare pointer evidence within the existing attempt.** The optional callback
+  receives a worker bound to the same lock and signal, finishes all its subprocess
+  work, and returns the core schedule receipt. Native pointer consumption is
+  integrated from 13d4; no second outer temporary directory or process owner is added.

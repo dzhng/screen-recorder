@@ -1,0 +1,45 @@
+(node:14601) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ real movie worker owns publication, abort/deadline cleanup and native finalization (5154.10775ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5206.067792
+
+✖ failing tests:
+
+test at packages/test-harness/movie-lifetime.mjs:151:1
+✖ real movie worker owns publication, abort/deadline cleanup and native finalization (5154.10775ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    Comparison {
+  +   code: 'ERR_ASSERTION'
+  -   code: 'RENDER_WORKSPACE_BUSY',
+  -   retryable: true
+    }
+
+      at async orphanedWorker (file:///private/tmp/screenrec-render-restart/packages/test-harness/movie-lifetime.mjs:103:5)
+      at async TestContext.<anonymous> (file:///private/tmp/screenrec-render-restart/packages/test-harness/movie-lifetime.mjs:262:22)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: AssertionError [ERR_ASSERTION]: Busy workspace consumed
+        at file:///private/tmp/screenrec-render-restart/packages/test-harness/movie-lifetime.mjs:105:16
+        at withRenderedMedia (file:///private/tmp/screenrec-render-restart/apps/service/dist/render.js:91:34)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async orphanedWorker (file:///private/tmp/screenrec-render-restart/packages/test-harness/movie-lifetime.mjs:103:5)
+        at async TestContext.<anonymous> (file:///private/tmp/screenrec-render-restart/packages/test-harness/movie-lifetime.mjs:262:22)
+        at async Test.run (node:internal/test_runner/test:1125:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3),
+    expected: { code: 'RENDER_WORKSPACE_BUSY', retryable: true },
+    operator: 'rejects',
+    diff: 'simple'
+  }

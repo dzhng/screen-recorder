@@ -42,10 +42,14 @@ public enum NativeWire {
                         id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription)
                 }
             } else if operation == "storage.removeRecordingDirectory"
-                || operation == "storage.removeCacheFiles"
+                || operation == "storage.removeCacheFiles" || operation == "storage.clearRenderWorkspace"
             {
                 do {
-                    try ManagedFiles.execute(operation, params)
+                    if operation == "storage.clearRenderWorkspace" {
+                        try RenderWorkspace.clear(params)
+                    } else {
+                        try ManagedFiles.execute(operation, params)
+                    }
                     response = ["id": id, "ok": true, "data": ["removed": true]]
                 } catch let error as StorageFailure {
                     response = [

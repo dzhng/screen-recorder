@@ -8,6 +8,8 @@ import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
 import { RevisionStore } from "@screenrec/core/library";
+import { PresentationEvidence } from "@screenrec/core/presentation-evidence";
+import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
 import { PreviewInspection } from "@screenrec/core/preview";
 import { DerivedCache } from "@screenrec/core/cache";
 import { SourceProcessing } from "@screenrec/core/processing";
@@ -22,7 +24,7 @@ import {
   renderPlan,
 } from "@screenrec/core/timeline";
 import { mediaWorker } from "../../apps/service/dist/worker.js";
-import { withRenderedMedia } from "../../apps/service/dist/render.js";
+import { renderDeadlineMs, withRenderedMedia } from "../../apps/service/dist/render.js";
 import { renderFrames } from "../../helpers/mac/Tests/fixtures/render-frames.mjs";
 const execute = promisify(execFile);
 const native =
@@ -146,7 +148,7 @@ test(
     await mkdir(home, { recursive: true });
     assert.deepEqual(await readdir(home), []);
     const attempts = join(home, "attempts");
-    await mkdir(attempts);
+    await mkdir(attempts, { mode: 0o700 });
     const source = join(home, "source.mov"),
       frames = renderFrames();
     await writeFile(join(home, "source.rgb"), Buffer.concat(frames));
@@ -303,9 +305,69 @@ test(
           started.resolve();
           await gate.promise;
           const { revision, plan, tracks } = request;
+          const preparePointer = async (directory, boundWorker, preparationSignal) => {
+            const response = await boundWorker(
+              "media.presentationEvidence",
+              {
+                source: request.source,
+                plan,
+                output: join(directory, "presentation.jsonl"),
+                maxBytes: 10_000_000,
+              },
+              { timeoutMs: renderDeadlineMs(plan) },
+            );
+            assert.equal(response.ok, true, JSON.stringify(response));
+            const presentation = await PresentationEvidence.open(
+              response.data,
+              revision,
+              preparationSignal,
+            );
+            try {
+              return await writePointerSchedule(
+                {
+                  presentation,
+                  evidence: sourceEvidence,
+                  identity: request.sourceEvidence,
+                  output: join(directory, "pointer.jsonl"),
+                  maxBytes: 1_000_000,
+                  maxEvents: 100_000,
+                },
+                preparationSignal,
+              );
+            } finally {
+              await presentation.close();
+            }
+          };
+          if (!report.pointerReceiptChecked) {
+            await assert.rejects(
+              withRenderedMedia(
+                run,
+                {
+                  source: request.source,
+                  plan,
+                  tracks,
+                  attemptParent: attempts,
+                  preparePointer: async (...args) => ({
+                    ...(await preparePointer(...args)),
+                    sha256: "0".repeat(64),
+                  }),
+                },
+                signal,
+                async () => assert.fail("Corrupt schedule receipt was consumed"),
+              ),
+              { code: "INVALID_REQUEST" },
+            );
+            report.pointerReceiptChecked = true;
+          }
           return withRenderedMedia(
             run,
-            { source: request.source, plan, tracks, attemptParent: attempts },
+            {
+              source: request.source,
+              plan,
+              tracks,
+              attemptParent: attempts,
+              preparePointer,
+            },
             signal,
             async (video) => {
               await copyFile(video.file, request.output, constants.COPYFILE_EXCL);
@@ -387,7 +449,8 @@ test(
       const canceled = preview.request({ recordingId });
       await until(() => staged(attempts));
       jobs.cancel(canceled.jobId);
-      await until(async () => (await readdir(attempts)).length === 0);
+      await jobs.idle();
+      assert.deepEqual(await readdir(attempts), []);
       assert.equal(jobs.job(canceled.jobId).state, "canceled");
       assert.equal(
         preview.request({ recordingId, revisionId: canceled.revisionId }).published,
@@ -419,9 +482,11 @@ test(
           const response = await run(
             operation,
             params,
-            kind === "deadline" ? { ...options, timeoutMs: 750 } : options,
+            kind === "deadline" && operation !== "storage.clearRenderWorkspace"
+              ? { ...options, timeoutMs: 750 }
+              : options,
           );
-          if (kind === "late-abort") {
+          if (kind === "late-abort" && operation !== "storage.clearRenderWorkspace") {
             assert.equal(response.ok, true);
             controller.abort();
           }

@@ -2,8 +2,9 @@
 
 Status: internal core job/cache consumer verified with real native movies;
 [publication evidence](../assets/preview-publication/README.md) records its scope.
-Abrupt-service-death staging ownership, pointer composition and public playback
-remain open.
+The [render ownership proof](../assets/preview-publication/restart/README.md)
+covers abandoned staging and pointer preparation inside the existing attempt.
+Public service admission/playback wiring remains open.
 
 ## One owner and one verdict
 
@@ -25,15 +26,17 @@ reservation is removed by existing startup reconciliation; a published but unref
 cache file is disposable under normal LRU. A ready job whose cache file is gone
 regenerates from the same pinned inputs. No second durable publication table.
 
-Native staging has a different lifetime from published cache content. Before wiring
-service startup, prove that abandoned render work has ended before cleaning its
-attempt directory. Existing parent-exit monitoring is a termination request, not
-proof that every descendant has already exited. An isolated Darwin probe confirms an exclusive directory lock inherited by a
-worker remains held after its owner is killed, and can be acquired after the
-worker exits. Use that OS lifetime to distinguish live work from reclaimable
-staging; reuse the native descriptor-relative workspace cleanup being introduced
-by14c1. Prove the actual media-worker and killed-service route before accepting
-recovery. Do not delete solely by filename prefix or infer child exit from parent exit.
+Native staging has a different lifetime from published cache content. The existing
+attempt owner exclusively locks its dedicated private workspace and passes the
+same descriptor to native work, including pointer preparation. A replacement
+admission fails busy while any orphaned worker retains it; the next successful
+admission clears abandoned staging through the shared descriptor-relative cleanup.
+No parent-death notification, PID file or filename prefix substitutes for terminal
+ownership. The [restart proof](../assets/preview-publication/restart/README.md)
+defines the stable-ancestry write precondition, failed-cleanup behavior and actual
+killed-owner/native-worker regression. There is no separate startup scanner. The same owner serves render admission and
+`clearRenderWorkspace` before startup/deletion admits work; an absent workspace
+needs no native process.
 
 ## Verification and scope
 
