@@ -1,10 +1,10 @@
 # Shared clean visual observations
 
-Status: native implementation delegated to a non-Claude agent; core analysis not
-started. This is a prerequisite for local trail resets and global screenshot
+Status: native observations and bounded core comparison are integrated. Real UI
+policy acceptance and public integration remain open. This is a prerequisite for local trail resets and global screenshot
 selection, not a second scene detector.
 
-The native FrameSource/FrameImage owners will return bounded low-resolution clean
+The native FrameSource/FrameImage owners return bounded low-resolution clean
 RGB observations using their existing retained-span selection, orientation and
 nearest-tie rules. Internal media.visualSamples accepts one source/kept interval
 and at most 52 ordered timestamps spanning at most 10.2 seconds. It returns
@@ -30,3 +30,9 @@ independent reset evidence.
 Local requests need a predecessor observation for their first comparison, clipped
 at the kept span, without extending the rendered trail. Global chunks retain that
 predecessor across chunk edges. Decode/coverage failures remain explicit.
+
+
+[Native evidence](../assets/visual-observations/native-review.md) covers the encoded
+orientation oracle and bounded observation execution. [Core evidence](../assets/scene-analysis/core-review.md)
+covers synthetic policy metrics and held-frame handling. Neither closes the
+requested-versus-actual overlay anchor decision or default trail acceptance.

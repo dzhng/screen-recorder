@@ -22,7 +22,7 @@
 One decoder, sample selector and oriented-image owner serve both rendered images
 and clean observations. Production additions introduce no scene detector, native
 cadence, timestamp conversion, edited-time mapping or cache beside those owners.
-Core still must implement scene analysis and decide overlay timing for held frames;
+Bounded core scene analysis is integrated; public consumers must still decide overlay timing for held frames;
 this seam does not settle that question.
 
 The generated orientation test caught an initial extra vertical flip: Core Image's

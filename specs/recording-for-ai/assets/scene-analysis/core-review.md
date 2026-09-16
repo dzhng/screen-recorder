@@ -62,3 +62,8 @@ that predecessor yields the same pair metrics as one uninterrupted batch.
 reordered, changed-held-frame or out-of-kept-span observations fail. Native errors
 and cancellation propagate. Raster dimensions must match within a pair; geometry
 changes need their separate producer and are not silently labeled scene changes.
+
+Integrated verification: all ten scene tests pass alongside the 101-test core
+suite. Native visual observation wire tests pass on the shared tree: a 52-sample
+batch returned 484,915 bytes in 983.6 ms with 29,507,584 bytes peak RSS. Existing
+frame wire tests pass. These measurements still use generated media.

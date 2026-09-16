@@ -29,10 +29,13 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: [audio excerpt inspection](slices/09e-public-audio.md) over the
-published source timing evidence. A non-Claude agent is independently implementing
-the [native visual-observation seam](slices/10b-visual-observations.md); integrate its
-reviewed commit before core scene analysis.
+Current pickup: finish the public missing-role and explicit retry checks for
+[audio excerpt inspection](slices/09e-public-audio.md), then frame batches.
+Generated two-track cuts/gaps, CLI/MCP byte parity and eviction/restart pass through
+the real bundled service and native worker; [audio evidence](assets/audio-inspection/review.md)
+keeps audition separate. The [visual-observation seam](slices/10b-visual-observations.md)
+and bounded core comparison are integrated; real UI thresholds and overlay timing
+are still open.
 [Source timing](slices/06j-source-timing.md) is integrated: cursor, geometry, pauses
 and acquired audio share one native-normalized generation. Raw reads remain in
 source time; edits only change projections. Fresh evidence catalogs are required.
@@ -43,7 +46,7 @@ historical revision. [Frame evidence](assets/frame-delivery/review.md) and the
 [public-frame slice](slices/09d-public-frames.md) distinguish client receipt from
 model-level MCP visual interpretation.
 
-Next priority: cached audio excerpts and frame batches, then shared scene/pause/
+Next priority: finish audio inspection checks and frame batches, then shared scene/pause/
 geometry boundaries, default trails and screenshot indexing. Storage/deletion,
 remaining native controls, speech and installed workflow gates remain open. Keep
 one queue, immutable sources and explicit audio defaults. See

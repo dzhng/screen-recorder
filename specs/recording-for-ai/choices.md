@@ -581,3 +581,66 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   pauses remain explicit without fabricated elapsed time.
 - **Verdict:** Sound: consumers can distinguish missing evidence from silence.
   **Confidence:** High.
+
+## Public audio delivery and background admission
+
+### Sound — medium confidence
+
+- **Choice:** Audio delivery allows up to 48 MiB while PNG delivery retains its
+  existing 32 MiB bound. A maximum thirty-second, stereo, 192 kHz float excerpt
+  needs about 46 MB of sample bytes, so the shared transfer must carry that
+  native-supported result instead of refusing it because images are smaller.
+- **Gap:** The spec bounded excerpt duration but did not choose adapter byte limits.
+- **Reach:** Both CLI and MCP use one chunk reader; this bounds transfer memory,
+  but does not guarantee every external MCP host accepts the largest audio block.
+- **Verdict:** Sound and reversible: covers the full native output bound.
+  **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Automatically admit one source-processing job at a time. When many
+  old recordings need indexing at startup, one can use the single heavy worker
+  while a foreground image or audio request still has room in the waiting queue.
+  Finishing a job admits the next old recording. Explicit retries remain targeted.
+- **Gap:** The shared queue's waiting limit did not prescribe backfill admission.
+- **Reach:** Startup and capture finalization share the same admission rule;
+  background work cannot fill every waiting slot without increasing throughput.
+- **Verdict:** Sound: preserves background progress and foreground access.
+  **Confidence:** High.
+
+### Sound — high confidence
+
+- **Choice:** The native audio writer chooses WAVE independently of the output
+  filename. An opaque cache path ending in .cache therefore contains the same
+  WAVE bytes as a user-facing .wav file.
+- **Gap:** Cache naming and the native staging-file suffix had incompatible owners.
+- **Reach:** Cache storage stays media-independent; the decoder owns its container.
+- **Verdict:** Sound: one owner for each independent decision. **Confidence:** High.
+
+## Shared visual observations and comparisons
+
+### Sound — medium confidence
+
+- **Choice:** A scene boundary can be either a large changed image area or a
+  smaller change spread across many cells. Scrolling a mostly white webpage
+  moves thin text across the screen; requiring a large changed area alone can
+  miss it. A compact caret or button highlight does not reset the synthetic cases.
+- **Gap:** The spec delegated deterministic thresholds but did not prescribe them.
+- **Reach:** Local trails and whole-recording screenshot selection share this
+  comparison policy. Real UI acceptance must tune it before default trails ship;
+  broad animation can still look like a boundary and very brief states can be missed.
+- **Verdict:** Sound as a provisional measured heuristic, not semantic recognition.
+  **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Keep requested times, actual decoded times and their distance, and
+  compare each distinct decoded frame once. Several requests during a static
+  frame retain their coverage records without inventing visual transitions.
+  Include the requested endpoint and a preceding sample inside the kept span.
+- **Gap:** Sampling boundaries and held-frame comparison were not fully specified.
+- **Reach:** Chunked analysis can carry its previous observation forward and use
+  the same comparison policy. This does not decide where a cursor trail belongs
+  when the nearest frame comes from before or after the request.
+- **Verdict:** Sound: preserves the evidence needed for that later timing decision.
+  **Confidence:** High.

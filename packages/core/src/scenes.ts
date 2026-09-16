@@ -204,7 +204,15 @@ export async function analyzeSceneRange(
     kept: request.kept,
     sourceWidth: observed.sourceWidth,
     sourceHeight: observed.sourceHeight,
-    coverage: observed.samples.map(({ rgbBase64: _, ...timing }) => timing),
+    coverage: observed.samples.map(
+      ({ requestedSourceUs, actualSourceUs, distanceUs, width, height }) => ({
+        requestedSourceUs,
+        actualSourceUs,
+        distanceUs,
+        width,
+        height,
+      }),
+    ),
     boundaries: analyzed.comparisons
       .filter(
         (pair) =>
