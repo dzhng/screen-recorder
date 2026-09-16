@@ -1,3 +1,4 @@
+import type { SourceProcessing } from "@screenrec/core/processing";
 import { TimelineError } from "@screenrec/core/timeline";
 import { CatalogError, type RevisionStore } from "@screenrec/core/library";
 import {
@@ -18,6 +19,7 @@ export async function operate(
   store: RevisionStore,
   capture: CaptureService,
   health: () => unknown,
+  processing: SourceProcessing,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
     return failure(
@@ -33,6 +35,12 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "cursor.raw":
+        return { ok: true, data: processing.rawCursor(operation.params) };
+      case "processing.status":
+        return { ok: true, data: processing.status(operation.params.recordingId) };
+      case "processing.retry":
+        return { ok: true, data: processing.retry(operation.params.recordingId) };
       case "service.health":
         return { ok: true, data: health() };
       case "capture.sources":

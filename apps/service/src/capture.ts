@@ -66,6 +66,8 @@ export function sourceDirectory(home: string, recordingId: string): string {
  */
 export class CaptureService {
   private queue: Promise<unknown> = Promise.resolve();
+  private stopping = false;
+  private readonly lifetime = new AbortController();
 
   constructor(
     private readonly store: RevisionStore,
@@ -73,6 +75,7 @@ export class CaptureService {
     private readonly native: NativeCall,
     private readonly worker: MediaWorker,
     private readonly log: (message: string) => void = () => {},
+    private readonly changed: (recording: Recording) => void = () => {},
   ) {}
 
   /**
@@ -81,9 +84,18 @@ export class CaptureService {
    * deterministic instead of a race between two half-finished starts.
    */
   private serialize<T>(run: () => Promise<T>): Promise<T> {
-    const next = this.queue.then(run);
+    const next = this.queue.then(() => {
+      if (this.stopping) throw new CaptureError("SERVICE_STOPPED", "Capture service is closing");
+      return run();
+    });
     this.queue = next.catch(() => undefined);
     return next;
+  }
+
+  async close(): Promise<void> {
+    this.stopping = true;
+    this.lifetime.abort();
+    await this.queue;
   }
 
   // Reading what the device can see, and what it is doing, changes nothing and so does not
@@ -182,7 +194,7 @@ export class CaptureService {
 
   /** Applies one transition native reported on its own, without this service asking for it. */
   report(report: CaptureReport): Recording {
-    return this.store.ingestLifecycle(report.recordingId, lifecycleEvent(report));
+    return this.observed(this.store.ingestLifecycle(report.recordingId, lifecycleEvent(report)));
   }
 
   /**
@@ -325,9 +337,13 @@ export class CaptureService {
   }
 
   private async reconcile(recording: Recording): Promise<Recording> {
-    const recovered = await this.worker("media.recover", {
-      directory: sourceDirectory(this.home, recording.recordingId),
-    });
+    const recovered = await this.worker(
+      "media.recover",
+      {
+        directory: sourceDirectory(this.home, recording.recordingId),
+      },
+      { signal: this.lifetime.signal },
+    );
     if (!recovered.ok) throw fromNative(recovered);
     const { durationUs, captured } = readRecovery(recovered.data);
     return this.author(recording, {
@@ -358,11 +374,25 @@ export class CaptureService {
    * be mistaken for, or silently overwritten by, a number the journal produced.
    */
   private author(recording: Recording, outcome: AuthoredOutcome): Recording {
-    return this.store.ingestLifecycle(recording.recordingId, {
-      ...outcome,
-      sourceId: recording.sourceId,
-      sequence: Math.max(recording.lifecycleSequence + 1, NATIVE_SEQUENCE_LIMIT + 1),
-    });
+    return this.observed(
+      this.store.ingestLifecycle(recording.recordingId, {
+        ...outcome,
+        sourceId: recording.sourceId,
+        sequence: Math.max(recording.lifecycleSequence + 1, NATIVE_SEQUENCE_LIMIT + 1),
+      }),
+    );
+  }
+
+  private observed(recording: Recording): Recording {
+    // Background admission must not turn a successful native transition into a failed capture.
+    try {
+      this.changed(recording);
+    } catch (error) {
+      this.log(
+        `processing admission failed for ${recording.recordingId}: ${(error as Error).message}`,
+      );
+    }
+    return recording;
   }
 
   private async ask(operation: string, params: Record<string, unknown>): Promise<unknown> {

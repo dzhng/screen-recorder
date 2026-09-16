@@ -105,15 +105,18 @@ export class JobQueue {
     { lane: JobLane; controller: AbortController; done: Promise<void> }
   >();
   private closed = false;
+  private readonly onCapacity: (() => void) | undefined;
 
   constructor(options: {
     store: RevisionStore;
     execute: JobExecutor;
     providers: { newId: () => string };
+    onCapacity?: () => void;
   }) {
     this.store = options.store;
     this.execute = options.execute;
     this.newId = options.providers.newId;
+    this.onCapacity = options.onCapacity;
     if (
       this.store.catalog
         .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='jobs'")
@@ -224,7 +227,7 @@ export class JobQueue {
       return current.attemptId;
     });
     if (stopped !== null) this.attempts.get(stopped)?.controller.abort();
-    this.schedule();
+    this.capacityAvailable();
     return this.job(jobId);
   }
 
@@ -322,6 +325,11 @@ export class JobQueue {
     await this.idle();
   }
 
+  /** A canceled attempt still owns its files until its executor has settled. */
+  isAttemptActive(attemptId: string): boolean {
+    return this.attempts.has(attemptId);
+  }
+
   private occupied(lane: JobLane): number {
     let count = 0;
     for (const attempt of this.attempts.values()) if (attempt.lane === lane) count += 1;
@@ -383,9 +391,14 @@ export class JobQueue {
       });
     this.attempts.set(job.attemptId, { lane: job.lane, controller, done });
     void done.then(
-      () => this.schedule(),
-      () => this.schedule(),
+      () => this.capacityAvailable(),
+      () => this.capacityAvailable(),
     );
+  }
+
+  private capacityAvailable(): void {
+    this.schedule();
+    if (!this.closed) this.onCapacity?.();
   }
 
   private settle(job: Job, outcome: { result: string } | { error: unknown }): void {

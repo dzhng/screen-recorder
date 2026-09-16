@@ -295,7 +295,7 @@ test("source time ordering handles out-of-order records and bounds invalid reque
       .page({ ...f.identity, range, afterSequence: first.nextSequence! })
       .samples.map((s) => s.sequence),
   ).toEqual([3, 1]);
-  expect(() => f.evidence.page({ ...f.identity, range, limit: 1001 })).toThrow("limit");
+  expect(() => f.evidence.page({ ...f.identity, range, limit: 5001 })).toThrow("limit");
   expect(() => f.evidence.page({ ...f.identity, range, afterSequence: 99 })).toThrow(
     "continuation",
   );
@@ -326,4 +326,26 @@ test("rejects a wrong export path and nonfinite coordinates without publishing r
   expect(
     f.store.catalog.prepare("SELECT count(*) AS n FROM cursor_evidence_generations").get(),
   ).toEqual({ n: 0 });
+});
+
+test("cursor pages honor the contract's 1000 default and inclusive 5000 maximum", async () => {
+  const f = fixture(Array.from({ length: 5001 }, (_, i) => i));
+  await f.evidence.ingest({ ...f.identity, file: f.file, receipt: f.receipt });
+  const request = { ...f.identity, range: { startUs: 0, endUs: 6000 } };
+  const normal = f.evidence.page(request);
+  expect(normal.samples).toEqual(
+    f.samples.slice(0, 1000).map((sample, i) => ({ ...sample, sequence: i + 1 })),
+  );
+  expect(normal.nextSequence).toBe(1000);
+  const maximum = f.evidence.page({ ...request, limit: 5000 });
+  expect(maximum.samples.at(-1)).toEqual({ ...f.samples[4999], sequence: 5000 });
+  expect(maximum.samples).toHaveLength(5000);
+  expect(maximum.nextSequence).toBe(5000);
+  expect(
+    f.evidence.page({ ...request, limit: 5000, afterSequence: maximum.nextSequence! }),
+  ).toEqual({
+    samples: [{ ...f.samples[5000], sequence: 5001 }],
+    nextSequence: null,
+  });
+  expect(() => f.evidence.page({ ...request, limit: 5001 })).toThrow("range or limit");
 });

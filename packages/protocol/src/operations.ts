@@ -4,6 +4,10 @@ import { captureSelectionSchema } from "./capture.js";
 const id = z.string().min(1);
 const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const range = z.object({ startUs: time, endUs: time }).strict();
+const cursorRange = range.refine(
+  ({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 60_000_000,
+  { message: "Cursor range must be nonempty and no longer than 60 seconds" },
+);
 const recording = z.object({ recordingId: id }).strict();
 const edit = recording.extend({ requestId: id, expectedRevisionId: id });
 const historyCursor = z
@@ -17,6 +21,43 @@ const historyCursor = z
 // These are implemented capabilities. Adapters derive their advertised tools from
 // the same schemas the service validates, rather than promising future operations.
 export const operationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("cursor.raw"),
+      params: recording
+        .extend({
+          sourceRange: cursorRange,
+          cursor: z
+            .object({
+              recordingId: id,
+              sourceId: id,
+              generation: id,
+              sourceRange: cursorRange,
+              afterSequence: z.int().positive(),
+            })
+            .strict()
+            .optional(),
+          limit: z.int().min(1).max(5000).default(1000),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Page raw cursor observations in explicit source time, including retained integrity markers; edits do not alter these samples.",
+    ),
+  z
+    .object({ operation: z.literal("processing.status"), params: recording })
+    .strict()
+    .describe("Read source cursor-evidence processing state and its published generation."),
+  z
+    .object({
+      operation: z.literal("processing.retry"),
+      params: recording.extend({ artifact: z.literal("cursor") }).strict(),
+    })
+    .strict()
+    .describe(
+      "Explicitly start or retry source cursor-evidence processing; never duplicate active work.",
+    ),
   z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
     .strict()

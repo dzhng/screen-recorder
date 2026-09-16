@@ -19,6 +19,10 @@
     "./evidence": {
       "types": "./dist/evidence.d.ts",
       "default": "./dist/evidence.js"
+    },
+    "./processing": {
+      "types": "./dist/processing.d.ts",
+      "default": "./dist/processing.js"
     }
   },
   "scripts": {

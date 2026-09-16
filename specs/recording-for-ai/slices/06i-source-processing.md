@@ -1,6 +1,7 @@
 # Source processing integration
 
-Status: implementation under review; unpublished crash cleanup remains open.
+Status: integrated and verified for source cursor evidence.
+See [integration review](../assets/source-processing/review.md).
 
 Source evidence belongs to the immutable recording, not an edit revision. The
 processor pins the original revision so a cut never causes another native export.
@@ -33,9 +34,10 @@ The [capture lifetime test](../../../apps/service/src/capture-lifetime.test.ts)
 proves shutdown aborts recovery, waits for the worker to settle and refuses new
 mutations; removing the abort makes that test fail.
 
-Independent review found crash leftovers: exception cleanup cannot run after a
-process dies. Before acceptance, reclaim only unpublished and inactive derivative
-generations, preserve source files and published evidence, and prove cleanup does
-not race canceled workers that are still exiting. Re-run the affected checks after
-that integration. Public CLI/MCP advertisement comes from the shared operation
+Cleanup after startup and before retry reclaims unpublished, inactive derivatives.
+Core checks cover file-only, partial-index, complete-unpublished and index-only
+leftovers, preserved source/published bytes, canceled-but-live workers, queued
+replacements, unsafe parents, failure isolation and abort between row batches.
+The packaged-app relaunch check also reclaims an abandoned derivative directory
+while returning the same published cursor page. Public CLI/MCP advertisement comes from the shared operation
 registry; no separate adapter implementation is needed.

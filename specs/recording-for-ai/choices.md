@@ -475,3 +475,21 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   retain the source references.
 - **Verdict:** Sound: immutable evidence and edited views keep distinct meanings.
   **Confidence:** High.
+
+## Abandoned evidence lifecycle
+
+### Sound — high confidence
+
+- **Choice:** Reclaim unfinished cursor derivatives after startup and before another
+  attempt for the same recording. Suppose a process dies halfway through indexing:
+  the next service removes that abandoned attempt's files and rows, while leaving
+  the original video and the published attempt untouched. A canceled worker still
+  writing counts as active until it actually exits, even if a retry is already queued.
+- **Gap:** Durable jobs identified interrupted attempts, but the spec did not name
+  the owner that removes their unpublished files and partially indexed records.
+- **Reach:** Source processing owns this narrow cleanup; it is not the cache policy
+  or user recording deletion. Scans stream candidates and delete rows in batches,
+  so cleanup can yield to client requests and abort before catalog shutdown.
+- **Verdict:** Sound: prevents repeated interrupted attempts accumulating unused
+  evidence without treating a canceled-but-running worker as safe to delete.
+  **Confidence:** High.

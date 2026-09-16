@@ -253,14 +253,14 @@ export class CursorEvidenceStore {
     nextSequence: number | null;
   } {
     const { recordingId, sourceId, generation, range, afterSequence } = input;
-    const limit = input.limit ?? 100;
+    const limit = input.limit ?? 1000;
     if (
       !integer(range.startUs) ||
       !integer(range.endUs) ||
       range.endUs <= range.startUs ||
       !integer(limit) ||
       limit < 1 ||
-      limit > 1000 ||
+      limit > 5000 ||
       (afterSequence != null && (!integer(afterSequence) || afterSequence < 1))
     )
       invalid("Invalid cursor page range or limit");
@@ -300,6 +300,27 @@ export class CursorEvidenceStore {
       nextSequence: more ? rows.at(-1)!.sequence : null,
     };
   }
+  /** Reclaim a dead generation without holding the event loop for its entire index. */
+  async reclaim(identity: EvidenceIdentity, signal: AbortSignal): Promise<void> {
+    const { recordingId, sourceId, generation } = identity;
+    for (;;) {
+      signal.throwIfAborted();
+      const deleted = this.store.catalog
+        .prepare(`DELETE FROM cursor_evidence_records
+        WHERE recordingId=? AND sourceId=? AND generation=? AND sequence IN
+        (SELECT sequence FROM cursor_evidence_records WHERE recordingId=? AND sourceId=? AND generation=? LIMIT 256)`)
+        .run(recordingId, sourceId, generation, recordingId, sourceId, generation);
+      if (Number(deleted.changes) === 0) break;
+      await setImmediate(undefined, { signal });
+    }
+    signal.throwIfAborted();
+    this.store.catalog
+      .prepare(
+        "DELETE FROM cursor_evidence_generations WHERE recordingId=? AND sourceId=? AND generation=?",
+      )
+      .run(recordingId, sourceId, generation);
+  }
+
   /** Caller must only remove a generation its artifact queue has not published. */
   removeUnpublished({ recordingId, sourceId, generation }: EvidenceIdentity): void {
     this.store.transaction(() => {

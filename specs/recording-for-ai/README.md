@@ -29,17 +29,18 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish source-evidence processing integration and crash cleanup.
-The native exporter and core index are integrated. The current service pass publishes
-source cursor evidence through the durable queue and exposes status, explicit retry
-and paged raw observations. Real own-window capture, edit and relaunch checks pass;
-review found unpublished crash leftovers that must be reclaimed before this pass
-is accepted. See [source processing](slices/06i-source-processing.md).
+Current pickup: revision-bound frame/audio inspection through the public service.
+Source cursor processing is integrated: finalization admits a durable job, raw
+pages resolve only its published generation, and startup reclaims abandoned
+unpublished derivatives. Cuts reuse original evidence. Core, service, adapter and
+real own-window/relaunch checks pass; see
+[source processing](assets/source-processing/review.md).
 
-Next priority: revision-bound frame/audio inspection, then scene/trail selection,
-screenshot indexing, storage/deletion and the remaining native controls. Keep raw
-source evidence separate from edited projections; cuts must never trigger source
-reprocessing. Preserve the fresh catalog format and explicit audio defaults.
+Next priority: core media planning and cache lifecycle, public frame delivery with
+actual MCP pixels, then scene/trail selection and screenshot indexing. Storage,
+remaining native controls and speech gates also remain open. Keep raw evidence in
+source time and edited views explicitly revision-bound. Preserve the fresh catalog
+format and explicit audio defaults.
 
 Native controls are integrated and their closed-menu state/clock follows real
 own-window capture through external service calls. Actual UI interaction and visual
@@ -97,7 +98,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [06f — Native capture service control](slices/06f-capture-service.md) (own-window control/recovery proof)
   - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md) (core queue)
   - [x] [06h — Normalized cursor evidence index](slices/06h-evidence-index.md)
-  - [ ] [06i — Source processing integration](slices/06i-source-processing.md) (crash cleanup under review)
+  - [x] [06i — Source processing integration](slices/06i-source-processing.md) (source cursor processing; later artifacts remain)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)

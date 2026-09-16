@@ -1,5 +1,8 @@
 import { randomUUID } from "node:crypto";
-import { RevisionStore } from "@screenrec/core/library";
+import { CatalogError, RevisionStore } from "@screenrec/core/library";
+import { JobQueue } from "@screenrec/core/jobs";
+import { CursorEvidenceStore, type CursorEvidenceReceipt } from "@screenrec/core/evidence";
+import { SourceProcessing } from "@screenrec/core/processing";
 import { operate, operationFailure } from "./operations.js";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
@@ -44,17 +47,48 @@ async function main(): Promise<void> {
   let claim: StartupClaim | undefined;
   let store: RevisionStore | undefined;
   let listener: LocalListener;
+  let jobs: JobQueue | undefined;
+  let processing: SourceProcessing;
+  let stopping = false;
+  const cleanupLifetime = new AbortController();
+  let evidenceCleanup: Promise<void> = Promise.resolve();
+  const worker = mediaWorker();
   try {
     claim = await claimStartup(runtimeDirectory);
     store = new RevisionStore(join(home, "library.sqlite"), {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
+    const evidence = new CursorEvidenceStore(store);
+    jobs = new JobQueue({
+      store,
+      providers: { newId: randomUUID },
+      execute: (execution) => processing.execute(execution),
+      onCapacity: () => resumeProcessing(),
+    });
+    processing = new SourceProcessing(
+      store,
+      jobs,
+      evidence,
+      home,
+      async (directory, output, signal) => {
+        const result = await worker("media.cursorEvidence", { directory, output }, { signal });
+        if (!result.ok)
+          throw new CatalogError(
+            result.error.code,
+            result.error.message,
+            result.error.details,
+            result.error.retryable,
+          );
+        return result.data as CursorEvidenceReceipt;
+      },
+    );
     listener = await listenLocal({
       runtimeDirectory,
       handler: (request) => serve(request),
     });
   } catch (error) {
+    await jobs?.close();
     store?.close();
     claim?.release();
     const startup = error instanceof StartupFailure;
@@ -85,7 +119,7 @@ async function main(): Promise<void> {
   const socketPath = listener.socketPath;
   const catalog = store;
   const ownership = claim;
-  let stopping = false;
+  const queue = jobs;
   const control = openControl({
     input: process.stdin,
     output: process.stdout,
@@ -96,13 +130,39 @@ async function main(): Promise<void> {
     catalog,
     home,
     (operation, params) => control.call(operation, params),
-    mediaWorker(),
+    worker,
     log,
+    (recording) => {
+      try {
+        processing.prepare(recording.recordingId);
+      } finally {
+        queue.schedule();
+      }
+    },
   );
 
+  function resumeProcessing(): void {
+    if (stopping) return;
+    try {
+      processing.resume();
+    } catch (error) {
+      log(`processing admission failed: ${(error as Error).message}`);
+    }
+  }
+
   /** Every public operation, for a local client on the socket and for the app alike. */
-  function serve(request: OperationRequest): Promise<OperationResult> {
-    return operate(request, catalog, capture, () => healthData(started, socketPath, home));
+  async function serve(request: OperationRequest): Promise<OperationResult> {
+    try {
+      return await operate(
+        request,
+        catalog,
+        capture,
+        () => healthData(started, socketPath, home),
+        processing,
+      );
+    } finally {
+      queue.schedule();
+    }
   }
 
   /**
@@ -139,10 +199,13 @@ async function main(): Promise<void> {
     // libuv unlinks the path it bound; nothing here removes a socket it does not own.
     // The startup lock outlives both the listener and catalog, so a replacement
     // cannot become the metadata writer before this owner has closed them.
-    void listener.close().finally(() => {
-      catalog.close();
-      ownership.release();
-    });
+    cleanupLifetime.abort();
+    void Promise.all([listener.close(), capture.close(), queue.close(), evidenceCleanup]).finally(
+      () => {
+        catalog.close();
+        ownership.release();
+      },
+    );
   };
   for (const signal of ["SIGTERM", "SIGINT", "SIGHUP"] as const) process.on(signal, stop);
 
@@ -151,7 +214,12 @@ async function main(): Promise<void> {
   // can accept — and then runs outside the app's startup budget rather than inside it.
   const reconciled = capture.reconcileStranded();
   control.emit({ event: "started", pid: process.pid, socketPath });
+  evidenceCleanup = processing.cleanup(cleanupLifetime.signal).catch((error) => {
+    if (!cleanupLifetime.signal.aborted)
+      log(`evidence cleanup failed: ${(error as Error).message}`);
+  });
   await reconciled;
+  resumeProcessing();
   log("reconciliation complete");
 }
 
