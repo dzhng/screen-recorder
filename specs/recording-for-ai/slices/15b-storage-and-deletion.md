@@ -4,6 +4,8 @@ Status: implementation plan, not shipped. Grounded in `b18530a` (2026-09-16).
 This sharpens the existing storage/delete requirements in [12](12-cli-mcp-operations.md),
 [15](15-personal-release.md), and [contracts](../contracts.md); it does not close
 those parent slices. Implement the passes below in order. Each has its own verdict.
+The delivery ownership prerequisite of B is verified; public deletion remains unbuilt.
+See [lease isolation evidence](../assets/storage/delivery-ownership.md).
 
 ## Contract
 

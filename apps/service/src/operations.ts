@@ -72,7 +72,12 @@ export async function operate(
         const data = index.frame(operation.params);
         return {
           ok: true,
-          data: { ...data, delivery: delivery.open(() => index.openRead(operation.params)) },
+          data: {
+            ...data,
+            delivery: delivery.open(operation.params.recordingId, () =>
+              index.openRead(operation.params),
+            ),
+          },
         };
       }
       case "index.frames": {
@@ -89,7 +94,10 @@ export async function operate(
                 return {
                   ordinal,
                   ok: true as const,
-                  data: { ...data, delivery: delivery.open(() => index.openRead(input)) },
+                  data: {
+                    ...data,
+                    delivery: delivery.open(input.recordingId, () => index.openRead(input)),
+                  },
                 };
               } catch (error) {
                 return {
@@ -122,7 +130,9 @@ export async function operate(
                   data: {
                     ...item.data,
                     delivery: item.data.published
-                      ? delivery.open(() => cache.acquire(item.data.published!.frame.cacheId))
+                      ? delivery.open(operation.params.recordingId, () =>
+                          cache.acquire(item.data.published!.frame.cacheId),
+                        )
                       : null,
                   },
                 };
@@ -154,7 +164,9 @@ export async function operate(
           data: {
             ...status,
             delivery: status.published
-              ? delivery.open(() => cache.acquire(status.published!.frame.cacheId))
+              ? delivery.open(operation.params.recordingId, () =>
+                  cache.acquire(status.published!.frame.cacheId),
+                )
               : null,
           },
         };
@@ -170,7 +182,9 @@ export async function operate(
           data: {
             ...status,
             delivery: status.published
-              ? delivery.open(() => cache.acquire(status.published!.audio.cacheId))
+              ? delivery.open(operation.params.recordingId, () =>
+                  cache.acquire(status.published!.audio.cacheId),
+                )
               : null,
           },
         };

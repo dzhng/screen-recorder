@@ -7,7 +7,12 @@ export type DerivativeRead = {
   release(): void;
 };
 
-type Lease = { handle: DerivativeRead; expiresAt: number; timer: ReturnType<typeof setTimeout> };
+type Lease = {
+  recordingId: string;
+  handle: DerivativeRead;
+  expiresAt: number;
+  timer: ReturnType<typeof setTimeout>;
+};
 const lifetimeMs = 30_000;
 const maximumLeases = 32;
 const maximumChunkBytes = 512 * 1024;
@@ -18,7 +23,10 @@ export class DerivativeDelivery {
   private readonly leases = new Map<string, Lease>();
   private disposed = false;
 
-  open(acquire: () => DerivativeRead | null): { token: string; bytes: number; expiresAt: number } {
+  open(
+    recordingId: string,
+    acquire: () => DerivativeRead | null,
+  ): { token: string; bytes: number; expiresAt: number } {
     if (this.disposed) throw new CatalogError("SERVICE_STOPPED", "Derivative delivery is closed");
     this.expire();
     if (this.leases.size >= maximumLeases)
@@ -31,7 +39,7 @@ export class DerivativeDelivery {
       const expiresAt = Date.now() + lifetimeMs;
       const timer = setTimeout(() => this.close(token), lifetimeMs);
       timer.unref();
-      this.leases.set(token, { handle, expiresAt, timer });
+      this.leases.set(token, { recordingId, handle, expiresAt, timer });
       return { token, bytes: handle.bytes, expiresAt };
     } catch (error) {
       handle.release();
@@ -105,6 +113,10 @@ export class DerivativeDelivery {
     this.leases.delete(token);
     clearTimeout(lease.timer);
     lease.handle.release();
+  }
+  revoke(recordingId: string): void {
+    for (const [token, lease] of this.leases)
+      if (lease.recordingId === recordingId) this.close(token);
   }
   dispose(): void {
     this.disposed = true;

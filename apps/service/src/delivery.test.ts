@@ -43,7 +43,7 @@ async function fixture(data = Buffer.from("screen evidence")) {
 }
 test("chunks round-trip binary bytes and any position can be retried including EOF", async () => {
   const f = await fixture(Buffer.from([0, 255, 1, 254, 2, 253, 3]));
-  const lease = f.delivery.open(() => f.cache.acquire(f.file.id));
+  const lease = f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
   const first = f.delivery.read(lease.token, 0, 3);
   expect(Buffer.from(first.data, "base64")).toEqual(f.data.subarray(0, 3));
   expect(first).toMatchObject({ offset: 0, nextOffset: 3, eof: false });
@@ -68,7 +68,7 @@ test("a fixed expiry releases the cache without another delivery call", async ()
   const f = await fixture();
   vi.useFakeTimers();
   vi.setSystemTime(1000);
-  const lease = f.delivery.open(() => f.cache.acquire(f.file.id));
+  const lease = f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
   expect(lease.expiresAt).toBe(31_000);
   await vi.advanceTimersByTimeAsync(29_000);
   expect(f.delivery.read(lease.token, 0, 1).data).toBe(f.data.subarray(0, 1).toString("base64"));
@@ -83,28 +83,28 @@ test("a fixed expiry releases the cache without another delivery call", async ()
 test("lease limit is explicit and dispose releases every reader and refuses reopening", async () => {
   const f = await fixture();
   const leases = Array.from({ length: 32 }, () =>
-    f.delivery.open(() => f.cache.acquire(f.file.id)),
+    f.delivery.open("recording-a", () => f.cache.acquire(f.file.id)),
   );
   expect(new Set(leases.map((lease) => lease.token)).size).toBe(32);
   const forbiddenAcquire = () => {
     throw new Error("Acquisition ran before admission");
   };
-  expect(() => f.delivery.open(forbiddenAcquire)).toThrow(
+  expect(() => f.delivery.open("recording-a", forbiddenAcquire)).toThrow(
     expect.objectContaining({ code: "LIMIT_EXCEEDED" }),
   );
   f.delivery.close(leases[0]!.token);
-  f.delivery.open(() => f.cache.acquire(f.file.id));
+  f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
   f.delivery.dispose();
   f.delivery.dispose();
   expect(() => f.cache.remove(f.file.id)).not.toThrow();
-  expect(() => f.delivery.open(forbiddenAcquire)).toThrow(
+  expect(() => f.delivery.open("recording-a", forbiddenAcquire)).toThrow(
     expect.objectContaining({ code: "SERVICE_STOPPED" }),
   );
 });
 
 test("chunk bounds reject invalid reads without discarding an otherwise usable lease", async () => {
   const f = await fixture(Buffer.alloc(512 * 1024 + 1, 0xfa));
-  const lease = f.delivery.open(() => f.cache.acquire(f.file.id));
+  const lease = f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
   for (const [offset, size] of [
     [-1, 1],
     [0.5, 1],
@@ -126,10 +126,10 @@ test("chunk bounds reject invalid reads without discarding an otherwise usable l
 
 test("missing cache and broken reads report expiry and release failed transfer handles", async () => {
   const f = await fixture();
-  expect(() => f.delivery.open(() => f.cache.acquire("unknown"))).toThrow(
+  expect(() => f.delivery.open("recording-a", () => f.cache.acquire("unknown"))).toThrow(
     expect.objectContaining({ code: "ARTIFACT_EXPIRED", retryable: true }),
   );
-  const lease = f.delivery.open(() => f.cache.acquire(f.file.id));
+  const lease = f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
   truncateSync(f.file.path, 0);
   expect(() => f.delivery.read(lease.token, 0, 512)).toThrow(
     expect.objectContaining({ code: "ARTIFACT_EXPIRED" }),
@@ -142,7 +142,7 @@ test("missing cache and broken reads report expiry and release failed transfer h
 
 test("an empty derivative has a retryable empty EOF response", async () => {
   const f = await fixture(Buffer.alloc(0));
-  const lease = f.delivery.open(() => f.cache.acquire(f.file.id));
+  const lease = f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
   expect(f.delivery.read(lease.token, 0, 1)).toEqual({
     data: "",
     offset: 0,
@@ -161,10 +161,10 @@ test("open releases expired pins before attempting to acquire another artifact",
   const f = await fixture();
   vi.useFakeTimers();
   vi.setSystemTime(1000);
-  const lease = f.delivery.open(() => f.cache.acquire(f.file.id));
+  const lease = f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
   vi.setSystemTime(lease.expiresAt);
   expect(() =>
-    f.delivery.open(() => {
+    f.delivery.open("recording-a", () => {
       f.cache.remove(f.file.id);
       return null;
     }),
@@ -178,7 +178,7 @@ test("a caller-owned file outside the cache uses the same retryable chunk lease"
   const bytes = Buffer.from([12, 0, 250, 44, 255]);
   writeFileSync(retained, bytes);
   let descriptor = -1;
-  const lease = f.delivery.open(() => {
+  const lease = f.delivery.open("recording-a", () => {
     descriptor = openSync(retained, "r");
     return {
       bytes: fstatSync(descriptor).size,
@@ -198,7 +198,7 @@ test("a caller-owned file outside the cache uses the same retryable chunk lease"
 test("a read exception closes its lease and releases the real backing pin", async () => {
   const f = await fixture();
   const failure = new Error("file read failed");
-  const lease = f.delivery.open(() => {
+  const lease = f.delivery.open("recording-a", () => {
     const handle = f.cache.acquire(f.file.id)!;
     return {
       ...handle,
@@ -213,4 +213,28 @@ test("a read exception closes its lease and releases the real backing pin", asyn
   expect(() => f.delivery.read(lease.token, 0, 1)).toThrow(
     expect.objectContaining({ code: "ARTIFACT_EXPIRED", retryable: true }),
   );
+});
+
+test("revoking one recording releases all its leases and preserves another recording", async () => {
+  const f = await fixture();
+  const other = f.cache.reserve();
+  writeFileSync(other.path, "other recording");
+  await f.cache.publish(other.id);
+  const a = f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
+  const a2 = f.delivery.open("recording-a", () => f.cache.acquire(f.file.id));
+  const b = f.delivery.open("recording-b", () => f.cache.acquire(other.id));
+  f.delivery.revoke("recording-a");
+  f.delivery.revoke("recording-a");
+  f.delivery.revoke("missing");
+  for (const lease of [a, a2])
+    expect(() => f.delivery.read(lease.token, 0, 1)).toThrow(
+      expect.objectContaining({ code: "ARTIFACT_EXPIRED" }),
+    );
+  f.cache.remove(f.file.id);
+  expect(Buffer.from(f.delivery.read(b.token, 0, 100).data, "base64").toString()).toBe(
+    "other recording",
+  );
+  expect(() => f.cache.remove(other.id)).toThrow("being read");
+  f.delivery.close(b.token);
+  f.cache.remove(other.id);
 });
