@@ -8,6 +8,7 @@ import ScreenRecorderMediaTime
 struct SourceTrack {
     let plan: AudioTrackPlan
     let url: URL
+    let input: MediaInput
     let asset: AVURLAsset
     let track: AVAssetTrack
     let sampleRate: Int
@@ -19,8 +20,8 @@ struct SourceTrack {
         guard FileManager.default.fileExists(atPath: source.path) else {
             throw AudioFailure("NATIVE_DECODE_FAILED", "No source media at \(source.path).")
         }
-        let asset = AVURLAsset(
-            url: source, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+        let input = try MediaInput(url: source)
+        let asset = input.asset
         let audio: AVAssetTrack
         let stream: AudioStreamBasicDescription
         let segments: [SourceSegment]
@@ -39,8 +40,10 @@ struct SourceTrack {
             stream = basic
             segments = SourceSegment.occupied(of: try await track.load(.segments))
         } catch let failure as AudioFailure {
+            if let detail = input.failure { throw AudioFailure(detail.code, detail.message) }
             throw failure
         } catch {
+            if let detail = input.failure { throw AudioFailure(detail.code, detail.message) }
             throw AudioFailure(
                 "NATIVE_DECODE_FAILED", "Cannot open \(source.path): \(error.localizedDescription)")
         }
@@ -63,7 +66,7 @@ struct SourceTrack {
                 endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + plan.sourceOffsetUs)
         }
         return SourceTrack(
-            plan: plan, url: source.resolvingSymlinksInPath().standardizedFileURL, asset: asset,
+            plan: plan, url: input.url, input: input, asset: asset,
             track: audio, sampleRate: sampleRate, channels: channels,
             // A container cannot testify that acquisition happened: it will decode padding for a
             // hole the caller knows nothing was captured over. Only where the caller's evidence and
@@ -74,6 +77,7 @@ struct SourceTrack {
 }
 
 final class ConvertedAudioInterval {
+    private let sourceInput: MediaInput
     private let reader: AVAssetReader
     private let converter: AVAudioConverter
     private let input: ConversionInput
@@ -83,6 +87,7 @@ final class ConvertedAudioInterval {
     private var exhausted = false
 
     init(source: SourceTrack, interval: SourceSpan, outputRate: Int, owed: Int64) throws {
+        sourceInput = source.input
         guard
             let sourceFormat = AVAudioFormat(
                 commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
@@ -143,6 +148,7 @@ final class ConvertedAudioInterval {
         }
 
         guard openedReader.startReading() else {
+            if let detail = sourceInput.failure { throw AudioFailure(detail.code, detail.message) }
             throw AudioFailure("NATIVE_DECODE_FAILED", "Cannot start audio reader.")
         }
         self.reader = openedReader
@@ -163,6 +169,9 @@ final class ConvertedAudioInterval {
             try Task.checkCancellation()
             if offset == Int(converted.frameLength) {
                 guard !exhausted else {
+                    if let detail = sourceInput.failure {
+                        throw AudioFailure(detail.code, detail.message)
+                    }
                     throw AudioFailure(
                         "NATIVE_DECODE_FAILED",
                         "Audio interval ended before its quantized output boundary.")
@@ -176,6 +185,9 @@ final class ConvertedAudioInterval {
                 guard !input.undecodable, outcome != .error, reader.status != .failed,
                     converted.frameLength > 0
                 else {
+                    if let detail = sourceInput.failure {
+                        throw AudioFailure(detail.code, detail.message)
+                    }
                     throw AudioFailure(
                         "NATIVE_DECODE_FAILED",
                         "Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")"

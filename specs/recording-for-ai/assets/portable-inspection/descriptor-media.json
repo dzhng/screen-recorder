@@ -1,0 +1,41 @@
+{
+  "sourceBytes": 109211742,
+  "sourceSha256": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+  "sourceUnchanged": true,
+  "framePNGByteParity": true,
+  "visualSampleExactParity": true,
+  "results": [
+    {
+      "descriptor": false,
+      "peakRssBytes": 28901376,
+      "peakFootprintBytes": 79102600,
+      "actualSourceUs": [
+        133333,
+        900133333,
+        1790133333
+      ]
+    },
+    {
+      "descriptor": true,
+      "peakRssBytes": 44302336,
+      "peakFootprintBytes": 90505912,
+      "actualSourceUs": [
+        133333,
+        900133333,
+        1790133333
+      ]
+    }
+  ],
+  "focusedWorkerTests": 14,
+  "frameTests": "passed, including duplicate lifetime and cancellation",
+  "wholeWaveContainerParity": true,
+  "decodedPCMParity": true,
+  "limits": {
+    "deliveredBytesPerDescriptorAsset": 67108864,
+    "concurrentRequests": 8,
+    "pumpChunkBytes": 65536
+  },
+  "budgetFailure": "LIMIT_EXCEEDED, no ordinary WAVE destination published",
+  "independentReview": "No actionable defects; reviewer native runtime blocked before descriptor checks, actual worktree-owned runtime gates passed",
+  "nativeExecutableSha256": "11594196b354e10bafbaf93a1744c1a6ce14ab29f3fe30787f839b4ff4a47c7d"
+}

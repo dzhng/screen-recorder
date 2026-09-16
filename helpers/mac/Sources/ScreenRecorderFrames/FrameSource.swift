@@ -6,6 +6,7 @@ import ScreenRecorderMediaTime
 /// Immutable source video opened once and reused for random frame requests. Each request seeks to
 /// the chosen sample instead of decoding the file from zero.
 public actor FrameSource {
+    private let input: MediaInput
     private let asset: AVURLAsset
     private let track: AVAssetTrack
     private let selector: SampleSelector
@@ -20,24 +21,33 @@ public actor FrameSource {
         guard FileManager.default.fileExists(atPath: url.path) else {
             throw FrameFailure("NATIVE_DECODE_FAILED", "No source media at \(url.path).")
         }
-        self.url = url.resolvingSymlinksInPath().standardizedFileURL
-        asset = AVURLAsset(url: url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-        guard let video = try await asset.loadTracks(withMediaType: .video).first else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Source has no video track: \(url.path).")
+        let input = try MediaInput(url: url)
+        self.input = input
+        self.url = input.url
+        asset = input.asset
+        do {
+            guard let video = try await asset.loadTracks(withMediaType: .video).first else {
+                throw FrameFailure(
+                    "NATIVE_DECODE_FAILED", "Source has no video track: \(url.path).")
+            }
+            track = video
+            // Sample cursors are the seek mechanism; without them selection would mean decoding forward
+            // from zero for every request.
+            guard try await video.load(.canProvideSampleCursors) else {
+                throw FrameFailure(
+                    "NATIVE_DECODE_FAILED",
+                    "Video track cannot provide sample cursors: \(url.path).")
+            }
+            selector = SampleSelector(track: video, segments: try await video.load(.segments))
+            transform = try await video.load(.preferredTransform)
+            durationUs = microseconds(try await asset.load(.duration))
+            let natural = try await video.load(.naturalSize).applying(transform)
+            width = Int(abs(natural.width).rounded())
+            height = Int(abs(natural.height).rounded())
+        } catch {
+            if let failure = input.failure { throw FrameFailure(failure.code, failure.message) }
+            throw error
         }
-        track = video
-        // Sample cursors are the seek mechanism; without them selection would mean decoding forward
-        // from zero for every request.
-        guard try await video.load(.canProvideSampleCursors) else {
-            throw FrameFailure(
-                "NATIVE_DECODE_FAILED", "Video track cannot provide sample cursors: \(url.path).")
-        }
-        selector = SampleSelector(track: video, segments: try await video.load(.segments))
-        transform = try await video.load(.preferredTransform)
-        durationUs = microseconds(try await asset.load(.duration))
-        let natural = try await video.load(.naturalSize).applying(transform)
-        width = Int(abs(natural.width).rounded())
-        height = Int(abs(natural.height).rounded())
     }
 
     /// The sample this source would decode, without decoding it.
@@ -63,7 +73,11 @@ public actor FrameSource {
             )
         }
         do {
-            try data.write(to: request.output, options: .atomic)
+            if let descriptor = try MediaDescriptor(url: request.output, writable: true) {
+                try descriptor.write(data)
+            } else {
+                try data.write(to: request.output, options: .atomic)
+            }
         } catch {
             throw FrameFailure(
                 "NATIVE_DECODE_FAILED",
@@ -129,6 +143,7 @@ public actor FrameSource {
         try validate(requestedUs: requestedUs, kept: kept)
         guard let (sampleTime, actualUs) = selector.nearestSample(toUs: requestedUs, in: kept)
         else {
+            if let failure = input.failure { throw FrameFailure(failure.code, failure.message) }
             throw FrameFailure(
                 "UNAVAILABLE",
                 "No video sample inside [\(kept.startUs),\(kept.endUs)) microseconds of \(url.lastPathComponent)."
@@ -169,6 +184,7 @@ public actor FrameSource {
             }
             return buffer
         }
+        if let failure = input.failure { throw FrameFailure(failure.code, failure.message) }
         throw FrameFailure(
             "NATIVE_DECODE_FAILED",
             "Decoder did not produce the sample at \(actualUs) microseconds.")
@@ -217,7 +233,9 @@ public actor FrameSource {
             }
         }
         if let overlay = request.overlay { try validate(overlay) }
-        guard request.output.resolvingSymlinksInPath().standardizedFileURL != url else {
+        guard request.output.resolvingSymlinksInPath().standardizedFileURL != url,
+            !MediaDescriptor.sameFile(url, request.output)
+        else {
             throw FrameFailure("INVALID_OUTPUT", "Frame output would overwrite the source media.")
         }
     }

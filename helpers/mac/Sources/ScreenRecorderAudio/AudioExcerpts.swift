@@ -1,5 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
+import ScreenRecorderMediaTime
 
 /// The public excerpt remains capped; all retained-audio mixing belongs to AudioPCMStream.
 public enum AudioExcerpts {
@@ -20,7 +21,9 @@ public enum AudioExcerpts {
 public enum AudioWave {
     public static func write(_ stream: AudioPCMStream, to output: URL) async throws -> Int {
         let destination = output.resolvingSymlinksInPath().standardizedFileURL
-        guard !stream.sourceURLs.contains(destination) else {
+        guard !stream.sourceURLs.contains(destination),
+            !stream.sourceURLs.contains(where: { MediaDescriptor.sameFile($0, output) })
+        else {
             throw AudioFailure("INVALID_OUTPUT", "Excerpt output would overwrite the source media.")
         }
         var directory: ObjCBool = false
@@ -37,14 +40,22 @@ public enum AudioWave {
         else {
             throw AudioFailure("NATIVE_DECODE_FAILED", "Cannot describe audio output format.")
         }
-        let staging = output.deletingLastPathComponent().appendingPathComponent(
-            ".\(UUID().uuidString).wav")
-        defer { try? FileManager.default.removeItem(at: staging) }
+        let descriptor = try MediaDescriptor(url: output, writable: true)
+        let staging =
+            descriptor?.url
+            ?? output.deletingLastPathComponent().appendingPathComponent(
+                ".\(UUID().uuidString).wav")
+        defer {
+            withExtendedLifetime(descriptor) {}
+            if descriptor == nil { try? FileManager.default.removeItem(at: staging) }
+        }
+        var settings = format.settings
+        settings[AVAudioFileTypeKey] = kAudioFileWAVEType
         do {
             // Scope closes the WAVE header before the file becomes visible to its consumer.
             do {
                 let file = try AVAudioFile(
-                    forWriting: staging, settings: format.settings,
+                    forWriting: staging, settings: settings,
                     commonFormat: .pcmFormatFloat32, interleaved: true)
                 try await stream.consume { block in
                     try autoreleasepool {
@@ -66,6 +77,7 @@ public enum AudioWave {
                 }
             }
             try Task.checkCancellation()
+            if let descriptor { return Int(try descriptor.size) }
             try? FileManager.default.removeItem(at: output)
             try FileManager.default.moveItem(at: staging, to: output)
             return try FileManager.default.attributesOfItem(atPath: output.path)[.size] as! Int

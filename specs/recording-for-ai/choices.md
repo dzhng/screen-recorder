@@ -1599,3 +1599,20 @@ records them. These choices add no public export choice or transcript readiness.
 - **Verdict:** sound; the existing pin/timer/revocation owner already has the
   lifecycle needed, so another movie store and janitor are unnecessary.
 - **Confidence:** high.
+### 14c2 — Bound bytes handed to the native media framework
+
+- **Choice:** Descriptor-backed inspection yields after every 64 KiB read and stops
+  after delivering 64 MiB during one asset lifetime, with at most eight concurrent
+  requests. When a media framework asks for an entire recording before seeking its
+  metadata, a synchronous loop can feed the whole file before noticing cancellation.
+  Yielding lets that seek happen; the lifetime byte ceiling also bounds material
+  retained by the framework after each response. A larger valid inspection fails
+  explicitly instead of quietly returning less media.
+- **Gap:** The retained-file plan required bounded work but could not prescribe
+  AVFoundation's request behavior before the real descriptor probe.
+- **Reach:** These approved internal limits cover bounded frames, scene samples and
+  excerpts. A future full-movie descriptor consumer needs its own measured policy;
+  ordinary-path decoding remains unchanged.
+- **Verdict:** Sound; the real thirty-minute source seeks without whole-file loading,
+  while the high-bandwidth audio fixture demonstrates explicit limit failure.
+- **Confidence:** High.
