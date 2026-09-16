@@ -1,6 +1,6 @@
 # Recording for AI — personal release spec
 
-Status: spec complete; implementation partial. Last updated: 2026-09-15.
+Status: spec complete; implementation partial. Last updated: 2026-09-16.
 Bootstrap build/conformance and actual-agent image access are verified. The pure
 timeline engine passes focused tests and independent review. Native capture,
 speech preparation and revision storage have work in progress; the personal
@@ -29,18 +29,17 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: native recording controls over the integrated capture service.
-Capture allocation, durable replay, uncertain-start stop/recovery and stranded-take
-reconciliation are verified through real channels and the packaged own-window
-fixture. See [capture integration](assets/capture-service/integration-review.md).
-Keep the fresh catalog format and explicit audio defaults; old development catalogs
-are rejected rather than migrated.
+Current pickup: finish source-evidence processing integration and crash cleanup.
+The native exporter and core index are integrated. The current service pass publishes
+source cursor evidence through the durable queue and exposes status, explicit retry
+and paged raw observations. Real own-window capture, edit and relaunch checks pass;
+review found unpublished crash leftovers that must be reclaimed before this pass
+is accepted. See [source processing](slices/06i-source-processing.md).
 
-Next priority: connect the durable queue to source-evidence ingestion and
-revision-bound media inspection, then finish storage/deletion and native controls.
-Core jobs are integrated with exact revision/input identity, explicit retry and stale
-result protection. The native worker can stream normalized cursor evidence into an
-atomic derivative; core indexing and public raw-history reads remain open.
+Next priority: revision-bound frame/audio inspection, then scene/trail selection,
+screenshot indexing, storage/deletion and the remaining native controls. Keep raw
+source evidence separate from edited projections; cuts must never trigger source
+reprocessing. Preserve the fresh catalog format and explicit audio defaults.
 
 Native controls are integrated and their closed-menu state/clock follows real
 own-window capture through external service calls. Actual UI interaction and visual
@@ -50,8 +49,7 @@ Discovery passes client/CLI checks and a real built-app launch into a fresh home
 installed-copy proof remains open. See [controls](assets/recording-controls/integration.md),
 [queue](assets/durable-jobs/review.md), and [discovery](slices/15a-client-discovery.md).
 
-The user requested no further Claude use. All delegated worktrees from this wave are
-integrated; continue with local work and available non-Claude agents. The service
+The user requested no further Claude use. Continue with local work and available non-Claude agents. The service
 runner retains capacity until native child closure. Generated cursor rendering is
 accepted with small-output limits; scene analysis and core trail selection remain open.
 
@@ -97,7 +95,9 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md) (storage proof)
   - [x] [06e — Library operations through the service](slices/06e-library-operations.md) (independent after 06a–06c)
   - [x] [06f — Native capture service control](slices/06f-capture-service.md) (own-window control/recovery proof)
-  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md) (core queue; service/executor integration remains)
+  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md) (core queue)
+  - [x] [06h — Normalized cursor evidence index](slices/06h-evidence-index.md)
+  - [ ] [06i — Source processing integration](slices/06i-source-processing.md) (crash cleanup under review)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
@@ -215,8 +215,9 @@ No slice may declare a downstream contract complete using an upstream failed pro
    prove moved-window and region behavior; later overlays cannot mask a bad transform.
 4. **Scene/index policy:** deterministic heuristics with measured fixture outcomes.
    Slice 11 can tune thresholds, but cannot suppress cursor-only emphasis.
-5. **Actual consumer:** use the installed Claude Code CLI with isolated session
-   configuration as the first concrete agent. A second client is future coverage.
+5. **Actual consumer:** prior Claude CLI evidence remains recorded, but the user
+   requested no further Claude use. Complete later consumer gates with an available
+   non-Claude agent through the same public operations.
 6. **Fresh formats:** plan version 1 without migration/backward-compatibility machinery.
    Existing user recording data from another app was not requested for import.
 7. **Package semantics:** preserve originals and edit history, label source/edited

@@ -22,8 +22,8 @@ ranges exclude their end. Geometry and display-space records remain in the index
 for later boundary selection; this slice adds no trail or boundary policy.
 
 Implementation and executable contracts live in
-[core evidence](../../packages/core/src/evidence.ts) and its
-[tests](../../packages/core/src/evidence.test.ts). Verified with real SQLite:
+[core evidence](../../../packages/core/src/evidence.ts) and its
+[tests](../../../packages/core/src/evidence.test.ts). Verified with real SQLite:
 equal timestamps, out-of-order source times, identity/generation isolation,
 partial-ingest cancellation and malformed data cleanup, raw-field preservation,
 and a streamed 50,000-sample file whose later pages remain readable after the

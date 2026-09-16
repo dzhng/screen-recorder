@@ -444,3 +444,34 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   The caller can select an existing socket, or quit and relaunch the app with the
   intended home. The error identifies the requested service and connection options.
 - **Verdict:** Sound. **Confidence:** Medium.
+
+## Source processing admission and raw reads
+
+### Sound — medium confidence
+
+- **Choice:** Automatically prepare cursor evidence for every finalized usable take,
+  including takes discovered after relaunch. For example, if the app stops after
+  saving a recording but before scheduling its evidence, relaunch finds the missing
+  job and schedules it. A take whose processing actually failed stays failed until
+  the caller explicitly retries.
+- **Gap:** The spec required durable readiness but did not choose how finalization
+  and job admission recover when only one of the two transactions committed.
+- **Reach:** An ordered scan of recordings reuses the queue's durable job identity;
+  no second queue or recurring timer is introduced. Capacity becoming available
+  admits the next missing take, even when the initial backlog exceeds queue limits.
+- **Verdict:** Sound: closes the crash gap while preserving deliberate retry.
+  **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Raw cursor pages remain in original source time after edits. If an
+  agent cuts the first second, a sample originally at two seconds still says two
+  seconds in a raw query; an edited frame reader separately maps it to playback
+  time. Page tokens identify the source, published processing attempt and time
+  range, so changing those inputs cannot silently splice two result sets.
+- **Gap:** The spec required raw access but did not prescribe continuation identity.
+- **Reach:** Raw observations are reusable evidence rather than another edit-owned
+  copy. Future projected cursor reads must label their playback coordinates and
+  retain the source references.
+- **Verdict:** Sound: immutable evidence and edited views keep distinct meanings.
+  **Confidence:** High.
