@@ -21,3 +21,20 @@ The app and owned service were stopped successfully. The original probe recordin
 remains under /tmp/screenrec-real-gesture-6DQmnG for local follow-up. Raw global
 pointer coordinates are not copied into this report because they do not establish
 the intended fixture gesture.
+
+
+## Focused-window follow-up
+
+Native Preview navigation required explicitly raising its window. Two new owned
+capture probes tested whether this explained the earlier gesture failure: first
+raising before recording, then raising and performing every circle/wave segment in
+one computer-use call. Both captured only the fixture window with microphone/system
+audio disabled. They still recorded zero inside samples (2,536 and 1,865 outside).
+The [summary](focused/summary.json) retains counts/hashes without global coordinates.
+
+A [public image](focused/delivered.png) requested at 36 seconds selected 36.015 seconds
+and correctly contained zero trail points with an outside cutoff. Original probe
+media remains in its temporary recording library. Both owned app/service processes
+were stopped and their execution handles reached exit 0. Focusing did not establish
+captured pointing; this remains a failed automation probe, not a verified physical
+cursor gate or evidence for changing coordinate transforms.
