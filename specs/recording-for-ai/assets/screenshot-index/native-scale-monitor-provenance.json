@@ -1,0 +1,8 @@
+{
+  "commit": "83612ad173734017cb82b8743811761555244070",
+  "serviceBundleSha256": "0dce2151d43a96eb8d2665885852378e6976f6c32913985f3d40df59dd30c5dd",
+  "nativeExecutableSha256": "1d76b016d4b530f62e59c89258d72edbb7a6738aea2e07b12604921ba632697e",
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "inputSha256": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+  "command": "SCREENREC_INDEX_SCALE_EVIDENCE=/tmp/screenrec-index-scale-merged-1838 SCREENREC_INDEX_SCALE_VIDEO=/tmp/screenrec-index-scale-input/video.mov bun run lab:index-scale"
+}

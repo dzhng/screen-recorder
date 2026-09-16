@@ -29,8 +29,8 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish the running full index scale gate after requested-time cache
-reuse and bounded stillness integration in
+Current pickup: fix the scale monitor’s transient SQLite contention handling, then
+rerun the full index scale gate after cache/stillness integration in
 [retained index delivery](slices/11c-retained-index.md). Selection, retained storage,
 core orchestration and public CLI/MCP index delivery pass their generated-data
 checks; all seven generated visual fixtures now pass. Real-capture usefulness and
@@ -54,7 +54,7 @@ Priority order: screenshot selection/index delivery, then
 remaining [storage/deletion](slices/15b-storage-and-deletion.md), controls, speech, edited video/package and installed-workflow gates.
 Storage lifetime and cache-ownership prerequisites are being implemented in isolated
 worktrees; delivery lease ownership/revocation is integrated. Keep their native
-verification separate from the running scale measurement. Keep one queue, immutable sources,
+verification separate from the next scale measurement. Keep one queue, immutable sources,
 explicit dependency failure and the complete CLI/MCP surface. No more Claude use.
 
 Current evidence:

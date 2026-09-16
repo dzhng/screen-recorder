@@ -52,6 +52,25 @@ foreground requests, so interruption retains completed measurements. RSS is samp
 not a guaranteed peak. Full completion, bounded public paging and owned-process
 cleanup remain required; a running or failed report does not pass the gate.
 
+## Interrupted integration run
+
+The [integration report](native-scale-monitor-failure.json),
+[bundle/input provenance](native-scale-monitor-provenance.json) and
+[RSS trace](native-scale-monitor-rss.json) preserve a second incomplete run.
+The same video hash was used. Source analysis finished before index admission at
+180.4 seconds; a concurrent clean frame completed in 192.3 ms. The last checkpoint
+at 767.8 seconds retained 2,088 PNGs through source second 584, occupying
+75,889,189 bytes. Sampled service RSS stayed near 264–266 MiB during the separately
+observed portion; sampling cannot establish a guaranteed peak.
+
+At 783 seconds, the benchmark's separate read-only catalog connection raised
+`SQLITE_BUSY` while collecting metrics. The harness terminated the test and reaped
+all owned processes. This is a monitoring failure, not an observed index job failure
+or a passed full workload. Fix the monitor's bounded contention handling and rerun;
+do not count this partial report as completion. Comparisons with the earlier partial
+baseline also differ in before-event rendering correctness, so they do not isolate
+a speedup from caching alone.
+
 ## Separate open gate: animation selection density
 
 The shared detector marks many boundaries in dense animation, and selection retains

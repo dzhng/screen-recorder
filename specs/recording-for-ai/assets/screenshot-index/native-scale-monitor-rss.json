@@ -1,0 +1,126 @@
+{
+  "state": "complete",
+  "startedAt": "2026-09-16T11:43:03.896Z",
+  "sampleIntervalMs": 60000,
+  "maximumDurationMs": 1200000,
+  "appPid": 73548,
+  "servicePid": 73550,
+  "note": "Partial minute-level RSS observations started during the active run; observed values are not guaranteed peaks. Only verified owned process measurements retained.",
+  "samples": [
+    {
+      "observedAt": "2026-09-16T11:43:03.933Z",
+      "elapsedMs": 433396,
+      "reportState": "running",
+      "checkpointElapsedMs": 430066,
+      "throughSourceUs": 256600000,
+      "retainedCandidates": 886,
+      "retainedPngBytes": 32196842,
+      "serviceRSSKiB": 270464,
+      "workerRSSKiB": 26256,
+      "workers": [
+        {
+          "pid": 80755,
+          "rssKiB": 26256
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-09-16T11:44:03.970Z",
+      "elapsedMs": 493433,
+      "reportState": "running",
+      "checkpointElapsedMs": 491411,
+      "throughSourceUs": 316600000,
+      "retainedCandidates": 1126,
+      "retainedPngBytes": 40848117,
+      "serviceRSSKiB": 271024,
+      "workerRSSKiB": 15904,
+      "workers": [
+        {
+          "pid": 82616,
+          "rssKiB": 15904
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-09-16T11:45:04.011Z",
+      "elapsedMs": 553474,
+      "reportState": "running",
+      "checkpointElapsedMs": 552818,
+      "throughSourceUs": 380999999,
+      "retainedCandidates": 1343,
+      "retainedPngBytes": 48790927,
+      "serviceRSSKiB": 272032,
+      "workerRSSKiB": 25888,
+      "workers": [
+        {
+          "pid": 83958,
+          "rssKiB": 25888
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-09-16T11:46:04.054Z",
+      "elapsedMs": 613517,
+      "reportState": "running",
+      "checkpointElapsedMs": 598896,
+      "throughSourceUs": 426799999,
+      "retainedCandidates": 1499,
+      "retainedPngBytes": 54435655,
+      "serviceRSSKiB": 270176,
+      "workerRSSKiB": 28800,
+      "workers": [
+        {
+          "pid": 84929,
+          "rssKiB": 28800
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-09-16T11:47:04.093Z",
+      "elapsedMs": 673556,
+      "reportState": "running",
+      "checkpointElapsedMs": 660311,
+      "throughSourceUs": 484199999,
+      "retainedCandidates": 1706,
+      "retainedPngBytes": 61986830,
+      "serviceRSSKiB": 270192,
+      "workerRSSKiB": 29200,
+      "workers": [
+        {
+          "pid": 85824,
+          "rssKiB": 29200
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-09-16T11:48:04.135Z",
+      "elapsedMs": 733598,
+      "reportState": "running",
+      "checkpointElapsedMs": 721654,
+      "throughSourceUs": 543800000,
+      "retainedCandidates": 1928,
+      "retainedPngBytes": 70058857,
+      "serviceRSSKiB": 272096,
+      "workerRSSKiB": 29184,
+      "workers": [
+        {
+          "pid": 87285,
+          "rssKiB": 29184
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-09-16T11:49:04.172Z",
+      "elapsedMs": 793635,
+      "reportState": "failed",
+      "checkpointElapsedMs": 767781,
+      "throughSourceUs": 584000000,
+      "retainedCandidates": 2088,
+      "retainedPngBytes": 75889189,
+      "serviceRSSKiB": null,
+      "workerRSSKiB": 0,
+      "workers": []
+    }
+  ],
+  "reason": "benchmark_failed"
+}
