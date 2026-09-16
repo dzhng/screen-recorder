@@ -155,7 +155,7 @@ test("relocated bounded source pages preserve normalized queries without the ori
     new AbortController().signal,
   );
   const output = join(f.root, "exported");
-  await writeSourceEvidencePages(f.evidence, f.identity, output);
+  await writeSourceEvidencePages(f.evidence, f.metadata, output);
   f.store.close();
   stores.delete(f.store);
   rmSync(f.library);
@@ -182,7 +182,7 @@ test("relocated bounded source pages preserve normalized queries without the ori
     "not indexed",
   );
   if (process.env.SCREENREC_SOURCE_PAGES_EVIDENCE) {
-    const manifest = JSON.parse(readFileSync(join(moved, "source-pages.json"), "utf8"));
+    const manifest = JSON.parse(readFileSync(join(moved, "pages.json"), "utf8"));
     writeFileSync(
       process.env.SCREENREC_SOURCE_PAGES_EVIDENCE,
       JSON.stringify(
@@ -227,7 +227,7 @@ test("page reads seek only relevant members and fail when a required member disa
   const f = await fixture(),
     output = join(f.root, "pages");
   await writeSourceEvidencePages(f.evidence, f.identity, output);
-  const manifest = JSON.parse(readFileSync(join(output, "source-pages.json"), "utf8"));
+  const manifest = JSON.parse(readFileSync(join(output, "pages.json"), "utf8"));
   const last = manifest.indexes.cursor.at(-1),
     first = manifest.indexes.cursor[0];
   expect(last.file).not.toBe(first.file);
@@ -253,7 +253,7 @@ test("invalid page directories fail before returning misleading empty evidence",
   const f = await fixture(),
     output = join(f.root, "pages");
   await writeSourceEvidencePages(f.evidence, f.identity, output);
-  const path = join(output, "source-pages.json"),
+  const path = join(output, "pages.json"),
     original = readFileSync(path),
     manifest = JSON.parse(original.toString());
   expect(() => new FileSourceEvidence(output, { ...f.identity, sourceId: "wrong" })).toThrow(

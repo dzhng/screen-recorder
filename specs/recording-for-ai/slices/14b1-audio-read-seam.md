@@ -3,7 +3,8 @@
 Status: shared consumer checkpoint implemented within [14b](14b-portable-inspection.md).
 [Generated evidence](../assets/portable-inspection/README.md); actual source/scene
 storage and full native relocation are not implemented by this pass.
-The full relocated reader/native parity gate remains open.
+The later [14b3 checkpoint](14b3-retained-inspection.md) supplies generated
+reader/native relocation evidence. Public package/export gates remain separate.
 
 ## One question
 

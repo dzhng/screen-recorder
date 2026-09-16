@@ -1,3 +1,4 @@
+import type { PageBound, PageQuery } from "./ordered-pages.js";
 import { CatalogError } from "./library.js";
 import type { EvidenceIdentity, RecordRow, RawCursorSample, SourceGeometry } from "./evidence.js";
 import type { TimeRange } from "./timeline.js";
@@ -13,15 +14,8 @@ export const evidenceIndexes = [
   "system",
 ] as const;
 export type EvidenceIndex = (typeof evidenceIndexes)[number];
-export type RecordKey = readonly number[];
-export type RecordBound = { key: RecordKey; inclusive: boolean };
-export type RecordQuery = {
-  index: EvidenceIndex;
-  lower?: RecordBound;
-  upper?: RecordBound;
-  reverse?: boolean;
-  limit: number;
-};
+export type RecordBound = PageBound;
+export type RecordQuery = Omit<PageQuery, "index"> & { index: EvidenceIndex };
 const max = Number.MAX_SAFE_INTEGER;
 const integer = (value: unknown): value is number =>
   Number.isSafeInteger(value) && (value as number) >= 0;
@@ -29,12 +23,6 @@ function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
 const content = <T>(row: RecordRow): T => ({ ...JSON.parse(row.content), sequence: row.sequence });
-export function compareRecordKeys(a: RecordKey, b: RecordKey): number {
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) return a[i]! < b[i]! ? -1 : 1;
-  }
-  return 0;
-}
 export function recordKey(index: EvidenceIndex, row: RecordRow): number[] {
   if (index === "cursorSequence" || index === "unplaced") return [row.sequence];
   return [index === "geometryEpoch" ? JSON.parse(row.content).epoch : row.sourceUs!, row.sequence];

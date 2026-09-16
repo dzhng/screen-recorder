@@ -87,6 +87,14 @@
     "./evidence-pages": {
       "types": "./dist/evidence-pages.d.ts",
       "default": "./dist/evidence-pages.js"
+    },
+    "./scene-pages": {
+      "types": "./dist/scene-pages.d.ts",
+      "default": "./dist/scene-pages.js"
+    },
+    "./index-pages": {
+      "types": "./dist/index-pages.d.ts",
+      "default": "./dist/index-pages.js"
     }
   },
   "scripts": {

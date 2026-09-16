@@ -1,0 +1,296 @@
+import { test, expect, afterEach } from "vitest";
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync, renameSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
+import { randomUUID, createHash } from "node:crypto";
+import { RevisionStore } from "./library.js";
+import { SceneEvidenceStore } from "./scene-evidence.js";
+import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
+import { FileSceneEvidence, writeSceneEvidencePages } from "./scene-pages.js";
+import { ScreenshotIndexStore } from "./screenshot-index.js";
+import { FileScreenshotIndex, writeScreenshotIndexPages } from "./index-pages.js";
+import { framePolicy } from "./frame-materialization.js";
+import { trailPolicy } from "./trails.js";
+import { selectionPolicy } from "./selection.js";
+const roots: string[] = [],
+  stores = new Set<RevisionStore>();
+afterEach(() => {
+  for (const store of stores) store.close();
+  stores.clear();
+  for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true });
+});
+const png = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7l8AAAAASUVORK5CYII=",
+  "base64",
+);
+async function fixture(count = 260) {
+  const root = mkdtempSync(join(tmpdir(), "portable-index-"));
+  roots.push(root);
+  const original = join(root, "original");
+  mkdirSync(original);
+  const store = new RevisionStore(join(original, "catalog.sqlite"), {
+    now: () => "",
+    newId: randomUUID,
+  });
+  stores.add(store);
+  const take = store.allocate().recording,
+    duration = count * 2_000_000;
+  store.registerSource(take.recordingId, duration);
+  const revision = store.revision(take.recordingId),
+    sourceIdentity = {
+      recordingId: take.recordingId,
+      sourceId: take.sourceId,
+      generation: "source1",
+    };
+  const sceneIdentity = { ...sourceIdentity, generation: "scene1", policy: scenePolicy.id };
+  const scenes = new SceneEvidenceStore(store),
+    analysis = new SourceSceneAnalysis(take.recordingId, "/unused", duration, async (request) => ({
+      sourceWidth: 1,
+      sourceHeight: 1,
+      samples: request.atSourceUs.map((at) => ({
+        requestedSourceUs: at,
+        actualSourceUs: at,
+        distanceUs: 0,
+        width: 1,
+        height: 1,
+        rgbBase64: Buffer.alloc(3, (Math.floor(at / 10_000_000) % 2) * 255).toString("base64"),
+      })),
+    }));
+  for (let at = 0; at < duration; at += 10_000_000)
+    scenes.append(
+      sceneIdentity,
+      await analysis.analyze(
+        { startUs: at, endUs: Math.min(duration, at + 10_000_000) },
+        new AbortController().signal,
+      ),
+    );
+  scenes.finish(sceneIdentity, duration);
+  const identity = {
+    ...sourceIdentity,
+    generation: "index1",
+    sourceIdentity,
+    sceneIdentity,
+    revisionId: revision.id,
+    framePolicy,
+    trailPolicy: trailPolicy.id,
+    selectionPolicy: selectionPolicy.id,
+  };
+  const index = new ScreenshotIndexStore(store, original);
+  index.begin(identity);
+  for (let ordinal = 0; ordinal < count; ordinal++) {
+    const at = ordinal * 2_000_000,
+      kept = { startUs: 0, endUs: duration },
+      file = index.outputPath(identity, ordinal);
+    writeFileSync(file, png);
+    index.appendCandidate(
+      identity,
+      {
+        kind: "candidate",
+        ordinal,
+        requestedSourceUs: at,
+        requestedPlaybackUs: at,
+        kept,
+        reasons: [{ kind: "coverage", eventSourceUs: at }],
+        sourceIdentity,
+        sceneIdentity,
+      },
+      {
+        file,
+        mediaType: "image/png",
+        bytes: png.length,
+        width: 1,
+        height: 1,
+        sourceWidth: 1,
+        sourceHeight: 1,
+        requestedSourceUs: at,
+        actualSourceUs: at,
+        distanceUs: 0,
+        requestedPlaybackUs: at,
+        actualPlaybackUs: at,
+        kept,
+        clean: true,
+        sourceEvidence: null,
+        annotation: null,
+        recordingId: take.recordingId,
+        sourceId: take.sourceId,
+        revisionId: revision.id,
+      },
+    );
+    for (let part = 0; part < 2; part++) {
+      const range = { startUs: at + part * 1_000_000, endUs: at + (part + 1) * 1_000_000 };
+      index.appendCoverage(identity, {
+        kind: "coverage",
+        ordinal,
+        source: range,
+        playback: range,
+        equality: part ? "unproven" : "sampled",
+      });
+    }
+  }
+  await index.finish(identity);
+  return { root, original, store, scenes, index, identity, sceneIdentity, revision };
+}
+function framesWithoutPaths(entries: ReturnType<ScreenshotIndexStore["page"]>["entries"]) {
+  return entries.map((entry) => {
+    const { file, ...frame } = entry.frame;
+    expect(file).toBeTruthy();
+    return { ...entry, frame };
+  });
+}
+test("scene chunks, retained images and coverage remain readable after library removal and relocation", async () => {
+  const f = await fixture();
+  const sceneFirst = f.scenes.page({ identity: f.sceneIdentity, limit: 1 }),
+    sceneNext = f.scenes.page({ identity: f.sceneIdentity, afterStartUs: 0, limit: 100 });
+  const first = f.index.page({ identity: f.identity, limit: 200 }),
+    next = f.index.page({ identity: f.identity, afterOrdinal: first.nextOrdinal!, limit: 200 });
+  const coverage = f.index.coveragePage({ identity: f.identity, afterSequence: 254, limit: 200 }),
+    candidateCoverage = f.index.coveragePage({
+      identity: f.identity,
+      candidateOrdinal: 259,
+      limit: 1,
+    });
+  await writeSceneEvidencePages(f.scenes, f.sceneIdentity, join(f.root, "scenes"));
+  await writeScreenshotIndexPages(f.index, f.identity, f.revision, join(f.root, "index"));
+  f.store.close();
+  stores.delete(f.store);
+  rmSync(f.original, { recursive: true });
+  renameSync(join(f.root, "scenes"), join(f.root, "moved-scenes"));
+  renameSync(join(f.root, "index"), join(f.root, "moved-index"));
+  const scenes = new FileSceneEvidence(join(f.root, "moved-scenes"), f.sceneIdentity),
+    index = new FileScreenshotIndex(join(f.root, "moved-index"), f.identity, f.revision);
+  expect(scenes.page({ identity: f.sceneIdentity, limit: 1 })).toEqual(sceneFirst);
+  expect(scenes.page({ identity: f.sceneIdentity, afterStartUs: 0, limit: 100 })).toEqual(
+    sceneNext,
+  );
+  const movedFirst = index.page({ identity: f.identity, limit: 200 });
+  expect({ ...movedFirst, entries: framesWithoutPaths(movedFirst.entries) }).toEqual({
+    ...first,
+    entries: framesWithoutPaths(first.entries),
+  });
+  expect(
+    framesWithoutPaths(
+      index.page({ identity: f.identity, afterOrdinal: first.nextOrdinal!, limit: 200 }).entries,
+    ),
+  ).toEqual(framesWithoutPaths(next.entries));
+  expect(index.coveragePage({ identity: f.identity, afterSequence: 254, limit: 200 })).toEqual(
+    coverage,
+  );
+  expect(index.coveragePage({ identity: f.identity, candidateOrdinal: 259, limit: 1 })).toEqual(
+    candidateCoverage,
+  );
+  expect(
+    index
+      .coveragePage({
+        identity: f.identity,
+        candidateOrdinal: 259,
+        afterSequence: candidateCoverage.nextSequence!,
+        limit: 1,
+      })
+      .coverage.map((row) => row.equality),
+  ).toEqual(["unproven"]);
+  const image = index.openRead(f.identity, 259),
+    bytes = Buffer.alloc(image.bytes);
+  expect(image.read(bytes, 0)).toBe(png.length);
+  expect(bytes).toEqual(png);
+  image.release();
+  expect(() => image.read(bytes, 0)).toThrow("released");
+  expect(movedFirst.entries[0]!.frame.file.startsWith(join(f.root, "moved-index"))).toBe(true);
+  const manifest = JSON.parse(readFileSync(join(f.root, "moved-index", "pages.json"), "utf8"));
+  const entryFile = readFileSync(
+    join(f.root, "moved-index", manifest.indexes.entries[0].file),
+    "utf8",
+  );
+  expect(entryFile).not.toContain(f.original);
+  expect(() =>
+    index.coveragePage({ identity: f.identity, candidateOrdinal: 259, afterSequence: 0 }),
+  ).toThrow("outside");
+  expect(() => index.page({ identity: f.identity, afterOrdinal: 999 })).toThrow("Unknown");
+  expect(() => index.page({ identity: { ...f.identity, generation: "wrong" } })).toThrow(
+    "identity",
+  );
+});
+
+test("portable policies, pinned contexts, required members and retained image bytes fail explicitly", async () => {
+  const f = await fixture(2),
+    directory = join(f.root, "index"),
+    sceneDirectory = join(f.root, "scenes");
+  await writeScreenshotIndexPages(f.index, f.identity, f.revision, directory);
+  await writeSceneEvidencePages(f.scenes, f.sceneIdentity, sceneDirectory);
+  expect(() => new FileScreenshotIndex(directory, f.identity, { ...f.revision, id: "r1" })).toThrow(
+    "pinned revision",
+  );
+  const path = join(directory, "pages.json"),
+    body = readFileSync(path),
+    manifest = JSON.parse(body.toString());
+  manifest.metadata.framePolicy = "future-frame";
+  writeFileSync(path, JSON.stringify(manifest));
+  expect(() => new FileScreenshotIndex(directory, f.identity, f.revision)).toThrow("Unsupported");
+  writeFileSync(path, body);
+  const index = new FileScreenshotIndex(directory, f.identity, f.revision);
+  const mutable = index.page({ identity: f.identity }).metadata;
+  Reflect.set(mutable.sourceIdentity, "generation", "mutated by caller");
+  expect(index.page({ identity: f.identity }).metadata.sourceIdentity).toEqual(
+    f.identity.sourceIdentity,
+  );
+  const imagePath = index.page({ identity: f.identity }).entries[0]!.frame.file;
+  const changed = Buffer.from(png);
+  changed[40] = changed[40]! ^ 1;
+  writeFileSync(imagePath, changed);
+  expect(() => index.openRead(f.identity, 0)).toThrow("differs");
+  const scenePath = join(sceneDirectory, "pages.json"),
+    sceneBody = readFileSync(scenePath),
+    sceneManifest = JSON.parse(sceneBody.toString());
+  sceneManifest.metadata.policy = "future-scene";
+  writeFileSync(scenePath, JSON.stringify(sceneManifest));
+  expect(() => new FileSceneEvidence(sceneDirectory, f.sceneIdentity)).toThrow("Unsupported");
+  writeFileSync(scenePath, sceneBody);
+  const scenes = new FileSceneEvidence(sceneDirectory, f.sceneIdentity);
+  expect(() => scenes.page({ identity: { ...f.sceneIdentity, sourceId: "other" } })).toThrow(
+    "identity",
+  );
+  rmSync(join(sceneDirectory, sceneManifest.indexes.chunks[0].file));
+  expect(() => scenes.page({ identity: f.sceneIdentity })).toThrow();
+  rmSync(join(directory, manifest.indexes.coverage[0].file));
+  expect(() => index.coveragePage({ identity: f.identity })).toThrow();
+});
+
+test("portable chunks apply the append owner's semantic validation even with matching hashes", async () => {
+  const f = await fixture(2),
+    directory = join(f.root, "scenes");
+  await writeSceneEvidencePages(f.scenes, f.sceneIdentity, directory);
+  const manifestPath = join(directory, "pages.json"),
+    manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  const descriptor = manifest.indexes.chunks[0],
+    path = join(directory, descriptor.file),
+    original = JSON.parse(readFileSync(path, "utf8"));
+  for (const mutate of [
+    (chunk: (typeof original)[number]) => {
+      chunk.coverage[1].requestedSourceUs++;
+    },
+    (chunk: (typeof original)[number]) => {
+      chunk.coverage[1].distanceUs++;
+    },
+    (chunk: (typeof original)[number]) => {
+      chunk.coverage[2].actualSourceUs = 0;
+      chunk.coverage[2].distanceUs = chunk.coverage[2].requestedSourceUs;
+    },
+    (chunk: (typeof original)[number]) => {
+      chunk.comparisons[0].actualSourceUs = chunk.comparisons[0].previousActualSourceUs;
+    },
+    (chunk: (typeof original)[number]) => {
+      chunk.boundaries.push({ kind: "scene", atSourceUs: 1 });
+    },
+  ]) {
+    const rows = structuredClone(original);
+    mutate(rows[0]);
+    const bytes = Buffer.from(JSON.stringify(rows));
+    writeFileSync(path, bytes);
+    descriptor.bytes = bytes.length;
+    descriptor.sha256 = createHash("sha256").update(bytes).digest("hex");
+    writeFileSync(manifestPath, JSON.stringify(manifest));
+    const reader = new FileSceneEvidence(directory, f.sceneIdentity);
+    expect(() => reader.page({ identity: f.sceneIdentity })).toThrow(
+      expect.objectContaining({ code: "INVALID_EVIDENCE" }),
+    );
+  }
+});

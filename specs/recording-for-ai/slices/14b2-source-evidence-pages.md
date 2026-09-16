@@ -2,7 +2,8 @@
 
 Status: implemented internal source-only checkpoint within [14b](14b-portable-inspection.md).
 [Generated evidence](../assets/portable-inspection/source-pages.md). Scene/index
-transport, whole-package inspection and native relocation parity remain open.
+transport and generated native relocation now have [14b3](14b3-retained-inspection.md)
+evidence; public package lifetime and complete export remain open.
 
 ## One owner for time and uncertainty
 
@@ -12,8 +13,8 @@ bounded ordered normalized records; the shared owner handles cursor continuation
 latest observations, timed/unplaced geometry, inclusive pause boundaries and
 clipped audio acquisition. Neither reader rebuilds a clock or edit timeline.
 
-The [directory format and producer](../../../packages/core/src/evidence-pages.ts)
-store ordinary JSON record pages plus a versioned source identity and seek manifest.
+The [source adapter](../../../packages/core/src/evidence-pages.ts) and
+[shared page transport](../../../packages/core/src/ordered-pages.ts) store ordinary JSON record pages plus a versioned source identity and seek manifest.
 Each page describes its first/last key, row/byte counts and SHA-256. Query-specific
 orders preserve delivery sequence separately from timestamp order. Cursor records
 appear in both time and sequence orders; geometry likewise retains its existing
@@ -56,7 +57,6 @@ Corruption and seek tests pin explicit errors, bounded member reads and no need 
 load unrelated distant pages. A missing-pause mutation must break parity. Existing
 library/frame/trail/audio/selection tests remain the live-consumer regression gate.
 
-Next, apply this proven ordered-page approach to scene evidence and retained index/
-coverage through their current owners. Do not generalize source-specific query
-semantics into a second repository or reconstruct library rows. Then run the
-original full-context/native relocation gate in 14b before expanding package handles.
+[14b3](14b3-retained-inspection.md) extends these ordered pages through the scene and
+retained-index owners and exercises generated native relocation. Public package
+handles and descriptor-safe root lifetime remain in 14c.

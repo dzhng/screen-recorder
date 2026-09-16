@@ -1,12 +1,12 @@
 # 14b — Shared read-only inspection after relocation
 
-Status: [14b1 consumer seam](14b1-audio-read-seam.md) implemented with
-[generated path/plan evidence](../assets/portable-inspection/README.md).
-[14b2 source reader](14b2-source-evidence-pages.md) now matches generated source
-queries after catalog removal and directory relocation. Scene/index readers and
-full native relocation remain open; extend the proven ordered-page transport next.
-Internal generated directory fixtures only. No public ZIP reader, export menu,
-transcript integration or playable movie is claimed by this checkpoint.
+Status: internal directory inspection/native parity passes in
+[14b3](14b3-retained-inspection.md), building on the [14b1 consumer seam](14b1-audio-read-seam.md)
+and [14b2 source reader](14b2-source-evidence-pages.md).
+[Generated evidence](../assets/portable-inspection/native-relocation.md) includes the
+original catalog/media being unavailable. Public ZIP/package lifetime, export
+admission and accepted transcript integration remain 14c–e. No public export menu
+or playable movie is claimed by this checkpoint.
 
 ## One question and seam
 

@@ -1,16 +1,12 @@
-import { createHash } from "node:crypto";
+import { openRetainedImage, retainedImageRead } from "./retained-image.js";
 import {
-  closeSync,
-  constants,
-  fstatSync,
-  lstatSync,
-  mkdirSync,
-  openSync,
-  readSync,
-  realpathSync,
-  rmdirSync,
-  unlinkSync,
-} from "node:fs";
+  ScreenshotIndexReader,
+  type EntryQuery,
+  type CoverageQuery,
+  type IndexCoverage,
+} from "./screenshot-index-read.js";
+import { createHash } from "node:crypto";
+import { closeSync, lstatSync, mkdirSync, realpathSync, rmdirSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";
@@ -113,22 +109,61 @@ function boundedJson(value: unknown): string {
   if (Buffer.byteLength(text) > 262144) invalid("Index row exceeds storage budget");
   return text;
 }
-function limitValue(limit = 50): number {
-  if (!integer(limit) || limit < 1 || limit > 200)
-    throw new CatalogError("INVALID_PARAMS", "Index page limit must be 1...200");
-  return limit;
-}
 function missing(error: unknown) {
   return (error as NodeJS.ErrnoException).code === "ENOENT";
 }
 
+export function validateIndexEntry(
+  identity: ScreenshotIndexIdentity,
+  revision: import("./timeline.js").TimelineRevision,
+  candidate: SelectedCandidate,
+  frame: MaterializedFrame,
+  path: string,
+): void {
+  const mapped = editedToSource(revision, candidate.requestedPlaybackUs);
+  if (
+    !mapped ||
+    !isDeepStrictEqual(candidate.kept, mapped.span.source) ||
+    candidate.requestedSourceUs !== mapped.sourceUs ||
+    !isDeepStrictEqual(
+      sourceIdentity(candidate.sourceIdentity),
+      sourceIdentity(identity.sourceIdentity),
+    ) ||
+    !isDeepStrictEqual(
+      sceneIdentity(candidate.sceneIdentity),
+      sceneIdentity(identity.sceneIdentity),
+    ) ||
+    (frame.sourceEvidence !== null &&
+      (frame.sourceEvidence.recordingId !== identity.recordingId ||
+        frame.sourceEvidence.sourceId !== identity.sourceId ||
+        frame.sourceEvidence.generation !== identity.sourceIdentity.generation)) ||
+    (frame.annotation !== null &&
+      (frame.annotation.policy !== identity.trailPolicy ||
+        frame.annotation.scene.policy !== identity.sceneIdentity.policy)) ||
+    frame.file !== path ||
+    frame.recordingId !== identity.recordingId ||
+    frame.sourceId !== identity.sourceId ||
+    frame.revisionId !== identity.revisionId ||
+    frame.requestedSourceUs !== candidate.requestedSourceUs ||
+    frame.requestedPlaybackUs !== candidate.requestedPlaybackUs ||
+    !isDeepStrictEqual(frame.kept, candidate.kept) ||
+    !integer(frame.actualSourceUs) ||
+    frame.actualSourceUs < candidate.kept.startUs ||
+    frame.actualSourceUs >= candidate.kept.endUs ||
+    frame.actualPlaybackUs !== sourceToEdited(revision, frame.actualSourceUs) ||
+    frame.distanceUs !== Math.abs(frame.actualSourceUs - frame.requestedSourceUs)
+  )
+    invalid("Selected image receipt does not match its candidate");
+}
+
 /** Owns retained rows and PNGs; only the job queue can publish a finished generation. */
-export class ScreenshotIndexStore {
+export class ScreenshotIndexStore extends ScreenshotIndexReader {
   private readonly home: string;
   constructor(
     private readonly store: RevisionStore,
     home: string,
   ) {
+    super();
     this.home = realpathSync(home);
     store.catalog.exec(`CREATE TABLE IF NOT EXISTS screenshot_index_generations (
     recordingId TEXT NOT NULL,generation TEXT NOT NULL,identity TEXT NOT NULL,state TEXT NOT NULL,
@@ -236,83 +271,15 @@ export class ScreenshotIndexStore {
     if (!entry) invalid("Unknown selected image");
     return entry;
   }
-  private inspectFile(path: string, frame: MaterializedFrame, expected?: Entry) {
-    const fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
-    try {
-      const stat = fstatSync(fd);
-      if (
-        !stat.isFile() ||
-        stat.nlink !== 1 ||
-        stat.size !== frame.bytes ||
-        stat.size < 33 ||
-        stat.size > 32 * 1024 * 1024 ||
-        frame.mediaType !== "image/png"
-      )
-        invalid("Invalid retained PNG file or byte receipt");
-      if (
-        expected &&
-        (stat.dev !== expected.device ||
-          stat.ino !== expected.inode ||
-          stat.mtimeMs !== expected.modified)
-      )
-        invalid("Retained image changed after admission");
-      const header = Buffer.alloc(24);
-      readSync(fd, header, 0, 24, 0);
-      if (
-        !header.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])) ||
-        header.toString("ascii", 12, 16) !== "IHDR" ||
-        header.readUInt32BE(16) !== frame.width ||
-        header.readUInt32BE(20) !== frame.height
-      )
-        invalid("Retained PNG does not match dimensions");
-      return { fd, stat };
-    } catch (error) {
-      closeSync(fd);
-      throw error;
-    }
-  }
   appendCandidate(
     identity: ScreenshotIndexIdentity,
     candidate: SelectedCandidate,
     frame: MaterializedFrame,
   ): void {
     const path = this.outputPath(identity, candidate.ordinal);
-    const revision = this.store.revision(identity.recordingId, identity.revisionId),
-      mapped = editedToSource(revision, candidate.requestedPlaybackUs);
-    if (
-      !mapped ||
-      !isDeepStrictEqual(candidate.kept, mapped.span.source) ||
-      candidate.requestedSourceUs !== mapped.sourceUs ||
-      !isDeepStrictEqual(
-        sourceIdentity(candidate.sourceIdentity),
-        sourceIdentity(identity.sourceIdentity),
-      ) ||
-      !isDeepStrictEqual(
-        sceneIdentity(candidate.sceneIdentity),
-        sceneIdentity(identity.sceneIdentity),
-      ) ||
-      (frame.sourceEvidence !== null &&
-        (frame.sourceEvidence.recordingId !== identity.recordingId ||
-          frame.sourceEvidence.sourceId !== identity.sourceId ||
-          frame.sourceEvidence.generation !== identity.sourceIdentity.generation)) ||
-      (frame.annotation !== null &&
-        (frame.annotation.policy !== identity.trailPolicy ||
-          frame.annotation.scene.policy !== identity.sceneIdentity.policy)) ||
-      frame.file !== path ||
-      frame.recordingId !== identity.recordingId ||
-      frame.sourceId !== identity.sourceId ||
-      frame.revisionId !== identity.revisionId ||
-      frame.requestedSourceUs !== candidate.requestedSourceUs ||
-      frame.requestedPlaybackUs !== candidate.requestedPlaybackUs ||
-      !isDeepStrictEqual(frame.kept, candidate.kept) ||
-      !integer(frame.actualSourceUs) ||
-      frame.actualSourceUs < candidate.kept.startUs ||
-      frame.actualSourceUs >= candidate.kept.endUs ||
-      frame.actualPlaybackUs !== sourceToEdited(revision, frame.actualSourceUs) ||
-      frame.distanceUs !== Math.abs(frame.actualSourceUs - frame.requestedSourceUs)
-    )
-      invalid("Selected image receipt does not match its candidate");
-    const { fd, stat } = this.inspectFile(path, frame);
+    const revision = this.store.revision(identity.recordingId, identity.revisionId);
+    validateIndexEntry(identity, revision, candidate, frame, path);
+    const { fd, stat } = openRetainedImage(path, frame);
     closeSync(fd);
     this.store.transaction(() => {
       const row = this.row(identity, "building");
@@ -423,7 +390,7 @@ export class ScreenshotIndexStore {
         )
         .all(...key(identity), ordinal) as Entry[];
       for (const entry of entries) {
-        const file = this.inspectFile(
+        const file = openRetainedImage(
           join(directory, `${entry.ordinal}.png`),
           JSON.parse(entry.frame),
           entry,
@@ -441,104 +408,54 @@ export class ScreenshotIndexStore {
       .run(...key(identity));
     return metadata(this.row(identity, "complete"));
   }
-  page({
-    identity,
-    afterOrdinal,
-    limit,
-  }: {
-    identity: ScreenshotIndexIdentity;
-    afterOrdinal?: number;
-    limit?: number;
-  }) {
-    const row = this.row(identity, "complete"),
-      take = limitValue(limit);
-    if (afterOrdinal !== undefined) {
-      this.entry(identity, afterOrdinal);
-    }
-    const rows = this.store.catalog
-      .prepare(
-        `SELECT e.* FROM screenshot_index_entries e WHERE e.recordingId=? AND e.generation=? AND e.ordinal>? ORDER BY e.ordinal LIMIT ?`,
-      )
-      .all(...key(identity), afterOrdinal ?? -1, take + 1) as Entry[];
-    const more = rows.length > take;
-    if (more) rows.pop();
-    return {
-      metadata: metadata(row),
-      entries: rows.map(({ candidate, frame, coverageCount }): ScreenshotIndexEntry => ({
-        candidate: JSON.parse(candidate),
-        frame: JSON.parse(frame),
-        coverageCount,
-      })),
-      nextOrdinal: more ? rows.at(-1)!.ordinal : null,
-    };
+  protected readMetadata(identity: ScreenshotIndexIdentity): ScreenshotIndexMetadata {
+    return metadata(this.row(identity, "complete"));
   }
-  coveragePage({
-    identity,
-    afterSequence,
-    candidateOrdinal,
-    limit,
-  }: {
-    identity: ScreenshotIndexIdentity;
-    afterSequence?: number;
-    candidateOrdinal?: number;
-    limit?: number;
-  }) {
-    this.row(identity, "complete");
-    const take = limitValue(limit);
-    if (candidateOrdinal !== undefined) this.entry(identity, candidateOrdinal);
-    if (afterSequence !== undefined) {
-      if (!integer(afterSequence)) invalid("Invalid coverage continuation");
-      const anchor = this.store.catalog
-        .prepare(`SELECT ordinal FROM screenshot_index_coverage WHERE ${where} AND sequence=?`)
-        .get(...key(identity), afterSequence) as { ordinal: number } | undefined;
-      if (!anchor || (candidateOrdinal !== undefined && anchor.ordinal !== candidateOrdinal))
-        invalid("Coverage continuation is outside this query");
-    }
+  protected entryRows(
+    identity: ScreenshotIndexIdentity,
+    query: EntryQuery,
+  ): ScreenshotIndexEntry[] {
     const rows = this.store.catalog
       .prepare(
-        `SELECT * FROM screenshot_index_coverage WHERE ${where} AND sequence>? ${candidateOrdinal !== undefined ? "AND ordinal=?" : ""} ORDER BY sequence LIMIT ?`,
+        `SELECT candidate,frame,coverageCount FROM screenshot_index_entries WHERE ${where} AND ordinal>? ${query.through === undefined ? "" : "AND ordinal<=?"} ORDER BY ordinal LIMIT ?`,
       )
       .all(
         ...key(identity),
-        afterSequence ?? -1,
-        ...(candidateOrdinal !== undefined ? [candidateOrdinal] : []),
-        take + 1,
-      ) as Coverage[];
-    const more = rows.length > take;
-    if (more) rows.pop();
-    return {
-      coverage: rows.map(({ sequence, content }) => ({
-        sequence,
-        ...(JSON.parse(content) as SelectionCoverage),
-      })),
-      nextSequence: more ? rows.at(-1)!.sequence : null,
-    };
+        query.after,
+        ...(query.through === undefined ? [] : [query.through]),
+        query.limit,
+      ) as Pick<Entry, "candidate" | "frame" | "coverageCount">[];
+    return rows.map(({ candidate, frame, coverageCount }) => ({
+      candidate: JSON.parse(candidate),
+      frame: JSON.parse(frame),
+      coverageCount,
+    }));
+  }
+  protected coverageRows(identity: ScreenshotIndexIdentity, query: CoverageQuery): IndexCoverage[] {
+    const rows = this.store.catalog
+      .prepare(
+        `SELECT sequence,content FROM screenshot_index_coverage WHERE ${where} AND sequence>? ${query.through === undefined ? "" : "AND sequence<=?"} ${query.ordinal === undefined ? "" : "AND ordinal=?"} ORDER BY sequence LIMIT ?`,
+      )
+      .all(
+        ...key(identity),
+        query.after,
+        ...(query.through === undefined ? [] : [query.through]),
+        ...(query.ordinal === undefined ? [] : [query.ordinal]),
+        query.limit,
+      ) as Pick<Coverage, "sequence" | "content">[];
+    return rows.map(({ sequence, content }) => ({ sequence, ...JSON.parse(content) }));
   }
   openRead(identity: ScreenshotIndexIdentity, ordinal: number) {
     const row = this.row(identity, "complete"),
       entry = this.entry(identity, ordinal);
-    const { fd } = this.inspectFile(
+    const { fd } = openRetainedImage(
       join(this.checkedDirectory(identity, row), `${ordinal}.png`),
       JSON.parse(entry.frame),
       entry,
     );
-    let released = false;
-    return {
-      bytes: entry.bytes,
-      read(buffer: Uint8Array, position: number): number {
-        if (released) invalid("Selected image read has been released");
-        if (!integer(position) || position > entry.bytes)
-          invalid("Invalid selected image read position");
-        return readSync(fd, buffer, 0, Math.min(buffer.length, entry.bytes - position), position);
-      },
-      release() {
-        if (!released) {
-          released = true;
-          closeSync(fd);
-        }
-      },
-    };
+    return retainedImageRead(fd, entry.bytes);
   }
+
   async remove(identity: ScreenshotIndexIdentity): Promise<void> {
     const row = this.row(identity);
     this.store.catalog
