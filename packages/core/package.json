@@ -67,6 +67,11 @@
     "./selection-evidence": {
       "types": "./dist/selection-evidence.d.ts",
       "default": "./dist/selection-evidence.js"
+    },
+    "./screenshot-index": {
+      "types": "./dist/screenshot-index.d.ts",
+      "default": "./dist/screenshot-index.js"
+
     }
   },
   "scripts": {

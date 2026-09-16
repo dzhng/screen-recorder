@@ -9,6 +9,7 @@ import type { DerivedCache } from "./cache.js";
 import { editedToSource } from "./timeline.js";
 import {
   materializeFrame,
+  framePolicy as policy,
   type FrameCrop,
   type FrameDecoder,
   type FrameRenderOptions,
@@ -31,7 +32,6 @@ type FrameOptions = FrameRenderOptions & {
   scenePolicy: string | null;
 };
 const artifact = "frame";
-const policy = "frame-v2";
 
 /** Pins edits once; the native decoder only sees the resulting retained source interval. */
 export class FrameInspection {
