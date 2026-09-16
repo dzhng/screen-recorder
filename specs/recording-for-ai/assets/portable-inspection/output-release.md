@@ -32,3 +32,15 @@ integration receipts; no separate public package route is claimed here.
 Registry storage admission, admitted archive input handles, copied ZIP accounting
 and retryable full-context recovery remain 14c3b2. This pass reports output sizes
 last confirmed through admitted descriptors; it is not a complete package disk scan.
+
+
+## Merged host verification
+
+Main 86104dd rebuilt all eight workspace build tasks and passed the actual retained
+ZIP matrix against the newly bundled release worker in 17.33 seconds. The command
+explicitly sets SCREENREC_NATIVE to dist/ScreenRecorder.app/Contents/MacOS/screenrec-native;
+the initial invocation accidentally selected an older default debug worker and
+failed on the new removal operation. No assertion or product behavior changed;
+the rerun corrected the tested binary. [Retained ZIP receipt](output-release-merged-tests.txt),
+[delivery/deletion/operation receipt](delivery-owner-merged-tests.txt), and
+[bundled public preview receipt](delivery-owner-public-tests.txt) retain the scoped results.
