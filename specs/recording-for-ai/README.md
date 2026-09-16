@@ -29,7 +29,10 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: audio excerpt planning over the published source timing evidence.
+Current pickup: [audio excerpt inspection](slices/09e-public-audio.md) over the
+published source timing evidence. A non-Claude agent is independently implementing
+the [native visual-observation seam](slices/10b-visual-observations.md); integrate its
+reviewed commit before core scene analysis.
 [Source timing](slices/06j-source-timing.md) is integrated: cursor, geometry, pauses
 and acquired audio share one native-normalized generation. Raw reads remain in
 source time; edits only change projections. Fresh evidence catalogs are required.
@@ -111,8 +114,10 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (generated-media execution; audition still open)
   - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md) (public delivery remains)
   - [ ] [09d — Revision-bound public frame inspection](slices/09d-public-frames.md)
+  - [ ] [09e — Revision-bound audio inspection](slices/09e-public-audio.md)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
   - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
+  - [ ] [10b — Shared clean visual observations](slices/10b-visual-observations.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)
