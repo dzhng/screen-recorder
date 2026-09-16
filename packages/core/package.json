@@ -47,6 +47,10 @@
     "./visual-cache": {
       "types": "./dist/visual-cache.d.ts",
       "default": "./dist/visual-cache.js"
+    },
+    "./scene-evidence": {
+      "types": "./dist/scene-evidence.d.ts",
+      "default": "./dist/scene-evidence.js"
     }
   },
   "scripts": {
