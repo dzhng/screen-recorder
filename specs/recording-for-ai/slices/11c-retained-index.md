@@ -1,9 +1,10 @@
 # Retained revision index and public delivery
 
-Status: retained storage and core orchestration verified. Service/public operations,
-restart integration, contact sheets and scale acceptance remain open. Complete parent
-slice 11's visible result. See [retained storage evidence](../assets/screenshot-index/retained-store.md)
-and [orchestration evidence](../assets/screenshot-index/orchestration.md).
+Status: retained storage, core orchestration and public CLI/MCP delivery verified
+against generated data, including bundled restart and cache eviction. Contact sheets,
+selection usefulness and scale acceptance remain open. See [retained storage](../assets/screenshot-index/retained-store.md),
+[orchestration](../assets/screenshot-index/orchestration.md), and
+[public delivery evidence](../assets/screenshot-index/public-delivery.md).
 
 IndexProcessing pins revision, source/scene generations and selection/rendering
 policies before admission. One producer streams selection into bounded catalog rows
@@ -24,8 +25,9 @@ bound to recording, revision, generation, filters and ordinal. They return reaso
 coverage, requested/actual times and stable retained-image references. A separate
 selected-frame retrieval operation uses existing byte delivery, max-eight batches,
 actual MCP image content and CLI files; it must not make listing embed 200 images.
-Arbitrary timestamp inspection remains available. Full operation names and response
-schema are frozen at this slice's pickup after the selector shape is materialized.
+Arbitrary timestamp inspection remains available. The [operation registry](../../../packages/protocol/src/operations.ts) owns the
+implemented index operations and schemas. Index generation references resolve through
+queue publication; completed but unpublished store rows are never public.
 
 Selected images survive cache eviction and relocation/export planning. Shared frame
 materialization supplies the same native receipt validation and trail policy.

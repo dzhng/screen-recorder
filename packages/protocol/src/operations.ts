@@ -47,9 +47,78 @@ const audioParams = recording
   })
   .strict();
 
+const indexReference = recording.extend({ revisionId: id, generation: id }).strict();
+const indexCursor = indexReference.extend({ afterOrdinal: z.int().nonnegative() }).strict();
+const coverageCursor = indexReference
+  .extend({
+    afterSequence: z.int().nonnegative(),
+    candidateOrdinal: z.int().nonnegative().nullable(),
+  })
+  .strict();
+
 // These are implemented capabilities. Adapters derive their advertised tools from
 // the same schemas the service validates, rather than promising future operations.
 export const operationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("index.get"),
+      params: recording
+        .extend({
+          revisionId: id.optional(),
+          cursor: indexCursor.optional(),
+          limit: z.int().min(1).max(200).default(50),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Request a retained screenshot index. Returns readiness until complete, then paged metadata with reasons and stable frame references. Continue with the returned cursor to keep the same revision and generation; use index.frame or index.frames for image bytes.",
+    ),
+  z
+    .object({
+      operation: z.literal("index.retry"),
+      params: recording.extend({ revisionId: id.optional() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Explicitly retry failed screenshot index processing. Failed source or scene dependencies require their own processing.retry.",
+    ),
+  z
+    .object({
+      operation: z.literal("index.coverage"),
+      params: indexReference
+        .extend({
+          candidateOrdinal: z.int().nonnegative().optional(),
+          cursor: coverageCursor.optional(),
+          limit: z.int().min(1).max(200).default(50),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Page source and edited coverage intervals from a published index, optionally for one selected image. Continuations bind the index and candidate filter.",
+    ),
+  z
+    .object({
+      operation: z.literal("index.frame"),
+      params: indexReference.extend({ ordinal: z.int().nonnegative() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Read one retained selected PNG from a published index reference. Includes requested/actual times and pointing metadata; the CLI and MCP deliver image bytes.",
+    ),
+  z
+    .object({
+      operation: z.literal("index.frames"),
+      params: indexReference
+        .extend({ ordinals: z.array(z.int().nonnegative()).min(1).max(8) })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Read one to eight retained selected PNGs in order from the same published index. Each ordinal returns its own image or error; duplicates remain ordered.",
+    ),
+
   z
     .object({
       operation: z.literal("frame.batch"),

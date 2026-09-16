@@ -29,11 +29,12 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: wire [retained index delivery](slices/11c-retained-index.md) into
-the service and shared CLI/MCP registry. The [selection ledger](slices/11a-selection-ledger.md),
-retained store and core job orchestration are verified independently; public index
-access and contact-sheet acceptance remain open. Use the verified
-[shared frame materialization](slices/11b-shared-frame-materialization.md). [Default public trail frames](slices/10e-public-trails.md) now pass generated
+Current pickup: finish the fixture/contact-sheet and scale gates in
+[retained index delivery](slices/11c-retained-index.md). Selection, retained storage,
+core orchestration and public CLI/MCP index delivery pass their generated-data
+checks; visual usefulness and thirty-minute index performance remain open.
+[Shared frame materialization](slices/11b-shared-frame-materialization.md) serves
+both arbitrary and selected images. [Default public trail frames](slices/10e-public-trails.md) now pass generated
 CLI/MCP pixel and independent readability checks. The
 [requested-time scene rule](slices/10c-trail-timing.md) is verified against encoded
 sparse sources, including a two-minute gap. [Indexed evidence reads](slices/10d-trail-evidence.md)

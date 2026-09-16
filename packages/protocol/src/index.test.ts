@@ -32,3 +32,44 @@ describe("capture selection", () => {
     ).toMatchObject({ microphone: true, systemAudio: false });
   });
 });
+
+it("retained index requests bound paging, references and media batches", () => {
+  const reference = { recordingId: "take", revisionId: "r0", generation: "attempt" };
+  expect(
+    operationSchema.safeParse({ operation: "index.get", params: { recordingId: "take" } }).success,
+  ).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "index.get",
+      params: { recordingId: "take", limit: 201 },
+    }).success,
+  ).toBe(false);
+  expect(
+    operationSchema.safeParse({ operation: "index.frame", params: { ...reference, ordinal: 0 } })
+      .success,
+  ).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "index.frame",
+      params: { recordingId: "take", ordinal: 0 },
+    }).success,
+  ).toBe(false);
+  expect(
+    operationSchema.safeParse({
+      operation: "index.frames",
+      params: { ...reference, ordinals: [1, 0, 1] },
+    }).success,
+  ).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "index.frames",
+      params: { ...reference, ordinals: Array(9).fill(0) },
+    }).success,
+  ).toBe(false);
+  expect(
+    operationSchema.safeParse({
+      operation: "index.coverage",
+      params: { ...reference, cursor: { ...reference, afterSequence: 0, candidateOrdinal: null } },
+    }).success,
+  ).toBe(true);
+});

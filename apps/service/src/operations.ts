@@ -1,3 +1,4 @@
+import type { IndexProcessing } from "@screenrec/core/index-processing";
 import type { DerivedCache } from "@screenrec/core/cache";
 import type { AudioInspection } from "@screenrec/core/audio";
 import type { FrameInspection } from "@screenrec/core/frames";
@@ -19,6 +20,7 @@ function failure(code: string, message: string): OperationResult {
 }
 
 export type OperationContext = {
+  index: IndexProcessing;
   store: RevisionStore;
   capture: CaptureService;
   health: () => unknown;
@@ -33,7 +35,18 @@ export type OperationContext = {
 /** The service composes owners; edit algebra and every catalog transaction stay in core. */
 export async function operate(
   request: OperationRequest,
-  { store, capture, health, processing, frames, audio, delivery, scenes, cache }: OperationContext,
+  {
+    store,
+    capture,
+    health,
+    processing,
+    frames,
+    audio,
+    delivery,
+    scenes,
+    cache,
+    index,
+  }: OperationContext,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
     return failure(
@@ -49,6 +62,52 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "index.get":
+        return { ok: true, data: index.get(operation.params) };
+      case "index.retry":
+        return { ok: true, data: index.retry(operation.params) };
+      case "index.coverage":
+        return { ok: true, data: index.coverage(operation.params) };
+      case "index.frame": {
+        const data = index.frame(operation.params);
+        return {
+          ok: true,
+          data: { ...data, delivery: delivery.open(() => index.openRead(operation.params)) },
+        };
+      }
+      case "index.frames": {
+        const { ordinals, ...reference } = operation.params;
+        index.published(reference);
+        return {
+          ok: true,
+          data: {
+            ...reference,
+            items: ordinals.map((ordinal) => {
+              const input = { ...reference, ordinal };
+              try {
+                const data = index.frame(input);
+                return {
+                  ordinal,
+                  ok: true as const,
+                  data: { ...data, delivery: delivery.open(() => index.openRead(input)) },
+                };
+              } catch (error) {
+                return {
+                  ordinal,
+                  ...operationFailure(
+                    error instanceof CatalogError
+                      ? error
+                      : new CatalogError(
+                          "INTERNAL_ERROR",
+                          error instanceof Error ? error.message : "Index frame delivery failed",
+                        ),
+                  ),
+                };
+              }
+            }),
+          },
+        };
+      }
       case "frame.batch": {
         const batch = frames.batch(operation.params);
         return {

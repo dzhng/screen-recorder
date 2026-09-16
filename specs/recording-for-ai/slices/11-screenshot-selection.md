@@ -2,8 +2,8 @@
 
 Status: implementation split into [selection ledger](11a-selection-ledger.md),
 [shared materialization](11b-shared-frame-materialization.md), and
-[retained/public index](11c-retained-index.md). The first two are dependency-ready;
-parent real capture/threshold gates remain open. Dependencies: source evidence,
+[retained/public index](11c-retained-index.md). The first two are verified and retained public delivery is implemented;
+contact sheets, scale and parent real capture/threshold gates remain open. Dependencies: source evidence,
 10f canonical scenes and existing frame rendering.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and

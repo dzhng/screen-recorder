@@ -314,3 +314,101 @@ test("index demand and retry do not implicitly retry a failed source dependency"
   await f.jobs.idle();
   expect(f.index.request({ recordingId: take.recordingId }).state).toBe("ready");
 });
+
+test("index references resolve only a published generation of the pinned recording and revision", async () => {
+  const f = await fixture();
+  const take = f.finish();
+  f.index.request({ recordingId: take.recordingId });
+  await f.jobs.idle();
+  f.index.request({ recordingId: take.recordingId });
+  await f.jobs.idle();
+  const ready = f.index.request({ recordingId: take.recordingId });
+  const metadata = ready.published!.evidence;
+  const ref = { recordingId: take.recordingId, revisionId: "r0", generation: metadata.generation };
+  expect(f.index.published(ref)).toEqual(metadata);
+  const other = f.finish();
+  expect(() => f.index.published({ ...ref, recordingId: other.recordingId })).toThrow(
+    "not published",
+  );
+  expect(() => f.index.published({ ...ref, generation: "unknown" })).toThrow("not published");
+  const edited = f.store.edit(take.recordingId, {
+    operation: "cut",
+    requestId: "cut",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 1000000, endUs: 2000000 }],
+  });
+  expect(() => f.index.published({ ...ref, revisionId: edited.id })).toThrow("not published");
+  expect(f.index.published(ref)).toEqual(metadata);
+  // A crash may leave complete files before queue publication; they are still private.
+  f.store.catalog
+    .prepare("DELETE FROM artifacts WHERE recordingId=? AND artifact='screenshot-index'")
+    .run(take.recordingId);
+  expect(f.retained.page({ identity: metadata }).entries[0]!.candidate.requestedSourceUs).toBe(0);
+  expect(() => f.index.published(ref)).toThrow("not published");
+});
+
+test("index continuation stays on its original revision when the current edit changes", async () => {
+  const f = await fixture();
+  const take = f.finish();
+  f.index.get({ recordingId: take.recordingId });
+  await f.jobs.idle();
+  f.index.get({ recordingId: take.recordingId });
+  await f.jobs.idle();
+  const first = f.index.get({ recordingId: take.recordingId, limit: 1 });
+  const cursor = first.page!.nextCursor!;
+  expect(first.page!.entries[0]!.candidate.requestedSourceUs).toBe(0);
+  const edited = f.store.edit(take.recordingId, {
+    operation: "cut",
+    requestId: "cut",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 1000000, endUs: 2000000 }],
+  });
+  const second = f.index.get({ recordingId: take.recordingId, cursor, limit: 1 });
+  expect(second.revisionId).toBe("r0");
+  expect(second.page!.entries[0]!.candidate.requestedSourceUs).toBe(11999999);
+  expect(second.page!.nextCursor).toBeNull();
+  expect(() =>
+    f.index.get({ recordingId: take.recordingId, revisionId: edited.id, cursor }),
+  ).toThrow("another recording or revision");
+  expect(() =>
+    f.index.get({ recordingId: take.recordingId, cursor: { ...cursor, afterOrdinal: 999 } }),
+  ).toThrow();
+});
+
+test("published selections expose retained bytes and coverage with bound filters", async () => {
+  const f = await fixture();
+  const take = f.finish();
+  f.store.edit(take.recordingId, {
+    operation: "cut",
+    requestId: "cut",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 4000000, endUs: 6000000 }],
+  });
+  f.index.get({ recordingId: take.recordingId });
+  await f.jobs.idle();
+  f.index.get({ recordingId: take.recordingId });
+  await f.jobs.idle();
+  const result = f.index.get({ recordingId: take.recordingId });
+  const ref = result.page!.entries[0]!.reference;
+  const frame = f.index.frame(ref);
+  expect(frame.candidate.requestedPlaybackUs).toBe(0);
+  const read = f.index.openRead(ref);
+  try {
+    const bytes = Buffer.alloc(read.bytes);
+    expect(read.read(bytes, 0)).toBe(bytes.length);
+    expect(bytes).toEqual(await readFile(frame.published.frame.file));
+  } finally {
+    read.release();
+  }
+  const coverage = f.index.coverage({ ...ref, limit: 1 });
+  expect(coverage.coverage[0]!.playback.startUs).toBe(0);
+  expect(coverage.nextCursor).not.toBeNull();
+  expect(() =>
+    f.index.coverage({ ...ref, candidateOrdinal: 0, cursor: coverage.nextCursor! }),
+  ).toThrow("another index or filter");
+  const next = f.index.coverage({ ...ref, limit: 1, cursor: coverage.nextCursor! });
+  expect(next.coverage[0]!.playback.startUs).toBe(coverage.coverage[0]!.playback.endUs);
+  expect(() => f.index.frame({ ...ref, ordinal: result.page!.metadata.candidateCount })).toThrow(
+    "does not exist",
+  );
+});

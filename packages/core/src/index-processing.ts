@@ -14,6 +14,16 @@ import type { VisualSampler } from "./scenes.js";
 import type { ScreenshotIndexStore, ScreenshotIndexMetadata } from "./screenshot-index.js";
 
 const artifact = "screenshot-index";
+export type IndexReference = Pick<
+  ScreenshotIndexMetadata,
+  "recordingId" | "revisionId" | "generation"
+>;
+export type IndexContinuation = IndexReference & { afterOrdinal: number };
+export type IndexFrameReference = IndexReference & { ordinal: number };
+export type IndexCoverageContinuation = IndexReference & {
+  afterSequence: number;
+  candidateOrdinal: number | null;
+};
 type IndexInput = {
   source: SourceEvidenceMetadata;
   scenes: SceneEvidenceMetadata;
@@ -34,7 +44,7 @@ export class IndexProcessing {
     private readonly render: { decode: FrameDecoder; sample: VisualSampler },
   ) {}
 
-  request(input: { recordingId: string; revisionId?: string }) {
+  request(input: { recordingId: string; revisionId?: string | undefined }) {
     const revision = this.store.revision(input.recordingId, input.revisionId);
     this.source.prepare(input.recordingId);
     this.scenes.prepare(input.recordingId);
@@ -90,7 +100,135 @@ export class IndexProcessing {
     };
   }
 
-  retry(input: { recordingId: string; revisionId?: string }) {
+  get(input: {
+    recordingId: string;
+    revisionId?: string | undefined;
+    cursor?: IndexContinuation | undefined;
+    limit?: number | undefined;
+  }) {
+    const cursor = input.cursor;
+    if (
+      cursor &&
+      (cursor.recordingId !== input.recordingId ||
+        (input.revisionId !== undefined && input.revisionId !== cursor.revisionId))
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Index continuation belongs to another recording or revision",
+      );
+    const status = cursor ? null : this.request(input);
+    if (status && !status.published) return { ...status, page: null };
+    const metadata = cursor ? this.published(cursor) : status!.published!.evidence;
+    const page = this.index.page({
+      identity: metadata,
+      ...(cursor ? { afterOrdinal: cursor.afterOrdinal } : {}),
+      ...(input.limit === undefined ? {} : { limit: input.limit }),
+    });
+    const reference: IndexReference = {
+      recordingId: metadata.recordingId,
+      revisionId: metadata.revisionId,
+      generation: metadata.generation,
+    };
+    return {
+      ...reference,
+      state: "ready" as const,
+      page: {
+        metadata: page.metadata,
+        entries: page.entries.map((entry) => ({
+          ...entry,
+          reference: { ...reference, ordinal: entry.candidate.ordinal },
+        })),
+        nextCursor:
+          page.nextOrdinal === null ? null : { ...reference, afterOrdinal: page.nextOrdinal },
+      },
+    };
+  }
+
+  coverage(
+    input: IndexReference & {
+      candidateOrdinal?: number | undefined;
+      cursor?: IndexCoverageContinuation | undefined;
+      limit?: number | undefined;
+    },
+  ) {
+    const cursor = input.cursor;
+    if (
+      cursor &&
+      (cursor.recordingId !== input.recordingId ||
+        cursor.revisionId !== input.revisionId ||
+        cursor.generation !== input.generation ||
+        cursor.candidateOrdinal !== (input.candidateOrdinal ?? null))
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Coverage continuation belongs to another index or filter",
+      );
+    const identity = this.published(input);
+    const page = this.index.coveragePage({
+      identity,
+      ...(input.candidateOrdinal === undefined ? {} : { candidateOrdinal: input.candidateOrdinal }),
+      ...(input.limit === undefined ? {} : { limit: input.limit }),
+      ...(cursor ? { afterSequence: cursor.afterSequence } : {}),
+    });
+    return {
+      recordingId: input.recordingId,
+      revisionId: input.revisionId,
+      generation: input.generation,
+      coverage: page.coverage,
+      nextCursor:
+        page.nextSequence === null
+          ? null
+          : {
+              recordingId: input.recordingId,
+              revisionId: input.revisionId,
+              generation: input.generation,
+              candidateOrdinal: input.candidateOrdinal ?? null,
+              afterSequence: page.nextSequence,
+            },
+    };
+  }
+
+  frame(input: IndexFrameReference) {
+    if (!Number.isSafeInteger(input.ordinal) || input.ordinal < 0)
+      throw new CatalogError("INVALID_PARAMS", "Index ordinal must be a nonnegative integer");
+    const identity = this.published(input);
+    const entry = this.index.page({
+      identity,
+      limit: 1,
+      ...(input.ordinal === 0 ? {} : { afterOrdinal: input.ordinal - 1 }),
+    }).entries[0];
+    if (!entry) throw new CatalogError("NOT_FOUND", "Selected index frame does not exist");
+    return {
+      ...input,
+      state: "ready" as const,
+      published: { frame: entry.frame },
+      candidate: entry.candidate,
+      coverageCount: entry.coverageCount,
+    };
+  }
+
+  openRead(input: IndexFrameReference) {
+    return this.index.openRead(this.published(input), input.ordinal);
+  }
+
+  /** Public references resolve through queue publication, never merely a completed store row. */
+  published(input: IndexReference) {
+    this.store.revision(input.recordingId, input.revisionId);
+    const row = this.store.catalog
+      .prepare(`SELECT result FROM artifacts WHERE recordingId=? AND revisionId=? AND artifact=?
+        AND json_extract(result,'$.generation')=? LIMIT 1`)
+      .get(input.recordingId, input.revisionId, artifact, input.generation) as
+      | { result: string }
+      | undefined;
+    if (!row)
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Screenshot index reference is not published for this revision",
+      );
+    return JSON.parse(row.result) as ScreenshotIndexMetadata;
+  }
+
+  retry(input: { recordingId: string; revisionId?: string | undefined }) {
     const status = this.request(input);
     if (!status.jobId) return status;
     const job = this.jobs.job(status.jobId);

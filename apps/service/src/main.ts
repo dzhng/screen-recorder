@@ -1,3 +1,5 @@
+import { IndexProcessing } from "@screenrec/core/index-processing";
+import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { randomUUID } from "node:crypto";
 import { CatalogError, RevisionStore } from "@screenrec/core/library";
 import { JobQueue } from "@screenrec/core/jobs";
@@ -59,6 +61,7 @@ async function main(): Promise<void> {
   let jobs: JobQueue | undefined;
   let processing: SourceProcessing;
   let scenes: SceneProcessing;
+  let index: IndexProcessing;
   let frames: FrameInspection;
   let audio: AudioInspection;
   let delivery: DerivativeDelivery | undefined;
@@ -105,11 +108,13 @@ async function main(): Promise<void> {
         if (
           execution.job.artifact === "frame" ||
           execution.job.artifact === "audio" ||
-          execution.job.artifact === "source-scenes"
+          execution.job.artifact === "source-scenes" ||
+          execution.job.artifact === "screenshot-index"
         ) {
           await cacheReady;
           if (cacheFailure) throw cacheFailure;
           if (execution.job.artifact === "source-scenes") return scenes.execute(execution);
+          if (execution.job.artifact === "screenshot-index") return index.execute(execution);
           return execution.job.artifact === "frame"
             ? frames.execute(execution)
             : audio.execute(execution);
@@ -124,7 +129,21 @@ async function main(): Promise<void> {
     const visual = new VisualObservationCache(store, cache, (request, signal) =>
       nativeData<VisualObservations>("media.visualSamples", request, signal),
     );
-    scenes = new SceneProcessing(store, jobs, new SceneEvidenceStore(store), home, visual.sample);
+    const sceneEvidence = new SceneEvidenceStore(store);
+    scenes = new SceneProcessing(store, jobs, sceneEvidence, home, visual.sample);
+    index = new IndexProcessing(
+      store,
+      jobs,
+      new ScreenshotIndexStore(store, home),
+      processing,
+      scenes,
+      { source: evidence, scenes: sceneEvidence },
+      home,
+      {
+        sample: visual.sample,
+        decode: (request, signal) => nativeData<NativeFrame>("media.frame", request, signal),
+      },
+    );
     frames = new FrameInspection(
       store,
       jobs,
@@ -215,6 +234,7 @@ async function main(): Promise<void> {
   async function serve(request: OperationRequest): Promise<OperationResult> {
     try {
       return await operate(request, {
+        index,
         store: catalog,
         capture,
         health: () => healthData(started, socketPath, home),
@@ -285,6 +305,7 @@ async function main(): Promise<void> {
   const reconciled = capture.reconcileStranded();
   control.emit({ event: "started", pid: process.pid, socketPath });
   evidenceCleanup = Promise.allSettled([
+    index.cleanup(cleanupLifetime.signal),
     processing.cleanup(cleanupLifetime.signal),
     scenes.cleanup(cleanupLifetime.signal),
   ]).then((results) => {

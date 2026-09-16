@@ -967,3 +967,28 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   **Reach:** The queue exposes active artifact ownership; index admission uses it
   alongside queued/running rows. **Verdict:** Sound; capacity follows actual resource
   lifetime. **Confidence:** High.
+
+## Public retained index — 2026-09-16
+
+### Sound — high confidence
+
+- **Choice:** A continuation carries the recording, edit revision and completed
+  processing generation. When the user edits between pages, omitting a new revision
+  continues the old page; explicitly asking for a conflicting revision is rejected.
+  Coverage continuations also carry the selected-image filter. A selected image can
+  be read only when that exact generation was published by the job queue, even if
+  its files were fully written before a crash. **Gap:** The plan required pinned
+  pagination without fixing its public reference shape. **Reach:** CLI, MCP and
+  later package readers can preserve stable references across edits without mixing
+  evidence from different runs. **Verdict:** Sound; identity is explicit at every
+  page and image boundary. **Confidence:** High.
+
+- **Choice:** Byte delivery accepts an acquisition callback from the file's owner.
+  A retained PNG and a disposable cached frame therefore share expiry, chunk reads
+  and release behavior. The callback runs only after delivery capacity is available;
+  a refused request never opens a file that then needs cleaning up.
+  **Gap:** Delivery originally assumed every image belonged to the cache.
+  **Reach:** Retained and future exported media can reuse the bounded transport
+  without being mislabeled as disposable cache entries or creating another transport.
+  **Verdict:** Sound; storage ownership stays separate from byte transfer.
+  **Confidence:** High.
