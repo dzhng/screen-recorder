@@ -1,8 +1,8 @@
 # 14 — Two exports and relocated AI inspection
 
-Status: 14a internal metadata/readiness foundation implemented; 14b is the next
-inspection checkpoint without speech or movie rendering. Later passes
-retain their explicit dependency gates. This plan does not close 08, 11c or 13.
+Status: 14a metadata/readiness and 14b relocated-directory inspection pass their
+internal gates. Bounded archive verification and retained handle lifetime in 14c
+are next. This plan does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
 and [verification](../verification.md). No public contract changes are proposed:

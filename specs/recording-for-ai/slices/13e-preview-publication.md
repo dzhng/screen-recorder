@@ -28,8 +28,12 @@ regenerates from the same pinned inputs. No second durable publication table.
 Native staging has a different lifetime from published cache content. Before wiring
 service startup, prove that abandoned render work has ended before cleaning its
 attempt directory. Existing parent-exit monitoring is a termination request, not
-proof that every descendant has already exited. Define ownership/locking at that
-seam and test an actual killed service, rather than deleting by filename prefix.
+proof that every descendant has already exited. An isolated Darwin probe confirms an exclusive directory lock inherited by a
+worker remains held after its owner is killed, and can be acquired after the
+worker exits. Use that OS lifetime to distinguish live work from reclaimable
+staging; reuse the native descriptor-relative workspace cleanup being introduced
+by14c1. Prove the actual media-worker and killed-service route before accepting
+recovery. Do not delete solely by filename prefix or infer child exit from parent exit.
 
 ## Verification and scope
 

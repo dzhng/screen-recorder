@@ -39,7 +39,9 @@ Internal video timing
 [13b](slices/13b-streaming-audio.md), and package metadata
 [14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs
 pointer scheduling/composition, durable preview ownership and restart cleanup,
-text-fidelity acceptance, audition and app playback.
+broader fidelity acceptance, audition and app playback.
+[Real browser text](assets/text-fidelity/README.md) supports retaining automatic
+bitrate; changing it brought no meaningful readability gain in the controlled set.
 [13c assembly](slices/13c-aac-movie-assembly.md) passes production-worker lifetime,
 pinned edit/undo and five-minute encoded A/V checks. Tiny AAC retains its documented
 independent-decoder limitation; numerical generated sound is not speech audition.
@@ -166,6 +168,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md) (generated encoded timing, lifetime and five-minute scale; parent audition remains)
   - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md) (bounded exact support)
   - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md) (point inspection only; event schedule/composition remain)
+  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md) (internal pinned cache consumer verified; staging recovery and public playback remain)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
   - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md) (internal directory/native parity; ZIP and public handles remain)
