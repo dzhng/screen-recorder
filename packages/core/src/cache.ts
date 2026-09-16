@@ -12,7 +12,7 @@ import {
   realpathSync,
   unlinkSync,
 } from "node:fs";
-import { join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { CatalogError, type RevisionStore } from "./library.js";
 
 type Row = {
@@ -86,6 +86,28 @@ export class DerivedCache {
     if (!filename.test(`${id}.cache`))
       throw new CatalogError("INVALID_CACHE", "Invalid cache identity");
     return join(this.root, `${id}.cache`);
+  }
+  /** Files remain attributable while reserved, failed, or marked for deletion. */
+  *usageFiles(recordingId: string): Generator<string> {
+    this.checkRoot();
+    let after = "";
+    for (;;) {
+      const rows = this.store.catalog
+        .prepare("SELECT id FROM derived_cache WHERE recordingId=? AND id>? ORDER BY id LIMIT 100")
+        .all(recordingId, after) as { id: string }[];
+      if (!rows.length) return;
+      for (const row of rows) {
+        this.checkRoot();
+        yield this.path(row.id);
+      }
+      after = rows.at(-1)!.id;
+    }
+  }
+  /** Only this owner interprets its filenames. Unreserved files have no recording attribution. */
+  recordingForFile(path: string): string | null {
+    if (dirname(path) !== this.root || !filename.test(basename(path))) return null;
+    this.checkRoot();
+    return this.row(basename(path).slice(0, -".cache".length))?.recordingId ?? null;
   }
   private row(id: string): Row | undefined {
     return this.store.catalog.prepare("SELECT * FROM derived_cache WHERE id=?").get(id) as

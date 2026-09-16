@@ -61,6 +61,15 @@ const coverageCursor = indexReference
 export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
+      operation: z.literal("storage.usage"),
+      params: z.object({ recordingId: id.optional() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Read live logical regular-file byte usage, including unfinished work and pending deletions. Omit recordingId for all managed storage plus shared database/unattributed bytes. Models and external exports are excluded; files may change while scanned.",
+    ),
+  z
+    .object({
       operation: z.literal("index.get"),
       params: recording
         .extend({

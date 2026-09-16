@@ -1,3 +1,4 @@
+import { RecordingStorage } from "@screenrec/core/storage";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { randomUUID } from "node:crypto";
@@ -66,6 +67,7 @@ async function main(): Promise<void> {
   let audio: AudioInspection;
   let delivery: DerivativeDelivery | undefined;
   let cache: DerivedCache;
+  let storage: RecordingStorage | undefined;
   let cacheReady: Promise<void> = Promise.resolve();
   let cacheFailure: unknown;
   let stopping = false;
@@ -95,6 +97,7 @@ async function main(): Promise<void> {
     });
     const evidence = new SourceEvidenceStore(store);
     cache = new DerivedCache(store, home);
+    storage = new RecordingStorage(store, cache, home);
     cacheReady = cache.reconcile(cleanupLifetime.signal).catch((error) => {
       cacheFailure = error;
       if (!cleanupLifetime.signal.aborted)
@@ -169,7 +172,7 @@ async function main(): Promise<void> {
   } catch (error) {
     cleanupLifetime.abort();
     delivery?.dispose();
-    await Promise.all([jobs?.close(), cacheReady]);
+    await Promise.all([jobs?.close(), cacheReady, storage?.close()]);
     store?.close();
     claim?.release();
     const startup = error instanceof StartupFailure;
@@ -199,6 +202,7 @@ async function main(): Promise<void> {
 
   const socketPath = listener.socketPath;
   const catalog = store;
+  const storageOwner = storage;
   const ownership = claim;
   const queue = jobs;
   const transfers = delivery;
@@ -238,6 +242,7 @@ async function main(): Promise<void> {
     try {
       return await operate(request, {
         index,
+        storage: storageOwner,
         store: catalog,
         capture,
         health: () => healthData(started, socketPath, home),
@@ -291,6 +296,7 @@ async function main(): Promise<void> {
     transfers.dispose();
     void Promise.all([
       listener.close(),
+      storageOwner.close(),
       capture.close(),
       queue.close(),
       evidenceCleanup,

@@ -75,6 +75,10 @@
     "./index-processing": {
       "types": "./dist/index-processing.d.ts",
       "default": "./dist/index-processing.js"
+    },
+    "./storage": {
+      "types": "./dist/storage.d.ts",
+      "default": "./dist/storage.js"
     }
   },
   "scripts": {

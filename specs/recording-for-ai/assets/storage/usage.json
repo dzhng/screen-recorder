@@ -1,0 +1,63 @@
+{
+  "generated": true,
+  "files": 2500,
+  "scanMs": 498.448083,
+  "concurrentCalls": 1000,
+  "worstHealthAndSiblingReadMs": 3.979541999999981,
+  "direct": {
+    "recordingId": "db500d08-4a46-4f9b-82e1-908258a01aa5",
+    "observedAt": "2026-09-16T12:46:35.774Z",
+    "measurement": "live",
+    "sourceBytes": 17,
+    "evidenceBytes": 25000,
+    "cacheBytes": 23,
+    "otherBytes": 7,
+    "sharedBytes": 0,
+    "totalBytes": 25047
+  },
+  "cli": {
+    "recordingId": "db500d08-4a46-4f9b-82e1-908258a01aa5",
+    "observedAt": "2026-09-16T12:46:36.168Z",
+    "measurement": "live",
+    "sourceBytes": 17,
+    "evidenceBytes": 25000,
+    "cacheBytes": 23,
+    "otherBytes": 7,
+    "sharedBytes": 0,
+    "totalBytes": 25047
+  },
+  "mcp": {
+    "recordingId": "db500d08-4a46-4f9b-82e1-908258a01aa5",
+    "observedAt": "2026-09-16T12:46:36.573Z",
+    "measurement": "live",
+    "sourceBytes": 17,
+    "evidenceBytes": 25000,
+    "cacheBytes": 23,
+    "otherBytes": 7,
+    "sharedBytes": 0,
+    "totalBytes": 25047
+  },
+  "marked": {
+    "recordingId": "99b6da4d-095f-49db-9377-6f2b544dc6b2",
+    "observedAt": "2026-09-16T12:46:36.580Z",
+    "measurement": "live",
+    "sourceBytes": 31,
+    "evidenceBytes": 0,
+    "cacheBytes": 0,
+    "otherBytes": 0,
+    "sharedBytes": 0,
+    "totalBytes": 31
+  },
+  "aggregate": {
+    "recordingId": null,
+    "observedAt": "2026-09-16T12:46:36.891Z",
+    "measurement": "live",
+    "sourceBytes": 48,
+    "evidenceBytes": 25000,
+    "cacheBytes": 23,
+    "otherBytes": 7,
+    "sharedBytes": 204800,
+    "totalBytes": 229878
+  },
+  "scope": "Storage usage only; no public delete, physical capture or native media execution."
+}

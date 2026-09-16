@@ -245,7 +245,7 @@ export class RevisionStore {
       return this.deleting(recordingId);
     });
   }
-  /** Only deletion may inspect an intent-marked recording's retained source identity. */
+  /** Deletion and storage accounting may inspect a marked recording's retained identity. */
   deleting(recordingId: string): Recording | null {
     return (
       (this.catalog

@@ -81,6 +81,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.30.0",
+        "@screenrec/client": "workspace:*",
         "@screenrec/core": "workspace:*",
         "@screenrec/protocol": "workspace:*",
         "zod": "4.6.5",

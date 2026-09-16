@@ -8,10 +8,12 @@
     "check-types": "tsc -p tsconfig.check.json",
     "test": "node dist/bootstrap.js && node --test speech/evaluate.test.mjs",
     "lab:index": "node --test ../../apps/macos/tests/index-lab.mjs",
-    "lab:index-scale": "node --test ../../apps/macos/tests/index-scale.mjs"
+    "lab:index-scale": "node --test ../../apps/macos/tests/index-scale.mjs",
+    "lab:storage": "node --test storage.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",
+    "@screenrec/client": "workspace:*",
     "@screenrec/core": "workspace:*",
     "@screenrec/protocol": "workspace:*",
     "zod": "4.6.5"

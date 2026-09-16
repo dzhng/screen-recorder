@@ -1,3 +1,4 @@
+import type { RecordingStorage } from "@screenrec/core/storage";
 import type { IndexProcessing } from "@screenrec/core/index-processing";
 import type { DerivedCache } from "@screenrec/core/cache";
 import type { AudioInspection } from "@screenrec/core/audio";
@@ -21,6 +22,7 @@ function failure(code: string, message: string): OperationResult {
 
 export type OperationContext = {
   index: IndexProcessing;
+  storage: RecordingStorage;
   store: RevisionStore;
   capture: CaptureService;
   health: () => unknown;
@@ -46,6 +48,7 @@ export async function operate(
     scenes,
     cache,
     index,
+    storage,
   }: OperationContext,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
@@ -62,6 +65,8 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "storage.usage":
+        return { ok: true, data: await storage.usage(operation.params.recordingId) };
       case "index.get":
         return { ok: true, data: index.get(operation.params) };
       case "index.retry":

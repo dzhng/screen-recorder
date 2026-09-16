@@ -1,0 +1,244 @@
+import { lstat, open, opendir } from "node:fs/promises";
+import { constants, lstatSync, realpathSync } from "node:fs";
+import { basename, join } from "node:path";
+import { setImmediate } from "node:timers/promises";
+import { CatalogError, type Recording, type RevisionStore } from "./library.js";
+import type { DerivedCache } from "./cache.js";
+
+type Category = "sourceBytes" | "evidenceBytes" | "cacheBytes" | "otherBytes" | "sharedBytes";
+export type StorageUsage = Record<Category | "totalBytes", number> & {
+  recordingId: string | null;
+  observedAt: string;
+  measurement: "live";
+};
+type DirectoryIdentity = { path: string; dev: bigint; ino: bigint };
+type Location = { area: "home" | "recordings" | "recording" | "files"; category: Category };
+// Darwin sys/fcntl.h: unlike O_NOFOLLOW, this forbids symlinks in every path component.
+// Node does not export this macOS flag. https://github.com/apple/darwin-xnu/blob/main/bsd/sys/fcntl.h
+const noFollowAny = 0x20000000;
+const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
+
+/** Actual regular-file lengths, never artifact metadata or an estimate of SQLite row ownership. */
+export class RecordingStorage {
+  private readonly home: string;
+  private readonly homeIdentity: DirectoryIdentity;
+  private readonly lifetime = new AbortController();
+  private readonly active = new Set<Promise<StorageUsage>>();
+  constructor(
+    private readonly store: RevisionStore,
+    private readonly cache: DerivedCache,
+    home: string,
+  ) {
+    this.home = realpathSync(home);
+    const stat = lstatSync(this.home, { bigint: true });
+    this.homeIdentity = { path: this.home, dev: stat.dev, ino: stat.ino };
+  }
+
+  private recording(id: string): Recording | null {
+    const deleting = this.store.deleting(id);
+    if (deleting) return deleting;
+    try {
+      return this.store.get(id);
+    } catch (error) {
+      if (error instanceof CatalogError && error.code === "NOT_FOUND") return null;
+      throw error;
+    }
+  }
+
+  usage(recordingId?: string): Promise<StorageUsage> {
+    if (this.lifetime.signal.aborted)
+      return Promise.reject(new CatalogError("CANCELED", "Storage inspection is closed"));
+    const inspection = this.inspect(recordingId);
+    this.active.add(inspection);
+    void inspection.then(
+      () => this.active.delete(inspection),
+      () => this.active.delete(inspection),
+    );
+    return inspection;
+  }
+
+  /** No scan may retain directory/file handles or consult the catalog after this resolves. */
+  async close(): Promise<void> {
+    this.lifetime.abort();
+    await Promise.allSettled(this.active);
+  }
+
+  private async inspect(recordingId?: string): Promise<StorageUsage> {
+    if (process.platform !== "darwin")
+      throw new CatalogError("UNSUPPORTED_PLATFORM", "Contained storage inspection requires macOS");
+    // Only an existing catalog identity may turn an explicit ID into a recording path.
+    const recording = recordingId === undefined ? null : this.recording(recordingId);
+    if (recordingId !== undefined && !recording)
+      throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
+    if (
+      recording &&
+      (basename(recording.recordingId) !== recording.recordingId ||
+        [".", "..", ""].includes(recording.recordingId))
+    )
+      throw new CatalogError(
+        "INVALID_CATALOG",
+        "Recording identity is not a storage directory name",
+      );
+    const usage: StorageUsage = {
+      recordingId: recording?.recordingId ?? null,
+      observedAt: "",
+      measurement: "live",
+      sourceBytes: 0,
+      evidenceBytes: 0,
+      cacheBytes: 0,
+      otherBytes: 0,
+      sharedBytes: 0,
+      totalBytes: 0,
+    };
+    const checkDirectories = async (directories: readonly DirectoryIdentity[]) => {
+      this.lifetime.signal.throwIfAborted();
+      for (const directory of directories) {
+        this.lifetime.signal.throwIfAborted();
+        const stat = await lstat(directory.path, { bigint: true });
+        if (!stat.isDirectory() || stat.dev !== directory.dev || stat.ino !== directory.ino)
+          throw new CatalogError(
+            "STORAGE_CHANGED",
+            "Managed directory changed during inspection",
+            {},
+            true,
+          );
+      }
+    };
+    let visited = 0;
+    const count = async (
+      path: string,
+      category: Category,
+      directories: readonly DirectoryIdentity[],
+    ) => {
+      try {
+        await checkDirectories(directories);
+        if (category === "cacheBytes") this.cache.recordingForFile(path);
+        if ((await lstat(path)).isFile()) {
+          const file = await open(path, constants.O_RDONLY | constants.O_NONBLOCK | noFollowAny);
+          try {
+            const stat = await file.stat();
+            if (stat.isFile()) {
+              await checkDirectories(directories);
+              if (category === "cacheBytes") this.cache.recordingForFile(path);
+              if (
+                !Number.isSafeInteger(stat.size) ||
+                !Number.isSafeInteger(usage.totalBytes + stat.size)
+              )
+                throw new CatalogError(
+                  "LIMIT_EXCEEDED",
+                  "Storage byte total exceeds safe integer range",
+                );
+              usage[category] += stat.size;
+              usage.totalBytes += stat.size;
+            }
+          } finally {
+            await file.close();
+          }
+        }
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code === "ELOOP")
+          throw new CatalogError(
+            "STORAGE_CHANGED",
+            "Managed path became a symbolic link during inspection",
+            {},
+            true,
+          );
+        if (!missing(error)) throw error;
+      }
+      if (++visited % 64 === 0) await setImmediate();
+    };
+    const walk = async (
+      path: string,
+      location: Location,
+      parents: readonly DirectoryIdentity[],
+    ): Promise<void> => {
+      if (parents.length > 64)
+        throw new CatalogError("LIMIT_EXCEEDED", "Managed storage nesting exceeds 64 directories");
+      try {
+        await checkDirectories(parents);
+        const stat = await lstat(path, { bigint: true });
+        if (stat.isSymbolicLink()) return;
+        if (!stat.isDirectory()) {
+          await count(path, location.category, parents);
+          return;
+        }
+        const directories =
+          path === this.home ? parents : [...parents, { path, dev: stat.dev, ino: stat.ino }];
+        const directory = await opendir(path, { bufferSize: 64 });
+        try {
+          await checkDirectories(directories);
+          for (let entry = await directory.read(); entry; entry = await directory.read()) {
+            this.lifetime.signal.throwIfAborted();
+            const child = join(path, entry.name);
+            if (location.area === "home" && entry.name === "models") continue;
+            let next: Location = { area: "files", category: location.category };
+            if (location.area === "home" && entry.name === "recordings")
+              next = { area: "recordings", category: "sharedBytes" };
+            else if (location.area === "recordings" && this.recording(entry.name))
+              next = { area: "recording", category: "otherBytes" };
+            else if (location.area === "recording")
+              next.category =
+                entry.name === "source"
+                  ? "sourceBytes"
+                  : entry.name === "evidence"
+                    ? "evidenceBytes"
+                    : "otherBytes";
+            if (entry.isDirectory()) await walk(child, next, directories);
+            else {
+              const category =
+                location.area === "files" &&
+                location.category === "sharedBytes" &&
+                this.cache.recordingForFile(child)
+                  ? "cacheBytes"
+                  : next.category;
+              await count(child, category, directories);
+            }
+            if (++visited % 64 === 0) await setImmediate();
+          }
+        } finally {
+          await directory.close();
+        }
+      } catch (error) {
+        if (!missing(error)) throw error;
+      }
+    };
+    try {
+      if (recording) {
+        const parent = join(this.home, "recordings");
+        try {
+          await checkDirectories([this.homeIdentity]);
+          const stat = await lstat(parent, { bigint: true });
+          if (stat.isDirectory())
+            await walk(
+              join(parent, recording.recordingId),
+              {
+                area: "recording",
+                category: "otherBytes",
+              },
+              [this.homeIdentity, { path: parent, dev: stat.dev, ino: stat.ino }],
+            );
+        } catch (error) {
+          if (!missing(error)) throw error;
+        }
+        for (const path of this.cache.usageFiles(recording.recordingId))
+          await count(path, "cacheBytes", [this.homeIdentity]);
+      } else {
+        await walk(this.home, { area: "home", category: "sharedBytes" }, [this.homeIdentity]);
+      }
+    } catch (error) {
+      if (this.lifetime.signal.aborted)
+        throw new CatalogError("CANCELED", "Storage inspection was canceled");
+      if (error instanceof CatalogError) throw error;
+      throw new CatalogError(
+        "STORAGE_IO",
+        "Cannot inspect managed recording storage",
+        {
+          cause: (error as NodeJS.ErrnoException).code ?? "UNKNOWN",
+        },
+        true,
+      );
+    }
+    usage.observedAt = new Date().toISOString();
+    return usage;
+  }
+}
