@@ -1,0 +1,155 @@
+{
+  "kind": "pinned native render timing and terminal cleanup",
+  "renders": [
+    {
+      "revisionId": "89bbe420-aef3-47fa-bc41-188399d68c07",
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 2000000
+          }
+        },
+        {
+          "source": {
+            "startUs": 3000000,
+            "endUs": 4000000
+          },
+          "playback": {
+            "startUs": 2000000,
+            "endUs": 3000000
+          }
+        },
+        {
+          "source": {
+            "startUs": 5000000,
+            "endUs": 6000000
+          },
+          "playback": {
+            "startUs": 3000000,
+            "endUs": 4000000
+          }
+        }
+      ],
+      "file": "89bbe420-aef3-47fa-bc41-188399d68c07.mp4",
+      "decoded": {
+        "durationUs": 4000000,
+        "identities": [
+          0,
+          1,
+          3,
+          5
+        ],
+        "pts": [
+          0,
+          1000000,
+          2000000,
+          3000000
+        ]
+      }
+    },
+    {
+      "revisionId": "3c26dcdd-ae7b-4a12-a8db-2f61533d5483",
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 6000000
+          }
+        }
+      ],
+      "file": "3c26dcdd-ae7b-4a12-a8db-2f61533d5483.mp4",
+      "decoded": {
+        "durationUs": 6000000,
+        "identities": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "pts": [
+          0,
+          1000000,
+          2000000,
+          3000000,
+          4000000,
+          5000000
+        ]
+      }
+    }
+  ],
+  "lifetime": [
+    {
+      "kind": "queued-job-cancel",
+      "nativeStagingObserved": true,
+      "consumed": false,
+      "attemptsRemaining": 0
+    },
+    {
+      "kind": "abort",
+      "nativeStagingObserved": true,
+      "consumed": false,
+      "attemptsRemaining": 0
+    },
+    {
+      "kind": "deadline",
+      "nativeStagingObserved": true,
+      "consumed": false,
+      "attemptsRemaining": 0
+    },
+    {
+      "kind": "late-abort",
+      "nativeStagingObserved": false,
+      "consumed": false,
+      "attemptsRemaining": 0
+    }
+  ],
+  "pause": [
+    {
+      "atUs": 2000000,
+      "events": [
+        {
+          "kind": "cut",
+          "atSourceUs": 2000000,
+          "removedSourceSpans": [
+            {
+              "startUs": 2000000,
+              "endUs": 3000000
+            }
+          ]
+        },
+        {
+          "kind": "pause",
+          "atSourceUs": 3000000,
+          "elapsedPauseUs": 60000000
+        }
+      ]
+    },
+    {
+      "atUs": 3000000,
+      "events": [
+        {
+          "kind": "cut",
+          "atSourceUs": 4000000,
+          "removedSourceSpans": [
+            {
+              "startUs": 4000000,
+              "endUs": 5000000
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceSha256": "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0"
+}

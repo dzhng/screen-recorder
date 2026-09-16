@@ -17,16 +17,24 @@ source/package gap semantics remain unchanged and unknown support still fails.
 Passthrough edit-list assembly loses trailing empties and has measured decoder
 interoperability problems, so it is not the rendering architecture.
 
-Next, complete the integrated lab and job-lifetime gates below: pinned revision
-mutation, pause/undo plans, cancellation with attempt-artifact reclamation, and
-long render-job deadlines. Hard termination can leave unpublished private staging;
-the future job owner must reclaim it after the worker is terminal. The current
-worker refuses odd or over-8192-pixel dimensions without silently resizing them.
-No public preview/export capability or full 13a completion is claimed.
+[The integrated job lab](../assets/video-render/job-lifetime.md) now proves pinned
+revision mutation, undo, pause-marker projection and exact independent decoding
+through the existing heavy-job queue and service worker. Queue cancellation,
+abort, deadline and late native success reclaim the complete attempt scope only
+after the worker closes. The render-specific deadline budgets the full decoded
+source prefix, not only edited output. The native inner decode loop also checks
+cooperative cancellation.
 
-The native regression entrypoint is `node --test helpers/mac/Tests/video-render.test.mjs`.
-The optional membership/playback probe remains diagnostic; its bounded fixture
-buffer is not used by the product worker. All remaining gates below stay required.
+Next, finish the full acceptance review below and connect the lifetime to parent
+13's durable preview/artifact owner. Service death still needs abandoned attempt
+parent reclamation; no public preview job or restart scanner is added here.
+The even-dimension renderer limit matches app-originated capture, which caps the
+long edge at 4096 and rounds both dimensions even. External import is out of scope.
+
+The integrated entrypoint is `bun run lab:render-timing`; native timing regressions
+remain in `helpers/mac/Tests/video-render.test.mjs`. The optional membership/playback
+probe is diagnostic and its fixture buffer is not the product architecture. Full
+13a and parent 13 completion are not claimed by this checkpoint.
 
 ## One question and contract
 

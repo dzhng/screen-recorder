@@ -91,3 +91,24 @@ it("pre-canceled work never starts and spawn failure settles", async () => {
     error: { code: "MEDIA_WORKER_UNAVAILABLE" },
   });
 });
+
+it("rejects invalid per-call deadlines before starting work", async () => {
+  const run = mediaWorker({ SCREENREC_NATIVE: "/nonexistent/worker" });
+  for (const timeoutMs of [0, -1, NaN, Infinity, 2_147_483_648]) {
+    expect(await run("hold", {}, { timeoutMs })).toMatchObject({
+      ok: false,
+      error: { code: "INVALID_REQUEST" },
+    });
+  }
+});
+
+it("one short call deadline does not change later calls on the worker", async () => {
+  const { run } = await fixture();
+  expect(await run("hold", {}, { timeoutMs: 1 })).toMatchObject({
+    ok: false,
+    error: { code: "MEDIA_WORKER_TIMEOUT" },
+  });
+  const result = await run("answer", {});
+  expect(result.ok).toBe(true);
+  if (result.ok) expectGone((result.data as { pid: number }).pid);
+});

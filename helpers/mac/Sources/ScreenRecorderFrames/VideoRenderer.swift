@@ -144,6 +144,7 @@ public enum VideoRenderer {
                     next = CMTimeMinimum(end, CMTimeRangeGetEnd(segment.timeMapping.target))
                 } else {
                     while held == nil || heldEnd <= at {
+                        try Task.checkCancellation()
                         held = nil
                         guard
                             let sample = autoreleasepool(invoking: {

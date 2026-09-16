@@ -17,11 +17,12 @@ import {
  */
 export const NATIVE_EXECUTABLE_VARIABLE = "SCREENREC_NATIVE";
 const DEFAULT_TIMEOUT_MS = 30_000;
+export const MAX_MEDIA_TIMEOUT_MS = 2_147_483_647;
 
 export type MediaWorker = (
   operation: string,
   params: Record<string, unknown>,
-  options?: { signal?: AbortSignal },
+  options?: { signal?: AbortSignal; timeoutMs?: number },
 ) => Promise<OperationResult>;
 
 function failure(code: string, message: string, retryable = false): OperationResult {
@@ -38,11 +39,19 @@ export function mediaWorker(
   environment: NodeJS.ProcessEnv = process.env,
   timeoutMs: number = DEFAULT_TIMEOUT_MS,
 ): MediaWorker {
-  return (operation, params, { signal } = {}) =>
+  return (operation, params, { signal, timeoutMs: callTimeoutMs = timeoutMs } = {}) =>
     new Promise<OperationResult>((settle) => {
       const canceled = () => failure("CANCELED", `${operation} was canceled`);
       if (signal?.aborted) {
         settle(canceled());
+        return;
+      }
+      if (
+        !Number.isFinite(callTimeoutMs) ||
+        callTimeoutMs <= 0 ||
+        callTimeoutMs > MAX_MEDIA_TIMEOUT_MS
+      ) {
+        settle(failure("INVALID_REQUEST", "Native deadline must be positive and fit a timer"));
         return;
       }
       const executable = environment[NATIVE_EXECUTABLE_VARIABLE];
@@ -78,7 +87,7 @@ export function mediaWorker(
       const abort = () => finish(canceled());
       const deadline = setTimeout(
         () => finish(failure("MEDIA_WORKER_TIMEOUT", `${operation} did not answer in time`, true)),
-        timeoutMs,
+        callTimeoutMs,
       );
       child.on("error", (error) =>
         finish(failure("MEDIA_WORKER_UNAVAILABLE", `Cannot run ${executable}: ${error.message}`)),

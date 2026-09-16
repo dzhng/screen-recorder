@@ -23,7 +23,8 @@
     "screenrec": "node apps/cli/dist/main.js",
     "lab:index": "bun run --cwd packages/test-harness lab:index",
     "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
-    "lab:storage": "bun run --cwd packages/test-harness lab:storage"
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing"
   },
   "devDependencies": {
     "@types/node": "24.13.4",
