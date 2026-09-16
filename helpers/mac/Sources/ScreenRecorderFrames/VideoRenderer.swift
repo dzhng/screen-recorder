@@ -207,6 +207,14 @@ public enum VideoRenderer {
                     image, to: destination!,
                     bounds: CGRect(x: 0, y: 0, width: width, height: height),
                     colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!)
+                // CI writes sRGB pixels. New pool buffers carry no source color tags;
+                // propagate the working representation so encoders/readers do not guess.
+                CVBufferSetAttachment(destination!, kCVImageBufferColorPrimariesKey,
+                    kCVImageBufferColorPrimaries_ITU_R_709_2, .shouldPropagate)
+                CVBufferSetAttachment(destination!, kCVImageBufferTransferFunctionKey,
+                    kCVImageBufferTransferFunction_sRGB, .shouldPropagate)
+                CVBufferSetAttachment(destination!, kCVImageBufferYCbCrMatrixKey,
+                    kCVImageBufferYCbCrMatrix_ITU_R_709_2, .shouldPropagate)
                 var format: CMVideoFormatDescription?
                 var sample: CMSampleBuffer?
                 var timing = CMSampleTimingInfo(

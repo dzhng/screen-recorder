@@ -1,0 +1,119 @@
+{
+  "baseCommit": "c961a3bad10b04e7bca4ccc41c1e3b9a27a7780a",
+  "candidateSourceSha256": "109d68ce66c964caec81a9336dfe2ad446713423c32ab224ab86ef83263d2874",
+  "candidateNativeSha256": "da6672dacdd8c61fff95f1a324d9b7e1b49a52b0eaef6b0dcdec56af128258c0",
+  "sourceSha256": "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0",
+  "colorMetadata": {
+    "source": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {}
+      ]
+    },
+    "baseline": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {}
+      ]
+    },
+    "tagged": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "iec61966-2-1",
+          "color_primaries": "bt709"
+        }
+      ]
+    }
+  },
+  "playerMetrics": [
+    {
+      "state": "before",
+      "crop": [
+        0,
+        64,
+        1280,
+        720
+      ],
+      "baseline": {
+        "rgbMAE": 6.0911266637731485,
+        "fractionComponentsDeltaOver16": 0.025430049189814816
+      },
+      "tagged": {
+        "rgbMAE": 1.4074952980324074,
+        "fractionComponentsDeltaOver16": 0.0002517361111111111
+      }
+    },
+    {
+      "state": "middle",
+      "crop": [
+        0,
+        64,
+        1280,
+        720
+      ],
+      "baseline": {
+        "rgbMAE": 4.976519820601852,
+        "fractionComponentsDeltaOver16": 0.024816984953703703
+      },
+      "tagged": {
+        "rgbMAE": 0.6628403501157407,
+        "fractionComponentsDeltaOver16": 0.0006528501157407407
+      }
+    },
+    {
+      "state": "after",
+      "crop": [
+        0,
+        64,
+        1280,
+        720
+      ],
+      "baseline": {
+        "rgbMAE": 4.75569263599537,
+        "fractionComponentsDeltaOver16": 0.024850983796296296
+      },
+      "tagged": {
+        "rgbMAE": 1.1686187065972222,
+        "fractionComponentsDeltaOver16": 0.00032407407407407406
+      }
+    }
+  ],
+  "nativeFrameMetrics": {
+    "baselineRgbMAE": 6.52453125,
+    "taggedRgbMAE": 0.6359953703703703,
+    "explicitOutputRgbMAE": 1.105914351851852
+  },
+  "imageHashes": {
+    "capture/baseline.png": "3bf1e09890176e169265cef2e8cb11cc183b788c6b5392a1298c12d894b228d7",
+    "capture/source.png": "49a200873cb0bb582874322ee3c7bfa768d362d0b6f30c76428fb9823bcf23de",
+    "capture/tagged.png": "af86d2ad7830e396c53d49be51ffc736ce058c116f4d5b6d72f2b3fd3f730910",
+    "crops/tagged-after.png": "d4a4b9737340b73f36a64e514868ea68ad6c7cd4e7a866cfab4f35c7aa1baac6",
+    "crops/source-before.png": "b6a1946e7cc476557712ef6d956d8e83df42662e3991534918a752f4f1cf880f",
+    "crops/baseline-after.png": "43f4e6ef2df6929a4df63f5eb730a71b82f4f0b20d1c30ff6157dede18344a0d",
+    "crops/tagged-middle.png": "d78de1b01963d79243bdfcf02fceaca87f3356a1044d2b751522ccf1ccad1525",
+    "crops/baseline-middle.png": "1a6bf7e67afda06fe52d5a59d04643487a38320edf42ea696713968956f221fb",
+    "crops/tagged-before.png": "9c6063fad035c206b08e4243c1ccce97a203b7099364c8042dae775ec5b219ce",
+    "crops/baseline-before.png": "78940531232ded281673cb4f2419104794fe9147e4fffbab26e300662f4952eb",
+    "crops/source-middle.png": "14b947a29f6ad04740bd274a8458cce570298672e72d154cc30a445483afdda5",
+    "crops/source-after.png": "8300124957644d2100588f2e1de7c4052d8711f84ada037856b5859ce57e2938",
+    "native-frames/baseline.png": "9c5df9463a8bcdaf64a7aa4d172b03bb2378e3800dd991a2018f8b3a753e46c8",
+    "native-frames/explicit-output.png": "809a50791ea7c642b160a156c6e884cf79e26045806c82601a259fa1015120ac",
+    "native-frames/tags-only.png": "169d7d3240ce16da697f7af7bd175393118e8c403410449f359e97fe2251a01e",
+    "native-frames/source.png": "e26ca86587dc81158dcafb16c89bf441812e812c183cb4cd2d46f18e901f9455",
+    "player/source/before.png": "e77bf8a110bda57af604c2490a2407ee4e5aadc8e32dec7eeef1ac2b22952409",
+    "player/source/after.png": "0f1d6a87441c391333b2c24b02d03096df6d5e317ae254715d1588f7ea50fadb",
+    "player/source/middle.png": "fbff4443688ec41199f658aaf4f5e883a79597140740209003ea23a7f40ace1f",
+    "player/tagged/before.png": "ff96655ec86683dd463af99afe820cebef033cb2722220c6f9bc8aa4c60c367d",
+    "player/tagged/after.png": "37639b73210d3c77c444a28a65ef266f25018cecdbdbba0835feea4b974f281a",
+    "player/tagged/middle.png": "b4d3eaa93336707fe59c7e3964463f3f9a77819dd99667c1ff67c926ba85a5a0",
+    "player/baseline/before.png": "f60d5d6994c48ec742c0076dc4284ec3ae6822bd510298dc1ccbcacbf688823b",
+    "player/baseline/after.png": "d05ca99d0e1933d11a008e7f255920b0768325e169e70a3e655d85dcaaed36aa",
+    "player/baseline/middle.png": "ca5e69bc6b58b880a2f63948576c2d23e356667b2154eaf56b98983eefdcc6bf"
+  }
+}

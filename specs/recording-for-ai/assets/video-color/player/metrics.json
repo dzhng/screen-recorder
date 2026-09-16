@@ -1,0 +1,53 @@
+[
+  {
+    "state": "before",
+    "crop": [
+      0,
+      64,
+      1280,
+      720
+    ],
+    "baseline": {
+      "rgbMAE": 6.0911266637731485,
+      "fractionComponentsDeltaOver16": 0.025430049189814816
+    },
+    "tagged": {
+      "rgbMAE": 1.4074952980324074,
+      "fractionComponentsDeltaOver16": 0.0002517361111111111
+    }
+  },
+  {
+    "state": "middle",
+    "crop": [
+      0,
+      64,
+      1280,
+      720
+    ],
+    "baseline": {
+      "rgbMAE": 4.976519820601852,
+      "fractionComponentsDeltaOver16": 0.024816984953703703
+    },
+    "tagged": {
+      "rgbMAE": 0.6628403501157407,
+      "fractionComponentsDeltaOver16": 0.0006528501157407407
+    }
+  },
+  {
+    "state": "after",
+    "crop": [
+      0,
+      64,
+      1280,
+      720
+    ],
+    "baseline": {
+      "rgbMAE": 4.75569263599537,
+      "fractionComponentsDeltaOver16": 0.024850983796296296
+    },
+    "tagged": {
+      "rgbMAE": 1.1686187065972222,
+      "fractionComponentsDeltaOver16": 0.00032407407407407406
+    }
+  }
+]

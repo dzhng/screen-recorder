@@ -1,0 +1,64 @@
+{
+  "render": {
+    "bytes": 85380,
+    "codec": "h264",
+    "durationUs": 1998432,
+    "file": "/tmp/screenrec-video-color-capture-tagged.mp4",
+    "frameCount": 60,
+    "height": 1064,
+    "mediaType": "video/mp4",
+    "width": 1604
+  },
+  "frames": {
+    "source": {
+      "actualSourceUs": 515000,
+      "bytes": 111117,
+      "distanceUs": 4999,
+      "file": "/tmp/screenrec-color-capture-source.png",
+      "height": 1064,
+      "mediaType": "image/png",
+      "requestedSourceUs": 510001,
+      "sourceHeight": 1064,
+      "sourceWidth": 1604,
+      "width": 1604
+    },
+    "baseline": {
+      "actualSourceUs": 504999,
+      "bytes": 123646,
+      "distanceUs": 4999,
+      "file": "/tmp/screenrec-color-capture-baseline.png",
+      "height": 1064,
+      "mediaType": "image/png",
+      "requestedSourceUs": 500000,
+      "sourceHeight": 1064,
+      "sourceWidth": 1604,
+      "width": 1604
+    },
+    "tagged": {
+      "actualSourceUs": 504999,
+      "bytes": 123961,
+      "distanceUs": 4999,
+      "file": "/tmp/screenrec-color-capture-tagged.png",
+      "height": 1064,
+      "mediaType": "image/png",
+      "requestedSourceUs": 500000,
+      "sourceHeight": 1064,
+      "sourceWidth": 1604,
+      "width": 1604
+    }
+  },
+  "metrics": {
+    "source": {
+      "rgbMAE": 0.0,
+      "fractionComponentsDeltaOver16": 0.0
+    },
+    "baseline": {
+      "rgbMAE": 3.0237954612216327,
+      "fractionComponentsDeltaOver16": 5.449252807830049e-05
+    },
+    "tagged": {
+      "rgbMAE": 1.7548353817836362,
+      "fractionComponentsDeltaOver16": 1.718760742254639e-05
+    }
+  }
+}

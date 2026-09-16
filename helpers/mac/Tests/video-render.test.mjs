@@ -316,3 +316,70 @@ test("video publication preserves a destination created during rendering", async
     await closed;
   }
 });
+
+test("video output preserves the native source's sRGB presentation across decoders", () => {
+  const source = join(directory, "dense.mov");
+  const expectedPng = join(directory, "native-source-color.png");
+  const frame = JSON.parse(
+    run(
+      native,
+      [],
+      JSON.stringify({
+        id: "color-source",
+        operation: "media.frame",
+        params: {
+          source,
+          output: expectedPng,
+          atSourceUs: 35000,
+          kept: { startUs: 0, endUs: 200000 },
+          maxLongEdge: 320,
+        },
+      }) + "\n",
+    ),
+  );
+  assert.equal(frame.ok, true, JSON.stringify(frame));
+  assert.equal(frame.data.actualSourceUs, 33333);
+  const output = join(directory, "color-render.mp4");
+  const rendered = request({
+    source,
+    output,
+    plan: planFor(200000, [{ startUs: 0, endUs: 200000 }]),
+  });
+  assert.equal(rendered.ok, true, JSON.stringify(rendered));
+  const reference = expectedPng + ".rgb";
+  const actual = output + ".rgb";
+  run("ffmpeg", [
+    "-v",
+    "error",
+    "-i",
+    expectedPng,
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    reference,
+  ]);
+  run("ffmpeg", [
+    "-v",
+    "error",
+    "-i",
+    output,
+    "-vf",
+    "select=eq(n\\,1)",
+    "-frames:v",
+    "1",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    actual,
+  ]);
+  const expected = readFileSync(reference),
+    decoded = readFileSync(actual);
+  assert.equal(decoded.length, expected.length);
+  let error = 0;
+  for (let i = 0; i < expected.length; i++) error += Math.abs(expected[i] - decoded[i]);
+  // Native decoding establishes the source's displayed sRGB appearance. An independent
+  // decoder must reproduce it from the movie, including its color metadata.
+  assert.ok(error / expected.length < 2, `Displayed sRGB error: ${error / expected.length}`);
+});

@@ -1,0 +1,20 @@
+✔ video worker preserves one-microsecond-spans pixels and exact plan duration (271.827667ms)
+✔ video worker preserves subframe pixels and exact plan duration (269.42675ms)
+✔ video worker preserves fractional-two-cuts pixels and exact plan duration (272.543667ms)
+✔ video worker preserves two-middle-cuts pixels and exact plan duration (286.342709ms)
+✔ video worker preserves original pixels and exact plan duration (303.220541ms)
+✔ video worker preserves sparse-held pixels and exact plan duration (277.329708ms)
+✔ video worker preserves leading-empty pixels and exact plan duration (309.410125ms)
+✔ video worker preserves internal-empty pixels and exact plan duration (317.703416ms)
+✔ video worker preserves trailing-empty pixels and exact plan duration (315.566625ms)
+✔ video worker preserves empty-only pixels and exact plan duration (329.087125ms)
+✔ video worker refuses malformed plans and output aliases without source mutation (108.687708ms)
+✔ video publication preserves a destination created during rendering (1093.332334ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5197.566708

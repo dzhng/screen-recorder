@@ -33,11 +33,11 @@ Encoder bitrate/AVFoundation composition internals are delegated subject to read
 ## Visual review
 
 The [production cut-join review](../assets/video-render/joins/README.md) accepts
-frame identity/orientation, but finds rendered color shifts and softened/blocky
-label edges. Diagnose color conversion/metadata and encoder settings with full-size
-realistic text before accepting human-video fidelity; do not relabel these as pixel
-equality or hide them with downscaled comparisons. This quality work stays distinct
-from exact temporal membership and from pointer placement.
+frame identity/orientation. The [color-metadata correction](../assets/video-color/README.md)
+then improves source-color preservation in actual player windows and owned capture
+frames. Softened/blocky label edges remain: evaluate encoder settings with full-size
+realistic text before accepting complete human-video fidelity. This quality work
+stays distinct from exact temporal membership and from pointer placement.
 
 Temporal joins/pointer placement only; compare near-join frames to source-span expectations, then screenshot-critique last. Listen to source and edited excerpts for audible artifacts.
 
