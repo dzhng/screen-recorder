@@ -3,7 +3,10 @@
 `storage.usage` measures regular-file lengths through the shared service operation,
 so CLI and MCP expose the same result. It is a live observation, not an atomic
 filesystem snapshot or a promise about reclaimed physical blocks. `observedAt`
-marks completion; files can grow, disappear or move while the scan runs. Concurrent
+marks completion; files can grow, disappear or move while the scan runs. Requests
+for the same scope join an existing in-flight observation, including retries after
+a transport timeout. A completed or failed scan releases that scope, so a later
+request starts a fresh observation. Different scopes remain independent. Concurrent
 renames can omit directory entries; this observation does not promise snapshot
 consistency.
 

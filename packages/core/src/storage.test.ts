@@ -302,3 +302,72 @@ test("shutdown cancels and drains held file inspection before the catalog may cl
   expect(descriptor).toBeDefined();
   await expect(descriptor!.stat()).rejects.toMatchObject({ code: "EBADF" });
 });
+
+test("same-scope retries join a held observation while another recording stays readable", async () => {
+  const { home, store, storage, take, file } = await fixture();
+  const target = await file(join(home, "recordings", take.recordingId, "source", "held"), 3);
+  const sibling = store.allocate().recording;
+  await file(join(home, "recordings", sibling.recordingId, "source", "other"), 7);
+  const actual = await vi.importActual<typeof import("node:fs/promises")>("node:fs/promises");
+  let entered!: () => void, release!: () => void;
+  const opened = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let opens = 0;
+  vi.mocked(filesystem.open).mockImplementation(async (path, flags, mode) => {
+    const handle = await actual.open(path, flags, mode);
+    if (String(path).endsWith(`/${take.recordingId}/source/held`)) {
+      opens++;
+      entered();
+      await held;
+    }
+    return handle;
+  });
+  const first = storage.usage();
+  let retry: ReturnType<typeof storage.usage> | undefined;
+  try {
+    await opened;
+    // A transport may have dropped the first waiter, but the observation still owns this file.
+    retry = storage.usage();
+    expect((await storage.usage(sibling.recordingId)).sourceBytes).toBe(7);
+    await setImmediate();
+    expect(opens).toBe(1);
+    release();
+    const [original, joined] = await Promise.all([first, retry]);
+    expect(joined).toEqual(original);
+    expect(joined.sourceBytes).toBe(10);
+    await writeFile(target, Buffer.alloc(11));
+    expect((await storage.usage()).sourceBytes).toBe(18);
+    expect(opens).toBe(2);
+  } finally {
+    release();
+    await Promise.allSettled([first, ...(retry ? [retry] : [])]);
+    vi.mocked(filesystem.open).mockImplementation(actual.open);
+  }
+});
+
+test("a failed shared observation releases its scope for a fresh retry", async () => {
+  const { home, storage, take, file } = await fixture();
+  await file(join(home, "recordings", take.recordingId, "source", "retry"), 13);
+  const actual = await vi.importActual<typeof import("node:fs/promises")>("node:fs/promises");
+  vi.mocked(filesystem.open).mockImplementation(async (path, flags, mode) => {
+    if (String(path).endsWith("/source/retry"))
+      throw Object.assign(new Error("fixture denied"), { code: "EACCES" });
+    return actual.open(path, flags, mode);
+  });
+  try {
+    const requests = [storage.usage(take.recordingId), storage.usage(take.recordingId)];
+    for (const answer of await Promise.allSettled(requests)) {
+      expect(answer).toMatchObject({
+        status: "rejected",
+        reason: { code: "STORAGE_IO", details: { cause: "EACCES" } },
+      });
+    }
+  } finally {
+    vi.mocked(filesystem.open).mockImplementation(actual.open);
+  }
+  expect((await storage.usage(take.recordingId)).sourceBytes).toBe(13);
+});

@@ -1127,3 +1127,20 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   receives bounded file identities. No resident process or dependency is added.
 - **Verdict:** sound; removal is tied to the verified directory rather than its
   replaceable name. **Confidence:** high.
+
+
+## Shared in-flight storage observations — 2026-09-16
+
+- **Choice:** Requests for the same recording, or for the aggregate library, share
+  that scope's running storage scan. If a client times out and asks again, it joins
+  the work already reading the disk. Completion or failure releases the scope;
+  the next request measures again. A different recording can still be inspected.
+- **Gap:** Live-scan semantics did not specify repeated calls while a slow scan
+  outlives its transport response. UI refresh exposed that overlapping calls could
+  keep starting duplicate traversals whose original replies had been abandoned.
+- **Reach:** The existing storage owner's active-operation collection also owns
+  joining; shutdown still waits for actual observations. No result cache, durable
+  scanner, timer, or second job owner is introduced.
+- **Verdict:** sound; a shared observation has the same documented live semantics
+  while bounding duplicate work. **Confidence:** high. Held-file and failure/retry
+  regressions verify independent-scope progress and fresh reads after settlement.

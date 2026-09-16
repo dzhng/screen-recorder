@@ -23,7 +23,7 @@ export class RecordingStorage {
   private readonly home: string;
   private readonly homeIdentity: DirectoryIdentity;
   private readonly lifetime = new AbortController();
-  private readonly active = new Set<Promise<StorageUsage>>();
+  private readonly active = new Map<string | undefined, Promise<StorageUsage>>();
   constructor(
     private readonly store: RevisionStore,
     private readonly cache: DerivedCache,
@@ -45,14 +45,17 @@ export class RecordingStorage {
     }
   }
 
+  /** Repeated requests join the same live observation, even if an earlier transport timed out. */
   usage(recordingId?: string): Promise<StorageUsage> {
     if (this.lifetime.signal.aborted)
       return Promise.reject(new CatalogError("CANCELED", "Storage inspection is closed"));
+    const existing = this.active.get(recordingId);
+    if (existing) return existing;
     const inspection = this.inspect(recordingId);
-    this.active.add(inspection);
+    this.active.set(recordingId, inspection);
     void inspection.then(
-      () => this.active.delete(inspection),
-      () => this.active.delete(inspection),
+      () => this.active.delete(recordingId),
+      () => this.active.delete(recordingId),
     );
     return inspection;
   }
@@ -60,7 +63,7 @@ export class RecordingStorage {
   /** No scan may retain directory/file handles or consult the catalog after this resolves. */
   async close(): Promise<void> {
     this.lifetime.abort();
-    await Promise.allSettled(this.active);
+    await Promise.allSettled(this.active.values());
   }
 
   private async inspect(recordingId?: string): Promise<StorageUsage> {
