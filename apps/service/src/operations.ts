@@ -1,6 +1,7 @@
 import type { AudioInspection } from "@screenrec/core/audio";
 import type { FrameInspection } from "@screenrec/core/frames";
 import type { DerivativeDelivery } from "./delivery.js";
+import type { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceProcessing } from "@screenrec/core/processing";
 import { TimelineError } from "@screenrec/core/timeline";
 import { CatalogError, type RevisionStore } from "@screenrec/core/library";
@@ -26,6 +27,7 @@ export async function operate(
   frames: FrameInspection,
   audio: AudioInspection,
   delivery: DerivativeDelivery,
+  scenes: SceneProcessing,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
     return failure(
@@ -119,9 +121,21 @@ export async function operate(
       case "cursor.raw":
         return { ok: true, data: processing.rawCursor(operation.params) };
       case "processing.status":
-        return { ok: true, data: processing.status(operation.params.recordingId) };
+        return {
+          ok: true,
+          data:
+            operation.params.artifact === "scenes"
+              ? scenes.status(operation.params.recordingId)
+              : processing.status(operation.params.recordingId),
+        };
       case "processing.retry":
-        return { ok: true, data: processing.retry(operation.params.recordingId) };
+        return {
+          ok: true,
+          data:
+            operation.params.artifact === "scenes"
+              ? scenes.retry(operation.params.recordingId)
+              : processing.retry(operation.params.recordingId),
+        };
       case "service.health":
         return { ok: true, data: health() };
       case "capture.sources":

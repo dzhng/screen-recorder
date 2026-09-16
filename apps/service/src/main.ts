@@ -8,6 +8,8 @@ import { VisualObservationCache } from "@screenrec/core/visual-cache";
 import { AudioInspection, type NativeAudio } from "@screenrec/core/audio";
 import { FrameInspection, type NativeFrame } from "@screenrec/core/frames";
 import { DerivativeDelivery } from "./delivery.js";
+import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { operate, operationFailure } from "./operations.js";
 import { homedir } from "node:os";
@@ -55,6 +57,7 @@ async function main(): Promise<void> {
   let listener: LocalListener;
   let jobs: JobQueue | undefined;
   let processing: SourceProcessing;
+  let scenes: SceneProcessing;
   let frames: FrameInspection;
   let audio: AudioInspection;
   let delivery: DerivativeDelivery | undefined;
@@ -97,9 +100,14 @@ async function main(): Promise<void> {
       store,
       providers: { newId: randomUUID },
       execute: async (execution) => {
-        if (execution.job.artifact === "frame" || execution.job.artifact === "audio") {
+        if (
+          execution.job.artifact === "frame" ||
+          execution.job.artifact === "audio" ||
+          execution.job.artifact === "source-scenes"
+        ) {
           await cacheReady;
           if (cacheFailure) throw cacheFailure;
+          if (execution.job.artifact === "source-scenes") return scenes.execute(execution);
           return execution.job.artifact === "frame"
             ? frames.execute(execution)
             : audio.execute(execution);
@@ -114,6 +122,7 @@ async function main(): Promise<void> {
     const visual = new VisualObservationCache(store, cache, (request, signal) =>
       nativeData<VisualObservations>("media.visualSamples", request, signal),
     );
+    scenes = new SceneProcessing(store, jobs, new SceneEvidenceStore(store), home, visual.sample);
     frames = new FrameInspection(
       store,
       jobs,
@@ -183,7 +192,7 @@ async function main(): Promise<void> {
     log,
     () => {
       try {
-        processing.resume();
+        resumeProcessing();
       } finally {
         queue.schedule();
       }
@@ -194,6 +203,7 @@ async function main(): Promise<void> {
     if (stopping) return;
     try {
       processing.resume();
+      scenes.resume();
     } catch (error) {
       log(`processing admission failed: ${(error as Error).message}`);
     }
@@ -211,6 +221,7 @@ async function main(): Promise<void> {
         frames,
         audio,
         transfers,
+        scenes,
       );
     } finally {
       queue.schedule();
@@ -271,9 +282,13 @@ async function main(): Promise<void> {
   // can accept — and then runs outside the app's startup budget rather than inside it.
   const reconciled = capture.reconcileStranded();
   control.emit({ event: "started", pid: process.pid, socketPath });
-  evidenceCleanup = processing.cleanup(cleanupLifetime.signal).catch((error) => {
-    if (!cleanupLifetime.signal.aborted)
-      log(`evidence cleanup failed: ${(error as Error).message}`);
+  evidenceCleanup = Promise.allSettled([
+    processing.cleanup(cleanupLifetime.signal),
+    scenes.cleanup(cleanupLifetime.signal),
+  ]).then((results) => {
+    for (const result of results)
+      if (result.status === "rejected" && !cleanupLifetime.signal.aborted)
+        log(`evidence cleanup failed: ${(result.reason as Error).message}`);
   });
   await reconciled;
   resumeProcessing();

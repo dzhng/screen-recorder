@@ -855,3 +855,45 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   Retained scene/index evidence remains outside this disposable lifetime.
 - **Verdict:** Sound: platform-owned cleanup without another queue or periodic sweeper.
   **Confidence:** High.
+
+## Durable canonical scenes
+
+### Sound — medium confidence
+
+- **When:** Canonical scene scan integration.
+- **Choice:** Whole-source analysis runs as one heavy artifact job with bounded
+  ten-second decoding calls. A local frame can use its independent frame lane;
+  heavy work already running completes before the next heavy request starts.
+  Background discovery admits one scene job, not the entire recording history.
+- **Gap:** The plan fixed worker limits without specifying scan admission granularity.
+- **Reach:** No second queue or chunk-job dependency graph is introduced. A long
+  source scan can delay another heavy request; source chunking bounds memory but
+  does not imply preemption of the heavy lane.
+- **Verdict:** Sound within the specified single-heavy-job contract; measure long
+  native scans before deciding whether cooperative rescheduling is warranted.
+  **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **When:** Durable scene store and scan integration.
+- **Choice:** Retain one bounded report per canonical chunk plus a generation row
+  tracking complete coverage. If a future frame is first selected early, its
+  comparison stays at its real video time. Overlapping chunks share a predecessor;
+  duplicate comparison pairs are removed while requested-image coverage stays exact.
+- **Gap:** Local trail boundary clipping cannot be concatenated into global evidence.
+- **Reach:** Screenshot selection and packages can consume durable actual-time
+  evidence without rescanning or inventing a second scene detector.
+- **Verdict:** Sound: one measurement policy and explicit timing provenance.
+  **Confidence:** High.
+
+### Sound — high confidence
+
+- **When:** Durable scene store and scan integration.
+- **Choice:** Deleting a partial generation first makes it unreadable, then removes
+  bounded batches of rows. A crash during cleanup leaves its identity available
+  for the next cleanup pass. Queue publication alone makes a completed scan ready.
+- **Gap:** Yielding cleanup must not expose a partly deleted result as complete.
+- **Reach:** Startup can reclaim abandoned attempts while preserving active and
+  published evidence. Internal deletion state is not another public readiness state.
+- **Verdict:** Sound: bounded cleanup and atomic visibility without whole-scan buffers.
+  **Confidence:** High.

@@ -1,7 +1,7 @@
 # Durable shared scene evidence
 
-Status: bounded observation reuse is integrated; durable canonical chunk storage
-and scan orchestration are in progress. This closes the persistence seam left by 10b;
+Status: storage and scan integration verified with real bundled sparse video and
+core thirty-minute paging. This closes the persistence seam left by 10b;
 screenshot selection remains slice 11. No new visual detector or renderer.
 
 ## One evidence owner
@@ -70,3 +70,8 @@ current; parent real captured gesture and real UI threshold gates remain open.
 
 [Observation reuse evidence](../assets/scene-analysis/observation-cache.md) records
 restart, exact selection bounds, eviction and unchanged public delivery checks.
+
+[Durable storage](../assets/scene-analysis/durable-store.md) and
+[canonical scan evidence](../assets/scene-analysis/canonical-scan.md) document
+publication, cleanup and native CLI/MCP checks. Real UI threshold acceptance and
+useful screenshot selection remain their owning slices.

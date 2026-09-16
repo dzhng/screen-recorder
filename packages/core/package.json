@@ -51,6 +51,10 @@
     "./scene-evidence": {
       "types": "./dist/scene-evidence.d.ts",
       "default": "./dist/scene-evidence.js"
+    },
+    "./scene-processing": {
+      "types": "./dist/scene-processing.d.ts",
+      "default": "./dist/scene-processing.js"
     }
   },
   "scripts": {

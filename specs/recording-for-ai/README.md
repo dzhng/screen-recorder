@@ -29,8 +29,8 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: implement [durable shared scene evidence](slices/10f-durable-scenes.md)
-for the screenshot index. [Default public trail frames](slices/10e-public-trails.md) now pass generated
+Current pickup: implement [screenshot selection](slices/11-screenshot-selection.md)
+over [durable shared scene evidence](slices/10f-durable-scenes.md). [Default public trail frames](slices/10e-public-trails.md) now pass generated
 CLI/MCP pixel and independent readability checks. The
 [requested-time scene rule](slices/10c-trail-timing.md) is verified against encoded
 sparse sources, including a two-minute gap. [Indexed evidence reads](slices/10d-trail-evidence.md)
@@ -44,7 +44,7 @@ markers when a delayed first frame establishes source zero after pause/resume.
 Both native fixes pass merged capture/recovery fixtures and the own-window public
 capture check. Do not rebuild either clock mapping in TypeScript.
 
-Priority order: shared persisted scene boundaries and screenshot indexing, then
+Priority order: screenshot selection/index delivery, then
 remaining storage/deletion, controls, speech, edited video/package and installed-workflow gates. Keep one queue, immutable sources,
 explicit dependency failure and the complete CLI/MCP surface. No more Claude use.
 
@@ -61,7 +61,8 @@ Current evidence:
 - [Source timing](assets/source-timing/integration-review.md), [indexed trail evidence](assets/trail-evidence/review.md)
   and [scene compatibility](assets/scene-analysis/core-review.md): shared normalized
   cursor/geometry/pause/audio evidence and bounded comparisons. Real UI scene
-  thresholds and captured gesture acceptance remain open.
+  thresholds and captured gesture acceptance remain open. [Canonical scans](assets/scene-analysis/canonical-scan.md)
+  now retain chunked coverage and actual-time boundaries across restarts.
 - [Native controls](assets/recording-controls/integration.md): closed-menu state and
   clock follow actual own-window service-driven capture. Native UI interaction,
   display/region placement and physical audio remain unverified. Localhost browser
@@ -109,7 +110,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [ ] [10c — Requested-time trail planning](slices/10c-trail-timing.md)
   - [x] [10d — Indexed trail evidence](slices/10d-trail-evidence.md)
   - [ ] [10e — Default public trail frames](slices/10e-public-trails.md)
-  - [ ] [10f — Durable shared scene evidence](slices/10f-durable-scenes.md)
+  - [x] [10f — Durable shared scene evidence](slices/10f-durable-scenes.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)

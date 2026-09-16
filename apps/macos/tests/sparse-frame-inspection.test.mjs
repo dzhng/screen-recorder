@@ -318,8 +318,12 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
   try {
     const cache = new DerivedCache(catalog, home);
     await cache.reconcile();
-    for (const retained of [tie, start, end, resized]) {
-      const read = cache.acquire(retained.published.frame.cacheId);
+    // Other producers may retain observations too. Make the target frame the oldest item
+    // explicitly so this test controls eviction independently of background admission timing.
+    for (const row of catalog.catalog
+      .prepare("SELECT id FROM derived_cache WHERE id != ? ORDER BY id")
+      .all(boundary.published.frame.cacheId)) {
+      const read = cache.acquire(row.id);
       assert.ok(read);
       read.release();
     }

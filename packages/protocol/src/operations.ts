@@ -132,16 +132,21 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Page raw cursor observations in explicit source time, including retained integrity markers; edits do not alter these samples.",
     ),
   z
-    .object({ operation: z.literal("processing.status"), params: recording })
+    .object({
+      operation: z.literal("processing.status"),
+      params: recording
+        .extend({ artifact: z.enum(["source", "scenes"]).default("source") })
+        .strict(),
+    })
     .strict()
-    .describe("Read source-evidence processing state and its published generation."),
+    .describe("Read source or scene processing state and its published generation."),
   z
     .object({
       operation: z.literal("processing.retry"),
-      params: recording.extend({ artifact: z.literal("source") }).strict(),
+      params: recording.extend({ artifact: z.enum(["source", "scenes"]) }).strict(),
     })
     .strict()
-    .describe("Explicitly start or retry source-evidence processing; never duplicate active work."),
+    .describe("Explicitly start or retry source or scene processing; never duplicate active work."),
   z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
     .strict()
