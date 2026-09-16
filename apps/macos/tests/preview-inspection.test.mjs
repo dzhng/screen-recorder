@@ -176,6 +176,14 @@ test("public preview pins its revision and delivers a current-pointer movie thro
       assert.equal(response.isError, false);
       const delivered = response.structuredContent.data;
       assert.deepEqual(delivered.published, ready.published);
+      const renewal = await client.callTool({
+        name: "artifact.renew",
+        arguments: { token: delivered.delivery.token },
+      });
+      assert.equal(renewal.isError, false);
+      assert.equal(renewal.structuredContent.data.token, delivered.delivery.token);
+      assert.equal(renewal.structuredContent.data.bytes, delivered.delivery.bytes);
+      assert.ok(renewal.structuredContent.data.expiresAt >= delivered.delivery.expiresAt);
       const chunks = [];
       for (let offset = 0; offset < delivered.delivery.bytes;) {
         const response = await client.callTool({
@@ -281,6 +289,13 @@ test("public preview pins its revision and delivers a current-pointer movie thro
     });
     assert.equal(revoked.ok, false);
     assert.equal(revoked.error.code, "ARTIFACT_EXPIRED");
+    const renewal = await callLocal(socketPath(home), {
+      id: randomUUID(),
+      operation: "artifact.renew",
+      params: { token: regenerated.delivery.token },
+    });
+    assert.equal(renewal.ok, false);
+    assert.equal(renewal.error.code, "ARTIFACT_EXPIRED");
   } finally {
     await instance.reap();
   }

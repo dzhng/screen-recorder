@@ -31,7 +31,7 @@ Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
 Current pickup: wire the verified public preview into native app playback in
 [13e](slices/13e-preview-publication.md), with an explicit player lifetime over
-bounded downloads. In parallel, finish retained archive read/close ownership in
+the existing renewable cache lease. In parallel, finish retained archive read/close ownership in
 [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
 [14b](slices/14b-portable-inspection.md) passes internal relocated-directory
 inspection through the same native consumers, with the original library removed.

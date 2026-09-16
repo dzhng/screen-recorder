@@ -1578,3 +1578,24 @@ records them. These choices add no public export choice or transcript readiness.
 - **Verdict:** sound; the finite busy refusal preserves both worker ownership and
   truthful completion without another storage ledger.
 - **Confidence:** medium; a future throughput need could justify separate workspaces.
+
+## Native player lifetime: renew the existing cache lease
+
+- **When:** native preview playback preparation after the public preview pass.
+- **The choice:** an active player renews the existing delivery token instead of
+  downloading a second private movie copy. A lease is the service's promise to
+  keep the same cached bytes available until a deadline. `artifact.renew` extends
+  that promise for the same finite interval; it cannot reopen an expired or deleted
+  recording. The player must stop using its cache URL when renewal fails and close
+  the token when its window closes. If the app crashes, renewals stop and the
+  existing timer releases the cache automatically. Recording deletion still
+  revokes the lease and removes the cache file without finding a second app copy.
+- **The gap:** the required player lifetime can exceed a download token's deadline;
+  the plan did not choose renewal, streaming or an app-owned copy.
+- **The reach:** one small public operation serves all CLI/MCP/native active
+  consumers, while the native app owns renewal for its actual player lifetime.
+  It relies on the trusted local service's immutable private cache URL, not a
+  remotely supplied path. Clients cannot treat a once-valid URL as valid forever.
+- **Verdict:** sound; the existing pin/timer/revocation owner already has the
+  lifecycle needed, so another movie store and janitor are unnecessary.
+- **Confidence:** high.

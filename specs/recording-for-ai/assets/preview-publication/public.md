@@ -22,7 +22,7 @@ on the merged tree ([results](../pointer-composition/merged-tests.txt)).
 The work reuses bounded transfer leases and the existing job/cache owners. MCP
 returns movie metadata and a transfer token; clients read bounded chunks and close
 the token. CLI streams those chunks to an exclusively published output file.
-Neither interface buffers the complete movie in memory. A download must finish
+Neither interface buffers the complete movie in memory. A default CLI download must finish
 within the existing transfer lifetime; expiration is explicit and retryable.
 
 Preparation has finite disk/work budgets: presentation evidence, emitted pointer

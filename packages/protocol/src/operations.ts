@@ -201,6 +201,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Read a bounded base64 chunk from a ready media delivery; retrying an offset returns the same bytes.",
     ),
   z
+    .object({ operation: z.literal("artifact.renew"), params: z.object({ token: id }).strict() })
+    .strict()
+    .describe(
+      "Extend a live delivery for an active consumer. Returns the same token and byte count with a new expiry. Expired, closed or deleted deliveries cannot be revived; close when finished.",
+    ),
+  z
     .object({ operation: z.literal("artifact.close"), params: z.object({ token: id }).strict() })
     .strict()
     .describe("Release a media delivery; closing it again succeeds."),

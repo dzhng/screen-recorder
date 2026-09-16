@@ -229,6 +229,8 @@ export async function operate(
             operation.params.maxBytes,
           ),
         };
+      case "artifact.renew":
+        return { ok: true, data: delivery.renew(operation.params.token) };
       case "artifact.close":
         delivery.close(operation.params.token);
         return { ok: true, data: { closed: true } };

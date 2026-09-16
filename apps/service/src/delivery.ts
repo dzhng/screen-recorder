@@ -57,16 +57,7 @@ export class DerivativeDelivery {
     nextOffset: number;
     eof: boolean;
   } {
-    const lease = this.leases.get(token);
-    if (!lease || Date.now() >= lease.expiresAt) {
-      this.close(token);
-      throw new CatalogError(
-        "ARTIFACT_EXPIRED",
-        "Derivative delivery has expired or closed",
-        {},
-        true,
-      );
-    }
+    const lease = this.requireLease(token);
     if (
       !Number.isSafeInteger(offset) ||
       offset < 0 ||
@@ -105,6 +96,28 @@ export class DerivativeDelivery {
       this.close(token);
       throw error;
     }
+  }
+
+  /** A live consumer extends the same pin; silence still releases it automatically. */
+  renew(token: string): { token: string; bytes: number; expiresAt: number } {
+    const lease = this.requireLease(token);
+    lease.expiresAt = Date.now() + lifetimeMs;
+    lease.timer.refresh();
+    return { token, bytes: lease.handle.bytes, expiresAt: lease.expiresAt };
+  }
+
+  private requireLease(token: string): Lease {
+    const lease = this.leases.get(token);
+    if (!lease || Date.now() >= lease.expiresAt) {
+      this.close(token);
+      throw new CatalogError(
+        "ARTIFACT_EXPIRED",
+        "Derivative delivery has expired or closed",
+        {},
+        true,
+      );
+    }
+    return lease;
   }
 
   close(token: string): void {

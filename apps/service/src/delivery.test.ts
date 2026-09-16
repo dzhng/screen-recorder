@@ -83,6 +83,30 @@ test("a fixed expiry releases the cache without another delivery call", async ()
   );
 });
 
+test("renewal retains the same bytes past the old deadline but cannot revive expired or revoked leases", async () => {
+  const f = await fixture();
+  vi.useFakeTimers();
+  vi.setSystemTime(1000);
+  const lease = f.delivery.open(f.recordingId, () => f.cache.acquire(f.file.id));
+  await vi.advanceTimersByTimeAsync(20_000);
+  const renewed = f.delivery.renew(lease.token);
+  expect(renewed).toEqual({ ...lease, expiresAt: 51_000 });
+  await vi.advanceTimersByTimeAsync(10_000);
+  expect(Buffer.from(f.delivery.read(lease.token, 0, 100).data, "base64")).toEqual(f.data);
+  expect(() => f.cache.remove(f.file.id)).toThrow("being read");
+  await vi.advanceTimersByTimeAsync(20_000);
+  expect(() => f.delivery.renew(lease.token)).toThrow(
+    expect.objectContaining({ code: "ARTIFACT_EXPIRED", retryable: true }),
+  );
+  const next = f.delivery.open(f.recordingId, () => f.cache.acquire(f.file.id));
+  f.delivery.revoke(f.recordingId);
+  expect(() => f.delivery.renew(next.token)).toThrow(
+    expect.objectContaining({ code: "ARTIFACT_EXPIRED", retryable: true }),
+  );
+  f.cache.remove(f.file.id);
+  expect(f.cache.acquire(f.file.id)).toBeNull();
+});
+
 test("lease limit is explicit and dispose releases every reader and refuses reopening", async () => {
   const f = await fixture();
   const leases = Array.from({ length: 32 }, () =>
