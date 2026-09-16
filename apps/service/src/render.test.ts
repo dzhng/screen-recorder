@@ -3,7 +3,7 @@ import { chmod, mkdtemp, mkdir, readdir, readFile, rm, writeFile } from "node:fs
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { MAX_MEDIA_TIMEOUT_MS, mediaWorker, type MediaWorker } from "./worker.js";
-import { renderDeadlineMs, withRenderedVideo } from "./render.js";
+import { renderDeadlineMs, withRenderedMedia } from "./render.js";
 
 const homes: string[] = [];
 afterEach(async () => {
@@ -59,6 +59,7 @@ async function ready(parent: string) {
 }
 it("budgets the decoded source prefix instead of the shorter edited output", () => {
   expect(renderDeadlineMs(plan)).toBe(150_000);
+  expect(renderDeadlineMs(plan, true)).toBe(180_000);
   const largest = [
     {
       source: { startUs: Number.MAX_SAFE_INTEGER - 1, endUs: Number.MAX_SAFE_INTEGER },
@@ -87,7 +88,7 @@ it("abort waits for actual close before reclaiming native partial staging", asyn
     );
     return result;
   };
-  const pending = withRenderedVideo(
+  const pending = withRenderedMedia(
     worker,
     { source: "hold", plan, attemptParent: parent },
     controller.signal,
@@ -106,7 +107,7 @@ it("deadline failure reclaims the closed attempt and preserves its reason", asyn
   const worker: MediaWorker = (operation, params, options) =>
     run(operation, params, { ...options, timeoutMs: 250 });
   await expect(
-    withRenderedVideo(
+    withRenderedMedia(
       worker,
       { source: "hold", plan, attemptParent: parent },
       new AbortController().signal,
@@ -125,7 +126,7 @@ it("abort after native publication but before receipt prevents consumption", asy
     return result;
   };
   await expect(
-    withRenderedVideo(
+    withRenderedMedia(
       worker,
       { source: "success", plan, attemptParent: parent },
       controller.signal,
@@ -140,12 +141,12 @@ it("successful consumption and consumer failure both end their attempt lifetime"
   const { parent, run } = await fixture();
   const request = { source: "success", plan, attemptParent: parent };
   expect(
-    await withRenderedVideo(run, request, new AbortController().signal, async (video) =>
+    await withRenderedMedia(run, request, new AbortController().signal, async (video) =>
       readFile(video.file, "utf8"),
     ),
   ).toBe("finished");
   await expect(
-    withRenderedVideo(run, request, new AbortController().signal, async () => {
+    withRenderedMedia(run, request, new AbortController().signal, async () => {
       throw new Error("consumer failed");
     }),
   ).rejects.toThrow("consumer failed");
@@ -156,7 +157,7 @@ it("abort during consumption preserves consumer-owned effects while reclaiming t
   const { parent, run } = await fixture();
   const controller = new AbortController();
   await expect(
-    withRenderedVideo(
+    withRenderedMedia(
       run,
       { source: "success", plan, attemptParent: parent },
       controller.signal,

@@ -1295,7 +1295,8 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   one thousand small ranges in one allowed edit, the movie may have one thousand
   and one remaining pieces. Planning those pieces uses the same recorded-audio
   evidence as a short excerpt, with a bounded ten-thousand-interval movie budget;
-  the excerpt keeps its existing smaller budget. A movie with neither acquired
+  the excerpt keeps its existing smaller budget. Native streaming uses the same
+  larger bound and scans ordered acquisition intervals monotonically. A movie with neither acquired
   track gets explicit absent-track reasons and remains silent, while requesting
   an audio-only excerpt still reports unavailable.
 - **Gap:** the original excerpt planner combined acquisition truth with limits
@@ -1327,3 +1328,33 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   **Reach:** the future reader must compare exact fractions for membership; it
   cannot treat the rounded sample timestamp as the interval start.
   **Verdict: sound, high confidence** — preserves the renderer's proven timing.
+
+## Movie worker and attempt promotion — 2026-09-17
+
+### Sound — high confidence
+
+- **Share one render-attempt lifetime across video and movies.** When a caller
+  supplies resolved audio tracks, the existing attempt owner asks the same native
+  worker for a movie; without tracks, it keeps the real video-only path. Both
+  return through the same cancellation and cleanup boundary. The plan did not
+  specify the service API shape. This avoids two cleanup wrappers that could
+  disagree about when a child has stopped or when a consumer may use its file.
+  The renamed `withRenderedMedia` replaces the old helper rather than keeping an
+  alias. Acquisition decisions stay in the core planner.
+
+- **Observe SDK finalization through internal callbacks, not worker test flags.**
+  The native lifetime test must cancel after `finishWriting` has actually started,
+  rather than guess from an elapsed delay. An optional internal callback observes
+  that boundary; a second injects a named pump error after a real compressed sample
+  append. Neither is accepted from JSON or the environment, and the optional test
+  target imports the production owner instead of copying it. The plan required
+  terminal-behavior proof but left the test seam unspecified. This keeps the
+  production process protocol unchanged while exposing the narrow native lifetime
+  events the tests need.
+
+- **Budget sequential movie work in its own call deadline.** A movie first decodes
+  through the last kept source position, then assembles retained audio. Its bounded
+  deadline adds retained playback time to the existing video budget, still capped
+  to a safe platform timer. The plan did not give a movie timeout formula. This
+  respects the actual two phases without raising deadlines for unrelated native
+  calls or introducing another watchdog owner.

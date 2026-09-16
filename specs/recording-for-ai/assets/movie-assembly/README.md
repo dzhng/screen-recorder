@@ -65,9 +65,9 @@ adjacent speech intelligibility.
 
 ## Reproduce and interpret
 
-Build `ScreenRecorderMovieTests` and protocol/core, then run
+Build native `screenrec-native` and protocol/core, then run
 `SCREENREC_MOVIE_EVIDENCE=/absolute/empty/path node --test helpers/mac/Tests/movie-render.test.mjs`.
-Eight checks pass. The named tiny-AAC test asserts the recorded decoder difference;
+The initial eight checks pass; production adds the large-plan regression. The named tiny-AAC test asserts the recorded decoder difference;
 a green suite confirms the evidence, not that all consumers agree.
 
 [Two-cut MP4](two-cuts.mp4), [lossless PCM reference](two-cuts.wav), and
@@ -75,14 +75,15 @@ a green suite confirms the evidence, not that all consumers agree.
 muted and no one has performed a speech or physical-device audition in this pass.
 Five-minute drift/memory and job cancellation/publication remain unmeasured here.
 
-The shape review keeps all candidate assembly in one optional test target, reusing
-production video/PCM owners. No production route, dependency, schema, timer owner,
-or public excerpt-cap change is added. Promotion should move the candidate into
-one native owner rather than preserve parallel implementations.
+The initial shape review kept candidate assembly in one optional test target, reusing
+production video/PCM owners. That checkpoint added no production route, dependency, schema, timer owner,
+or public excerpt-cap change. Production now uses one native owner and removes
+the optional implementation copy.
 
 Independent Codex review found no actionable defects in the bounded checkpoint.
-The production worker was rebuilt and still returns `UNKNOWN_OPERATION` for
-`media.renderMovie`; only the optional proof target handles that request today.
+At that checkpoint, the rebuilt production worker returned `UNKNOWN_OPERATION` for
+`media.renderMovie`. [Production promotion](production/README.md) now supplies that
+internal worker operation and removes the optional implementation copy.
 
 The [merged verification](merged-verification.json) records a rebuilt optional
 native target and all eight checks passing on the main checkout. Its

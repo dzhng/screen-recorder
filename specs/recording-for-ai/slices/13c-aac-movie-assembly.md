@@ -1,87 +1,90 @@
 # 13c — AAC and video assembly
 
-Status: generated native feasibility checkpoint; **no production movie operation**.
-The accepted video renderer and PCM stream remain the only production owners.
-[Measured evidence](../assets/movie-assembly/README.md) distinguishes presentation
-from decoder padding. Parent [13](13-edited-media.md) remains open.
+Status: production native assembly and shared service attempt lifetime implemented;
+**no public preview route**. [Production evidence](../assets/movie-assembly/production/README.md)
+records real worker/lifetime checks. Parent [13](13-edited-media.md) remains open
+for long A/V verification, audition, pointer and app playback.
 
-## Contract and current result
+## One assembly owner
 
-The core's pinned kept-source plan drives both owners. Video retains exact
-microsecond presentation; audio uses 13b's existing cumulative sample rounding.
-AAC is lossy compression, so sample values need not be bit-identical after encoding.
-There must be no systematic priming shift, accumulated drift, added ramp duration,
-or reading of removed source samples. Acquisition gaps remain in track reports.
+The core's pinned kept-source plan drives both native owners. `VideoRenderer`
+retains exact microsecond presentation; `AudioPCMStream` uses the existing
+cumulative sample rounding. AAC is lossy compression: sample values need not be
+bit-identical after encoding. There must be no systematic priming shift,
+accumulated drift, added ramp duration or reading of removed source samples.
+Acquisition gaps remain in track reports.
 
-The candidate first renders video with `VideoRenderer`, then copies its compressed
-H.264 samples into a final `AVAssetWriter` while `AudioPCMStream` feeds the AAC input.
-No video decoding, PNG seeking, second mix policy or edit interpretation is added
-by assembly. One actor owns the reader and writer. Two bounded pumps each retain
-at most one block; while an input waits, the other can advance. Finishing waits
-for both, and errors cancel the sibling pump before canceling the writer.
+`media.renderMovie` first renders video, then copies its compressed H.264 samples
+into one final `AVAssetWriter` while the shared PCM stream feeds AAC. Assembly
+adds no PNG seeking, second video encode, mix policy or edit interpretation. One
+actor owns its reader/writer. Independent bounded pumps retain at most one block
+each and yield while their writer input waits. A video-pump failure is shared
+immediately with audio; both settle before output publication. Task cancellation
+can cancel the SDK writer while its finalization call is suspended.
 
-The movie clock must exactly represent both microseconds and audio samples: use
-the least common multiple of one million and the resolved sample rate, refusing
-an unrepresentable Core Media timescale. A microsecond-only movie clock rounded
-an audio edit upward and exposed an extra decoded sample. The common clock avoids
-that change without resampling or moving a cut. This is native timing policy,
-not a new timeline owner.
+The movie clock represents microseconds and audio samples exactly: its timescale
+is their least common multiple, with explicit refusal if Core Media cannot
+represent it. A microsecond-only clock rounded an audio edit upward and exposed
+an extra decoded sample. The common clock fixes that without resampling or moving
+a cut; it is container timing policy, not another timeline owner.
 
-The movie and video presentation duration stay exact. The audio track's quantized
-end differs by at most half one sample, as already specified by 13b. Raw AAC
-packet decoding can include codec padding beyond that end; a decoded array's
-length alone is not the movie's playback duration. Independent FFmpeg summaries
-also round stream duration to audio ticks. Report those facts separately rather
-than introducing a broad drift tolerance. The probe compares native decoded
-samples, track/edit metadata, independent decoded PCM and real muted AVPlayer end
-notifications. It does not claim an audible or on-screen visual review.
+Movie/video presentation duration stays exact. The audio track's quantized end
+differs by at most half a sample, as already specified by 13b. Raw AAC decoding can
+include codec tail padding beyond that end. Independent FFmpeg duration summaries
+also round to audio ticks. Report those separately, not with a broad drift
+allowance. The proof compares native decoded samples, track/edit metadata,
+independent PCM, and actual muted AVPlayer end notifications.
 
-### Supported consumer boundary
+## Native playback and export boundary
 
-A retained nonzero 48 kHz sample in a 20 µs movie survives AVFoundation decoding
-and the player ends at exactly 20 µs. FFmpeg emits no PCM for that movie. The
-packet/skip metadata and nonzero values are retained in the report. Longer
-fractional spans and ordinary clips align without a priming shift; changing all
-excluded source samples leaves the retained decoded AAC unchanged.
+A retained nonzero 48 kHz sample in a 20 µs movie survives native decoding and
+AVPlayer ends at exactly 20 µs; FFmpeg emits no PCM for that movie. Packet/skip
+metadata and the nonzero values are retained in the
+[initial evidence](../assets/movie-assembly/README.md). Ordinary and fractional
+clips align without a priming shift. Replacing all excluded source samples leaves
+the decoded retained AAC unchanged.
 
-This is not evidence of missing adjacent speech, nor a universal AAC requirement
-for identical decoder arrays. The provisional internal integration decision is to preserve arbitrary
-cuts and promote this candidate for the native personal-release playback route:
-native presentation has the exact endpoint and retained nonzero samples. Record
-the FFmpeg limitation for export/consumer documentation rather than adding a cut
-minimum or dropping audio. Public export still owns its consumer contract. Do not
-append audible padding or change PCM quantization to make one decoder green.
+The provisional internal integration decision is to preserve arbitrary cuts for
+native personal-release playback. Document the tiny AAC difference for the later
+human-export/consumer contract; do not invent cut minima, drop retained audio,
+append audible padding or change PCM quantization to satisfy one raw decoder.
+No adjacent-speech or physical-device audition follows from generated tones.
 
-## Runnable checkpoint
+## Service lifetime and metadata bounds
 
-Build the protocol/core packages and native `ScreenRecorderMovieTests` product,
-then run `node --test helpers/mac/Tests/movie-render.test.mjs`.
-`SCREENREC_MOVIE_EVIDENCE` retains generated files in a new empty absolute directory.
-The executable is an optional probe, not another resident process, worker route,
-or export format. Its code is a candidate to promote and remove from the probe
-once the assembly contract is ready; production must not copy it into a second
-implementation.
+`withRenderedMedia` is the single service render-attempt owner. It accepts resolved
+core video spans and optional acquired audio tracks. Omitted tracks retain the
+real video-only worker path; provided tracks select movie assembly, including an
+empty set for silent recordings. Acquisition planning belongs to the core, not
+this adapter. The output receipt keeps the video contract plus optional audio
+format, input frame count and availability reports.
 
-The suite uses real core plans, production video rendering, production PCM mixing,
-and the production excerpt as the lossless numerical reference. It verifies
-original, two middle cuts, fractional spans, mono/stereo and unequal rates,
-offsets/acquisition gaps, silent movies and sub-sample movies. Compressed video
-assembly must preserve decoded pixels and color tags. One explicitly named test
-records the tiny AAC decoder discrepancy; its green result confirms the finding,
-**not production readiness**.
+Both routes use the existing one-call media worker and actual-child-close
+boundary. Deadlines budget source-prefix video work and, when audio is present,
+retained playback for AAC assembly, capped to the platform's safe timer range.
+Abort/deadline/error reclamation happens only after terminal native work. The
+consumer's durable commit must still fence or reconcile publication; this adapter
+cannot undo its side effects or supply restart cleanup for future jobs.
+
+Internal PCM metadata limits now match the renderer's 10,000-span bound and allow
+10,000 acquisition intervals per track. Ordered overlap planning advances a cursor
+rather than multiplying those limits. Public excerpts remain at 1,000 spans,
+1,000 acquired intervals and thirty seconds. Plans beyond the internal limits
+fail explicitly; paging/chunk execution remains necessary before claiming
+unlimited revision history support.
 
 ## Next bounded passes
 
-1. Promote one native assembly owner through the existing media worker and service
-   attempt lifetime. Test deadline/abort during AAC pumping and finish, await actual
-   child close before reclaiming attempts. Exercise video-pump failure while audio
-   waits for readiness and preserve the primary error; observe cancellation during
-   `finishWriting`, whose current await only checks before/after. Fence publication at the durable
-   job owner. Preserve the thirty-second public excerpt limit.
-2. Measure five-minute A/V synchronization and native peak memory at beginning,
+1. Measure five-minute A/V synchronization and peak native memory at the beginning,
    joins and far end, including sparse video, input AAC priming and container gaps.
-   Exercise pinned mutation, undo, pause and failure cleanup in the real job path.
-3. Run actual adjacent-speech audition separately from numerical generated-tone
-   checks. Parent 13 still owns pointer rendering, app playback and public preview;
-   export publication remains with its existing owner. No physical audio-device
-   or speech-intelligibility claim follows from this checkpoint.
+   Preserve sample counts, original bytes and the same resolved core plans.
+2. Use this attempt owner in the real pinned preview job: mutation, undo, pause,
+   durable publication and restart reconciliation, without another process owner.
+3. Perform actual adjacent-speech audition separately from numerical generated
+   checks. Parent 13 owns pointer rendering, app playback and public preview;
+   human-export publication retains its existing owner and consumer caveat.
+
+Build protocol/core/service and native `screenrec-native` plus
+`ScreenRecorderMovieTests`; run `movie-render.test.mjs` and
+`packages/test-harness/movie-lifetime.mjs`. The optional target now exercises the
+production owner rather than maintaining another assembler.

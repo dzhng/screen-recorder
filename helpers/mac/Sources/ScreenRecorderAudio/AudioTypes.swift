@@ -59,6 +59,9 @@ public enum AudioLimits {
     public static let maximumMicroseconds: Int64 = 9_007_199_254_740_991
     public static let maximumExcerptUs: Int64 = 30_000_000
     public static let maximumSpans = 1_000
+    /// Internal movie plans share the video renderer's bounded metadata capacity.
+    public static let maximumRetainedSpans = 10_000
+    public static let maximumRetainedAvailableIntervals = 10_000
     /// Acquisition intervals one track may claim, so a plan's validation stays bounded.
     public static let maximumAvailableIntervals = 1_000
     /// Ramp length at a join, before clamping to half of a short span.
@@ -79,7 +82,9 @@ public struct AudioTrackReport: Codable, Sendable, Equatable {
     public let sampleRate: Int
     public let channels: Int
     public let unavailable: [SourceSpan]
-    public init(role: AudioRole, gain: Double, sampleRate: Int, channels: Int, unavailable: [SourceSpan]) {
+    public init(
+        role: AudioRole, gain: Double, sampleRate: Int, channels: Int, unavailable: [SourceSpan]
+    ) {
         self.role = role
         self.gain = gain
         self.sampleRate = sampleRate

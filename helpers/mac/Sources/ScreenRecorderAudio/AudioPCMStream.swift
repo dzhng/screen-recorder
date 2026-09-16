@@ -43,7 +43,9 @@ public final class AudioPCMStream {
         -> AudioPCMStream
     {
         try ExcerptValidation.check(
-            tracks: tracks, spans: spans, maximumDurationUs: AudioLimits.maximumMicroseconds)
+            tracks: tracks, spans: spans, maximumDurationUs: AudioLimits.maximumMicroseconds,
+            maximumSpans: AudioLimits.maximumRetainedSpans,
+            maximumAvailableIntervals: AudioLimits.maximumRetainedAvailableIntervals)
         var opened: [SourceTrack] = []
         for track in tracks {
             try Task.checkCancellation()
@@ -73,8 +75,21 @@ public final class AudioPCMStream {
         for track in sources {
             var readableIntervals: [Interval] = []
             var unavailable: [SourceSpan] = []
+            var availableIndex = 0
             for (index, span) in spans.enumerated() {
-                let readable = track.available.compactMap { SpanMath.intersection(span, $0) }
+                while availableIndex < track.available.count,
+                    track.available[availableIndex].endUs <= span.startUs
+                { availableIndex += 1 }
+                var cursor = availableIndex
+                var readable: [SourceSpan] = []
+                while cursor < track.available.count,
+                    track.available[cursor].startUs < span.endUs
+                {
+                    if let interval = SpanMath.intersection(span, track.available[cursor]) {
+                        readable.append(interval)
+                    }
+                    cursor += 1
+                }
                 for interval in readable {
                     let start = layout.frame(ofUs: interval.startUs, inSpan: index)
                     let end = layout.frame(ofUs: interval.endUs, inSpan: index)

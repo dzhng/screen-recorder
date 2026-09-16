@@ -4,7 +4,7 @@ import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderFrames
 
-/// Feasibility-only composition of the accepted native owners. No service route uses this.
+/// One native assembly operation; the service owns the enclosing attempt lifetime.
 enum MovieOperation {
     private struct Parameters: Decodable {
         let source: String
@@ -15,17 +15,21 @@ enum MovieOperation {
     struct Result: Encodable {
         let file: String
         let mediaType = "video/mp4"
-        let videoCodec = "h264"
-        let audioCodec: String?
+        let codec = "h264"
         let durationUs: Int64
         let width: Int
         let height: Int
         let frameCount: Int
-        let audioFrames: Int64
-        let sampleRate: Int?
-        let channels: Int?
-        let tracks: [AudioTrackReport]
+        let audio: Audio?
         let bytes: Int
+    }
+
+    struct Audio: Encodable {
+        let codec: String?
+        let frames: Int64
+        let sampleRate: Int
+        let channels: Int
+        let tracks: [AudioTrackReport]
     }
 
     static func execute(_ params: [String: Any]) async throws -> Result {
@@ -54,8 +58,9 @@ enum MovieOperation {
         try FileManager.default.createDirectory(at: staging, withIntermediateDirectories: false)
         defer { try? FileManager.default.removeItem(at: staging) }
         let video = staging.appendingPathComponent("video.mp4")
-        let rendered = try await VideoRenderer.write(
-            source: URL(fileURLWithPath: request.source), plan: request.plan, output: video)
+        let rendered = try await VideoOperation.execute([
+            "source": request.source, "output": video.path, "plan": params["plan"]!,
+        ])
         let audio =
             request.tracks.isEmpty
             ? nil
@@ -82,10 +87,13 @@ enum MovieOperation {
             throw FrameFailure("INVALID_OUTPUT", "Movie destination appeared before publication.")
         }
         return Result(
-            file: output.path, audioCodec: (audio?.frames ?? 0) > 0 ? "aac" : nil,
-            durationUs: rendered.durationUs, width: rendered.width, height: rendered.height,
-            frameCount: rendered.frameCount, audioFrames: audio?.frames ?? 0,
-            sampleRate: audio?.format.sampleRate, channels: audio?.format.channels,
-            tracks: audio?.reports ?? [], bytes: bytes)
+            file: output.path, durationUs: rendered.durationUs, width: rendered.width,
+            height: rendered.height, frameCount: rendered.frameCount,
+            audio: audio.map {
+                Audio(
+                    codec: $0.frames > 0 ? "aac" : nil, frames: $0.frames,
+                    sampleRate: $0.format.sampleRate, channels: $0.format.channels,
+                    tracks: $0.reports)
+            }, bytes: bytes)
     }
 }

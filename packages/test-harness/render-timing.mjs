@@ -16,7 +16,7 @@ import {
   renderPlan,
 } from "@screenrec/core/timeline";
 import { mediaWorker } from "../../apps/service/dist/worker.js";
-import { withRenderedVideo } from "../../apps/service/dist/render.js";
+import { withRenderedMedia } from "../../apps/service/dist/render.js";
 import { renderFrames } from "../../helpers/mac/Tests/fixtures/render-frames.mjs";
 const execute = promisify(execFile);
 const native =
@@ -186,7 +186,7 @@ test(
           await gate.promise;
           const revision = store.revision(recordingId, job.revisionId),
             plan = renderPlan(revision);
-          return withRenderedVideo(
+          return withRenderedMedia(
             run,
             { source, plan, attemptParent: attempts },
             signal,
@@ -290,7 +290,7 @@ test(
           }
           return response;
         };
-        const pending = withRenderedVideo(
+        const pending = withRenderedMedia(
           worker,
           {
             source,

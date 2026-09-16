@@ -11,8 +11,8 @@ import {
 } from "../../../packages/core/dist/timeline.js";
 import { renderFrames } from "./fixtures/render-frames.mjs";
 const native =
-  process.env.SCREENREC_MOVIE_NATIVE ??
-  new URL("../.build/debug/ScreenRecorderMovieTests", import.meta.url).pathname;
+  process.env.SCREENREC_NATIVE ??
+  new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
 const evidence = process.env.SCREENREC_MOVIE_EVIDENCE;
 const dir = evidence ?? mkdtempSync(join(tmpdir(), "screenrec-movie-"));
 assert.ok(isAbsolute(dir));
@@ -182,7 +182,7 @@ for (const [name, ranges, tracks] of cases)
       // remains microsecond-exact while that summary may round up one audio sample.
       assert.ok(
         Math.abs(Number(probe.format.duration) * 1e6 - duration) <=
-          (result.data.sampleRate ? 1e6 / result.data.sampleRate : 0) + 0.001,
+          (result.data.audio?.sampleRate ? 1e6 / result.data.audio?.sampleRate : 0) + 0.001,
       );
       assert.ok(
         Math.abs(
@@ -233,14 +233,16 @@ for (const [name, ranges, tracks] of cases)
       );
       const audio = av.tracks.find((t) => t.type === "soun");
       let comparison;
-      if (result.data.audioFrames > 0) {
+      if ((result.data.audio?.frames ?? 0) > 0) {
         assert.ok(audio);
-        assert.equal(audio.decodedFrames, result.data.audioFrames);
+        assert.equal(audio.decodedFrames, result.data.audio?.frames ?? 0);
         assert.ok(
-          Math.abs(audio.durationUs - duration) <= 1e6 / result.data.sampleRate / 2 + 0.001,
+          Math.abs(audio.durationUs - duration) <= 1e6 / result.data.audio?.sampleRate / 2 + 0.001,
         );
         assert.equal(audio.decodedStartUs, 0);
-        assert.ok(Math.abs(audio.decodedEndUs - duration) <= 1e6 / result.data.sampleRate + 0.001);
+        assert.ok(
+          Math.abs(audio.decodedEndUs - duration) <= 1e6 / result.data.audio?.sampleRate + 0.001,
+        );
         const reference = join(dir, name + ".wav");
         const wave = request("media.audio", {
           output: reference,
@@ -273,7 +275,7 @@ for (const [name, ranges, tracks] of cases)
           ff = pcm(join(dir, name + ".ff.f32"));
         assert.ok(
           actual.length >= expected.length &&
-            actual.length <= expected.length + result.data.channels,
+            actual.length <= expected.length + result.data.audio?.channels,
         );
         if (name === "one-sample") {
           assert.equal(expected.length, 2);
@@ -281,16 +283,16 @@ for (const [name, ranges, tracks] of cases)
           assert.ok(Math.abs(actual[0]) > 0.02);
           assert.equal(ff.length, 0);
         } else assert.ok(ff.length >= expected.length);
-        assert.ok(ff.length - expected.length < 1024 * result.data.channels);
+        assert.ok(ff.length - expected.length < 1024 * result.data.audio?.channels);
         const errors = (decoded, shift) => {
           let sum = 0,
             n = 0;
           for (
-            let i = 500 * result.data.channels;
-            i < expected.length - 500 * result.data.channels;
+            let i = 500 * result.data.audio?.channels;
+            i < expected.length - 500 * result.data.audio?.channels;
             i++
           ) {
-            const j = i + shift * result.data.channels;
+            const j = i + shift * result.data.audio?.channels;
             if (j >= 0 && j < decoded.length) {
               sum += (decoded[j] - expected[i]) ** 2;
               n++;
@@ -304,15 +306,15 @@ for (const [name, ranges, tracks] of cases)
           assert.ok(rms < 0.01, `AAC RMS ${rms}`);
           assert.ok(ffRms < 0.01, `FFmpeg AAC RMS ${ffRms}`);
         }
-        if (expected.length > 4000 * result.data.channels)
+        if (expected.length > 4000 * result.data.audio?.channels)
           for (const shifted of [-2112, 2112]) {
             assert.ok(errors(ff, shifted) > ffRms * 3, "Priming shift must be distinguishable");
           }
         comparison = {
           avRms: rms,
           ffRms,
-          ffDecodedFrames: ff.length / result.data.channels,
-          presentationFrames: result.data.audioFrames,
+          ffDecodedFrames: ff.length / result.data.audio?.channels,
+          presentationFrames: result.data.audio?.frames ?? 0,
         };
         if (name === "one-sample") {
           comparison.nonzeroSample = {
@@ -418,4 +420,37 @@ test("changed excluded source samples cannot enter tiny or cut AAC output", () =
       identicalDecodedAAC: true,
     });
   }
+});
+
+test("movie accepts 1001 retained/acquired spans while public excerpts retain their cap", () => {
+  const spans = Array.from({ length: 1001 }, (_, i) => ({
+    startUs: i * 2000,
+    endUs: i * 2000 + 1000,
+  }));
+  const tracks = [
+    { role: "system", source: join(dir, "system.mov"), sourceOffsetUs: 0, available: spans },
+  ];
+  const p = plan(spans.map((s) => [s.startUs, s.endUs]));
+  const output = join(dir, "1001-spans.mp4");
+  const reply = request("media.renderMovie", {
+    source: join(dir, "source.mov"),
+    output,
+    plan: p,
+    tracks,
+  });
+  assert.equal(reply.ok, true, JSON.stringify(reply));
+  assert.equal(reply.data.durationUs, 1001000);
+  assert.equal(reply.data.audio.frames, 48048);
+  const av = JSON.parse(run(join(dir, "inspect"), [output, join(dir, "1001-spans.f32")]));
+  assert.equal(av.tracks.find((t) => t.type === "soun").decodedFrames, 48048);
+  const excerpt = request("media.audio", { output: join(dir, "too-many.wav"), spans, tracks });
+  assert.equal(excerpt.ok, false);
+  assert.equal(excerpt.error.code, "LIMIT_EXCEEDED");
+  reports.push({
+    name: "1001-spans",
+    durationUs: reply.data.durationUs,
+    audioFrames: reply.data.audio.frames,
+    nativeFrames: av.tracks.find((t) => t.type === "soun").decodedFrames,
+    publicExcerptError: excerpt.error.code,
+  });
 });
