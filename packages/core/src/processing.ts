@@ -82,21 +82,27 @@ export class SourceProcessing {
 
   /** Recover the gap between finalization and admission without inventing another durable queue. */
   resume(): void {
-    for (;;) {
-      const pending = this.store.catalog
-        .prepare(`SELECT recordingId FROM recordings
-        WHERE state IN ('complete','interrupted') AND sourceDurationUs IS NOT NULL
-        AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.recordingId=recordings.recordingId
-          AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.input=?)
-        ORDER BY creationSequence LIMIT 1`)
-        .get(artifact, policy) as { recordingId: string } | undefined;
-      if (!pending) return;
-      try {
-        this.prepare(pending.recordingId);
-      } catch (error) {
-        if (error instanceof CatalogError && error.code === "LIMIT_EXCEEDED") return;
-        throw error;
-      }
+    // One background take can occupy the heavy lane; queuing the whole backlog only crowds
+    // foreground inspection out of the shared admission budget without increasing throughput.
+    if (
+      this.store.catalog
+        .prepare("SELECT 1 FROM jobs WHERE artifact=? AND state IN ('queued','running') LIMIT 1")
+        .get(artifact)
+    )
+      return;
+    const pending = this.store.catalog
+      .prepare(`SELECT recordingId FROM recordings
+      WHERE state IN ('complete','interrupted') AND sourceDurationUs IS NOT NULL
+      AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.recordingId=recordings.recordingId
+        AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.input=?)
+      ORDER BY creationSequence LIMIT 1`)
+      .get(artifact, policy) as { recordingId: string } | undefined;
+    if (!pending) return;
+    try {
+      this.prepare(pending.recordingId);
+    } catch (error) {
+      if (error instanceof CatalogError && error.code === "LIMIT_EXCEEDED") return;
+      throw error;
     }
   }
 

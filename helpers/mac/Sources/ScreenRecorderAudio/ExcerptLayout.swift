@@ -140,11 +140,7 @@ enum ExcerptValidation {
                 "LIMIT_EXCEEDED",
                 "Excerpt spans total \(total) microseconds, over the \(AudioLimits.maximumExcerptUs) microsecond limit.")
         }
-        guard request.output.pathExtension.lowercased() == "wav" else {
-            throw AudioFailure(
-                "INVALID_OUTPUT",
-                "Excerpt output must name a .wav file, got \(request.output.lastPathComponent).")
-        }
+
     }
 
     /// A track's acquired intervals are the caller's recovery evidence, so they are held to the

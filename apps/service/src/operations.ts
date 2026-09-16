@@ -1,3 +1,4 @@
+import type { AudioInspection } from "@screenrec/core/audio";
 import type { FrameInspection } from "@screenrec/core/frames";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { SourceProcessing } from "@screenrec/core/processing";
@@ -23,6 +24,7 @@ export async function operate(
   health: () => unknown,
   processing: SourceProcessing,
   frames: FrameInspection,
+  audio: AudioInspection,
   delivery: DerivativeDelivery,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
@@ -50,6 +52,20 @@ export async function operate(
           data: {
             ...status,
             delivery: status.published ? delivery.open(status.published.frame.cacheId) : null,
+          },
+        };
+      }
+      case "audio.get":
+      case "audio.retry": {
+        const status =
+          operation.operation === "audio.get"
+            ? audio.request(operation.params)
+            : audio.retry(operation.params);
+        return {
+          ok: true,
+          data: {
+            ...status,
+            delivery: status.published ? delivery.open(status.published.audio.cacheId) : null,
           },
         };
       }

@@ -36,9 +36,29 @@ const frameParams = recording
   })
   .strict();
 
+const audioParams = recording
+  .extend({
+    revisionId: id.optional(),
+    range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
+      message: "Audio range must be positive and no longer than 30 seconds",
+    }),
+    track: z.enum(["narration", "system", "mix"]).default("mix"),
+  })
+  .strict();
+
 // These are implemented capabilities. Adapters derive their advertised tools from
 // the same schemas the service validates, rather than promising future operations.
 export const operationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({ operation: z.literal("audio.get"), params: audioParams })
+    .strict()
+    .describe(
+      "Request a WAVE excerpt in edited playback time, with explicit acquisition gaps and track availability. Pin the returned revision when polling.",
+    ),
+  z
+    .object({ operation: z.literal("audio.retry"), params: audioParams })
+    .strict()
+    .describe("Explicitly retry failed audio excerpt processing for the same pinned request."),
   z
     .object({
       operation: z.literal("frame.get"),
@@ -69,12 +89,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Read a bounded base64 chunk from a ready image delivery; retrying an offset returns the same bytes.",
+      "Read a bounded base64 chunk from a ready media delivery; retrying an offset returns the same bytes.",
     ),
   z
     .object({ operation: z.literal("artifact.close"), params: z.object({ token: id }).strict() })
     .strict()
-    .describe("Release an image delivery; closing it again succeeds."),
+    .describe("Release a media delivery; closing it again succeeds."),
   z
     .object({
       operation: z.literal("cursor.raw"),

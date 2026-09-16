@@ -966,10 +966,6 @@ let rejected: [String: (String, AudioFailure?)] = await [
                     })
             ], valid)
     ),
-    "output that is not a wave file": (
-        "INVALID_OUTPUT",
-        reject([plan(.narration, narration)], valid, to: evidence.appendingPathComponent("excerpt.caf"))
-    ),
     "output over the source": (
         "INVALID_OUTPUT", reject([plan(.narration, narration)], valid, to: narration)
     ),

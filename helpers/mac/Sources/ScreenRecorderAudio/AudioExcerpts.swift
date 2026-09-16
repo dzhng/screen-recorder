@@ -114,8 +114,9 @@ public enum AudioExcerpts {
         }
         // Published only once complete, so a failed write cannot leave a truncated file at the
         // path the core will hand to a reader as a finished excerpt.
+        // The promised container is WAVE even when the cache gives it an opaque destination name.
         let staging = output.deletingLastPathComponent()
-            .appendingPathComponent(".\(UUID().uuidString).\(output.pathExtension)")
+            .appendingPathComponent(".\(UUID().uuidString).wav")
         do {
             let file = try AVAudioFile(
                 forWriting: staging, settings: format.settings, commonFormat: .pcmFormatFloat32,

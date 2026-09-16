@@ -1,7 +1,8 @@
 # Revision-bound audio inspection
 
-Status: next implementation pass. Native execution is verified in 09b; source
-acquisition timing is now published by 06j.
+Status: public integration verified for generated two-track media, cuts, gaps,
+CLI/MCP parity and cache regeneration. Public absence/retry cases and audition
+remain open. Native execution is verified in 09b; source timing is published by 06j.
 
 The core pins a revision, validates a positive playback range no longer than
 30 seconds, and uses the existing timeline trim mapping to obtain retained source
@@ -19,12 +20,15 @@ the result. Do not turn missing acquisition into reported recorded silence.
 Reuse the durable queue, cache and bounded delivery owner. Cache misses regenerate
 the same pinned request; failures wait for explicit retry. Extend the adapter's
 shared byte delivery to audio files/content without duplicating transfer logic.
-Check native output container ownership: AudioExcerpts currently derives its
-staging suffix from the requested destination, whereas cache paths are opaque.
-The audio writer should own the promised WAVE container, not infer it from a cache
-filename.
+The native writer owns the WAVE container independently of opaque cache filenames.
 
 Verify a generated two-tone/two-track source through real public requests across
 a cut, with gaps, absent roles, current/historical revisions, repeat/cache eviction,
 explicit retry and source hashes. CLI files and MCP audio content must match.
 Numerical checks do not replace the existing audible-join/audition gate.
+
+
+[Public evidence](../assets/audio-inspection/review.md) distinguishes real adapter
+and native execution from the remaining public refusal/retry and listening gates.
+The public unavailable intervals retain source coordinates; the requested playback
+range and retained source spans provide the projection into the excerpt.

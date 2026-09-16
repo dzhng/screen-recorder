@@ -24,7 +24,8 @@ async function fixture(failFirst = false, beforeReceipt?: () => Promise<void>) {
   const jobs = new JobQueue({
     store,
     providers: { newId: () => `job-${++id}` },
-    execute: (job) => processing.execute(job),
+    execute: (job) =>
+      job.job.artifact === "frame" ? Promise.resolve("foreground frame") : processing.execute(job),
     onCapacity: () => processing.resume(),
   });
   processing = new SourceProcessing(store, jobs, evidence, home, async (directory, output) => {
@@ -329,4 +330,28 @@ test("raw cursor enforces the positive 60-second source range boundary before re
     [0, Infinity],
   ])
     expect(() => read(start!, end!)).toThrow(expect.objectContaining({ code: "INVALID_RANGE" }));
+});
+
+test("background backfill leaves admission capacity for a foreground inspection", async () => {
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const f = await fixture(false, () => held);
+  const recordings = Array.from({ length: 45 }, () => f.finish());
+  f.processing.resume();
+  try {
+    const job = f.jobs.submit({
+      recordingId: recordings[0]!.recordingId,
+      artifact: "frame",
+      input: "inspect",
+      lane: "frame",
+    });
+    await expect.poll(() => f.jobs.job(job.jobId).state).toBe("ready");
+    expect(f.jobs.status({ ...job }).published?.result).toBe("foreground frame");
+  } finally {
+    release();
+  }
+  await f.jobs.idle();
+  expect(f.calls()).toBe(recordings.length);
 });

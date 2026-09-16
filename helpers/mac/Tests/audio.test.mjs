@@ -85,7 +85,7 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
       { ...params, tracks: [{ ...params.tracks[0], role: "music" }] },
       { ...params, extra: true },
       { ...params, output: "excerpt.wav" },
-      { ...params, output: join(directory, "excerpt.caf") },
+      { ...params, output: directory },
       { ...params, output: narration },
       { ...params, spans: [{ startUs: 0, endUs: 30000001 }] },
       // Acquisition evidence is required and is shaped like everything else on this wire: a plan
@@ -277,6 +277,46 @@ test("a thousand fractional spans keep the duration the plan asked for", () => {
     assert.deepEqual(format, { tag: 3, channels: 1, sampleRate: 48000, bits: 32 });
     assert.equal(audio.length, 480480 * 4);
     assert.equal(reply.data.bytes, bytes.length);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("audio worker writes WAVE bytes to an opaque derivative path", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-audio-cache-"));
+  try {
+    const source = join(directory, "narration.mov");
+    tone(source, 440, 0.2);
+    const output = join(directory, "opaque.cache");
+    const run = spawnSync(executable, [], {
+      input:
+        JSON.stringify({
+          id: "opaque",
+          operation: "media.audio",
+          params: {
+            output,
+            spans: [{ startUs: 0, endUs: 100000 }],
+            tracks: [
+              {
+                role: "narration",
+                source,
+                sourceOffsetUs: 0,
+                available: [{ startUs: 0, endUs: 200000 }],
+              },
+            ],
+          },
+        }) + "\n",
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(run.status, 0, run.stderr);
+    const response = JSON.parse(run.stdout);
+    assert.equal(response.ok, true, JSON.stringify(response));
+    assert.equal(response.data.mediaType, "audio/wav");
+    const decoded = wave(readFileSync(output));
+    assert.equal(decoded.format.tag, 3);
+    assert.equal(decoded.format.sampleRate, 48000);
+    assert.equal(decoded.audio.length, 4800 * 4);
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }

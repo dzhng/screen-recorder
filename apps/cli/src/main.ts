@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { imageBytes, ImageDeliveryError } from "./media.js";
+import { mediaBytes, MediaDeliveryError } from "./media.js";
 import { parseArgs } from "node:util";
 import { z } from "zod";
 import {
@@ -25,6 +25,8 @@ import {
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
+
+const mediaOperations = new Set(["frame.get", "frame.retry", "audio.get", "audio.retry"]);
 
 function failure(id: string, code: string, message: string, retryable = false): OperationResponse {
   return { id, ok: false, error: { code, message, retryable, details: {} } };
@@ -48,7 +50,7 @@ class UsageError extends Error {
 }
 
 function errorResult(id: string, error: unknown): OperationResponse {
-  if (error instanceof ImageDeliveryError)
+  if (error instanceof MediaDeliveryError)
     return failure(id, error.code, error.message, error.retryable);
   if (error instanceof UsageError) return failure(id, error.code, error.message);
   if (error instanceof LocalTransportError)
@@ -134,10 +136,10 @@ async function mcp(selection: ServiceSelection) {
     } catch (error) {
       result = errorResult(id, error);
     }
-    let image: Buffer | null = null;
-    if (call.params.name === "frame.get" || call.params.name === "frame.retry") {
+    let media: Awaited<ReturnType<typeof mediaBytes>> = null;
+    if (mediaOperations.has(call.params.name)) {
       try {
-        image = await imageBytes({ ...selection, signal: extra.signal }, result);
+        media = await mediaBytes({ ...selection, signal: extra.signal }, result);
       } catch (error) {
         result = errorResult(id, error);
       }
@@ -145,8 +147,14 @@ async function mcp(selection: ServiceSelection) {
     return {
       content: [
         { type: "text" as const, text: JSON.stringify(result) },
-        ...(image
-          ? [{ type: "image" as const, data: image.toString("base64"), mimeType: "image/png" }]
+        ...(media
+          ? [
+              {
+                type: media.mediaType === "image/png" ? ("image" as const) : ("audio" as const),
+                data: media.bytes.toString("base64"),
+                mimeType: media.mediaType,
+              },
+            ]
           : []),
       ],
       structuredContent: result,
@@ -179,7 +187,7 @@ async function main() {
       JSON.stringify(
         {
           usage:
-            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output IMAGE.png] | screenrec mcp [--socket PATH]",
+            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE] | screenrec mcp [--socket PATH]",
           service:
             "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           timeUnits:
@@ -204,22 +212,25 @@ async function main() {
     await mcp(selection);
     return;
   }
-  if (values.output && operation !== "frame.get" && operation !== "frame.retry")
-    throw new Error("--output applies only to frame operations");
+  if (values.output && !mediaOperations.has(operation))
+    throw new Error("--output applies only to media inspection operations");
   const sending = request(
     values.id ?? responseId,
     operation,
     await readParams(values.params ?? "{}"),
   );
   let result = await invoke(selection, sending);
-  if (operation === "frame.get" || operation === "frame.retry") {
+  if (mediaOperations.has(operation)) {
     try {
-      const bytes = await imageBytes(selection, result);
-      if (bytes && result.ok) {
+      const media = await mediaBytes(selection, result);
+      if (media && result.ok) {
         const output = values.output
           ? resolve(values.output)
-          : join(await mkdtemp(join(tmpdir(), "screenrec-image-")), "frame.png");
-        await writeFile(output, bytes, { flag: "wx" });
+          : join(
+              await mkdtemp(join(tmpdir(), "screenrec-media-")),
+              media.mediaType === "image/png" ? "frame.png" : "excerpt.wav",
+            );
+        await writeFile(output, media.bytes, { flag: "wx" });
         result = { ...result, data: { ...(result.data as Record<string, unknown>), output } };
       }
     } catch (error) {

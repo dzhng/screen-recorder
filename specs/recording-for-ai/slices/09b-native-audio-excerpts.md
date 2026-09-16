@@ -60,7 +60,8 @@ quiet, so neither may relabel a hole as recorded silence. Recorded quiet inside 
 acquired interval stays available. A fully unavailable excerpt is a success whose
 report covers every requested span, never a silent file that implies capture.
 
-Output is 32-bit float PCM in WAVE, named by a caller-allocated `.wav` path. It is
+Output is 32-bit float PCM in WAVE at a caller-allocated path. Native chooses
+the container independently of an opaque cache filename; CLI delivery uses `.wav`. It is
 written to a staging file and moved into place, so a failed write leaves neither a
 truncated excerpt nor litter. Source media is never opened for writing; an output
 that resolves onto a source, including through a directory symlink, or onto an

@@ -3,6 +3,7 @@ import { CatalogError, RevisionStore } from "@screenrec/core/library";
 import { JobQueue } from "@screenrec/core/jobs";
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { DerivedCache } from "@screenrec/core/cache";
+import { AudioInspection, type NativeAudio } from "@screenrec/core/audio";
 import { FrameInspection, type NativeFrame } from "@screenrec/core/frames";
 import { DerivativeDelivery } from "./delivery.js";
 import { SourceProcessing } from "@screenrec/core/processing";
@@ -53,6 +54,7 @@ async function main(): Promise<void> {
   let jobs: JobQueue | undefined;
   let processing: SourceProcessing;
   let frames: FrameInspection;
+  let audio: AudioInspection;
   let delivery: DerivativeDelivery | undefined;
   let cacheReady: Promise<void> = Promise.resolve();
   let cacheFailure: unknown;
@@ -78,10 +80,12 @@ async function main(): Promise<void> {
       store,
       providers: { newId: randomUUID },
       execute: async (execution) => {
-        if (execution.job.artifact === "frame") {
+        if (execution.job.artifact === "frame" || execution.job.artifact === "audio") {
           await cacheReady;
           if (cacheFailure) throw cacheFailure;
-          return frames.execute(execution);
+          return execution.job.artifact === "frame"
+            ? frames.execute(execution)
+            : audio.execute(execution);
         }
         return processing.execute(execution);
       },
@@ -115,6 +119,25 @@ async function main(): Promise<void> {
         );
       return result.data as NativeFrame;
     });
+    audio = new AudioInspection(
+      store,
+      jobs,
+      cache,
+      evidence,
+      processing,
+      home,
+      async (request, signal) => {
+        const result = await worker("media.audio", request, { signal });
+        if (!result.ok)
+          throw new CatalogError(
+            result.error.code,
+            result.error.message,
+            result.error.details,
+            result.error.retryable,
+          );
+        return result.data as NativeAudio;
+      },
+    );
     listener = await listenLocal({
       runtimeDirectory,
       handler: (request) => serve(request),
@@ -167,9 +190,9 @@ async function main(): Promise<void> {
     (operation, params) => control.call(operation, params),
     worker,
     log,
-    (recording) => {
+    () => {
       try {
-        processing.prepare(recording.recordingId);
+        processing.resume();
       } finally {
         queue.schedule();
       }
@@ -195,6 +218,7 @@ async function main(): Promise<void> {
         () => healthData(started, socketPath, home),
         processing,
         frames,
+        audio,
         transfers,
       );
     } finally {

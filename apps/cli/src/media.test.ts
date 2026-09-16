@@ -2,13 +2,17 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm } from "node:fs/promises";
 import { listenLocal } from "@screenrec/service";
 import type { OperationResponse } from "@screenrec/protocol";
-import { imageBytes } from "./media.js";
+import { mediaBytes } from "./media.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanups.splice(0).reverse()) await close();
 });
-async function fixture(bytes: Buffer, malformed = false) {
+async function fixture(
+  bytes: Buffer,
+  malformed = false,
+  mediaType: "image/png" | "audio/wav" = "image/png",
+) {
   const runtimeDirectory = await mkdtemp("/tmp/scr-delivery-client-");
   let closes = 0;
   let reads = 0;
@@ -43,7 +47,7 @@ async function fixture(bytes: Buffer, malformed = false) {
     data: {
       state: "ready",
       delivery: { token: "lease", bytes: bytes.length, expiresAt: Date.now() + 30000 },
-      published: { frame: { mediaType: "image/png" } },
+      published: mediaType === "image/png" ? { frame: { mediaType } } : { audio: { mediaType } },
     },
   };
   return {
@@ -58,16 +62,32 @@ test("the image transport assembles bytes larger than one metadata response and 
   const bytes = Buffer.alloc(9 * 1024 * 1024 + 17);
   for (let i = 0; i < bytes.length; i++) bytes[i] = i % 251;
   const f = await fixture(bytes);
-  expect((await imageBytes(f.selection, f.result))?.equals(bytes)).toBe(true);
+  expect((await mediaBytes(f.selection, f.result))?.bytes.equals(bytes)).toBe(true);
   expect(f.reads()).toBeGreaterThan(1);
   expect(f.closes()).toBe(1);
 });
 
 test("a nonadvancing chunk fails immediately and still releases the delivery", async () => {
   const f = await fixture(Buffer.from("evidence"), true);
-  await expect(imageBytes(f.selection, f.result)).rejects.toMatchObject({
+  await expect(mediaBytes(f.selection, f.result)).rejects.toMatchObject({
     code: "INVALID_RESPONSE",
   });
   expect(f.reads()).toBe(1);
+  expect(f.closes()).toBe(1);
+});
+
+test("audio payloads can exceed the image limit while preserving type and bytes", async () => {
+  const bytes = Buffer.alloc(33 * 1024 * 1024 + 3, 0x71);
+  const f = await fixture(bytes, false, "audio/wav");
+  const media = await mediaBytes(f.selection, f.result);
+  expect(media?.mediaType).toBe("audio/wav");
+  expect(media?.bytes.equals(bytes)).toBe(true);
+  expect(f.closes()).toBe(1);
+});
+
+test("an oversized image is refused before reading and its lease is released", async () => {
+  const f = await fixture(Buffer.alloc(33 * 1024 * 1024));
+  await expect(mediaBytes(f.selection, f.result)).rejects.toMatchObject({ code: "LIMIT_EXCEEDED" });
+  expect(f.reads()).toBe(0);
   expect(f.closes()).toBe(1);
 });

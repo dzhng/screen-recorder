@@ -3,7 +3,7 @@ import { z } from "zod";
 import { callLocal, resolveServiceSocket, type ServiceSelection } from "@screenrec/client";
 import type { OperationResponse } from "@screenrec/protocol";
 
-export class ImageDeliveryError extends Error {
+export class MediaDeliveryError extends Error {
   constructor(
     readonly code: string,
     message: string,
@@ -17,13 +17,16 @@ const receipt = z.object({
   bytes: z
     .int()
     .min(1)
-    .max(32 * 1024 * 1024),
+    .max(48 * 1024 * 1024),
   expiresAt: z.int(),
 });
 const ready = z.object({
   state: z.literal("ready"),
   delivery: receipt,
-  published: z.object({ frame: z.object({ mediaType: z.literal("image/png") }) }),
+  published: z.union([
+    z.object({ frame: z.object({ mediaType: z.literal("image/png") }) }),
+    z.object({ audio: z.object({ mediaType: z.literal("audio/wav") }) }),
+  ]),
 });
 const chunk = z.object({
   data: z.string(),
@@ -32,25 +35,28 @@ const chunk = z.object({
   eof: z.boolean(),
 });
 
-/** Consume the service's pinned read; metadata and image bytes never share one oversized socket frame. */
-export async function imageBytes(
+/** Consume the service's pinned read; metadata and media bytes never share one oversized socket frame. */
+export async function mediaBytes(
   selection: ServiceSelection,
   result: OperationResponse,
-): Promise<Buffer | null> {
+): Promise<{ bytes: Buffer; mediaType: "image/png" | "audio/wav" } | null> {
   if (!result.ok) return null;
   const data = result.data as { state?: unknown } | null;
   if (!data || data.state !== "ready") return null;
   const parsed = ready.safeParse(data);
   if (!parsed.success)
-    throw new ImageDeliveryError("INVALID_RESPONSE", "Ready frame has no valid image delivery");
+    throw new MediaDeliveryError("INVALID_RESPONSE", "Ready media has no valid delivery");
   const { token, bytes, expiresAt } = parsed.data.delivery;
+  const mediaType = "frame" in parsed.data.published ? "image/png" : "audio/wav";
   const socket = await resolveServiceSocket(selection);
   try {
+    if (bytes > (mediaType === "image/png" ? 32 : 48) * 1024 * 1024)
+      throw new MediaDeliveryError("LIMIT_EXCEEDED", "Media exceeds its delivery byte limit");
     const output = Buffer.alloc(bytes);
     let offset = 0;
     while (offset < bytes) {
       if (Date.now() >= expiresAt)
-        throw new ImageDeliveryError("ARTIFACT_EXPIRED", "Image delivery expired", true);
+        throw new MediaDeliveryError("ARTIFACT_EXPIRED", "Media delivery expired", true);
       const response = await callLocal(
         socket,
         {
@@ -61,14 +67,14 @@ export async function imageBytes(
         selection.signal ? { signal: selection.signal } : {},
       );
       if (!response.ok)
-        throw new ImageDeliveryError(
+        throw new MediaDeliveryError(
           response.error.code,
           response.error.message,
           response.error.retryable,
         );
       const parsedChunk = chunk.safeParse(response.data);
       if (!parsedChunk.success)
-        throw new ImageDeliveryError("INVALID_RESPONSE", "Malformed image chunk");
+        throw new MediaDeliveryError("INVALID_RESPONSE", "Malformed media chunk");
       const part = parsedChunk.data;
       const decoded = Buffer.from(part.data, "base64");
       if (
@@ -80,14 +86,14 @@ export async function imageBytes(
         part.eof !== (part.nextOffset === bytes) ||
         decoded.toString("base64") !== part.data
       )
-        throw new ImageDeliveryError(
+        throw new MediaDeliveryError(
           "INVALID_RESPONSE",
-          "Image chunk does not advance within the delivery",
+          "Media chunk does not advance within the delivery",
         );
       decoded.copy(output, offset);
       offset = part.nextOffset;
     }
-    return output;
+    return { bytes: output, mediaType };
   } finally {
     // Expiry releases the same pin if the service disappeared or the caller was canceled.
     await callLocal(
