@@ -1,10 +1,10 @@
+import { indexScaleMetrics } from "./fixtures/index-scale-metrics.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
 import { copyFile, mkdir, mkdtemp, readFile, readdir, rename, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, join } from "node:path";
 import { arch, cpus, platform, release } from "node:os";
-import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { callLocal } from "@screenrec/client";
@@ -130,31 +130,6 @@ async function fixture(home) {
   return { take, video, input: input ?? "generated:testsrc2" };
 }
 
-function catalogMetrics(home) {
-  const db = new DatabaseSync(join(home, "library.sqlite"), { readOnly: true });
-  try {
-    return {
-      cacheBytes: db.prepare("SELECT COALESCE(SUM(bytes), 0) AS n FROM derived_cache").get().n,
-      retainedCandidates: db.prepare("SELECT COUNT(*) AS n FROM screenshot_index_entries").get().n,
-      retainedPngBytes: db
-        .prepare("SELECT COALESCE(SUM(bytes), 0) AS n FROM screenshot_index_entries")
-        .get().n,
-      throughSourceUs: db
-        .prepare(
-          "SELECT MAX(json_extract(candidate, '$.requestedSourceUs')) AS n FROM screenshot_index_entries",
-        )
-        .get().n,
-      retainedRowBytes: db
-        .prepare(
-          "SELECT COALESCE(SUM(length(candidate)+length(frame)), 0) AS n FROM screenshot_index_entries",
-        )
-        .get().n,
-    };
-  } finally {
-    db.close();
-  }
-}
-
 function sampleMemory(servicePid, report) {
   const processes = run("/bin/ps", ["-axo", "pid=,ppid=,rss="])
     .trim()
@@ -263,12 +238,14 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
         nextMemory = now + 1000;
       }
       if (now >= nextCheckpoint || result.state === "ready") {
+        const metrics = await indexScaleMetrics(join(home, "library.sqlite"));
         const checkpoint = {
           elapsedMs: now - started,
           state: result.state,
           phase: indexStarted === undefined ? "dependencies" : "index",
           memory: lastMemory,
-          ...catalogMetrics(home),
+          catalogMetricsState: metrics === null ? "busy" : "ready",
+          ...metrics,
         };
         report.checkpoints.push(checkpoint);
         await save();
@@ -332,11 +309,17 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
     }
     assert.equal(candidates, ready.page.metadata.candidateCount);
     assert.equal(await hash(video), report.sourceHash);
+    const metrics = await indexScaleMetrics(join(home, "library.sqlite"), 5000);
+    assert.notEqual(
+      metrics,
+      null,
+      "Final catalog metrics stayed busy; completion evidence is missing",
+    );
     Object.assign(report, {
       state: "complete",
       pages,
       candidates,
-      ...catalogMetrics(home),
+      ...metrics,
       retainedPngBytes: ready.page.metadata.bytes,
       metadata: ready.page.metadata,
     });
