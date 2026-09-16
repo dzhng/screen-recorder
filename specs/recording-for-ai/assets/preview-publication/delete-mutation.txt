@@ -1,0 +1,34 @@
+(node:32418) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ public preview pins its revision and delivers a current-pointer movie through the CLI (2740.290833ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2851.9135
+
+✖ failing tests:
+
+test at apps/macos/tests/preview-inspection.test.mjs:54:1
+✖ public preview pins its revision and delivers a current-pointer movie through the CLI (2740.290833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'abandoned.mp4'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/macos/tests/preview-inspection.test.mjs:266:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'abandoned.mp4' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

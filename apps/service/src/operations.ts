@@ -2,6 +2,7 @@ import type { RecordingStorage } from "@screenrec/core/storage";
 import type { RecordingDeletion } from "./deletion.js";
 import type { IndexProcessing } from "@screenrec/core/index-processing";
 import type { DerivedCache } from "@screenrec/core/cache";
+import type { PreviewInspection } from "@screenrec/core/preview";
 import type { AudioInspection } from "@screenrec/core/audio";
 import type { FrameInspection } from "@screenrec/core/frames";
 import type { DerivativeDelivery } from "./delivery.js";
@@ -31,6 +32,7 @@ export type OperationContext = {
   processing: SourceProcessing;
   frames: FrameInspection;
   audio: AudioInspection;
+  preview: PreviewInspection;
   delivery: DerivativeDelivery;
   scenes: SceneProcessing;
   cache: DerivedCache;
@@ -47,6 +49,7 @@ export async function operate(
     processing,
     frames,
     audio,
+    preview,
     delivery,
     scenes,
     cache,
@@ -176,6 +179,24 @@ export async function operate(
             delivery: status.published
               ? delivery.open(operation.params.recordingId, () =>
                   cache.acquire(status.published!.frame.cacheId),
+                )
+              : null,
+          },
+        };
+      }
+      case "preview.get":
+      case "preview.retry": {
+        const status =
+          operation.operation === "preview.get"
+            ? preview.request(operation.params)
+            : preview.retry(operation.params);
+        return {
+          ok: true,
+          data: {
+            ...status,
+            delivery: status.published
+              ? delivery.open(operation.params.recordingId, () =>
+                  cache.acquire(status.published!.preview.cacheId),
                 )
               : null,
           },

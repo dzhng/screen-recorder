@@ -29,9 +29,10 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: integrate the accepted native video and bounded PCM audio into
-playable media in [13](slices/13-edited-media.md), alongside the archive boundary
-and package lifetime in [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
+Current pickup: wire the verified public preview into native app playback in
+[13e](slices/13e-preview-publication.md), with an explicit player lifetime over
+bounded downloads. In parallel, finish retained archive read/close ownership in
+[14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
 [14b](slices/14b-portable-inspection.md) passes internal relocated-directory
 inspection through the same native consumers, with the original library removed.
 [14c1](slices/14c1-bounded-archive-extraction.md) now verifies bounded ZIP extraction
@@ -40,9 +41,9 @@ with safe read lifetimes before adding public package handles.
 Internal video timing
 [13a](slices/13a-native-render-timing.md), bounded audio
 [13b](slices/13b-streaming-audio.md), and package metadata
-[14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs
-pointer scheduling/composition, durable preview ownership and restart cleanup,
-broader fidelity acceptance, audition and app playback.
+[14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs app playback and actual speech audition. Native pointer
+composition and durable preview ownership now have internal and public machine
+verification; broader physical-capture fidelity acceptance remains open.
 [Real browser text](assets/text-fidelity/README.md) supports retaining automatic
 bitrate; changing it brought no meaningful readability gain in the controlled set.
 [13c assembly](slices/13c-aac-movie-assembly.md) passes production-worker lifetime,
@@ -52,10 +53,12 @@ independent-decoder limitation; numerical generated sound is not speech audition
 renderer’s exact held-frame support, and [13d2 point policy](slices/13d2-presentation-pointer-core.md)
 uses it without relaxing nearest-still selection. [Sequential scheduling](slices/13d3-pointer-schedule.md)
 now preserves reset history, including A → B → A and fractional source clocks.
-Next, compose those states in the native movie without another policy owner.
+[Native composition](slices/13d4-pointer-composition.md) now streams those states
+into the movie on an exact clock; the merged native tests pass.
 [Preview publication](slices/13e-preview-publication.md) now retains pinned movies
-through existing jobs/cache; its next gate is abandoned native-attempt ownership,
-then pointer-equipped public delivery and playback. The [capture clock fix](assets/capture-duration/README.md) now preserves exact
+through existing jobs/cache. Its [public machine route](assets/preview-publication/public.md)
+passes generated cursor/cut/pause checks, CLI/MCP byte parity, restart regeneration
+and deletion revocation. The next gate is native app playback lifetime and UI. The [capture clock fix](assets/capture-duration/README.md) now preserves exact
 finalized endpoints and bounds legacy recovery to usable source ticks. Existing
 persisted revisions are not rewritten.
 [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
@@ -85,7 +88,8 @@ The first [sequential video worker](slices/13a-native-render-timing.md) passes
 generated exact-duration and pixel-identity gates, including opaque rendering of
 proven empty edits. The [integrated job lab](assets/video-render/job-lifetime.md)
 also passes on the merged tree, including pinned edits/undo, pause projection and
-terminal attempt cleanup. Public preview/export and service-death cleanup remain open.
+terminal attempt cleanup. Public machine preview and render-workspace recovery now have separate evidence;
+app playback and exports remain open.
 
 Priority order: native edited video/package execution, remaining controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
@@ -173,7 +177,8 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md) (bounded exact support)
   - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md) (point inspection only; native composition remains)
   - [x] [13d3 — Sequential pointer schedule](slices/13d3-pointer-schedule.md) (exact events/reset memory; native composition remains)
-  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md) (internal pinned cache consumer verified; staging recovery and public playback remain)
+  - [x] [13d4 — Native pointer composition](slices/13d4-pointer-composition.md) (exact encoded transitions; physical gesture acquisition remains)
+  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md) (public machine delivery and staging recovery verified; app playback remains)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
   - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md) (internal directory/native parity; ZIP and public handles remain)

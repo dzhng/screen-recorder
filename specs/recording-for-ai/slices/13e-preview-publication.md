@@ -4,7 +4,9 @@ Status: internal core job/cache consumer verified with real native movies;
 [publication evidence](../assets/preview-publication/README.md) records its scope.
 The [render ownership proof](../assets/preview-publication/restart/README.md)
 covers abandoned staging and pointer preparation inside the existing attempt.
-Public service admission/playback wiring remains open.
+[Public service delivery](../assets/preview-publication/public.md) is verified with
+generated cursor/cut/pause evidence, CLI/MCP parity and restart regeneration.
+Native app playback remains open.
 
 ## One owner and one verdict
 
@@ -51,10 +53,10 @@ Keep originals unchanged and generated numerical audio distinct from audition.
 chunks through the existing transport validator and publishes only a complete file.
 Inline image/audio model content retains its existing memory limits.
 
-Only expose the operation through the shared protocol/CLI/MCP registry once the
-production renderer includes accepted current-pointer composition. Reuse existing
-delivery leases with bounded reads and deletion revocation; app playback holds its
-lease for the actual player lifetime. No bare unleased temporary path in a public
+The shared protocol/CLI/MCP registry now exposes the production renderer with
+current-pointer composition. Existing delivery leases own bounded reads and deletion
+revocation. App playback still needs an owner that retains playable bytes for the
+actual player lifetime; a short-lived download token is not that owner. No bare unleased temporary path in a public
 result. Native playback and actual adjacent-speech audition remain parent13 gates.
 
 Internal names are delegated. The cache budget and scheduling policy stay with their

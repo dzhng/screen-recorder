@@ -48,8 +48,8 @@ bitrate-only variants. Independent review finds no meaningful full-frame
 readability win over automatic bitrate; retain that default. This is bounded
 source-relative text evidence, not pixel-perfect reconstruction, motion-quality
 acceptance or disappearance of all earlier enlarged label artifacts. It stays
-distinct from exact temporal membership and pointer placement. Full-original
-preview also needs the separately observed capture/container tail mismatch fixed.
+distinct from exact temporal membership and pointer placement. The [capture clock correction](../assets/capture-duration/README.md) resolves the
+observed capture/container tail mismatch for new captures and bounded recovery.
 
 Temporal joins/pointer placement only; compare near-join frames to source-span expectations, then screenshot-critique last. Listen to source and edited excerpts for audible artifacts.
 
@@ -72,4 +72,5 @@ AAC assembly now has a [bounded feasibility checkpoint](13c-aac-movie-assembly.m
 It preserves the common presentation clock in native playback and records tiny
 AAC decoder differences. Native movie assembly now shares the service attempt
 owner and passes five-minute encoded A/V checks. [Preview publication](13e-preview-publication.md)
-owns the next job/cache boundary; pointer composition and public playback remain open.
+now includes pointer composition and public machine delivery; native app playback
+and actual speech audition remain open.

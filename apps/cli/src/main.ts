@@ -30,6 +30,7 @@ const batchReferences = new Map<string, "atUs" | "ordinal">([
   ["frame.batch", "atUs"],
   ["index.frames", "ordinal"],
 ]);
+const previewOperations = new Set(["preview.get", "preview.retry"]);
 const mediaOperations = new Set([
   ...batchReferences.keys(),
   "index.frame",
@@ -251,7 +252,7 @@ async function main() {
     await mcp(selection);
     return;
   }
-  if (values.output && !mediaOperations.has(operation))
+  if (values.output && !mediaOperations.has(operation) && !previewOperations.has(operation))
     throw new Error("--output applies only to media inspection operations");
   const sending = request(
     values.id ?? responseId,
@@ -286,7 +287,7 @@ async function main() {
       },
       (error) => errorResult(sending.id, error).error,
     );
-  } else if (mediaOperations.has(operation)) {
+  } else if (mediaOperations.has(operation) || previewOperations.has(operation)) {
     try {
       const media = await mediaFile(selection, result, values.output);
       if (media && result.ok)

@@ -1525,3 +1525,56 @@ records them. These choices add no public export choice or transcript readiness.
   receives a worker bound to the same lock and signal, finishes all its subprocess
   work, and returns the core schedule receipt. Native pointer consumption is
   integrated from 13d4; no second outer temporary directory or process owner is added.
+
+## Public preview preparation and delivery
+
+- **When:** public preview service/CLI/MCP integration.
+- **The choice:** bound intermediate work and fail the whole preview instead of
+  silently dropping pointing evidence. Rendering first writes the exact picture
+  schedule, then joins cursor observations onto it. Those temporary files may use
+  at most 1 GiB and 128 MiB respectively; the join may inspect one million input
+  events. For example, a very dense recording can exceed a limit even when its
+  final compressed MP4 would be small. The caller receives a failed job, never a
+  video that quietly omits the remaining cursor movements. These bounds allow
+  headroom above short walkthroughs while keeping temporary disk and CPU work
+  finite. Existing byte/event exhaustion checks own the boundary behavior.
+- **The gap:** the sequential owners require budgets but the plan did not set
+  production admission values.
+- **The reach:** longer or unusually dense recordings can require revisiting the
+  admission policy. Changing these internal values needs representative workload
+  evidence, not an automatic retry with a larger budget.
+- **Verdict:** sound; explicit bounded failure preserves evidence fidelity.
+- **Confidence:** medium; the values are conservative operational defaults, not a
+  measured maximum recording duration guarantee.
+
+- **When:** public preview service/CLI/MCP integration.
+- **The choice:** expose playable video over the existing transfer contract. A CLI
+  caller gets a streamed MP4 file. An MCP caller gets metadata and a short-lived
+  token, then requests bounded pieces with `artifact.read` and releases it with
+  `artifact.close`. The token keeps the underlying cache file readable until it
+  closes or expires; deleting the recording revokes it. This avoids asking the
+  model protocol to accept unsupported inline video content or allocating an entire
+  movie in memory. The existing transfer deadline applies equally to previews;
+  an expired transfer reports a retryable error rather than a partial success.
+- **The gap:** the plan required machine preview access without choosing its MCP
+  representation.
+- **The reach:** native app playback must establish its own correct lifetime over
+  this shared delivery mechanism; the transfer token alone is not an unlimited
+  player lease.
+- **Verdict:** sound; one bounded delivery owner serves all derived media.
+- **Confidence:** high.
+
+- **When:** public preview deletion review.
+- **The choice:** deletion waits for the shared render workspace to be safely
+  cleared. If another recording's worker still owns that workspace, deletion
+  returns a retryable busy error and retains its pending-deletion record instead
+  of claiming all bytes are gone. A later retry or startup completes the same
+  intent. This uses the existing exclusive owner rather than introducing a second
+  per-recording staging tracker.
+- **The gap:** the spec required truthful deletion but did not choose how to handle
+  a shared workspace occupied by an unrelated render.
+- **The reach:** deleting one recording can temporarily wait on another recording's
+  preview. No active worker's files are removed to make deletion appear immediate.
+- **Verdict:** sound; the finite busy refusal preserves both worker ownership and
+  truthful completion without another storage ledger.
+- **Confidence:** medium; a future throughput need could justify separate workspaces.

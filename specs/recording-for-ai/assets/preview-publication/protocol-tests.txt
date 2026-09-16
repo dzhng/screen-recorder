@@ -1,0 +1,10 @@
+$ vitest run
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/protocol
+
+
+ Test Files  2 passed (2)
+      Tests  10 passed (10)
+   Start at  05:41:57
+   Duration  127ms (transform 47%, import 39%, tests 10%, worker 4%)
+

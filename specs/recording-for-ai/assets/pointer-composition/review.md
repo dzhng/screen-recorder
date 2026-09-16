@@ -54,3 +54,14 @@ prepare presentation evidence and the schedule inside the same owned movie attem
 then pass the receipt with the original core plan. Clean rendering remains an
 internal media primitive. Durable preview wiring, physical capture acceptance and
 long realistic composition workloads remain parent-slice gates.
+
+## Merged-tree checkpoint
+
+The merged native pointer/movie tests pass (17 tests; [receipt](merged-tests.txt)).
+Root inspected `moving-01.png`, `moving-02.png` and `moving-03.png`: a visible
+current cursor changes position and clears without leaving the old glyph behind.
+The same three frames were displayed in one Preview window for about five minutes
+on 2026-09-16, starting around 22:38 UTC. No response arrived. Retain the current
+appearance on this bounded generated evidence; physical gesture acquisition remains
+unverified. The task's review window was closed afterward, preserving the unrelated
+Preview window already present.

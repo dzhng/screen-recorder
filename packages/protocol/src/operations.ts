@@ -139,6 +139,24 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Request one to eight ordered frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry.",
     ),
   z
+    .object({
+      operation: z.literal("preview.get"),
+      params: recording.extend({ revisionId: id.optional() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Request a playable MP4 of the pinned edit with current pointer and acquired audio. Returns readiness until complete; pin the returned revision when polling. CLI writes a file; MCP returns a delivery token for artifact.read/close.",
+    ),
+  z
+    .object({
+      operation: z.literal("preview.retry"),
+      params: recording.extend({ revisionId: id.optional() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Explicitly retry failed preview rendering for the same pinned revision. Failed source dependencies require processing.retry.",
+    ),
+  z
     .object({ operation: z.literal("audio.get"), params: audioParams })
     .strict()
     .describe(

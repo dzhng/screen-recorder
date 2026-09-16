@@ -1,3 +1,12 @@
+import { copyFile, mkdir } from "node:fs/promises";
+import { constants } from "node:fs";
+import { PreviewInspection } from "@screenrec/core/preview";
+import {
+  PresentationEvidence,
+  type PresentationReceipt,
+} from "@screenrec/core/presentation-evidence";
+import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
+import { clearRenderWorkspace, renderDeadlineMs, withRenderedMedia } from "./render.js";
 import { RecordingStorage } from "@screenrec/core/storage";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
@@ -29,7 +38,7 @@ import {
 } from "@screenrec/protocol";
 import { CaptureService } from "./capture.js";
 import { openControl } from "./control.js";
-import { mediaWorker } from "./worker.js";
+import { mediaWorker, type MediaWorker } from "./worker.js";
 import { listenLocal, type LocalListener } from "./index.js";
 import { StartupFailure, claimStartup, type StartupClaim } from "./startup.js";
 
@@ -56,6 +65,7 @@ function log(message: string): void {
 async function main(): Promise<void> {
   const home = serviceHome();
   const runtimeDirectory = join(home, "run");
+  const renderWorkspace = join(runtimeDirectory, "render");
   const started = performance.now();
 
   let claim: StartupClaim | undefined;
@@ -70,6 +80,7 @@ async function main(): Promise<void> {
   let index: IndexProcessing;
   let frames: FrameInspection;
   let audio: AudioInspection;
+  let preview: PreviewInspection;
   let delivery: DerivativeDelivery | undefined;
   let cache: DerivedCache;
   let storage: RecordingStorage | undefined;
@@ -83,8 +94,13 @@ async function main(): Promise<void> {
     operation: string,
     params: Record<string, unknown>,
     signal: AbortSignal,
+    execute: MediaWorker = worker,
+    timeoutMs?: number,
   ): Promise<T> {
-    const result = await worker(operation, params, { signal });
+    const result = await execute(operation, params, {
+      signal,
+      ...(timeoutMs === undefined ? {} : { timeoutMs }),
+    });
     if (!result.ok)
       throw new CatalogError(
         result.error.code,
@@ -96,6 +112,7 @@ async function main(): Promise<void> {
   }
   try {
     claim = await claimStartup(runtimeDirectory);
+    await clearRenderWorkspace(worker, renderWorkspace, cleanupLifetime.signal);
     store = new RevisionStore(join(home, "library.sqlite"), {
       now: () => new Date().toISOString(),
       newId: randomUUID,
@@ -116,11 +133,13 @@ async function main(): Promise<void> {
         if (
           execution.job.artifact === "frame" ||
           execution.job.artifact === "audio" ||
+          execution.job.artifact === "preview" ||
           execution.job.artifact === "source-scenes" ||
           execution.job.artifact === "screenshot-index"
         ) {
           await cacheReady;
           if (cacheFailure) throw cacheFailure;
+          if (execution.job.artifact === "preview") return preview.execute(execution);
           if (execution.job.artifact === "source-scenes") return scenes.execute(execution);
           if (execution.job.artifact === "screenshot-index") return index.execute(execution);
           return execution.job.artifact === "frame"
@@ -171,6 +190,65 @@ async function main(): Promise<void> {
     audio = new AudioInspection(store, jobs, cache, evidence, processing, home, (request, signal) =>
       nativeData<NativeAudio>("media.audio", request, signal),
     );
+    preview = new PreviewInspection(
+      store,
+      jobs,
+      cache,
+      evidence,
+      processing,
+      home,
+      async (request, signal) => {
+        await mkdir(renderWorkspace, { recursive: true, mode: 0o700 });
+        return withRenderedMedia(
+          worker,
+          {
+            source: request.source,
+            plan: request.plan,
+            tracks: request.tracks,
+            attemptParent: renderWorkspace,
+            preparePointer: async (attempt, execute, signal) => {
+              const receipt = await nativeData<PresentationReceipt>(
+                "media.presentationEvidence",
+                {
+                  source: request.source,
+                  plan: request.plan,
+                  output: join(attempt, "presentation.jsonl"),
+                  maxBytes: 1024 ** 3,
+                },
+                signal,
+                execute,
+                renderDeadlineMs(request.plan),
+              );
+              const presentation = await PresentationEvidence.open(
+                receipt,
+                request.revision,
+                signal,
+              );
+              try {
+                return await writePointerSchedule(
+                  {
+                    presentation,
+                    evidence,
+                    identity: request.sourceEvidence,
+                    output: join(attempt, "pointer.jsonl"),
+                    maxBytes: 128 * 1024 ** 2,
+                    maxEvents: 1_000_000,
+                  },
+                  signal,
+                );
+              } finally {
+                await presentation.close();
+              }
+            },
+          },
+          signal,
+          async (movie) => {
+            await copyFile(movie.file, request.output, constants.COPYFILE_EXCL);
+            return { ...movie, file: request.output };
+          },
+        );
+      },
+    );
     listener = await listenLocal({
       runtimeDirectory,
       handler: (request) => serve(request),
@@ -182,6 +260,7 @@ async function main(): Promise<void> {
     store?.close();
     claim?.release();
     const startup = error instanceof StartupFailure;
+    const catalogFailure = error instanceof CatalogError;
     const occupied = startup
       ? error.code === "SOCKET_IN_USE"
       : (error as NodeJS.ErrnoException).code === "EADDRINUSE";
@@ -190,13 +269,13 @@ async function main(): Promise<void> {
         {
           event: "failed",
           error: {
-            code: occupied ? "SOCKET_IN_USE" : "SERVICE_UNAVAILABLE",
-            message: (startup
+            code: occupied ? "SOCKET_IN_USE" : catalogFailure ? error.code : "SERVICE_UNAVAILABLE",
+            message: (startup || catalogFailure
               ? error.message
               : `Service could not open ${runtimeDirectory}: ${(error as Error).message}`
             ).slice(0, 2_000),
-            retryable: false,
-            details: {},
+            retryable: catalogFailure ? error.retryable : false,
+            details: catalogFailure ? error.details : {},
           },
         },
         CONTROL_FRAME_BYTES,
@@ -246,6 +325,7 @@ async function main(): Promise<void> {
     cleanupReady: async () => {
       await Promise.all([cacheReady, evidenceCleanup]);
       if (cacheFailure) throw cacheFailure;
+      await clearRenderWorkspace(worker, renderWorkspace, cleanupLifetime.signal);
     },
   });
 
@@ -272,6 +352,7 @@ async function main(): Promise<void> {
         processing,
         frames,
         audio,
+        preview,
         delivery: transfers,
         scenes,
         cache,

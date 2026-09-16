@@ -1,6 +1,7 @@
 import { afterEach, expect, it } from "vitest";
+import { closeSync, constants, openSync } from "node:fs";
 import { spawn } from "node:child_process";
-import { lstat, mkdir, mkdtemp, rm, stat, symlink, writeFile } from "node:fs/promises";
+import { lstat, mkdir, mkdtemp, readFile, rm, stat, symlink, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { callLocal } from "@screenrec/client";
@@ -347,4 +348,31 @@ it("closes its listener when control output breaks before the pipe reaches EOF",
   for (let index = 0; index < 200; index += 1) service.request(`unread-${index}`);
   expect(await service.exit).toEqual({ code: 0, signal: null });
   await expect(stat(socketPath)).rejects.toMatchObject({ code: "ENOENT" });
+});
+
+it("reports an orphan-held render workspace as retryable before announcing readiness", async () => {
+  const home = await temporaryHome();
+  const directory = join(home, "run", "render");
+  await mkdir(directory, { recursive: true, mode: 0o700 });
+  const sentinel = join(directory, "abandoned");
+  await writeFile(sentinel, "still owned");
+  const descriptor = openSync(
+    directory,
+    constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20,
+  ); // Darwin O_EXLOCK, held by a different process than service.
+  cleanup.push(async () => closeSync(descriptor));
+  const service = await startService(home);
+  const [message] = await service.awaiting(1);
+  expect(message).toEqual({
+    event: "failed",
+    error: {
+      code: "RENDER_WORKSPACE_BUSY",
+      message: "Another render still owns this workspace",
+      retryable: true,
+      details: {},
+    },
+  });
+  expect(await service.exit).toEqual({ code: 1, signal: null });
+  expect(await readFile(sentinel, "utf8")).toBe("still owned");
+  await expect(stat(join(home, "run", "service.sock"))).rejects.toMatchObject({ code: "ENOENT" });
 });

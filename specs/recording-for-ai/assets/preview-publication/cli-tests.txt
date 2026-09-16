@@ -2,11 +2,11 @@ $ vitest run
 
  RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/cli
 
-(node:17047) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(node:33224) ExperimentalWarning: SQLite is an experimental feature and might change at any time
 (Use `node --trace-warnings ...` to show where the warning was created)
 
  Test Files  2 passed (2)
       Tests  21 passed (21)
-   Start at  05:16:35
-   Duration  2.96s (tests 95%, import 3%, transform 2%)
+   Start at  05:41:52
+   Duration  4.47s (tests 95%, import 3%, transform 2%)
 
