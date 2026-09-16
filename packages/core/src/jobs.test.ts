@@ -77,7 +77,7 @@ afterEach(async () => {
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true });
 });
 
-test("identical work is admitted once while it runs, and again only after it published", async () => {
+test("identical work retains its published result without another automatic attempt", async () => {
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
   const request = {
@@ -92,7 +92,9 @@ test("identical work is admitted once while it runs, and again only after it pub
   expect(queue.submit(request)).toEqual({ ...job, state: "running" });
   attempt.finish("transcript-a");
   await queue.idle();
-  expect(queue.status(recordingId, "transcript")).toEqual({
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "transcript", input: "narration" }),
+  ).toEqual({
     state: "ready",
     jobId: job.jobId,
     reason: null,
@@ -108,20 +110,8 @@ test("identical work is admitted once while it runs, and again only after it pub
   });
   expect(queue.job(job.jobId)).toMatchObject({ state: "ready", generation: 1 });
 
-  const again = queue.submit(request);
-  expect(again.jobId).not.toBe(job.jobId);
-  expect(again.state).toBe("running");
-  (await started(again.attemptId)).finish("transcript-b");
-  await queue.idle();
-  expect(queue.job(again.jobId)).toMatchObject({ state: "ready", generation: 2 });
-  expect(queue.status(recordingId, "transcript").published).toEqual({
-    recordingId,
-    artifact: "transcript",
-    generation: 2,
-    revisionId: "r0",
-    input: "narration",
-    result: "transcript-b",
-  });
+  expect(queue.submit(request)).toEqual(queue.job(job.jobId));
+  expect(queue.retry(job.jobId)).toEqual(queue.job(job.jobId));
 });
 
 test("a restart fails the interrupted attempt, whose late answer cannot overwrite its retry", async () => {
@@ -136,7 +126,14 @@ test("a restart fails the interrupted attempt, whose late answer cannot overwrit
   const lost = await started(job.attemptId);
 
   const relaunched = open(path, "second");
-  expect(relaunched.queue.status(recordingId, "transcript")).toEqual({
+  expect(
+    relaunched.queue.status({
+      recordingId,
+      revisionId: "r0",
+      artifact: "transcript",
+      input: "narration",
+    }),
+  ).toEqual({
     state: "failed",
     jobId: job.jobId,
     reason: "interrupted",
@@ -150,15 +147,29 @@ test("a restart fails the interrupted attempt, whose late answer cannot overwrit
 
   lost.finish("answer-from-the-dead-process");
   await queue.idle();
-  expect(relaunched.queue.status(recordingId, "transcript").published).toBeNull();
+  expect(
+    relaunched.queue.status({
+      recordingId,
+      revisionId: "r0",
+      artifact: "transcript",
+      input: "narration",
+    }).published,
+  ).toBeNull();
   expect(relaunched.queue.job(job.jobId).state).toBe("running");
 
   fresh.finish("answer-from-the-retry");
   await relaunched.queue.idle();
-  expect(relaunched.queue.status(recordingId, "transcript").published).toEqual({
+  expect(
+    relaunched.queue.status({
+      recordingId,
+      revisionId: "r0",
+      artifact: "transcript",
+      input: "narration",
+    }).published,
+  ).toEqual({
     recordingId,
     artifact: "transcript",
-    generation: 1,
+    generation: 2,
     revisionId: "r0",
     input: "narration",
     result: "answer-from-the-retry",
@@ -186,7 +197,10 @@ test("an edit during processing does not move the revision the work was admitted
   attempt.finish("transcript-a");
   await queue.idle();
   expect(store.revision(recordingId).id).toBe(edited.id);
-  expect(queue.status(recordingId, "transcript").published).toEqual({
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "transcript", input: "narration" })
+      .published,
+  ).toEqual({
     recordingId,
     artifact: "transcript",
     generation: 1,
@@ -215,6 +229,7 @@ test("one heavy and two frame attempts run at once", async () => {
   const frames = ["5s", "6s", "7s"].map((input) =>
     queue.submit({ recordingId, artifact: `frame-${input}`, lane: "frame", input }),
   );
+  await started(frames[1]!.attemptId);
   expect([...attempts.keys()]).toEqual([
     transcript.attemptId,
     frames[0]!.attemptId,
@@ -242,8 +257,11 @@ test("a new heavy job waits while a take is capturing; frame work does not", asy
     input: "narration",
   });
   const frame = queue.submit({ recordingId, artifact: "frame", lane: "frame", input: "5s" });
+  await started(frame.attemptId);
   expect([...attempts.keys()]).toEqual([frame.attemptId]);
-  expect(queue.status(recordingId, "transcript")).toEqual({
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "transcript", input: "narration" }),
+  ).toEqual({
     state: "queued",
     jobId: transcript.jobId,
     reason: null,
@@ -279,11 +297,13 @@ test("canceling a running job frees its lane only once the work settles", async 
   expect(attempts.has(second.attemptId)).toBe(false);
   running.finish("answer-after-cancellation");
   expect((await started(second.attemptId)).job.jobId).toBe(second.jobId);
-  expect(queue.status(recordingId, "transcript")).toEqual({
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "transcript", input: "narration" }),
+  ).toEqual({
     state: "not_requested",
     jobId: first.jobId,
     reason: "canceled",
-    retryable: false,
+    retryable: true,
     published: null,
   });
 });
@@ -322,7 +342,7 @@ test("work that outlives a discarded take publishes nothing and does not revive 
   expect(attempts.has(waiting!.attemptId)).toBe(false);
   for (const job of [running!, waiting!]) {
     expect(queue.job(job.jobId).state).toBe("canceled");
-    expect(queue.status(recording.recordingId, job.artifact)).toEqual({
+    expect(queue.status(job)).toEqual({
       state: "not_requested",
       jobId: job.jobId,
       reason: "recording_unavailable",
@@ -381,7 +401,9 @@ test("a validated absence is not retryable, while an ordinary failure is", async
     new CatalogError("UNAVAILABLE", "unavailable:no_narration"),
   );
   await queue.idle();
-  expect(queue.status(recordingId, "transcript")).toEqual({
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "transcript", input: "narration" }),
+  ).toEqual({
     state: "unavailable",
     jobId: absent.jobId,
     reason: "unavailable:no_narration",
@@ -393,7 +415,9 @@ test("a validated absence is not retryable, while an ordinary failure is", async
   const failed = queue.submit({ recordingId, artifact: "export", lane: "heavy", input: "video" });
   (await started(failed.attemptId)).fail(new Error("encoder exited with 1"));
   await queue.idle();
-  expect(queue.status(recordingId, "export")).toEqual({
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "export", input: "video" }),
+  ).toEqual({
     state: "failed",
     jobId: failed.jobId,
     reason: "encoder exited with 1",
@@ -404,6 +428,195 @@ test("a validated absence is not retryable, while an ordinary failure is", async
   expect(retried.attemptId).not.toBe(failed.attemptId);
   (await started(retried.attemptId)).finish("export-a");
   await queue.idle();
-  expect(queue.status(recordingId, "export").published).toMatchObject({ result: "export-a" });
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "export", input: "video" }).published,
+  ).toMatchObject({ result: "export-a" });
   expect(queue.retry(failed.jobId)).toEqual(queue.job(failed.jobId));
+});
+
+test("an unchanged failed request needs explicit retry, including after reopen", async () => {
+  const { store, queue, started, path } = fixture();
+  const recordingId = finished(store);
+  const request = {
+    recordingId,
+    artifact: "transcript",
+    lane: "heavy" as const,
+    input: "narration",
+  };
+  const job = queue.submit(request);
+  (await started(job.attemptId)).fail(new Error("decoder failed"));
+  await queue.idle();
+  expect(queue.submit(request)).toMatchObject({
+    jobId: job.jobId,
+    state: "failed",
+    attemptId: job.attemptId,
+  });
+  const next = open(path, "again");
+  expect(next.queue.submit(request)).toMatchObject({ jobId: job.jobId, state: "failed" });
+});
+
+test("the same parameters on an edited revision never reuse the old running job", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const request = { recordingId, artifact: "frame", lane: "frame" as const, input: "at=2" };
+  const first = queue.submit(request);
+  await started(first.attemptId);
+  const revision = store.edit(recordingId, {
+    operation: "cut",
+    requestId: "cut",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 0, endUs: 3 }],
+  });
+  const second = queue.submit(request);
+  expect(second.revisionId).toBe(revision.id);
+  expect(second.jobId).not.toBe(first.jobId);
+});
+
+test("out-of-order results retain their own revision and input identities", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const request = { recordingId, artifact: "frame", lane: "frame" as const, input: "at=2" };
+  const old = queue.submit(request);
+  const oldWork = await started(old.attemptId);
+  const edited = store.edit(recordingId, {
+    operation: "cut",
+    requestId: "cut",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 0, endUs: 3 }],
+  });
+  const current = queue.submit(request);
+  (await started(current.attemptId)).finish("new-revision-pixels");
+  // An acknowledged next start proves the preceding result was durably settled.
+  const alternate = queue.submit({ ...request, input: "at=4" });
+  (await started(alternate.attemptId)).finish("other-time-pixels");
+  oldWork.finish("old-revision-pixels");
+  await queue.idle();
+  expect(queue.status(current).published).toMatchObject({
+    revisionId: edited.id,
+    input: "at=2",
+    result: "new-revision-pixels",
+  });
+  expect(queue.status(alternate).published).toMatchObject({
+    revisionId: edited.id,
+    input: "at=4",
+    result: "other-time-pixels",
+  });
+  expect(queue.status(old).published).toMatchObject({
+    revisionId: "r0",
+    result: "old-revision-pixels",
+  });
+  expect(queue.submit({ ...request, revisionId: "r0" }).jobId).toBe(old.jobId);
+});
+
+test("a permanent processing error is failed rather than unavailable", async () => {
+  const { store, queue, started } = fixture();
+  const job = queue.submit({
+    recordingId: finished(store),
+    artifact: "frame",
+    lane: "frame",
+    input: "at=2",
+  });
+  (await started(job.attemptId)).fail(new CatalogError("INVALID_RANGE", "bad decode plan"));
+  await queue.idle();
+  expect(queue.status(job)).toMatchObject({ state: "failed", retryable: false });
+  expect(queue.submit(job).jobId).toBe(job.jobId);
+});
+
+test("shutdown rejects late success and leaves the attempt explicitly retryable", async () => {
+  const { store, queue, started } = fixture();
+  const request = {
+    recordingId: finished(store),
+    artifact: "frame",
+    lane: "frame" as const,
+    input: "at=2",
+  };
+  const job = queue.submit(request);
+  const attempt = await started(job.attemptId);
+  const closing = queue.close();
+  expect(attempt.signal.aborted).toBe(true);
+  expect(() => queue.submit(request)).toThrow(expect.objectContaining({ code: "SERVICE_STOPPED" }));
+  attempt.finish("answer-after-shutdown");
+  await closing;
+  expect(queue.status(job)).toMatchObject({
+    state: "failed",
+    reason: "interrupted",
+    retryable: true,
+    published: null,
+  });
+});
+
+test("an executor submitting dependent work cannot exceed the frame capacity", async () => {
+  const { store, queue: initial } = fixture();
+  await initial.close();
+  const recordingId = finished(store);
+  const started: string[] = [];
+  let release!: () => void;
+  const hold = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const queue = new JobQueue({
+    store,
+    providers: {
+      newId: (() => {
+        let n = 0;
+        return () => `nested-${++n}`;
+      })(),
+    },
+    execute: async ({ job }) => {
+      started.push(job.input);
+      if (job.input === "first") {
+        queue.submit({ recordingId, artifact: "frame", input: "second", lane: "frame" });
+        queue.submit({ recordingId, artifact: "frame", input: "third", lane: "frame" });
+      }
+      await hold;
+      return job.input;
+    },
+  });
+  queues.push(queue);
+  queue.submit({ recordingId, artifact: "frame", input: "first", lane: "frame" });
+  await Promise.resolve();
+  await Promise.resolve();
+  expect(started).toEqual(["first", "second"]);
+  release();
+  await queue.idle();
+  expect(started).toEqual(["first", "second", "third"]);
+});
+
+test("explicit retry of canceled work waits for its old executor to release capacity", async () => {
+  const { store, queue, started, attempts } = fixture();
+  const request = {
+    recordingId: finished(store),
+    artifact: "transcript",
+    lane: "heavy" as const,
+    input: "narration",
+  };
+  const job = queue.submit(request);
+  const old = await started(job.attemptId);
+  queue.cancel(job.jobId);
+  expect(queue.submit(request).state).toBe("canceled");
+  const retry = queue.retry(job.jobId);
+  expect(retry.generation).toBe(job.generation + 1);
+  expect(attempts.has(retry.attemptId)).toBe(false);
+  old.finish("stale");
+  (await started(retry.attemptId)).finish("fresh");
+  await queue.idle();
+  expect(queue.status(retry).published?.result).toBe("fresh");
+});
+
+test("an earlier development job catalog is rejected rather than repaired", async () => {
+  const { store, queue } = fixture();
+  await queue.close();
+  store.catalog.exec(
+    "DROP INDEX jobs_identity; CREATE UNIQUE INDEX jobs_active_identity ON jobs(recordingId,artifact,input) WHERE state IN ('queued','running')",
+  );
+  expect(
+    () =>
+      new JobQueue({ store, providers: { newId: () => "unused" }, execute: async () => "unused" }),
+  ).toThrow(expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }));
+  expect(
+    store.catalog.prepare("SELECT 1 FROM sqlite_master WHERE name='jobs_identity'").get(),
+  ).toBeUndefined();
+  expect(
+    store.catalog.prepare("SELECT 1 FROM sqlite_master WHERE name='jobs_active_identity'").get(),
+  ).toBeDefined();
 });

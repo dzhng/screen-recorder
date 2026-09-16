@@ -2,7 +2,7 @@ import { CatalogError, type RevisionStore } from "./library.js";
 
 /** What an attempt occupies while it runs. Frame work is small and parallel; heavy work is not. */
 export type JobLane = "heavy" | "frame";
-export type JobState = "queued" | "running" | "ready" | "failed" | "canceled";
+export type JobState = "queued" | "running" | "ready" | "failed" | "unavailable" | "canceled";
 /** The readiness vocabulary a caller sees for one artifact of one recording. */
 export type ArtifactState =
   | "not_requested"
@@ -22,6 +22,7 @@ const queuedLimit = 32;
 
 export type JobRequest = Readonly<{
   recordingId: string;
+  revisionId?: string;
   /** Which artifact of the recording this work produces, named by its owning adapter. */
   artifact: string;
   lane: JobLane;
@@ -45,8 +46,8 @@ export type Job = Readonly<{
   state: JobState;
   reason: string | null;
   retryable: boolean;
-  /** The artifact generation this job published, once it did. */
-  generation: number | null;
+  /** Reserved for this attempt before work starts; retries never reuse a generation. */
+  generation: number;
 }>;
 
 /** One published artifact: what the work produced, and the identity it was produced for. */
@@ -71,8 +72,8 @@ export type ArtifactStatus = Readonly<{
 export type JobExecution = Readonly<{ job: Job; signal: AbortSignal }>;
 /**
  * Does the actual work and resolves with the artifact result to publish. An ordinary rejection is a
- * retryable failure; rejecting with a non-retryable {@link CatalogError} states a validated absence
- * (an artifact this recording simply cannot have) and the queue reports it as unavailable.
+ * retryable failure. Only CatalogError("UNAVAILABLE") reports an absent artifact; other
+ * non-retryable errors remain failures rather than pretending the evidence cannot exist.
  */
 export type JobExecutor = (execution: JobExecution) => Promise<string>;
 
@@ -113,17 +114,26 @@ export class JobQueue {
     this.store = options.store;
     this.execute = options.execute;
     this.newId = options.providers.newId;
+    if (
+      this.store.catalog
+        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='jobs'")
+        .get() &&
+      !this.store.catalog
+        .prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='jobs_identity'")
+        .get()
+    )
+      throw new CatalogError("UNSUPPORTED_CATALOG", "This catalog has an unsupported job format");
     this.store.catalog.exec(`
    CREATE TABLE IF NOT EXISTS jobs (
     jobId TEXT PRIMARY KEY,attemptId TEXT NOT NULL,recordingId TEXT NOT NULL REFERENCES recordings(recordingId),
     artifact TEXT NOT NULL,lane TEXT NOT NULL,input TEXT NOT NULL,revisionId TEXT NOT NULL,state TEXT NOT NULL,
-    reason TEXT,retryable INTEGER NOT NULL,generation INTEGER,queuedSequence INTEGER NOT NULL
+    reason TEXT,retryable INTEGER NOT NULL,generation INTEGER NOT NULL,queuedSequence INTEGER NOT NULL
    ) STRICT;
-   CREATE UNIQUE INDEX IF NOT EXISTS jobs_active_identity
-    ON jobs(recordingId,artifact,input) WHERE state IN ('queued','running');
+   CREATE UNIQUE INDEX IF NOT EXISTS jobs_identity
+    ON jobs(recordingId,revisionId,artifact,input);
    CREATE TABLE IF NOT EXISTS artifacts (
     recordingId TEXT NOT NULL REFERENCES recordings(recordingId),artifact TEXT NOT NULL,generation INTEGER NOT NULL,
-    revisionId TEXT NOT NULL,input TEXT NOT NULL,result TEXT NOT NULL,PRIMARY KEY(recordingId,artifact)
+    revisionId TEXT NOT NULL,input TEXT NOT NULL,result TEXT NOT NULL,PRIMARY KEY(recordingId,revisionId,artifact,input)
    ) STRICT;
   `);
     // Only a process that died holding an attempt can leave a running row behind, so reopening the
@@ -135,21 +145,26 @@ export class JobQueue {
   }
 
   /**
-   * Admits one job for an artifact of a recording. Work already queued or running for the same
-   * inputs is returned as it stands rather than doubled, and admission pins the recording's current
-   * revision, so this is the single automatic attempt: nothing retries it but an explicit retry.
+   * Admits one job for an artifact of a recording. An existing exact identity returns its current outcome, including failure. Resolve
+   * current once at admission; historical requests pin their explicit revision. Only retry
+   * creates another attempt, so repeated inspection cannot trigger automatic retry loops.
    */
   submit(request: JobRequest): Job {
     const jobId = this.store.transaction(() => {
-      const revisionId = this.store.revision(request.recordingId).id;
-      const active = this.active(request.recordingId, request.artifact, request.input);
-      if (active) return active.jobId;
+      this.requireOpen();
+      const revisionId = this.store.revision(request.recordingId, request.revisionId).id;
+      const existing = this.existing({ ...request, revisionId });
+      if (existing) {
+        if (existing.lane !== request.lane)
+          throw new CatalogError("INVALID_REQUEST", "An existing job cannot change execution lane");
+        return existing.jobId;
+      }
       this.admit();
       const admitted = this.newId();
       this.store.catalog
         .prepare(
           `INSERT INTO jobs(${jobColumns},queuedSequence)
-           VALUES (?,?,?,?,?,?,?,'queued',NULL,0,NULL,(SELECT COALESCE(MAX(queuedSequence),0)+1 FROM jobs))`,
+           VALUES (?,?,?,?,?,?,?,'queued',NULL,0,1,(SELECT COALESCE(MAX(queuedSequence),0)+1 FROM jobs))`,
         )
         .run(
           admitted,
@@ -173,7 +188,9 @@ export class JobQueue {
    */
   retry(jobId: string): Job {
     const retried = this.store.transaction(() => {
+      this.requireOpen();
       const current = this.job(jobId);
+      this.store.revision(current.recordingId, current.revisionId);
       if (current.state === "queued" || current.state === "running" || current.state === "ready")
         return current.jobId;
       if (!current.retryable)
@@ -181,12 +198,10 @@ export class JobQueue {
           state: current.state,
           reason: current.reason,
         });
-      const active = this.active(current.recordingId, current.artifact, current.input);
-      if (active) return active.jobId;
       this.admit();
       this.store.catalog
         .prepare(
-          `UPDATE jobs SET state='queued',attemptId=?,reason=NULL,retryable=0,
+          `UPDATE jobs SET state='queued',attemptId=?,reason=NULL,retryable=0,generation=generation+1,
            queuedSequence=(SELECT COALESCE(MAX(queuedSequence),0)+1 FROM jobs) WHERE jobId=?`,
         )
         .run(this.newId(), jobId);
@@ -201,6 +216,7 @@ export class JobQueue {
    * settles, so cancellation can never hand out capacity that something is still using.
    */
   cancel(jobId: string): Job {
+    this.requireOpen();
     const stopped = this.store.transaction(() => {
       const current = this.job(jobId);
       if (current.state !== "queued" && current.state !== "running") return null;
@@ -212,13 +228,20 @@ export class JobQueue {
     return this.job(jobId);
   }
 
-  /** The one job that may currently be doing this exact work, if any is queued or running for it. */
-  private active(recordingId: string, artifact: string, input: string): Job | null {
+  private requireOpen(): void {
+    if (this.closed) throw new CatalogError("SERVICE_STOPPED", "The job queue is closed", {}, true);
+  }
+
+  private existing(
+    identity: Pick<Job, "recordingId" | "revisionId" | "artifact" | "input">,
+  ): Job | null {
     const row = this.store.catalog
       .prepare(
-        `SELECT ${jobColumns} FROM jobs WHERE recordingId=? AND artifact=? AND input=? AND state IN ('queued','running')`,
+        `SELECT ${jobColumns} FROM jobs WHERE recordingId=? AND revisionId=? AND artifact=? AND input=?`,
       )
-      .get(recordingId, artifact, input) as JobRow | undefined;
+      .get(identity.recordingId, identity.revisionId, identity.artifact, identity.input) as
+      | JobRow
+      | undefined;
     return row ? toJob(row) : null;
   }
 
@@ -230,35 +253,28 @@ export class JobQueue {
     return toJob(row);
   }
 
-  /** How ready one artifact of one recording is, from its newest job and what has been published. */
-  status(recordingId: string, artifact: string): ArtifactStatus {
-    const published =
-      (this.store.catalog
-        .prepare(
-          "SELECT recordingId,artifact,generation,revisionId,input,result FROM artifacts WHERE recordingId=? AND artifact=?",
-        )
-        .get(recordingId, artifact) as Artifact | undefined) ?? null;
-    const row = this.store.catalog
-      .prepare(
-        `SELECT ${jobColumns} FROM jobs WHERE recordingId=? AND artifact=? ORDER BY queuedSequence DESC LIMIT 1`,
-      )
-      .get(recordingId, artifact) as JobRow | undefined;
-    const job = row ? toJob(row) : null;
-    // A canceled job left the artifact exactly where it found it, so only what is published speaks.
-    const state: ArtifactState =
-      job === null || job.state === "canceled"
-        ? published
-          ? "ready"
-          : "not_requested"
-        : job.state === "running"
-          ? "processing"
-          : job.state === "failed"
-            ? job.retryable
-              ? "failed"
-              : "unavailable"
-            : job.state;
+  /** Readiness is for the exact pinned revision and inputs, never whichever job finished last. */
+  status(identity: Pick<Job, "recordingId" | "revisionId" | "artifact" | "input">): ArtifactStatus {
+    const job = this.existing(identity);
+    const present = this.store.catalog
+      .prepare("SELECT 1 FROM recordings WHERE recordingId=? AND state!='canceled'")
+      .get(identity.recordingId);
+    const published = present
+      ? ((this.store.catalog
+          .prepare(
+            "SELECT recordingId,artifact,generation,revisionId,input,result FROM artifacts WHERE recordingId=? AND revisionId=? AND artifact=? AND input=?",
+          )
+          .get(identity.recordingId, identity.revisionId, identity.artifact, identity.input) as
+          | Artifact
+          | undefined) ?? null)
+      : null;
     return {
-      state,
+      state:
+        !job || job.state === "canceled" || !present
+          ? "not_requested"
+          : job.state === "running"
+            ? "processing"
+            : job.state,
       jobId: job?.jobId ?? null,
       reason: job?.reason ?? null,
       retryable: job?.retryable ?? false,
@@ -294,6 +310,14 @@ export class JobQueue {
   /** Aborts everything in flight and stops admitting starts. The catalog stays the store's to close. */
   async close(): Promise<void> {
     this.closed = true;
+    this.store.transaction(() => {
+      for (const attemptId of this.attempts.keys())
+        this.store.catalog
+          .prepare(
+            "UPDATE jobs SET state='failed',reason='interrupted',retryable=1 WHERE attemptId=? AND state='running'",
+          )
+          .run(attemptId);
+    });
     for (const attempt of this.attempts.values()) attempt.controller.abort();
     await this.idle();
   }
@@ -319,8 +343,8 @@ export class JobQueue {
 
   private discard(jobId: string, reason: string): void {
     this.store.catalog
-      .prepare("UPDATE jobs SET state='canceled',reason=?,retryable=0 WHERE jobId=?")
-      .run(reason, jobId);
+      .prepare("UPDATE jobs SET state='canceled',reason=?,retryable=? WHERE jobId=?")
+      .run(reason, reason === "canceled" ? 1 : 0, jobId);
   }
 
   /** Takes the oldest startable job in a lane, dropping work whose take was discarded meanwhile. */
@@ -335,19 +359,21 @@ export class JobQueue {
           )
           .get(lane) as (JobRow & { recordingState: string }) | undefined;
         if (!row) return null;
-        if (row.recordingState === "canceled") {
+        const { recordingState, ...fields } = row;
+        if (recordingState === "canceled") {
           this.discard(row.jobId, "recording_unavailable");
           continue;
         }
         this.store.catalog.prepare("UPDATE jobs SET state='running' WHERE jobId=?").run(row.jobId);
-        return { ...toJob(row), state: "running" };
+        return { ...toJob(fields), state: "running" };
       }
     });
   }
 
   private run(job: Job): void {
     const controller = new AbortController();
-    const done = (async () => this.execute({ job, signal: controller.signal }))()
+    const done = Promise.resolve()
+      .then(() => this.execute({ job, signal: controller.signal }))
       .then(
         (result) => this.settle(job, { result }),
         (error: unknown) => this.settle(job, { error }),
@@ -374,8 +400,11 @@ export class JobQueue {
         const error = outcome.error;
         const retryable = !(error instanceof CatalogError) || error.retryable;
         this.store.catalog
-          .prepare("UPDATE jobs SET state='failed',reason=?,retryable=? WHERE jobId=?")
+          .prepare("UPDATE jobs SET state=?,reason=?,retryable=? WHERE jobId=?")
           .run(
+            error instanceof CatalogError && error.code === "UNAVAILABLE"
+              ? "unavailable"
+              : "failed",
             error instanceof Error ? error.message : String(error),
             retryable ? 1 : 0,
             job.jobId,
@@ -391,14 +420,11 @@ export class JobQueue {
         this.discard(job.jobId, "recording_unavailable");
         return;
       }
-      const previous = this.store.catalog
-        .prepare("SELECT generation FROM artifacts WHERE recordingId=? AND artifact=?")
-        .get(job.recordingId, job.artifact) as { generation: number } | undefined;
-      const generation = (previous?.generation ?? 0) + 1;
+      const generation = job.generation;
       this.store.catalog
         .prepare(
           `INSERT INTO artifacts(recordingId,artifact,generation,revisionId,input,result) VALUES (?,?,?,?,?,?)
-           ON CONFLICT(recordingId,artifact) DO UPDATE SET generation=excluded.generation,
+           ON CONFLICT(recordingId,revisionId,artifact,input) DO UPDATE SET generation=excluded.generation,
            revisionId=excluded.revisionId,input=excluded.input,result=excluded.result`,
         )
         .run(job.recordingId, job.artifact, generation, job.revisionId, job.input, outcome.result);

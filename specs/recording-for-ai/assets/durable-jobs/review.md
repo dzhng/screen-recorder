@@ -1,65 +1,40 @@
 # Durable artifact jobs — verification evidence
 
-Subpass: [06g](../../slices/06g-durable-jobs.md). Host: macOS 26.6.2 arm64,
-Node 24.14.0, Bun 1.3.14, Vitest 5.0.0. Branch `codex/durable-jobs`.
-Every catalog below is a real temporary SQLite database under `$TMPDIR`; every
-executor is the test's own held function. No media, model or native worker took part.
+The core queue uses real temporary SQLite catalogs and held asynchronous executors.
+No media, speech model or native worker is executed in these tests.
 
-## Commands
+## Integration correction
 
-| Command | Result |
-| --- | --- |
-| `vitest run --root packages/core` | 38 passed (3 files), including the 9 job tests below |
-| `tsc -p packages/core/tsconfig.check.json` | clean |
-| `oxlint packages/core` | clean |
-| `oxfmt --check` | clean for every file this pass touched |
-| `bun run check-types` | 10/10 workspace tasks successful |
-| `vitest run --root apps/service` | 44 passed — the same store through a real socket |
-| `vitest run --root apps/cli` | 3 passed — CLI/MCP over the same store |
+The initial delegated candidate deduplicated only queued/running work and did not
+include revision in its unique identity. Two focused regressions reproduced:
 
-## Behaviors pinned
+- Resubmitting a failed request started a new attempt without explicit retry.
+- Submitting the same parameters after an edit reused the old running revision.
 
-```
-✓ identical work is admitted once while it runs, and again only after it published
-✓ a restart fails the interrupted attempt, whose late answer cannot overwrite its retry
-✓ an edit during processing does not move the revision the work was admitted for
-✓ one heavy and two frame attempts run at once
-✓ a new heavy job waits while a take is capturing; frame work does not
-✓ canceling a running job frees its lane only once the work settles
-✓ work that outlives a discarded take publishes nothing and does not revive it
-✓ waiting work is bounded, while work already admitted still answers
-✓ a validated absence is not retryable, while an ordinary failure is
-```
+Both failed before correction and now pass. Work and published results are keyed
+by recording/revision/artifact/input. An existing completed or failed identity is
+returned unchanged. Explicit retries reserve a fresh generation before execution;
+late results cannot move it. Status requires the pinned identity.
 
-Determinism comes from acknowledged events, never elapsed time: an attempt is observed
-by the executor being called, and a settlement by the promise the test itself resolves.
-There is no sleep, timer or retry budget in the module or its tests.
+Additional checks cover results completing out of order across revisions and
+parameters, historical requests, permanent processing failures distinct from absent
+evidence, shutdown rejecting late success, retrying canceled work only after its old
+executor releases capacity, and an executor submitting more work without bypassing
+lane limits. Older tests that asserted synchronous executor invocation now await
+acknowledged starts; actual concurrency limits are unchanged.
 
-## Falsification ledger
+## Current checks
 
-Each guard was removed or inverted in turn, the suite re-run, and the failing tests
-recorded. No guard is unproved, and no test is insensitive to the guard it names.
+- Core: 46 tests pass, including 17 queue behaviors.
+- Core typecheck and focused lint pass.
+- A separate service worker pass already verifies cancellation and promise settlement
+  after native child closure; composing that runner with this queue is still open.
+- The original candidate's 38-core/44-service/3-CLI results predate these corrections;
+  they are not presented as integrated checks.
 
-| Broken | Tests that went red |
-| --- | --- |
-| Stale-attempt guard on publication | restart/late answer; cancellation |
-| Publication requires a present, non-discarded take | outlives a discarded take |
-| Heavy lane limit 1 → 2 | heavy/frame concurrency; cancellation; bounded admission |
-| Frame lane limit 2 → 3 | heavy/frame concurrency; outlives a discarded take |
-| Capture pauses new heavy work | heavy waits while capturing |
-| Queued admission bound | bounded admission |
-| Restart turns a running row into a retryable failure | restart/late answer |
-| Publication uses the pinned revision | edit during processing |
-| Submit deduplicates queued/running work | dedup; bounded admission |
-| Claim drops work whose take was discarded | outlives a discarded take |
-| Publication increments the artifact generation | dedup/republication |
-
-## What this does not show
-
-No transcription, frame decode, export or native worker exists yet, so nothing here
-says work of that kind succeeds, costs what it should, or reports honest reasons. Every
-published result was a string supplied by the test. Deletion is not implemented in core:
-the publication guard is proved through cancellation, and stopping a recording's work
-before removing its media remains future integration. Export dependency scheduling
-(waiting on evidence without holding a lane) and `ARTIFACT_CHANGED` pagination against a
-pinned generation are not implemented here.
+No real-process queue restart, service operations, generation-bound pagination,
+recording deletion or media executor integration is claimed. Reopen tests use two
+catalog handles to deliver an old executor's late answer; the production service
+still must enforce a single writer and one queue. Independent Codex review found no actionable regression and ran all 16 then-current
+queue tests plus the core typecheck. The additional unsupported-format regression
+also passes. Final integrated checks remain to be run.

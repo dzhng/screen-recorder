@@ -1,100 +1,60 @@
 # 06g — Durable artifact jobs
 
-Status: complete as a core subpass. The catalog that already owns recordings and
-revisions now also owns durable artifact jobs: bounded admission, deduplicated work,
-one automatic attempt with explicit retry, lane limits, capture priority, cancellation
-and restart reconciliation. Core type check, lint and 38 core tests pass, plus the 44
-service and 3 CLI tests that drive the same store. This does not close slice 06, and it
-implements no transcription, frame or export work: every executor in these tests is the
-test's own. Dependency: [06a](06a-revision-store.md)/[06d](06d-recording-lifecycle.md).
-Public module: `@screenrec/core/jobs`. Evidence:
+Status: core implementation under integration review. This does not close 06 or
+provide a media/transcription/export executor. Depends on 06a/06d. Evidence:
 [durable jobs review](../assets/durable-jobs/review.md).
 
-## Contract and owner
+## Ownership and identity
 
-`JobQueue` is the processing-state owner named in [architecture](../architecture.md).
-It keeps its tables in the connection `RevisionStore` already opened, so there is one
-catalog, one writer and no second database or daemon. `RevisionStore` exposes that
-connection and its transaction boundary for exactly this reason; recordings and
-revisions remain its own.
+`JobQueue` owns jobs/artifact publication in the same catalog connection and
+transaction boundary as `RevisionStore`. The app-managed service must own one
+queue, provide its executor, and close the queue before closing the catalog.
+There is no second database or daemon.
 
-- **Pinned identity.** Admission pins recording, artifact, the caller's canonical input
-  identity and the recording's current revision. An edit committed while work runs never
-  moves the pinned revision, and publication stamps the artifact with the identity the
-  work was admitted for plus a generation that increments per publication.
-- **One attempt, then an explicit retry.** Work queued or running for the same identity
-  is returned as it stands instead of doubled — enforced by a partial unique index, not
-  only by the read that precedes it. Nothing re-runs on its own. `retry` mints a fresh
-  attempt identity, and only an attempt that still owns its job may publish, so an
-  answer from an abandoned, canceled or restart-orphaned attempt is dropped.
-- **Bounded concurrency and capture priority.** One heavy and two frame attempts run at
-  once. No new heavy attempt starts while any take is still capturing; frame work is not
-  gated, because a live take's registered prefix is legitimately inspectable.
-- **Bounded admission.** Waiting work is durable, so the queue caps it and reports
-  `LIMIT_EXCEEDED` with `retryable`. Already-admitted identities still resolve when full.
-- **Nothing polls.** Starts happen on submission, retry, cancellation and settled
-  attempts; the owner calls `schedule()` after a reported capture transition. There is no
-  timer, no backoff and no automatic retry anywhere in the module.
-- **Cancellation costs what it costs.** A canceled job is canceled immediately and its
-  attempt is aborted, but its lane stays occupied until the work actually settles, so
-  capacity is never handed to a second attempt while the first is still using it.
-- **Restart.** A `running` row can only outlive the process that owned it, so opening the
-  catalog turns it into an explicit retryable failure rather than permanent ambiguity.
+A work identity contains recording, resolved revision, artifact kind and canonical
+input. Omitted revision resolves once at admission; historical requests retain
+the explicit revision. Status reads carry that exact identity. Different revisions
+or options cannot overwrite each other's artifacts, regardless of completion order.
 
-## Decisions taken here
+An identity gets one automatic attempt. Submitting it again returns its outcome,
+including ready, failed or canceled. Explicit retry creates a fresh attempt ID and
+reserves the next generation before execution. Only that attempt can publish. A
+missing recording or discarded take cannot receive a late result. Published results
+remain attached to their captured identity; they are not a mutable current-revision
+pointer.
 
-- **The queue extends the existing catalog rather than receiving a handle to it.**
-  `RevisionStore.catalog` and `RevisionStore.transaction` are public so sibling core
-  modules keep their tables in the one database. Recording reads still go through the
-  store's own methods, so the recordings table keeps exactly one owner.
-- **`input` is opaque to core.** The queue compares the caller's canonical input string
-  and never parses it, so no artifact schema is invented here for transcription, frames
-  or export to inherit later.
-- **Capture priority reuses `unsettled()`.** Any take that can still produce media pauses
-  new heavy work, rather than a second list of "capturing" states being re-derived here.
-  Startup reconciliation is what settles a stranded take, and with it this pause.
-- **A validated absence is a non-retryable failure.** An executor rejecting with a
-  non-retryable `CatalogError` reports `unavailable` with its reason and refuses retry;
-  every other rejection is a retryable failure. That is the whole vocabulary — no
-  separate outcome type, and core never decides on an adapter's behalf that an artifact
-  cannot exist.
-- **Publication requires a present, non-discarded take.** Core has no deletion yet, so
-  this guard is proved today through cancellation. Wiring deletion to cancel a
-  recording's jobs before removing its media stays future work in slice 06's library
-  family; the publication guard is the half that already holds.
-- **One queue per catalog.** Restart reconciliation runs when the queue opens, so a
-  second live queue on one catalog would fail the first's attempts. The service owns one.
+## Scheduling and failure
 
-## Verification
+One heavy and two frame workers may run concurrently. At most 32 additional jobs
+wait; overload reports retryable `LIMIT_EXCEEDED`. Already-admitted identities still
+resolve at capacity. The executor starts after its capacity is reserved, including
+when the executor itself requests other work.
 
-Real temporary SQLite catalogs, an injected executor whose every attempt is held open by
-the test, and acknowledged start/settle events rather than sleeps. Nine behaviors, each
-observed red before green, and each guard falsified once by breaking it and confirming
-the expected test — and only that test — went red. The falsification ledger and command
-output are in the [review](../assets/durable-jobs/review.md).
+Any unsettled capture pauses new heavy work. Frames for finalized recordings may
+proceed while another take records. The owner calls `schedule()` after capture
+transitions; job admission and settlement trigger the other scheduling opportunities.
+There is no polling or automatic retry.
 
-Covered: dedup while queued/running and a fresh job only after publication; a restart
-failing an interrupted attempt whose late answer cannot overwrite its retry; an edit
-during processing leaving the pinned revision alone while later work pins the new one;
-one heavy and two frame attempts at once with a freed frame slot not releasing a heavy
-one; heavy work waiting on capture while frame work proceeds; cancellation releasing its
-lane only once the work settled, with the late answer publishing nothing; work outliving
-a discarded take publishing nothing, not reviving it, and its queued sibling being
-dropped rather than started; bounded admission that still answers already-admitted
-identities and recovers capacity; and a validated absence refusing retry where an
-ordinary failure accepts one.
+Cancel requests abort immediately, but occupied capacity remains until the executor
+settles. Explicit retry can restart canceled work; repeated submission cannot. Queue
+shutdown marks its running attempts interrupted/retryable before requesting abort,
+so an executor ignoring abort cannot publish a successful shutdown result. The native
+runner must honor the signal and settle only after its child exits. Queued work stays
+durable; opening after a crash makes orphaned running work failed/retryable.
 
-This is queue proof only. No transcription, frame decode, export or native worker took
-part, no media was read, and every result published in these tests was a string the test
-supplied.
+Only an explicit `UNAVAILABLE` error represents absent evidence. Other permanent
+errors remain failed/non-retryable; ordinary executor errors are retryable failures.
+Unsupported development job formats are refused without migration.
 
-## Handoff
+## Verification and remaining integration
 
-Adapters compose this as: `submit` when an artifact is first wanted, `status` for
-readiness, `retry` on an explicit request, `cancel` when the caller withdraws, and
-`schedule()` after each ingested capture transition. Still open in slice 06 and its
-downstream slices: the transcription (08), frame (09) and export (14) executors, export
-jobs that wait on their evidence dependencies without holding a lane, `ARTIFACT_CHANGED`
-pagination against a pinned generation, deletion that stops work before removing media,
-and the service/CLI/MCP operations that expose any of this. None may introduce a second
-catalog or a background poller.
+Real SQLite catalogs and held executors exercise identity/reopen, late results,
+revision changes, historical reads, explicit retries, shutdown, reentrant scheduling,
+capture priority, admission limits and capacity retained through cancellation.
+No media or model is executed in these core tests.
+
+Still open: service/CLI/MCP bindings, native executors, source-evidence ingestion,
+derivative eviction, generation-bound pagination, recording deletion and export
+jobs waiting on dependencies without occupying an execution slot. Input strings
+and artifact results are internal adapter values; external schemas and media byte
+limits stay with their owning operations.
