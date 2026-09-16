@@ -68,7 +68,9 @@ Current evidence:
 - [Native controls](assets/recording-controls/integration.md): closed-menu state and
   clock follow actual own-window service-driven capture. Native UI interaction,
   display/region placement and physical audio remain unverified. Localhost browser
-  automation works; prior native UI attempts timed out or lacked screen access.
+  automation works. A [native gesture probe](assets/real-gesture-probe/review.md)
+  reached the fixture UI but recorded no inside cursor observations; physical
+  gesture acquisition remains unverified.
 - [Discovery](slices/15a-client-discovery.md) passes a built-app launch, not an
   installed-copy workflow. [Durable jobs](assets/durable-jobs/review.md) preserve
   attempt identity and retain capacity until workers exit.

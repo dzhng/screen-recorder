@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-16",
+  "recordingId": "8d1b0f8d-388f-467b-803e-f1aa76f765cd",
+  "durationUs": 29720493,
+  "microphone": false,
+  "systemAudio": false,
+  "captureTarget": "own Screen Recorder Capture Fixture window",
+  "cursorSamples": 1783,
+  "inside": 0,
+  "outside": 1783,
+  "requestedFrameUs": 6000000,
+  "actualFrameUs": 6015000,
+  "selectedTrailPoints": 0,
+  "cutoffs": [
+    {
+      "reason": "outside",
+      "atSourceUs": 5989023
+    }
+  ],
+  "hashes": {
+    "video.mov": "2ab587b75348ab5be596acc13210691281b410a5caa3e1c20e5b2cb97be52bbc",
+    "capture.journal.jsonl": "0ec20aadf16831d7d70f70c4d7c634613841ea567d1111577050a6a43a2ce68f"
+  },
+  "verdict": "real circle/wave acquisition not demonstrated"
+}
