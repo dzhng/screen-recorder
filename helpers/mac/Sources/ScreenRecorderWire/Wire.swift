@@ -37,13 +37,10 @@ public enum NativeWire {
                     let data = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
                     response = ["id": id, "ok": true, "data": data]
                 } catch let error as AudioFailure {
-                    response = failure(
-                        id: id, code: error.code, message: error.message,
-                        retryable: error.code == "NATIVE_DECODE_FAILED")
+                    response = failure(id: id, code: error.code, message: error.message)
                 } catch {
                     response = failure(
-                        id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription,
-                        retryable: true)
+                        id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription)
                 }
             } else if operation == "media.sourceEvidence" {
                 do {
@@ -65,7 +62,7 @@ public enum NativeWire {
                     response = failure(id: id, code: error.code, message: error.message)
                 } catch {
                     response = failure(
-                        id: id, code: "EVIDENCE_FAILED", message: "Cannot export cursor evidence.")
+                        id: id, code: "EVIDENCE_FAILED", message: "Cannot export source evidence.")
                 }
             } else if operation == "media.recover" {
                 if Set(params.keys) == ["directory"],
@@ -98,12 +95,10 @@ public enum NativeWire {
         return try! JSONSerialization.data(withJSONObject: response, options: [.sortedKeys])
     }
 
-    private static func failure(
-        id: String?, code: String, message: String, retryable: Bool = false
-    ) -> [String: Any] {
+    private static func failure(id: String?, code: String, message: String) -> [String: Any] {
         [
             "id": id as Any? ?? NSNull(), "ok": false,
-            "error": ["code": code, "message": message, "retryable": retryable, "details": [:]],
+            "error": ["code": code, "message": message, "retryable": code == "NATIVE_DECODE_FAILED", "details": [:]],
         ]
     }
 }

@@ -53,8 +53,8 @@ at the expected reason assertion; restoring production code returned it green.
 
 An incomplete generated fixture supplies acquired intervals but initially omits
 its audio container. Native decoding fails. The initial public test exposed that
-all native audio errors were classified terminal, preventing explicit recovery.
-The native wire now permits explicit retry for NATIVE_DECODE_FAILED only; invalid
+all native media errors were classified terminal, preventing explicit recovery.
+The shared native wire now permits explicit retry for NATIVE_DECODE_FAILED only; invalid
 request/range/output plans retain their terminal classification. This error family
 covers source access, AVFoundation decoding, resource allocation and output I/O;
 it contains no parameter-validation failures. Some media failures may persist,
@@ -79,3 +79,16 @@ and focused lint pass. Independent Codex review found no actionable regression;
 it did not run tests because it looked for a debug worker, while this pass's
 runtime evidence uses the packaged release worker explicitly. Documentation links
 remain reachable from the active spec through the public-audio slice.
+
+
+The same classification applies to frame and visual-sample decoding through the
+single wire failure helper. A frame missing-file assertion first failed because
+retryable was false; the shared policy turns it green while an invalid frame
+request stays terminal. This avoids divergent retry behavior for the same native
+failure family. Source-evidence fallback wording now names its full scope.
+
+With the shared policy, the rebuilt release passes all 29 native wire tests and
+all three public audio tests. Follow-up Codex review found no actionable regression;
+its sandbox blocked rebuilding and two existing frame decodes failed there. The
+host reran the same release's frame/visual tests successfully (all five), keeping
+sandbox observations separate from the host runtime proof.

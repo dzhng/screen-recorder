@@ -172,3 +172,45 @@ test("frame worker draws the supplied pointer and trail, or nothing at all", () 
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+test("frame decode failure permits explicit retry while invalid requests remain terminal", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-frame-errors-"));
+  try {
+    const params = {
+      source: join(directory, "absent.mov"),
+      output: join(directory, "frame.png"),
+      atSourceUs: 0,
+      kept: { startUs: 0, endUs: 1000000 },
+      maxLongEdge: 80,
+    };
+    const requests = [params, { ...params, atSourceUs: true }];
+    const run = spawnSync(executable, [], {
+      input:
+        requests
+          .map((params, index) =>
+            JSON.stringify({
+              id: String(index),
+              operation: "media.frame",
+              params,
+            }),
+          )
+          .join("\n") + "\n",
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(run.status, 0, run.stderr);
+    assert.deepEqual(
+      run.stdout
+        .trim()
+        .split("\n")
+        .map(JSON.parse)
+        .map((reply) => [reply.ok, reply.error.code, reply.error.retryable]),
+      [
+        [false, "NATIVE_DECODE_FAILED", true],
+        [false, "INVALID_REQUEST", false],
+      ],
+    );
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
