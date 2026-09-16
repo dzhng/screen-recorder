@@ -1,7 +1,8 @@
 # Incremental screenshot selection ledger
 
-Status: pure policy implemented; retained/public integration and visual acceptance remain
-in 11c. One core selection policy, no storage, renderer or transport owner.
+Status: the native stillness fixture reopens the equality contract; its bounded-noise
+implementation is in progress. Retained/public delivery is verified; visual and scale
+acceptance remain in 11c. One core selection policy, no storage, renderer or transport owner.
 See [verification and decisions](../assets/screenshot-index/selection-ledger.md).
 Feeds retained index production in 11c. Three independent drafts agreed on proving
 selection before adding publication; this slice resolves their policy gaps.
@@ -74,3 +75,27 @@ captured gesture and real UI threshold gates open.
 The [catalog stream](../assets/screenshot-index/catalog-stream.md) supplies bounded
 ordered source evidence to this ledger. Its separate scene traversal has linear
 startup reads on static sources; no additional boundary index is introduced.
+
+## Open decoder-noise gate
+
+The generated still page remains red. An independent RGB replay reproduces its exact
+encoded-video hash and measures 353 varying channels, total range 354, maximum range 2
+in integer eight-bit RGB values. Early reconstruction changes many channels; later
+one channel oscillates by one unit. The [measurements](../assets/scene-analysis/stillness-envelope.json)
+show why merely tolerating one aggregate difference cannot close the original fixture.
+
+Three independent drafts agreed that adjacent absolute means cannot distinguish
+oscillation from cumulative drift. The pending implementation uses source-global
+stillness runs, with per-channel min/max carried across canonical chunks. Permit at
+most two eight-bit levels of range per channel over the whole run (under 1% of a full
+channel); a third level starts a new run. The allowance never resets at ordinary
+coverage deadlines. Scene-boundary thresholds remain unchanged. This deliberately
+permits true changes within that narrow envelope to collapse, while preserving the
+source and arbitrary timestamp inspection.
+
+The source processor retries from zero after failure, so no persisted RGB checkpoint
+or per-frame RGB table is needed. Persist bounded run identifiers with coverage and
+stream them into the existing selector. Version source/selection policies; old or
+missing proof, gaps and out-of-kept observations remain conservative. Prove unchanged
+native stillness, oscillation, monotonic drift, small-feature change, chunk overlap,
+cut filtering and event preservation before replacing the exact-zero rule above.

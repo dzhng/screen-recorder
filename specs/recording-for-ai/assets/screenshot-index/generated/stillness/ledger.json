@@ -1,27 +1,27 @@
 {
   "name": "stillness",
-  "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
+  "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
   "revisionId": "r0",
-  "generation": "b2a5f27c-e558-4e0e-86c8-cc68775af471",
+  "generation": "5bb62053-94b4-4c49-ad22-03d0d7a82b20",
   "durationUs": 16000000,
   "metadata": {
-    "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-    "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
+    "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+    "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
     "revisionId": "r0",
-    "generation": "b2a5f27c-e558-4e0e-86c8-cc68775af471",
+    "generation": "5bb62053-94b4-4c49-ad22-03d0d7a82b20",
     "sourceIdentity": {
-      "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-      "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-      "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2"
+      "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+      "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+      "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298"
     },
     "sceneIdentity": {
-      "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-      "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-      "generation": "7c10edce-6cc4-4637-a161-4772459403c2",
+      "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+      "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+      "generation": "1d5fe901-f26e-41ac-8fce-a9a7a69c94e6",
       "policy": "rgb-spatial-change-v1"
     },
     "selectionPolicy": "sampled-evidence-selection-v1",
-    "framePolicy": "frame-v2",
+    "framePolicy": "frame-v3",
     "trailPolicy": "requested-time-trail-v1",
     "durationUs": 16000000,
     "candidateCount": 5,
@@ -30,9 +30,9 @@
   },
   "sourceHashes": {
     "video": "c6026409ee3dcf9a80b35acc39d47d0f194d226fa3445550f6b728ed34c518a5",
-    "journal": "ac3258260bdfeac93cdf8db39428eefd20ec2d101cda212fab895289f38bb50f"
+    "journal": "cf5b16f4ac7d08cb70510861de7e6b9e6fb02262cb7def7d44967ac161f5532f"
   },
-  "elapsedMs": 3924.45575,
+  "elapsedMs": 1996.279959,
   "selectedCount": 5,
   "retainedBytes": 493646,
   "checks": {
@@ -51,6 +51,7 @@
   "contactSheets": [
     "contact-01.png"
   ],
+  "crops": [],
   "entries": [
     {
       "candidate": {
@@ -68,14 +69,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2"
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298"
         },
         "sceneIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "7c10edce-6cc4-4637-a161-4772459403c2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "1d5fe901-f26e-41ac-8fce-a9a7a69c94e6",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 0
@@ -84,7 +85,7 @@
         "actualSourceUs": 0,
         "bytes": 129410,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-stillness-ITktAl/recordings/b1302ac2-4ace-4093-8f3c-8fcf7297f94b/evidence/index/5c6b358a71bf6d89840e0e00e08dd78f296f0fbc0dcd406a1c57709e23f7f925/0.png",
+        "file": "/private/tmp/scr-index-stillness-dYq4w1/recordings/1d655623-0f43-4cd3-ae76-f5ac138152b3/evidence/index/dd366a1c49ca48b1c8b2d5a7a64c80af102464330add947e5141a1158010fd54/0.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -94,8 +95,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-        "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+        "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
         "revisionId": "r0",
         "requestedPlaybackUs": 0,
         "actualPlaybackUs": 0,
@@ -164,9 +165,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -178,9 +179,9 @@
       },
       "coverageCount": 1,
       "reference": {
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
         "revisionId": "r0",
-        "generation": "b2a5f27c-e558-4e0e-86c8-cc68775af471",
+        "generation": "5bb62053-94b4-4c49-ad22-03d0d7a82b20",
         "ordinal": 0
       },
       "bytes": 129410,
@@ -203,14 +204,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2"
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298"
         },
         "sceneIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "7c10edce-6cc4-4637-a161-4772459403c2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "1d5fe901-f26e-41ac-8fce-a9a7a69c94e6",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 1
@@ -219,7 +220,7 @@
         "actualSourceUs": 5000000,
         "bytes": 91072,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-stillness-ITktAl/recordings/b1302ac2-4ace-4093-8f3c-8fcf7297f94b/evidence/index/5c6b358a71bf6d89840e0e00e08dd78f296f0fbc0dcd406a1c57709e23f7f925/1.png",
+        "file": "/private/tmp/scr-index-stillness-dYq4w1/recordings/1d655623-0f43-4cd3-ae76-f5ac138152b3/evidence/index/dd366a1c49ca48b1c8b2d5a7a64c80af102464330add947e5141a1158010fd54/1.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -229,8 +230,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-        "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+        "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
         "revisionId": "r0",
         "requestedPlaybackUs": 5000000,
         "actualPlaybackUs": 5000000,
@@ -445,9 +446,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -459,9 +460,9 @@
       },
       "coverageCount": 1,
       "reference": {
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
         "revisionId": "r0",
-        "generation": "b2a5f27c-e558-4e0e-86c8-cc68775af471",
+        "generation": "5bb62053-94b4-4c49-ad22-03d0d7a82b20",
         "ordinal": 1
       },
       "bytes": 91072,
@@ -484,14 +485,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2"
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298"
         },
         "sceneIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "7c10edce-6cc4-4637-a161-4772459403c2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "1d5fe901-f26e-41ac-8fce-a9a7a69c94e6",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 2
@@ -500,7 +501,7 @@
         "actualSourceUs": 10000000,
         "bytes": 91072,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-stillness-ITktAl/recordings/b1302ac2-4ace-4093-8f3c-8fcf7297f94b/evidence/index/5c6b358a71bf6d89840e0e00e08dd78f296f0fbc0dcd406a1c57709e23f7f925/2.png",
+        "file": "/private/tmp/scr-index-stillness-dYq4w1/recordings/1d655623-0f43-4cd3-ae76-f5ac138152b3/evidence/index/dd366a1c49ca48b1c8b2d5a7a64c80af102464330add947e5141a1158010fd54/2.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -510,8 +511,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-        "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+        "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
         "revisionId": "r0",
         "requestedPlaybackUs": 10000000,
         "actualPlaybackUs": 10000000,
@@ -726,9 +727,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -740,9 +741,9 @@
       },
       "coverageCount": 1,
       "reference": {
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
         "revisionId": "r0",
-        "generation": "b2a5f27c-e558-4e0e-86c8-cc68775af471",
+        "generation": "5bb62053-94b4-4c49-ad22-03d0d7a82b20",
         "ordinal": 2
       },
       "bytes": 91072,
@@ -765,14 +766,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2"
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298"
         },
         "sceneIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "7c10edce-6cc4-4637-a161-4772459403c2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "1d5fe901-f26e-41ac-8fce-a9a7a69c94e6",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 3
@@ -781,7 +782,7 @@
         "actualSourceUs": 15000000,
         "bytes": 91072,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-stillness-ITktAl/recordings/b1302ac2-4ace-4093-8f3c-8fcf7297f94b/evidence/index/5c6b358a71bf6d89840e0e00e08dd78f296f0fbc0dcd406a1c57709e23f7f925/3.png",
+        "file": "/private/tmp/scr-index-stillness-dYq4w1/recordings/1d655623-0f43-4cd3-ae76-f5ac138152b3/evidence/index/dd366a1c49ca48b1c8b2d5a7a64c80af102464330add947e5141a1158010fd54/3.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -791,8 +792,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-        "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+        "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
         "revisionId": "r0",
         "requestedPlaybackUs": 15000000,
         "actualPlaybackUs": 15000000,
@@ -1007,9 +1008,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -1021,9 +1022,9 @@
       },
       "coverageCount": 1,
       "reference": {
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
         "revisionId": "r0",
-        "generation": "b2a5f27c-e558-4e0e-86c8-cc68775af471",
+        "generation": "5bb62053-94b4-4c49-ad22-03d0d7a82b20",
         "ordinal": 3
       },
       "bytes": 91072,
@@ -1046,14 +1047,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2"
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298"
         },
         "sceneIdentity": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "7c10edce-6cc4-4637-a161-4772459403c2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "1d5fe901-f26e-41ac-8fce-a9a7a69c94e6",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 4
@@ -1062,7 +1063,7 @@
         "actualSourceUs": 15750000,
         "bytes": 91020,
         "distanceUs": 249999,
-        "file": "/private/tmp/scr-index-stillness-ITktAl/recordings/b1302ac2-4ace-4093-8f3c-8fcf7297f94b/evidence/index/5c6b358a71bf6d89840e0e00e08dd78f296f0fbc0dcd406a1c57709e23f7f925/4.png",
+        "file": "/private/tmp/scr-index-stillness-dYq4w1/recordings/1d655623-0f43-4cd3-ae76-f5ac138152b3/evidence/index/dd366a1c49ca48b1c8b2d5a7a64c80af102464330add947e5141a1158010fd54/4.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -1072,8 +1073,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-        "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+        "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
         "revisionId": "r0",
         "requestedPlaybackUs": 15999999,
         "actualPlaybackUs": 15750000,
@@ -1280,9 +1281,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
-          "sourceId": "e1d38a7a-b9a4-41a5-9ac1-24092b01ec36",
-          "generation": "8451b751-0b3b-4e00-8fe1-8514244c9af2",
+          "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
+          "sourceId": "567f9e14-40eb-4c38-8489-04d084f26d4c",
+          "generation": "4c0afc6b-31e2-454b-9aab-8820f9e5f298",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -1294,9 +1295,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "b1302ac2-4ace-4093-8f3c-8fcf7297f94b",
+        "recordingId": "1d655623-0f43-4cd3-ae76-f5ac138152b3",
         "revisionId": "r0",
-        "generation": "b2a5f27c-e558-4e0e-86c8-cc68775af471",
+        "generation": "5bb62053-94b4-4c49-ad22-03d0d7a82b20",
         "ordinal": 4
       },
       "bytes": 91020,

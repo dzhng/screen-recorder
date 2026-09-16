@@ -10,7 +10,7 @@ import {
   type TimelineRevision,
 } from "./timeline.js";
 
-export const framePolicy = "frame-v2";
+export const framePolicy = "frame-v3";
 
 export type FrameCrop = { x: number; y: number; width: number; height: number };
 export type NativeFrame = {
@@ -54,6 +54,7 @@ export type MaterializedFrame = NativeFrame & {
   clean: boolean;
   annotation: ReturnType<typeof summarizeAnnotation> | null;
   sourceEvidence: ReturnType<typeof summarizeSource> | null;
+  selectionEndUs?: number;
 };
 export type FrameRenderOptions = {
   atUs: number;
@@ -69,6 +70,8 @@ export type FrameMaterializationInput = FrameRenderOptions & {
   revision: TimelineRevision;
   source: string;
   output: string;
+  /** Before-event images exclude samples at or after this source-time ceiling. */
+  selectionEndUs?: number;
 };
 
 function summarizeSource(source: SourceEvidenceMetadata) {
@@ -137,6 +140,17 @@ export async function materializeFrame(
   const { revision, source, output } = input;
   const mapped = editedToSource(revision, input.atUs);
   if (!mapped) throw new CatalogError("INVALID_RANGE", "Frame time is outside the pinned revision");
+  const selectionEndUs = input.selectionEndUs ?? mapped.span.source.endUs;
+  if (
+    !Number.isSafeInteger(selectionEndUs) ||
+    selectionEndUs <= mapped.sourceUs ||
+    selectionEndUs > mapped.span.source.endUs
+  )
+    throw new CatalogError(
+      "INVALID_RANGE",
+      "Frame selection ceiling must contain the request within its retained span",
+    );
+  const selection = { ...mapped.span.source, endUs: selectionEndUs };
   if (!input.clean && !input.sourceEvidence)
     throw new CatalogError("UNAVAILABLE", "Annotated frames require pinned source evidence");
   signal.throwIfAborted();
@@ -145,7 +159,7 @@ export async function materializeFrame(
     : await planFrameTrail(
         {
           source,
-          kept: mapped.span.source,
+          kept: selection,
           requestedSourceUs: mapped.sourceUs,
           trailUs: input.trailUs,
         },
@@ -161,7 +175,7 @@ export async function materializeFrame(
       source,
       output,
       atSourceUs: mapped.sourceUs,
-      kept: mapped.span.source,
+      kept: selection,
       maxLongEdge: input.maxLongEdge,
       ...(input.crop ? { crop: input.crop } : {}),
       ...(annotation ? { overlay: annotation.overlay } : {}),
@@ -172,11 +186,11 @@ export async function materializeFrame(
   if (
     !Number.isSafeInteger(frame.actualSourceUs) ||
     frame.actualSourceUs < mapped.span.source.startUs ||
-    frame.actualSourceUs >= mapped.span.source.endUs
+    frame.actualSourceUs >= selection.endUs
   )
     throw new CatalogError(
       "INVALID_RESPONSE",
-      "Decoder returned a frame outside the retained interval",
+      "Decoder returned a frame outside the allowed selection interval",
     );
   if (annotation) {
     const runs = annotation.overlay.trail;
@@ -222,6 +236,7 @@ export async function materializeFrame(
     requestedPlaybackUs: input.atUs,
     actualPlaybackUs,
     kept: mapped.span.source,
+    ...(input.selectionEndUs === undefined ? {} : { selectionEndUs }),
     clean: input.clean,
     annotation: annotation ? summarizeAnnotation(annotation) : null,
     sourceEvidence: input.sourceEvidence ? summarizeSource(input.sourceEvidence) : null,

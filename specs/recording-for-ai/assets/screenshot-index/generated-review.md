@@ -14,20 +14,19 @@ with a new ledger.
 
 ## Outcome
 
-**Two product gates are red:** lossy stillness does not collapse to two mandatory
-endpoints, and before-scene requests decode the new page rather than the preceding
-state. Neither the encoder nor expected counts were changed. Other fixture mechanics
-and all coverage checks passed. Product fixes and final acceptance remain with the
-parent implementation.
+**Stillness collapse remains red.** The current run preserves actual before/after
+scene images after the [selection-ceiling correction](before-event/review.md).
+Neither fixture encoding nor the expected stillness count changed. All coverage,
+gesture, click and retained-cut checks pass; full parent acceptance remains open.
 
 | Generated input | Selected images | Unique rendered PNGs | Evidence |
 | --- | ---: | ---: | --- |
 | Circle and wave on a static page | 5 | 5 | Both emphasis endpoints selected |
 | Still page, pointer known outside | 5 | 3 | Expected two mandatory endpoints; failed |
-| Navigation between pages | 7 | 7 | Both reasons retained; both actual before images show the new page |
+| Navigation between pages | 7 | 7 | Both actual sides match independent transition times |
 | Three rapid clicks | 6 | 6 | All button-down observations retained |
 | Edited join followed by pointing | 5 | 5 | Removed source interval absent; eight seconds covered |
-| Rapid full-page changes | 32 | 16 | All thirty reasons retained; fifteen actual before images show the new page |
+| Rapid full-page changes | 32 | 32 | All thirty reasons and actual sides retained |
 | Continuous local motion | 3 | 3 | Three coverage/endpoints; no detected scene boundary |
 
 The moving-element fixture keeps the page stable and names the motion region in
@@ -50,11 +49,11 @@ selection tolerance or encoder setting was altered to produce a green report.
 Independent truth supplies each encoded page transition. Every selected before
 image must decode before that transition, within the preceding page's interval;
 every after image must decode within the following interval. Both navigation
-boundaries and all fifteen rapid-change boundaries fail the before-image check:
-requesting boundary minus one microsecond selects the nearest future image at the
-boundary. Reason tags alone therefore do not prove preservation of both states.
-The strengthened checks were replayed against the delivered frame receipts and
-retain the red result; source and output pixels were not changed.
+boundaries and all fifteen rapid-change boundaries originally failed this check:
+requesting boundary minus one microsecond selected the nearest future image at the
+boundary. Reason tags alone did not prove preservation of both states. The current
+run passes all seventeen before-side checks using an exclusive native selection
+ceiling; the accompanying pixel comparison proves that the delivered images changed.
 
 Fresh review inspected all thirteen sheets and both focus crops. The circle/wave
 are readable. The periodic moving-element fixture returns near the same phase at
@@ -66,13 +65,12 @@ source request, actual decoded source, edited playback and coverage-window count
 
 ## Verification boundary
 
-The run used the committed service baseline `48977d5`; its bundle hash, FFmpeg/Node
-versions, host and input dimensions are in the measurements. All seven scenarios
-completed in 37.65 seconds, then the test exited nonzero on the stated stillness
-assertion. Source video/journal hashes stayed unchanged. All owned apps and child
-processes were reaped. The artifacts contain 63 delivered PNGs, thirteen contact
-sheets and two exact diagnostic crops. Each delivered PNG was decoded into the
-expected raster dimensions for its sheet; listing used at most three entries and
+The current run includes requested-time observation reuse and the before-event
+selection ceiling. Its bundle hash, FFmpeg/Node versions, host and input dimensions
+are in the measurements. All seven scenarios completed; the lab exited nonzero only
+for stillness collapse. Source video/journal hashes stayed unchanged and all owned
+processes were reaped. The artifacts retain 63 delivered PNGs, thirteen contact
+sheets and two exact diagnostic crops. Listing uses at most three entries and
 coverage at most two rows per page.
 
 The extracted page/font owner preserves both original raster variants byte for

@@ -302,6 +302,10 @@ export class IndexProcessing {
         signal.throwIfAborted();
         if (row.kind === "coverage") await this.index.appendCoverage(identity, row);
         else {
+          const selectionEndUs = row.reasons.reduce(
+            (end, reason) => (reason.side === "before" ? Math.min(end, reason.eventSourceUs) : end),
+            row.kept.endUs,
+          );
           const frame = await materializeFrame(
             {
               recordingId: job.recordingId,
@@ -310,6 +314,7 @@ export class IndexProcessing {
               source: join(this.home, "recordings", job.recordingId, "source", "video.mov"),
               output: this.index.outputPath(identity, row.ordinal),
               atUs: row.requestedPlaybackUs,
+              ...(selectionEndUs < row.kept.endUs ? { selectionEndUs } : {}),
               maxLongEdge: 1600,
               crop: null,
               clean: false,

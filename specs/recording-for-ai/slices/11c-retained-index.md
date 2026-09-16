@@ -6,8 +6,11 @@ selection usefulness and scale acceptance remain open. See [retained storage](..
 [orchestration](../assets/screenshot-index/orchestration.md), and
 [public delivery evidence](../assets/screenshot-index/public-delivery.md). The
 [performance audit](../assets/screenshot-index/performance.md) records an incomplete
-long-source baseline and the overlapping-observation work that must be reduced
-before repeating the full gate.
+long-source baseline; requested-time reuse now passes native byte parity and needs
+the full rerun. The [generated review](../assets/screenshot-index/generated-review.md)
+and [before-event correction](../assets/screenshot-index/before-event/review.md) retain
+visual findings. Still-screen equality remains red; its tolerances must bound
+cumulative drift, not merely accept a small difference at every step.
 
 IndexProcessing pins revision, source/scene generations and selection/rendering
 policies before admission. One producer streams selection into bounded catalog rows

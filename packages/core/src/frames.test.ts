@@ -806,3 +806,60 @@ test("materialization writes retained output with shared cut mapping and annotat
   expect(await readFile(clean.file, "utf8")).toBe("frame");
   expect(await readFile(annotated.file, "utf8")).toBe("frame");
 });
+
+test("a before-event image excludes the nearer sample on the far side of its boundary", async () => {
+  const f = await fixture();
+  const input = {
+    recordingId: f.take.recordingId,
+    sourceId: f.take.sourceId,
+    revision: f.store.revision(f.take.recordingId),
+    source: f.original,
+    output: join(dirname(f.original), "before.png"),
+    atUs: 499,
+    maxLongEdge: 1600,
+    crop: null,
+    clean: true,
+    trailUs: 0,
+    sourceEvidence: null,
+    selectionEndUs: 500,
+  };
+  const decode: FrameDecoder = async (request, signal) => {
+    const receipt = await f.decode(request, signal);
+    const actualSourceUs = request.kept.endUs <= 500 ? 400 : 500;
+    return {
+      ...receipt,
+      actualSourceUs,
+      distanceUs: Math.abs(actualSourceUs - request.atSourceUs),
+    };
+  };
+  const result = await materializeFrame(
+    input,
+    { decode, evidence: f.evidence, sample: f.sample },
+    new AbortController().signal,
+  );
+  expect(result.actualSourceUs).toBe(400);
+  expect(result.actualPlaybackUs).toBe(400);
+  await expect(
+    materializeFrame(
+      input,
+      {
+        evidence: f.evidence,
+        sample: f.sample,
+        decode: async (request, signal) => ({
+          ...(await f.decode(request, signal)),
+          actualSourceUs: 500,
+          distanceUs: 1,
+        }),
+      },
+      new AbortController().signal,
+    ),
+  ).rejects.toThrow("allowed selection interval");
+  expect(result.kept).toEqual({ startUs: 0, endUs: 1000 });
+  await expect(
+    materializeFrame(
+      { ...input, selectionEndUs: 499 },
+      { decode, evidence: f.evidence, sample: f.sample },
+      new AbortController().signal,
+    ),
+  ).rejects.toThrow("selection");
+});

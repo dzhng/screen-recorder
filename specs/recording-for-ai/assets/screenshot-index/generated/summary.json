@@ -6,9 +6,9 @@
     "release": "25.6.0",
     "arch": "arm64"
   },
-  "bundledServiceSha256": "06f0c9d3d273a001dd51feeb4b604f0dfc9b7b9405e6dffddaa79229cad46b13",
+  "bundledServiceSha256": "750a90cde78314e3f6c8a4c8197be4f3cd9b2853bac0299736b5db700c7475f5",
   "node": "v24.14.0",
-  "revision": "48977d5ec8c289231acc2735e989519e03f2da87",
+  "revision": "5f5493cc82f243af4e6282c3619c7748216e8f50",
   "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
   "width": 1280,
   "height": 800,
@@ -18,7 +18,7 @@
     {
       "name": "static-pointing",
       "selectedCount": 5,
-      "elapsedMs": 2986.896291,
+      "elapsedMs": 1841.0847919999999,
       "retainedBytes": 594425,
       "checks": {
         "retainedFramesValid": true,
@@ -73,7 +73,7 @@
     {
       "name": "stillness",
       "selectedCount": 5,
-      "elapsedMs": 3924.45575,
+      "elapsedMs": 1996.279959,
       "retainedBytes": 493646,
       "checks": {
         "retainedFramesValid": true,
@@ -90,20 +90,21 @@
       },
       "contactSheets": [
         "contact-01.png"
-      ]
+      ],
+      "crops": []
     },
     {
       "name": "navigation",
       "selectedCount": 7,
-      "elapsedMs": 4456.281416000002,
-      "retainedBytes": 839828,
+      "elapsedMs": 2047.1337919999996,
+      "retainedBytes": 811125,
       "checks": {
         "retainedFramesValid": true,
         "retainedCoverageValid": true,
         "firstLast": true,
         "coverageContiguous": true,
         "coverageEndUs": 10000000,
-        "uniqueActualSourceTimes": 5,
+        "uniqueActualSourceTimes": 7,
         "uniqueRenderedImages": 7,
         "expectedPlaybackDurationUs": 10000000,
         "coverageComplete": true,
@@ -112,18 +113,18 @@
             "atSourceUs": 3000000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 3000000,
+            "beforeActualSourceUs": 2750000,
             "afterActualSourceUs": 3000000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 6000000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 6000000,
+            "beforeActualSourceUs": 5750000,
             "afterActualSourceUs": 6000000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           }
         ]
@@ -131,12 +132,13 @@
       "contactSheets": [
         "contact-01.png",
         "contact-02.png"
-      ]
+      ],
+      "crops": []
     },
     {
       "name": "rapid-clicks",
       "selectedCount": 6,
-      "elapsedMs": 2993.10175,
+      "elapsedMs": 1682.009833000001,
       "retainedBytes": 693931,
       "checks": {
         "retainedFramesValid": true,
@@ -166,12 +168,13 @@
       },
       "contactSheets": [
         "contact-01.png"
-      ]
+      ],
+      "crops": []
     },
     {
       "name": "edited-join",
       "selectedCount": 5,
-      "elapsedMs": 2882.709583,
+      "elapsedMs": 2927.2657500000005,
       "retainedBytes": 554939,
       "checks": {
         "retainedFramesValid": true,
@@ -187,13 +190,14 @@
       },
       "contactSheets": [
         "contact-01.png"
-      ]
+      ],
+      "crops": []
     },
     {
       "name": "rapid-scene-stress",
       "selectedCount": 32,
-      "elapsedMs": 13593.706540999996,
-      "retainedBytes": 3992203,
+      "elapsedMs": 10954.780625000001,
+      "retainedBytes": 4001894,
       "checks": {
         "retainedFramesValid": true,
         "retainedCoverageValid": true,
@@ -209,135 +213,135 @@
             "atSourceUs": 250000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 250000,
+            "beforeActualSourceUs": 0,
             "afterActualSourceUs": 250000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 500000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 500000,
+            "beforeActualSourceUs": 250000,
             "afterActualSourceUs": 500000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 750000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 750000,
+            "beforeActualSourceUs": 500000,
             "afterActualSourceUs": 750000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 1000000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 1000000,
+            "beforeActualSourceUs": 750000,
             "afterActualSourceUs": 1000000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 1250000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 1250000,
+            "beforeActualSourceUs": 1000000,
             "afterActualSourceUs": 1250000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 1500000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 1500000,
+            "beforeActualSourceUs": 1250000,
             "afterActualSourceUs": 1500000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 1750000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 1750000,
+            "beforeActualSourceUs": 1500000,
             "afterActualSourceUs": 1750000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 2000000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 2000000,
+            "beforeActualSourceUs": 1750000,
             "afterActualSourceUs": 2000000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 2250000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 2250000,
+            "beforeActualSourceUs": 2000000,
             "afterActualSourceUs": 2250000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 2500000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 2500000,
+            "beforeActualSourceUs": 2250000,
             "afterActualSourceUs": 2500000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 2750000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 2750000,
+            "beforeActualSourceUs": 2500000,
             "afterActualSourceUs": 2750000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 3000000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 3000000,
+            "beforeActualSourceUs": 2750000,
             "afterActualSourceUs": 3000000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 3250000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 3250000,
+            "beforeActualSourceUs": 3000000,
             "afterActualSourceUs": 3250000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 3500000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 3500000,
+            "beforeActualSourceUs": 3250000,
             "afterActualSourceUs": 3500000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           },
           {
             "atSourceUs": 3750000,
             "before": true,
             "after": true,
-            "beforeActualSourceUs": 3750000,
+            "beforeActualSourceUs": 3500000,
             "afterActualSourceUs": 3750000,
-            "beforeFrameMatches": false,
+            "beforeFrameMatches": true,
             "afterFrameMatches": true
           }
         ],
@@ -354,12 +358,13 @@
         "contact-04.png",
         "contact-05.png",
         "contact-06.png"
-      ]
+      ],
+      "crops": []
     },
     {
       "name": "continuous-motion",
       "selectedCount": 3,
-      "elapsedMs": 1942.1153750000012,
+      "elapsedMs": 1263.516334,
       "retainedBytes": 323473,
       "checks": {
         "retainedFramesValid": true,
@@ -380,7 +385,8 @@
       },
       "contactSheets": [
         "contact-01.png"
-      ]
+      ],
+      "crops": []
     }
   ]
 }

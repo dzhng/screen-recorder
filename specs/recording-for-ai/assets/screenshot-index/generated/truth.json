@@ -6,9 +6,9 @@
     "release": "25.6.0",
     "arch": "arm64"
   },
-  "bundledServiceSha256": "06f0c9d3d273a001dd51feeb4b604f0dfc9b7b9405e6dffddaa79229cad46b13",
+  "bundledServiceSha256": "750a90cde78314e3f6c8a4c8197be4f3cd9b2853bac0299736b5db700c7475f5",
   "node": "v24.14.0",
-  "revision": "48977d5ec8c289231acc2735e989519e03f2da87",
+  "revision": "5f5493cc82f243af4e6282c3619c7748216e8f50",
   "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
   "width": 1280,
   "height": 800,
@@ -46,7 +46,8 @@
           "description": "Observed stationary pointer after the wave"
         }
       ],
-      "cut": []
+      "cut": [],
+      "retained": null
     },
     {
       "name": "stillness",
@@ -61,7 +62,8 @@
           "description": "Identical clean page and known outside pointer throughout"
         }
       ],
-      "cut": []
+      "cut": [],
+      "retained": null
     },
     {
       "name": "navigation",
@@ -78,7 +80,8 @@
           "description": "Screen B changes back to Screen A"
         }
       ],
-      "cut": []
+      "cut": [],
+      "retained": null
     },
     {
       "name": "rapid-clicks",
@@ -100,7 +103,8 @@
           "description": "Press on UPGRADE; releases 75 ms later"
         }
       ],
-      "cut": []
+      "cut": [],
+      "retained": null
     },
     {
       "name": "edited-join",
@@ -167,7 +171,8 @@
           "description": "Every encoded frame alternates the full page; deliberately exposes mandatory boundary density"
         }
       ],
-      "cut": []
+      "cut": [],
+      "retained": null
     },
     {
       "name": "continuous-motion",
@@ -188,7 +193,8 @@
           "description": "A coral marker follows a smooth five-second horizontal sine path inside the lower panel; the rest of Screen A remains unchanged"
         }
       ],
-      "cut": []
+      "cut": [],
+      "retained": null
     }
   ]
 }

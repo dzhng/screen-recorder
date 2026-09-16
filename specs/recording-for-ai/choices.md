@@ -992,3 +992,31 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   without being mislabeled as disposable cache entries or creating another transport.
   **Verdict:** Sound; storage ownership stays separate from byte transfer.
   **Confidence:** High.
+
+## Index workload and before-event images — 2026-09-16
+
+### Sound — high confidence
+
+- **Choice:** Reuse native observations by requested timestamp while retaining
+  bounded batch files. When two trail windows overlap, lookups point to the already
+  decoded slots and only missing timestamps reach native decoding. Source path,
+  exact kept bounds and policy still distinguish requests: a before-event prefix
+  must not borrow a future frame selected with wider bounds. Concurrent overlap
+  retains the first publication for shared keys; empty losing files are removed.
+  **Gap:** The long-source workload exposed repeated decoding hidden by whole-batch
+  matching. **Reach:** This supersedes that earlier lookup decision; batch storage,
+  LRU accounting and cascading lookup cleanup remain. Old disposable lookup rows are
+  dropped, while their files stay accounted until ordinary eviction.
+  **Verdict:** Sound; bounded reuse reduces measured repetition without changing
+  selection or adding another cache. **Confidence:** High.
+
+- **Choice:** Keep a before-event image request immediately before the event, but
+  forbid the decoder from choosing a sample at or after it. For example, requesting
+  2.999999 seconds before a page change at 3 seconds now selects the preceding frame
+  at 2.75 seconds, even though the new page is nearer. The delivered metadata keeps
+  the revision's span and names the extra selection ceiling separately.
+  **Gap:** A timestamp on the earlier side does not guarantee nearest-frame decoding
+  returns an earlier image. **Reach:** Annotation planning and image decoding share
+  the same ceiling, so their receipts agree and callers can inspect both states.
+  **Verdict:** Sound; it fixes the actual earlier-side contract without inventing
+  cursor timing or changing arbitrary-frame requests. **Confidence:** High.

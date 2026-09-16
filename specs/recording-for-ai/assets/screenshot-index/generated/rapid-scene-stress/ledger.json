@@ -1,40 +1,40 @@
 {
   "name": "rapid-scene-stress",
-  "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+  "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
   "revisionId": "r0",
-  "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+  "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
   "durationUs": 4000000,
   "metadata": {
-    "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-    "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+    "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+    "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
     "revisionId": "r0",
-    "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+    "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
     "sourceIdentity": {
-      "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-      "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-      "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+      "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+      "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+      "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
     },
     "sceneIdentity": {
-      "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-      "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-      "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+      "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+      "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+      "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
       "policy": "rgb-spatial-change-v1"
     },
     "selectionPolicy": "sampled-evidence-selection-v1",
-    "framePolicy": "frame-v2",
+    "framePolicy": "frame-v3",
     "trailPolicy": "requested-time-trail-v1",
     "durationUs": 4000000,
     "candidateCount": 32,
     "coverageCount": 1,
-    "bytes": 3992203
+    "bytes": 4001894
   },
   "sourceHashes": {
     "video": "097b6d6091d851a72e9cd1e9a08ceeee0fc956de6fb6a533958302117d46e0f1",
-    "journal": "135f734a0cb8d54cfe28bb357664ed7edfdfa419187f8e93fa09087699ce9e25"
+    "journal": "3913db1ee3de5033b90e151d3ecc2e5fd300188b92a4fda7ab943cb227a45d1e"
   },
-  "elapsedMs": 13593.706540999996,
+  "elapsedMs": 10954.780625000001,
   "selectedCount": 32,
-  "retainedBytes": 3992203,
+  "retainedBytes": 4001894,
   "checks": {
     "retainedFramesValid": true,
     "retainedCoverageValid": true,
@@ -50,135 +50,135 @@
         "atSourceUs": 250000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 250000,
+        "beforeActualSourceUs": 0,
         "afterActualSourceUs": 250000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 500000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 500000,
+        "beforeActualSourceUs": 250000,
         "afterActualSourceUs": 500000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 750000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 750000,
+        "beforeActualSourceUs": 500000,
         "afterActualSourceUs": 750000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 1000000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 1000000,
+        "beforeActualSourceUs": 750000,
         "afterActualSourceUs": 1000000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 1250000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 1250000,
+        "beforeActualSourceUs": 1000000,
         "afterActualSourceUs": 1250000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 1500000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 1500000,
+        "beforeActualSourceUs": 1250000,
         "afterActualSourceUs": 1500000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 1750000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 1750000,
+        "beforeActualSourceUs": 1500000,
         "afterActualSourceUs": 1750000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 2000000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 2000000,
+        "beforeActualSourceUs": 1750000,
         "afterActualSourceUs": 2000000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 2250000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 2250000,
+        "beforeActualSourceUs": 2000000,
         "afterActualSourceUs": 2250000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 2500000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 2500000,
+        "beforeActualSourceUs": 2250000,
         "afterActualSourceUs": 2500000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 2750000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 2750000,
+        "beforeActualSourceUs": 2500000,
         "afterActualSourceUs": 2750000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 3000000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 3000000,
+        "beforeActualSourceUs": 2750000,
         "afterActualSourceUs": 3000000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 3250000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 3250000,
+        "beforeActualSourceUs": 3000000,
         "afterActualSourceUs": 3250000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 3500000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 3500000,
+        "beforeActualSourceUs": 3250000,
         "afterActualSourceUs": 3500000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       },
       {
         "atSourceUs": 3750000,
         "before": true,
         "after": true,
-        "beforeActualSourceUs": 3750000,
+        "beforeActualSourceUs": 3500000,
         "afterActualSourceUs": 3750000,
-        "beforeFrameMatches": false,
+        "beforeFrameMatches": true,
         "afterFrameMatches": true
       }
     ],
@@ -196,6 +196,7 @@
     "contact-05.png",
     "contact-06.png"
   ],
+  "crops": [],
   "entries": [
     {
       "candidate": {
@@ -213,14 +214,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 0
@@ -229,7 +230,7 @@
         "actualSourceUs": 0,
         "bytes": 129410,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/0.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/0.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -239,8 +240,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 0,
         "actualPlaybackUs": 0,
@@ -309,9 +310,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -323,9 +324,9 @@
       },
       "coverageCount": 1,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 0
       },
       "bytes": 129410,
@@ -349,23 +350,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 1
       },
       "frame": {
-        "actualSourceUs": 250000,
-        "bytes": 119463,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/1.png",
+        "actualSourceUs": 0,
+        "bytes": 129410,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/1.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -375,22 +376,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 249999,
-        "actualPlaybackUs": 250000,
+        "actualPlaybackUs": 0,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 250000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 249999,
           "requestedSourceUs": 249999,
-          "actualSourceUs": 250000,
+          "actualSourceUs": 0,
           "evidenceRange": {
             "startUs": 0,
             "endUs": 249999
@@ -402,8 +404,8 @@
               "atSourceUs": 0
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 250000
+              "reason": "outside",
+              "atSourceUs": 225000
             }
           ],
           "pointerObservation": {
@@ -437,47 +439,31 @@
               },
               {
                 "requestedSourceUs": 200000,
-                "actualSourceUs": 250000,
-                "distanceUs": 50000,
+                "actualSourceUs": 0,
+                "distanceUs": 200000,
                 "width": 64,
                 "height": 40
               },
               {
                 "requestedSourceUs": 249999,
-                "actualSourceUs": 250000,
-                "distanceUs": 1,
+                "actualSourceUs": 0,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
             ],
-            "comparisons": [
-              {
-                "previousActualSourceUs": 0,
-                "actualSourceUs": 250000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815027573529412,
-                "boundary": true
-              }
-            ],
+            "comparisons": [],
             "boundaries": [],
-            "futureComparison": {
-              "previousActualSourceUs": 0,
-              "actualSourceUs": 250000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815027573529412,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 0
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -489,13 +475,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 1
       },
-      "bytes": 119463,
-      "sha256": "48d25bc4dfd1d16c7116bd56bb1bf4ea6edf85644b8e126feff59c2bb27e3713",
+      "bytes": 129410,
+      "sha256": "b2b863168f76e92cfb3317daab88535b3c590070c5d5f5c211cd1940e02919da",
       "image": "selected-001.png"
     },
     {
@@ -515,14 +501,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 2
@@ -531,7 +517,7 @@
         "actualSourceUs": 250000,
         "bytes": 119463,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/2.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/2.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -541,8 +527,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 250000,
         "actualPlaybackUs": 250000,
@@ -643,9 +629,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -657,9 +643,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 2
       },
       "bytes": 119463,
@@ -683,23 +669,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 3
       },
       "frame": {
-        "actualSourceUs": 500000,
-        "bytes": 130528,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/3.png",
+        "actualSourceUs": 250000,
+        "bytes": 119463,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/3.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -709,22 +695,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 499999,
-        "actualPlaybackUs": 500000,
+        "actualPlaybackUs": 250000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 500000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 499999,
           "requestedSourceUs": 499999,
-          "actualSourceUs": 500000,
+          "actualSourceUs": 250000,
           "evidenceRange": {
             "startUs": 250000,
             "endUs": 499999
@@ -740,8 +727,8 @@
               "atSourceUs": 250000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 500000
+              "reason": "outside",
+              "atSourceUs": 475000
             }
           ],
           "pointerObservation": {
@@ -782,15 +769,15 @@
               },
               {
                 "requestedSourceUs": 400000,
-                "actualSourceUs": 500000,
-                "distanceUs": 100000,
+                "actualSourceUs": 250000,
+                "distanceUs": 150000,
                 "width": 64,
                 "height": 40
               },
               {
                 "requestedSourceUs": 499999,
-                "actualSourceUs": 500000,
-                "distanceUs": 1,
+                "actualSourceUs": 250000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -803,14 +790,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815027573529412,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 250000,
-                "actualSourceUs": 500000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5814991830065359,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -819,23 +798,16 @@
                 "atSourceUs": 250000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 250000,
-              "actualSourceUs": 500000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5814991830065359,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 250000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -847,13 +819,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 3
       },
-      "bytes": 130528,
-      "sha256": "91d9ff5e4b4c790915ae5b70e0c8b67ed13abc2c4d3351af7ccccbf0609a7cc8",
+      "bytes": 119463,
+      "sha256": "48d25bc4dfd1d16c7116bd56bb1bf4ea6edf85644b8e126feff59c2bb27e3713",
       "image": "selected-003.png"
     },
     {
@@ -873,14 +845,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 4
@@ -889,7 +861,7 @@
         "actualSourceUs": 500000,
         "bytes": 130528,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/4.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/4.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -899,8 +871,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 500000,
         "actualPlaybackUs": 500000,
@@ -1024,9 +996,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -1038,9 +1010,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 4
       },
       "bytes": 130528,
@@ -1064,23 +1036,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 5
       },
       "frame": {
-        "actualSourceUs": 750000,
-        "bytes": 119842,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/5.png",
+        "actualSourceUs": 500000,
+        "bytes": 130528,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/5.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -1090,22 +1062,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 749999,
-        "actualPlaybackUs": 750000,
+        "actualPlaybackUs": 500000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 750000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 749999,
           "requestedSourceUs": 749999,
-          "actualSourceUs": 750000,
+          "actualSourceUs": 500000,
           "evidenceRange": {
             "startUs": 500000,
             "endUs": 749999
@@ -1125,8 +1098,8 @@
               "atSourceUs": 500000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 750000
+              "reason": "outside",
+              "atSourceUs": 725000
             }
           ],
           "pointerObservation": {
@@ -1181,8 +1154,8 @@
               },
               {
                 "requestedSourceUs": 749999,
-                "actualSourceUs": 750000,
-                "distanceUs": 1,
+                "actualSourceUs": 500000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -1203,14 +1176,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5814991830065359,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 500000,
-                "actualSourceUs": 750000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815267565359478,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -1223,23 +1188,16 @@
                 "atSourceUs": 500000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 500000,
-              "actualSourceUs": 750000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815267565359478,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 500000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -1251,13 +1209,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 5
       },
-      "bytes": 119842,
-      "sha256": "2dad804079dc86fd439117015064849a22b0bf739c8178d8316151dbbf254c94",
+      "bytes": 130528,
+      "sha256": "91d9ff5e4b4c790915ae5b70e0c8b67ed13abc2c4d3351af7ccccbf0609a7cc8",
       "image": "selected-005.png"
     },
     {
@@ -1277,14 +1235,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 6
@@ -1293,7 +1251,7 @@
         "actualSourceUs": 750000,
         "bytes": 119842,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/6.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/6.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -1303,8 +1261,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 750000,
         "actualPlaybackUs": 750000,
@@ -1451,9 +1409,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -1465,9 +1423,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 6
       },
       "bytes": 119842,
@@ -1491,23 +1449,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 7
       },
       "frame": {
-        "actualSourceUs": 1000000,
-        "bytes": 130486,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/7.png",
+        "actualSourceUs": 750000,
+        "bytes": 119842,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/7.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -1517,22 +1475,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 999999,
-        "actualPlaybackUs": 1000000,
+        "actualPlaybackUs": 750000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 1000000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 999999,
           "requestedSourceUs": 999999,
-          "actualSourceUs": 1000000,
+          "actualSourceUs": 750000,
           "evidenceRange": {
             "startUs": 750000,
             "endUs": 999999
@@ -1556,8 +1515,8 @@
               "atSourceUs": 750000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 1000000
+              "reason": "outside",
+              "atSourceUs": 975000
             }
           ],
           "pointerObservation": {
@@ -1619,8 +1578,8 @@
               },
               {
                 "requestedSourceUs": 999999,
-                "actualSourceUs": 1000000,
-                "distanceUs": 1,
+                "actualSourceUs": 750000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -1649,14 +1608,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815267565359478,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 750000,
-                "actualSourceUs": 1000000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815385008169934,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -1673,23 +1624,16 @@
                 "atSourceUs": 750000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 750000,
-              "actualSourceUs": 1000000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815385008169934,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 750000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -1701,13 +1645,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 7
       },
-      "bytes": 130486,
-      "sha256": "4adadb7b16b0897a896f1b4a088909eda76e485e95944fd9c46f255cec1f8e27",
+      "bytes": 119842,
+      "sha256": "2dad804079dc86fd439117015064849a22b0bf739c8178d8316151dbbf254c94",
       "image": "selected-007.png"
     },
     {
@@ -1727,14 +1671,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 8
@@ -1743,7 +1687,7 @@
         "actualSourceUs": 1000000,
         "bytes": 130486,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/8.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/8.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -1753,8 +1697,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 1000000,
         "actualPlaybackUs": 1000000,
@@ -1924,9 +1868,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -1938,9 +1882,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 8
       },
       "bytes": 130486,
@@ -1964,23 +1908,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 9
       },
       "frame": {
-        "actualSourceUs": 1250000,
-        "bytes": 119861,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/9.png",
+        "actualSourceUs": 1000000,
+        "bytes": 130486,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/9.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -1990,22 +1934,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 1249999,
-        "actualPlaybackUs": 1250000,
+        "actualPlaybackUs": 1000000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 1250000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 1249999,
           "requestedSourceUs": 1249999,
-          "actualSourceUs": 1250000,
+          "actualSourceUs": 1000000,
           "evidenceRange": {
             "startUs": 1000000,
             "endUs": 1249999
@@ -2033,8 +1978,8 @@
               "atSourceUs": 1000000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 1250000
+              "reason": "outside",
+              "atSourceUs": 1225000
             }
           ],
           "pointerObservation": {
@@ -2103,15 +2048,15 @@
               },
               {
                 "requestedSourceUs": 1200000,
-                "actualSourceUs": 1250000,
-                "distanceUs": 50000,
+                "actualSourceUs": 1000000,
+                "distanceUs": 200000,
                 "width": 64,
                 "height": 40
               },
               {
                 "requestedSourceUs": 1249999,
-                "actualSourceUs": 1250000,
-                "distanceUs": 1,
+                "actualSourceUs": 1000000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -2148,14 +2093,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815385008169934,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 1000000,
-                "actualSourceUs": 1250000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815359477124183,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -2176,23 +2113,16 @@
                 "atSourceUs": 1000000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 1000000,
-              "actualSourceUs": 1250000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815359477124183,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 1000000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -2204,13 +2134,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 9
       },
-      "bytes": 119861,
-      "sha256": "3afd0cad91b8aa4708c3da4aa3d23772c3a02c47bd1c94dbe0e02ca6481c0836",
+      "bytes": 130486,
+      "sha256": "4adadb7b16b0897a896f1b4a088909eda76e485e95944fd9c46f255cec1f8e27",
       "image": "selected-009.png"
     },
     {
@@ -2230,14 +2160,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 10
@@ -2246,7 +2176,7 @@
         "actualSourceUs": 1250000,
         "bytes": 119861,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/10.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/10.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -2256,8 +2186,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 1250000,
         "actualPlaybackUs": 1250000,
@@ -2457,9 +2387,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -2471,9 +2401,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 10
       },
       "bytes": 119861,
@@ -2497,23 +2427,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 11
       },
       "frame": {
-        "actualSourceUs": 1500000,
-        "bytes": 130423,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/11.png",
+        "actualSourceUs": 1250000,
+        "bytes": 119861,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/11.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -2523,22 +2453,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 1499999,
-        "actualPlaybackUs": 1500000,
+        "actualPlaybackUs": 1250000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 1500000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 1499999,
           "requestedSourceUs": 1499999,
-          "actualSourceUs": 1500000,
+          "actualSourceUs": 1250000,
           "evidenceRange": {
             "startUs": 1250000,
             "endUs": 1499999
@@ -2570,8 +2501,8 @@
               "atSourceUs": 1250000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 1500000
+              "reason": "outside",
+              "atSourceUs": 1475000
             }
           ],
           "pointerObservation": {
@@ -2647,15 +2578,15 @@
               },
               {
                 "requestedSourceUs": 1400000,
-                "actualSourceUs": 1500000,
-                "distanceUs": 100000,
+                "actualSourceUs": 1250000,
+                "distanceUs": 150000,
                 "width": 64,
                 "height": 40
               },
               {
                 "requestedSourceUs": 1499999,
-                "actualSourceUs": 1500000,
-                "distanceUs": 1,
+                "actualSourceUs": 1250000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -2700,14 +2631,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815359477124183,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 1250000,
-                "actualSourceUs": 1500000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815354370915032,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -2732,23 +2655,16 @@
                 "atSourceUs": 1250000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 1250000,
-              "actualSourceUs": 1500000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815354370915032,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 1250000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -2760,13 +2676,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 11
       },
-      "bytes": 130423,
-      "sha256": "218bbca2e2957aeec30e86aa5d797061c5e35b2dd0cb238b247c6fb29454bcd7",
+      "bytes": 119861,
+      "sha256": "3afd0cad91b8aa4708c3da4aa3d23772c3a02c47bd1c94dbe0e02ca6481c0836",
       "image": "selected-011.png"
     },
     {
@@ -2786,14 +2702,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 12
@@ -2802,7 +2718,7 @@
         "actualSourceUs": 1500000,
         "bytes": 130423,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/12.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/12.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -2812,8 +2728,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 1500000,
         "actualPlaybackUs": 1500000,
@@ -3036,9 +2952,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -3050,9 +2966,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 12
       },
       "bytes": 130423,
@@ -3076,23 +2992,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 13
       },
       "frame": {
-        "actualSourceUs": 1750000,
-        "bytes": 119819,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/13.png",
+        "actualSourceUs": 1500000,
+        "bytes": 130423,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/13.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -3102,22 +3018,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 1749999,
-        "actualPlaybackUs": 1750000,
+        "actualPlaybackUs": 1500000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 1750000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 1749999,
           "requestedSourceUs": 1749999,
-          "actualSourceUs": 1750000,
+          "actualSourceUs": 1500000,
           "evidenceRange": {
             "startUs": 1500000,
             "endUs": 1749999
@@ -3153,8 +3070,8 @@
               "atSourceUs": 1500000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 1750000
+              "reason": "outside",
+              "atSourceUs": 1725000
             }
           ],
           "pointerObservation": {
@@ -3244,8 +3161,8 @@
               },
               {
                 "requestedSourceUs": 1749999,
-                "actualSourceUs": 1750000,
-                "distanceUs": 1,
+                "actualSourceUs": 1500000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -3298,14 +3215,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815354370915032,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 1500000,
-                "actualSourceUs": 1750000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815359477124183,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -3334,23 +3243,16 @@
                 "atSourceUs": 1500000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 1500000,
-              "actualSourceUs": 1750000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815359477124183,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 1500000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -3362,13 +3264,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 13
       },
-      "bytes": 119819,
-      "sha256": "83543291147c006ae853bdb35147c4bd25377701b82e3d36b90bb9b779dfdc24",
+      "bytes": 130423,
+      "sha256": "218bbca2e2957aeec30e86aa5d797061c5e35b2dd0cb238b247c6fb29454bcd7",
       "image": "selected-013.png"
     },
     {
@@ -3388,14 +3290,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 14
@@ -3404,7 +3306,7 @@
         "actualSourceUs": 1750000,
         "bytes": 119819,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/14.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/14.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -3414,8 +3316,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 1750000,
         "actualPlaybackUs": 1750000,
@@ -3661,9 +3563,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -3675,9 +3577,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 14
       },
       "bytes": 119819,
@@ -3701,23 +3603,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 15
       },
       "frame": {
-        "actualSourceUs": 2000000,
-        "bytes": 130429,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/15.png",
+        "actualSourceUs": 1750000,
+        "bytes": 119819,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/15.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -3727,22 +3629,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 1999999,
-        "actualPlaybackUs": 2000000,
+        "actualPlaybackUs": 1750000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 2000000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 1999999,
           "requestedSourceUs": 1999999,
-          "actualSourceUs": 2000000,
+          "actualSourceUs": 1750000,
           "evidenceRange": {
             "startUs": 1750000,
             "endUs": 1999999
@@ -3782,8 +3685,8 @@
               "atSourceUs": 1750000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 2000000
+              "reason": "outside",
+              "atSourceUs": 1975000
             }
           ],
           "pointerObservation": {
@@ -3880,8 +3783,8 @@
               },
               {
                 "requestedSourceUs": 1999999,
-                "actualSourceUs": 2000000,
-                "distanceUs": 1,
+                "actualSourceUs": 1750000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -3942,14 +3845,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815359477124183,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 1750000,
-                "actualSourceUs": 2000000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815344158496732,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -3982,23 +3877,16 @@
                 "atSourceUs": 1750000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 1750000,
-              "actualSourceUs": 2000000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815344158496732,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 1750000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -4010,13 +3898,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 15
       },
-      "bytes": 130429,
-      "sha256": "9e1dfc42f7424f12071b99047824c594d965af3d0f5a7e3d336d70b643f3a275",
+      "bytes": 119819,
+      "sha256": "83543291147c006ae853bdb35147c4bd25377701b82e3d36b90bb9b779dfdc24",
       "image": "selected-015.png"
     },
     {
@@ -4036,14 +3924,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 16
@@ -4052,7 +3940,7 @@
         "actualSourceUs": 2000000,
         "bytes": 130429,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/16.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/16.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -4062,8 +3950,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 2000000,
         "actualPlaybackUs": 2000000,
@@ -4328,9 +4216,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -4342,9 +4230,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 16
       },
       "bytes": 130429,
@@ -4368,23 +4256,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 17
       },
       "frame": {
-        "actualSourceUs": 2250000,
-        "bytes": 119897,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/17.png",
+        "actualSourceUs": 2000000,
+        "bytes": 130429,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/17.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -4394,22 +4282,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 2249999,
-        "actualPlaybackUs": 2250000,
+        "actualPlaybackUs": 2000000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 2250000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 2249999,
           "requestedSourceUs": 2249999,
-          "actualSourceUs": 2250000,
+          "actualSourceUs": 2000000,
           "evidenceRange": {
             "startUs": 2000000,
             "endUs": 2249999
@@ -4445,8 +4334,8 @@
               "atSourceUs": 2000000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 2250000
+              "reason": "outside",
+              "atSourceUs": 2225000
             }
           ],
           "pointerObservation": {
@@ -4543,15 +4432,15 @@
               },
               {
                 "requestedSourceUs": 2200000,
-                "actualSourceUs": 2250000,
-                "distanceUs": 50000,
+                "actualSourceUs": 2000000,
+                "distanceUs": 200000,
                 "width": 64,
                 "height": 40
               },
               {
                 "requestedSourceUs": 2249999,
-                "actualSourceUs": 2250000,
-                "distanceUs": 1,
+                "actualSourceUs": 2000000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -4612,14 +4501,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815344158496732,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 2000000,
-                "actualSourceUs": 2250000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815339052287581,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -4652,23 +4533,16 @@
                 "atSourceUs": 2000000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 2000000,
-              "actualSourceUs": 2250000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815339052287581,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 2000000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -4680,13 +4554,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 17
       },
-      "bytes": 119897,
-      "sha256": "c09fc1cb04ca89da184cc2a8cb562974f0d0678188e45df844e59560dc9eccdd",
+      "bytes": 130429,
+      "sha256": "9e1dfc42f7424f12071b99047824c594d965af3d0f5a7e3d336d70b643f3a275",
       "image": "selected-017.png"
     },
     {
@@ -4706,14 +4580,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 18
@@ -4722,7 +4596,7 @@
         "actualSourceUs": 2250000,
         "bytes": 119897,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/18.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/18.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -4732,8 +4606,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 2250000,
         "actualPlaybackUs": 2250000,
@@ -5005,9 +4879,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -5019,9 +4893,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 18
       },
       "bytes": 119897,
@@ -5045,23 +4919,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 19
       },
       "frame": {
-        "actualSourceUs": 2500000,
-        "bytes": 130533,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/19.png",
+        "actualSourceUs": 2250000,
+        "bytes": 119897,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/19.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -5071,22 +4945,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 2499999,
-        "actualPlaybackUs": 2500000,
+        "actualPlaybackUs": 2250000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 2500000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 2499999,
           "requestedSourceUs": 2499999,
-          "actualSourceUs": 2500000,
+          "actualSourceUs": 2250000,
           "evidenceRange": {
             "startUs": 2250000,
             "endUs": 2499999
@@ -5122,8 +4997,8 @@
               "atSourceUs": 2250000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 2500000
+              "reason": "outside",
+              "atSourceUs": 2475000
             }
           ],
           "pointerObservation": {
@@ -5220,15 +5095,15 @@
               },
               {
                 "requestedSourceUs": 2400000,
-                "actualSourceUs": 2500000,
-                "distanceUs": 100000,
+                "actualSourceUs": 2250000,
+                "distanceUs": 150000,
                 "width": 64,
                 "height": 40
               },
               {
                 "requestedSourceUs": 2499999,
-                "actualSourceUs": 2500000,
-                "distanceUs": 1,
+                "actualSourceUs": 2250000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -5289,14 +5164,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815339052287581,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 2250000,
-                "actualSourceUs": 2500000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815354370915032,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -5329,23 +5196,16 @@
                 "atSourceUs": 2250000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 2250000,
-              "actualSourceUs": 2500000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815354370915032,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 2250000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -5357,13 +5217,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 19
       },
-      "bytes": 130533,
-      "sha256": "a3c2de1d8cdf168b4f1378cbf27c0df170c0b5ead9831b05089cbbc20538caf3",
+      "bytes": 119897,
+      "sha256": "c09fc1cb04ca89da184cc2a8cb562974f0d0678188e45df844e59560dc9eccdd",
       "image": "selected-019.png"
     },
     {
@@ -5383,14 +5243,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 20
@@ -5399,7 +5259,7 @@
         "actualSourceUs": 2500000,
         "bytes": 130533,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/20.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/20.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -5409,8 +5269,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 2500000,
         "actualPlaybackUs": 2500000,
@@ -5682,9 +5542,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -5696,9 +5556,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 20
       },
       "bytes": 130533,
@@ -5722,23 +5582,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 21
       },
       "frame": {
-        "actualSourceUs": 2750000,
-        "bytes": 119698,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/21.png",
+        "actualSourceUs": 2500000,
+        "bytes": 130533,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/21.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -5748,22 +5608,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 2749999,
-        "actualPlaybackUs": 2750000,
+        "actualPlaybackUs": 2500000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 2750000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 2749999,
           "requestedSourceUs": 2749999,
-          "actualSourceUs": 2750000,
+          "actualSourceUs": 2500000,
           "evidenceRange": {
             "startUs": 2500000,
             "endUs": 2749999
@@ -5803,8 +5664,8 @@
               "atSourceUs": 2500000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 2750000
+              "reason": "outside",
+              "atSourceUs": 2725000
             }
           ],
           "pointerObservation": {
@@ -5908,8 +5769,8 @@
               },
               {
                 "requestedSourceUs": 2749999,
-                "actualSourceUs": 2750000,
-                "distanceUs": 1,
+                "actualSourceUs": 2500000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -5978,14 +5839,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815354370915032,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 2500000,
-                "actualSourceUs": 2750000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815349264705882,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -6022,23 +5875,16 @@
                 "atSourceUs": 2500000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 2500000,
-              "actualSourceUs": 2750000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815349264705882,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 2500000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -6050,13 +5896,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 21
       },
-      "bytes": 119698,
-      "sha256": "52152a757fe1c238af32ed6de2402c02cfdccf434d1943521edff8e9a4f75a0f",
+      "bytes": 130533,
+      "sha256": "a3c2de1d8cdf168b4f1378cbf27c0df170c0b5ead9831b05089cbbc20538caf3",
       "image": "selected-021.png"
     },
     {
@@ -6076,14 +5922,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 22
@@ -6092,7 +5938,7 @@
         "actualSourceUs": 2750000,
         "bytes": 119698,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/22.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/22.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -6102,8 +5948,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 2750000,
         "actualPlaybackUs": 2750000,
@@ -6391,9 +6237,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -6405,9 +6251,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 22
       },
       "bytes": 119698,
@@ -6431,23 +6277,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 23
       },
       "frame": {
-        "actualSourceUs": 3000000,
-        "bytes": 130419,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/23.png",
+        "actualSourceUs": 2750000,
+        "bytes": 119698,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/23.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -6457,22 +6303,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 2999999,
-        "actualPlaybackUs": 3000000,
+        "actualPlaybackUs": 2750000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 3000000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 2999999,
           "requestedSourceUs": 2999999,
-          "actualSourceUs": 3000000,
+          "actualSourceUs": 2750000,
           "evidenceRange": {
             "startUs": 2750000,
             "endUs": 2999999
@@ -6512,8 +6359,8 @@
               "atSourceUs": 2750000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 3000000
+              "reason": "outside",
+              "atSourceUs": 2975000
             }
           ],
           "pointerObservation": {
@@ -6617,8 +6464,8 @@
               },
               {
                 "requestedSourceUs": 2999999,
-                "actualSourceUs": 3000000,
-                "distanceUs": 1,
+                "actualSourceUs": 2750000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -6687,14 +6534,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815349264705882,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 2750000,
-                "actualSourceUs": 3000000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815344158496732,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -6731,23 +6570,16 @@
                 "atSourceUs": 2750000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 2750000,
-              "actualSourceUs": 3000000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815344158496732,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 2750000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -6759,13 +6591,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 23
       },
-      "bytes": 130419,
-      "sha256": "51f58ee135eb7634cd9666483c7a0c7cf8615a75dd6bde5e4446ef3614baf127",
+      "bytes": 119698,
+      "sha256": "52152a757fe1c238af32ed6de2402c02cfdccf434d1943521edff8e9a4f75a0f",
       "image": "selected-023.png"
     },
     {
@@ -6785,14 +6617,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 24
@@ -6801,7 +6633,7 @@
         "actualSourceUs": 3000000,
         "bytes": 130419,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/24.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/24.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -6811,8 +6643,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 3000000,
         "actualPlaybackUs": 3000000,
@@ -7100,9 +6932,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -7114,9 +6946,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 24
       },
       "bytes": 130419,
@@ -7140,23 +6972,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 25
       },
       "frame": {
-        "actualSourceUs": 3250000,
-        "bytes": 119978,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/25.png",
+        "actualSourceUs": 3000000,
+        "bytes": 130419,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/25.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -7166,22 +6998,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 3249999,
-        "actualPlaybackUs": 3250000,
+        "actualPlaybackUs": 3000000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 3250000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 3249999,
           "requestedSourceUs": 3249999,
-          "actualSourceUs": 3250000,
+          "actualSourceUs": 3000000,
           "evidenceRange": {
             "startUs": 3000000,
             "endUs": 3249999
@@ -7217,8 +7050,8 @@
               "atSourceUs": 3000000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 3250000
+              "reason": "outside",
+              "atSourceUs": 3225000
             }
           ],
           "pointerObservation": {
@@ -7315,15 +7148,15 @@
               },
               {
                 "requestedSourceUs": 3200000,
-                "actualSourceUs": 3250000,
-                "distanceUs": 50000,
+                "actualSourceUs": 3000000,
+                "distanceUs": 200000,
                 "width": 64,
                 "height": 40
               },
               {
                 "requestedSourceUs": 3249999,
-                "actualSourceUs": 3250000,
-                "distanceUs": 1,
+                "actualSourceUs": 3000000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -7384,14 +7217,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815344158496732,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 3000000,
-                "actualSourceUs": 3250000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815349264705882,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -7424,23 +7249,16 @@
                 "atSourceUs": 3000000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 3000000,
-              "actualSourceUs": 3250000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815349264705882,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 3000000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -7452,13 +7270,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 25
       },
-      "bytes": 119978,
-      "sha256": "fe4ffe66d55f91960d7ba68b1003500cd10119b7a403b161c66cb5d6980ea64e",
+      "bytes": 130419,
+      "sha256": "51f58ee135eb7634cd9666483c7a0c7cf8615a75dd6bde5e4446ef3614baf127",
       "image": "selected-025.png"
     },
     {
@@ -7478,14 +7296,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 26
@@ -7494,7 +7312,7 @@
         "actualSourceUs": 3250000,
         "bytes": 119978,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/26.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/26.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -7504,8 +7322,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 3250000,
         "actualPlaybackUs": 3250000,
@@ -7777,9 +7595,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -7791,9 +7609,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 26
       },
       "bytes": 119978,
@@ -7817,23 +7635,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 27
       },
       "frame": {
-        "actualSourceUs": 3500000,
-        "bytes": 130442,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/27.png",
+        "actualSourceUs": 3250000,
+        "bytes": 119978,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/27.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -7843,22 +7661,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 3499999,
-        "actualPlaybackUs": 3500000,
+        "actualPlaybackUs": 3250000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 3500000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 3499999,
           "requestedSourceUs": 3499999,
-          "actualSourceUs": 3500000,
+          "actualSourceUs": 3250000,
           "evidenceRange": {
             "startUs": 3250000,
             "endUs": 3499999
@@ -7894,8 +7713,8 @@
               "atSourceUs": 3250000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 3500000
+              "reason": "outside",
+              "atSourceUs": 3475000
             }
           ],
           "pointerObservation": {
@@ -7992,15 +7811,15 @@
               },
               {
                 "requestedSourceUs": 3400000,
-                "actualSourceUs": 3500000,
-                "distanceUs": 100000,
+                "actualSourceUs": 3250000,
+                "distanceUs": 150000,
                 "width": 64,
                 "height": 40
               },
               {
                 "requestedSourceUs": 3499999,
-                "actualSourceUs": 3500000,
-                "distanceUs": 1,
+                "actualSourceUs": 3250000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -8061,14 +7880,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815349264705882,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 3250000,
-                "actualSourceUs": 3500000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815359477124183,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -8101,23 +7912,16 @@
                 "atSourceUs": 3250000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 3250000,
-              "actualSourceUs": 3500000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815359477124183,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 3250000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -8129,13 +7933,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 27
       },
-      "bytes": 130442,
-      "sha256": "b793abde8c995225145ce542120e720cbe5bfa11b8bb0844a72545573a70e088",
+      "bytes": 119978,
+      "sha256": "fe4ffe66d55f91960d7ba68b1003500cd10119b7a403b161c66cb5d6980ea64e",
       "image": "selected-027.png"
     },
     {
@@ -8155,14 +7959,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 28
@@ -8171,7 +7975,7 @@
         "actualSourceUs": 3500000,
         "bytes": 130442,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/28.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/28.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -8181,8 +7985,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 3500000,
         "actualPlaybackUs": 3500000,
@@ -8454,9 +8258,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -8468,9 +8272,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 28
       },
       "bytes": 130442,
@@ -8494,23 +8298,23 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 29
       },
       "frame": {
-        "actualSourceUs": 3750000,
-        "bytes": 119719,
-        "distanceUs": 1,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/29.png",
+        "actualSourceUs": 3500000,
+        "bytes": 130442,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/29.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -8520,22 +8324,23 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 3749999,
-        "actualPlaybackUs": 3750000,
+        "actualPlaybackUs": 3500000,
         "kept": {
           "startUs": 0,
           "endUs": 4000000
         },
+        "selectionEndUs": 3750000,
         "clean": false,
         "annotation": {
           "policy": "requested-time-trail-v1",
           "trailUs": 2000000,
           "agedFromUs": 3749999,
           "requestedSourceUs": 3749999,
-          "actualSourceUs": 3750000,
+          "actualSourceUs": 3500000,
           "evidenceRange": {
             "startUs": 3500000,
             "endUs": 3749999
@@ -8575,8 +8380,8 @@
               "atSourceUs": 3500000
             },
             {
-              "reason": "future_scene",
-              "atSourceUs": 3750000
+              "reason": "outside",
+              "atSourceUs": 3725000
             }
           ],
           "pointerObservation": {
@@ -8680,8 +8485,8 @@
               },
               {
                 "requestedSourceUs": 3749999,
-                "actualSourceUs": 3750000,
-                "distanceUs": 1,
+                "actualSourceUs": 3500000,
+                "distanceUs": 249999,
                 "width": 64,
                 "height": 40
               }
@@ -8750,14 +8555,6 @@
                 "changedCellFraction": 1,
                 "meanAbsoluteChannelDifference": 0.5815359477124183,
                 "boundary": true
-              },
-              {
-                "previousActualSourceUs": 3500000,
-                "actualSourceUs": 3750000,
-                "changedPixelFraction": 0.88828125,
-                "changedCellFraction": 1,
-                "meanAbsoluteChannelDifference": 0.5815354370915032,
-                "boundary": true
               }
             ],
             "boundaries": [
@@ -8794,23 +8591,16 @@
                 "atSourceUs": 3500000
               }
             ],
-            "futureComparison": {
-              "previousActualSourceUs": 3500000,
-              "actualSourceUs": 3750000,
-              "changedPixelFraction": 0.88828125,
-              "changedCellFraction": 1,
-              "meanAbsoluteChannelDifference": 0.5815354370915032,
-              "boundary": true
-            },
+            "futureComparison": null,
             "referenceSourceUs": 3500000
           },
           "stalePointerScene": null,
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -8822,13 +8612,13 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 29
       },
-      "bytes": 119719,
-      "sha256": "e066cf0ba7c4fed98a96908f614336ec698b53da2b677e9253602f5ed1a62eda",
+      "bytes": 130442,
+      "sha256": "b793abde8c995225145ce542120e720cbe5bfa11b8bb0844a72545573a70e088",
       "image": "selected-029.png"
     },
     {
@@ -8848,14 +8638,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 30
@@ -8864,7 +8654,7 @@
         "actualSourceUs": 3750000,
         "bytes": 119719,
         "distanceUs": 0,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/30.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/30.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -8874,8 +8664,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 3750000,
         "actualPlaybackUs": 3750000,
@@ -9163,9 +8953,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -9177,9 +8967,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 30
       },
       "bytes": 119719,
@@ -9202,14 +8992,14 @@
           }
         ],
         "sourceIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555"
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54"
         },
         "sceneIdentity": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "3344d4dd-9942-44f7-8cbe-d2dd2f0afa32",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "d4df3fba-8d5a-4a48-ad3a-b312b912dc1a",
           "policy": "rgb-spatial-change-v1"
         },
         "ordinal": 31
@@ -9218,7 +9008,7 @@
         "actualSourceUs": 3750000,
         "bytes": 119719,
         "distanceUs": 249999,
-        "file": "/private/tmp/scr-index-rapid-scene-stress-HVuT7h/recordings/6785fa73-6384-404a-839b-cea68b0f8fdd/evidence/index/375df983fe4307d139fb20df8c22d19d14768e154a431ea6313966db6a8a3b85/31.png",
+        "file": "/private/tmp/scr-index-rapid-scene-stress-cqn1IX/recordings/0c3964a0-fb53-4b4a-9776-77516440968d/evidence/index/78a4607f91433d1f1c67036743899cf5442b39d1424ddc52db8334819f0d00b9/31.png",
         "height": 800,
         "mediaType": "image/png",
         "overlay": {
@@ -9228,8 +9018,8 @@
         "sourceHeight": 800,
         "sourceWidth": 1280,
         "width": 1280,
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-        "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+        "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
         "revisionId": "r0",
         "requestedPlaybackUs": 3999999,
         "actualPlaybackUs": 3750000,
@@ -9501,9 +9291,9 @@
           "stalePointerComparison": null
         },
         "sourceEvidence": {
-          "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
-          "sourceId": "60d7bc2a-f206-43d5-a2d9-b3e836c2b1ba",
-          "generation": "4ae13bb8-a7dd-4d7d-a398-656d71b96555",
+          "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
+          "sourceId": "923e20fe-b0a5-4c05-8e20-2b024cedbe9f",
+          "generation": "e7a7f4f4-c6f8-42f3-a8f5-183f559a6a54",
           "integrity": {
             "finished": true,
             "incompleteTail": false,
@@ -9515,9 +9305,9 @@
       },
       "coverageCount": 0,
       "reference": {
-        "recordingId": "6785fa73-6384-404a-839b-cea68b0f8fdd",
+        "recordingId": "0c3964a0-fb53-4b4a-9776-77516440968d",
         "revisionId": "r0",
-        "generation": "27d5f6d8-2b65-41e5-905f-b348d50a7bcd",
+        "generation": "0ec80455-56e0-4a19-b195-72c3918dfcaa",
         "ordinal": 31
       },
       "bytes": 119719,

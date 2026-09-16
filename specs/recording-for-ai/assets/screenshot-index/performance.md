@@ -1,6 +1,6 @@
 # Screenshot index performance audit
 
-## Open: overlapping observation batches repeat native work
+## Implemented reuse; full-run measurement remains open
 
 **Priority:** High — delays an external agent waiting for a long recording's index.
 **Owner:** VisualObservationCache, used by shared frame materialization through
@@ -19,18 +19,19 @@ but only 9,751 distinct source/kept-interval/policy/requested-time keys. These c
 measure requested observations, not an exact decoder-call count: native sampling
 can reuse adjacent requests that select the same actual frame within one batch.
 
-The implementation keys a whole batch by its complete timestamp list. A two-second
+The measured baseline keyed a whole batch by its complete timestamp list. A two-second
 trail window that overlaps a previous window therefore misses unless every request
 matches. The canonical scene scan already sampled the same source grid, but a local
 endpoint or future-frame reference changes the list and prevents reuse. Each request
 is bounded (at most 52 observations), yet repeated overlapping requests multiply
 native work as the selected-image count grows.
 
-**Disposition:** Reuse exact requested times within identical source, kept bounds
+**Disposition:** [Requested-time reuse](../scene-analysis/requested-time-reuse.md) is
+implemented and core/native parity verified. Reuse exact requested times within identical source, kept bounds
 and policy, through the existing cache owner. Do not deduplicate merely by actual
 video timestamp: a different kept interval can legitimately select another frame.
-Preserve cache eviction/recovery and native selection semantics. The implementation
-pass must first prove the repeated-work regression, then verify native byte parity.
+Preserve cache eviction/recovery and native selection semantics. The regression reduced eleven requested slots to six. All eight existing public
+trail PNGs are byte-identical after integration; the full scale rerun remains open.
 
 The baseline was stopped deliberately after identifying this work amplification;
 its source video and journal were preserved outside the repository for a same-input

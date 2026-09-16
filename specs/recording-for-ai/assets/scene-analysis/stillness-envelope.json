@@ -1,0 +1,4392 @@
+{
+  "sourceSha256": "c6026409ee3dcf9a80b35acc39d47d0f194d226fa3445550f6b728ed34c518a5",
+  "sampleCount": 80,
+  "envelopeTotal": 354,
+  "envelope": [
+    {
+      "channelOffset": 3,
+      "min": 63,
+      "max": 64
+    },
+    {
+      "channelOffset": 9,
+      "min": 31,
+      "max": 32
+    },
+    {
+      "channelOffset": 12,
+      "min": 25,
+      "max": 26
+    },
+    {
+      "channelOffset": 15,
+      "min": 38,
+      "max": 39
+    },
+    {
+      "channelOffset": 27,
+      "min": 38,
+      "max": 39
+    },
+    {
+      "channelOffset": 29,
+      "min": 69,
+      "max": 70
+    },
+    {
+      "channelOffset": 30,
+      "min": 38,
+      "max": 39
+    },
+    {
+      "channelOffset": 39,
+      "min": 42,
+      "max": 43
+    },
+    {
+      "channelOffset": 47,
+      "min": 71,
+      "max": 72
+    },
+    {
+      "channelOffset": 173,
+      "min": 62,
+      "max": 63
+    },
+    {
+      "channelOffset": 197,
+      "min": 63,
+      "max": 64
+    },
+    {
+      "channelOffset": 206,
+      "min": 107,
+      "max": 108
+    },
+    {
+      "channelOffset": 212,
+      "min": 136,
+      "max": 137
+    },
+    {
+      "channelOffset": 216,
+      "min": 100,
+      "max": 101
+    },
+    {
+      "channelOffset": 220,
+      "min": 125,
+      "max": 126
+    },
+    {
+      "channelOffset": 222,
+      "min": 104,
+      "max": 105
+    },
+    {
+      "channelOffset": 223,
+      "min": 111,
+      "max": 112
+    },
+    {
+      "channelOffset": 226,
+      "min": 106,
+      "max": 107
+    },
+    {
+      "channelOffset": 227,
+      "min": 116,
+      "max": 117
+    },
+    {
+      "channelOffset": 231,
+      "min": 125,
+      "max": 126
+    },
+    {
+      "channelOffset": 233,
+      "min": 140,
+      "max": 141
+    },
+    {
+      "channelOffset": 234,
+      "min": 107,
+      "max": 108
+    },
+    {
+      "channelOffset": 237,
+      "min": 120,
+      "max": 121
+    },
+    {
+      "channelOffset": 240,
+      "min": 120,
+      "max": 121
+    },
+    {
+      "channelOffset": 243,
+      "min": 105,
+      "max": 106
+    },
+    {
+      "channelOffset": 360,
+      "min": 49,
+      "max": 50
+    },
+    {
+      "channelOffset": 389,
+      "min": 65,
+      "max": 66
+    },
+    {
+      "channelOffset": 435,
+      "min": 87,
+      "max": 88
+    },
+    {
+      "channelOffset": 543,
+      "min": 24,
+      "max": 25
+    },
+    {
+      "channelOffset": 549,
+      "min": 45,
+      "max": 46
+    },
+    {
+      "channelOffset": 553,
+      "min": 72,
+      "max": 73
+    },
+    {
+      "channelOffset": 556,
+      "min": 67,
+      "max": 68
+    },
+    {
+      "channelOffset": 557,
+      "min": 80,
+      "max": 81
+    },
+    {
+      "channelOffset": 584,
+      "min": 60,
+      "max": 61
+    },
+    {
+      "channelOffset": 1013,
+      "min": 246,
+      "max": 247
+    },
+    {
+      "channelOffset": 1037,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 1040,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 1044,
+      "min": 231,
+      "max": 232
+    },
+    {
+      "channelOffset": 1051,
+      "min": 238,
+      "max": 239
+    },
+    {
+      "channelOffset": 1156,
+      "min": 244,
+      "max": 245
+    },
+    {
+      "channelOffset": 1159,
+      "min": 235,
+      "max": 236
+    },
+    {
+      "channelOffset": 1162,
+      "min": 233,
+      "max": 234
+    },
+    {
+      "channelOffset": 1164,
+      "min": 233,
+      "max": 234
+    },
+    {
+      "channelOffset": 1194,
+      "min": 207,
+      "max": 208
+    },
+    {
+      "channelOffset": 1198,
+      "min": 217,
+      "max": 218
+    },
+    {
+      "channelOffset": 1199,
+      "min": 223,
+      "max": 224
+    },
+    {
+      "channelOffset": 1210,
+      "min": 214,
+      "max": 215
+    },
+    {
+      "channelOffset": 1218,
+      "min": 234,
+      "max": 235
+    },
+    {
+      "channelOffset": 1220,
+      "min": 243,
+      "max": 244
+    },
+    {
+      "channelOffset": 1224,
+      "min": 203,
+      "max": 204
+    },
+    {
+      "channelOffset": 1232,
+      "min": 226,
+      "max": 227
+    },
+    {
+      "channelOffset": 1233,
+      "min": 220,
+      "max": 221
+    },
+    {
+      "channelOffset": 1234,
+      "min": 225,
+      "max": 226
+    },
+    {
+      "channelOffset": 1235,
+      "min": 230,
+      "max": 231
+    },
+    {
+      "channelOffset": 1247,
+      "min": 220,
+      "max": 221
+    },
+    {
+      "channelOffset": 1249,
+      "min": 226,
+      "max": 227
+    },
+    {
+      "channelOffset": 1386,
+      "min": 204,
+      "max": 205
+    },
+    {
+      "channelOffset": 1387,
+      "min": 210,
+      "max": 211
+    },
+    {
+      "channelOffset": 1391,
+      "min": 217,
+      "max": 218
+    },
+    {
+      "channelOffset": 1394,
+      "min": 215,
+      "max": 216
+    },
+    {
+      "channelOffset": 1395,
+      "min": 210,
+      "max": 211
+    },
+    {
+      "channelOffset": 1400,
+      "min": 216,
+      "max": 217
+    },
+    {
+      "channelOffset": 1403,
+      "min": 224,
+      "max": 225
+    },
+    {
+      "channelOffset": 1413,
+      "min": 207,
+      "max": 208
+    },
+    {
+      "channelOffset": 1427,
+      "min": 236,
+      "max": 237
+    },
+    {
+      "channelOffset": 1430,
+      "min": 211,
+      "max": 212
+    },
+    {
+      "channelOffset": 1431,
+      "min": 215,
+      "max": 216
+    },
+    {
+      "channelOffset": 1437,
+      "min": 207,
+      "max": 208
+    },
+    {
+      "channelOffset": 1442,
+      "min": 230,
+      "max": 231
+    },
+    {
+      "channelOffset": 1539,
+      "min": 247,
+      "max": 248
+    },
+    {
+      "channelOffset": 1541,
+      "min": 248,
+      "max": 249
+    },
+    {
+      "channelOffset": 1551,
+      "min": 245,
+      "max": 246
+    },
+    {
+      "channelOffset": 1616,
+      "min": 245,
+      "max": 246
+    },
+    {
+      "channelOffset": 1631,
+      "min": 244,
+      "max": 245
+    },
+    {
+      "channelOffset": 1784,
+      "min": 230,
+      "max": 231
+    },
+    {
+      "channelOffset": 1786,
+      "min": 233,
+      "max": 234
+    },
+    {
+      "channelOffset": 1796,
+      "min": 238,
+      "max": 239
+    },
+    {
+      "channelOffset": 1800,
+      "min": 217,
+      "max": 218
+    },
+    {
+      "channelOffset": 1808,
+      "min": 234,
+      "max": 235
+    },
+    {
+      "channelOffset": 1810,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 1812,
+      "min": 217,
+      "max": 218
+    },
+    {
+      "channelOffset": 1817,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 1947,
+      "min": 247,
+      "max": 248
+    },
+    {
+      "channelOffset": 2098,
+      "min": 244,
+      "max": 245
+    },
+    {
+      "channelOffset": 2099,
+      "min": 248,
+      "max": 249
+    },
+    {
+      "channelOffset": 2121,
+      "min": 218,
+      "max": 219
+    },
+    {
+      "channelOffset": 2123,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2126,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 2151,
+      "min": 245,
+      "max": 246
+    },
+    {
+      "channelOffset": 2153,
+      "min": 250,
+      "max": 251
+    },
+    {
+      "channelOffset": 2289,
+      "min": 245,
+      "max": 246
+    },
+    {
+      "channelOffset": 2313,
+      "min": 214,
+      "max": 215
+    },
+    {
+      "channelOffset": 2316,
+      "min": 217,
+      "max": 218
+    },
+    {
+      "channelOffset": 2319,
+      "min": 219,
+      "max": 220
+    },
+    {
+      "channelOffset": 2499,
+      "min": 247,
+      "max": 248
+    },
+    {
+      "channelOffset": 2501,
+      "min": 251,
+      "max": 252
+    },
+    {
+      "channelOffset": 2504,
+      "min": 250,
+      "max": 251
+    },
+    {
+      "channelOffset": 2514,
+      "min": 248,
+      "max": 249
+    },
+    {
+      "channelOffset": 2594,
+      "min": 250,
+      "max": 251
+    },
+    {
+      "channelOffset": 2664,
+      "min": 250,
+      "max": 251
+    },
+    {
+      "channelOffset": 2701,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 2705,
+      "min": 230,
+      "max": 231
+    },
+    {
+      "channelOffset": 2739,
+      "min": 236,
+      "max": 237
+    },
+    {
+      "channelOffset": 2741,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2747,
+      "min": 237,
+      "max": 238
+    },
+    {
+      "channelOffset": 2752,
+      "min": 243,
+      "max": 244
+    },
+    {
+      "channelOffset": 2757,
+      "min": 236,
+      "max": 237
+    },
+    {
+      "channelOffset": 2761,
+      "min": 242,
+      "max": 243
+    },
+    {
+      "channelOffset": 2762,
+      "min": 238,
+      "max": 239
+    },
+    {
+      "channelOffset": 2799,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2806,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 2810,
+      "min": 250,
+      "max": 251
+    },
+    {
+      "channelOffset": 2817,
+      "min": 236,
+      "max": 237
+    },
+    {
+      "channelOffset": 2819,
+      "min": 250,
+      "max": 251
+    },
+    {
+      "channelOffset": 2824,
+      "min": 243,
+      "max": 244
+    },
+    {
+      "channelOffset": 2832,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2835,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2838,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2841,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2844,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2847,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2850,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2853,
+      "min": 240,
+      "max": 241
+    },
+    {
+      "channelOffset": 2942,
+      "min": 210,
+      "max": 211
+    },
+    {
+      "channelOffset": 2943,
+      "min": 224,
+      "max": 225
+    },
+    {
+      "channelOffset": 2955,
+      "min": 202,
+      "max": 203
+    },
+    {
+      "channelOffset": 2957,
+      "min": 209,
+      "max": 210
+    },
+    {
+      "channelOffset": 2997,
+      "min": 197,
+      "max": 198
+    },
+    {
+      "channelOffset": 3009,
+      "min": 198,
+      "max": 199
+    },
+    {
+      "channelOffset": 3013,
+      "min": 220,
+      "max": 221
+    },
+    {
+      "channelOffset": 3018,
+      "min": 201,
+      "max": 202
+    },
+    {
+      "channelOffset": 3126,
+      "min": 233,
+      "max": 234
+    },
+    {
+      "channelOffset": 3132,
+      "min": 221,
+      "max": 222
+    },
+    {
+      "channelOffset": 3135,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 3136,
+      "min": 238,
+      "max": 239
+    },
+    {
+      "channelOffset": 3138,
+      "min": 235,
+      "max": 236
+    },
+    {
+      "channelOffset": 3139,
+      "min": 244,
+      "max": 245
+    },
+    {
+      "channelOffset": 3147,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 3187,
+      "min": 243,
+      "max": 244
+    },
+    {
+      "channelOffset": 3191,
+      "min": 245,
+      "max": 246
+    },
+    {
+      "channelOffset": 3206,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 3208,
+      "min": 235,
+      "max": 236
+    },
+    {
+      "channelOffset": 3332,
+      "min": 238,
+      "max": 239
+    },
+    {
+      "channelOffset": 3336,
+      "min": 225,
+      "max": 226
+    },
+    {
+      "channelOffset": 3339,
+      "min": 225,
+      "max": 226
+    },
+    {
+      "channelOffset": 3395,
+      "min": 250,
+      "max": 251
+    },
+    {
+      "channelOffset": 3401,
+      "min": 245,
+      "max": 246
+    },
+    {
+      "channelOffset": 3514,
+      "min": 215,
+      "max": 216
+    },
+    {
+      "channelOffset": 3518,
+      "min": 204,
+      "max": 205
+    },
+    {
+      "channelOffset": 3522,
+      "min": 219,
+      "max": 220
+    },
+    {
+      "channelOffset": 3527,
+      "min": 209,
+      "max": 210
+    },
+    {
+      "channelOffset": 3530,
+      "min": 204,
+      "max": 205
+    },
+    {
+      "channelOffset": 3531,
+      "min": 206,
+      "max": 207
+    },
+    {
+      "channelOffset": 3536,
+      "min": 220,
+      "max": 221
+    },
+    {
+      "channelOffset": 3576,
+      "min": 212,
+      "max": 213
+    },
+    {
+      "channelOffset": 3577,
+      "min": 220,
+      "max": 221
+    },
+    {
+      "channelOffset": 3585,
+      "min": 220,
+      "max": 221
+    },
+    {
+      "channelOffset": 3588,
+      "min": 212,
+      "max": 213
+    },
+    {
+      "channelOffset": 3590,
+      "min": 231,
+      "max": 232
+    },
+    {
+      "channelOffset": 3595,
+      "min": 220,
+      "max": 221
+    },
+    {
+      "channelOffset": 3707,
+      "min": 209,
+      "max": 210
+    },
+    {
+      "channelOffset": 3708,
+      "min": 203,
+      "max": 204
+    },
+    {
+      "channelOffset": 3716,
+      "min": 217,
+      "max": 218
+    },
+    {
+      "channelOffset": 3717,
+      "min": 202,
+      "max": 203
+    },
+    {
+      "channelOffset": 3725,
+      "min": 202,
+      "max": 203
+    },
+    {
+      "channelOffset": 3726,
+      "min": 211,
+      "max": 212
+    },
+    {
+      "channelOffset": 3765,
+      "min": 236,
+      "max": 237
+    },
+    {
+      "channelOffset": 3768,
+      "min": 208,
+      "max": 209
+    },
+    {
+      "channelOffset": 3770,
+      "min": 228,
+      "max": 229
+    },
+    {
+      "channelOffset": 3780,
+      "min": 218,
+      "max": 219
+    },
+    {
+      "channelOffset": 3904,
+      "min": 234,
+      "max": 235
+    },
+    {
+      "channelOffset": 3911,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4083,
+      "min": 230,
+      "max": 231
+    },
+    {
+      "channelOffset": 4112,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4113,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 4151,
+      "min": 248,
+      "max": 249
+    },
+    {
+      "channelOffset": 4355,
+      "min": 196,
+      "max": 197
+    },
+    {
+      "channelOffset": 4358,
+      "min": 196,
+      "max": 197
+    },
+    {
+      "channelOffset": 4530,
+      "min": 221,
+      "max": 222
+    },
+    {
+      "channelOffset": 4531,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 4542,
+      "min": 86,
+      "max": 87
+    },
+    {
+      "channelOffset": 4548,
+      "min": 138,
+      "max": 139
+    },
+    {
+      "channelOffset": 4551,
+      "min": 153,
+      "max": 154
+    },
+    {
+      "channelOffset": 4554,
+      "min": 146,
+      "max": 147
+    },
+    {
+      "channelOffset": 4563,
+      "min": 36,
+      "max": 37
+    },
+    {
+      "channelOffset": 4737,
+      "min": 111,
+      "max": 112
+    },
+    {
+      "channelOffset": 4749,
+      "min": 126,
+      "max": 127
+    },
+    {
+      "channelOffset": 4751,
+      "min": 189,
+      "max": 190
+    },
+    {
+      "channelOffset": 4769,
+      "min": 214,
+      "max": 215
+    },
+    {
+      "channelOffset": 4901,
+      "min": 249,
+      "max": 250
+    },
+    {
+      "channelOffset": 4910,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 4912,
+      "min": 247,
+      "max": 248
+    },
+    {
+      "channelOffset": 4914,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4916,
+      "min": 251,
+      "max": 252
+    },
+    {
+      "channelOffset": 4919,
+      "min": 242,
+      "max": 243
+    },
+    {
+      "channelOffset": 4920,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4921,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4922,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4923,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4924,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4925,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4926,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4927,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4928,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4929,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4930,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4931,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4932,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4933,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4934,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4935,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4936,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4937,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4938,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4939,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4940,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4941,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4942,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4943,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4944,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4945,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4946,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4947,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4948,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4949,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4950,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4951,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4952,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4953,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 4954,
+      "min": 232,
+      "max": 233
+    },
+    {
+      "channelOffset": 4955,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 4960,
+      "min": 239,
+      "max": 240
+    },
+    {
+      "channelOffset": 4963,
+      "min": 247,
+      "max": 248
+    },
+    {
+      "channelOffset": 4966,
+      "min": 247,
+      "max": 248
+    },
+    {
+      "channelOffset": 5091,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5104,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5107,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5110,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5113,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5116,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5119,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5122,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5125,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5128,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5131,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5134,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5137,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5140,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5143,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5146,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5149,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5152,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5155,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5158,
+      "min": 253,
+      "max": 254
+    },
+    {
+      "channelOffset": 5238,
+      "min": 245,
+      "max": 246
+    },
+    {
+      "channelOffset": 5242,
+      "min": 244,
+      "max": 245
+    },
+    {
+      "channelOffset": 5247,
+      "min": 237,
+      "max": 238
+    },
+    {
+      "channelOffset": 5256,
+      "min": 236,
+      "max": 237
+    },
+    {
+      "channelOffset": 5259,
+      "min": 239,
+      "max": 240
+    },
+    {
+      "channelOffset": 5265,
+      "min": 242,
+      "max": 243
+    },
+    {
+      "channelOffset": 5424,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 5433,
+      "min": 235,
+      "max": 236
+    },
+    {
+      "channelOffset": 5436,
+      "min": 221,
+      "max": 222
+    },
+    {
+      "channelOffset": 5444,
+      "min": 230,
+      "max": 231
+    },
+    {
+      "channelOffset": 5453,
+      "min": 239,
+      "max": 240
+    },
+    {
+      "channelOffset": 5461,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 5469,
+      "min": 230,
+      "max": 231
+    },
+    {
+      "channelOffset": 5472,
+      "min": 235,
+      "max": 236
+    },
+    {
+      "channelOffset": 5609,
+      "min": 250,
+      "max": 251
+    },
+    {
+      "channelOffset": 6183,
+      "min": 237,
+      "max": 238
+    },
+    {
+      "channelOffset": 6190,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6193,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6196,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6199,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6202,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6205,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6208,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6211,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6214,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6217,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6220,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6223,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6226,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6229,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6232,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6235,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6238,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6241,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6244,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6247,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6250,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6253,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6256,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6259,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6262,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6265,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6268,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6271,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6274,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6277,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6280,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6283,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6286,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6289,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6292,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6295,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6298,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6301,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6304,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6307,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6310,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6313,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6316,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6319,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6321,
+      "min": 237,
+      "max": 238
+    },
+    {
+      "channelOffset": 6380,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 6381,
+      "min": 214,
+      "max": 215
+    },
+    {
+      "channelOffset": 6383,
+      "min": 217,
+      "max": 218
+    },
+    {
+      "channelOffset": 6394,
+      "min": 223,
+      "max": 224
+    },
+    {
+      "channelOffset": 6398,
+      "min": 220,
+      "max": 221
+    },
+    {
+      "channelOffset": 6401,
+      "min": 224,
+      "max": 225
+    },
+    {
+      "channelOffset": 6410,
+      "min": 218,
+      "max": 219
+    },
+    {
+      "channelOffset": 6419,
+      "min": 216,
+      "max": 217
+    },
+    {
+      "channelOffset": 6500,
+      "min": 230,
+      "max": 231
+    },
+    {
+      "channelOffset": 6576,
+      "min": 201,
+      "max": 202
+    },
+    {
+      "channelOffset": 6590,
+      "min": 206,
+      "max": 207
+    },
+    {
+      "channelOffset": 6599,
+      "min": 207,
+      "max": 209
+    },
+    {
+      "channelOffset": 6602,
+      "min": 206,
+      "max": 207
+    },
+    {
+      "channelOffset": 6616,
+      "min": 207,
+      "max": 208
+    },
+    {
+      "channelOffset": 6620,
+      "min": 206,
+      "max": 207
+    },
+    {
+      "channelOffset": 6623,
+      "min": 212,
+      "max": 213
+    },
+    {
+      "channelOffset": 6682,
+      "min": 228,
+      "max": 229
+    },
+    {
+      "channelOffset": 6689,
+      "min": 200,
+      "max": 201
+    },
+    {
+      "channelOffset": 6690,
+      "min": 185,
+      "max": 186
+    },
+    {
+      "channelOffset": 6693,
+      "min": 166,
+      "max": 167
+    },
+    {
+      "channelOffset": 6764,
+      "min": 231,
+      "max": 232
+    },
+    {
+      "channelOffset": 6779,
+      "min": 229,
+      "max": 230
+    },
+    {
+      "channelOffset": 6792,
+      "min": 227,
+      "max": 228
+    },
+    {
+      "channelOffset": 6866,
+      "min": 222,
+      "max": 223
+    },
+    {
+      "channelOffset": 6872,
+      "min": 196,
+      "max": 197
+    },
+    {
+      "channelOffset": 6875,
+      "min": 144,
+      "max": 145
+    },
+    {
+      "channelOffset": 6881,
+      "min": 161,
+      "max": 162
+    },
+    {
+      "channelOffset": 6883,
+      "min": 186,
+      "max": 187
+    },
+    {
+      "channelOffset": 6951,
+      "min": 235,
+      "max": 236
+    },
+    {
+      "channelOffset": 6952,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 6953,
+      "min": 241,
+      "max": 242
+    },
+    {
+      "channelOffset": 7054,
+      "min": 214,
+      "max": 215
+    },
+    {
+      "channelOffset": 7064,
+      "min": 209,
+      "max": 210
+    },
+    {
+      "channelOffset": 7065,
+      "min": 175,
+      "max": 176
+    },
+    {
+      "channelOffset": 7067,
+      "min": 187,
+      "max": 188
+    },
+    {
+      "channelOffset": 7068,
+      "min": 203,
+      "max": 204
+    },
+    {
+      "channelOffset": 7075,
+      "min": 212,
+      "max": 213
+    },
+    {
+      "channelOffset": 7089,
+      "min": 235,
+      "max": 236
+    }
+  ],
+  "changes": [
+    {
+      "requestedSourceUs": 200000,
+      "actualSourceUs": 250000,
+      "deltas": [
+        {
+          "channelOffset": 9,
+          "delta": 1
+        },
+        {
+          "channelOffset": 12,
+          "delta": 1
+        },
+        {
+          "channelOffset": 15,
+          "delta": 1
+        },
+        {
+          "channelOffset": 29,
+          "delta": -1
+        },
+        {
+          "channelOffset": 30,
+          "delta": 1
+        },
+        {
+          "channelOffset": 47,
+          "delta": -1
+        },
+        {
+          "channelOffset": 173,
+          "delta": -1
+        },
+        {
+          "channelOffset": 197,
+          "delta": -1
+        },
+        {
+          "channelOffset": 206,
+          "delta": 1
+        },
+        {
+          "channelOffset": 212,
+          "delta": -1
+        },
+        {
+          "channelOffset": 220,
+          "delta": 1
+        },
+        {
+          "channelOffset": 222,
+          "delta": 1
+        },
+        {
+          "channelOffset": 223,
+          "delta": 1
+        },
+        {
+          "channelOffset": 233,
+          "delta": -1
+        },
+        {
+          "channelOffset": 234,
+          "delta": 1
+        },
+        {
+          "channelOffset": 237,
+          "delta": 1
+        },
+        {
+          "channelOffset": 240,
+          "delta": 1
+        },
+        {
+          "channelOffset": 243,
+          "delta": 1
+        },
+        {
+          "channelOffset": 389,
+          "delta": 1
+        },
+        {
+          "channelOffset": 543,
+          "delta": 1
+        },
+        {
+          "channelOffset": 553,
+          "delta": 1
+        },
+        {
+          "channelOffset": 556,
+          "delta": -1
+        },
+        {
+          "channelOffset": 584,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1037,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1040,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1044,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1156,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1198,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1199,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1218,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1224,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1232,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1233,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1386,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1387,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1391,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1394,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1395,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1400,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1403,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1427,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1430,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1539,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1541,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1551,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1786,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1796,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1808,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1817,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2099,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2123,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2126,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2151,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2153,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2289,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2313,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2316,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2319,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2499,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2514,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2664,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2701,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2705,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2739,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2747,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2752,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2757,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2761,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2799,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2806,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2817,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2824,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2832,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2835,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2838,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2841,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2844,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2847,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2850,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2853,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2942,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2955,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2957,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2997,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3126,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3132,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3135,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3136,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3138,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3139,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3191,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3206,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3208,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3518,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3530,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3577,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3595,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3708,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3717,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3725,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3726,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3765,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3768,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3904,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4112,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4113,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4151,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4355,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4358,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4751,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4769,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4901,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4912,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4916,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4919,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4921,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4922,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4924,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4925,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4927,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4928,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4930,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4931,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4933,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4934,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4936,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4937,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4939,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4940,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4942,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4943,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4945,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4946,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4948,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4949,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4951,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4952,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4954,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4955,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4960,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4963,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4966,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5091,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5104,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5107,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5110,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5113,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5116,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5119,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5122,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5125,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5128,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5131,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5134,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5137,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5140,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5143,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5146,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5149,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5152,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5155,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5158,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5238,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5242,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5259,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5424,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5436,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5469,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5472,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5609,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6183,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6321,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6380,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6394,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6398,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6590,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6599,
+          "delta": -2
+        },
+        {
+          "channelOffset": 6616,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6620,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6623,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6682,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6689,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6764,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6881,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6951,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6952,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6953,
+          "delta": 1
+        },
+        {
+          "channelOffset": 7064,
+          "delta": 1
+        },
+        {
+          "channelOffset": 7067,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 400000,
+      "actualSourceUs": 500000,
+      "deltas": [
+        {
+          "channelOffset": 27,
+          "delta": 1
+        },
+        {
+          "channelOffset": 39,
+          "delta": 1
+        },
+        {
+          "channelOffset": 47,
+          "delta": 1
+        },
+        {
+          "channelOffset": 173,
+          "delta": 1
+        },
+        {
+          "channelOffset": 206,
+          "delta": -1
+        },
+        {
+          "channelOffset": 226,
+          "delta": 1
+        },
+        {
+          "channelOffset": 231,
+          "delta": 1
+        },
+        {
+          "channelOffset": 360,
+          "delta": 1
+        },
+        {
+          "channelOffset": 435,
+          "delta": 1
+        },
+        {
+          "channelOffset": 549,
+          "delta": -1
+        },
+        {
+          "channelOffset": 557,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1013,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1051,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1159,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1164,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1194,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1210,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1218,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1220,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1234,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1387,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1395,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1403,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1427,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1431,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1784,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1786,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1800,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1947,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2098,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2121,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2123,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2126,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2289,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2501,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2504,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2514,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2741,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2799,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2806,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2810,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2819,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2832,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2835,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2838,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2841,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2844,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2847,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2850,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2853,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3009,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3135,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3208,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3332,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3336,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3339,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3395,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3527,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3530,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3531,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3536,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3576,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3588,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3595,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3716,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3768,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3770,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3904,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4113,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4542,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4548,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4554,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4737,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4769,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4914,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4920,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4923,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4926,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4929,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4932,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4935,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4938,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4941,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4944,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4947,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4950,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4953,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4960,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5104,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5107,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5110,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5113,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5116,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5119,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5122,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5125,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5128,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5131,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5134,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5137,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5140,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5143,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5146,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5149,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5152,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5155,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5158,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5238,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5242,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5256,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5259,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5265,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5424,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5433,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5436,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5444,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5461,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6190,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6193,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6196,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6199,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6202,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6205,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6208,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6211,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6214,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6217,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6220,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6223,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6226,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6229,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6232,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6235,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6238,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6241,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6244,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6247,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6250,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6253,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6256,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6259,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6262,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6265,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6268,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6271,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6274,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6277,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6280,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6283,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6286,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6289,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6292,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6295,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6298,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6301,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6304,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6307,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6310,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6313,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6316,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6319,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6321,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6381,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6383,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6394,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6398,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6410,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6500,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6576,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6590,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6599,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6602,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6620,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6693,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6779,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6792,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6866,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6883,
+          "delta": 1
+        },
+        {
+          "channelOffset": 7054,
+          "delta": 1
+        },
+        {
+          "channelOffset": 7065,
+          "delta": 1
+        },
+        {
+          "channelOffset": 7067,
+          "delta": 1
+        },
+        {
+          "channelOffset": 7068,
+          "delta": 1
+        },
+        {
+          "channelOffset": 7089,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 800000,
+      "actualSourceUs": 750000,
+      "deltas": [
+        {
+          "channelOffset": 9,
+          "delta": -1
+        },
+        {
+          "channelOffset": 47,
+          "delta": -1
+        },
+        {
+          "channelOffset": 226,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1159,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1235,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1249,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1394,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2806,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2819,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2955,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3013,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3018,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3132,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3147,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3187,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3514,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3522,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3707,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3708,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4113,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4355,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4548,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4563,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4737,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4901,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5256,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5472,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6190,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6193,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6196,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6199,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6202,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6205,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6208,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6211,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6214,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6217,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6220,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6223,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6226,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6229,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6232,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6235,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6238,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6241,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6244,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6247,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6250,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6253,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6256,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6259,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6262,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6265,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6268,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6271,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6274,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6277,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6280,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6283,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6286,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6289,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6292,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6295,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6298,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6301,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6304,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6307,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6310,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6313,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6316,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6319,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6381,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6394,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6602,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6693,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6866,
+          "delta": -1
+        },
+        {
+          "channelOffset": 7067,
+          "delta": -1
+        },
+        {
+          "channelOffset": 7068,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 1000000,
+      "actualSourceUs": 1000000,
+      "deltas": [
+        {
+          "channelOffset": 3,
+          "delta": 1
+        },
+        {
+          "channelOffset": 9,
+          "delta": 1
+        },
+        {
+          "channelOffset": 47,
+          "delta": 1
+        },
+        {
+          "channelOffset": 216,
+          "delta": 1
+        },
+        {
+          "channelOffset": 389,
+          "delta": -1
+        },
+        {
+          "channelOffset": 553,
+          "delta": -1
+        },
+        {
+          "channelOffset": 557,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1040,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1164,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1232,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1234,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1235,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1249,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1400,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1403,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1413,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1431,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1442,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1616,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1631,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1796,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1808,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1810,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1812,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2153,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2594,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2762,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2943,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2955,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2957,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3013,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3018,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3187,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3206,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3336,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3401,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3514,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3522,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3536,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3576,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3585,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3590,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3770,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3780,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3904,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4083,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4151,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4358,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4530,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4531,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4551,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4554,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4563,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4737,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4910,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4920,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4922,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4923,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4925,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4926,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4928,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4929,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4931,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4932,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4934,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4935,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4937,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4938,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4940,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4941,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4943,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4944,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4946,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4947,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4949,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4950,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4952,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4953,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4955,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5265,
+          "delta": -1
+        },
+        {
+          "channelOffset": 5436,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6394,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6682,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6690,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6872,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6875,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 1200000,
+      "actualSourceUs": 1250000,
+      "deltas": [
+        {
+          "channelOffset": 227,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1234,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1247,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1427,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1437,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1796,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1810,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2757,
+          "delta": 1
+        },
+        {
+          "channelOffset": 2817,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3009,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3018,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3208,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3911,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4083,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5247,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5256,
+          "delta": 1
+        },
+        {
+          "channelOffset": 5453,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6419,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 1400000,
+      "actualSourceUs": 1500000,
+      "deltas": [
+        {
+          "channelOffset": 47,
+          "delta": -1
+        },
+        {
+          "channelOffset": 227,
+          "delta": 1
+        },
+        {
+          "channelOffset": 1040,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1232,
+          "delta": -1
+        },
+        {
+          "channelOffset": 1800,
+          "delta": -1
+        },
+        {
+          "channelOffset": 2817,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3009,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3577,
+          "delta": -1
+        },
+        {
+          "channelOffset": 3585,
+          "delta": 1
+        },
+        {
+          "channelOffset": 3904,
+          "delta": -1
+        },
+        {
+          "channelOffset": 4554,
+          "delta": 1
+        },
+        {
+          "channelOffset": 4749,
+          "delta": 1
+        },
+        {
+          "channelOffset": 6401,
+          "delta": 1
+        },
+        {
+          "channelOffset": 7075,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 1800000,
+      "actualSourceUs": 1750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 2000000,
+      "actualSourceUs": 2000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        },
+        {
+          "channelOffset": 6401,
+          "delta": -1
+        },
+        {
+          "channelOffset": 7064,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 2800000,
+      "actualSourceUs": 2750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 3000000,
+      "actualSourceUs": 3000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 3800000,
+      "actualSourceUs": 3750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 4000000,
+      "actualSourceUs": 4000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 4800000,
+      "actualSourceUs": 4750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 5000000,
+      "actualSourceUs": 5000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 5800000,
+      "actualSourceUs": 5750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 6000000,
+      "actualSourceUs": 6000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 6800000,
+      "actualSourceUs": 6750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 7000000,
+      "actualSourceUs": 7000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 7800000,
+      "actualSourceUs": 7750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 8000000,
+      "actualSourceUs": 8000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 8800000,
+      "actualSourceUs": 8750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 9000000,
+      "actualSourceUs": 9000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 9800000,
+      "actualSourceUs": 9750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 10000000,
+      "actualSourceUs": 10000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 10800000,
+      "actualSourceUs": 10750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 11000000,
+      "actualSourceUs": 11000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 11800000,
+      "actualSourceUs": 11750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 12000000,
+      "actualSourceUs": 12000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 12800000,
+      "actualSourceUs": 12750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 13000000,
+      "actualSourceUs": 13000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 13800000,
+      "actualSourceUs": 13750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 14000000,
+      "actualSourceUs": 14000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 14800000,
+      "actualSourceUs": 14750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 15000000,
+      "actualSourceUs": 15000000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": -1
+        }
+      ]
+    },
+    {
+      "requestedSourceUs": 15800000,
+      "actualSourceUs": 15750000,
+      "deltas": [
+        {
+          "channelOffset": 1162,
+          "delta": 1
+        }
+      ]
+    }
+  ]
+}

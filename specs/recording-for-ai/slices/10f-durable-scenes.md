@@ -11,10 +11,11 @@ VisualObservationCache owns disposable native observation reuse through the same
 VisualSampler seam; neither owns a second comparison policy. Raw observation batches
 are disposable files in DerivedCache. Their catalog lookup references the cache row
 with deletion cascading, so eviction cannot accumulate dead lookup metadata.
-The key includes immutable source identity, exact retained interval, ordered request
-times and observation policy. Identical timestamps with different selection bounds
+Each requested-time lookup includes immutable source identity, exact retained
+interval and observation policy. Identical timestamps with different selection bounds
 are different requests: a past-only reference and a cut can select a different PTS.
-Cache bounded batches rather than introducing a file/index for every tiny RGB image.
+Lookup rows point into bounded batch files; native decodes only missing requested
+times. Do not introduce one file for each tiny RGB image.
 
 The existing VisualSampler seam consumes this owner for both local trail planning
 and canonical source analysis. Native response validation precedes cache admission.
@@ -75,3 +76,6 @@ restart, exact selection bounds, eviction and unchanged public delivery checks.
 [canonical scan evidence](../assets/scene-analysis/canonical-scan.md) document
 publication, cleanup and native CLI/MCP checks. Real UI threshold acceptance and
 useful screenshot selection remain their owning slices.
+
+[Requested-time reuse](../assets/scene-analysis/requested-time-reuse.md) replaces
+whole-batch matching after the long-index workload exposed repeated decoding.
