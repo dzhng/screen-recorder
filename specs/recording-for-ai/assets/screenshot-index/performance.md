@@ -51,6 +51,11 @@ The report is atomically checkpointed during source analysis, index generation a
 foreground requests, so interruption retains completed measurements. RSS is sampled,
 not a guaranteed peak. Full completion, bounded public paging and owned-process
 cleanup remain required; a running or failed report does not pass the gate.
+The measurement has a 45-minute safety deadline, recorded in its report. The spec
+requires a thirty-minute input, not completion in thirty minutes; only the separate
+speech gate requires real-time processing. The deadline is not a speed acceptance
+claim. The partial integration rate motivated this allowance; a full measurement
+still has to establish actual elapsed time.
 
 ## Interrupted integration run
 

@@ -1085,3 +1085,18 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   **Reach:** One existing owner controls publication and removal, with no additional
   deletion lock or queue. **Verdict:** Sound; the recording is fenced and producers
   stopped before this bounded cleanup begins. **Confidence:** High.
+
+## Index measurement deadline — 2026-09-16
+
+### Sound — medium confidence
+
+- **Choice:** Permit the full thirty-minute-input benchmark to run for up to
+  forty-five minutes before failing its safety guard. The earlier thirty-minute
+  guard came from a temporary probe; the product spec sets no index wall-time SLA.
+  The partial run suggests the complete measurement may take longer than that
+  guard, so keeping it would cut off the evidence needed to judge performance.
+  **Gap:** The spec requires elapsed-time measurement but does not specify the
+  harness termination deadline. **Reach:** Reports still expose the actual runtime,
+  and completion still requires every image, bounded paging and process cleanup.
+  **Verdict:** Sound; this bounds a measurement without declaring its speed acceptable.
+  **Confidence:** Medium.

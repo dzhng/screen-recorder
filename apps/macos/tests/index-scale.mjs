@@ -16,7 +16,8 @@ import { app, launchReady, socketPath, temporary } from "./harness.mjs";
 // SCREENREC_INDEX_SCALE_VIDEO: optional absolute path to the preserved generated fixture;
 // copied read-only into this run's disposable recording. Its hash identifies comparable runs.
 const durationUs = 1_800_000_000;
-const timeoutMs = 1_800_000;
+// This bounds the measurement run; the fixture duration is not a processing-time SLA.
+const timeoutMs = 45 * 60_000;
 const hash = async (path) =>
   createHash("sha256")
     .update(await readFile(path))
@@ -168,6 +169,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
     state: "preparing",
     generated: true,
     durationUs,
+    safetyDeadlineMs: timeoutMs,
     width: 320,
     height: 180,
     fps: 30,
@@ -219,7 +221,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
       t.signal.throwIfAborted();
       assert.ok(
         Date.now() - started < timeoutMs,
-        "Thirty-minute index run exceeded its time limit",
+        "Index measurement exceeded its 45-minute safety deadline",
       );
       const reply = await callLocal(socketPath(home), { id: randomUUID(), operation, params });
       assert.equal(reply.ok, true, JSON.stringify(reply));
