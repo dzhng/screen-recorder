@@ -1,8 +1,7 @@
 # Incremental screenshot selection ledger
 
-Status: the native stillness fixture reopens the equality contract; its bounded-noise
-implementation is in progress. Retained/public delivery is verified; visual and scale
-acceptance remain in 11c. One core selection policy, no storage, renderer or transport owner.
+Status: incremental selection and bounded sampled stillness are verified through
+the native public index lab. Visual usefulness and scale acceptance remain in 11c. One core selection policy, no storage, renderer or transport owner.
 See [verification and decisions](../assets/screenshot-index/selection-ledger.md).
 Feeds retained index production in 11c. Three independent drafts agreed on proving
 selection before adding publication; this slice resolves their policy gaps.
@@ -48,8 +47,10 @@ time when a boundary is at the end of a half-open interval.
   burst needs cumulative displacement of 0.01 times long edge; button-down evidence
   does not need that distance. These heuristic values are delegated to fixture
   outcomes and live centrally in selection policy, never in adapters.
-- Collapse only ordinary static coverage after a contiguous chain of zero measured
-  pixel difference and equivalent visible cursor evidence with no new burst. A
+- Collapse only ordinary static coverage within one contiguous source-wide stillness
+  run and equivalent visible cursor evidence with no new burst. Each sampled RGB
+  channel may span at most two integer levels over the entire run; coverage and
+  chunk boundaries never reset that allowance. A
   below-threshold scene comparison alone is insufficient. Mandatory reasons survive
   even when images appear identical. Label equality as sampled, not full-resolution
   or semantic equivalence. Missing evidence cannot establish equality.
@@ -76,26 +77,16 @@ The [catalog stream](../assets/screenshot-index/catalog-stream.md) supplies boun
 ordered source evidence to this ledger. Its separate scene traversal has linear
 startup reads on static sources; no additional boundary index is introduced.
 
-## Open decoder-noise gate
+## Bounded decoder noise
 
-The generated still page remains red. An independent RGB replay reproduces its exact
-encoded-video hash and measures 353 varying channels, total range 354, maximum range 2
-in integer eight-bit RGB values. Early reconstruction changes many channels; later
-one channel oscillates by one unit. The [measurements](../assets/scene-analysis/stillness-envelope.json)
-show why merely tolerating one aggregate difference cannot close the original fixture.
+[Source-wide stillness evidence](../assets/screenshot-index/stillness-runs.md)
+records the measured envelope, drift and small-feature regressions, and native
+unchanged-video result. The canonical scene producer owns per-channel minima and
+maxima across chunks, persisting a run start with existing coverage. The selector
+consumes that proof; it does not infer stillness from adjacent absolute means.
+Missing evidence, acquisition gaps and out-of-kept observations remain conservative.
 
-Three independent drafts agreed that adjacent absolute means cannot distinguish
-oscillation from cumulative drift. The pending implementation uses source-global
-stillness runs, with per-channel min/max carried across canonical chunks. Permit at
-most two eight-bit levels of range per channel over the whole run (under 1% of a full
-channel); a third level starts a new run. The allowance never resets at ordinary
-coverage deadlines. Scene-boundary thresholds remain unchanged. This deliberately
-permits true changes within that narrow envelope to collapse, while preserving the
-source and arbitrary timestamp inspection.
-
-The source processor retries from zero after failure, so no persisted RGB checkpoint
-or per-frame RGB table is needed. Persist bounded run identifiers with coverage and
-stream them into the existing selector. Version source/selection policies; old or
-missing proof, gaps and out-of-kept observations remain conservative. Prove unchanged
-native stillness, oscillation, monotonic drift, small-feature change, chunk overlap,
-cut filtering and event preservation before replacing the exact-zero rule above.
+This deliberately permits genuine changes confined to two channel levels to
+collapse. Source media and arbitrary timestamp inspection remain available. Scene
+boundary thresholds do not change. Failed source processing restarts from zero,
+so no persisted RGB checkpoint or additional table is required.

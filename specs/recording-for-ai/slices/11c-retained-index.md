@@ -9,8 +9,9 @@ selection usefulness and scale acceptance remain open. See [retained storage](..
 long-source baseline; requested-time reuse now passes native byte parity and needs
 the full rerun. The [generated review](../assets/screenshot-index/generated-review.md)
 and [before-event correction](../assets/screenshot-index/before-event/review.md) retain
-visual findings. Still-screen equality remains red; its tolerances must bound
-cumulative drift, not merely accept a small difference at every step.
+visual findings. The unchanged native stillness fixture now retains only its two
+mandatory endpoints with a source-wide bounded rounding envelope; full scale and
+real-capture acceptance remain open.
 
 IndexProcessing pins revision, source/scene generations and selection/rendering
 policies before admission. One producer streams selection into bounded catalog rows

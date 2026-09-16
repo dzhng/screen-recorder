@@ -6,9 +6,9 @@
     "release": "25.6.0",
     "arch": "arm64"
   },
-  "bundledServiceSha256": "750a90cde78314e3f6c8a4c8197be4f3cd9b2853bac0299736b5db700c7475f5",
+  "bundledServiceSha256": "0dce2151d43a96eb8d2665885852378e6976f6c32913985f3d40df59dd30c5dd",
   "node": "v24.14.0",
-  "revision": "5f5493cc82f243af4e6282c3619c7748216e8f50",
+  "revision": "b18530af1660996867de60ab086b0744daa82d24",
   "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
   "width": 1280,
   "height": 800,
@@ -18,7 +18,7 @@
     {
       "name": "static-pointing",
       "selectedCount": 5,
-      "elapsedMs": 1841.0847919999999,
+      "elapsedMs": 1947.30525,
       "retainedBytes": 594425,
       "checks": {
         "retainedFramesValid": true,
@@ -72,21 +72,21 @@
     },
     {
       "name": "stillness",
-      "selectedCount": 5,
-      "elapsedMs": 1996.279959,
-      "retainedBytes": 493646,
+      "selectedCount": 2,
+      "elapsedMs": 1936.8117499999998,
+      "retainedBytes": 220430,
       "checks": {
         "retainedFramesValid": true,
         "retainedCoverageValid": true,
         "firstLast": true,
         "coverageContiguous": true,
         "coverageEndUs": 16000000,
-        "uniqueActualSourceTimes": 5,
-        "uniqueRenderedImages": 3,
+        "uniqueActualSourceTimes": 2,
+        "uniqueRenderedImages": 2,
         "expectedPlaybackDurationUs": 16000000,
         "coverageComplete": true,
         "transitions": [],
-        "onlyMandatoryEndpoints": false
+        "onlyMandatoryEndpoints": true
       },
       "contactSheets": [
         "contact-01.png"
@@ -96,7 +96,7 @@
     {
       "name": "navigation",
       "selectedCount": 7,
-      "elapsedMs": 2047.1337919999996,
+      "elapsedMs": 2319.4713330000004,
       "retainedBytes": 811125,
       "checks": {
         "retainedFramesValid": true,
@@ -138,7 +138,7 @@
     {
       "name": "rapid-clicks",
       "selectedCount": 6,
-      "elapsedMs": 1682.009833000001,
+      "elapsedMs": 1532.6008330000004,
       "retainedBytes": 693931,
       "checks": {
         "retainedFramesValid": true,
@@ -174,7 +174,7 @@
     {
       "name": "edited-join",
       "selectedCount": 5,
-      "elapsedMs": 2927.2657500000005,
+      "elapsedMs": 2949.140875000001,
       "retainedBytes": 554939,
       "checks": {
         "retainedFramesValid": true,
@@ -196,7 +196,7 @@
     {
       "name": "rapid-scene-stress",
       "selectedCount": 32,
-      "elapsedMs": 10954.780625000001,
+      "elapsedMs": 11103.122000000001,
       "retainedBytes": 4001894,
       "checks": {
         "retainedFramesValid": true,
@@ -364,7 +364,7 @@
     {
       "name": "continuous-motion",
       "selectedCount": 3,
-      "elapsedMs": 1263.516334,
+      "elapsedMs": 1475.7208339999997,
       "retainedBytes": 323473,
       "checks": {
         "retainedFramesValid": true,

@@ -1020,3 +1020,30 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   the same ceiling, so their receipts agree and callers can inspect both states.
   **Verdict:** Sound; it fixes the actual earlier-side contract without inventing
   cursor timing or changing arbitrary-frame requests. **Confidence:** High.
+
+## Sampled stillness — 2026-09-16
+
+### Sound — medium confidence
+
+- **Choice:** Allow each low-resolution RGB channel to vary by at most two integer
+  levels across an entire stillness run. A compressed recording of an unchanged
+  page can oscillate by one or two levels, so demanding exact equality produced
+  redundant images. Allowing a fresh small difference at each step would instead
+  hide slow cumulative changes. The source-wide minimum/maximum stops that drift:
+  a third level starts a new run, even across processing chunks. Genuine changes
+  confined to two levels can still collapse; original media and timestamp requests
+  remain available. **Gap:** The plan did not define tolerance for codec rounding.
+  **Reach:** Only ordinary sampled coverage can collapse; mandatory events survive.
+  **Verdict:** Sound; bounded loss is explicit and the unchanged encoded fixture
+  supplies the measured allowance. **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** Persist the stillness run's start with existing scene coverage, while
+  keeping channel minima/maxima only in the active source scan. After failure the
+  scan restarts from zero, reconstructing the same run rather than resuming without
+  its earlier bounds. **Gap:** A cross-chunk proof needs an owner and restart rule.
+  **Reach:** Selection consumes one canonical proof without another RGB table or
+  checkpoint format. Policy identities invalidate earlier derived evidence.
+  **Verdict:** Sound; it matches the existing restart behavior and bounds memory.
+  **Confidence:** High.

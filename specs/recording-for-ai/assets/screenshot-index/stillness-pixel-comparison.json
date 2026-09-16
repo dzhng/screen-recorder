@@ -1,0 +1,76 @@
+[
+  {
+    "fixture": "continuous-motion",
+    "sourceVideoIdentical": true,
+    "before": 3,
+    "after": 3,
+    "removed": [],
+    "added": [],
+    "unchangedImages": 3,
+    "changedImages": []
+  },
+  {
+    "fixture": "edited-join",
+    "sourceVideoIdentical": true,
+    "before": 5,
+    "after": 5,
+    "removed": [],
+    "added": [],
+    "unchangedImages": 5,
+    "changedImages": []
+  },
+  {
+    "fixture": "navigation",
+    "sourceVideoIdentical": true,
+    "before": 7,
+    "after": 7,
+    "removed": [],
+    "added": [],
+    "unchangedImages": 7,
+    "changedImages": []
+  },
+  {
+    "fixture": "rapid-clicks",
+    "sourceVideoIdentical": true,
+    "before": 6,
+    "after": 6,
+    "removed": [],
+    "added": [],
+    "unchangedImages": 6,
+    "changedImages": []
+  },
+  {
+    "fixture": "rapid-scene-stress",
+    "sourceVideoIdentical": true,
+    "before": 32,
+    "after": 32,
+    "removed": [],
+    "added": [],
+    "unchangedImages": 32,
+    "changedImages": []
+  },
+  {
+    "fixture": "static-pointing",
+    "sourceVideoIdentical": true,
+    "before": 5,
+    "after": 5,
+    "removed": [],
+    "added": [],
+    "unchangedImages": 5,
+    "changedImages": []
+  },
+  {
+    "fixture": "stillness",
+    "sourceVideoIdentical": true,
+    "before": 5,
+    "after": 2,
+    "removed": [
+      5000000,
+      10000000,
+      15000000
+    ],
+    "added": [],
+    "unchangedImages": 2,
+    "changedImages": []
+  }
+]

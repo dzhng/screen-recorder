@@ -6,9 +6,9 @@
     "release": "25.6.0",
     "arch": "arm64"
   },
-  "bundledServiceSha256": "750a90cde78314e3f6c8a4c8197be4f3cd9b2853bac0299736b5db700c7475f5",
+  "bundledServiceSha256": "0dce2151d43a96eb8d2665885852378e6976f6c32913985f3d40df59dd30c5dd",
   "node": "v24.14.0",
-  "revision": "5f5493cc82f243af4e6282c3619c7748216e8f50",
+  "revision": "b18530af1660996867de60ab086b0744daa82d24",
   "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
   "width": 1280,
   "height": 800,

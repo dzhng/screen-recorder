@@ -1,5 +1,5 @@
 {
-  "count": 78,
+  "count": 75,
   "files": [
     "continuous-motion/contact-01.png",
     "continuous-motion/selected-000.png",
@@ -75,9 +75,6 @@
     "static-pointing/selected-004.png",
     "stillness/contact-01.png",
     "stillness/selected-000.png",
-    "stillness/selected-001.png",
-    "stillness/selected-002.png",
-    "stillness/selected-003.png",
-    "stillness/selected-004.png"
+    "stillness/selected-001.png"
   ]
 }

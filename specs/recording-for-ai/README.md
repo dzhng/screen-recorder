@@ -29,8 +29,8 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: resolve the still-screen rounding/equality gate, then repeat the
-full index scale gate in
+Current pickup: run the full index scale gate after requested-time cache reuse and
+bounded stillness integration in
 [retained index delivery](slices/11c-retained-index.md). Selection, retained storage,
 core orchestration and public CLI/MCP index delivery pass their generated-data
 checks; visual usefulness and thirty-minute index performance remain open.
@@ -120,7 +120,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [ ] [10e — Default public trail frames](slices/10e-public-trails.md)
   - [x] [10f — Durable shared scene evidence](slices/10f-durable-scenes.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
-  - [ ] [11a — Incremental selection ledger](slices/11a-selection-ledger.md)
+  - [x] [11a — Incremental selection ledger](slices/11a-selection-ledger.md)
   - [x] [11b — Shared frame materialization](slices/11b-shared-frame-materialization.md)
   - [ ] [11c — Retained index and public delivery](slices/11c-retained-index.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
