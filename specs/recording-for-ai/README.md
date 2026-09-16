@@ -30,8 +30,8 @@ recording or permission is pending, but do not call that gate passed.
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
 Current pickup: implement the [selection ledger](slices/11a-selection-ledger.md)
-and [shared frame materialization](slices/11b-shared-frame-materialization.md) in
-parallel, then [retained index delivery](slices/11c-retained-index.md). [Default public trail frames](slices/10e-public-trails.md) now pass generated
+then [retained index delivery](slices/11c-retained-index.md), using the verified
+[shared frame materialization](slices/11b-shared-frame-materialization.md). [Default public trail frames](slices/10e-public-trails.md) now pass generated
 CLI/MCP pixel and independent readability checks. The
 [requested-time scene rule](slices/10c-trail-timing.md) is verified against encoded
 sparse sources, including a two-minute gap. [Indexed evidence reads](slices/10d-trail-evidence.md)
@@ -115,7 +115,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [10f — Durable shared scene evidence](slices/10f-durable-scenes.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
   - [ ] [11a — Incremental selection ledger](slices/11a-selection-ledger.md)
-  - [ ] [11b — Shared frame materialization](slices/11b-shared-frame-materialization.md)
+  - [x] [11b — Shared frame materialization](slices/11b-shared-frame-materialization.md)
   - [ ] [11c — Retained index and public delivery](slices/11c-retained-index.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)

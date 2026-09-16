@@ -1,7 +1,8 @@
 # Shared frame materialization for retained evidence
 
-Status: dependency-ready alongside 11a. Extract the existing render-to-explicit-output
-operation from FrameInspection.execute. One owner maps the pinned revision, plans
+Status: implemented; [verification](../assets/frame-delivery/materialization.md)
+covers shared materialization and unchanged native output. Retained index delivery
+remains in 11c. The render-to-explicit-output operation is shared with FrameInspection. One owner maps the pinned revision, plans
 trails, decodes and validates actual image/overlay receipts. FrameInspection keeps
 queue admission, cache reservation/publication and cache metadata. No second renderer,
 native selector, timeline mapper or scene detector.

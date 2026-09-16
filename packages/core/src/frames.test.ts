@@ -5,7 +5,8 @@ import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
-import { FrameInspection, type FrameDecoder } from "./frames.js";
+import { FrameInspection } from "./frames.js";
+import { materializeFrame, type FrameDecoder } from "./frame-materialization.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import type { VisualSampler } from "./scenes.js";
@@ -117,49 +118,43 @@ async function fixture(held?: () => Promise<void>, decodedOffset = 0) {
       rgbBase64: Buffer.alloc(192).toString("base64"),
     })),
   });
-  frames = new FrameInspection(
-    store,
-    jobs,
-    cache,
-    home,
-    async (request) => {
-      calls++;
-      requests.push(request);
-      if (held) await held();
-      await writeFile(request.output, "frame");
-      return {
-        file: request.output,
-        mediaType: "image/png",
-        requestedSourceUs: request.atSourceUs,
-        actualSourceUs: request.atSourceUs + decodedOffset + (controls.badSelection ? 1 : 0),
-        distanceUs: 0,
-        width: 10,
-        height: 10,
-        sourceWidth: 10,
-        sourceHeight: 10,
-        bytes: 5,
-        ...(request.overlay
-          ? {
-              overlay: {
-                trailPoints:
-                  request.overlay.trail.reduce((n, run) => n + run.length, 0) +
-                  (controls.badReceipt ? 1 : 0),
-                ...(request.overlay.trail[0]?.[0]
-                  ? {
-                      trailStartUs: request.overlay.trail[0][0].atSourceUs,
-                      trailEndUs: request.overlay.trail.at(-1)!.at(-1)!.atSourceUs,
-                    }
-                  : {}),
-                ...(request.overlay.pointer
-                  ? { pointerSourceUs: request.overlay.pointer.atSourceUs }
-                  : {}),
-              },
-            }
-          : {}),
-      };
-    },
-    { processing, evidence, sample },
-  );
+  const decode: FrameDecoder = async (request) => {
+    calls++;
+    requests.push(request);
+    if (held) await held();
+    await writeFile(request.output, "frame");
+    return {
+      file: request.output,
+      mediaType: "image/png",
+      requestedSourceUs: request.atSourceUs,
+      actualSourceUs: request.atSourceUs + decodedOffset + (controls.badSelection ? 1 : 0),
+      distanceUs: 0,
+      width: 10,
+      height: 10,
+      sourceWidth: 10,
+      sourceHeight: 10,
+      bytes: 5,
+      ...(request.overlay
+        ? {
+            overlay: {
+              trailPoints:
+                request.overlay.trail.reduce((n, run) => n + run.length, 0) +
+                (controls.badReceipt ? 1 : 0),
+              ...(request.overlay.trail[0]?.[0]
+                ? {
+                    trailStartUs: request.overlay.trail[0][0].atSourceUs,
+                    trailEndUs: request.overlay.trail.at(-1)!.at(-1)!.atSourceUs,
+                  }
+                : {}),
+              ...(request.overlay.pointer
+                ? { pointerSourceUs: request.overlay.pointer.atSourceUs }
+                : {}),
+            },
+          }
+        : {}),
+    };
+  };
+  frames = new FrameInspection(store, jobs, cache, home, decode, { processing, evidence, sample });
   const take = store.allocate().recording;
   store.ingestLifecycle(take.recordingId, {
     sourceId: take.sourceId,
@@ -197,6 +192,8 @@ async function fixture(held?: () => Promise<void>, decodedOffset = 0) {
     evidence,
     controls,
     original,
+    decode,
+    sample,
     sourceOrder,
     sourceCalls: () => sourceCalls,
     calls: () => calls,
@@ -740,4 +737,72 @@ test("annotated decoder failures stay failed until explicit frame retry reuses p
   });
   expect(f.sourceCalls()).toBe(1);
   expect(attempts).toBe(2);
+});
+
+test("materialization writes retained output with shared cut mapping and annotation outside the disposable cache", async () => {
+  const f = await fixture();
+  const revision = f.store.edit(f.take.recordingId, {
+    operation: "cut",
+    requestId: "cut",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 0, endUs: 100 }],
+  });
+  const directory = join(dirname(f.original), "..", "retained");
+  await mkdir(directory);
+  const input = {
+    recordingId: f.take.recordingId,
+    sourceId: f.take.sourceId,
+    revision,
+    source: f.original,
+    output: join(directory, "clean.png"),
+    atUs: 100,
+    maxLongEdge: 1600,
+    crop: null,
+    clean: true,
+    trailUs: 0,
+    sourceEvidence: null,
+  };
+  const dependencies = { decode: f.decode, evidence: f.evidence, sample: f.sample };
+  const clean = await materializeFrame(input, dependencies, new AbortController().signal);
+  expect(clean).toMatchObject({
+    file: input.output,
+    requestedPlaybackUs: 100,
+    actualPlaybackUs: 100,
+    requestedSourceUs: 200,
+    actualSourceUs: 200,
+    kept: { startUs: 100, endUs: 1000 },
+    annotation: null,
+    sourceEvidence: null,
+  });
+  expect(f.processing.status(f.take.recordingId).state).toBe("not_requested");
+  f.processing.prepare(f.take.recordingId);
+  await f.jobs.idle();
+  const sourceEvidence = f.processing.status(f.take.recordingId).published!.evidence;
+  const annotated = await materializeFrame(
+    {
+      ...input,
+      output: join(directory, "annotated.png"),
+      clean: false,
+      trailUs: 2_000_000,
+      sourceEvidence,
+    },
+    dependencies,
+    new AbortController().signal,
+  );
+  expect(annotated).toMatchObject({
+    requestedPlaybackUs: 100,
+    actualPlaybackUs: 100,
+    requestedSourceUs: 200,
+    actualSourceUs: 200,
+    revisionId: revision.id,
+    annotation: {
+      pointer: { atSourceUs: 200, x: 3, y: 3 },
+      interval: { startUs: 100, endUs: 200 },
+    },
+    sourceEvidence: { generation: sourceEvidence.generation },
+  });
+  expect(f.cache.bytes).toBe(0);
+  await f.cache.reconcile();
+  expect(await readFile(clean.file, "utf8")).toBe("frame");
+  expect(await readFile(annotated.file, "utf8")).toBe("frame");
 });

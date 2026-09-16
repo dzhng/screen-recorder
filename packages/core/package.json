@@ -55,6 +55,10 @@
     "./scene-processing": {
       "types": "./dist/scene-processing.d.ts",
       "default": "./dist/scene-processing.js"
+    },
+    "./frame-materialization": {
+      "types": "./dist/frame-materialization.d.ts",
+      "default": "./dist/frame-materialization.js"
     }
   },
   "scripts": {
