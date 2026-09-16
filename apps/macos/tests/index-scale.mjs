@@ -160,21 +160,26 @@ function sampleMemory(servicePid, report) {
     .trim()
     .split("\n")
     .map((row) => row.trim().split(/\s+/).map(Number));
-  report.servicePeakKiB = Math.max(
-    report.servicePeakKiB,
-    processes.find((row) => row[0] === servicePid)?.[2] ?? 0,
-  );
+  const serviceRSSKiB = processes.find((row) => row[0] === servicePid)?.[2] ?? null;
+  report.servicePeakKiB = Math.max(report.servicePeakKiB, serviceRSSKiB ?? 0);
   const owned = new Set([servicePid]);
   for (let previousSize = 0; previousSize !== owned.size;) {
     previousSize = owned.size;
     for (const [pid, ppid] of processes) if (owned.has(ppid)) owned.add(pid);
   }
+  let workerTotalRSSKiB = 0,
+    workerCount = 0,
+    maxWorkerRSSKiB = 0;
   for (const [pid, , rss] of processes)
     if (pid !== servicePid && owned.has(pid)) {
+      workerTotalRSSKiB += rss;
+      workerCount++;
+      maxWorkerRSSKiB = Math.max(maxWorkerRSSKiB, rss);
       report.workerPeakKiB = Math.max(report.workerPeakKiB, rss);
       report.workerObservations++;
     }
   report.memorySamples++;
+  return { serviceRSSKiB, workerTotalRSSKiB, workerCount, maxWorkerRSSKiB };
 }
 
 test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_000 }, async (t) => {
@@ -249,11 +254,12 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
     let ready,
       nextCheckpoint = 0,
       nextMemory = 0,
+      lastMemory,
       indexStarted;
     const observe = async (result) => {
       const now = Date.now();
       if (now >= nextMemory) {
-        sampleMemory(servicePid, report);
+        lastMemory = { elapsedMs: now - started, ...sampleMemory(servicePid, report) };
         nextMemory = now + 1000;
       }
       if (now >= nextCheckpoint || result.state === "ready") {
@@ -261,6 +267,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
           elapsedMs: now - started,
           state: result.state,
           phase: indexStarted === undefined ? "dependencies" : "index",
+          memory: lastMemory,
           ...catalogMetrics(home),
         };
         report.checkpoints.push(checkpoint);
