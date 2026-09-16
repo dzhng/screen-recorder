@@ -59,13 +59,18 @@ primitive only; cache and public frame integration remain incomplete.
 
 ## Current implementation pickup
 
-The [cache primitive](09c-derived-cache.md) is integrated. The core frame owner implements revision pinning, kept-span decode plans, cache
-lookup/regeneration and attempt publication. Three focused core tests and the integrated 78-test core suite pass, with core
-build/typecheck and independent Codex review finding no actionable defects.
-Real public/native integration remains pending. Public
-operations and actual image transfer are not yet implemented or advertised.
+Explicit clean single-frame requests now run through the public service, CLI file
+output and MCP image content. The [checkpoint evidence](../assets/frame-delivery/review.md)
+records real own-window recording, matching client pixels, crops, historical/current
+revision separation and immutable source hashes. The shared registry owns frame
+request/retry and bounded artifact read/close operations.
 
-The next integration must preserve an acquired cache read until delivery completes.
-Returning a pathname then evicting it before the adapter reads would fail the real
-consumer contract. Keep large image payloads out of the metadata socket's single
-response limit; use a bounded delivery mechanism with explicit lifetime/cleanup.
+Delivery holds an acquired cache reader for a fixed lifetime, transfers bounded
+chunks, and releases on completion, failure or expiry. Large images do not travel
+inside one metadata response. The CLI accepts an explicit output path or creates
+a temporary image file; it never overwrites an existing output.
+
+Next: full-resolution and sparse public frame coverage, frame batches, audio
+inspection and the default trail dependency. The parent remains open. Do not
+claim default trail frames, full public-frame acceptance or actual model-level MCP
+visual inspection from this clean single-frame checkpoint.

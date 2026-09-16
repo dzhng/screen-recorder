@@ -30,9 +30,10 @@ recording or permission is pending, but do not call that gate passed.
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
 Current pickup: [revision-bound inspection and derivative cache](slices/09d-public-frames.md).
-The cache primitive and generation-safe queue regeneration are integrated.
-The core frame owner has focused tests; public delivery and native integration
-remain the next verification target.
+Clean single-frame service/CLI/MCP delivery is integrated and exercised against
+a real own-window recording. Full-resolution/sparse public coverage, batches and
+audio remain; default trails still need their boundary producer. See the
+[frame checkpoint](assets/frame-delivery/review.md).
 Source cursor processing is integrated: finalization admits a durable job, raw
 pages resolve only its published generation, and startup reclaims abandoned
 unpublished derivatives. Cuts reuse original evidence. Core, service, adapter and

@@ -527,3 +527,30 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   source media or retained evidence. Native per-output limits bound pending files.
 - **Verdict:** Sound: cache pressure cannot silently truncate an active delivery.
   **Confidence:** Medium.
+
+## Image delivery lifetime
+
+### Sound — medium confidence
+
+- **Choice:** The service gives a ready image a short-lived read token, transfers it
+  in chunks and closes it after delivery. A token lasts at most 30 seconds, no
+  matter how often it is read; at most 32 tokens may hold files, and one read is
+  capped at 512 KiB. If a client disappears, expiry releases the file automatically.
+- **Gap:** The spec allowed images larger than a metadata socket response but did
+  not choose the binary transfer or abandoned-reader lifetime.
+- **Reach:** CLI and MCP consume the same bytes without racing cache eviction.
+  Repeated offsets remain deterministic, including the final chunk. Slow callers
+  can request a fresh image delivery; they cannot pin cache files indefinitely.
+- **Verdict:** Sound for bounded local image delivery. **Confidence:** Medium.
+
+### Sound — medium confidence
+
+- **Choice:** CLI image inspection uses an explicit output path when supplied, or
+  creates a temporary PNG and returns its absolute path. It refuses to overwrite
+  an existing file. MCP returns actual image content alongside matching metadata.
+- **Gap:** The spec required a CLI file but did not choose its default destination
+  or collision behavior.
+- **Reach:** An external agent can inspect the returned local path immediately;
+  users who want a retained destination pass one explicitly. Temporary images are
+  delivered files, separate from the service's evictable internal cache.
+- **Verdict:** Sound and reversible. **Confidence:** Medium.

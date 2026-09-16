@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 import { randomUUID } from "node:crypto";
+import { mkdtemp, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { imageBytes, ImageDeliveryError } from "./media.js";
 import { parseArgs } from "node:util";
 import { z } from "zod";
 import {
@@ -44,6 +48,8 @@ class UsageError extends Error {
 }
 
 function errorResult(id: string, error: unknown): OperationResponse {
+  if (error instanceof ImageDeliveryError)
+    return failure(id, error.code, error.message, error.retryable);
   if (error instanceof UsageError) return failure(id, error.code, error.message);
   if (error instanceof LocalTransportError)
     return failure(
@@ -128,8 +134,21 @@ async function mcp(selection: ServiceSelection) {
     } catch (error) {
       result = errorResult(id, error);
     }
+    let image: Buffer | null = null;
+    if (call.params.name === "frame.get" || call.params.name === "frame.retry") {
+      try {
+        image = await imageBytes({ ...selection, signal: extra.signal }, result);
+      } catch (error) {
+        result = errorResult(id, error);
+      }
+    }
     return {
-      content: [{ type: "text", text: JSON.stringify(result) }],
+      content: [
+        { type: "text" as const, text: JSON.stringify(result) },
+        ...(image
+          ? [{ type: "image" as const, data: image.toString("base64"), mimeType: "image/png" }]
+          : []),
+      ],
       structuredContent: result,
       isError: !result.ok,
     };
@@ -147,6 +166,7 @@ async function main() {
     options: {
       socket: { type: "string" },
       params: { type: "string" },
+      output: { type: "string" },
       id: { type: "string" },
       help: { type: "boolean", short: "h" },
     },
@@ -159,7 +179,7 @@ async function main() {
       JSON.stringify(
         {
           usage:
-            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] | screenrec mcp [--socket PATH]",
+            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output IMAGE.png] | screenrec mcp [--socket PATH]",
           service:
             "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           timeUnits:
@@ -179,17 +199,33 @@ async function main() {
     throw new Error("Expected one operation name or mcp");
   const selection: ServiceSelection = { socketPath: values.socket };
   if (operation === "mcp") {
-    if (values.params || values.id) throw new Error("mcp accepts --socket only");
+    if (values.params || values.id || values.output) throw new Error("mcp accepts --socket only");
     // Listing tools describes the registry; only a called tool looks for a service.
     await mcp(selection);
     return;
   }
+  if (values.output && operation !== "frame.get" && operation !== "frame.retry")
+    throw new Error("--output applies only to frame operations");
   const sending = request(
     values.id ?? responseId,
     operation,
     await readParams(values.params ?? "{}"),
   );
-  const result = await invoke(selection, sending);
+  let result = await invoke(selection, sending);
+  if (operation === "frame.get" || operation === "frame.retry") {
+    try {
+      const bytes = await imageBytes(selection, result);
+      if (bytes && result.ok) {
+        const output = values.output
+          ? resolve(values.output)
+          : join(await mkdtemp(join(tmpdir(), "screenrec-image-")), "frame.png");
+        await writeFile(output, bytes, { flag: "wx" });
+        result = { ...result, data: { ...(result.data as Record<string, unknown>), output } };
+      }
+    } catch (error) {
+      result = errorResult(sending.id, error);
+    }
+  }
   process.stdout.write(JSON.stringify(result) + "\n");
   if (!result.ok) process.exitCode = 1;
 }

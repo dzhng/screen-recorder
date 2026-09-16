@@ -7,11 +7,11 @@ import { editedToSource, sourceToEdited, type TimeRange } from "./timeline.js";
 export type FrameCrop = { x: number; y: number; width: number; height: number };
 export type FrameInput = {
   recordingId: string;
-  revisionId?: string;
+  revisionId?: string | undefined;
   atUs: number;
   clean: true;
-  crop?: FrameCrop;
-  maxLongEdge?: number;
+  crop?: FrameCrop | undefined;
+  maxLongEdge?: number | undefined;
 };
 export type NativeFrame = {
   file: string;
@@ -32,7 +32,7 @@ export type FrameDecoder = (
     output: string;
     atSourceUs: number;
     kept: TimeRange;
-    crop?: FrameCrop;
+    crop?: FrameCrop | undefined;
     maxLongEdge: number;
   },
   signal: AbortSignal,
@@ -116,6 +116,12 @@ export class FrameInspection {
           }
         : null,
     };
+  }
+
+  retry(input: FrameInput) {
+    const status = this.request(input);
+    if (status.jobId) this.jobs.retry(status.jobId);
+    return this.request({ ...input, revisionId: status.revisionId });
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {

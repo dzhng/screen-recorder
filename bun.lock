@@ -37,6 +37,8 @@
         "@screenrec/service": "workspace:*",
       },
       "devDependencies": {
+        "@modelcontextprotocol/sdk": "1.30.0",
+        "@screenrec/cli": "workspace:*",
         "@screenrec/client": "workspace:*",
       },
     },

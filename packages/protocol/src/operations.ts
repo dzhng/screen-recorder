@@ -18,9 +18,63 @@ const historyCursor = z
   })
   .strict();
 
+const frameParams = recording
+  .extend({
+    revisionId: id.optional(),
+    atUs: time,
+    clean: z.literal(true),
+    maxLongEdge: z.int().min(1).max(8192).optional(),
+    crop: z
+      .object({
+        x: z.int().nonnegative(),
+        y: z.int().nonnegative(),
+        width: z.int().positive(),
+        height: z.int().positive(),
+      })
+      .strict()
+      .optional(),
+  })
+  .strict();
+
 // These are implemented capabilities. Adapters derive their advertised tools from
 // the same schemas the service validates, rather than promising future operations.
 export const operationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("frame.get"),
+      params: frameParams,
+    })
+    .strict()
+    .describe(
+      "Request a clean frame at edited playback time; pin the returned revision when polling pending work. The returned image has no pointer or trail overlay.",
+    ),
+  z
+    .object({ operation: z.literal("frame.retry"), params: frameParams })
+    .strict()
+    .describe("Explicitly retry failed clean frame processing using the same pinned request."),
+  z
+    .object({
+      operation: z.literal("artifact.read"),
+      params: z
+        .object({
+          token: id,
+          offset: time,
+          maxBytes: z
+            .int()
+            .min(1)
+            .max(512 * 1024)
+            .default(512 * 1024),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Read a bounded base64 chunk from a ready image delivery; retrying an offset returns the same bytes.",
+    ),
+  z
+    .object({ operation: z.literal("artifact.close"), params: z.object({ token: id }).strict() })
+    .strict()
+    .describe("Release an image delivery; closing it again succeeds."),
   z
     .object({
       operation: z.literal("cursor.raw"),

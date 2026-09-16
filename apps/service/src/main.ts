@@ -2,6 +2,9 @@ import { randomUUID } from "node:crypto";
 import { CatalogError, RevisionStore } from "@screenrec/core/library";
 import { JobQueue } from "@screenrec/core/jobs";
 import { CursorEvidenceStore, type CursorEvidenceReceipt } from "@screenrec/core/evidence";
+import { DerivedCache } from "@screenrec/core/cache";
+import { FrameInspection, type NativeFrame } from "@screenrec/core/frames";
+import { DerivativeDelivery } from "./delivery.js";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { operate, operationFailure } from "./operations.js";
 import { homedir } from "node:os";
@@ -49,6 +52,10 @@ async function main(): Promise<void> {
   let listener: LocalListener;
   let jobs: JobQueue | undefined;
   let processing: SourceProcessing;
+  let frames: FrameInspection;
+  let delivery: DerivativeDelivery | undefined;
+  let cacheReady: Promise<void> = Promise.resolve();
+  let cacheFailure: unknown;
   let stopping = false;
   const cleanupLifetime = new AbortController();
   let evidenceCleanup: Promise<void> = Promise.resolve();
@@ -60,10 +67,24 @@ async function main(): Promise<void> {
       newId: randomUUID,
     });
     const evidence = new CursorEvidenceStore(store);
+    const cache = new DerivedCache(store, home);
+    cacheReady = cache.reconcile(cleanupLifetime.signal).catch((error) => {
+      cacheFailure = error;
+      if (!cleanupLifetime.signal.aborted)
+        log(`cache reconciliation failed: ${(error as Error).message}`);
+    });
+    delivery = new DerivativeDelivery(cache);
     jobs = new JobQueue({
       store,
       providers: { newId: randomUUID },
-      execute: (execution) => processing.execute(execution),
+      execute: async (execution) => {
+        if (execution.job.artifact === "frame") {
+          await cacheReady;
+          if (cacheFailure) throw cacheFailure;
+          return frames.execute(execution);
+        }
+        return processing.execute(execution);
+      },
       onCapacity: () => resumeProcessing(),
     });
     processing = new SourceProcessing(
@@ -83,12 +104,25 @@ async function main(): Promise<void> {
         return result.data as CursorEvidenceReceipt;
       },
     );
+    frames = new FrameInspection(store, jobs, cache, home, async (request, signal) => {
+      const result = await worker("media.frame", request, { signal });
+      if (!result.ok)
+        throw new CatalogError(
+          result.error.code,
+          result.error.message,
+          result.error.details,
+          result.error.retryable,
+        );
+      return result.data as NativeFrame;
+    });
     listener = await listenLocal({
       runtimeDirectory,
       handler: (request) => serve(request),
     });
   } catch (error) {
-    await jobs?.close();
+    cleanupLifetime.abort();
+    delivery?.dispose();
+    await Promise.all([jobs?.close(), cacheReady]);
     store?.close();
     claim?.release();
     const startup = error instanceof StartupFailure;
@@ -120,6 +154,7 @@ async function main(): Promise<void> {
   const catalog = store;
   const ownership = claim;
   const queue = jobs;
+  const transfers = delivery;
   const control = openControl({
     input: process.stdin,
     output: process.stdout,
@@ -159,6 +194,8 @@ async function main(): Promise<void> {
         capture,
         () => healthData(started, socketPath, home),
         processing,
+        frames,
+        transfers,
       );
     } finally {
       queue.schedule();
@@ -200,12 +237,17 @@ async function main(): Promise<void> {
     // The startup lock outlives both the listener and catalog, so a replacement
     // cannot become the metadata writer before this owner has closed them.
     cleanupLifetime.abort();
-    void Promise.all([listener.close(), capture.close(), queue.close(), evidenceCleanup]).finally(
-      () => {
-        catalog.close();
-        ownership.release();
-      },
-    );
+    transfers.dispose();
+    void Promise.all([
+      listener.close(),
+      capture.close(),
+      queue.close(),
+      evidenceCleanup,
+      cacheReady,
+    ]).finally(() => {
+      catalog.close();
+      ownership.release();
+    });
   };
   for (const signal of ["SIGTERM", "SIGINT", "SIGHUP"] as const) process.on(signal, stop);
 

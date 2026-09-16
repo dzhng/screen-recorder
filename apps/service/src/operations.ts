@@ -1,3 +1,5 @@
+import type { FrameInspection } from "@screenrec/core/frames";
+import type { DerivativeDelivery } from "./delivery.js";
 import type { SourceProcessing } from "@screenrec/core/processing";
 import { TimelineError } from "@screenrec/core/timeline";
 import { CatalogError, type RevisionStore } from "@screenrec/core/library";
@@ -20,6 +22,8 @@ export async function operate(
   capture: CaptureService,
   health: () => unknown,
   processing: SourceProcessing,
+  frames: FrameInspection,
+  delivery: DerivativeDelivery,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
     return failure(
@@ -35,6 +39,32 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "frame.get":
+      case "frame.retry": {
+        const status =
+          operation.operation === "frame.get"
+            ? frames.request(operation.params)
+            : frames.retry(operation.params);
+        return {
+          ok: true,
+          data: {
+            ...status,
+            delivery: status.published ? delivery.open(status.published.frame.cacheId) : null,
+          },
+        };
+      }
+      case "artifact.read":
+        return {
+          ok: true,
+          data: delivery.read(
+            operation.params.token,
+            operation.params.offset,
+            operation.params.maxBytes,
+          ),
+        };
+      case "artifact.close":
+        delivery.close(operation.params.token);
+        return { ok: true, data: { closed: true } };
       case "cursor.raw":
         return { ok: true, data: processing.rawCursor(operation.params) };
       case "processing.status":

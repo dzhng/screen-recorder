@@ -148,3 +148,28 @@ test("a decoder result outside the kept interval is never published or retained 
   expect(f.cache.bytes).toBe(0);
   expect(f.calls()).toBe(1);
 });
+
+test("a failed frame waits for explicit retry and then publishes a fresh generation", async () => {
+  let calls = 0;
+  const f = await fixture(async () => {
+    if (++calls === 1) throw new Error("decoder interrupted");
+  });
+  const input = {
+    recordingId: f.take.recordingId,
+    revisionId: "r0",
+    atUs: 100,
+    clean: true as const,
+  };
+  f.frames.request(input);
+  await f.jobs.idle();
+  expect(f.frames.request(input)).toMatchObject({
+    state: "failed",
+    retryable: true,
+    published: null,
+  });
+  expect(calls).toBe(1);
+  f.frames.retry(input);
+  await f.jobs.idle();
+  expect(f.frames.request(input)).toMatchObject({ state: "ready", published: { generation: 2 } });
+  expect(calls).toBe(2);
+});
