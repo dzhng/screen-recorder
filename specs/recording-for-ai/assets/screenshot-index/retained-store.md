@@ -60,3 +60,12 @@ fix and passes now. No review findings remain unaddressed.
 The fresh worktree's first broad test run lacked generated `dist` files and the
 existing child-process revision test failed. Building core resolved that setup
 failure; the subsequent broader run passed without changing that test.
+
+The FIFO subprocess regression also passes when tests start in `packages/core`.
+Its imports are derived from the test module URL, and Node transforms the current
+TypeScript sources with a narrowly scoped relative-import hook. It cannot silently
+exercise stale build output. Removing nonblocking open from the source alone made
+the child time out; restoring it returned green without rebuilding. The test checks
+stderr and the exact expected rejection, so an import failure cannot count as a
+successful file rejection. All twelve retained-store tests pass from both working
+directories.

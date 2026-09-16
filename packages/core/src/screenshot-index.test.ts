@@ -293,21 +293,43 @@ test("a substituted FIFO is rejected without blocking file validation", async ()
   await f.index.finish(f.identity);
   unlinkSync(image.frame.file);
   execFileSync("mkfifo", [image.frame.file]);
+  const sourceDirectory = new URL("./", import.meta.url).href;
   const child = spawnSync(
     process.execPath,
     [
+      "--experimental-transform-types",
+      "--disable-warning=ExperimentalWarning",
       "--input-type=module",
       "-e",
       `
- import { RevisionStore } from './packages/core/dist/library.js';
- import { ScreenshotIndexStore } from './packages/core/dist/screenshot-index.js';
+ import { registerHooks } from 'node:module';
+ const sourceDirectory=${JSON.stringify(sourceDirectory)};
+ // This Node subprocess must exercise the current source, including its .js TS imports.
+ registerHooks({resolve(specifier,context,next){
+   if(context.parentURL?.startsWith(sourceDirectory) && specifier.startsWith('.') && specifier.endsWith('.js'))
+     specifier=new URL(specifier.slice(0,-3)+'.ts',context.parentURL).href;
+   return next(specifier,context);
+ }});
+ const { RevisionStore } = await import(${JSON.stringify(new URL("./library.ts", import.meta.url).href)});
+ const { ScreenshotIndexStore } = await import(${JSON.stringify(new URL("./screenshot-index.ts", import.meta.url).href)});
  const catalog=new RevisionStore(${JSON.stringify(f.path)});
- try { new ScreenshotIndexStore(catalog,${JSON.stringify(f.home)}).openRead(${JSON.stringify(f.identity)},0);process.exitCode=1; } catch { process.exitCode=0; } finally {catalog.close();}
+ try {
+   new ScreenshotIndexStore(catalog,${JSON.stringify(f.home)}).openRead(${JSON.stringify(f.identity)},0);
+   process.exitCode=1;
+ } catch(error) {
+   console.log(JSON.stringify({code:error.code,message:error.message}));
+ } finally {catalog.close();}
  `,
     ],
-    { cwd: process.cwd(), timeout: 1000, encoding: "utf8" },
+    { timeout: 1000, encoding: "utf8" },
   );
+  expect(child.stderr).toBe("");
+  expect(child.error).toBeUndefined();
   expect({ status: child.status, signal: child.signal }).toEqual({ status: 0, signal: null });
+  expect(JSON.parse(child.stdout)).toEqual({
+    code: "INVALID_EVIDENCE",
+    message: "Invalid retained PNG file or byte receipt",
+  });
 });
 test("one damaged generation does not starve unrelated reclamation", async () => {
   const f = fixture();
