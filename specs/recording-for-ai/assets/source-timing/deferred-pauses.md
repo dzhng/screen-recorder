@@ -55,3 +55,9 @@ remaining-edge claim from the geometry evidence.
 
 These are generated timing and journaling proofs, not a physical capture or
 power-loss durability claim.
+
+Root integration at 03da965: rebuilt app/type checks, full Swift capture fixture
+executable and all 15 source-evidence/recovery wire tests pass. The real own-window
+clean-frame/CLI/MCP test and generated public source-timing test also pass after
+the clock and journal changes. This adds no physical microphone, display/region
+or power-loss claim.

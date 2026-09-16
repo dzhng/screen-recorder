@@ -29,74 +29,53 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: implement [requested-time trail planning](slices/10c-trail-timing.md).
-The clean frame batch pass is integrated and verified through the rebuilt app,
-including eight ordered CLI/MCP images and per-item failure isolation.
-[Batch evidence](assets/frame-delivery/batches.md) records the exact scope.
-Keep cursor time at the request even when a future video sample is selected.
-Source geometry reads and native placement after prologue/pause are independent
-prerequisites now in progress; nullable placement must remain explicit.
-[Audio inspection](slices/09e-public-audio.md) now passes public cuts/gaps,
-CLI/MCP byte parity, eviction/restart, missing roles and explicit retry through
-the rebuilt app. [Audio evidence](assets/audio-inspection/review.md) keeps
-audition separate. The [visual observations](slices/10b-visual-observations.md)
-and bounded core comparison are integrated; real UI thresholds and cursor overlay
-timing remain open.
-[Source timing](slices/06j-source-timing.md) is integrated: cursor, geometry, pauses
-and acquired audio share one native-normalized generation. Raw reads remain in
-source time; edits only change projections. Fresh evidence catalogs are required.
+Current pickup: integrate the bounded core trail planner, then implement
+[default public trail frames](slices/10e-public-trails.md). The
+[requested-time scene rule](slices/10c-trail-timing.md) is verified against encoded
+sparse sources, including a two-minute gap. [Indexed evidence reads](slices/10d-trail-evidence.md)
+preserve timestamp/epoch uncertainty; normalized sequence is delivery order, not
+cross-event occurrence order.
 
-Clean single-frame CLI files and MCP image content pass real recording checks,
-including sparse/full-resolution sources and LRU eviction/restart at a pinned
-historical revision. [Frame evidence](assets/frame-delivery/review.md) and the
-[public-frame slice](slices/09d-public-frames.md) distinguish client receipt from
-model-level MCP visual interpretation.
+Native geometry now confirms a previously untimed epoch on a usable source frame.
+Its [evidence](assets/source-timing/geometry-placement.md) explains the repeated
+epoch. [Deferred pause placement](assets/source-timing/deferred-pauses.md) also preserves
+markers when a delayed first frame establishes source zero after pause/resume.
+Both native fixes pass merged capture/recovery fixtures and the own-window public
+capture check. Do not rebuild either clock mapping in TypeScript.
 
-Next priority: shared scene/pause/geometry evidence, requested-time trail
-selection, default trail rendering and screenshot indexing. Storage/deletion,
-remaining native controls, speech and installed workflow gates remain open. Keep
-one queue, immutable sources and explicit audio defaults. See
-[source integration](assets/source-timing/integration-review.md) for current checks.
+Priority order: trail planning/rendered delivery, shared persisted scene boundaries
+and screenshot indexing, then remaining storage/deletion, controls, speech, edited
+video/package and installed-workflow gates. Keep one queue, immutable sources,
+explicit dependency failure and the complete CLI/MCP surface. No more Claude use.
 
-Native controls are integrated and their closed-menu state/clock follows real
-own-window capture through external service calls. Actual native UI interaction and visual review remain unverified after prior
-computer-use timeouts; the UI-launched app reported screen access unavailable.
-Browser automation of the localhost fixture succeeds on this host. Delete/storage and display/region/audio gates remain open.
-Discovery passes client/CLI checks and a real built-app launch into a fresh home;
-installed-copy proof remains open. See [controls](assets/recording-controls/integration.md),
-[queue](assets/durable-jobs/review.md), and [discovery](slices/15a-client-discovery.md).
+Current evidence:
 
-The user requested no further Claude use. Continue with local work and available non-Claude agents. The service
-runner retains capacity until native child closure. Generated cursor rendering is
-accepted with small-output limits; scene analysis and core trail selection remain open.
+- [Audio inspection](assets/audio-inspection/review.md): real bundled worker,
+  generated cuts/gaps, missing roles, CLI/MCP parity, cache regeneration and explicit
+  retry. Numerical checks do not close audition or physical audio capture.
+- [Clean frames](assets/frame-delivery/review.md) and [eight-image batches](assets/frame-delivery/batches.md):
+  own-window and sparse generated sources, full resolution/crop, cuts, historical
+  revisions, LRU/restart, actual CLI/MCP bytes and failure isolation. Public clean
+  mode remains explicit until trail integration. SDK receipt is not model-level
+  recorded-image understanding.
+- [Source timing](assets/source-timing/integration-review.md), [indexed trail evidence](assets/trail-evidence/review.md)
+  and [scene compatibility](assets/scene-analysis/core-review.md): shared normalized
+  cursor/geometry/pause/audio evidence and bounded comparisons. Real UI scene
+  thresholds and captured gesture acceptance remain open.
+- [Native controls](assets/recording-controls/integration.md): closed-menu state and
+  clock follow actual own-window service-driven capture. Native UI interaction,
+  display/region placement and physical audio remain unverified. Localhost browser
+  automation works; prior native UI attempts timed out or lacked screen access.
+- [Discovery](slices/15a-client-discovery.md) passes a built-app launch, not an
+  installed-copy workflow. [Durable jobs](assets/durable-jobs/review.md) preserve
+  attempt identity and retain capacity until workers exit.
+- [Speech](slices/04-local-speech-gate.md) remains a feasibility gate. No engine
+  meets the required fidelity; the research-only [alternative](assets/speech/verbatim-alternative.md)
+  also exceeds the memory target and has a restrictive license. Do not claim
+  filler editing from metadata fixtures or replace real narration with TTS.
 
-Native audio execution (09b) passes integrated numerical checks for resampling tails,
-cumulative rounding and acquisition holes; audition remains open. Speech remains a
-feasibility gate. The [alternative review](assets/speech/verbatim-alternative.md)
-records the completed research-only CrisperWhisper run: 164/185 fillers matched,
-memory exceeded the 4 GiB target, and its license restricts operational deployment.
-No engine has been selected.
-
-Integrated evidence: durable lifecycle/library operations (06d/06e), app-owned service
-lifetime (06c), corrected cursor geometry, and CLI/MCP adapters (12a). Recording
-lists now page newest first through the same core/service/CLI/MCP path; later takes
-do not shift an existing traversal. A real Opus
-consumer performed a cut, stale-write check and undo through production MCP; that
-check used catalog metadata, not recorded media. See
-[CLI evidence](assets/cli/review.md), [cursor evidence](assets/cursor/review.md),
-[audio regression](slices/09b-native-audio-excerpts.md), and
-[speech gate](slices/04-local-speech-gate.md).
-
-Physical audio, deliberate cursor gestures, display/region placement, human speech
-timing, full capture recovery lifecycle, native recording controls and the complete
-agent media workflow remain unverified. Computer-use access to the native app timed
-out; window-only and generated-media fixtures do not close the wider gates.
-
-Evidence: [bootstrap](assets/bootstrap/verification.md),
-[actual-agent images](assets/client-image/review.md),
-[native capture checkpoint](assets/capture/review.md),
-[speech gate](slices/04-local-speech-gate.md),
-[workbench](assets/workbench/review.md).
+The original [verification gates](verification.md) remain requirements. Fixtures
+and unit checks do not close the full read → edit → inspect → export journey.
 
 - [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
 - [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)
@@ -127,6 +106,9 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
   - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
   - [ ] [10b — Shared clean visual observations](slices/10b-visual-observations.md)
+  - [ ] [10c — Requested-time trail planning](slices/10c-trail-timing.md)
+  - [x] [10d — Indexed trail evidence](slices/10d-trail-evidence.md)
+  - [ ] [10e — Default public trail frames](slices/10e-public-trails.md)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)

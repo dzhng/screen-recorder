@@ -713,3 +713,44 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   Endpoint comparison stays bounded even across long video gaps.
 - **Verdict:** Sound as the implementation rule; rendering acceptance remains
   required. **Confidence:** Medium.
+
+## Geometry evidence and delayed source timing
+
+### Sound — high confidence
+
+- **Choice:** Add derived geometry indexes and bounded predecessor/range reads to
+  the existing source index. A caller can find the last observed pointer even if
+  it was outside the recording, instead of reviving an older inside point.
+  Unplaced geometry remains explicitly untimed. Oversized reset lists fail rather
+  than silently dropping boundaries.
+- **Gap:** Trail planning needed indexed context beyond raw cursor pages.
+- **Reach:** Two geometry indexes support these reads without scanning unrelated
+  cursor/audio history; no original data or clock mapping is rewritten.
+- **Verdict:** Sound: one evidence owner with bounded reads. **Confidence:** High.
+
+### Sound — high confidence
+
+- **Choice:** Confirm an untimed geometry epoch when a usable frame later supplies
+  source time. A window resized while paused keeps its raw untimed observation;
+  the first eligible resumed frame records its placement under the same epoch.
+  No invented geometry change or retrospective timestamp replaces the observation.
+- **Gap:** Unchanged geometry after pause or before first video had no later
+  placement, because only changed geometry triggered a journal record.
+- **Reach:** Geometry records can outnumber epochs. Consumers distinguish a
+  confirmation from a reset and never assume delivery order is occurrence order.
+- **Verdict:** Sound: the native acquisition owner supplies the missing evidence.
+  **Confidence:** High.
+
+### Sound — high confidence
+
+- **Choice:** Use a native pausePlaced record when delayed source zero makes an
+  earlier pause placeable. If a valid frame from before a pause arrives after
+  resume, keep that media and append the real pause marker once. This record
+  leaves any currently open pause intact; it is not another resume operation.
+- **Gap:** An earlier pauseEnded could not supply source time before source zero
+  existed, leaving media timing without its explanatory pause marker.
+- **Reach:** Adds one internal journal event; normalized pause shape stays the same.
+  The capture clock owns placement and export remains streaming. Wholly pre-origin
+  pauses remain raw controls rather than invented media intervals.
+- **Verdict:** Sound: preserves valid video and truthful timeline placeholders.
+  **Confidence:** High.
