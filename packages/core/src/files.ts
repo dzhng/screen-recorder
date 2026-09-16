@@ -62,7 +62,7 @@ export function fileSubdirectory(files: FileAccess, directory: string): FileAcce
 /** Local extraction identities are authority; paths are only locators, checked before consuming bytes. */
 export class IdentifiedFiles implements FileAccess {
   private readonly entries = new Map<string, IdentifiedFile>();
-  private readonly leases = new Set<OpenedFile>();
+  private readonly leases = new Map<OpenedFile, string>();
   private closed = false;
   private accepting = true;
   constructor(
@@ -97,7 +97,7 @@ export class IdentifiedFiles implements FileAccess {
   path(file: string): string {
     return join(this.root, file);
   }
-  open(file: string, writable = false): OpenedFile {
+  open(file: string, writable = false, onClose = () => {}): OpenedFile {
     this.check();
     const expected = this.entries.get(file);
     if (!expected) throw new CatalogError("NOT_FOUND", "File is not admitted to this package");
@@ -121,15 +121,18 @@ export class IdentifiedFiles implements FileAccess {
         actual.changedNs !== expected.identity.changedNs
       )
         throw new CatalogError("INVALID_STORAGE", "Package member changed after extraction");
-      const lease = openedFile(fd, () => this.leases.delete(lease));
-      this.leases.add(lease);
+      const lease = openedFile(fd, () => {
+        this.leases.delete(lease);
+        onClose();
+      });
+      this.leases.set(lease, file);
       return lease;
     } catch (error) {
       closeSync(fd);
       throw error;
     }
   }
-  refresh(file: string, lease: OpenedFile): void {
+  refresh(file: string, lease: OpenedFile): IdentifiedFile {
     const previous = this.entries.get(file),
       stat = fstatSync(lease.fd, { bigint: true });
     if (
@@ -141,14 +144,21 @@ export class IdentifiedFiles implements FileAccess {
       stat.size > BigInt(Number.MAX_SAFE_INTEGER)
     )
       throw new CatalogError("INVALID_STORAGE", "Output identity changed while writing");
-    this.entries.set(file, { path: file, bytes: Number(stat.size), identity: fileIdentity(stat) });
+    const entry = { path: file, bytes: Number(stat.size), identity: fileIdentity(stat) };
+    this.entries.set(file, entry);
+    return entry;
+  }
+  forget(file: string): void {
+    if ([...this.leases.values()].includes(file))
+      throw new CatalogError("PROCESSING_BUSY", "File still has active reads");
+    this.entries.delete(file);
   }
   close(): void {
     if (this.closed) return;
     this.closed = true;
     this.stop();
     const failures: unknown[] = [];
-    for (const lease of this.leases) {
+    for (const lease of this.leases.keys()) {
       try {
         lease.close();
       } catch (error) {

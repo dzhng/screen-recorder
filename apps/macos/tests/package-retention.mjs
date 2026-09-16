@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { packageOutputReuse } from "./fixtures/package-output-reuse.mjs";
 import { retainedParentDeath } from "./fixtures/retained-parent-check.mjs";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -449,6 +450,8 @@ async function retainedReader(original, output, native) {
       ["video", "system", "journal"].includes(entry.role),
     ))
       assert.equal(sha(bytes(context.files.open(member.path))), member.sha256);
+    await context.releaseOutput(join(output, "excerpt.wav"));
+    assert.throws(() => context.openOutput(join(output, "excerpt.wav")), { code: "NOT_FOUND" });
     const held = readers.index.openRead(indexIdentity, 0);
     const closing = context.close();
     assert.equal(closing, context.close());
@@ -462,6 +465,7 @@ async function retainedReader(original, output, native) {
     assert.deepEqual(await readdir(workspacePath), []);
     assert.equal(sha(await readFile(moved)), before);
     const containment = await containmentChecks(moved, workspacePath, workspace, worker, native);
+    const outputReuse = await packageOutputReuse(moved, workspacePath, workspace, worker);
     const parentDeath = await retainedParentDeath(
       moved,
       join(parent, "orphan-workspace"),
@@ -475,6 +479,7 @@ async function retainedReader(original, output, native) {
       nativeCalls,
       containment,
       parentDeath,
+      outputReuse,
     };
   } finally {
     await context?.close();

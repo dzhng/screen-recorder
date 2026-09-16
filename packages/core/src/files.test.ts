@@ -84,3 +84,26 @@ test("file admission is bounded and close revokes held leases without descriptor
     f.close();
   }
 });
+
+test("forgetting file authority waits for lease closure and releases its identity entry", () => {
+  const f = fixture();
+  let released = 0;
+  try {
+    const file = f.files.open("owned/member", false, () => released++);
+    const stat = fstatSync(file.fd, { bigint: true });
+    expect(() => f.files.forget("owned/member")).toThrow("active reads");
+    expect(released).toBe(0);
+    file.close();
+    file.close();
+    expect(released).toBe(1);
+    f.files.forget("owned/member");
+    expect(() => f.files.open("owned/member")).toThrow("not admitted");
+    f.files.add({ path: "owned/member", bytes: Number(stat.size), identity: fileIdentity(stat) });
+    const held = f.files.open("owned/member", false, () => released++);
+    f.files.close();
+    expect(released).toBe(2);
+    expect(() => held.fd).toThrow("closed");
+  } finally {
+    f.close();
+  }
+});

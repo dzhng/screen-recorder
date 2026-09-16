@@ -68,3 +68,6 @@ existing one-second diagnostic-message assertion. All three focused recovery cas
 then passed unchanged, and the full service suite passed 93 of 93 with four test
 workers. No timeout or assertion was changed. This records a timing-sensitive
 verification result, not a proven product defect or a change to the default gate.
+
+[14c3b1](14c3b1-package-output-release.md) adds reusable outputs and isolated delivery
+leases before registry/storage admission and public package selectors.

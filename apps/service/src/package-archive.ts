@@ -142,6 +142,17 @@ export async function openPackageArchive(
   }
 }
 
+type Output = {
+  name: string;
+  label: string;
+  charged: number;
+  file?: IdentifiedFile;
+  phase: "writing" | "ready" | "retired";
+  readers: number;
+  drained?: () => void;
+  retirement?: Promise<void>;
+};
+
 /** Internal read context. Public scheduling/cache/handle ownership belongs to the later service integration. */
 export class RetainedPackage {
   readonly manifest: Extraction["verified"]["manifest"];
@@ -150,9 +161,10 @@ export class RetainedPackage {
   private readonly opened: IdentifiedFiles;
   private readonly controller = new AbortController();
   private readonly active = new Set<Promise<unknown>>();
-  private readonly outputs = new Map<string, string>();
+  private readonly outputs = new Map<string, Output>();
+  private readonly maintenance = new Set<Promise<void>>();
   private outputBytes = 0;
-  private outputAttempts = 0;
+  private workerTail: Promise<unknown> = Promise.resolve();
   private closing: Promise<void> | undefined;
   constructor(
     private readonly workspace: { directory: string; handle: FileHandle },
@@ -164,10 +176,89 @@ export class RetainedPackage {
     this.opened = new IdentifiedFiles(workspace.directory, extraction.verified.files);
     this.files = fileSubdirectory(this.opened, "content");
   }
+  private callWorker(...args: Parameters<MediaWorker>): ReturnType<MediaWorker> {
+    const task = this.workerTail.then(() => this.worker(...args));
+    this.workerTail = task.catch(() => {});
+    return task;
+  }
+  outputUsage(): { actualBytes: number; reservedBytes: number; outputs: number } {
+    const actualBytes = [...this.outputs.values()].reduce(
+      (sum, output) => sum + (output.file?.bytes ?? 0),
+      0,
+    );
+    return {
+      actualBytes,
+      reservedBytes: this.outputBytes - actualBytes,
+      outputs: this.outputs.size,
+    };
+  }
   openOutput(label: string): OpenedFile {
-    const file = this.outputs.get(label);
-    if (!file) throw new CatalogError("NOT_FOUND", "Output is not owned by this context");
-    return this.opened.open(file);
+    const output = this.outputs.get(label);
+    if (output?.phase !== "ready")
+      throw new CatalogError("NOT_FOUND", "Output is not available in this context");
+    const file = this.opened.open(output.name, false, () => {
+      output.readers--;
+      if (!output.readers) output.drained?.();
+    });
+    output.readers++;
+    return file;
+  }
+  releaseOutput(label: string): Promise<void> {
+    const output = this.outputs.get(label);
+    if (!output) return Promise.resolve();
+    if (output.phase === "writing")
+      throw new CatalogError("PROCESSING_BUSY", "Output is still being written", {}, true);
+    output.phase = "retired";
+    if (output.retirement) return output.retirement;
+    const retirement = (async () => {
+      if (output.readers)
+        await new Promise<void>((resolve) => {
+          output.drained = resolve;
+        });
+      if (this.closing) return this.closing;
+      await this.removeOutput(output);
+    })();
+    output.retirement = retirement;
+    void retirement.catch(() => {
+      if (output.retirement === retirement) delete output.retirement;
+    });
+    return retirement;
+  }
+  private removeOutput(output: Output): Promise<void> {
+    const task = (async () => {
+      if (!output.file)
+        throw new CatalogError(
+          "OUTPUT_CLEANUP_FAILED",
+          "Output creation was not confirmed; close the context for recovery",
+        );
+      const result = requireResult(
+        await this.callWorker(
+          "archive.removeOutput",
+          {
+            identity: this.extraction.identity,
+            name: output.name,
+            fileIdentity: output.file.identity,
+          },
+          { descriptors: [this.workspace.handle.fd] },
+        ),
+      );
+      if (
+        !result ||
+        typeof result !== "object" ||
+        !("removed" in result) ||
+        result.removed !== true
+      )
+        throw new CatalogError("INVALID_NATIVE_RESPONSE", "Output cleanup did not confirm removal");
+      this.opened.forget(output.name);
+      this.outputBytes -= output.charged;
+      this.outputs.delete(output.label);
+    })();
+    this.maintenance.add(task);
+    void task.then(
+      () => this.maintenance.delete(task),
+      () => this.maintenance.delete(task),
+    );
+    return task;
   }
   run(
     operation: "media.frame" | "media.visualSamples" | "media.audio",
@@ -198,6 +289,7 @@ export class RetainedPackage {
     let output: OpenedFile | undefined,
       outputName: string | undefined,
       reserve = 0;
+    let owned: Output | undefined, failure: unknown;
     const inputs = (name: unknown) => {
       const member =
         typeof name === "string"
@@ -230,29 +322,36 @@ export class RetainedPackage {
         if (typeof params.output !== "string" || !params.output || this.outputs.has(params.output))
           throw new CatalogError("INVALID_REQUEST", "Output label must be new within this context");
         reserve = operation === "media.audio" ? 64 * 1024 ** 2 : 32 * 1024 ** 2;
-        if (this.outputAttempts >= 32 || this.outputBytes + reserve > 128 * 1024 ** 2)
+        if (this.outputs.size >= 32 || this.outputBytes + reserve > 128 * 1024 ** 2)
           throw new CatalogError("LIMIT_EXCEEDED", "Package derivative budget exceeded");
-        // Failed attempts retain their reservation until context close; partial files cannot evade the budget.
-        this.outputAttempts++;
         this.outputBytes += reserve;
         outputName = `${randomUUID()}.${operation === "media.audio" ? "wav" : "png"}`;
+        owned = {
+          name: outputName,
+          label: params.output,
+          charged: reserve,
+          phase: "writing",
+          readers: 0,
+        };
+        this.outputs.set(params.output, owned);
         const created = requireResult(
-          await this.worker(
+          await this.callWorker(
             "archive.createOutput",
             { identity: this.extraction.identity, name: outputName },
             { descriptors: [this.workspace.handle.fd], signal },
           ),
         ) as IdentifiedFile;
-        signal.throwIfAborted();
         if (created.path !== outputName || created.bytes !== 0)
           throw new CatalogError("INVALID_NATIVE_RESPONSE", "Unexpected output file receipt");
+        owned.file = created;
         this.opened.add(created);
+        signal.throwIfAborted();
         output = this.opened.open(outputName, true);
         leases.push(output);
         mapped.output = `/dev/fd/${leases.length + 2}`;
       }
       const data = requireResult(
-        await this.worker(operation, mapped, {
+        await this.callWorker(operation, mapped, {
           // Keep the workspace lock alive if this parent dies before the native child.
           descriptors: [...leases.map((file) => file.fd), this.workspace.handle.fd],
           signal,
@@ -273,14 +372,45 @@ export class RetainedPackage {
           "INVALID_NATIVE_RESPONSE",
           "Output byte receipt does not match its admitted descriptor",
         );
-      this.opened.refresh(outputName, output);
+      owned!.file = this.opened.refresh(outputName, output);
       this.opened.open(outputName).close();
       this.outputBytes -= reserve - Number(data.bytes);
-      this.outputs.set(params.output as string, outputName);
+      owned!.charged = Number(data.bytes);
+      owned!.phase = "ready";
       return { ...data, file: params.output };
+    } catch (error) {
+      failure = error;
     } finally {
+      if (owned && output && owned.phase === "writing") {
+        try {
+          owned.file = this.opened.refresh(owned.name, output);
+          if (owned.file.bytes > owned.charged) {
+            this.outputBytes += owned.file.bytes - owned.charged;
+            owned.charged = owned.file.bytes;
+          }
+        } catch {
+          /* Keep the last admitted identity and reservation for explicit cleanup failure. */
+        }
+      }
       for (const file of leases) file.close();
+      if (owned?.phase === "writing") owned.phase = "retired";
     }
+    if (owned && !this.closing) {
+      try {
+        await this.releaseOutput(owned.label);
+      } catch (cleanup) {
+        throw new CatalogError(
+          "OUTPUT_CLEANUP_FAILED",
+          "Failed output remains charged until cleanup or context close",
+          {
+            operationError: failure instanceof Error ? failure.message : String(failure),
+            cleanupError: cleanup instanceof Error ? cleanup.message : String(cleanup),
+          },
+          true,
+        );
+      }
+    }
+    throw failure;
   }
   close(): Promise<void> {
     return (this.closing ??= (async () => {
@@ -293,7 +423,10 @@ export class RetainedPackage {
       } catch (error) {
         closeFailure = error;
       }
+      await Promise.allSettled(this.maintenance);
       await this.extraction.close(closeFailure);
+      this.outputs.clear();
+      this.outputBytes = 0;
       if (closeFailure) throw closeFailure;
     })());
   }

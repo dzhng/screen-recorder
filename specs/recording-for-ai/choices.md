@@ -1711,3 +1711,18 @@ records them. These choices add no public export choice or transcript readiness.
   transient package jobs in bounded memory, but choose starts with one admission
   sequence and execute through one attempt owner. Package jobs have no fictional
   recording/revision row, and deleting a same-ID library recording cannot own them.
+
+### 14c3b1 — Output release and delivery ownership
+
+- **Sound; high confidence:** Releasing a package output retires new reads and
+  waits for existing leases before removing its file. Successful disposal returns
+  capacity, so a long-lived package can keep serving requests. Unconfirmed creation
+  or cleanup retains its reservation until explicit recovery/full close; an error
+  never silently makes possibly occupied storage available again.
+- **Sound; high confidence:** Reuse the retained package's output owner and the
+  existing delivery owner rather than creating package rows in the library cache.
+  Delivery ownership includes its recording/package kind, so matching embedded IDs
+  cannot cross-revoke files. Owner values are copied before callbacks can mutate them.
+- **Sound; high confidence:** Media work and output disposal share one bounded
+  native-call lifetime per context. Concurrent release requests can wait for one
+  another, but cannot launch a burst of cleanup workers outside execution ownership.

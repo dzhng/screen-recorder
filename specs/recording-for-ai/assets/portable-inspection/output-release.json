@@ -1,0 +1,61 @@
+{
+  "scope": "Internal retained package output disposal and discriminated delivery ownership; no registry/public package handle",
+  "baseCommit": "3d18c2a",
+  "nativeSha256": "b03255f986e4962b420edec0560ae594cc3a91c54909b46284e33df6dd385293",
+  "productionFiles": {
+    "apps/service/src/package-archive.ts": "b1ad5941ebadb5d6e7fce1d0f601f55645b02007e36b56de5856cf62c38ba158",
+    "packages/core/src/files.ts": "8a02174319d9351f20728eba32de4ecd9863941e0903bc19d4b3780dcfa6d903",
+    "helpers/mac/Sources/ScreenRecorderWire/ArchiveOperation.swift": "e926164eb4f016cb63cadb7fdae6c16fa64b49dad1c6a413d50ec3d8340d53fc"
+  },
+  "outputReuse": {
+    "successfulRequests": 46,
+    "failedRequests": 41,
+    "joinedFailedOutputCleanup": true,
+    "unconfirmedCreationRetainedUntilClose": true,
+    "peakNativeWorkers": 1,
+    "heldReadPreserved": true,
+    "closeDrainedRelease": true,
+    "failedRemovalRetainedCredit": true,
+    "externalSentinelUnchanged": true
+  },
+  "wavOutputReleasedAfterByteParity": true,
+  "parentDeath": {
+    "parentPid": 81181,
+    "nativePid": 81185,
+    "parentKilled": true,
+    "blockedWhileChildLive": true,
+    "childReaped": true,
+    "cleanupAfterChild": true
+  },
+  "parity": {
+    "completeContext": true,
+    "framePixels": true,
+    "frameMetadata": true,
+    "audioBytes": true,
+    "retainedImages": true,
+    "coverage": true,
+    "sceneChunks": true
+  },
+  "originalInputsUnchanged": true,
+  "packageInputsUnchanged": true,
+  "checks": {
+    "coreTests": 306,
+    "serviceTests": 97,
+    "archiveTests": 38,
+    "typeChecks": "core and service",
+    "mutationFailures": [
+      "premature storage credit after failed removal",
+      "cleanup before held-read drain",
+      "four concurrent native workers without serialization",
+      "duplicate automatic and explicit cleanup returned ENOENT"
+    ]
+  },
+  "deliveryIntegration": {
+    "commit": "7402fd3",
+    "focusedTests": 25,
+    "bundleBuildChecks": 8,
+    "actualPreviewInspectionMilliseconds": 2437.948333,
+    "scope": "CLI/MCP preview bytes and library deletion revocation; reported and verified by root"
+  },
+  "review": "Final independent review found no actionable regressions; focused file-lifetime tests passed. Actual native checks ran separately with the recorded binary."
+}

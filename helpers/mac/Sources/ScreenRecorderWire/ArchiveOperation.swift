@@ -32,11 +32,26 @@ enum ArchiveOperation {
     static func execute(_ operation: String, _ params: [String: Any]) throws -> [String: Any] {
         try ManagedFiles.Identity(params["identity"]).check(root)
         try ManagedFiles.lockPrivateDirectory(root)
-        if operation == "archive.createOutput" {
+        if operation == "archive.createOutput" || operation == "archive.removeOutput" {
             guard let name = params["name"] as? String,
                 name.count == 40, [".png", ".wav"].contains(String(name.suffix(4))),
                 UUID(uuidString: String(name.prefix(36))) != nil else {
                 throw error("INVALID_REQUEST", "Output name must be a unique media leaf.")
+            }
+            if operation == "archive.removeOutput" {
+                guard let expected = params["fileIdentity"] as? [String: String] else {
+                    throw error("INVALID_REQUEST", "Output removal requires its admitted identity.")
+                }
+                let fd = openat(root, name, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
+                guard fd >= 0 else { throw io("Open released output") }
+                defer { close(fd) }
+                var info = stat()
+                guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
+                    info.st_nlink == 1, try identity(fd) == expected else {
+                    throw error("INVALID_STORAGE", "Output changed before release.")
+                }
+                guard unlinkat(root, name, 0) == 0 else { throw io("Remove released output") }
+                return ["removed": true]
             }
             let fd = openat(root, name, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
             guard fd >= 0 else { throw io("Create context output") }
