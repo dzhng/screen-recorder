@@ -39,6 +39,19 @@ rerun. It is incomplete and does not pass the thirty-minute gate. The controlled
 app stop made the test terminate with a socket error; its cleanup reaped owned
 processes. No timeout or successful completion is claimed.
 
+## Reproducible full-run measurement
+
+`bun run lab:index-scale` runs the bundled native worker against the same generated
+thirty-minute animation. `SCREENREC_INDEX_SCALE_VIDEO` optionally selects a preserved
+absolute input path; the harness copies it into its isolated home and records its
+hash. `SCREENREC_INDEX_SCALE_EVIDENCE` selects an empty absolute report directory.
+A fresh temporary directory is the default. The lab never joins the default test glob.
+
+The report is atomically checkpointed during source analysis, index generation and
+foreground requests, so interruption retains completed measurements. RSS is sampled,
+not a guaranteed peak. Full completion, bounded public paging and owned-process
+cleanup remain required; a running or failed report does not pass the gate.
+
 ## Separate open gate: animation selection density
 
 The shared detector marks many boundaries in dense animation, and selection retains

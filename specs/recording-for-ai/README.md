@@ -50,7 +50,7 @@ Both native fixes pass merged capture/recovery fixtures and the own-window publi
 capture check. Do not rebuild either clock mapping in TypeScript.
 
 Priority order: screenshot selection/index delivery, then
-remaining storage/deletion, controls, speech, edited video/package and installed-workflow gates. Keep one queue, immutable sources,
+remaining [storage/deletion](slices/15b-storage-and-deletion.md), controls, speech, edited video/package and installed-workflow gates. Keep one queue, immutable sources,
 explicit dependency failure and the complete CLI/MCP surface. No more Claude use.
 
 Current evidence:
@@ -129,6 +129,7 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
+  - [ ] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)
 
 ## Outcome
 

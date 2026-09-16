@@ -36,7 +36,8 @@ The [native probe](stillness-runs.json) uses the unchanged generated stillness v
 whose hash matches the original fixture. Native RGB observations pass through
 canonical scene analysis and the core selector; the result retains only mandatory
 endpoints with full sampled coverage. This is a core/native observation proof;
-the retained public index and full generated fixture suite remain integration gates.
+the [merged public lab](generated-review.md) now verifies retained delivery and all
+seven generated scenarios. The full thirty-minute scale gate remains separate.
 
 [Integration tests](../../../../packages/core/src/selection-evidence.test.ts) cover
 rounding through multiple coverage and chunk windows, gradual drift, and a
