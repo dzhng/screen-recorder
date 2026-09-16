@@ -32,6 +32,17 @@ enum ArchiveOperation {
     static func execute(_ operation: String, _ params: [String: Any]) throws -> [String: Any] {
         try ManagedFiles.Identity(params["identity"]).check(root)
         try ManagedFiles.lockPrivateDirectory(root)
+        if operation == "archive.createOutput" {
+            guard let name = params["name"] as? String,
+                name.count == 40, [".png", ".wav"].contains(String(name.suffix(4))),
+                UUID(uuidString: String(name.prefix(36))) != nil else {
+                throw error("INVALID_REQUEST", "Output name must be a unique media leaf.")
+            }
+            let fd = openat(root, name, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+            guard fd >= 0 else { throw io("Create context output") }
+            defer { close(fd) }
+            return ["path": name, "bytes": 0, "identity": try identity(fd)]
+        }
         if operation == "archive.cleanup" {
             try ManagedFiles.removeContents(root)
             return ["removed": true]
@@ -234,6 +245,7 @@ enum ArchiveOperation {
             let row: [String: Any] = [
                 "path": name, "directory": directory, "bytes": bytes,
                 "sha256": hex(hash.finalize()),
+                "identity": directory ? NSNull() : try identity(fd),
             ]
             try charge(
                 try JSONSerialization.data(withJSONObject: row).count + 1, &receiptEstimate,
@@ -254,6 +266,14 @@ enum ArchiveOperation {
             throw error("LIMIT_EXCEEDED", "Archive receipt exceeds transport budget.")
         }
         return result
+    }
+
+    private static func identity(_ fd: Int32) throws -> [String: String] {
+        var info = stat()
+        guard fstat(fd, &info) == 0 else { throw io("Inspect package member") }
+        return ["device": String(UInt64(truncatingIfNeeded: info.st_dev)), "inode": String(info.st_ino),
+            "modifiedNs": String(Int64(info.st_mtimespec.tv_sec) * 1_000_000_000 + Int64(info.st_mtimespec.tv_nsec)),
+            "changedNs": String(Int64(info.st_ctimespec.tv_sec) * 1_000_000_000 + Int64(info.st_ctimespec.tv_nsec))]
     }
 
     static func peakResidentBytes() -> Int64 {

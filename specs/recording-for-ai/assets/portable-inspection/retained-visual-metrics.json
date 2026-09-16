@@ -1,0 +1,34 @@
+[
+  {
+    "image": "0.png",
+    "grayEntropyBits": 3.413950365774173,
+    "dominantGrayShare": 0.2905126953125,
+    "grayRange": 255,
+    "averageLuminance": 68.4424384765625,
+    "pixelParityWithLibrary": "exact SHA256 equality in roundtrip report"
+  },
+  {
+    "image": "1.png",
+    "grayEntropyBits": 3.405248304883618,
+    "dominantGrayShare": 0.290626953125,
+    "grayRange": 228,
+    "averageLuminance": 68.4394873046875,
+    "pixelParityWithLibrary": "exact SHA256 equality in roundtrip report"
+  },
+  {
+    "image": "2.png",
+    "grayEntropyBits": 3.414103185644502,
+    "dominantGrayShare": 0.2904375,
+    "grayRange": 255,
+    "averageLuminance": 68.4396298828125,
+    "pixelParityWithLibrary": "exact SHA256 equality in roundtrip report"
+  },
+  {
+    "image": "3.png",
+    "grayEntropyBits": 2.6496012350533706,
+    "dominantGrayShare": 0.3792255859375,
+    "grayRange": 229,
+    "averageLuminance": 219.966361328125,
+    "pixelParityWithLibrary": "exact SHA256 equality in roundtrip report"
+  }
+]

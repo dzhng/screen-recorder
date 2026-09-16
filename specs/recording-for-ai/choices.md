@@ -1616,3 +1616,25 @@ records them. These choices add no public export choice or transcript readiness.
 - **Verdict:** Sound; the real thirty-minute source seeks without whole-file loading,
   while the high-bandwidth audio fixture demonstrates explicit limit failure.
 - **Confidence:** High.
+
+### 14c2 — Retained context ownership
+
+- **Sound; medium confidence:** Keep package files private under one cooperating
+  owner, and compare native extraction identity with the actual opened file before
+  reading. A pathname is only a locator. Missing or replaced locators fail instead
+  of reconstructing a fake library path. This defends controlled ancestor/member
+  replacements without pretending to defeat arbitrary same-user in-place writes.
+- **Sound; medium confidence:** One context admits one native request at a time,
+  up to 32 open files and 128 MiB of derivatives. Failed output attempts retain
+  their reservation until close. This bounds abandoned partial files without a
+  second cache or cleanup scheduler. Public scheduling and lifetime identity stay
+  with the later handle owner; these internal limits may need measured adjustment.
+- **Sound; high confidence:** The context borrows its caller's locked directory
+  descriptor and drains workers before revoking reads and cleaning it. A close
+  failure preserves explicit recovery responsibility. Native extraction identities
+  remain local receipts, separate from portable inventory hashes and history.
+- **Sound; high confidence:** Existing audio planning may use absolute inventory
+  locators. The context maps only exact inventoried media locators to admitted
+  descriptors; it never treats arbitrary paths as authority or changes the common
+  timeline/media planner. Request values are copied at admission so a caller cannot
+  change an output label or media request while native work is pending.

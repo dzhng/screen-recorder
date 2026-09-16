@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { FileAccess } from "./files.js";
 import { CatalogError } from "./library.js";
 import { validateRecord, type EvidenceIdentity, type RecordRow } from "./evidence.js";
 import {
@@ -72,7 +73,7 @@ export function writeSourceEvidencePages(
 }
 export class FileSourceEvidence extends SourceEvidenceReader {
   private readonly pages: OrderedPages<RecordRow, z.infer<typeof metadataSchema>>;
-  constructor(root: string, identity: EvidenceIdentity) {
+  constructor(root: string | FileAccess, identity: EvidenceIdentity) {
     super();
     this.pages = new OrderedPages(root, codec);
     this.requireComplete(identity);

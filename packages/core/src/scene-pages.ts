@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { FileAccess } from "./files.js";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./library.js";
 import {
@@ -88,7 +89,7 @@ export async function writeSceneEvidencePages(
 }
 export class FileSceneEvidence extends SceneEvidenceReader {
   private readonly pages: OrderedPages<SceneChunkReport, SceneEvidenceMetadata>;
-  constructor(root: string, identity: SceneEvidenceIdentity) {
+  constructor(root: string | FileAccess, identity: SceneEvidenceIdentity) {
     super();
     this.pages = new OrderedPages(root, codec);
     if (this.pages.metadata.policy !== scenePolicy.id)

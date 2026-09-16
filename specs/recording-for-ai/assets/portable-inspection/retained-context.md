@@ -1,0 +1,61 @@
+# Retained ZIP inspection evidence
+
+The generated package was relocated after deleting its original library and hiding
+its portable source directory. The retained context used the same source, scene,
+index, frame/trail and audio owners; native media reads and derivative writes used
+admitted descriptors. No narrated transcript or public package handle is claimed.
+
+[Machine receipt](retained-context.json) records the native binary hash, exact
+frame pixels/PNG bytes and metadata, whole WAVE bytes, index images/coverage,
+scene chunks, three-revision history and unchanged original/package inputs.
+The seven relocated native calls include arbitrary requested frames absent from
+the retained index. System audio includes an acquisition gap; narration is honestly
+unavailable because it was not requested. Original input hashes also match after
+native inspection.
+
+## Lifetime and containment
+
+The real generated ZIP test replaces a source ancestor with a regular directory
+and a symlink before admission: neither yields external media. Replacement after
+admission still decodes the original opened source. Replacing an admitted output
+locator with an external symlink leaves the sentinel unchanged and refuses output
+publication. Close joins one promise, refuses new work, kills and reaps a confirmed
+stopped native media process, revokes held reads and only then empties the owned
+workspace. A separate held retained-index lease is also revoked on close.
+
+Removing the opened-file identity check makes the foreign regular-ancestor test
+fail. Moving cleanup ahead of the active-worker drain makes the native barrier
+fail with `cleanup must follow actual native worker closure`. Both were restored
+before the green run. Independent review found mutable caller parameters could
+change an output label during admission; requests now snapshot parameters, and the
+actual native fixture mutates the caller's label while pending to verify isolation.
+
+## Visual judgment
+
+The four generated states should preserve a readable localhost billing fixture,
+with a bounded cursor/trail only on annotated requests; clean and older-history
+requests omit it. Full PNG and decoded-pixel hashes equal library results.
+[Absolute grayscale measurements](retained-visual-metrics.json) complement direct
+inspection. A fresh reviewer inspected all four full images and found no clipping,
+missing content or unexpected overlay. The lower chart is relatively low contrast
+but readable and identical to its generated source. The old-revision frame is a
+sparse light layout, explaining lower entropy. No visual design was changed. All four PNGs also byte-match the existing
+[annotated](relocation-annotated.png), [clean](relocation-clean.png),
+[pause](relocation-pause.png) and [history](relocation-history.png) evidence.
+
+## Regression and review
+
+The pinned combined native build passed the retained ZIP test (8.45 seconds),
+unchanged narrated directory relocation test (9.15 seconds) and 38 archive tests.
+All 296 core tests, 85 service tests and core/service type checks passed. The independent code review
+found no actionable regressions; its own native probe failed before retention in
+fixture scene decoding, so that review did not claim native verification. The
+separate pinned-binary runs above provide the actual native evidence.
+
+The native descriptor owner's separate [parity and memory evidence](descriptor-media.md)
+includes PNG/WAVE/PCM equality, closed-parent handle lifetime, explicit loader
+limits, cancellation and seeks against the preserved thirty-minute source.
+
+Public handle scheduling/cache ownership and restart recovery remain 14c3.
+The caller retains the workspace descriptor until close completes; cleanup errors
+remain explicit and require that owner to retain the workspace for recovery.

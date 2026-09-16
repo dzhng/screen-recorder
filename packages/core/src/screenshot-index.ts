@@ -279,8 +279,8 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
     const path = this.outputPath(identity, candidate.ordinal);
     const revision = this.store.revision(identity.recordingId, identity.revisionId);
     validateIndexEntry(identity, revision, candidate, frame, path);
-    const { fd, stat } = openRetainedImage(path, frame);
-    closeSync(fd);
+    const { file, stat } = openRetainedImage(path, frame);
+    file.close();
     this.store.transaction(() => {
       const row = this.row(identity, "building");
       if (row.candidateCount !== candidate.ordinal) invalid("Candidate append moved");
@@ -395,7 +395,7 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
           JSON.parse(entry.frame),
           entry,
         );
-        closeSync(file.fd);
+        file.file.close();
       }
       await setImmediate();
     }
@@ -448,12 +448,12 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
   openRead(identity: ScreenshotIndexIdentity, ordinal: number) {
     const row = this.row(identity, "complete"),
       entry = this.entry(identity, ordinal);
-    const { fd } = openRetainedImage(
+    const { file } = openRetainedImage(
       join(this.checkedDirectory(identity, row), `${ordinal}.png`),
       JSON.parse(entry.frame),
       entry,
     );
-    return retainedImageRead(fd, entry.bytes);
+    return retainedImageRead(file, entry.bytes);
   }
 
   async remove(identity: ScreenshotIndexIdentity): Promise<void> {

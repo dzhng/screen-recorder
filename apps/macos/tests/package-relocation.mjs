@@ -38,9 +38,10 @@ const repository = fileURLToPath(new URL("../../../", import.meta.url));
 const lifetime = new AbortController();
 const signal = () => lifetime.signal;
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
-function command(name, args) {
+function command(name, args, input) {
   const result = spawnSync(name, args, {
     cwd: repository,
+    input,
     timeout: 30_000,
     maxBuffer: 16 * 1024 * 1024,
   });
@@ -77,7 +78,7 @@ async function hashes(root) {
   await visit("");
   return result;
 }
-async function inspect(context, root, readers, media, output) {
+export async function inspect(context, root, readers, media, output) {
   await mkdir(output, { recursive: true });
   const history = parseRevisionHistory(context.history, 500),
     revision = history.find((row) => row.id === context.snapshot.revisionId);
@@ -104,20 +105,25 @@ async function inspect(context, root, readers, media, output) {
       signal(),
     );
     const { file, ...metadata } = frame;
-    const pixels = command("ffmpeg", [
-      "-v",
-      "error",
-      "-i",
-      file,
-      "-frames:v",
-      "1",
-      "-f",
-      "rawvideo",
-      "-pix_fmt",
-      "rgba",
-      "pipe:1",
-    ]);
-    frames.push({ metadata, png: sha(await readFile(file)), pixels: sha(pixels) });
+    const imageBytes = media.readOutput ? await media.readOutput(file) : await readFile(file);
+    const pixels = command(
+      "ffmpeg",
+      [
+        "-v",
+        "error",
+        "-i",
+        "pipe:0",
+        "-frames:v",
+        "1",
+        "-f",
+        "rawvideo",
+        "-pix_fmt",
+        "rgba",
+        "pipe:1",
+      ],
+      imageBytes,
+    );
+    frames.push({ metadata, png: sha(imageBytes), pixels: sha(pixels) });
   }
   const plan = planAudioExcerpt(
     {
@@ -153,7 +159,7 @@ async function inspect(context, root, readers, media, output) {
     frames,
     audio: {
       metadata: audioMetadata,
-      sha256: sha(await readFile(file)),
+      sha256: sha(media.readOutput ? await media.readOutput(file) : await readFile(file)),
       spans: plan.spans,
       missingRoles: plan.missingRoles,
     },
@@ -248,9 +254,12 @@ async function childReader(root, output, executable) {
   assert.equal(terminal.code, 0, diagnostics);
   return terminal;
 }
-if (process.argv[2] === "--reader") {
-  await relocatedReader(process.argv[3], process.argv[4], process.argv[5]);
-} else
+export function registerRelocationTest({
+  reader = childReader,
+  narration = true,
+  executable: selectedExecutable,
+  evidenceScope = "Generated internal directory relocation; no ZIP/public package or ASR readiness claim",
+} = {}) {
   test(
     "generated package inspection survives relocation without its library",
     { timeout: 180_000 },
@@ -258,10 +267,10 @@ if (process.argv[2] === "--reader") {
       t.signal.addEventListener("abort", () => lifetime.abort(t.signal.reason), { once: true });
       const bundle = process.env.SCREENREC_RELOCATION_BUNDLE;
       assert.ok(
-        bundle && isAbsolute(bundle),
+        selectedExecutable || (bundle && isAbsolute(bundle)),
         "SCREENREC_RELOCATION_BUNDLE must name an isolated built app",
       );
-      const executable = join(bundle, "Contents/MacOS/screenrec-native"),
+      const executable = selectedExecutable ?? join(bundle, "Contents/MacOS/screenrec-native"),
         media = native(executable);
       const root = await mkdtemp(join(tmpdir(), "screenrec-relocation-")),
         original = join(root, "original"),
@@ -331,7 +340,7 @@ if (process.argv[2] === "--reader") {
         for (const [role, frequency] of [
           ["narration", 1000],
           ["system", 400],
-        ])
+        ].filter(([role]) => narration || role !== "narration"))
           command("ffmpeg", [
             "-v",
             "error",
@@ -360,7 +369,7 @@ if (process.argv[2] === "--reader") {
           samples,
           pauses: [{ atSourceUs: 3_000_000, elapsedPauseUs: 400_000 }],
         });
-        rows[0].data.microphone = true;
+        rows[0].data.microphone = narration;
         rows[0].data.systemAudio = true;
         rows.splice(3, 0, {
           event: "geometry",
@@ -369,11 +378,17 @@ if (process.argv[2] === "--reader") {
         rows.splice(
           rows.length - 1,
           0,
-          ...[
-            { role: "narration", startUs: 0, endUs: 2_500_000 },
-            { role: "narration", startUs: 3_000_000, endUs: 4_000_000 },
-            { role: "system", startUs: 0, endUs: 4_000_000 },
-          ].map((data) => ({ event: "audioSamples", data })),
+          ...(narration
+            ? [
+                { role: "narration", startUs: 0, endUs: 2_500_000 },
+                { role: "narration", startUs: 3_000_000, endUs: 4_000_000 },
+                { role: "system", startUs: 0, endUs: 4_000_000 },
+              ]
+            : [
+                { role: "system", startUs: 0, endUs: 2_500_000 },
+                { role: "system", startUs: 3_000_000, endUs: 4_000_000 },
+              ]
+          ).map((data) => ({ event: "audioSamples", data })),
         );
         await writeFile(
           join(source, "capture.journal.jsonl"),
@@ -503,7 +518,12 @@ if (process.argv[2] === "--reader") {
         );
         assert.deepEqual(await hashes(source), sourceHashes);
         await mkdir(join(portable, "source"));
-        for (const name of ["video.mov", "narration.mov", "system.mov", "capture.journal.jsonl"])
+        for (const name of [
+          "video.mov",
+          "narration.mov",
+          "system.mov",
+          "capture.journal.jsonl",
+        ].filter((name) => narration || name !== "narration.mov"))
           await copyFile(join(source, name), join(portable, "source", name));
         await copyFile(sourceMetadata.receipt.file, join(portable, "source", "normalized.jsonl"));
         await writeSourceEvidencePages(
@@ -525,7 +545,7 @@ if (process.argv[2] === "--reader") {
         await assert.rejects(stat(original), { code: "ENOENT" });
         await rename(portable, moved);
         const before = await hashes(moved),
-          child = await childReader(moved, output, executable),
+          child = await reader(moved, output, executable),
           actual = JSON.parse(await readFile(join(output, "result.json"), "utf8"));
         assert.deepEqual(actual.result, expected);
         assert.deepEqual(await hashes(moved), before);
@@ -555,9 +575,17 @@ if (process.argv[2] === "--reader") {
           }
           return (2 * Math.hypot(re, im)) / count;
         };
-        assert.ok(amplitude(0.1, 1000) > 0.055);
-        assert.ok(amplitude(1.85, 1000) < 0.001);
-        assert.ok(amplitude(1.85, 400) > 0.055);
+        if (narration) {
+          assert.ok(amplitude(0.1, 1000) > 0.055);
+          assert.ok(amplitude(1.85, 1000) < 0.001);
+          assert.ok(amplitude(1.85, 400) > 0.055);
+        } else {
+          assert.ok(amplitude(0.1, 400) > 0.055);
+          assert.ok(amplitude(1.85, 400) < 0.001);
+          assert.deepEqual(actual.result.audio.missingRoles, [
+            { role: "narration", reason: "not_requested" },
+          ]);
+        }
         if (process.env.SCREENREC_RELOCATION_EVIDENCE) {
           const evidence = process.env.SCREENREC_RELOCATION_EVIDENCE;
           await mkdir(evidence);
@@ -568,8 +596,7 @@ if (process.argv[2] === "--reader") {
             join(evidence, "report.json"),
             JSON.stringify(
               {
-                scope:
-                  "Generated internal directory relocation; no ZIP/public package or ASR readiness claim",
+                scope: evidenceScope,
                 sourceCommit: command("git", ["rev-parse", "HEAD"]).toString().trim(),
                 nativeSha256: sha(await readFile(executable)),
                 coreSourceTreeSha256: sha(
@@ -642,3 +669,7 @@ if (process.argv[2] === "--reader") {
       }
     },
   );
+}
+if (process.argv[2] === "--reader") {
+  await relocatedReader(process.argv[3], process.argv[4], process.argv[5]);
+} else if (process.argv[1] === fileURLToPath(import.meta.url)) registerRelocationTest();

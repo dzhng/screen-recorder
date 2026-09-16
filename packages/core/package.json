@@ -115,6 +115,10 @@
     "./package-archive": {
       "types": "./dist/package-archive.d.ts",
       "default": "./dist/package-archive.js"
+    },
+    "./files": {
+      "types": "./dist/files.d.ts",
+      "default": "./dist/files.js"
     }
   },
   "scripts": {

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createHash } from "node:crypto";
-import { closeSync, readSync } from "node:fs";
+import { readSync } from "node:fs";
+import { fileAccess, type FileAccess } from "./files.js";
 import { mkdir, open } from "node:fs/promises";
 import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
@@ -224,15 +225,17 @@ export async function writeScreenshotIndexPages(
 }
 export class FileScreenshotIndex extends ScreenshotIndexReader {
   private readonly pages: OrderedPages<Row, ScreenshotIndexMetadata>;
+  private readonly root: FileAccess;
   constructor(
-    private readonly root: string,
+    root: string | FileAccess,
     identity: ScreenshotIndexIdentity,
     revision: TimelineRevision,
   ) {
     super();
+    this.root = fileAccess(root);
     this.pages = new OrderedPages(
-      root,
-      codec(revision, (file) => join(root, file)),
+      this.root,
+      codec(revision, (file) => this.root.path(file)),
     );
     const metadata = this.pages.metadata;
     if (
@@ -286,7 +289,7 @@ export class FileScreenshotIndex extends ScreenshotIndexReader {
         if (row.kind !== "entry") invalid("Wrong retained entry order");
         return {
           candidate: row.entry.candidate,
-          frame: { ...row.entry.frame, file: join(this.root, row.entry.image.file) },
+          frame: { ...row.entry.frame, file: this.root.path(row.entry.image.file) },
           coverageCount: row.entry.coverageCount,
         };
       });
@@ -319,13 +322,13 @@ export class FileScreenshotIndex extends ScreenshotIndexReader {
   openRead(identity: ScreenshotIndexIdentity, ordinal: number) {
     this.readEntry(identity, ordinal);
     const entry = this.portableEntry(identity, ordinal),
-      { fd } = openRetainedImage(join(this.root, entry.image.file), entry.frame);
+      { file } = openRetainedImage(this.root.open(entry.image.file), entry.frame);
     try {
       const hash = createHash("sha256"),
         buffer = Buffer.alloc(65536);
       for (let position = 0; position < entry.image.bytes;) {
         const bytes = readSync(
-          fd,
+          file.fd,
           buffer,
           0,
           Math.min(buffer.length, entry.image.bytes - position),
@@ -337,9 +340,9 @@ export class FileScreenshotIndex extends ScreenshotIndexReader {
       }
       if (hash.digest("hex") !== entry.image.sha256)
         invalid("Portable image differs from its receipt");
-      return retainedImageRead(fd, entry.image.bytes);
+      return retainedImageRead(file, entry.image.bytes);
     } catch (error) {
-      closeSync(fd);
+      file.close();
       throw error;
     }
   }

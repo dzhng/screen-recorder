@@ -21,11 +21,18 @@ export const archiveLimits = {
 export type ArchiveLimits = typeof archiveLimits;
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
+const localIdentity = z.strictObject({
+  device: z.string().regex(/^\d{1,20}$/),
+  inode: z.string().regex(/^\d{1,20}$/),
+  modifiedNs: z.string().regex(/^\d{1,20}$/),
+  changedNs: z.string().regex(/^\d{1,20}$/),
+});
 const memberSchema = z.strictObject({
   path: z.string(),
   directory: z.boolean(),
   bytes: integer,
   sha256: digest,
+  identity: localIdentity.nullable(),
 });
 const receiptSchema = z.strictObject({
   manifest: z.string(),
@@ -81,7 +88,8 @@ export function verifyArchiveReceipt(value: unknown, limits: ArchiveLimits = arc
       entry.path.length > limits.pathBytes ||
       folded.has(entry.path.toLowerCase()) ||
       entry.bytes > limits.memberBytes ||
-      (entry.directory && entry.bytes !== 0)
+      (entry.directory && entry.bytes !== 0) ||
+      (entry.directory ? entry.identity !== null : entry.identity === null)
     )
       return invalid("Invalid or duplicate extracted member");
     folded.set(entry.path.toLowerCase(), entry.path);
@@ -131,6 +139,14 @@ export function verifyArchiveReceipt(value: unknown, limits: ArchiveLimits = arc
   }
   return {
     manifest,
+    files: receipt.members
+      .filter((entry) => !entry.directory)
+      .map((entry) => ({
+        path: `content/${entry.path}`,
+        bytes: entry.bytes,
+        identity: entry.identity!,
+      })),
+    revisionContents: receipt.revisions,
     archiveSha256: receipt.archiveSha256,
     expandedBytes: total,
     memberCount: actual.size,

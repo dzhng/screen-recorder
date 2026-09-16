@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
-import { closeSync, constants, fstatSync, openSync, readSync } from "node:fs";
+import { fstatSync, readSync } from "node:fs";
+import { fileAccess, type FileAccess } from "./files.js";
 import { mkdir, rename, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
@@ -51,11 +52,9 @@ function parse<T>(schema: z.ZodType<T>, bytes: Buffer): T {
   }
 }
 /** Reads one bounded regular member. Full archive/root lifetime containment belongs to the package owner. */
-function readMember(root: string, file: string, limit: number): Buffer {
-  const fd = openSync(
-    join(root, file),
-    constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
-  );
+function readMember(root: FileAccess, file: string, limit: number): Buffer {
+  const opened = root.open(file),
+    fd = opened.fd;
   try {
     const stat = fstatSync(fd);
     if (!stat.isFile() || stat.size < 1 || stat.size > limit)
@@ -67,7 +66,7 @@ function readMember(root: string, file: string, limit: number): Buffer {
     if (bytes !== stat.size) invalid("Source evidence member changed during read");
     return buffer.subarray(0, bytes);
   } finally {
-    closeSync(fd);
+    opened.close();
   }
 }
 export type OrderedPageCodec<Row, Metadata> = {
@@ -138,13 +137,19 @@ export async function writeOrderedPages<Row, Metadata>(
 /** Bounded ordered JSON transport for an internally owned stable directory. */
 export class OrderedPages<Row, Metadata> {
   private readonly manifest: z.infer<typeof manifestSchema>;
-  readonly metadata: Metadata;
+  private readonly admittedMetadata: Metadata;
+  get metadata(): Metadata {
+    this.root.check();
+    return this.admittedMetadata;
+  }
+  private readonly root: FileAccess;
   constructor(
-    private readonly root: string,
+    root: string | FileAccess,
     private readonly codec: OrderedPageCodec<Row, Metadata>,
   ) {
-    this.manifest = parse(manifestSchema, readMember(root, "pages.json", metadataBytes));
-    this.metadata = codec.metadata.parse(this.manifest.metadata);
+    this.root = fileAccess(root);
+    this.manifest = parse(manifestSchema, readMember(this.root, "pages.json", metadataBytes));
+    this.admittedMetadata = codec.metadata.parse(this.manifest.metadata);
     if (
       Object.keys(this.manifest.indexes).sort().join(",") !==
       Object.keys(codec.orders).sort().join(",")
@@ -199,11 +204,13 @@ export class OrderedPages<Row, Metadata> {
     return rows;
   }
   rowCount(index: string): number {
+    this.root.check();
     const pages = this.manifest.indexes[index];
     if (!pages) invalid("Unknown evidence order");
     return pages.reduce((count, page) => count + page.rows, 0);
   }
   read(query: PageQuery): Row[] {
+    this.root.check();
     const pages = this.manifest.indexes[query.index];
     if (!pages) invalid("Unknown evidence order");
     if (!Number.isSafeInteger(query.limit) || query.limit < 1 || query.limit > 5001)

@@ -1,4 +1,5 @@
-import { closeSync, constants, fstatSync, openSync, readSync } from "node:fs";
+import { constants, fstatSync, openSync, readSync } from "node:fs";
+import { openedFile, type OpenedFile } from "./files.js";
 import { CatalogError } from "./library.js";
 import type { MaterializedFrame } from "./frame-materialization.js";
 const integer = (n: number) => Number.isSafeInteger(n) && n >= 0;
@@ -6,11 +7,17 @@ function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
 export function openRetainedImage(
-  path: string,
+  input: string | OpenedFile,
   frame: Pick<MaterializedFrame, "bytes" | "mediaType" | "width" | "height">,
   expected?: { device: number; inode: number; modified: number },
 ) {
-  const fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+  const file =
+    typeof input === "string"
+      ? openedFile(
+          openSync(input, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK),
+        )
+      : input;
+  const fd = file.fd;
   try {
     const stat = fstatSync(fd);
     if (
@@ -38,26 +45,26 @@ export function openRetainedImage(
       header.readUInt32BE(20) !== frame.height
     )
       invalid("Retained PNG does not match dimensions");
-    return { fd, stat };
+    return { file, stat };
   } catch (error) {
-    closeSync(fd);
+    file.close();
     throw error;
   }
 }
 
-export function retainedImageRead(fd: number, bytes: number) {
+export function retainedImageRead(file: OpenedFile, bytes: number) {
   let released = false;
   return {
     bytes,
     read(buffer: Uint8Array, position: number): number {
       if (released) invalid("Selected image read has been released");
       if (!integer(position) || position > bytes) invalid("Invalid selected image read position");
-      return readSync(fd, buffer, 0, Math.min(buffer.length, bytes - position), position);
+      return readSync(file.fd, buffer, 0, Math.min(buffer.length, bytes - position), position);
     },
     release() {
       if (!released) {
         released = true;
-        closeSync(fd);
+        file.close();
       }
     },
   };

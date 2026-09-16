@@ -106,7 +106,7 @@ write faults and explicit cleanup failure/recovery. Tail and no-follow mutations
 must fail. Keep manifest/history, worker and ManagedFiles deletion suites green.
 No visual surface changes; review is the bounded native receipt/error matrix.
 
-Next 14c retains the same extracted content under an owned context and promotes
+Next [14c2](14c2-retained-package-inspection.md) retains the same extracted content under an owned context and promotes
 this extraction/validation flow rather than adding a second verifier. It must pin
 read-time traversal and native media lifetimes: current OrderedPages/retained-image
 leaf-only O_NOFOLLOW and a prior root check do not protect ancestor replacement.
