@@ -1,95 +1,77 @@
-# Screenshot index performance audit
+# Screenshot index performance
 
-## Implemented reuse; full-run measurement remains open
+## Completed generated workload
 
-**Priority:** High — delays an external agent waiting for a long recording's index.
-**Owner:** VisualObservationCache, used by shared frame materialization through
-requested-time trail planning. **Acceptance seam:** overlapping-request real-cache
-regression, unchanged native image bytes, then the complete thirty-minute index gate.
+The [full report](native-scale-complete.json) records a completed thirty-minute
+320×180/30fps animation through the bundled service and native worker. All 6,459
+selected images published, and 33 public metadata pages enumerated them without
+loading all image bytes. The source hash remained unchanged and every owned process
+was reaped. This establishes full workload completion, not real-capture usefulness
+or an end-to-end personal release.
 
-The [partial native baseline](native-baseline-partial.json) uses an actual bundled
-worker on a generated thirty-minute 320×180/30fps animation. Source analysis completed
-all 180 chunks in about 146 seconds. At the controlled stop around 505 seconds,
-index rendering had produced 756 PNGs through source second 218.8. Those PNGs occupy
-26,906,216 bytes. A foreground clean frame completed while the index remained active;
-this partial run did not retain its latency measurement.
+On the recorded Apple M5 Pro host:
 
-The cache then contained 1,311 observation batches with 18,777 requested sample slots,
-but only 9,751 distinct source/kept-interval/policy/requested-time keys. These counts
-measure requested observations, not an exact decoder-call count: native sampling
-can reuse adjacent requests that select the same actual frame within one batch.
+- Preparation plus indexing took 1,997.893 seconds (33 minutes 18 seconds).
+  Index generation itself took 1,831.031 seconds after dependency preparation.
+- A concurrent clean frame at source second 900 returned in 192.95 ms while the
+  index was active. This measures that request, not every possible foreground call.
+- Sampled service RSS peaked at 230,384 KiB (about 225 MiB); sampled worker RSS
+  peaked at 32,096 KiB (about 31 MiB). The report retains the trace against elapsed
+  time and source progress. Sampling does not establish guaranteed instantaneous peaks.
+- Retained PNGs occupied 235,577,443 bytes, derived cache files 442,990,985 bytes,
+  and serialized retained rows 38,997,669 bytes. These categories are separate;
+  retained selected images survive derivative cache eviction.
 
-The measured baseline keyed a whole batch by its complete timestamp list. A two-second
-trail window that overlaps a previous window therefore misses unless every request
-matches. The canonical scene scan already sampled the same source grid, but a local
-endpoint or future-frame reference changes the list and prevents reuse. Each request
-is bounded (at most 52 observations), yet repeated overlapping requests multiply
-native work as the selected-image count grows.
+The report pins the source hash, runtime revision, executable/bundle hashes and host.
+Subsequent storage/UI changes are not part of that measured bundle. Its input is
+synthetic and low resolution; do not extrapolate these numbers to full-resolution
+screen capture or claim an isolated optimization speedup from the earlier runs.
+The [same-frame cache-hit/eviction companion](frame-cache-scale.md) also passes on
+this long input: CLI reuse retains file identity and bytes, LRU eviction removes it,
+and explicit retry after restart regenerates identical pixels with a new cache identity.
 
-**Disposition:** [Requested-time reuse](../scene-analysis/requested-time-reuse.md) is
-implemented and core/native parity verified. Reuse exact requested times within identical source, kept bounds
-and policy, through the existing cache owner. Do not deduplicate merely by actual
-video timestamp: a different kept interval can legitimately select another frame.
-Preserve cache eviction/recovery and native selection semantics. The regression reduced eleven requested slots to six. All eight existing public
-trail PNGs are byte-identical after integration; the full scale rerun remains open.
+## Reproduce
 
-The baseline was stopped deliberately after identifying this work amplification;
-its source video and journal were preserved outside the repository for a same-input
-rerun. It is incomplete and does not pass the thirty-minute gate. The controlled
-app stop made the test terminate with a socket error; its cleanup reaped owned
-processes. No timeout or successful completion is claimed.
+`bun run lab:index-scale` runs this optional workload. Set
+`SCREENREC_INDEX_SCALE_VIDEO` to a preserved absolute input path for a same-input
+comparison and `SCREENREC_INDEX_SCALE_EVIDENCE` to an empty absolute report directory.
+The harness copies input into its own home, checks source identity again at the end,
+and records full completion, public paging and process cleanup. Reports are replaced
+atomically so an interrupted run retains its last complete checkpoint.
 
-## Reproducible full-run measurement
+The 45-minute safety deadline is a measurement guard, not a speed acceptance claim.
+The spec requires a thirty-minute input; only the separate speech gate requires
+real-time processing. Running and failed reports never satisfy completion.
 
-`bun run lab:index-scale` runs the bundled native worker against the same generated
-thirty-minute animation. `SCREENREC_INDEX_SCALE_VIDEO` optionally selects a preserved
-absolute input path; the harness copies it into its isolated home and records its
-hash. `SCREENREC_INDEX_SCALE_EVIDENCE` selects an empty absolute report directory.
-A fresh temporary directory is the default. The lab never joins the default test glob.
+## Why requested-time reuse exists
 
-The report is atomically checkpointed during source analysis, index generation and
-foreground requests, so interruption retains completed measurements. RSS is sampled,
-not a guaranteed peak. Full completion, bounded public paging and owned-process
-cleanup remain required; a running or failed report does not pass the gate.
-The measurement has a 45-minute safety deadline, recorded in its report. The spec
-requires a thirty-minute input, not completion in thirty minutes; only the separate
-speech gate requires real-time processing. The deadline is not a speed acceptance
-claim. The partial integration rate motivated this allowance; a full measurement
-still has to establish actual elapsed time.
+The [partial baseline](native-baseline-partial.json) exposed repeated overlapping
+observation requests: whole-batch cache keys could not share identical timestamps
+when a local endpoint changed the rest of the batch. Native requests were individually
+bounded, but index size multiplied that repeated work.
 
-## Interrupted integration run
+[Requested-time reuse](../scene-analysis/requested-time-reuse.md) now shares exact
+requested times within identical source, kept bounds and policy through the existing
+cache owner. Deduplicating merely by actual video timestamp would be incorrect:
+a different kept interval can select a different frame. The core regression reduces
+eleven requested slots to six, and the existing public trail PNGs remain byte-identical.
+Native cursors already seek adjacent to the retained time; decoding from source zero
+was not the cause. More queue capacity or polling would not fix repeated observations.
 
-The [integration report](native-scale-monitor-failure.json),
-[bundle/input provenance](native-scale-monitor-provenance.json) and
-[RSS trace](native-scale-monitor-rss.json) preserve a second incomplete run.
-The same video hash was used. Source analysis finished before index admission at
-180.4 seconds; a concurrent clean frame completed in 192.3 ms. The last checkpoint
-at 767.8 seconds retained 2,088 PNGs through source second 584, occupying
-75,889,189 bytes. Sampled service RSS stayed near 264–266 MiB during the separately
-observed portion; sampling cannot establish a guaranteed peak.
+## Earlier incomplete evidence
 
-At 783 seconds, the benchmark's separate read-only catalog connection raised
-`SQLITE_BUSY` while collecting metrics. The harness terminated the test and reaped
-all owned processes. This is a monitoring failure, not an observed index job failure
-or a passed full workload. The monitor now uses bounded SQLite-busy retries and records a missing intermediate
-measurement explicitly; completion still requires a successful snapshot. Three real
-SQLite regressions include a competing writer and permanent schema failure. Rerun;
-do not count this partial report as completion. Comparisons with the earlier partial
-baseline also differ in before-event rendering correctness, so they do not isolate
-a speedup from caching alone.
+The [monitor-failure report](native-scale-monitor-failure.json),
+[provenance](native-scale-monitor-provenance.json) and
+[RSS observations](native-scale-monitor-rss.json) remain diagnostic evidence. That
+run stopped when its separate metrics connection hit `SQLITE_BUSY`, not because an
+index job was observed failing. Bounded busy retries now permit an explicitly missing
+intermediate observation; the final snapshot must succeed. The completed report above
+supersedes this run as completion evidence. The earlier partial baseline also predates
+a before-event correctness fix, so comparing their rates cannot isolate cache speedup.
 
-## Separate open gate: animation selection density
+## Still open
 
-The shared detector marks many boundaries in dense animation, and selection retains
-both valid sides as specified. Silently dropping mandatory candidates would hide
-this issue rather than measure it. The contact-sheet harness must distinguish smooth
-local movement from repeated whole-page changes, report selected/unique images and
-compare them with independent fixture events before any policy tuning.
-
-## Dismissed as the cause of this amplification
-
-Native sample cursors seek adjacent to the requested retained time; the decoder
-sets AVAssetReader's range at the selected sample. This is not a scan from source
-zero for every PNG. The frame lane remains bounded, and canceled executors continue
-to hold their slot until they exit. More polling or a larger queue would not reduce
-the repeated observation work.
+Generated density fixtures and real captured pointing must establish selection
+usefulness. Dense animation can produce many mandatory boundaries; silently dropping
+those images would hide the behavior. Preserve independent event/coverage ledgers,
+readable contact sheets and the physical capture gates before closing parent 11.

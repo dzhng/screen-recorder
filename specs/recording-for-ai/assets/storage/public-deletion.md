@@ -19,8 +19,9 @@ cleanup after directory removal is SQL-only. Ordinary cache eviction is unchange
   isolation, and reopening after a catalog fault following file removal. These tests model native
   receipts; they do not replace the following native checks.
 - The built app's public deletion test records only its own fixture window, with
-  both audio roles disabled. CLI deletes an active take; a replacement starts and
-  MCP deletes it. Actual allocated directories disappear, old catalog reads fail,
+  both audio roles disabled. CLI measures and deletes an active take; a replacement starts and
+  MCP measures and deletes it. Both adapters then return `NOT_FOUND` for that take’s
+  storage usage on the same scratch service. Actual allocated directories disappear, old catalog reads fail,
   and repeated deletion succeeds. This proves the native capture path, not audio
   fidelity or external-agent understanding.
 - The built app's restart test seeds durable intent and generated leftover source,
@@ -29,7 +30,9 @@ cleanup after directory removal is SQL-only. Ordinary cache eviction is unchange
   link targets and an unknown-ID directory survive byte-for-byte. Repeating delete
   across a second launch succeeds. Disabling startup resume makes the test fail.
   This is a seeded crash state, not a process killed halfway through native unlink.
-- The merged core suite passes 242 tests and workspace type checks pass. Eight
+- The merged core suite passes 245 tests and workspace type checks pass. The final
+  concurrent-LRU addition then passes all 13 focused storage tests; it adds no
+  production behavior. Eight
   native filesystem checks pass. Capture regression ran 13 checks: 12 passed and
   the controller fixture initially linked an obsolete Swift object. Selecting
   objects from SwiftPM's current output map makes that final check pass without
@@ -45,6 +48,8 @@ not throughput promises. [Storage semantics](usage.md) explain live-scan omissio
 and the distinction between recording bytes and shared database overhead.
 
 [Worker-process drainage](worker-deletion.md) passes an actual stopped native
-worker and a mutation that removes queue drainage. The explicit frame/audio/index
-lease matrix remains open. Physical audio, real cursor gestures, edited video and full installed
+worker and a mutation that removes queue drainage. The [explicit frame/audio/index lease matrix](delivery-deletion.json) also passes:
+all three target tokens expire before their advertised deadlines, reacquisition
+returns `NOT_FOUND`, and sibling token bytes, source hashes and usage remain unchanged.
+Misattributing any one producer reproduces a failure. Physical audio, real cursor gestures, edited video and full installed
 agent workflows remain open parent gates.

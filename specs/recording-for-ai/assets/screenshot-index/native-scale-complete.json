@@ -1,0 +1,2473 @@
+{
+  "state": "complete",
+  "generated": true,
+  "durationUs": 1800000000,
+  "safetyDeadlineMs": 2700000,
+  "width": 320,
+  "height": 180,
+  "fps": 30,
+  "host": {
+    "cpu": "Apple M5 Pro",
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "node": "v24.14.0"
+  },
+  "servicePeakKiB": 230384,
+  "workerPeakKiB": 32096,
+  "workerObservations": 1930,
+  "memorySamples": 1953,
+  "memorySampling": "RSS sampled between polls, nominally every second; not a guaranteed peak",
+  "checkpoints": [
+    {
+      "elapsedMs": 5,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 5,
+        "serviceRSSKiB": 71632,
+        "workerTotalRSSKiB": 11424,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 11424
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 0,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 15359,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 15359,
+        "serviceRSSKiB": 146928,
+        "workerTotalRSSKiB": 29776,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29776
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 8404308,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 30711,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 30711,
+        "serviceRSSKiB": 158112,
+        "workerTotalRSSKiB": 29584,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29584
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 16333958,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 46060,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 46060,
+        "serviceRSSKiB": 159408,
+        "workerTotalRSSKiB": 28640,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28640
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 24263608,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 61444,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 61444,
+        "serviceRSSKiB": 228768,
+        "workerTotalRSSKiB": 30176,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 30176
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 31260358,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 76800,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 76800,
+        "serviceRSSKiB": 229376,
+        "workerTotalRSSKiB": 29344,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29344
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 39190008,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 92160,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 92160,
+        "serviceRSSKiB": 229200,
+        "workerTotalRSSKiB": 25984,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25984
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 47119760,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 107505,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 107505,
+        "serviceRSSKiB": 229664,
+        "workerTotalRSSKiB": 29360,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29360
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 54584560,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 122846,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 122846,
+        "serviceRSSKiB": 229728,
+        "workerTotalRSSKiB": 29504,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29504
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 62049360,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 138194,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 138194,
+        "serviceRSSKiB": 229760,
+        "workerTotalRSSKiB": 29664,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29664
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 69514160,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 153546,
+      "state": "processing",
+      "phase": "dependencies",
+      "memory": {
+        "elapsedMs": 153546,
+        "serviceRSSKiB": 163424,
+        "workerTotalRSSKiB": 29856,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29856
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 76978960,
+      "retainedCandidates": 0,
+      "retainedPngBytes": 0,
+      "throughSourceUs": null,
+      "retainedRowBytes": 0
+    },
+    {
+      "elapsedMs": 169104,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 169104,
+        "serviceRSSKiB": 224736,
+        "workerTotalRSSKiB": 25952,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25952
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 84368897,
+      "retainedCandidates": 8,
+      "retainedPngBytes": 272077,
+      "throughSourceUs": 3199999,
+      "retainedRowBytes": 36333
+    },
+    {
+      "elapsedMs": 184453,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 184453,
+        "serviceRSSKiB": 225168,
+        "workerTotalRSSKiB": 19680,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19680
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 87391613,
+      "retainedCandidates": 64,
+      "retainedPngBytes": 2260632,
+      "throughSourceUs": 19200000,
+      "retainedRowBytes": 364562
+    },
+    {
+      "elapsedMs": 199856,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 199856,
+        "serviceRSSKiB": 225392,
+        "workerTotalRSSKiB": 28896,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28896
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 90190763,
+      "retainedCandidates": 115,
+      "retainedPngBytes": 4108922,
+      "throughSourceUs": 32600000,
+      "retainedRowBytes": 667710
+    },
+    {
+      "elapsedMs": 215316,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 215316,
+        "serviceRSSKiB": 224096,
+        "workerTotalRSSKiB": 19792,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19792
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 92877947,
+      "retainedCandidates": 163,
+      "retainedPngBytes": 5879876,
+      "throughSourceUs": 48400000,
+      "retainedRowBytes": 950672
+    },
+    {
+      "elapsedMs": 230750,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 230750,
+        "serviceRSSKiB": 203488,
+        "workerTotalRSSKiB": 16864,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 16864
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 95789063,
+      "retainedCandidates": 214,
+      "retainedPngBytes": 7766361,
+      "throughSourceUs": 61999999,
+      "retainedRowBytes": 1254289
+    },
+    {
+      "elapsedMs": 246125,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 246125,
+        "serviceRSSKiB": 207328,
+        "workerTotalRSSKiB": 28048,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28048
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 98700179,
+      "retainedCandidates": 266,
+      "retainedPngBytes": 9633645,
+      "throughSourceUs": 77999999,
+      "retainedRowBytes": 1561895
+    },
+    {
+      "elapsedMs": 261457,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 261457,
+        "serviceRSSKiB": 209328,
+        "workerTotalRSSKiB": 28864,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28864
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 101723261,
+      "retainedCandidates": 322,
+      "retainedPngBytes": 11680519,
+      "throughSourceUs": 94800000,
+      "retainedRowBytes": 1894015
+    },
+    {
+      "elapsedMs": 276785,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 276785,
+        "serviceRSSKiB": 208800,
+        "workerTotalRSSKiB": 26304,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26304
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 104858691,
+      "retainedCandidates": 377,
+      "retainedPngBytes": 13667737,
+      "throughSourceUs": 109999999,
+      "retainedRowBytes": 2222011
+    },
+    {
+      "elapsedMs": 292102,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 292102,
+        "serviceRSSKiB": 209376,
+        "workerTotalRSSKiB": 28288,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28288
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 108106401,
+      "retainedCandidates": 436,
+      "retainedPngBytes": 15839220,
+      "throughSourceUs": 125400000,
+      "retainedRowBytes": 2575350
+    },
+    {
+      "elapsedMs": 307426,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 307426,
+        "serviceRSSKiB": 209456,
+        "workerTotalRSSKiB": 28784,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28784
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 111354111,
+      "retainedCandidates": 494,
+      "retainedPngBytes": 17935183,
+      "throughSourceUs": 140600000,
+      "retainedRowBytes": 2925964
+    },
+    {
+      "elapsedMs": 322788,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 322788,
+        "serviceRSSKiB": 209168,
+        "workerTotalRSSKiB": 26656,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26656
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 114377841,
+      "retainedCandidates": 547,
+      "retainedPngBytes": 19848376,
+      "throughSourceUs": 156600000,
+      "retainedRowBytes": 3243383
+    },
+    {
+      "elapsedMs": 338125,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 338125,
+        "serviceRSSKiB": 210128,
+        "workerTotalRSSKiB": 29248,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29248
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 117401571,
+      "retainedCandidates": 602,
+      "retainedPngBytes": 21865424,
+      "throughSourceUs": 174800000,
+      "retainedRowBytes": 3570633
+    },
+    {
+      "elapsedMs": 353475,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 353475,
+        "serviceRSSKiB": 209760,
+        "workerTotalRSSKiB": 28896,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28896
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 120537291,
+      "retainedCandidates": 660,
+      "retainedPngBytes": 23974039,
+      "throughSourceUs": 188600000,
+      "retainedRowBytes": 3920482
+    },
+    {
+      "elapsedMs": 368866,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 368866,
+        "serviceRSSKiB": 210592,
+        "workerTotalRSSKiB": 26480,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26480
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 123449031,
+      "retainedCandidates": 712,
+      "retainedPngBytes": 25845771,
+      "throughSourceUs": 206399999,
+      "retainedRowBytes": 4231861
+    },
+    {
+      "elapsedMs": 384208,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 384208,
+        "serviceRSSKiB": 210768,
+        "workerTotalRSSKiB": 29184,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29184
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 126472761,
+      "retainedCandidates": 767,
+      "retainedPngBytes": 27858822,
+      "throughSourceUs": 220800000,
+      "retainedRowBytes": 4562176
+    },
+    {
+      "elapsedMs": 399551,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 399551,
+        "serviceRSSKiB": 210784,
+        "workerTotalRSSKiB": 26048,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26048
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 129608481,
+      "retainedCandidates": 823,
+      "retainedPngBytes": 29895705,
+      "throughSourceUs": 235200000,
+      "retainedRowBytes": 4900308
+    },
+    {
+      "elapsedMs": 414872,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 414872,
+        "serviceRSSKiB": 210352,
+        "workerTotalRSSKiB": 16256,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 16256
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 132856191,
+      "retainedCandidates": 881,
+      "retainedPngBytes": 32011557,
+      "throughSourceUs": 255799999,
+      "retainedRowBytes": 5245626
+    },
+    {
+      "elapsedMs": 430191,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 430191,
+        "serviceRSSKiB": 211312,
+        "workerTotalRSSKiB": 26016,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26016
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 136103901,
+      "retainedCandidates": 940,
+      "retainedPngBytes": 34119853,
+      "throughSourceUs": 269000000,
+      "retainedRowBytes": 5603068
+    },
+    {
+      "elapsedMs": 445536,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 445536,
+        "serviceRSSKiB": 212016,
+        "workerTotalRSSKiB": 26608,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26608
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 139127631,
+      "retainedCandidates": 995,
+      "retainedPngBytes": 36074133,
+      "throughSourceUs": 280600000,
+      "retainedRowBytes": 5937193
+    },
+    {
+      "elapsedMs": 460861,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 460861,
+        "serviceRSSKiB": 210640,
+        "workerTotalRSSKiB": 26496,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26496
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 142375341,
+      "retainedCandidates": 1053,
+      "retainedPngBytes": 38204813,
+      "throughSourceUs": 295400000,
+      "retainedRowBytes": 6287377
+    },
+    {
+      "elapsedMs": 476185,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 476185,
+        "serviceRSSKiB": 212064,
+        "workerTotalRSSKiB": 29024,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29024
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 145399071,
+      "retainedCandidates": 1108,
+      "retainedPngBytes": 40194206,
+      "throughSourceUs": 312600000,
+      "retainedRowBytes": 6618907
+    },
+    {
+      "elapsedMs": 491533,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 491533,
+        "serviceRSSKiB": 210208,
+        "workerTotalRSSKiB": 27920,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 27920
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 148534791,
+      "retainedCandidates": 1163,
+      "retainedPngBytes": 42173366,
+      "throughSourceUs": 328799999,
+      "retainedRowBytes": 6949111
+    },
+    {
+      "elapsedMs": 506861,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 506861,
+        "serviceRSSKiB": 211168,
+        "workerTotalRSSKiB": 29360,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29360
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 151558521,
+      "retainedCandidates": 1217,
+      "retainedPngBytes": 44118040,
+      "throughSourceUs": 344200000,
+      "retainedRowBytes": 7274568
+    },
+    {
+      "elapsedMs": 522202,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 522202,
+        "serviceRSSKiB": 211184,
+        "workerTotalRSSKiB": 28512,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28512
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 154582251,
+      "retainedCandidates": 1273,
+      "retainedPngBytes": 46180378,
+      "throughSourceUs": 359400000,
+      "retainedRowBytes": 7610909
+    },
+    {
+      "elapsedMs": 537530,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 537530,
+        "serviceRSSKiB": 210736,
+        "workerTotalRSSKiB": 29008,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29008
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 157493991,
+      "retainedCandidates": 1326,
+      "retainedPngBytes": 48147106,
+      "throughSourceUs": 376800000,
+      "retainedRowBytes": 7927485
+    },
+    {
+      "elapsedMs": 552890,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 552890,
+        "serviceRSSKiB": 211696,
+        "workerTotalRSSKiB": 26448,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26448
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 160517721,
+      "retainedCandidates": 1380,
+      "retainedPngBytes": 50119542,
+      "throughSourceUs": 392800000,
+      "retainedRowBytes": 8250528
+    },
+    {
+      "elapsedMs": 568283,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 568283,
+        "serviceRSSKiB": 211232,
+        "workerTotalRSSKiB": 29264,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29264
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 163653441,
+      "retainedCandidates": 1434,
+      "retainedPngBytes": 52052494,
+      "throughSourceUs": 408600000,
+      "retainedRowBytes": 8574185
+    },
+    {
+      "elapsedMs": 583635,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 583635,
+        "serviceRSSKiB": 211712,
+        "workerTotalRSSKiB": 26048,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26048
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 166677171,
+      "retainedCandidates": 1489,
+      "retainedPngBytes": 54062639,
+      "throughSourceUs": 423399999,
+      "retainedRowBytes": 8906367
+    },
+    {
+      "elapsedMs": 598987,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 598987,
+        "serviceRSSKiB": 211712,
+        "workerTotalRSSKiB": 29232,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29232
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 169476921,
+      "retainedCandidates": 1540,
+      "retainedPngBytes": 55919811,
+      "throughSourceUs": 436400000,
+      "retainedRowBytes": 9213623
+    },
+    {
+      "elapsedMs": 614316,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 614316,
+        "serviceRSSKiB": 212176,
+        "workerTotalRSSKiB": 28784,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28784
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 172724631,
+      "retainedCandidates": 1598,
+      "retainedPngBytes": 58062558,
+      "throughSourceUs": 451400000,
+      "retainedRowBytes": 9563081
+    },
+    {
+      "elapsedMs": 629637,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 629637,
+        "serviceRSSKiB": 212176,
+        "workerTotalRSSKiB": 26320,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26320
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 176084331,
+      "retainedCandidates": 1658,
+      "retainedPngBytes": 60212844,
+      "throughSourceUs": 470999999,
+      "retainedRowBytes": 9922244
+    },
+    {
+      "elapsedMs": 644959,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 644959,
+        "serviceRSSKiB": 210784,
+        "workerTotalRSSKiB": 25904,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25904
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 179444031,
+      "retainedCandidates": 1717,
+      "retainedPngBytes": 62413016,
+      "throughSourceUs": 487000000,
+      "retainedRowBytes": 10275977
+    },
+    {
+      "elapsedMs": 660284,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 660284,
+        "serviceRSSKiB": 210368,
+        "workerTotalRSSKiB": 28784,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28784
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 182691741,
+      "retainedCandidates": 1777,
+      "retainedPngBytes": 64614166,
+      "throughSourceUs": 502799999,
+      "retainedRowBytes": 10637690
+    },
+    {
+      "elapsedMs": 675610,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 675610,
+        "serviceRSSKiB": 210848,
+        "workerTotalRSSKiB": 6848,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 6848
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 185939451,
+      "retainedCandidates": 1834,
+      "retainedPngBytes": 66669178,
+      "throughSourceUs": 518800000,
+      "retainedRowBytes": 10979188
+    },
+    {
+      "elapsedMs": 690945,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 690945,
+        "serviceRSSKiB": 210848,
+        "workerTotalRSSKiB": 28768,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28768
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 189187161,
+      "retainedCandidates": 1894,
+      "retainedPngBytes": 68819243,
+      "throughSourceUs": 533000000,
+      "retainedRowBytes": 11341795
+    },
+    {
+      "elapsedMs": 706286,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 706286,
+        "serviceRSSKiB": 210848,
+        "workerTotalRSSKiB": 29088,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29088
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 192546861,
+      "retainedCandidates": 1954,
+      "retainedPngBytes": 71029935,
+      "throughSourceUs": 548800000,
+      "retainedRowBytes": 11705519
+    },
+    {
+      "elapsedMs": 721609,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 721609,
+        "serviceRSSKiB": 210880,
+        "workerTotalRSSKiB": 26000,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26000
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 195570591,
+      "retainedCandidates": 2009,
+      "retainedPngBytes": 73026135,
+      "throughSourceUs": 564200000,
+      "retainedRowBytes": 12035893
+    },
+    {
+      "elapsedMs": 736950,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 736950,
+        "serviceRSSKiB": 211632,
+        "workerTotalRSSKiB": 26192,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26192
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 198594321,
+      "retainedCandidates": 2062,
+      "retainedPngBytes": 74950551,
+      "throughSourceUs": 579200000,
+      "retainedRowBytes": 12355042
+    },
+    {
+      "elapsedMs": 752304,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 752304,
+        "serviceRSSKiB": 211632,
+        "workerTotalRSSKiB": 29168,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29168
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 201842031,
+      "retainedCandidates": 2122,
+      "retainedPngBytes": 77113736,
+      "throughSourceUs": 596200000,
+      "retainedRowBytes": 12715495
+    },
+    {
+      "elapsedMs": 767644,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 767644,
+        "serviceRSSKiB": 211648,
+        "workerTotalRSSKiB": 28816,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28816
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 205201731,
+      "retainedCandidates": 2183,
+      "retainedPngBytes": 79340491,
+      "throughSourceUs": 613400000,
+      "retainedRowBytes": 13081682
+    },
+    {
+      "elapsedMs": 782972,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 782972,
+        "serviceRSSKiB": 211184,
+        "workerTotalRSSKiB": 25984,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25984
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 208561431,
+      "retainedCandidates": 2241,
+      "retainedPngBytes": 81484811,
+      "throughSourceUs": 629000000,
+      "retainedRowBytes": 13431493
+    },
+    {
+      "elapsedMs": 798307,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 798307,
+        "serviceRSSKiB": 211200,
+        "workerTotalRSSKiB": 23008,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 23008
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 211809141,
+      "retainedCandidates": 2300,
+      "retainedPngBytes": 83630907,
+      "throughSourceUs": 646799999,
+      "retainedRowBytes": 13787567
+    },
+    {
+      "elapsedMs": 813636,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 813636,
+        "serviceRSSKiB": 212144,
+        "workerTotalRSSKiB": 26464,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26464
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 214720881,
+      "retainedCandidates": 2353,
+      "retainedPngBytes": 85552027,
+      "throughSourceUs": 660400000,
+      "retainedRowBytes": 14105403
+    },
+    {
+      "elapsedMs": 828986,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 828986,
+        "serviceRSSKiB": 211680,
+        "workerTotalRSSKiB": 28992,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28992
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 217520631,
+      "retainedCandidates": 2403,
+      "retainedPngBytes": 87414188,
+      "throughSourceUs": 674800000,
+      "retainedRowBytes": 14406274
+    },
+    {
+      "elapsedMs": 844357,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 844357,
+        "serviceRSSKiB": 211680,
+        "workerTotalRSSKiB": 11200,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 11200
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 220432371,
+      "retainedCandidates": 2453,
+      "retainedPngBytes": 89258752,
+      "throughSourceUs": 688800000,
+      "retainedRowBytes": 14704759
+    },
+    {
+      "elapsedMs": 859720,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 859720,
+        "serviceRSSKiB": 212736,
+        "workerTotalRSSKiB": 25984,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25984
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 223120131,
+      "retainedCandidates": 2503,
+      "retainedPngBytes": 91089630,
+      "throughSourceUs": 701000000,
+      "retainedRowBytes": 15006585
+    },
+    {
+      "elapsedMs": 875046,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 875046,
+        "serviceRSSKiB": 211344,
+        "workerTotalRSSKiB": 28000,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28000
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 226255851,
+      "retainedCandidates": 2558,
+      "retainedPngBytes": 93079459,
+      "throughSourceUs": 716799999,
+      "retainedRowBytes": 15336766
+    },
+    {
+      "elapsedMs": 890375,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 890375,
+        "serviceRSSKiB": 212272,
+        "workerTotalRSSKiB": 29040,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29040
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 229279581,
+      "retainedCandidates": 2615,
+      "retainedPngBytes": 95122992,
+      "throughSourceUs": 732600000,
+      "retainedRowBytes": 15678498
+    },
+    {
+      "elapsedMs": 905702,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 905702,
+        "serviceRSSKiB": 211344,
+        "workerTotalRSSKiB": 25520,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25520
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 232303311,
+      "retainedCandidates": 2668,
+      "retainedPngBytes": 97084903,
+      "throughSourceUs": 748999999,
+      "retainedRowBytes": 15995444
+    },
+    {
+      "elapsedMs": 921033,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 921033,
+        "serviceRSSKiB": 213136,
+        "workerTotalRSSKiB": 25952,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25952
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 235215051,
+      "retainedCandidates": 2721,
+      "retainedPngBytes": 99002802,
+      "throughSourceUs": 760600000,
+      "retainedRowBytes": 16318410
+    },
+    {
+      "elapsedMs": 936375,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 936375,
+        "serviceRSSKiB": 212208,
+        "workerTotalRSSKiB": 28944,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28944
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 238350771,
+      "retainedCandidates": 2777,
+      "retainedPngBytes": 101028990,
+      "throughSourceUs": 774800000,
+      "retainedRowBytes": 16656514
+    },
+    {
+      "elapsedMs": 951706,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 951706,
+        "serviceRSSKiB": 211760,
+        "workerTotalRSSKiB": 26272,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26272
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 241598481,
+      "retainedCandidates": 2835,
+      "retainedPngBytes": 103110790,
+      "throughSourceUs": 789000000,
+      "retainedRowBytes": 17006882
+    },
+    {
+      "elapsedMs": 967048,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 967048,
+        "serviceRSSKiB": 212688,
+        "workerTotalRSSKiB": 26512,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26512
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 244846191,
+      "retainedCandidates": 2893,
+      "retainedPngBytes": 105232053,
+      "throughSourceUs": 805400000,
+      "retainedRowBytes": 17355746
+    },
+    {
+      "elapsedMs": 982440,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 982440,
+        "serviceRSSKiB": 213152,
+        "workerTotalRSSKiB": 17328,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 17328
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 247645941,
+      "retainedCandidates": 2942,
+      "retainedPngBytes": 107044438,
+      "throughSourceUs": 820600000,
+      "retainedRowBytes": 17647571
+    },
+    {
+      "elapsedMs": 997806,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 997806,
+        "serviceRSSKiB": 211296,
+        "workerTotalRSSKiB": 26368,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26368
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 250557681,
+      "retainedCandidates": 2994,
+      "retainedPngBytes": 108926086,
+      "throughSourceUs": 836200000,
+      "retainedRowBytes": 17960555
+    },
+    {
+      "elapsedMs": 1013145,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1013145,
+        "serviceRSSKiB": 212816,
+        "workerTotalRSSKiB": 26128,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26128
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 253805391,
+      "retainedCandidates": 3053,
+      "retainedPngBytes": 111058366,
+      "throughSourceUs": 855399999,
+      "retainedRowBytes": 18313717
+    },
+    {
+      "elapsedMs": 1028481,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1028481,
+        "serviceRSSKiB": 213776,
+        "workerTotalRSSKiB": 25600,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25600
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 257165091,
+      "retainedCandidates": 3114,
+      "retainedPngBytes": 113307283,
+      "throughSourceUs": 871000000,
+      "retainedRowBytes": 18681742
+    },
+    {
+      "elapsedMs": 1043815,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1043815,
+        "serviceRSSKiB": 213312,
+        "workerTotalRSSKiB": 29312,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29312
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 260300811,
+      "retainedCandidates": 3169,
+      "retainedPngBytes": 115319683,
+      "throughSourceUs": 890800000,
+      "retainedRowBytes": 19008014
+    },
+    {
+      "elapsedMs": 1059162,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1059162,
+        "serviceRSSKiB": 212384,
+        "workerTotalRSSKiB": 19648,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19648
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 263212551,
+      "retainedCandidates": 3222,
+      "retainedPngBytes": 117262109,
+      "throughSourceUs": 906799999,
+      "retainedRowBytes": 19324547
+    },
+    {
+      "elapsedMs": 1074508,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1074508,
+        "serviceRSSKiB": 213392,
+        "workerTotalRSSKiB": 26016,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26016
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 266124291,
+      "retainedCandidates": 3274,
+      "retainedPngBytes": 119155738,
+      "throughSourceUs": 920600000,
+      "retainedRowBytes": 19637727
+    },
+    {
+      "elapsedMs": 1089845,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1089845,
+        "serviceRSSKiB": 212016,
+        "workerTotalRSSKiB": 26656,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26656
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 269036031,
+      "retainedCandidates": 3329,
+      "retainedPngBytes": 121174566,
+      "throughSourceUs": 935400000,
+      "retainedRowBytes": 19967848
+    },
+    {
+      "elapsedMs": 1105183,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1105183,
+        "serviceRSSKiB": 212592,
+        "workerTotalRSSKiB": 28896,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28896
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 271947771,
+      "retainedCandidates": 3381,
+      "retainedPngBytes": 123061048,
+      "throughSourceUs": 948600000,
+      "retainedRowBytes": 20282704
+    },
+    {
+      "elapsedMs": 1120522,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1120522,
+        "serviceRSSKiB": 212592,
+        "workerTotalRSSKiB": 19648,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19648
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 274971501,
+      "retainedCandidates": 3434,
+      "retainedPngBytes": 125004346,
+      "throughSourceUs": 963399999,
+      "retainedRowBytes": 20600831
+    },
+    {
+      "elapsedMs": 1135869,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1135869,
+        "serviceRSSKiB": 213056,
+        "workerTotalRSSKiB": 22144,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 22144
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 277883241,
+      "retainedCandidates": 3488,
+      "retainedPngBytes": 126967957,
+      "throughSourceUs": 978800000,
+      "retainedRowBytes": 20924882
+    },
+    {
+      "elapsedMs": 1151201,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1151201,
+        "serviceRSSKiB": 212128,
+        "workerTotalRSSKiB": 25360,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25360
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 280906971,
+      "retainedCandidates": 3540,
+      "retainedPngBytes": 128893255,
+      "throughSourceUs": 992800000,
+      "retainedRowBytes": 21237529
+    },
+    {
+      "elapsedMs": 1166540,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1166540,
+        "serviceRSSKiB": 212144,
+        "workerTotalRSSKiB": 29248,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29248
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 283819091,
+      "retainedCandidates": 3594,
+      "retainedPngBytes": 130874195,
+      "throughSourceUs": 1008200000,
+      "retainedRowBytes": 21564034
+    },
+    {
+      "elapsedMs": 1181884,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1181884,
+        "serviceRSSKiB": 212608,
+        "workerTotalRSSKiB": 26448,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26448
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 287067497,
+      "retainedCandidates": 3652,
+      "retainedPngBytes": 132993792,
+      "throughSourceUs": 1024000000,
+      "retainedRowBytes": 21916796
+    },
+    {
+      "elapsedMs": 1197219,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1197219,
+        "serviceRSSKiB": 212144,
+        "workerTotalRSSKiB": 26000,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26000
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 290315903,
+      "retainedCandidates": 3711,
+      "retainedPngBytes": 135130302,
+      "throughSourceUs": 1039800000,
+      "retainedRowBytes": 22274275
+    },
+    {
+      "elapsedMs": 1212556,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1212556,
+        "serviceRSSKiB": 213072,
+        "workerTotalRSSKiB": 29168,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29168
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 293564309,
+      "retainedCandidates": 3770,
+      "retainedPngBytes": 137273352,
+      "throughSourceUs": 1054800000,
+      "retainedRowBytes": 22635020
+    },
+    {
+      "elapsedMs": 1227909,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1227909,
+        "serviceRSSKiB": 213568,
+        "workerTotalRSSKiB": 29152,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29152
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 296924729,
+      "retainedCandidates": 3830,
+      "retainedPngBytes": 139470308,
+      "throughSourceUs": 1070800000,
+      "retainedRowBytes": 23000588
+    },
+    {
+      "elapsedMs": 1243262,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1243262,
+        "serviceRSSKiB": 213088,
+        "workerTotalRSSKiB": 29040,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29040
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 300285149,
+      "retainedCandidates": 3890,
+      "retainedPngBytes": 141684269,
+      "throughSourceUs": 1087200000,
+      "retainedRowBytes": 23365934
+    },
+    {
+      "elapsedMs": 1258610,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1258610,
+        "serviceRSSKiB": 213088,
+        "workerTotalRSSKiB": 25888,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25888
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 303645569,
+      "retainedCandidates": 3951,
+      "retainedPngBytes": 143863831,
+      "throughSourceUs": 1103400000,
+      "retainedRowBytes": 23736353
+    },
+    {
+      "elapsedMs": 1273951,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1273951,
+        "serviceRSSKiB": 212176,
+        "workerTotalRSSKiB": 29408,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29408
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 306893975,
+      "retainedCandidates": 4008,
+      "retainedPngBytes": 145931812,
+      "throughSourceUs": 1119200000,
+      "retainedRowBytes": 24085602
+    },
+    {
+      "elapsedMs": 1289309,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1289309,
+        "serviceRSSKiB": 212304,
+        "workerTotalRSSKiB": 28832,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28832
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 310142381,
+      "retainedCandidates": 4068,
+      "retainedPngBytes": 148158046,
+      "throughSourceUs": 1135400000,
+      "retainedRowBytes": 24449791
+    },
+    {
+      "elapsedMs": 1304652,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1304652,
+        "serviceRSSKiB": 212304,
+        "workerTotalRSSKiB": 29168,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29168
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 313390787,
+      "retainedCandidates": 4125,
+      "retainedPngBytes": 150257518,
+      "throughSourceUs": 1154400000,
+      "retainedRowBytes": 24794502
+    },
+    {
+      "elapsedMs": 1319989,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1319989,
+        "serviceRSSKiB": 212768,
+        "workerTotalRSSKiB": 19648,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19648
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 316415165,
+      "retainedCandidates": 4180,
+      "retainedPngBytes": 152247807,
+      "throughSourceUs": 1167999999,
+      "retainedRowBytes": 25130369
+    },
+    {
+      "elapsedMs": 1335331,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1335331,
+        "serviceRSSKiB": 213696,
+        "workerTotalRSSKiB": 19664,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19664
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 319215515,
+      "retainedCandidates": 4231,
+      "retainedPngBytes": 154102514,
+      "throughSourceUs": 1180600000,
+      "retainedRowBytes": 25440972
+    },
+    {
+      "elapsedMs": 1350666,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1350666,
+        "serviceRSSKiB": 213536,
+        "workerTotalRSSKiB": 9040,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 9040
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 322351907,
+      "retainedCandidates": 4287,
+      "retainedPngBytes": 156160887,
+      "throughSourceUs": 1196200000,
+      "retainedRowBytes": 25782504
+    },
+    {
+      "elapsedMs": 1366017,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1366017,
+        "serviceRSSKiB": 213536,
+        "workerTotalRSSKiB": 26400,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26400
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 325264271,
+      "retainedCandidates": 4339,
+      "retainedPngBytes": 158108027,
+      "throughSourceUs": 1212199999,
+      "retainedRowBytes": 26097651
+    },
+    {
+      "elapsedMs": 1381350,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1381350,
+        "serviceRSSKiB": 213536,
+        "workerTotalRSSKiB": 12512,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 12512
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 328176635,
+      "retainedCandidates": 4392,
+      "retainedPngBytes": 160009934,
+      "throughSourceUs": 1228200000,
+      "retainedRowBytes": 26418723
+    },
+    {
+      "elapsedMs": 1396688,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1396688,
+        "serviceRSSKiB": 212608,
+        "workerTotalRSSKiB": 15232,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 15232
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 331088999,
+      "retainedCandidates": 4444,
+      "retainedPngBytes": 161915879,
+      "throughSourceUs": 1240999999,
+      "retainedRowBytes": 26738910
+    },
+    {
+      "elapsedMs": 1412028,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1412028,
+        "serviceRSSKiB": 214000,
+        "workerTotalRSSKiB": 28864,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28864
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 333889349,
+      "retainedCandidates": 4496,
+      "retainedPngBytes": 163820496,
+      "throughSourceUs": 1255200000,
+      "retainedRowBytes": 27053708
+    },
+    {
+      "elapsedMs": 1427361,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1427361,
+        "serviceRSSKiB": 213584,
+        "workerTotalRSSKiB": 28752,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28752
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 336801713,
+      "retainedCandidates": 4549,
+      "retainedPngBytes": 165778457,
+      "throughSourceUs": 1270800000,
+      "retainedRowBytes": 27375368
+    },
+    {
+      "elapsedMs": 1442697,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1442697,
+        "serviceRSSKiB": 213584,
+        "workerTotalRSSKiB": 19744,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19744
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 339714077,
+      "retainedCandidates": 4601,
+      "retainedPngBytes": 167677684,
+      "throughSourceUs": 1286800000,
+      "retainedRowBytes": 27691179
+    },
+    {
+      "elapsedMs": 1458050,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1458050,
+        "serviceRSSKiB": 213584,
+        "workerTotalRSSKiB": 26368,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26368
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 342514427,
+      "retainedCandidates": 4652,
+      "retainedPngBytes": 169521843,
+      "throughSourceUs": 1299200000,
+      "retainedRowBytes": 28001121
+    },
+    {
+      "elapsedMs": 1473390,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1473390,
+        "serviceRSSKiB": 213120,
+        "workerTotalRSSKiB": 26032,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26032
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 345426791,
+      "retainedCandidates": 4705,
+      "retainedPngBytes": 171470309,
+      "throughSourceUs": 1313400000,
+      "retainedRowBytes": 28323511
+    },
+    {
+      "elapsedMs": 1488734,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1488734,
+        "serviceRSSKiB": 213120,
+        "workerTotalRSSKiB": 0,
+        "workerCount": 0,
+        "maxWorkerRSSKiB": 0
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 348563183,
+      "retainedCandidates": 4760,
+      "retainedPngBytes": 173499795,
+      "throughSourceUs": 1328399999,
+      "retainedRowBytes": 28657403
+    },
+    {
+      "elapsedMs": 1504070,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1504070,
+        "serviceRSSKiB": 213584,
+        "workerTotalRSSKiB": 25952,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25952
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 351699575,
+      "retainedCandidates": 4816,
+      "retainedPngBytes": 175564869,
+      "throughSourceUs": 1343199999,
+      "retainedRowBytes": 28999678
+    },
+    {
+      "elapsedMs": 1519411,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1519411,
+        "serviceRSSKiB": 213584,
+        "workerTotalRSSKiB": 29472,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29472
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 354499925,
+      "retainedCandidates": 4867,
+      "retainedPngBytes": 177415619,
+      "throughSourceUs": 1358800000,
+      "retainedRowBytes": 29307723
+    },
+    {
+      "elapsedMs": 1534762,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1534762,
+        "serviceRSSKiB": 212688,
+        "workerTotalRSSKiB": 29248,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29248
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 357524303,
+      "retainedCandidates": 4920,
+      "retainedPngBytes": 179330442,
+      "throughSourceUs": 1371400000,
+      "retainedRowBytes": 29631677
+    },
+    {
+      "elapsedMs": 1550109,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1550109,
+        "serviceRSSKiB": 213616,
+        "workerTotalRSSKiB": 29104,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29104
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 360436667,
+      "retainedCandidates": 4974,
+      "retainedPngBytes": 181339646,
+      "throughSourceUs": 1387000000,
+      "retainedRowBytes": 29959289
+    },
+    {
+      "elapsedMs": 1565465,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1565465,
+        "serviceRSSKiB": 213472,
+        "workerTotalRSSKiB": 28912,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28912
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 363349031,
+      "retainedCandidates": 5027,
+      "retainedPngBytes": 183280304,
+      "throughSourceUs": 1402800000,
+      "retainedRowBytes": 30281878
+    },
+    {
+      "elapsedMs": 1580799,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1580799,
+        "serviceRSSKiB": 213952,
+        "workerTotalRSSKiB": 25456,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25456
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 366373409,
+      "retainedCandidates": 5080,
+      "retainedPngBytes": 185175771,
+      "throughSourceUs": 1416800000,
+      "retainedRowBytes": 30605585
+    },
+    {
+      "elapsedMs": 1596150,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1596150,
+        "serviceRSSKiB": 213024,
+        "workerTotalRSSKiB": 29344,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29344
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 369173759,
+      "retainedCandidates": 5132,
+      "retainedPngBytes": 187044443,
+      "throughSourceUs": 1432200000,
+      "retainedRowBytes": 30921060
+    },
+    {
+      "elapsedMs": 1611490,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1611490,
+        "serviceRSSKiB": 213488,
+        "workerTotalRSSKiB": 29040,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29040
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 372310151,
+      "retainedCandidates": 5188,
+      "retainedPngBytes": 189138138,
+      "throughSourceUs": 1447400000,
+      "retainedRowBytes": 31261892
+    },
+    {
+      "elapsedMs": 1626839,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1626839,
+        "serviceRSSKiB": 213952,
+        "workerTotalRSSKiB": 26576,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26576
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 375222515,
+      "retainedCandidates": 5240,
+      "retainedPngBytes": 191036086,
+      "throughSourceUs": 1463199999,
+      "retainedRowBytes": 31576411
+    },
+    {
+      "elapsedMs": 1642255,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1642255,
+        "serviceRSSKiB": 214144,
+        "workerTotalRSSKiB": 22224,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 22224
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 377798837,
+      "retainedCandidates": 5288,
+      "retainedPngBytes": 192800691,
+      "throughSourceUs": 1476800000,
+      "retainedRowBytes": 31868353
+    },
+    {
+      "elapsedMs": 1657661,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1657661,
+        "serviceRSSKiB": 213696,
+        "workerTotalRSSKiB": 19680,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19680
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 380487173,
+      "retainedCandidates": 5335,
+      "retainedPngBytes": 194510504,
+      "throughSourceUs": 1488399999,
+      "retainedRowBytes": 32156269
+    },
+    {
+      "elapsedMs": 1673024,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1673024,
+        "serviceRSSKiB": 213696,
+        "workerTotalRSSKiB": 26480,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26480
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 383511551,
+      "retainedCandidates": 5390,
+      "retainedPngBytes": 196524379,
+      "throughSourceUs": 1503200000,
+      "retainedRowBytes": 32491525
+    },
+    {
+      "elapsedMs": 1688418,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1688418,
+        "serviceRSSKiB": 213696,
+        "workerTotalRSSKiB": 29536,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29536
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 386423915,
+      "retainedCandidates": 5440,
+      "retainedPngBytes": 198348446,
+      "throughSourceUs": 1516400000,
+      "retainedRowBytes": 32796030
+    },
+    {
+      "elapsedMs": 1703778,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1703778,
+        "serviceRSSKiB": 213232,
+        "workerTotalRSSKiB": 19664,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19664
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 389448293,
+      "retainedCandidates": 5495,
+      "retainedPngBytes": 200374089,
+      "throughSourceUs": 1531400000,
+      "retainedRowBytes": 33130945
+    },
+    {
+      "elapsedMs": 1719142,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1719142,
+        "serviceRSSKiB": 213248,
+        "workerTotalRSSKiB": 25904,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25904
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 392248643,
+      "retainedCandidates": 5545,
+      "retainedPngBytes": 202178715,
+      "throughSourceUs": 1546800000,
+      "retainedRowBytes": 33434257
+    },
+    {
+      "elapsedMs": 1734532,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1734532,
+        "serviceRSSKiB": 213248,
+        "workerTotalRSSKiB": 26240,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26240
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 395048993,
+      "retainedCandidates": 5595,
+      "retainedPngBytes": 203976297,
+      "throughSourceUs": 1560400000,
+      "retainedRowBytes": 33736796
+    },
+    {
+      "elapsedMs": 1749898,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1749898,
+        "serviceRSSKiB": 215120,
+        "workerTotalRSSKiB": 26016,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26016
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 397737329,
+      "retainedCandidates": 5643,
+      "retainedPngBytes": 205733040,
+      "throughSourceUs": 1571000000,
+      "retainedRowBytes": 34031949
+    },
+    {
+      "elapsedMs": 1765261,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1765261,
+        "serviceRSSKiB": 214672,
+        "workerTotalRSSKiB": 28960,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28960
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 400537679,
+      "retainedCandidates": 5695,
+      "retainedPngBytes": 207638079,
+      "throughSourceUs": 1587400000,
+      "retainedRowBytes": 34346758
+    },
+    {
+      "elapsedMs": 1780614,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1780614,
+        "serviceRSSKiB": 214208,
+        "workerTotalRSSKiB": 29120,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29120
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 403562057,
+      "retainedCandidates": 5750,
+      "retainedPngBytes": 209643814,
+      "throughSourceUs": 1604200000,
+      "retainedRowBytes": 34678303
+    },
+    {
+      "elapsedMs": 1795961,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1795961,
+        "serviceRSSKiB": 213760,
+        "workerTotalRSSKiB": 29136,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29136
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 406474421,
+      "retainedCandidates": 5803,
+      "retainedPngBytes": 211571478,
+      "throughSourceUs": 1618800000,
+      "retainedRowBytes": 35001312
+    },
+    {
+      "elapsedMs": 1811328,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1811328,
+        "serviceRSSKiB": 214224,
+        "workerTotalRSSKiB": 25872,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25872
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 409274771,
+      "retainedCandidates": 5852,
+      "retainedPngBytes": 213364518,
+      "throughSourceUs": 1631199999,
+      "retainedRowBytes": 35301167
+    },
+    {
+      "elapsedMs": 1826676,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1826676,
+        "serviceRSSKiB": 214704,
+        "workerTotalRSSKiB": 25936,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25936
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 412075121,
+      "retainedCandidates": 5903,
+      "retainedPngBytes": 215239002,
+      "throughSourceUs": 1644800000,
+      "retainedRowBytes": 35612354
+    },
+    {
+      "elapsedMs": 1842067,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1842067,
+        "serviceRSSKiB": 213824,
+        "workerTotalRSSKiB": 28880,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 28880
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 414651443,
+      "retainedCandidates": 5949,
+      "retainedPngBytes": 216920692,
+      "throughSourceUs": 1655400000,
+      "retainedRowBytes": 35894548
+    },
+    {
+      "elapsedMs": 1857501,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1857501,
+        "serviceRSSKiB": 213840,
+        "workerTotalRSSKiB": 29376,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 29376
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 417227765,
+      "retainedCandidates": 5995,
+      "retainedPngBytes": 218582428,
+      "throughSourceUs": 1670000000,
+      "retainedRowBytes": 36172745
+    },
+    {
+      "elapsedMs": 1872907,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1872907,
+        "serviceRSSKiB": 213840,
+        "workerTotalRSSKiB": 25328,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25328
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 420028115,
+      "retainedCandidates": 6044,
+      "retainedPngBytes": 220362125,
+      "throughSourceUs": 1683999999,
+      "retainedRowBytes": 36469999
+    },
+    {
+      "elapsedMs": 1888262,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1888262,
+        "serviceRSSKiB": 213376,
+        "workerTotalRSSKiB": 25968,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25968
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 422828465,
+      "retainedCandidates": 6094,
+      "retainedPngBytes": 222201885,
+      "throughSourceUs": 1697000000,
+      "retainedRowBytes": 36775140
+    },
+    {
+      "elapsedMs": 1903615,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1903615,
+        "serviceRSSKiB": 213376,
+        "workerTotalRSSKiB": 26320,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26320
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 425516801,
+      "retainedCandidates": 6144,
+      "retainedPngBytes": 224033780,
+      "throughSourceUs": 1712200000,
+      "retainedRowBytes": 37079180
+    },
+    {
+      "elapsedMs": 1918977,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1918977,
+        "serviceRSSKiB": 213840,
+        "workerTotalRSSKiB": 19648,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19648
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 428429165,
+      "retainedCandidates": 6195,
+      "retainedPngBytes": 225902165,
+      "throughSourceUs": 1723199999,
+      "retainedRowBytes": 37393960
+    },
+    {
+      "elapsedMs": 1934334,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1934334,
+        "serviceRSSKiB": 213840,
+        "workerTotalRSSKiB": 26000,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26000
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 431453543,
+      "retainedCandidates": 6249,
+      "retainedPngBytes": 227860191,
+      "throughSourceUs": 1738799999,
+      "retainedRowBytes": 37723687
+    },
+    {
+      "elapsedMs": 1949700,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1949700,
+        "serviceRSSKiB": 213840,
+        "workerTotalRSSKiB": 19696,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 19696
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 434253893,
+      "retainedCandidates": 6300,
+      "retainedPngBytes": 229692211,
+      "throughSourceUs": 1755399999,
+      "retainedRowBytes": 38029635
+    },
+    {
+      "elapsedMs": 1965059,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1965059,
+        "serviceRSSKiB": 214320,
+        "workerTotalRSSKiB": 26032,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 26032
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 437166257,
+      "retainedCandidates": 6352,
+      "retainedPngBytes": 231644871,
+      "throughSourceUs": 1768999999,
+      "retainedRowBytes": 38346580
+    },
+    {
+      "elapsedMs": 1980416,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1980416,
+        "serviceRSSKiB": 214320,
+        "workerTotalRSSKiB": 22176,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 22176
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 439966607,
+      "retainedCandidates": 6404,
+      "retainedPngBytes": 233571893,
+      "throughSourceUs": 1784400000,
+      "retainedRowBytes": 38663513
+    },
+    {
+      "elapsedMs": 1995762,
+      "state": "processing",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1995762,
+        "serviceRSSKiB": 214784,
+        "workerTotalRSSKiB": 25952,
+        "workerCount": 1,
+        "maxWorkerRSSKiB": 25952
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 442878971,
+      "retainedCandidates": 6456,
+      "retainedPngBytes": 235468504,
+      "throughSourceUs": 1799200000,
+      "retainedRowBytes": 38979506
+    },
+    {
+      "elapsedMs": 1997845,
+      "state": "ready",
+      "phase": "index",
+      "memory": {
+        "elapsedMs": 1997845,
+        "serviceRSSKiB": 214208,
+        "workerTotalRSSKiB": 0,
+        "workerCount": 0,
+        "maxWorkerRSSKiB": 0
+      },
+      "catalogMetricsState": "ready",
+      "cacheBytes": 442990985,
+      "retainedCandidates": 6459,
+      "retainedPngBytes": 235577443,
+      "throughSourceUs": 1799999999,
+      "retainedRowBytes": 38997669
+    }
+  ],
+  "foreground": {
+    "state": "ready",
+    "startedMs": 166883,
+    "elapsedMs": 192.9498329999915,
+    "frame": {
+      "actualSourceUs": 900000000,
+      "bytes": 27859,
+      "distanceUs": 0,
+      "file": "/private/tmp/scr-index-scale-npXoGu/cache/derived/3aa66040-4faf-403c-b4b3-0bd86bc13916.cache",
+      "height": 180,
+      "mediaType": "image/png",
+      "requestedSourceUs": 900000000,
+      "sourceHeight": 180,
+      "sourceWidth": 320,
+      "width": 320,
+      "recordingId": "1961ccb3-630c-4aa8-bed6-cdf1abc685b6",
+      "sourceId": "aad8a298-0f57-46a3-a453-9d6727b86e86",
+      "revisionId": "r0",
+      "requestedPlaybackUs": 900000000,
+      "actualPlaybackUs": 900000000,
+      "kept": {
+        "startUs": 0,
+        "endUs": 1800000000
+      },
+      "clean": true,
+      "annotation": null,
+      "sourceEvidence": null,
+      "cacheId": "3aa66040-4faf-403c-b4b3-0bd86bc13916"
+    }
+  },
+  "revision": "6ce66bee7b87764ab3f104c646762a897480364b",
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "nativeExecutableSha256": "e4431b391c05f2575c1344031e1dafaa4a08a0ab2bbff68c8a855a657e6906ab",
+  "serviceBundleSha256": "25b24e625ab1de1acb57f78dbdbf1bd8579f2071bcd090b715c6a166d6e4fe46",
+  "sourceHash": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+  "input": "/tmp/screenrec-index-scale-input/video.mov",
+  "recordingId": "1961ccb3-630c-4aa8-bed6-cdf1abc685b6",
+  "startedAt": "2026-09-16T13:02:47.471Z",
+  "indexStartedMs": 166862,
+  "elapsedMs": 1997893,
+  "indexElapsedMs": 1831031,
+  "pages": 33,
+  "candidates": 6459,
+  "cacheBytes": 442990985,
+  "retainedCandidates": 6459,
+  "retainedPngBytes": 235577443,
+  "throughSourceUs": 1799999999,
+  "retainedRowBytes": 38997669,
+  "metadata": {
+    "recordingId": "1961ccb3-630c-4aa8-bed6-cdf1abc685b6",
+    "sourceId": "aad8a298-0f57-46a3-a453-9d6727b86e86",
+    "revisionId": "r0",
+    "generation": "2e50c29b-73e3-401f-b6e1-d121d13f6c16",
+    "sourceIdentity": {
+      "recordingId": "1961ccb3-630c-4aa8-bed6-cdf1abc685b6",
+      "sourceId": "aad8a298-0f57-46a3-a453-9d6727b86e86",
+      "generation": "cbec66a4-c837-4858-9331-51ffac91b11f"
+    },
+    "sceneIdentity": {
+      "recordingId": "1961ccb3-630c-4aa8-bed6-cdf1abc685b6",
+      "sourceId": "aad8a298-0f57-46a3-a453-9d6727b86e86",
+      "generation": "3237b2f7-e60a-4c8f-8e99-6cfb3a46468a",
+      "policy": "rgb-spatial-change-v2"
+    },
+    "selectionPolicy": "sampled-evidence-selection-v2",
+    "framePolicy": "frame-v3",
+    "trailPolicy": "requested-time-trail-v1",
+    "durationUs": 1800000000,
+    "candidateCount": 6459,
+    "coverageCount": 360,
+    "bytes": 235577443
+  },
+  "totalElapsedMs": 1998331,
+  "survivingProcesses": []
+}

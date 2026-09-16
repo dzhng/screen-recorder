@@ -48,22 +48,29 @@ test(
     const take = await start();
     const directory = join(home, "recordings", take.recordingId);
     await waitFor(() => existsSync(join(directory, "source", "capture.journal.jsonl")), 5_000);
-    const command = await execute(
-      process.execPath,
-      [
-        cli,
-        "recording.delete",
-        "--socket",
-        socketPath(home),
-        "--params",
-        JSON.stringify({ recordingId: take.recordingId }),
-      ],
-      { timeout: 30_000 },
-    );
-    const cliResult = JSON.parse(command.stdout);
+    const cliCall = async (operation, params) => {
+      try {
+        const command = await execute(
+          process.execPath,
+          [cli, operation, "--socket", socketPath(home), "--params", JSON.stringify(params)],
+          { timeout: 30_000 },
+        );
+        return JSON.parse(command.stdout);
+      } catch (error) {
+        if (!error.stdout) throw error;
+        return JSON.parse(error.stdout);
+      }
+    };
+    const reference = { recordingId: take.recordingId };
+    const before = await cliCall("storage.usage", reference);
+    assert.equal(before.ok, true);
+    assert.equal(before.data.recordingId, take.recordingId);
+    assert.ok(before.data.totalBytes > 0);
+    const cliResult = await cliCall("recording.delete", reference);
     assert.equal(cliResult.ok, true);
     assert.deepEqual(cliResult.data, { recordingId: take.recordingId, deleted: true });
     assert.equal(existsSync(directory), false);
+    assert.equal((await cliCall("storage.usage", reference)).error.code, "NOT_FOUND");
     assert.equal(
       (await call("recording.get", { recordingId: take.recordingId })).error.code,
       "NOT_FOUND",
@@ -85,6 +92,13 @@ test(
         }),
       );
       assert.ok((await client.listTools()).tools.some((tool) => tool.name === "recording.delete"));
+      const usage = await client.callTool({
+        name: "storage.usage",
+        arguments: { recordingId: replacement.recordingId },
+      });
+      assert.equal(usage.structuredContent.ok, true);
+      assert.equal(usage.structuredContent.data.recordingId, replacement.recordingId);
+      assert.ok(usage.structuredContent.data.totalBytes > 0);
       const result = await client.callTool({
         name: "recording.delete",
         arguments: { recordingId: replacement.recordingId },
@@ -94,6 +108,11 @@ test(
         recordingId: replacement.recordingId,
         deleted: true,
       });
+      const absent = await client.callTool({
+        name: "storage.usage",
+        arguments: { recordingId: replacement.recordingId },
+      });
+      assert.equal(absent.structuredContent.error.code, "NOT_FOUND");
     } finally {
       await client.close();
     }

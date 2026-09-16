@@ -1,0 +1,80 @@
+{
+  "generated": true,
+  "ownedProcessesReaped": true,
+  "deleted": {
+    "recordingId": "114f8f5e-d9c4-4b16-8f00-1e710b45f61d",
+    "deleted": true
+  },
+  "matrix": [
+    {
+      "kind": "frame",
+      "revoked": "ARTIFACT_EXPIRED",
+      "reacquire": "NOT_FOUND",
+      "bytesBefore": 315,
+      "siblingSha256": "cbef15f47c4134c43e1dc97aec55d49509603eca638885a1f22ae78ae8d63980"
+    },
+    {
+      "kind": "audio",
+      "revoked": "ARTIFACT_EXPIRED",
+      "reacquire": "NOT_FOUND",
+      "bytesBefore": 196096,
+      "siblingSha256": "04473138e0df3356f164b8a4012dcb976b31627b4000f74600cfb42617c305fb"
+    },
+    {
+      "kind": "retained-index",
+      "revoked": "ARTIFACT_EXPIRED",
+      "reacquire": "NOT_FOUND",
+      "bytesBefore": 315,
+      "siblingSha256": "cbef15f47c4134c43e1dc97aec55d49509603eca638885a1f22ae78ae8d63980"
+    }
+  ],
+  "usageBefore": {
+    "recordingId": "114f8f5e-d9c4-4b16-8f00-1e710b45f61d",
+    "observedAt": "2026-09-16T13:39:19.456Z",
+    "measurement": "live",
+    "sourceBytes": 386955,
+    "evidenceBytes": 964,
+    "cacheBytes": 377892,
+    "otherBytes": 0,
+    "sharedBytes": 0,
+    "totalBytes": 765811
+  },
+  "usageAfter": "NOT_FOUND",
+  "siblingUsageBefore": {
+    "recordingId": "18706545-e8f3-4bd1-a59c-c080bce7a019",
+    "observedAt": "2026-09-16T13:39:19.460Z",
+    "measurement": "live",
+    "sourceBytes": 386955,
+    "evidenceBytes": 960,
+    "cacheBytes": 377890,
+    "otherBytes": 0,
+    "sharedBytes": 0,
+    "totalBytes": 765805
+  },
+  "siblingUsageAfter": {
+    "recordingId": "18706545-e8f3-4bd1-a59c-c080bce7a019",
+    "observedAt": "2026-09-16T13:39:19.488Z",
+    "measurement": "live",
+    "sourceBytes": 386955,
+    "evidenceBytes": 960,
+    "cacheBytes": 377890,
+    "otherBytes": 0,
+    "sharedBytes": 0,
+    "totalBytes": 765805
+  },
+  "siblingSourceHashes": [
+    {
+      "name": "video.mov",
+      "sha256": "c5024340ead32a7ad4973a1db3f2c91a4789b2af5c057d29ed51d6afc4474c9e"
+    },
+    {
+      "name": "narration.mov",
+      "sha256": "3d32597eba8b686e6d6e9db02731118f85e706ee96a9e80afcd56089b57622e9"
+    },
+    {
+      "name": "capture.journal.jsonl",
+      "sha256": "5f0fccf1a01800aeff7943eed648544144e072f6346cee19147830d94245c5fd"
+    }
+  ],
+  "scope": "Generated native frame/audio/index delivery leases through the packaged service; no capture devices."
+}

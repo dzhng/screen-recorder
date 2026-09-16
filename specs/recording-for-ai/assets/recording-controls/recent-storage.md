@@ -54,3 +54,14 @@ and `bun run build`.
    Compare the production menu before/after, then run unprimed screenshot critique
    and offer the native images for human review. Keep broader slice 07 capture,
    shortcuts, permissions and source-selection gates open.
+
+## Merged native interaction attempt
+
+The merged app builds and its real NSMenu identity fixture passes. On a generated
+scratch library, computer-use automation resolved the owned fixture window and
+could close it. It did not expose the menu-bar control; menu-bar focusing left the
+window tree unchanged, SystemUIServer selection timed out, and the app became
+uninspectable through that surface after its fixture window closed. No menu action,
+pending/failure screenshot, or visual acceptance is claimed. The owned app/service
+were stopped and the generated scratch data cleaned up. Continue ordinary-window
+and backend work; real menu interaction remains an explicit gate.

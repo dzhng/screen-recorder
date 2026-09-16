@@ -29,13 +29,16 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish the explicit frame/audio/index lease matrix for public recording
-deletion in [storage/deletion](slices/15b-storage-and-deletion.md).
-Then rerun the full index scale gate after cache/stillness integration in
-[retained index delivery](slices/11c-retained-index.md). Selection, retained storage,
-core orchestration and public CLI/MCP index delivery pass their generated-data
-checks; all seven generated visual fixtures now pass. Real-capture usefulness and
-thirty-minute index performance remain open.
+Current pickup: implement the bounded native renderer from the measured timing/gap
+checkpoint in [13a](slices/13a-native-render-timing.md), then wire edited video and
+package exports. [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
+including native workers and frame/audio/index leases. Recent-recording delete and
+storage controls build and pass native state/identity checks, but computer-use could
+reach only their fixture window; actual menu interaction/visual review remains open
+in [07](slices/07-menu-bar-controls.md).
+The full thirty-minute generated index workload and long-input cache companion pass;
+see [performance evidence](assets/screenshot-index/performance.md). Real-capture
+selection usefulness remains open. All seven generated visual fixtures pass.
 [Shared frame materialization](slices/11b-shared-frame-materialization.md) serves
 both arbitrary and selected images. [Default public trail frames](slices/10e-public-trails.md) now pass generated
 CLI/MCP pixel and independent readability checks. The
@@ -51,16 +54,11 @@ markers when a delayed first frame establishes source zero after pause/resume.
 Both native fixes pass merged capture/recovery fixtures and the own-window public
 capture check. Do not rebuild either clock mapping in TypeScript.
 
-Priority order: finish storage/deletion, rerun screenshot index scale, then controls,
-speech, edited video/package and installed-workflow gates. Catalog intent, per-record
-job drain, native capture terminal ownership and delivery revocation are integrated.
-The deletion coordinator has seven focused checks; actual bundled CLI/MCP deletion
-of active silent fixture takes and seeded startup recovery pass, along with
-storage-usage client parity. See [public deletion evidence](assets/storage/public-deletion.md). Directory-swap evidence rules out pathname-based
-removal, so deletion now uses native descriptor-relative operations. The scale monitor
-contention fix is integrated; full-scale completion remains unproven. Keep native
-verification separate from that measurement. Keep one queue, immutable sources,
-explicit dependency failure and the complete CLI/MCP surface. No more Claude use.
+Priority order: native edited video/package execution, remaining controls and physical
+capture/gesture verification, speech fidelity, then installed-workflow closeout.
+Keep one queue, immutable sources, explicit dependency failure and the complete
+CLI/MCP surface. Generated scale evidence does not establish real-capture usefulness.
+No more Claude use.
 
 Current evidence:
 
@@ -139,7 +137,7 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
-  - [ ] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)
+  - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)
 
 ## Outcome
 

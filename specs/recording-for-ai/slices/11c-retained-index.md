@@ -1,17 +1,16 @@
 # Retained revision index and public delivery
 
-Status: retained storage, core orchestration and public CLI/MCP delivery verified
-against generated data, including bundled restart and cache eviction. Contact sheets,
-selection usefulness and scale acceptance remain open. See [retained storage](../assets/screenshot-index/retained-store.md),
+Status: retained storage, core orchestration, public CLI/MCP delivery and the full
+thirty-minute generated workload pass. The [performance report](../assets/screenshot-index/performance.md)
+records actual elapsed time, sampled RSS, paging and foreground latency. Its [long-input cache companion](../assets/screenshot-index/frame-cache-scale.md)
+also passes reuse, eviction and unchanged-source checks. Real-capture selection
+usefulness remains open. See [retained storage](../assets/screenshot-index/retained-store.md),
 [orchestration](../assets/screenshot-index/orchestration.md), and
-[public delivery evidence](../assets/screenshot-index/public-delivery.md). The
-[performance audit](../assets/screenshot-index/performance.md) records an incomplete
-long-source baseline; requested-time reuse now passes native byte parity and needs
-the full rerun. The [generated review](../assets/screenshot-index/generated-review.md)
-and [before-event correction](../assets/screenshot-index/before-event/review.md) retain
-visual findings. The unchanged native stillness fixture now retains only its two
-mandatory endpoints with a source-wide bounded rounding envelope; full scale and
-real-capture acceptance remain open.
+[public delivery evidence](../assets/screenshot-index/public-delivery.md).
+The [generated review](../assets/screenshot-index/generated-review.md) and
+[before-event correction](../assets/screenshot-index/before-event/review.md) retain
+visual findings. The unchanged stillness fixture retains only its two mandatory
+endpoints with a source-wide bounded rounding envelope.
 
 IndexProcessing pins revision, source/scene generations and selection/rendering
 policies before admission. One producer streams selection into bounded catalog rows
@@ -24,8 +23,8 @@ Use one existing frame lane for serial index materialization, with at most one
 active/queued index producer globally; leave the other frame lane for foreground
 requests. Resolve dependencies before admission; never occupy a lane while polling
 child jobs. Additional index demand reports explicit bounded-admission readiness or
-limit failure, not an invented running job. Benchmark foreground latency in the
-thirty-minute fixture before accepting this scheduling choice.
+limit failure, not an invented running job. The completed thirty-minute fixture measures foreground latency for this scheduling
+choice; keep its generated-workload scope explicit.
 
 Public index pages default to 50/max200 metadata entries with an explicit continuation
 bound to recording, revision, generation, filters and ordinal. They return reasons,

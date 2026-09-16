@@ -56,3 +56,11 @@ fails the held-file regression. The latter also verifies the real descriptor clo
 Native capture, public
 recording deletion and its restart/lifetime gates remain separate. This checkpoint
 creates no new UI and does not close those parent requirements.
+
+The final held-scan regression invokes real LRU eviction by publishing a sibling
+file through DerivedCache while inspection is between the target file's metadata
+read and open. Inspection finishes with zero remaining target cache bytes, while
+the sibling's new bytes remain readable and accounted for. Removing missing-file
+handling makes the regression fail with `STORAGE_IO`; restoring it passes all
+thirteen focused storage checks. This complements the existing active-capture,
+completed-deletion and shutdown-drain cases.

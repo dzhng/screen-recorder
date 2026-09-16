@@ -1,7 +1,7 @@
 # 15b — Recording storage and manual deletion
 
-Status: public deletion and storage usage are implemented; merged closeout is in
-progress. [Catalog/queue](../assets/storage/catalog-queue.md),
+Status: verified for the generated and own-window contracts below. Public deletion
+and storage usage pass merged CLI/MCP, lifetime, restart and containment checks. [Catalog/queue](../assets/storage/catalog-queue.md),
 [capture shutdown](../assets/storage/deletion-intent.md),
 [lease isolation](../assets/storage/delivery-ownership.md),
 [native file containment](../assets/storage/managed-files.md), and
@@ -9,7 +9,8 @@ progress. [Catalog/queue](../assets/storage/catalog-queue.md),
 native deletion gate passes CLI/MCP calls against silent app-owned fixture takes;
 [seeded startup recovery](../assets/storage/public-deletion.md) also passes.
 [Actual media-worker drainage](../assets/storage/worker-deletion.md) passes.
-The explicit frame/audio/index lease matrix remains to be completed before closeout. These checks do not close
+The [frame/audio/index lease matrix](../assets/storage/delivery-deletion.json) also passes.
+These checks do not close
 parent release, physical audio, or installed-workflow gates.
 
 ## Contract
@@ -168,7 +169,10 @@ capture/eviction/deletion and symlink sentinel. Compare managed aggregate catego
 with the fixture's independent file inventory; classify database/WAL separately.
 Use a large generated inventory to show bounded traversal and continued health/read
 responses. Exercise usage and delete through CLI and MCP against one scratch service.
-Use `bun run lab:storage` for this scratch-only checkpoint. Preserve machine-readable before/after totals and operation receipts.
+Use `bun run lab:storage` for usage inventory/parity and
+`node --test apps/macos/tests/recording-deletion.test.mjs` for usage/delete through
+both clients on one own-window scratch service. Preserve machine-readable totals
+and operation receipts.
 
 ## Scope, review and delegated choices
 

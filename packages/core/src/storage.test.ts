@@ -28,7 +28,7 @@ afterEach(async () => {
   vi.restoreAllMocks();
   for (const cleanup of cleanups.splice(0).reverse()) await cleanup();
 });
-async function fixture() {
+async function fixture(cacheBudget?: number) {
   const home = await mkdtemp("/tmp/screenrec-storage-");
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const store = new RevisionStore(join(home, "library.sqlite"), {
@@ -36,7 +36,7 @@ async function fixture() {
     newId: randomUUID,
   });
   cleanups.push(() => store.close());
-  const cache = new DerivedCache(store, home);
+  const cache = new DerivedCache(store, home, cacheBudget);
   await cache.reconcile();
   const storage = new RecordingStorage(store, cache, home);
   cleanups.push(() => storage.close());
@@ -410,6 +410,47 @@ test("completed deletion refuses a new per-record waiter even while an older obs
   } finally {
     release();
     await Promise.allSettled([first]);
+    vi.mocked(filesystem.open).mockImplementation(actual.open);
+  }
+});
+
+test("live inspection tolerates actual LRU eviction while preserving another recording's new file", async () => {
+  const { store, cache, storage, take, file } = await fixture(5);
+  const old = cache.reserve(take.recordingId);
+  await file(old.path, 3);
+  await cache.publish(old.id);
+  const sibling = store.allocate().recording;
+  const actual = await vi.importActual<typeof import("node:fs/promises")>("node:fs/promises");
+  let entered!: () => void, release!: () => void;
+  const opening = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  vi.mocked(filesystem.open).mockImplementation(async (path, flags, mode) => {
+    if (String(path) === old.path) {
+      entered();
+      await held;
+    }
+    return actual.open(path, flags, mode);
+  });
+  const inspection = storage.usage(take.recordingId);
+  void inspection.catch(() => {});
+  try {
+    await opening;
+    const next = cache.reserve(sibling.recordingId);
+    await file(next.path, 4);
+    // Publishing through the real owner exceeds its budget and evicts the oldest unpinned file.
+    await cache.publish(next.id);
+    await expect(actual.lstat(old.path)).rejects.toMatchObject({ code: "ENOENT" });
+    release();
+    await expect(inspection).resolves.toMatchObject({ cacheBytes: 0, totalBytes: 0 });
+    expect((await storage.usage(sibling.recordingId)).cacheBytes).toBe(4);
+    expect(await readFile(next.path)).toEqual(Buffer.alloc(4, 65));
+  } finally {
+    release();
+    await Promise.allSettled([inspection]);
     vi.mocked(filesystem.open).mockImplementation(actual.open);
   }
 });
