@@ -36,6 +36,28 @@ public enum NativeWire {
                     response = failure(
                         id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription)
                 }
+            } else if operation == "media.cursorEvidence" {
+                do {
+                    guard Set(params.keys) == ["directory", "output"],
+                        let directory = params["directory"] as? String,
+                        let output = params["output"] as? String,
+                        directory.hasPrefix("/"), output.hasPrefix("/"),
+                        !directory.contains("\0"), !output.contains("\0")
+                    else {
+                        throw CaptureFailure(
+                            "INVALID_REQUEST",
+                            "Evidence requires absolute directory and output paths.")
+                    }
+                    let result = try CursorEvidenceExport.write(
+                        directory: directory, output: output)
+                    let data = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
+                    response = ["id": id, "ok": true, "data": data]
+                } catch let error as CaptureFailure {
+                    response = failure(id: id, code: error.code, message: error.message)
+                } catch {
+                    response = failure(
+                        id: id, code: "EVIDENCE_FAILED", message: "Cannot export cursor evidence.")
+                }
             } else if operation == "media.recover" {
                 if Set(params.keys) == ["directory"],
                     let directory = params["directory"] as? String, !directory.isEmpty

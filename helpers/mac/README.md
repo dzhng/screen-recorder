@@ -260,3 +260,21 @@ duration, measured from the requested frame time so identical parameters render
 identical pixels. An absent overlay leaves the frame clean. Points off the source
 raster, out-of-order or overlapping runs, a trail without a duration and trails past
 the ten-second or 1200-point bounds are refused without writing an image.
+
+## Cursor evidence derivatives
+
+The internal `media.cursorEvidence` worker seam reads a caller-selected finalized
+or recovered source and publishes normalized JSONL to a new caller-owned file
+outside that source directory. [CursorEvidenceExport](Sources/ScreenRecorderCapture/CursorEvidenceExport.swift)
+owns publication and its compact receipt; the existing journal reader owns record
+validation and integrity boundaries. Each cursor sample remains an observation in
+source time, with geometry and display-space records preserved in journal order.
+No coordinates are recalculated and no gestures are inferred.
+
+A corrupt or incomplete tail can leave usable prefix evidence. Consumers must keep
+the receipt's integrity markers with that evidence; `finished` reports the journal's
+claim, not a new validation of media finalization. Budget failures publish nothing,
+and existing output paths are refused. The export streams records without retaining
+cursor history or unrelated timing arrays. Its byte budgets and provenance limit
+live in the export owner. This is a native ingestion seam for a future persistent
+index, not a raw-history query implementation or public CLI/MCP operation.

@@ -12,6 +12,15 @@ Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. `bun run lab:cursor-geometry` now exists
 and produces placement measurements; the rest of this slice's plan is unchanged.
 
+## Native ingestion evidence
+
+The internal cursor-evidence export now streams generated-journal observations
+through the existing native parser into a caller-owned derivative. Real-worker
+checks cover ordered geometry, unchanged raw sample values, corrupt/incomplete
+prefix markers, output alias refusal, source immutability, and a large sample
+history. See [native derivative ownership](../../../helpers/mac/README.md#cursor-evidence-derivatives).
+This does not add core indexing or close the physical placement gates.
+
 ## Contract and API seam
 
 Recorded cursor samples land on the same visual target in display, window and region capture.

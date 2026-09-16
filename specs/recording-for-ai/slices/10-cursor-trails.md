@@ -8,6 +8,10 @@ Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
 harness entrypoints to create in this slice, not existing executable claims.
 
+The [native ingestion seam](03-cursor-geometry.md#native-ingestion-evidence) exports
+raw evidence for future one-time indexing. SQLite ingestion, bounded cursor-range
+queries, and core trail selection remain unimplemented.
+
 ## Contract and API seam
 
 A single image preserves recent pointing while making clean/current-pointer alternatives explicit.

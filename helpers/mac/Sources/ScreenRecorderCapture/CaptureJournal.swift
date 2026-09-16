@@ -145,7 +145,8 @@ public final class CaptureJournal {
         try append("finished", data: result, durable: true)
     }
 
-    private func append<Event: Encodable>(_ event: String, data: Event, durable: Bool = false) throws
+    private func append<Event: Encodable>(_ event: String, data: Event, durable: Bool = false)
+        throws
     {
         sequence += 1
         let payload = try JSONSerialization.jsonObject(with: JSONEncoder().encode(data))
@@ -159,13 +160,19 @@ public final class CaptureJournal {
     /// Reads terminated records in order until the reader stops or the file ends, and reports
     /// whether the file ended mid-record. Both the summary and the evidence stream read through
     /// this one loop so they cannot disagree about where a journal stops being believable.
-    private static func readRecords(directory: String, _ body: (Data) throws -> Bool) throws -> Bool
-    {
+    private static func readRecords(
+        directory: String, maximumBytes: Int?, _ body: (Data) throws -> Bool
+    ) throws -> Bool {
         let url = URL(fileURLWithPath: directory).appendingPathComponent("capture.journal.jsonl")
         let input = try FileHandle(forReadingFrom: url)
         defer { try? input.close() }
         var pending = Data()
+        var bytes = 0
         while let chunk = try input.read(upToCount: 16_384), !chunk.isEmpty {
+            bytes += chunk.count
+            if let maximumBytes, bytes > maximumBytes {
+                throw CaptureFailure("EVIDENCE_LIMIT", "Journal exceeds the evidence read budget.")
+            }
             pending.append(chunk)
             while let end = pending.firstIndex(of: 10) {
                 let line = Data(pending[..<end])
@@ -189,11 +196,23 @@ public final class CaptureJournal {
         samples: ([CursorSample]) throws -> Void = { _ in },
         displaySpace: (JournalDisplaySpace) throws -> Void = { _ in }
     ) throws -> CaptureJournalSummary {
+        try readCursorEvidence(
+            directory: directory, maximumBytes: nil, retainTiming: true,
+            geometry: geometry, samples: samples, displaySpace: displaySpace)
+    }
+
+    static func readCursorEvidence(
+        directory: String, maximumBytes: Int?, retainTiming: Bool,
+        geometry: (JournalGeometry) throws -> Void,
+        samples: ([CursorSample]) throws -> Void,
+        displaySpace: (JournalDisplaySpace) throws -> Void
+    ) throws -> CaptureJournalSummary {
         var summary = CaptureJournalSummary()
-        summary.incompleteTail = try readRecords(directory: directory) { line in
+        summary.incompleteTail = try readRecords(directory: directory, maximumBytes: maximumBytes) {
+            line in
             let event: (name: String, data: Data)
             do {
-                event = try apply(line, to: &summary)
+                event = try apply(line, to: &summary, retainTiming: retainTiming)
             } catch {
                 summary.invalidAtSequence = summary.lastSequence + 1
                 return false
@@ -220,7 +239,9 @@ public final class CaptureJournal {
 
     /// Folds one record into the summary and hands back the event it was, so a streaming reader
     /// decodes the payload this call already validated instead of re-deriving it.
-    private static func apply(_ line: Data, to summary: inout CaptureJournalSummary) throws -> (
+    private static func apply(
+        _ line: Data, to summary: inout CaptureJournalSummary, retainTiming: Bool
+    ) throws -> (
         name: String, data: Data
     ) {
         guard
@@ -254,13 +275,15 @@ public final class CaptureJournal {
         case "pauseEnded":
             let ended = try JSONDecoder().decode(JournalPauseEnd.self, from: encoded)
             summary.openPauseHostUs = nil
-            if let pause = ended.pause { summary.pauses.append(pause) }
+            if retainTiming, let pause = ended.pause { summary.pauses.append(pause) }
         case "audioSamples":
             let samples = try JSONDecoder().decode(
                 JournalAudioSamples.self, from: encoded)
             // Mutate through the dictionary to avoid copying every accumulated gap.
+            if !retainTiming { break }
             if let last = summary.acquiredAudio[samples.role]?.last,
-                samples.startUs <= last.endUs + 1 {
+                samples.startUs <= last.endUs + 1
+            {
                 let index = summary.acquiredAudio[samples.role, default: []].count - 1
                 summary.acquiredAudio[samples.role, default: []][index] = MediaInterval(
                     startUs: last.startUs, endUs: max(last.endUs, samples.endUs))
