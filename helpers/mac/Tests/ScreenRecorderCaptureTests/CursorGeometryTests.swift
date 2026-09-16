@@ -447,7 +447,7 @@ private func runCursorJournalTests() throws {
     var events: [JournalGeometry] = []
     var streamed: [CursorSample] = []
     var spaces: [JournalDisplaySpace] = []
-    let streamedSummary = try CaptureJournal.streamCursorEvidence(
+    let streamedSummary = try CaptureJournal.streamEvidence(
         directory: directory.path, geometry: { events.append($0) },
         samples: { streamed.append(contentsOf: $0) }, displaySpace: { spaces.append($0) })
     precondition(
@@ -478,7 +478,7 @@ private func runCursorJournalTests() throws {
     var geometryAfterBadRecord: [JournalGeometry] = []
     // The same pass that streams the evidence names where it stopped, so a caller never has to
     // re-read the file to tell a stream that stopped early from a short take.
-    let corrupted = try CaptureJournal.streamCursorEvidence(
+    let corrupted = try CaptureJournal.streamEvidence(
         directory: directory.path, geometry: { geometryAfterBadRecord.append($0) },
         samples: { afterBadRecord.append(contentsOf: $0) })
     precondition(

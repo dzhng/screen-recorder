@@ -157,7 +157,7 @@ are reported as skipped; a gap in the evidence is never filled with movement nob
 AppKit reports the pointer in a bottom-left space anchored to the display at the global origin,
 which is not necessarily `NSScreen.main` — that one follows the key window. `GlobalPointSpace`
 converts through the zero-origin display's height, and each take journals that height whenever it
-changes. Both readers surface it — `inspect` keeps the last one, `streamCursorEvidence` streams each
+changes. Both readers surface it — `inspect` keeps the last one, `streamEvidence` streams each
 — so a consumer checks a reading against the height that recording used rather than the one the
 display arrangement happens to have when the evidence is read.
 
@@ -190,11 +190,11 @@ never renders a cursor into the source at all.
 
 The journal owns these records like any other acquisition evidence. Geometry epochs and cursor
 batches are ordinary writes, and their file order guarantees an epoch is written before the samples
-citing it. `inspect` keeps only counts, the sample range and the last geometry, so a summary never
-grows with recording length; `streamCursorEvidence` streams the individual records for a consumer
-that needs them. Both are the same read, and it returns that summary either way, so one pass tells a
-consumer what the evidence was and where the file stopped being believable — a stream that stopped
-at a corrupt record is otherwise indistinguishable from a short take.
+citing it. Both readers retain only cursor counts, the sample range and the last geometry.
+`inspect` also accumulates completed pauses and audio intervals for recovery; `streamEvidence`
+delivers those through callbacks without retaining timing arrays. Both use the same parser and
+report where the file stopped being believable — a stream that stopped at a corrupt record is
+otherwise indistinguishable from a short take.
 
 `node scripts/cursor-geometry-lab.mjs` (`bun run lab:cursor-geometry`) records this process's own
 fixture window with both audio inputs disabled, moves and resizes it, sends it to another display,
@@ -261,20 +261,29 @@ identical pixels. An absent overlay leaves the frame clean. Points off the sourc
 raster, out-of-order or overlapping runs, a trail without a duration and trails past
 the ten-second or 1200-point bounds are refused without writing an image.
 
-## Cursor evidence derivatives
+## Source evidence derivatives
 
-The internal `media.cursorEvidence` worker seam reads a caller-selected finalized
+The internal `media.sourceEvidence` worker seam reads a caller-selected finalized
 or recovered source and publishes normalized JSONL to a new caller-owned file
-outside that source directory. [CursorEvidenceExport](Sources/ScreenRecorderCapture/CursorEvidenceExport.swift)
+outside that source directory. [SourceEvidenceExport](Sources/ScreenRecorderCapture/SourceEvidenceExport.swift)
 owns publication and its compact receipt; the existing journal reader owns record
 validation and integrity boundaries. Each cursor sample remains an observation in
 source time, with geometry and display-space records preserved in journal order.
-No coordinates are recalculated and no gestures are inferred.
+No coordinates are recalculated and no gestures are inferred. Completed pauses
+retain their source boundary and removed wall duration. An unfinished pause remains
+an open host timestamp in the receipt; no elapsed duration is guessed.
+
+Audio acquisition ranges use the same per-role coalescing pass as recovery. A tiny
+rounding seam is contiguous; larger gaps remain separate. Export retains only the
+current interval for each role and emits it when the next gap or file end proves
+its boundary. Consequently normalized file order is observation order for cursor
+and geometry, not global source-time order across event types. Consumers index the
+explicit timestamps rather than inferring chronology from line numbers.
 
 A corrupt or incomplete tail can leave usable prefix evidence. Consumers must keep
 the receipt's integrity markers with that evidence; `finished` reports the journal's
 claim, not a new validation of media finalization. Budget failures publish nothing,
 and existing output paths are refused. The export streams records without retaining
 cursor history or unrelated timing arrays. Its byte budgets and provenance limit
-live in the export owner. This is a native ingestion seam for a future persistent
-index, not a raw-history query implementation or public CLI/MCP operation.
+live in the export owner. This native seam supplies the core's persistent evidence
+index. Public querying and edited-time projection belong to that core, not the worker.

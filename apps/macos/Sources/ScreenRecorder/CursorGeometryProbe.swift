@@ -268,7 +268,7 @@ func runCursorGeometryProbe(configPath: String) async throws {
     // still reading, so the samples are held until it finishes. A probe take is capped at five
     // minutes, so this is bounded by that cap at the sampler's cadence.
     var recorded: [CursorSample] = []
-    let summary = try CaptureJournal.streamCursorEvidence(
+    let summary = try CaptureJournal.streamEvidence(
         directory: directory.path,
         geometry: { event in
             let index = placementIndex(at: event.hostUs, in: placements)

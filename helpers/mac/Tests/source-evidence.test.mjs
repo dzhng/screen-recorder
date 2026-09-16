@@ -24,7 +24,7 @@ function request(directory, output, extra = {}) {
     input:
       JSON.stringify({
         id: "evidence",
-        operation: "media.cursorEvidence",
+        operation: "media.sourceEvidence",
         params: { directory, output, ...extra },
       }) + "\n",
     encoding: "utf8",
@@ -174,7 +174,7 @@ test("existing paths, links, source descendants and invalid requests never mutat
   assert.equal(existsSync(f.output), false);
   assert.equal(existsSync(join(f.directory, "new")), false);
   assert.equal(
-    readdirSync(f.root).some((p) => p.startsWith(".cursor-evidence-")),
+    readdirSync(f.root).some((p) => p.startsWith(".source-evidence-")),
     false,
   );
 });
@@ -220,4 +220,113 @@ test("budget and malformed-header failures publish nothing and clean staging", (
   assert.equal(request(f.directory, f.output).error.code, "INVALID_JOURNAL");
   assert.equal(existsSync(f.output), false);
   assert.deepEqual(readdirSync(f.root), ["source"]);
+});
+
+test("interleaved audio merges per role, preserves gaps and completed pauses", (t) => {
+  const audio = (role, startUs, endUs) => ({
+    event: "audioSamples",
+    data: { role, startUs, endUs },
+  });
+  const f = fixture(t, [
+    audio("narration", 0, 10),
+    audio("system", 2, 5),
+    audio("narration", 11, 20),
+    audio("system", 4, 8),
+    { event: "pauseBegan", data: { hostUs: 100 } },
+    { event: "pauseEnded", data: { hostUs: 400, pause: { atSourceUs: 20, elapsedPauseUs: 300 } } },
+    audio("narration", 25, 30),
+    audio("system", 12, 15),
+    { event: "pauseBegan", data: { hostUs: 500 } },
+  ]);
+  const r = request(f.directory, f.output);
+  assert.equal(r.ok, true, JSON.stringify(r));
+  assert.equal(r.data.pauseEvents, 1);
+  assert.equal(r.data.audioIntervals, 4);
+  assert.equal(r.data.openPauseHostUs, 500);
+  assert.equal(r.data.pauses, undefined);
+  assert.equal(r.data.acquiredAudio, undefined);
+  assert.deepEqual(readFileSync(f.output, "utf8").trim().split("\n").map(JSON.parse), [
+    { event: "pause", data: { atSourceUs: 20, elapsedPauseUs: 300 } },
+    { event: "audioAcquired", data: { role: "narration", startUs: 0, endUs: 20 } },
+    { event: "audioAcquired", data: { role: "system", startUs: 2, endUs: 8 } },
+    { event: "audioAcquired", data: { role: "narration", startUs: 25, endUs: 30 } },
+    { event: "audioAcquired", data: { role: "system", startUs: 12, endUs: 15 } },
+  ]);
+  assert.equal(readFileSync(f.journal, "utf8"), f.text);
+});
+
+test("timing evidence flushes trusted audio at corrupt or unfinished pause tails", (t) => {
+  for (const tail of ["{", "{bad}\n"]) {
+    const f = fixture(t, [
+      { event: "audioSamples", data: { role: "narration", startUs: 0, endUs: 10 } },
+      { event: "pauseBegan", data: { hostUs: 100 } },
+    ]);
+    appendFileSync(f.journal, tail);
+    const r = request(f.directory, f.output);
+    assert.equal(r.ok, true, JSON.stringify(r));
+    assert.equal(r.data.pauseEvents, 0);
+    assert.equal(r.data.audioIntervals, 1);
+    assert.equal(r.data.openPauseHostUs, 100);
+    assert.equal(r.data.lastSequence, 3);
+    assert.equal(r.data.incompleteTail, tail === "{");
+    assert.equal(r.data.invalidAtSequence, tail === "{" ? undefined : 4);
+    assert.deepEqual(JSON.parse(readFileSync(f.output, "utf8")), {
+      event: "audioAcquired",
+      data: { role: "narration", startUs: 0, endUs: 10 },
+    });
+  }
+});
+
+test("invalid timing record stops before emitting or clearing observed pause", (t) => {
+  for (const record of [
+    { event: "audioSamples", data: { role: "other", startUs: 0, endUs: 10 } },
+    { event: "audioSamples", data: { role: "system", startUs: 10, endUs: 10 } },
+    { event: "pauseEnded", data: { hostUs: 300, pause: { atSourceUs: 0, elapsedPauseUs: -1 } } },
+  ]) {
+    const f = fixture(t, [{ event: "pauseBegan", data: { hostUs: 100 } }, record]);
+    const r = request(f.directory, f.output);
+    assert.equal(r.ok, true, JSON.stringify(r));
+    assert.equal(r.data.invalidAtSequence, 3);
+    assert.equal(r.data.openPauseHostUs, 100);
+    assert.equal(r.data.pauseEvents, 0);
+    assert.equal(r.data.audioIntervals, 0);
+    assert.equal(readFileSync(f.output, "utf8"), "");
+  }
+});
+
+test("many audio gaps stream with bounded worker memory and a constant-size receipt", (t) => {
+  const f = fixture(t, []);
+  const count = 100_000;
+  for (let base = 0; base < count; base += 1000) {
+    appendFileSync(
+      f.journal,
+      Array.from({ length: 1000 }, (_, offset) => {
+        const i = base + offset;
+        return JSON.stringify({
+          sequence: i + 2,
+          event: "audioSamples",
+          data: { role: i % 2 ? "system" : "narration", startUs: i * 10, endUs: i * 10 + 5 },
+        });
+      }).join("\n") + "\n",
+    );
+  }
+  const result = spawnSync("/usr/bin/time", ["-l", executable], {
+    input:
+      JSON.stringify({
+        id: "timing-memory",
+        operation: "media.sourceEvidence",
+        params: { directory: f.directory, output: f.output },
+      }) + "\n",
+    encoding: "utf8",
+    timeout: 30_000,
+  });
+  assert.equal(result.status, 0, result.stderr);
+  const response = JSON.parse(result.stdout);
+  assert.equal(response.ok, true, result.stdout);
+  assert.equal(response.data.audioIntervals, count);
+  assert.ok(result.stdout.length < 2048);
+  const maximumRss = Number(result.stderr.match(/(\d+)\s+maximum resident set size/)[1]);
+  assert.ok(maximumRss < 128 * 1024 * 1024, `worker RSS ${maximumRss}`);
+  t.diagnostic(`100,000 gaps: peak worker RSS ${maximumRss} bytes`);
+  assert.equal(readFileSync(f.output, "utf8").trim().split("\n").length, count);
 });

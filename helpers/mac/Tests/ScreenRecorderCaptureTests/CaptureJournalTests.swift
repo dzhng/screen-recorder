@@ -38,8 +38,10 @@ private func writeTake(in directory: URL, finished: Bool) throws {
 }
 
 private func lines(of directory: URL) throws -> [String] {
-    try String(contentsOf: directory.appendingPathComponent("capture.journal.jsonl"), encoding: .utf8)
-        .split(separator: "\n", omittingEmptySubsequences: false).map(String.init)
+    try String(
+        contentsOf: directory.appendingPathComponent("capture.journal.jsonl"), encoding: .utf8
+    )
+    .split(separator: "\n", omittingEmptySubsequences: false).map(String.init)
 }
 
 private func write(_ lines: [String], to directory: URL) throws {
@@ -56,7 +58,9 @@ func runCaptureJournalTests() async throws {
     let read = try CaptureJournal.inspect(directory: whole.path)
     precondition(read.header?.sessionID == "journal-roundtrip", "The written header must read back")
     precondition(read.header?.source.windowID == 7, "The written source must read back")
-    precondition(read.originHostUs == 1_000_000, "The written origin must read back, got \(read.originHostUs as Int64?)")
+    precondition(
+        read.originHostUs == 1_000_000,
+        "The written origin must read back, got \(read.originHostUs as Int64?)")
     precondition(
         read.pauses == [pause] && pause.atSourceUs == 700_000 && pause.elapsedPauseUs == 500_000,
         "The written pause must read back, got \(read.pauses)")
@@ -70,6 +74,21 @@ func runCaptureJournalTests() async throws {
         !read.incompleteTail && read.invalidAtSequence == nil,
         "A whole journal has neither a torn tail nor a bad record")
     print("PASS a written take's journal reads back through the reader")
+    var streamedPauses: [PauseEvent] = []
+    var streamedAudio: [[Int64]] = []
+    let streamed = try CaptureJournal.streamEvidence(
+        directory: whole.path,
+        pause: { streamedPauses.append($0) },
+        audioAcquired: { streamedAudio.append([$0.startUs, $0.endUs]) })
+    precondition(
+        streamedPauses == read.pauses, "Stream and recovery must agree on completed pauses")
+    precondition(
+        streamedAudio == RecoveryFixture.bounds(read.acquiredAudio["narration"] ?? []),
+        "Stream and recovery share audio merging")
+    precondition(
+        streamed.pauses.isEmpty && streamed.acquiredAudio.isEmpty,
+        "Streaming must not retain timing arrays")
+    print("PASS streaming and recovery share timing without retaining streaming arrays")
 
     // A host timestamp that will not decode used to leave the boundary silently nil.
     let malformed = RecoveryFixture.directory("journal-malformed")
@@ -77,7 +96,8 @@ func runCaptureJournalTests() async throws {
     try writeTake(in: malformed, finished: true)
     var corrupted = try lines(of: malformed)
     precondition(
-        corrupted[6].contains("\"hostUs\":1700000"), "Fixture must hold the pauseBegan record, got \(corrupted[6])")
+        corrupted[6].contains("\"hostUs\":1700000"),
+        "Fixture must hold the pauseBegan record, got \(corrupted[6])")
     corrupted[6] = corrupted[6].replacingOccurrences(
         of: "\"hostUs\":1700000", with: "\"hostUs\":\"1700000\"")
     try write(corrupted, to: malformed)
@@ -108,7 +128,8 @@ func runCaptureJournalTests() async throws {
     let boundary = try CaptureJournal.inspect(directory: torn.path)
     precondition(
         boundary.incompleteTail && boundary.invalidAtSequence == nil,
-        "An unterminated last line is a torn tail, not a bad record: \(boundary.invalidAtSequence as Int?)")
+        "An unterminated last line is a torn tail, not a bad record: \(boundary.invalidAtSequence as Int?)"
+    )
     precondition(
         boundary.openPauseHostUs == 1_700_000 && boundary.lastSequence == 7,
         "A torn journal keeps its whole prefix, got sequence \(boundary.lastSequence)")

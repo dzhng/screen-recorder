@@ -2,13 +2,16 @@ import Darwin
 import Foundation
 
 /// Compact receipt for a caller-owned derivative. Timing arrays and raw records stay off the wire.
-public struct CursorEvidenceExport: Encodable {
+public struct SourceEvidenceExport: Encodable {
     public let file: String
     public let journal = "capture.journal.jsonl"
     public let header: CaptureJournalHeader?
     public let originHostUs: Int64?
     public let cursorSamples: Int
     public let geometryRecords: Int
+    public let pauseEvents: Int
+    public let audioIntervals: Int
+    public let openPauseHostUs: Int64?
     public let displaySpaces: Int
     public let firstCursorSourceUs: Int64?
     public let lastCursorSourceUs: Int64?
@@ -43,7 +46,7 @@ public struct CursorEvidenceExport: Encodable {
         }
         // Exclusive creation and no-replace publication also reject symlinks/hardlinks and races
         // with another producer. Existing audio/frame helpers intentionally replace derivatives.
-        let staging = parent.appendingPathComponent(".cursor-evidence-\(UUID().uuidString)")
+        let staging = parent.appendingPathComponent(".source-evidence-\(UUID().uuidString)")
         let descriptor = Darwin.open(
             staging.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, S_IRUSR | S_IWUSR)
         guard descriptor >= 0 else {
@@ -57,6 +60,8 @@ public struct CursorEvidenceExport: Encodable {
         var bytes = 0
         var geometryRecords = 0
         var displaySpaces = 0
+        var pauseEvents = 0
+        var audioIntervals = 0
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         func emit<T: Encodable>(_ event: String, _ data: T) throws {
@@ -67,7 +72,7 @@ public struct CursorEvidenceExport: Encodable {
             try handle.write(contentsOf: line)
             bytes += line.count
         }
-        let summary = try CaptureJournal.readCursorEvidence(
+        let summary = try CaptureJournal.readEvidence(
             directory: source.path, maximumBytes: 268_435_456, retainTiming: false,
             geometry: {
                 try emit("geometry", $0)
@@ -77,6 +82,14 @@ public struct CursorEvidenceExport: Encodable {
             displaySpace: {
                 try emit("displaySpace", $0)
                 displaySpaces += 1
+            },
+            pause: {
+                try emit("pause", $0)
+                pauseEvents += 1
+            },
+            audioAcquired: {
+                try emit("audioAcquired", $0)
+                audioIntervals += 1
             })
         guard summary.header != nil else {
             throw CaptureFailure("INVALID_JOURNAL", "Evidence requires a readable journal header.")
@@ -93,7 +106,9 @@ public struct CursorEvidenceExport: Encodable {
         return Self(
             file: destination.path, header: summary.header, originHostUs: summary.originHostUs,
             cursorSamples: summary.cursorSamples, geometryRecords: geometryRecords,
-            displaySpaces: displaySpaces, firstCursorSourceUs: summary.firstCursorSourceUs,
+            pauseEvents: pauseEvents, audioIntervals: audioIntervals,
+            openPauseHostUs: summary.openPauseHostUs, displaySpaces: displaySpaces,
+            firstCursorSourceUs: summary.firstCursorSourceUs,
             lastCursorSourceUs: summary.lastCursorSourceUs, lastSequence: summary.lastSequence,
             incompleteTail: summary.incompleteTail, invalidAtSequence: summary.invalidAtSequence,
             finished: summary.finished, bytes: bytes)

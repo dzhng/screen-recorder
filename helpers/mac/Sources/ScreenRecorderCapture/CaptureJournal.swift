@@ -177,7 +177,9 @@ public final class CaptureJournal {
             while let end = pending.firstIndex(of: 10) {
                 let line = Data(pending[..<end])
                 pending.removeSubrange(...end)
-                guard try body(line) else { return false }
+                // Foundation JSON bridging creates autoreleased objects. Drain each record so
+                // a long worker request does not retain the entire parsed journal indirectly.
+                guard try autoreleasepool(invoking: { try body(line) }) else { return false }
             }
             guard pending.count <= 1_048_576 else { return true }
         }
@@ -186,38 +188,75 @@ public final class CaptureJournal {
 
     /// Streams a take's placement evidence without retaining it. A take changes geometry as often
     /// as it delivers frames and samples the pointer sixty times a second, so the caller decides
-    /// what to keep. The returned summary is the one `inspect` would build from the same pass, so
+    /// what to keep. The returned summary omits pause/audio arrays (those are streamed), so
     /// a consumer learns from that one pass both what the evidence was and where — at
     /// `invalidAtSequence` or an `incompleteTail` — the file stopped being believable. A stream
     /// that stopped early is otherwise indistinguishable from a short take.
     @discardableResult
-    public static func streamCursorEvidence(
+    public static func streamEvidence(
         directory: String, geometry: (JournalGeometry) throws -> Void = { _ in },
         samples: ([CursorSample]) throws -> Void = { _ in },
-        displaySpace: (JournalDisplaySpace) throws -> Void = { _ in }
+        displaySpace: (JournalDisplaySpace) throws -> Void = { _ in },
+        pause: (PauseEvent) throws -> Void = { _ in },
+        audioAcquired: (JournalAudioSamples) throws -> Void = { _ in }
     ) throws -> CaptureJournalSummary {
-        try readCursorEvidence(
-            directory: directory, maximumBytes: nil, retainTiming: true,
-            geometry: geometry, samples: samples, displaySpace: displaySpace)
+        try readEvidence(
+            directory: directory, maximumBytes: nil, retainTiming: false,
+            geometry: geometry, samples: samples, displaySpace: displaySpace,
+            pause: pause, audioAcquired: audioAcquired)
     }
 
-    static func readCursorEvidence(
+    static func readEvidence(
         directory: String, maximumBytes: Int?, retainTiming: Bool,
         geometry: (JournalGeometry) throws -> Void,
         samples: ([CursorSample]) throws -> Void,
-        displaySpace: (JournalDisplaySpace) throws -> Void
+        displaySpace: (JournalDisplaySpace) throws -> Void,
+        pause: (PauseEvent) throws -> Void = { _ in },
+        audioAcquired: (JournalAudioSamples) throws -> Void = { _ in }
     ) throws -> CaptureJournalSummary {
         var summary = CaptureJournalSummary()
+        // At most one pending interval per supported role; the stream never accumulates gaps.
+        var pendingAudio: [String: JournalAudioSamples] = [:]
+        func emitAudio(_ interval: JournalAudioSamples) throws {
+            if retainTiming {
+                summary.acquiredAudio[interval.role, default: []].append(
+                    MediaInterval(startUs: interval.startUs, endUs: interval.endUs))
+            }
+            try audioAcquired(interval)
+        }
         summary.incompleteTail = try readRecords(directory: directory, maximumBytes: maximumBytes) {
             line in
             let event: (name: String, data: Data)
             do {
-                event = try apply(line, to: &summary, retainTiming: retainTiming)
+                event = try apply(line, to: &summary)
             } catch {
                 summary.invalidAtSequence = summary.lastSequence + 1
                 return false
             }
             switch event.name {
+            case "pauseEnded":
+                if let completed = try JSONDecoder().decode(JournalPauseEnd.self, from: event.data)
+                    .pause
+                {
+                    if retainTiming { summary.pauses.append(completed) }
+                    try pause(completed)
+                }
+            case "audioSamples":
+                let next = try JSONDecoder().decode(JournalAudioSamples.self, from: event.data)
+                if let previous = pendingAudio[next.role] {
+                    // Acquisition timestamps are monotonic per role. A one-microsecond rounding
+                    // seam is contiguous; larger holes must remain visible to recovery and export.
+                    if next.startUs <= previous.endUs || next.startUs - previous.endUs == 1 {
+                        pendingAudio[next.role] = JournalAudioSamples(
+                            role: next.role, startUs: min(previous.startUs, next.startUs),
+                            endUs: max(previous.endUs, next.endUs))
+                    } else {
+                        try emitAudio(previous)
+                        pendingAudio[next.role] = next
+                    }
+                } else {
+                    pendingAudio[next.role] = next
+                }
             case "geometry":
                 try geometry(JSONDecoder().decode(JournalGeometry.self, from: event.data))
             case "cursorSamples":
@@ -229,18 +268,23 @@ public final class CaptureJournal {
             }
             return true
         }
+        for role in ["narration", "system"] {
+            if let interval = pendingAudio[role] { try emitAudio(interval) }
+        }
         return summary
     }
 
     /// The same read with nothing streamed, for a consumer that only wants the summary.
     public static func inspect(directory: String) throws -> CaptureJournalSummary {
-        try streamCursorEvidence(directory: directory)
+        try readEvidence(
+            directory: directory, maximumBytes: nil, retainTiming: true,
+            geometry: { _ in }, samples: { _ in }, displaySpace: { _ in })
     }
 
     /// Folds one record into the summary and hands back the event it was, so a streaming reader
     /// decodes the payload this call already validated instead of re-deriving it.
     private static func apply(
-        _ line: Data, to summary: inout CaptureJournalSummary, retainTiming: Bool
+        _ line: Data, to summary: inout CaptureJournalSummary
     ) throws -> (
         name: String, data: Data
     ) {
@@ -274,23 +318,16 @@ public final class CaptureJournal {
             ).hostUs
         case "pauseEnded":
             let ended = try JSONDecoder().decode(JournalPauseEnd.self, from: encoded)
+            if let pause = ended.pause, pause.atSourceUs < 0 || pause.elapsedPauseUs < 0 {
+                throw CaptureFailure("INVALID_JOURNAL", "Invalid pause interval.")
+            }
             summary.openPauseHostUs = nil
-            if retainTiming, let pause = ended.pause { summary.pauses.append(pause) }
         case "audioSamples":
             let samples = try JSONDecoder().decode(
                 JournalAudioSamples.self, from: encoded)
-            // Mutate through the dictionary to avoid copying every accumulated gap.
-            if !retainTiming { break }
-            if let last = summary.acquiredAudio[samples.role]?.last,
-                samples.startUs <= last.endUs + 1
-            {
-                let index = summary.acquiredAudio[samples.role, default: []].count - 1
-                summary.acquiredAudio[samples.role, default: []][index] = MediaInterval(
-                    startUs: last.startUs, endUs: max(last.endUs, samples.endUs))
-            } else {
-                summary.acquiredAudio[samples.role, default: []].append(
-                    MediaInterval(startUs: samples.startUs, endUs: samples.endUs))
-            }
+            guard ["narration", "system"].contains(samples.role),
+                samples.startUs >= 0, samples.endUs > samples.startUs
+            else { throw CaptureFailure("INVALID_JOURNAL", "Invalid audio acquisition interval.") }
         case "geometry":
             let event = try JSONDecoder().decode(JournalGeometry.self, from: encoded)
             summary.geometryEpochs = event.epoch
@@ -340,10 +377,10 @@ struct JournalTrackStart: Codable {
     let channelCount: UInt32?
 }
 
-struct JournalAudioSamples: Codable {
-    let role: String
-    let startUs: Int64
-    let endUs: Int64
+public struct JournalAudioSamples: Codable, Sendable {
+    public let role: String
+    public let startUs: Int64
+    public let endUs: Int64
 }
 
 /// A geometry change and the raw frame evidence that explains it.

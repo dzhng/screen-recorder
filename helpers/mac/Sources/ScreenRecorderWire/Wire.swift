@@ -36,7 +36,7 @@ public enum NativeWire {
                     response = failure(
                         id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription)
                 }
-            } else if operation == "media.cursorEvidence" {
+            } else if operation == "media.sourceEvidence" {
                 do {
                     guard Set(params.keys) == ["directory", "output"],
                         let directory = params["directory"] as? String,
@@ -48,7 +48,7 @@ public enum NativeWire {
                             "INVALID_REQUEST",
                             "Evidence requires absolute directory and output paths.")
                     }
-                    let result = try CursorEvidenceExport.write(
+                    let result = try SourceEvidenceExport.write(
                         directory: directory, output: output)
                     let data = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
                     response = ["id": id, "ok": true, "data": data]
