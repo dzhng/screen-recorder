@@ -903,3 +903,5 @@ precondition(
     decodedSeven.actualSourceUs == 700_000 && difference < 0.03,
     "Decoded frame 7 must show the picture it was generated from, mean channel difference \(difference)")
 print(String(format: "PASS decoded frame 7 matches its generated reference, mean difference %.4f", difference))
+
+try await verifyPresentationLifetime(source: stepsFixture, parent: evidence)

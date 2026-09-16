@@ -49,10 +49,15 @@ public enum NativeWire {
                     response = failure(
                         id: id, code: "DELETE_FAILED", message: error.localizedDescription)
                 }
-            } else if operation == "media.renderVideo" {
+            } else if operation == "media.renderVideo" || operation == "media.presentationEvidence" {
                 do {
-                    let result = try await VideoOperation.execute(params)
-                    let data = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
+                    let encoded: Data
+                    if operation == "media.renderVideo" {
+                        encoded = try JSONEncoder().encode(await VideoOperation.execute(params))
+                    } else {
+                        encoded = try JSONEncoder().encode(await VideoOperation.presentationEvidence(params))
+                    }
+                    let data = try JSONSerialization.jsonObject(with: encoded)
                     response = ["id": id, "ok": true, "data": data]
                 } catch let error as FrameFailure {
                     response = failure(id: id, code: error.code, message: error.message)

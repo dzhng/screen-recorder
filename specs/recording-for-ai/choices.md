@@ -1307,3 +1307,23 @@ choices delegated by 14a. They do not alter destination names or add a public fo
 - **Verdict:** sound, medium confidence. Separating request limits prevents a valid
   ordinary edit batch from accidentally inheriting the excerpt restriction,
   without dropping tracks or widening the public excerpt API.
+
+## Movie presentation evidence — 2026-09-17
+
+- **Stream one clean picture per supported interval.** When a recording holds one
+  picture while the cursor moves, native exports that picture's supported time
+  interval once; later core work can answer many cursor moments without launching
+  a worker for each one. JSONL means one independently bounded JSON record per
+  line. The caller supplies a total byte budget, and success publishes only the
+  finished file. **Gap:** the native-to-core transport was unspecified.
+  **Reach:** movie planning must stream or index these records, not load the whole
+  file. **Verdict: sound, medium confidence** — bounded storage trades a second
+  sequential decode and temporary disk for independent policy planning.
+- **Preserve exact fractions at frame boundaries.** A 30 fps picture ends between
+  whole microseconds. Rounding that boundary can assign a nearby cursor moment to
+  the wrong picture. Records preserve the native clock numerator as a decimal
+  string and its integer timescale, while the familiar rounded sample timestamp
+  remains descriptive metadata. **Gap:** exact transport encoding was unspecified.
+  **Reach:** the future reader must compare exact fractions for membership; it
+  cannot treat the rounded sample timestamp as the interval start.
+  **Verdict: sound, high confidence** — preserves the renderer's proven timing.

@@ -1,0 +1,91 @@
+{
+  "baseCommit": "efac955",
+  "nativeSha256": "b5ee737120650fae211d88a536f19718fe472e3325e694884b29f841ba801703",
+  "nativeWorkerTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "heldVsNearest": {
+    "requestedSourceUs": 750000,
+    "nearestStillSourceUs": 1000000,
+    "movieSupport": [
+      {
+        "actualSourceUs": 0,
+        "empty": false,
+        "end": {
+          "timescale": 90000,
+          "value": "90000"
+        },
+        "height": 36,
+        "sampleTime": {
+          "timescale": 1000,
+          "value": "0"
+        },
+        "spanIndex": 0,
+        "start": {
+          "timescale": 1000000,
+          "value": "750000"
+        },
+        "width": 64
+      },
+      {
+        "actualSourceUs": 1000000,
+        "empty": false,
+        "end": {
+          "timescale": 1000000,
+          "value": "1250000"
+        },
+        "height": 36,
+        "sampleTime": {
+          "timescale": 90000,
+          "value": "90000"
+        },
+        "spanIndex": 0,
+        "start": {
+          "timescale": 90000,
+          "value": "90000"
+        },
+        "width": 64
+      }
+    ]
+  },
+  "streaming": [
+    {
+      "name": "support-stream-100",
+      "receipt": {
+        "bytes": 944962,
+        "durationUs": 100,
+        "file": "stream-100.jsonl",
+        "records": 100,
+        "sourceHeight": 180,
+        "sourceWidth": 320,
+        "version": 1
+      },
+      "peakResidentBytes": 27328512
+    },
+    {
+      "name": "support-stream-5000",
+      "receipt": {
+        "bytes": 47324530,
+        "durationUs": 5000,
+        "file": "stream-5000.jsonl",
+        "records": 5000,
+        "sourceHeight": 180,
+        "sourceWidth": 320,
+        "version": 1
+      },
+      "peakResidentBytes": 33751040
+    }
+  ],
+  "review": {
+    "independent": "Codex review --uncommitted",
+    "findings": 1,
+    "resolution": "Removed cross-checkout compiled-output symlink; offline installed and locally built core before final tests.",
+    "nativeReviewerLimitation": "Sandbox unavailable encoder; independent code review completed, primary native tests run outside sandbox."
+  },
+  "frameLibraryTests": {
+    "completed": true,
+    "inFlightCancellation": "passed; staged output removed",
+    "publicationRace": "passed; unrelated destination preserved"
+  }
+}

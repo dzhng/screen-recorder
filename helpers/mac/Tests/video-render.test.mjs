@@ -383,3 +383,192 @@ test("video output preserves the native source's sRGB presentation across decode
   // decoder must reproduce it from the movie, including its color metadata.
   assert.ok(error / expected.length < 2, `Displayed sRGB error: ${error / expected.length}`);
 });
+
+test("presentation evidence holds the displayed frame instead of nearest future still", () => {
+  const source = join(directory, "sparse.mov"),
+    output = join(directory, "held.jsonl");
+  const plan = planFor(6000000, [{ startUs: 750000, endUs: 1250000 }]);
+  const result = JSON.parse(
+    run(
+      native,
+      [],
+      JSON.stringify({
+        id: "support",
+        operation: "media.presentationEvidence",
+        params: { source, output, plan, maxBytes: 1048576 },
+      }) + "\n",
+    ),
+  );
+  assert.equal(result.ok, true, JSON.stringify(result));
+  const [header, ...records] = readFileSync(output, "utf8").trim().split("\n").map(JSON.parse);
+  assert.equal(header.version, 1);
+  assert.deepEqual(
+    records.map((r) => r.actualSourceUs),
+    [0, 1000000],
+  );
+  assert.deepEqual(
+    records.map((r) => Number(r.start.value) / r.start.timescale),
+    [0.75, 1],
+  );
+  assert.deepEqual(
+    records.map((r) => Number(r.end.value) / r.end.timescale),
+    [1, 1.25],
+  );
+  const nearest = JSON.parse(
+    run(
+      native,
+      [],
+      JSON.stringify({
+        id: "nearest",
+        operation: "media.visualSamples",
+        params: { source, kept: { startUs: 0, endUs: 6000000 }, atSourceUs: [750000] },
+      }) + "\n",
+    ),
+  );
+  assert.equal(nearest.ok, true, JSON.stringify(nearest));
+  assert.equal(nearest.data.samples[0].actualSourceUs, 1000000);
+  assert.notEqual(records[0].rgbBase64, nearest.data.samples[0].rgbBase64);
+  assert.equal(records[1].rgbBase64, nearest.data.samples[0].rgbBase64);
+});
+
+function supportRequest(sourceName, name, ranges, maxBytes = 16 * 1024 * 1024) {
+  const source = join(directory, sourceName + ".mov"),
+    output = join(directory, name + ".jsonl");
+  const plan = planFor(
+    6000000,
+    ranges.map(([startUs, endUs]) => ({ startUs, endUs })),
+  );
+  return {
+    output,
+    result: JSON.parse(
+      run(
+        native,
+        [],
+        JSON.stringify({
+          id: name,
+          operation: "media.presentationEvidence",
+          params: { source, output, plan, maxBytes },
+        }) + "\n",
+      ),
+    ),
+  };
+}
+function supportRows(output) {
+  return readFileSync(output, "utf8").trim().split("\n").map(JSON.parse).slice(1);
+}
+const seconds = (t) => Number(t.value) / t.timescale;
+test("presentation evidence clips exact rational supports across cuts and empty edits", () => {
+  const cut = supportRequest("dense", "support-cuts", [
+    [10001, 20002],
+    [33334, 100001],
+  ]);
+  assert.equal(cut.result.ok, true, JSON.stringify(cut.result));
+  const rows = supportRows(cut.output);
+  assert.deepEqual(
+    rows.map((r) => r.spanIndex),
+    [0, 1, 1, 1],
+  );
+  assert.deepEqual(
+    rows.map((r) => r.actualSourceUs),
+    [0, 33333, 66667, 100000],
+  );
+  assert.equal(seconds(rows[0].start), 0.010001);
+  assert.equal(seconds(rows[0].end), 0.020002);
+  assert.equal(seconds(rows[1].end), 2 / 30);
+  assert.equal(seconds(rows.at(-1).end), 0.100001);
+  const empty = supportRequest("internal", "support-empty", [[500000, 3500000]]);
+  assert.equal(empty.result.ok, true, JSON.stringify(empty.result));
+  assert.deepEqual(
+    supportRows(empty.output).map((r) => [seconds(r.start), seconds(r.end), r.empty]),
+    [
+      [0.5, 1, false],
+      [1, 3, true],
+      [3, 3.5, false],
+    ],
+  );
+  const black = supportRows(empty.output)[1];
+  assert.equal(black.rgbBase64, undefined);
+  assert.equal(black.sampleTime, undefined);
+});
+
+test("presentation evidence refuses unsupported video tail and partial byte-budget output", () => {
+  run("ffmpeg", [
+    "-v",
+    "error",
+    "-i",
+    join(directory, "dense.mov"),
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=frequency=400:duration=1",
+    "-c:v",
+    "copy",
+    "-c:a",
+    "pcm_f32le",
+    join(directory, "unsupported.mov"),
+  ]);
+  const unsupported = supportRequest("unsupported", "unsupported-evidence", [[0, 500000]]);
+  assert.equal(unsupported.result.ok, false);
+  assert.equal(unsupported.result.error.code, "UNAVAILABLE");
+  assert.match(unsupported.result.error.message, /support/);
+  assert.equal(existsSync(unsupported.output), false);
+  const limited = supportRequest("sparse", "limited-evidence", [[0, 2000000]], 1000);
+  assert.equal(limited.result.ok, false);
+  assert.equal(limited.result.error.code, "LIMIT_EXCEEDED");
+  assert.equal(existsSync(limited.output), false);
+  assert.ok(!readdirSync(directory).some((name) => name.startsWith(".presentation-evidence-")));
+});
+
+test("presentation evidence memory stays bounded while streamed output grows", async () => {
+  const peaks = [];
+  for (const count of [100, 5000]) {
+    const source = join(directory, "dense.mov"),
+      output = join(directory, `stream-${count}.jsonl`);
+    const plan = planFor(
+      200000,
+      Array.from({ length: count }, (_, index) => ({
+        startUs: index * 20,
+        endUs: index * 20 + 1,
+      })),
+    );
+    const statistics = join(directory, `memory-${count}.txt`);
+    const result = JSON.parse(
+      run(
+        "/usr/bin/time",
+        ["-l", "-o", statistics, native],
+        JSON.stringify({
+          id: "stream",
+          operation: "media.presentationEvidence",
+          params: { source, output, plan, maxBytes: 128 * 1024 * 1024 },
+        }) + "\n",
+      ),
+    );
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.equal(result.data.records, count);
+    const peak = Number(
+      readFileSync(statistics, "utf8").match(/(\d+)\s+maximum resident set size/)[1],
+    );
+    peaks.push(peak);
+    const { createReadStream } = await import("node:fs");
+    const { createInterface } = await import("node:readline");
+    let ordinal = -1;
+    for await (const line of createInterface({ input: createReadStream(output) })) {
+      assert.ok(Buffer.byteLength(line) + 1 <= 65536);
+      const row = JSON.parse(line);
+      if (ordinal >= 0) {
+        assert.equal(row.spanIndex, ordinal);
+        assert.equal(seconds(row.start), (ordinal * 20) / 1000000);
+      }
+      ordinal++;
+    }
+    assert.equal(ordinal, count);
+    receipts.push({
+      name: `support-stream-${count}`,
+      receipt: { ...result.data, file: `stream-${count}.jsonl` },
+      peakResidentBytes: peak,
+    });
+  }
+  // Retaining the ~46 MB large result would exceed this allowance; decoder/startup
+  // variation gets 24 MB while the output grows fiftyfold.
+  assert.ok(peaks[1] - peaks[0] < 24 * 1024 * 1024, JSON.stringify(peaks));
+});

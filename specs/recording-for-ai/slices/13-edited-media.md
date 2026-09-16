@@ -12,6 +12,9 @@ Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
 harness entrypoints to create in this slice, not existing executable claims.
 
+[13d1 — presentation evidence](13d1-presentation-evidence.md) isolates the
+held-picture versus nearest-frame distinction needed before movie pointer planning.
+
 ## Contract and API seam
 
 The same revision inspected as words/images can be played and heard as edited video.
