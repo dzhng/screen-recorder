@@ -29,9 +29,10 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: [revision-bound inspection and derivative cache](slices/09c-inspection-cache.md).
-Cache work is delegated to a non-Claude agent in an isolated worktree; the root
-pass owns generation-safe cache-miss regeneration in the durable queue.
+Current pickup: [revision-bound inspection and derivative cache](slices/09d-public-frames.md).
+The cache primitive and generation-safe queue regeneration are integrated.
+The core frame owner has focused tests; public delivery and native integration
+remain the next verification target.
 Source cursor processing is integrated: finalization admits a durable job, raw
 pages resolve only its published generation, and startup reclaims abandoned
 unpublished derivatives. Cuts reuse original evidence. Core, service, adapter and
@@ -106,7 +107,8 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
   - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
   - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (generated-media execution; audition still open)
-  - [ ] [09c — Revision-bound inspection and derivative cache](slices/09c-inspection-cache.md)
+  - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md) (public delivery remains)
+  - [ ] [09d — Revision-bound public frame inspection](slices/09d-public-frames.md)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
   - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
 - [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)

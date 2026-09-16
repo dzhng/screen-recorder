@@ -510,3 +510,20 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   obsolete-publication removal happen together, so a full queue loses no metadata.
 - **Verdict:** Sound: cache eviction does not weaken durable attempt identity.
   **Confidence:** High.
+
+## Disposable cache ownership
+
+### Sound — medium confidence
+
+- **Choice:** Hold cached files in a dedicated directory with accounting in the
+  library catalog. A reader acquires an open file handle and pins that entry until
+  release; if all candidates are held, another publication reports retryable
+  pressure instead of evicting a file somebody is reading.
+- **Gap:** The spec fixed the cache budget and LRU policy but not read lifetime or
+  restart accounting. A pathname alone could disappear before a client reads it.
+- **Reach:** Frame/audio producers must publish only completed output, and service
+  delivery must release handles on success, error, timeout and shutdown. Startup
+  reconciliation runs before producers and repairs missing files without touching
+  source media or retained evidence. Native per-output limits bound pending files.
+- **Verdict:** Sound: cache pressure cannot silently truncate an active delivery.
+  **Confidence:** Medium.

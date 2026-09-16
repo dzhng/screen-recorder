@@ -27,6 +27,10 @@
     "./cache": {
       "types": "./dist/cache.d.ts",
       "default": "./dist/cache.js"
+    },
+    "./frames": {
+      "types": "./dist/frames.d.ts",
+      "default": "./dist/frames.js"
     }
   },
   "scripts": {
