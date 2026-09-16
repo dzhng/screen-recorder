@@ -4,7 +4,10 @@ Status: retained storage, core orchestration and public CLI/MCP delivery verifie
 against generated data, including bundled restart and cache eviction. Contact sheets,
 selection usefulness and scale acceptance remain open. See [retained storage](../assets/screenshot-index/retained-store.md),
 [orchestration](../assets/screenshot-index/orchestration.md), and
-[public delivery evidence](../assets/screenshot-index/public-delivery.md).
+[public delivery evidence](../assets/screenshot-index/public-delivery.md). The
+[performance audit](../assets/screenshot-index/performance.md) records an incomplete
+long-source baseline and the overlapping-observation work that must be reduced
+before repeating the full gate.
 
 IndexProcessing pins revision, source/scene generations and selection/rendering
 policies before admission. One producer streams selection into bounded catalog rows

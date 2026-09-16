@@ -29,7 +29,8 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish the fixture/contact-sheet and scale gates in
+Current pickup: fix the measured overlapping-observation work, then finish the
+fixture/contact-sheet and scale gates in
 [retained index delivery](slices/11c-retained-index.md). Selection, retained storage,
 core orchestration and public CLI/MCP index delivery pass their generated-data
 checks; visual usefulness and thirty-minute index performance remain open.

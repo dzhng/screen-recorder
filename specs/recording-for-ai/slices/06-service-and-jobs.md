@@ -26,8 +26,9 @@ native capture control and persistent artifact jobs are connected.
 The [durable job subpass](06g-durable-jobs.md) adds the queue this slice's jobs
 contract needs to the same catalog: pinned identity, deduplication, one automatic
 attempt with explicit retry, one heavy and two frame lanes, capture priority,
-cancellation and restart reconciliation. It is core proof only — no transcription,
-frame or export executor exists, and no operation exposes it yet.
+cancellation and restart reconciliation. The queue proof is integrated with source, scene, frame, audio and retained-index
+executors and public inspection. Transcription, exports, storage/deletion and the
+remaining physical capture gates still prevent parent completion.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

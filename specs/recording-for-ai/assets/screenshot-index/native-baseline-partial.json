@@ -1,0 +1,28 @@
+{
+  "completed": false,
+  "reason": "Controlled stop after confirming overlapping observation batches repeat native decoding; full thirty-minute gate remains open",
+  "elapsedMs": 504941,
+  "sourceAnalysisMs": 146340,
+  "durationUs": 1800000000,
+  "selected": {
+    "count": 756,
+    "throughSourceUs": 218799999,
+    "pngBytes": 26906216
+  },
+  "cache": {
+    "batches": 1311,
+    "requestedSamples": 18777,
+    "uniqueRequestedSamples": 9751
+  },
+  "sceneChunks": 180,
+  "foregroundReady": true,
+  "sourceSha256": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+  "fixture": {
+    "kind": "ffmpeg testsrc2 animation",
+    "width": 320,
+    "height": 180,
+    "fps": 30,
+    "audio": false,
+    "cursor": "generated outside observations every200ms"
+  }
+}
