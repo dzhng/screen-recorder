@@ -36,7 +36,7 @@ final class CaptureController {
         self.fixtureWindow = fixtureWindow
         self.startHold = FixtureStartHold.inFixture(fixtureWindow)
         capture.onInterruption = { [weak self] reason in
-            guard let self, let interrupted = self.take else { return }
+            guard let self, let interrupted = self.take ?? self.pendingStart else { return }
             let recordingId = interrupted.recordingId
             let sourceId = interrupted.sourceId
             Task { @MainActor [weak self] in
@@ -315,6 +315,9 @@ final class CaptureController {
     }
 
     private func interrupted(_ reason: CaptureFailure, recordingId: String, sourceId: String) async {
+        if pendingStart?.recordingId == recordingId, pendingStart?.sourceId == sourceId {
+            await awaitStart()
+        }
         guard take?.recordingId == recordingId, take?.sourceId == sourceId else { return }
         _ = try? await finish(reason: reason.code, notify: true)
     }

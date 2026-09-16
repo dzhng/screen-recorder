@@ -20,8 +20,11 @@ note and generation/state cleanup. Interruption seals the writer immediately and
 notifies its controller; it does not keep a separate asynchronous stream teardown.
 The controller operation additionally owns the finalizing report, pinned receipt,
 final unsolicited notification and take cleanup. Its interruption callback captures
-the take identity before scheduling; a callback for an old take cannot target a new
-one when it eventually runs.
+the active or pending take identity before scheduling. A callback for a pending take
+waits for that exact start to return, then checks the active identity: a refused
+start is ignored, and an old callback cannot target a replacement take. Native may
+already be recording while its controller's start continuation has not yet resumed,
+so checking only the active take would lose that interruption.
 
 A finalizing report describes the beginning of shutdown. It is not a terminal
 receipt. Service quiescence checks device status only after the ordered cancel has
@@ -62,6 +65,18 @@ Independent native-lifetime review identified the separate interrupted teardown 
 controller report-await races; both were corrected through the shared owners above.
 Final independent Codex review found no actionable defects (static review; runtime
 proof is the executed fixtures above).
+
+The [pending-start regression](../../../../apps/macos/tests/capture-start-interruption.test.mjs)
+compiles the actual controller with only its native constructor bound to a scripted
+external boundary. It holds native return after an interruption and proves both
+successful-start finalization and failed-start/replacement preservation. Removing
+either pending identity selection or the exact-start wait fails the lost-interruption
+assertion; restoration passes. No production test hook or device protocol was added.
+Independent review found no actionable defect; its sandbox could not compile the
+fixture, while the host run passed. The rebuilt app also passed four focused
+own-window start/quit/service-loss checks and the real held-report controller race.
+This is controlled boundary evidence, distinct
+from physical source-loss or microphone-disconnection capture.
 
 The CLI/MCP delete coordinator, owned lease/cache cleanup and disk usage still belong
 to later passes. This evidence supplies their capture shutdown prerequisite rather
