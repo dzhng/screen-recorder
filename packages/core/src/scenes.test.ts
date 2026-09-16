@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import {
   analyzeSceneRange,
+  analyzeFrameScene,
   analyzeVisualSamples,
   compareVisualSamples,
   sceneSampleTimes,
@@ -224,4 +225,145 @@ test("sampler cancellation and errors propagate, partial/escaped batches never b
       controller.signal,
     ),
   ).rejects.toBe(error);
+});
+
+test("frame scene analysis keeps requested-time coverage and compares a future frame to its past reference", async () => {
+  const requests: Parameters<VisualSampler>[0][] = [];
+  const sampler: VisualSampler = async (request) => {
+    requests.push(request);
+    return {
+      sourceWidth: 64,
+      sourceHeight: 64,
+      samples: request.atSourceUs.map((requestedSourceUs) => {
+        const actualSourceUs =
+          request.kept.endUs <= 1_500_001 || requestedSourceUs <= 1_000_000 ? 0 : 2_000_000;
+        return {
+          ...frame(actualSourceUs, () => (actualSourceUs === 0 ? [0, 0, 0] : [255, 255, 255])),
+          requestedSourceUs,
+          distanceUs: Math.abs(actualSourceUs - requestedSourceUs),
+        };
+      }),
+    };
+  };
+  const result = await analyzeFrameScene(
+    {
+      source: "/fixture.mov",
+      kept: { startUs: 0, endUs: 4_000_000 },
+      requestedSourceUs: 1_500_000,
+      trailUs: 2_000_000,
+    },
+    sampler,
+    new AbortController().signal,
+  );
+  expect(result.range).toEqual({ startUs: 0, endUs: 1_500_000 });
+  expect(result.lastSample.actualSourceUs).toBe(2_000_000);
+  expect(result.reference.actualSourceUs).toBe(0);
+  expect(result.futureComparison).toMatchObject({
+    previousActualSourceUs: 0,
+    actualSourceUs: 2_000_000,
+    boundary: true,
+  });
+  expect(result.boundaries).toEqual([]);
+  expect(requests.at(-1)?.kept).toEqual({ startUs: 0, endUs: 1_500_001 });
+  expect(Math.max(...requests.flatMap((request) => request.atSourceUs))).toBe(1_500_000);
+});
+
+test.each([0, 2_000_000, 10_000_000])(
+  "long sparse gaps compare endpoints without advancing a %i-us trail",
+  async (trailUs) => {
+    const requested = 119_000_000;
+    const queries: Parameters<VisualSampler>[0][] = [];
+    const sampler: VisualSampler = async (query) => {
+      queries.push(query);
+      const actual = query.kept.endUs <= requested + 1 ? 0 : 120_000_000;
+      return {
+        sourceWidth: 64,
+        sourceHeight: 64,
+        samples: query.atSourceUs.map((at) => ({
+          ...white,
+          requestedSourceUs: at,
+          actualSourceUs: actual,
+          distanceUs: Math.abs(actual - at),
+        })),
+      };
+    };
+    const result = await analyzeFrameScene(
+      {
+        source: "/sparse.mov",
+        kept: { startUs: 0, endUs: 122_000_000 },
+        requestedSourceUs: requested,
+        trailUs,
+      },
+      sampler,
+      new AbortController().signal,
+    );
+    expect(result.futureComparison).toMatchObject({
+      previousActualSourceUs: 0,
+      actualSourceUs: 120_000_000,
+      boundary: false,
+    });
+    expect(result.range).toEqual({ startUs: requested - trailUs, endUs: requested });
+    expect(result.reference.actualSourceUs).toBe(0);
+    expect(queries).toHaveLength(2);
+    expect(queries.flatMap((query) => query.atSourceUs).every((at) => at <= requested)).toBe(true);
+    expect(queries[0]!.atSourceUs.length).toBeLessThanOrEqual(52);
+    expect(queries[0]!.atSourceUs[0]).toBeGreaterThanOrEqual(requested - trailUs - 200_000);
+  },
+);
+
+test("a held frame keeps requested-time coverage and needs no invented past reference", async () => {
+  const result = await analyzeFrameScene(
+    {
+      source: "/held.mov",
+      kept: { startUs: 0, endUs: 4_000_000 },
+      requestedSourceUs: 1_000_000,
+      trailUs: 2_000_000,
+    },
+    async ({ atSourceUs }) => ({
+      sourceWidth: 64,
+      sourceHeight: 64,
+      samples: atSourceUs.map((at) => ({
+        ...white,
+        requestedSourceUs: at,
+        actualSourceUs: 0,
+        distanceUs: at,
+      })),
+    }),
+    new AbortController().signal,
+  );
+  expect(result.futureComparison).toBeNull();
+  expect(result.range.endUs).toBe(1_000_000);
+  expect(result.reference.actualSourceUs).toBe(0);
+  expect(result.coverage.at(-1)?.requestedSourceUs).toBe(1_000_000);
+});
+
+test("missing future-frame reference remains an explicit failure inside the kept span", async () => {
+  const refusal = new Error("No reference sample in the retained prefix");
+  await expect(
+    analyzeFrameScene(
+      {
+        source: "/cut.mov",
+        kept: { startUs: 1_100_000, endUs: 4_000_000 },
+        requestedSourceUs: 1_500_000,
+        trailUs: 2_000_000,
+      },
+      async ({ kept, atSourceUs }) => {
+        if (kept.endUs === 1_500_001) {
+          expect(kept.startUs).toBe(1_100_000);
+          throw refusal;
+        }
+        return {
+          sourceWidth: 64,
+          sourceHeight: 64,
+          samples: atSourceUs.map((at) => ({
+            ...white,
+            requestedSourceUs: at,
+            actualSourceUs: 2_000_000,
+            distanceUs: 2_000_000 - at,
+          })),
+        };
+      },
+      new AbortController().signal,
+    ),
+  ).rejects.toBe(refusal);
 });

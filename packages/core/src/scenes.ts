@@ -172,31 +172,34 @@ export function sceneSampleTimes(range: TimeRange, kept: TimeRange): number[] {
   return times;
 }
 
-export async function analyzeSceneRange(
-  request: { source: string; kept: TimeRange; range: TimeRange },
+async function observe(
+  request: Parameters<VisualSampler>[0],
   sample: VisualSampler,
   signal: AbortSignal,
 ) {
   signal.throwIfAborted();
-  const atSourceUs = sceneSampleTimes(request.range, request.kept);
-  const observed = await sample({ source: request.source, kept: request.kept, atSourceUs }, signal);
+  const observed = await sample(request, signal);
   signal.throwIfAborted();
   if (
     !Number.isSafeInteger(observed.sourceWidth) ||
     observed.sourceWidth < 1 ||
     !Number.isSafeInteger(observed.sourceHeight) ||
     observed.sourceHeight < 1 ||
-    observed.samples.length !== atSourceUs.length
+    observed.samples.length !== request.atSourceUs.length
   )
     invalid("Incomplete visual observation batch");
   for (const [index, value] of observed.samples.entries()) {
     if (
-      value.requestedSourceUs !== atSourceUs[index] ||
+      value.requestedSourceUs !== request.atSourceUs[index] ||
       value.actualSourceUs < request.kept.startUs ||
       value.actualSourceUs >= request.kept.endUs
     )
       invalid("Visual sample escapes its requested grid or retained span");
   }
+  return observed;
+}
+
+function report(observed: VisualObservations, request: { kept: TimeRange; range: TimeRange }) {
   const analyzed = analyzeVisualSamples(observed.samples);
   return {
     ...analyzed,
@@ -222,4 +225,70 @@ export async function analyzeSceneRange(
       )
       .map((pair) => ({ kind: "scene" as const, atSourceUs: pair.actualSourceUs })),
   };
+}
+
+export async function analyzeSceneRange(
+  request: { source: string; kept: TimeRange; range: TimeRange },
+  sample: VisualSampler,
+  signal: AbortSignal,
+) {
+  const atSourceUs = sceneSampleTimes(request.range, request.kept);
+  return report(
+    await observe({ source: request.source, kept: request.kept, atSourceUs }, sample, signal),
+    request,
+  );
+}
+
+/** A future video selection can veto past pointing; it never advances the cursor's clock. */
+export async function analyzeFrameScene(
+  request: { source: string; kept: TimeRange; requestedSourceUs: number; trailUs: number },
+  sample: VisualSampler,
+  signal: AbortSignal,
+) {
+  interval(request.kept);
+  const at = request.requestedSourceUs;
+  if (
+    !integer(at) ||
+    at < request.kept.startUs ||
+    at >= request.kept.endUs ||
+    !integer(request.trailUs) ||
+    request.trailUs > scenePolicy.maximumRangeUs
+  )
+    throw new CatalogError(
+      "INVALID_RANGE",
+      "Frame scene evidence requires a retained time and at most ten seconds of history",
+    );
+  const range = { startUs: Math.max(request.kept.startUs, at - request.trailUs), endUs: at };
+  const local = report(
+    await observe(
+      {
+        source: request.source,
+        kept: request.kept,
+        atSourceUs: range.startUs === at ? [at] : sceneSampleTimes(range, request.kept),
+      },
+      sample,
+      signal,
+    ),
+    { kept: request.kept, range },
+  );
+  let reference = local.lastSample;
+  let futureComparison: VisualComparison | null = null;
+  if (local.lastSample.actualSourceUs > at) {
+    // Narrow only the analysis search prefix, so the same nearest selector finds the last
+    // sample at or before the request. Final image selection retains the original kept span.
+    const past = await observe(
+      {
+        source: request.source,
+        kept: { startUs: request.kept.startUs, endUs: at + 1 },
+        atSourceUs: [at],
+      },
+      sample,
+      signal,
+    );
+    if (past.sourceWidth !== local.sourceWidth || past.sourceHeight !== local.sourceHeight)
+      invalid("Reference image dimensions changed within one immutable source");
+    reference = past.samples[0]!;
+    futureComparison = compareVisualSamples(reference, local.lastSample);
+  }
+  return { ...local, reference, futureComparison };
 }

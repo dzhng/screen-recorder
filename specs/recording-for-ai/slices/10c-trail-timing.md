@@ -1,8 +1,9 @@
 # Trail timing over sparse video
 
-Status: native/core timing evidence verified and bounded policy chosen. Trail
-planning and public rendering remain unimplemented. This bounded pass resolves the remaining overlay anchor
-before extending frame requests to default trails.
+Status: requested-time visual compatibility is implemented and verified with
+encoded sparse sources, including a two-minute gap. Geometry/pause selection,
+cursor runs and public rendering remain unimplemented. This pass resolves the
+overlay timing prerequisites before extending requests to default trails.
 
 ## Evidence that constrains the policy
 
@@ -50,11 +51,13 @@ seconds). Compare P and A directly even if separated by minutes; do not extend a
 sampling grid across that gap. Preserve endpoint observations, actual timestamps
 and sampled coverage with policy provenance.
 
-Pause and geometry markers need stable event order when their source time equals
-a cursor sample: a pre-pause point must not survive just because paused media time
-does not advance. Select raw evidence in source time, clip at the kept span and
-latest reset, and split runs on ineligible observations. Keep the observation
-timestamp of a stale pointer; do not invent an age threshold or interpolate a
+Journal delivery order is not cross-event occurrence order: cursor observations
+are buffered and may be written after a pause marker they precede. Sequence remains
+a stable cursor tie-breaker, not proof that a point happened after a pause.
+Do not carry an ambiguous equal-time point across a pause reset; geometry epochs
+identify the placement actually used by each sample. Select evidence in source
+time, clip at the kept span and latest reset, and split runs on ineligible
+observations. Keep the observation timestamp of a stale pointer; do not invent an age threshold or interpolate a
 position without evidence. Reject coordinates whose geometry does not match the
 selected image.
 
@@ -74,3 +77,8 @@ selected image.
   trail request.
 - Run rendered fixture comparison and independent visual critique before accepting
   style or public defaults. Encoded flat-color timing proof alone is insufficient.
+
+
+[Compatibility evidence](../assets/scene-analysis/core-review.md#requested-time-frame-compatibility)
+records the shared core/native checks. The public frame API still requires clean
+mode; this prerequisite does not claim a rendered or accepted trail.

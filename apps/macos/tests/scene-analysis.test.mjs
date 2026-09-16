@@ -3,16 +3,16 @@ import { spawnSync } from "node:child_process";
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { analyzeSceneRange } from "@screenrec/core/scenes";
+import { analyzeSceneRange, analyzeFrameScene } from "@screenrec/core/scenes";
 
 const native = new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url)
   .pathname;
 
-test("shared scene analysis preserves held coverage and exposes a nearest future transition", async (t) => {
+async function sparseFixture(t, seconds = 2, changed = true) {
   const directory = await mkdtemp("/tmp/scr-scene-timing-");
   t.after(() => rm(directory, { recursive: true, force: true }));
   const source = join(directory, "sparse.mov");
-  // Three known frames at 0, 2 and 4 seconds: black, white, black.
+  // Three independently generated frames; sparse timestamps exercise held and future selection.
   const frameBytes = 64 * 64 * 3;
   const generated = spawnSync(
     "ffmpeg",
@@ -26,7 +26,7 @@ test("shared scene analysis preserves held coverage and exposes a nearest future
       "-video_size",
       "64x64",
       "-framerate",
-      "1/2",
+      `1/${seconds}`,
       "-i",
       "pipe:0",
       "-frames:v",
@@ -43,27 +43,32 @@ test("shared scene analysis preserves held coverage and exposes a nearest future
     {
       input: Buffer.concat([
         Buffer.alloc(frameBytes),
-        Buffer.alloc(frameBytes, 255),
+        Buffer.alloc(frameBytes, changed ? 255 : 0),
         Buffer.alloc(frameBytes),
       ]),
       timeout: 15000,
     },
   );
   assert.equal(generated.status, 0, generated.stderr.toString());
+  return source;
+}
+
+const sample = async (params, signal) => {
+  signal.throwIfAborted();
+  const run = spawnSync(native, [], {
+    input: JSON.stringify({ id: "scene", operation: "media.visualSamples", params }) + "\n",
+    encoding: "utf8",
+    timeout: 15000,
+    maxBuffer: 2 * 1024 * 1024,
+  });
+  assert.equal(run.status, 0, run.stderr);
+  const response = JSON.parse(run.stdout);
+  assert.equal(response.ok, true, JSON.stringify(response));
+  return response.data;
+};
+test("shared scene analysis preserves held coverage and exposes a nearest future transition", async (t) => {
+  const source = await sparseFixture(t);
   const original = await readFile(source);
-  const sample = async (params, signal) => {
-    signal.throwIfAborted();
-    const run = spawnSync(native, [], {
-      input: JSON.stringify({ id: "scene", operation: "media.visualSamples", params }) + "\n",
-      encoding: "utf8",
-      timeout: 15000,
-      maxBuffer: 2 * 1024 * 1024,
-    });
-    assert.equal(run.status, 0, run.stderr);
-    const response = JSON.parse(run.stdout);
-    assert.equal(response.ok, true, JSON.stringify(response));
-    return response.data;
-  };
   const inspect = (endUs) =>
     analyzeSceneRange(
       {
@@ -99,3 +104,35 @@ test("shared scene analysis preserves held coverage and exposes a nearest future
   assert.deepEqual(through.boundaries, [{ kind: "scene", atSourceUs: 2000000 }]);
   assert.deepEqual(await readFile(source), original);
 });
+
+for (const changed of [false, true]) {
+  test(`frame scene evidence checks a long future gap with ${changed ? "changed" : "matching"} pixels`, async (t) => {
+    const source = await sparseFixture(t, 120, changed);
+    const original = await readFile(source);
+    const queries = [];
+    const result = await analyzeFrameScene(
+      {
+        source,
+        kept: { startUs: 0, endUs: 360_000_000 },
+        requestedSourceUs: 119_000_000,
+        trailUs: 2_000_000,
+      },
+      async (request, signal) => {
+        queries.push(request);
+        return sample(request, signal);
+      },
+      new AbortController().signal,
+    );
+    assert.equal(result.range.endUs, 119_000_000);
+    assert.equal(result.lastSample.actualSourceUs, 120_000_000);
+    assert.equal(result.reference.actualSourceUs, 0);
+    assert.equal(result.futureComparison.boundary, changed);
+    assert.equal(result.futureComparison.actualSourceUs, 120_000_000);
+    assert.deepEqual(result.boundaries, []);
+    assert.equal(queries.length, 2);
+    assert.ok(queries[0].atSourceUs.length <= 12);
+    assert.deepEqual(queries[1].atSourceUs, [119_000_000]);
+    assert.deepEqual(queries[1].kept, { startUs: 0, endUs: 119_000_001 });
+    assert.deepEqual(await readFile(source), original);
+  });
+}

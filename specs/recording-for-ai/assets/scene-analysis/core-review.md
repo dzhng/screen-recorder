@@ -81,3 +81,29 @@ Timing-pass review found no actionable defects in the test or docs. Independent
 Codex runtime checks encountered native decode failures alongside existing tests
 inside its sandbox; the integrating host's real native run passed. Shape review
 keeps this as a consumer test of existing owners, with no second scene policy.
+
+## Requested-time frame compatibility
+
+The shared core now obtains local trail-window observations and, for a future
+decoded sample, one past-only reference through the existing native sampler.
+Neither sampling nor returned trail range advances beyond the request. The
+reference comparison stays separate from past scene boundaries, so a future change
+is available to veto an overlay without being backdated into the requested range.
+
+All 111 core tests pass, including 16 scene tests. Three native/core encoded tests
+pass. The long-gap fixtures have samples at 0/120/240 seconds and request second
+119: matching pixels report no detected endpoint change, replaced pixels report
+a change at actual second 120, and both resolve the past reference at 0. The
+two-second local grid uses at most twelve observations and one separate reference,
+not a grid over the two-minute gap. Source bytes stay unchanged.
+
+Removing the past-only search constraint from the built core makes both long-gap
+checks fail; restoring it passes. Core build/types and lint pass. Independent
+Codex review found no actionable regressions and passed the focused core checks;
+its native checks failed alongside the existing fixture in its sandbox. The
+integrating host's native tests above passed outside that sandbox.
+
+Shape review retains the same comparison, image selector, decoder and validator.
+The additional result is compatibility evidence, not a rendered cursor or a public
+default. Geometry/pause selection, cursor runs, persistence and real UI threshold
+acceptance remain separate work.
