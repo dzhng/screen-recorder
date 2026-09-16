@@ -1,8 +1,9 @@
 # 14 — Two exports and relocated AI inspection
 
-Status: 14a metadata/readiness and 14b relocated-directory inspection pass their
-internal gates. Bounded archive verification and retained handle lifetime in 14c
-are next. This plan does not close 08, 11c or 13.
+Status: metadata, relocated inspection, bounded extraction, retained descriptors
+and transient queue contexts pass their internal gates. Package output release,
+delivery isolation and registry/storage recovery are next, alongside durable export
+intent. This plan does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
 and [verification](../verification.md). No public contract changes are proposed:
@@ -49,8 +50,12 @@ independently once their respective dependencies pass.
 records malformed-tail and resource-fork probes.
 [14c1 — Bounded extraction](14c1-bounded-archive-extraction.md) selects system
 libarchive and proves an internal descriptor-owned extraction transaction.
-Its bounded receipt validates container bytes and 14a metadata; retained context
-lifetime, payload inspection and public opening remain open.
+Its bounded receipt validates container bytes and 14a metadata.
+[14c2](14c2-retained-package-inspection.md) proves retained descriptor/media access
+and parent-death lifetime. [14c3a](14c3a-transient-context-jobs.md) adds isolated
+capabilities to the shared queue. Reusable outputs and isolated delivery identities
+come next, then registry/storage reservation and startup reclamation, then public
+opening and selectors.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native
@@ -103,9 +108,8 @@ without deleting someone else's file or claiming an incomplete output succeeded.
 Prove this with faults before publish, after publish/before receipt, source deletion,
 external directory replacement and full disk. No cross-device copy-as-atomic fallback.
 Wire native export actions only after real completion/failure semantics exist.
-Current JobQueue requires a library revision on submission. Package inspection must
-extend the existing execution owner with a context-aware admission seam before
-public native reads; a synthetic catalog recording is not an acceptable bridge.
+Package inspection must use the existing queue-issued transient context capability
+for native work; a synthetic catalog recording is not an acceptable bridge.
 
 ## Final gate and scope
 
