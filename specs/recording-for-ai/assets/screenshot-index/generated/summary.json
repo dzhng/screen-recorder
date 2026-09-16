@@ -1,0 +1,386 @@
+{
+  "synthetic": true,
+  "hardware": {
+    "cpu": "Apple M5 Pro",
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64"
+  },
+  "bundledServiceSha256": "06f0c9d3d273a001dd51feeb4b604f0dfc9b7b9405e6dffddaa79229cad46b13",
+  "node": "v24.14.0",
+  "revision": "48977d5ec8c289231acc2735e989519e03f2da87",
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "width": 1280,
+  "height": 800,
+  "encodedFrameStepUs": 250000,
+  "cursorStepUs": 25000,
+  "results": [
+    {
+      "name": "static-pointing",
+      "selectedCount": 5,
+      "elapsedMs": 2986.896291,
+      "retainedBytes": 594425,
+      "checks": {
+        "retainedFramesValid": true,
+        "retainedCoverageValid": true,
+        "firstLast": true,
+        "coverageContiguous": true,
+        "coverageEndUs": 12000000,
+        "uniqueActualSourceTimes": 5,
+        "uniqueRenderedImages": 5,
+        "expectedPlaybackDurationUs": 12000000,
+        "coverageComplete": true,
+        "transitions": [],
+        "gestures": [
+          {
+            "kind": "circle",
+            "selected": true
+          },
+          {
+            "kind": "wave",
+            "selected": true
+          }
+        ]
+      },
+      "contactSheets": [
+        "contact-01.png"
+      ],
+      "crops": [
+        {
+          "kind": "circle",
+          "image": "focus-circle.png",
+          "region": {
+            "x": 320,
+            "y": 220,
+            "width": 400,
+            "height": 320
+          },
+          "ordinal": 1
+        },
+        {
+          "kind": "wave",
+          "image": "focus-wave.png",
+          "region": {
+            "x": 580,
+            "y": 320,
+            "width": 550,
+            "height": 230
+          },
+          "ordinal": 2
+        }
+      ]
+    },
+    {
+      "name": "stillness",
+      "selectedCount": 5,
+      "elapsedMs": 3924.45575,
+      "retainedBytes": 493646,
+      "checks": {
+        "retainedFramesValid": true,
+        "retainedCoverageValid": true,
+        "firstLast": true,
+        "coverageContiguous": true,
+        "coverageEndUs": 16000000,
+        "uniqueActualSourceTimes": 5,
+        "uniqueRenderedImages": 3,
+        "expectedPlaybackDurationUs": 16000000,
+        "coverageComplete": true,
+        "transitions": [],
+        "onlyMandatoryEndpoints": false
+      },
+      "contactSheets": [
+        "contact-01.png"
+      ]
+    },
+    {
+      "name": "navigation",
+      "selectedCount": 7,
+      "elapsedMs": 4456.281416000002,
+      "retainedBytes": 839828,
+      "checks": {
+        "retainedFramesValid": true,
+        "retainedCoverageValid": true,
+        "firstLast": true,
+        "coverageContiguous": true,
+        "coverageEndUs": 10000000,
+        "uniqueActualSourceTimes": 5,
+        "uniqueRenderedImages": 7,
+        "expectedPlaybackDurationUs": 10000000,
+        "coverageComplete": true,
+        "transitions": [
+          {
+            "atSourceUs": 3000000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 3000000,
+            "afterActualSourceUs": 3000000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 6000000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 6000000,
+            "afterActualSourceUs": 6000000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          }
+        ]
+      },
+      "contactSheets": [
+        "contact-01.png",
+        "contact-02.png"
+      ]
+    },
+    {
+      "name": "rapid-clicks",
+      "selectedCount": 6,
+      "elapsedMs": 2993.10175,
+      "retainedBytes": 693931,
+      "checks": {
+        "retainedFramesValid": true,
+        "retainedCoverageValid": true,
+        "firstLast": true,
+        "coverageContiguous": true,
+        "coverageEndUs": 6000000,
+        "uniqueActualSourceTimes": 6,
+        "uniqueRenderedImages": 6,
+        "expectedPlaybackDurationUs": 6000000,
+        "coverageComplete": true,
+        "transitions": [],
+        "clicks": [
+          {
+            "atSourceUs": 1000000,
+            "selected": true
+          },
+          {
+            "atSourceUs": 1200000,
+            "selected": true
+          },
+          {
+            "atSourceUs": 1400000,
+            "selected": true
+          }
+        ]
+      },
+      "contactSheets": [
+        "contact-01.png"
+      ]
+    },
+    {
+      "name": "edited-join",
+      "selectedCount": 5,
+      "elapsedMs": 2882.709583,
+      "retainedBytes": 554939,
+      "checks": {
+        "retainedFramesValid": true,
+        "retainedCoverageValid": true,
+        "firstLast": true,
+        "coverageContiguous": true,
+        "coverageEndUs": 8000000,
+        "uniqueActualSourceTimes": 5,
+        "uniqueRenderedImages": 5,
+        "expectedPlaybackDurationUs": 8000000,
+        "coverageComplete": true,
+        "transitions": []
+      },
+      "contactSheets": [
+        "contact-01.png"
+      ]
+    },
+    {
+      "name": "rapid-scene-stress",
+      "selectedCount": 32,
+      "elapsedMs": 13593.706540999996,
+      "retainedBytes": 3992203,
+      "checks": {
+        "retainedFramesValid": true,
+        "retainedCoverageValid": true,
+        "firstLast": true,
+        "coverageContiguous": true,
+        "coverageEndUs": 4000000,
+        "uniqueActualSourceTimes": 16,
+        "uniqueRenderedImages": 16,
+        "expectedPlaybackDurationUs": 4000000,
+        "coverageComplete": true,
+        "transitions": [
+          {
+            "atSourceUs": 250000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 250000,
+            "afterActualSourceUs": 250000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 500000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 500000,
+            "afterActualSourceUs": 500000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 750000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 750000,
+            "afterActualSourceUs": 750000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 1000000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 1000000,
+            "afterActualSourceUs": 1000000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 1250000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 1250000,
+            "afterActualSourceUs": 1250000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 1500000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 1500000,
+            "afterActualSourceUs": 1500000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 1750000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 1750000,
+            "afterActualSourceUs": 1750000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 2000000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 2000000,
+            "afterActualSourceUs": 2000000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 2250000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 2250000,
+            "afterActualSourceUs": 2250000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 2500000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 2500000,
+            "afterActualSourceUs": 2500000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 2750000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 2750000,
+            "afterActualSourceUs": 2750000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 3000000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 3000000,
+            "afterActualSourceUs": 3000000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 3250000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 3250000,
+            "afterActualSourceUs": 3250000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 3500000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 3500000,
+            "afterActualSourceUs": 3500000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          },
+          {
+            "atSourceUs": 3750000,
+            "before": true,
+            "after": true,
+            "beforeActualSourceUs": 3750000,
+            "afterActualSourceUs": 3750000,
+            "beforeFrameMatches": false,
+            "afterFrameMatches": true
+          }
+        ],
+        "density": {
+          "candidatesPerSecond": 8,
+          "sceneReasonCount": 30,
+          "note": "Mandatory transitions are retained without contact-sheet thinning"
+        }
+      },
+      "contactSheets": [
+        "contact-01.png",
+        "contact-02.png",
+        "contact-03.png",
+        "contact-04.png",
+        "contact-05.png",
+        "contact-06.png"
+      ]
+    },
+    {
+      "name": "continuous-motion",
+      "selectedCount": 3,
+      "elapsedMs": 1942.1153750000012,
+      "retainedBytes": 323473,
+      "checks": {
+        "retainedFramesValid": true,
+        "retainedCoverageValid": true,
+        "firstLast": true,
+        "coverageContiguous": true,
+        "coverageEndUs": 10000000,
+        "uniqueActualSourceTimes": 3,
+        "uniqueRenderedImages": 3,
+        "expectedPlaybackDurationUs": 10000000,
+        "coverageComplete": true,
+        "transitions": [],
+        "density": {
+          "candidatesPerSecond": 0.3,
+          "sceneReasonCount": 0,
+          "note": "Mandatory transitions are retained without contact-sheet thinning"
+        }
+      },
+      "contactSheets": [
+        "contact-01.png"
+      ]
+    }
+  ]
+}

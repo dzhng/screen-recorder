@@ -1,0 +1,1992 @@
+{
+  "name": "navigation",
+  "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+  "revisionId": "r0",
+  "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+  "durationUs": 10000000,
+  "metadata": {
+    "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+    "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+    "revisionId": "r0",
+    "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+    "sourceIdentity": {
+      "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+      "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+      "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4"
+    },
+    "sceneIdentity": {
+      "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+      "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+      "generation": "dca2bd13-0e06-40ca-ab56-336685d1a712",
+      "policy": "rgb-spatial-change-v1"
+    },
+    "selectionPolicy": "sampled-evidence-selection-v1",
+    "framePolicy": "frame-v2",
+    "trailPolicy": "requested-time-trail-v1",
+    "durationUs": 10000000,
+    "candidateCount": 7,
+    "coverageCount": 2,
+    "bytes": 839828
+  },
+  "sourceHashes": {
+    "video": "7ab85ae2fe4b925460bd85ac8ea77b853d411d59dc9fcb05388b577bf1641635",
+    "journal": "61cfd46ecd0ba0bf0c9385aaf98a052416245b44b2e658a474d68cd37a3f3440"
+  },
+  "elapsedMs": 4456.281416000002,
+  "selectedCount": 7,
+  "retainedBytes": 839828,
+  "checks": {
+    "retainedFramesValid": true,
+    "retainedCoverageValid": true,
+    "firstLast": true,
+    "coverageContiguous": true,
+    "coverageEndUs": 10000000,
+    "uniqueActualSourceTimes": 5,
+    "uniqueRenderedImages": 7,
+    "expectedPlaybackDurationUs": 10000000,
+    "coverageComplete": true,
+    "transitions": [
+      {
+        "atSourceUs": 3000000,
+        "before": true,
+        "after": true,
+        "beforeActualSourceUs": 3000000,
+        "afterActualSourceUs": 3000000,
+        "beforeFrameMatches": false,
+        "afterFrameMatches": true
+      },
+      {
+        "atSourceUs": 6000000,
+        "before": true,
+        "after": true,
+        "beforeActualSourceUs": 6000000,
+        "afterActualSourceUs": 6000000,
+        "beforeFrameMatches": false,
+        "afterFrameMatches": true
+      }
+    ]
+  },
+  "contactSheets": [
+    "contact-01.png",
+    "contact-02.png"
+  ],
+  "entries": [
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 0,
+        "requestedPlaybackUs": 0,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "reasons": [
+          {
+            "kind": "first",
+            "eventSourceUs": 0
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4"
+        },
+        "sceneIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "dca2bd13-0e06-40ca-ab56-336685d1a712",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 0
+      },
+      "frame": {
+        "actualSourceUs": 0,
+        "bytes": 148905,
+        "distanceUs": 0,
+        "file": "/private/tmp/scr-index-navigation-vVs6ea/recordings/339f9703-dd7c-4e1a-aa65-bb1f8a49af8c/evidence/index/527f7dce228e0e2c69c7c462f9ef72d744093f711a5d536ab7acc9f57bb2e670/0.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 0,
+          "trailEndUs": 0,
+          "trailPoints": 1,
+          "trailStartUs": 0
+        },
+        "requestedSourceUs": 0,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 0,
+        "actualPlaybackUs": 0,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 0,
+          "requestedSourceUs": 0,
+          "actualSourceUs": 0,
+          "evidenceRange": {
+            "startUs": 0,
+            "endUs": 0
+          },
+          "interval": {
+            "startUs": 0,
+            "endUs": 0
+          },
+          "cutoffs": [
+            {
+              "reason": "kept_start",
+              "atSourceUs": 0
+            }
+          ],
+          "pointerObservation": {
+            "sourceUs": 0,
+            "x": 880,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 2
+          },
+          "trailPoints": 1,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 0,
+            "x": 880,
+            "y": 472
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 0,
+              "endUs": 0
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 0,
+                "actualSourceUs": 0,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [],
+            "boundaries": [],
+            "futureComparison": null,
+            "referenceSourceUs": 0
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 18,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 1,
+      "reference": {
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "revisionId": "r0",
+        "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+        "ordinal": 0
+      },
+      "bytes": 148905,
+      "sha256": "36a130d6a0538619c42752515a1104a47cdfcbef82f238855cf0e1d35caef37b",
+      "image": "selected-000.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 2999999,
+        "requestedPlaybackUs": 2999999,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "reasons": [
+          {
+            "kind": "scene",
+            "eventSourceUs": 3000000,
+            "side": "before"
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4"
+        },
+        "sceneIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "dca2bd13-0e06-40ca-ab56-336685d1a712",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 1
+      },
+      "frame": {
+        "actualSourceUs": 3000000,
+        "bytes": 108505,
+        "distanceUs": 1,
+        "file": "/private/tmp/scr-index-navigation-vVs6ea/recordings/339f9703-dd7c-4e1a-aa65-bb1f8a49af8c/evidence/index/527f7dce228e0e2c69c7c462f9ef72d744093f711a5d536ab7acc9f57bb2e670/1.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "trailPoints": 0
+        },
+        "requestedSourceUs": 2999999,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 2999999,
+        "actualPlaybackUs": 3000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 2999999,
+          "requestedSourceUs": 2999999,
+          "actualSourceUs": 3000000,
+          "evidenceRange": {
+            "startUs": 999999,
+            "endUs": 2999999
+          },
+          "interval": null,
+          "cutoffs": [
+            {
+              "reason": "future_scene",
+              "atSourceUs": 3000000
+            }
+          ],
+          "pointerObservation": {
+            "sourceUs": 2975000,
+            "x": 880,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 121
+          },
+          "trailPoints": 0,
+          "trailRuns": 0,
+          "pointer": null,
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 999999,
+              "endUs": 2999999
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 800000,
+                "actualSourceUs": 750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1000000,
+                "actualSourceUs": 1000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1200000,
+                "actualSourceUs": 1250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1400000,
+                "actualSourceUs": 1500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1600000,
+                "actualSourceUs": 1500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1800000,
+                "actualSourceUs": 1750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2000000,
+                "actualSourceUs": 2000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2200000,
+                "actualSourceUs": 2250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2400000,
+                "actualSourceUs": 2500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2600000,
+                "actualSourceUs": 2500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2800000,
+                "actualSourceUs": 2750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2999999,
+                "actualSourceUs": 3000000,
+                "distanceUs": 1,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 750000,
+                "actualSourceUs": 1000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.00004391339869281046,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1000000,
+                "actualSourceUs": 1250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000009191176470588234,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1250000,
+                "actualSourceUs": 1500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000007148692810457516,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1500000,
+                "actualSourceUs": 1750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1750000,
+                "actualSourceUs": 2000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.0000015318627450980392,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2000000,
+                "actualSourceUs": 2250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2250000,
+                "actualSourceUs": 2500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2500000,
+                "actualSourceUs": 2750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2750000,
+                "actualSourceUs": 3000000,
+                "changedPixelFraction": 0.88828125,
+                "changedCellFraction": 1,
+                "meanAbsoluteChannelDifference": 0.5815487132352941,
+                "boundary": true
+              }
+            ],
+            "boundaries": [],
+            "futureComparison": {
+              "previousActualSourceUs": 2750000,
+              "actualSourceUs": 3000000,
+              "changedPixelFraction": 0.88828125,
+              "changedCellFraction": 1,
+              "meanAbsoluteChannelDifference": 0.5815487132352941,
+              "boundary": true
+            },
+            "referenceSourceUs": 2750000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 18,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 0,
+      "reference": {
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "revisionId": "r0",
+        "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+        "ordinal": 1
+      },
+      "bytes": 108505,
+      "sha256": "da60e3ecd2c2aa777ae3ded07c18ba6289fff03b8c02d5d11b3997153d7642a1",
+      "image": "selected-001.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 3000000,
+        "requestedPlaybackUs": 3000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "reasons": [
+          {
+            "kind": "scene",
+            "eventSourceUs": 3000000,
+            "side": "after"
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4"
+        },
+        "sceneIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "dca2bd13-0e06-40ca-ab56-336685d1a712",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 2
+      },
+      "frame": {
+        "actualSourceUs": 3000000,
+        "bytes": 124242,
+        "distanceUs": 0,
+        "file": "/private/tmp/scr-index-navigation-vVs6ea/recordings/339f9703-dd7c-4e1a-aa65-bb1f8a49af8c/evidence/index/527f7dce228e0e2c69c7c462f9ef72d744093f711a5d536ab7acc9f57bb2e670/2.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 3000000,
+          "trailEndUs": 3000000,
+          "trailPoints": 1,
+          "trailStartUs": 3000000
+        },
+        "requestedSourceUs": 3000000,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 3000000,
+        "actualPlaybackUs": 3000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 3000000,
+          "requestedSourceUs": 3000000,
+          "actualSourceUs": 3000000,
+          "evidenceRange": {
+            "startUs": 3000000,
+            "endUs": 3000000
+          },
+          "interval": {
+            "startUs": 3000000,
+            "endUs": 3000000
+          },
+          "cutoffs": [
+            {
+              "reason": "scene",
+              "atSourceUs": 3000000
+            }
+          ],
+          "pointerObservation": {
+            "sourceUs": 3000000,
+            "x": 880,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 122
+          },
+          "trailPoints": 1,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 3000000,
+            "x": 880,
+            "y": 472
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 1000000,
+              "endUs": 3000000
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 800000,
+                "actualSourceUs": 750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1000000,
+                "actualSourceUs": 1000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1200000,
+                "actualSourceUs": 1250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1400000,
+                "actualSourceUs": 1500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1600000,
+                "actualSourceUs": 1500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1800000,
+                "actualSourceUs": 1750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2000000,
+                "actualSourceUs": 2000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2200000,
+                "actualSourceUs": 2250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2400000,
+                "actualSourceUs": 2500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2600000,
+                "actualSourceUs": 2500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2800000,
+                "actualSourceUs": 2750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3000000,
+                "actualSourceUs": 3000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 750000,
+                "actualSourceUs": 1000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.00004391339869281046,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1000000,
+                "actualSourceUs": 1250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000009191176470588234,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1250000,
+                "actualSourceUs": 1500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000007148692810457516,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1500000,
+                "actualSourceUs": 1750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1750000,
+                "actualSourceUs": 2000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.0000015318627450980392,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2000000,
+                "actualSourceUs": 2250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2250000,
+                "actualSourceUs": 2500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2500000,
+                "actualSourceUs": 2750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2750000,
+                "actualSourceUs": 3000000,
+                "changedPixelFraction": 0.88828125,
+                "changedCellFraction": 1,
+                "meanAbsoluteChannelDifference": 0.5815487132352941,
+                "boundary": true
+              }
+            ],
+            "boundaries": [
+              {
+                "kind": "scene",
+                "atSourceUs": 3000000
+              }
+            ],
+            "futureComparison": null,
+            "referenceSourceUs": 3000000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 18,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 0,
+      "reference": {
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "revisionId": "r0",
+        "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+        "ordinal": 2
+      },
+      "bytes": 124242,
+      "sha256": "b7e7838f5b6976b0075f771c32f312fbe0d4a887f04682be09ce31af68c82317",
+      "image": "selected-002.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 5000000,
+        "requestedPlaybackUs": 5000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "reasons": [
+          {
+            "kind": "coverage",
+            "eventSourceUs": 5000000
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4"
+        },
+        "sceneIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "dca2bd13-0e06-40ca-ab56-336685d1a712",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 3
+      },
+      "frame": {
+        "actualSourceUs": 5000000,
+        "bytes": 95349,
+        "distanceUs": 0,
+        "file": "/private/tmp/scr-index-navigation-vVs6ea/recordings/339f9703-dd7c-4e1a-aa65-bb1f8a49af8c/evidence/index/527f7dce228e0e2c69c7c462f9ef72d744093f711a5d536ab7acc9f57bb2e670/3.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 5000000,
+          "trailEndUs": 5000000,
+          "trailPoints": 81,
+          "trailStartUs": 3000000
+        },
+        "requestedSourceUs": 5000000,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 5000000,
+        "actualPlaybackUs": 5000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 5000000,
+          "requestedSourceUs": 5000000,
+          "actualSourceUs": 5000000,
+          "evidenceRange": {
+            "startUs": 3000000,
+            "endUs": 5000000
+          },
+          "interval": {
+            "startUs": 3000000,
+            "endUs": 5000000
+          },
+          "cutoffs": [
+            {
+              "reason": "scene",
+              "atSourceUs": 3000000
+            }
+          ],
+          "pointerObservation": {
+            "sourceUs": 5000000,
+            "x": 880,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 202
+          },
+          "trailPoints": 81,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 5000000,
+            "x": 880,
+            "y": 472
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 3000000,
+              "endUs": 5000000
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 2800000,
+                "actualSourceUs": 2750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3000000,
+                "actualSourceUs": 3000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3200000,
+                "actualSourceUs": 3250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3400000,
+                "actualSourceUs": 3500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3600000,
+                "actualSourceUs": 3500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3800000,
+                "actualSourceUs": 3750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4000000,
+                "actualSourceUs": 4000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4200000,
+                "actualSourceUs": 4250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4400000,
+                "actualSourceUs": 4500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4600000,
+                "actualSourceUs": 4500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4800000,
+                "actualSourceUs": 4750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5000000,
+                "actualSourceUs": 5000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 2750000,
+                "actualSourceUs": 3000000,
+                "changedPixelFraction": 0.88828125,
+                "changedCellFraction": 1,
+                "meanAbsoluteChannelDifference": 0.5815487132352941,
+                "boundary": true
+              },
+              {
+                "previousActualSourceUs": 3000000,
+                "actualSourceUs": 3250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000009191176470588234,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 3250000,
+                "actualSourceUs": 3500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.00006944444444444444,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 3500000,
+                "actualSourceUs": 3750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.00005463643790849673,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 3750000,
+                "actualSourceUs": 4000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000025020424836601307,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4000000,
+                "actualSourceUs": 4250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000010212418300653594,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4250000,
+                "actualSourceUs": 4500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4500000,
+                "actualSourceUs": 4750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4750000,
+                "actualSourceUs": 5000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              }
+            ],
+            "boundaries": [
+              {
+                "kind": "scene",
+                "atSourceUs": 3000000
+              }
+            ],
+            "futureComparison": null,
+            "referenceSourceUs": 5000000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 18,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 1,
+      "reference": {
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "revisionId": "r0",
+        "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+        "ordinal": 3
+      },
+      "bytes": 95349,
+      "sha256": "1460dcc9429cee471d657b90e809f93a3f46e742bcc3d0b8c5d5d5660c813f1a",
+      "image": "selected-003.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 5999999,
+        "requestedPlaybackUs": 5999999,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "reasons": [
+          {
+            "kind": "scene",
+            "eventSourceUs": 6000000,
+            "side": "before"
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4"
+        },
+        "sceneIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "dca2bd13-0e06-40ca-ab56-336685d1a712",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 4
+      },
+      "frame": {
+        "actualSourceUs": 6000000,
+        "bytes": 119877,
+        "distanceUs": 1,
+        "file": "/private/tmp/scr-index-navigation-vVs6ea/recordings/339f9703-dd7c-4e1a-aa65-bb1f8a49af8c/evidence/index/527f7dce228e0e2c69c7c462f9ef72d744093f711a5d536ab7acc9f57bb2e670/4.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "trailPoints": 0
+        },
+        "requestedSourceUs": 5999999,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 5999999,
+        "actualPlaybackUs": 6000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 5999999,
+          "requestedSourceUs": 5999999,
+          "actualSourceUs": 6000000,
+          "evidenceRange": {
+            "startUs": 3999999,
+            "endUs": 5999999
+          },
+          "interval": null,
+          "cutoffs": [
+            {
+              "reason": "future_scene",
+              "atSourceUs": 6000000
+            }
+          ],
+          "pointerObservation": {
+            "sourceUs": 5975000,
+            "x": 880,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 241
+          },
+          "trailPoints": 0,
+          "trailRuns": 0,
+          "pointer": null,
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 3999999,
+              "endUs": 5999999
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 3800000,
+                "actualSourceUs": 3750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4000000,
+                "actualSourceUs": 4000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4200000,
+                "actualSourceUs": 4250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4400000,
+                "actualSourceUs": 4500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4600000,
+                "actualSourceUs": 4500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4800000,
+                "actualSourceUs": 4750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5000000,
+                "actualSourceUs": 5000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5200000,
+                "actualSourceUs": 5250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5400000,
+                "actualSourceUs": 5500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5600000,
+                "actualSourceUs": 5500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5800000,
+                "actualSourceUs": 5750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5999999,
+                "actualSourceUs": 6000000,
+                "distanceUs": 1,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 3750000,
+                "actualSourceUs": 4000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000025020424836601307,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4000000,
+                "actualSourceUs": 4250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000010212418300653594,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4250000,
+                "actualSourceUs": 4500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4500000,
+                "actualSourceUs": 4750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4750000,
+                "actualSourceUs": 5000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 5000000,
+                "actualSourceUs": 5250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 5250000,
+                "actualSourceUs": 5500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 5500000,
+                "actualSourceUs": 5750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 5750000,
+                "actualSourceUs": 6000000,
+                "changedPixelFraction": 0.88828125,
+                "changedCellFraction": 1,
+                "meanAbsoluteChannelDifference": 0.5815385008169934,
+                "boundary": true
+              }
+            ],
+            "boundaries": [],
+            "futureComparison": {
+              "previousActualSourceUs": 5750000,
+              "actualSourceUs": 6000000,
+              "changedPixelFraction": 0.88828125,
+              "changedCellFraction": 1,
+              "meanAbsoluteChannelDifference": 0.5815385008169934,
+              "boundary": true
+            },
+            "referenceSourceUs": 5750000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 18,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 0,
+      "reference": {
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "revisionId": "r0",
+        "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+        "ordinal": 4
+      },
+      "bytes": 119877,
+      "sha256": "9f0cbde949428107b0ec7cc26fe3a104c380ce4737033d1c0151213a5f75eced",
+      "image": "selected-004.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 6000000,
+        "requestedPlaybackUs": 6000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "reasons": [
+          {
+            "kind": "scene",
+            "eventSourceUs": 6000000,
+            "side": "after"
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4"
+        },
+        "sceneIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "dca2bd13-0e06-40ca-ab56-336685d1a712",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 5
+      },
+      "frame": {
+        "actualSourceUs": 6000000,
+        "bytes": 137662,
+        "distanceUs": 0,
+        "file": "/private/tmp/scr-index-navigation-vVs6ea/recordings/339f9703-dd7c-4e1a-aa65-bb1f8a49af8c/evidence/index/527f7dce228e0e2c69c7c462f9ef72d744093f711a5d536ab7acc9f57bb2e670/5.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 6000000,
+          "trailEndUs": 6000000,
+          "trailPoints": 1,
+          "trailStartUs": 6000000
+        },
+        "requestedSourceUs": 6000000,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 6000000,
+        "actualPlaybackUs": 6000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 6000000,
+          "requestedSourceUs": 6000000,
+          "actualSourceUs": 6000000,
+          "evidenceRange": {
+            "startUs": 6000000,
+            "endUs": 6000000
+          },
+          "interval": {
+            "startUs": 6000000,
+            "endUs": 6000000
+          },
+          "cutoffs": [
+            {
+              "reason": "scene",
+              "atSourceUs": 6000000
+            }
+          ],
+          "pointerObservation": {
+            "sourceUs": 6000000,
+            "x": 880,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 242
+          },
+          "trailPoints": 1,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 6000000,
+            "x": 880,
+            "y": 472
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 4000000,
+              "endUs": 6000000
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 3800000,
+                "actualSourceUs": 3750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4000000,
+                "actualSourceUs": 4000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4200000,
+                "actualSourceUs": 4250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4400000,
+                "actualSourceUs": 4500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4600000,
+                "actualSourceUs": 4500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4800000,
+                "actualSourceUs": 4750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5000000,
+                "actualSourceUs": 5000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5200000,
+                "actualSourceUs": 5250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5400000,
+                "actualSourceUs": 5500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5600000,
+                "actualSourceUs": 5500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 5800000,
+                "actualSourceUs": 5750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 6000000,
+                "actualSourceUs": 6000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 3750000,
+                "actualSourceUs": 4000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000025020424836601307,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4000000,
+                "actualSourceUs": 4250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000010212418300653594,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4250000,
+                "actualSourceUs": 4500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4500000,
+                "actualSourceUs": 4750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4750000,
+                "actualSourceUs": 5000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 5000000,
+                "actualSourceUs": 5250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 5250000,
+                "actualSourceUs": 5500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 5500000,
+                "actualSourceUs": 5750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 5750000,
+                "actualSourceUs": 6000000,
+                "changedPixelFraction": 0.88828125,
+                "changedCellFraction": 1,
+                "meanAbsoluteChannelDifference": 0.5815385008169934,
+                "boundary": true
+              }
+            ],
+            "boundaries": [
+              {
+                "kind": "scene",
+                "atSourceUs": 6000000
+              }
+            ],
+            "futureComparison": null,
+            "referenceSourceUs": 6000000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 18,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 0,
+      "reference": {
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "revisionId": "r0",
+        "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+        "ordinal": 5
+      },
+      "bytes": 137662,
+      "sha256": "0014f912439221b8877fda971bc9845b127736dda010a43b132974f76d3d5c68",
+      "image": "selected-005.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 9999999,
+        "requestedPlaybackUs": 9999999,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "reasons": [
+          {
+            "kind": "last",
+            "eventSourceUs": 10000000
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4"
+        },
+        "sceneIdentity": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "dca2bd13-0e06-40ca-ab56-336685d1a712",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 6
+      },
+      "frame": {
+        "actualSourceUs": 9750000,
+        "bytes": 105288,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-navigation-vVs6ea/recordings/339f9703-dd7c-4e1a-aa65-bb1f8a49af8c/evidence/index/527f7dce228e0e2c69c7c462f9ef72d744093f711a5d536ab7acc9f57bb2e670/6.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 9975000,
+          "trailEndUs": 9975000,
+          "trailPoints": 80,
+          "trailStartUs": 8000000
+        },
+        "requestedSourceUs": 9999999,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 9999999,
+        "actualPlaybackUs": 9750000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 10000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 9999999,
+          "requestedSourceUs": 9999999,
+          "actualSourceUs": 9750000,
+          "evidenceRange": {
+            "startUs": 7999999,
+            "endUs": 9999999
+          },
+          "interval": {
+            "startUs": 8000000,
+            "endUs": 9975000
+          },
+          "cutoffs": [],
+          "pointerObservation": {
+            "sourceUs": 9975000,
+            "x": 880,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 401
+          },
+          "trailPoints": 80,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 9975000,
+            "x": 880,
+            "y": 472
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 7999999,
+              "endUs": 9999999
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 7800000,
+                "actualSourceUs": 7750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8000000,
+                "actualSourceUs": 8000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8200000,
+                "actualSourceUs": 8250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8400000,
+                "actualSourceUs": 8500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8600000,
+                "actualSourceUs": 8500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8800000,
+                "actualSourceUs": 8750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9000000,
+                "actualSourceUs": 9000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9200000,
+                "actualSourceUs": 9250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9400000,
+                "actualSourceUs": 9500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9600000,
+                "actualSourceUs": 9500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9800000,
+                "actualSourceUs": 9750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9999999,
+                "actualSourceUs": 9750000,
+                "distanceUs": 249999,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 7750000,
+                "actualSourceUs": 8000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.0000010212418300653596,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 8000000,
+                "actualSourceUs": 8250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 8250000,
+                "actualSourceUs": 8500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 8500000,
+                "actualSourceUs": 8750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 8750000,
+                "actualSourceUs": 9000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 9000000,
+                "actualSourceUs": 9250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 9250000,
+                "actualSourceUs": 9500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 9500000,
+                "actualSourceUs": 9750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              }
+            ],
+            "boundaries": [],
+            "futureComparison": null,
+            "referenceSourceUs": 9750000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+          "sourceId": "563cdec8-0d18-425f-a999-18f29e49beb5",
+          "generation": "c923e006-7b85-4f44-9f39-b0d9ef484ef4",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 18,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 0,
+      "reference": {
+        "recordingId": "339f9703-dd7c-4e1a-aa65-bb1f8a49af8c",
+        "revisionId": "r0",
+        "generation": "88ffcf45-d67d-46bc-8278-6bd3d07e26bd",
+        "ordinal": 6
+      },
+      "bytes": 105288,
+      "sha256": "4770a752180ffcc8bfd00b80fe6c612fe31c1fe7cdf1b7f0439cda07c23dddb0",
+      "image": "selected-006.png"
+    }
+  ],
+  "coverage": [
+    {
+      "sequence": 0,
+      "kind": "coverage",
+      "ordinal": 0,
+      "source": {
+        "startUs": 0,
+        "endUs": 5000000
+      },
+      "playback": {
+        "startUs": 0,
+        "endUs": 5000000
+      },
+      "equality": "unproven"
+    },
+    {
+      "sequence": 1,
+      "kind": "coverage",
+      "ordinal": 3,
+      "source": {
+        "startUs": 5000000,
+        "endUs": 10000000
+      },
+      "playback": {
+        "startUs": 5000000,
+        "endUs": 10000000
+      },
+      "equality": "unproven"
+    }
+  ]
+}

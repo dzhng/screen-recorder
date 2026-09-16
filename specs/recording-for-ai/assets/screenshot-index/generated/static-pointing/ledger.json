@@ -1,0 +1,1379 @@
+{
+  "name": "static-pointing",
+  "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+  "revisionId": "r0",
+  "generation": "eb800488-7150-4e5a-96d6-e66c6359b4e8",
+  "durationUs": 12000000,
+  "metadata": {
+    "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+    "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+    "revisionId": "r0",
+    "generation": "eb800488-7150-4e5a-96d6-e66c6359b4e8",
+    "sourceIdentity": {
+      "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+      "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+      "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6"
+    },
+    "sceneIdentity": {
+      "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+      "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+      "generation": "b05f36ce-3d65-479c-af9b-05a38bb05ddd",
+      "policy": "rgb-spatial-change-v1"
+    },
+    "selectionPolicy": "sampled-evidence-selection-v1",
+    "framePolicy": "frame-v2",
+    "trailPolicy": "requested-time-trail-v1",
+    "durationUs": 12000000,
+    "candidateCount": 5,
+    "coverageCount": 3,
+    "bytes": 594425
+  },
+  "sourceHashes": {
+    "video": "30714d9d5d7a8e14f13f2195110a4ba4f665d4249211b99ae4fe215003356d1d",
+    "journal": "1fa7ebf2d7a622f92e7734c68c9cde157ada7b302901b6f62cbb1ad3016bdabe"
+  },
+  "elapsedMs": 2986.896291,
+  "selectedCount": 5,
+  "retainedBytes": 594425,
+  "checks": {
+    "retainedFramesValid": true,
+    "retainedCoverageValid": true,
+    "firstLast": true,
+    "coverageContiguous": true,
+    "coverageEndUs": 12000000,
+    "uniqueActualSourceTimes": 5,
+    "uniqueRenderedImages": 5,
+    "expectedPlaybackDurationUs": 12000000,
+    "coverageComplete": true,
+    "transitions": [],
+    "gestures": [
+      {
+        "kind": "circle",
+        "selected": true
+      },
+      {
+        "kind": "wave",
+        "selected": true
+      }
+    ]
+  },
+  "contactSheets": [
+    "contact-01.png"
+  ],
+  "entries": [
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 0,
+        "requestedPlaybackUs": 0,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "reasons": [
+          {
+            "kind": "first",
+            "eventSourceUs": 0
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6"
+        },
+        "sceneIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "b05f36ce-3d65-479c-af9b-05a38bb05ddd",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 0
+      },
+      "frame": {
+        "actualSourceUs": 0,
+        "bytes": 149116,
+        "distanceUs": 0,
+        "file": "/private/tmp/scr-index-static-pointing-3ELkA6/recordings/455b347c-6598-43ee-9ba2-a2a436557c91/evidence/index/c3184ef2ae18f8f56a5a3e788b55167bc84e063f9f9538689779685d5a0b245e/0.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 0,
+          "trailEndUs": 0,
+          "trailPoints": 1,
+          "trailStartUs": 0
+        },
+        "requestedSourceUs": 0,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 0,
+        "actualPlaybackUs": 0,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 0,
+          "requestedSourceUs": 0,
+          "actualSourceUs": 0,
+          "evidenceRange": {
+            "startUs": 0,
+            "endUs": 0
+          },
+          "interval": {
+            "startUs": 0,
+            "endUs": 0
+          },
+          "cutoffs": [
+            {
+              "reason": "kept_start",
+              "atSourceUs": 0
+            }
+          ],
+          "pointerObservation": {
+            "sourceUs": 0,
+            "x": 610,
+            "y": 360,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 2
+          },
+          "trailPoints": 1,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 0,
+            "x": 610,
+            "y": 360
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 0,
+              "endUs": 0
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 0,
+                "actualSourceUs": 0,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [],
+            "boundaries": [],
+            "futureComparison": null,
+            "referenceSourceUs": 0
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 20,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 1,
+      "reference": {
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "revisionId": "r0",
+        "generation": "eb800488-7150-4e5a-96d6-e66c6359b4e8",
+        "ordinal": 0
+      },
+      "bytes": 149116,
+      "sha256": "2a33dbfbe1ab9ace906c3097461bec6941741dc34078495c9009e58c98a6d504",
+      "image": "selected-000.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 1800000,
+        "requestedPlaybackUs": 1800000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "reasons": [
+          {
+            "kind": "cursor-motion",
+            "eventSourceUs": 1800000,
+            "trigger": "idle"
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6"
+        },
+        "sceneIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "b05f36ce-3d65-479c-af9b-05a38bb05ddd",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 1
+      },
+      "frame": {
+        "actualSourceUs": 1750000,
+        "bytes": 120237,
+        "distanceUs": 50000,
+        "file": "/private/tmp/scr-index-static-pointing-3ELkA6/recordings/455b347c-6598-43ee-9ba2-a2a436557c91/evidence/index/c3184ef2ae18f8f56a5a3e788b55167bc84e063f9f9538689779685d5a0b245e/1.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 1800000,
+          "trailEndUs": 1800000,
+          "trailPoints": 73,
+          "trailStartUs": 0
+        },
+        "requestedSourceUs": 1800000,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 1800000,
+        "actualPlaybackUs": 1750000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 1800000,
+          "requestedSourceUs": 1800000,
+          "actualSourceUs": 1750000,
+          "evidenceRange": {
+            "startUs": 0,
+            "endUs": 1800000
+          },
+          "interval": {
+            "startUs": 0,
+            "endUs": 1800000
+          },
+          "cutoffs": [
+            {
+              "reason": "kept_start",
+              "atSourceUs": 0
+            }
+          ],
+          "pointerObservation": {
+            "sourceUs": 1800000,
+            "x": 610,
+            "y": 359.99999999999994,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 74
+          },
+          "trailPoints": 73,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 1800000,
+            "x": 610,
+            "y": 359.99999999999994
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 0,
+              "endUs": 1800000
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 0,
+                "actualSourceUs": 0,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 200000,
+                "actualSourceUs": 250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 400000,
+                "actualSourceUs": 500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 600000,
+                "actualSourceUs": 500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 800000,
+                "actualSourceUs": 750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1000000,
+                "actualSourceUs": 1000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1200000,
+                "actualSourceUs": 1250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1400000,
+                "actualSourceUs": 1500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1600000,
+                "actualSourceUs": 1500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 1800000,
+                "actualSourceUs": 1750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 0,
+                "actualSourceUs": 250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.00009752859477124183,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 250000,
+                "actualSourceUs": 500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.00009395424836601307,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 500000,
+                "actualSourceUs": 750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.0000403390522875817,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 750000,
+                "actualSourceUs": 1000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.00004391339869281046,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1000000,
+                "actualSourceUs": 1250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000009191176470588234,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1250000,
+                "actualSourceUs": 1500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0.000007148692810457516,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 1500000,
+                "actualSourceUs": 1750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              }
+            ],
+            "boundaries": [],
+            "futureComparison": null,
+            "referenceSourceUs": 1750000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 20,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 0,
+      "reference": {
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "revisionId": "r0",
+        "generation": "eb800488-7150-4e5a-96d6-e66c6359b4e8",
+        "ordinal": 1
+      },
+      "bytes": 120237,
+      "sha256": "ed1483e55266ca0660e60340f6a4e7a38685e5a188083e58434bde9ac792faf1",
+      "image": "selected-001.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 4500000,
+        "requestedPlaybackUs": 4500000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "reasons": [
+          {
+            "kind": "cursor-motion",
+            "eventSourceUs": 4500000,
+            "trigger": "idle"
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6"
+        },
+        "sceneIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "b05f36ce-3d65-479c-af9b-05a38bb05ddd",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 2
+      },
+      "frame": {
+        "actualSourceUs": 4500000,
+        "bytes": 116243,
+        "distanceUs": 0,
+        "file": "/private/tmp/scr-index-static-pointing-3ELkA6/recordings/455b347c-6598-43ee-9ba2-a2a436557c91/evidence/index/c3184ef2ae18f8f56a5a3e788b55167bc84e063f9f9538689779685d5a0b245e/2.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 4500000,
+          "trailEndUs": 4500000,
+          "trailPoints": 81,
+          "trailStartUs": 2500000
+        },
+        "requestedSourceUs": 4500000,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 4500000,
+        "actualPlaybackUs": 4500000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 4500000,
+          "requestedSourceUs": 4500000,
+          "actualSourceUs": 4500000,
+          "evidenceRange": {
+            "startUs": 2500000,
+            "endUs": 4500000
+          },
+          "interval": {
+            "startUs": 2500000,
+            "endUs": 4500000
+          },
+          "cutoffs": [],
+          "pointerObservation": {
+            "sourceUs": 4500000,
+            "x": 1050,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 182
+          },
+          "trailPoints": 81,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 4500000,
+            "x": 1050,
+            "y": 472
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 2500000,
+              "endUs": 4500000
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 2400000,
+                "actualSourceUs": 2500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2600000,
+                "actualSourceUs": 2500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 2800000,
+                "actualSourceUs": 2750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3000000,
+                "actualSourceUs": 3000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3200000,
+                "actualSourceUs": 3250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3400000,
+                "actualSourceUs": 3500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3600000,
+                "actualSourceUs": 3500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 3800000,
+                "actualSourceUs": 3750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4000000,
+                "actualSourceUs": 4000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4200000,
+                "actualSourceUs": 4250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4400000,
+                "actualSourceUs": 4500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 4500000,
+                "actualSourceUs": 4500000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 2500000,
+                "actualSourceUs": 2750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 2750000,
+                "actualSourceUs": 3000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 3000000,
+                "actualSourceUs": 3250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 3250000,
+                "actualSourceUs": 3500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 3500000,
+                "actualSourceUs": 3750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 3750000,
+                "actualSourceUs": 4000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4000000,
+                "actualSourceUs": 4250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 4250000,
+                "actualSourceUs": 4500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              }
+            ],
+            "boundaries": [],
+            "futureComparison": null,
+            "referenceSourceUs": 4500000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 20,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 1,
+      "reference": {
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "revisionId": "r0",
+        "generation": "eb800488-7150-4e5a-96d6-e66c6359b4e8",
+        "ordinal": 2
+      },
+      "bytes": 116243,
+      "sha256": "66546139a0dfbae92d376f8aa06d29fe87081581cfe6c0183a5a5fbf1f9d6bde",
+      "image": "selected-002.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 10000000,
+        "requestedPlaybackUs": 10000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "reasons": [
+          {
+            "kind": "coverage",
+            "eventSourceUs": 10000000
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6"
+        },
+        "sceneIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "b05f36ce-3d65-479c-af9b-05a38bb05ddd",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 3
+      },
+      "frame": {
+        "actualSourceUs": 10000000,
+        "bytes": 104422,
+        "distanceUs": 0,
+        "file": "/private/tmp/scr-index-static-pointing-3ELkA6/recordings/455b347c-6598-43ee-9ba2-a2a436557c91/evidence/index/c3184ef2ae18f8f56a5a3e788b55167bc84e063f9f9538689779685d5a0b245e/3.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 10000000,
+          "trailEndUs": 10000000,
+          "trailPoints": 81,
+          "trailStartUs": 8000000
+        },
+        "requestedSourceUs": 10000000,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 10000000,
+        "actualPlaybackUs": 10000000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 10000000,
+          "requestedSourceUs": 10000000,
+          "actualSourceUs": 10000000,
+          "evidenceRange": {
+            "startUs": 8000000,
+            "endUs": 10000000
+          },
+          "interval": {
+            "startUs": 8000000,
+            "endUs": 10000000
+          },
+          "cutoffs": [],
+          "pointerObservation": {
+            "sourceUs": 10000000,
+            "x": 1050,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 402
+          },
+          "trailPoints": 81,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 10000000,
+            "x": 1050,
+            "y": 472
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 8000000,
+              "endUs": 10000000
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 7800000,
+                "actualSourceUs": 7750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8000000,
+                "actualSourceUs": 8000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8200000,
+                "actualSourceUs": 8250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8400000,
+                "actualSourceUs": 8500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8600000,
+                "actualSourceUs": 8500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 8800000,
+                "actualSourceUs": 8750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9000000,
+                "actualSourceUs": 9000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9200000,
+                "actualSourceUs": 9250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9400000,
+                "actualSourceUs": 9500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9600000,
+                "actualSourceUs": 9500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 9800000,
+                "actualSourceUs": 9750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 10000000,
+                "actualSourceUs": 10000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 7750000,
+                "actualSourceUs": 8000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 8000000,
+                "actualSourceUs": 8250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 8250000,
+                "actualSourceUs": 8500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 8500000,
+                "actualSourceUs": 8750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 8750000,
+                "actualSourceUs": 9000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 9000000,
+                "actualSourceUs": 9250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 9250000,
+                "actualSourceUs": 9500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 9500000,
+                "actualSourceUs": 9750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 9750000,
+                "actualSourceUs": 10000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              }
+            ],
+            "boundaries": [],
+            "futureComparison": null,
+            "referenceSourceUs": 10000000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 20,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 1,
+      "reference": {
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "revisionId": "r0",
+        "generation": "eb800488-7150-4e5a-96d6-e66c6359b4e8",
+        "ordinal": 3
+      },
+      "bytes": 104422,
+      "sha256": "c3ffc654e489a890ef48176254b8e299a34aa97ce84c4be028127336aa8127e4",
+      "image": "selected-003.png"
+    },
+    {
+      "candidate": {
+        "kind": "candidate",
+        "requestedSourceUs": 11999999,
+        "requestedPlaybackUs": 11999999,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "reasons": [
+          {
+            "kind": "last",
+            "eventSourceUs": 12000000
+          }
+        ],
+        "sourceIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6"
+        },
+        "sceneIdentity": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "b05f36ce-3d65-479c-af9b-05a38bb05ddd",
+          "policy": "rgb-spatial-change-v1"
+        },
+        "ordinal": 4
+      },
+      "frame": {
+        "actualSourceUs": 11750000,
+        "bytes": 104407,
+        "distanceUs": 249999,
+        "file": "/private/tmp/scr-index-static-pointing-3ELkA6/recordings/455b347c-6598-43ee-9ba2-a2a436557c91/evidence/index/c3184ef2ae18f8f56a5a3e788b55167bc84e063f9f9538689779685d5a0b245e/4.png",
+        "height": 800,
+        "mediaType": "image/png",
+        "overlay": {
+          "pointerSourceUs": 11975000,
+          "trailEndUs": 11975000,
+          "trailPoints": 80,
+          "trailStartUs": 10000000
+        },
+        "requestedSourceUs": 11999999,
+        "sourceHeight": 800,
+        "sourceWidth": 1280,
+        "width": 1280,
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 11999999,
+        "actualPlaybackUs": 11750000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 12000000
+        },
+        "clean": false,
+        "annotation": {
+          "policy": "requested-time-trail-v1",
+          "trailUs": 2000000,
+          "agedFromUs": 11999999,
+          "requestedSourceUs": 11999999,
+          "actualSourceUs": 11750000,
+          "evidenceRange": {
+            "startUs": 9999999,
+            "endUs": 11999999
+          },
+          "interval": {
+            "startUs": 10000000,
+            "endUs": 11975000
+          },
+          "cutoffs": [],
+          "pointerObservation": {
+            "sourceUs": 11975000,
+            "x": 1050,
+            "y": 472,
+            "eligibility": "inside",
+            "geometryEpoch": 1,
+            "sequence": 481
+          },
+          "trailPoints": 80,
+          "trailRuns": 1,
+          "pointer": {
+            "atSourceUs": 11975000,
+            "x": 1050,
+            "y": 472
+          },
+          "geometry": {
+            "requestedEpoch": 1,
+            "selectedEpoch": 1
+          },
+          "scene": {
+            "policy": "rgb-spatial-change-v1",
+            "range": {
+              "startUs": 9999999,
+              "endUs": 11999999
+            },
+            "coverage": [
+              {
+                "requestedSourceUs": 9800000,
+                "actualSourceUs": 9750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 10000000,
+                "actualSourceUs": 10000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 10200000,
+                "actualSourceUs": 10250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 10400000,
+                "actualSourceUs": 10500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 10600000,
+                "actualSourceUs": 10500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 10800000,
+                "actualSourceUs": 10750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 11000000,
+                "actualSourceUs": 11000000,
+                "distanceUs": 0,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 11200000,
+                "actualSourceUs": 11250000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 11400000,
+                "actualSourceUs": 11500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 11600000,
+                "actualSourceUs": 11500000,
+                "distanceUs": 100000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 11800000,
+                "actualSourceUs": 11750000,
+                "distanceUs": 50000,
+                "width": 64,
+                "height": 40
+              },
+              {
+                "requestedSourceUs": 11999999,
+                "actualSourceUs": 11750000,
+                "distanceUs": 249999,
+                "width": 64,
+                "height": 40
+              }
+            ],
+            "comparisons": [
+              {
+                "previousActualSourceUs": 9750000,
+                "actualSourceUs": 10000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 10000000,
+                "actualSourceUs": 10250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 10250000,
+                "actualSourceUs": 10500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 10500000,
+                "actualSourceUs": 10750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 10750000,
+                "actualSourceUs": 11000000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 11000000,
+                "actualSourceUs": 11250000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 11250000,
+                "actualSourceUs": 11500000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 0,
+                "boundary": false
+              },
+              {
+                "previousActualSourceUs": 11500000,
+                "actualSourceUs": 11750000,
+                "changedPixelFraction": 0,
+                "changedCellFraction": 0,
+                "meanAbsoluteChannelDifference": 5.106209150326798e-7,
+                "boundary": false
+              }
+            ],
+            "boundaries": [],
+            "futureComparison": null,
+            "referenceSourceUs": 11750000
+          },
+          "stalePointerScene": null,
+          "stalePointerComparison": null
+        },
+        "sourceEvidence": {
+          "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+          "sourceId": "001b2074-5695-409d-8eb3-b472d2812600",
+          "generation": "53f63770-4600-4911-a44e-35c0ab6cc5a6",
+          "integrity": {
+            "finished": true,
+            "incompleteTail": false,
+            "invalidAtSequence": null,
+            "lastSequence": 20,
+            "openPauseHostUs": null
+          }
+        }
+      },
+      "coverageCount": 0,
+      "reference": {
+        "recordingId": "455b347c-6598-43ee-9ba2-a2a436557c91",
+        "revisionId": "r0",
+        "generation": "eb800488-7150-4e5a-96d6-e66c6359b4e8",
+        "ordinal": 4
+      },
+      "bytes": 104407,
+      "sha256": "8fe7cc3902183d51547c3e3234bf9f515c0c4c46a5f13dbc7be096d4ac42315a",
+      "image": "selected-004.png"
+    }
+  ],
+  "coverage": [
+    {
+      "sequence": 0,
+      "kind": "coverage",
+      "ordinal": 0,
+      "source": {
+        "startUs": 0,
+        "endUs": 5000000
+      },
+      "playback": {
+        "startUs": 0,
+        "endUs": 5000000
+      },
+      "equality": "unproven"
+    },
+    {
+      "sequence": 1,
+      "kind": "coverage",
+      "ordinal": 2,
+      "source": {
+        "startUs": 5000000,
+        "endUs": 10000000
+      },
+      "playback": {
+        "startUs": 5000000,
+        "endUs": 10000000
+      },
+      "equality": "unproven"
+    },
+    {
+      "sequence": 2,
+      "kind": "coverage",
+      "ordinal": 3,
+      "source": {
+        "startUs": 10000000,
+        "endUs": 12000000
+      },
+      "playback": {
+        "startUs": 10000000,
+        "endUs": 12000000
+      },
+      "equality": "unproven"
+    }
+  ],
+  "crops": [
+    {
+      "kind": "circle",
+      "image": "focus-circle.png",
+      "region": {
+        "x": 320,
+        "y": 220,
+        "width": 400,
+        "height": 320
+      },
+      "ordinal": 1
+    },
+    {
+      "kind": "wave",
+      "image": "focus-wave.png",
+      "region": {
+        "x": 580,
+        "y": 320,
+        "width": 550,
+        "height": 230
+      },
+      "ordinal": 2
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "synthetic": true,
+  "hardware": {
+    "cpu": "Apple M5 Pro",
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64"
+  },
+  "bundledServiceSha256": "06f0c9d3d273a001dd51feeb4b604f0dfc9b7b9405e6dffddaa79229cad46b13",
+  "node": "v24.14.0",
+  "revision": "48977d5ec8c289231acc2735e989519e03f2da87",
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "width": 1280,
+  "height": 800,
+  "encodedFrameStepUs": 250000,
+  "cursorStepUs": 25000,
+  "fixtures": [
+    {
+      "name": "static-pointing",
+      "durationUs": 12000000,
+      "truth": [
+        {
+          "kind": "circle",
+          "range": [
+            500000,
+            1800000
+          ],
+          "target": "FREE PLAN",
+          "description": "One full circle on an unchanged screen"
+        },
+        {
+          "kind": "wave",
+          "range": [
+            3000000,
+            4500000
+          ],
+          "target": "UPGRADE",
+          "description": "Two horizontal waves on an unchanged screen"
+        },
+        {
+          "kind": "still",
+          "range": [
+            4500000,
+            12000000
+          ],
+          "description": "Observed stationary pointer after the wave"
+        }
+      ],
+      "cut": []
+    },
+    {
+      "name": "stillness",
+      "durationUs": 16000000,
+      "truth": [
+        {
+          "kind": "still",
+          "range": [
+            0,
+            16000000
+          ],
+          "description": "Identical clean page and known outside pointer throughout"
+        }
+      ],
+      "cut": []
+    },
+    {
+      "name": "navigation",
+      "durationUs": 10000000,
+      "truth": [
+        {
+          "kind": "scene",
+          "atSourceUs": 3000000,
+          "description": "Screen A changes to Screen B"
+        },
+        {
+          "kind": "scene",
+          "atSourceUs": 6000000,
+          "description": "Screen B changes back to Screen A"
+        }
+      ],
+      "cut": []
+    },
+    {
+      "name": "rapid-clicks",
+      "durationUs": 6000000,
+      "truth": [
+        {
+          "kind": "button-down",
+          "atSourceUs": 1000000,
+          "description": "Press on UPGRADE; releases 75 ms later"
+        },
+        {
+          "kind": "button-down",
+          "atSourceUs": 1200000,
+          "description": "Press on UPGRADE; releases 75 ms later"
+        },
+        {
+          "kind": "button-down",
+          "atSourceUs": 1400000,
+          "description": "Press on UPGRADE; releases 75 ms later"
+        }
+      ],
+      "cut": []
+    },
+    {
+      "name": "edited-join",
+      "durationUs": 12000000,
+      "truth": [
+        {
+          "kind": "cut",
+          "removed": [
+            3000000,
+            7000000
+          ],
+          "description": "Join source 3 seconds directly to source 7 seconds"
+        },
+        {
+          "kind": "wave",
+          "range": [
+            7300000,
+            8500000
+          ],
+          "target": "UPGRADE",
+          "description": "Retained pointing after the edited join"
+        }
+      ],
+      "cut": [
+        {
+          "startUs": 3000000,
+          "endUs": 7000000
+        }
+      ],
+      "retained": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 3000000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 3000000
+          }
+        },
+        {
+          "source": {
+            "startUs": 7000000,
+            "endUs": 12000000
+          },
+          "playback": {
+            "startUs": 3000000,
+            "endUs": 8000000
+          }
+        }
+      ]
+    },
+    {
+      "name": "rapid-scene-stress",
+      "durationUs": 4000000,
+      "truth": [
+        {
+          "kind": "rapid-scene-stress",
+          "range": [
+            0,
+            4000000
+          ],
+          "intervalUs": 250000,
+          "description": "Every encoded frame alternates the full page; deliberately exposes mandatory boundary density"
+        }
+      ],
+      "cut": []
+    },
+    {
+      "name": "continuous-motion",
+      "durationUs": 10000000,
+      "truth": [
+        {
+          "kind": "continuous-motion",
+          "range": [
+            0,
+            10000000
+          ],
+          "region": {
+            "x": 270,
+            "y": 650,
+            "width": 920,
+            "height": 90
+          },
+          "description": "A coral marker follows a smooth five-second horizontal sine path inside the lower panel; the rest of Screen A remains unchanged"
+        }
+      ],
+      "cut": []
+    }
+  ]
+}
