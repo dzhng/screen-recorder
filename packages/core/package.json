@@ -79,11 +79,18 @@
     "./storage": {
       "types": "./dist/storage.d.ts",
       "default": "./dist/storage.js"
+    },
+    "./package-manifest": {
+      "types": "./dist/package-manifest.d.ts",
+      "default": "./dist/package-manifest.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check-types": "tsc -p tsconfig.check.json",
     "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
   }
 }

@@ -1,0 +1,265 @@
+{
+  "scope": "Generated metadata/readiness only; no ZIP, payload/hash validation, accepted speech or public export",
+  "pinned": {
+    "recordingId": "id-1",
+    "sourceId": "id-2",
+    "revisionId": "r0",
+    "sourceDurationUs": 100,
+    "historyThroughOrdinal": 1,
+    "capture": {
+      "state": "interrupted",
+      "createdAt": "fixture",
+      "interruptionReason": "fixture"
+    }
+  },
+  "history": [
+    "r0",
+    "id-3"
+  ],
+  "structuralManifest": {
+    "schemaVersion": 1,
+    "snapshot": {
+      "recordingId": "take",
+      "sourceId": "source",
+      "revisionId": "r0",
+      "sourceDurationUs": 100,
+      "historyThroughOrdinal": 1,
+      "capture": {
+        "state": "complete",
+        "createdAt": "fixture",
+        "interruptionReason": null
+      }
+    },
+    "acquisition": {
+      "recordingId": "take",
+      "sourceId": "source",
+      "sourceGeneration": "source-1",
+      "narration": "not_requested",
+      "system": "not_acquired"
+    },
+    "inventory": [
+      {
+        "path": "source/video.mov",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "video",
+        "durationUs": 100
+      },
+      {
+        "path": "source/capture.journal.jsonl",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "journal"
+      },
+      {
+        "path": "revisions/r0.json",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "revision"
+      },
+      {
+        "path": "revisions/r1.json",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "revision"
+      },
+      {
+        "path": "evidence/source.jsonl",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "source"
+      },
+      {
+        "path": "evidence/scenes.jsonl",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "scenes"
+      },
+      {
+        "path": "evidence/index.jsonl",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "index"
+      },
+      {
+        "path": "evidence/coverage.jsonl",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "coverage"
+      },
+      {
+        "path": "evidence/image.png",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "image"
+      },
+      {
+        "path": "evidence/events.jsonl",
+        "bytes": 1,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "role": "events"
+      }
+    ],
+    "history": [
+      {
+        "id": "r0",
+        "path": "revisions/r0.json"
+      },
+      {
+        "id": "r1",
+        "path": "revisions/r1.json"
+      }
+    ],
+    "evidence": [
+      {
+        "artifact": {
+          "reference": {
+            "kind": "source",
+            "recordingId": "take",
+            "sourceId": "source",
+            "revisionId": "r0"
+          },
+          "generation": "source-1",
+          "policy": "fixture-policy",
+          "options": {},
+          "timeDomain": "source"
+        },
+        "files": [
+          "evidence/source.jsonl"
+        ]
+      },
+      {
+        "artifact": {
+          "reference": {
+            "kind": "scenes",
+            "recordingId": "take",
+            "sourceId": "source",
+            "revisionId": "r0"
+          },
+          "generation": 1,
+          "policy": "fixture-policy",
+          "options": {},
+          "timeDomain": "source"
+        },
+        "files": [
+          "evidence/scenes.jsonl"
+        ]
+      },
+      {
+        "artifact": {
+          "reference": {
+            "kind": "index",
+            "recordingId": "take",
+            "sourceId": "source",
+            "revisionId": "r0"
+          },
+          "generation": 1,
+          "policy": "fixture-policy",
+          "options": {},
+          "timeDomain": "playback"
+        },
+        "files": [
+          "evidence/index.jsonl",
+          "evidence/coverage.jsonl",
+          "evidence/image.png"
+        ]
+      },
+      {
+        "artifact": {
+          "reference": {
+            "kind": "events",
+            "recordingId": "take",
+            "sourceId": "source",
+            "revisionId": "r0"
+          },
+          "generation": 1,
+          "policy": "fixture-policy",
+          "options": {},
+          "timeDomain": "playback"
+        },
+        "files": [
+          "evidence/events.jsonl"
+        ]
+      }
+    ],
+    "transcript": "unavailable:no_narration"
+  },
+  "noNarration": {
+    "state": "ready",
+    "artifacts": [
+      {
+        "reference": {
+          "kind": "source",
+          "recordingId": "take",
+          "sourceId": "source",
+          "revisionId": "r0"
+        },
+        "generation": "source-1",
+        "policy": "fixture-policy",
+        "options": {},
+        "timeDomain": "source"
+      },
+      {
+        "reference": {
+          "kind": "scenes",
+          "recordingId": "take",
+          "sourceId": "source",
+          "revisionId": "r0"
+        },
+        "generation": 1,
+        "policy": "fixture-policy",
+        "options": {},
+        "timeDomain": "source"
+      },
+      {
+        "reference": {
+          "kind": "index",
+          "recordingId": "take",
+          "sourceId": "source",
+          "revisionId": "r0"
+        },
+        "generation": 1,
+        "policy": "fixture-policy",
+        "options": {},
+        "timeDomain": "playback"
+      },
+      {
+        "reference": {
+          "kind": "events",
+          "recordingId": "take",
+          "sourceId": "source",
+          "revisionId": "r0"
+        },
+        "generation": 1,
+        "policy": "fixture-policy",
+        "options": {},
+        "timeDomain": "playback"
+      }
+    ],
+    "transcript": "unavailable:no_narration"
+  },
+  "pendingNarration": {
+    "state": "waiting",
+    "dependencies": [
+      {
+        "reference": {
+          "kind": "source-transcript",
+          "recordingId": "take",
+          "sourceId": "source",
+          "revisionId": "r0"
+        },
+        "jobId": null
+      },
+      {
+        "reference": {
+          "kind": "edited-transcript",
+          "recordingId": "take",
+          "sourceId": "source",
+          "revisionId": "r0"
+        },
+        "jobId": null
+      }
+    ]
+  },
+  "narratedCompleteManifestSupported": false
+}

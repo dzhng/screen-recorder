@@ -68,6 +68,9 @@
     "packages/core": {
       "name": "@screenrec/core",
       "version": "0.0.0",
+      "dependencies": {
+        "zod": "4.6.5",
+      },
     },
     "packages/protocol": {
       "name": "@screenrec/protocol",

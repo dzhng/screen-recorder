@@ -1,3 +1,4 @@
+import { z } from "zod";
 export type TimeRange = Readonly<{ startUs: number; endUs: number }>;
 export type TimelineRevision = Readonly<{
   id: string;
@@ -264,4 +265,33 @@ export function trailBounds(
     playback: { startUs, endUs: atUs },
     cutoffReason,
   };
+}
+
+/** Portable revision history uses the same constructors and normalization as live edits. */
+export function parseRevisionHistory(value: unknown, maximum: number): readonly TimelineRevision[] {
+  if (!Number.isSafeInteger(maximum) || maximum < 1) throw new RangeError("Invalid history limit");
+  const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+  const text = z.string().min(1);
+  const schema = z.strictObject({
+    id: text,
+    parentId: text.nullable(),
+    ordinal: time,
+    operation: text,
+    createdAt: text,
+    sourceDurationUs: time,
+    durationUs: time,
+    spans: z.array(z.strictObject({ startUs: time, endUs: time })).min(1),
+  });
+  const rows = z.array(schema).min(1).max(maximum).parse(value);
+  const ids = new Set<string>();
+  for (const [index, row] of rows.entries()) {
+    const expected =
+      index === 0
+        ? createOriginalRevision(row.sourceDurationUs, row.createdAt)
+        : createRevision(rows[index - 1]!, row.spans, row);
+    if (ids.has(row.id) || JSON.stringify(row) !== JSON.stringify(expected))
+      throw new TimelineError("Revision history is not a canonical ordered edit history");
+    ids.add(row.id);
+  }
+  return rows;
 }

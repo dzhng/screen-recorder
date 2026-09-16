@@ -1,7 +1,10 @@
 # 14a — Pinned package manifest and truthful readiness
 
-Status: specified, not implemented; next dependency-ready pass in [14](14-exports-and-package-reader.md).
-No speech runtime, renderer, ZIP library, public route or native capture is required.
+Status: internal snapshot/readiness and structural metadata validation implemented.
+[Evidence and scope](../assets/package-manifest/README.md). No public export, ZIP,
+actual inventory hash verification or evidence-payload acceptance is claimed.
+Narrated manifests are rejected until 08 supplies its accepted payload owner.
+Next: [14b](14b-portable-inspection.md), retaining the later gates in [14](14-exports-and-package-reader.md).
 
 ## One question and seam
 
@@ -19,7 +22,7 @@ capture beside their current owner. Proposed seam names are delegated:
 - `planPackage(snapshot, prerequisites)`: returns `waiting` with dependency identities,
   `blocked` with required-artifact errors, or a publishable plan with exact ready
   generations and explicit allowed absences. It does not hold a worker slot.
-- `validateManifest(value, limits)`: validates the complete portable manifest and
+- `validateManifest(json, revisionContents, limits)`: validates the complete portable manifest and
   references against supplied inventories. No pending candidate is mislabeled as a
   complete manifest; an incomplete diagnostic report is never an export product.
 
@@ -73,7 +76,8 @@ runtimes, credentials and a library SQLite copy are forbidden members.
 | Narration acquired, recognizer returned zero words successfully | Ready transcript with normal provenance, not no-narration |
 | Every required artifact ready, with permitted narration absence if applicable | Publishable plan with pinned generations |
 
-No-narration comes from capture/acquisition evidence, not from missing model assets,
+Unknown acquisition first waits on source evidence; known failures of other required
+artifacts remain visible. No-narration comes from capture/acquisition evidence, not from missing model assets,
 failed recognition, silence guessed by exporter, or an empty transcript array.
 All selected evidence and references must stay tied to the chosen source and edit.
 Optional absent audio roles remain explicit rather than becoming fabricated tracks.

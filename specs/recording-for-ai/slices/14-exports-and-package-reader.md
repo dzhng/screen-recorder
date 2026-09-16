@@ -1,7 +1,7 @@
 # 14 — Two exports and relocated AI inspection
 
-Status: resliced; implementation not started. Only 14a is immediately ready for
-implementation. 14b can follow without speech or movie rendering; later passes
+Status: 14a internal metadata/readiness foundation implemented; 14b is the next
+inspection checkpoint without speech or movie rendering. Later passes
 retain their explicit dependency gates. This plan does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)

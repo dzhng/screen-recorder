@@ -1192,3 +1192,36 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   after completion. **Verdict:** sound, high confidence from fractional,
   one-microsecond and trailing-gap independent decoding; job cancellation and
   abandoned staging reclamation remain explicit follow-on gates.
+
+
+## Portable snapshot and inspection ownership — 14a, 2026-09-17
+
+- **History belongs to admission time, independently of the chosen edit.** A user
+  can export r0 after making r1 and r2. The snapshot includes the history already
+  known at that moment, while still identifying r0 as the exported view; an r3
+  created afterward does not appear midway through history paging. The original
+  export contract did not choose this boundary for historical exports. The 14
+  reslice chose it, and one catalog transaction now pins both values. This enables
+  stable audit history without silently changing the chosen media edit.
+  **Verdict:** sound; **confidence:** high. No alternate timeline or history store.
+- **Package lifetime differs from its embedded recording ID.** Opening a moved
+  package must remain usable if the original library recording is deleted, even
+  though both carry the same UUID. The reslice therefore assigns future package
+  workers, caches and delivery handles to a package context rather than the live
+  recording's lifetime. Current 14a preserves provenance only; the actual isolated
+  handle lifetime remains 14c work. The contract promised relocation but did not
+  previously name this collision. **Verdict:** sound; **confidence:** high. Future
+  integration must extend existing resource owners, never invent library rows.
+- **Reported readiness cannot certify unimplemented transcript payloads.** A test
+  can report that a speech job is ready so dependency planning can be exercised.
+  That report cannot validate transcript contents or turn synthetic fixtures into
+  accepted speech. The structural validator therefore rejects all narrated complete
+  manifests until the accepted 08 validator exists; non-narration metadata remains
+  inspectable internally. This makes the missing production owner explicit instead
+  of providing a permissive callback. **Verdict:** sound; **confidence:** high.
+
+Implementation discretion: the existing pinned Zod version is now an explicit core
+dependency for strict schemas; timeline constructors remain the semantic owner.
+Canonical source filenames, ASCII inventory names, explicit caller-provided byte/
+entry/history/path limits and separate bounded revision JSON are internal format
+choices delegated by 14a. They do not alter destination names or add a public format.
