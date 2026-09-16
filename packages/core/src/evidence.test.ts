@@ -1,5 +1,5 @@
 import { test, expect, afterEach } from "vitest";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
@@ -252,6 +252,12 @@ test("large streamed evidence pages seek through SQLite without reading the file
   });
   expect(await hash()).toBe(before);
   rmSync(f.file);
+  expect(f.evidence.latestCursor(f.identity, 24999)).toMatchObject({
+    sourceUs: 24999,
+    sequence: 50000,
+    eligibility: "unknownGeometry",
+    geometryEpoch: 0,
+  });
   const range = { startUs: 24900, endUs: 25000 };
   let afterSequence: number | undefined;
   const sequences: number[] = [];
@@ -422,4 +428,184 @@ test("unsupported cursor-only catalogs are refused without discarding their data
   expect(f.store.catalog.prepare("SELECT value FROM cursor_evidence_generations").get()).toEqual({
     value: "retained",
   });
+});
+
+async function ingestRecords(
+  f: ReturnType<typeof fixture>,
+  records: { event: string; data: Record<string, unknown> }[],
+) {
+  const body = records.map((row) => JSON.stringify(row) + "\n").join("");
+  writeFileSync(f.file, body);
+  const cursors = records.filter((row) => row.event === "cursorSample");
+  await f.evidence.ingest({
+    ...f.identity,
+    file: f.file,
+    receipt: {
+      ...f.receipt,
+      cursorSamples: cursors.length,
+      geometryRecords: records.filter((row) => row.event === "geometry").length,
+      pauseEvents: records.filter((row) => row.event === "pause").length,
+      firstCursorSourceUs: (cursors[0]?.data.sourceUs as number) ?? null,
+      lastCursorSourceUs: (cursors.at(-1)?.data.sourceUs as number) ?? null,
+      bytes: Buffer.byteLength(body),
+    },
+  });
+}
+
+test("cursor predecessor retains ineligible observations and exposes stable delivery order", async () => {
+  const f = fixture([]);
+  const nativeFixture = new URL(
+    "../../../specs/recording-for-ai/assets/trail-evidence/normalized.jsonl",
+    import.meta.url,
+  );
+  const original = readFileSync(nativeFixture, "utf8");
+  const records = original
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line));
+  await ingestRecords(f, records);
+  expect(f.evidence.latestCursor(f.identity, 98)).toBeNull();
+  expect(f.evidence.latestCursor(f.identity, 99)).toEqual({ ...records[3]!.data, sequence: 4 });
+  expect(f.evidence.latestCursor(f.identity, 100)).toEqual({ ...records[5]!.data, sequence: 6 });
+  expect(f.evidence.pauseBoundaries(f.identity, { startUs: 100, endUs: 100 })).toEqual([
+    { ...records[2]!.data, sequence: 3 },
+  ]);
+  expect(f.evidence.pauses(f.identity, { startUs: 100, endUs: 100 })).toEqual([records[2]!.data]);
+  expect(readFileSync(nativeFixture, "utf8")).toBe(original);
+  expect(() => f.evidence.latestCursor({ ...f.identity, generation: "missing" }, 100)).toThrow(
+    "not indexed",
+  );
+  expect(() => f.evidence.latestCursor(f.identity, -1)).toThrow("range");
+});
+
+function geometry(epoch: number, sourceUs: number | null, hostUs = epoch * 100) {
+  return {
+    event: "geometry",
+    data: {
+      epoch,
+      sourceUs,
+      hostUs,
+      geometry: {
+        outputWidth: 100,
+        outputHeight: 80,
+        contentScale: 1,
+        scaleFactor: 2,
+        contentRect: { x: epoch, y: 0, width: 100, height: 80 },
+      },
+    },
+  };
+}
+
+test("geometry reads preserve nullable placements, epoch identity and same-time ordering", async () => {
+  const f = fixture([]);
+  const records = [
+    geometry(1, null),
+    geometry(1, 0),
+    geometry(2, 10),
+    geometry(3, 10),
+    geometry(4, null),
+    geometry(4, 30),
+  ];
+  await ingestRecords(f, records);
+  const row = (index: number) => ({ ...records[index]!.data, sequence: index + 1 });
+  expect(f.evidence.timedGeometryAt(f.identity, 5)).toEqual(row(1));
+  expect(f.evidence.timedGeometryAt(f.identity, 10)).toEqual(row(3));
+  expect(f.evidence.timedGeometryAt(f.identity, 29)).toEqual(row(3));
+  expect(f.evidence.geometryChanges(f.identity, { startUs: 10, endUs: 10 })).toEqual([
+    row(2),
+    row(3),
+  ]);
+  expect(f.evidence.geometryChanges(f.identity, { startUs: 11, endUs: 29 })).toEqual([]);
+  expect(f.evidence.geometryByEpoch(f.identity, 4)).toEqual(row(5));
+  expect(f.evidence.geometryByEpoch(f.identity, 99)).toBeNull();
+  expect(f.evidence.unplacedGeometry(f.identity, { afterSequence: 0 })).toEqual([row(0), row(4)]);
+  expect(f.evidence.unplacedGeometry(f.identity, { afterSequence: 2, beforeSequence: 6 })).toEqual([
+    row(4),
+  ]);
+  expect(f.evidence.unplacedGeometry(f.identity, { afterSequence: 5 })).toEqual([]);
+  const unknown = fixture([]);
+  await ingestRecords(unknown, [geometry(1, null)]);
+  expect(unknown.evidence.timedGeometryAt(unknown.identity, 10000)).toBeNull();
+  expect(unknown.evidence.geometryByEpoch(unknown.identity, 1)).toEqual({
+    ...geometry(1, null).data,
+    sequence: 1,
+  });
+});
+
+test("bounded geometry and pause reads reject excess rather than truncating resets", async () => {
+  for (const kind of ["timed", "unplaced", "pause"] as const) {
+    const f = fixture([]);
+    const records = Array.from({ length: 1001 }, (_, i) =>
+      kind === "pause"
+        ? { event: "pause", data: { atSourceUs: i, elapsedPauseUs: 1 } }
+        : geometry(i + 1, kind === "timed" ? i : null),
+    );
+    await ingestRecords(f, records);
+    const read = () =>
+      kind === "pause"
+        ? f.evidence.pauseBoundaries(f.identity, { startUs: 0, endUs: 1000 })
+        : kind === "timed"
+          ? f.evidence.geometryChanges(f.identity, { startUs: 0, endUs: 1000 })
+          : f.evidence.unplacedGeometry(f.identity, { afterSequence: 0 });
+    expect(read).toThrow(expect.objectContaining({ code: "LIMIT_EXCEEDED" }));
+    const bounded =
+      kind === "pause"
+        ? f.evidence.pauseBoundaries(f.identity, { startUs: 1000, endUs: 1000 })
+        : kind === "timed"
+          ? f.evidence.geometryChanges(f.identity, { startUs: 1000, endUs: 1000 })
+          : f.evidence.unplacedGeometry(f.identity, { afterSequence: 1000 });
+    expect(bounded).toEqual([{ ...records[1000]!.data, sequence: 1001 }]);
+  }
+});
+
+test("geometry point and range reads seek through their indexes without full sorting", async () => {
+  const f = fixture([]);
+  await ingestRecords(f, [geometry(1, null), geometry(1, 0), geometry(2, 100)]);
+  for (const [filter, order, args, index] of [
+    [
+      "event='cursorSample' AND sourceUs<=?",
+      "sourceUs DESC,sequence DESC",
+      [100],
+      "source_evidence_time",
+    ],
+    [
+      "event='geometry' AND sourceUs<=?",
+      "sourceUs DESC,sequence DESC",
+      [100],
+      "source_evidence_geometry",
+    ],
+    [
+      "event='geometry' AND sourceUs>=? AND sourceUs<=?",
+      "sourceUs,sequence",
+      [0, 100],
+      "source_evidence_geometry",
+    ],
+    [
+      "event='geometry' AND json_extract(content,'$.epoch')=?",
+      "sequence DESC",
+      [1],
+      "source_evidence_geometry_epoch",
+    ],
+    [
+      "event='geometry' AND sourceUs IS NULL AND sequence>? AND sequence<?",
+      "sequence",
+      [0, 10],
+      "source_evidence_geometry",
+    ],
+    [
+      "event='pause' AND sourceUs>=? AND sourceUs<=?",
+      "sourceUs,sequence",
+      [0, 100],
+      "source_evidence_pauses",
+    ],
+  ] as const) {
+    const plan = f.store.catalog
+      .prepare(`EXPLAIN QUERY PLAN SELECT sequence,content FROM source_evidence_records ${filter.includes("IS NULL") ? "INDEXED BY source_evidence_geometry" : ""}
+      WHERE recordingId=? AND sourceId=? AND generation=? AND ${filter} ORDER BY ${order} LIMIT 1001`)
+      .all(f.identity.recordingId, f.identity.sourceId, f.identity.generation, ...args)
+      .map((row) => row.detail)
+      .join(" ");
+    expect(plan).toContain(`SEARCH source_evidence_records USING INDEX ${index}`);
+    expect(plan).not.toContain("TEMP B-TREE");
+  }
 });

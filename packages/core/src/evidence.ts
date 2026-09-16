@@ -38,6 +38,13 @@ export type RawCursorSample = Record<string, unknown> & {
   eligibility: string;
   geometryEpoch: number;
 };
+export type SourceGeometry = Record<string, unknown> & {
+  epoch: number;
+  hostUs: number;
+  sourceUs?: number | null;
+  geometry: Record<string, unknown>;
+  sequence: number;
+};
 type RecordRow = { sequence: number; event: string; sourceUs: number | null; content: string };
 const maxBytes = 268_435_456;
 function invalid(message: string): never {
@@ -132,6 +139,10 @@ export class SourceEvidenceStore {
         (recordingId,sourceId,generation,sourceUs,sequence) WHERE event='cursorSample';
       CREATE INDEX IF NOT EXISTS source_evidence_pauses ON source_evidence_records
         (recordingId,sourceId,generation,sourceUs,sequence) WHERE event='pause';
+      CREATE INDEX IF NOT EXISTS source_evidence_geometry ON source_evidence_records
+        (recordingId,sourceId,generation,sourceUs,sequence) WHERE event='geometry';
+      CREATE INDEX IF NOT EXISTS source_evidence_geometry_epoch ON source_evidence_records
+        (recordingId,sourceId,generation,json_extract(content,'$.epoch'),sequence) WHERE event='geometry';
       CREATE INDEX IF NOT EXISTS source_evidence_audio ON source_evidence_records
         (recordingId,sourceId,generation,json_extract(content,'$.role'),sourceUs,sequence) WHERE event='audioAcquired';
     `);
@@ -342,6 +353,96 @@ export class SourceEvidenceStore {
       nextSequence: more ? rows.at(-1)!.sequence : null,
     };
   }
+  /** Latest observation, including outside/unknown readings; callers must not resurrect an older pointer. */
+  latestCursor(
+    identity: EvidenceIdentity,
+    atSourceUs: number,
+  ): (RawCursorSample & { sequence: number }) | null {
+    this.timingRange({ startUs: atSourceUs, endUs: atSourceUs });
+    this.requireComplete(identity);
+    const row = this.store.catalog
+      .prepare(`SELECT sequence,content FROM source_evidence_records
+      WHERE recordingId=? AND sourceId=? AND generation=? AND event='cursorSample'
+      AND sourceUs<=? ORDER BY sourceUs DESC,sequence DESC LIMIT 1`)
+      .get(identity.recordingId, identity.sourceId, identity.generation, atSourceUs) as
+      | { sequence: number; content: string }
+      | undefined;
+    return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
+  }
+
+  /** A timed predecessor is not proof that later null-time geometry was inactive. */
+  timedGeometryAt(identity: EvidenceIdentity, atSourceUs: number): SourceGeometry | null {
+    this.timingRange({ startUs: atSourceUs, endUs: atSourceUs });
+    this.requireComplete(identity);
+    const row = this.store.catalog
+      .prepare(`SELECT sequence,content FROM source_evidence_records
+      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
+      AND sourceUs<=? ORDER BY sourceUs DESC,sequence DESC LIMIT 1`)
+      .get(identity.recordingId, identity.sourceId, identity.generation, atSourceUs) as
+      | { sequence: number; content: string }
+      | undefined;
+    return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
+  }
+
+  /** Latest recorded placement for one epoch; consumers must still inspect its source time. */
+  geometryByEpoch(identity: EvidenceIdentity, epoch: number): SourceGeometry | null {
+    if (!integer(epoch)) invalid("Invalid geometry epoch");
+    this.requireComplete(identity);
+    const row = this.store.catalog
+      .prepare(`SELECT sequence,content FROM source_evidence_records
+      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
+      AND json_extract(content,'$.epoch')=? ORDER BY sequence DESC LIMIT 1`)
+      .get(identity.recordingId, identity.sourceId, identity.generation, epoch) as
+      | { sequence: number; content: string }
+      | undefined;
+    return row ? { ...JSON.parse(row.content), sequence: row.sequence } : null;
+  }
+
+  /** Inclusive timed boundaries; equal timestamps retain their original record order. */
+  geometryChanges(identity: EvidenceIdentity, range: TimeRange): SourceGeometry[] {
+    this.timingRange(range);
+    this.requireComplete(identity);
+    const rows = this.store.catalog
+      .prepare(`SELECT sequence,content FROM source_evidence_records
+      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
+      AND sourceUs>=? AND sourceUs<=? ORDER BY sourceUs,sequence LIMIT 1001`)
+      .all(
+        identity.recordingId,
+        identity.sourceId,
+        identity.generation,
+        range.startUs,
+        range.endUs,
+      ) as { sequence: number; content: string }[];
+    if (rows.length > 1000)
+      throw new CatalogError("LIMIT_EXCEEDED", "Too many geometry boundaries in this range");
+    return rows.map((row) => ({ ...JSON.parse(row.content), sequence: row.sequence }));
+  }
+
+  /** Pre-origin and paused placements have no source time; never silently promote them to zero. */
+  unplacedGeometry(
+    identity: EvidenceIdentity,
+    range: { afterSequence: number; beforeSequence?: number },
+  ): SourceGeometry[] {
+    const end = range.beforeSequence ?? Number.MAX_SAFE_INTEGER;
+    if (!integer(range.afterSequence) || !integer(end) || end <= range.afterSequence)
+      invalid("Invalid geometry sequence range");
+    this.requireComplete(identity);
+    const rows = this.store.catalog
+      .prepare(`SELECT sequence,content FROM source_evidence_records INDEXED BY source_evidence_geometry
+      WHERE recordingId=? AND sourceId=? AND generation=? AND event='geometry'
+      AND sourceUs IS NULL AND sequence>? AND sequence<? ORDER BY sequence LIMIT 1001`)
+      .all(
+        identity.recordingId,
+        identity.sourceId,
+        identity.generation,
+        range.afterSequence,
+        end,
+      ) as { sequence: number; content: string }[];
+    if (rows.length > 1000)
+      throw new CatalogError("LIMIT_EXCEEDED", "Too many unplaced geometry records in this range");
+    return rows.map((row) => ({ ...JSON.parse(row.content), sequence: row.sequence }));
+  }
+
   /** Reclaim a dead generation without holding the event loop for its entire index. */
   async reclaim(identity: EvidenceIdentity, signal: AbortSignal): Promise<void> {
     const { recordingId, sourceId, generation } = identity;
@@ -384,10 +485,21 @@ export class SourceEvidenceStore {
     identity: EvidenceIdentity,
     range: TimeRange,
   ): { atSourceUs: number; elapsedPauseUs: number }[] {
+    return this.pauseBoundaries(identity, range).map(({ atSourceUs, elapsedPauseUs }) => ({
+      atSourceUs,
+      elapsedPauseUs,
+    }));
+  }
+
+  /** Sequence is normalized delivery order, not occurrence order across buffered event kinds. */
+  pauseBoundaries(
+    identity: EvidenceIdentity,
+    range: TimeRange,
+  ): { atSourceUs: number; elapsedPauseUs: number; sequence: number }[] {
     this.timingRange(range);
     this.requireComplete(identity);
     const rows = this.store.catalog
-      .prepare(`SELECT content FROM source_evidence_records
+      .prepare(`SELECT sequence,content FROM source_evidence_records
       WHERE recordingId=? AND sourceId=? AND generation=? AND event='pause'
       AND sourceUs>=? AND sourceUs<=? ORDER BY sourceUs,sequence LIMIT 1001`)
       .all(
@@ -396,10 +508,10 @@ export class SourceEvidenceStore {
         identity.generation,
         range.startUs,
         range.endUs,
-      ) as { content: string }[];
+      ) as { sequence: number; content: string }[];
     if (rows.length > 1000)
       throw new CatalogError("LIMIT_EXCEEDED", "Too many pause boundaries in this range");
-    return rows.map((row) => JSON.parse(row.content));
+    return rows.map((row) => ({ ...JSON.parse(row.content), sequence: row.sequence }));
   }
 
   /** A gap in a requested clip is distinct from a role never acquired anywhere in this take. */

@@ -1,0 +1,7 @@
+{"data":{"epoch":1,"geometry":{"contentRect":{"height":80,"width":100,"x":0,"y":0},"contentScale":1,"outputHeight":80,"outputWidth":100,"scaleFactor":1},"hostUs":900},"event":"geometry"}
+{"data":{"epoch":1,"geometry":{"contentRect":{"height":80,"width":100,"x":0,"y":0},"contentScale":1,"outputHeight":80,"outputWidth":100,"scaleFactor":1},"hostUs":1000,"sourceUs":0},"event":"geometry"}
+{"data":{"atSourceUs":100,"elapsedPauseUs":5000},"event":"pause"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":20,"globalY":20,"sourceUs":99,"x":20,"y":20},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":30,"globalY":20,"sourceUs":100,"x":30,"y":20},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"outside","geometryEpoch":1,"globalX":-20,"globalY":20,"sourceUs":100,"x":-20,"y":20},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":40,"globalY":20,"sourceUs":101,"x":40,"y":20},"event":"cursorSample"}
