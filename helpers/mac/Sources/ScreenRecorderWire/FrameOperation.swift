@@ -50,6 +50,32 @@ enum FrameOperation {
                 maxEncodedBytes: parameters.maxEncodedBytes ?? FrameLimits.maximumEncodedBytes))
     }
 
+    static func visualSamples(_ params: [String: Any]) async throws -> VisualSamples {
+        struct Parameters: Decodable {
+            let source: String
+            let kept: FrameInterval
+            let atSourceUs: [Int64]
+        }
+        guard Set(params.keys) == ["source", "kept", "atSourceUs"],
+            let kept = params["kept"] as? [String: Any],
+            Set(kept.keys) == ["startUs", "endUs"]
+        else { throw FrameFailure("INVALID_REQUEST", "Invalid visual sampling parameters.") }
+        let parameters: Parameters
+        do {
+            parameters = try JSONDecoder().decode(
+                Parameters.self, from: JSONSerialization.data(withJSONObject: params))
+        } catch {
+            throw FrameFailure("INVALID_REQUEST", "Invalid visual sampling parameter types.")
+        }
+        guard parameters.source.hasPrefix("/"), !parameters.source.contains("\0") else {
+            throw FrameFailure(
+                "INVALID_REQUEST", "Visual sampling source must be an absolute path.")
+        }
+        let source = try await FrameSource(url: URL(fileURLWithPath: parameters.source))
+        return try await source.visualSamples(
+            atSourceUs: parameters.atSourceUs, kept: parameters.kept)
+    }
+
     /// Requests are parsed strictly: an unknown or missing overlay field is a caller mistake, not a
     /// field to ignore. Point values themselves are the decoder's to validate against real media.
     private static func validateOverlayFields(_ value: Any) throws {
@@ -62,7 +88,8 @@ enum FrameOperation {
         if let pointer = overlay["pointer"], !(pointer is NSNull) { points.append(pointer) }
         for run in runs {
             guard let run = run as? [Any] else {
-                throw FrameFailure("INVALID_REQUEST", "Each frame overlay trail run must be a list.")
+                throw FrameFailure(
+                    "INVALID_REQUEST", "Each frame overlay trail run must be a list.")
             }
             points.append(contentsOf: run)
         }

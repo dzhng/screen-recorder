@@ -1,6 +1,7 @@
 # 10 — Readable cursor trails on requested frames
 
-Status: the [native rendering subpass](10a-native-cursor-render.md) draws supplied
+Status: bounded [native clean visual observations](../assets/visual-observations/native-review.md)
+are implemented; scene decisions remain in core. The [native rendering subpass](10a-native-cursor-render.md) draws supplied
 points on decoded frames; core scene analysis, trail selection and cutoff reporting
 are not started. Dependencies: 09.
 
@@ -8,9 +9,9 @@ Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
 harness entrypoints to create in this slice, not existing executable claims.
 
-The [native ingestion seam](03-cursor-geometry.md#native-ingestion-evidence) exports
-raw evidence for future one-time indexing. SQLite ingestion, bounded cursor-range
-queries, and core trail selection remain unimplemented.
+The [native ingestion seam](03-cursor-geometry.md#native-ingestion-evidence) supplies
+persistent source evidence and bounded cursor-range queries. Core scene decisions
+and trail selection remain unimplemented.
 
 ## Contract and API seam
 

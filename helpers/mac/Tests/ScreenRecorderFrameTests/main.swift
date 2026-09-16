@@ -251,6 +251,41 @@ precondition(
     "A quarter turn must move the drawn top-left marker to the top right, got corner \(String(describing: redCorner))")
 print("PASS rotated source is oriented 240x320 with corners matching the image-generator oracle")
 
+for (fixtureSource, interval, times) in [
+    (source, whole, [Int64(140_000), 150_000, 195_000]),
+    (source, FrameInterval(startUs: 0, endUs: 200_000), [Int64(195_000), 250_000]),
+    (sparse, FrameInterval(startUs: 2_000_000, endUs: 6_000_000), [Int64(3_000_000), 4_000_000]),
+] {
+    let observed = try await fixtureSource.visualSamples(atSourceUs: times, kept: interval)
+    for sample in observed.samples {
+        let expected = try await fixtureSource.selection(atSourceUs: sample.requestedSourceUs, in: interval)
+        precondition(sample.actualSourceUs == expected.actualSourceUs && sample.distanceUs == expected.distanceUs,
+            "Analysis must reuse exact frame selection, including held and restricted samples")
+        precondition(Data(base64Encoded: sample.rgbBase64)?.count == sample.width * sample.height * 3,
+            "Analysis RGB must have exactly three bytes per pixel")
+    }
+    if fixtureSource === sparse {
+        precondition(observed.samples[0].rgbBase64 == observed.samples[1].rgbBase64,
+            "Repeated held selection must produce identical clean pixels")
+    }
+}
+let observedRotation = try await rotated.visualSamples(
+    atSourceUs: [500_000], kept: FrameInterval(startUs: 0, endUs: 1_200_000))
+let rotatedSample = observedRotation.samples[0]
+let rotatedRGB = [UInt8](Data(base64Encoded: rotatedSample.rgbBase64)!)
+precondition(rotatedSample.width == 48 && rotatedSample.height == 64,
+    "Analysis preserves oriented aspect ratio")
+for (index, xy) in [(0, 0), (47, 0), (0, 63), (47, 63)].enumerated() {
+    let offset = (xy.1 * rotatedSample.width + xy.0) * 3
+    let actual = (Double(rotatedRGB[offset]) / 255, Double(rotatedRGB[offset + 1]) / 255,
+        Double(rotatedRGB[offset + 2]) / 255)
+    let expected = oracleCorners[index]
+    precondition(max(abs(actual.0 - expected.red), abs(actual.1 - expected.green), abs(actual.2 - expected.blue)) < 0.15,
+        "Analysis top-left row-major RGB corner \(index) must match orientation oracle, got \(actual) vs \(expected)")
+}
+print("PASS clean RGB observations reuse selection, sparse holds and rotated top-left pixel geometry")
+
+
 let croppedPastOrientation = await failure {
     _ = try await decode(
         "invalid-rotated-crop", atSourceUs: 500_000, in: FrameInterval(startUs: 0, endUs: 1_200_000),

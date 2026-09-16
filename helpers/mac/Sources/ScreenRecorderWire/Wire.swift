@@ -14,10 +14,16 @@ public enum NativeWire {
             let operation = request["operation"] as? String, !operation.isEmpty,
             let params = request["params"] as? [String: Any]
         {
-            if operation == "media.frame" {
+            if operation == "media.frame" || operation == "media.visualSamples" {
                 do {
-                    let result = try await FrameOperation.execute(params)
-                    let data = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
+                    let encoded: Data
+                    if operation == "media.frame" {
+                        encoded = try JSONEncoder().encode(await FrameOperation.execute(params))
+                    } else {
+                        encoded = try JSONEncoder().encode(
+                            await FrameOperation.visualSamples(params))
+                    }
+                    let data = try JSONSerialization.jsonObject(with: encoded)
                     response = ["id": id, "ok": true, "data": data]
                 } catch let error as FrameFailure {
                     response = failure(id: id, code: error.code, message: error.message)

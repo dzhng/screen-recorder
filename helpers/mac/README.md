@@ -287,3 +287,16 @@ and existing output paths are refused. The export streams records without retain
 cursor history or unrelated timing arrays. Its byte budgets and provenance limit
 live in the export owner. This native seam supplies the core's persistent evidence
 index. Public querying and edited-time projection belong to that core, not the worker.
+
+## Clean visual observations
+
+`media.visualSamples` returns a bounded batch of small clean RGB observations from
+one retained source interval. [FrameSource](Sources/ScreenRecorderFrames/FrameSource.swift)
+owns the same nearest-sample selection and decoding used for requested images;
+[FrameImage](Sources/ScreenRecorderFrames/FrameImage.swift) owns orientation and
+sRGB byte conversion. Repeated selections reuse the held frame's pixels while
+preserving each request's actual timestamp and distance.
+
+The operation accepts explicit timestamps, not a sampling cadence or scene policy.
+Core owns both local trail analysis and global screenshot selection. No overlay,
+crop or derivative file enters this seam, and no scene boundary is inferred here.

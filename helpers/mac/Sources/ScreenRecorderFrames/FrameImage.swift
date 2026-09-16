@@ -20,13 +20,15 @@ struct FrameImage {
         // A track's preferred transform is stated in display coordinates, where y grows downward;
         // Core Image grows y upward, so applying it directly turns a quarter turn into a
         // three-quarter turn. Flipping into and out of display space keeps both agreeing.
-        let flipDecoded = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: decoded.extent.height)
+        let flipDecoded = CGAffineTransform(
+            a: 1, b: 0, c: 0, d: -1, tx: 0, ty: decoded.extent.height)
         let displayed = decoded.extent.applying(transform)
         let flipDisplayed = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: displayed.height)
         var oriented = decoded.transformed(
             by: flipDecoded.concatenating(transform).concatenating(flipDisplayed))
         oriented = oriented.transformed(
-            by: CGAffineTransform(translationX: -oriented.extent.origin.x, y: -oriented.extent.origin.y))
+            by: CGAffineTransform(
+                translationX: -oriented.extent.origin.x, y: -oriented.extent.origin.y))
         var visible = oriented.extent
         if let crop {
             visible = CGRect(
@@ -67,6 +69,21 @@ struct FrameImage {
             height = sourceHeight
             image = oriented
         }
+    }
+
+    /// Bitmap rendering writes top-left rows despite Core Image's geometric bottom-left origin.
+    /// Preserve that order so analysis bytes and public frame pixel coordinates agree.
+    func rgb(context: CIContext) -> Data {
+        var rgba = [UInt8](repeating: 0, count: width * height * 4)
+        context.render(
+            image, toBitmap: &rgba, rowBytes: width * 4,
+            bounds: CGRect(x: 0, y: 0, width: width, height: height),
+            format: .RGBA8, colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!)
+        var rgb = Data(capacity: width * height * 3)
+        for offset in stride(from: 0, to: rgba.count, by: 4) {
+            rgb.append(contentsOf: rgba[offset..<(offset + 3)])
+        }
+        return rgb
     }
 
     func png(context: CIContext) throws -> Data {
