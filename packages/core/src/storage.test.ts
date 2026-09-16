@@ -371,3 +371,45 @@ test("a failed shared observation releases its scope for a fresh retry", async (
   }
   expect((await storage.usage(take.recordingId)).sourceBytes).toBe(13);
 });
+
+test("completed deletion refuses a new per-record waiter even while an older observation closes", async () => {
+  const { home, store, storage, take, file } = await fixture();
+  const directory = join(home, "recordings", take.recordingId);
+  await file(join(directory, "source", "held"), 3);
+  const actual = await vi.importActual<typeof import("node:fs/promises")>("node:fs/promises");
+  let entered!: () => void, release!: () => void;
+  const opened = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  vi.mocked(filesystem.open).mockImplementation(async (path, flags, mode) => {
+    const handle = await actual.open(path, flags, mode);
+    if (String(path).endsWith("/source/held")) {
+      entered();
+      await held;
+    }
+    return handle;
+  });
+  const first = storage.usage(take.recordingId);
+  void first.catch(() => {});
+  try {
+    await opened;
+    store.markDeleting(take.recordingId);
+    const marked = storage.usage(take.recordingId);
+    void marked.catch(() => {});
+    await rm(directory, { recursive: true });
+    store.finishDeletion(take.recordingId);
+    const next = storage.usage(take.recordingId);
+    // Release only after attaching the assertion; the new request cannot borrow stale identity.
+    const refused = expect(next).rejects.toMatchObject({ code: "NOT_FOUND" });
+    release();
+    await refused;
+    await expect(marked).resolves.toMatchObject({ recordingId: take.recordingId });
+  } finally {
+    release();
+    await Promise.allSettled([first]);
+    vi.mocked(filesystem.open).mockImplementation(actual.open);
+  }
+});

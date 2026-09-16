@@ -50,7 +50,17 @@ export class RecordingStorage {
     if (this.lifetime.signal.aborted)
       return Promise.reject(new CatalogError("CANCELED", "Storage inspection is closed"));
     const existing = this.active.get(recordingId);
-    if (existing) return existing;
+    if (existing) {
+      try {
+        if (recordingId !== undefined && !this.recording(recordingId))
+          return Promise.reject(
+            new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId }),
+          );
+        return existing;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    }
     const inspection = this.inspect(recordingId);
     this.active.set(recordingId, inspection);
     void inspection.then(
