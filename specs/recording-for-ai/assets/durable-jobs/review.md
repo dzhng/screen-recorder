@@ -37,4 +37,6 @@ recording deletion or media executor integration is claimed. Reopen tests use tw
 catalog handles to deliver an old executor's late answer; the production service
 still must enforce a single writer and one queue. Independent Codex review found no actionable regression and ran all 16 then-current
 queue tests plus the core typecheck. The additional unsupported-format regression
-also passes. Final integrated checks remain to be run.
+also passes. Integrated root checks pass: 46 core tests, 48 service tests, 3 CLI tests, and
+eight affected build/typecheck tasks. Core queue behavior remains fixture-executor
+evidence; the service tests prove existing capture/library behavior stayed green.

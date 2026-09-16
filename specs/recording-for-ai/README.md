@@ -36,16 +36,19 @@ fixture. See [capture integration](assets/capture-service/integration-review.md)
 Keep the fresh catalog format and explicit audio defaults; old development catalogs
 are rejected rather than migrated.
 
-Next priority: native menu controls, durable jobs, then revision-bound media
-inspection. Opus is implementing controls in `/tmp/screenrec-capture-service` and
-core durable jobs in `/tmp/screenrec-durable-jobs`. Client/app discovery is independent
-in `/tmp/screenrec-client-discovery`; all three use separate worktrees.
-Native worker parent-exit ownership is integrated, including the independent-review
-registration-race correction. The service runner now accepts cancellation and waits
-for child closure before returning capacity. Cursor output sizing passes integrated native/worker checks and fresh visual review
-with documented small-output limits. Core trail selection
-and scene analysis remain open. Local socket admission bounds connections and
-unfinished handlers, including abandoned requests.
+Next priority: complete native controls/discovery integration, then revision-bound
+media inspection and source-evidence ingestion. Core durable jobs are integrated:
+identity includes resolved revision and inputs, retries are explicit, and stale
+results cannot overwrite another identity. See [queue evidence](assets/durable-jobs/review.md).
+The service runner accepts cancellation and returns capacity only after child closure.
+
+The user requested no further Claude use. Available agents are finishing controls
+in `/tmp/screenrec-capture-service`, discovery in `/tmp/screenrec-client-discovery`,
+and a native streaming cursor-evidence export in
+`/tmp/screenrec-cursor-evidence-worktree`. Their changes remain unaccepted until
+reviewed and integrated. Native cursor rendering/sizing is accepted on generated
+media with documented small-output limits; scene analysis and core trail selection
+remain open.
 
 Native audio execution (09b) passes integrated numerical checks for resampling tails,
 cumulative rounding and acquisition holes; audition remains open. Speech remains a
@@ -89,6 +92,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
   - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md) (storage proof)
   - [x] [06e — Library operations through the service](slices/06e-library-operations.md) (independent after 06a–06c)
   - [x] [06f — Native capture service control](slices/06f-capture-service.md) (own-window control/recovery proof)
+  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md) (core queue; service/executor integration remains)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)

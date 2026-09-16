@@ -388,3 +388,31 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   content. A clean or larger image resolves obstruction; arbitrary backgrounds
   and very small text cannot be guaranteed readable from these fixtures.
 - **Verdict:** Sound, reversible styling. **Confidence:** Medium.
+
+## Durable work identity
+
+### Sound — medium confidence
+
+- **Choice:** Store each distinct recording/revision/artifact/input combination
+  separately. An exact repeat returns its existing result or failure; only an
+  explicit retry creates a new attempt and generation. Canceled work can be
+  explicitly retried while its recording still exists.
+- **Gap:** The spec required pinned results and one automatic attempt but did not
+  choose the queue's exact identity or canceled-job retry semantics.
+- **Reach:** A later edit or different frame option cannot receive an earlier
+  job's result. Source-only processors should explicitly use the original revision;
+  transcript projection through edits must not start recognition again. Derived
+  cache eviction and retained-evidence lifecycle still require their own owners.
+- **Verdict:** Sound. **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **Choice:** The queue owns its job/artifact tables in the existing catalog
+  connection and allows 32 waiting jobs in addition to the prescribed active slots.
+  Inputs are canonical strings supplied by each artifact's owning adapter.
+- **Gap:** Storage layout, pending admission limit and executor payload shape were
+  implementation choices.
+- **Reach:** There is one metadata writer; overload is explicit rather than an
+  unbounded backlog. The queue does not interpret transcription or media settings.
+  New adapters must define stable inputs and pass cancellation to the native runner.
+- **Verdict:** Sound. **Confidence:** High.

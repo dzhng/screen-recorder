@@ -1,6 +1,6 @@
 # 06g — Durable artifact jobs
 
-Status: core implementation under integration review. This does not close 06 or
+Status: core implementation verified and integrated. This does not close 06 or
 provide a media/transcription/export executor. Depends on 06a/06d. Evidence:
 [durable jobs review](../assets/durable-jobs/review.md).
 
@@ -21,7 +21,8 @@ including ready, failed or canceled. Explicit retry creates a fresh attempt ID a
 reserves the next generation before execution. Only that attempt can publish. A
 missing recording or discarded take cannot receive a late result. Published results
 remain attached to their captured identity; they are not a mutable current-revision
-pointer.
+pointer. Source-only processing (such as original narration recognition) pins the
+original revision; edited transcript reads project that result without retranscribing.
 
 ## Scheduling and failure
 
