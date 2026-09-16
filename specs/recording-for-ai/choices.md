@@ -1244,3 +1244,45 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   long WAVE output is a verification consumer; AAC, muxing, durable publication and
   speech audition remain parent work. **Verdict:** sound, high confidence for the
   numerical seam; no audible speech-quality claim is made.
+
+## AAC movie feasibility — 2026-09-17
+
+### Sound — medium confidence
+
+- **Preserve arbitrary cuts in native playback and document tiny AAC decoder
+  differences.** A 20 µs movie plays to exactly that endpoint in the
+  native player and retains a nonzero audio sample, while FFmpeg returns no audio.
+  The probe records both outcomes instead of choosing a minimum cut length or
+  silently dropping audio. The plan did not define identical raw decoder arrays
+  as a product promise. Native presentation is the provisional personal-release playback
+  contract, so production integration can proceed with this decoder difference
+  documented for the later export/consumer contract. This checkpoint keeps the
+  candidate in the optional probe until that next integration pass; no public
+  movie operation is added here.
+
+- **Use 96 kb/s per channel for the AAC feasibility fixture.** The PCM format and
+  mix stay those already resolved by the shared stream; only the compression
+  budget is selected here. The plan specified AAC but not a bitrate. This gives
+  the generated comparison a reproducible setting, not a claim that speech quality
+  is accepted. Production adoption must accompany the remaining audition gate;
+  changing this number does not change edits or input sample counts.
+
+### Sound — high confidence
+
+- **Assemble rendered H.264 and streamed PCM in one final writer.** After video
+  rendering, the candidate copies its compressed frames while encoding audio.
+  Each pump holds one block and waits for the writer. The plan left multiplexing
+  unspecified; separately encoding AAC and exporting an AVFoundation composition
+  produced a measurable priming shift. The candidate needs intermediate compressed
+  video disk space, but does not add a video decode/re-encode pass, another mixer,
+  edit interpreter, or process owner. Production integration must reuse the
+  existing service attempt lifetime for that intermediate file.
+
+- **Choose a movie clock that represents both microseconds and audio samples.**
+  At 48 kHz, one sample lasts 20.833… µs. A clock with six million ticks per second
+  can represent both boundaries exactly; a million-tick clock rounded one audio
+  edit upward and exposed an extra decoded sample. The plan specified both clocks
+  but not their container representation. The candidate uses their least common
+  multiple and explicitly refuses an unrepresentable timescale. It preserves
+  existing PCM rounding and exact video timing instead of inventing another cut
+  or resampling policy.

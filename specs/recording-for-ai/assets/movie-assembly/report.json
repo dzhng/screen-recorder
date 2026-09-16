@@ -1,0 +1,828 @@
+[
+  {
+    "name": "original",
+    "plan": [
+      {
+        "source": {
+          "startUs": 0,
+          "endUs": 6000000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 6000000
+        }
+      }
+    ],
+    "receipt": {
+      "audioCodec": "aac",
+      "audioFrames": 288000,
+      "bytes": 67221,
+      "channels": 2,
+      "durationUs": 6000000,
+      "file": "original.mp4",
+      "frameCount": 6,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "sampleRate": 48000,
+      "tracks": [
+        {
+          "channels": 1,
+          "gain": 0.5,
+          "role": "narration",
+          "sampleRate": 44100,
+          "unavailable": [
+            {
+              "endUs": 125000,
+              "startUs": 0
+            },
+            {
+              "endUs": 1800000,
+              "startUs": 1600000
+            }
+          ]
+        },
+        {
+          "channels": 2,
+          "gain": 0.5,
+          "role": "system",
+          "sampleRate": 48000,
+          "unavailable": [
+            {
+              "endUs": 2800000,
+              "startUs": 2500000
+            },
+            {
+              "endUs": 6000000,
+              "startUs": 5750000
+            }
+          ]
+        }
+      ],
+      "videoCodec": "h264",
+      "width": 320
+    },
+    "av": {
+      "durationUs": 6000000,
+      "tracks": [
+        {
+          "durationUs": 6000000,
+          "segments": [
+            {
+              "durationUs": 6000000,
+              "empty": false,
+              "sourceStartUs": 0,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "vide"
+        },
+        {
+          "decodedEndUs": 6000000,
+          "decodedFrames": 288000,
+          "decodedStartUs": 0,
+          "durationUs": 6000000,
+          "segments": [
+            {
+              "durationUs": 6000000,
+              "empty": false,
+              "sourceStartUs": 44000,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "soun"
+        }
+      ]
+    },
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "color_space": "bt709",
+          "color_transfer": "iec61966-2-1",
+          "color_primaries": "bt709",
+          "start_time": "0.000000",
+          "duration": "6.000000"
+        },
+        {
+          "codec_name": "aac",
+          "start_time": "0.000000",
+          "duration": "6.000000"
+        }
+      ],
+      "format": {
+        "duration": "6.000000"
+      }
+    },
+    "comparison": {
+      "avRms": 0.0016896272680926693,
+      "ffRms": 0.0016896272570912955,
+      "ffDecodedFrames": 288704,
+      "presentationFrames": 288000
+    }
+  },
+  {
+    "name": "two-cuts",
+    "plan": [
+      {
+        "source": {
+          "startUs": 100001,
+          "endUs": 172751
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 72750
+        }
+      },
+      {
+        "source": {
+          "startUs": 200000,
+          "endUs": 1685833
+        },
+        "playback": {
+          "startUs": 72750,
+          "endUs": 1558583
+        }
+      },
+      {
+        "source": {
+          "startUs": 2500000,
+          "endUs": 5999983
+        },
+        "playback": {
+          "startUs": 1558583,
+          "endUs": 5058566
+        }
+      }
+    ],
+    "receipt": {
+      "audioCodec": "aac",
+      "audioFrames": 242811,
+      "bytes": 47603,
+      "channels": 2,
+      "durationUs": 5058566,
+      "file": "two-cuts.mp4",
+      "frameCount": 7,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "sampleRate": 48000,
+      "tracks": [
+        {
+          "channels": 1,
+          "gain": 0.5,
+          "role": "narration",
+          "sampleRate": 44100,
+          "unavailable": [
+            {
+              "endUs": 125000,
+              "startUs": 100001
+            },
+            {
+              "endUs": 1685833,
+              "startUs": 1600000
+            }
+          ]
+        },
+        {
+          "channels": 2,
+          "gain": 0.5,
+          "role": "system",
+          "sampleRate": 48000,
+          "unavailable": [
+            {
+              "endUs": 2800000,
+              "startUs": 2500000
+            },
+            {
+              "endUs": 5999983,
+              "startUs": 5750000
+            }
+          ]
+        }
+      ],
+      "videoCodec": "h264",
+      "width": 320
+    },
+    "av": {
+      "durationUs": 5058566,
+      "playerEndedNotification": true,
+      "playerEndUs": 5058566,
+      "tracks": [
+        {
+          "durationUs": 5058566,
+          "segments": [
+            {
+              "durationUs": 5058566,
+              "empty": false,
+              "sourceStartUs": 0,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "vide"
+        },
+        {
+          "decodedEndUs": 5058562.5,
+          "decodedFrames": 242811,
+          "decodedStartUs": 0,
+          "durationUs": 5058562.5,
+          "segments": [
+            {
+              "durationUs": 5058562.5,
+              "empty": false,
+              "sourceStartUs": 44000,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "soun"
+        }
+      ]
+    },
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "color_space": "bt709",
+          "color_transfer": "iec61966-2-1",
+          "color_primaries": "bt709",
+          "start_time": "0.000000",
+          "duration": "5.058566"
+        },
+        {
+          "codec_name": "aac",
+          "start_time": "0.000000",
+          "duration": "5.058562"
+        }
+      ],
+      "format": {
+        "duration": "5.058566"
+      }
+    },
+    "comparison": {
+      "avRms": 0.0010878873238800925,
+      "ffRms": 0.0010878872831242578,
+      "ffDecodedFrames": 243648,
+      "presentationFrames": 242811
+    }
+  },
+  {
+    "name": "fractional",
+    "plan": [
+      {
+        "source": {
+          "startUs": 100001,
+          "endUs": 110004
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 10003
+        }
+      },
+      {
+        "source": {
+          "startUs": 1033334,
+          "endUs": 1053341
+        },
+        "playback": {
+          "startUs": 10003,
+          "endUs": 30010
+        }
+      }
+    ],
+    "receipt": {
+      "audioCodec": "aac",
+      "audioFrames": 1440,
+      "bytes": 3937,
+      "channels": 2,
+      "durationUs": 30010,
+      "file": "fractional.mp4",
+      "frameCount": 2,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "sampleRate": 48000,
+      "tracks": [
+        {
+          "channels": 1,
+          "gain": 0.5,
+          "role": "narration",
+          "sampleRate": 44100,
+          "unavailable": [
+            {
+              "endUs": 110004,
+              "startUs": 100001
+            }
+          ]
+        },
+        {
+          "channels": 2,
+          "gain": 0.5,
+          "role": "system",
+          "sampleRate": 48000,
+          "unavailable": []
+        }
+      ],
+      "videoCodec": "h264",
+      "width": 320
+    },
+    "av": {
+      "durationUs": 30010,
+      "tracks": [
+        {
+          "durationUs": 30010,
+          "segments": [
+            {
+              "durationUs": 30010,
+              "empty": false,
+              "sourceStartUs": 0,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "vide"
+        },
+        {
+          "decodedEndUs": 30000,
+          "decodedFrames": 1440,
+          "decodedStartUs": 0,
+          "durationUs": 30000,
+          "segments": [
+            {
+              "durationUs": 30000,
+              "empty": false,
+              "sourceStartUs": 44000,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "soun"
+        }
+      ]
+    },
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "color_space": "bt709",
+          "color_transfer": "iec61966-2-1",
+          "color_primaries": "bt709",
+          "start_time": "0.000000",
+          "duration": "0.030010"
+        },
+        {
+          "codec_name": "aac",
+          "start_time": "0.000000",
+          "duration": "0.030000"
+        }
+      ],
+      "format": {
+        "duration": "0.030010"
+      }
+    },
+    "comparison": {
+      "avRms": 0.004094810006198972,
+      "ffRms": 0.004094810557672866,
+      "ffDecodedFrames": 1984,
+      "presentationFrames": 1440
+    }
+  },
+  {
+    "name": "one-sample",
+    "plan": [
+      {
+        "source": {
+          "startUs": 300000,
+          "endUs": 300020
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 20
+        }
+      }
+    ],
+    "receipt": {
+      "audioCodec": "aac",
+      "audioFrames": 1,
+      "bytes": 2307,
+      "channels": 2,
+      "durationUs": 20,
+      "file": "one-sample.mp4",
+      "frameCount": 1,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "sampleRate": 48000,
+      "tracks": [
+        {
+          "channels": 1,
+          "gain": 0.5,
+          "role": "narration",
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        {
+          "channels": 2,
+          "gain": 0.5,
+          "role": "system",
+          "sampleRate": 48000,
+          "unavailable": []
+        }
+      ],
+      "videoCodec": "h264",
+      "width": 320
+    },
+    "av": {
+      "durationUs": 20,
+      "playerEndedNotification": true,
+      "playerEndUs": 20,
+      "tracks": [
+        {
+          "durationUs": 20,
+          "segments": [
+            {
+              "durationUs": 20,
+              "empty": false,
+              "sourceStartUs": 0,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "vide"
+        },
+        {
+          "decodedEndUs": 20.833333333333332,
+          "decodedFrames": 1,
+          "decodedStartUs": 0,
+          "durationUs": 20,
+          "segments": [
+            {
+              "durationUs": 20,
+              "empty": false,
+              "sourceStartUs": 44000,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "soun"
+        }
+      ]
+    },
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "color_space": "bt709",
+          "color_transfer": "iec61966-2-1",
+          "color_primaries": "bt709",
+          "start_time": "0.000000",
+          "duration": "0.000020"
+        },
+        {
+          "codec_name": "aac",
+          "start_time": "0.000000",
+          "duration": "0.000021"
+        }
+      ],
+      "format": {
+        "duration": "0.000021"
+      }
+    },
+    "comparison": {
+      "avRms": null,
+      "ffRms": null,
+      "ffDecodedFrames": 0,
+      "presentationFrames": 1,
+      "nonzeroSample": {
+        "reference": [
+          0.07839851826429367,
+          0.06112664192914963
+        ],
+        "native": [
+          0.0534881167113781,
+          0.04205525666475296
+        ]
+      },
+      "ffmpegPackets": [
+        {
+          "codec_type": "audio",
+          "stream_index": 1,
+          "pts": 0,
+          "pts_time": "0.000000",
+          "dts": 0,
+          "dts_time": "0.000000",
+          "duration": 1024,
+          "duration_time": "0.021333",
+          "size": "6",
+          "pos": "44",
+          "flags": "KD_",
+          "side_data_list": [
+            {
+              "side_data_type": "Skip Samples",
+              "skip_samples": 2049,
+              "discard_padding": 0,
+              "skip_reason": 0,
+              "discard_reason": 0
+            }
+          ]
+        },
+        {
+          "codec_type": "audio",
+          "stream_index": 1,
+          "pts": 0,
+          "pts_time": "0.000000",
+          "dts": 0,
+          "dts_time": "0.000000",
+          "duration": 1024,
+          "duration_time": "0.021333",
+          "size": "137",
+          "pos": "50",
+          "flags": "KD_"
+        },
+        {
+          "codec_type": "audio",
+          "stream_index": 1,
+          "pts": 0,
+          "pts_time": "0.000000",
+          "dts": 0,
+          "dts_time": "0.000000",
+          "duration": 1024,
+          "duration_time": "0.021333",
+          "size": "6",
+          "pos": "187",
+          "flags": "KD_"
+        }
+      ],
+      "openGate": "Native presentation retains nonzero sample; FFmpeg emits no PCM for this sub-packet movie."
+    }
+  },
+  {
+    "name": "subsample",
+    "plan": [
+      {
+        "source": {
+          "startUs": 300000,
+          "endUs": 300002
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 2
+        }
+      }
+    ],
+    "receipt": {
+      "audioFrames": 0,
+      "bytes": 1604,
+      "channels": 2,
+      "durationUs": 2,
+      "file": "subsample.mp4",
+      "frameCount": 1,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "sampleRate": 48000,
+      "tracks": [
+        {
+          "channels": 1,
+          "gain": 0.5,
+          "role": "narration",
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        {
+          "channels": 2,
+          "gain": 0.5,
+          "role": "system",
+          "sampleRate": 48000,
+          "unavailable": []
+        }
+      ],
+      "videoCodec": "h264",
+      "width": 320
+    },
+    "av": {
+      "durationUs": 2,
+      "tracks": [
+        {
+          "durationUs": 2,
+          "segments": [
+            {
+              "durationUs": 2,
+              "empty": false,
+              "sourceStartUs": 0,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "vide"
+        }
+      ]
+    },
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "color_space": "bt709",
+          "color_transfer": "iec61966-2-1",
+          "color_primaries": "bt709",
+          "start_time": "0.000000",
+          "duration": "0.000002"
+        }
+      ],
+      "format": {
+        "duration": "0.000002"
+      }
+    }
+  },
+  {
+    "name": "mono",
+    "plan": [
+      {
+        "source": {
+          "startUs": 0,
+          "endUs": 4000000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 4000000
+        }
+      }
+    ],
+    "receipt": {
+      "audioCodec": "aac",
+      "audioFrames": 176400,
+      "bytes": 16841,
+      "channels": 1,
+      "durationUs": 4000000,
+      "file": "mono.mp4",
+      "frameCount": 4,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "sampleRate": 44100,
+      "tracks": [
+        {
+          "channels": 1,
+          "gain": 1,
+          "role": "narration",
+          "sampleRate": 44100,
+          "unavailable": [
+            {
+              "endUs": 125000,
+              "startUs": 0
+            },
+            {
+              "endUs": 1800000,
+              "startUs": 1600000
+            }
+          ]
+        }
+      ],
+      "videoCodec": "h264",
+      "width": 320
+    },
+    "av": {
+      "durationUs": 4000000,
+      "tracks": [
+        {
+          "durationUs": 4000000,
+          "segments": [
+            {
+              "durationUs": 4000000,
+              "empty": false,
+              "sourceStartUs": 0,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "vide"
+        },
+        {
+          "decodedEndUs": 4000000,
+          "decodedFrames": 176400,
+          "decodedStartUs": 0,
+          "durationUs": 4000000,
+          "segments": [
+            {
+              "durationUs": 4000000,
+              "empty": false,
+              "sourceStartUs": 47891.15646258504,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "soun"
+        }
+      ]
+    },
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "color_space": "bt709",
+          "color_transfer": "iec61966-2-1",
+          "color_primaries": "bt709",
+          "start_time": "0.000000",
+          "duration": "4.000000"
+        },
+        {
+          "codec_name": "aac",
+          "start_time": "0.000000",
+          "duration": "4.000000"
+        }
+      ],
+      "format": {
+        "duration": "4.000000"
+      }
+    },
+    "comparison": {
+      "avRms": 0.0010800695944560188,
+      "ffRms": 0.001080069221708101,
+      "ffDecodedFrames": 177088,
+      "presentationFrames": 176400
+    }
+  },
+  {
+    "name": "silent",
+    "plan": [
+      {
+        "source": {
+          "startUs": 500000,
+          "endUs": 1500000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 1000000
+        }
+      }
+    ],
+    "receipt": {
+      "audioFrames": 0,
+      "bytes": 2566,
+      "durationUs": 1000000,
+      "file": "silent.mp4",
+      "frameCount": 2,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "tracks": [],
+      "videoCodec": "h264",
+      "width": 320
+    },
+    "av": {
+      "durationUs": 1000000,
+      "tracks": [
+        {
+          "durationUs": 1000000,
+          "segments": [
+            {
+              "durationUs": 1000000,
+              "empty": false,
+              "sourceStartUs": 0,
+              "targetStartUs": 0
+            }
+          ],
+          "startUs": 0,
+          "type": "vide"
+        }
+      ]
+    },
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "color_space": "bt709",
+          "color_transfer": "iec61966-2-1",
+          "color_primaries": "bt709",
+          "start_time": "0.000000",
+          "duration": "1.000000"
+        }
+      ],
+      "format": {
+        "duration": "1.000000"
+      }
+    }
+  },
+  {
+    "name": "tiny-isolation",
+    "changed": "All source samples outside retained intervals replaced by ±0.9",
+    "decodedBytes": 8,
+    "identicalDecodedAAC": true
+  },
+  {
+    "name": "cut-isolation",
+    "changed": "All source samples outside retained intervals replaced by ±0.9",
+    "decodedBytes": 384000,
+    "identicalDecodedAAC": true
+  }
+]

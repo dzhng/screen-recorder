@@ -55,3 +55,7 @@ iteration; full-suite closeout belongs to slice 15.
 
 If exact cuts clip neighboring speech, distinguish bad ASR timing from render error and reopen the owning gate; do not alter user-requested ranges silently.
 
+
+AAC assembly now has a [bounded feasibility checkpoint](13c-aac-movie-assembly.md).
+It preserves the common presentation clock in native playback and records tiny
+AAC decoder differences. Production job integration remains the next pass.
