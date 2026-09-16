@@ -6,7 +6,9 @@ The [render ownership proof](../assets/preview-publication/restart/README.md)
 covers abandoned staging and pointer preparation inside the existing attempt.
 [Public service delivery](../assets/preview-publication/public.md) is verified with
 generated cursor/cut/pause evidence, CLI/MCP parity and restart regeneration.
-Native app playback remains open.
+The [native service/player lifetime](../assets/preview-publication/player.md#actual-bundled-service-integration)
+now passes with the actual bundled service. Physical menu interaction, player
+visual acceptance and adjacent-speech audition remain open.
 
 ## One owner and one verdict
 
@@ -60,9 +62,10 @@ lifetime. The existing delivery owner supports [explicit renewal](../assets/prev
 of a live token; expired or revoked tokens cannot be revived. The [native player owner](../assets/preview-publication/player.md) uses its pinned
 cache URL only while it owns that lease, renews during playback or pause, and
 stops/releases on close, replacement, service loss or renewal failure. Its real
-AVPlayer lifetime regression is separate from the pending bundled UI inspection.
+AVPlayer and bundled-service lifetime checks are separate from pending actual-menu
+and player-visual inspection.
 This avoids another app-owned copy and its deletion/startup cleanup policy. No bare unleased temporary path in a public
-result. Native playback and actual adjacent-speech audition remain parent13 gates.
+result. Player visual acceptance and actual adjacent-speech audition remain parent13 gates.
 
 Internal names are delegated. The cache budget and scheduling policy stay with their
 existing owners; do not add a preview-specific queue, retry loop or configuration.

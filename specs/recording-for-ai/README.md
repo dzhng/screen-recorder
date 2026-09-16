@@ -29,19 +29,23 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: wire the verified public preview into native app playback in
-[13e](slices/13e-preview-publication.md), with an explicit player lifetime over
-the existing renewable cache lease. In parallel, finish retained archive read/close ownership in
-[14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
+Current pickup: extend the existing queue with isolated package-context lifetimes
+before public handles in [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
+In parallel, prove external export commit/recovery in [14d](slices/14d-export-publication.md).
+[13e](slices/13e-preview-publication.md) now has a native player using renewable
+cache leases and an actual bundled-service integration test; actual status-menu
+interaction, visual acceptance and speech audition remain open.
 [14b](slices/14b-portable-inspection.md) passes internal relocated-directory
 inspection through the same native consumers, with the original library removed.
 [14c1](slices/14c1-bounded-archive-extraction.md) now verifies bounded ZIP extraction
-and cleanup through a retained directory descriptor. Next, retain admitted files
-with safe read lifetimes before adding public package handles.
+and cleanup through a retained directory descriptor.
+[14c2](slices/14c2-retained-package-inspection.md) now preserves admitted file and
+native-worker lifetimes through relocated inspection, close and parent death.
+Public handles, shared queue contexts and cold-start reclamation remain next.
 Internal video timing
 [13a](slices/13a-native-render-timing.md), bounded audio
 [13b](slices/13b-streaming-audio.md), and package metadata
-[14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs app playback and actual speech audition. Native pointer
+[14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs actual menu/player visual acceptance and speech audition. Native pointer
 composition and durable preview ownership now have internal and public machine
 verification; broader physical-capture fidelity acceptance remains open.
 [Real browser text](assets/text-fidelity/README.md) supports retaining automatic
@@ -58,7 +62,8 @@ into the movie on an exact clock; the merged native tests pass.
 [Preview publication](slices/13e-preview-publication.md) now retains pinned movies
 through existing jobs/cache. Its [public machine route](assets/preview-publication/public.md)
 passes generated cursor/cut/pause checks, CLI/MCP byte parity, restart regeneration
-and deletion revocation. The next gate is native app playback lifetime and UI. The [capture clock fix](assets/capture-duration/README.md) now preserves exact
+and deletion revocation. The native player also passes a real bundled-service
+read/edit/renew/delete check; actual menu interaction and visual acceptance remain. The [capture clock fix](assets/capture-duration/README.md) now preserves exact
 finalized endpoints and bounds legacy recovery to usable source ticks. Existing
 persisted revisions are not rewritten.
 [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
@@ -89,7 +94,7 @@ generated exact-duration and pixel-identity gates, including opaque rendering of
 proven empty edits. The [integrated job lab](assets/video-render/job-lifetime.md)
 also passes on the merged tree, including pinned edits/undo, pause projection and
 terminal attempt cleanup. Public machine preview and render-workspace recovery now have separate evidence;
-app playback and exports remain open.
+native menu/player acceptance and exports remain open.
 
 Priority order: native edited video/package execution, remaining controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
@@ -178,14 +183,15 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md) (point inspection only; native composition remains)
   - [x] [13d3 — Sequential pointer schedule](slices/13d3-pointer-schedule.md) (exact events/reset memory; native composition remains)
   - [x] [13d4 — Native pointer composition](slices/13d4-pointer-composition.md) (exact encoded transitions; physical gesture acquisition remains)
-  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md) (public machine delivery and staging recovery verified; app playback remains)
+  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md) (public delivery, staging recovery and native service/player lifetime verified; actual menu/visual acceptance remains)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
   - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md) (internal directory/native parity; ZIP and public handles remain)
     - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md) (consumer planning, not full package relocation)
     - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md) (source-only relocation)
     - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md) (shared readers and fresh-process frame/audio parity)
-  - [x] [14c1 — Bounded archive extraction](slices/14c1-bounded-archive-extraction.md) (verification/cleanup receipt only; retained contexts remain)
+  - [x] [14c1 — Bounded archive extraction](slices/14c1-bounded-archive-extraction.md)
+  - [x] [14c2 — Retained archive inspection](slices/14c2-retained-package-inspection.md) (native descriptor containment and parent-death lifetime; public handles remain)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

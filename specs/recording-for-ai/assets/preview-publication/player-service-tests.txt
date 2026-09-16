@@ -1,0 +1,14 @@
+(node:55723) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+SERVICE_PID=56127
+PASS pinned native player past original lease deadline; current edit is 6s
+PASS real deletion stops player and removes cached media
+✔ native player consumes the bundled service's pinned preview and renewable lease (33926.260875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33983.321625

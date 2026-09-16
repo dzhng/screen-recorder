@@ -27,7 +27,31 @@ real AVPlayer with generated silent H.264 media. Its service boundary is scripte
 so delayed receipts, expiry and deletion are controlled. It checks native decoder
 readiness and duration, pinned identity, renewal past the first deadline, failed
 playback and view cleanup. The ordinary controls tests cover the actual menu
-model's availability. These checks do not claim a real status-menu click, bundled
-service receipt integration, visual fidelity or adjacent-speech audition; those
-remain the parent integration gates. [Host verification](player-verification.json)
+model's availability. These controlled-boundary checks do not claim a real status-menu click, visual
+fidelity or adjacent-speech audition; those remain parent integration gates. [Host verification](player-verification.json)
 records the exact owner/test hashes and terminal results.
+
+
+## Actual bundled service integration
+
+The [real-service test](player-service-tests.txt) compiles the production player,
+ServiceHost, bundle resolver and Node resolver, then starts the actual bundled
+service and native worker. The generated silent browser fixture opens as an
+eight-second native preview. A concurrent public cut changes the library revision
+to six seconds; the existing AVPlayer item stays pinned to the original. Paused
+playback remains valid beyond the initial thirty-second delivery expiry through
+real renewal calls. The original source hash stays unchanged. Public deletion
+then removes the cache file and the next observation detaches the player.
+The owned service exits before its temporary home is removed.
+
+[Mutation evidence](player-service-mutation.txt) omits only the service timer
+refresh: the receipt still claims a longer expiry, but the player loses the cache
+pin at the old deadline and the test fails. Restoring the owner returns green.
+The first integration attempt also exposed a test adapter mismatch: it threw the
+raw Swift failure while the production controls format its code/message. The test
+now uses that same boundary presentation; no product behavior changed for it.
+
+Independent review found no actionable test defect. Its execution was blocked by
+sandbox Unix-socket permissions, so host results above are the runtime evidence.
+This is real native/service playback integration, not a physical status-menu click
+or a screenshot-based visual acceptance result.

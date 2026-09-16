@@ -1,0 +1,35 @@
+(node:54301) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ native player consumes the bundled service's pinned preview and renewable lease (32913.633208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32965.693209
+
+✖ failing tests:
+
+test at apps/macos/tests/preview-service.test.mjs:12:1
+✖ native player consumes the bundled service's pinned preview and renewable lease (32913.633208ms)
+  AssertionError [ERR_ASSERTION]: (node:54324) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+  (Use `node --trace-warnings ...` to show where the warning was created)
+  screenrec-service: reconciliation complete
+  main/Integration.swift:73: Precondition failed: Pinned player changed or lost its renewed lease
+  SERVICE_PID=54324
+  
+  
+  null !== 0
+  
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/macos/tests/preview-service.test.mjs:235:14)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

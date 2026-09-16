@@ -1,0 +1,17 @@
+✔ movie preserves original timing and PCM alignment (1664.089542ms)
+✔ movie preserves two-cuts timing and PCM alignment (6493.072ms)
+✔ movie preserves fractional timing and PCM alignment (661.295792ms)
+✔ tiny AAC has exact native endpoint but differs in FFmpeg decoding (847.452167ms)
+✔ movie preserves subsample timing and PCM alignment (444.58075ms)
+✔ movie preserves mono timing and PCM alignment (821.623959ms)
+✔ movie preserves silent timing and PCM alignment (463.204125ms)
+✔ changed excluded source samples cannot enter tiny or cut AAC output (1346.385542ms)
+✔ movie accepts 1001 retained/acquired spans while public excerpts retain their cap (3653.970667ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16989.654125

@@ -78,3 +78,17 @@ receipt identifies the separately pinned native binary used for that proof.
 
 This supplies the lock lifetime prerequisite for restart recovery. It adds no
 startup scan, public handle, generic workspace framework or scheduling policy.
+
+## Root integration
+
+The merged tree passes the actual retained ZIP round trip ([receipt](retained-merged-tests.txt)),
+all 296 core tests, service types, and 11 descriptor/pointer checks
+([receipt](descriptor-pointer-merged-tests.txt)). Both independently added native
+FrameTests calls survive integration: pointer cancellation and descriptor lifetime
+([receipt](retained-frame-tests.txt)). Nine movie-render checks also pass
+([receipt](retained-movie-tests.txt)). These are scoped integration gates; public
+package handles and their queue/storage/restart owner are still unimplemented.
+
+The appended workspace-descriptor follow-up also passes on the merged tree
+([actual parent-death/retention receipt](retained-parent-merged-tests.txt)). Cleanup
+and fresh admission remain refused until the confirmed surviving child is reaped.

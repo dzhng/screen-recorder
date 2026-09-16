@@ -1,0 +1,19 @@
+✔ inherited video and PNG handles preserve ordinary-path frame bytes after source rename (338.170875ms)
+✔ inherited audio input and WAVE output preserve concatenated PCM after source unlink (219.982292ms)
+✔ descriptor audio fails explicitly at its delivered-byte budget without publishing a partial WAVE (10082.394292ms)
+✔ current pointer moves and clears over held pixels at exact fractional times (233.654791ms)
+✔ fractional pointer transitions survive final AAC mux without rounding (329.025916ms)
+✔ unsupported exact clock never publishes output or leaves staging (99.215625ms)
+✔ schedule hash and initial kept state are required before publication (281.228875ms)
+✔ sub-microsecond pointer transitions remain distinct encoded samples (189.928ms)
+✔ kept starts reset the current pointer and map fractional source times exactly (211.381083ms)
+✔ changing schedule bytes after preflight prevents movie publication (1461.936042ms)
+✔ proven empty presentation remains black even across a held pointer state (1012.689583ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10676.811959
