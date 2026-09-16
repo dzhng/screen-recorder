@@ -1,32 +1,31 @@
 import { randomUUID } from "node:crypto";
-import type { CacheRead, DerivedCache } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/library";
 
-type Lease = { handle: CacheRead; expiresAt: number; timer: ReturnType<typeof setTimeout> };
+export type DerivativeRead = {
+  readonly bytes: number;
+  read(buffer: Uint8Array, position: number): number;
+  release(): void;
+};
+
+type Lease = { handle: DerivativeRead; expiresAt: number; timer: ReturnType<typeof setTimeout> };
 const lifetimeMs = 30_000;
 const maximumLeases = 32;
 const maximumChunkBytes = 512 * 1024;
 
-/** Local metadata transport carries bounded chunks; the service retains the cache read pin.
+/** Local metadata transport carries bounded chunks; the service retains the acquired read handle.
  * EOF does not close a lease: the last chunk must remain retryable after a lost response. */
 export class DerivativeDelivery {
   private readonly leases = new Map<string, Lease>();
   private disposed = false;
-  constructor(private readonly cache: DerivedCache) {}
 
-  open(cacheId: string): { token: string; bytes: number; expiresAt: number } {
+  open(acquire: () => DerivativeRead | null): { token: string; bytes: number; expiresAt: number } {
     if (this.disposed) throw new CatalogError("SERVICE_STOPPED", "Derivative delivery is closed");
     this.expire();
     if (this.leases.size >= maximumLeases)
       throw new CatalogError("LIMIT_EXCEEDED", "Too many derivative deliveries are open", {}, true);
-    const handle = this.cache.acquire(cacheId);
+    const handle = acquire();
     if (!handle)
-      throw new CatalogError(
-        "ARTIFACT_EXPIRED",
-        "Cached derivative is no longer available",
-        {},
-        true,
-      );
+      throw new CatalogError("ARTIFACT_EXPIRED", "Derivative is no longer available", {}, true);
     try {
       const token = randomUUID();
       const expiresAt = Date.now() + lifetimeMs;
@@ -81,7 +80,7 @@ export class DerivativeDelivery {
         if (count === 0)
           throw new CatalogError(
             "ARTIFACT_EXPIRED",
-            "Cached derivative ended before its published size",
+            "Derivative ended before its published size",
             {},
             true,
           );

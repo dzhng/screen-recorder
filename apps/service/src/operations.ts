@@ -1,3 +1,4 @@
+import type { DerivedCache } from "@screenrec/core/cache";
 import type { AudioInspection } from "@screenrec/core/audio";
 import type { FrameInspection } from "@screenrec/core/frames";
 import type { DerivativeDelivery } from "./delivery.js";
@@ -17,17 +18,22 @@ function failure(code: string, message: string): OperationResult {
   return { ok: false, error: { code, message, retryable: false, details: {} } };
 }
 
+export type OperationContext = {
+  store: RevisionStore;
+  capture: CaptureService;
+  health: () => unknown;
+  processing: SourceProcessing;
+  frames: FrameInspection;
+  audio: AudioInspection;
+  delivery: DerivativeDelivery;
+  scenes: SceneProcessing;
+  cache: DerivedCache;
+};
+
 /** The service composes owners; edit algebra and every catalog transaction stay in core. */
 export async function operate(
   request: OperationRequest,
-  store: RevisionStore,
-  capture: CaptureService,
-  health: () => unknown,
-  processing: SourceProcessing,
-  frames: FrameInspection,
-  audio: AudioInspection,
-  delivery: DerivativeDelivery,
-  scenes: SceneProcessing,
+  { store, capture, health, processing, frames, audio, delivery, scenes, cache }: OperationContext,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
     return failure(
@@ -57,7 +63,7 @@ export async function operate(
                   data: {
                     ...item.data,
                     delivery: item.data.published
-                      ? delivery.open(item.data.published.frame.cacheId)
+                      ? delivery.open(() => cache.acquire(item.data.published!.frame.cacheId))
                       : null,
                   },
                 };
@@ -88,7 +94,9 @@ export async function operate(
           ok: true,
           data: {
             ...status,
-            delivery: status.published ? delivery.open(status.published.frame.cacheId) : null,
+            delivery: status.published
+              ? delivery.open(() => cache.acquire(status.published!.frame.cacheId))
+              : null,
           },
         };
       }
@@ -102,7 +110,9 @@ export async function operate(
           ok: true,
           data: {
             ...status,
-            delivery: status.published ? delivery.open(status.published.audio.cacheId) : null,
+            delivery: status.published
+              ? delivery.open(() => cache.acquire(status.published!.audio.cacheId))
+              : null,
           },
         };
       }

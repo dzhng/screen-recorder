@@ -62,6 +62,7 @@ async function main(): Promise<void> {
   let frames: FrameInspection;
   let audio: AudioInspection;
   let delivery: DerivativeDelivery | undefined;
+  let cache: DerivedCache;
   let cacheReady: Promise<void> = Promise.resolve();
   let cacheFailure: unknown;
   let stopping = false;
@@ -90,13 +91,13 @@ async function main(): Promise<void> {
       newId: randomUUID,
     });
     const evidence = new SourceEvidenceStore(store);
-    const cache = new DerivedCache(store, home);
+    cache = new DerivedCache(store, home);
     cacheReady = cache.reconcile(cleanupLifetime.signal).catch((error) => {
       cacheFailure = error;
       if (!cleanupLifetime.signal.aborted)
         log(`cache reconciliation failed: ${(error as Error).message}`);
     });
-    delivery = new DerivativeDelivery(cache);
+    delivery = new DerivativeDelivery();
     jobs = new JobQueue({
       store,
       providers: { newId: randomUUID },
@@ -213,17 +214,17 @@ async function main(): Promise<void> {
   /** Every public operation, for a local client on the socket and for the app alike. */
   async function serve(request: OperationRequest): Promise<OperationResult> {
     try {
-      return await operate(
-        request,
-        catalog,
+      return await operate(request, {
+        store: catalog,
         capture,
-        () => healthData(started, socketPath, home),
+        health: () => healthData(started, socketPath, home),
         processing,
         frames,
         audio,
-        transfers,
+        delivery: transfers,
         scenes,
-      );
+        cache,
+      });
     } finally {
       queue.schedule();
     }
