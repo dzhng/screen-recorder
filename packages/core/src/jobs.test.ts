@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { CatalogError, RevisionStore } from "./library.js";
-import { JobQueue, type Job, type JobExecutor } from "./jobs.js";
+import { JobQueue, type Job, type JobExecutor, type ContextJob, type JobContext } from "./jobs.js";
 
 /** One attempt the queue handed to the executor, held open until the test answers it. */
 type Attempt = {
@@ -16,7 +16,7 @@ type Attempt = {
 const roots: string[] = [];
 const stores: RevisionStore[] = [];
 const queues: JobQueue[] = [];
-const held: Attempt[] = [];
+const held: Pick<Attempt, "fail">[] = [];
 
 /** A queue plus the executor it drives, where starting and settling are observed, never waited out. */
 function open(path: string, prefix: string) {
@@ -866,4 +866,272 @@ test("forget refuses intent-marked work still queued behind capture priority", a
   await queue.forgetRecording(recordingId);
   store.finishDeletion(recordingId);
   expect(store.isDeleting(recordingId)).toBe(false);
+});
+
+function packageContext(queue: JobQueue) {
+  const attempts: {
+    job: ContextJob;
+    signal: AbortSignal;
+    finish: (result: string) => void;
+    fail: (error: unknown) => void;
+  }[] = [];
+  const context = queue.createContext(
+    ({ job, signal }) =>
+      new Promise<string>((finish, fail) => {
+        const attempt = { job, signal, finish, fail };
+        attempts.push(attempt);
+        held.push(attempt);
+      }),
+  );
+  return { context, attempts };
+}
+const turn = () => new Promise<void>((resolve) => setImmediate(resolve));
+const packageRequest = (input: string, lane: "frame" | "heavy" = "heavy") => ({
+  artifact: "inspection",
+  input,
+  lane,
+});
+
+test("library and same-provenance package contexts share FIFO heavy admission and one slot", async () => {
+  const { queue, store, started } = fixture();
+  const recordingId = finished(store),
+    a = packageContext(queue),
+    b = packageContext(queue);
+  const first = queue.submit({ recordingId, artifact: "source", lane: "heavy", input: "first" });
+  const one = queue.submitContext(a.context, packageRequest(recordingId));
+  const two = queue.submitContext(b.context, packageRequest(recordingId));
+  const last = queue.submit({ recordingId, artifact: "source", lane: "heavy", input: "last" });
+  expect(one.contextId).not.toBe(two.contextId);
+  expect(store.catalog.prepare("SELECT COUNT(*) AS count FROM recordings").get()).toEqual({
+    count: 1,
+  });
+  (await started(first.attemptId)).finish("library-first");
+  await turn();
+  expect(a.attempts.map((attempt) => attempt.job.input)).toEqual([recordingId]);
+  expect(b.attempts).toEqual([]);
+  expect(queue.job(last.jobId).state).toBe("queued");
+  a.attempts[0]!.finish("package-a");
+  await turn();
+  expect(queue.contextJob(a.context, one.jobId).result).toBe("package-a");
+  expect(b.attempts.map((attempt) => attempt.job.input)).toEqual([recordingId]);
+  expect(queue.job(last.jobId).state).toBe("queued");
+  b.attempts[0]!.finish("package-b");
+  await turn();
+  (await started(last.attemptId)).finish("library-last");
+  await queue.idle();
+  expect(queue.contextJob(b.context, two.jobId).result).toBe("package-b");
+});
+
+test("package serialization spends no frame slot and canceled attempts retain capacity until terminal", async () => {
+  const { queue, store, started } = fixture();
+  const recordingId = finished(store),
+    a = packageContext(queue),
+    b = packageContext(queue);
+  const one = queue.submitContext(a.context, packageRequest("a1", "frame"));
+  const two = queue.submitContext(a.context, packageRequest("a2", "frame"));
+  const sibling = queue.submitContext(b.context, packageRequest("b", "frame"));
+  const library = queue.submit({ recordingId, artifact: "frame", lane: "frame", input: "library" });
+  await turn();
+  expect(a.attempts.map((attempt) => attempt.job.input)).toEqual(["a1"]);
+  expect(b.attempts.map((attempt) => attempt.job.input)).toEqual(["b"]);
+  queue.cancelContextJob(a.context, one.jobId);
+  expect(a.attempts[0]!.signal.aborted).toBe(true);
+  expect(() => queue.forgetContextJob(a.context, one.jobId)).toThrow("still active");
+  expect(queue.job(library.jobId).state).toBe("queued");
+  b.attempts[0]!.finish("sibling");
+  await turn();
+  expect(queue.job(library.jobId).state).toBe("running");
+  expect(queue.contextJob(a.context, two.jobId).state).toBe("queued");
+  a.attempts[0]!.finish("late canceled result");
+  await turn();
+  expect(queue.contextJob(a.context, one.jobId)).toMatchObject({ state: "canceled", result: null });
+  expect(a.attempts.map((attempt) => attempt.job.input)).toEqual(["a1", "a2"]);
+  a.attempts[1]!.finish("second");
+  (await started(library.attemptId)).finish("library");
+  await queue.idle();
+  expect(queue.contextJob(b.context, sibling.jobId).result).toBe("sibling");
+});
+
+test("capture blocks package heavy work while frame work proceeds", async () => {
+  const { queue, store } = fixture();
+  const take = store.allocate().recording,
+    a = packageContext(queue),
+    b = packageContext(queue);
+  const heavy = queue.submitContext(a.context, packageRequest("open"));
+  const frame = queue.submitContext(b.context, packageRequest("frame", "frame"));
+  await turn();
+  expect(a.attempts).toEqual([]);
+  expect(b.attempts).toHaveLength(1);
+  store.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 1,
+    state: "canceled",
+  });
+  queue.schedule();
+  await turn();
+  expect(a.attempts).toHaveLength(1);
+  a.attempts[0]!.finish("opened");
+  b.attempts[0]!.finish("frame");
+  await queue.idle();
+  expect(queue.contextJob(a.context, heavy.jobId).result).toBe("opened");
+  expect(queue.contextJob(b.context, frame.jobId).result).toBe("frame");
+});
+
+test("closing capabilities cannot be forged, transferred or resurrected by late answers", async () => {
+  const { queue } = fixture(),
+    other = fixture("other");
+  const contexts = Array.from({ length: 4 }, () => packageContext(queue));
+  const a = contexts[0]!;
+  const job = queue.submitContext(a.context, packageRequest("same provenance", "frame"));
+  await turn();
+  expect(() => packageContext(queue)).toThrow("Too many");
+  expect(() => other.queue.submitContext(a.context, packageRequest("x"))).toThrow("not open");
+  expect(() =>
+    queue.submitContext({ contextId: a.context.contextId } as JobContext, packageRequest("x")),
+  ).toThrow("not open");
+  const closed = queue.closeContext(a.context);
+  expect(queue.closeContext(a.context)).toBe(closed);
+  expect(() => queue.submitContext(a.context, packageRequest("x"))).toThrow("not open");
+  expect(() => packageContext(queue)).toThrow("Too many");
+  a.attempts[0]!.finish("late answer");
+  await closed;
+  expect(() => queue.contextJob(a.context, job.jobId)).toThrow("not open");
+  const replacement = packageContext(queue);
+  const fresh = queue.submitContext(
+    replacement.context,
+    packageRequest("same provenance", "frame"),
+  );
+  await turn();
+  replacement.attempts[0]!.finish("fresh");
+  await queue.idle();
+  expect(queue.contextJob(replacement.context, fresh.jobId).result).toBe("fresh");
+  expect(() => queue.submitContext(a.context, packageRequest("same provenance"))).toThrow(
+    "not open",
+  );
+});
+
+test("terminal metadata can be released for unlimited sequential requests, never active attempts", async () => {
+  const { queue } = fixture();
+  const context = queue.createContext(async ({ job }) => `result:${job.input}`);
+  const jobs: ContextJob[] = [];
+  for (let i = 0; i < 32; i++) {
+    const job = queue.submitContext(context, packageRequest(String(i)));
+    jobs.push(job);
+    await queue.idle();
+    expect(queue.contextJob(context, job.jobId).result).toBe(`result:${i}`);
+  }
+  expect(() => queue.submitContext(context, packageRequest("next"))).toThrow("metadata limit");
+  for (let i = 0; i < 40; i++) {
+    const previous = jobs.shift()!;
+    queue.forgetContextJob(context, previous.jobId);
+    expect(() => queue.contextJob(context, previous.jobId)).toThrow("does not exist");
+    const job = queue.submitContext(context, packageRequest(`later-${i}`));
+    jobs.push(job);
+    await queue.idle();
+    expect(queue.contextJob(context, job.jobId).result).toBe(`result:later-${i}`);
+  }
+  expect(() => queue.submitContext(context, packageRequest("x".repeat(65537)))).toThrow(
+    "too large",
+  );
+});
+
+test("library deletion cannot cancel two package contexts with identical provenance inputs", async () => {
+  const { queue, store, started } = fixture();
+  const recordingId = finished(store),
+    a = packageContext(queue),
+    b = packageContext(queue);
+  const library = queue.submit({
+    recordingId,
+    artifact: "source",
+    lane: "heavy",
+    input: "library",
+  });
+  const one = queue.submitContext(a.context, packageRequest(recordingId, "frame"));
+  const two = queue.submitContext(b.context, packageRequest(recordingId, "frame"));
+  await turn();
+  store.markDeleting(recordingId);
+  const draining = queue.drainRecording(recordingId);
+  expect(a.attempts[0]!.signal.aborted).toBe(false);
+  expect(b.attempts[0]!.signal.aborted).toBe(false);
+  (await started(library.attemptId)).finish("discard");
+  await draining;
+  await queue.forgetRecording(recordingId);
+  a.attempts[0]!.finish("a");
+  b.attempts[0]!.finish("b");
+  await queue.idle();
+  expect(queue.contextJob(a.context, one.jobId).result).toBe("a");
+  expect(queue.contextJob(b.context, two.jobId).result).toBe("b");
+});
+
+test("global waiting admission counts both owners and cancellation releases only queued admission", async () => {
+  const { queue, store } = fixture();
+  const recordingId = finished(store);
+  store.allocate();
+  const a = packageContext(queue),
+    b = packageContext(queue);
+  for (let i = 0; i < 16; i++)
+    queue.submit({ recordingId, artifact: "source", lane: "heavy", input: String(i) });
+  const jobs = Array.from({ length: 16 }, (_, i) =>
+    queue.submitContext(a.context, packageRequest(String(i))),
+  );
+  expect(() => queue.submitContext(b.context, packageRequest("overflow"))).toThrow(
+    "already waiting",
+  );
+  expect(() =>
+    queue.submit({ recordingId, artifact: "source", lane: "heavy", input: "overflow" }),
+  ).toThrow("already waiting");
+  queue.cancelContextJob(a.context, jobs[0]!.jobId);
+  expect(queue.submitContext(b.context, packageRequest("replacement")).state).toBe("queued");
+  expect(a.attempts).toEqual([]);
+  expect(b.attempts).toEqual([]);
+});
+
+test("retry pins a new attempt while stale package completion cannot publish or free its successor", async () => {
+  const { queue } = fixture(),
+    a = packageContext(queue);
+  const job = queue.submitContext(a.context, packageRequest("immutable"));
+  await turn();
+  expect(queue.submitContext(a.context, packageRequest("immutable")).jobId).toBe(job.jobId);
+  queue.cancelContextJob(a.context, job.jobId);
+  let retry = queue.retryContext(a.context, job.jobId);
+  expect(retry.attemptId).not.toBe(job.attemptId);
+  expect(retry.generation).toBe(2);
+  queue.cancelContextJob(a.context, job.jobId);
+  expect(() => queue.forgetContextJob(a.context, job.jobId)).toThrow("still active");
+  retry = queue.retryContext(a.context, job.jobId);
+  expect(retry.generation).toBe(3);
+  expect(a.attempts).toHaveLength(1);
+  a.attempts[0]!.finish("old");
+  await turn();
+  expect(queue.contextJob(a.context, job.jobId)).toMatchObject({
+    state: "running",
+    result: null,
+    attemptId: retry.attemptId,
+  });
+  a.attempts[1]!.finish("new");
+  await queue.idle();
+  expect(queue.contextJob(a.context, job.jobId).result).toBe("new");
+  queue.forgetContextJob(a.context, job.jobId);
+  const next = queue.submitContext(a.context, packageRequest("immutable"));
+  expect(next.jobId).not.toBe(job.jobId);
+  await turn();
+  a.attempts[2]!.finish("again");
+  await queue.idle();
+});
+
+test("oversized result metadata fails explicitly and queue shutdown invalidates package capabilities", async () => {
+  const { queue } = fixture();
+  const context = queue.createContext(async () => "x".repeat(65537));
+  const job = queue.submitContext(context, packageRequest("large"));
+  await queue.idle();
+  expect(queue.contextJob(context, job.jobId)).toMatchObject({
+    state: "failed",
+    retryable: false,
+    result: null,
+  });
+  expect(() => queue.retryContext(context, job.jobId)).toThrow("cannot be retried");
+  await queue.close();
+  expect(() => queue.contextJob(context, job.jobId)).toThrow("not open");
+  expect(() => queue.submitContext(context, packageRequest("next"))).toThrow("queue is closed");
+  await queue.closeContext(context);
 });

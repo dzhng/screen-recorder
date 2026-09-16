@@ -13,7 +13,7 @@ export type ArtifactState =
   | "failed"
   | "unavailable";
 
-/** Contracts cap concurrent work at one heavy job and two frame jobs across the whole library. */
+/** Contracts cap concurrent work at one heavy job and two frame jobs across library and package contexts. */
 const laneLimits: Readonly<Record<JobLane, number>> = { heavy: 1, frame: 2 };
 /**
  * Admission stops here. Waiting work is durable, so an unbounded queue would be an unbounded
@@ -78,6 +78,34 @@ export type JobExecution = Readonly<{ job: Job; signal: AbortSignal }>;
  */
 export type JobExecutor = (execution: JobExecution) => Promise<string>;
 
+declare const contextBrand: unique symbol;
+/** Queue-issued lifetime authority. The embedded recording ID is never a scheduling owner. */
+export type JobContext = Readonly<{ contextId: string; [contextBrand]: true }>;
+export type ContextJobRequest = Pick<JobRequest, "artifact" | "lane" | "input">;
+export type ContextJob = Omit<Job, "recordingId" | "revisionId"> & {
+  contextId: string;
+  result: string | null;
+};
+export type ContextJobExecutor = (execution: {
+  job: ContextJob;
+  signal: AbortSignal;
+}) => Promise<string>;
+type ContextRow = ContextJob & { queuedSequence: number };
+type ContextState = {
+  id: string;
+  execute?: ContextJobExecutor;
+  jobs: Map<string, ContextRow>;
+  closed: boolean;
+  closing?: Promise<void>;
+};
+type ClaimedJob = { job: Job; context?: never } | { job: ContextJob; context: ContextState };
+function contextValue({ queuedSequence: _sequence, ...job }: ContextRow): ContextJob {
+  return job;
+}
+const contextLimit = 4;
+const contextJobLimit = 32;
+const contextValueBytes = 64 * 1024;
+
 const jobColumns =
   "jobId,attemptId,recordingId,artifact,lane,input,revisionId,state,reason,retryable,generation";
 const joinedJobColumns = jobColumns
@@ -92,7 +120,8 @@ function toJob(row: JobRow): Job {
 }
 
 /**
- * The durable artifact queue. It keeps its rows in the catalog the revision store already owns, so
+ * One execution queue for durable library artifacts and transient package contexts. Library rows
+ * stay in the catalog the revision store already owns, so
  * a restart reads the same authority rather than a second database, and it starts work only when a
  * submission, a settled attempt or a reported capture change says something might now be allowed.
  * Nothing polls, nothing retries by itself, and the service that owns the catalog owns one queue.
@@ -104,13 +133,18 @@ export class JobQueue {
   private readonly attempts = new Map<
     string,
     {
-      recordingId: string;
+      jobId: string;
+      recordingId?: string;
+      context?: ContextState;
       lane: JobLane;
       artifact: string;
       controller: AbortController;
       done: Promise<void>;
     }
   >();
+  private readonly contexts = new WeakMap<JobContext, ContextState>();
+  private readonly activeContexts = new Set<ContextState>();
+  private sequence = 0;
   private closed = false;
   private readonly onCapacity: (() => void) | undefined;
 
@@ -142,7 +176,141 @@ export class JobQueue {
     this.store.catalog
       .prepare("UPDATE jobs SET state='failed',reason=?,retryable=1 WHERE state='running'")
       .run("interrupted");
+    this.sequence = Number(
+      (
+        this.store.catalog
+          .prepare("SELECT COALESCE(MAX(queuedSequence),0) AS sequence FROM jobs")
+          .get() as { sequence: number }
+      ).sequence,
+    );
     this.schedule();
+  }
+
+  createContext(execute: ContextJobExecutor): JobContext {
+    this.requireOpen();
+    if (this.activeContexts.size >= contextLimit)
+      throw new CatalogError("LIMIT_EXCEEDED", "Too many package contexts are open", {}, true);
+    const context = Object.freeze({ contextId: this.newId() }) as JobContext;
+    const state: ContextState = { id: context.contextId, execute, jobs: new Map(), closed: false };
+    this.contexts.set(context, state);
+    this.activeContexts.add(state);
+    return context;
+  }
+  private context(context: JobContext, allowClosed = false): ContextState {
+    const state = this.contexts.get(context);
+    if (!state || (state.closed && !allowClosed))
+      throw new CatalogError("CONTEXT_CLOSED", "Package context is not open in this queue");
+    return state;
+  }
+  submitContext(context: JobContext, request: ContextJobRequest): ContextJob {
+    this.requireOpen();
+    const state = this.context(context);
+    if (
+      !request.artifact ||
+      Buffer.byteLength(request.artifact) > 128 ||
+      Buffer.byteLength(request.input) > contextValueBytes
+    )
+      throw new CatalogError("LIMIT_EXCEEDED", "Package job identity is too large");
+    const existing = [...state.jobs.values()].find(
+      (job) => job.artifact === request.artifact && job.input === request.input,
+    );
+    if (existing) {
+      if (existing.lane !== request.lane)
+        throw new CatalogError("INVALID_REQUEST", "An existing job cannot change execution lane");
+      this.schedule();
+      return this.contextJob(context, existing.jobId);
+    }
+    if (state.jobs.size >= contextJobLimit)
+      throw new CatalogError("LIMIT_EXCEEDED", "Package context job metadata limit exceeded");
+    this.admit();
+    const job: ContextRow = {
+      jobId: this.newId(),
+      attemptId: this.newId(),
+      contextId: state.id,
+      artifact: request.artifact,
+      input: request.input,
+      lane: request.lane,
+      state: "queued",
+      reason: null,
+      retryable: false,
+      generation: 1,
+      result: null,
+      queuedSequence: ++this.sequence,
+    };
+    state.jobs.set(job.jobId, job);
+    this.schedule();
+    return this.contextJob(context, job.jobId);
+  }
+  contextJob(context: JobContext, jobId: string): ContextJob {
+    const job = this.context(context).jobs.get(jobId);
+    if (!job) throw new CatalogError("NOT_FOUND", "Package job does not exist", { jobId });
+    return contextValue(job);
+  }
+  retryContext(context: JobContext, jobId: string): ContextJob {
+    this.requireOpen();
+    const state = this.context(context),
+      current = this.contextJob(context, jobId);
+    if (["queued", "running", "ready"].includes(current.state)) {
+      this.schedule();
+      return this.contextJob(context, jobId);
+    }
+    if (!current.retryable) throw new CatalogError("UNAVAILABLE", "Package job cannot be retried");
+    this.admit();
+    state.jobs.set(jobId, {
+      ...current,
+      attemptId: this.newId(),
+      generation: current.generation + 1,
+      queuedSequence: ++this.sequence,
+      state: "queued",
+      reason: null,
+      retryable: false,
+      result: null,
+    });
+    this.schedule();
+    return this.contextJob(context, jobId);
+  }
+  cancelContextJob(context: JobContext, jobId: string): ContextJob {
+    this.requireOpen();
+    const state = this.context(context),
+      job = this.contextJob(context, jobId);
+    if (job.state === "queued" || job.state === "running") {
+      Object.assign(state.jobs.get(jobId)!, {
+        state: "canceled",
+        reason: "canceled",
+        retryable: true,
+      });
+      this.attempts.get(job.attemptId)?.controller.abort();
+      this.capacityAvailable();
+    }
+    return this.contextJob(context, jobId);
+  }
+  /** The owner releases terminal metadata after retaining any result it needs. Active attempts are never evicted. */
+  forgetContextJob(context: JobContext, jobId: string): void {
+    const state = this.context(context),
+      job = this.contextJob(context, jobId);
+    if (
+      job.state === "queued" ||
+      job.state === "running" ||
+      [...this.attempts.values()].some((attempt) => attempt.jobId === jobId)
+    )
+      throw new CatalogError("PROCESSING_BUSY", "Package job is still active", {}, true);
+    state.jobs.delete(jobId);
+  }
+  closeContext(context: JobContext): Promise<void> {
+    const state = this.context(context, true);
+    return (state.closing ??= (async () => {
+      state.closed = true;
+      for (const job of state.jobs.values())
+        if (job.state === "queued" || job.state === "running")
+          Object.assign(job, { state: "canceled", reason: "context_closed", retryable: false });
+      const attempts = [...this.attempts.values()].filter((attempt) => attempt.context === state);
+      for (const attempt of attempts) attempt.controller.abort();
+      this.capacityAvailable();
+      await Promise.all(attempts.map((attempt) => attempt.done));
+      state.jobs.clear();
+      delete state.execute;
+      this.activeContexts.delete(state);
+    })());
   }
 
   /**
@@ -165,7 +333,7 @@ export class JobQueue {
       this.store.catalog
         .prepare(
           `INSERT INTO jobs(${jobColumns},queuedSequence)
-           VALUES (?,?,?,?,?,?,?,'queued',NULL,0,1,(SELECT COALESCE(MAX(queuedSequence),0)+1 FROM jobs))`,
+           VALUES (?,?,?,?,?,?,?,'queued',NULL,0,1,?)`,
         )
         .run(
           admitted,
@@ -175,6 +343,7 @@ export class JobQueue {
           request.lane,
           request.input,
           revisionId,
+          ++this.sequence,
         );
       return admitted;
     });
@@ -229,9 +398,9 @@ export class JobQueue {
     this.store.catalog
       .prepare(
         `UPDATE jobs SET state='queued',attemptId=?,reason=NULL,retryable=0,generation=generation+1,
-         queuedSequence=(SELECT COALESCE(MAX(queuedSequence),0)+1 FROM jobs) WHERE jobId=?`,
+         queuedSequence=? WHERE jobId=?`,
       )
-      .run(this.newId(), current.jobId);
+      .run(this.newId(), ++this.sequence, current.jobId);
   }
 
   /**
@@ -321,7 +490,8 @@ export class JobQueue {
       while (this.occupied(lane) < laneLimits[lane]) {
         const job = this.claim(lane);
         if (!job) break;
-        this.run(job);
+        if (job.context) this.runContext(job.context, job.job);
+        else this.run(job.job);
       }
     }
   }
@@ -386,8 +556,15 @@ export class JobQueue {
           )
           .run(attemptId);
     });
+    const contexts = [...this.activeContexts];
+    for (const state of contexts) state.closed = true;
     for (const attempt of this.attempts.values()) attempt.controller.abort();
     await this.idle();
+    for (const state of contexts) {
+      state.jobs.clear();
+      delete state.execute;
+    }
+    this.activeContexts.clear();
   }
 
   /** A canceled attempt still owns its files until its executor has settled. */
@@ -410,11 +587,16 @@ export class JobQueue {
     const { queued } = this.store.catalog
       .prepare("SELECT COUNT(*) AS queued FROM jobs WHERE state='queued'")
       .get() as { queued: number };
-    if (queued >= queuedLimit)
+    const contextQueued = [...this.activeContexts].reduce(
+      (count, context) =>
+        count + [...context.jobs.values()].filter((job) => job.state === "queued").length,
+      0,
+    );
+    if (queued + contextQueued >= queuedLimit)
       throw new CatalogError(
         "LIMIT_EXCEEDED",
         "Too much work is already waiting; retry once the queue drains",
-        { queued },
+        { queued: queued + contextQueued },
         true,
       );
   }
@@ -426,41 +608,109 @@ export class JobQueue {
   }
 
   /** Takes the oldest startable job in a lane, dropping work whose take was discarded meanwhile. */
-  private claim(lane: JobLane): Job | null {
-    return this.store.transaction(() => {
+  private claim(lane: JobLane): ClaimedJob | null {
+    const claimed = this.store.transaction<ClaimedJob | null>(() => {
       for (;;) {
         const row = this.store.catalog
           .prepare(
-            `SELECT ${joinedJobColumns},recordings.state AS recordingState
+            `SELECT ${joinedJobColumns},jobs.queuedSequence,recordings.state AS recordingState
              FROM jobs JOIN recordings USING(recordingId)
              WHERE jobs.lane=? AND jobs.state='queued' ORDER BY jobs.queuedSequence LIMIT 1`,
           )
-          .get(lane) as (JobRow & { recordingState: string }) | undefined;
+          .get(lane) as (JobRow & { recordingState: string; queuedSequence: number }) | undefined;
+        const eligible = [...this.activeContexts]
+          .filter(
+            (context) =>
+              !context.closed &&
+              ![...this.attempts.values()].some((attempt) => attempt.context === context),
+          )
+          .flatMap((context) =>
+            [...context.jobs.values()]
+              .filter((job) => job.state === "queued" && job.lane === lane)
+              .map((job) => ({ context, job })),
+          )
+          .sort((a, b) => a.job.queuedSequence - b.job.queuedSequence)[0];
+        if (eligible && (!row || eligible.job.queuedSequence < row.queuedSequence)) {
+          return {
+            context: eligible.context,
+            job: { ...contextValue(eligible.job), state: "running" },
+          };
+        }
         if (!row) return null;
-        const { recordingState, ...fields } = row;
+        const { recordingState, queuedSequence: _sequence, ...fields } = row;
         if (recordingState === "canceled" || this.store.isDeleting(row.recordingId)) {
           this.discard(row.jobId, "recording_unavailable");
           continue;
         }
         this.store.catalog.prepare("UPDATE jobs SET state='running' WHERE jobId=?").run(row.jobId);
-        return { ...toJob(fields), state: "running" };
+        return { job: { ...toJob(fields), state: "running" } };
       }
     });
+    if (claimed?.context)
+      Object.assign(claimed.context.jobs.get(claimed.job.jobId)!, { state: "running" });
+    return claimed;
   }
 
   private run(job: Job): void {
+    this.startAttempt(
+      job,
+      { recordingId: job.recordingId },
+      (signal) => this.execute({ job, signal }),
+      (outcome) => this.settle(job, outcome),
+    );
+  }
+  private runContext(context: ContextState, job: ContextJob): void {
+    this.startAttempt(
+      job,
+      { context },
+      (signal) => context.execute!({ job, signal }),
+      (outcome) => {
+        const current = context.jobs.get(job.jobId);
+        if (
+          context.closed ||
+          !current ||
+          current.attemptId !== job.attemptId ||
+          current.state !== "running"
+        )
+          return;
+        if ("result" in outcome && Buffer.byteLength(outcome.result) > contextValueBytes)
+          outcome = {
+            error: new CatalogError("LIMIT_EXCEEDED", "Package job result exceeds metadata limit"),
+          };
+        if ("result" in outcome) Object.assign(current, { state: "ready", result: outcome.result });
+        else {
+          const error = outcome.error;
+          Object.assign(current, {
+            state:
+              error instanceof CatalogError && error.code === "UNAVAILABLE"
+                ? "unavailable"
+                : "failed",
+            reason: (error instanceof Error ? error.message : String(error)).slice(0, 4096),
+            retryable: !(error instanceof CatalogError) || error.retryable,
+          });
+        }
+      },
+    );
+  }
+  private startAttempt(
+    job: Pick<Job, "jobId" | "attemptId" | "lane" | "artifact">,
+    owner: { recordingId: string } | { context: ContextState },
+    execute: (signal: AbortSignal) => Promise<string>,
+    settle: (outcome: { result: string } | { error: unknown }) => void,
+  ): void {
     const controller = new AbortController();
     const done = Promise.resolve()
-      .then(() => this.execute({ job, signal: controller.signal }))
+      .then(() => execute(controller.signal))
       .then(
-        (result) => this.settle(job, { result }),
-        (error: unknown) => this.settle(job, { error }),
+        (result) => settle({ result }),
+        (error: unknown) => settle({ error }),
       )
       .finally(() => {
         this.attempts.delete(job.attemptId);
       });
     this.attempts.set(job.attemptId, {
-      recordingId: job.recordingId,
+      ...owner,
+      jobId: job.jobId,
       lane: job.lane,
       artifact: job.artifact,
       controller,

@@ -80,3 +80,7 @@ frame/audio, archive and ManagedFiles tests green.
 Use compare-screenshots for generated parity, then independent screenshot-critique
 last on any new visual evidence. Follow the non-blocking review window in the parent
 verification plan. No user approval is required for these reversible internal choices.
+
+The next scheduling prerequisite is [14c3a — transient context jobs](14c3a-transient-context-jobs.md).
+It supplies shared execution capacity; package storage admission, delivery ownership
+and restart recovery must still be bound by the later service registry.

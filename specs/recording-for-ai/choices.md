@@ -1696,3 +1696,18 @@ records them. These choices add no public export choice or transcript readiness.
   missing, replaced and modified remain explicit outcomes. Repeated cleanup and
   close calls reach the same end state, and every close caller waits for the active
   operation before descriptors are released.
+### 14c3a — Transient package job authority
+
+- **Sound; medium confidence:** Four package contexts may remain open or closing,
+  each retaining at most 32 jobs and bounded request/result metadata. A consumer
+  explicitly releases completed metadata before asking for more; no active or
+  draining job is evicted. This caps memory while allowing an already-open package
+  to serve unlimited sequential requests. Public storage limits remain separate.
+- **Sound; high confidence:** Package scheduling uses an in-process capability
+  issued by the existing queue, rather than accepting a caller's context ID as
+  authority. Closure is remembered only while that capability remains reachable;
+  discarded handles require no everlasting tombstone map. Restart invalidates them.
+- **Sound; high confidence:** Keep durable library jobs in their existing tables and
+  transient package jobs in bounded memory, but choose starts with one admission
+  sequence and execute through one attempt owner. Package jobs have no fictional
+  recording/revision row, and deleting a same-ID library recording cannot own them.
