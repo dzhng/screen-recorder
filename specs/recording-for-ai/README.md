@@ -47,13 +47,14 @@ pinned edit/undo and five-minute encoded A/V checks. Tiny AAC retains its docume
 independent-decoder limitation; numerical generated sound is not speech audition.
 [13d1 presentation evidence](slices/13d1-presentation-evidence.md) shares the
 renderer’s exact held-frame support, and [13d2 point policy](slices/13d2-presentation-pointer-core.md)
-uses it without relaxing nearest-still selection. Next, schedule pointer changes
-with persistent reset history: A → B → A must not revive an old pointer.
+uses it without relaxing nearest-still selection. [Sequential scheduling](slices/13d3-pointer-schedule.md)
+now preserves reset history, including A → B → A and fractional source clocks.
+Next, compose those states in the native movie without another policy owner.
 [Preview publication](slices/13e-preview-publication.md) now retains pinned movies
 through existing jobs/cache; its next gate is abandoned native-attempt ownership,
-then pointer-equipped public delivery and playback. Real capture also exposed a
-small finalized-duration/container-end mismatch; resolve the native source authority
-before accepting full-original previews.
+then pointer-equipped public delivery and playback. The [capture clock fix](assets/capture-duration/README.md) now preserves exact
+finalized endpoints and bounds legacy recovery to usable source ticks. Existing
+persisted revisions are not rewritten.
 [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
 including native workers and frame/audio/index leases. Recent-recording delete and
 storage controls build and pass native state/identity checks, but computer-use could
@@ -167,7 +168,8 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md) (independent of speech and video job integration)
   - [x] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md) (generated encoded timing, lifetime and five-minute scale; parent audition remains)
   - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md) (bounded exact support)
-  - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md) (point inspection only; event schedule/composition remain)
+  - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md) (point inspection only; native composition remains)
+  - [x] [13d3 — Sequential pointer schedule](slices/13d3-pointer-schedule.md) (exact events/reset memory; native composition remains)
   - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md) (internal pinned cache consumer verified; staging recovery and public playback remain)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)

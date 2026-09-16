@@ -53,3 +53,7 @@ Independent read-only review found no actionable defects. Service capture/lifeti
 checks passed (28 tests), and lint/diff checks passed. The focused production change
 is explicit writer timebases plus conservative recovered video endpoints; no
 schema, public route, dependency or process owner was added.
+
+The [merged native capture/recovery suite](merged-native-tests.txt) also passes on
+main after preview publication and sequential pointer policy integration. The actual
+owned-window capture evidence above uses the isolated built app containing this fix.

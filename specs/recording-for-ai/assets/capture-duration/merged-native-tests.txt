@@ -1,0 +1,60 @@
+[0/1] Planning build
+Building for debugging...
+[0/4] Write sources
+[1/4] Write swift-version--1AB21518FC5DEDBE.txt
+[3/7] Compiling ScreenRecorderCapture MediaRecovery.swift
+[4/7] Compiling ScreenRecorderCapture CaptureWriter.swift
+[5/7] Emitting module ScreenRecorderCapture
+[6/8] Compiling ScreenRecorderCapture NativeCapture.swift
+[6/9] Write sources
+[8/13] Compiling ScreenRecorderCaptureTests CaptureWriterTests.swift
+[9/13] Emitting module ScreenRecorderCaptureTests
+[10/13] Compiling ScreenRecorderCaptureTests RecoveryFixtures.swift
+[11/13] Compiling ScreenRecorderCaptureTests main.swift
+[12/17] Compiling ScreenRecorderCaptureTests CursorGeometryTests.swift
+[13/17] Compiling ScreenRecorderCaptureTests CaptureJournalTests.swift
+[14/17] Compiling ScreenRecorderCaptureTests DeferredPauseTests.swift
+[15/17] Compiling ScreenRecorderCaptureTests MediaRecoveryTests.swift
+[15/18] Write Objects.LinkFileList
+[16/18] Linking ScreenRecorderCaptureTests
+[17/18] Applying ScreenRecorderCaptureTests
+Build of product 'ScreenRecorderCaptureTests' complete! (2.03s)
+PASS fractional container endpoint recovers only supported source-clock ticks
+PASS generated capture exact finalized duration 4319310
+PASS generated capture exact finalized duration 7002073
+PASS generated capture exact finalized duration 33333
+PASS terminal requests join one owner; old waiters cannot clean up a replacement take
+PASS late cursor deliveries cannot append after writer seal or cancel
+PASS elapsed playback time freezes across pauses and finalization
+PASS source zero waits for an active usable frame
+PASS pause mapping and event
+PASS delayed samples, boundary audio, and repeated pauses
+PASS stale failure and finalizer after restart
+PASS held tail waits out encoder backpressure and decodes
+PASS stopped writer fails the held tail without waiting
+PASS a written take's journal reads back through the reader
+PASS streaming and recovery share timing without retaining streaming arrays
+PASS a malformed host timestamp rejects its record and keeps the proof before it
+PASS a torn last line reads as a crash boundary distinct from a bad record
+PASS deferred pause placement preserves native source timing, recovery, streaming and open controls
+PASS a filled retina window maps corners and an asymmetric interior point
+PASS a resized window letterboxes inside unchanged output dimensions
+PASS out-of-capture points stay projected and outside, never clamped to an edge
+PASS a region uses its requested global rect and unexplained geometry places nothing
+PASS AppKit pointer readings convert through the zero-origin display height
+PASS a track batches samples, follows geometry epochs and refuses late readings
+PASS readings are projected through the geometry contemporaneous with them
+PASS a delayed reading retains geometry across an empty batch
+PASS a reading no geometry explains cites epoch 0 and keeps its global point
+PASS geometry retained across a suspended cadence is bounded from the old end
+PASS a paused take records no samples and reports the readings it dropped
+PASS missed and refused readings are reported instead of filled in
+PASS unplaced geometry epochs gain one native timed placement without rewriting raw evidence
+PASS a sampler's cadence starts, suspends, resumes and stops without leaking a suspend
+PASS a blocked capture queue holds only the bound and refuses the rest
+PASS geometry and cursor evidence round-trip through the journal
+PASS edit-list take recovers 1000000us where an asset-timestamped cursor reports 700000us
+PASS unconfirmed sample tails resolve to no duration rather than a neighbour's
+PASS unfinalized fragmented take recovers 1033333us of 2999970us submitted
+PASS unrequested audio reports NOT_REQUESTED while requested audio still reports loss
+PASS video recovery preserves an empty middle edit as a gap

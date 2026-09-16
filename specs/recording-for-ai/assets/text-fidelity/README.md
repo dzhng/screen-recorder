@@ -92,8 +92,9 @@ checks immutable sources and verifies the output container independently.
 The comparison deliberately uses an interior four-second range. One original
 capture reported 4,316,788 µs at stop while its container ended at 4,316,667 µs;
 a full-original plan correctly hit the renderer's usable-source bound. This
-separate duration-authority issue is unresolved here, not silently clamped in
-production. The original fixture retained source bytes and stop duration but
+separate duration-authority issue was unresolved in this comparison. It is now
+addressed by the [capture clock fix](../capture-duration/README.md), without clamping
+renderer plans. The original fixture retained source bytes and stop duration but
 not its journal. The capture driver now preserves complete source directories
 and stop receipts; a verification rerun retained those and showed rounding in
 the opposite direction. This evidence does not certify full-original export,

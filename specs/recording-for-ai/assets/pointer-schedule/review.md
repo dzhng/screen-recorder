@@ -52,3 +52,11 @@ The next native checkpoint must split held-picture intervals at these exact stat
 changes, drawing onto the clean held buffer each time. Its output clock must
 represent required transitions exactly, or fail before publication. An exact
 schedule alone does not prove an encoder's chosen timescale can represent it.
+
+## Merged consumers
+
+On main with preview publication integrated, all [292 core tests](merged-core-tests.txt)
+and core types pass. The rebuilt app also passes all [eight public trail tests](merged-public-trails.txt)
+through actual CLI/MCP images. Core tests use four workers to avoid unrelated native
+workload contention; no test deadline was increased. Native movie composition is
+still the next consumer.

@@ -68,3 +68,14 @@ access undetermined. Root terminated the review instance and verified its servic
 also exited. No UI screenshot, menu click, or broader permission/capture result is
 claimed from that attempt. The own-window fixture result applies only to its tested
 launch context.
+
+## Actual shortcut probe
+
+A fresh app-owned fixture capture with microphone/system audio off was reachable
+through computer-use. Sending Control–Option–Command–P through that tool left the
+service in `recording` (22,465,614 µs observed); no pause result is claimed. The app
+window's accessibility tree exposed the fixture, not the status menu. This does not
+distinguish a physical-hotkey defect from event-delivery limitations of the UI tool.
+The probe's bounded cleanup stopped the recording normally and reaped the app and
+service. Actual shortcut/menu acceptance remains open. The bundle was the merged
+pointer-policy build; this probe is not capture-duration-fix verification.
