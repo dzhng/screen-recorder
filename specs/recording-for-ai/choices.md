@@ -897,3 +897,21 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   published evidence. Internal deletion state is not another public readiness state.
 - **Verdict:** Sound: bounded cleanup and atomic visibility without whole-scan buffers.
   **Confidence:** High.
+## Public trail boundary fixture — 2026-09-16
+
+- **Choice:** Reuse the generated page/journal fixture with a denser encoding only
+  for cut comparisons. A cut can remove the only frame before the requested
+  moment in the sparse video; inserting regular encoded frames lets this test
+  judge retained pointing while the original sparse case still judges held frames.
+  **Gap:** The plan names cut coverage without prescribing fixture cadence.
+  **Reach:** Future cut tests must include a real retained frame when claiming
+  successful annotation. **Verdict:** sound; it isolates cut behavior without
+  relaxing missing-frame handling. **Confidence:** high.
+- **Choice:** Induce retryable source failure by withholding write permission on
+  the test's derivative directory. Once repaired, a frame request must still show
+  the failure until the caller retries source processing. A malformed journal is
+  rejected permanently and would test a different contract.
+  **Gap:** The plan specifies explicit source retry without selecting a failure.
+  **Reach:** The macOS integration test requires an ordinary non-root account
+  whose filesystem enforces directory permissions. **Verdict:** sound; this tests
+  a real storage failure and leaves the source journal intact. **Confidence:** high.

@@ -85,5 +85,6 @@ overlay receipt even when there were no eligible points to draw.
 service, native rendering, CLI files and MCP images. Default, clean, pointer-only
 and short trails use the same frame route; requested-time history survives a held
 image and a compatible future image, while pause and changed-scene resets remove
-ineligible history. The current generated public fixture does not yet cover every
-geometry/edit/failure case above; core coverage is not relabeled as public proof.
+ineligible history. The [boundary verification](../assets/public-trails/boundaries.md) also covers
+generated geometry/edit/failure cases through native delivery. Physical acquisition
+and broader cache/regeneration acceptance remain separate gates.

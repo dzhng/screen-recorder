@@ -56,7 +56,8 @@ Current evidence:
 - [Clean frames](assets/frame-delivery/review.md) and [eight-image batches](assets/frame-delivery/batches.md):
   own-window and sparse generated sources, full resolution/crop, cuts, historical
   revisions, LRU/restart, actual CLI/MCP bytes and failure isolation. Public clean
-  mode is available alongside [default trail images](assets/public-trails/review.md).
+  mode is available alongside [default trail images](assets/public-trails/review.md)
+  and [generated boundary checks](assets/public-trails/boundaries.md).
   SDK receipt is not model-level recorded-image understanding.
 - [Source timing](assets/source-timing/integration-review.md), [indexed trail evidence](assets/trail-evidence/review.md)
   and [scene compatibility](assets/scene-analysis/core-review.md): shared normalized

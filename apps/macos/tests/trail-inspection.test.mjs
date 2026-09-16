@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { randomUUID, createHash } from "node:crypto";
-import { mkdir, writeFile, readFile, copyFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile, copyFile, chmod } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
@@ -160,7 +160,7 @@ function compact(value) {
       compact(item);
     }
 }
-async function fixture(home) {
+async function fixture(home, transformRows = (rows) => rows, frameStepUs = 6_000_000) {
   const store = new RevisionStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
@@ -176,19 +176,23 @@ async function fixture(home) {
   store.close();
   const source = join(home, "recordings", take.recordingId, "source");
   await mkdir(source, { recursive: true });
-  for (let index = 0; index < 3; index++)
+  const frameCount = 18_000_000 / frameStepUs;
+  for (let index = 0; index < frameCount; index++)
     await writeFile(
       join(home, `page-${index}.ppm`),
-      Buffer.concat([Buffer.from(`P6\n${width} ${height}\n255\n`), page(index === 2)]),
+      Buffer.concat([
+        Buffer.from(`P6\n${width} ${height}\n255\n`),
+        page(index * frameStepUs >= 12_000_000),
+      ]),
     );
   const video = join(source, "video.mov");
   ffmpeg([
     "-framerate",
-    "1/6",
+    `${1_000_000}/${frameStepUs}`,
     "-i",
     join(home, "page-%d.ppm"),
     "-frames:v",
-    "3",
+    String(frameCount),
     "-an",
     "-c:v",
     "libx264",
@@ -216,7 +220,7 @@ async function fixture(home) {
   assert.equal(truth.status, 0, truth.stderr);
   assert.deepEqual(
     JSON.parse(truth.stdout).frames.map((frame) => Number(frame.pts_time)),
-    [0, 6, 12],
+    Array.from({ length: frameCount }, (_, i) => (i * frameStepUs) / 1_000_000),
   );
   const samples = [];
   const point = (sourceUs, x, y) =>
@@ -289,16 +293,14 @@ async function fixture(home) {
   const journal = join(source, "capture.journal.jsonl");
   await writeFile(
     journal,
-    rows.map((row, index) => JSON.stringify({ sequence: index + 1, ...row })).join("\n") + "\n",
+    transformRows(rows)
+      .map((row, index) => JSON.stringify({ sequence: index + 1, ...row }))
+      .join("\n") + "\n",
   );
   return { take, video, journal };
 }
 
-test("public default trails preserve held-frame gestures, reset history and reach CLI and MCP as real pixels", async () => {
-  const home = temporary("/tmp/scr-trail-public-");
-  const source = await fixture(home);
-  const hashes = { video: await hash(source.video), journal: await hash(source.journal) };
-  const { instance } = await launchReady(home);
+function inspector(home, source) {
   const call = async (operation, params) => {
     const response = await callLocal(socketPath(home), { id: randomUUID(), operation, params });
     assert.equal(response.ok, true, JSON.stringify(response));
@@ -306,13 +308,13 @@ test("public default trails preserve held-frame gestures, reset history and reac
   };
   const base = {
     recordingId: source.take.recordingId,
-    revisionId: "r0",
     atUs: 2_000_000,
     maxLongEdge: width,
   };
   const results = {};
   async function deliver(name, options) {
-    const params = { ...base, ...options };
+    const { expectedSourceUs, ...requestOptions } = options ?? {};
+    const params = { ...base, ...requestOptions };
     const ready = await waitFor(async () => {
       const status = await call("frame.get", params);
       if (["failed", "unavailable"].includes(status.state)) throw new Error(JSON.stringify(status));
@@ -339,7 +341,7 @@ test("public default trails preserve held-frame gestures, reset history and reac
     const delivered = JSON.parse(command.stdout);
     assert.deepEqual(delivered.data.published, ready.published);
     const frame = ready.published.frame;
-    assert.equal(frame.requestedSourceUs, params.atUs);
+    assert.equal(frame.requestedSourceUs, expectedSourceUs ?? params.atUs);
     assert.deepEqual([frame.width, frame.height], [width, height]);
     compact(frame);
     assert.ok(
@@ -349,6 +351,15 @@ test("public default trails preserve held-frame gestures, reset history and reac
     results[name] = { params, output, frame, rgb: pixels(output) };
     return results[name];
   }
+  return { call, deliver, results };
+}
+
+test("public default trails preserve held-frame gestures, reset history and reach CLI and MCP as real pixels", async () => {
+  const home = temporary("/tmp/scr-trail-public-");
+  const source = await fixture(home);
+  const hashes = { video: await hash(source.video), journal: await hash(source.journal) };
+  const { instance } = await launchReady(home);
+  const { deliver, results } = inspector(home, source);
   await deliver("clean", { clean: true });
   await deliver("pointer", { trailUs: 0 });
   await deliver("default", {});
@@ -470,4 +481,207 @@ test("public default trails preserve held-frame gestures, reset history and reac
   instance.kill("SIGTERM");
   await waitFor(() => !instance.running, 15000);
   assert.equal((await instance.exited).code, 0);
+});
+
+test("public cut clips retained history while a pinned historical revision preserves its gesture", async () => {
+  const home = temporary("/tmp/scr-trail-cut-");
+  const source = await fixture(home, undefined, 500_000);
+  await launchReady(home);
+  const { call, deliver } = inspector(home, source);
+  const historical = await deliver("before-cut", {});
+  const edited = await call("edit.cut", {
+    recordingId: source.take.recordingId,
+    expectedRevisionId: "r0",
+    requestId: randomUUID(),
+    ranges: [{ startUs: 0, endUs: 1_500_000 }],
+  });
+  const options = { revisionId: edited.revision.id, atUs: 500_000, expectedSourceUs: 2_000_000 };
+  const cut = await deliver("cut", options);
+  const clean = await deliver("cut-clean", { ...options, clean: true });
+  assert.equal(cut.frame.annotation.agedFromUs, 2_000_000);
+  assert.deepEqual(cut.frame.annotation.interval, { startUs: 1_500_000, endUs: 1_975_000 });
+  assert.ok(
+    cut.frame.annotation.cutoffs.some(
+      (c) => c.reason === "kept_start" && c.atSourceUs === 1_500_000,
+    ),
+  );
+  const oldCircle = { x: 360, y: 240, width: 120, height: 240 };
+  assert.equal(differences(clean.rgb, cut.rgb, oldCircle), 0);
+  assert.ok(differences(clean.rgb, cut.rgb) > 100, "Retained wave still draws after the cut");
+  const current = await deliver("current", { atUs: 500_000, expectedSourceUs: 2_000_000 });
+  assert.deepEqual(current.frame, cut.frame);
+  assert.deepEqual(current.rgb, cut.rgb);
+  assert.deepEqual(cut.frame.sourceEvidence, historical.frame.sourceEvidence);
+  const pinned = await deliver("historical", { revisionId: "r0" });
+  assert.deepEqual(pinned.frame, historical.frame);
+  assert.deepEqual(pinned.rgb, historical.rgb);
+  assert.ok(differences(clean.rgb, pinned.rgb, oldCircle) > 100);
+});
+
+for (const resized of [false, true])
+  test(`public ${resized ? "resize vetoes" : "window move preserves"} held-raster coordinates`, async () => {
+    const home = temporary("/tmp/scr-trail-geometry-");
+    const source = await fixture(home, (rows) => {
+      const moved = structuredClone(rows.find((row) => row.event === "geometry"));
+      moved.data.epoch = 2;
+      moved.data.sourceUs = 1_500_000;
+      moved.data.hostUs += 1_500_000;
+      moved.data.geometry.screenRect.x = 500;
+      moved.data.geometry.screenRect.y = 300;
+      if (resized) moved.data.geometry.contentRect.width -= 200;
+      rows.splice(3, 0, moved);
+      for (const row of rows)
+        if (row.event === "cursorSamples")
+          for (const sample of row.data.samples)
+            if (sample.sourceUs >= moved.data.sourceUs) {
+              sample.geometryEpoch = 2;
+              sample.globalX += 500;
+              sample.globalY += 300;
+            }
+      return rows;
+    });
+    await launchReady(home);
+    const { deliver } = inspector(home, source);
+    const clean = await deliver("clean", { clean: true });
+    const annotated = await deliver("geometry", {});
+    const annotation = annotated.frame.annotation;
+    assert.equal(annotated.frame.actualSourceUs, 0);
+    assert.deepEqual(annotation.geometry, { requestedEpoch: 2, selectedEpoch: 1 });
+    assert.ok(
+      annotation.cutoffs.some((c) => c.reason === "geometry" && c.atSourceUs === 1_500_000),
+    );
+    assert.equal(
+      differences(clean.rgb, annotated.rgb, { x: 360, y: 240, width: 120, height: 240 }),
+      0,
+    );
+    if (resized) {
+      assert.equal(
+        differences(annotated.rgb, clean.rgb),
+        0,
+        "Incompatible geometry cannot draw on the held raster",
+      );
+      assert.equal(annotation.pointer, null);
+      assert.equal(annotation.interval, null);
+    } else {
+      assert.equal(annotation.pointer.atSourceUs, 1_975_000);
+      assert.deepEqual(annotation.interval, { startUs: 1_500_000, endUs: 1_975_000 });
+      assert.ok(
+        differences(clean.rgb, annotated.rgb, { x: 640, y: 420, width: 350, height: 70 }) > 100,
+        "The new wave stays in output coordinates despite movement on the desktop",
+      );
+      assert.equal(
+        differences(clean.rgb, annotated.rgb, { x: 1000, y: 650, width: 280, height: 150 }),
+        0,
+      );
+    }
+  });
+
+for (const eligibility of ["outside", "unknownGeometry"])
+  test(`public ${eligibility} observation wins a duplicate timestamp without reviving the previous pointer`, async () => {
+    const home = temporary("/tmp/scr-trail-eligibility-");
+    const source = await fixture(home, (rows) => {
+      for (const row of rows)
+        if (row.event === "cursorSamples") {
+          const index = row.data.samples.findIndex((sample) => sample.sourceUs === 1_975_000);
+          if (index >= 0)
+            row.data.samples.splice(index + 1, 0, {
+              ...row.data.samples[index],
+              eligibility,
+              x: null,
+              y: null,
+              geometryEpoch: eligibility === "unknownGeometry" ? 0 : 1,
+            });
+        }
+      return rows;
+    });
+    await launchReady(home);
+    const { deliver } = inspector(home, source);
+    const clean = await deliver("clean", { clean: true });
+    const pointer = await deliver("pointer", { trailUs: 0 });
+    assert.equal(pointer.frame.annotation.pointerObservation.sourceUs, 1_975_000);
+    assert.equal(pointer.frame.annotation.pointerObservation.eligibility, eligibility);
+    assert.equal(pointer.frame.annotation.pointer, null);
+    assert.equal(pointer.frame.annotation.interval, null);
+    assert.ok(
+      pointer.frame.annotation.cutoffs.some(
+        (c) =>
+          c.reason === (eligibility === "outside" ? "outside" : "unknown_geometry") &&
+          c.atSourceUs === 1_975_000,
+      ),
+    );
+    assert.deepEqual(
+      pointer.rgb,
+      clean.rgb,
+      "The earlier eligible duplicate must not draw a pointer",
+    );
+    const trail = await deliver("trail", {});
+    assert.equal(trail.frame.annotation.pointer, null);
+    assert.deepEqual(trail.frame.annotation.interval, { startUs: 200_000, endUs: 1_950_000 });
+    assert.ok(
+      differences(clean.rgb, trail.rgb, { x: 360, y: 240, width: 120, height: 240 }) > 100,
+      "Earlier eligible history remains visible even though the current pointer is unknown",
+    );
+  });
+
+test("public missing geometry is explicit unavailability while clean delivery remains usable", async () => {
+  const home = temporary("/tmp/scr-trail-missing-geometry-");
+  const source = await fixture(home, (rows) => rows.filter((row) => row.event !== "geometry"));
+  await launchReady(home);
+  const { call, deliver } = inspector(home, source);
+  const params = { recordingId: source.take.recordingId, revisionId: "r0", atUs: 2_000_000 };
+  const unavailable = await waitFor(async () => {
+    const status = await call("frame.get", params);
+    assert.notEqual(
+      status.state,
+      "ready",
+      "Missing geometry must not silently become clean success",
+    );
+    return ["unavailable", "failed"].includes(status.state) && status;
+  }, 30000);
+  assert.equal(unavailable.state, "unavailable");
+  assert.match(unavailable.reason, /No timed geometry/);
+  assert.equal(unavailable.published, null);
+  assert.equal(unavailable.delivery, null);
+  assert.equal(unavailable.dependency, null);
+  const clean = await deliver("clean", { clean: true });
+  assert.equal(clean.frame.annotation, null);
+  assert.equal(clean.frame.actualSourceUs, 0);
+});
+
+test("public frame retry leaves a failed source dependency for explicit processing retry", async (t) => {
+  const home = temporary("/tmp/scr-trail-source-retry-");
+  const source = await fixture(home);
+  const journal = await readFile(source.journal);
+  const blockedOutput = join(home, "recordings", source.take.recordingId, "evidence", "source");
+  await mkdir(blockedOutput, { recursive: true });
+  await chmod(blockedOutput, 0o500);
+  t.after(() => chmod(blockedOutput, 0o700));
+  await launchReady(home);
+  const { call, deliver } = inspector(home, source);
+  const params = { recordingId: source.take.recordingId, revisionId: "r0", atUs: 2_000_000 };
+  const failed = await waitFor(async () => {
+    const status = await call("frame.get", params);
+    assert.notEqual(status.state, "ready");
+    return ["failed", "unavailable"].includes(status.state) && status;
+  }, 30000);
+  assert.equal(failed.state, "failed");
+  assert.equal(failed.retryable, true);
+  assert.equal(failed.jobId, null);
+  assert.equal(failed.published, null);
+  assert.equal(failed.delivery, null);
+  const sourceFailure = await call("processing.status", { recordingId: source.take.recordingId });
+  assert.deepEqual(failed.dependency, { artifact: "source", jobId: sourceFailure.jobId });
+  const clean = await deliver("clean", { clean: true });
+  await chmod(blockedOutput, 0o700);
+  assert.deepEqual(await call("frame.retry", params), failed);
+  assert.deepEqual(await call("frame.get", params), failed);
+  assert.deepEqual(
+    await call("processing.status", { recordingId: source.take.recordingId }),
+    sourceFailure,
+  );
+  await call("processing.retry", { recordingId: source.take.recordingId, artifact: "source" });
+  const recovered = await deliver("recovered", {});
+  assert.equal(recovered.frame.annotation.pointer.atSourceUs, 1_975_000);
+  assert.ok(differences(clean.rgb, recovered.rgb) > 1000);
+  assert.deepEqual(await readFile(source.journal), journal);
 });
