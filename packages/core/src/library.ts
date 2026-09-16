@@ -114,12 +114,29 @@ export class RevisionStore {
     this.catalog = new DatabaseSync(path, { timeout: busyTimeoutMs });
     // Development formats are a hard cutover; opening an older catalog never migrates it.
     if (
-      this.catalog
+      (this.catalog
         .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='recordings'")
         .get() &&
-      !this.catalog
-        .prepare("SELECT 1 FROM pragma_table_info('recordings') WHERE name=?")
-        .get("allocationArguments")
+        !this.catalog
+          .prepare("SELECT 1 FROM pragma_table_info('recordings') WHERE name='allocationArguments'")
+          .get()) ||
+      (this.catalog
+        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='derived_cache'")
+        .get() &&
+        !this.catalog
+          .prepare("SELECT 1 FROM pragma_table_info('derived_cache') WHERE name='recordingId'")
+          .get()) ||
+      (this.catalog
+        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='jobs'")
+        .get() &&
+        !this.catalog
+          .prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='jobs_identity'")
+          .get()) ||
+      this.catalog
+        .prepare(
+          "SELECT 1 FROM sqlite_master WHERE type='table' AND name='cursor_evidence_generations'",
+        )
+        .get()
     ) {
       this.catalog.close();
       throw new CatalogError(

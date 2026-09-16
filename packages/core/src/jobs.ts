@@ -123,15 +123,6 @@ export class JobQueue {
     this.execute = options.execute;
     this.newId = options.providers.newId;
     this.onCapacity = options.onCapacity;
-    if (
-      this.store.catalog
-        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='jobs'")
-        .get() &&
-      !this.store.catalog
-        .prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='jobs_identity'")
-        .get()
-    )
-      throw new CatalogError("UNSUPPORTED_CATALOG", "This catalog has an unsupported job format");
     this.store.catalog.exec(`
    CREATE TABLE IF NOT EXISTS jobs (
     jobId TEXT PRIMARY KEY,attemptId TEXT NOT NULL,recordingId TEXT NOT NULL REFERENCES recordings(recordingId),

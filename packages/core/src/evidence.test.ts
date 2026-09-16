@@ -1,7 +1,7 @@
 import { test, expect, afterEach } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { SourceEvidenceStore } from "./evidence.js";
 const roots: string[] = [];
@@ -417,17 +417,25 @@ test("malformed overlapping audio intervals and wrong timing receipts never beco
   }
 });
 
-test("unsupported cursor-only catalogs are refused without discarding their data", () => {
+test("unsupported cursor-only catalogs are refused before catalog schema writes", () => {
   const f = fixture();
   f.store.catalog.exec(
-    "CREATE TABLE cursor_evidence_generations(value TEXT); INSERT INTO cursor_evidence_generations VALUES ('retained')",
+    "DROP TABLE recording_deletions; CREATE TABLE cursor_evidence_generations(value TEXT); INSERT INTO cursor_evidence_generations VALUES ('retained')",
   );
-  expect(() => new SourceEvidenceStore(f.store)).toThrow(
-    expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
-  );
-  expect(f.store.catalog.prepare("SELECT value FROM cursor_evidence_generations").get()).toEqual({
-    value: "retained",
-  });
+  f.store.close();
+  const path = join(dirname(f.file), "library.sqlite");
+  const before = readFileSync(path),
+    original = readFileSync(f.file);
+  expect(() => {
+    const reopened = new RevisionStore(path, { now: () => "", newId: () => "unused" });
+    try {
+      new SourceEvidenceStore(reopened);
+    } finally {
+      reopened.close();
+    }
+  }).toThrow(expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }));
+  expect(readFileSync(path).equals(before)).toBe(true);
+  expect(readFileSync(f.file).equals(original)).toBe(true);
 });
 
 async function ingestRecords(

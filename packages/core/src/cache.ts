@@ -48,14 +48,6 @@ export class DerivedCache {
     private readonly budget = 1024 ** 3,
   ) {
     if (!Number.isSafeInteger(budget) || budget < 1) throw new RangeError("Invalid cache budget");
-    const columns = store.catalog.prepare("PRAGMA table_info(derived_cache)").all() as {
-      name: string;
-    }[];
-    if (columns.length && !columns.some((column) => column.name === "recordingId"))
-      throw new CatalogError(
-        "UNSUPPORTED_CATALOG",
-        "This library has an unsupported derived cache format",
-      );
     const base = realpathSync(home);
     let path = base;
     for (const name of ["cache", "derived"]) {

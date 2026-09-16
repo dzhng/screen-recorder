@@ -114,17 +114,6 @@ function validateRecord(event: string, data: Record<string, unknown>): void {
 /** Indexes native-normalized evidence; the artifact queue alone decides whether to publish it. */
 export class SourceEvidenceStore {
   constructor(private readonly store: RevisionStore) {
-    if (
-      store.catalog
-        .prepare(
-          "SELECT 1 FROM sqlite_master WHERE type='table' AND name='cursor_evidence_generations'",
-        )
-        .get()
-    )
-      throw new CatalogError(
-        "UNSUPPORTED_CATALOG",
-        "This library has an unsupported source evidence format",
-      );
     store.catalog.exec(`
       CREATE TABLE IF NOT EXISTS source_evidence_generations (
         recordingId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,receipt TEXT,
