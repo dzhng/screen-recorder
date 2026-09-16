@@ -1,0 +1,26 @@
+✔ frame worker returns actual sample pixels and survives invalid requests (377.585084ms)
+✔ frame worker draws the supplied pointer and trail, or nothing at all (353.846542ms)
+✔ frame decode failure permits explicit retry while invalid requests remain terminal (114.731167ms)
+✔ video worker preserves one-microsecond-spans pixels and exact plan duration (448.6755ms)
+✔ video worker preserves subframe pixels and exact plan duration (477.347875ms)
+✔ video worker preserves fractional-two-cuts pixels and exact plan duration (442.803417ms)
+✔ video worker preserves two-middle-cuts pixels and exact plan duration (457.915542ms)
+✔ video worker preserves original pixels and exact plan duration (486.3645ms)
+✔ video worker preserves sparse-held pixels and exact plan duration (406.720875ms)
+✔ video worker preserves leading-empty pixels and exact plan duration (412.9025ms)
+✔ video worker preserves internal-empty pixels and exact plan duration (446.378292ms)
+✔ video worker preserves trailing-empty pixels and exact plan duration (457.301334ms)
+✔ video worker preserves empty-only pixels and exact plan duration (438.658334ms)
+✔ video worker refuses malformed plans and output aliases without source mutation (142.897375ms)
+✔ video publication preserves a destination created during rendering (1086.604292ms)
+✔ visual samples return bounded clean sRGB pixels without derivatives or source mutation (2410.346583ms)
+ℹ 52 samples: 2357.9ms, 29294592 peak RSS bytes, 484915 response bytes
+✔ visual samples reject malformed shapes, timestamps and missing kept samples (1272.855292ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7131.001792

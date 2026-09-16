@@ -68,3 +68,8 @@ runs pass. Independent read-only review found no actionable ownership, cleanup,
 abort or deadline defects. Reproduction requires the ordinary protocol/core/service
 and native builds; `SCREENREC_NATIVE` may select a bundled executable instead of the
 worktree's debug worker. No root build artifacts are required or modified.
+
+Merged verification passed the twelve focused service worker/attempt tests and
+the integrated native lab after rebuilding the service and debug native worker.
+The lab independently decoded the expected four- and six-second pinned outputs,
+and all four interruption cases left zero attempt directories.

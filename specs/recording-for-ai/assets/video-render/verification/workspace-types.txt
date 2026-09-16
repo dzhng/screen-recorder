@@ -1,0 +1,34 @@
+$ turbo check-types
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running check-types in 8 packages
+   • Remote caching disabled
+
+@screenrec/core:check-types: cache miss, executing 8e083e888b0931bb
+@screenrec/core:build: cache miss, executing d85ec23209bb359d
+@screenrec/protocol:build: cache hit, replaying logs c778fa0517d698e3
+@screenrec/protocol:check-types: cache hit, replaying logs 3a6887fa7e3213fe
+@screenrec/protocol:check-types: $ tsc -p tsconfig.check.json
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:check-types: cache hit, replaying logs 1a7dbd4320ba583b
+@screenrec/client:build: cache hit, replaying logs bddc6de944123949
+@screenrec/client:check-types: $ tsc -p tsconfig.check.json
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:check-types: $ tsc -p tsconfig.check.json
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/service:check-types: cache miss, executing 4230d4d497e52f76
+@screenrec/service:build: cache miss, executing deca6322b59c9880
+@screenrec/test-harness:check-types: cache miss, executing 2dc80710c7c9fa23
+@screenrec/service:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/test-harness:check-types: $ tsc -p tsconfig.check.json
+@screenrec/cli:build: cache miss, executing 422ad8300aa6b454
+@screenrec/cli:check-types: cache miss, executing 8eb8b3d5ceb348a4
+@screenrec/cli:check-types: $ tsc -p tsconfig.check.json
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+
+ Tasks:    11 successful, 11 total
+Cached:    4 cached, 11 total
+  Time:    604ms 
+

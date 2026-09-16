@@ -1,6 +1,6 @@
 # 13a — Native render timing feasibility
 
-Status: first sequential video-only worker measured; full gate remains open.
+Status: internal video timing feasibility gate verified; parent 13 remains open.
 Dependency: the implemented core timeline/render plan and native media worker seams.
 Independent of speech readiness and completion of the CLI/MCP journey.
 Parent [13](13-edited-media.md) remains open.
@@ -25,16 +25,17 @@ after the worker closes. The render-specific deadline budgets the full decoded
 source prefix, not only edited output. The native inner decode loop also checks
 cooperative cancellation.
 
-Next, finish the full acceptance review below and connect the lifetime to parent
-13's durable preview/artifact owner. Service death still needs abandoned attempt
+The accepted internal evidence is the
+[production cut-join comparison](../assets/video-render/joins/README.md) and
+[merged regression receipts](../assets/video-render/verification/report.json).
+Connect this lifetime to parent 13's durable preview/artifact owner next. Service death still needs abandoned attempt
 parent reclamation; no public preview job or restart scanner is added here.
 The even-dimension renderer limit matches app-originated capture, which caps the
 long edge at 4096 and rounds both dimensions even. External import is out of scope.
 
 The integrated entrypoint is `bun run lab:render-timing`; native timing regressions
 remain in `helpers/mac/Tests/video-render.test.mjs`. The optional membership/playback
-probe is diagnostic and its fixture buffer is not the product architecture. Full
-13a and parent 13 completion are not claimed by this checkpoint.
+probe is diagnostic and its fixture buffer is not the product architecture. Parent 13 completion is not implied by the internal timing checkpoint.
 
 ## One question and contract
 
@@ -120,7 +121,8 @@ Parent 13 still owns full streaming audio, shared in-span ramps/mix, current-poi
 rendering without trails, the heavy-queue preview job, CLI/MCP delivery and pinned
 app playback. Existing `AudioExcerpts` buffers its complete output and caps it at
 30 seconds; raising that cap is not a movie-audio implementation. Reuse its audio
-policy through a bounded owner in the follow-on. The worker's current 30-second
-deadline also requires a deliberate bounded render-job policy before long exports.
+policy through [13b](13b-streaming-audio.md). The service now supplies a
+render-specific bounded deadline; the full audio/pointer movie workload still needs
+its own measured performance and cancellation verification.
 Generated timing success does not satisfy adjacent-speech audition, physical audio
 capture, five-minute A/V drift or the installed read/edit/preview/export journey.

@@ -1,0 +1,50 @@
+{
+  "gitCommit": "ead0b048ce65d31ae36dfd208290969dbeaa8679",
+  "recordedAt": "2026-09-16T20:13:02.245099+00:00",
+  "scope": "Current merged timing/frame/worker regression evidence; not full product acceptance",
+  "checks": [
+    {
+      "command": "bun run --cwd packages/core test",
+      "exitCode": 0,
+      "output": "core.txt",
+      "sha256": "540890daa49f7455a4393931c50459e49f3699438774639812ba5dec14ddd41a"
+    },
+    {
+      "command": "swift run --package-path helpers/mac ScreenRecorderFrameTests",
+      "exitCode": 0,
+      "output": "native-frame.txt",
+      "sha256": "6fb61010e7a5700d842a4517f0661a8971226b232dbffbb0cf7ed3986a73be9b"
+    },
+    {
+      "command": "node --test helpers/mac/Tests/frames.test.mjs helpers/mac/Tests/visual-samples.test.mjs helpers/mac/Tests/video-render.test.mjs",
+      "exitCode": 0,
+      "output": "native-render.txt",
+      "sha256": "9b956ef1ecb9926365ab783b2518e0f7d25706d8065532cd123b2e3f29562d5b"
+    },
+    {
+      "command": "bun run --cwd apps/service test -- src/render.test.ts src/worker.test.ts",
+      "exitCode": 0,
+      "output": "worker.txt",
+      "sha256": "4748c36cc0fcb3a6b735be7ccabaed2d1fcfc08424eb0db2811c72346e5e2f9a"
+    },
+    {
+      "command": "SCREENREC_RENDER_TIMING_EVIDENCE=/tmp/screenrec-render-join-review-2008 bun run lab:render-timing",
+      "exitCode": 0,
+      "output": "integrated-lab.txt",
+      "sha256": "94b02abc248b014fdef045d05062160e2f3a9afa02214de9f3134f3f6d469438"
+    },
+    {
+      "command": "bun run check-types",
+      "exitCode": 0,
+      "output": "workspace-types.txt",
+      "sha256": "32acce54984e0a2f7cf103e9abaf7eb4034cb1a2bb1dbf2d47d5382cc26fc5ca"
+    }
+  ],
+  "files": {
+    "packages/core/src/timeline.ts": "a85b25f56192d0f1ed9bc1b63a8ab1dda20efecc86b0d30e42d0ec71f55a631a",
+    "apps/service/src/worker.ts": "fb272c73c865200f1603395f494f7d6c8c2f2359e3429377b3f8297f7084aa1d",
+    "apps/service/src/render.ts": "51f72327ab203941172a6c11d9e923d4101ef1d21b8d44d08f636f9dd90553d0",
+    "helpers/mac/Sources/ScreenRecorderFrames/VideoRenderer.swift": "3025ec8c4415feb0132bd7c685284e52afa023b9d9f2cfaec599c300647d6f88",
+    "helpers/mac/.build/debug/screenrec-native": "25d52698a164e86df00f7add575ce10ee699c682c4d35d4d5df64bfe759df157"
+  }
+}

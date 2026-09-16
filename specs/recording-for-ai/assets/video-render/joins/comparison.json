@@ -1,0 +1,134 @@
+{
+  "plan": [
+    {
+      "source": {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      "playback": {
+        "startUs": 0,
+        "endUs": 2000000
+      }
+    },
+    {
+      "source": {
+        "startUs": 3000000,
+        "endUs": 4000000
+      },
+      "playback": {
+        "startUs": 2000000,
+        "endUs": 3000000
+      }
+    },
+    {
+      "source": {
+        "startUs": 5000000,
+        "endUs": 6000000
+      },
+      "playback": {
+        "startUs": 3000000,
+        "endUs": 4000000
+      }
+    }
+  ],
+  "decoded": {
+    "durationUs": 4000000,
+    "identities": [
+      0,
+      1,
+      3,
+      5
+    ],
+    "pts": [
+      0,
+      1000000,
+      2000000,
+      3000000
+    ]
+  },
+  "gitCommit": "ead0b048ce65d31ae36dfd208290969dbeaa8679",
+  "sourceSha256": "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0",
+  "renderedSha256": "e56b928b14c4ffe1aca3a753ca69ffdac08a7f9393f06bd064b6821aa7346d50",
+  "nativeSha256": "25d52698a164e86df00f7add575ce10ee699c682c4d35d4d5df64bfe759df157",
+  "frameSize": [
+    320,
+    180
+  ],
+  "crop": [
+    30,
+    55,
+    240,
+    70
+  ],
+  "cropScale": 3,
+  "metrics": [
+    {
+      "name": "join-1-before",
+      "sourceSampleIndex": 1,
+      "renderedSampleIndex": 1,
+      "sourceTimeUs": 1999999,
+      "playbackTimeUs": 1999999,
+      "sourcePngSha256": "655a7d0f7e715105d8e8f1515f22dfd9cf58238f055252e2d994264a31e1d784",
+      "renderedPngSha256": "4f444ee3066b435f8e34486c62edbdf3b7774b6761630d836e5f0485666f7625",
+      "rgbMAE": 6.878130787037037,
+      "grayscaleMAE": 4.141795298611106,
+      "grayscaleRMSE": 5.2716625117897715,
+      "diffRatio16": 0.04513888888888889,
+      "edgeEnergySource": 6.878806395307751,
+      "edgeEnergyRendered": 6.843778079287683,
+      "edgeEnergyRatio": 0.9949077915546566,
+      "changedRgbFraction": 0.9842303240740741
+    },
+    {
+      "name": "join-1-after",
+      "sourceSampleIndex": 3,
+      "renderedSampleIndex": 2,
+      "sourceTimeUs": 3000000,
+      "playbackTimeUs": 2000000,
+      "sourcePngSha256": "577daaa83746f478461d7c9786a0475822a977f16611c9f81fd2211a84d79a49",
+      "renderedPngSha256": "ca35022c22c41d1b07ff6d442ee552246a2b9de5206d2066f9ad5cfba8567e1f",
+      "rgbMAE": 6.454745370370371,
+      "grayscaleMAE": 2.038957371527773,
+      "grayscaleRMSE": 4.262330507898925,
+      "diffRatio16": 0.04522569444444444,
+      "edgeEnergySource": 6.844130796410147,
+      "edgeEnergyRendered": 6.921420867783195,
+      "edgeEnergyRatio": 1.0112928980570604,
+      "changedRgbFraction": 0.9855844907407407
+    },
+    {
+      "name": "join-2-before",
+      "sourceSampleIndex": 3,
+      "renderedSampleIndex": 2,
+      "sourceTimeUs": 3999999,
+      "playbackTimeUs": 2999999,
+      "sourcePngSha256": "577daaa83746f478461d7c9786a0475822a977f16611c9f81fd2211a84d79a49",
+      "renderedPngSha256": "ca35022c22c41d1b07ff6d442ee552246a2b9de5206d2066f9ad5cfba8567e1f",
+      "rgbMAE": 6.454745370370371,
+      "grayscaleMAE": 2.038957371527773,
+      "grayscaleRMSE": 4.262330507898925,
+      "diffRatio16": 0.04522569444444444,
+      "edgeEnergySource": 6.844130796410147,
+      "edgeEnergyRendered": 6.921420867783195,
+      "edgeEnergyRatio": 1.0112928980570604,
+      "changedRgbFraction": 0.9855844907407407
+    },
+    {
+      "name": "join-2-after",
+      "sourceSampleIndex": 5,
+      "renderedSampleIndex": 3,
+      "sourceTimeUs": 5000000,
+      "playbackTimeUs": 3000000,
+      "sourcePngSha256": "4b3d9eb21112e995dadfef368401d056794715eb24d2ed44b70e7c578b0eb868",
+      "renderedPngSha256": "76b562d0eae02fba90d22d5ed385bcf39877ef811ddabe23555cfc942503e300",
+      "rgbMAE": 7.9996875,
+      "grayscaleMAE": 4.019483479166656,
+      "grayscaleRMSE": 5.20760843514736,
+      "diffRatio16": 0.04572916666666667,
+      "edgeEnergySource": 6.462812451416861,
+      "edgeEnergyRendered": 6.622442590629636,
+      "edgeEnergyRatio": 1.024699794464526,
+      "changedRgbFraction": 0.9923090277777777
+    }
+  ]
+}
