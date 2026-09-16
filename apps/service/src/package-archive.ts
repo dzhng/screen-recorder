@@ -253,7 +253,8 @@ export class RetainedPackage {
       }
       const data = requireResult(
         await this.worker(operation, mapped, {
-          descriptors: leases.map((file) => file.fd),
+          // Keep the workspace lock alive if this parent dies before the native child.
+          descriptors: [...leases.map((file) => file.fd), this.workspace.handle.fd],
           signal,
         }),
       );

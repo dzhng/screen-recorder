@@ -59,3 +59,22 @@ limits, cancellation and seeks against the preserved thirty-minute source.
 Public handle scheduling/cache ownership and restart recovery remain 14c3.
 The caller retains the workspace descriptor until close completes; cleanup errors
 remain explicit and require that owner to retain the workspace for recovery.
+
+## Parent death while a native child remains alive
+
+Every retained native call appends the borrowed workspace descriptor after its
+media/output descriptors. This keeps the existing descriptor numbers and carries
+the exclusive directory lock into the actual worker lifetime. Parent death must
+not make still-used extraction files look reclaimable.
+
+The [parent-death receipt](retained-parent-death.json) records a real owner process
+killed while its confirmed native child was stopped. Independent cleanup and
+admission both failed while that child lived; after the owned child was killed and
+reaped, cleanup emptied the workspace and fresh admission succeeded. Omitting the
+additional descriptor reproduced the unsafe cleanup; the restored pass and existing
+ZIP inspection parity passed together (8.86 seconds). Seven worker tests and the
+independent review also passed. The reviewer did not run native integration; the
+receipt identifies the separately pinned native binary used for that proof.
+
+This supplies the lock lifetime prerequisite for restart recovery. It adds no
+startup scan, public handle, generic workspace framework or scheduling policy.

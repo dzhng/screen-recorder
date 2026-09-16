@@ -1,0 +1,25 @@
+{
+  "scope": "Retained native child preserves workspace lock after actual parent SIGKILL; internal context only",
+  "baseCommit": "461c907",
+  "nativeSha256": "6e281101e038cafa3bc3418df6075e88f4261a9ab821d06de89ca05f5506e20b",
+  "productionSourceSha256": "527262342c0181a879b64b80eb62504266f930783a025501db4f03c269e3a8ff",
+  "parentDeath": {
+    "parentPid": 50980,
+    "nativePid": 50984,
+    "parentKilled": true,
+    "blockedWhileChildLive": true,
+    "childReaped": true,
+    "cleanupAfterChild": true
+  },
+  "existingInspectionParity": {
+    "completeContext": true,
+    "framePixels": true,
+    "frameMetadata": true,
+    "audioBytes": true,
+    "retainedImages": true,
+    "coverage": true,
+    "sceneChunks": true
+  },
+  "regressionRed": "Without appended workspace descriptor, competing cleanup succeeded while stopped native child remained live",
+  "review": "No actionable defects; seven worker tests and fixture syntax checks passed. Actual native proof run separately with pinned executable."
+}

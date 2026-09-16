@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { retainedParentDeath } from "./fixtures/retained-parent-check.mjs";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { constants, fstatSync, readSync } from "node:fs";
@@ -461,7 +462,20 @@ async function retainedReader(original, output, native) {
     assert.deepEqual(await readdir(workspacePath), []);
     assert.equal(sha(await readFile(moved)), before);
     const containment = await containmentChecks(moved, workspacePath, workspace, worker, native);
-    return { code: 0, retainedZip: true, closedReadRevoked: true, nativeCalls, containment };
+    const parentDeath = await retainedParentDeath(
+      moved,
+      join(parent, "orphan-workspace"),
+      worker,
+      native,
+    );
+    return {
+      code: 0,
+      retainedZip: true,
+      closedReadRevoked: true,
+      nativeCalls,
+      containment,
+      parentDeath,
+    };
   } finally {
     await context?.close();
     await workspace.close();

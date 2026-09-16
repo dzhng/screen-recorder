@@ -51,7 +51,9 @@ FD, open its locator without truncation, verify identity, then inherit that hand
 PNG writes use the existing encoded bytes. AVAudioFile writing directly to an
 inherited FD works when the WAVE file-type hint is supplied; retain the same PCM
 stream and sink rather than introducing a second encoder. Outputs stay private
-until the native operation is terminal. Close drains workers before deleting files;
+until the native operation is terminal. All native calls also inherit the locked workspace descriptor, appended after media
+slots, so parent death cannot expose a live child’s files to orphan cleanup.
+Close drains workers before deleting files;
 a replacement locator cannot redirect a write through an already-admitted FD.
 
 ## Verification
