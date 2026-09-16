@@ -4,7 +4,8 @@ import { join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
-import { analyzeSceneRange, scenePolicy } from "./scenes.js";
+import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
+import { selectIndex } from "./selection.js";
 import { selectionEvidence } from "./selection-evidence.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -48,12 +49,14 @@ async function fixture({
   durationUs = 20_000_000,
   records = [geometry(0)],
   actual = (at: number) => at,
-  color = (_at: number) => 0,
+  color = (_at: number, _channel: number) => 0,
+  raster = { width: 1, height: 1 },
 }: {
   durationUs?: number;
   records?: { event: string; data: Record<string, unknown> }[];
   actual?: (requestedUs: number) => number;
-  color?: (actualUs: number) => number;
+  color?: (actualUs: number, channel: number) => number;
+  raster?: { width: number; height: number };
 } = {}) {
   const root = await mkdtemp("/tmp/selection-evidence-");
   let id = 0;
@@ -103,25 +106,24 @@ async function fixture({
       finished: true,
     },
   });
+  const analysis = new SourceSceneAnalysis("generated", durationUs, async (request) => ({
+    sourceWidth: 100,
+    sourceHeight: 80,
+    samples: request.atSourceUs.map((requestedSourceUs) => ({
+      requestedSourceUs,
+      actualSourceUs: actual(requestedSourceUs),
+      distanceUs: Math.abs(requestedSourceUs - actual(requestedSourceUs)),
+      ...raster,
+      rgbBase64: Buffer.from(
+        Array.from({ length: raster.width * raster.height * 3 }, (_, channel) =>
+          color(actual(requestedSourceUs), channel),
+        ),
+      ).toString("base64"),
+    })),
+  }));
   for (let startUs = 0; startUs < durationUs; startUs += 10_000_000) {
-    const { lastSample: _lastSample, ...report } = await analyzeSceneRange(
-      {
-        source: "generated",
-        kept: { startUs: 0, endUs: durationUs },
-        range: { startUs, endUs: Math.min(startUs + 10_000_000, durationUs) },
-      },
-      async (request) => ({
-        sourceWidth: 100,
-        sourceHeight: 80,
-        samples: request.atSourceUs.map((requestedSourceUs) => ({
-          requestedSourceUs,
-          actualSourceUs: actual(requestedSourceUs),
-          distanceUs: Math.abs(requestedSourceUs - actual(requestedSourceUs)),
-          width: 1,
-          height: 1,
-          rgbBase64: Buffer.alloc(3, color(actual(requestedSourceUs))).toString("base64"),
-        })),
-      }),
+    const report = await analysis.analyze(
+      { startUs, endUs: Math.min(startUs + 10_000_000, durationUs) },
       new AbortController().signal,
     );
     scenes.append(sceneIdentity, report);
@@ -164,7 +166,7 @@ test("catalog streams preserve duplicate cursor pages and place resets before eq
       kind: "visual",
       atSourceUs: 10_000_000,
       actualSourceUs: 10_000_000,
-      meanAbsoluteChannelDifference: 0,
+      stillnessRunStartUs: 0,
     },
   ]);
   expect(
@@ -198,24 +200,24 @@ test("sparse future scene events use actual time while visual requests remain or
       (e) => e.kind === "visual" && [0, 200_000, 50_000_000, 50_200_000].includes(e.atSourceUs),
     ),
   ).toEqual([
-    { kind: "visual", atSourceUs: 0, actualSourceUs: 0, meanAbsoluteChannelDifference: null },
-    { kind: "visual", atSourceUs: 200_000, actualSourceUs: 0, meanAbsoluteChannelDifference: 0 },
+    { kind: "visual", atSourceUs: 0, actualSourceUs: 0, stillnessRunStartUs: 0 },
+    { kind: "visual", atSourceUs: 200_000, actualSourceUs: 0, stillnessRunStartUs: 0 },
     {
       kind: "visual",
       atSourceUs: 50_000_000,
       actualSourceUs: 100_000_000,
-      meanAbsoluteChannelDifference: 1,
+      stillnessRunStartUs: 100_000_000,
     },
     {
       kind: "visual",
       atSourceUs: 50_200_000,
       actualSourceUs: 100_000_000,
-      meanAbsoluteChannelDifference: 0,
+      stillnessRunStartUs: 100_000_000,
     },
   ]);
 });
 
-test("removed frames and a cut-crossing comparison cannot prove static equality", async () => {
+test("removed frames cannot prove stillness while retained observations keep their source run", async () => {
   const f = await fixture({ records: [geometry(0), point(0)] });
   f.input.revision = f.store.edit(f.input.sourceIdentity.recordingId, {
     operation: "cut",
@@ -225,18 +227,18 @@ test("removed frames and a cut-crossing comparison cannot prove static equality"
   });
   const events = await collect(f.events());
   expect(events.filter((e) => e.kind === "visual").slice(0, 3)).toEqual([
-    { kind: "visual", atSourceUs: 0, actualSourceUs: 0, meanAbsoluteChannelDifference: null },
+    { kind: "visual", atSourceUs: 0, actualSourceUs: 0, stillnessRunStartUs: null },
     {
       kind: "visual",
       atSourceUs: 200_000,
       actualSourceUs: 200_000,
-      meanAbsoluteChannelDifference: null,
+      stillnessRunStartUs: 0,
     },
     {
       kind: "visual",
       atSourceUs: 400_000,
       actualSourceUs: 400_000,
-      meanAbsoluteChannelDifference: 0,
+      stillnessRunStartUs: 0,
     },
   ]);
   expect(events.find((e) => e.kind === "cursor")?.sample.sourceUs).toBe(0);
@@ -255,7 +257,7 @@ test("removed frames and a cut-crossing comparison cannot prove static equality"
     .filter((e) => e.atSourceUs >= 50_000_000);
   expect(held[0]?.atSourceUs).toBe(50_000_000);
   expect(held.at(-1)?.atSourceUs).toBe(119_999_999);
-  expect(held.every((e) => e.meanAbsoluteChannelDifference === null)).toBe(true);
+  expect(held.every((e) => e.stillnessRunStartUs === null)).toBe(true);
 });
 
 test("thirty-minute static evidence uses bounded pages before its first event without preloading cursor history", async () => {
@@ -275,7 +277,7 @@ test("thirty-minute static evidence uses bounded pages before its first event wi
       kind: "visual",
       atSourceUs: 0,
       actualSourceUs: 0,
-      meanAbsoluteChannelDifference: null,
+      stillnessRunStartUs: 0,
     },
   });
   console.info(
@@ -367,4 +369,67 @@ test("first delayed geometry resets unknown pointing while confirmations and abs
       sequence: 1,
     },
   });
+});
+
+test("bounded channel rounding across coverage windows and chunks collapses to mandatory endpoints", async () => {
+  const durationUs = 16_000_000;
+  const f = await fixture({
+    durationUs,
+    records: [geometry(0), ...Array.from({ length: 160 }, (_, i) => point(i * 100_000))],
+    color: (at) => 100 + (Math.floor(at / 200_000) % 3),
+  });
+  const rows = await collect(
+    selectIndex({ ...f.input, sourceWidth: 100, sourceHeight: 80 }, f.events()),
+  );
+  expect(
+    rows.filter((row) => row.kind === "candidate").map((row) => row.requestedSourceUs),
+  ).toEqual([0, 15_999_999]);
+  expect(rows.filter((row) => row.kind === "coverage").map((row) => row.equality)).toEqual([
+    "sampled",
+    "sampled",
+    "sampled",
+    "sampled",
+  ]);
+});
+
+test("tiny monotonic drift accumulates across coverage and chunk edges until it needs a new image", async () => {
+  const f = await fixture({
+    durationUs: 16_000_000,
+    records: [geometry(0), ...Array.from({ length: 160 }, (_, i) => point(i * 100_000))],
+    color: (at) => 100 + (at >= 10_200_000 ? 3 : at >= 9_800_000 ? 2 : at >= 4_800_000 ? 1 : 0),
+  });
+  const rows = await collect(
+    selectIndex({ ...f.input, sourceWidth: 100, sourceHeight: 80 }, f.events()),
+  );
+  expect(
+    rows.filter((row) => row.kind === "candidate").map((row) => row.requestedSourceUs),
+  ).toEqual([0, 15_000_000, 15_999_999]);
+  expect(rows.filter((row) => row.kind === "coverage").map((row) => row.equality)).toEqual([
+    "sampled",
+    "sampled",
+    "unproven",
+    "sampled",
+  ]);
+});
+
+test("a three-level change in one small feature stays visible even when it returns within the window", async () => {
+  const f = await fixture({
+    durationUs: 12_000_000,
+    records: [geometry(0), ...Array.from({ length: 120 }, (_, i) => point(i * 100_000))],
+    raster: { width: 64, height: 40 },
+    color: (at, channel) => (channel === 100 && at === 4_600_000 ? 103 : 100),
+  });
+  const events = await collect(f.events());
+  expect(events.filter((event) => event.kind === "boundary")).toEqual([]);
+  const rows = await collect(
+    selectIndex({ ...f.input, sourceWidth: 100, sourceHeight: 80 }, events),
+  );
+  expect(
+    rows.filter((row) => row.kind === "candidate").map((row) => row.requestedSourceUs),
+  ).toEqual([0, 5_000_000, 11_999_999]);
+  expect(rows.filter((row) => row.kind === "coverage").map((row) => row.equality)).toEqual([
+    "unproven",
+    "sampled",
+    "sampled",
+  ]);
 });

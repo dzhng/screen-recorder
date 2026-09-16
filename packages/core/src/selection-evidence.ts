@@ -2,7 +2,6 @@ import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./library.js";
 import type { SourceEvidenceStore } from "./evidence.js";
 import type { SceneEvidenceStore } from "./scene-evidence.js";
-import type { VisualComparison } from "./scenes.js";
 import type { SelectionEvent, SelectionInput } from "./selection.js";
 
 /** Streams published source evidence; the selector owns kept-span filtering and cut events. */
@@ -98,49 +97,29 @@ export async function* selectionEvidence(
       }
   }
   async function* visuals(): AsyncGenerator<SelectionEvent> {
-    let previousActualUs: number | undefined;
     let requestedThroughUs = -1;
     let spanIndex = 0;
-    let comparison: VisualComparison | undefined;
     for await (const chunk of chunks()) {
-      let pairIndex = 0;
       for (const point of chunk.coverage) {
         signal.throwIfAborted();
         if (point.requestedSourceUs <= requestedThroughUs) continue;
-        while (
-          pairIndex < chunk.comparisons.length &&
-          chunk.comparisons[pairIndex]!.actualSourceUs <= point.actualSourceUs
-        )
-          comparison = chunk.comparisons[pairIndex++];
         while (
           revision.spans[spanIndex] &&
           revision.spans[spanIndex]!.endUs <= point.requestedSourceUs
         )
           spanIndex++;
         const span = revision.spans[spanIndex];
-        const inside = (atUs: number | undefined) =>
-          atUs !== undefined && span && atUs >= span.startUs && atUs < span.endUs;
-        let delta: number | null = null;
-        if (
+        const inside =
           span &&
           point.requestedSourceUs >= span.startUs &&
-          inside(point.actualSourceUs) &&
-          inside(previousActualUs)
-        ) {
-          if (previousActualUs === point.actualSourceUs) delta = 0;
-          else if (
-            comparison?.actualSourceUs === point.actualSourceUs &&
-            comparison.previousActualSourceUs === previousActualUs
-          )
-            delta = comparison.meanAbsoluteChannelDifference;
-        }
+          point.actualSourceUs >= span.startUs &&
+          point.actualSourceUs < span.endUs;
         yield {
           kind: "visual",
           atSourceUs: point.requestedSourceUs,
           actualSourceUs: point.actualSourceUs,
-          meanAbsoluteChannelDifference: delta,
+          stillnessRunStartUs: inside ? point.stillnessRunStartUs : null,
         };
-        previousActualUs = point.actualSourceUs;
         requestedThroughUs = point.requestedSourceUs;
       }
     }

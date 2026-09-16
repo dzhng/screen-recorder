@@ -6,7 +6,7 @@ import { trailPolicy } from "./trails.js";
 import { renderPlan, type RenderSpan, type TimelineRevision, type TimeRange } from "./timeline.js";
 
 export const selectionPolicy = Object.freeze({
-  id: "sampled-evidence-selection-v1",
+  id: "sampled-evidence-selection-v2",
   coverageUs: 5_000_000,
   ordinarySpacingUs: 1_000_000,
   idleUs: 300_000,
@@ -26,7 +26,7 @@ export type SelectionEvent =
       kind: "visual";
       atSourceUs: number;
       actualSourceUs: number;
-      meanAbsoluteChannelDifference: number | null;
+      stillnessRunStartUs: number | null;
     };
 export type SelectionInput = {
   revision: TimelineRevision;
@@ -276,13 +276,16 @@ class Selection {
     if (group.at === span.source.endUs) return;
     const visual = group.visual;
     if (visual) {
-      if (visual.actualSourceUs < span.source.startUs || visual.actualSourceUs >= span.source.endUs)
+      if (
+        visual.stillnessRunStartUs == null ||
+        visual.actualSourceUs < span.source.startUs ||
+        visual.actualSourceUs >= span.source.endUs
+      )
         this.visualChanged = true;
       if (this.visual) {
         if (
           visual.atSourceUs - this.visual.atSourceUs > scenePolicy.stepUs ||
-          (visual.actualSourceUs !== this.visual.actualSourceUs &&
-            visual.meanAbsoluteChannelDifference !== 0)
+          visual.stillnessRunStartUs !== this.visual.stillnessRunStartUs
         )
           this.visualChanged = true;
       } else if (visual.atSourceUs !== span.source.startUs) this.visualChanged = true;

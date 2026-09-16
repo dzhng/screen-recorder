@@ -2,7 +2,7 @@ import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError, isSettled, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
-import { analyzeSceneRange, scenePolicy, type VisualSampler } from "./scenes.js";
+import { SourceSceneAnalysis, scenePolicy, type VisualSampler } from "./scenes.js";
 import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
 
 const artifact = "source-scenes";
@@ -153,16 +153,12 @@ export class SceneProcessing {
     };
     const kept = { startUs: 0, endUs: recording.sourceDurationUs };
     const source = join(this.home, "recordings", job.recordingId, "source", "video.mov");
+    const analysis = new SourceSceneAnalysis(source, kept.endUs, this.sample);
     try {
       for (let startUs = 0; startUs < kept.endUs; startUs += scenePolicy.maximumRangeUs) {
         signal.throwIfAborted();
-        const analyzed = await analyzeSceneRange(
-          {
-            source,
-            kept,
-            range: { startUs, endUs: Math.min(startUs + scenePolicy.maximumRangeUs, kept.endUs) },
-          },
-          this.sample,
+        const analyzed = await analysis.analyze(
+          { startUs, endUs: Math.min(startUs + scenePolicy.maximumRangeUs, kept.endUs) },
           signal,
         );
         this.evidence.append(identity, analyzed);

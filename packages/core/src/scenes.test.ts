@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import {
-  analyzeSceneRange,
+  SourceSceneAnalysis,
   analyzeFrameScene,
   analyzeVisualSamples,
   compareVisualSamples,
@@ -108,9 +108,8 @@ test("invalid ranges fail before native work", async () => {
     { startUs: 4, endUs: 4 },
   ]) {
     await expect(
-      analyzeSceneRange(
-        { source: "/video", kept: { startUs: 0, endUs: 20_000_000 }, range },
-        sample,
+      new SourceSceneAnalysis("/video", 20_000_000, sample).analyze(
+        range,
         new AbortController().signal,
       ),
     ).rejects.toMatchObject({ code: "INVALID_RANGE" });
@@ -119,19 +118,11 @@ test("invalid ranges fail before native work", async () => {
 });
 
 test("held frames collapse comparisons without losing distances or covered request times", async () => {
-  const result = await analyzeSceneRange(
-    {
-      source: "/video",
-      kept: { startUs: 0, endUs: 2_000_000 },
-      range: { startUs: 0, endUs: 600_000 },
-    },
-    async ({ atSourceUs }) => ({
-      sourceWidth: 64,
-      sourceHeight: 64,
-      samples: atSourceUs.map((at) => ({ ...white, requestedSourceUs: at, distanceUs: at })),
-    }),
-    new AbortController().signal,
-  );
+  const result = await new SourceSceneAnalysis("/video", 2_000_000, async ({ atSourceUs }) => ({
+    sourceWidth: 64,
+    sourceHeight: 64,
+    samples: atSourceUs.map((at) => ({ ...white, requestedSourceUs: at, distanceUs: at })),
+  })).analyze({ startUs: 0, endUs: 600_000 }, new AbortController().signal);
   expect(result.comparisons).toEqual([]);
   expect(result.boundaries).toEqual([]);
   expect(result.coverage.map((sample) => sample.distanceUs)).toEqual([
@@ -140,22 +131,14 @@ test("held frames collapse comparisons without losing distances or covered reque
 });
 
 test("boundaries use actual later PTS and future samples do not claim a reset in the requested range", async () => {
-  const result = await analyzeSceneRange(
-    {
-      source: "/video",
-      kept: { startUs: 0, endUs: 1_000_000 },
-      range: { startUs: 0, endUs: 200_000 },
-    },
-    async () => ({
-      sourceWidth: 64,
-      sourceHeight: 64,
-      samples: [
-        white,
-        { ...frame(300_000, () => [0, 0, 0]), requestedSourceUs: 200_000, distanceUs: 100_000 },
-      ],
-    }),
-    new AbortController().signal,
-  );
+  const result = await new SourceSceneAnalysis("/video", 1_000_000, async () => ({
+    sourceWidth: 64,
+    sourceHeight: 64,
+    samples: [
+      white,
+      { ...frame(300_000, () => [0, 0, 0]), requestedSourceUs: 200_000, distanceUs: 100_000 },
+    ],
+  })).analyze({ startUs: 0, endUs: 200_000 }, new AbortController().signal);
   expect(result.comparisons[0]).toMatchObject({ actualSourceUs: 300_000, boundary: true });
   expect(result.boundaries).toEqual([]);
   expect(result.coverage[1]?.distanceUs).toBe(100_000);
@@ -197,33 +180,25 @@ test("sampler cancellation and errors propagate, partial/escaped batches never b
   const controller = new AbortController();
   const error = new Error("decode failed");
   await expect(
-    analyzeSceneRange(
-      request,
-      async (_request, signal) => {
-        expect(signal).toBe(controller.signal);
-        throw error;
-      },
-      controller.signal,
-    ),
+    new SourceSceneAnalysis(request.source, request.kept.endUs, async (_request, signal) => {
+      expect(signal).toBe(controller.signal);
+      throw error;
+    }).analyze(request.range, controller.signal),
   ).rejects.toBe(error);
   for (const samples of [[white], [white, frame(1_000_000)]]) {
     await expect(
-      analyzeSceneRange(
-        request,
-        async () => ({ sourceWidth: 64, sourceHeight: 64, samples }),
-        controller.signal,
-      ),
+      new SourceSceneAnalysis(request.source, request.kept.endUs, async () => ({
+        sourceWidth: 64,
+        sourceHeight: 64,
+        samples,
+      })).analyze(request.range, controller.signal),
     ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
   }
   await expect(
-    analyzeSceneRange(
-      request,
-      async ({ atSourceUs }) => {
-        controller.abort(error);
-        return { sourceWidth: 64, sourceHeight: 64, samples: atSourceUs.map((at) => frame(at)) };
-      },
-      controller.signal,
-    ),
+    new SourceSceneAnalysis(request.source, request.kept.endUs, async ({ atSourceUs }) => {
+      controller.abort(error);
+      return { sourceWidth: 64, sourceHeight: 64, samples: atSourceUs.map((at) => frame(at)) };
+    }).analyze(request.range, controller.signal),
   ).rejects.toBe(error);
 });
 
@@ -366,4 +341,50 @@ test("missing future-frame reference remains an explicit failure inside the kept
       new AbortController().signal,
     ),
   ).rejects.toBe(refusal);
+});
+
+test("canonical runs preserve both sides of a chunk overlap and held source frames", async () => {
+  const analysis = new SourceSceneAnalysis("/video", 22_000_000, async ({ atSourceUs }) => ({
+    sourceWidth: 64,
+    sourceHeight: 64,
+    samples: atSourceUs.map((requestedSourceUs) => {
+      const actualSourceUs = Math.floor(requestedSourceUs / 250_000) * 250_000;
+      return {
+        ...frame(actualSourceUs, () => [
+          100 + Math.floor(actualSourceUs / 10_000_000) * 3,
+          100,
+          100,
+        ]),
+        requestedSourceUs,
+        distanceUs: requestedSourceUs - actualSourceUs,
+      };
+    }),
+  }));
+  const chunks = [];
+  for (const [startUs, endUs] of [
+    [0, 10_000_000],
+    [10_000_000, 20_000_000],
+    [20_000_000, 22_000_000],
+  ])
+    chunks.push(
+      await analysis.analyze({ startUs: startUs!, endUs: endUs! }, new AbortController().signal),
+    );
+  expect(
+    chunks
+      .flatMap((chunk) => chunk.coverage)
+      .filter((point) =>
+        [9_800_000, 10_000_000, 19_800_000, 20_000_000].includes(point.requestedSourceUs),
+      )
+      .map((point) => [point.requestedSourceUs, point.actualSourceUs, point.stillnessRunStartUs]),
+  ).toEqual([
+    [9_800_000, 9_750_000, 0],
+    [10_000_000, 10_000_000, 10_000_000],
+    [9_800_000, 9_750_000, 0],
+    [10_000_000, 10_000_000, 10_000_000],
+    [19_800_000, 19_750_000, 10_000_000],
+    [20_000_000, 20_000_000, 20_000_000],
+    [19_800_000, 19_750_000, 10_000_000],
+    [20_000_000, 20_000_000, 20_000_000],
+  ]);
+  expect(chunks.flatMap((chunk) => chunk.boundaries)).toEqual([]);
 });

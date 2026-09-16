@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { analyzeSceneRange, analyzeFrameScene } from "@screenrec/core/scenes";
+import { SourceSceneAnalysis, analyzeFrameScene } from "@screenrec/core/scenes";
 
 const native = new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url)
   .pathname;
@@ -70,13 +70,8 @@ test("shared scene analysis preserves held coverage and exposes a nearest future
   const source = await sparseFixture(t);
   const original = await readFile(source);
   const inspect = (endUs) =>
-    analyzeSceneRange(
-      {
-        source,
-        kept: { startUs: 0, endUs: 6000000 },
-        range: { startUs: 0, endUs },
-      },
-      sample,
+    new SourceSceneAnalysis(source, 6000000, sample).analyze(
+      { startUs: 0, endUs },
       new AbortController().signal,
     );
   const held = await inspect(1000000);

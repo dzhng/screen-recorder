@@ -2,6 +2,7 @@
 
 The [selector](../../../../packages/core/src/selection.ts) owns timing and selection;
 the evidence adapter supplies ordered observations and existing measured changes.
+[Bounded stillness](stillness-runs.md) defines what sampled equality permits.
 Selection yields candidates in source order plus separate coverage rows referring
 to emitted candidate ordinals. This avoids growing one image's coverage array
 through an arbitrarily long still recording. Kept-span mapping comes from the

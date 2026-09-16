@@ -1,6 +1,6 @@
 import { setImmediate } from "node:timers/promises";
 import { CatalogError, type RevisionStore } from "./library.js";
-import { sceneSampleTimes, type analyzeSceneRange, type VisualComparison } from "./scenes.js";
+import { sceneSampleTimes, type SourceSceneAnalysis, type VisualComparison } from "./scenes.js";
 
 export type SceneEvidenceIdentity = {
   recordingId: string;
@@ -8,7 +8,7 @@ export type SceneEvidenceIdentity = {
   generation: string;
   policy: string;
 };
-export type SceneChunkReport = Omit<Awaited<ReturnType<typeof analyzeSceneRange>>, "lastSample">;
+export type SceneChunkReport = Awaited<ReturnType<SourceSceneAnalysis["analyze"]>>;
 export type SceneEvidenceMetadata = SceneEvidenceIdentity & {
   durationUs: number;
   sourceWidth: number;
@@ -93,6 +93,8 @@ export class SceneEvidenceStore {
           point.requestedSourceUs !== times[i] ||
           !integer(point.actualSourceUs) ||
           point.actualSourceUs >= durationUs ||
+          !integer(point.stillnessRunStartUs) ||
+          point.stillnessRunStartUs > point.actualSourceUs ||
           point.distanceUs !== Math.abs(point.requestedSourceUs - point.actualSourceUs) ||
           !integer(point.width) ||
           point.width < 1 ||

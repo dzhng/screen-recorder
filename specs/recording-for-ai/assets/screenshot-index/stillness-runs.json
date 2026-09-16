@@ -1,0 +1,71 @@
+{
+  "sourceSha256": "c6026409ee3dcf9a80b35acc39d47d0f194d226fa3445550f6b728ed34c518a5",
+  "scenePolicy": "rgb-spatial-change-v2",
+  "selectionPolicy": "sampled-evidence-selection-v2",
+  "originalProbeSampleCount": 80,
+  "varyingChannels": 353,
+  "maximumChannelRange": 2,
+  "canonicalObservationCount": 81,
+  "stillnessRunStarts": [
+    0
+  ],
+  "selectedRequestedSourceUs": [
+    0,
+    15999999
+  ],
+  "coverage": [
+    {
+      "kind": "coverage",
+      "ordinal": 0,
+      "source": {
+        "startUs": 0,
+        "endUs": 5000000
+      },
+      "playback": {
+        "startUs": 0,
+        "endUs": 5000000
+      },
+      "equality": "sampled"
+    },
+    {
+      "kind": "coverage",
+      "ordinal": 0,
+      "source": {
+        "startUs": 5000000,
+        "endUs": 10000000
+      },
+      "playback": {
+        "startUs": 5000000,
+        "endUs": 10000000
+      },
+      "equality": "sampled"
+    },
+    {
+      "kind": "coverage",
+      "ordinal": 0,
+      "source": {
+        "startUs": 10000000,
+        "endUs": 15000000
+      },
+      "playback": {
+        "startUs": 10000000,
+        "endUs": 15000000
+      },
+      "equality": "sampled"
+    },
+    {
+      "kind": "coverage",
+      "ordinal": 0,
+      "source": {
+        "startUs": 15000000,
+        "endUs": 16000000
+      },
+      "playback": {
+        "startUs": 15000000,
+        "endUs": 16000000
+      },
+      "equality": "sampled"
+    }
+  ],
+  "scope": "Existing unchanged source video, native RGB observations, canonical scene analysis and core selection. Full retained/public index acceptance remains a parent integration gate."
+}

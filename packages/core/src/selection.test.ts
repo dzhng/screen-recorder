@@ -1,4 +1,5 @@
 import { expect, test } from "vitest";
+import { scenePolicy } from "./scenes.js";
 import { createOriginalRevision, createRevision } from "./timeline.js";
 import {
   selectIndex,
@@ -13,7 +14,7 @@ const input = (durationUs: number): SelectionInput => ({
     recordingId: "r",
     sourceId: "s",
     generation: "scene",
-    policy: "rgb-spatial-change-v1",
+    policy: scenePolicy.id,
   },
   sourceWidth: 1000,
   sourceHeight: 1000,
@@ -150,12 +151,12 @@ function stillEvents(duration: number, changedAt = -1): SelectionEvent[] {
         kind: "visual",
         atSourceUs: time,
         actualSourceUs: time,
-        meanAbsoluteChannelDifference: time === changedAt ? 0.001 : time === 0 ? null : 0,
+        stillnessRunStartUs: changedAt >= 0 && time >= changedAt ? changedAt : 0,
       });
   }
   return events;
 }
-test("static collapse retains explicit windows while any measured pixel change blocks it", async () => {
+test("static collapse retains explicit windows while a change beyond the stillness envelope blocks it", async () => {
   const rows = await ledger(input(12_000_000), stillEvents(12_000_000));
   expect(candidates(rows).map((r) => r.requestedSourceUs)).toEqual([0, 11_999_999]);
   expect(
@@ -245,7 +246,7 @@ test("sparse future scenes stay at actual time and removed held frames cannot es
       kind: "visual",
       atSourceUs: 50_000_000,
       actualSourceUs: 100_000_000,
-      meanAbsoluteChannelDifference: 1,
+      stillnessRunStartUs: 1,
     },
     { kind: "boundary", atSourceUs: 100_000_000, reason: "scene" },
   ];
@@ -262,7 +263,7 @@ test("sparse future scenes stay at actual time and removed held frames cannot es
     operation: "trim",
   });
   const held = stillEvents(12_000_000).map((e) =>
-    e.kind === "visual" ? { ...e, actualSourceUs: 0, meanAbsoluteChannelDifference: null } : e,
+    e.kind === "visual" ? { ...e, actualSourceUs: 0, stillnessRunStartUs: null } : e,
   );
   expect(candidates(await ledger(config, held)).map((r) => r.requestedSourceUs)).toEqual([
     1_000_000, 6_000_000, 11_000_000, 11_999_999,
@@ -310,7 +311,7 @@ test("thirty-minute evidence is consumed incrementally and coverage references e
           kind: "visual",
           atSourceUs: time,
           actualSourceUs: time,
-          meanAbsoluteChannelDifference: time === 0 ? null : 0,
+          stillnessRunStartUs: 0,
         };
       }
     }
@@ -406,7 +407,7 @@ test("unconfirmed idle holds later candidates behind the last moving observation
       kind: "visual",
       atSourceUs: 5_320_000,
       actualSourceUs: 5_320_000,
-      meanAbsoluteChannelDifference: null,
+      stillnessRunStartUs: null,
     },
     cursor(5_399_999, 20),
   ];

@@ -3,7 +3,7 @@
 The core comparison owner is [scenes.ts](../../../../packages/core/src/scenes.ts).
 It receives native clean RGB observations and emits measured pair differences;
 no decoder, timing mapper, renderer or scene decision exists beside that owner.
-`analyzeSceneRange` uses the injected native sampler for a bounded source range.
+`SourceSceneAnalysis` uses the injected native sampler for contiguous bounded source chunks.
 `analyzeVisualSamples` accepts the previous chunk's final observation so a future
 whole-recording job can run the identical policy across chunk boundaries.
 

@@ -3,10 +3,11 @@ import type { TimeRange } from "./timeline.js";
 
 /** Measured visual change, not recognition of a scene's meaning. */
 export const scenePolicy = Object.freeze({
-  id: "rgb-spatial-change-v1",
+  id: "rgb-spatial-change-v2",
   stepUs: 200_000,
   maximumRangeUs: 10_000_000,
   changedChannelDelta: 24,
+  stillnessChannelRange: 2,
   gridColumns: 8,
   gridRows: 8,
   activeCellFraction: 0.05,
@@ -227,20 +228,92 @@ function report(observed: VisualObservations, request: { kept: TimeRange; range:
   };
 }
 
-export async function analyzeSceneRange(
-  request: { source: string; kept: TimeRange; range: TimeRange },
-  sample: VisualSampler,
-  signal: AbortSignal,
-) {
-  const atSourceUs = sceneSampleTimes(request.range, request.kept);
-  return report(
-    await observeVisualSamples(
-      { source: request.source, kept: request.kept, atSourceUs },
-      sample,
+/** Canonical source evidence keeps its rounding envelope across every chunk and coverage window. */
+export class SourceSceneAnalysis {
+  private throughUs = 0;
+  private minimum: Buffer | undefined;
+  private maximum: Buffer | undefined;
+  private runStartUs = 0;
+  private recent: { sample: VisualSample; stillnessRunStartUs: number }[] = [];
+
+  constructor(
+    private readonly source: string,
+    private readonly durationUs: number,
+    private readonly sample: VisualSampler,
+  ) {}
+
+  async analyze(range: TimeRange, signal: AbortSignal) {
+    const kept = { startUs: 0, endUs: this.durationUs };
+    const atSourceUs = sceneSampleTimes(range, kept);
+    if (range.startUs !== this.throughUs)
+      invalid("Canonical scene analysis requires contiguous source chunks");
+    const observed = await observeVisualSamples(
+      { source: this.source, kept, atSourceUs },
+      this.sample,
       signal,
-    ),
-    request,
-  );
+    );
+    const { lastSample: _lastSample, ...result } = report(observed, { range, kept });
+    const coverage = observed.samples.map((sample, index) => {
+      const last = this.recent.at(-1);
+      let stillnessRunStartUs: number;
+      if (last && sample.requestedSourceUs <= last.sample.requestedSourceUs) {
+        // Adjacent chunks repeat the preceding grid point and their shared endpoint.
+        const overlap = this.recent.find(
+          (point) => point.sample.requestedSourceUs === sample.requestedSourceUs,
+        );
+        if (
+          !overlap ||
+          overlap.sample.actualSourceUs !== sample.actualSourceUs ||
+          overlap.sample.rgbBase64 !== sample.rgbBase64
+        )
+          invalid("Overlapping scene observations changed");
+        stillnessRunStartUs = overlap.stillnessRunStartUs;
+      } else {
+        const rgb = pixels(sample);
+        if (
+          last &&
+          (sample.actualSourceUs < last.sample.actualSourceUs ||
+            sample.width !== last.sample.width ||
+            sample.height !== last.sample.height)
+        )
+          invalid("Canonical visual observations changed order or dimensions");
+        if (
+          last &&
+          sample.actualSourceUs === last.sample.actualSourceUs &&
+          sample.rgbBase64 !== last.sample.rgbBase64
+        )
+          invalid("A held source sample cannot change its pixels");
+        let within = !!this.minimum;
+        if (within) {
+          for (let i = 0; i < rgb.length; i++) {
+            if (
+              Math.max(this.maximum![i]!, rgb[i]!) - Math.min(this.minimum![i]!, rgb[i]!) >
+              scenePolicy.stillnessChannelRange
+            ) {
+              within = false;
+              break;
+            }
+          }
+        }
+        if (!within) {
+          this.minimum = Buffer.from(rgb);
+          this.maximum = Buffer.from(rgb);
+          this.runStartUs = sample.actualSourceUs;
+        } else {
+          for (let i = 0; i < rgb.length; i++) {
+            this.minimum![i] = Math.min(this.minimum![i]!, rgb[i]!);
+            this.maximum![i] = Math.max(this.maximum![i]!, rgb[i]!);
+          }
+        }
+        stillnessRunStartUs = this.runStartUs;
+        this.recent.push({ sample, stillnessRunStartUs });
+        if (this.recent.length > 2) this.recent.shift();
+      }
+      return { ...result.coverage[index]!, stillnessRunStartUs };
+    });
+    this.throughUs = range.endUs;
+    return { ...result, coverage };
+  }
 }
 
 /** A future video selection can veto past pointing; it never advances the cursor's clock. */

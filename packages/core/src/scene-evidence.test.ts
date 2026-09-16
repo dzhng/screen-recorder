@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { analyzeSceneRange, scenePolicy } from "./scenes.js";
+import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 const stores: RevisionStore[] = [],
   roots: string[] = [];
@@ -11,7 +11,7 @@ afterEach(() => {
   stores.splice(0).forEach((s) => s.close());
   roots.splice(0).forEach((p) => rmSync(p, { recursive: true, force: true }));
 });
-function fixture(durationUs = 20_000_000) {
+function fixture(durationUs = 20_000_000, sparse = false) {
   const root = mkdtempSync(join(tmpdir(), "scene-evidence-"));
   roots.push(root);
   const path = join(root, "catalog.sqlite");
@@ -27,38 +27,42 @@ function fixture(durationUs = 20_000_000) {
     generation: "attempt-1",
     policy: scenePolicy.id,
   };
-  return { store, path, providers, identity, evidence: new SceneEvidenceStore(store) };
+  return {
+    store,
+    path,
+    providers,
+    identity,
+    evidence: new SceneEvidenceStore(store),
+    report: sourceAnalysis(durationUs, sparse),
+  };
 }
-async function report(startUs: number, endUs: number, durationUs = 20_000_000, sparse = false) {
-  const { lastSample: _lastSample, ...result } = await analyzeSceneRange(
-    { source: "unused", kept: { startUs: 0, endUs: durationUs }, range: { startUs, endUs } },
-    async (request) => ({
-      sourceWidth: 1920,
-      sourceHeight: 1080,
-      samples: request.atSourceUs.map((requestedSourceUs) => {
-        const actualSourceUs = sparse
-          ? requestedSourceUs >= 50_000_000
-            ? 100_000_000
-            : 0
-          : requestedSourceUs;
-        return {
-          requestedSourceUs,
-          actualSourceUs,
-          distanceUs: Math.abs(requestedSourceUs - actualSourceUs),
-          width: 1,
-          height: 1,
-          rgbBase64: Buffer.alloc(3, actualSourceUs === 0 ? 0 : 255).toString("base64"),
-        };
-      }),
+function sourceAnalysis(durationUs: number, sparse = false) {
+  const analysis = new SourceSceneAnalysis("unused", durationUs, async (request) => ({
+    sourceWidth: 1920,
+    sourceHeight: 1080,
+    samples: request.atSourceUs.map((requestedSourceUs) => {
+      const actualSourceUs = sparse
+        ? requestedSourceUs >= 50_000_000
+          ? 100_000_000
+          : 0
+        : requestedSourceUs;
+      return {
+        requestedSourceUs,
+        actualSourceUs,
+        distanceUs: Math.abs(requestedSourceUs - actualSourceUs),
+        width: 1,
+        height: 1,
+        rgbBase64: Buffer.alloc(3, actualSourceUs === 0 ? 0 : 255).toString("base64"),
+      };
     }),
-    new AbortController().signal,
-  );
-  return result;
+  }));
+  return (startUs: number, endUs: number) =>
+    analysis.analyze({ startUs, endUs }, new AbortController().signal);
 }
 test("only contiguous complete evidence becomes readable and survives reopening", async () => {
   const f = fixture(),
-    first = await report(0, 10_000_000),
-    second = await report(10_000_000, 20_000_000);
+    first = await f.report(0, 10_000_000),
+    second = await f.report(10_000_000, 20_000_000);
   f.evidence.append(f.identity, first);
   expect(() => f.evidence.page({ identity: f.identity })).toThrow("complete");
   expect(() => f.evidence.finish(f.identity, 20_000_000)).toThrow("coverage");
@@ -82,10 +86,10 @@ test("only contiguous complete evidence becomes readable and survives reopening"
 });
 
 test("sparse future comparisons are retained once while request coverage remains exact", async () => {
-  const f = fixture(120_000_000),
+  const f = fixture(120_000_000, true),
     expectedCoverage = [];
   for (let start = 0; start < 120_000_000; start += 10_000_000) {
-    const chunk = await report(start, start + 10_000_000, 120_000_000, true);
+    const chunk = await f.report(start, start + 10_000_000);
     expectedCoverage.push(...chunk.coverage);
     f.evidence.append(f.identity, chunk);
   }
@@ -110,8 +114,8 @@ test("sparse future comparisons are retained once while request coverage remains
 
 test("gaps, changed identities and dimensions cannot advance persisted coverage", async () => {
   const f = fixture(),
-    first = await report(0, 10_000_000),
-    second = await report(10_000_000, 20_000_000);
+    first = await f.report(0, 10_000_000),
+    second = await f.report(10_000_000, 20_000_000);
   expect(() => f.evidence.append(f.identity, second)).toThrow("contiguous");
   expect(() => f.evidence.append({ ...f.identity, sourceId: "wrong" }, first)).toThrow("identity");
   expect(() => f.evidence.append({ ...f.identity, policy: "wrong" }, first)).toThrow("identity");
@@ -143,7 +147,7 @@ test("a thirty-minute scan pages exact ranges and cleanup hides evidence before 
   const duration = 1_800_000_000,
     f = fixture(duration);
   for (let start = 0; start < duration; start += 10_000_000)
-    f.evidence.append(f.identity, await report(start, start + 10_000_000, duration));
+    f.evidence.append(f.identity, await f.report(start, start + 10_000_000));
   f.evidence.finish(f.identity, duration);
   const first = f.evidence.page({ identity: f.identity });
   expect(first.chunks.map((c) => c.range.startUs)).toEqual(
@@ -160,12 +164,12 @@ test("a thirty-minute scan pages exact ranges and cleanup hides evidence before 
   expect(() => f.evidence.page({ identity: f.identity })).toThrow("complete");
   expect(() => f.evidence.finish(f.identity, duration)).toThrow("coverage");
   await removing;
-  f.evidence.append(f.identity, await report(0, 10_000_000, duration));
+  f.evidence.append(f.identity, await sourceAnalysis(duration)(0, 10_000_000));
 });
 
 test("restart leaves partial attempts unreadable and separates source generations", async () => {
   const f = fixture(10_000_000),
-    chunk = await report(0, 10_000_000, 10_000_000);
+    chunk = await f.report(0, 10_000_000);
   f.evidence.append(f.identity, chunk);
   f.store.close();
   const reopened = new RevisionStore(f.path, f.providers);
