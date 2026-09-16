@@ -7,6 +7,7 @@ import {
   symlinkSync,
   linkSync,
   existsSync,
+  readFileSync,
 } from "node:fs";
 import { execFileSync, spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
@@ -405,4 +406,64 @@ test("compact finish metadata is a usable pinned identity for pages and reads", 
   expect(() => f.index.page({ identity: { ...metadata, framePolicy: "different" } })).toThrow(
     "identity",
   );
+});
+
+test("forgetRecording removes all target generation metadata without removing files or sibling evidence", async () => {
+  const f = fixture();
+  f.index.begin(f.identity);
+  const ready = add(f);
+  cover(f);
+  await f.index.finish(f.identity);
+  const unfinished = { ...f, identity: { ...f.identity, generation: "unfinished" } };
+  f.index.begin(unfinished.identity);
+  const pending = add(unfinished);
+  cover(unfinished);
+  const recording = f.catalog.allocate().recording;
+  f.catalog.registerSource(recording.recordingId, 10_000_000);
+  const sourceIdentity = {
+    ...f.identity.sourceIdentity,
+    recordingId: recording.recordingId,
+    sourceId: recording.sourceId,
+  };
+  const sibling = {
+    ...f,
+    identity: {
+      ...f.identity,
+      ...sourceIdentity,
+      generation: "sibling-index",
+      sourceIdentity,
+      sceneIdentity: {
+        ...f.identity.sceneIdentity,
+        recordingId: recording.recordingId,
+        sourceId: recording.sourceId,
+      },
+    },
+  };
+  f.index.begin(sibling.identity);
+  const retained = add(sibling);
+  cover(sibling);
+  await f.index.finish(sibling.identity);
+  const siblingPage = f.index.page({ identity: sibling.identity });
+  const siblingCoverage = f.index.coveragePage({ identity: sibling.identity });
+  const signal = new AbortController().signal;
+  await expect(f.index.forgetRecording(f.identity.recordingId, signal)).rejects.toMatchObject({
+    code: "INVALID_STATE",
+  });
+  f.catalog.markDeleting(f.identity.recordingId);
+  await f.index.forgetRecording(f.identity.recordingId, signal);
+  for (const table of [
+    "screenshot_index_entries",
+    "screenshot_index_coverage",
+    "screenshot_index_generations",
+  ]) {
+    expect(
+      f.catalog.catalog
+        .prepare(`SELECT * FROM ${table} WHERE recordingId=?`)
+        .all(f.identity.recordingId),
+    ).toEqual([]);
+  }
+  expect(f.index.page({ identity: sibling.identity })).toEqual(siblingPage);
+  expect(f.index.coveragePage({ identity: sibling.identity })).toEqual(siblingCoverage);
+  for (const { frame } of [ready, pending, retained]) expect(readFileSync(frame.file)).toEqual(png);
+  await f.index.forgetRecording(f.identity.recordingId, signal);
 });

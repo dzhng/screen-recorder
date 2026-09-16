@@ -1,10 +1,10 @@
 import { test, expect } from "vitest";
 import { mkdtempSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
-import { DerivedCache } from "./cache.js";
+import { DerivedCache, type RemoveCacheFiles } from "./cache.js";
 
 test("deletion intent fences derivative access before selective cleanup", async () => {
   const home = mkdtempSync(join(tmpdir(), "recording-deletion-"));
@@ -14,6 +14,12 @@ test("deletion intent fences derivative access before selective cleanup", async 
   });
   const cache = new DerivedCache(store, home);
   await cache.reconcile();
+  const removeFiles: RemoveCacheFiles = async ({ ids }) => {
+    for (const id of ids) {
+      if (basename(id) !== id) throw new Error("Fixture refuses a nonlocal cache name");
+      rmSync(join(home, "cache", "derived", `${id}.cache`), { force: true });
+    }
+  };
   const target = store.allocate().recording.recordingId;
   const sibling = store.allocate().recording.recordingId;
   const ready = cache.reserve(target);
@@ -31,10 +37,12 @@ test("deletion intent fences derivative access before selective cleanup", async 
     expect(() => cache.acquire(ready.id)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
     await expect(cache.publish(pending.id)).rejects.toMatchObject({ code: "NOT_FOUND" });
     expect(existsSync(pending.path)).toBe(false);
-    await expect(cache.purgeRecording(target)).rejects.toMatchObject({ code: "CACHE_BUSY" });
+    await expect(cache.purgeRecording(target, removeFiles)).rejects.toMatchObject({
+      code: "CACHE_BUSY",
+    });
     expect(existsSync(ready.path)).toBe(true);
     held.release();
-    await cache.purgeRecording(target);
+    await cache.purgeRecording(target, removeFiles);
     expect(existsSync(ready.path)).toBe(false);
     expect(store.deleting(target)?.recordingId).toBe(target);
     const read = cache.acquire(other.id)!;

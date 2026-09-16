@@ -8,11 +8,12 @@ import {
   symlinkSync,
   linkSync,
   mkdirSync,
+  lstatSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { DerivedCache } from "./cache.js";
+import { DerivedCache, type RemoveCacheFiles } from "./cache.js";
 const cleanups: (() => void)[] = [];
 afterEach(() =>
   cleanups
@@ -36,7 +37,16 @@ async function fixture(budget = 8) {
   store.allocate();
   const cache = new DerivedCache(store, home, budget);
   await cache.reconcile();
-  return { home, store, cache };
+  const removeFiles: RemoveCacheFiles = async ({ ids, root }) => {
+    const directory = join(home, "cache", "derived");
+    const stat = lstatSync(directory);
+    expect(root).toEqual({ dev: stat.dev.toString(), ino: stat.ino.toString() });
+    for (const id of ids) {
+      if (basename(id) !== id) throw new Error("Fixture refuses a nonlocal cache name");
+      rmSync(join(directory, `${id}.cache`), { force: true });
+    }
+  };
+  return { home, store, cache, removeFiles };
 }
 async function add(cache: DerivedCache, data: string) {
   const pending = cache.reserve("recording-1");
@@ -224,7 +234,7 @@ test("reopening the catalog retains cache content and LRU, removing only owned o
 });
 
 test("recording purge removes published and pending files, preserving sibling readers", async () => {
-  const { cache, store } = await fixture(100);
+  const { cache, store, removeFiles } = await fixture(100);
   const sibling = store.allocate().recording.recordingId;
   const a = await add(cache, "deleted");
   const pending = cache.reserve("recording-1");
@@ -233,7 +243,7 @@ test("recording purge removes published and pending files, preserving sibling re
   writeFileSync(b.path, "sibling");
   await cache.publish(b.id);
   const reader = cache.acquire(b.id)!;
-  await cache.purgeRecording("recording-1");
+  await cache.purgeRecording("recording-1", removeFiles);
   expect(existsSync(a.path)).toBe(false);
   expect(existsSync(pending.path)).toBe(false);
   await expect(cache.publish(pending.id)).rejects.toThrow("No cache reservation");
@@ -242,13 +252,13 @@ test("recording purge removes published and pending files, preserving sibling re
   expect(bytes.toString()).toBe("sibling");
   reader.release();
   expect(read(cache, b.id)).toBe("sibling");
-  await cache.purgeRecording("recording-1");
-  await cache.purgeRecording("unknown");
+  await cache.purgeRecording("recording-1", removeFiles);
+  await cache.purgeRecording("unknown", removeFiles);
   expect(cache.bytes).toBe(7);
 });
 
 test("purge refuses pinned recording bytes and retries without releasing unrelated pins", async () => {
-  const { cache, store } = await fixture(100);
+  const { cache, store, removeFiles } = await fixture(100);
   const sibling = store.allocate().recording.recordingId;
   const a = await add(cache, "target");
   const b = cache.reserve(sibling);
@@ -256,14 +266,14 @@ test("purge refuses pinned recording bytes and retries without releasing unrelat
   await cache.publish(b.id);
   const targetRead = cache.acquire(a.id)!,
     siblingRead = cache.acquire(b.id)!;
-  await expect(cache.purgeRecording("recording-1")).rejects.toMatchObject({
+  await expect(cache.purgeRecording("recording-1", removeFiles)).rejects.toMatchObject({
     code: "CACHE_BUSY",
     retryable: true,
   });
   expect(readFileSync(a.path, "utf8")).toBe("target");
   expect(read(cache, a.id)).toBe("target");
   targetRead.release();
-  await cache.purgeRecording("recording-1");
+  await cache.purgeRecording("recording-1", removeFiles);
   expect(existsSync(a.path)).toBe(false);
   const bytes = Buffer.alloc(7);
   siblingRead.read(bytes, 0);
@@ -272,7 +282,7 @@ test("purge refuses pinned recording bytes and retries without releasing unrelat
 });
 
 test("purge yields across reservations and serializes already queued and late publication", async () => {
-  const { cache } = await fixture(200);
+  const { cache, removeFiles } = await fixture(200);
   const pending = [];
   for (let i = 0; i < 130; i++) {
     const output = cache.reserve("recording-1");
@@ -284,7 +294,7 @@ test("purge yields across reservations and serializes already queued and late pu
   setImmediate(() => {
     heartbeat = true;
   });
-  await cache.purgeRecording("recording-1");
+  await cache.purgeRecording("recording-1", removeFiles);
   await publication;
   expect(heartbeat).toBe(true);
   for (const output of pending) expect(existsSync(output.path)).toBe(false);
@@ -323,7 +333,7 @@ test("unsupported cache catalogs fail at catalog open before any schema or owned
 });
 
 test("reservations reject missing owners and retain their owner after reopening", async () => {
-  const { cache, home, store } = await fixture(100);
+  const { cache, home, store, removeFiles } = await fixture(100);
   expect(() => cache.reserve("missing")).toThrowError(
     expect.objectContaining({ code: "NOT_FOUND" }),
   );
@@ -334,7 +344,27 @@ test("reservations reject missing owners and retain their owner after reopening"
   await cache.publish(second.id);
   const reopened = new DerivedCache(store, home, 100);
   await reopened.reconcile();
-  await reopened.purgeRecording(owner);
+  await reopened.purgeRecording(owner, removeFiles);
   expect(read(reopened, second.id)).toBeNull();
   expect(read(reopened, first.id)).toBe("first");
+});
+
+test("failed file removal retains cache ownership for retry", async () => {
+  const { cache, store, removeFiles } = await fixture(100);
+  const output = await add(cache, "retry-me");
+  store.markDeleting("recording-1");
+  await expect(
+    cache.purgeRecording("recording-1", async () => {
+      throw new Error("removal failed");
+    }),
+  ).rejects.toThrow("removal failed");
+  expect(readFileSync(output.path, "utf8")).toBe("retry-me");
+  expect(
+    store.catalog.prepare("SELECT id, recordingId FROM derived_cache WHERE id=?").get(output.id),
+  ).toEqual({ id: output.id, recordingId: "recording-1" });
+  await cache.purgeRecording("recording-1", removeFiles);
+  expect(existsSync(output.path)).toBe(false);
+  expect(
+    store.catalog.prepare("SELECT id FROM derived_cache WHERE id=?").get(output.id),
+  ).toBeUndefined();
 });
