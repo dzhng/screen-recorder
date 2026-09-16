@@ -1,0 +1,14 @@
+{
+  "base": "757f0855c87b3c5c8c834ab50a7b14cc95480619",
+  "sources": {
+    "apps/macos/Sources/ScreenRecorder/PreviewController.swift": "eb0650fbd89583a66efe8f15a62b989b4310d66cc9d9f0d081bf6df2a543bae0",
+    "apps/macos/tests/preview-player.test.mjs": "b8f18b5dce748792020912b8de79df30d39b94aecfb357e50b480ef3096a90fc"
+  },
+  "checks": {
+    "nativePlayer": "PASS extensionless native playback, pinned revision, renewal, revocation, expiry, late delivery, replacement, window close\n\u2714 native preview pins revision and stops on revocation, expiry, replacement and late replies (28905.909792ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 28939.108833\n",
+    "controls": "[0/1] Planning build\nBuilding for debugging...\n[0/3] Write swift-version--1AB21518FC5DEDBE.txt\nBuild of product 'ScreenRecorderControlsTests' complete! (0.10s)\nPASS elapsed playback time reads as a recorder's clock\nPASS a selection becomes exactly the take it describes\nPASS the menu states what is recording, what was chosen and what cannot be done yet\nPASS explicit deletion retries and live storage observations remain honest\nPASS shortcuts are advertised only where this app actually holds them\nPASS a region drag becomes display-local capture coordinates\nPASS recording controls\n",
+    "build": "Building for debugging...\n[0/4] Write sources\n[1/4] Write swift-version--1AB21518FC5DEDBE.txt\n[3/6] Compiling ScreenRecorder PreviewController.swift\n[4/6] Emitting module ScreenRecorder\n[4/7] Write Objects.LinkFileList\n[5/7] Linking ScreenRecorder\n[6/7] Applying ScreenRecorder\nBuild of product 'ScreenRecorder' complete! (0.91s)\n"
+  },
+  "review": "Independent read-only Codex review62867: no actionable defects. Final SDK-only change disables paused-frame analysis; host build and native regression rerun green. Earlier sandbox runtime was inconclusive; no sandbox runtime success claimed.",
+  "remaining": "Bundled status-menu action and actual service/player visual inspection; adjacent-speech audition."
+}

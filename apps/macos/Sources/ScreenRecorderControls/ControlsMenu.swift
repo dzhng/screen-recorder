@@ -15,6 +15,7 @@ public enum ControlsAction: Hashable, Sendable {
     case pauseOrResume
     case cancel
     case restart
+    case previewRecording(String)
     case deleteRecording(String)
     case refreshStorage
     case requestScreenPermission
@@ -34,6 +35,7 @@ public enum ControlsAction: Hashable, Sendable {
         case .pauseOrResume: "capture.pauseOrResume"
         case .cancel: "capture.cancel"
         case .restart: "capture.restart"
+        case .previewRecording(let id): "recording.preview.\(id)"
         case .deleteRecording(let id): "recording.delete.\(id)"
         case .refreshStorage: "storage.refresh"
         case .requestScreenPermission: "permission.screen"
@@ -282,9 +284,7 @@ public enum RecordingMenu {
         return rows
     }
 
-    /// The takes the library already holds. Preview and the two exports are named here and left
-    /// unavailable: the slices that produce playable and exported media have not been built, and a
-    /// control that pretended otherwise would be a lie about what this app can do.
+    /// Recent library takes expose the shared preview operation; exports remain separate work.
     private static func recentEntries(for state: ControlsState) -> [MenuEntry] {
         let takes = state.recent + state.deletions.values
             .map(\.take)
@@ -302,7 +302,10 @@ public enum RecordingMenu {
             }
             details.append(contentsOf: [
                 .separator(),
-                MenuEntry(.status, "Preview — not available yet", enabled: false),
+                MenuEntry(.command(.previewRecording(take.recordingId)), "Preview",
+                    enabled: state.service == .ready && request == nil
+                        && (take.state == "complete" || take.state == "interrupted")
+                        && (take.sourceDurationUs ?? 0) > 0),
                 MenuEntry(.status, "Export Video — not available yet", enabled: false),
                 MenuEntry(.status, "Export AI Package — not available yet", enabled: false),
                 .separator(),

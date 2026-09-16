@@ -55,11 +55,12 @@ Inline image/audio model content retains its existing memory limits.
 
 The shared protocol/CLI/MCP registry now exposes the production renderer with
 current-pointer composition. Existing delivery leases own bounded reads and deletion
-revocation. App playback still needs an owner that retains playable bytes for the
-actual player lifetime. The existing delivery owner now supports [explicit renewal](../assets/preview-publication/renewal.md)
-of a live token; expired or revoked tokens cannot be revived. Native playback will
-use its pinned cache URL only while it owns that lease, renew during playback or
-pause, and stop/release on close, replacement, service loss or renewal failure.
+revocation. App playback retains the same cached bytes for the actual player
+lifetime. The existing delivery owner supports [explicit renewal](../assets/preview-publication/renewal.md)
+of a live token; expired or revoked tokens cannot be revived. The [native player owner](../assets/preview-publication/player.md) uses its pinned
+cache URL only while it owns that lease, renews during playback or pause, and
+stops/releases on close, replacement, service loss or renewal failure. Its real
+AVPlayer lifetime regression is separate from the pending bundled UI inspection.
 This avoids another app-owned copy and its deletion/startup cleanup policy. No bare unleased temporary path in a public
 result. Native playback and actual adjacent-speech audition remain parent13 gates.
 

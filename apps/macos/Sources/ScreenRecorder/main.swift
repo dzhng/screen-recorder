@@ -121,6 +121,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func quitRecorder() {
         guard !quitting else { return }
         quitting = true
+        controls?.closePreview()
         guard let controller, controller.isCapturing else {
             NSApplication.shared.terminate(nil)
             return
@@ -146,6 +147,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Let the bounded in-flight probe reap its child before this process exits.
         // Cancellation prevents another candidate or a late service launch.
         startup?.waitUntilFinished()
+        controls?.closePreview()
         probe?.stop()
         service?.shutdown()
         fixture?.close()

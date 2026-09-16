@@ -1638,3 +1638,18 @@ records them. These choices add no public export choice or transcript readiness.
   descriptors; it never treats arbitrary paths as authority or changes the common
   timeline/media planner. Request values are copied at admission so a caller cannot
   change an output label or media request while native work is pending.
+
+## Native preview interaction
+
+- **Choice:** one player window; opening another preview replaces it. The window
+  stays on the revision resolved when opened, even if another client edits later.
+  Preparation is observed through the existing controls cadence and failed preview
+  jobs offer an explicit retry. Source-processing failures remain their owner's
+  failure rather than being silently retried by the player.
+- **Gap:** the plan required native playback but did not choose window count or
+  how edits made during playback should affect an open view.
+- **Reach:** bounds active native player resources and keeps the displayed movie
+  truthful to its pinned title. Standard AVPlayerView supplies playback controls.
+- **Verdict:** sound; no new rendering, timeline, scheduler or copied-file owner.
+- **Confidence:** high for lifetime; actual menu/player visual integration remains
+  independently verifiable through the app.

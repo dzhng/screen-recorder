@@ -24,6 +24,18 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private var bindings = ShortcutDefaults.suggested
     private var held: Set<String> = []
     private weak var host: ServiceHost?
+    private lazy var preview = PreviewController(call: { [weak self] operation, params in
+        guard let self else { throw ServiceFailure(code: "SERVICE_UNAVAILABLE", message: "No service is running.") }
+        switch await self.call(operation, params) {
+        case .success(let value): return try JSONSerialization.data(withJSONObject: value)
+        case .failure(let error):
+            throw NSError(domain: error.code, code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "\(error.code): \(error.message)"])
+        }
+    }, failure: { [weak self] message in
+        self?.state.failure = message
+        self?.render()
+    })
     private var ticker: Timer?
     private var reading = false
     private var pendingRefresh = false
@@ -65,7 +77,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         case .ready: state.service = .ready
         case .unavailable(_, let message): state.service = .unavailable(message)
         }
-        if state.service == .ready { refresh() } else { render() }
+        if state.service == .ready { refresh() } else { preview.close(); render() }
     }
 
     /// The live menu and status item, so a check can read exactly what a person would see.
@@ -118,6 +130,9 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             capture("capture.cancel", live())
         case .restart:
             restart()
+        case .previewRecording(let recordingId):
+            guard state.service == .ready else { return }
+            preview.open(recordingId)
         case .deleteRecording(let recordingId):
             deleteRecording(recordingId)
         case .refreshStorage:
@@ -222,6 +237,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     private func deleteRecording(_ recordingId: String) {
         guard state.beginDelete(recordingId) else { return }
+        preview.close(recording: recordingId)
         Task { @MainActor in
             let result = await call("recording.delete", ["recordingId": recordingId])
             switch result {
@@ -297,7 +313,9 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     }
 
     /// Status-only polling observes external controls without re-enumerating idle sources.
-    private func tick() { read(everything: false) }
+    private func tick() { preview.tick(); read(everything: false) }
+
+    func closePreview() { preview.close() }
 
     private func read(everything: Bool) {
         guard host != nil, state.service == .ready else { return }

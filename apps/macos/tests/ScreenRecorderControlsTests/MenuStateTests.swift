@@ -110,12 +110,18 @@ func runMenuStateTests() {
     else { preconditionFailure("A stored take is listed") }
     precondition(takes.title.hasSuffix("— 1:05"), "A listed take states the media it holds")
     let offered = takes.submenu.filter(\.enabled).compactMap(\.action)
-    precondition(offered == [.deleteRecording("rec-9")], "Only the explicit-ID delete action is available for a stored take")
+    precondition(offered == [.previewRecording("rec-9"), .deleteRecording("rec-9")], "Preview and deletion name the stored take")
     precondition(
-        takes.submenu.contains { $0.title == "Preview — not available yet" }
-            && takes.submenu.contains { $0.title == "Export Video — not available yet" }
+        takes.submenu.contains { $0.title == "Export Video — not available yet" }
             && takes.submenu.contains { $0.title == "Export AI Package — not available yet" },
-        "The two exports and preview are named and visibly unavailable, never faked")
+        "Both export choices remain visibly unavailable")
+    for (status, duration, available) in [("complete", Int64(1), true), ("interrupted", 1, true),
+        ("interrupted", 0, false), ("recording", 1, false), ("canceled", 1, false)] {
+        stored.recent = [.init(recordingId: "rec-9", createdAt: "2026-09-15T18:04:05Z",
+            state: status, sourceDurationUs: duration, interruptionReason: nil)]
+        precondition(row(RecordingMenu.entries(for: stored), "recording.preview.rec-9").enabled == available,
+            "Only usable finalized media exposes Preview")
+    }
     print("PASS the menu states what is recording, what was chosen and what cannot be done yet")
 }
 
