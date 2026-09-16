@@ -1,6 +1,6 @@
 # 13 — Playable edited media and audio joins
 
-Status: native video checkpoint implemented; full edited playback remains open.
+Status: native video timing and bounded PCM streaming verified; full edited playback remains open.
 Dependencies for full completion: 09, 12.
 Start with [13a — native render timing feasibility](13a-native-render-timing.md),
 which can prove the existing render-plan/native-worker seam before speech and the

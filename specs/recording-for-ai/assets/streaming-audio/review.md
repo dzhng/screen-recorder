@@ -84,3 +84,12 @@ reclaim its scope after worker termination or restart reconciliation. This slice
 does not claim that arbitrary non-cooperative sink code can be interrupted inside
 its own await; sinks must honor task cancellation, while the existing worker deadline
 and reap remain the authority for native work that does not return.
+
+## Merged verification
+
+The root checkout rebuilt the native audio harness and worker, then passed all
+existing native audio assertions, six public native-wire regressions and eleven
+core audio tests. Its regenerated WAVE files match all 25 original baseline PCM
+and format chunks exactly; [the comparison receipt](merged-pcm.json) names them.
+This confirms the shared stream after integration with the explicit-path audio
+planner; no AAC movie or speech-audition acceptance is inferred.

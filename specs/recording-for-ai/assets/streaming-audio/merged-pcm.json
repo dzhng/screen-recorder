@@ -1,0 +1,30 @@
+{
+  "pcmAndFormatExact": 25,
+  "files": [
+    "acquired-silence.wav",
+    "acquisition-hole.wav",
+    "at-limit.wav",
+    "availability-negative-offset.wav",
+    "availability-positive-offset.wav",
+    "converted-hole.wav",
+    "converted-quantised.wav",
+    "converted-unequal.wav",
+    "converted-upsampled.wav",
+    "disjoint-spans.wav",
+    "edit-list-gaps.wav",
+    "fractional-spans.wav",
+    "join-ramps.wav",
+    "mixed.wav",
+    "mono-alone.wav",
+    "mono-mixed.wav",
+    "nothing-acquired.wav",
+    "offset-before-start.wav",
+    "offset-negative.wav",
+    "offset-positive.wav",
+    "recorded-silence.wav",
+    "short-span-ramps.wav",
+    "single-span.wav",
+    "sub-frame-spans.wav",
+    "system-alone.wav"
+  ]
+}

@@ -119,9 +119,9 @@ Keep timeline, native frame/sample-selection and worker-lifetime checks green.
 
 Parent 13 still owns full streaming audio, shared in-span ramps/mix, current-pointer
 rendering without trails, the heavy-queue preview job, CLI/MCP delivery and pinned
-app playback. Existing `AudioExcerpts` buffers its complete output and caps it at
-30 seconds; raising that cap is not a movie-audio implementation. Reuse its audio
-policy through [13b](13b-streaming-audio.md). The service now supplies a
+app playback. The accepted [13b stream](13b-streaming-audio.md) now owns bounded mixing;
+the thirty-second public excerpt limit remains intact. Movie AAC execution must
+consume that same policy. The service now supplies a
 render-specific bounded deadline; the full audio/pointer movie workload still needs
 its own measured performance and cancellation verification.
 Generated timing success does not satisfy adjacent-speech audition, physical audio
