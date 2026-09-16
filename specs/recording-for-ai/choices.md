@@ -1653,3 +1653,46 @@ records them. These choices add no public export choice or transcript readiness.
 - **Verdict:** sound; no new rendering, timeline, scheduler or copied-file owner.
 - **Confidence:** high for lifetime; actual menu/player visual integration remains
   independently verifiable through the app.
+
+
+## External publication ownership (14d1)
+
+### Sound — medium confidence
+
+- **One time budget per publication owner.** A large completed movie must be
+  hashed before publication and again when a lost response forces recovery. Giving
+  only the commit step extra time can successfully create the export and then
+  report a timeout while checking it. The owner now applies the caller's chosen
+  native-worker deadline to preparation, commit, reconciliation and acknowledgement;
+  recovery does not inherit a canceled request signal. Product consumers still
+  choose their bounded budget from the actual work rather than introducing a new
+  unbounded worker lane.
+
+### Sound — high confidence
+
+- **Keep private prepared evidence until the caller acknowledges external truth.**
+  If the service dies immediately after creating the user's export, a failed job
+  row cannot tell whether the file exists. A small synchronized private receipt
+  identifies the completed file and its bytes, while a retained hard link prevents
+  its inode from being reused. Reopening under the inherited directory lock lets
+  the service distinguish its committed output from somebody else's identical
+  bytes. Closing does not clean evidence; a later catalog owner must first record
+  the observed commit, then request acknowledgement cleanup. This is process-crash
+  recovery, with no claim that directory entries survive sudden power loss.
+
+- **Private cleanup cannot contain the selected destination.** If an integration
+  accidentally selects the staging directory as the export destination, ordinary
+  cleanup could erase a supposedly published file. The native owner walks the
+  retained destination's ancestors and rejects that arrangement. It removes only
+  its two private leaves and leaves unexpected entries untouched. A normal output
+  directory needs no private-directory permission or exclusive lock; only staging
+  does. The owner still assumes other processes do not maliciously mutate its
+  exclusively controlled private staging while a syscall is executing.
+
+- **Return observed publication outcome even after a late worker failure.** If
+  cancellation arrives after the kernel creates the destination, deleting it would
+  destroy a completed export. The service waits until the actual child exits and
+  independently checks identity and contents. A committed file stays committed;
+  missing, replaced and modified remain explicit outcomes. Repeated cleanup and
+  close calls reach the same end state, and every close caller waits for the active
+  operation before descriptors are released.

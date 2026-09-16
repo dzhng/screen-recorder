@@ -77,8 +77,10 @@ must be explicit and tested at their limits before adding public open/close.
 
 ## 14d — Readiness, snapshot retention and publication
 
-[The materialized publication plan](14d-export-publication.md) starts with the
-external commit/recovery fault trace before choosing durable intent state.
+[The publication plan](14d-export-publication.md) has a verified internal
+external commit/recovery owner. Next, integrate durable intent, snapshot retention
+and recording deletion; the [scoped evidence](../assets/export-publication/native-owner.md)
+distinguishes those pending product gates from filesystem recovery.
 
 Pin revision and history bound before waiting. Use existing job authority to expose
 required dependency IDs while waiting outside every worker slot; do not add a

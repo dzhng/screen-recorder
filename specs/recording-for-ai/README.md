@@ -100,6 +100,10 @@ Priority order: native edited video/package execution, remaining controls and ph
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
 Keep one queue, immutable sources, explicit dependency failure and the complete
 CLI/MCP surface. Generated scale evidence does not establish real-capture usefulness.
+[External publication](slices/14d-export-publication.md) now has an internal
+no-clobber native/service owner with process-crash reconciliation. Its next pass is
+14d2 catalog intent and deletion/retry integration, before public exports; see the
+[scoped evidence](assets/export-publication/native-owner.md).
 No more Claude use.
 
 

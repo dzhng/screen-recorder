@@ -1,0 +1,2 @@
+@screenrec/service build: Exited with code 0
+@screenrec/service check-types: Exited with code 0

@@ -1,0 +1,34 @@
+(node:57602) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57607) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner after commit reconciles exact bytes and inode before acknowledgement (116.812792ms)
+(node:57628) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner before commit leaves a resumable prepared file (96.598708ms)
+(node:57640) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ stopped surviving publisher fences recovery until actual descriptor release (87.5545ms)
+(node:57646) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ reopened owner refuses a replacement output parent and preserves both trees (104.135708ms)
+✔ abort before commit prevents publication; abort after native commit preserves observed truth (35.897625ms)
+✔ kernel write-limit failure never publishes and explicit discard removes only owned leaves (156.440291ms)
+✔ publication refuses a destination inside its disposable staging (9.549041ms)
+✔ one publication deadline covers preparation, commit, reconciliation and acknowledgement (43.612959ms)
+✔ all close callers wait for the active native operation before descriptors release (18.8705ms)
+✔ complete prepared bytes publish exclusively and reconcile before acknowledgement (62.383292ms)
+ℹ {"prepared":{"bytes":21,"destination":{"dev":"16777234","ino":"279996439"},"file":{"dev":"16777234","ino":"279996441"},"leaf":"export.mp4","sha256":"fdae36b1a720103b48a48c3a4024e78961866bb7cd9981cfce0b7a08f06d8d30","stage":{"dev":"16777234","ino":"279996438"}}}
+✔ reconciliation distinguishes same bytes in another inode from changes in the committed inode (52.51975ms)
+✔ existing destination and symlink leaves are never replaced or followed (26.743666ms)
+✔ retained output and source descriptors survive controlled path replacement (20.558625ms)
+✔ preparation budget failure leaves destination absent (19.055709ms)
+✔ private cleanup stays on its inherited directory after staging path replacement (30.202042ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 728.104041

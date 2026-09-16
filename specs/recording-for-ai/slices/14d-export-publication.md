@@ -1,8 +1,8 @@
 # 14d — Pinned export intent and atomic publication
 
-Status: next bounded plan; no export writer or publication implementation is claimed.
-The first gate below must resolve filesystem commit semantics before a durable
-export receipt is designed around them. Parent [14](14-exports-and-package-reader.md)
+Status: 14d1 internal native/service publication and process-crash recovery verified.
+[Ownership evidence](../assets/export-publication/native-owner.md) defines the proven
+receipt, limits and remaining integration. No public export writer is claimed. Parent [14](14-exports-and-package-reader.md)
 retains the two-product scope and narrated-package prerequisites.
 
 ## Existing authorities
@@ -119,5 +119,5 @@ a killed publisher. [Receipt](../assets/export-publication/filesystem-probe.json
 This uses Python POSIX calls and prepared JSON only; it does not prove the native
 commit owner, catalog acknowledgement, surviving-child fence, full disk or power
 loss. Independent review identified those boundaries and the separate private
-staging/destination identities above. They remain required 14d1 implementation
-gates, not completed work.
+staging/destination identities above. The [native owner evidence](../assets/export-publication/native-owner.md) now
+records the scoped native/process gates and the deferred catalog/product gates.

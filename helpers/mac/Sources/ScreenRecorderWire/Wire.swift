@@ -14,7 +14,16 @@ public enum NativeWire {
             let operation = request["operation"] as? String, !operation.isEmpty,
             let params = request["params"] as? [String: Any]
         {
-            if operation.hasPrefix("archive.") {
+            if operation.hasPrefix("publication.") {
+                do {
+                    response = ["id": id, "ok": true, "data": try PublicationOperation.execute(operation, params)]
+                } catch let error as StorageFailure {
+                    response = ["id": id, "ok": false, "error": ["code": error.code,
+                        "message": error.message, "retryable": error.retryable, "details": [:]]]
+                } catch {
+                    response = failure(id: id, code: "INVALID_STORAGE", message: error.localizedDescription)
+                }
+            } else if operation.hasPrefix("archive.") {
                 do {
                     let data = try ArchiveOperation.execute(operation, params)
                     response = ["id": id, "ok": true, "data": data]
