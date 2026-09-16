@@ -1,13 +1,13 @@
 import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./library.js";
-import type { SourceEvidenceStore } from "./evidence.js";
-import type { SceneEvidenceStore } from "./scene-evidence.js";
+import type { SourceSelectionRead } from "./evidence.js";
+import type { SceneEvidenceRead } from "./scene-evidence.js";
 import type { SelectionEvent, SelectionInput } from "./selection.js";
 
 /** Streams published source evidence; the selector owns kept-span filtering and cut events. */
 export async function* selectionEvidence(
   input: Pick<SelectionInput, "revision" | "sourceIdentity" | "sceneIdentity">,
-  stores: { source: SourceEvidenceStore; scenes: SceneEvidenceStore },
+  stores: { source: SourceSelectionRead; scenes: SceneEvidenceRead },
   signal: AbortSignal,
 ): AsyncGenerator<SelectionEvent> {
   const { revision, sourceIdentity, sceneIdentity } = input;

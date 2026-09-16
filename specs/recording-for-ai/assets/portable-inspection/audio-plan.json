@@ -1,0 +1,39 @@
+{
+  "scope": "Generated media path relocation and shared plan only; evidence still uses the real catalog; no package/native parity claim",
+  "oldMediaPathAbsent": true,
+  "relocatedBytes": 64044,
+  "assetReadEqualsGeneratedSource": true,
+  "spans": [
+    {
+      "startUs": 500000,
+      "endUs": 1000000
+    },
+    {
+      "startUs": 3000000,
+      "endUs": 3500000
+    }
+  ],
+  "tracks": [
+    {
+      "role": "narration",
+      "sourceOffsetUs": 0,
+      "available": [
+        {
+          "startUs": 500000,
+          "endUs": 750000
+        },
+        {
+          "startUs": 3250000,
+          "endUs": 3500000
+        }
+      ]
+    }
+  ],
+  "missingRoles": [
+    {
+      "role": "system",
+      "reason": "not_acquired"
+    }
+  ],
+  "liveExecutorPlanMatches": true
+}

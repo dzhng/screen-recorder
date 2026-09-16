@@ -2,10 +2,10 @@ import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
-import type { SourceEvidenceStore, SourceEvidenceMetadata } from "./evidence.js";
+import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 import type { SceneProcessing } from "./scene-processing.js";
-import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
+import type { SceneEvidenceRead, SceneEvidenceMetadata } from "./scene-evidence.js";
 import { selectIndex, selectionPolicy } from "./selection.js";
 import { selectionEvidence } from "./selection-evidence.js";
 import { materializeFrame, framePolicy, type FrameDecoder } from "./frame-materialization.js";
@@ -39,7 +39,7 @@ export class IndexProcessing {
     private readonly index: ScreenshotIndexStore,
     private readonly source: SourceProcessing,
     private readonly scenes: SceneProcessing,
-    private readonly evidence: { source: SourceEvidenceStore; scenes: SceneEvidenceStore },
+    private readonly evidence: { source: SourceTrailRead; scenes: SceneEvidenceRead },
     private readonly home: string,
     private readonly render: { decode: FrameDecoder; sample: VisualSampler },
   ) {}

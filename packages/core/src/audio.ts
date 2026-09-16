@@ -1,9 +1,9 @@
-import { join } from "node:path";
+import { isAbsolute, join } from "node:path";
 import { CatalogError, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
-import { trimSpans, type TimeRange } from "./timeline.js";
-import type { SourceEvidenceMetadata, SourceEvidenceStore } from "./evidence.js";
+import { trimSpans, type TimeRange, type TimelineRevision } from "./timeline.js";
+import type { SourceEvidenceMetadata, SourceAudioRead } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 
 export type AudioRole = "narration" | "system";
@@ -60,13 +60,86 @@ type Options = {
 const artifact = "audio";
 const policy = "audio-excerpt-v1";
 
+function validateTrack(track: AudioInput["track"]): void {
+  if (!["narration", "system", "mix"].includes(track))
+    throw new CatalogError("INVALID_RANGE", "Unknown audio track selection");
+}
+
+function audioExcerptSpans(revision: TimelineRevision, range: TimeRange) {
+  const spans = trimSpans(revision, range);
+  if (range.endUs - range.startUs > 30_000_000 || spans.length > 1000)
+    throw new CatalogError(
+      "LIMIT_EXCEEDED",
+      "Audio excerpts are limited to thirty seconds and 1000 source spans",
+    );
+  return spans;
+}
+
+/** One planner for live and relocated media; the caller owns asset resolution and containment. */
+export function planAudioExcerpt(
+  input: {
+    recordingId: string;
+    sourceId: string;
+    revision: TimelineRevision;
+    range: TimeRange;
+    track: AudioInput["track"];
+    sourceEvidence: SourceEvidenceMetadata;
+  },
+  evidence: SourceAudioRead,
+  resolveSource: (role: AudioRole) => string,
+) {
+  if (
+    input.recordingId !== input.sourceEvidence.recordingId ||
+    input.sourceId !== input.sourceEvidence.sourceId
+  )
+    throw new CatalogError("INVALID_EVIDENCE", "Audio evidence belongs to another source");
+  const spans = audioExcerptSpans(input.revision, input.range);
+  validateTrack(input.track);
+  const metadata = input.sourceEvidence;
+  const header = metadata.receipt.header;
+  const selected: AudioRole[] = input.track === "mix" ? ["narration", "system"] : [input.track];
+  const tracks: AudioTrackPlan[] = [],
+    missingRoles: MissingRole[] = [];
+  for (const role of selected) {
+    const requested = header?.[role === "narration" ? "microphone" : "systemAudio"];
+    if (typeof requested !== "boolean")
+      throw new CatalogError("INVALID_EVIDENCE", "Source evidence has no audio selection header");
+    if (!requested) {
+      missingRoles.push({ role, reason: "not_requested" });
+      continue;
+    }
+    if (!evidence.hasAudio(metadata, role)) {
+      missingRoles.push({ role, reason: "not_acquired" });
+      continue;
+    }
+    const available: TimeRange[] = [];
+    for (const span of spans) {
+      available.push(...evidence.audio(metadata, role, span));
+      if (available.length > 1000)
+        throw new CatalogError("LIMIT_EXCEEDED", "Too many acquired intervals in audio excerpt");
+    }
+    const source = resolveSource(role);
+    if (!isAbsolute(source))
+      throw new CatalogError("INVALID_PATH", "Resolved audio source must be absolute");
+    tracks.push({
+      role,
+      source,
+      sourceOffsetUs: 0,
+      available,
+    });
+  }
+  if (!tracks.length)
+    throw new CatalogError("UNAVAILABLE", "Selected audio was not acquired", { missingRoles });
+  return { spans, tracks, missingRoles };
+}
+
 /** Core owns edit projection and acquisition evidence; native owns samples, mixing and WAVE output. */
 export class AudioInspection {
   constructor(
     private readonly store: RevisionStore,
     private readonly jobs: JobQueue,
     private readonly cache: DerivedCache,
-    private readonly evidence: SourceEvidenceStore,
+    private readonly evidence: SourceAudioRead,
     private readonly processing: SourceProcessing,
     private readonly home: string,
     private readonly decode: AudioDecoder,
@@ -74,9 +147,8 @@ export class AudioInspection {
 
   request(input: AudioInput) {
     const revision = this.store.revision(input.recordingId, input.revisionId);
-    const spans = this.spans(revision, input.range);
-    if (!["narration", "system", "mix"].includes(input.track))
-      throw new CatalogError("INVALID_RANGE", "Unknown audio track selection");
+    audioExcerptSpans(revision, input.range);
+    validateTrack(input.track);
     this.processing.prepare(input.recordingId);
     const source = this.processing.status(input.recordingId);
     const identity = {
@@ -101,7 +173,11 @@ export class AudioInspection {
       sourceEvidence: source.published.evidence,
     };
     // Refuse absent roles before admission, without consuming an audio worker for an impossible plan.
-    this.plan(options, spans);
+    planAudioExcerpt(
+      { ...input, sourceId: source.sourceId, revision, sourceEvidence: options.sourceEvidence },
+      this.evidence,
+      (role) => join(this.home, "recordings", input.recordingId, "source", `${role}.mov`),
+    );
     const jobIdentity = {
       recordingId: input.recordingId,
       revisionId: revision.id,
@@ -138,60 +214,21 @@ export class AudioInspection {
     return this.request({ ...input, revisionId: status.revisionId });
   }
 
-  private spans(revision: ReturnType<RevisionStore["revision"]>, range: TimeRange) {
-    const spans = trimSpans(revision, range);
-    if (range.endUs - range.startUs > 30_000_000 || spans.length > 1000)
-      throw new CatalogError(
-        "LIMIT_EXCEEDED",
-        "Audio excerpts are limited to thirty seconds and 1000 source spans",
-      );
-    return spans;
-  }
-
-  private plan(options: Options, spans: readonly TimeRange[]) {
-    const metadata = options.sourceEvidence;
-    const header = metadata.receipt.header;
-    const selected: AudioRole[] =
-      options.track === "mix" ? ["narration", "system"] : [options.track];
-    const tracks: AudioTrackPlan[] = [],
-      missingRoles: MissingRole[] = [];
-    for (const role of selected) {
-      const requested = header?.[role === "narration" ? "microphone" : "systemAudio"];
-      if (typeof requested !== "boolean")
-        throw new CatalogError("INVALID_EVIDENCE", "Source evidence has no audio selection header");
-      if (!requested) {
-        missingRoles.push({ role, reason: "not_requested" });
-        continue;
-      }
-      if (!this.evidence.hasAudio(metadata, role)) {
-        missingRoles.push({ role, reason: "not_acquired" });
-        continue;
-      }
-      const available: TimeRange[] = [];
-      for (const span of spans) {
-        available.push(...this.evidence.audio(metadata, role, span));
-        if (available.length > 1000)
-          throw new CatalogError("LIMIT_EXCEEDED", "Too many acquired intervals in audio excerpt");
-      }
-      tracks.push({
-        role,
-        source: join(this.home, "recordings", metadata.recordingId, "source", `${role}.mov`),
-        sourceOffsetUs: 0,
-        available,
-      });
-    }
-    if (!tracks.length)
-      throw new CatalogError("UNAVAILABLE", "Selected audio was not acquired", { missingRoles });
-    return { tracks, missingRoles };
-  }
-
   async execute({ job, signal }: JobExecution): Promise<string> {
     const options = JSON.parse(job.input) as Options;
     if (job.artifact !== artifact || options.policy !== policy)
       throw new CatalogError("UNSUPPORTED_JOB", "Audio inspector cannot execute this job");
     const revision = this.store.revision(job.recordingId, job.revisionId);
-    const spans = this.spans(revision, options.range);
-    const { tracks, missingRoles } = this.plan(options, spans);
+    const { spans, tracks, missingRoles } = planAudioExcerpt(
+      {
+        ...options,
+        revision,
+        recordingId: job.recordingId,
+        sourceId: this.store.get(job.recordingId).sourceId,
+      },
+      this.evidence,
+      (role) => join(this.home, "recordings", job.recordingId, "source", `${role}.mov`),
+    );
     signal.throwIfAborted();
     const output = this.cache.reserve(job.recordingId);
     try {

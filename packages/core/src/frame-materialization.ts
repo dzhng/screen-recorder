@@ -2,7 +2,7 @@ import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./library.js";
 import { planFrameTrail, type FrameOverlay } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
-import type { SourceEvidenceMetadata, SourceEvidenceStore } from "./evidence.js";
+import type { SourceEvidenceMetadata, SourceTrailRead } from "./evidence.js";
 import {
   editedToSource,
   sourceToEdited,
@@ -134,7 +134,7 @@ function summarizeAnnotation(plan: Awaited<ReturnType<typeof planFrameTrail>>) {
 /** Renders to the caller's destination; that caller owns publication and failure cleanup. */
 export async function materializeFrame(
   input: FrameMaterializationInput,
-  dependencies: { decode: FrameDecoder; evidence: SourceEvidenceStore; sample: VisualSampler },
+  dependencies: { decode: FrameDecoder; evidence: SourceTrailRead; sample: VisualSampler },
   signal: AbortSignal,
 ): Promise<MaterializedFrame> {
   const { revision, source, output } = input;

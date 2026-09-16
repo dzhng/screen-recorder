@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./library.js";
-import type { EvidenceIdentity, RawCursorSample, SourceEvidenceStore } from "./evidence.js";
+import type { EvidenceIdentity, RawCursorSample, SourceTrailRead } from "./evidence.js";
 import {
   analyzeFrameScene,
   compareVisualSamples,
@@ -36,7 +36,7 @@ type CursorObservation = RawCursorSample & { sequence: number };
 export async function planFrameTrail(
   request: { source: string; kept: TimeRange; requestedSourceUs: number; trailUs?: number },
   dependencies: {
-    evidence: SourceEvidenceStore;
+    evidence: SourceTrailRead;
     identity: EvidenceIdentity;
     sample: VisualSampler;
   },

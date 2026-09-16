@@ -273,3 +273,5 @@ export class SceneEvidenceStore {
     }
   }
 }
+
+export type SceneEvidenceRead = Pick<SceneEvidenceStore, "page">;

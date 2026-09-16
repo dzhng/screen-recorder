@@ -591,3 +591,20 @@ export class SourceEvidenceStore {
     });
   }
 }
+
+/** Consumers see only query capabilities; ingestion and lifetime stay with this store. */
+export type SourceTrailRead = Pick<
+  SourceEvidenceStore,
+  | "page"
+  | "latestCursor"
+  | "timedGeometryAt"
+  | "nextTimedGeometry"
+  | "unplacedGeometry"
+  | "pauseBoundaries"
+  | "geometryChanges"
+>;
+export type SourceSelectionRead = Pick<
+  SourceTrailRead,
+  "page" | "pauseBoundaries" | "geometryChanges"
+>;
+export type SourceAudioRead = Pick<SourceEvidenceStore, "hasAudio" | "audio">;

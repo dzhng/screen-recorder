@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm, writeFile, mkdir, readFile, rename, access } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
@@ -7,7 +7,7 @@ import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
-import { AudioInspection, type AudioDecoder, type AudioRole } from "./audio.js";
+import { AudioInspection, planAudioExcerpt, type AudioDecoder, type AudioRole } from "./audio.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
@@ -397,4 +397,124 @@ test("audio demand admits its unprepared source instead of waiting for automatic
   expect(f.audio.request(f.input).state).toBe("ready");
   expect(f.sourceCalls()).toBe(1);
   expect(f.requests).toHaveLength(1);
+});
+
+test("shared audio planning resolves moved generated media and matches the live executor plan", async () => {
+  const f = await fixture({
+    intervals: [
+      { role: "narration", startUs: 0, endUs: 750_000 },
+      { role: "narration", startUs: 3_250_000, endUs: 4_000_000 },
+    ],
+  });
+  const revision = f.store.edit(f.take.recordingId, {
+    operation: "cut",
+    requestId: "portable-plan",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 1_000_000, endUs: 3_000_000 }],
+  });
+  const range = { startUs: 500_000, endUs: 1_500_000 };
+  const metadata = f.processing.status(f.take.recordingId).published!.evidence;
+  const original = join(f.home, "original-media"),
+    moved = join(f.home, "moved-media");
+  await mkdir(original);
+  // A generated four-second mono PCM WAVE; this checkpoint verifies paths/plans, not decoding.
+  const wave = Buffer.alloc(44 + 32_000 * 2);
+  wave.write("RIFF", 0);
+  wave.writeUInt32LE(wave.length - 8, 4);
+  wave.write("WAVEfmt ", 8);
+  wave.writeUInt32LE(16, 16);
+  wave.writeUInt16LE(1, 20);
+  wave.writeUInt16LE(1, 22);
+  wave.writeUInt32LE(8_000, 24);
+  wave.writeUInt32LE(16_000, 28);
+  wave.writeUInt16LE(2, 32);
+  wave.writeUInt16LE(16, 34);
+  wave.write("data", 36);
+  wave.writeUInt32LE(wave.length - 44, 40);
+  for (let i = 0; i < 32_000; i++)
+    wave.writeInt16LE(Math.round(Math.sin((i * Math.PI) / 8) * 4_000), 44 + i * 2);
+  await writeFile(join(original, "narration.wav"), wave);
+  await rename(original, moved);
+  await expect(access(original)).rejects.toMatchObject({ code: "ENOENT" });
+  const input = {
+    recordingId: f.take.recordingId,
+    sourceId: f.take.sourceId,
+    revision,
+    sourceEvidence: metadata,
+    range,
+    track: "mix" as const,
+  };
+  const plan = planAudioExcerpt(input, f.evidence, (role) => {
+    if (role !== "narration") throw new Error("An unacquired track must not require an asset");
+    return join(moved, "narration.wav");
+  });
+  expect(plan).toEqual({
+    spans: [
+      { startUs: 500_000, endUs: 1_000_000 },
+      { startUs: 3_000_000, endUs: 3_500_000 },
+    ],
+    tracks: [
+      {
+        role: "narration",
+        source: join(moved, "narration.wav"),
+        sourceOffsetUs: 0,
+        available: [
+          { startUs: 500_000, endUs: 750_000 },
+          { startUs: 3_250_000, endUs: 3_500_000 },
+        ],
+      },
+    ],
+    missingRoles: [{ role: "system", reason: "not_acquired" }],
+  });
+  expect(await readFile(plan.tracks[0]!.source)).toEqual(wave);
+  f.audio.request({ ...f.input, range, revisionId: revision.id });
+  await f.jobs.idle();
+  const live = f.audio.request({ ...f.input, range, revisionId: revision.id });
+  expect(live.state).toBe("ready");
+  expect(f.requests[0]!.spans).toEqual(plan.spans);
+  expect(f.requests[0]!.tracks.map(({ source: _source, ...track }) => track)).toEqual(
+    plan.tracks.map(({ source: _source, ...track }) => track),
+  );
+  expect(live.published!.audio.missingRoles).toEqual(plan.missingRoles);
+  if (process.env.SCREENREC_AUDIO_PLAN_EVIDENCE)
+    await writeFile(
+      process.env.SCREENREC_AUDIO_PLAN_EVIDENCE,
+      JSON.stringify(
+        {
+          scope:
+            "Generated media path relocation and shared plan only; evidence still uses the real catalog; no package/native parity claim",
+          oldMediaPathAbsent: true,
+          relocatedBytes: wave.length,
+          assetReadEqualsGeneratedSource: true,
+          spans: plan.spans,
+          tracks: plan.tracks.map(({ source: _source, ...track }) => track),
+          missingRoles: plan.missingRoles,
+          liveExecutorPlanMatches: true,
+        },
+        null,
+        2,
+      ) + "\n",
+      { flag: "wx" },
+    );
+});
+
+test("shared audio planning rejects mismatched source identity and unresolved asset paths", async () => {
+  const f = await fixture();
+  const input = {
+    recordingId: f.take.recordingId,
+    sourceId: f.take.sourceId,
+    revision: f.store.revision(f.take.recordingId),
+    sourceEvidence: f.processing.status(f.take.recordingId).published!.evidence,
+    range: f.input.range,
+    track: "mix" as const,
+  };
+  for (const mismatched of [{ recordingId: "other" }, { sourceId: "other" }])
+    expect(() =>
+      planAudioExcerpt({ ...input, ...mismatched }, f.evidence, () => {
+        throw new Error("Asset resolution should not be reached");
+      }),
+    ).toThrow(expect.objectContaining({ code: "INVALID_EVIDENCE" }));
+  expect(() => planAudioExcerpt(input, f.evidence, () => "relative.wav")).toThrow(
+    expect.objectContaining({ code: "INVALID_PATH" }),
+  );
 });

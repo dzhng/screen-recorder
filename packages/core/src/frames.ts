@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import { trailPolicy } from "./trails.js";
 import { scenePolicy, type VisualSampler } from "./scenes.js";
-import type { SourceEvidenceStore } from "./evidence.js";
+import type { SourceTrailRead } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 import { CatalogError, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
@@ -43,7 +43,7 @@ export class FrameInspection {
     private readonly decode: FrameDecoder,
     private readonly annotations: {
       processing: SourceProcessing;
-      evidence: SourceEvidenceStore;
+      evidence: SourceTrailRead;
       sample: VisualSampler;
     },
   ) {}

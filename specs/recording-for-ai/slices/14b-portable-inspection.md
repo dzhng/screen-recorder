@@ -1,6 +1,9 @@
 # 14b — Shared read-only inspection after relocation
 
-Status: specified next after [14a](14a-package-manifest.md); not implemented.
+Status: [14b1 consumer seam](14b1-audio-read-seam.md) implemented with
+[generated path/plan evidence](../assets/portable-inspection/README.md).
+File-backed reader parity and full native relocation remain open. Next: prove the
+source-only paging/storage contract described in 14b1 before generalizing a reader.
 Internal generated directory fixtures only. No public ZIP reader, export menu,
 transcript integration or playable movie is claimed by this checkpoint.
 
