@@ -29,11 +29,12 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: run the full index scale gate after requested-time cache reuse and
-bounded stillness integration in
+Current pickup: finish the running full index scale gate after requested-time cache
+reuse and bounded stillness integration in
 [retained index delivery](slices/11c-retained-index.md). Selection, retained storage,
 core orchestration and public CLI/MCP index delivery pass their generated-data
-checks; visual usefulness and thirty-minute index performance remain open.
+checks; all seven generated visual fixtures now pass. Real-capture usefulness and
+thirty-minute index performance remain open.
 [Shared frame materialization](slices/11b-shared-frame-materialization.md) serves
 both arbitrary and selected images. [Default public trail frames](slices/10e-public-trails.md) now pass generated
 CLI/MCP pixel and independent readability checks. The
@@ -50,7 +51,10 @@ Both native fixes pass merged capture/recovery fixtures and the own-window publi
 capture check. Do not rebuild either clock mapping in TypeScript.
 
 Priority order: screenshot selection/index delivery, then
-remaining [storage/deletion](slices/15b-storage-and-deletion.md), controls, speech, edited video/package and installed-workflow gates. Keep one queue, immutable sources,
+remaining [storage/deletion](slices/15b-storage-and-deletion.md), controls, speech, edited video/package and installed-workflow gates.
+Storage lifetime and cache-ownership prerequisites are being implemented in isolated
+worktrees; delivery lease ownership/revocation is integrated. Keep their native
+verification separate from the running scale measurement. Keep one queue, immutable sources,
 explicit dependency failure and the complete CLI/MCP surface. No more Claude use.
 
 Current evidence:
