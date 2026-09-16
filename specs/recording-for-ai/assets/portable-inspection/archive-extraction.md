@@ -63,3 +63,11 @@ The only third-party additions are two licensed upstream public headers; the OS
 provides the runtime. Numeric defaults remain in the core owner, not copied into a
 new scheduler or persistent counter. No package context, import, public route or
 read-time containment claim is introduced by this checkpoint.
+
+## Merged verification
+
+Main builds against the system library and passes all [38 archive cases](archive-merged-tests.txt),
+[eight existing native cleanup cases](archive-merged-managed.txt), and
+[20 service worker/render/deletion checks](archive-merged-service.txt), plus service
+types. These checks include the merged pointer/preview and capture-clock work.
+Retained package contexts are the next14c boundary; no public open handle is claimed.

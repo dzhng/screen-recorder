@@ -32,8 +32,11 @@ completed work, exact next pickup, evidence paths, failures and delegated decisi
 Current pickup: integrate the accepted native video and bounded PCM audio into
 playable media in [13](slices/13-edited-media.md), alongside the archive boundary
 and package lifetime in [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
-[14b](slices/14b-portable-inspection.md) now passes internal relocated-directory
+[14b](slices/14b-portable-inspection.md) passes internal relocated-directory
 inspection through the same native consumers, with the original library removed.
+[14c1](slices/14c1-bounded-archive-extraction.md) now verifies bounded ZIP extraction
+and cleanup through a retained directory descriptor. Next, retain admitted files
+with safe read lifetimes before adding public package handles.
 Internal video timing
 [13a](slices/13a-native-render-timing.md), bounded audio
 [13b](slices/13b-streaming-audio.md), and package metadata
@@ -177,6 +180,7 @@ and unit checks do not close the full read → edit → inspect → export journ
     - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md) (consumer planning, not full package relocation)
     - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md) (source-only relocation)
     - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md) (shared readers and fresh-process frame/audio parity)
+  - [x] [14c1 — Bounded archive extraction](slices/14c1-bounded-archive-extraction.md) (verification/cleanup receipt only; retained contexts remain)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

@@ -1,0 +1,48 @@
+(node:13897) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ native archive verifies inventory and pinned old revision with all admitted history, then empties workspace (537.128916ms)
+✔ hostile extra fails with no remaining extracted files (57.560125ms)
+✔ hostile bad-central fails with no remaining extracted files (47.475625ms)
+✔ hostile bad-local fails with no remaining extracted files (50.37025ms)
+✔ hostile undercount fails with no remaining extracted files (51.258958ms)
+✔ hostile undercount-bad fails with no remaining extracted files (47.638167ms)
+✔ hostile crc fails with no remaining extracted files (48.335458ms)
+✔ hostile hash fails with no remaining extracted files (52.083ms)
+✔ hostile mac fails with no remaining extracted files (51.997167ms)
+✔ hostile duplicate fails with no remaining extracted files (53.240167ms)
+✔ hostile case fails with no remaining extracted files (50.034583ms)
+✔ hostile directory fails with no remaining extracted files (51.654125ms)
+✔ hostile file-directory fails with no remaining extracted files (50.21225ms)
+✔ hostile symlink fails with no remaining extracted files (49.538208ms)
+✔ hostile fifo fails with no remaining extracted files (50.794083ms)
+✔ hostile absolute fails with no remaining extracted files (50.169ms)
+✔ hostile parent fails with no remaining extracted files (49.3755ms)
+✔ hostile backslash fails with no remaining extracted files (50.553959ms)
+✔ hostile nul fails with no remaining extracted files (50.050416ms)
+✔ hostile nul-empty fails with no remaining extracted files (51.372875ms)
+✔ hostile unicode-duplicate fails with no remaining extracted files (49.651042ms)
+✔ hostile unicode-parent fails with no remaining extracted files (49.855125ms)
+✔ hostile encrypted fails with no remaining extracted files (52.308875ms)
+✔ hostile size-lie fails with no remaining extracted files (49.973042ms)
+✔ safe parser Unicode alias is inventoried by effective ASCII name (50.809167ms)
+✔ actual expansion, member, manifest and entry counts enforce exact bounds (455.535291ms)
+✔ initial parser input budget rejects metadata-many before unbounded metadata intake (579.188875ms)
+✔ initial parser input budget rejects metadata-large before unbounded metadata intake (50.569333ms)
+✔ initial parser input budget rejects metadata-default before unbounded metadata intake (1847.821459ms)
+✔ retained workspace descriptor survives ancestor replacement without touching external sentinel (64.673958ms)
+✔ nonempty workspace admission preserves existing files (44.549625ms)
+✔ killed stopped parser is reaped before cleanup through parent-retained root FD (247.490292ms)
+✔ inner directory replacement fails without following its symlink outside workspace (462.026417ms)
+✔ opened input descriptor retains source bytes across pathname replacement (350.513291ms)
+✔ workspace lock survives preparation worker exit and refuses a second open owner (57.935667ms)
+✔ cleanup ownership loss is explicit and original descriptor supports recovery (57.929459ms)
+✔ bounded receipt rejects metadata that cannot fit the existing transport (49.453625ms)
+✔ native file-size fault leaves workspace empty after worker termination (450.654291ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6531.764334
