@@ -64,17 +64,14 @@ package enum MovieMux {
             samples.alwaysCopiesSampleData = false
             reader.add(samples)
             writer = try AVAssetWriter(outputURL: output, fileType: .mp4)
-            var a = rate
-            var b = 1_000_000
-            while b != 0 { (a, b) = (b, a % b) }
-            let scale = Int64(rate / a) * 1_000_000
-            guard scale <= Int64(Int32.max) else {
-                throw failure("Cannot represent audio and video on one movie clock.")
-            }
-            writer.movieTimeScale = Int32(scale)
+            var clock = MovieClock()
+            let videoScale = try await track.load(.naturalTimeScale)
+            try clock.include(videoScale)
+            try clock.include(Int32(rate))
+            writer.movieTimeScale = clock.timescale
             picture = AVAssetWriterInput(
                 mediaType: .video, outputSettings: nil, sourceFormatHint: description)
-            picture.mediaTimeScale = 1_000_000
+            picture.mediaTimeScale = videoScale
             let settings: [String: Any] = [
                 AVFormatIDKey: kAudioFormatMPEG4AAC, AVSampleRateKey: rate,
                 AVNumberOfChannelsKey: channels, AVEncoderBitRateKey: channels * 96_000,

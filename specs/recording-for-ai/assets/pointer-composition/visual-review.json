@@ -1,0 +1,46 @@
+{
+  "reviewSession": "01a0ac48-e0fe-7941-9b2e-4dcdfa602e7b",
+  "imageToolCalls": 17,
+  "images": [
+    "clean-01.png",
+    "clean-02.png",
+    "cuts-01.png",
+    "cuts-02.png",
+    "cuts-03.png",
+    "moving-01.png",
+    "moving-01-crop.png",
+    "moving-02.png",
+    "moving-02-crop.png",
+    "moving-03.png",
+    "moving-04.png",
+    "tiny-01.png",
+    "tiny-01-crop.png",
+    "tiny-02.png",
+    "tiny-03.png",
+    "tiny-03-crop.png",
+    "tiny-04.png"
+  ],
+  "verdict": "No definite contract violations. White pointer/dark outline, no visible trails or residue. Enlarged crops mildly soft/pixelated; no established native-size defect. Gray generated stills do not establish detailed capture readability or temporal policy.",
+  "pixelDifferences": {
+    "moving-01": {
+      "changedPixelsOver16": 101,
+      "maximumChannelDelta": 139
+    },
+    "moving-02": {
+      "changedPixelsOver16": 101,
+      "maximumChannelDelta": 139
+    },
+    "moving-03": {
+      "changedPixelsOver16": 0,
+      "maximumChannelDelta": 0
+    },
+    "cuts-03": {
+      "changedPixelsOver16": 0,
+      "maximumChannelDelta": 0
+    },
+    "tiny-02": {
+      "changedPixelsOver16": 0,
+      "maximumChannelDelta": 0
+    }
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "states": 100,
+    "bytes": 12319,
+    "elapsedSeconds": 0.22134762501809746,
+    "peakRssBytes": 40075264
+  },
+  {
+    "states": 5000,
+    "bytes": 602227,
+    "elapsedSeconds": 3.0369998749811202,
+    "peakRssBytes": 40828928
+  }
+]

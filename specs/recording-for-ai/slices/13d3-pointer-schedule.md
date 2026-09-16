@@ -31,7 +31,6 @@ publication failure. Keep all nearest-still and shared-policy regression checks.
 The [review and machine evidence](../assets/pointer-schedule/review.md) record the
 scoped results and corrected independent-review findings.
 
-Next pickup: native composition in 13d4 must stream these states, split the existing
-held-sample renderer at exact events and reuse pointer drawing without trails.
-Represent required clocks exactly or fail before publication; retain cut endpoints
-and the existing single video-encoder pass.
+[13d4 native composition](13d4-pointer-composition.md) consumes the stream through
+the existing held-sample renderer. The parent slice owns durable preview integration
+and physical capture acceptance.

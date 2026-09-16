@@ -1490,3 +1490,20 @@ records them. These choices add no public export choice or transcript readiness.
   file-publication mechanism unspecified. A failed transfer leaves no partial output
   and never replaces an existing destination. Inline model content keeps its bounded
   buffers; this adds no export format or persistent publication authority.
+
+### 13d4 — Inspect actual timing before opening the encoder
+
+- **Choice:** Walk retained sample metadata and the bounded pointer stream before
+  encoding, then consume the pointer stream again through the same open file. A
+  source can advertise many clock ticks it never uses. Combining all those unused
+  ticks with narration can exceed the movie format's clock limit, even when every
+  real transition fits. Actual transition times select a common clock with microsecond edits;
+  unrepresentable transitions fail instead of rounding. The second pointer read
+  retains only one next state and verifies that the bytes still match the receipt.
+- **Gap:** The plan required exact clocks and bounded reads but did not choose how
+  native discovers the clock before configuring its encoder.
+- **Reach:** Adds a metadata scan and a second sequential schedule read, with no
+  extra video decode or encoding pass. Future mux consumers must preserve that clock.
+- **Verdict:** Sound; the existing mono-audio regression demonstrated why unused
+  container ticks cannot define the required clock.
+- **Confidence:** High.

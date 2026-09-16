@@ -16,6 +16,8 @@ harness entrypoints to create in this slice, not existing executable claims.
 held-picture versus nearest-frame distinction needed before movie pointer planning.
 [13d2](13d2-presentation-pointer-core.md) shares pointer policy over exact presentation support.
 [13d3](13d3-pointer-schedule.md) persists sequential reset state for native composition.
+[13d4](13d4-pointer-composition.md) streams those states into the existing encoder
+with an exact clock.
 
 ## Contract and API seam
 

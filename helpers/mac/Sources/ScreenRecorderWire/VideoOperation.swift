@@ -38,11 +38,14 @@ enum VideoOperation {
         }
         return request
     }
-    static func execute(_ params: [String: Any]) async throws -> RenderedVideo {
+    static func execute(_ params: [String: Any], pointerSchedule: PointerScheduleReceipt? = nil)
+        async throws -> RenderedVideo
+    {
         let request = try parameters(params, evidence: false)
         return try await VideoRenderer.write(
             source: URL(fileURLWithPath: request.source),
-            plan: request.plan, output: URL(fileURLWithPath: request.output))
+            plan: request.plan, output: URL(fileURLWithPath: request.output),
+            pointerSchedule: pointerSchedule)
     }
     static func presentationEvidence(_ params: [String: Any]) async throws
         -> PresentationEvidenceReceipt

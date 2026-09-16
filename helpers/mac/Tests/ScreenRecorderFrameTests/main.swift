@@ -905,3 +905,5 @@ precondition(
 print(String(format: "PASS decoded frame 7 matches its generated reference, mean difference %.4f", difference))
 
 try await verifyPresentationLifetime(source: stepsFixture, parent: evidence)
+
+try await pointerCompositionCancellation(source: stepsFixture, parent: evidence)

@@ -1,0 +1,14 @@
+{
+  "workerRegressionTests": 26,
+  "pointerWorkerTests": 8,
+  "frameTests": "passed, including repeat cancellation in same evidence directory",
+  "standardPointerTestInvocation": "passed without SCREENREC_NATIVE override",
+  "codeReview": {
+    "findings": 1,
+    "resolved": 1,
+    "finding": "default local native executable fallback missing",
+    "runtimeLimit": "review environment could not start native presentation reader; actual worktree build used for runtime gates"
+  },
+  "nativeExecutableSha256": "8917eacd190121ab402966e2bbea4543951374b0bd87e5c4636d5a21683a46c3",
+  "scope": "generated native composition; parent preview integration and real capture acceptance remain open"
+}

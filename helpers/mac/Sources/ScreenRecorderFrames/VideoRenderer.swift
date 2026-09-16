@@ -24,7 +24,10 @@ public struct RenderedVideo: Codable, Sendable {
 /// content. Explicit empty edits map to the measured default player's opaque black.
 /// Unexplained gaps never inherit either the previous image or this appearance rule.
 public enum VideoRenderer {
-    public static func write(source: URL, plan: [VideoRenderSpan], output: URL) async throws
+    public static func write(
+        source: URL, plan: [VideoRenderSpan], output: URL,
+        pointerSchedule: PointerScheduleReceipt? = nil
+    ) async throws
         -> RenderedVideo
     {
         let through = try PresentationSource.duration(of: plan)
@@ -39,7 +42,13 @@ public enum VideoRenderer {
             )
         }
         let presentation = try await PresentationSource(source: canonicalSource, plan: plan)
-        let width = presentation.width, height = presentation.height
+        let width = presentation.width
+        let height = presentation.height
+        let pointers = try pointerSchedule.map {
+            try PointerSchedule($0, plan: plan, width: width, height: height)
+        }
+        var clock = try presentation.movieClock(plan: plan)
+        if let pointers { try clock.include(pointers.clock.timescale) }
         let stagingDirectory = output.deletingLastPathComponent()
             .appendingPathComponent(".video-render-\(UUID().uuidString)")
         guard mkdir(stagingDirectory.path, 0o700) == 0 else {
@@ -55,8 +64,8 @@ public enum VideoRenderer {
                 AVVideoHeightKey: height,
                 AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false],
             ])
-        input.mediaTimeScale = 1_000_000
-        writer.movieTimeScale = 1_000_000
+        input.mediaTimeScale = clock.timescale
+        writer.movieTimeScale = clock.timescale
         writer.add(input)
         let adaptor = AVAssetWriterInputPixelBufferAdaptor(
             assetWriterInput: input,
@@ -76,26 +85,36 @@ public enum VideoRenderer {
         writer.startSession(atSourceTime: .zero)
         let context = CIContext(options: [.cacheIntermediates: false])
         var count = 0
-        for span in plan {
+        for (spanIndex, span) in plan.enumerated() {
             var at = time(microseconds: span.source.startUs)
             let end = time(microseconds: span.source.endUs)
             while at < end {
                 try Task.checkCancellation()
                 let selected = try presentation.selection(at: at, end: end)
-                let next = selected.end
+                let state = try pointers?.selection(spanIndex: spanIndex, at: at, end: selected.end)
+                let next = state?.1 ?? selected.end
+                guard next > at else {
+                    throw FrameFailure("INVALID_REQUEST", "Pointer composition made no progress.")
+                }
+                _ = try clock.exact(at)
+                _ = try clock.exact(next)
                 let image: CIImage
                 if let buffer = selected.buffer {
                     image = try autoreleasepool {
-                        try FrameImage(buffer: buffer, transform: presentation.transform, overlay: nil,
-                            agedFromUs: 0, crop: nil, maxLongEdge: max(width, height)).image
+                        try FrameImage(
+                            buffer: buffer, transform: presentation.transform,
+                            overlay: state.map { FrameOverlay(pointer: $0.0) },
+                            agedFromUs: 0, crop: nil, maxLongEdge: max(width, height)
+                        ).image
                     }
                 } else {
                     image = CIImage(color: CIColor(red: 0, green: 0, blue: 0, alpha: 1))
                         .cropped(to: CGRect(x: 0, y: 0, width: width, height: height))
                 }
-                let timestamp = CMTimeAdd(
-                    time(microseconds: span.playback.startUs),
-                    CMTimeSubtract(at, time(microseconds: span.source.startUs)))
+                let timestamp = try clock.exact(
+                    CMTimeAdd(
+                        time(microseconds: span.playback.startUs),
+                        CMTimeSubtract(at, time(microseconds: span.source.startUs))))
                 let deadline = ContinuousClock.now.advanced(by: .seconds(10))
                 var destination: CVPixelBuffer?
                 while destination == nil {
@@ -125,16 +144,19 @@ public enum VideoRenderer {
                     colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!)
                 // CI writes sRGB pixels. New pool buffers carry no source color tags;
                 // propagate the working representation so encoders/readers do not guess.
-                CVBufferSetAttachment(destination!, kCVImageBufferColorPrimariesKey,
+                CVBufferSetAttachment(
+                    destination!, kCVImageBufferColorPrimariesKey,
                     kCVImageBufferColorPrimaries_ITU_R_709_2, .shouldPropagate)
-                CVBufferSetAttachment(destination!, kCVImageBufferTransferFunctionKey,
+                CVBufferSetAttachment(
+                    destination!, kCVImageBufferTransferFunctionKey,
                     kCVImageBufferTransferFunction_sRGB, .shouldPropagate)
-                CVBufferSetAttachment(destination!, kCVImageBufferYCbCrMatrixKey,
+                CVBufferSetAttachment(
+                    destination!, kCVImageBufferYCbCrMatrixKey,
                     kCVImageBufferYCbCrMatrix_ITU_R_709_2, .shouldPropagate)
                 var format: CMVideoFormatDescription?
                 var sample: CMSampleBuffer?
                 var timing = CMSampleTimingInfo(
-                    duration: CMTimeSubtract(next, at),
+                    duration: try clock.exact(CMTimeSubtract(next, at)),
                     presentationTimeStamp: timestamp, decodeTimeStamp: .invalid)
                 guard
                     CMVideoFormatDescriptionCreateForImageBuffer(
@@ -153,6 +175,7 @@ public enum VideoRenderer {
                 at = next
             }
         }
+        try pointers?.finish()
         writer.endSession(atSourceTime: time(microseconds: through))
         input.markAsFinished()
         await writer.finishWriting()
@@ -161,8 +184,8 @@ public enum VideoRenderer {
             throw FrameFailure("NATIVE_DECODE_FAILED", "Video encoder did not finish output.")
         }
         let result = AVURLAsset(url: staging)
-        let actual = microseconds(try await result.load(.duration))
-        guard actual == through else {
+        let actual = try await result.load(.duration)
+        guard CMTimeCompare(actual, time(microseconds: through)) == 0 else {
             throw FrameFailure(
                 "NATIVE_DECODE_FAILED", "Encoded video duration does not match the pinned plan.")
         }
@@ -175,6 +198,6 @@ public enum VideoRenderer {
         }
         return RenderedVideo(
             file: output.path, mediaType: "video/mp4", codec: "h264",
-            durationUs: actual, width: width, height: height, frameCount: count, bytes: bytes)
+            durationUs: through, width: width, height: height, frameCount: count, bytes: bytes)
     }
 }

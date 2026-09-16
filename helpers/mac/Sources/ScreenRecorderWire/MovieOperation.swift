@@ -11,6 +11,7 @@ enum MovieOperation {
         let output: String
         let plan: [VideoRenderSpan]
         let tracks: [AudioTrackPlan]
+        let pointerSchedule: PointerScheduleReceipt?
     }
     struct Result: Encodable {
         let file: String
@@ -33,7 +34,10 @@ enum MovieOperation {
     }
 
     static func execute(_ params: [String: Any]) async throws -> Result {
-        guard Set(params.keys) == ["source", "output", "plan", "tracks"],
+        guard
+            Set(params.keys).subtracting(["pointerSchedule"]) == [
+                "source", "output", "plan", "tracks",
+            ],
             let tracks = params["tracks"] as? [[String: Any]],
             tracks.allSatisfy({ Set($0.keys) == ["role", "source", "sourceOffsetUs", "available"] }
             ),
@@ -58,9 +62,10 @@ enum MovieOperation {
         try FileManager.default.createDirectory(at: staging, withIntermediateDirectories: false)
         defer { try? FileManager.default.removeItem(at: staging) }
         let video = staging.appendingPathComponent("video.mp4")
-        let rendered = try await VideoOperation.execute([
-            "source": request.source, "output": video.path, "plan": params["plan"]!,
-        ])
+        let rendered = try await VideoOperation.execute(
+            [
+                "source": request.source, "output": video.path, "plan": params["plan"]!,
+            ], pointerSchedule: request.pointerSchedule)
         let audio =
             request.tracks.isEmpty
             ? nil
