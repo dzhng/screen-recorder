@@ -1,7 +1,8 @@
 # Default trail frames through the public inspector
 
-Status: planned vertical integration after the core trail planner. Clean single
-frames and batches already work. This pass makes their normal mode satisfy the
+Status: core annotation jobs and dependency handling verified. Public adapters,
+rendered evidence and visual acceptance remain in integration. Clean single
+frames and batches retain their existing behavior. This pass makes their normal mode satisfy the
 product's pointing contract; it does not add a separate inspection API.
 
 ## Ownership and dependency
@@ -61,3 +62,19 @@ chooses a different trail mode, clock, geometry transform or retry policy.
 Persist shared scene observations/boundaries and provenance for global screenshot
 selection without creating another detector. Parent slice10 stays open until its
 real gesture and readability gates are met.
+
+
+## Core inspector checkpoint
+
+The [core evidence](../assets/trail-evidence/frame-inspection.md) verifies default
+annotation, clean bypass, explicit source/native retry behavior, ordered batches,
+pinned revision/source generation, eviction and cancellation. Source demand is
+admitted after the complete batch validates, through idempotent source preparation.
+It does not wait behind all unadmitted background history or retry a failed source.
+
+Annotation metadata is projected once in core: effective/actual intervals, cutoff
+reasons, observed pointer, geometry epochs, counts, policies and bounded visual
+coverage/metrics. Raw RGB observations and full rendering-point arrays stay out of
+public metadata. Source integrity is retained without copying its full receipt.
+Native receipt validation permits Swift's omitted nil timestamps but requires an
+overlay receipt even when there were no eligible points to draw.

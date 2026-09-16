@@ -1,4 +1,9 @@
 import { join } from "node:path";
+import { isDeepStrictEqual } from "node:util";
+import { planFrameTrail, trailPolicy, type FrameOverlay } from "./trails.js";
+import { scenePolicy, type VisualSampler } from "./scenes.js";
+import type { SourceEvidenceMetadata, SourceEvidenceStore } from "./evidence.js";
+import type { SourceProcessing } from "./processing.js";
 import { CatalogError, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
@@ -9,7 +14,8 @@ export type FrameInput = {
   recordingId: string;
   revisionId?: string | undefined;
   atUs: number;
-  clean: true;
+  clean?: boolean | undefined;
+  trailUs?: number | undefined;
   crop?: FrameCrop | undefined;
   maxLongEdge?: number | undefined;
 };
@@ -25,6 +31,12 @@ export type NativeFrame = {
   sourceHeight: number;
   crop?: FrameCrop | null;
   bytes: number;
+  overlay?: {
+    trailPoints: number;
+    trailStartUs?: number | null;
+    trailEndUs?: number | null;
+    pointerSourceUs?: number | null;
+  } | null;
 };
 export type FrameDecoder = (
   request: {
@@ -34,6 +46,7 @@ export type FrameDecoder = (
     kept: TimeRange;
     crop?: FrameCrop | undefined;
     maxLongEdge: number;
+    overlay?: FrameOverlay;
   },
   signal: AbortSignal,
 ) => Promise<NativeFrame>;
@@ -45,10 +58,80 @@ export type FrameArtifact = NativeFrame & {
   requestedPlaybackUs: number;
   actualPlaybackUs: number;
   kept: TimeRange;
-  clean: true;
+  clean: boolean;
+  annotation: ReturnType<typeof summarizeAnnotation> | null;
+  sourceEvidence: ReturnType<typeof summarizeSource> | null;
 };
+type FrameOptions = {
+  policy: string;
+  atUs: number;
+  maxLongEdge: number;
+  crop: FrameCrop | null;
+  clean: boolean;
+  trailUs: number;
+  trailPolicy: string | null;
+  scenePolicy: string | null;
+  sourceEvidence: SourceEvidenceMetadata | null;
+};
+function summarizeSource(source: SourceEvidenceMetadata) {
+  const receipt = source.receipt;
+  return {
+    recordingId: source.recordingId,
+    sourceId: source.sourceId,
+    generation: source.generation,
+    integrity: {
+      finished: receipt.finished,
+      incompleteTail: receipt.incompleteTail,
+      invalidAtSequence: receipt.invalidAtSequence ?? null,
+      lastSequence: receipt.lastSequence,
+      openPauseHostUs: receipt.openPauseHostUs ?? null,
+    },
+  };
+}
+function summarizeAnnotation(plan: Awaited<ReturnType<typeof planFrameTrail>>) {
+  const summarizeScene = (scene: typeof plan.scene) => ({
+    policy: scene.policy,
+    range: scene.range,
+    coverage: scene.coverage,
+    comparisons: scene.comparisons,
+    boundaries: scene.boundaries,
+    futureComparison: scene.futureComparison,
+    referenceSourceUs: scene.reference.actualSourceUs,
+  });
+  const pointer = plan.pointerObservation;
+  return {
+    policy: plan.policy,
+    trailUs: plan.overlay.trailUs,
+    agedFromUs: plan.agedFromUs,
+    requestedSourceUs: plan.requestedSourceUs,
+    actualSourceUs: plan.actualSourceUs,
+    evidenceRange: plan.evidenceRange,
+    interval: plan.interval,
+    cutoffs: plan.cutoffs,
+    pointerObservation: pointer
+      ? {
+          sourceUs: pointer.sourceUs,
+          x: pointer.x ?? null,
+          y: pointer.y ?? null,
+          eligibility: pointer.eligibility,
+          geometryEpoch: pointer.geometryEpoch,
+          sequence: pointer.sequence,
+        }
+      : null,
+    trailPoints: plan.overlay.trail.reduce((count, run) => count + run.length, 0),
+    trailRuns: plan.overlay.trail.length,
+    pointer: plan.overlay.pointer,
+    geometry: {
+      requestedEpoch: plan.geometry.requested.epoch,
+      selectedEpoch: plan.geometry.selected.epoch,
+    },
+    scene: summarizeScene(plan.scene),
+    stalePointerScene: plan.stalePointerScene ? summarizeScene(plan.stalePointerScene) : null,
+    stalePointerComparison: plan.stalePointerComparison,
+  };
+}
 const artifact = "frame";
-const policy = "clean-frame-v1";
+const policy = "frame-v2";
 
 /** Pins edits once; the native decoder only sees the resulting retained source interval. */
 export class FrameInspection {
@@ -58,6 +141,11 @@ export class FrameInspection {
     private readonly cache: DerivedCache,
     private readonly home: string,
     private readonly decode: FrameDecoder,
+    private readonly annotations: {
+      processing: SourceProcessing;
+      evidence: SourceEvidenceStore;
+      sample: VisualSampler;
+    },
   ) {}
 
   private prepare(
@@ -68,12 +156,16 @@ export class FrameInspection {
     if (!mapped) throw new CatalogError("INVALID_RANGE", "Frame time is outside this revision");
     const maxLongEdge = input.maxLongEdge ?? 1600;
     if (
-      input.clean !== true ||
+      (input.clean !== undefined && typeof input.clean !== "boolean") ||
+      (input.trailUs !== undefined &&
+        (!Number.isSafeInteger(input.trailUs) ||
+          input.trailUs < 0 ||
+          input.trailUs > trailPolicy.maximumUs)) ||
       !Number.isSafeInteger(maxLongEdge) ||
       maxLongEdge < 1 ||
       maxLongEdge > 8192
     )
-      throw new CatalogError("INVALID_RANGE", "Invalid clean frame options");
+      throw new CatalogError("INVALID_RANGE", "Invalid frame options");
     const crop = input.crop;
     if (
       crop &&
@@ -84,18 +176,19 @@ export class FrameInspection {
         crop.height < 1)
     )
       throw new CatalogError("INVALID_RANGE", "Invalid crop rectangle");
-    const identity = {
-      recordingId: input.recordingId,
-      revisionId: revision.id,
-      artifact,
-      input: JSON.stringify({
-        policy,
-        atUs: input.atUs,
-        maxLongEdge,
-        crop: crop ? { x: crop.x, y: crop.y, width: crop.width, height: crop.height } : null,
-      }),
+    const clean = input.clean === true;
+    const options: FrameOptions = {
+      policy,
+      atUs: input.atUs,
+      maxLongEdge,
+      crop: crop ? { x: crop.x, y: crop.y, width: crop.width, height: crop.height } : null,
+      clean,
+      trailUs: clean ? 0 : (input.trailUs ?? trailPolicy.defaultUs),
+      trailPolicy: clean ? null : trailPolicy.id,
+      scenePolicy: clean ? null : scenePolicy.id,
+      sourceEvidence: null,
     };
-    return identity;
+    return { recordingId: input.recordingId, revisionId: revision.id, options };
   }
 
   request(input: FrameInput) {
@@ -137,7 +230,31 @@ export class FrameInspection {
     };
   }
 
-  private admit(identity: ReturnType<FrameInspection["prepare"]>) {
+  private admit(plan: ReturnType<FrameInspection["prepare"]>) {
+    const options = { ...plan.options };
+    if (!options.clean) {
+      this.annotations.processing.prepare(plan.recordingId);
+      const source = this.annotations.processing.status(plan.recordingId);
+      if (source.state !== "ready" || !source.published)
+        return {
+          recordingId: plan.recordingId,
+          sourceId: source.sourceId,
+          revisionId: plan.revisionId,
+          state: source.state,
+          reason: source.reason,
+          retryable: source.retryable,
+          jobId: null,
+          published: null,
+          dependency: { artifact: "source" as const, jobId: source.jobId },
+        };
+      options.sourceEvidence = source.published.evidence;
+    }
+    const identity = {
+      recordingId: plan.recordingId,
+      revisionId: plan.revisionId,
+      artifact,
+      input: JSON.stringify(options),
+    };
     this.jobs.submit({ ...identity, lane: "frame" });
     let status = this.jobs.status(identity);
     if (status.published) {
@@ -154,6 +271,7 @@ export class FrameInspection {
       sourceId: this.store.get(identity.recordingId).sourceId,
       revisionId: identity.revisionId,
       ...status,
+      dependency: null,
       published: status.published
         ? {
             generation: status.published.generation,
@@ -170,13 +288,15 @@ export class FrameInspection {
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
-    const options = JSON.parse(job.input) as {
-      policy: string;
-      atUs: number;
-      maxLongEdge: number;
-      crop: FrameCrop | null;
-    };
-    if (job.artifact !== artifact || options.policy !== policy)
+    const options = JSON.parse(job.input) as FrameOptions;
+    if (
+      job.artifact !== artifact ||
+      options.policy !== policy ||
+      (!options.clean &&
+        (!options.sourceEvidence ||
+          options.trailPolicy !== trailPolicy.id ||
+          options.scenePolicy !== scenePolicy.id))
+    )
       throw new CatalogError("UNSUPPORTED_JOB", "Frame inspector cannot execute this job");
     const revision = this.store.revision(job.recordingId, job.revisionId);
     const mapped = editedToSource(revision, options.atUs);
@@ -185,14 +305,32 @@ export class FrameInspection {
     signal.throwIfAborted();
     const output = this.cache.reserve();
     try {
+      const source = join(this.home, "recordings", job.recordingId, "source", "video.mov");
+      const annotation = options.clean
+        ? null
+        : await planFrameTrail(
+            {
+              source,
+              kept: mapped.span.source,
+              requestedSourceUs: mapped.sourceUs,
+              trailUs: options.trailUs,
+            },
+            {
+              evidence: this.annotations.evidence,
+              identity: options.sourceEvidence!,
+              sample: this.annotations.sample,
+            },
+            signal,
+          );
       const frame = await this.decode(
         {
-          source: join(this.home, "recordings", job.recordingId, "source", "video.mov"),
+          source,
           output: output.path,
           atSourceUs: mapped.sourceUs,
           kept: mapped.span.source,
           maxLongEdge: options.maxLongEdge,
           ...(options.crop ? { crop: options.crop } : {}),
+          ...(annotation ? { overlay: annotation.overlay } : {}),
         },
         signal,
       );
@@ -206,6 +344,39 @@ export class FrameInspection {
           "INVALID_RESPONSE",
           "Decoder returned a frame outside the retained interval",
         );
+      if (annotation) {
+        const runs = annotation.overlay.trail;
+        const receipt: NonNullable<NativeFrame["overlay"]> = {
+          trailPoints: runs.reduce((count, run) => count + run.length, 0),
+          trailStartUs: runs[0]?.[0]?.atSourceUs ?? null,
+          trailEndUs: runs.at(-1)?.at(-1)?.atSourceUs ?? null,
+          pointerSourceUs: annotation.overlay.pointer?.atSourceUs ?? null,
+        };
+        if (
+          frame.actualSourceUs !== annotation.actualSourceUs ||
+          frame.requestedSourceUs !== mapped.sourceUs ||
+          frame.sourceWidth !== annotation.scene.sourceWidth ||
+          frame.sourceHeight !== annotation.scene.sourceHeight ||
+          !isDeepStrictEqual(
+            frame.overlay && {
+              trailPoints: frame.overlay.trailPoints,
+              trailStartUs: frame.overlay.trailStartUs ?? null,
+              trailEndUs: frame.overlay.trailEndUs ?? null,
+              pointerSourceUs: frame.overlay.pointerSourceUs ?? null,
+            },
+            receipt,
+          )
+        )
+          throw new CatalogError(
+            "INVALID_RESPONSE",
+            "Decoded image or overlay does not match its evidence plan",
+          );
+      } else if (frame.overlay != null) {
+        throw new CatalogError(
+          "INVALID_RESPONSE",
+          "Clean frame unexpectedly contains a cursor overlay",
+        );
+      }
       const actualPlaybackUs = sourceToEdited(revision, frame.actualSourceUs);
       if (actualPlaybackUs === null || frame.file !== output.path)
         throw new CatalogError("INVALID_RESPONSE", "Decoder returned an unrelated frame");
@@ -221,7 +392,9 @@ export class FrameInspection {
         requestedPlaybackUs: options.atUs,
         actualPlaybackUs,
         kept: mapped.span.source,
-        clean: true,
+        clean: options.clean,
+        annotation: annotation ? summarizeAnnotation(annotation) : null,
+        sourceEvidence: options.sourceEvidence ? summarizeSource(options.sourceEvidence) : null,
       };
       return JSON.stringify(result);
     } catch (error) {
