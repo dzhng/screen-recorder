@@ -1047,3 +1047,27 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   checkpoint format. Policy identities invalidate earlier derived evidence.
   **Verdict:** Sound; it matches the existing restart behavior and bounds memory.
   **Confidence:** High.
+
+## Long-source measurement and deletion planning — 2026-09-16
+
+### Sound — high confidence
+
+- **Choice:** Keep the native thirty-minute benchmark outside ordinary tests and
+  persist a bounded progress report while it runs. If a long run fails, already
+  measured foreground latency and completed image counts remain inspectable.
+  Input and bundle hashes distinguish comparable recordings and executables; the
+  supplied recording is copied, never changed. **Gap:** The partial baseline lost
+  its in-memory latency result and was not reproducible through a project command.
+  **Reach:** Future performance changes have a repeatable full-workload gate.
+  **Verdict:** Sound; this adds measurement, not a weaker acceptance threshold.
+  **Confidence:** High.
+
+- **Choice:** Plan deletion around one durable intent marker and existing resource
+  owners. A delete first hides the recording, then waits for its producers and
+  releases its readers before removing files; after a crash it repeats those
+  idempotent steps. There is no deletion artifact job inside the queue being
+  canceled. **Gap:** The original delete requirement did not specify concurrent
+  capture, reads or restart behavior. **Reach:** Storage and lifetime owners gain
+  per-record operations without a second queue or phase journal. **Verdict:** Sound;
+  successful deletion must mean no owner can recreate or continue serving the data.
+  **Confidence:** High. Implementation and its lifetime proof remain pending.

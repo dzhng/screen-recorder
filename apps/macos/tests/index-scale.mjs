@@ -2,14 +2,14 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
 import { copyFile, mkdir, mkdtemp, readFile, readdir, rename, writeFile } from "node:fs/promises";
-import { isAbsolute, join } from "node:path";
-import { arch, platform, release } from "node:os";
+import { dirname, isAbsolute, join } from "node:path";
+import { arch, cpus, platform, release } from "node:os";
 import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { callLocal } from "@screenrec/client";
 import { RevisionStore } from "@screenrec/core/library";
-import { launchReady, socketPath, temporary } from "./harness.mjs";
+import { app, launchReady, socketPath, temporary } from "./harness.mjs";
 
 // Explicit long-running lab, excluded from the default native test glob. Build first.
 // SCREENREC_INDEX_SCALE_EVIDENCE: empty absolute output directory (default: fresh /tmp directory).
@@ -191,7 +191,13 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
     width: 320,
     height: 180,
     fps: 30,
-    host: { platform: platform(), release: release(), arch: arch(), node: process.version },
+    host: {
+      cpu: cpus()[0]?.model,
+      platform: platform(),
+      release: release(),
+      arch: arch(),
+      node: process.version,
+    },
     servicePeakKiB: 0,
     workerPeakKiB: 0,
     workerObservations: 0,
@@ -211,6 +217,11 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
   let instance;
   let started;
   try {
+    report.revision = run("git", ["rev-parse", "HEAD"]).trim();
+    report.ffmpeg = run("ffmpeg", ["-version"]).split("\n")[0];
+    report.nativeExecutableSha256 = await hash(app);
+    report.serviceBundleSha256 = await hash(join(dirname(app), "../Resources/service/main.mjs"));
+    await save();
     const { take, video, input } = await fixture(home);
     report.sourceHash = await hash(video);
     report.input = input;
