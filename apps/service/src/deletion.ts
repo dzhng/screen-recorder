@@ -35,7 +35,7 @@ export class RecordingDeletion {
     if (existing) return existing;
     const recording = this.owners.store.markDeleting(recordingId);
     if (!recording) return Promise.resolve({ recordingId, deleted: true });
-    this.owners.delivery.revoke(recordingId);
+    this.owners.delivery.revoke({ kind: "recording", id: recordingId });
     const result = this.remove(recordingId).finally(() => this.active.delete(recordingId));
     this.active.set(recordingId, result);
     return result;

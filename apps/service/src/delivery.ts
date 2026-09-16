@@ -7,8 +7,11 @@ export type DerivativeRead = {
   release(): void;
 };
 
+/** Identical IDs in a recording and a package have independent delivery lifetimes. */
+export type DerivativeOwner = Readonly<{ kind: "recording" | "package"; id: string }>;
+
 type Lease = {
-  recordingId: string;
+  owner: DerivativeOwner;
   handle: DerivativeRead;
   expiresAt: number;
   timer: ReturnType<typeof setTimeout>;
@@ -24,10 +27,11 @@ export class DerivativeDelivery {
   private disposed = false;
 
   open(
-    recordingId: string,
+    owner: DerivativeOwner,
     acquire: () => DerivativeRead | null,
   ): { token: string; bytes: number; expiresAt: number } {
     if (this.disposed) throw new CatalogError("SERVICE_STOPPED", "Derivative delivery is closed");
+    const retainedOwner = { ...owner };
     this.expire();
     if (this.leases.size >= maximumLeases)
       throw new CatalogError("LIMIT_EXCEEDED", "Too many derivative deliveries are open", {}, true);
@@ -39,7 +43,7 @@ export class DerivativeDelivery {
       const expiresAt = Date.now() + lifetimeMs;
       const timer = setTimeout(() => this.close(token), lifetimeMs);
       timer.unref();
-      this.leases.set(token, { recordingId, handle, expiresAt, timer });
+      this.leases.set(token, { owner: retainedOwner, handle, expiresAt, timer });
       return { token, bytes: handle.bytes, expiresAt };
     } catch (error) {
       handle.release();
@@ -127,9 +131,9 @@ export class DerivativeDelivery {
     clearTimeout(lease.timer);
     lease.handle.release();
   }
-  revoke(recordingId: string): void {
+  revoke({ kind, id }: DerivativeOwner): void {
     for (const [token, lease] of this.leases)
-      if (lease.recordingId === recordingId) this.close(token);
+      if (lease.owner.kind === kind && lease.owner.id === id) this.close(token);
   }
   dispose(): void {
     this.disposed = true;

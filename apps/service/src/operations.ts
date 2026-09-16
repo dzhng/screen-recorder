@@ -87,7 +87,7 @@ export async function operate(
           ok: true,
           data: {
             ...data,
-            delivery: delivery.open(operation.params.recordingId, () =>
+            delivery: delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
               index.openRead(operation.params),
             ),
           },
@@ -109,7 +109,9 @@ export async function operate(
                   ok: true as const,
                   data: {
                     ...data,
-                    delivery: delivery.open(input.recordingId, () => index.openRead(input)),
+                    delivery: delivery.open({ kind: "recording", id: input.recordingId }, () =>
+                      index.openRead(input),
+                    ),
                   },
                 };
               } catch (error) {
@@ -143,7 +145,7 @@ export async function operate(
                   data: {
                     ...item.data,
                     delivery: item.data.published
-                      ? delivery.open(operation.params.recordingId, () =>
+                      ? delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
                           cache.acquire(item.data.published!.frame.cacheId),
                         )
                       : null,
@@ -177,7 +179,7 @@ export async function operate(
           data: {
             ...status,
             delivery: status.published
-              ? delivery.open(operation.params.recordingId, () =>
+              ? delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
                   cache.acquire(status.published!.frame.cacheId),
                 )
               : null,
@@ -195,7 +197,7 @@ export async function operate(
           data: {
             ...status,
             delivery: status.published
-              ? delivery.open(operation.params.recordingId, () =>
+              ? delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
                   cache.acquire(status.published!.preview.cacheId),
                 )
               : null,
@@ -213,7 +215,7 @@ export async function operate(
           data: {
             ...status,
             delivery: status.published
-              ? delivery.open(operation.params.recordingId, () =>
+              ? delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
                   cache.acquire(status.published!.audio.cacheId),
                 )
               : null,

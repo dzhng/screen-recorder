@@ -123,7 +123,9 @@ test("delete coalesces callers, revokes delivery immediately, and waits for a cl
   const file = f.cache.reserve(target.recordingId);
   await writeFile(file.path, "private derivative");
   await f.cache.publish(file.id);
-  const lease = f.delivery.open(target.recordingId, () => f.cache.acquire(file.id));
+  const lease = f.delivery.open({ kind: "recording", id: target.recordingId }, () =>
+    f.cache.acquire(file.id),
+  );
   const request = {
     recordingId: target.recordingId,
     revisionId: "r0",
