@@ -1,0 +1,12 @@
+(node:1848) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"home":"/tmp/screenrec-preview-publication-2033","renders":[{"durationUs":4000000,"identities":[0,1,3,5],"pts":[0,1000000,2000000,3000000]},{"durationUs":6000000,"identities":[0,1,2,3,4,5],"pts":[0,1000000,2000000,3000000,4000000,5000000]}],"lifetime":[{"kind":"queued-job-cancel","nativeStagingObserved":true,"consumed":false,"attemptsRemaining":0},{"kind":"abort","nativeStagingObserved":true,"consumed":false,"attemptsRemaining":0},{"kind":"deadline","nativeStagingObserved":true,"consumed":false,"attemptsRemaining":0},{"kind":"late-abort","nativeStagingObserved":false,"consumed":false,"attemptsRemaining":0}]}
+✔ pinned movie audio/video plans across pause, undo and terminal render lifetime (6858.76225ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7068.484542

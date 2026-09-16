@@ -103,6 +103,10 @@
     "./presentation-pointer": {
       "types": "./dist/presentation-pointer.d.ts",
       "default": "./dist/presentation-pointer.js"
+    },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "default": "./dist/preview.js"
     }
   },
   "scripts": {

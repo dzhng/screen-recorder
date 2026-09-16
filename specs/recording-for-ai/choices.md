@@ -1400,3 +1400,15 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   outer boundaries could round differently. The plan did not specify reference
   generation. This adds only a test-mode entry point; the production excerpt API
   and its thirty-second limit are unchanged.
+
+## Preview publication — 2026-09-17
+
+### Sound — high confidence
+
+- **Use the existing disposable cache for preview movies.** Preview completion
+  publishes the cache file before the existing job publishes its metadata. A crash
+  between those commits can leave an unused cached movie, which normal LRU can
+  reclaim; it cannot make a partial movie ready. The plan did not choose the
+  publication transaction layout. This follows existing frame/audio ownership
+  without another table or commit log. Interrupted native staging has a separate
+  lifetime and must be proven before public integration.

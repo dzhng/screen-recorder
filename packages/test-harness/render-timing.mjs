@@ -8,7 +8,10 @@ import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
 import { RevisionStore } from "@screenrec/core/library";
-import { planAudioTracks } from "@screenrec/core/audio";
+import { PreviewInspection } from "@screenrec/core/preview";
+import { DerivedCache } from "@screenrec/core/cache";
+import { SourceProcessing } from "@screenrec/core/processing";
+import { constants } from "node:fs";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { journalRows } from "../../apps/macos/tests/fixtures/generated-capture.mjs";
 import { JobQueue } from "@screenrec/core/jobs";
@@ -78,6 +81,8 @@ async function decode(file, frames) {
     ]),
   );
   await command("ffmpeg", [
+    "-nostdin",
+    "-y",
     "-v",
     "error",
     "-i",
@@ -229,8 +234,11 @@ test(
             ),
         ),
       );
-      const raw = join(home, "journal-source");
-      await mkdir(raw);
+      const raw = join(home, "recordings", recordingId, "source");
+      await mkdir(raw, { recursive: true });
+      await copyFile(source, join(raw, "video.mov"));
+      for (const role of ["narration", "system"])
+        await copyFile(join(home, role + ".mov"), join(raw, role + ".mov"));
       const rows = journalRows({ sourceId, width: 320, height: 180, samples: [], pauses: [pause] });
       rows[0].data.microphone = true;
       rows[0].data.systemAudio = true;
@@ -249,17 +257,32 @@ test(
         rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
       );
       const run = mediaWorker({ SCREENREC_NATIVE: native });
-      const normalized = join(home, "source-evidence.jsonl");
-      const exported = await run("media.sourceEvidence", { directory: raw, output: normalized });
-      assert.equal(exported.ok, true, JSON.stringify(exported));
       const sourceEvidence = new SourceEvidenceStore(store);
-      const metadata = await sourceEvidence.ingest({
-        recordingId,
-        sourceId,
-        generation: "fixture",
-        file: normalized,
-        receipt: exported.data,
+      const cache = new DerivedCache(store, home);
+      await cache.reconcile();
+      let processing, preview;
+      jobs = new JobQueue({
+        store,
+        providers: { newId: randomUUID },
+        execute: (execution) =>
+          execution.job.artifact === "preview"
+            ? preview.execute(execution)
+            : processing.execute(execution),
       });
+      processing = new SourceProcessing(
+        store,
+        jobs,
+        sourceEvidence,
+        home,
+        async (directory, output, signal) => {
+          const exported = await run("media.sourceEvidence", { directory, output }, { signal });
+          assert.equal(exported.ok, true, JSON.stringify(exported));
+          return exported.data;
+        },
+      );
+      processing.prepare(recordingId);
+      await jobs.idle();
+      const metadata = processing.status(recordingId).published.evidence;
       assert.deepEqual(
         sourceEvidence
           .pauseBoundaries(metadata, { startUs: 0, endUs: 6_000_000 })
@@ -269,34 +292,26 @@ test(
       report.pause = events;
       const gate = Promise.withResolvers(),
         started = Promise.withResolvers();
-      jobs = new JobQueue({
+      preview = new PreviewInspection(
         store,
-        providers: { newId: randomUUID },
-        execute: async ({ job, signal }) => {
+        jobs,
+        cache,
+        sourceEvidence,
+        processing,
+        home,
+        async (request, signal) => {
           started.resolve();
           await gate.promise;
-          const revision = store.revision(recordingId, job.revisionId),
-            plan = renderPlan(revision);
-          const audioPlan = planAudioTracks(
-            {
-              recordingId,
-              sourceId,
-              sourceEvidence: metadata,
-              spans: revision.spans,
-              track: "mix",
-            },
-            sourceEvidence,
-            (role) => join(home, role + ".mov"),
-          );
-          assert.deepEqual(audioPlan.missingRoles, []);
+          const { revision, plan, tracks } = request;
           return withRenderedMedia(
             run,
-            { source, plan, tracks: audioPlan.tracks, attemptParent: attempts },
+            { source: request.source, plan, tracks, attemptParent: attempts },
             signal,
             async (video) => {
-              const file = join(home, job.revisionId + ".mp4");
-              await copyFile(video.file, file);
-              const decoded = await decode(file, frames);
+              await copyFile(video.file, request.output, constants.COPYFILE_EXCL);
+              const file = join(home, revision.id + ".mp4");
+              await copyFile(request.output, file);
+              const decoded = await decode(request.output, frames);
               assert.ok(video.audio, "Pinned movie must include planned audio");
               assert.equal(video.audio.codec, "aac");
               assert.equal(video.audio.frames, (revision.durationUs * 48_000) / 1_000_000);
@@ -304,33 +319,27 @@ test(
                 video.audio.tracks.map((track) => track.gain),
                 [0.5, 0.5],
               );
-              const wave = join(home, job.revisionId + ".wav");
+              const wave = join(home, revision.id + ".wav");
               const reference = await run(
                 "media.audio",
-                { tracks: audioPlan.tracks, spans: revision.spans, output: wave },
+                { tracks, spans: revision.spans, output: wave },
                 { signal },
               );
               assert.equal(reference.ok, true, JSON.stringify(reference));
               const audio = await compareAudio(file, wave, video.audio.frames);
-              const summary = {
-                revisionId: job.revisionId,
+              report.renders.push({
+                revisionId: revision.id,
                 plan,
                 file: basename(file),
                 decoded,
                 audio: { ...audio, tracks: video.audio.tracks },
-              };
-              report.renders.push(summary);
-              return JSON.stringify(summary);
+              });
+              return { ...video, file: request.output };
             },
           );
         },
-      });
-      const first = jobs.submit({
-        recordingId,
-        artifact: "render-timing-proof",
-        lane: "heavy",
-        input: "generated",
-      });
+      );
+      const first = preview.request({ recordingId });
       await started.promise;
       const undo = store.edit(recordingId, {
         operation: "undo",
@@ -346,12 +355,7 @@ test(
         identities: [0, 1, 3, 5],
         pts: [0, 1000000, 2000000, 3000000],
       });
-      const second = jobs.submit({
-        recordingId,
-        artifact: "render-timing-proof",
-        lane: "heavy",
-        input: "generated",
-      });
+      const second = preview.request({ recordingId });
       await ready(jobs, second.jobId);
       assert.equal(report.renders[1].revisionId, undo.id);
       assert.deepEqual(report.renders[1].decoded, {
@@ -360,6 +364,17 @@ test(
         pts: [0, 1000000, 2000000, 3000000, 4000000, 5000000],
       });
       assert.deepEqual(await readdir(attempts), []);
+      const retained = preview.request({ recordingId, revisionId: first.revisionId }).published
+        .preview;
+      const held = cache.acquire(retained.cacheId);
+      assert.ok(held);
+      held.release();
+      assert.deepEqual(await decode(retained.file, frames), report.renders[0].decoded);
+      report.cache = {
+        firstRevision: retained.revisionId,
+        bytes: retained.bytes,
+        readableAfterAttempt: true,
+      };
       const cancelRevision = store.edit(recordingId, {
         operation: "cut",
         requestId: randomUUID(),
@@ -369,17 +384,15 @@ test(
           endUs: i === 499 ? 6000000 : (i + 1) * 1000,
         })),
       });
-      const canceled = jobs.submit({
-        recordingId,
-        artifact: "render-timing-proof",
-        lane: "heavy",
-        input: "generated",
-      });
+      const canceled = preview.request({ recordingId });
       await until(() => staged(attempts));
       jobs.cancel(canceled.jobId);
       await until(async () => (await readdir(attempts)).length === 0);
       assert.equal(jobs.job(canceled.jobId).state, "canceled");
-      assert.equal(jobs.status(canceled).published, null);
+      assert.equal(
+        preview.request({ recordingId, revisionId: canceled.revisionId }).published,
+        null,
+      );
       assert.equal(
         report.renders.some((render) => render.revisionId === cancelRevision.id),
         false,
@@ -445,6 +458,13 @@ test(
           attemptsRemaining: 0,
         });
       }
+      assert.deepEqual(await readFile(join(raw, "video.mov")), sourceBefore);
+      assert.deepEqual(
+        await Promise.all(
+          ["narration", "system"].map((role) => readFile(join(raw, role + ".mov"))),
+        ),
+        audioBefore,
+      );
       assert.deepEqual(await readFile(source), sourceBefore);
       assert.deepEqual(
         await Promise.all(

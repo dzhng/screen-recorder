@@ -47,6 +47,11 @@ independent-decoder limitation; numerical generated sound is not speech audition
 renderer’s exact held-frame support, and [13d2 point policy](slices/13d2-presentation-pointer-core.md)
 uses it without relaxing nearest-still selection. Next, schedule pointer changes
 with persistent reset history: A → B → A must not revive an old pointer.
+[Preview publication](slices/13e-preview-publication.md) now retains pinned movies
+through existing jobs/cache; its next gate is abandoned native-attempt ownership,
+then pointer-equipped public delivery and playback. Real capture also exposed a
+small finalized-duration/container-end mismatch; resolve the native source authority
+before accepting full-original previews.
 [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
 including native workers and frame/audio/index leases. Recent-recording delete and
 storage controls build and pass native state/identity checks, but computer-use could

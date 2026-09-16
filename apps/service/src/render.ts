@@ -1,27 +1,10 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/library";
-import type { AudioTrackPlan, NativeAudio } from "@screenrec/core/audio";
+import type { AudioTrackPlan } from "@screenrec/core/audio";
+import type { RenderedMovie } from "@screenrec/core/preview";
 import type { RenderSpan } from "@screenrec/core/timeline";
 import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
-
-export type RenderedMedia = Readonly<{
-  file: string;
-  mediaType: "video/mp4";
-  codec: "h264";
-  durationUs: number;
-  width: number;
-  height: number;
-  frameCount: number;
-  bytes: number;
-  audio?: Readonly<{
-    codec?: "aac";
-    frames: number;
-    sampleRate: number;
-    channels: number;
-    tracks: NativeAudio["tracks"];
-  }>;
-}>;
 
 /** The sequential reader may decode discarded prefixes, so budget the last source
  * position, not merely the shorter edited result. Allow realtime work plus startup;
@@ -50,7 +33,7 @@ export async function withRenderedMedia<T>(
     attemptParent: string;
   },
   signal: AbortSignal,
-  consume: (video: RenderedMedia) => Promise<T>,
+  consume: (video: RenderedMovie) => Promise<T>,
 ): Promise<T> {
   const checkCanceled = () => {
     if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
@@ -78,7 +61,7 @@ export async function withRenderedMedia<T>(
         response.error.details,
         response.error.retryable,
       );
-    const receipt = response.data as RenderedMedia;
+    const receipt = response.data as RenderedMovie;
     if (
       receipt.file !== file ||
       receipt.durationUs !== request.plan.at(-1)?.playback.endUs ||

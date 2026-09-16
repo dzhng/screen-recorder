@@ -1,6 +1,6 @@
 # 13 — Playable edited media and audio joins
 
-Status: native video timing and bounded PCM streaming verified; full edited playback remains open.
+Status: native video timing, bounded PCM and encoded movie assembly verified; full edited playback remains open.
 Dependencies for full completion: 09, 12.
 Start with [13a — native render timing feasibility](13a-native-render-timing.md),
 which can prove the existing render-plan/native-worker seam before speech and the
@@ -63,4 +63,5 @@ If exact cuts clip neighboring speech, distinguish bad ASR timing from render er
 AAC assembly now has a [bounded feasibility checkpoint](13c-aac-movie-assembly.md).
 It preserves the common presentation clock in native playback and records tiny
 AAC decoder differences. Native movie assembly now shares the service attempt
-owner; long A/V verification and public preview job integration remain open.
+owner and passes five-minute encoded A/V checks. [Preview publication](13e-preview-publication.md)
+owns the next job/cache boundary; pointer composition and public playback remain open.
