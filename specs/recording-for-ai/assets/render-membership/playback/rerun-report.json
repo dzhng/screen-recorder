@@ -1,0 +1,4742 @@
+{
+  "kind": "generated native membership feasibility",
+  "sources": {
+    "dense": {
+      "sha256": "e9da8954fc7eeee2c89f2619666107ce93a6aa562648ca99349ab03b07cc11a9",
+      "bytes": 3522,
+      "decoded": true
+    },
+    "sparse": {
+      "sha256": "7fc0e5d2e40046ede3b83c9aebc017fc5f0d603eb11d9aaae1c76c5352c01c26",
+      "bytes": 5381,
+      "decoded": true
+    },
+    "gap": {
+      "sha256": "21fe9ea23026eecb7dd468330be5a07d7256bf0364cb9be6e2c3275107d7bcbf",
+      "bytes": 3645
+    }
+  },
+  "cases": [
+    {
+      "name": "dense-subframe",
+      "source": "dense",
+      "plan": [
+        {
+          "source": {
+            "startUs": 10000,
+            "endUs": 20000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 10000
+          }
+        }
+      ],
+      "ledger": {
+        "composition": {
+          "durationUs": 10000,
+          "file": "GENERATED_EVIDENCE/dense-subframe/composition.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            }
+          ]
+        },
+        "cursor": [
+          {
+            "dtsMediaUs": 0,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 0,
+            "ptsMediaUs": 66667
+          },
+          {
+            "dtsMediaUs": 33333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 100000,
+            "ptsMediaUs": 166667
+          },
+          {
+            "dtsMediaUs": 66667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 33333,
+            "ptsMediaUs": 100000
+          },
+          {
+            "dtsMediaUs": 100000,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 66667,
+            "ptsMediaUs": 133333
+          },
+          {
+            "dtsMediaUs": 133333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 166667,
+            "ptsMediaUs": 233333
+          },
+          {
+            "dtsMediaUs": 166667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 133333,
+            "ptsMediaUs": 200000
+          }
+        ],
+        "decoded": [
+          {
+            "provenEndUs": 33333,
+            "ptsUs": 0,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 66667,
+            "ptsUs": 33333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 100000,
+            "ptsUs": 66667,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 133333,
+            "ptsUs": 100000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 166667,
+            "ptsUs": 133333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 200000,
+            "ptsUs": 166667,
+            "sampleDurationUs": null
+          }
+        ],
+        "durationUs": 200000,
+        "membership": {
+          "events": [
+            {
+              "durationUs": 10000,
+              "playbackUs": 0,
+              "sourceFrame": 0
+            }
+          ],
+          "fullyProven": true
+        },
+        "plan": [
+          {
+            "playback": {
+              "endUs": 10000,
+              "startUs": 0
+            },
+            "source": {
+              "endUs": 20000,
+              "startUs": 10000
+            }
+          }
+        ],
+        "segments": [
+          {
+            "assetDurationUs": 200000,
+            "assetStartUs": 0,
+            "empty": false,
+            "mediaDurationUs": 200000,
+            "mediaStartUs": 66667
+          }
+        ],
+        "source": "GENERATED_EVIDENCE/dense.mov",
+        "writer": {
+          "durationUs": 10000,
+          "file": "GENERATED_EVIDENCE/dense-subframe/writer.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            }
+          ]
+        }
+      },
+      "decoded": {
+        "composition": {
+          "frameCount": 0,
+          "matches": [],
+          "probe": {
+            "frames": [],
+            "format": {
+              "duration": "0.010000"
+            }
+          }
+        },
+        "writer": {
+          "frameCount": 1,
+          "matches": [
+            {
+              "sourceFrame": 0,
+              "meanAbsoluteRgbError": 0.6159143518518518
+            }
+          ],
+          "probe": {
+            "frames": [
+              {
+                "pts_time": "0.000000",
+                "side_data_list": [
+                  {}
+                ]
+              }
+            ],
+            "format": {
+              "duration": "0.010000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "dense-two-spans",
+      "source": "dense",
+      "plan": [
+        {
+          "source": {
+            "startUs": 10000,
+            "endUs": 20000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 10000
+          }
+        },
+        {
+          "source": {
+            "startUs": 43333,
+            "endUs": 53333
+          },
+          "playback": {
+            "startUs": 10000,
+            "endUs": 20000
+          }
+        }
+      ],
+      "ledger": {
+        "composition": {
+          "durationUs": 20000,
+          "file": "GENERATED_EVIDENCE/dense-two-spans/composition.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            },
+            {
+              "durationUs": null,
+              "ptsUs": 10000
+            }
+          ]
+        },
+        "cursor": [
+          {
+            "dtsMediaUs": 0,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 0,
+            "ptsMediaUs": 66667
+          },
+          {
+            "dtsMediaUs": 33333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 100000,
+            "ptsMediaUs": 166667
+          },
+          {
+            "dtsMediaUs": 66667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 33333,
+            "ptsMediaUs": 100000
+          },
+          {
+            "dtsMediaUs": 100000,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 66667,
+            "ptsMediaUs": 133333
+          },
+          {
+            "dtsMediaUs": 133333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 166667,
+            "ptsMediaUs": 233333
+          },
+          {
+            "dtsMediaUs": 166667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 133333,
+            "ptsMediaUs": 200000
+          }
+        ],
+        "decoded": [
+          {
+            "provenEndUs": 33333,
+            "ptsUs": 0,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 66667,
+            "ptsUs": 33333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 100000,
+            "ptsUs": 66667,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 133333,
+            "ptsUs": 100000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 166667,
+            "ptsUs": 133333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 200000,
+            "ptsUs": 166667,
+            "sampleDurationUs": null
+          }
+        ],
+        "durationUs": 200000,
+        "membership": {
+          "events": [
+            {
+              "durationUs": 10000,
+              "playbackUs": 0,
+              "sourceFrame": 0
+            },
+            {
+              "durationUs": 10000,
+              "playbackUs": 10000,
+              "sourceFrame": 1
+            }
+          ],
+          "fullyProven": true
+        },
+        "plan": [
+          {
+            "playback": {
+              "endUs": 10000,
+              "startUs": 0
+            },
+            "source": {
+              "endUs": 20000,
+              "startUs": 10000
+            }
+          },
+          {
+            "playback": {
+              "endUs": 20000,
+              "startUs": 10000
+            },
+            "source": {
+              "endUs": 53333,
+              "startUs": 43333
+            }
+          }
+        ],
+        "segments": [
+          {
+            "assetDurationUs": 200000,
+            "assetStartUs": 0,
+            "empty": false,
+            "mediaDurationUs": 200000,
+            "mediaStartUs": 66667
+          }
+        ],
+        "source": "GENERATED_EVIDENCE/dense.mov",
+        "writer": {
+          "durationUs": 20000,
+          "file": "GENERATED_EVIDENCE/dense-two-spans/writer.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            },
+            {
+              "durationUs": null,
+              "ptsUs": 10000
+            }
+          ]
+        }
+      },
+      "decoded": {
+        "composition": {
+          "frameCount": 0,
+          "matches": [],
+          "probe": {
+            "frames": [],
+            "format": {
+              "duration": "0.020000"
+            }
+          }
+        },
+        "writer": {
+          "frameCount": 2,
+          "matches": [
+            {
+              "sourceFrame": 0,
+              "meanAbsoluteRgbError": 0.6159143518518518
+            },
+            {
+              "sourceFrame": 1,
+              "meanAbsoluteRgbError": 1.3769386574074074
+            }
+          ],
+          "probe": {
+            "frames": [
+              {
+                "pts_time": "0.000000",
+                "side_data_list": [
+                  {}
+                ]
+              },
+              {
+                "pts_time": "0.010000"
+              }
+            ],
+            "format": {
+              "duration": "0.020000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "sparse-held",
+      "source": "sparse",
+      "plan": [
+        {
+          "source": {
+            "startUs": 500000,
+            "endUs": 510000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 10000
+          }
+        }
+      ],
+      "ledger": {
+        "composition": {
+          "durationUs": 10000,
+          "file": "GENERATED_EVIDENCE/sparse-held/composition.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            }
+          ]
+        },
+        "cursor": [
+          {
+            "dtsMediaUs": 0,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 0,
+            "ptsMediaUs": 2000000
+          },
+          {
+            "dtsMediaUs": 1000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 3000000,
+            "ptsMediaUs": 5000000
+          },
+          {
+            "dtsMediaUs": 2000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 1000000,
+            "ptsMediaUs": 3000000
+          },
+          {
+            "dtsMediaUs": 3000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 2000000,
+            "ptsMediaUs": 4000000
+          },
+          {
+            "dtsMediaUs": 4000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 5000000,
+            "ptsMediaUs": 7000000
+          },
+          {
+            "dtsMediaUs": 5000000,
+            "durationMediaUs": 1000000,
+            "ptsAssetUs": 4000000,
+            "ptsMediaUs": 6000000
+          }
+        ],
+        "decoded": [
+          {
+            "provenEndUs": 1000000,
+            "ptsUs": 0,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 2000000,
+            "ptsUs": 1000000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 3000000,
+            "ptsUs": 2000000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 4000000,
+            "ptsUs": 3000000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 5000000,
+            "ptsUs": 4000000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 6000000,
+            "ptsUs": 5000000,
+            "sampleDurationUs": null
+          }
+        ],
+        "durationUs": 6000000,
+        "membership": {
+          "events": [
+            {
+              "durationUs": 10000,
+              "playbackUs": 0,
+              "sourceFrame": 0
+            }
+          ],
+          "fullyProven": true
+        },
+        "plan": [
+          {
+            "playback": {
+              "endUs": 10000,
+              "startUs": 0
+            },
+            "source": {
+              "endUs": 510000,
+              "startUs": 500000
+            }
+          }
+        ],
+        "segments": [
+          {
+            "assetDurationUs": 6000000,
+            "assetStartUs": 0,
+            "empty": false,
+            "mediaDurationUs": 6000000,
+            "mediaStartUs": 2000000
+          }
+        ],
+        "source": "GENERATED_EVIDENCE/sparse.mov",
+        "writer": {
+          "durationUs": 10000,
+          "file": "GENERATED_EVIDENCE/sparse-held/writer.mp4",
+          "samples": [
+            {
+              "durationUs": null,
+              "ptsUs": 0
+            }
+          ]
+        }
+      },
+      "decoded": {
+        "composition": {
+          "frameCount": 0,
+          "matches": [],
+          "probe": {
+            "frames": [],
+            "format": {
+              "duration": "0.010000"
+            }
+          }
+        },
+        "writer": {
+          "frameCount": 1,
+          "matches": [
+            {
+              "sourceFrame": 0,
+              "meanAbsoluteRgbError": 0.5611921296296296
+            }
+          ],
+          "probe": {
+            "frames": [
+              {
+                "pts_time": "0.000000",
+                "side_data_list": [
+                  {}
+                ]
+              }
+            ],
+            "format": {
+              "duration": "0.010000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "empty-edit",
+      "source": "gap",
+      "plan": [
+        {
+          "source": {
+            "startUs": 50000,
+            "endUs": 60000
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 10000
+          }
+        }
+      ],
+      "ledger": {
+        "composition": {
+          "durationUs": 0,
+          "error": "Export contains no video track"
+        },
+        "cursor": [
+          {
+            "dtsMediaUs": 0,
+            "durationMediaUs": 100000,
+            "ptsAssetUs": 0,
+            "ptsMediaUs": 66667
+          },
+          {
+            "dtsMediaUs": 100000,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 200000,
+            "ptsMediaUs": 233333
+          },
+          {
+            "dtsMediaUs": 133333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 133333,
+            "ptsMediaUs": 166667
+          },
+          {
+            "dtsMediaUs": 166667,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 166667,
+            "ptsMediaUs": 200000
+          },
+          {
+            "dtsMediaUs": 200000,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 266667,
+            "ptsMediaUs": 300000
+          },
+          {
+            "dtsMediaUs": 233333,
+            "durationMediaUs": 33333,
+            "ptsAssetUs": 233333,
+            "ptsMediaUs": 266667
+          }
+        ],
+        "decoded": [
+          {
+            "provenEndUs": 33333,
+            "ptsUs": 0,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": null,
+            "ptsUs": 33333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 166667,
+            "ptsUs": 133333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 200000,
+            "ptsUs": 166667,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 233333,
+            "ptsUs": 200000,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 266667,
+            "ptsUs": 233333,
+            "sampleDurationUs": null
+          },
+          {
+            "provenEndUs": 300000,
+            "ptsUs": 266667,
+            "sampleDurationUs": null
+          }
+        ],
+        "durationUs": 300000,
+        "membership": {
+          "events": [],
+          "fullyProven": false
+        },
+        "plan": [
+          {
+            "playback": {
+              "endUs": 10000,
+              "startUs": 0
+            },
+            "source": {
+              "endUs": 60000,
+              "startUs": 50000
+            }
+          }
+        ],
+        "segments": [
+          {
+            "assetDurationUs": 33333,
+            "assetStartUs": 0,
+            "empty": false,
+            "mediaDurationUs": 33333,
+            "mediaStartUs": 66667
+          },
+          {
+            "assetDurationUs": 100000,
+            "assetStartUs": 33333,
+            "empty": true,
+            "mediaDurationUs": 100000,
+            "mediaStartUs": 0
+          },
+          {
+            "assetDurationUs": 166667,
+            "assetStartUs": 133333,
+            "empty": false,
+            "mediaDurationUs": 166667,
+            "mediaStartUs": 166667
+          }
+        ],
+        "source": "GENERATED_EVIDENCE/gap.mov",
+        "writer": {
+          "unsupported": "Retained time has no proven nonempty sample support"
+        }
+      },
+      "decoded": {
+        "composition": {
+          "unsupported": "Export contains no video track"
+        },
+        "writer": {
+          "unsupported": "Retained time has no proven nonempty sample support"
+        }
+      }
+    }
+  ],
+  "inspection": [
+    {
+      "source": "dense",
+      "operation": "media.frame",
+      "atUs": 15000,
+      "kept": {
+        "startUs": 10000,
+        "endUs": 20000
+      },
+      "result": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "No video sample inside [10000,20000) microseconds of dense.mov.",
+          "retryable": false
+        },
+        "id": "inspection",
+        "ok": false
+      }
+    },
+    {
+      "source": "dense",
+      "operation": "media.visualSamples",
+      "atUs": 15000,
+      "kept": {
+        "startUs": 10000,
+        "endUs": 20000
+      },
+      "result": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "No video sample inside [10000,20000) microseconds of dense.mov.",
+          "retryable": false
+        },
+        "id": "inspection",
+        "ok": false
+      }
+    },
+    {
+      "source": "gap",
+      "operation": "media.frame",
+      "atUs": 50000,
+      "kept": {
+        "startUs": 50000,
+        "endUs": 60000
+      },
+      "result": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "No video sample inside [50000,60000) microseconds of gap.mov.",
+          "retryable": false
+        },
+        "id": "inspection",
+        "ok": false
+      }
+    },
+    {
+      "source": "gap",
+      "operation": "media.visualSamples",
+      "atUs": 50000,
+      "kept": {
+        "startUs": 50000,
+        "endUs": 60000
+      },
+      "result": {
+        "error": {
+          "code": "UNAVAILABLE",
+          "details": {},
+          "message": "No video sample inside [50000,60000) microseconds of gap.mov.",
+          "retryable": false
+        },
+        "id": "inspection",
+        "ok": false
+      }
+    },
+    {
+      "source": "gap",
+      "operation": "media.frame",
+      "atUs": 50000,
+      "kept": {
+        "startUs": 0,
+        "endUs": 300000
+      },
+      "result": {
+        "data": {
+          "actualSourceUs": 0,
+          "bytes": 10742,
+          "distanceUs": 50000,
+          "file": "GENERATED_EVIDENCE/inspection-4.png",
+          "height": 180,
+          "mediaType": "image/png",
+          "requestedSourceUs": 50000,
+          "sourceHeight": 180,
+          "sourceWidth": 320,
+          "width": 320
+        },
+        "id": "inspection",
+        "ok": true
+      }
+    },
+    {
+      "source": "gap",
+      "operation": "media.visualSamples",
+      "atUs": 50000,
+      "kept": {
+        "startUs": 0,
+        "endUs": 300000
+      },
+      "result": {
+        "data": {
+          "samples": [
+            {
+              "actualSourceUs": 0,
+              "distanceUs": 50000,
+              "height": 36,
+              "requestedSourceUs": 50000,
+              "rgbBase64": "9iQA9iQA9iQA9iQA9SQA2SY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA2SY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA2CY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA2CY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv9iQA9iQA9iQA9iQA9SQA1yY4ZC5pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBv2CYy2CYy2CUz1yQz1yQxvShFWS9pIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvYitjYitjYixkYixmYi1lWC9lMjFuIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvISxwISxwIixwJC9xJTFxJDFwIzBwIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIS1yIS1yIS1yIzBwJDFwJDFwIzFwIy9vJS9vJS9wJC9wJC9xJS9xJS9wJC9wJC9vIzBwIzBwIjBvIjBwIjBwIjBwIjBwIjBwIjBvIjBvIjBwIjBwIjBwIjBvIjBvIjBwIjBwIjBvIjBvIjBvIjBvIzBwJC9xJS9xJC9wJC9vIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIjBwIjBwIjBvIjBvIjBvIjBvJS9teH2TeH2Vd36Wd32XOj52eH2Wd36Ud36UJS9xJC9vX2qHdH6YbneUIjBvYWmKN0B3IzBtT1d+T1eAbniSdX+VdX+TdX+TNkB1IjBvIjBvIjBvIjBvIjBwTlaBdXyadn2YJy1wJS5vIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJTBq3eTlt73Ftr7Ftr3GX2OG09netr3Gtr3GjZOlYmmHprG4sbzGrrjDd4CXuL/Ho6e1REh1uLzClZmo0tzetL7FtL7EtL7ETVR/IzBwIjBvIjBvIjBvP0l2nae2sbrHsrrFjpOlJS5vIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJTBp7PHzUlSCUFWCUFSDaGuM0NPbUVSCUVV94enonaOvpKu2TlSAdHqTw8vQzNDXw8bOr7K81tfcpqe06fHyUFV/UFWBUFWBLjR1IzBwIjBvIjBvIjBvYGmGwczUTlOAr7W84+rpJS9uIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJTBq8vj4uL7GuL7HUFSBaGuJ5OnpvsTIub/Fo6m3o6i109rdur7FxsfNztDWztDWaGyI4Onopqi1pai16vHyuL7Htr7HeH+ZJS9wIzBvIjBvIjBvIjBvZWqGy9DXnaCpsbS86/HzJS5tIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJS9q8fX2lpuulZuvQ0l8aGuJ3ODjydDTvcPKKS9wpKi1xMnQl5utqqu5zs/WzdDWZ2yLi5Gnpqi1pai06vDyl5uvlZuwY2mNJS5xIzBwIjBvIjBvIjBvZWqG4eXqpaezRUZ17PDzJi5tIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJi9r7fDzJS9xIzBwJTBwaGyJzdDXY2mKsbfAi5Olpai1pai1IjFtaGyHzdDXzdDWZ2yLKS9upai1pKi06/Hxl5yslpytlZyrQkh6IzBwIjBvIjBvIjBvV1x/yMzTpamwl5ujyMzTJi1yIzBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIzButbzIIy9zIjBwIzBwUFiAnaO1JDBySlF8qbK/foSbfoScIjBsUFh9naOznaOyUVd9JzBuf4Wcf4WbtrzHuL3It73It73HTlR9IzBvIjBvIjBvIjBvKzVzgYehtbzGtbzFSU95Iy9wIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIi9zIi9yIjBwIjBvIjBwIi9zIi9xIjBvIi9uIi9vIi9vIjBtIjBtIi9uJC5sJC5sJTFvJTFvIzBvIC9yHy9zHy9zHy9wITBwIjBwIjBvIjBvIjBvIi9xIy9zHy9xHy5wIC1vIi9wIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIjBvIjBvIjBvIjBwIjBwIjBvIjBvIi9vIi9vIjBvIjBvIi9vIi9vIi9uIzJxIzJxIjBwIC9vIC9vIC9vIC9uITBvIjBvIjBvIjBvIjBvIzBwJDFwIzFwIjBvIS5uIi9vIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIzFwIzFwIjBwIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIzFwIzFwIzBwIi9vIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBuIzBtI0drJXNlJnxkJnxkJnxlJn1lJn1lJn1lJn1lJn1lJn1lIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBuIjBtJXNnNNBXOeJYOeNYOuNaOuVaOuVaOuRbOuVbOuVaOuVaIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIi9yIi9yJn1oOuRWP/hZP/hZP/laQPpbQPpbQPpbQPpbQPpbQPpbIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIi9zIi9zJn1mOuRUP/lXP/lXQPpYQPtZQPtZQPtZQPtZQPtZQPtZIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBwIjBwJn1kOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvIjBvJn1jOuVTQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpYQPpY",
+              "width": 64
+            }
+          ],
+          "sourceHeight": 180,
+          "sourceWidth": 320
+        },
+        "id": "inspection",
+        "ok": true
+      }
+    }
+  ],
+  "playback": {
+    "leading": {
+      "completed": true,
+      "durationSeconds": 3,
+      "events": [
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0,
+          "elapsedSeconds": 1.487502595409751e-05,
+          "itemStatus": 0,
+          "lastAcquiredPresentation": "none acquired",
+          "requestedSeconds": 0,
+          "timeControlStatus": 0
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0,
+          "elapsedSeconds": 0.017228708369657397,
+          "itemStatus": 0,
+          "lastAcquiredPresentation": "none acquired",
+          "requestedSeconds": 0,
+          "timeControlStatus": 0
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0,
+          "elapsedSeconds": 0.03413091669790447,
+          "itemStatus": 0,
+          "lastAcquiredPresentation": "none acquired",
+          "requestedSeconds": 0,
+          "timeControlStatus": 0
+        },
+        {
+          "acquisition": "no-display",
+          "currentSeconds": 0,
+          "displaySeconds": 0,
+          "elapsedSeconds": 0.09112070838455111,
+          "itemStatus": 0,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0,
+          "timeControlStatus": 0
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0,
+          "elapsedSeconds": 0.10834145836997777,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0,
+          "timeControlStatus": 1
+        },
+        {
+          "acquisition": "no-display",
+          "currentSeconds": 0,
+          "displaySeconds": 0,
+          "elapsedSeconds": 0.1255031666951254,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.016291042,
+          "elapsedSeconds": 0.14268904167693108,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.016278417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.033449208,
+          "elapsedSeconds": 0.15984495833981782,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.033434333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.049736625,
+          "elapsedSeconds": 0.176134166715201,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.049723542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.066494667,
+          "elapsedSeconds": 0.19289166666567326,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.066481042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.083272458,
+          "elapsedSeconds": 0.20966795837739483,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.083257333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.100465958,
+          "elapsedSeconds": 0.22685912501765415,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.1004485,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.117718417,
+          "elapsedSeconds": 0.24411229166435078,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.117701667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.134421083,
+          "elapsedSeconds": 0.26082079170737416,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.134410167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.151184333,
+          "elapsedSeconds": 0.2775803333497606,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.151169708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.167874333,
+          "elapsedSeconds": 0.29427458334248513,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.167863958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.185041833,
+          "elapsedSeconds": 0.31143350002821535,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.185022875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.201650958,
+          "elapsedSeconds": 0.3280478333472274,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.201637208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.218799,
+          "elapsedSeconds": 0.3451957916840911,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.218785167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.2349795,
+          "elapsedSeconds": 0.3613763333414681,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.234965708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.252126583,
+          "elapsedSeconds": 0.37852487503550947,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.25211425,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.269280958,
+          "elapsedSeconds": 0.39567908336175606,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.269268458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.285715583,
+          "elapsedSeconds": 0.4121144167147577,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.285703792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.302864583,
+          "elapsedSeconds": 0.42926375003298745,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.302853125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.320056792,
+          "elapsedSeconds": 0.4464490417158231,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.320038417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.337228833,
+          "elapsedSeconds": 0.46362979168770835,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.337219167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.3535825,
+          "elapsedSeconds": 0.47993512504035607,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.3535245,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.370659208,
+          "elapsedSeconds": 0.4970346667105332,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.370624042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.387853292,
+          "elapsedSeconds": 0.5142552916659042,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.387844667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.40448525,
+          "elapsedSeconds": 0.5308766250382178,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.404466,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.420994625,
+          "elapsedSeconds": 0.5473948333528824,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.420984208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.438127292,
+          "elapsedSeconds": 0.5645198750426061,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.43810925,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.455085083,
+          "elapsedSeconds": 0.581477583386004,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.455066958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.472278333,
+          "elapsedSeconds": 0.5986651667044498,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.472254542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.489461667,
+          "elapsedSeconds": 0.6158502083853818,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.489439583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.50663525,
+          "elapsedSeconds": 0.6330283750430681,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.50661775,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.523844792,
+          "elapsedSeconds": 0.6502328750211746,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.52382225,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.5410525,
+          "elapsedSeconds": 0.6674493333557621,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.541038708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.557361292,
+          "elapsedSeconds": 0.6837561667198315,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.557345542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.573563708,
+          "elapsedSeconds": 0.6999605833552778,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.573549958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.590795375,
+          "elapsedSeconds": 0.7171724166837521,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.590761792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.607208583,
+          "elapsedSeconds": 0.7335872916737571,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.607176667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.626366792,
+          "elapsedSeconds": 0.752751458378043,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.626340833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.642641667,
+          "elapsedSeconds": 0.769020416715648,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.642609792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.659493625,
+          "elapsedSeconds": 0.7858905416796915,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.659479917,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.67596675,
+          "elapsedSeconds": 0.802359041699674,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.675948417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.693145708,
+          "elapsedSeconds": 0.8195387500454672,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.693128125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.709503208,
+          "elapsedSeconds": 0.835895458352752,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.709484833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.726679042,
+          "elapsedSeconds": 0.8530760416761041,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.726665417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.743873708,
+          "elapsedSeconds": 0.8702615000074729,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.743850875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.760651458,
+          "elapsedSeconds": 0.8870420416933484,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.760631417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.777861083,
+          "elapsedSeconds": 0.9042452917201445,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.777834667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.794561833,
+          "elapsedSeconds": 0.920938000024762,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.794527375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.811149167,
+          "elapsedSeconds": 0.9375466667115688,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.811136042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.828312458,
+          "elapsedSeconds": 0.9546955833793618,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.828284958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.844637708,
+          "elapsedSeconds": 0.9710352083784528,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.844624583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.861823458,
+          "elapsedSeconds": 0.9882199999992736,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.861809375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.879003042,
+          "elapsedSeconds": 1.0054001666721888,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.878989542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.896234417,
+          "elapsedSeconds": 1.022627625032328,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.896217,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.913480417,
+          "elapsedSeconds": 1.0398589167161845,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.913448292,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.93032975,
+          "elapsedSeconds": 1.0567277500522323,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.930317125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.946692583,
+          "elapsedSeconds": 1.0730846250080504,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.946674,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.963914333,
+          "elapsedSeconds": 1.0903066250029951,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.963896,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.9811205,
+          "elapsedSeconds": 1.1075151250115596,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.9811045,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.997597708,
+          "elapsedSeconds": 1.1239865000243299,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 0.997575875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.014811,
+          "elapsedSeconds": 1.1412050416693091,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.014794417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.031983625,
+          "elapsedSeconds": 1.1583869166788645,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.031976292,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.049178208,
+          "elapsedSeconds": 1.1755678333574906,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.049157208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.066367792,
+          "elapsedSeconds": 1.192767458385788,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.066356833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.083526125,
+          "elapsedSeconds": 1.2099252917105332,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.083514667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.100739875,
+          "elapsedSeconds": 1.2271244166768156,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.100713792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.117909667,
+          "elapsedSeconds": 1.2443099166848697,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.117899292,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.134332417,
+          "elapsedSeconds": 1.2607191250426695,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.1343085,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.1509785,
+          "elapsedSeconds": 1.2773762500146404,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.150965625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.167685875,
+          "elapsedSeconds": 1.2940856250352226,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.167675,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.184135333,
+          "elapsedSeconds": 1.3105137083330192,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.184103083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.200465292,
+          "elapsedSeconds": 1.3268384583643638,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.200427833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.217682417,
+          "elapsedSeconds": 1.3440750417066738,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.217664417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.234603958,
+          "elapsedSeconds": 1.3609676666674204,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.234557042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.251434208,
+          "elapsedSeconds": 1.3778261666884646,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.251415542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.2678445,
+          "elapsedSeconds": 1.3942470000474714,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.267836375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.285118125,
+          "elapsedSeconds": 1.411491458362434,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.285080833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.302396208,
+          "elapsedSeconds": 1.4287753750104457,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.30236475,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.319652375,
+          "elapsedSeconds": 1.4460251250420697,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.3196145,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.336137292,
+          "elapsedSeconds": 1.4625347916735336,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.336124167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.352561292,
+          "elapsedSeconds": 1.4789585417020135,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.352547917,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.369740583,
+          "elapsedSeconds": 1.4961313333478756,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.369720708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.3869275,
+          "elapsedSeconds": 1.5133224583696574,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.386911833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.404118125,
+          "elapsedSeconds": 1.530509083357174,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.404098458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.421338667,
+          "elapsedSeconds": 1.5477268749964423,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.42131625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.437643083,
+          "elapsedSeconds": 1.5640231667202897,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.437612542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.453913542,
+          "elapsedSeconds": 1.5802998750004917,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.45388925,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.471133792,
+          "elapsedSeconds": 1.5975226250011474,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.471112,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.488376083,
+          "elapsedSeconds": 1.6147532917093486,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.488342667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.505468542,
+          "elapsedSeconds": 1.6318547917180695,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.505444167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.522732042,
+          "elapsedSeconds": 1.649110416707117,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.522699792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.539969042,
+          "elapsedSeconds": 1.6663517917040735,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.539941167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.557192542,
+          "elapsedSeconds": 1.6835822083521634,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.557171583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.573899833,
+          "elapsedSeconds": 1.7002802083734423,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.573869583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.590941208,
+          "elapsedSeconds": 1.7173360000015236,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.590925375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.608153292,
+          "elapsedSeconds": 1.7345487083657645,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.608138083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.625115083,
+          "elapsedSeconds": 1.7515132083790377,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.625102583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.642297458,
+          "elapsedSeconds": 1.7686972500523552,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.642286625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.658843167,
+          "elapsedSeconds": 1.785239625023678,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.658829,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.674968458,
+          "elapsedSeconds": 1.8013677917188033,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.674957167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.692125833,
+          "elapsedSeconds": 1.8185294583672658,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.692118833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.708886125,
+          "elapsedSeconds": 1.83527229167521,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.708861667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.726110542,
+          "elapsedSeconds": 1.8525060417014174,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.726095417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.743302542,
+          "elapsedSeconds": 1.8696979166707024,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.743287292,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.760490333,
+          "elapsedSeconds": 1.8868915417115204,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.760480917,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.777454208,
+          "elapsedSeconds": 1.9038457917049527,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.777435167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.7940695,
+          "elapsedSeconds": 1.9204611250315793,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.7940505,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.811267333,
+          "elapsedSeconds": 1.9376642917050049,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.811253667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.828512042,
+          "elapsedSeconds": 1.9548905833507888,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.828479958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.845072542,
+          "elapsedSeconds": 1.9714705833466724,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.845059958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.862004667,
+          "elapsedSeconds": 1.988388208381366,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.861977583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.879244333,
+          "elapsedSeconds": 2.0056389166857116,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.879228292,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.89645325,
+          "elapsedSeconds": 2.022854000038933,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.896443375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.913672208,
+          "elapsedSeconds": 2.0400643333559856,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.913653708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.930882083,
+          "elapsedSeconds": 2.057278791675344,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.930868167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.947021417,
+          "elapsedSeconds": 2.0734164167079143,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.947005792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.964237417,
+          "elapsedSeconds": 2.0906291666906327,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.964218542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.980347,
+          "elapsedSeconds": 2.1067447916720994,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.980334167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.996705875,
+          "elapsedSeconds": 2.123094500042498,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.996683875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "image",
+          "currentSeconds": 2.013918583,
+          "displaySeconds": 2,
+          "elapsedSeconds": 2.140315124997869,
+          "image": "presentation-0.png",
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.0139045,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.046450167,
+          "elapsedSeconds": 2.172847416717559,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.046436792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.063637042,
+          "elapsedSeconds": 2.1900364583707415,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.063625833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.0808295,
+          "elapsedSeconds": 2.207224625046365,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.080814,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.097153,
+          "elapsedSeconds": 2.223553208343219,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.097142583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.11392275,
+          "elapsedSeconds": 2.2403207500465214,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.113910125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.130338667,
+          "elapsedSeconds": 2.256733541667927,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.130322917,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.146504458,
+          "elapsedSeconds": 2.272906750033144,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.146496125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.163181167,
+          "elapsedSeconds": 2.2895744167035446,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.163163792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.180365333,
+          "elapsedSeconds": 2.3067676667124033,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.180357042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.197569625,
+          "elapsedSeconds": 2.323966875032056,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.19755625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.214781333,
+          "elapsedSeconds": 2.341172708373051,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.214762083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.231452417,
+          "elapsedSeconds": 2.357848333369475,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.231437708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.248662958,
+          "elapsedSeconds": 2.37505816668272,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.248647542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.264764583,
+          "elapsedSeconds": 2.3911660000449046,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.264755375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.282010375,
+          "elapsedSeconds": 2.408378416672349,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.281967792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.298303083,
+          "elapsedSeconds": 2.4246841249987483,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.2982735,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.314694667,
+          "elapsedSeconds": 2.441070666711312,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.314660042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.331390167,
+          "elapsedSeconds": 2.4577791666961275,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.331368542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.348588792,
+          "elapsedSeconds": 2.4749851666856557,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.348574542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.364825958,
+          "elapsedSeconds": 2.491192666697316,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.364782042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.3812935,
+          "elapsedSeconds": 2.507675666711293,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.381265042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.398520333,
+          "elapsedSeconds": 2.5249130416777916,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.398502417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.415745042,
+          "elapsedSeconds": 2.542141708370764,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.415731083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.432845125,
+          "elapsedSeconds": 2.5592410417157225,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.432830417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.450016042,
+          "elapsedSeconds": 2.5764141250401735,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.4500035,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.466279458,
+          "elapsedSeconds": 2.5926769166835584,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.466266292,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.483446875,
+          "elapsedSeconds": 2.609847666695714,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.483437042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.500645292,
+          "elapsedSeconds": 2.627044416673016,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.500633792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.517830833,
+          "elapsedSeconds": 2.64422383334022,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.517813208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.534760833,
+          "elapsedSeconds": 2.6611256666947156,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.534715042,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.551245833,
+          "elapsedSeconds": 2.677632416714914,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.551221792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.56846675,
+          "elapsedSeconds": 2.694855791691225,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.568445167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.585662792,
+          "elapsedSeconds": 2.712059041718021,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.585648417,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.602149667,
+          "elapsedSeconds": 2.7285450833733194,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.602134458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.619304625,
+          "elapsedSeconds": 2.7457044583861716,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.619293833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.636505708,
+          "elapsedSeconds": 2.7628975000116043,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.636486875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.653690458,
+          "elapsedSeconds": 2.78008612501435,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.6536755,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.670887083,
+          "elapsedSeconds": 2.797287708381191,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.670877083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.688062,
+          "elapsedSeconds": 2.8144602917018346,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.688049667,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.705224125,
+          "elapsedSeconds": 2.8316272500087507,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.705216625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.721363208,
+          "elapsedSeconds": 2.8477497916901484,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.721339167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.738609625,
+          "elapsedSeconds": 2.864992708375212,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.738582083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.755908292,
+          "elapsedSeconds": 2.882303958351258,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.755893333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.773152542,
+          "elapsedSeconds": 2.899537166696973,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.773126542,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.789931542,
+          "elapsedSeconds": 2.91633254167391,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.789921917,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.807149333,
+          "elapsedSeconds": 2.93354620836908,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.807135583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.824311708,
+          "elapsedSeconds": 2.95071454171557,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.824303917,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.841473792,
+          "elapsedSeconds": 2.967870208376553,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.841459583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.858683042,
+          "elapsedSeconds": 2.9850598750053905,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.85864925,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.875221708,
+          "elapsedSeconds": 3.0016202499973588,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.875209625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.892349458,
+          "elapsedSeconds": 3.0187494166893885,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.892338792,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.90951125,
+          "elapsedSeconds": 3.0359071250422858,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.9094965,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.9261855,
+          "elapsedSeconds": 3.052587208338082,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.926176583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.943343542,
+          "elapsedSeconds": 3.069745791668538,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.943335167,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.959952333,
+          "elapsedSeconds": 3.086342499998864,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.959931875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.976146208,
+          "elapsedSeconds": 3.1025405833497643,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.976129958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.993359958,
+          "elapsedSeconds": 3.1197557499981485,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 2.993345125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3,
+          "elapsedSeconds": 3.136951583379414,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 3,
+          "timeControlStatus": 0
+        }
+      ],
+      "imagesAcquired": 1,
+      "observation": "AVPlayerItemVideoOutput on running host clock; no AVPlayerLayer pixel claim",
+      "segments": [
+        {
+          "durationSeconds": 2,
+          "empty": true,
+          "startSeconds": 0
+        },
+        {
+          "durationSeconds": 1,
+          "empty": false,
+          "startSeconds": 2
+        }
+      ],
+      "source": "gap-leading.mov",
+      "sourceSha256": "6224a9be5411a68a9b5656eba4e81eb1821cd37deeefd8325ced4496ec747c87",
+      "imageMatches": [
+        {
+          "image": "presentation-0.png",
+          "sourceFrame": 1,
+          "meanAbsoluteRgbError": 9.038252314814814
+        }
+      ]
+    },
+    "internal": {
+      "completed": true,
+      "durationSeconds": 4,
+      "events": [
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0,
+          "elapsedSeconds": 9.583309292793274e-06,
+          "itemStatus": 0,
+          "lastAcquiredPresentation": "none acquired",
+          "requestedSeconds": 0,
+          "timeControlStatus": 0
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0,
+          "elapsedSeconds": 0.01693683332996443,
+          "itemStatus": 0,
+          "lastAcquiredPresentation": "none acquired",
+          "requestedSeconds": 0,
+          "timeControlStatus": 0
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0,
+          "elapsedSeconds": 0.07193450001068413,
+          "itemStatus": 0,
+          "lastAcquiredPresentation": "none acquired",
+          "requestedSeconds": 0,
+          "timeControlStatus": 0
+        },
+        {
+          "acquisition": "image",
+          "currentSeconds": 0,
+          "displaySeconds": 0,
+          "elapsedSeconds": 0.08819524996215478,
+          "image": "presentation-0.png",
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0,
+          "timeControlStatus": 1
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.022071666,
+          "elapsedSeconds": 0.11224074999336153,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.022058416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.039309333,
+          "elapsedSeconds": 0.12946279166499153,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.039280458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.055765666,
+          "elapsedSeconds": 0.14593145833350718,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.055749125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.073032125,
+          "elapsedSeconds": 0.1631890833377838,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.07300675,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.089715333,
+          "elapsedSeconds": 0.17988062498625368,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.089698291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.105948083,
+          "elapsedSeconds": 0.19611899997107685,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.105936666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.122600916,
+          "elapsedSeconds": 0.2127724583260715,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.122590125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.138966041,
+          "elapsedSeconds": 0.22913154162233695,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.138949208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.155900083,
+          "elapsedSeconds": 0.2460730416350998,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.155890708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.1731085,
+          "elapsedSeconds": 0.26327954162843525,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.173097208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.190367,
+          "elapsedSeconds": 0.2805335833108984,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.19035125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.207540333,
+          "elapsedSeconds": 0.2977072916692123,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.207524958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.224324791,
+          "elapsedSeconds": 0.31447908328846097,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.22429675,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.24051,
+          "elapsedSeconds": 0.3306817082921043,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.240499375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.25663125,
+          "elapsedSeconds": 0.3468008333002217,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.2566185,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.273810958,
+          "elapsedSeconds": 0.3639773749746382,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.273795041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.291004041,
+          "elapsedSeconds": 0.3811694583273493,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.290987125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.307743833,
+          "elapsedSeconds": 0.3979119583382271,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.307729625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.324927458,
+          "elapsedSeconds": 0.4150973749929108,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.324915041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.342150333,
+          "elapsedSeconds": 0.43231495830696076,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.342132625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.3593255,
+          "elapsedSeconds": 0.4494957916322164,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.359313458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.376581583,
+          "elapsedSeconds": 0.46673920832108706,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.376556875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.393506333,
+          "elapsedSeconds": 0.4836657499545254,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.393483416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.410688166,
+          "elapsedSeconds": 0.5008540416602045,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.410671708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.427778083,
+          "elapsedSeconds": 0.5179471666342579,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.427764833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.444965833,
+          "elapsedSeconds": 0.5351276666624472,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.444945333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.462170666,
+          "elapsedSeconds": 0.5523373333271593,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.462155,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.479377791,
+          "elapsedSeconds": 0.569518624979537,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.479336291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.496122291,
+          "elapsedSeconds": 0.5862892916775309,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.496106958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.5127165,
+          "elapsedSeconds": 0.602883749990724,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.512701416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.529890583,
+          "elapsedSeconds": 0.6200554166571237,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.529873083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.547071916,
+          "elapsedSeconds": 0.6372398333041929,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.5470575,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.564199375,
+          "elapsedSeconds": 0.6543635416310281,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.564181208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.581025791,
+          "elapsedSeconds": 0.6711956666549668,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.581013333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.598300333,
+          "elapsedSeconds": 0.6884366250014864,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.598254291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.615090083,
+          "elapsedSeconds": 0.705259499954991,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.615077166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.632193291,
+          "elapsedSeconds": 0.7223617082927376,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.632179375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.649354916,
+          "elapsedSeconds": 0.7395254999864846,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.649343166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.6661635,
+          "elapsedSeconds": 0.756332624994684,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.666150291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.683330375,
+          "elapsedSeconds": 0.7734994166530669,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.683317083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.700499125,
+          "elapsedSeconds": 0.790668708330486,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.700486375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.71686,
+          "elapsedSeconds": 0.8070309166214429,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.716848583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.733241666,
+          "elapsedSeconds": 0.823408666648902,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.733226333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.750414666,
+          "elapsedSeconds": 0.8405849583214149,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.750402625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.767631166,
+          "elapsedSeconds": 0.8577879166696221,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.767605583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.78484675,
+          "elapsedSeconds": 0.8750122916535474,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.784829958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.802016875,
+          "elapsedSeconds": 0.8921879166737199,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.802005583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.819186,
+          "elapsedSeconds": 0.9093561249901541,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.819173791,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.836256541,
+          "elapsedSeconds": 0.926421208307147,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.836238875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.853424375,
+          "elapsedSeconds": 0.9435944583383389,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.853412125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.870645208,
+          "elapsedSeconds": 0.9608131249551661,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.870630791,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.887862458,
+          "elapsedSeconds": 0.9780276250094175,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.887845291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.905083333,
+          "elapsedSeconds": 0.9952500833314843,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.90506775,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.922279125,
+          "elapsedSeconds": 1.0124465000117198,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.922264166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.938516166,
+          "elapsedSeconds": 1.0286878749611787,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.938505541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.955711833,
+          "elapsedSeconds": 1.0458803332876414,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.955698,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.972911833,
+          "elapsedSeconds": 1.0630740833003074,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.97289175,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 0.989251458,
+          "elapsedSeconds": 1.079423124960158,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-0.png",
+          "requestedSeconds": 0.989240791,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-display",
+          "currentSeconds": 1.006062541,
+          "displaySeconds": 1,
+          "elapsedSeconds": 1.0962345832958817,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.00605225,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.023258291,
+          "elapsedSeconds": 1.1134344166493975,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.023252083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.040250958,
+          "elapsedSeconds": 1.130415791645646,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.040233458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.057443541,
+          "elapsedSeconds": 1.147616999980528,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.057434666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.074624333,
+          "elapsedSeconds": 1.1647982083377428,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.074615875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.091829875,
+          "elapsedSeconds": 1.1819978333078325,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.0918155,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.109015083,
+          "elapsedSeconds": 1.1991882916772738,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.109005958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.126232291,
+          "elapsedSeconds": 1.2163966249790974,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.126214291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.143433333,
+          "elapsedSeconds": 1.2336047916323878,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.143422458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.159776291,
+          "elapsedSeconds": 1.2499527499894612,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.159770416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.17694125,
+          "elapsedSeconds": 1.2671100833103992,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.17692775,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.194102916,
+          "elapsedSeconds": 1.284273833327461,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.1940915,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.211274291,
+          "elapsedSeconds": 1.301445374963805,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.211263041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.228352041,
+          "elapsedSeconds": 1.3185145416646264,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.228332208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.245041916,
+          "elapsedSeconds": 1.3351944999885745,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.245012166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.261538833,
+          "elapsedSeconds": 1.3517002916778438,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.261517958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.278778583,
+          "elapsedSeconds": 1.3689254999626428,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.278743166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.29505475,
+          "elapsedSeconds": 1.3852121249656193,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.295029791,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.311541041,
+          "elapsedSeconds": 1.4017033749842085,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.311521041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.327841416,
+          "elapsedSeconds": 1.418000999954529,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.327818666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.344383833,
+          "elapsedSeconds": 1.434542833303567,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.3443605,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.361599583,
+          "elapsedSeconds": 1.4517551666358486,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.361572833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.378371291,
+          "elapsedSeconds": 1.4685374166583642,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.378355083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.395032666,
+          "elapsedSeconds": 1.4852019166573882,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.395019583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.411543708,
+          "elapsedSeconds": 1.5017152082873508,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.411532875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.428927833,
+          "elapsedSeconds": 1.5190511249820702,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.428868791,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.446284958,
+          "elapsedSeconds": 1.5364345833077095,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.44625225,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.463650583,
+          "elapsedSeconds": 1.5537962499656714,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.463613916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.480865125,
+          "elapsedSeconds": 1.5710348333232105,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.4808525,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.498051625,
+          "elapsedSeconds": 1.5882170000113547,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.498034666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.514222791,
+          "elapsedSeconds": 1.6043902916717343,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.514207958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.530914916,
+          "elapsedSeconds": 1.6210819999687374,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.530899666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.548129041,
+          "elapsedSeconds": 1.638295916665811,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.548113583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.565324916,
+          "elapsedSeconds": 1.6554892499698326,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.565306916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.582512125,
+          "elapsedSeconds": 1.672677249996923,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.582494916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.599724833,
+          "elapsedSeconds": 1.6898935833014548,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.59971125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.616197541,
+          "elapsedSeconds": 1.7063653332879767,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.616183,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.633374041,
+          "elapsedSeconds": 1.7235466666752473,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.633364333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.650578291,
+          "elapsedSeconds": 1.7407548750052229,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.650572541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.667287291,
+          "elapsedSeconds": 1.7574610832962207,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.66727875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.684474208,
+          "elapsedSeconds": 1.7746492499718443,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.684466916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.701646125,
+          "elapsedSeconds": 1.7918147083255462,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.701632375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.718276083,
+          "elapsedSeconds": 1.808431749988813,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.718249416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.735503,
+          "elapsedSeconds": 1.8256652083364315,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.735482875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.751906,
+          "elapsedSeconds": 1.842049083323218,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.75186675,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.768736625,
+          "elapsedSeconds": 1.8588760833372362,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.76869375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.785937416,
+          "elapsedSeconds": 1.8761057916563004,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.785923458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.803154958,
+          "elapsedSeconds": 1.8933227499946952,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.803140416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.820321083,
+          "elapsedSeconds": 1.9104907916625962,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.820308458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.836521291,
+          "elapsedSeconds": 1.9266894583124667,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.836507125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.853692666,
+          "elapsedSeconds": 1.9438634166726843,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.853681083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.87087825,
+          "elapsedSeconds": 1.9610416666255333,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.870859333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.887610625,
+          "elapsedSeconds": 1.9777845416683704,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.887602208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.904020666,
+          "elapsedSeconds": 1.9941966249607503,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.904014291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.921203625,
+          "elapsedSeconds": 2.0113741666427813,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.921191833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.938385416,
+          "elapsedSeconds": 2.028559583297465,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.93837725,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.955554666,
+          "elapsedSeconds": 2.0457239166717045,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.955541583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.972345833,
+          "elapsedSeconds": 2.0625210416619666,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.972338708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 1.989551541,
+          "elapsedSeconds": 2.079713416635059,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 1.989531083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.006020541,
+          "elapsedSeconds": 2.096179708314594,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.005997375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.023236666,
+          "elapsedSeconds": 2.113396750006359,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.023214416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.039688583,
+          "elapsedSeconds": 2.1298505416489206,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.039668208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.056564916,
+          "elapsedSeconds": 2.146732291672379,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.056549958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.073778958,
+          "elapsedSeconds": 2.1639423749875277,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.073760041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.090535291,
+          "elapsedSeconds": 2.1806990833138116,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.09051675,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.107739666,
+          "elapsedSeconds": 2.1979074999690056,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.107725166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.12398075,
+          "elapsedSeconds": 2.214150708343368,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.123968375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.141164625,
+          "elapsedSeconds": 2.231337708304636,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.141155375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.157895666,
+          "elapsedSeconds": 2.2480386666720733,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.157856333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.175135416,
+          "elapsedSeconds": 2.265301499981433,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.175119166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.191674083,
+          "elapsedSeconds": 2.281842541648075,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.191660208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.207949,
+          "elapsedSeconds": 2.2981130832922645,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.20793075,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.224296666,
+          "elapsedSeconds": 2.3144617916550487,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.224279458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.24164325,
+          "elapsedSeconds": 2.3317867083242163,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.241604375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.258863833,
+          "elapsedSeconds": 2.349031583289616,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.25884925,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.276072083,
+          "elapsedSeconds": 2.3662323332973756,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.27605,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.292762916,
+          "elapsedSeconds": 2.382932125008665,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.292749791,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.309612541,
+          "elapsedSeconds": 2.3997813333407976,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.309599,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.32583575,
+          "elapsedSeconds": 2.415978708304465,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.325796375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.342449125,
+          "elapsedSeconds": 2.43260820832802,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.342425875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.358886083,
+          "elapsedSeconds": 2.4490566249587573,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.358874291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.376119666,
+          "elapsedSeconds": 2.4662727916729636,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.376090458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.392908125,
+          "elapsedSeconds": 2.4830805416568182,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.392898208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.410109,
+          "elapsedSeconds": 2.50026445830008,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.410082125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.426992916,
+          "elapsedSeconds": 2.5171514583053067,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.426969125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.444209875,
+          "elapsedSeconds": 2.5343647499685176,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.444182416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.461463958,
+          "elapsedSeconds": 2.5516290416708216,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.461446708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.478655166,
+          "elapsedSeconds": 2.568821458320599,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.478639125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.496534083,
+          "elapsedSeconds": 2.586704083310906,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.49652175,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.512759791,
+          "elapsedSeconds": 2.602924083301332,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.51274175,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.529245875,
+          "elapsedSeconds": 2.6194196666474454,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.529237333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.545855375,
+          "elapsedSeconds": 2.636021208309103,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.545838875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.563072666,
+          "elapsedSeconds": 2.653227541653905,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.563045208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.580149583,
+          "elapsedSeconds": 2.6703089583315887,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.580126625,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.596490125,
+          "elapsedSeconds": 2.6866463749902323,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.596464041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.613723916,
+          "elapsedSeconds": 2.703876208339352,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.613693875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.62996475,
+          "elapsedSeconds": 2.7201292499667034,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.629946916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.647167291,
+          "elapsedSeconds": 2.737327708338853,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.647145375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.664427625,
+          "elapsedSeconds": 2.754578166641295,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.664395833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.681673083,
+          "elapsedSeconds": 2.771825500007253,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.681643166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.698974125,
+          "elapsedSeconds": 2.7890940416255035,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.698911708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.715300375,
+          "elapsedSeconds": 2.805455749970861,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.715273416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.731676708,
+          "elapsedSeconds": 2.821832749992609,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.731650416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.748615333,
+          "elapsedSeconds": 2.8387600833084434,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.74857775,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.765195875,
+          "elapsedSeconds": 2.8553492083447054,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.765166875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.782470458,
+          "elapsedSeconds": 2.872617666667793,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.782435333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.7997115,
+          "elapsedSeconds": 2.889867374964524,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.799685041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.816943416,
+          "elapsedSeconds": 2.9071093749953434,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.816927041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.833242291,
+          "elapsedSeconds": 2.9233966666506603,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.833214333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.850473,
+          "elapsedSeconds": 2.940645583323203,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.85046325,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.867631333,
+          "elapsedSeconds": 2.9578051666612737,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.867622833,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.884794,
+          "elapsedSeconds": 2.9749653749749996,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.884783041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.901965125,
+          "elapsedSeconds": 2.9921346666524187,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.901952333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.919132,
+          "elapsedSeconds": 3.009301583340857,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.91911925,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.935481416,
+          "elapsedSeconds": 3.0256548749748617,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.935472541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.9526415,
+          "elapsedSeconds": 3.0428099999553524,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.952627666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.969818666,
+          "elapsedSeconds": 3.059988083317876,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.96980575,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 2.986494541,
+          "elapsedSeconds": 3.0766638333443552,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "explicit no-display reference",
+          "requestedSeconds": 2.9864815,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "image",
+          "currentSeconds": 3.00366675,
+          "displaySeconds": 3,
+          "elapsedSeconds": 3.0938360416330397,
+          "image": "presentation-1.png",
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.003653708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.028563,
+          "elapsedSeconds": 3.1187264583422802,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.028544125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.045982166,
+          "elapsedSeconds": 3.1361307083279826,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.045948375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.063309791,
+          "elapsedSeconds": 3.153453624981921,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.063271291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.080609,
+          "elapsedSeconds": 3.170757333340589,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.080575,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.097902458,
+          "elapsedSeconds": 3.1880524166626856,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.097870083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.114849458,
+          "elapsedSeconds": 3.2050032499828376,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.114820916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.132098541,
+          "elapsedSeconds": 3.2222517500049435,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.132069416,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.149368083,
+          "elapsedSeconds": 3.239518083340954,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.14933575,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.165679416,
+          "elapsedSeconds": 3.255832083290443,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.16564975,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.182360083,
+          "elapsedSeconds": 3.2725083333207294,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.182326,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.19904825,
+          "elapsedSeconds": 3.2892019999562763,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.199019666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.216008708,
+          "elapsedSeconds": 3.3061580833164044,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.21597575,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.233245041,
+          "elapsedSeconds": 3.3234027916332707,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.233220458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.250469791,
+          "elapsedSeconds": 3.3406304999953136,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.250448166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.267430583,
+          "elapsedSeconds": 3.357594874978531,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.267412541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.284223875,
+          "elapsedSeconds": 3.3743816666537896,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.284199333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.300903875,
+          "elapsedSeconds": 3.391067541670054,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.300885208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.317906583,
+          "elapsedSeconds": 3.408075708313845,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.317893375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.334745166,
+          "elapsedSeconds": 3.424916249990929,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.334733916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.3519125,
+          "elapsedSeconds": 3.4420816666679457,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.351899333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.369094708,
+          "elapsedSeconds": 3.459259875002317,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.369077541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.38607725,
+          "elapsedSeconds": 3.476232541666832,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.386050208,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.403150416,
+          "elapsedSeconds": 3.493309708312154,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.403127375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.420324791,
+          "elapsedSeconds": 3.5104950832901523,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.42031275,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.436535666,
+          "elapsedSeconds": 3.5267008749651723,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.436518541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.453203375,
+          "elapsedSeconds": 3.543367374979425,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.453185041,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.469836416,
+          "elapsedSeconds": 3.5600029999623075,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.469820666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.486492416,
+          "elapsedSeconds": 3.576653875003103,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.486471541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.503692958,
+          "elapsedSeconds": 3.5938557916670106,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.503673458,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.5209705,
+          "elapsedSeconds": 3.611093499988783,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.520911166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.537640916,
+          "elapsedSeconds": 3.627802916627843,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.537620583,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.554836875,
+          "elapsedSeconds": 3.644998666655738,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.554816333,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.571487166,
+          "elapsedSeconds": 3.6616358750034124,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.571453541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.588711,
+          "elapsedSeconds": 3.6788768332917243,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.5886945,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.605824166,
+          "elapsedSeconds": 3.695973999972921,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.605791666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.623061041,
+          "elapsedSeconds": 3.713225291634444,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.623042958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.639948625,
+          "elapsedSeconds": 3.730096291634254,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.639913958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.657046333,
+          "elapsedSeconds": 3.747207708307542,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.657025375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.673511916,
+          "elapsedSeconds": 3.7636762500042096,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.673493916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.690629875,
+          "elapsedSeconds": 3.7807967083062977,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.690614375,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.707808708,
+          "elapsedSeconds": 3.797971499967389,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.707789166,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.724274458,
+          "elapsedSeconds": 3.8144350000075065,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.724252666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.74061,
+          "elapsedSeconds": 3.830772041634191,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.740589708,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.757668791,
+          "elapsedSeconds": 3.847830416634679,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.757648083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.77486375,
+          "elapsedSeconds": 3.8650212499778718,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.774838916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.792020375,
+          "elapsedSeconds": 3.8821792083326727,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.791996875,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.80920875,
+          "elapsedSeconds": 3.8993701249710284,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.809187791,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.826331791,
+          "elapsedSeconds": 3.916498458303977,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.826316125,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.843534,
+          "elapsedSeconds": 3.9336941249785013,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.843511791,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.859739083,
+          "elapsedSeconds": 3.9499028749996796,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.859720541,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.87692175,
+          "elapsedSeconds": 3.96708529163152,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.876902958,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.893069833,
+          "elapsedSeconds": 3.9832305833115242,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.89304825,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.9102475,
+          "elapsedSeconds": 4.000413624977227,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.910231291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.927403208,
+          "elapsedSeconds": 4.017571249976754,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.927388916,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.944271583,
+          "elapsedSeconds": 4.0344366249628365,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.944254291,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.961431208,
+          "elapsedSeconds": 4.051601999963168,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.961419666,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.978573833,
+          "elapsedSeconds": 4.06874341663206,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.978561083,
+          "timeControlStatus": 2
+        },
+        {
+          "acquisition": "no-new-reference",
+          "currentSeconds": 3.995793208,
+          "elapsedSeconds": 4.0859158333041705,
+          "itemStatus": 1,
+          "lastAcquiredPresentation": "presentation-1.png",
+          "requestedSeconds": 3.9957335,
+          "timeControlStatus": 2
+        }
+      ],
+      "imagesAcquired": 2,
+      "observation": "AVPlayerItemVideoOutput on running host clock; no AVPlayerLayer pixel claim",
+      "segments": [
+        {
+          "durationSeconds": 1,
+          "empty": false,
+          "startSeconds": 0
+        },
+        {
+          "durationSeconds": 2,
+          "empty": true,
+          "startSeconds": 1
+        },
+        {
+          "durationSeconds": 1,
+          "empty": false,
+          "startSeconds": 3
+        }
+      ],
+      "source": "gap-internal.mov",
+      "sourceSha256": "7af168ac2cca66aa023c2a9cc02a327e716a0cf1e5c2502c89badf8136035793",
+      "imageMatches": [
+        {
+          "image": "presentation-0.png",
+          "sourceFrame": 0,
+          "meanAbsoluteRgbError": 8.672887731481481
+        },
+        {
+          "image": "presentation-1.png",
+          "sourceFrame": 1,
+          "meanAbsoluteRgbError": 9.038252314814814
+        }
+      ]
+    }
+  }
+}

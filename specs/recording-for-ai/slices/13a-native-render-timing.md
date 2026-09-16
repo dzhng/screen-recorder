@@ -1,6 +1,6 @@
 # 13a — Native render timing feasibility
 
-Status: first membership feasibility checkpoint measured; product renderer and full
+Status: membership and player-output gap checkpoints measured; product renderer and full
 gate remain unimplemented. Dependency: the implemented core timeline/render
 plan and native media worker seams. Independent of speech readiness and completion
 of the CLI/MCP journey. Parent [13](13-edited-media.md) remains open.
@@ -10,9 +10,11 @@ of the CLI/MCP journey. Parent [13](13-edited-media.md) remains open.
 [The first bounded probe](../assets/render-membership/review.md) establishes
 nonempty held-frame membership for dense/reordered and sparse generated sources.
 Timestamped writer outputs preserve the measured sub-frame intervals; the tested
-composition export does not pass independent decoding. A true empty edit exposes
-unresolved presentation semantics, so the next measurement must settle gap playback
-before a movie membership rule is finalized. Existing still-image inspection
+composition export does not pass independent decoding. The follow-up running-player probe
+observes explicit no-display references across both leading and internal empty
+edits; a raw decoder's duplicate frame is not a presentation rule. AVPlayerLayer
+background appearance and the production empty-edit render policy remain undecided.
+The next pass must choose that contract explicitly before implementing gap output. Existing still-image inspection
 continues to reject gap-only/no-PTS kept intervals and needs no change on this evidence.
 
 The reproducible optional fixture is `node helpers/mac/Tests/render-membership.mjs`.

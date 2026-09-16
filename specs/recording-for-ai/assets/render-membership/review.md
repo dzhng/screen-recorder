@@ -89,11 +89,58 @@ finding is recorded in [visual-review.txt](visual-review.txt).
 The short [two-span writer fixture](dense-two-spans/writer.mp4) is retained for
 inspection. Static images cannot certify its timing; the ledger and independent
 decode are the timing evidence. Human Preview presentation remains for the broader
-13a review, after the unrelated native benchmark finishes.
+13a review.
 
 Code review found that the harness replaced a source's decode-cache marker between
 cases. The marker now survives reuse. Static follow-up review, syntax and lint are
-clean; the amended driver has not been rerun during the index benchmark. The
-recorded native measurements precede this orchestration correction. Repeat the
-optional command after that benchmark before treating the latest driver as a
-reverified executable gate.
+clean. The original measurements above predate that orchestration correction;
+the follow-up below reran the corrected driver after the independent benchmark
+ended and reproduced the membership results.
+
+### Running-player gap observation
+
+The corrected membership driver and optional playback probe completed successfully
+on generated media. The prior frame identities, 10/20 ms writer durations and
+composition decoder limitations reproduced. The new [raw rerun report](playback/rerun-report.json)
+and per-case acquisition ledgers preserve the observations.
+
+Two-second empty edits survived passthrough export in both cases:
+
+- **Leading gap [0,2)s:** AVPlayerItemVideoOutput acquired a nil no-display
+  reference at display time 0, then FRAME 1 at display time 2s.
+- **Internal gap [1,3)s:** it acquired FRAME 0 at display time 0, a nil
+  no-display reference at display time 1s, then FRAME 1 at display time 3s.
+
+During each gap's interior the running player produced no new reference and the
+last acquired reference remained the explicit no-display state. The internal-gap
+clear was observed within one 16ms polling interval after 1s with display timestamp exactly 1s;
+this is a polling observation, not a measurement of vsync precision. Saved PNGs
+are the actual acquired buffers, not fabricated black gap images.
+
+This resolves the earlier ambiguity at the **player output** boundary: the raw
+reader's duplicate FRAME 0 inside an empty edit does not imply that the player
+presents that image. Apple's
+[copyPixelBuffer contract](https://developer.apple.com/documentation/avfoundation/avplayeritemvideooutput/copypixelbuffer(foritemtime:itemtimefordisplay:))
+and installed AVPlayerItemOutput.h example distinguish a newly acquired nil
+reference from an absence of new data. The former communicates nothing to display.
+The probe does not observe AVPlayerLayer's final screen compositing or establish
+whether a particular player background appears black or transparent. No production
+fill policy or renderer contract is selected by this checkpoint.
+
+Reproduce after building core with
+`SCREENREC_RENDER_PLAYBACK=1 node helpers/mac/Tests/render-membership.mjs`.
+The observer bounds runtime to 15 seconds and saved images to 128, uses a muted
+player on generated sources, verifies source hashes, and rejects normalized-away
+gaps. The full 13a rendering gates remain open.
+
+
+Three full driver executions finished successfully. The final two assert the
+observed no-display transitions, checks gap interiors, and independently matches
+all acquired PNGs to generated frame identities (RGB MAE 8.67–9.04/255). That
+metric verifies identity with conversion tolerance, not exact color equivalence.
+The independent static Codex review found no actionable defects and confirmed the
+SDK interpretation; no production files were changed.
+
+A deliberate probe mutation that kept the prior presentation state after a nil
+acquisition failed the gap-interior assertion. It was restored before the final
+green run. Focused JavaScript lint and format checks also pass.

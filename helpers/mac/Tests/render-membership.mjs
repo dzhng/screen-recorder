@@ -231,6 +231,87 @@ for (const [sourceName, atUs, kept] of [
     report.inspection.push({ source: sourceName, operation, atUs, kept, result });
   }
 }
+// Opt in after the short membership gate: real-time playback needs an idle host.
+if (process.env.SCREENREC_RENDER_PLAYBACK === "1") {
+  run("swiftc", [
+    "-parse-as-library",
+    join(import.meta.dirname, "RenderMembership/playback.swift"),
+    "-o",
+    join(out, "playback-probe"),
+  ]);
+  report.playback = {};
+  for (const kind of ["leading", "internal"]) {
+    const source = join(out, `gap-${kind}.mov`);
+    const destination = join(out, `playback-${kind}`);
+    run(join(out, "gap-maker"), [join(out, "sparse.mov"), source, kind]);
+    const before = hash(await readFile(source));
+    run(join(out, "playback-probe"), [source, destination]);
+    assert.equal(hash(await readFile(source)), before);
+    report.playback[kind] = JSON.parse(await readFile(join(destination, "playback.json"), "utf8"));
+    assert.ok(
+      report.playback[kind].segments.some(
+        (segment) => segment.empty && segment.durationSeconds >= 1.9,
+      ),
+      "Export must retain the long empty edit",
+    );
+    const observation = report.playback[kind];
+    observation.sourceSha256 = before;
+    const gapStart = kind === "leading" ? 0 : 1;
+    const gapEnd = gapStart + 2;
+    assert.ok(
+      observation.events.some(
+        (event) =>
+          event.itemStatus === 1 &&
+          event.acquisition === "no-display" &&
+          event.displaySeconds === gapStart,
+      ),
+      "Running player must explicitly clear presentation at the gap",
+    );
+    const middle = observation.events.filter(
+      (event) => event.currentSeconds > gapStart + 0.5 && event.currentSeconds < gapEnd - 0.5,
+    );
+    assert.ok(middle.length > 0, "Must observe the gap interior");
+    assert.ok(
+      middle.every((event) => event.lastAcquiredPresentation === "explicit no-display reference"),
+    );
+    const images = observation.events.filter((event) => event.acquisition === "image");
+    assert.deepEqual(
+      images.map((event) => event.displaySeconds),
+      kind === "leading" ? [2] : [0, 3],
+    );
+    observation.imageMatches = [];
+    for (const event of images) {
+      const raw = join(destination, event.image + ".rgb");
+      run("ffmpeg", [
+        "-v",
+        "error",
+        "-i",
+        join(destination, event.image),
+        "-f",
+        "rawvideo",
+        "-pix_fmt",
+        "rgb24",
+        raw,
+      ]);
+      const pixels = await readFile(raw);
+      assert.equal(pixels.length, frames[0].length);
+      const errors = frames.map((frame) => {
+        let sum = 0;
+        for (let i = 0; i < pixels.length; i++) sum += Math.abs(pixels[i] - frame[i]);
+        return sum / pixels.length;
+      });
+      const best = Math.min(...errors);
+      const sourceFrame = errors.indexOf(best);
+      assert.equal(sourceFrame, event.displaySeconds === 0 ? 0 : 1);
+      assert.ok(best < 12, `Unexpected presentation pixels: MAE ${best}`);
+      observation.imageMatches.push({
+        image: event.image,
+        sourceFrame,
+        meanAbsoluteRgbError: best,
+      });
+    }
+  }
+}
 await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
 console.log(
   JSON.stringify(
