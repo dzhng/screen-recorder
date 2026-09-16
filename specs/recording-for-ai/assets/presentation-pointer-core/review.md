@@ -48,3 +48,9 @@ Do not add a movie-specific copy of cursor eligibility. Exact presentation clock
 must also retain the before/after ordering of a cursor at a fractional boundary.
 Event scheduling, persistent reset memory, native pointer composition and public
 preview/export remain parent 13 gates.
+
+On the merged tree, [all 277 core tests](merged-core-tests.txt) and core types pass.
+A rebuilt app also passes all [eight public CLI/MCP trail checks](merged-public-trails.txt),
+including held gestures, cuts, geometry changes, duplicate observations and retry.
+The native receipt/file is a caller-owned output from the pinned source attempt;
+matching header dimensions and durations alone does not authenticate a source.

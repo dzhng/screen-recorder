@@ -38,15 +38,15 @@ Internal video timing
 [13a](slices/13a-native-render-timing.md), bounded audio
 [13b](slices/13b-streaming-audio.md), and package metadata
 [14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs
-long A/V verification, pointer composition, durable preview ownership and restart cleanup.
-[13c assembly](slices/13c-aac-movie-assembly.md) now runs through the production
-worker and shared attempt lifetime. Its next gate is five-minute synchronization
-and memory, followed by durable preview integration. Tiny AAC has a documented
-independent-decoder limitation; speech audition remains open.
+pointer scheduling/composition, durable preview ownership and restart cleanup,
+text-fidelity acceptance, audition and app playback.
+[13c assembly](slices/13c-aac-movie-assembly.md) passes production-worker lifetime,
+pinned edit/undo and five-minute encoded A/V checks. Tiny AAC retains its documented
+independent-decoder limitation; numerical generated sound is not speech audition.
 [13d1 presentation evidence](slices/13d1-presentation-evidence.md) shares the
-renderer’s exact held-frame support. Next, make shared pointer planning consume
-that support without relaxing nearest-still selection: a held picture can begin
-before a retained cut, and support membership must stay exact.
+renderer’s exact held-frame support, and [13d2 point policy](slices/13d2-presentation-pointer-core.md)
+uses it without relaxing nearest-still selection. Next, schedule pointer changes
+with persistent reset history: A → B → A must not revive an old pointer.
 [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
 including native workers and frame/audio/index leases. Recent-recording delete and
 storage controls build and pass native state/identity checks, but computer-use could
@@ -158,8 +158,9 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
   - [x] [13a — Native render timing feasibility](slices/13a-native-render-timing.md) (independent of speech)
   - [x] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md) (independent of speech and video job integration)
-  - [ ] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md) (production worker/lifetime verified; long-duration checks remain)
-  - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md) (bounded exact support; pointer policy/composition remain)
+  - [x] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md) (generated encoded timing, lifetime and five-minute scale; parent audition remains)
+  - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md) (bounded exact support)
+  - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md) (point inspection only; event schedule/composition remain)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
   - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md) (internal directory/native parity; ZIP and public handles remain)

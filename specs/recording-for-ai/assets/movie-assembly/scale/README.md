@@ -68,3 +68,8 @@ The final end-to-end harness run passed after adding the complete video timestam
 and raw AAC-tail gates. The existing native audio suite also passed, including
 its exact thirty-second boundary and 27 invalid-input cases. Independent Codex
 review found no actionable defects; it ran no media workloads and changed no files.
+
+The [merged reproduction](merged.json) also passes on main after portable readers
+and shared presentation-point policy landed. Its [terminal log](merged-tests.txt)
+records 52.2 MB short / 57.0 MB long native peak RSS, with the same exact retained
+frame counts and eight long-window checks. It required no production change.

@@ -1,0 +1,18 @@
+(node:93605) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ public default trails preserve held-frame gestures, reset history and reach CLI and MCP as real pixels (3854.488708ms)
+✔ public cut clips retained history while a pinned historical revision preserves its gesture (2274.287291ms)
+✔ public window move preserves held-raster coordinates (1090.307ms)
+✔ public resize vetoes held-raster coordinates (1030.517791ms)
+✔ public outside observation wins a duplicate timestamp without reviving the previous pointer (1336.527875ms)
+✔ public unknownGeometry observation wins a duplicate timestamp without reviving the previous pointer (1439.37025ms)
+✔ public missing geometry is explicit unavailability while clean delivery remains usable (1189.1115ms)
+✔ public frame retry leaves a failed source dependency for explicit processing retry (1219.932ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13991.745625

@@ -1,0 +1,5 @@
+(node:91411) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"seconds":10,"maxRSS":52232192,"wallMs":731,"frames":466720,"windows":4}
+{"seconds":300,"maxRSS":57049088,"wallMs":18321,"frames":14366720,"windows":8}
+{"complete":true,"evidence":"/tmp/screenrec-movie-scale-merged-2031"}
