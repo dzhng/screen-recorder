@@ -1,0 +1,49 @@
+{
+  "generated": true,
+  "durationUs": 1800000000,
+  "width": 320,
+  "height": 180,
+  "fps": 30,
+  "elapsedMs": 157656,
+  "servicePeakKiB": 220432,
+  "memorySamplingMs": 1000,
+  "polls": 152,
+  "pages": 60,
+  "chunks": 180,
+  "observations": 9359,
+  "maxBatch": 52,
+  "cacheBytes": 87344775,
+  "retainedBytes": 2922344,
+  "sourceHash": "77efdb1959e8138a9cab6a54a8cc9eb73f70a2fb605dd211b90f5acc7451dd74",
+  "evidence": {
+    "recordingId": "4b503320-0827-4388-81e4-8dcc3caa0793",
+    "sourceId": "13b2d75e-5b2c-4ba2-860c-ef5e94829d0f",
+    "generation": "601944f4-1bcf-47e0-97d9-c2d2cd8ec4cb",
+    "policy": "rgb-spatial-change-v1",
+    "durationUs": 1800000000,
+    "sourceWidth": 320,
+    "sourceHeight": 180,
+    "chunkCount": 180,
+    "comparisonCount": 9000,
+    "boundaryCount": 3206
+  },
+  "nativeWorkerMemory": {
+    "observedNativePeakKiB": 30112,
+    "uniqueWorkersObserved": 112,
+    "workerSamples": 112,
+    "samplingMs": 1000,
+    "startedAfterScanBeginning": true
+  },
+  "foreground": {
+    "sceneStateAtStart": "processing",
+    "foregroundFrameLatencyMs": 159.851708,
+    "requestedUs": 900000000,
+    "actualUs": 900000000
+  },
+  "measurementLimits": [
+    "RSS sampled once per second, not an allocation high-water guarantee",
+    "Native worker monitor started after scan began and observed 112 of 180 batch workers",
+    "Cache byte total includes one foreground clean image",
+    "Generated 320x180 animation is a scale fixture, not physical capture or real UI threshold acceptance"
+  ]
+}
