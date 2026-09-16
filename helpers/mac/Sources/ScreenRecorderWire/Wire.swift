@@ -31,6 +31,24 @@ public enum NativeWire {
                     response = failure(
                         id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription)
                 }
+            } else if operation == "storage.removeRecordingDirectory"
+                || operation == "storage.removeCacheFiles"
+            {
+                do {
+                    try ManagedFiles.execute(operation, params)
+                    response = ["id": id, "ok": true, "data": ["removed": true]]
+                } catch let error as StorageFailure {
+                    response = [
+                        "id": id, "ok": false,
+                        "error": [
+                            "code": error.code, "message": error.message,
+                            "retryable": error.retryable, "details": [:],
+                        ],
+                    ]
+                } catch {
+                    response = failure(
+                        id: id, code: "DELETE_FAILED", message: error.localizedDescription)
+                }
             } else if operation == "media.audio" {
                 do {
                     let result = try await AudioOperation.execute(params)
@@ -98,7 +116,11 @@ public enum NativeWire {
     private static func failure(id: String?, code: String, message: String) -> [String: Any] {
         [
             "id": id as Any? ?? NSNull(), "ok": false,
-            "error": ["code": code, "message": message, "retryable": code == "NATIVE_DECODE_FAILED", "details": [:]],
+            "error": [
+                "code": code, "message": message,
+                "retryable": code == "NATIVE_DECODE_FAILED" || code == "DELETE_FAILED",
+                "details": [:],
+            ],
         ]
     }
 }
