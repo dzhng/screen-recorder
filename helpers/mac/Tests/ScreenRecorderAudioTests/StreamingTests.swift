@@ -153,3 +153,25 @@ func streamingProof(source: String, seconds: Int64, evidence: URL) async throws 
     try data.write(to: evidence.appendingPathComponent("stream-\(seconds).json"))
     print(String(decoding: data, as: UTF8.self))
 }
+
+/// Lossless reference for generated movie plans, using the same bounded production stream.
+func writePlanReference(_ path: String) async throws {
+    struct Plan: Decodable {
+        let tracks: [AudioTrackPlan]
+        let spans: [SourceSpan]
+        let output: String
+    }
+    let plan = try JSONDecoder().decode(
+        Plan.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
+    let stream = try await AudioPCMStream.open(tracks: plan.tracks, spans: plan.spans)
+    let bytes = try await AudioWave.write(stream, to: URL(fileURLWithPath: plan.output))
+    let report: [String: Any] = [
+        "frames": stream.frames, "sampleRate": stream.format.sampleRate,
+        "channels": stream.format.channels, "bytes": bytes,
+        "tracks": try JSONSerialization.jsonObject(with: JSONEncoder().encode(stream.reports)),
+    ]
+    print(
+        String(
+            data: try JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]),
+            encoding: .utf8)!)
+}

@@ -2,8 +2,9 @@
 
 Status: production native assembly and shared service attempt lifetime implemented;
 **no public preview route**. [Production evidence](../assets/movie-assembly/production/README.md)
-records real worker/lifetime checks. Parent [13](13-edited-media.md) remains open
-for long A/V verification, audition, pointer and app playback.
+records real worker/lifetime checks. The [five-minute encoded clock/memory proof](../assets/movie-assembly/scale/README.md)
+also passes on generated sparse video, AAC input and container/acquisition gaps.
+Parent [13](13-edited-media.md) remains open for audition, pointer and app playback.
 
 ## One assembly owner
 
@@ -75,12 +76,9 @@ unlimited revision history support.
 
 ## Next bounded passes
 
-1. Measure five-minute A/V synchronization and peak native memory at the beginning,
-   joins and far end, including sparse video, input AAC priming and container gaps.
-   Preserve sample counts, original bytes and the same resolved core plans.
-2. Use this attempt owner in the real pinned preview job: mutation, undo, pause,
+1. Use this attempt owner in the real pinned preview job: mutation, undo, pause,
    durable publication and restart reconciliation, without another process owner.
-3. Perform actual adjacent-speech audition separately from numerical generated
+2. Perform actual adjacent-speech audition separately from numerical generated
    checks. Parent 13 owns pointer rendering, app playback and public preview;
    human-export publication retains its existing owner and consumer caveat.
 

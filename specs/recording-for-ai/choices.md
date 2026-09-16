@@ -1380,3 +1380,23 @@ choices delegated by 14a. They do not alter destination names or add a public fo
   confidence; provisional for final video composition** — there is no captured
   surface to attach pointing evidence to. Revisit only with an explicit product
   decision and its own composition test.
+
+## Encoded movie scale proof — 2026-09-17
+
+### Sound — high confidence
+
+- **Compare encoded clocks, independent signals and retained PCM separately.**
+  A movie and its reference can agree because they share the same mistake. The
+  long proof therefore also checks the known generated signal phase and gain,
+  exact video presentation timestamps and source-frame identities. AAC padding
+  is counted separately from its presented samples. The scale plan did not specify
+  this oracle layout. It makes the timing claim stronger without inventing a
+  bit-exact lossy codec contract or claiming physical listening/device behavior.
+
+- **Keep the full-duration lossless reference in the optional audio test target.**
+  To check five minutes of encoded audio around fractional cuts, the test needs
+  the shared stream's complete sample clock. It drains `AudioPCMStream` through
+  the existing WAVE sink rather than splitting the reference into excerpts whose
+  outer boundaries could round differently. The plan did not specify reference
+  generation. This adds only a test-mode entry point; the production excerpt API
+  and its thirty-second limit are unchanged.

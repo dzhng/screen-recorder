@@ -7,6 +7,11 @@ let evidence = URL(
         ?? NSTemporaryDirectory() + "screenrec-audio-tests")
 try FileManager.default.createDirectory(at: evidence, withIntermediateDirectories: true)
 
+if let plan = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_REFERENCE_PLAN"] {
+    try await writePlanReference(plan)
+    exit(0)
+}
+
 if let source = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_STREAM_SOURCE"],
     let value = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_STREAM_SECONDS"], let seconds = Int64(value) {
     try await streamingProof(source: source, seconds: seconds, evidence: evidence)

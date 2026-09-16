@@ -1,0 +1,537 @@
+{
+  "sourceRevision": "060b9ef44d58222728c30b8f7590f17f7a50e54a",
+  "binarySHA256": "e8d215f494c6bb7bc02669be82545970ba64d4127e5e3d7148e130157f9d3d7b",
+  "tools": {
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "os": "26.6.2"
+  },
+  "sourceHashes": {
+    "video.mov": "2f20557a7f42f4c5622a27da1ec99931a52d73e74167ba823690a373ddeef373",
+    "narration.m4a": "6beee0d19c5887f52b0e9233cd2de5caea4d019dbada0eb1aa0528a4cfc63eb3",
+    "system.mov": "f9ac85847368bdfe0a40a684ab02ca8ba5259f19ea268e749f8b83bd847f0902"
+  },
+  "containerGaps": {
+    "video": [
+      {
+        "durationUs": 4000000,
+        "empty": false,
+        "startUs": 0
+      },
+      {
+        "empty": true,
+        "startUs": 4000000,
+        "durationUs": 1000000
+      },
+      {
+        "startUs": 5000000,
+        "empty": false,
+        "durationUs": 146000000
+      },
+      {
+        "startUs": 151000000,
+        "empty": true,
+        "durationUs": 2000000
+      },
+      {
+        "startUs": 153000000,
+        "durationUs": 147000000,
+        "empty": false
+      }
+    ],
+    "system": [
+      {
+        "startUs": 0,
+        "empty": false,
+        "durationUs": 4000000
+      },
+      {
+        "startUs": 4000000,
+        "durationUs": 1000000,
+        "empty": true
+      },
+      {
+        "startUs": 5000000,
+        "empty": false,
+        "durationUs": 146000000
+      },
+      {
+        "durationUs": 2000000,
+        "startUs": 151000000,
+        "empty": true
+      },
+      {
+        "startUs": 153000000,
+        "durationUs": 147000000,
+        "empty": false
+      }
+    ]
+  },
+  "inputPriming": {
+    "codec_type": "audio",
+    "stream_index": 0,
+    "pts": -1024,
+    "pts_time": "-0.021333",
+    "dts": -1024,
+    "dts_time": "-0.021333",
+    "duration": 1024,
+    "duration_time": "0.021333",
+    "size": "291",
+    "pos": "44",
+    "flags": "KD_",
+    "side_data_list": [
+      {
+        "side_data_type": "Skip Samples",
+        "skip_samples": 1024,
+        "discard_padding": 0,
+        "skip_reason": 0,
+        "discard_reason": 0
+      }
+    ]
+  },
+  "results": [
+    {
+      "seconds": 10,
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 1728333
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 1728333
+          }
+        },
+        {
+          "source": {
+            "startUs": 2005000,
+            "endUs": 10000000
+          },
+          "playback": {
+            "startUs": 1728333,
+            "endUs": 9723333
+          }
+        }
+      ],
+      "receipt": {
+        "audio": {
+          "channels": 2,
+          "codec": "aac",
+          "frames": 466720,
+          "sampleRate": 48000,
+          "tracks": [
+            {
+              "channels": 1,
+              "gain": 0.5,
+              "role": "narration",
+              "sampleRate": 48000,
+              "unavailable": [
+                {
+                  "endUs": 125000,
+                  "startUs": 0
+                }
+              ]
+            },
+            {
+              "channels": 2,
+              "gain": 0.5,
+              "role": "system",
+              "sampleRate": 44100,
+              "unavailable": [
+                {
+                  "endUs": 5000000,
+                  "startUs": 4000000
+                }
+              ]
+            }
+          ]
+        },
+        "bytes": 158979,
+        "codec": "h264",
+        "durationUs": 9723333,
+        "file": "10.mp4",
+        "frameCount": 10,
+        "height": 180,
+        "mediaType": "video/mp4",
+        "width": 320
+      },
+      "maxRSS": 52346880,
+      "wallMs": 738,
+      "nativeDecoded": {
+        "durationUs": 9723333,
+        "tracks": [
+          {
+            "durationUs": 9723333,
+            "segments": [
+              {
+                "durationUs": 9723333,
+                "empty": false,
+                "sourceStartUs": 0,
+                "targetStartUs": 0
+              }
+            ],
+            "startUs": 0,
+            "type": "vide"
+          },
+          {
+            "decodedEndUs": 9723333.333333334,
+            "decodedFrames": 466720,
+            "decodedStartUs": 0,
+            "durationUs": 9723333,
+            "segments": [
+              {
+                "durationUs": 9723333,
+                "empty": false,
+                "sourceStartUs": 44000,
+                "targetStartUs": 0
+              }
+            ],
+            "startUs": 0,
+            "type": "soun"
+          }
+        ]
+      },
+      "windows": [
+        {
+          "playbackUs": 500000,
+          "sourceUs": 500000,
+          "bestLagFrames": 0,
+          "ffRms": 0.000741470089265613,
+          "nativeRms": 0.0007414703113550876
+        },
+        {
+          "playbackUs": 1728333,
+          "sourceUs": 2005000,
+          "bestLagFrames": 0,
+          "ffRms": 0.0006429678690222289,
+          "nativeRms": 0.0006429681163082603
+        },
+        {
+          "playbackUs": 4223333,
+          "sourceUs": 4500000,
+          "bestLagFrames": 0,
+          "ffRms": 0.0004779899888030034,
+          "nativeRms": 0.0004779903265442704
+        },
+        {
+          "playbackUs": 9223333,
+          "sourceUs": 9500000,
+          "bestLagFrames": 0,
+          "ffRms": 0.00004974748088990071,
+          "nativeRms": 0.00004974795006546587
+        }
+      ],
+      "independent": [
+        {
+          "sourceUs": 750000,
+          "rms": 0.001061957290800878
+        },
+        {
+          "sourceUs": 4500000,
+          "rms": 0.00040357188239211996
+        },
+        {
+          "sourceUs": 9250000,
+          "rms": 0.00008401170969778839
+        }
+      ],
+      "visual": [
+        {
+          "playbackUs": 500000,
+          "sourceUs": 500000,
+          "frameIndex": 0,
+          "decodedSourceFrame": 0
+        },
+        {
+          "playbackUs": 1728333,
+          "sourceUs": 2005000,
+          "frameIndex": 2,
+          "decodedSourceFrame": 2
+        },
+        {
+          "playbackUs": 4223333,
+          "sourceUs": 4500000,
+          "frameIndex": 4,
+          "decodedSourceFrame": "black"
+        },
+        {
+          "playbackUs": 9223333,
+          "sourceUs": 9500000,
+          "frameIndex": 9,
+          "decodedSourceFrame": 9
+        }
+      ],
+      "videoTiming": {
+        "frames": 10,
+        "maximumErrorUs": 0
+      },
+      "ffDecodedFrames": 466880
+    },
+    {
+      "seconds": 300,
+      "plan": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 1728333
+          },
+          "playback": {
+            "startUs": 0,
+            "endUs": 1728333
+          }
+        },
+        {
+          "source": {
+            "startUs": 2005000,
+            "endUs": 153583337
+          },
+          "playback": {
+            "startUs": 1728333,
+            "endUs": 153306670
+          }
+        },
+        {
+          "source": {
+            "startUs": 154000000,
+            "endUs": 300000000
+          },
+          "playback": {
+            "startUs": 153306670,
+            "endUs": 299306670
+          }
+        }
+      ],
+      "receipt": {
+        "audio": {
+          "channels": 2,
+          "codec": "aac",
+          "frames": 14366720,
+          "sampleRate": 48000,
+          "tracks": [
+            {
+              "channels": 1,
+              "gain": 0.5,
+              "role": "narration",
+              "sampleRate": 48000,
+              "unavailable": [
+                {
+                  "endUs": 125000,
+                  "startUs": 0
+                },
+                {
+                  "endUs": 142250000,
+                  "startUs": 142000000
+                }
+              ]
+            },
+            {
+              "channels": 2,
+              "gain": 0.5,
+              "role": "system",
+              "sampleRate": 44100,
+              "unavailable": [
+                {
+                  "endUs": 5000000,
+                  "startUs": 4000000
+                },
+                {
+                  "endUs": 153000000,
+                  "startUs": 151000000
+                },
+                {
+                  "endUs": 201000000,
+                  "startUs": 200000000
+                }
+              ]
+            }
+          ]
+        },
+        "bytes": 7295203,
+        "codec": "h264",
+        "durationUs": 299306670,
+        "file": "300.mp4",
+        "frameCount": 299,
+        "height": 180,
+        "mediaType": "video/mp4",
+        "width": 320
+      },
+      "maxRSS": 57262080,
+      "wallMs": 15640,
+      "nativeDecoded": {
+        "durationUs": 299306670,
+        "tracks": [
+          {
+            "durationUs": 299306670,
+            "segments": [
+              {
+                "durationUs": 299306670,
+                "empty": false,
+                "sourceStartUs": 0,
+                "targetStartUs": 0
+              }
+            ],
+            "startUs": 0,
+            "type": "vide"
+          },
+          {
+            "decodedEndUs": 299306666.6666667,
+            "decodedFrames": 14366720,
+            "decodedStartUs": 0,
+            "durationUs": 299306666.6666667,
+            "segments": [
+              {
+                "durationUs": 299306666.6666667,
+                "empty": false,
+                "sourceStartUs": 44000,
+                "targetStartUs": 0
+              }
+            ],
+            "startUs": 0,
+            "type": "soun"
+          }
+        ]
+      },
+      "windows": [
+        {
+          "playbackUs": 500000,
+          "sourceUs": 500000,
+          "bestLagFrames": 0,
+          "ffRms": 0.000741470089265613,
+          "nativeRms": 0.0007414703113550876
+        },
+        {
+          "playbackUs": 1728333,
+          "sourceUs": 2005000,
+          "bestLagFrames": 0,
+          "ffRms": 0.0006429678690222289,
+          "nativeRms": 0.0006429681163082603
+        },
+        {
+          "playbackUs": 4223333,
+          "sourceUs": 4500000,
+          "bestLagFrames": 0,
+          "ffRms": 0.0004779899888030034,
+          "nativeRms": 0.0004779903265442704
+        },
+        {
+          "playbackUs": 298806670,
+          "sourceUs": 299500000,
+          "bestLagFrames": 0,
+          "ffRms": 0.00008145155656467631,
+          "nativeRms": 0.00008145091610418236
+        },
+        {
+          "playbackUs": 141848333,
+          "sourceUs": 142125000,
+          "bestLagFrames": 0,
+          "ffRms": 0.00006409508223175057,
+          "nativeRms": 0.00006409516376824941
+        },
+        {
+          "playbackUs": 151723333,
+          "sourceUs": 152000000,
+          "bestLagFrames": 0,
+          "ffRms": 0.000021415450779419554,
+          "nativeRms": 0.000021415723518445423
+        },
+        {
+          "playbackUs": 153306670,
+          "sourceUs": 154000000,
+          "bestLagFrames": 0,
+          "ffRms": 0.0002557973528274507,
+          "nativeRms": 0.0002557975592514971
+        },
+        {
+          "playbackUs": 199806670,
+          "sourceUs": 200500000,
+          "bestLagFrames": 0,
+          "ffRms": 0.000017376435334071405,
+          "nativeRms": 0.000017375018581190787
+        }
+      ],
+      "independent": [
+        {
+          "sourceUs": 750000,
+          "rms": 0.001061957290800878
+        },
+        {
+          "sourceUs": 4500000,
+          "rms": 0.00040357188239211996
+        },
+        {
+          "sourceUs": 299250000,
+          "rms": 0.00008962839975091429
+        },
+        {
+          "sourceUs": 142125000,
+          "rms": 0.00006268511949908425
+        },
+        {
+          "sourceUs": 152000000,
+          "rms": 0.0000803088388325667
+        },
+        {
+          "sourceUs": 200500000,
+          "rms": 0.00005762996745528556
+        }
+      ],
+      "visual": [
+        {
+          "playbackUs": 500000,
+          "sourceUs": 500000,
+          "frameIndex": 0,
+          "decodedSourceFrame": 0
+        },
+        {
+          "playbackUs": 1728333,
+          "sourceUs": 2005000,
+          "frameIndex": 2,
+          "decodedSourceFrame": 2
+        },
+        {
+          "playbackUs": 4223333,
+          "sourceUs": 4500000,
+          "frameIndex": 4,
+          "decodedSourceFrame": "black"
+        },
+        {
+          "playbackUs": 298806670,
+          "sourceUs": 299500000,
+          "frameIndex": 298,
+          "decodedSourceFrame": 299
+        },
+        {
+          "playbackUs": 141848333,
+          "sourceUs": 142125000,
+          "frameIndex": 142,
+          "decodedSourceFrame": 142
+        },
+        {
+          "playbackUs": 151723333,
+          "sourceUs": 152000000,
+          "frameIndex": 151,
+          "decodedSourceFrame": "black"
+        },
+        {
+          "playbackUs": 153306670,
+          "sourceUs": 154000000,
+          "frameIndex": 153,
+          "decodedSourceFrame": 154
+        },
+        {
+          "playbackUs": 199806670,
+          "sourceUs": 200500000,
+          "frameIndex": 199,
+          "decodedSourceFrame": 200
+        }
+      ],
+      "videoTiming": {
+        "frames": 299,
+        "maximumErrorUs": 0
+      },
+      "ffDecodedFrames": 14367680
+    }
+  ],
+  "memoryGate": "long <= short * 1.5 + 16 MiB",
+  "sourceBytesUnchanged": true
+}
