@@ -1,12 +1,14 @@
 # Durable shared scene evidence
 
-Status: implementation next. This closes the persistence seam left by 10b;
+Status: bounded observation reuse is integrated; durable canonical chunk storage
+and scan orchestration are in progress. This closes the persistence seam left by 10b;
 screenshot selection remains slice 11. No new visual detector or renderer.
 
 ## One evidence owner
 
-SceneEvidenceStore uses the existing catalog connection. It owns bounded native
-observation reuse and durable canonical analysis chunks. Raw observation batches
+SceneEvidenceStore owns durable canonical analysis chunks in the existing catalog.
+VisualObservationCache owns disposable native observation reuse through the same
+VisualSampler seam; neither owns a second comparison policy. Raw observation batches
 are disposable files in DerivedCache. Their catalog lookup references the cache row
 with deletion cascading, so eviction cannot accumulate dead lookup metadata.
 The key includes immutable source identity, exact retained interval, ordered request
@@ -65,3 +67,6 @@ Internal schema/method names and chunk transaction layout are delegated. Source
 identity, selection bounds, publication atomicity, retained evidence versus cache,
 and one comparator are fixed contracts. Keep the README pickup and choices ledger
 current; parent real captured gesture and real UI threshold gates remain open.
+
+[Observation reuse evidence](../assets/scene-analysis/observation-cache.md) records
+restart, exact selection bounds, eviction and unchanged public delivery checks.

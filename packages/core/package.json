@@ -43,6 +43,10 @@
     "./trails": {
       "types": "./dist/trails.d.ts",
       "default": "./dist/trails.js"
+    },
+    "./visual-cache": {
+      "types": "./dist/visual-cache.d.ts",
+      "default": "./dist/visual-cache.js"
     }
   },
   "scripts": {

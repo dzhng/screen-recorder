@@ -172,7 +172,7 @@ export function sceneSampleTimes(range: TimeRange, kept: TimeRange): number[] {
   return times;
 }
 
-async function observe(
+export async function observeVisualSamples(
   request: Parameters<VisualSampler>[0],
   sample: VisualSampler,
   signal: AbortSignal,
@@ -234,7 +234,11 @@ export async function analyzeSceneRange(
 ) {
   const atSourceUs = sceneSampleTimes(request.range, request.kept);
   return report(
-    await observe({ source: request.source, kept: request.kept, atSourceUs }, sample, signal),
+    await observeVisualSamples(
+      { source: request.source, kept: request.kept, atSourceUs },
+      sample,
+      signal,
+    ),
     request,
   );
 }
@@ -260,7 +264,7 @@ export async function analyzeFrameScene(
     );
   const range = { startUs: Math.max(request.kept.startUs, at - request.trailUs), endUs: at };
   const local = report(
-    await observe(
+    await observeVisualSamples(
       {
         source: request.source,
         kept: request.kept,
@@ -276,7 +280,7 @@ export async function analyzeFrameScene(
   if (local.lastSample.actualSourceUs > at) {
     // Narrow only the analysis search prefix, so the same nearest selector finds the last
     // sample at or before the request. Final image selection retains the original kept span.
-    const past = await observe(
+    const past = await observeVisualSamples(
       {
         source: request.source,
         kept: { startUs: request.kept.startUs, endUs: at + 1 },

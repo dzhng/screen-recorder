@@ -825,3 +825,33 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   publishing misleading pixels; raw cursor history stays available separately.
 - **Verdict:** Sound: bounded responses with explicit evidence and honest failure.
   **Confidence:** High.
+
+## Shared visual observation reuse
+
+### Sound — medium confidence
+
+- **When:** Observation reuse pass.
+- **Choice:** Cache complete bounded native batches by finalized source path,
+  exact selection bounds, request times and policy. Two overlapping batches may
+  keep duplicate small images; there is no separate file/index per video frame.
+  Moving the library causes a cache miss rather than guessing that paths still match.
+- **Gap:** The plan required policy-bound observation reuse without choosing its
+  storage unit or lookup identity.
+- **Reach:** Local and global consumers reuse one sampler. Exact bounds prevent a
+  cut or past-only request from borrowing a future image. Batch storage keeps the
+  mechanism small; per-frame deduplication remains unnecessary until measured.
+- **Verdict:** Sound and reversible: correctness before maximum cache hit rate.
+  **Confidence:** Medium.
+
+### Sound — high confidence
+
+- **When:** Observation reuse pass.
+- **Choice:** A cache lookup row belongs to its disposable file through a database
+  foreign key with cascading deletion. Removing an old file automatically removes
+  its lookup; repeated novel requests cannot leave dead rows forever. Concurrent
+  requests may decode the same miss, then retain one publication and delete the loser.
+- **Gap:** The cache contract did not specify lookup cleanup or concurrent miss handling.
+- **Reach:** Existing byte accounting, reconciliation and worker lanes stay in charge.
+  Retained scene/index evidence remains outside this disposable lifetime.
+- **Verdict:** Sound: platform-owned cleanup without another queue or periodic sweeper.
+  **Confidence:** High.

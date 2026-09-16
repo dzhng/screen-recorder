@@ -4,6 +4,7 @@ import { JobQueue } from "@screenrec/core/jobs";
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { DerivedCache } from "@screenrec/core/cache";
 import type { VisualObservations } from "@screenrec/core/scenes";
+import { VisualObservationCache } from "@screenrec/core/visual-cache";
 import { AudioInspection, type NativeAudio } from "@screenrec/core/audio";
 import { FrameInspection, type NativeFrame } from "@screenrec/core/frames";
 import { DerivativeDelivery } from "./delivery.js";
@@ -110,6 +111,9 @@ async function main(): Promise<void> {
     processing = new SourceProcessing(store, jobs, evidence, home, (directory, output, signal) =>
       nativeData<SourceEvidenceReceipt>("media.sourceEvidence", { directory, output }, signal),
     );
+    const visual = new VisualObservationCache(store, cache, (request, signal) =>
+      nativeData<VisualObservations>("media.visualSamples", request, signal),
+    );
     frames = new FrameInspection(
       store,
       jobs,
@@ -119,8 +123,7 @@ async function main(): Promise<void> {
       {
         processing,
         evidence,
-        sample: (request, signal) =>
-          nativeData<VisualObservations>("media.visualSamples", request, signal),
+        sample: visual.sample,
       },
     );
     audio = new AudioInspection(store, jobs, cache, evidence, processing, home, (request, signal) =>
