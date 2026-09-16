@@ -63,6 +63,10 @@
     "./selection": {
       "types": "./dist/selection.d.ts",
       "default": "./dist/selection.js"
+    },
+    "./selection-evidence": {
+      "types": "./dist/selection-evidence.d.ts",
+      "default": "./dist/selection-evidence.js"
     }
   },
   "scripts": {

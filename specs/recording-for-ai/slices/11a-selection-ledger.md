@@ -70,3 +70,7 @@ The runnable ledger feeds lab:index in 11c. Tests alone close this pure policy s
 not visual usefulness. Final contact sheets compare retained delivered images with
 the independently labeled event ledger and run screenshot-critique last. Keep real
 captured gesture and real UI threshold gates open.
+
+The [catalog stream](../assets/screenshot-index/catalog-stream.md) supplies bounded
+ordered source evidence to this ledger. Its separate scene traversal has linear
+startup reads on static sources; no additional boundary index is introduced.
