@@ -17,7 +17,8 @@ input, and help before any service exists. Independent review found correlation
 and MCP error-output defects; retained red/green regressions cover both fixes.
 The owning code and tests are in [the CLI package](../../../apps/cli/README.md).
 
-Remaining gates are explicit: personal-app discovery/auto-launch, full operation
+Default discovery/auto-launch now has a separate [verified client subpass](15a-client-discovery.md);
+real installed-app proof remains open. Remaining gates include full operation
 coverage as the service gains capabilities, real image/audio blocks and the final
 actual-agent inspection/edit journey. `--socket` provides current connection
 selection; it is not evidence that automatic app discovery works.

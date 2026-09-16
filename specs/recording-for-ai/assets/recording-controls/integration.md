@@ -59,3 +59,12 @@ Integrated controls and capture Swift suites also pass. Independent review found
 that the fixture must observe its source catalog before starting; the read-only
 snapshot readiness barrier now does so. Schematic images and their producer were
 removed rather than retained as a substitute for native visual evidence.
+
+
+Native UI inspection through computer-use timed out by both app path and bundle ID.
+The UI-launched app nevertheless answered service health and idle capture status
+through its explicit socket; it reported screen access unavailable and microphone
+access undetermined. Root terminated the review instance and verified its service
+also exited. No UI screenshot, menu click, or broader permission/capture result is
+claimed from that attempt. The own-window fixture result applies only to its tested
+launch context.

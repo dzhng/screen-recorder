@@ -416,3 +416,31 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   unbounded backlog. The queue does not interpret transcription or media settings.
   New adapters must define stable inputs and pass cancellation to the native runner.
 - **Verdict:** Sound. **Confidence:** High.
+
+## Cursor evidence transfer
+
+### Sound — medium confidence
+
+- **Choice:** Export normalized cursor/geometry observations to a caller-owned JSONL
+  file through the existing native journal reader. Limit a transfer to 256 MiB of
+  input and output and keep the provenance header within 16 KiB.
+- **Gap:** The spec required bounded raw-history access but did not choose the
+  ingestion format or per-worker transfer budget.
+- **Reach:** Core can ingest evidence once without copying native geometry rules or
+  loading all samples into memory. Very large journals produce an explicit limit
+  error; chunked ingestion beyond that budget is not implemented. Public pagination
+  must use the later index, not rescan this file for every page.
+- **Verdict:** Sound for this bounded internal seam. **Confidence:** Medium.
+
+## Personal app discovery
+
+### Sound — medium confidence
+
+- **Choice:** Let the client locate a personal app through `SCREENREC_APP` or the
+  default user Applications path. If an app already runs with another library home,
+  leave it running and let discovery of the requested home time out.
+- **Gap:** The launch/home mismatch behavior was unspecified.
+- **Reach:** A client cannot silently restart a recording app or switch its library.
+  The caller can select an existing socket, or quit and relaunch the app with the
+  intended home. The error identifies the requested service and connection options.
+- **Verdict:** Sound. **Confidence:** Medium.

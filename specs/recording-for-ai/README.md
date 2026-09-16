@@ -36,19 +36,24 @@ fixture. See [capture integration](assets/capture-service/integration-review.md)
 Keep the fresh catalog format and explicit audio defaults; old development catalogs
 are rejected rather than migrated.
 
-Next priority: complete native controls/discovery integration, then revision-bound
-media inspection and source-evidence ingestion. Core durable jobs are integrated:
-identity includes resolved revision and inputs, retries are explicit, and stale
-results cannot overwrite another identity. See [queue evidence](assets/durable-jobs/review.md).
-The service runner accepts cancellation and returns capacity only after child closure.
+Next priority: connect the durable queue to source-evidence ingestion and
+revision-bound media inspection, then finish storage/deletion and native controls.
+Core jobs are integrated with exact revision/input identity, explicit retry and stale
+result protection. The native worker can stream normalized cursor evidence into an
+atomic derivative; core indexing and public raw-history reads remain open.
 
-The user requested no further Claude use. Available agents are finishing controls
-in `/tmp/screenrec-capture-service`, discovery in `/tmp/screenrec-client-discovery`,
-and a native streaming cursor-evidence export in
-`/tmp/screenrec-cursor-evidence-worktree`. Their changes remain unaccepted until
-reviewed and integrated. Native cursor rendering/sizing is accepted on generated
-media with documented small-output limits; scene analysis and core trail selection
-remain open.
+Native controls are integrated and their closed-menu state/clock follows real
+own-window capture through external service calls. Actual UI interaction and visual
+review remain blocked by computer-use timeouts; the UI-launched app reported screen
+access unavailable. Delete/storage and display/region/audio gates remain open.
+Discovery passes client/CLI checks and a real built-app launch into a fresh home;
+installed-copy proof remains open. See [controls](assets/recording-controls/integration.md),
+[queue](assets/durable-jobs/review.md), and [discovery](slices/15a-client-discovery.md).
+
+The user requested no further Claude use. All delegated worktrees from this wave are
+integrated; continue with local work and available non-Claude agents. The service
+runner retains capacity until native child closure. Generated cursor rendering is
+accepted with small-output limits; scene analysis and core trail selection remain open.
 
 Native audio execution (09b) passes integrated numerical checks for resampling tails,
 cumulative rounding and acquisition holes; audition remains open. Speech remains a
@@ -106,6 +111,7 @@ Evidence: [bootstrap](assets/bootstrap/verification.md),
 - [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
+  - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
 
 ## Outcome
 

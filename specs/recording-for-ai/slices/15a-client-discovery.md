@@ -55,3 +55,18 @@ Pickup: integrate and independently review with the concurrent work, then prove
 ordinary launch against the installed real app and repeat the full personal
 journey. Temporary bundles prove LaunchServices mechanics, not app packaging,
 permissions, signing, native startup, or recording behavior.
+
+
+## Integrated checkpoint
+
+Root integration passes 21 client tests, 7 CLI/MCP tests and seven affected build/type
+checks. Independent Codex review found no actionable regression; its socket tests
+were blocked by sandbox EPERM, so root ran them with the actual local transport.
+
+A real packaged-app launch from cwd `/`, using `SCREENREC_APP` and a fresh
+`SCREENREC_HOME`, reached service readiness in about 0.31 seconds. The returned home
+matched the requested library. Capture status remained idle, screen access was false
+and microphone access undetermined, and both app and service exited normally after
+review. See [launch evidence](../assets/discovery/real-app-launch.json).
+This is the built app in the checkout, not an installed distribution or a recording
+permission test; those remain with 15.

@@ -57,3 +57,10 @@ iteration; full-suite closeout belongs to slice 15.
 
 If moved-window alignment fails, isolate the geometry update seam; do not rely on a screenshot-specific offset or prohibit window movement silently.
 
+
+
+Integrated cursor-export check (2026-09-16): the native build and all six real-worker
+tests pass, including 120,000 streamed samples, integrity markers, source preservation
+and output safety. Independent Codex review found no actionable regression and ran
+those same six tests. Input-budget and oversized-header failure cleanup are exercised;
+this is not a measured worst-case output-budget or all-recording-length guarantee.

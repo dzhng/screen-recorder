@@ -1,0 +1,22 @@
+{
+  "home": "/tmp/screenrec-real-discovery-t9k21o4c",
+  "elapsedSeconds": 0.3101848340011202,
+  "exit": 0,
+  "stdout": "{\"ok\":true,\"data\":{\"status\":\"ready\",\"pid\":29072,\"socketPath\":\"/tmp/screenrec-real-discovery-t9k21o4c/run/service.sock\",\"home\":\"/tmp/screenrec-real-discovery-t9k21o4c\",\"node\":\"24.14.0\",\"uptimeMs\":78},\"id\":\"e4cab2c4-b507-4cd3-8cd3-43d0c3740af7\"}\n",
+  "stderr": "",
+  "idle": {
+    "state": "idle",
+    "recordingId": null,
+    "sourceId": null,
+    "elapsedUs": null,
+    "selection": null,
+    "permissions": {
+      "screen": false,
+      "microphone": "not_determined"
+    }
+  },
+  "appPid": 29070,
+  "servicePid": 29072,
+  "appExited": true,
+  "serviceExited": true
+}
