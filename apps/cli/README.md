@@ -15,7 +15,20 @@ durable mutation identity. Operation failures retain the structured error and ex
 nonzero; command-line usage errors go to stderr. MCP keeps stdout for protocol
 messages and marks operation failures with `isError`.
 
-Connection selection currently uses explicit `--socket PATH`. Automatic personal-app
-discovery is still pending in the client integration. Media operations must add
-actual MCP image/audio content when implemented; a returned file path is not an
-image-delivery implementation.
+Without `--socket`, the [client](../../packages/client/src/discovery.ts) finds the
+service under `SCREENREC_HOME` (default `~/.screen-recorder`) and, when needed,
+asks macOS to launch `~/Applications/ScreenRecorder.app`. Set `SCREENREC_APP` to an
+absolute bundle path to select another installation. Discovery has one ten-second
+budget and one launch attempt; it carries the resolved home into the app. An
+already-running app keeps its original home, so a different requested home can
+time out: quit/relaunch it with that home or connect to the intended service.
+
+`--socket PATH` connects directly and never launches an app. Help, MCP tools/list,
+and invalid requests do not discover or launch anything. Startup probes only read
+health; each actual operation is sent once, with no automatic mutation replay.
+MCP request cancellation also cancels discovery. Ordinary app launch starts its
+service; recording and permissions belong to explicit capture operations.
+
+Media operations must add actual MCP image/audio content when implemented; a
+returned file path is not an image-delivery implementation. Installed-app proof
+remains in [personal release verification](../../specs/recording-for-ai/slices/15-personal-release.md).

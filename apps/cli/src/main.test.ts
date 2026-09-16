@@ -1,7 +1,8 @@
 import { afterEach, expect, it } from "vitest";
 import { spawn, spawnSync } from "node:child_process";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
+import { createServer } from "node:net";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
 import {
@@ -86,7 +87,7 @@ async function serviceFixture() {
       }
     });
   });
-  return { socket: join(home, "run/service.sock"), recordingId: recording.recordingId };
+  return { home, socket: join(home, "run/service.sock"), recordingId: recording.recordingId };
 }
 
 function cli(socket: string, operation: string, params: Record<string, unknown> = {}) {
@@ -112,7 +113,10 @@ it("help lists registry schemas without opening an app or service, and MCP start
       .sort(),
   ).toEqual([...operationNames].sort());
   expect(help.stdout).toContain("microseconds");
-  const bad = spawnSync(process.execPath, [entry, "mcp"], { encoding: "utf8", timeout: 3_000 });
+  const bad = spawnSync(process.execPath, [entry, "mcp", "--id", "invalid"], {
+    encoding: "utf8",
+    timeout: 3_000,
+  });
   expect(bad.status).toBe(1);
   expect(bad.stdout).toBe("");
   expect(JSON.parse(bad.stderr).error.code).toBe("INVALID_REQUEST");
@@ -240,4 +244,146 @@ it("preserves the parsed request ID on local JSON validation failure", () => {
     ok: false,
     error: { code: "INVALID_REQUEST" },
   });
+});
+
+it("rejects malformed operation parameters before discovering or launching an app", () => {
+  const result = spawnSync(process.execPath, [entry, "edit.trim", "--params", "{}"], {
+    encoding: "utf8",
+    timeout: 3_000,
+    env: {
+      ...process.env,
+      SCREENREC_HOME: "/tmp/no-screenrec-home-invalid-test",
+      SCREENREC_APP: "invalid-relative-app",
+    },
+  });
+  expect(result.status).toBe(1);
+  expect(JSON.parse(result.stdout)).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
+});
+
+function runCli(
+  args: string[],
+  env: NodeJS.ProcessEnv,
+): Promise<{ status: number | null; stdout: string; stderr: string }> {
+  return new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, [entry, ...args], {
+      cwd: "/",
+      env,
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    let stdout = "",
+      stderr = "";
+    const timer = setTimeout(() => {
+      child.kill("SIGKILL");
+      reject(new Error("CLI fixture timed out"));
+    }, 4_000);
+    child.stdout.on("data", (bytes) => {
+      stdout += bytes;
+    });
+    child.stderr.on("data", (bytes) => {
+      stderr += bytes;
+    });
+    child.once("error", reject);
+    child.once("close", (status) => {
+      clearTimeout(timer);
+      resolve({ status, stdout, stderr });
+    });
+  });
+}
+
+it("default discovery reaches the actual service layout from outside the checkout", async () => {
+  const { home, recordingId } = await serviceFixture();
+  const env = { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" };
+  const results = await Promise.all(
+    ["first", "second"].map((id) =>
+      runCli(["recording.get", "--params", JSON.stringify({ recordingId }), "--id", id], env),
+    ),
+  );
+  results.forEach((result, index) => {
+    expect(result.status).toBe(0);
+    expect(JSON.parse(result.stdout)).toMatchObject({
+      id: ["first", "second"][index],
+      ok: true,
+      data: { recordingId },
+    });
+  });
+});
+
+it("help, MCP tools/list and invalid tools never contact the default socket", async () => {
+  const home = await mkdtemp("/tmp/scr-no-call-");
+  cleanup.push(() => rm(home, { recursive: true, force: true }));
+  await mkdir(join(home, "run"));
+  let connections = 0;
+  const server = createServer((socket) => {
+    connections++;
+    socket.destroy();
+  });
+  await new Promise<void>((resolve) => server.listen(join(home, "run/service.sock"), resolve));
+  cleanup.push(() => new Promise<void>((resolve) => server.close(() => resolve())));
+  const env = { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" };
+  expect((await runCli(["--help"], env)).status).toBe(0);
+  const transport = new StdioClientTransport({
+    command: process.execPath,
+    args: [entry, "mcp"],
+    env,
+    stderr: "pipe",
+  });
+  const client = new Client({ name: "discovery-test", version: "1" });
+  cleanup.push(() => client.close());
+  await client.connect(transport);
+  expect((await client.listTools()).tools.map((tool) => tool.name).sort()).toEqual(
+    [...operationNames].sort(),
+  );
+  for (const [name, code] of [
+    ["not.an.operation", "UNKNOWN_OPERATION"],
+    ["edit.cut", "INVALID_PARAMS"],
+  ] as const) {
+    const result = await client.callTool({ name, arguments: {} });
+    expect(result.structuredContent).toMatchObject({ ok: false, error: { code } });
+  }
+  const oversized = await client.callTool({
+    name: "recording.get",
+    arguments: { recordingId: "x".repeat(1_050_000) },
+  });
+  expect(oversized.structuredContent).toMatchObject({
+    ok: false,
+    error: { code: "LIMIT_EXCEEDED" },
+  });
+  expect(connections).toBe(0);
+});
+
+it("does not replay a mutation when the discovered service loses its response", async () => {
+  const home = await mkdtemp("/tmp/scr-no-replay-");
+  cleanup.push(() => rm(home, { recursive: true, force: true }));
+  await mkdir(join(home, "run"));
+  const operations: string[] = [];
+  const server = createServer((socket) =>
+    socket.once("data", (bytes) => {
+      const request = JSON.parse(bytes.toString());
+      operations.push(request.operation);
+      if (request.operation === "service.health")
+        socket.end(JSON.stringify({ id: request.id, ok: true, data: {} }) + "\n");
+      else socket.destroy();
+    }),
+  );
+  await new Promise<void>((resolve) => server.listen(join(home, "run/service.sock"), resolve));
+  cleanup.push(() => new Promise<void>((resolve) => server.close(() => resolve())));
+  const result = await runCli(
+    [
+      "edit.cut",
+      "--params",
+      JSON.stringify({
+        recordingId: "r",
+        requestId: "once",
+        expectedRevisionId: "r0",
+        ranges: [{ startUs: 0, endUs: 1 }],
+      }),
+    ],
+    { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" },
+  );
+  expect(result.status).toBe(1);
+  expect(JSON.parse(result.stdout)).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_RESPONSE" },
+  });
+  expect(operations).toEqual(["service.health", "edit.cut"]);
 });

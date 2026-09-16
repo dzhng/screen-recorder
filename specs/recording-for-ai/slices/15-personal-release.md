@@ -1,6 +1,7 @@
 # 15 — Installed personal workflow and closeout
 
-Status: not started. Dependencies: 00–14.
+Status: full installed journey not started; [client discovery](15a-client-discovery.md)
+has fixture proof. Dependencies: 00–14.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

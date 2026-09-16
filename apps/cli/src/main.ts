@@ -2,12 +2,19 @@
 import { randomUUID } from "node:crypto";
 import { parseArgs } from "node:util";
 import { z } from "zod";
-import { callLocal, LocalTransportError } from "@screenrec/client";
 import {
+  callLocal,
+  resolveServiceSocket,
+  LocalTransportError,
+  type ServiceSelection,
+} from "@screenrec/client";
+import {
+  operationNames,
   operationSchema,
   FrameError,
   REQUEST_FRAME_BYTES,
   parseRequest,
+  encodeJsonLine,
   type OperationRequest,
   type OperationResponse,
 } from "@screenrec/protocol";
@@ -27,7 +34,17 @@ function capabilities() {
   }));
 }
 
+class UsageError extends Error {
+  constructor(
+    readonly code: string,
+    message: string,
+  ) {
+    super(message);
+  }
+}
+
 function errorResult(id: string, error: unknown): OperationResponse {
+  if (error instanceof UsageError) return failure(id, error.code, error.message);
   if (error instanceof LocalTransportError)
     return failure(
       id,
@@ -44,15 +61,34 @@ function errorResult(id: string, error: unknown): OperationResponse {
   return failure(id, "INVALID_REQUEST", error instanceof Error ? error.message : "Invalid request");
 }
 
+// Validate before discovery, because discovery can launch the personal app.
+function request(id: string, operation: string, params: unknown): OperationRequest {
+  if (!operationNames.has(operation))
+    throw new UsageError(
+      "UNKNOWN_OPERATION",
+      `Unknown service operation: ${operation.slice(0, 120)}`,
+    );
+  const sending = parseRequest({ id, operation, params });
+  encodeJsonLine(sending, REQUEST_FRAME_BYTES);
+  if (!operationSchema.safeParse({ operation, params }).success)
+    throw new UsageError("INVALID_PARAMS", "Parameters do not match the operation schema.");
+  return sending;
+}
+
+// Keep readiness probes separate from the caller's one operation: never replay uncertain writes.
 async function invoke(
-  socketPath: string,
-  request: OperationRequest,
-  signal?: AbortSignal,
+  selection: ServiceSelection,
+  sending: OperationRequest,
 ): Promise<OperationResponse> {
   try {
-    return await callLocal(socketPath, request, signal ? { signal } : {});
+    const socketPath = await resolveServiceSocket(selection);
+    return await callLocal(
+      socketPath,
+      sending,
+      selection.signal ? { signal: selection.signal } : {},
+    );
   } catch (error) {
-    return errorResult(request.id, error);
+    return errorResult(sending.id, error);
   }
 }
 
@@ -70,7 +106,7 @@ async function readParams(value: string): Promise<unknown> {
   return JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(Buffer.concat(chunks)));
 }
 
-async function mcp(socketPath: string) {
+async function mcp(selection: ServiceSelection) {
   const server = new Server(
     { name: "screenrec", version: "0.0.0" },
     { capabilities: { tools: {} } },
@@ -82,15 +118,16 @@ async function mcp(socketPath: string) {
     })),
   }));
   server.setRequestHandler(CallToolRequestSchema, async (call, extra) => {
-    const result = await invoke(
-      socketPath,
-      {
-        id: randomUUID(),
-        operation: call.params.name,
-        params: call.params.arguments ?? {},
-      },
-      extra.signal,
-    );
+    const id = randomUUID();
+    let result: OperationResponse;
+    try {
+      result = await invoke(
+        { ...selection, signal: extra.signal },
+        request(id, call.params.name, call.params.arguments ?? {}),
+      );
+    } catch (error) {
+      result = errorResult(id, error);
+    }
     return {
       content: [{ type: "text", text: JSON.stringify(result) }],
       structuredContent: result,
@@ -122,7 +159,9 @@ async function main() {
       JSON.stringify(
         {
           usage:
-            "screenrec <operation> --socket PATH [--params JSON|-] [--id ID] | screenrec mcp --socket PATH",
+            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] | screenrec mcp [--socket PATH]",
+          service:
+            "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           timeUnits:
             "Integer microseconds. Edit ranges are half-open playback ranges in expectedRevisionId.",
           mutations:
@@ -135,20 +174,22 @@ async function main() {
     );
     return;
   }
-  if (positionals.length !== 1) throw new Error("Expected one operation name or mcp");
-  const socketPath = values.socket;
-  if (!socketPath) throw new Error("Use --socket PATH to select the local recorder service");
-  if (positionals[0] === "mcp") {
+  const [operation] = positionals;
+  if (positionals.length !== 1 || operation === undefined)
+    throw new Error("Expected one operation name or mcp");
+  const selection: ServiceSelection = { socketPath: values.socket };
+  if (operation === "mcp") {
     if (values.params || values.id) throw new Error("mcp accepts --socket only");
-    await mcp(socketPath);
+    // Listing tools describes the registry; only a called tool looks for a service.
+    await mcp(selection);
     return;
   }
-  const request = parseRequest({
-    id: values.id ?? responseId,
-    operation: positionals[0],
-    params: await readParams(values.params ?? "{}"),
-  });
-  const result = await invoke(socketPath, request);
+  const sending = request(
+    values.id ?? responseId,
+    operation,
+    await readParams(values.params ?? "{}"),
+  );
+  const result = await invoke(selection, sending);
   process.stdout.write(JSON.stringify(result) + "\n");
   if (!result.ok) process.exitCode = 1;
 }

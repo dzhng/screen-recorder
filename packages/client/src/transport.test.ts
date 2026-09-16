@@ -1,7 +1,7 @@
 import { afterEach, expect, it } from "vitest";
 import { createServer, type Server } from "node:net";
 import { mkdtemp, rm } from "node:fs/promises";
-import { callLocal } from "./index.js";
+import { callLocal } from "./transport.js";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
