@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { callLocal, resolveServiceSocket, type ServiceSelection } from "@screenrec/client";
-import type { OperationResponse } from "@screenrec/protocol";
+import { resultSchema, type OperationResponse } from "@screenrec/protocol";
 
 export class MediaDeliveryError extends Error {
   constructor(
@@ -102,4 +102,57 @@ export async function mediaBytes(
       { timeoutMs: 1000 },
     ).catch(() => undefined);
   }
+}
+
+const batchResponse = {
+  atUs: z.object({
+    recordingId: z.string(),
+    revisionId: z.string(),
+    items: z
+      .array(z.intersection(resultSchema, z.object({ atUs: z.number() })))
+      .min(1)
+      .max(8),
+  }),
+  ordinal: z.object({
+    recordingId: z.string(),
+    revisionId: z.string(),
+    generation: z.string(),
+    items: z
+      .array(z.intersection(resultSchema, z.object({ ordinal: z.int().nonnegative() })))
+      .min(1)
+      .max(8),
+  }),
+};
+
+// Drain every ready item's lease even when another read or output write fails.
+export async function consumeBatch(
+  selection: ServiceSelection,
+  result: OperationResponse,
+  reference: keyof typeof batchResponse,
+  consume: (
+    media: NonNullable<Awaited<ReturnType<typeof mediaBytes>>>,
+    index: number,
+  ) => Promise<Record<string, unknown>>,
+  errorDetails: (error: unknown) => Extract<OperationResponse, { ok: false }>["error"],
+): Promise<OperationResponse> {
+  if (!result.ok) return result;
+  const batch = batchResponse[reference].parse(result.data);
+  const items = [];
+  for (const [index, item] of batch.items.entries()) {
+    try {
+      const media = await mediaBytes(selection, { ...item, id: result.id });
+      items.push(
+        media && item.ok
+          ? {
+              ...item,
+              data: { ...(item.data as Record<string, unknown>), ...(await consume(media, index)) },
+            }
+          : item,
+      );
+    } catch (error) {
+      const identity = "ordinal" in item ? { ordinal: item.ordinal } : { atUs: item.atUs };
+      items.push({ ...identity, ok: false, error: errorDetails(error) });
+    }
+  }
+  return { ...result, data: { ...batch, items } };
 }

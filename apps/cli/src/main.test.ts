@@ -390,111 +390,143 @@ it("does not replay a mutation when the discovered service loses its response", 
   expect(operations).toEqual(["service.health", "edit.cut"]);
 });
 
-it("batch adapters retain partial failures, drain every lease and never overwrite output directories", async () => {
-  const home = await mkdtemp("/tmp/scr-batch-client-");
-  cleanup.push(() => rm(home, { recursive: true, force: true }));
-  const closed: string[] = [];
-  const bytes = Buffer.from("image fixture bytes");
-  let collideFile = false;
-  const collisionOutput = join(home, "file-collision");
-  const listener = await listenLocal({
-    runtimeDirectory: home,
-    handler: async (request) => {
-      const params = request.params as { token: string };
-      if (request.operation === "artifact.close") {
-        closed.push(params.token);
-        return { ok: true, data: {} };
-      }
-      if (request.operation === "artifact.read") {
-        if (collideFile && params.token === "second")
-          await writeFile(join(collisionOutput, "02.png"), "existing");
-        if (!collideFile && params.token === "first")
+it.each([
+  { operation: "frame.batch", reference: "atUs" },
+  { operation: "index.frames", reference: "ordinal" },
+] as const)(
+  "$operation adapters retain partial failures, drain leases and never overwrite outputs",
+  async ({ operation, reference }) => {
+    const home = await mkdtemp("/tmp/scr-batch-client-");
+    cleanup.push(() => rm(home, { recursive: true, force: true }));
+    const closed: string[] = [];
+    const requested = reference === "ordinal" ? [7, 2, 7] : [0, 1, 2];
+    const selectedIdentity =
+      reference === "ordinal" ? { revisionId: "r0", generation: "retained-1" } : {};
+    const bytes = Buffer.from("image fixture bytes");
+    let collideFile = false;
+    const collisionOutput = join(home, "file-collision");
+    const listener = await listenLocal({
+      runtimeDirectory: home,
+      handler: async (request) => {
+        const params = request.params as { token: string };
+        if (request.operation === "artifact.close") {
+          closed.push(params.token);
+          return { ok: true, data: {} };
+        }
+        if (request.operation === "artifact.read") {
+          if (collideFile && params.token === "second")
+            await writeFile(join(collisionOutput, "02.png"), "existing");
+          if (!collideFile && params.token === "first")
+            return {
+              ok: false,
+              error: { code: "ARTIFACT_EXPIRED", message: "expired", retryable: true, details: {} },
+            };
           return {
-            ok: false,
-            error: { code: "ARTIFACT_EXPIRED", message: "expired", retryable: true, details: {} },
+            ok: true,
+            data: {
+              offset: 0,
+              nextOffset: bytes.length,
+              eof: true,
+              data: bytes.toString("base64"),
+            },
           };
+        }
         return {
           ok: true,
-          data: { offset: 0, nextOffset: bytes.length, eof: true, data: bytes.toString("base64") },
+          data: {
+            recordingId: "take",
+            revisionId: "r0",
+            ...selectedIdentity,
+            items: (collideFile ? ["first", "second", "third"] : ["first", "second"]).map(
+              (token, index) => ({
+                [reference]: requested[index],
+                ok: true,
+                data: {
+                  state: "ready",
+                  published: { frame: { mediaType: "image/png" } },
+                  delivery: { token, bytes: bytes.length, expiresAt: Date.now() + 30000 },
+                },
+              }),
+            ),
+          },
         };
-      }
-      return {
-        ok: true,
-        data: {
-          recordingId: "take",
-          revisionId: "r0",
-          items: (collideFile ? ["first", "second", "third"] : ["first", "second"]).map(
-            (token, atUs) => ({
-              atUs,
-              ok: true,
-              data: {
-                state: "ready",
-                published: { frame: { mediaType: "image/png" } },
-                delivery: { token, bytes: bytes.length, expiresAt: Date.now() + 30000 },
-              },
+      },
+    });
+    cleanup.push(() => listener.close());
+    const params =
+      reference === "ordinal"
+        ? { recordingId: "take", ...selectedIdentity, ordinals: requested.slice(0, 2) }
+        : { recordingId: "take", clean: true, atUs: requested.slice(0, 2) };
+    const output = join(home, "frames");
+    const run = async (destination = output) =>
+      JSON.parse(
+        (
+          await promisify(execFile)(process.execPath, [
+            entry,
+            operation,
+            "--socket",
+            listener.socketPath,
+            "--params",
+            JSON.stringify({
+              ...params,
+              [reference === "ordinal" ? "ordinals" : "atUs"]: collideFile
+                ? requested
+                : requested.slice(0, 2),
             }),
-          ),
-        },
-      };
-    },
-  });
-  cleanup.push(() => listener.close());
-  const params = { recordingId: "take", clean: true, atUs: [0, 1] };
-  const output = join(home, "frames");
-  const run = async (destination = output) =>
-    JSON.parse(
-      (
-        await promisify(execFile)(process.execPath, [
-          entry,
-          "frame.batch",
-          "--socket",
-          listener.socketPath,
-          "--params",
-          JSON.stringify({ ...params, atUs: collideFile ? [0, 1, 2] : params.atUs }),
-          "--output",
-          destination,
-        ])
-      ).stdout,
+            "--output",
+            destination,
+          ])
+        ).stdout,
+      );
+    const first = await run();
+    expect(first.data.items[0]).toMatchObject({
+      [reference]: requested[0],
+      ok: false,
+      error: { code: "ARTIFACT_EXPIRED" },
+    });
+    expect(first.data.items.map((item: Record<string, unknown>) => item[reference])).toEqual(
+      requested.slice(0, 2),
     );
-  const first = await run();
-  expect(first.data.items[0]).toMatchObject({
-    atUs: 0,
-    ok: false,
-    error: { code: "ARTIFACT_EXPIRED" },
-  });
-  expect(await readFile(first.data.items[1].data.output)).toEqual(bytes);
-  expect(closed).toEqual(["first", "second"]);
-  const collision = await run();
-  expect(collision.data.items.every((item: { ok: boolean }) => !item.ok)).toBe(true);
-  expect(closed).toEqual(["first", "second", "first", "second"]);
-  expect(await readFile(first.data.items[1].data.output)).toEqual(bytes);
-  const client = new Client({ name: "batch-failure-proof", version: "1" });
-  try {
-    await client.connect(
-      new StdioClientTransport({
-        command: process.execPath,
-        args: [entry, "mcp", "--socket", listener.socketPath],
-        stderr: "pipe",
-      }),
+    expect(first.data).toMatchObject(selectedIdentity);
+    expect(await readFile(first.data.items[1].data.output)).toEqual(bytes);
+    expect(closed).toEqual(["first", "second"]);
+    const collision = await run();
+    expect(collision.data.items.every((item: { ok: boolean }) => !item.ok)).toBe(true);
+    expect(closed).toEqual(["first", "second", "first", "second"]);
+    expect(await readFile(first.data.items[1].data.output)).toEqual(bytes);
+    const client = new Client({ name: "batch-failure-proof", version: "1" });
+    try {
+      await client.connect(
+        new StdioClientTransport({
+          command: process.execPath,
+          args: [entry, "mcp", "--socket", listener.socketPath],
+          stderr: "pipe",
+        }),
+      );
+      const result = await client.callTool({ name: operation, arguments: params });
+      expect(result.isError).toBe(false);
+      const data = result.structuredContent as typeof first;
+      expect(data.data.items[0].error.code).toBe("ARTIFACT_EXPIRED");
+      const image = result.content as { type: string; data: string }[];
+      expect(Buffer.from(image[data.data.items[1].data.contentIndex]!.data, "base64")).toEqual(
+        bytes,
+      );
+      expect(closed).toEqual(["first", "second", "first", "second", "first", "second"]);
+    } finally {
+      await client.close();
+    }
+    // Another writer wins just one filename after our exclusive directory creation.
+    collideFile = true;
+    const files = await run(collisionOutput);
+    expect(files.data.items.map((item: { ok: boolean }) => item.ok)).toEqual([true, false, true]);
+    expect(files.data.items.map((item: Record<string, unknown>) => item[reference])).toEqual(
+      requested,
     );
-    const result = await client.callTool({ name: "frame.batch", arguments: params });
-    expect(result.isError).toBe(false);
-    const data = result.structuredContent as typeof first;
-    expect(data.data.items[0].error.code).toBe("ARTIFACT_EXPIRED");
-    const image = result.content as { type: string; data: string }[];
-    expect(Buffer.from(image[data.data.items[1].data.contentIndex]!.data, "base64")).toEqual(bytes);
-    expect(closed).toEqual(["first", "second", "first", "second", "first", "second"]);
-  } finally {
-    await client.close();
-  }
-  // Another writer wins just one filename after our exclusive directory creation.
-  collideFile = true;
-  const files = await run(collisionOutput);
-  expect(files.data.items.map((item: { ok: boolean }) => item.ok)).toEqual([true, false, true]);
-  expect(await readFile(join(collisionOutput, "02.png"), "utf8")).toBe("existing");
-  expect(await readFile(files.data.items[2].data.output)).toEqual(bytes);
-  expect(closed.slice(-3)).toEqual(["first", "second", "third"]);
-});
+    expect(await readFile(join(collisionOutput, "02.png"), "utf8")).toBe("existing");
+    expect(await readFile(files.data.items[2].data.output)).toEqual(bytes);
+    expect(closed.slice(-3)).toEqual(["first", "second", "third"]);
+  },
+);
 
 it("invalid batch cardinality and trail options are rejected before service discovery", () => {
   for (const params of [
@@ -507,4 +539,110 @@ it("invalid batch cardinality and trail options are rejected before service disc
       exitCode: 1,
       result: { error: { code: "INVALID_PARAMS" } },
     });
+});
+
+it("selected-frame CLI and MCP deliver image bytes while metadata-only responses create no files", async () => {
+  const home = await mkdtemp("/tmp/scr-selected-client-");
+  cleanup.push(() => rm(home, { recursive: true, force: true }));
+  const bytes = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7l8AAAAASUVORK5CYII=",
+    "base64",
+  );
+  const identity = { recordingId: "take", revisionId: "r3", generation: "retained-generation" };
+  let closes = 0;
+  const envelope = (ordinal: number) =>
+    ordinal === 9
+      ? { state: "processing", published: null }
+      : {
+          state: "ready",
+          published: { frame: { mediaType: "image/png" } },
+          delivery: {
+            token: `selected-${ordinal}`,
+            bytes: bytes.length,
+            expiresAt: Date.now() + 30000,
+          },
+        };
+  const listener = await listenLocal({
+    runtimeDirectory: home,
+    handler: async (request) => {
+      if (request.operation === "artifact.close") {
+        closes++;
+        return { ok: true, data: { closed: true } };
+      }
+      if (request.operation === "artifact.read")
+        return {
+          ok: true,
+          data: { offset: 0, nextOffset: bytes.length, eof: true, data: bytes.toString("base64") },
+        };
+      if (request.operation === "index.frame")
+        return { ok: true, data: envelope((request.params as { ordinal: number }).ordinal) };
+      if (request.operation === "index.frames")
+        return {
+          ok: true,
+          data: {
+            ...identity,
+            items: (request.params as { ordinals: number[] }).ordinals.map((ordinal) => ({
+              ordinal,
+              ok: true,
+              data: envelope(ordinal),
+            })),
+          },
+        };
+      throw new Error(`Unexpected ${request.operation}`);
+    },
+  });
+  cleanup.push(() => listener.close());
+  const run = (operation: string, params: Record<string, unknown>, output: string) =>
+    promisify(execFile)(process.execPath, [
+      entry,
+      operation,
+      "--socket",
+      listener.socketPath,
+      "--params",
+      JSON.stringify(params),
+      "--output",
+      output,
+    ]);
+  const output = join(home, "selected.png");
+  const delivered = await run("index.frame", { ...identity, ordinal: 7 }, output);
+  expect(JSON.parse(delivered.stdout)).toMatchObject({ ok: true, data: { output } });
+  expect(await readFile(output)).toEqual(bytes);
+  expect(closes).toBe(1);
+  const client = new Client({ name: "selected-image-proof", version: "1" });
+  try {
+    await client.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [entry, "mcp", "--socket", listener.socketPath],
+        stderr: "pipe",
+      }),
+    );
+    const result = await client.callTool({
+      name: "index.frame",
+      arguments: { ...identity, ordinal: 7 },
+    });
+    expect(result.isError).toBe(false);
+    const images = (result.content as { type: string; data?: string }[]).filter(
+      (item) => item.type === "image",
+    );
+    expect(images).toHaveLength(1);
+    expect(Buffer.from(images[0]!.data!, "base64")).toEqual(bytes);
+    expect(closes).toBe(2);
+    const pending = await client.callTool({
+      name: "index.frames",
+      arguments: { ...identity, ordinals: [9] },
+    });
+    expect((pending.content as { type: string }[]).map((item) => item.type)).toEqual(["text"]);
+  } finally {
+    await client.close();
+  }
+  for (const operation of ["index.frame", "index.frames"]) {
+    const missing = join(home, operation);
+    const params =
+      operation === "index.frame" ? { ...identity, ordinal: 9 } : { ...identity, ordinals: [9] };
+    const pending = await run(operation, params, missing);
+    expect(JSON.parse(pending.stdout).ok).toBe(true);
+    await expect(readFile(missing)).rejects.toMatchObject({ code: "ENOENT" });
+  }
+  expect(closes).toBe(2);
 });
