@@ -44,3 +44,6 @@ Independent `codex review --uncommitted` found no actionable static issue; its
 sandboxed native run timed out before app/service startup and supplies no runtime
 proof. Host verification caught and corrected a test-only non-JSON revision request
 before the final combined green run.
+
+Merged verification: all eight public trail boundary cases pass against the root
+bundle after shared observation caching and canonical background scans were added.

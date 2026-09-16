@@ -1,6 +1,10 @@
 # 11 — Useful bounded screenshot index
 
-Status: not started. Dependencies: 10.
+Status: implementation split into [selection ledger](11a-selection-ledger.md),
+[shared materialization](11b-shared-frame-materialization.md), and
+[retained/public index](11c-retained-index.md). The first two are dependency-ready;
+parent real capture/threshold gates remain open. Dependencies: source evidence,
+10f canonical scenes and existing frame rendering.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned
