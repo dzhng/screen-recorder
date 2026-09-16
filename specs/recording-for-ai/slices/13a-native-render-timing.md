@@ -1,27 +1,32 @@
 # 13a — Native render timing feasibility
 
-Status: membership and player-output gap checkpoints measured; product renderer and full
-gate remain unimplemented. Dependency: the implemented core timeline/render
-plan and native media worker seams. Independent of speech readiness and completion
-of the CLI/MCP journey. Parent [13](13-edited-media.md) remains open.
+Status: first sequential video-only worker measured; full gate remains open.
+Dependency: the implemented core timeline/render plan and native media worker seams.
+Independent of speech readiness and completion of the CLI/MCP journey.
+Parent [13](13-edited-media.md) remains open.
 
 ## Current pickup
 
-[The first bounded probe](../assets/render-membership/review.md) establishes
-nonempty held-frame membership for dense/reordered and sparse generated sources.
-Timestamped writer outputs preserve the measured sub-frame intervals; the tested
-composition export does not pass independent decoding. The follow-up running-player probe
-observes explicit no-display references across both leading and internal empty
-edits; a raw decoder's duplicate frame is not a presentation rule. AVPlayerLayer
-background appearance and the production empty-edit render policy remain undecided.
-The next pass must choose that contract explicitly before implementing gap output. Existing still-image inspection
-continues to reject gap-only/no-PTS kept intervals and needs no change on this evidence.
+[The sequential worker checkpoint](../assets/video-render/review.md) implements
+proven held-frame membership and explicitly timed output samples. It uses one
+sequential reader, bounded output buffers and the existing orientation owner.
+Sub-frame and fractional cuts preserve independently decoded duration and imagery.
+Actual standard-player screenshots establish the opaque export appearance for
+proven empty edits: black. This mapping applies only to rendered opaque MP4;
+source/package gap semantics remain unchanged and unknown support still fails.
+Passthrough edit-list assembly loses trailing empties and has measured decoder
+interoperability problems, so it is not the rendering architecture.
 
-The reproducible optional fixture is `node helpers/mac/Tests/render-membership.mjs`.
-It is a standalone SDK probe, not `lab:render-timing` or the product render worker.
-The full command and all gates below remain required. The next implementation must
-stream decoded frames; the probe's explicitly bounded sixteen-frame fixture buffer
-must not become the movie architecture. Parent 13 remains entirely open.
+Next, complete the integrated lab and job-lifetime gates below: pinned revision
+mutation, pause/undo plans, cancellation with attempt-artifact reclamation, and
+long render-job deadlines. Hard termination can leave unpublished private staging;
+the future job owner must reclaim it after the worker is terminal. The current
+worker refuses odd or over-8192-pixel dimensions without silently resizing them.
+No public preview/export capability or full 13a completion is claimed.
+
+The native regression entrypoint is `node --test helpers/mac/Tests/video-render.test.mjs`.
+The optional membership/playback probe remains diagnostic; its bounded fixture
+buffer is not used by the product worker. All remaining gates below stay required.
 
 ## One question and contract
 

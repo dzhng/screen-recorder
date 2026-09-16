@@ -1,0 +1,38 @@
+[
+  {
+    "seconds": 10,
+    "receipt": {
+      "data": {
+        "bytes": 730847,
+        "codec": "h264",
+        "durationUs": 10000000,
+        "file": "generated-long-10.mp4",
+        "frameCount": 300,
+        "height": 216,
+        "mediaType": "video/mp4",
+        "width": 384
+      },
+      "id": "render",
+      "ok": true
+    },
+    "time": "        1.69 real         0.41 user         0.43 sys\n            41385984  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                4153  page reclaims\n                   7  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  27  voluntary context switches\n               16691  involuntary context switches\n          1806846573  instructions retired\n          1876580701  cycles elapsed\n            81167128  peak memory footprint\n"
+  },
+  {
+    "seconds": 120,
+    "receipt": {
+      "data": {
+        "bytes": 8762862,
+        "codec": "h264",
+        "durationUs": 120000000,
+        "file": "generated-long-120.mp4",
+        "frameCount": 3600,
+        "height": 216,
+        "mediaType": "video/mp4",
+        "width": 384
+      },
+      "id": "render",
+      "ok": true
+    },
+    "time": "        7.50 real         4.13 user         4.54 sys\n            42024960  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n               17429  page reclaims\n                  16  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                  35  voluntary context switches\n              201663  involuntary context switches\n         14964403681  instructions retired\n         18793575468  cycles elapsed\n            81986304  peak memory footprint\n"
+  }
+]

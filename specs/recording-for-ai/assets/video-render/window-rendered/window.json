@@ -1,0 +1,20 @@
+[
+  {
+    "label" : "before",
+    "captureStatus" : 0,
+    "afterCapture" : 0.75631608299999997,
+    "beforeCapture" : 0.50115037500000004
+  },
+  {
+    "afterCapture" : 2.2646349579999998,
+    "label" : "gap",
+    "beforeCapture" : 2.0093064159999998,
+    "captureStatus" : 0
+  },
+  {
+    "afterCapture" : 3.8214997909999999,
+    "captureStatus" : 0,
+    "label" : "after",
+    "beforeCapture" : 3.5047688749999999
+  }
+]

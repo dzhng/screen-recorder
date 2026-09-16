@@ -4,7 +4,7 @@ import { join, resolve, isAbsolute } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { raster } from "../../../apps/macos/tests/fixtures/generated-capture.mjs";
+import { renderFrames } from "./fixtures/render-frames.mjs";
 import {
   createOriginalRevision,
   createRevision,
@@ -29,15 +29,7 @@ function run(cmd, args, input) {
   return p.stdout;
 }
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const frames = [];
-for (let n = 0; n < 6; n++) {
-  const { rgb, rect, text } = raster(320, 180);
-  rect(0, 0, 320, 180, [30 + n * 30, 40, 100]);
-  rect(0, 0, 30, 50, [255, 0, 0]);
-  rect(270, 130, 50, 50, [0, 255, 80]);
-  text("FRAME " + n, 40, 70, 4, [255, 255, 255]);
-  frames.push(rgb);
-}
+const frames = renderFrames();
 await writeFile(join(out, "source.rgb"), Buffer.concat(frames));
 for (const [name, rate] of [
   ["dense", 30],
@@ -239,11 +231,24 @@ if (process.env.SCREENREC_RENDER_PLAYBACK === "1") {
     "-o",
     join(out, "playback-probe"),
   ]);
+  if (process.env.SCREENREC_RENDER_WINDOW === "1") {
+    run("swiftc", [
+      "-parse-as-library",
+      join(import.meta.dirname, "RenderMembership/window.swift"),
+      "-o",
+      join(out, "window-probe"),
+    ]);
+  }
   report.playback = {};
   for (const kind of ["leading", "internal"]) {
     const source = join(out, `gap-${kind}.mov`);
     const destination = join(out, `playback-${kind}`);
     run(join(out, "gap-maker"), [join(out, "sparse.mov"), source, kind]);
+    if (kind === "internal" && process.env.SCREENREC_RENDER_WINDOW === "1") {
+      const shots = join(out, "window-shots");
+      await mkdir(shots);
+      run(join(out, "window-probe"), [source, shots]);
+    }
     const before = hash(await readFile(source));
     run(join(out, "playback-probe"), [source, destination]);
     assert.equal(hash(await readFile(source)), before);

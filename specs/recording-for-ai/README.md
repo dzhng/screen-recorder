@@ -29,9 +29,9 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: implement the bounded native renderer from the measured timing/gap
-checkpoint in [13a](slices/13a-native-render-timing.md), then wire edited video and
-package exports. [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
+Current pickup: integrate the native renderer with pinned plans and job lifetimes
+in [13a](slices/13a-native-render-timing.md), while implementing package manifest
+and readiness validation in [14a](slices/14a-package-manifest.md). [Storage/deletion](slices/15b-storage-and-deletion.md) is verified,
 including native workers and frame/audio/index leases. Recent-recording delete and
 storage controls build and pass native state/identity checks, but computer-use could
 reach only their fixture window; actual menu interaction/visual review remains open
@@ -54,11 +54,17 @@ markers when a delayed first frame establishes source zero after pause/resume.
 Both native fixes pass merged capture/recovery fixtures and the own-window public
 capture check. Do not rebuild either clock mapping in TypeScript.
 
+The first [sequential video worker](slices/13a-native-render-timing.md) passes
+generated exact-duration and pixel-identity gates, including opaque rendering of
+proven empty edits. The integrated lab, job cancellation/staging reclamation and
+full preview/export workflow remain open.
+
 Priority order: native edited video/package execution, remaining controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
 Keep one queue, immutable sources, explicit dependency failure and the complete
 CLI/MCP surface. Generated scale evidence does not establish real-capture usefulness.
 No more Claude use.
+
 
 Current evidence:
 

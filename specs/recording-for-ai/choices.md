@@ -1170,3 +1170,25 @@ The no-live-unlink invariant and direct libuv-owned socket cleanup were explicit
   could remove an unrelated open submenu. **Reach:** The existing last-rendered
   entries remain the comparison owner; actual NSMenu identity has a focused
   regression separate from the visual gate. **Verdict:** sound, high confidence.
+
+## Opaque video empty-edit appearance — 2026-09-16
+
+- **Choice:** Render proven empty video edits as opaque black in H.264 MP4,
+  matching the measured default AVPlayerView appearance. Held source images use
+  proven sample support; unknown support fails. **Gap:** A no-display reference
+  does not itself choose an opaque pixel value, and passthrough edit lists lose
+  trailing empties and produce incompatible decoding behavior. **Reach:** Only
+  rendered opaque video changes representation; original media, package gaps and
+  the stricter still-image contract remain intact. **Evidence:** Owned-window
+  captures and independent decoder receipts in the
+  [video checkpoint](assets/video-render/review.md). **Verdict:** sound, high
+  confidence for the measured standard-player/opaque-MP4 contract; other player
+  backgrounds are not claimed equivalent.
+- **Choice:** Give each encoded sample its retained duration as well as its
+  presentation time. **Gap:** Timestamp-only append with an explicit session end
+  can report the right asset duration while producing a shorter final sample.
+  **Reach:** One sequential native owner uses the core's exact plan, a bounded
+  pixel pool and the shared orientation/segment mapping. It publishes exclusively
+  after completion. **Verdict:** sound, high confidence from fractional,
+  one-microsecond and trailing-gap independent decoding; job cancellation and
+  abandoned staging reclamation remain explicit follow-on gates.

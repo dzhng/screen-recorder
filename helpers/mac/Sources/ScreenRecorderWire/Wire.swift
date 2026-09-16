@@ -49,6 +49,16 @@ public enum NativeWire {
                     response = failure(
                         id: id, code: "DELETE_FAILED", message: error.localizedDescription)
                 }
+            } else if operation == "media.renderVideo" {
+                do {
+                    let result = try await VideoOperation.execute(params)
+                    let data = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
+                    response = ["id": id, "ok": true, "data": data]
+                } catch let error as FrameFailure {
+                    response = failure(id: id, code: error.code, message: error.message)
+                } catch {
+                    response = failure(id: id, code: "NATIVE_DECODE_FAILED", message: error.localizedDescription)
+                }
             } else if operation == "media.audio" {
                 do {
                     let result = try await AudioOperation.execute(params)

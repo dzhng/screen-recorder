@@ -1,0 +1,145 @@
+{
+  "window-initial/before": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 31,
+    "maximum": 255,
+    "mean": 74.89831365844266,
+    "nonzeroChannels": 2575872
+  },
+  "window-initial/gap": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 0,
+    "maximum": 0,
+    "mean": 0.0,
+    "nonzeroChannels": 0
+  },
+  "window-initial/after": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 31,
+    "maximum": 255,
+    "mean": 74.89831365844266,
+    "nonzeroChannels": 2575872
+  },
+  "window-source/before": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 31,
+    "maximum": 255,
+    "mean": 75.11251762509939,
+    "nonzeroChannels": 2575872
+  },
+  "window-source/gap": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 0,
+    "maximum": 0,
+    "mean": 0.0,
+    "nonzeroChannels": 0
+  },
+  "window-source/after": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 33,
+    "maximum": 255,
+    "mean": 82.87109918505267,
+    "nonzeroChannels": 2575872
+  },
+  "window-rendered/before": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 29,
+    "maximum": 255,
+    "mean": 80.61749108651361,
+    "nonzeroChannels": 2575872
+  },
+  "window-rendered/gap": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 0,
+    "maximum": 0,
+    "mean": 0.0,
+    "nonzeroChannels": 0
+  },
+  "window-rendered/after": {
+    "width": 1280,
+    "height": 784,
+    "contentRegion": [
+      16,
+      80,
+      1248,
+      688
+    ],
+    "minimum": 29,
+    "maximum": 255,
+    "mean": 87.93880480085967,
+    "nonzeroChannels": 2575872
+  },
+  "sourceVersusRendered": {
+    "before": {
+      "meanAbsoluteChannelDifference": 6.055590883397933,
+      "maximumChannelDifference": 34,
+      "fractionChannelsAbove32": 0.00018712109918505267
+    },
+    "gap": {
+      "meanAbsoluteChannelDifference": 0.0,
+      "maximumChannelDifference": 0,
+      "fractionChannelsAbove32": 0.0
+    },
+    "after": {
+      "meanAbsoluteChannelDifference": 5.599429241825681,
+      "maximumChannelDifference": 37,
+      "fractionChannelsAbove32": 0.0005081774249652156
+    }
+  }
+}
