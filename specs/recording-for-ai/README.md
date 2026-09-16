@@ -30,8 +30,11 @@ recording or permission is pending, but do not call that gate passed.
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
 Current pickup: integrate the accepted native video and bounded PCM audio into
-playable media in [13](slices/13-edited-media.md), alongside portable read-only
-inspection in [14b](slices/14b-portable-inspection.md). Internal video timing
+playable media in [13](slices/13-edited-media.md), alongside the archive boundary
+and package lifetime in [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
+[14b](slices/14b-portable-inspection.md) now passes internal relocated-directory
+inspection through the same native consumers, with the original library removed.
+Internal video timing
 [13a](slices/13a-native-render-timing.md), bounded audio
 [13b](slices/13b-streaming-audio.md), and package metadata
 [14a](slices/14a-package-manifest.md) pass their scoped gates. Parent 13 still needs
@@ -159,9 +162,10 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md) (bounded exact support; pointer policy/composition remain)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
-  - [ ] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)
+  - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md) (internal directory/native parity; ZIP and public handles remain)
     - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md) (consumer planning, not full package relocation)
-    - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md) (source-only relocation; native whole-context parity remains)
+    - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md) (source-only relocation)
+    - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md) (shared readers and fresh-process frame/audio parity)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

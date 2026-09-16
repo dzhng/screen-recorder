@@ -50,7 +50,7 @@ planning owners using only file readers and explicit moved assets.
 annotated arbitrary frames, retained images, scenes/coverage and native audio.
 The arbitrary request is absent from the retained index. Checks include cut and
 historical mapping, scene and pause cutoffs, geometry epochs, sparse requested/
-actual timestamps, audible acquisition gaps, decoded pixels, unchanged input
+actual timestamps, audio acquisition gaps, decoded pixels, unchanged input
 hashes and closed owned worker processes. Existing missing-role planner tests
 remain the missing-role evidence; this two-track native fixture acquires both roles.
 

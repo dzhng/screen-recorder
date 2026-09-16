@@ -41,3 +41,16 @@ the failure, and hashing now resolves from the repository root.
 This is an internal generated-directory result. It is not a ZIP containment,
 public CLI/MCP package-handle, accepted narration/transcript, or complete export
 result. [14b3](../../slices/14b3-retained-inspection.md) owns those remaining gates.
+
+[Main-checkout relocation](merged-relocation.json) independently reruns the lab
+against the rebuilt app after movie/presentation integration and shared full-audio
+planning. All 269 core tests also pass in the [merged execution log](merged-core-tests.txt).
+The [bundled public index check](merged-public-index.txt) also passes retained
+image delivery through the public adapters across edits, cache eviction and restart.
+All four merged relocation PNGs are byte-identical to the independently reviewed set.
+
+The four-image human checkpoint ran in one Preview window from 21:20:25 to
+21:25:27 UTC on 2026-09-16. No feedback arrived. The integrating reviewer accepted
+the scoped relocation parity on exact byte/pixel comparisons and full-image
+inspection, retaining the fixture contrast/edge limitations above. The review
+window and its empty open dialog were closed afterward.
