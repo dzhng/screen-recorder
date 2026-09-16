@@ -16,7 +16,7 @@ cleanup after directory removal is SQL-only. Ordinary cache eviction is unchange
 - Seven service coordinator checks cover coalescing, immediate lease revocation,
   a held worker after abort, capture refusal while that worker closes, startup
   cleanup drainage, service close during native removal, per-record restart
-  isolation, and a catalog fault after file removal. These tests model native
+  isolation, and reopening after a catalog fault following file removal. These tests model native
   receipts; they do not replace the following native checks.
 - The built app's public deletion test records only its own fixture window, with
   both audio roles disabled. CLI deletes an active take; a replacement starts and
@@ -44,6 +44,7 @@ scan time and 3.82 ms worst health-plus-sibling-read pair. These are host observ
 not throughput promises. [Storage semantics](usage.md) explain live-scan omissions
 and the distinction between recording bytes and shared database overhead.
 
-Worker-process drainage during public deletion has separate native verification
-in progress. Physical audio, real cursor gestures, edited video and full installed
+[Worker-process drainage](worker-deletion.md) passes an actual stopped native
+worker and a mutation that removes queue drainage. The explicit frame/audio/index
+lease matrix remains open. Physical audio, real cursor gestures, edited video and full installed
 agent workflows remain open parent gates.

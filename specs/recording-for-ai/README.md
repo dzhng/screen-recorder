@@ -29,7 +29,7 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish actual media-worker drainage coverage for public recording
+Current pickup: finish the explicit frame/audio/index lease matrix for public recording
 deletion in [storage/deletion](slices/15b-storage-and-deletion.md).
 Then rerun the full index scale gate after cache/stillness integration in
 [retained index delivery](slices/11c-retained-index.md). Selection, retained storage,
@@ -135,6 +135,7 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
   - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)
 - [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
+  - [ ] [13a — Native render timing feasibility](slices/13a-native-render-timing.md) (independent of speech)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
@@ -215,14 +216,16 @@ pause/cut events, limits, request replay, audio mix and export semantics.
 | [06b Bounded local transport](slices/06b-local-transport.md) | 00, 06a for edit fixture | Real socket calls and bounded failure |
 | [06c App-owned service lifetime](slices/06c-app-service-lifetime.md) | 00, 06b | Packaged app/child health, shutdown and failure |
 | [06 Single-writer library and app-managed service](slices/06-service-and-jobs.md) | 02, 05 | Real-process state/race/restart cases |
-| [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | 03, 06 | Native controls and recording state shots |
+| [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | 03, 06, 15b for delete/storage | Native controls and recording state shots |
 | [08 Durable local transcription and projections](slices/08-transcript-processing.md) | 04, 06 | Word-timed transcript and retry |
 | [09 Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md) | 03, 05, 06 | Timestamped clean frames/audio |
 | [10 Readable cursor trails on requested frames](slices/10-cursor-trails.md) | 09 | Circle/wave and boundary trail shots |
 | [11 Useful bounded screenshot index](slices/11-screenshot-selection.md) | 10 | Contact sheet with selection reasons |
 | [12 Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md) | 00b, 07, 08, 11 | CLI/MCP parity and actual agent edit calls |
+| [13a Native render timing](slices/13a-native-render-timing.md) | 05 and native media worker | Exact cut timing and independently decoded output |
 | [13 Playable edited media and audio joins](slices/13-edited-media.md) | 09, 12 | Audition/inspect actual edited media |
 | [14 Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md) | 08, 11, 13 | Two exports; moved package, new frame |
+| [15b Recording storage and manual deletion](slices/15b-storage-and-deletion.md) | 06 and cache/evidence ownership | Busy delete, restart cleanup and CLI/MCP storage totals |
 | [15 Installed personal workflow and closeout](slices/15-personal-release.md) | 00–14 | Installed localhost journey and closeout |
 
 Slices 00b, 01, 04 and 05 can progress independently after bootstrap; pending

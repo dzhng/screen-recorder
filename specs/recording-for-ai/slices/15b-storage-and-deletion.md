@@ -8,7 +8,8 @@ progress. [Catalog/queue](../assets/storage/catalog-queue.md),
 [storage usage](../assets/storage/usage.md) have focused evidence. The public
 native deletion gate passes CLI/MCP calls against silent app-owned fixture takes;
 [seeded startup recovery](../assets/storage/public-deletion.md) also passes.
-Actual media-worker drainage during public deletion remains under verification. These checks do not close
+[Actual media-worker drainage](../assets/storage/worker-deletion.md) passes.
+The explicit frame/audio/index lease matrix remains to be completed before closeout. These checks do not close
 parent release, physical audio, or installed-workflow gates.
 
 ## Contract

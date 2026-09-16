@@ -77,11 +77,17 @@ async function fixture(
     },
   };
   const deletion = new RecordingDeletion(owners);
-  cleanup.push(async () => {
+  let closed = false;
+  async function closeOwners() {
+    if (closed) return;
+    closed = true;
     await deletion.close();
     delivery.dispose();
     await Promise.all([capture.close(), jobs.close()]);
     store.close();
+  }
+  cleanup.push(async () => {
+    await closeOwners();
     await rm(home, { recursive: true, force: true });
   });
   async function take() {
@@ -99,7 +105,7 @@ async function fixture(
     await writeFile(video, recording.sourceId);
     return { ...recording, directory, video };
   }
-  return { ...owners, deletion, home, take };
+  return { ...owners, deletion, home, take, closeOwners };
 }
 
 test("delete coalesces callers, revokes delivery immediately, and waits for a closing worker", async () => {
@@ -252,8 +258,15 @@ test("failure after file removal retains restart intent until catalog cleanup su
   await expect(lstat(target.directory)).rejects.toMatchObject({ code: "ENOENT" });
   expect(f.store.deleting(target.recordingId)?.sourceId).toBe(target.sourceId);
   f.store.catalog.exec("DROP TRIGGER block_final_delete");
-  await expect(f.deletion.delete(target.recordingId)).resolves.toMatchObject({ deleted: true });
-  expect(f.store.markDeleting(target.recordingId)).toBeNull();
+  await f.closeOwners();
+  const reopened = await fixture(undefined, undefined, f.home);
+  const failures: unknown[] = [];
+  await reopened.deletion.resume((error) => failures.push(error));
+  expect(failures).toEqual([]);
+  expect(reopened.store.markDeleting(target.recordingId)).toBeNull();
+  await expect(reopened.deletion.delete(target.recordingId)).resolves.toMatchObject({
+    deleted: true,
+  });
 });
 
 test("capture refusal still waits for a closing worker and preserves retryable intent", async () => {

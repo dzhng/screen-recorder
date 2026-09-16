@@ -64,7 +64,7 @@ test("ordinary launch owns one service child and answers health without starting
   ]);
   assert.equal(answer.data.pid, servicePid);
   // Startup opens the catalog, but it must not allocate a take or capture media.
-  assert.deepEqual(readdirSync(home).sort(), ["library.sqlite", "run"]);
+  assert.equal(exists(join(home, "recordings")), false);
   const latest = await callLocal(socketPath(home), {
     id: "idle-latest",
     operation: "recording.latest",

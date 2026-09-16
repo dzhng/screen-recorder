@@ -1,6 +1,6 @@
 # 07 — Usable menu-bar recording controls
 
-Status: partial implementation; native acceptance remains open. Dependencies: 03, 06.
+Status: partial implementation; native acceptance remains open. Dependencies: 03, 06; delete/storage controls additionally require 15b.
 
 See [integration notes](../assets/recording-controls/integration.md) for the tested
 boundary, unfinished verification, and next pickup. Delete and storage total are
