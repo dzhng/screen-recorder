@@ -298,6 +298,51 @@ test("portable chunks apply the append owner's semantic validation even with mat
   }
 });
 
+test("portable chunks must continue their predecessor and cover the whole source", async () => {
+  const f = await fixture(12),
+    directory = join(f.root, "scenes");
+  await writeSceneEvidencePages(f.scenes, f.sceneIdentity, directory);
+  const manifestPath = join(directory, "pages.json"),
+    manifestBody = readFileSync(manifestPath, "utf8");
+  const pagePath = join(directory, JSON.parse(manifestBody).indexes.chunks[0].file),
+    original = JSON.parse(readFileSync(pagePath, "utf8"));
+  expect(original.map((chunk: { range: object }) => chunk.range)).toEqual([
+    { startUs: 0, endUs: 10_000_000 },
+    { startUs: 10_000_000, endUs: 20_000_000 },
+    { startUs: 20_000_000, endUs: 24_000_000 },
+  ]);
+  const boundary = original[0].comparisons.at(-1);
+  expect(boundary).toMatchObject({ actualSourceUs: 10_000_000, boundary: true });
+  const write = (rows: typeof original) => {
+    const manifest = JSON.parse(manifestBody),
+      descriptor = manifest.indexes.chunks[0],
+      bytes = Buffer.from(JSON.stringify(rows));
+    writeFileSync(pagePath, bytes);
+    Object.assign(descriptor, {
+      rows: rows.length,
+      last: [rows.at(-1).range.startUs],
+      bytes: bytes.length,
+      sha256: createHash("sha256").update(bytes).digest("hex"),
+    });
+    manifest.metadata.chunkCount = rows.length;
+    writeFileSync(manifestPath, JSON.stringify(manifest));
+  };
+  const repeated = structuredClone(original);
+  repeated[1].comparisons.unshift(boundary);
+  repeated[1].boundaries.unshift({ kind: "scene", atSourceUs: boundary.actualSourceUs });
+  for (const rows of [repeated, [original[0], original[2]], original.slice(0, 2)]) {
+    write(rows);
+    const reader = new FileSceneEvidence(directory, f.sceneIdentity);
+    expect(() => reader.page({ identity: f.sceneIdentity })).toThrow(
+      expect.objectContaining({ code: "INVALID_EVIDENCE" }),
+    );
+  }
+  write(original);
+  expect(
+    new FileSceneEvidence(directory, f.sceneIdentity).page({ identity: f.sceneIdentity }).chunks,
+  ).toEqual(original);
+});
+
 test("shared retained index reads bind package continuations and preserve both reader behaviors", async () => {
   const f = await fixture(2),
     directory = join(f.root, "shared-index");
