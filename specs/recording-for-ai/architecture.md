@@ -29,7 +29,7 @@ when bootstrapping; do not copy stale version numbers merely for visual similari
 | `packages/client` | User-local socket client and app discovery. Used by CLI/MCP, never a second business-logic owner. |
 | `packages/test-harness` | Opt-in lab runners, the speech evaluator and the root forwarding point for labs whose suites live beside the app or helper they exercise. |
 | [helpers/mac](../../helpers/mac/README.md) | Swift package for ScreenCaptureKit, AVFoundation frame/render operations, capture journal and cursor geometry, plus the selected local speech runtime. Consumed by the app and a bounded media-worker executable. |
-| `scripts` | App bundle build plus native probe and evaluation command lines run from the repository root. No runtime editing behavior. |
+| `scripts` | App bundle build, personal install, and native probe and evaluation command lines run from the repository root. No runtime editing behavior. |
 
 Do not create an empty package merely because this table names it; materialize each
 with its first consumer. No Rust, Electron/Tauri, hosted service, generic plugin
