@@ -1,3 +1,4 @@
+import { CatalogError } from "./library.js";
 import { expect, test } from "vitest";
 import {
   SourceSceneAnalysis,
@@ -266,6 +267,38 @@ test("frame scene analysis keeps requested-time coverage and compares a future f
   expect(result.boundaries).toEqual([]);
   expect(requests.at(-1)?.kept).toEqual({ startUs: 0, endUs: 1_500_001 });
   expect(Math.max(...requests.flatMap((request) => request.atSourceUs))).toBe(1_500_000);
+});
+
+test("a request before the first retained frame after a cut uses that frame as its reference", async () => {
+  // The cut left the span starting between frames: the first retained picture is at 800 ms.
+  const sampler: VisualSampler = async (request) => {
+    if (request.kept.endUs <= 800_000)
+      throw new CatalogError("UNAVAILABLE", "No video sample inside the retained interval");
+    return {
+      sourceWidth: 64,
+      sourceHeight: 64,
+      samples: request.atSourceUs.map((requestedSourceUs) => ({
+        ...frame(800_000),
+        requestedSourceUs,
+        distanceUs: 800_000 - requestedSourceUs,
+      })),
+    };
+  };
+  for (const requestedSourceUs of [770_000, 780_000]) {
+    const result = await analyzeFrameScene(
+      {
+        recordingId: "fixture-recording",
+        source: "/fixture.mov",
+        kept: { startUs: 770_000, endUs: 4_000_000 },
+        requestedSourceUs,
+        trailUs: 2_000_000,
+      },
+      sampler,
+      new AbortController().signal,
+    );
+    expect(result.reference.actualSourceUs).toBe(800_000);
+    expect(result.futureComparison).toBeNull();
+  }
 });
 
 test.each([0, 2_000_000, 10_000_000])(

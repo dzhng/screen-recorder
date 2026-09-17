@@ -390,20 +390,29 @@ export async function analyzeFrameScene(
   if (local.lastSample.actualSourceUs > at) {
     // Narrow only the analysis search prefix, so the same nearest selector finds the last
     // sample at or before the request. Final image selection retains the original kept span.
-    const past = await observeVisualSamples(
-      {
-        recordingId: request.recordingId,
-        source: request.source,
-        kept: { startUs: request.kept.startUs, endUs: at + 1 },
-        atSourceUs: [at],
-      },
-      sample,
-      signal,
-    );
-    if (past.sourceWidth !== local.sourceWidth || past.sourceHeight !== local.sourceHeight)
-      invalid("Reference image dimensions changed within one immutable source");
-    reference = past.samples[0]!;
-    futureComparison = compareVisualSamples(reference, local.lastSample);
+    let past: VisualObservations | undefined;
+    try {
+      past = await observeVisualSamples(
+        {
+          recordingId: request.recordingId,
+          source: request.source,
+          kept: { startUs: request.kept.startUs, endUs: at + 1 },
+          atSourceUs: [at],
+        },
+        sample,
+        signal,
+      );
+    } catch (error) {
+      // A span that starts between frames, as after a cut, shows nothing before its first retained
+      // picture: that picture is the reference, with no earlier state to compare.
+      if (!(error instanceof CatalogError && error.code === "UNAVAILABLE")) throw error;
+    }
+    if (past) {
+      if (past.sourceWidth !== local.sourceWidth || past.sourceHeight !== local.sourceHeight)
+        invalid("Reference image dimensions changed within one immutable source");
+      reference = past.samples[0]!;
+      futureComparison = compareVisualSamples(reference, local.lastSample);
+    }
   }
   return { ...local, reference, futureComparison };
 }
