@@ -156,7 +156,7 @@ export class RevisionStore {
   close(): void {
     if (this.catalog.isOpen) this.catalog.close();
   }
-  /** The catalog's only write boundary: one immediate transaction, reporting a lock wait as retryable. */
+  /** One immediate transaction for writes that must land together, reporting a lock wait as retryable. */
   transaction<T>(run: () => T): T {
     let began = false;
     try {
@@ -287,12 +287,52 @@ export class RevisionStore {
       return { ...recording, state: "canceled", interruptionReason: null };
     });
   }
+  /** Whether work for this take may still start or publish: it was neither discarded nor marked for deletion. */
+  isAvailable(recordingId: string): boolean {
+    return Boolean(
+      this.catalog
+        .prepare(
+          "SELECT 1 FROM recordings WHERE recordingId=? AND state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)",
+        )
+        .get(recordingId),
+    );
+  }
   isDeleting(recordingId: string): boolean {
     return Boolean(
       this.catalog
         .prepare("SELECT 1 FROM recording_deletions WHERE recordingId=?")
         .get(recordingId),
     );
+  }
+  /**
+   * Visits every take the catalog still holds, discarded and deleting ones included. A failed visit
+   * does not stop the rest; the first failure is rethrown once every take was visited.
+   */
+  async forEachRecording(
+    signal: AbortSignal,
+    visit: (recording: Pick<Recording, "recordingId" | "sourceId">) => Promise<void>,
+  ): Promise<void> {
+    let after = "";
+    let failed = false;
+    let firstError: unknown;
+    for (;;) {
+      signal.throwIfAborted();
+      const recording = this.catalog
+        .prepare(
+          "SELECT recordingId,sourceId FROM recordings WHERE recordingId>? ORDER BY recordingId LIMIT 1",
+        )
+        .get(after) as Pick<Recording, "recordingId" | "sourceId"> | undefined;
+      if (!recording) break;
+      after = recording.recordingId;
+      try {
+        await visit(recording);
+      } catch (error) {
+        signal.throwIfAborted();
+        if (!failed) firstError = error;
+        failed = true;
+      }
+    }
+    if (failed) throw firstError;
   }
   /** Creation sequences never move: later takes cannot enter an existing traversal. */
   list(

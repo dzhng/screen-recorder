@@ -229,7 +229,7 @@ test("cleanup reclaims every crash phase while preserving published evidence and
   expect(f.processing.status(recording.recordingId)).toEqual(ready);
 });
 
-test("cleanup preserves canceled live attempts and queued replacements until executors settle", async () => {
+test("cleanup preserves a canceled attempt's output until its executor settles", async () => {
   let release!: () => void;
   let entered!: () => void;
   let count = 0;
@@ -253,21 +253,16 @@ test("cleanup preserves canceled live attempts and queued replacements until exe
   f.jobs.cancel(jobId);
   const replacement = f.jobs.retry(jobId);
   expect(replacement.attemptId).not.toBe(old);
-  // A queued attempt normally has no output yet; seed a marker to exercise its protection.
-  const queued = await orphan(f, recording, replacement.attemptId, "file");
+  const generations = join(f.home, "recordings", recording.recordingId, "evidence", "source");
   try {
     await f.processing.cleanup(new AbortController().signal);
-    expect(await readdir(dirname(queued))).toEqual(
-      expect.arrayContaining([old, replacement.attemptId]),
-    );
-    // Remove this test marker before allowing the actual replacement to allocate its directory.
-    await rm(queued, { recursive: true });
+    expect(await readdir(generations)).toEqual([old]);
   } finally {
     release();
   }
   await f.jobs.idle();
   expect(f.processing.status(recording.recordingId).state).toBe("ready");
-  expect(await readdir(dirname(queued))).toEqual([replacement.attemptId]);
+  expect(await readdir(generations)).toEqual([replacement.attemptId]);
 });
 
 test("cleanup skips unsafe parents without starving later recordings and never follows symlinks", async () => {

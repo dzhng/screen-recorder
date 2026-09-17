@@ -76,29 +76,7 @@ export class SourceProcessing {
 
   /** Recover the gap between finalization and admission without inventing another durable queue. */
   resume(): void {
-    // One background take can occupy the heavy lane; queuing the whole backlog only crowds
-    // foreground inspection out of the shared admission budget without increasing throughput.
-    if (
-      this.store.catalog
-        .prepare("SELECT 1 FROM jobs WHERE artifact=? AND state IN ('queued','running') LIMIT 1")
-        .get(artifact)
-    )
-      return;
-    const pending = this.store.catalog
-      .prepare(`SELECT recordingId FROM recordings
-      WHERE state IN ('complete','interrupted') AND sourceDurationUs IS NOT NULL
-      AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
-      AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.recordingId=recordings.recordingId
-        AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.input=?)
-      ORDER BY creationSequence LIMIT 1`)
-      .get(artifact, sourcePolicy) as { recordingId: string } | undefined;
-    if (!pending) return;
-    try {
-      this.prepare(pending.recordingId);
-    } catch (error) {
-      if (error instanceof CatalogError && error.code === "LIMIT_EXCEEDED") return;
-      throw error;
-    }
+    this.jobs.backfill({ artifact, input: sourcePolicy, lane: "heavy" });
   }
 
   retry(recordingId: string) {
@@ -139,44 +117,9 @@ export class SourceProcessing {
 
   /** Startup can run this after readiness; the owner aborts and awaits it before closing SQLite. */
   async cleanup(signal: AbortSignal): Promise<void> {
-    let after = "";
-    let firstError: unknown;
-    for (;;) {
-      signal.throwIfAborted();
-      const recording = this.store.catalog
-        .prepare(
-          "SELECT recordingId,sourceId FROM recordings WHERE recordingId>? ORDER BY recordingId LIMIT 1",
-        )
-        .get(after) as { recordingId: string; sourceId: string } | undefined;
-      if (!recording) break;
-      after = recording.recordingId;
-      try {
-        await this.cleanupRecording(recording, signal);
-      } catch (error) {
-        signal.throwIfAborted();
-        firstError ??= error;
-      }
-    }
-    if (firstError) throw firstError;
-  }
-
-  private protectedGeneration(recordingId: string, generation: string): boolean {
-    if (this.jobs.isAttemptActive(generation) || this.retained?.(recordingId, generation))
-      return true;
-    if (
-      this.store.catalog
-        .prepare(
-          "SELECT 1 FROM jobs WHERE recordingId=? AND attemptId=? AND state IN ('queued','running')",
-        )
-        .get(recordingId, generation)
-    )
-      return true;
-    // Corrupt publication metadata is not permission to delete potentially published evidence.
-    return !!this.store.catalog
-      .prepare(`SELECT 1 FROM artifacts WHERE recordingId=? AND artifact=?
-      AND CASE WHEN json_valid(result) THEN CASE WHEN json_type(result,'$.generation')='text'
-      THEN json_extract(result,'$.generation')=? ELSE 1 END ELSE 1 END`)
-      .get(recordingId, artifact, generation);
+    await this.store.forEachRecording(signal, (recording) =>
+      this.cleanupRecording(recording, signal),
+    );
   }
 
   private async cleanupRecording(
@@ -206,7 +149,11 @@ export class SourceProcessing {
     const reclaim = async (generation: string) => {
       signal.throwIfAborted();
       if (basename(generation) !== generation || [".", "..", ""].includes(generation)) return;
-      if (this.protectedGeneration(recordingId, generation)) return;
+      if (
+        this.jobs.retainsAttempt(recordingId, artifact, generation) ||
+        this.retained?.(recordingId, generation)
+      )
+        return;
       try {
         if (exists) await rm(join(parent, generation), { recursive: true, force: true });
         await this.evidence.reclaim({ recordingId, sourceId, generation }, signal);

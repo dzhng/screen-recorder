@@ -63,27 +63,7 @@ export class SceneProcessing {
     this.jobs.submit({ ...this.identity(recordingId), lane: "heavy" });
   }
   resume(): void {
-    if (
-      this.store.catalog
-        .prepare("SELECT 1 FROM jobs WHERE artifact=? AND state IN ('queued','running') LIMIT 1")
-        .get(artifact)
-    )
-      return;
-    const pending = this.store.catalog
-      .prepare(`SELECT recordingId FROM recordings
-      WHERE state IN ('complete','interrupted') AND sourceDurationUs IS NOT NULL
-      AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
-      AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.recordingId=recordings.recordingId
-        AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.input=?)
-      ORDER BY creationSequence LIMIT 1`)
-      .get(artifact, scenePolicy.id) as { recordingId: string } | undefined;
-    if (!pending) return;
-    try {
-      this.prepare(pending.recordingId);
-    } catch (error) {
-      if (error instanceof CatalogError && error.code === "LIMIT_EXCEEDED") return;
-      throw error;
-    }
+    this.jobs.backfill({ artifact, input: scenePolicy.id, lane: "heavy" });
   }
   retry(recordingId: string) {
     this.prepare(recordingId);
@@ -94,46 +74,16 @@ export class SceneProcessing {
     return this.status(recordingId);
   }
   async cleanup(signal: AbortSignal): Promise<void> {
-    let after = "";
-    let firstError: unknown;
-    for (;;) {
-      signal.throwIfAborted();
-      const row = this.store.catalog
-        .prepare(
-          "SELECT recordingId FROM recordings WHERE recordingId>? ORDER BY recordingId LIMIT 1",
-        )
-        .get(after) as { recordingId: string } | undefined;
-      if (!row) break;
-      after = row.recordingId;
-      try {
-        await this.cleanupRecording(row.recordingId, signal);
-      } catch (error) {
-        signal.throwIfAborted();
-        firstError ??= error;
-      }
-    }
-    if (firstError) throw firstError;
+    await this.store.forEachRecording(signal, ({ recordingId }) =>
+      this.cleanupRecording(recordingId, signal),
+    );
   }
   private cleanupRecording(recordingId: string, signal: AbortSignal) {
     return this.evidence.reclaim(
       recordingId,
-      (generation) => {
-        if (this.jobs.isAttemptActive(generation) || this.retained?.(recordingId, generation))
-          return true;
-        if (
-          this.store.catalog
-            .prepare(
-              "SELECT 1 FROM jobs WHERE recordingId=? AND artifact=? AND attemptId=? AND state IN ('queued','running')",
-            )
-            .get(recordingId, artifact, generation)
-        )
-          return true;
-        return !!this.store.catalog
-          .prepare(`SELECT 1 FROM artifacts WHERE recordingId=? AND artifact=?
-    AND CASE WHEN json_valid(result) THEN CASE WHEN json_type(result,'$.generation')='text'
-    THEN json_extract(result,'$.generation')=? ELSE 1 END ELSE 1 END`)
-          .get(recordingId, artifact, generation);
-      },
+      (generation) =>
+        this.jobs.retainsAttempt(recordingId, artifact, generation) ||
+        !!this.retained?.(recordingId, generation),
       signal,
     );
   }
