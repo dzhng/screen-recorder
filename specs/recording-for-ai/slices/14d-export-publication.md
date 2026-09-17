@@ -152,3 +152,7 @@ prerequisites and restart recovery remains subsequent work.
 [14d2b2](14d2b2-pinned-waiting-video.md) connects the internal video intent to
 pinned dependency admission and bounded source-evidence retention. Public wiring
 still requires explicit abandonment, queued recovery, storage accounting and budgets.
+
+[14d2b3](14d2b3-export-abandonment.md) provides internal per-export abandonment
+through the existing queue and publication owners, including restartable cleanup.
+It does not expose public operations or add a recovery scheduler.

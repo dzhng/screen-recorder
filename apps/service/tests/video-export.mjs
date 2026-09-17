@@ -154,6 +154,7 @@ async function fixture(t, wrap = (value) => value, existing, { warm = true } = {
     await storage.close();
     await deletion.close();
     await jobs.close();
+    await exports.close();
     delivery.dispose();
     store.close();
   }
@@ -260,7 +261,7 @@ if (process.argv[2] === "crash-owner") {
   process.on("message", () => {});
   const existing = JSON.parse(process.argv[3]),
     gap = process.argv[4];
-  await fixture(
+  const crashed = await fixture(
     { after: () => {} },
     (run) =>
       async (op, ...args) => {
@@ -271,7 +272,8 @@ if (process.argv[2] === "crash-owner") {
         const result = await run(op, ...args);
         if (
           (gap === "commit" && op === "publication.commit") ||
-          (gap === "allocate" && op === "publication.allocate")
+          (gap === "allocate" && op === "publication.allocate") ||
+          (gap === "abandon" && op === "publication.retire")
         ) {
           process.send({ gap });
           await new Promise(() => {});
@@ -280,7 +282,258 @@ if (process.argv[2] === "crash-owner") {
       },
     existing,
   );
+  if (gap === "abandon") await crashed.exports.abandon(existing.exportId);
 } else {
+  test("late commit releases source evidence but abandonment capacity waits for confirmed retirement", async (t) => {
+    const entered = Promise.withResolvers(),
+      release = Promise.withResolvers();
+    t.after(() => release.resolve());
+    let failRetirement = true;
+    const f = await fixture(t, (run) => async (operation, ...args) => {
+      if (operation === "publication.retire" && failRetirement) {
+        failRetirement = false;
+        throw new Error("generated retirement interruption");
+      }
+      const result = await run(operation, ...args);
+      if (operation === "publication.commit") {
+        entered.resolve();
+        await release.promise;
+      }
+      return result;
+    });
+    const exportId = randomUUID();
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "late-retire.mp4",
+    });
+    await entered.promise;
+    const removing = f.exports.abandon(exportId);
+    const failed = assert.rejects(removing, /generated retirement interruption/);
+    release.resolve();
+    await failed;
+    const status = f.exports.status(exportId),
+      generation = f.processing.status(f.take.recordingId).published.evidence.generation;
+    assert.equal(status.state, "committed");
+    assert.equal(status.abandoning, true);
+    assert.equal(f.exports.retainsSource(f.take.recordingId, generation), false);
+    assert.equal(
+      f.store.catalog
+        .prepare(
+          "SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL OR abandoning=1",
+        )
+        .get().count,
+      1,
+    );
+    await f.exports.abandon(exportId);
+    assert.equal(
+      f.store.catalog
+        .prepare(
+          "SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL OR abandoning=1",
+        )
+        .get().count,
+      0,
+    );
+    assert.equal(f.store.get(f.take.recordingId).recordingId, f.take.recordingId);
+    assert.deepEqual(await readdir(f.output), ["late-retire.mp4"]);
+  });
+
+  test("failed abandonment keeps its fence and pins until verified staging can retire", async (t) => {
+    const f = await fixture(t),
+      exportId = randomUUID();
+    await writeFile(join(f.output, "occupied.mp4"), "foreign");
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "occupied.mp4",
+    });
+    await f.jobs.idle();
+    const generation = f.processing.status(f.take.recordingId).published.evidence.generation;
+    const stage = join(f.output, ".screenrec-export-" + exportId),
+      saved = stage + "-saved",
+      substitute = stage + "-substitute";
+    await rename(stage, saved);
+    await mkdir(stage, { mode: 0o700 });
+    await writeFile(join(stage, "unrelated"), "do not delete");
+    await assert.rejects(f.exports.abandon(exportId), { code: "PUBLICATION_CHANGED" });
+    assert.equal(f.exports.status(exportId).abandoning, true);
+    assert.equal(f.exports.retainsSource(f.take.recordingId, generation), true);
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL")
+        .get().count,
+      1,
+    );
+    assert.equal(await readFile(join(stage, "unrelated"), "utf8"), "do not delete");
+    await assert.rejects(f.exports.retry(exportId), { code: "EXPORT_ABANDONING" });
+    await rename(stage, substitute);
+    await rename(saved, stage);
+    await f.exports.abandon(exportId);
+    assert.equal(f.exports.retainsSource(f.take.recordingId, generation), false);
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL")
+        .get().count,
+      0,
+    );
+    assert.equal(await readFile(join(substitute, "unrelated"), "utf8"), "do not delete");
+    assert.equal(await readFile(join(f.output, "occupied.mp4"), "utf8"), "foreign");
+    assert.equal(f.store.get(f.take.recordingId).recordingId, f.take.recordingId);
+  });
+
+  test("abandonment resumes after actual process death following private retirement", async (t) => {
+    const f = await fixture(t),
+      exportId = randomUUID();
+    const requested = await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "survives.mp4",
+    });
+    await f.jobs.idle();
+    const bytes = await readFile(join(f.output, "survives.mp4"));
+    await f.closeOwners();
+    const existing = { home: f.home, output: f.output, recordingId: f.take.recordingId, exportId };
+    const child = fork(
+      fileURLToPath(import.meta.url),
+      ["crash-owner", JSON.stringify(existing), "abandon"],
+      {
+        stdio: ["ignore", "ignore", "inherit", "ipc"],
+        env: { ...process.env, SCREENREC_NATIVE: binary },
+      },
+    );
+    t.after(() => child.kill("SIGKILL"));
+    await once(child, "message", { signal: AbortSignal.timeout(20000) });
+    const closed = once(child, "close");
+    assert.equal(child.kill("SIGKILL"), true);
+    assert.deepEqual(await closed, [null, "SIGKILL"]);
+    const reopened = await fixture(t, undefined, existing);
+    assert.equal(reopened.exports.status(exportId).abandoning, true);
+    await assert.rejects(reopened.exports.retry(exportId), { code: "EXPORT_ABANDONING" });
+    await reopened.exports.abandon(exportId);
+    assert.throws(() => reopened.exports.status(exportId), { code: "NOT_FOUND" });
+    assert.throws(() => reopened.jobs.job(requested.jobId), { code: "NOT_FOUND" });
+    assert.equal(reopened.store.get(f.take.recordingId).recordingId, f.take.recordingId);
+    assert.deepEqual(await readdir(f.output), ["survives.mp4"]);
+    assert.deepEqual(await readFile(join(f.output, "survives.mp4")), bytes);
+  });
+
+  test("abandonment fences retries and recording deletion joins its drain after external commit", async (t) => {
+    const entered = Promise.withResolvers(),
+      release = Promise.withResolvers();
+    t.after(() => release.resolve());
+    const f = await fixture(t, (run) => async (operation, ...args) => {
+      const result = await run(operation, ...args);
+      if (operation === "publication.commit") {
+        entered.resolve();
+        await release.promise;
+      }
+      return result;
+    });
+    const exportId = randomUUID(),
+      request = {
+        exportId,
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: "late.mp4",
+      };
+    const status = await f.exports.create(request);
+    await entered.promise;
+    const published = await readFile(join(f.output, "late.mp4"));
+    const removing = f.exports.abandon(exportId);
+    assert.equal(f.exports.abandon(exportId), removing);
+    assert.equal(f.exports.status(exportId).abandoning, true);
+    await assert.rejects(f.exports.retry(exportId), { code: "EXPORT_ABANDONING" });
+    await assert.rejects(f.exports.create(request), { code: "EXPORT_ABANDONING" });
+    let abandoned = false,
+      deleted = false;
+    removing.then(() => {
+      abandoned = true;
+    });
+    const deleting = f.deletion.delete(f.take.recordingId).then(() => {
+      deleted = true;
+    });
+    let cleanupClosed = false;
+    const closing = f.exports.close().then(() => {
+      cleanupClosed = true;
+    });
+    assert.throws(() => f.exports.abandon(exportId), { code: "SERVICE_STOPPED" });
+    await new Promise(setImmediate);
+    assert.equal(cleanupClosed, false);
+    assert.equal(abandoned, false);
+    assert.equal(deleted, false);
+    assert.equal(f.jobs.isAttemptActive(f.jobs.job(status.jobId).attemptId), true);
+    release.resolve();
+    await Promise.all([removing, deleting, closing]);
+    assert.equal(f.store.deleting(f.take.recordingId), null);
+    assert.deepEqual(await readdir(f.output), ["late.mp4"]);
+    assert.deepEqual(await readFile(join(f.output, "late.mp4")), published);
+  });
+
+  test("abandonment releases a failed export without deleting its recording or external collision", async (t) => {
+    const f = await fixture(t),
+      exportId = randomUUID(),
+      leaf = "foreign.mp4";
+    const original = await readFile(
+      join(f.home, "recordings", f.take.recordingId, "source", "video.mov"),
+    );
+    await writeFile(join(f.output, leaf), "foreign output");
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf,
+    });
+    await f.jobs.idle();
+    const status = f.exports.status(exportId),
+      source = f.processing.status(f.take.recordingId).published.evidence;
+    assert.equal(status.state, "failed");
+    assert.equal(f.exports.retainsSource(f.take.recordingId, source.generation), true);
+    await f.exports.abandon(exportId);
+    await f.exports.abandon(exportId);
+    assert.throws(() => f.exports.status(exportId), { code: "NOT_FOUND" });
+    assert.throws(() => f.jobs.job(status.jobId), { code: "NOT_FOUND" });
+    assert.equal(
+      f.jobs.status({
+        recordingId: f.take.recordingId,
+        revisionId: "r0",
+        artifact: "export-video",
+        input: exportId,
+      }).published,
+      null,
+    );
+    assert.equal(f.exports.retainsSource(f.take.recordingId, source.generation), false);
+    assert.equal(f.store.get(f.take.recordingId).recordingId, f.take.recordingId);
+    assert.deepEqual(
+      await readFile(join(f.home, "recordings", f.take.recordingId, "source", "video.mov")),
+      original,
+    );
+    assert.equal(await readFile(join(f.output, leaf), "utf8"), "foreign output");
+    assert.deepEqual(await readdir(f.output), [leaf]);
+    const reused = await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "reused.mp4",
+    });
+    assert.notEqual(reused.jobId, status.jobId);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(exportId).state, "committed");
+    await f.exports.abandon(exportId);
+    assert.equal(
+      f.jobs.status({
+        recordingId: f.take.recordingId,
+        revisionId: "r0",
+        artifact: "export-video",
+        input: exportId,
+      }).published,
+      null,
+    );
+    assert.deepEqual((await readdir(f.output)).sort(), [leaf, "reused.mp4"].sort());
+  });
+
   test("failed source readiness is reported without export polling retrying it", async (t) => {
     let calls = 0;
     const f = await fixture(
@@ -355,11 +608,17 @@ if (process.argv[2] === "crash-owner") {
       32,
     );
     assert.deepEqual(await readdir(f.output), []);
+    await f.exports.abandon(ids[1]);
+    await f.exports.create(overflow);
+    f.exports.cancel(overflow.exportId);
+    await assert.rejects(f.exports.create({ ...overflow, exportId: randomUUID() }), {
+      code: "LIMIT_EXCEEDED",
+    });
     await f.jobs.closeContext(hold);
     await f.exports.retry(ids[0]);
     await f.jobs.idle();
     assert.equal(f.exports.status(ids[0]).state, "committed");
-    await f.exports.create(overflow);
+    await f.exports.retry(overflow.exportId);
     await f.jobs.idle();
     assert.equal(f.exports.status(overflow.exportId).state, "committed");
     await f.deletion.delete(f.take.recordingId);

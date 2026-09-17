@@ -139,7 +139,9 @@ export class RevisionStore {
         .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='export_intents'")
         .get() &&
         !this.catalog
-          .prepare("SELECT 1 FROM pragma_table_info('export_intents') WHERE name='stagingCleared'")
+          .prepare(
+            "SELECT 1 WHERE (SELECT COUNT(*) FROM pragma_table_info('export_intents') WHERE name IN ('stagingCleared','abandoning'))=2",
+          )
           .get()) ||
       this.catalog
         .prepare(

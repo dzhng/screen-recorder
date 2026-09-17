@@ -1,0 +1,34 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-export-publication
+
+(node:54764) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/jobs.test.ts (44 tests | 1 failed | 43 skipped) 12ms
+   × single-job retirement drains older canceled attempts before forgetting identity and result 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/jobs.test.ts > single-job retirement drains older canceled attempts before forgetting identity and result
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ packages/core/src/jobs.test.ts:1420:16
+    1418|   });
+    1419|   await turn();
+    1420|   expect(done).toBe(false);
+       |                ^
+    1421|   expect(active.signal.aborted).toBe(true);
+    1422|   expect(queue.job(retry.jobId).state).toBe("canceled");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 43 skipped (44)
+   Start at  08:13:25
+   Duration  136ms (transform 46%, import 39%, tests 14%, worker 2%)

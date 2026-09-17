@@ -1925,3 +1925,40 @@ records them. These choices add no public export choice or transcript readiness.
   receipts in completion order. An old close remains idempotent while its receipt
   exists, then explicitly expires. This bounds server memory without permanent
   tombstones; it does not evict any active or cleanup-failed resource owner.
+## Per-export abandonment (14d2b3)
+
+### Sound — medium confidence
+
+- **Completed abandonment forgets its identity instead of retaining a tombstone.**
+  Abandoning an export removes its private status and recording context after cleanup.
+  Repeating abandonment for that now-absent UUID succeeds. If a caller subsequently
+  creates an export with the same UUID, that is a new request, not a lookup of the
+  abandoned result. The plan left post-abandonment replay policy open; this follows
+  the existing no-tombstone privacy decision, at the cost of clients retaining any
+  historical result they still need.
+
+### Sound — high confidence
+
+- **One durable boolean prevents abandoned work from restarting.** A request marks
+  its intent before waiting for workers, so a concurrent retry cannot start another
+  copy while cleanup is removing staging. Failed cleanup keeps the marker, and an
+  explicit abandonment retry resumes retirement. Recording deletion shares the same
+  cleanup promise; it cannot erase catalog rows while abandonment still uses them.
+  The plan required safe cleanup but left its concurrency and durable representation
+  unspecified. No separate job scheduler or lifecycle table is needed.
+
+- **Source retention and admission capacity end at different confirmed events.**
+  Cancellation can race a successful external commit. Once that commit is durable,
+  source evidence is no longer needed to regenerate this export and may be reclaimed.
+  Its abandonment still consumes pending admission capacity until private retirement
+  succeeds, so repeated failed cleanup cannot make that obligation disappear from
+  admission accounting. An already committed export gains no new source pin merely
+  because the user abandons its private status. This resolves the late-commit case
+  without recording whether abandonment started before or after publication.
+
+- **Retire the job's result and identity together after all attempts exit.** A retry
+  can be queued while an older canceled worker is still closing. Single-job drain
+  waits for both lifetimes before forgetting anything; the queue then removes its
+  ready artifact and job identity atomically. The intent marker remains until private
+  cleanup and queue retirement are confirmed, making interruption between those
+  steps repeatable without preserving stale results or deleting the recording.

@@ -35,10 +35,11 @@ type Intent = {
   preview: ReadyPreview | null;
   sourceEvidence: SourceEvidenceMetadata | null;
   receipt: PublicationReceipt | null;
+  abandoning: boolean;
 };
 type Row = Omit<
   Intent,
-  "snapshot" | "destination" | "staging" | "preview" | "receipt" | "sourceEvidence"
+  "snapshot" | "destination" | "staging" | "preview" | "receipt" | "sourceEvidence" | "abandoning"
 > & {
   snapshot: string;
   destination: string;
@@ -46,6 +47,7 @@ type Row = Omit<
   preview: string | null;
   sourceEvidence: string | null;
   receipt: string | null;
+  abandoning: number;
 };
 const artifact = "export-video";
 const stageName = (id: string) => `.screenrec-export-${id}`;
@@ -53,6 +55,8 @@ const stageName = (id: string) => `.screenrec-export-${id}`;
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
  * Prerequisites wait in the existing queue while this owner pins their source generation. */
 export class VideoExports {
+  private readonly retiring = new Map<string, Promise<void>>();
+  private closed = false;
   constructor(
     private readonly owners: {
       store: RevisionStore;
@@ -67,8 +71,10 @@ export class VideoExports {
     owners.store.catalog.exec(`CREATE TABLE IF NOT EXISTS export_intents (
       exportId TEXT PRIMARY KEY, recordingId TEXT NOT NULL REFERENCES recordings(recordingId),
       request TEXT NOT NULL, snapshot TEXT NOT NULL, destination TEXT NOT NULL,
-      staging TEXT, stagingCleared INTEGER NOT NULL DEFAULT 0 CHECK(stagingCleared IN (0,1)), preview TEXT, sourceEvidence TEXT, receipt TEXT
-    ) STRICT; CREATE INDEX IF NOT EXISTS export_intents_pending ON export_intents(recordingId) WHERE receipt IS NULL;
+      staging TEXT, stagingCleared INTEGER NOT NULL DEFAULT 0 CHECK(stagingCleared IN (0,1)),
+      preview TEXT, sourceEvidence TEXT, receipt TEXT,
+      abandoning INTEGER NOT NULL DEFAULT 0 CHECK(abandoning IN (0,1))
+    ) STRICT; CREATE INDEX IF NOT EXISTS export_intents_pending ON export_intents(recordingId) WHERE receipt IS NULL OR abandoning=1;
     CREATE INDEX IF NOT EXISTS export_intents_storage ON export_intents(exportId) WHERE staging IS NOT NULL AND stagingCleared=0;
     CREATE INDEX IF NOT EXISTS export_intents_recording ON export_intents(recordingId,exportId);`);
   }
@@ -79,6 +85,7 @@ export class VideoExports {
     if (!row) return null;
     return {
       ...row,
+      abandoning: row.abandoning === 1,
       snapshot: JSON.parse(row.snapshot),
       destination: JSON.parse(row.destination),
       staging: row.staging ? JSON.parse(row.staging) : null,
@@ -92,6 +99,29 @@ export class VideoExports {
     if (!intent) throw new CatalogError("NOT_FOUND", "Export intent does not exist", { exportId });
     return intent;
   }
+  private requireActive(intent: Intent): void {
+    if (intent.abandoning)
+      throw new CatalogError("EXPORT_ABANDONING", "Export cleanup is pending; retry abandonment", {
+        exportId: intent.exportId,
+      });
+  }
+
+  abandon(exportId: string): Promise<void> {
+    if (this.closed)
+      throw new CatalogError("SERVICE_STOPPED", "Export cleanup is closed", {}, true);
+    const intent = this.find(exportId);
+    if (!intent) return Promise.resolve();
+    this.owners.store.catalog
+      .prepare("UPDATE export_intents SET abandoning=1 WHERE exportId=?")
+      .run(exportId);
+    return this.retire(exportId);
+  }
+
+  async close(): Promise<void> {
+    this.closed = true;
+    await Promise.allSettled(this.retiring.values());
+  }
+
   private identity(intent: Intent) {
     return {
       recordingId: intent.recordingId,
@@ -109,6 +139,7 @@ export class VideoExports {
   }
   admit(job: Job): ReturnType<JobAdmission> {
     const intent = this.require(job.input);
+    this.requireActive(intent);
     if (
       job.artifact !== artifact ||
       job.recordingId !== intent.recordingId ||
@@ -185,6 +216,7 @@ export class VideoExports {
     if (existing) {
       if (existing.request !== key)
         throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
+      this.requireActive(existing);
       this.owners.store.get(existing.recordingId);
       if (!existing.receipt)
         this.owners.jobs.submitDeferred({ ...this.identity(existing), lane: "heavy" });
@@ -202,10 +234,13 @@ export class VideoExports {
       if (existing) {
         if (existing.request !== key)
           throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
+        this.requireActive(existing);
         return existing;
       }
       const pending = this.owners.store.catalog
-        .prepare("SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL")
+        .prepare(
+          "SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL OR abandoning=1",
+        )
         .get() as { count: number };
       if (pending.count >= 32)
         throw new CatalogError(
@@ -240,6 +275,7 @@ export class VideoExports {
     const state = job.jobId ? this.owners.jobs.job(job.jobId).state : "not_requested";
     return {
       exportId,
+      abandoning: intent.abandoning,
       recordingId: intent.recordingId,
       snapshot: intent.snapshot,
       state: intent.receipt ? ("committed" as const) : state === "waiting" ? "queued" : state,
@@ -302,6 +338,7 @@ export class VideoExports {
   }
   async retry(exportId: string) {
     const intent = this.require(exportId);
+    this.requireActive(intent);
     this.owners.store.get(intent.recordingId);
     // An acknowledged commit never becomes a second export because the user moved/deleted it.
     if (intent.receipt) {
@@ -314,6 +351,7 @@ export class VideoExports {
   }
   cancel(exportId: string) {
     const intent = this.require(exportId);
+    this.requireActive(intent);
     this.owners.store.get(intent.recordingId);
     if (intent.receipt) return;
     const job = this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
@@ -359,6 +397,7 @@ export class VideoExports {
     if (job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Video exporter cannot execute this job");
     const intent = this.require(job.input);
+    this.requireActive(intent);
     if (job.recordingId !== intent.recordingId || job.revisionId !== intent.snapshot.revisionId)
       throw new CatalogError("INVALID_JOB", "Export job does not match its pinned intent");
     if (intent.receipt) return JSON.stringify(intent.receipt);
@@ -408,6 +447,7 @@ export class VideoExports {
   /** Startup recovery records an already-created file without starting another export. */
   async recover(exportId: string) {
     const intent = this.require(exportId);
+    this.requireActive(intent);
     const job = this.owners.jobs.status(this.identity(intent));
     if (job.jobId && this.owners.jobs.isAttemptActive(this.owners.jobs.job(job.jobId).attemptId))
       throw new CatalogError("PROCESSING_BUSY", "Export attempt is still closing", {}, true);
@@ -444,36 +484,62 @@ export class VideoExports {
       if (!row) break;
       after = row.exportId;
       try {
-        const intent = this.require(row.exportId);
-        const mayHaveStaging =
-          intent.staging || this.owners.jobs.status(this.identity(intent)).jobId;
-        if (
-          mayHaveStaging &&
-          !(await Publication.absent(
-            intent.destination.directory,
-            intent.destination.identity,
-            stageName(intent.exportId),
-            this.owners.worker,
-          ))
-        ) {
-          const publication = await this.open(intent);
-          try {
-            // Deletion forgets intent status and never touches the external file. Its
-            // readability cannot be a prerequisite for erasing our own private bytes.
-            await publication.retire(stageName(intent.exportId));
-          } finally {
-            await publication.close();
-          }
-        }
-        this.owners.store.transaction(() =>
-          this.owners.store.catalog
-            .prepare("DELETE FROM export_intents WHERE exportId=?")
-            .run(intent.exportId),
-        );
+        await this.retire(row.exportId);
       } catch (error) {
         firstFailure ??= error;
       }
     }
     if (firstFailure) throw firstFailure;
+  }
+  private retire(exportId: string): Promise<void> {
+    const existing = this.retiring.get(exportId);
+    if (existing) return existing;
+    const result = Promise.resolve()
+      .then(() => this.remove(exportId))
+      .catch((error) => {
+        if (error instanceof CatalogError)
+          throw new CatalogError(error.code, error.message, { ...error.details, exportId }, true);
+        throw new CatalogError(
+          "EXPORT_CLEANUP_FAILED",
+          `Export cleanup could not finish: ${error instanceof Error ? error.message : String(error)}`,
+          { exportId },
+          true,
+        );
+      })
+      .finally(() => this.retiring.delete(exportId));
+    this.retiring.set(exportId, result);
+    return result;
+  }
+
+  private async remove(exportId: string): Promise<void> {
+    let intent = this.find(exportId);
+    if (!intent) return;
+    const jobId = this.owners.jobs.status(this.identity(intent)).jobId;
+    if (jobId) await this.owners.jobs.drainJob(jobId);
+    // A late commit may have updated the receipt while the canceled executor drained.
+    intent = this.require(exportId);
+    if (!intent.abandoning && !this.owners.store.isDeleting(intent.recordingId))
+      throw new CatalogError("INVALID_STATE", "Export must be fenced before retirement");
+    const mayHaveStaging = intent.staging || jobId;
+    if (
+      mayHaveStaging &&
+      !(await Publication.absent(
+        intent.destination.directory,
+        intent.destination.identity,
+        stageName(exportId),
+        this.owners.worker,
+      ))
+    ) {
+      const publication = await this.open(intent);
+      try {
+        // Retirement forgets status, so unreadable external files cannot gate private cleanup.
+        await publication.retire(stageName(exportId));
+      } finally {
+        await publication.close();
+      }
+    }
+    if (jobId) this.owners.jobs.forgetJob(jobId);
+    // A crash after job retirement is harmless: the still-fenced intent resumes private absence checking.
+    this.owners.store.catalog.prepare("DELETE FROM export_intents WHERE exportId=?").run(exportId);
   }
 }

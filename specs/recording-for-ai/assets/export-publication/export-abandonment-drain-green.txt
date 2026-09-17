@@ -1,0 +1,10 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-export-publication
+
+(node:54774) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 43 skipped (44)
+   Start at  08:13:25
+   Duration  122ms (transform 51%, import 32%, tests 15%, worker 2%)

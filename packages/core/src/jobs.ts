@@ -553,6 +553,32 @@ export class JobQueue {
     }
   }
 
+  /** The resource owner must fence retries before draining one job's complete worker lifetime. */
+  async drainJob(jobId: string): Promise<void> {
+    this.cancel(jobId);
+    const active = [...this.attempts.values()].filter((attempt) => attempt.jobId === jobId);
+    for (const attempt of active) attempt.controller.abort();
+    await Promise.all(active.map((attempt) => attempt.done));
+  }
+
+  /** Forget identity and result together only after all attempts, including canceled ones, close. */
+  forgetJob(jobId: string): void {
+    this.store.transaction(() => {
+      const job = this.job(jobId);
+      if (
+        ["waiting", "queued", "running"].includes(job.state) ||
+        [...this.attempts.values()].some((attempt) => attempt.jobId === jobId)
+      )
+        throw new CatalogError("PROCESSING_BUSY", "Job is still active", {}, true);
+      this.store.catalog
+        .prepare(
+          "DELETE FROM artifacts WHERE recordingId=? AND revisionId=? AND artifact=? AND input=?",
+        )
+        .run(job.recordingId, job.revisionId, job.artifact, job.input);
+      this.store.catalog.prepare("DELETE FROM jobs WHERE jobId=?").run(jobId);
+    });
+  }
+
   /** Intent is committed first: no new attempt may enter while these executors close. */
   async drainRecording(recordingId: string): Promise<void> {
     if (!this.store.isDeleting(recordingId))

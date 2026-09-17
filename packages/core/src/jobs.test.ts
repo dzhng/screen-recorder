@@ -1402,3 +1402,43 @@ test("regeneration re-admits deferred work without an unrelated wake and ignores
   await queue.idle();
   expect(queue.status(job).published?.result).toBe("regenerated");
 });
+
+test("single-job retirement drains older canceled attempts before forgetting identity and result", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const request = { recordingId, artifact: "export", input: "one", lane: "heavy" as const };
+  const first = queue.submit(request),
+    active = await started(first.attemptId);
+  queue.cancel(first.jobId);
+  const retry = queue.retry(first.jobId);
+  const draining = queue.drainJob(first.jobId);
+  let done = false;
+  draining.then(() => {
+    done = true;
+  });
+  await turn();
+  expect(done).toBe(false);
+  expect(active.signal.aborted).toBe(true);
+  expect(queue.job(retry.jobId).state).toBe("canceled");
+  expect(() => queue.forgetJob(first.jobId)).toThrow("still active");
+  active.finish("late result");
+  await draining;
+  queue.forgetJob(first.jobId);
+  expect(queue.status(first)).toMatchObject({
+    state: "not_requested",
+    published: null,
+    jobId: null,
+  });
+  const next = queue.submit(request);
+  expect(next.jobId).not.toBe(first.jobId);
+  (await started(next.attemptId)).finish("ready result");
+  await queue.idle();
+  expect(queue.status(next).published?.result).toBe("ready result");
+  await queue.drainJob(next.jobId);
+  queue.forgetJob(next.jobId);
+  expect(queue.status(next)).toMatchObject({
+    state: "not_requested",
+    published: null,
+    jobId: null,
+  });
+});
