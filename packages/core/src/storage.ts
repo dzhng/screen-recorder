@@ -28,6 +28,10 @@ export class RecordingStorage {
     private readonly store: RevisionStore,
     private readonly cache: DerivedCache,
     home: string,
+    private readonly exportUsage?: (
+      recordingId: string | undefined,
+      signal: AbortSignal,
+    ) => Promise<number>,
   ) {
     this.home = realpathSync(home);
     const stat = lstatSync(this.home, { bigint: true });
@@ -237,6 +241,21 @@ export class RecordingStorage {
           await count(path, "cacheBytes", [this.homeIdentity]);
       } else {
         await walk(this.home, { area: "home", category: "sharedBytes" }, [this.homeIdentity]);
+      }
+      if (this.exportUsage) {
+        const bytes = await this.exportUsage(recordingId, this.lifetime.signal);
+        this.lifetime.signal.throwIfAborted();
+        if (
+          !Number.isSafeInteger(bytes) ||
+          bytes < 0 ||
+          !Number.isSafeInteger(usage.totalBytes + bytes)
+        )
+          throw new CatalogError(
+            "LIMIT_EXCEEDED",
+            "Export storage byte total exceeds safe integer range",
+          );
+        usage.otherBytes += bytes;
+        usage.totalBytes += bytes;
       }
     } catch (error) {
       if (this.lifetime.signal.aborted)

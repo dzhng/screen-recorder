@@ -1,43 +1,57 @@
-# Private export storage observation
+# Private export storage accounting
 
-`Publication.usage` measures the logical lengths of the publication owner's private
-files through an identity-checked directory descriptor. It takes no exclusive lock,
-so incomplete preparation remains measurable while a writer is alive. It never
-opens the published destination or follows payload links. This is a live observation,
-not a transactionally consistent snapshot or a physical disk-block estimate. Known
-receipt hard links each contribute their file length, matching existing logical
-storage accounting. Unknown files are outside this owner's written file set.
+The export owner attributes pending private files to their recording, even though
+staging lives beside a user-selected external destination. `RecordingStorage` joins
+that observation to its existing recording/global totals as `otherBytes`. Its existing
+request coalescing, cancellation and shutdown drain also cover the export observation.
+This is internally integrated; the app-managed service has not yet wired exports.
 
-The shared native owner names the disposable files for both measurement and cleanup.
-Observation never cleans them. Missing leaves contribute zero; a replaced staging
-directory, linked payload or unexpected file type fails rather than reporting bytes
-from another object. A missing directory remains an error for the caller to reconcile
-through the existing intent/cleanup authority.
+`Publication.usage` reads metadata through an identity-checked directory descriptor
+without taking the writer's exclusive lock. Partial preparation therefore remains
+measurable during a live export. Only the native publication owner's fixed disposable
+file set is examined. It never opens the external movie or follows payload links.
+Totals are live logical file lengths, not an atomic snapshot or physical allocation.
+
+The payload is excluded when durable commit truth exists or its native link count
+shows the extra link created by publication. That second case covers a process dying
+between creating the external file and recording its receipt. This observation does
+not authorize success, retry or cleanup: those still require the existing publication
+receipt and recovery owner. Private receipt metadata remains counted until cleanup.
+
+Confirmed acknowledgement/discard records `stagingCleared` while retaining the
+original directory identity for future retirement. A partial index keeps cleared
+history out of the scan. Storage reads therefore do not revisit an unavailable or
+moved destination once its private bytes have been confirmed gone. Lost cleanup
+acknowledgement remains measurable; a disappeared stage contributes zero only after
+absence is confirmed beneath the original destination identity. Replacement fails.
 
 ## Evidence
 
-The first test failed on the absent method. After implementation, the host build
-passed all eight tasks and all 18 publication native/service tests passed, including
-three added consumer tests. They cover partial file growth with the publisher lock
-held, replaced directories, linked payload rejection, prepared receipt lengths,
-external commit and acknowledgement, and a sparse file above 32-bit length. The
-export remains readable after private bytes return to zero.
+The host build passes all eight tasks. All 44 publication/export native-service tests
+and 79 focused core storage/jobs/library tests pass. Four new composed-owner tests
+cover recording/global attribution, failed exports, cleared destination relocation,
+replacement, and shutdown drain. Existing actual process-crash coverage now also
+checks storage before reconciling the commit-before-catalog gap. Primitive tests
+cover partial growth, symlink rejection and a sparse file above 32-bit length.
 
-- [Host test receipt](staging-usage-tests.txt)
-- [Initial failing consumer](staging-usage-red.txt)
+- [Native/export receipt](export-storage-native.txt)
+- [Core receipt](export-storage-core.txt)
+- [Initial missing-owner failure](export-storage-red.txt)
+- [Commit-link negative control](export-storage-mutation-red.txt)
+- [Restored crash-gap test](export-storage-restored-green.txt)
 
-Service type checks and touched-file lint passed. Independent Codex review found no
-actionable defect; its native test attempt was blocked by sandbox/toolchain cache
-access, so the host run above supplies native verification. Shape review kept this
-inside Publication and its existing native boundary: no second scanner, table,
-queue or cleanup owner.
+Independent review found the initial composed implementation counted committed
+payload hard links. The native link-count observation and durable commit input fix
+that defect; final review found no actionable issue. Reviewer native execution was
+blocked by sandbox/toolchain cache access, so host runs supply that verification.
+Types and touched-file lint pass. Shape review kept measurement and cleanup under
+Publication, aggregation under RecordingStorage, and intent selection under exports.
 
-## Integration still required
+## Remaining integration
 
-This internal primitive does not change public `storage.usage`. The export owner
-must enumerate its own durable intents, retain operation lifetime across measurement,
-join/cancel observations during shutdown, distinguish confirmed cleanup from a missing
-or substituted destination, and add private staging lengths to recording/global totals.
-Do not include the user-owned exported movie. Package reservations are a separate
-quantity from observed file lengths. Public export wiring remains gated on that
-accounting, source retention, queued recovery and explicit abandonment.
+Service composition must pass the export usage callback and preserve storage shutdown
+before catalog close. Queued startup reconciliation, abandonment, size-appropriate
+publication deadlines and public CLI/MCP/menu exports remain separate gates. Empty
+private directories retain their identity until the existing retirement path removes
+them; this byte-accounting marker does not claim directory retirement. Package
+reservations remain distinct from observed file lengths.

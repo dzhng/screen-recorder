@@ -1,0 +1,73 @@
+(node:52611) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ private staging usage observes partial bytes while the publication owner holds its lock (35.739125ms)
+✔ private staging usage rejects replacement and linked payloads without reading external data (14.342084ms)
+✔ private staging usage counts prepared files and clears after acknowledgement without counting the movie (58.894125ms)
+(node:52649) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner after commit reconciles exact bytes and inode before acknowledgement (102.435416ms)
+(node:52666) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner before commit leaves a resumable prepared file (83.299875ms)
+(node:52682) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ stopped surviving publisher fences recovery until actual descriptor release (78.685917ms)
+(node:52691) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ reopened owner refuses a replacement output parent and preserves both trees (95.827167ms)
+✔ abort before commit prevents publication; abort after native commit preserves observed truth (29.782583ms)
+✔ kernel write-limit failure never publishes and explicit discard removes only owned leaves (386.026917ms)
+✔ publication refuses a destination inside its disposable staging (9.446875ms)
+✔ one publication deadline covers preparation, commit, reconciliation and acknowledgement (33.630375ms)
+✔ all close callers wait for the active native operation before descriptors release (14.219708ms)
+(node:52612) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ failed source readiness is reported without export polling retrying it (278.710916ms)
+✔ canceled intents keep exact-retry pins within a bounded uncommitted allowance (855.093375ms)
+✔ cache eviction after promotion returns the settled exporter to admission and rebuilds its pinned preview (418.379833ms)
+✔ canceled export retains its selected source through newer evidence cleanup and retry then releases it (427.057292ms)
+✔ waiting export pins revision before source readiness and admits dependencies without a lane (247.654541ms)
+✔ ready preview exports its pinned bytes and real recording deletion forgets private export metadata (289.65625ms)
+✔ a committed export remains authoritative when cancellation discards its late job result (251.62425ms)
+✔ deletion drains the exporter and its validated cache descriptor before removing private bytes (260.456167ms)
+(node:52915) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death between external commit and catalog acknowledgement reconciles without republishing (348.555458ms)
+✔ committed history survives external removal or replacement without silently exporting again (300.686458ms)
+✔ concurrent request replay shares one intent and conflicting reuse is rejected (247.791375ms)
+✔ lost retirement acknowledgement resumes real recording deletion after the staging directory is gone (279.106125ms)
+(node:52993) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death after catalog commit finishes private acknowledgement on recovery (305.58875ms)
+(node:53009) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death before staging identity registration leaves only an empty recoverable directory (314.66ms)
+✔ canceled queued export retries its original revision after preview eviction and regeneration (432.941667ms)
+(node:53048) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ interrupted allocation refuses nonempty substituted staging and keeps deletion pending (285.435416ms)
+✔ managed source directories cannot be selected as allegedly external exports (212.365625ms)
+✔ native death during receipt writing leaves unprepared evidence that the same intent can retry (1193.28625ms)
+✔ native death after canonical receipt publication retains that exact payload for retry (1710.538958ms)
+✔ recording deletion removes a receipt interrupted before its canonical publication (1387.349125ms)
+✔ one unsafe export staging entry does not prevent retiring independent intents of the same recording (331.745667ms)
+✔ an unreadable unrelated destination never prevents deleting owned private export data (275.234625ms)
+✔ storage totals include failed private exports and exclude the committed external movie (390.22475ms)
+✔ storage reconciles retired staging but rejects a substituted private directory (274.442958ms)
+✔ storage shutdown aborts and drains an export observation before catalog teardown (254.225458ms)
+✔ committed storage excludes the movie before acknowledgement and skips cleared destinations (268.188125ms)
+✔ complete prepared bytes publish exclusively and reconcile before acknowledgement (74.675167ms)
+ℹ {"prepared":{"bytes":21,"destination":{"dev":"16777234","ino":"280629266"},"file":{"dev":"16777234","ino":"280629281"},"leaf":"export.mp4","sha256":"fdae36b1a720103b48a48c3a4024e78961866bb7cd9981cfce0b7a08f06d8d30","stage":{"dev":"16777234","ino":"280629265"}}}
+✔ reconciliation distinguishes same bytes in another inode from changes in the committed inode (44.899292ms)
+✔ existing destination and symlink leaves are never replaced or followed (21.108791ms)
+✔ retained output and source descriptors survive controlled path replacement (17.293375ms)
+✔ preparation budget failure leaves destination absent (15.759458ms)
+✔ private cleanup stays on its inherited directory after staging path replacement (24.194375ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11902.906

@@ -126,10 +126,7 @@ if (process.argv[2] === "owner") {
       21 + receiptBytes,
     );
     await owner.commit();
-    assert.equal(
-      await Publication.usage(join(f.root, "stage"), identity, worker),
-      21 + receiptBytes,
-    );
+    assert.equal(await Publication.usage(join(f.root, "stage"), identity, worker), receiptBytes);
     await owner.acknowledge();
     assert.equal(await Publication.usage(join(f.root, "stage"), identity, worker), 0);
     assert.equal(

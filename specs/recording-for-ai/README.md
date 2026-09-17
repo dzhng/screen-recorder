@@ -33,12 +33,14 @@ startup orphan reclamation in
 [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
 The shared queue now has [transient contexts](slices/14c3a-transient-context-jobs.md);
 public handles must use these capabilities and the retained native descriptor owner.
-In parallel, implement pinned evidence retention and queued export recovery in
-[14d](slices/14d-export-publication.md), using the verified
-[deferred admission seam](slices/14d2b1-deferred-admission.md).
+In parallel, implement per-export abandonment and queued export recovery in
+[14d](slices/14d-export-publication.md). The verified
+[pinned waiting consumer](slices/14d2b2-pinned-waiting-video.md) preserves exact inputs
+through cleanup, retry and preview eviction.
 [Durable video intent](slices/14d2a-video-intent.md) now passes actual cancellation,
-restart and recording deletion. Service/public wiring, staging accounting and
-size-appropriate deadlines remain before public exports.
+restart and recording deletion. [Staging accounting](assets/export-publication/staging-usage.md)
+is internally composed; service/public wiring and size-appropriate deadlines remain
+before public exports.
 
 Priority order: package/export execution, remaining native controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
@@ -59,7 +61,8 @@ Recent integration evidence:
   no-clobber publication, atomic prepared receipts, process-crash reconciliation,
   cancellation and actual recording deletion. Merged native and shared-owner checks
   pass. [Deferred admission](slices/14d2b1-deferred-admission.md) passes rebuilt
-  service integration; pinned dependency consumers, service wiring and public exports remain.
+  service integration. Pinned dependency consumers and private storage accounting pass
+  native integration; abandonment, queued recovery, service wiring and public exports remain.
 - [Public preview](assets/preview-publication/public.md) passes generated pointer,
   cut/pause, CLI/MCP parity, restart and deletion checks. The
   [native player](assets/preview-publication/player.md) passes real bundled-service
@@ -174,7 +177,8 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [14c3b1 — Reusable outputs and isolated delivery](slices/14c3b1-package-output-release.md) (native storage/read lifetime; registry recovery remains)
   - [x] [14c3b2 — Admitted inputs and workspace cleanup](slices/14c3b2-package-workspace-primitives.md) (native primitives; service registry remains)
   - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md) (ready-preview queue/recovery/deletion; dependency consumers and public exports remain)
-  - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md) (shared queue and rebuilt service integration; pinned export consumers remain)
+  - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md) (shared queue and rebuilt service integration)
+  - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md) (source retention, retry and cache loss; public exports remain)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

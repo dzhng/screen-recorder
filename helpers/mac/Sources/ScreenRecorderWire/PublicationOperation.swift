@@ -148,7 +148,10 @@ enum PublicationOperation {
     }
     static func execute(_ operation: String, _ params: [String: Any]) throws -> [String: Any] {
         if operation == "publication.usage" {
-            guard Set(params.keys) == ["stage"] else { throw failure("INVALID_REQUEST", "Invalid staging measurement.") }
+            guard Set(params.keys) == ["stage", "committed"],
+                let committed = params["committed"] as? NSNumber, CFGetTypeID(committed) == CFBooleanGetTypeID() else {
+                throw failure("INVALID_REQUEST", "Invalid staging measurement.")
+            }
             try ManagedFiles.Identity(params["stage"]).check(3)
             let stage = try info(3, directory: true)
             guard stage.st_uid == getuid(), stage.st_mode & 0o777 == 0o700 else {
@@ -166,6 +169,9 @@ enum PublicationOperation {
                 guard entry.st_mode & S_IFMT == S_IFREG, entry.st_size >= 0 else {
                     throw failure("INVALID_STORAGE", "Unexpected private publication file type.")
                 }
+                // Only commit creates another payload link. This also sees a completed
+                // link before its catalog receipt; no destination read or digest is needed.
+                if name == "payload" && (committed.boolValue || entry.st_nlink > 1) { continue }
                 guard entry.st_size <= 9_007_199_254_740_991 - bytes else {
                     throw failure("LIMIT_EXCEEDED", "Publication storage exceeds safe byte range.")
                 }

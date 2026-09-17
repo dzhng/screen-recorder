@@ -139,7 +139,7 @@ export class RevisionStore {
         .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='export_intents'")
         .get() &&
         !this.catalog
-          .prepare("SELECT 1 FROM pragma_table_info('export_intents') WHERE name='sourceEvidence'")
+          .prepare("SELECT 1 FROM pragma_table_info('export_intents') WHERE name='stagingCleared'")
           .get()) ||
       this.catalog
         .prepare(

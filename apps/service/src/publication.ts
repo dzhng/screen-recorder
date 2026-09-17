@@ -40,6 +40,7 @@ export class Publication {
     expected: DirectoryIdentity,
     worker: MediaWorker,
     signal?: AbortSignal,
+    committed = false,
   ): Promise<number> {
     if (!(await lstat(path)).isDirectory())
       throw new CatalogError("INVALID_STORAGE", "Publication staging must be a directory");
@@ -51,7 +52,7 @@ export class Publication {
       const value = Publication.data(
         await worker(
           "publication.usage",
-          { stage: expected },
+          { stage: expected, committed },
           {
             descriptors: [stage.fd],
             ...(signal ? { signal } : {}),
@@ -160,8 +161,9 @@ export class Publication {
     expected: DirectoryIdentity,
     name: string,
     worker: MediaWorker,
+    signal?: AbortSignal,
   ): Promise<boolean> {
-    const value = await this.stageEntry("absent", directory, expected, name, worker);
+    const value = await this.stageEntry("absent", directory, expected, name, worker, signal);
     if (typeof value.absent !== "boolean")
       throw new CatalogError("INVALID_NATIVE_RESPONSE", "Staging absence was not confirmed");
     return value.absent;
@@ -173,6 +175,7 @@ export class Publication {
     expected: DirectoryIdentity,
     name: string,
     worker: MediaWorker,
+    signal?: AbortSignal,
   ) {
     const parent = await open(
       directory,
@@ -182,7 +185,7 @@ export class Publication {
       const result = await worker(
         `publication.${operation}`,
         { destination: expected, name },
-        { descriptors: [parent.fd] },
+        { descriptors: [parent.fd], ...(signal ? { signal } : {}) },
       );
       return this.data(result);
     } finally {

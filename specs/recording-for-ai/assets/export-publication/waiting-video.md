@@ -40,3 +40,9 @@ successful reviewer verification.
 This is empty-pointer, no-narration lifetime evidence. Public export wiring,
 per-export abandonment, queued startup recovery, staging storage totals, long-video
 budgets and processed-package/narrated acceptance remain separate gates.
+
+## Root integration
+
+Merged as `913ecde`; the root build passed all eight tasks and the fresh bundled
+worker passed all 40 combined publication/export tests. This includes the separately
+landed private storage primitive. [Merged receipt](waiting-video-merged-native.txt).

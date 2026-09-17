@@ -31,6 +31,7 @@ type Intent = {
   snapshot: Snapshot;
   destination: { directory: string; identity: DirectoryIdentity; leaf: string };
   staging: DirectoryIdentity | null;
+  stagingCleared: 0 | 1;
   preview: ReadyPreview | null;
   sourceEvidence: SourceEvidenceMetadata | null;
   receipt: PublicationReceipt | null;
@@ -66,8 +67,9 @@ export class VideoExports {
     owners.store.catalog.exec(`CREATE TABLE IF NOT EXISTS export_intents (
       exportId TEXT PRIMARY KEY, recordingId TEXT NOT NULL REFERENCES recordings(recordingId),
       request TEXT NOT NULL, snapshot TEXT NOT NULL, destination TEXT NOT NULL,
-      staging TEXT, preview TEXT, sourceEvidence TEXT, receipt TEXT
+      staging TEXT, stagingCleared INTEGER NOT NULL DEFAULT 0 CHECK(stagingCleared IN (0,1)), preview TEXT, sourceEvidence TEXT, receipt TEXT
     ) STRICT; CREATE INDEX IF NOT EXISTS export_intents_pending ON export_intents(recordingId) WHERE receipt IS NULL;
+    CREATE INDEX IF NOT EXISTS export_intents_storage ON export_intents(exportId) WHERE staging IS NOT NULL AND stagingCleared=0;
     CREATE INDEX IF NOT EXISTS export_intents_recording ON export_intents(recordingId,exportId);`);
   }
   private find(exportId: string): Intent | null {
@@ -247,6 +249,57 @@ export class VideoExports {
       retryable: !intent.receipt && job.retryable,
     };
   }
+  /** Private staging remains recording-owned even when it lives beside an external destination. */
+  async usage(recordingId: string | undefined, signal: AbortSignal): Promise<number> {
+    let after = "",
+      bytes = 0;
+    const query = this.owners.store.catalog.prepare(
+      recordingId === undefined
+        ? "SELECT exportId FROM export_intents WHERE staging IS NOT NULL AND stagingCleared=0 AND exportId>? ORDER BY exportId LIMIT 1"
+        : "SELECT exportId FROM export_intents WHERE recordingId=? AND staging IS NOT NULL AND stagingCleared=0 AND exportId>? ORDER BY exportId LIMIT 1",
+    );
+    for (;;) {
+      signal.throwIfAborted();
+      const row = (recordingId === undefined ? query.get(after) : query.get(recordingId, after)) as
+        | { exportId: string }
+        | undefined;
+      if (!row) return bytes;
+      after = row.exportId;
+      const intent = this.require(row.exportId);
+      let observed: number;
+      try {
+        observed = await Publication.usage(
+          join(intent.destination.directory, stageName(intent.exportId)),
+          intent.staging!,
+          this.owners.worker,
+          signal,
+          intent.receipt !== null,
+        );
+      } catch (error) {
+        signal.throwIfAborted();
+        // Retirement can remove staging during a live observation. Only confirmed absence
+        // beneath the same destination identity counts as zero; replacement stays an error.
+        if (
+          (error as NodeJS.ErrnoException).code !== "ENOENT" ||
+          !(await Publication.absent(
+            intent.destination.directory,
+            intent.destination.identity,
+            stageName(intent.exportId),
+            this.owners.worker,
+            signal,
+          ))
+        )
+          throw error;
+        observed = 0;
+      }
+      if (!Number.isSafeInteger(bytes + observed))
+        throw new CatalogError(
+          "LIMIT_EXCEEDED",
+          "Export storage byte total exceeds safe integer range",
+        );
+      bytes += observed;
+    }
+  }
   async retry(exportId: string) {
     const intent = this.require(exportId);
     this.owners.store.get(intent.recordingId);
@@ -287,6 +340,11 @@ export class VideoExports {
       this.owners.worker,
       { expected: { stage: intent.staging, destination: intent.destination.identity } },
     );
+  }
+  private markStagingCleared(exportId: string) {
+    this.owners.store.catalog
+      .prepare("UPDATE export_intents SET stagingCleared=1 WHERE exportId=?")
+      .run(exportId);
   }
   private recordCommit(intent: Intent, receipt: PublicationReceipt) {
     // This write is allowed during deletion/cancellation: the file already exists outside the library.
@@ -341,6 +399,7 @@ export class VideoExports {
         );
       this.recordCommit(intent, observed.receipt);
       await publication.acknowledge();
+      this.markStagingCleared(intent.exportId);
       return JSON.stringify(observed.receipt);
     } finally {
       await publication.close();
@@ -357,12 +416,14 @@ export class VideoExports {
     try {
       if (intent.receipt) {
         await publication.discard();
+        this.markStagingCleared(intent.exportId);
         return;
       }
       const observed = await publication.reconcile();
       if (observed.state === "committed" && observed.receipt) {
         this.recordCommit(intent, observed.receipt);
         await publication.acknowledge();
+        this.markStagingCleared(intent.exportId);
       }
     } finally {
       await publication.close();

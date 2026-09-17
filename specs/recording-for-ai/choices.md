@@ -1888,3 +1888,29 @@ records them. These choices add no public export choice or transcript readiness.
   input. The plan required forward progress but left this race's handoff unspecified.
   Actual prepared publication evidence is reconciled first so missing dependencies
   cannot hide a file that has already committed externally.
+
+## Export storage composition (2026-09-17)
+
+### Sound — high confidence
+
+- **A completed movie is excluded even if the process dies before saving its receipt.**
+  Publication creates an extra file link to transfer a completed payload to the user's
+  destination. Storage can observe that link count without opening or hashing the
+  movie; it excludes the payload and keeps counting private receipt metadata. Known
+  durable commit truth also excludes the payload if the external file later disappears.
+  The plan required avoiding double counting but left this crash gap unspecified.
+  This is an accounting observation only; it never authorizes reporting export success.
+
+- **Remember confirmed private-byte cleanup independently of historical commit.**
+  A finished export remains in history after its private bytes have been removed.
+  The added catalog marker and partial index let storage skip that history, so moving
+  the destination does not break future storage reads or launch one native worker per
+  completed export. The plan left completed-history accounting open. The original
+  staging identity remains for directory retirement; the marker asserts zero owned
+  file bytes, not that the directory itself was removed.
+
+- **Export bytes join the existing storage owner's other-bytes category.**
+  A failed export's temporary files appear in its recording and global totals even
+  though they live outside the library. The existing owner coalesces repeated requests
+  and aborts and drains observations during shutdown. The plan specified attribution
+  without requiring another public category; this keeps one accounting lifetime.

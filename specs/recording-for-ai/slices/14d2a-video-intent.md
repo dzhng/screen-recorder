@@ -86,12 +86,11 @@ or real speech audition. [Evidence](../assets/export-publication/video-intent.md
 14d2b still owns waiting dependency admission, bounded/coalesced capacity/startup hooks,
 queue-admitted uncertain recovery, and public service wiring. Its full-package branch
 must preserve accepted-transcript prerequisites; this human-video pass fabricates no
-speech readiness. Registered unfinished external staging also needs truthful storage
-accounting before public export integration. Current `storage.usage` does **not** count
-these bytes. Attribute only identity-validated app-owned pending staging, exclude
+speech readiness. [Private export storage accounting](../assets/export-publication/staging-usage.md)
+now composes through the existing storage owner internally. Public service wiring
+remains required. Attribute only identity-validated app-owned pending staging, exclude
 completed external exports, and do not double-count the retained hard link to an
-already committed file. This remains an explicit integration gate, not a claimed
-storage feature.
+already committed file.
 
 Before public admission, 14d2b must also choose a bounded, size-appropriate publication
 budget for long videos and slow destination volumes using the existing configurable

@@ -3,6 +3,7 @@ import { randomUUID, createHash } from "node:crypto";
 import { fork, spawnSync } from "node:child_process";
 import {
   mkdtemp,
+  open,
   mkdir,
   readFile,
   writeFile,
@@ -16,6 +17,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { once } from "node:events";
 import { fileURLToPath } from "node:url";
+import { RecordingStorage } from "@screenrec/core/storage";
 import { RevisionStore } from "@screenrec/core/library";
 import { JobQueue } from "@screenrec/core/jobs";
 import { DerivedCache } from "@screenrec/core/cache";
@@ -24,6 +26,7 @@ import { SourceProcessing } from "@screenrec/core/processing";
 import { PreviewInspection } from "@screenrec/core/preview";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { Publication } from "../dist/publication.js";
 import { VideoExports } from "../dist/video-exports.js";
 import { RecordingDeletion } from "../dist/deletion.js";
 import { DerivativeDelivery } from "../dist/delivery.js";
@@ -120,6 +123,9 @@ async function fixture(t, wrap = (value) => value, existing, { warm = true } = {
   );
   const files = new ManagedFiles(home, native);
   exports = new VideoExports({ store, jobs, cache, preview, processing, worker, files });
+  const storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
+    exports.usage(recordingId, signal),
+  );
   jobs.startAdmission((job) => exports.admit(job));
   if (warm) processing.prepare(take.recordingId);
   await jobs.idle();
@@ -145,6 +151,7 @@ async function fixture(t, wrap = (value) => value, existing, { warm = true } = {
   async function closeOwners() {
     if (closed) return;
     closed = true;
+    await storage.close();
     await deletion.close();
     await jobs.close();
     delivery.dispose();
@@ -171,6 +178,7 @@ async function fixture(t, wrap = (value) => value, existing, { warm = true } = {
     processing,
     evidence,
     closeOwners,
+    storage,
   };
 }
 async function crashFixture(t, gap) {
@@ -647,6 +655,10 @@ if (process.argv[2] === "crash-owner") {
           .get(exportId).receipt,
         null,
       );
+      const metadataBytes = (
+        await stat(join(f.output, ".screenrec-export-" + exportId, "prepared.json"))
+      ).size;
+      assert.equal((await reopened.storage.usage(f.take.recordingId)).otherBytes, metadataBytes);
       await reopened.exports.recover(exportId);
       const status = await reopened.exports.status(exportId);
       assert.equal(status.state, "committed");
@@ -947,5 +959,135 @@ if (process.argv[2] === "crash-owner") {
     await chmod(destination, 0o600);
     assert.equal(await readFile(destination, "utf8"), "unreadable foreign bytes");
     assert.equal(f.store.deleting(f.take.recordingId), null);
+  });
+  test("storage totals include failed private exports and exclude the committed external movie", async (t) => {
+    const f = await fixture(t),
+      exportId = randomUUID();
+    const before = await f.storage.usage(f.take.recordingId);
+    const globalBefore = await f.storage.usage();
+    await writeFile(join(f.output, "taken.mp4"), "external sentinel");
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "taken.mp4",
+    });
+    await f.jobs.idle();
+    assert.equal(f.exports.status(exportId).state, "failed");
+    const stage = join(f.output, ".screenrec-export-" + exportId);
+    const bytes =
+      (await stat(join(stage, "payload"))).size + (await stat(join(stage, "prepared.json"))).size;
+    assert.ok(bytes > 0);
+    const one = await f.storage.usage(f.take.recordingId);
+    assert.equal(one.otherBytes, before.otherBytes + bytes);
+    assert.equal(one.totalBytes, before.totalBytes + bytes);
+    assert.equal((await f.storage.usage()).otherBytes, globalBefore.otherBytes + bytes);
+    assert.equal(await readFile(join(f.output, "taken.mp4"), "utf8"), "external sentinel");
+    const successful = randomUUID();
+    await f.exports.create({
+      exportId: successful,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "export.mp4",
+    });
+    await f.jobs.idle();
+    assert.equal(f.exports.status(successful).state, "committed");
+    assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, before.otherBytes + bytes);
+    assert.equal((await f.storage.usage()).otherBytes, globalBefore.otherBytes + bytes);
+    await f.deletion.delete(f.take.recordingId);
+    assert.equal((await f.storage.usage()).otherBytes, globalBefore.otherBytes);
+    assert.ok((await stat(join(f.output, "export.mp4"))).size > 0);
+    assert.equal(await readFile(join(f.output, "taken.mp4"), "utf8"), "external sentinel");
+  });
+  test("storage reconciles retired staging but rejects a substituted private directory", async (t) => {
+    const f = await fixture(t),
+      exportId = randomUUID();
+    await writeFile(join(f.output, "taken.mp4"), "external sentinel");
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "taken.mp4",
+    });
+    await f.jobs.idle();
+    const name = ".screenrec-export-" + exportId,
+      stage = join(f.output, name);
+    const retainedDirectory = await open(stage);
+    t.after(() => retainedDirectory.close());
+    const owner = await Publication.open(stage, f.output, native);
+    try {
+      await owner.retire(name);
+    } finally {
+      await owner.close();
+    }
+    // Simulate completed private retirement before its catalog acknowledgement.
+    assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, 0);
+    await mkdir(stage, { mode: 0o700 });
+    await writeFile(join(stage, "payload"), "replacement");
+    await assert.rejects(f.storage.usage(f.take.recordingId));
+    assert.equal(await readFile(join(stage, "payload"), "utf8"), "replacement");
+    assert.equal(await readFile(join(f.output, "taken.mp4"), "utf8"), "external sentinel");
+  });
+  test("storage shutdown aborts and drains an export observation before catalog teardown", async (t) => {
+    const entered = Promise.withResolvers(),
+      aborted = Promise.withResolvers(),
+      release = Promise.withResolvers();
+    t.after(() => release.resolve());
+    const f = await fixture(t, (worker) => async (operation, params, options) => {
+      if (operation === "publication.usage") {
+        entered.resolve();
+        options.signal.addEventListener("abort", () => aborted.resolve(), { once: true });
+        await release.promise;
+      }
+      return worker(operation, params, options);
+    });
+    await writeFile(join(f.output, "taken.mp4"), "sentinel");
+    await f.exports.create({
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "taken.mp4",
+    });
+    await f.jobs.idle();
+    const read = f.storage.usage(f.take.recordingId);
+    const rejected = assert.rejects(read, { code: "CANCELED" });
+    await entered.promise;
+    let closed = false;
+    const closing = f.storage.close().then(() => {
+      closed = true;
+    });
+    await aborted.promise;
+    await new Promise(setImmediate);
+    assert.equal(closed, false);
+    release.resolve();
+    await Promise.all([closing, rejected]);
+    assert.equal(closed, true);
+  });
+  test("committed storage excludes the movie before acknowledgement and skips cleared destinations", async (t) => {
+    let failAcknowledgement = true;
+    const f = await fixture(t, (worker) => async (operation, params, options) => {
+      if (operation === "publication.acknowledge" && failAcknowledgement)
+        throw new Error("fixture acknowledgement failure");
+      return worker(operation, params, options);
+    });
+    const exportId = randomUUID();
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "export.mp4",
+    });
+    await f.jobs.idle();
+    assert.equal(f.exports.status(exportId).state, "committed");
+    const stage = join(f.output, ".screenrec-export-" + exportId);
+    const metadataBytes = (await stat(join(stage, "prepared.json"))).size;
+    assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, metadataBytes);
+    failAcknowledgement = false;
+    await f.exports.retry(exportId);
+    const moved = f.output + "-moved";
+    await rename(f.output, moved);
+    t.after(() => rm(moved, { recursive: true, force: true }));
+    assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, 0);
+    assert.ok((await stat(join(moved, "export.mp4"))).size > 0);
   });
 }
