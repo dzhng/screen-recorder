@@ -40,6 +40,10 @@ Acquired narration remains an explicit transcript prerequisite, never an implici
 no-narration package. The [abandonment admission fence](assets/export-publication/admission-abandon.md)
 now drains destination validation before reporting a stopped export absent.
 
+[Public timeline inspection](slices/14c3c3-timeline-inspection.md) is implemented for
+library and retained-package history with bounded, generation-scoped continuations.
+It does not imply transcript readiness.
+
 Priority order: package/export execution, remaining native controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
 Keep one queue, immutable sources, explicit dependency failure and the complete

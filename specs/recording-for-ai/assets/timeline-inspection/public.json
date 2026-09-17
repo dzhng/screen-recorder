@@ -1,0 +1,104 @@
+{
+  "defaultRevision": "6437b4ed-aa24-48fa-b8e1-66f26469bddc",
+  "historicalRevision": "a8f7971a-c459-49d0-930b-72cd522ef029",
+  "libraryEditedRevision": "40839adc-27f3-475e-bc59-416be948adf4",
+  "packageRows": [
+    {
+      "ordinal": 0,
+      "atUs": 0,
+      "event": {
+        "kind": "geometry",
+        "atSourceUs": 0
+      }
+    },
+    {
+      "ordinal": 1,
+      "atUs": 500000,
+      "event": {
+        "kind": "cut",
+        "atSourceUs": 500000,
+        "removedSourceSpans": [
+          {
+            "startUs": 500000,
+            "endUs": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "ordinal": 2,
+      "atUs": 1500000,
+      "event": {
+        "kind": "scene",
+        "atSourceUs": 2000000
+      }
+    },
+    {
+      "ordinal": 3,
+      "atUs": 2100000,
+      "event": {
+        "kind": "geometry",
+        "atSourceUs": 2600000
+      }
+    },
+    {
+      "ordinal": 4,
+      "atUs": 2500000,
+      "event": {
+        "kind": "pause",
+        "atSourceUs": 3000000,
+        "elapsedPauseUs": 400000
+      }
+    },
+    {
+      "ordinal": 5,
+      "atUs": 3500000,
+      "event": {
+        "kind": "interruption",
+        "atSourceUs": 4000000
+      }
+    }
+  ],
+  "historyRows": [
+    {
+      "ordinal": 0,
+      "atUs": 0,
+      "event": {
+        "kind": "geometry",
+        "atSourceUs": 0
+      }
+    },
+    {
+      "ordinal": 1,
+      "atUs": 500000,
+      "event": {
+        "kind": "cut",
+        "atSourceUs": 500000,
+        "removedSourceSpans": [
+          {
+            "startUs": 500000,
+            "endUs": 1000000
+          }
+        ]
+      }
+    },
+    {
+      "ordinal": 2,
+      "atUs": 1000000,
+      "event": {
+        "kind": "cut",
+        "atSourceUs": 1500000,
+        "removedSourceSpans": [
+          {
+            "startUs": 1500000,
+            "endUs": 4000000
+          }
+        ]
+      }
+    }
+  ],
+  "cliMcpParity": true,
+  "cursorScope": true,
+  "libraryDeletionIsolation": true,
+  "closeAndRestartRevocation": true
+}

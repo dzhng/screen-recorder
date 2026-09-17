@@ -1,3 +1,4 @@
+import type { LibraryTimelineInspection } from "./timeline-inspection.js";
 import type { PackageFrameInspection } from "./package-frames.js";
 import type { RecordingExports } from "./exports.js";
 import type { PackageInspection } from "./packages.js";
@@ -35,6 +36,7 @@ export type OperationContext = {
   capture: CaptureService;
   health: () => unknown;
   processing: SourceProcessing;
+  timeline: LibraryTimelineInspection;
   frames: LibraryFrameInspection;
   audio: LibraryAudioInspection;
   preview: PreviewInspection;
@@ -105,6 +107,7 @@ export async function operate(
     capture,
     health,
     processing,
+    timeline,
     frames,
     audio,
     preview,
@@ -153,6 +156,13 @@ export async function operate(
         return { ok: true, data: await storage.usage(operation.params.recordingId) };
       case "recording.delete":
         return { ok: true, data: await deletion.delete(operation.params.recordingId) };
+      case "timeline.events":
+        return {
+          ok: true,
+          data: await ("packageHandle" in operation.params
+            ? packages.timeline(operation.params.packageHandle).get(operation.params)
+            : timeline.get(operation.params)),
+        };
       case "index.get":
         return {
           ok: true,

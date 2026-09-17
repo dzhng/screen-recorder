@@ -32,8 +32,7 @@ also yields between output pages, including cut-only pages that consume almost n
 source events. Canonical cuts are looked up by their unique source position.
 
 The internal file reader permits up to 1,000 rows per call for bounded assembly
-work. This is not a public operation limit: the eventual CLI/MCP event schema must
-retain the contract's maximum of 500 entries.
+work. The public CLI/MCP event schema enforces the contract's maximum of 500 entries.
 
 ## Verification
 
@@ -57,8 +56,9 @@ regressions and independently passed all 320 core tests and the core type check.
 The final host run also passed the native relocation test.
 
 Final full-core and native relocation results are recorded in
-[core](events-core.txt) and [native](events-native.txt). Full package export assembly,
-public timeline operations and narration completeness remain separate gates.
+[core](events-core.txt) and [native](events-native.txt). [Public timeline inspection](../timeline-inspection/README.md) uses the same
+projection owner. Full package export assembly and narration completeness remain
+separate gates.
 
 
 ### Cut-only validation followup

@@ -1,0 +1,36 @@
+@screenrec/core test:
+@screenrec/core test:  RUN  v5.0.0 /private/tmp/screenrec-timeline-inspection/packages/core
+@screenrec/core test:
+@screenrec/core test: (node:52226) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+@screenrec/core test: (Use `node --trace-warnings ...` to show where the warning was created)
+@screenrec/core test:  ❯ src/event-pages.test.ts (6 tests | 1 failed | 5 skipped) 179ms
+@screenrec/core test:    × timeline pages advance through removed evidence without emitting phantom ordinals 178ms
+@screenrec/core test:
+@screenrec/core test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+@screenrec/core test:
+@screenrec/core test:  FAIL  src/event-pages.test.ts > timeline pages advance through removed evidence without emitting phantom ordinals
+@screenrec/core test: AssertionError: expected true to be false // Object.is equality
+@screenrec/core test:
+@screenrec/core test: - Expected
+@screenrec/core test: + Received
+@screenrec/core test:
+@screenrec/core test: - false
+@screenrec/core test: + true
+@screenrec/core test:
+@screenrec/core test:  ❯ src/event-pages.test.ts:313:32
+@screenrec/core test:     311|   while (cursor) {
+@screenrec/core test:     312|     const position = JSON.stringify(cursor);
+@screenrec/core test:     313|     expect(seen.has(position)).toBe(false);
+@screenrec/core test:        |                                ^
+@screenrec/core test:     314|     seen.add(position);
+@screenrec/core test:     315|     const page = await reader.page({ cursor, limit: 2 });
+@screenrec/core test:
+@screenrec/core test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+@screenrec/core test:
+@screenrec/core test:
+@screenrec/core test:  Test Files  1 failed (1)
+@screenrec/core test:       Tests  1 failed | 5 skipped (6)
+@screenrec/core test:    Start at  10:24:05
+@screenrec/core test:    Duration  309ms (tests 68%, transform 20%, import 12%, worker 1%)
+@screenrec/core test:
+@screenrec/core test: Exited with code 1

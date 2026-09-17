@@ -63,6 +63,27 @@ export abstract class SourceEvidenceReader {
       lower = { key: recordKey(index, rows.at(-1)!), inclusive: false };
     }
   }
+  /** Ordered point markers for bounded timeline projection; null-time geometry stays separate. */
+  eventRecords(
+    identity: EvidenceIdentity,
+    index: "pauses" | "geometry",
+    after: readonly [number, number] | null,
+    limit: number,
+  ): RecordRow[] {
+    if (
+      !integer(limit) ||
+      limit < 1 ||
+      limit > 256 ||
+      (after !== null && (after.length !== 2 || after.some((value) => !integer(value))))
+    )
+      invalid("Invalid timeline source record page");
+    this.requireComplete(identity);
+    return this.records(identity, {
+      index,
+      limit,
+      ...(after ? { lower: { key: after, inclusive: false } } : {}),
+    });
+  }
   private timingRange(range: TimeRange) {
     if (!integer(range.startUs) || !integer(range.endUs) || range.endUs < range.startUs)
       throw new CatalogError("INVALID_RANGE", "Invalid source timing range");

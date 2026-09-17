@@ -78,114 +78,231 @@ function codec(
     },
   };
 }
-type OrderedSourceEvent = { event: SourceEvent; sequence: number };
-function* sourceEvents(
-  input: TimelineEventInput,
-  index: "pauses" | "geometry",
-): Generator<OrderedSourceEvent> {
-  for (const batch of input.source.exportRecords(input.sourceIdentity, index))
-    for (const row of batch) {
-      const data = JSON.parse(row.content);
-      yield {
-        sequence: row.sequence,
-        event:
-          index === "pauses"
-            ? { kind: "pause", atSourceUs: data.atSourceUs, elapsedPauseUs: data.elapsedPauseUs }
-            : { kind: "geometry", atSourceUs: row.sourceUs! },
-      };
-    }
-}
-async function* sceneEvents(
-  input: TimelineEventInput,
-  signal?: AbortSignal,
-): AsyncGenerator<OrderedSourceEvent> {
-  let afterStartUs: number | undefined;
-  for (;;) {
-    const page = input.scenes.page({
-      identity: input.sceneIdentity,
-      ...(afterStartUs === undefined ? {} : { afterStartUs }),
-      limit: 100,
-    });
-    if (page.metadata.durationUs !== input.revision.sourceDurationUs)
-      invalid("Scene duration differs from pinned source");
-    for (const chunk of page.chunks)
-      for (const event of chunk.boundaries) yield { event, sequence: Number.MAX_SAFE_INTEGER };
-    if (page.nextStartUs === null) return;
-    afterStartUs = page.nextStartUs;
-    await setImmediate(undefined, { signal });
+const sourcePosition = z.strictObject({
+  after: z.tuple([integer, integer]).nullable(),
+  done: z.boolean(),
+});
+export const timelineEventCursorSchema = z.strictObject({
+  pauses: sourcePosition,
+  geometry: sourcePosition,
+  scenes: z.strictObject({
+    afterChunkStartUs: integer.nullable(),
+    boundaryOffset: integer,
+    done: z.boolean(),
+  }),
+  cut: integer,
+  interruption: z.boolean(),
+  ordinal: integer,
+});
+export type TimelineEventCursor = z.infer<typeof timelineEventCursorSchema>;
+type ProjectedEvent = Omit<TimelineEventRow, "ordinal">;
+type Head = ProjectedEvent & { sequence: number; consume(): Promise<void> };
+
+/** Stateless checkpoints bound both returned rows and work consumed while skipping removed evidence. */
+export class TimelineEventRead {
+  private readonly project: ReturnType<typeof eventProjector>;
+  private readonly cuts: readonly ProjectedEvent[];
+  private readonly input: TimelineEventInput;
+  constructor(input: TimelineEventInput) {
+    this.input = { ...input, ...structuredClone(eventMetadata(input)) };
+    if (
+      input.sourceIdentity.recordingId !== input.sceneIdentity.recordingId ||
+      input.sourceIdentity.sourceId !== input.sceneIdentity.sourceId
+    )
+      invalid("Event inputs name different sources");
+    this.project = eventProjector(this.input.revision);
+    this.cuts = [...projectedCuts(this.input.revision)];
   }
-}
-/** Merge a fixed number of ordered streams without collecting their complete contents. */
-async function* merge<T>(
-  streams: (Iterable<T> | AsyncIterable<T>)[],
-  compare: (a: T, b: T) => number,
-): AsyncGenerator<T> {
-  const iterators = streams.map((stream) =>
-    (async function* () {
-      yield* stream;
-    })(),
-  );
-  const heads = await Promise.all(iterators.map((iterator) => iterator.next()));
-  try {
-    for (;;) {
-      let selected = -1;
-      let chosen: IteratorYieldResult<T> | null = null;
-      for (let i = 0; i < heads.length; i++) {
-        const candidate = heads[i]!;
-        if (!candidate.done && (!chosen || compare(candidate.value, chosen.value) < 0)) {
-          selected = i;
-          chosen = candidate;
+  async page(
+    {
+      cursor,
+      limit = 100,
+    }: { cursor?: TimelineEventCursor | undefined; limit?: number | undefined } = {},
+    signal?: AbortSignal,
+  ): Promise<{ rows: TimelineEventRow[]; nextCursor: TimelineEventCursor | null }> {
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 500)
+      throw new CatalogError("INVALID_RANGE", "Event pages require 1 to 500 rows");
+    signal?.throwIfAborted();
+    const state: TimelineEventCursor = cursor
+      ? timelineEventCursorSchema.parse(cursor)
+      : {
+          pauses: { after: null, done: false },
+          geometry: { after: null, done: false },
+          scenes: { afterChunkStartUs: null, boundaryOffset: 0, done: false },
+          cut: 0,
+          interruption: false,
+          ordinal: 0,
+        };
+    if (state.cut > this.cuts.length || state.ordinal > Number.MAX_SAFE_INTEGER - limit)
+      throw new CatalogError("INVALID_RANGE", "Invalid event continuation");
+    let consumed = 0;
+    const advance = async () => {
+      consumed++;
+      if (consumed % 256 === 0) await setImmediate(undefined, { signal });
+      signal?.throwIfAborted();
+    };
+    const budget = 1024;
+    const sourceHead = (index: "pauses" | "geometry") => {
+      let records: ReturnType<SourceEvidenceReader["eventRecords"]> = [],
+        offset = 0;
+      return async (): Promise<Head | null> => {
+        const position = state[index];
+        while (!position.done && consumed < budget) {
+          if (offset === records.length) {
+            records = this.input.source.eventRecords(
+              this.input.sourceIdentity,
+              index,
+              position.after,
+              256,
+            );
+            offset = 0;
+            if (!records.length) {
+              position.done = true;
+              return null;
+            }
+          }
+          const record = records[offset]!,
+            data = JSON.parse(record.content);
+          const event: SourceEvent =
+            index === "pauses"
+              ? { kind: "pause", atSourceUs: data.atSourceUs, elapsedPauseUs: data.elapsedPauseUs }
+              : { kind: "geometry", atSourceUs: record.sourceUs! };
+          const consume = async () => {
+            position.after = [record.sourceUs!, record.sequence];
+            offset++;
+            await advance();
+          };
+          const projected = this.project(event);
+          if (projected) return { ...projected, sequence: record.sequence, consume };
+          await consume();
         }
+        return null;
+      };
+    };
+    let chunks: ReturnType<SceneEvidenceRead["page"]>["chunks"] = [],
+      chunkOffset = 0;
+    const sceneHead = async (): Promise<Head | null> => {
+      const position = state.scenes;
+      while (!position.done && consumed < budget) {
+        if (chunkOffset === chunks.length) {
+          const page = this.input.scenes.page({
+            identity: this.input.sceneIdentity,
+            ...(position.afterChunkStartUs === null
+              ? {}
+              : { afterStartUs: position.afterChunkStartUs }),
+            limit: 100,
+          });
+          if (page.metadata.durationUs !== this.input.revision.sourceDurationUs)
+            invalid("Scene duration differs from pinned source");
+          chunks = page.chunks;
+          chunkOffset = 0;
+          if (!chunks.length) {
+            position.done = true;
+            return null;
+          }
+        }
+        const chunk = chunks[chunkOffset]!;
+        if (position.boundaryOffset > chunk.boundaries.length)
+          throw new CatalogError("INVALID_RANGE", "Scene event continuation is outside its chunk");
+        if (position.boundaryOffset === chunk.boundaries.length) {
+          position.afterChunkStartUs = chunk.range.startUs;
+          position.boundaryOffset = 0;
+          chunkOffset++;
+          await advance();
+          continue;
+        }
+        const event = chunk.boundaries[position.boundaryOffset]!;
+        const consume = async () => {
+          position.boundaryOffset++;
+          await advance();
+        };
+        const projected = this.project(event);
+        if (projected) return { ...projected, sequence: Number.MAX_SAFE_INTEGER, consume };
+        await consume();
       }
-      if (!chosen) return;
-      yield chosen.value;
-      heads[selected] = await iterators[selected]!.next();
+      return null;
+    };
+    const cutHead = async (): Promise<Head | null> => {
+      const cut = this.cuts[state.cut];
+      return cut
+        ? {
+            ...cut,
+            sequence: Number.MAX_SAFE_INTEGER,
+            consume: async () => {
+              state.cut++;
+              await advance();
+            },
+          }
+        : null;
+    };
+    const interruptionHead = async (): Promise<Head | null> => {
+      if (state.interruption) return null;
+      const projected = this.input.interrupted
+        ? this.project({ kind: "interruption", atSourceUs: this.input.revision.sourceDurationUs })
+        : null;
+      if (!projected) {
+        state.interruption = true;
+        return null;
+      }
+      return {
+        ...projected,
+        sequence: Number.MAX_SAFE_INTEGER,
+        consume: async () => {
+          state.interruption = true;
+          await advance();
+        },
+      };
+    };
+    const readers = [
+      sourceHead("pauses"),
+      sourceHead("geometry"),
+      sceneHead,
+      interruptionHead,
+      cutHead,
+    ];
+    const heads: (Head | null | undefined)[] = Array.from({ length: readers.length });
+    const rows: TimelineEventRow[] = [];
+    while (consumed < budget && rows.length < limit) {
+      for (let i = 0; i < readers.length; i++) {
+        if (heads[i] === undefined) heads[i] = await readers[i]!();
+        if (consumed >= budget) return { rows, nextCursor: state };
+      }
+      let selected = -1;
+      for (let i = 0; i < heads.length; i++) {
+        const head = heads[i];
+        if (!head) continue;
+        const prior = selected < 0 ? null : heads[selected]!;
+        if (
+          !prior ||
+          head.atUs < prior.atUs ||
+          (head.atUs === prior.atUs &&
+            (head.event.atSourceUs < prior.event.atSourceUs ||
+              (head.event.atSourceUs === prior.event.atSourceUs && head.sequence < prior.sequence)))
+        )
+          selected = i;
+      }
+      if (selected < 0) return { rows, nextCursor: null };
+      const head = heads[selected]!;
+      rows.push({ ordinal: state.ordinal++, atUs: head.atUs, event: head.event });
+      await head.consume();
+      heads[selected] = undefined;
     }
-  } finally {
-    for (const iterator of iterators) await iterator.return(undefined);
+    return { rows, nextCursor: state };
   }
 }
 async function* timelineEventRows(
   input: TimelineEventInput,
   signal?: AbortSignal,
 ): AsyncGenerator<TimelineEventRow> {
-  if (
-    input.sourceIdentity.recordingId !== input.sceneIdentity.recordingId ||
-    input.sourceIdentity.sourceId !== input.sceneIdentity.sourceId
-  )
-    invalid("Event inputs name different sources");
-  const project = eventProjector(input.revision);
-  async function* projected() {
-    let consumed = 0;
-    const interruption: OrderedSourceEvent[] = input.interrupted
-      ? [
-          {
-            event: { kind: "interruption", atSourceUs: input.revision.sourceDurationUs },
-            sequence: Number.MAX_SAFE_INTEGER,
-          },
-        ]
-      : [];
-    for await (const { event } of merge(
-      [
-        sourceEvents(input, "pauses"),
-        sourceEvents(input, "geometry"),
-        sceneEvents(input, signal),
-        interruption,
-      ],
-      (a, b) => a.event.atSourceUs - b.event.atSourceUs || a.sequence - b.sequence,
-    )) {
-      if (++consumed % 256 === 0) await setImmediate(undefined, { signal });
-      signal?.throwIfAborted();
-      const row = project(event);
-      if (row) yield row;
-    }
+  const reader = new TimelineEventRead(input);
+  let cursor: TimelineEventCursor | undefined;
+  for (;;) {
+    const page = await reader.page({ cursor, limit: 500 }, signal);
+    yield* page.rows;
+    if (!page.nextCursor) return;
+    cursor = page.nextCursor;
+    await setImmediate(undefined, { signal });
   }
-  let ordinal = 0;
-  for await (const row of merge<{ atUs: number; event: SourceEvent | CutEvent }>(
-    [projected(), projectedCuts(input.revision)],
-    (a, b) => a.atUs - b.atUs || a.event.atSourceUs - b.event.atSourceUs,
-  ))
-    yield { ordinal: ordinal++, ...row };
 }
 function eventMetadata(input: TimelineEventMetadata): TimelineEventMetadata {
   const { sourceIdentity, sceneIdentity, revision, interrupted } = input;

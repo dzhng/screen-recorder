@@ -1,4 +1,5 @@
 import { readRawCursor, type RawCursorOptions } from "@screenrec/core/raw-cursor";
+import { PackageTimelineInspection } from "./timeline-inspection.js";
 import { PackageMediaContext } from "./package-media.js";
 import { PackageAudioInspection } from "./package-audio.js";
 import { PackageFrameInspection } from "./package-frames.js";
@@ -37,6 +38,7 @@ export class PackageInspection {
       media?: PackageMediaContext;
       frames?: PackageFrameInspection;
       audio?: PackageAudioInspection;
+      timeline?: PackageTimelineInspection;
     }
   >();
   constructor(
@@ -231,6 +233,12 @@ export class PackageInspection {
     return readRawCursor({ packageHandle: input.packageHandle }, input, () =>
       this.media(input.packageHandle).sourceData(),
     );
+  }
+  timeline(packageHandle: string): PackageTimelineInspection {
+    const { view } = this.revisions(packageHandle);
+    return (view.timeline ??= new PackageTimelineInspection(this.media(packageHandle), () =>
+      this.context(packageHandle),
+    ));
   }
   frames(packageHandle: string): PackageFrameInspection {
     const { view } = this.revisions(packageHandle);

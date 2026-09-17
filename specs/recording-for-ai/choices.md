@@ -2219,3 +2219,20 @@ records them. These choices add no public export choice or transcript readiness.
   size, and copies selected media with descriptor-relative identity checks. It does
   not introduce a second normalized parser or a per-page native writing protocol.
   JavaScript page writers still require stable private app-owned directories.
+
+## Public timeline inspection — 2026-09-17
+
+- **Sound, medium confidence — Empty pages can still mean forward progress.**
+  Long static or cut-away source stretches may have no retained markers. The reader
+  limits consumed input as well as returned rows, and returns a continuation when
+  more scanning remains. Agents follow the cursor even after an empty page; this
+  bounds a single request without silently dropping evidence or rescanning from zero.
+- **Sound, medium confidence — Timeline continuations are opaque strings.**
+  A bounded cursor carries target, revision, both evidence generations and stream
+  positions. Clients resend it without knowing source-reader internals. It is not an
+  authorization token: existing library/package authority is resolved before and
+  after the read. An edit of the current revision does not retarget the cursor.
+- **Sound, high confidence — Complete timeline reads wait for source and scenes.**
+  The operation returns readiness errors until both evidence owners have published,
+  rather than claim a complete timeline while silently omitting scene boundaries.
+  Transcript readiness is independent and does not gate timeline inspection.

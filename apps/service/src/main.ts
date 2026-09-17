@@ -1,3 +1,4 @@
+import { LibraryTimelineInspection } from "./timeline-inspection.js";
 import { RecordingExports } from "./exports.js";
 import { PackageInspection } from "./packages.js";
 import { copyFile, mkdir } from "node:fs/promises";
@@ -79,6 +80,7 @@ async function main(): Promise<void> {
   let indexEvidence: ScreenshotIndexStore;
   let processing: SourceProcessing;
   let scenes: SceneProcessing;
+  let timeline: LibraryTimelineInspection;
   let index: IndexProcessing;
   let frames: LibraryFrameInspection;
   let audio: LibraryAudioInspection;
@@ -194,6 +196,7 @@ async function main(): Promise<void> {
       visual.sample,
       (recordingId, generation) => exports!.retainsScenes(recordingId, generation),
     );
+    timeline = new LibraryTimelineInspection(store, processing, scenes, evidence, sceneEvidence);
     index = new IndexProcessing(
       store,
       jobs,
@@ -420,6 +423,7 @@ async function main(): Promise<void> {
         capture,
         health: () => healthData(started, socketPath, home),
         processing,
+        timeline,
         frames,
         audio,
         preview,

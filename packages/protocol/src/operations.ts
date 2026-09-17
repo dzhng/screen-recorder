@@ -310,6 +310,19 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .describe("Release a media delivery; closing it again succeeds."),
   z
     .object({
+      operation: z.literal("timeline.events"),
+      params: inspection({
+        revisionId: id.optional(),
+        cursor: z.string().min(1).max(4096).optional(),
+        limit: z.int().min(1).max(500).default(100),
+      }),
+    })
+    .strict()
+    .describe(
+      "Read pause, cut, geometry, scene and interruption markers in pinned playback time. Continue while nextCursor exists, even if rows is empty. Adjacent rows with equal atUs form one logical group and may span pages. A cursor pins its target, revision and source/scene generations; included package history can be inspected explicitly.",
+    ),
+  z
+    .object({
       operation: z.literal("cursor.raw"),
       params: inspectionPage(
         { sourceRange: cursorRange, limit: z.int().min(1).max(5000).default(1000) },

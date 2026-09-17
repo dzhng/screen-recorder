@@ -143,6 +143,10 @@
     "./evidence-read": {
       "types": "./dist/evidence-read.d.ts",
       "default": "./dist/evidence-read.js"
+    },
+    "./timeline-inspection": {
+      "types": "./dist/timeline-inspection.d.ts",
+      "default": "./dist/timeline-inspection.js"
     }
   },
   "scripts": {

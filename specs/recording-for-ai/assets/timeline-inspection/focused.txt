@@ -1,0 +1,12 @@
+@screenrec/core test:
+@screenrec/core test:  RUN  v5.0.0 /private/tmp/screenrec-timeline-inspection/packages/core
+@screenrec/core test:
+@screenrec/core test: (node:52229) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+@screenrec/core test: (Use `node --trace-warnings ...` to show where the warning was created)
+@screenrec/core test:
+@screenrec/core test:  Test Files  2 passed (2)
+@screenrec/core test:       Tests  15 passed (15)
+@screenrec/core test:    Start at  10:24:06
+@screenrec/core test:    Duration  1.44s (tests 91%, transform 5%, import 4%)
+@screenrec/core test:
+@screenrec/core test: Exited with code 0

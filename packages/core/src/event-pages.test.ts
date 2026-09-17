@@ -4,7 +4,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createHash, randomUUID } from "node:crypto";
 import { fileAccess } from "./files.js";
-import { RevisionStore } from "./library.js";
+import { TimelineInspection } from "./timeline-inspection.js";
+import { CatalogError, RevisionStore } from "./library.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
@@ -13,6 +14,7 @@ import { FileSceneEvidence, writeSceneEvidencePages } from "./scene-pages.js";
 import { createOriginalRevision, createRevision } from "./timeline.js";
 import {
   FileTimelineEvents,
+  TimelineEventRead,
   writeTimelineEventPages,
   validateTimelineEventPages,
 } from "./event-pages.js";
@@ -289,4 +291,109 @@ test("validation yields cancellation across cut-only event pages", async () => {
     clearImmediate(abort);
   }
   await validateTimelineEventPages(reader, input);
+});
+
+test("timeline pages advance through removed evidence without emitting phantom ordinals", async () => {
+  const f = await fixture(true);
+  const revision = createRevision(
+    createOriginalRevision(2_600_000_000, "fixture"),
+    [{ startUs: 2_595_000_000, endUs: 2_600_000_000 }],
+    { id: "tail", operation: "trim", createdAt: "fixture" },
+  );
+  const reader = new TimelineEventRead({ ...f.input, revision });
+  const first = await reader.page({ limit: 2 });
+  expect(first.rows).toEqual([]);
+  expect(first.nextCursor).not.toBeNull();
+  expect(first.nextCursor!.ordinal).toBe(0);
+  const rows = [];
+  let cursor = first.nextCursor;
+  const seen = new Set<string>();
+  while (cursor) {
+    const position = JSON.stringify(cursor);
+    expect(seen.has(position)).toBe(false);
+    seen.add(position);
+    const page = await reader.page({ cursor, limit: 2 });
+    rows.push(...page.rows);
+    cursor = page.nextCursor;
+  }
+  expect(rows).toEqual([
+    {
+      ordinal: 0,
+      atUs: 0,
+      event: {
+        kind: "cut",
+        atSourceUs: 0,
+        removedSourceSpans: [{ startUs: 0, endUs: 2_595_000_000 }],
+      },
+    },
+    { ordinal: 1, atUs: 0, event: { kind: "geometry", atSourceUs: 2_595_000_000 } },
+    {
+      ordinal: 2,
+      atUs: 0,
+      event: { kind: "pause", atSourceUs: 2_595_000_000, elapsedPauseUs: 642 },
+    },
+    { ordinal: 3, atUs: 5_000_000, event: { kind: "interruption", atSourceUs: 2_600_000_000 } },
+  ]);
+});
+
+test("timeline continuations pin revision and authority across target and generation changes", async () => {
+  const f = await fixture(true),
+    original = createOriginalRevision(2_600_000_000, "fixture");
+  let current = f.input.revision,
+    generation = f.input.sourceIdentity.generation,
+    closed = false;
+  class Inspection extends TimelineInspection<{ id: string }> {
+    protected resolve(input: { id: string; revisionId?: string | undefined }) {
+      if (closed) throw new CatalogError("CONTEXT_CLOSED", "Closed fixture context");
+      const revision =
+        input.revisionId === original.id
+          ? original
+          : input.revisionId === f.input.revision.id
+            ? f.input.revision
+            : current;
+      return {
+        target: { id: input.id },
+        events: { ...f.input, revision, sourceIdentity: { ...f.input.sourceIdentity, generation } },
+      };
+    }
+  }
+  const inspection = new Inspection();
+  const first = await inspection.get({ id: "one", limit: 1 });
+  expect(first.revisionId).toBe(f.input.revision.id);
+  current = original;
+  const second = await inspection.get({ id: "one", cursor: first.nextCursor!, limit: 1 });
+  expect(second.revisionId).toBe(f.input.revision.id);
+  expect(second.rows[0]!.ordinal).toBe(1);
+  await expect(inspection.get({ id: "two", cursor: first.nextCursor! })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+  await expect(
+    inspection.get({ id: "one", revisionId: "r0", cursor: first.nextCursor! }),
+  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+  generation = "reprocessed";
+  await expect(inspection.get({ id: "one", cursor: first.nextCursor! })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+  generation = f.input.sourceIdentity.generation;
+  current = f.input.revision;
+  const concurrentEdit = setImmediate(() => {
+    current = original;
+  });
+  try {
+    const admitted = await inspection.get({ id: "one", limit: 500 });
+    expect(admitted.revisionId).toBe(f.input.revision.id);
+    expect(current.id).toBe(original.id);
+  } finally {
+    clearImmediate(concurrentEdit);
+  }
+  const revoke = setImmediate(() => {
+    closed = true;
+  });
+  try {
+    await expect(inspection.get({ id: "one", limit: 500 })).rejects.toMatchObject({
+      code: "CONTEXT_CLOSED",
+    });
+  } finally {
+    clearImmediate(revoke);
+  }
 });
