@@ -28,6 +28,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var awaitingFinalization = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        let environment = ProcessInfo.processInfo.environment
         let arguments = CommandLine.arguments.dropFirst()
         if arguments.first == "--probe" {
             Task { await runCaptureProbe(Array(arguments.dropFirst())) }
@@ -39,7 +40,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         // The capture fixture is an ordinary launch that additionally opens this app's own window
         // and refuses every other source, so the real service and controller path is what runs.
-        if ProcessInfo.processInfo.environment["SCREENREC_FIXTURE_WINDOW"] == "1" {
+        if environment["SCREENREC_FIXTURE_WINDOW"] == "1" {
             let window = makeCaptureFixtureWindow()
             fixture = window
             diagnostic("capture fixture window=\(window.windowNumber)")
@@ -48,7 +49,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         self.controller = controller
         probe = ControlsProbe.requested(controls: controls)
         startService(capture: controller)
-        if preferences.showSettingsAtLaunch { controls?.perform(.openSettings) }
+        // A launch that serves a client request starts the service and nothing else: nobody asked
+        // to see this app, so no window of it comes forward.
+        if preferences.showSettingsAtLaunch, environment["SCREENREC_SERVICE_LAUNCH"] == nil {
+            controls?.perform(.openSettings)
+        }
     }
 
     /// Opening the app again while it runs, from Finder or Spotlight, is how a person asks to see it.

@@ -71,7 +71,7 @@ async function discover(
 ): Promise<string> {
   if (await answering(socketPath, signal)) return socketPath;
   signal.throwIfAborted();
-  const bundle = env.SCREENREC_APP ?? join(homedir(), "Applications", "ScreenRecorder.app");
+  const bundle = env.SCREENREC_APP ?? join(homedir(), "Applications", "Screen Recorder.app");
   if (!isAbsolute(bundle))
     throw new LocalTransportError(
       "APP_NOT_FOUND",
@@ -111,10 +111,24 @@ async function answering(socketPath: string, signal: AbortSignal): Promise<boole
 function launch(bundle: string, home: string, signal: AbortSignal): Promise<void> {
   signal.throwIfAborted();
   return new Promise((resolveLaunch, reject) => {
-    // No --args: ordinary launch starts the menu-bar service, never a capture probe.
-    const child = spawn(LAUNCHER, ["-g", "-a", bundle, "--env", `SCREENREC_HOME=${home}`], {
-      stdio: ["ignore", "ignore", "pipe"],
-    });
+    // No --args: ordinary launch starts the menu-bar service, never a capture probe. This launch
+    // serves a request rather than a person opening the app, so it says so: the app then starts
+    // its service without putting its own window in front of whatever someone is doing.
+    const child = spawn(
+      LAUNCHER,
+      [
+        "-g",
+        "-a",
+        bundle,
+        "--env",
+        `SCREENREC_HOME=${home}`,
+        "--env",
+        "SCREENREC_SERVICE_LAUNCH=1",
+      ],
+      {
+        stdio: ["ignore", "ignore", "pipe"],
+      },
+    );
     let diagnostic = "";
     const abort = () => {
       child.kill("SIGKILL");

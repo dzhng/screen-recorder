@@ -195,6 +195,8 @@ it("launches the personal app once and reaches the service it opens for that hom
   expect(socketPath).toBe(socketIn(home));
   expect(await app.launches()).toEqual([home]);
   expect(launcherRuns).toHaveLength(1);
+  // The app is started to serve this request, so it opens no window of its own.
+  expect(launcherRuns[0]).toContain("SCREENREC_SERVICE_LAUNCH=1");
   const again = await resolveServiceSocket({
     env: { SCREENREC_HOME: home, SCREENREC_APP: app.path },
   });
