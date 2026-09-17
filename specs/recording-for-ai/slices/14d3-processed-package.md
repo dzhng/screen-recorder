@@ -52,6 +52,10 @@ restart/retry/abandonment/deletion must clean only owned private data and preser
 external ZIPs. Large-member tests verify bounded memory and cancellation drain.
 
 
+Passes 3 and 4 form the next consumed vertical integration. The
+[assembly lifetime and verification plan](14d3b-package-assembly.md) binds their
+scratch registration, inherited locks, storage and public completion requirements.
+
 ## Pass 3 — Pin complete prerequisites before assembly
 
 Pin revision/history at request. Select successful source and scene generations
