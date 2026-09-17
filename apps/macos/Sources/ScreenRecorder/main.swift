@@ -24,13 +24,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var startup: Operation?
     private var terminating = false
     private var quitting = false
+    private var awaitingFinalization = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         if CommandLine.arguments.count > 1 {
             Task { await runCaptureProbe() }
             return
         }
-        controls = RecordingControls(home: personalRoot()) { [weak self] in self?.quitRecorder() }
+        controls = RecordingControls(home: personalRoot()) { [weak self] in self?.quit() }
         // The capture fixture is an ordinary launch that additionally opens this app's own window
         // and refuses every other source, so the real service and controller path is what runs.
         if ProcessInfo.processInfo.environment["SCREENREC_FIXTURE_WINDOW"] == "1" {
@@ -109,32 +110,43 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             ?? (NSHomeDirectory() as NSString).appendingPathComponent(".screen-recorder")
     }
 
-    /// The one orderly quit this app has, for the menu item and for SIGTERM alike. A running take
-    /// is finalized and stored first, and only then does termination begin: `terminate` spins its
-    /// own nested event loop, which no capture work could complete inside. Forced termination
-    /// keeps the ordinary interrupted path instead.
-    @objc func quitRecorder() {
+    /// The Quit menu item and SIGTERM. A second request while the first is still finalizing asks
+    /// for nothing new.
+    func quit() {
         guard !quitting else { return }
         quitting = true
-        controls?.closePreview()
-        guard let controller, controller.isCapturing else {
-            NSApplication.shared.terminate(nil)
-            return
-        }
-        diagnostic("finalizing the running take before quitting")
-        Task { @MainActor in
-            await controller.finalizeBeforeQuit()
-            NSApplication.shared.terminate(nil)
-        }
-        // A take that cannot finalize must not hold the app open; it is reconciled from its own
-        // journal on the next launch.
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.finalizeDeadline) {
-            NSApplication.shared.terminate(nil)
-        }
+        NSApplication.shared.terminate(nil)
     }
 
-    /// How long a quit waits for a running take to finalize before terminating anyway.
-    private static let finalizeDeadline: TimeInterval = 10
+    /// Every quit reaches this, including the one the system sends at logout. A running take is
+    /// finalized and stored before termination proceeds; one that cannot finalize within the
+    /// deadline must not hold the app open, and is reconciled from its own journal on the next
+    /// launch. Forced termination keeps the ordinary interrupted path instead.
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        controls?.closePreview()
+        if awaitingFinalization { return .terminateLater }
+        guard let controller, controller.isCapturing else { return .terminateNow }
+        awaitingFinalization = true
+        diagnostic("finalizing the running take before quitting")
+        // Finalizing waits on two service reports, each bounded by the call timeout, around the
+        // writer's own close.
+        let deadline = 2 * (service?.callTimeout ?? 0) + 10
+        Task { @MainActor in
+            await controller.finalizeBeforeQuit()
+            proceedWithTermination()
+        }
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(deadline))
+            proceedWithTermination()
+        }
+        return .terminateLater
+    }
+
+    private func proceedWithTermination() {
+        guard awaitingFinalization else { return }
+        awaitingFinalization = false
+        NSApplication.shared.reply(toApplicationShouldTerminate: true)
+    }
 
     func applicationWillTerminate(_ notification: Notification) {
         terminating = true
@@ -142,7 +154,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Let the bounded in-flight probe reap its child before this process exits.
         // Cancellation prevents another candidate or a late service launch.
         startup?.waitUntilFinished()
-        controls?.closePreview()
         probe?.stop()
         service?.shutdown()
         fixture?.close()
@@ -158,11 +169,13 @@ let delegate = AppDelegate()
 application.delegate = delegate
 application.setActivationPolicy(.accessory)
 
-// A menu-bar agent has no window to close, so an orderly quit arrives as a signal.
-// Routing it through the same entry point the Quit menu item uses is what gives a running
-// take its finalization and the service its bounded shutdown.
+// A menu-bar agent has no window to close, so an orderly quit arrives as a signal. Termination
+// starts from the run loop rather than inside this main-queue handler: while a main-queue block is
+// still running, the main actor cannot run the finalization a pending termination waits for.
 let quit = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .main)
-quit.setEventHandler { MainActor.assumeIsolated { delegate.quitRecorder() } }
+quit.setEventHandler {
+    RunLoop.main.perform(inModes: [.common]) { MainActor.assumeIsolated { delegate.quit() } }
+}
 quit.resume()
 signal(SIGTERM, SIG_IGN)
 

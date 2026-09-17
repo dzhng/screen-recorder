@@ -10,9 +10,10 @@ on the other side of that pipe.
 
 Quit is the child's shutdown signal. The app closes the control pipe first so the
 service can close its listener and remove its own socket, then escalates by signal
-against that child's PID alone within a bounded deadline. A quit arriving as
-SIGTERM is routed through the normal terminate path, since a menu-bar agent has no
-window to close. If the app dies abruptly instead, the same pipe reaches EOF and
+against that child's PID alone within a bounded deadline. Every quit — the menu
+item, SIGTERM (a menu-bar agent has no window to close), or the one the system sends
+at logout — takes the same terminate path, which finalizes and stores a running take
+before the app exits. If the app dies abruptly instead, the same pipe reaches EOF and
 the child stands itself down. A terminal failure follows the same bounded
 escalation: a child that answers neither EOF nor SIGTERM is killed rather than
 left holding the runtime directory, and every pending call settles with that
