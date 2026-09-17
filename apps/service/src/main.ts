@@ -371,15 +371,15 @@ async function main(): Promise<void> {
   }
 
   /**
-   * A download outlives the client that asked for it; later callers join it, and a ready model
-   * admits the transcripts that were waiting for it.
+   * A download outlives the client that asked for it, so asking again while it runs only reports its
+   * progress. A ready model admits the transcripts that were waiting for it.
    */
   function prepareModels() {
-    if (models.status().state !== "ready")
-      void models.prepare(cleanupLifetime.signal).then(resumeProcessing, (error: Error) => {
-        if (!cleanupLifetime.signal.aborted)
-          log(`speech model preparation failed: ${error.message}`);
-      });
+    const status = models.status();
+    if (status.state === "ready" || status.state === "preparing") return status;
+    void models.prepare(cleanupLifetime.signal).then(resumeProcessing, (error: Error) => {
+      if (!cleanupLifetime.signal.aborted) log(`speech model preparation failed: ${error.message}`);
+    });
     return models.status();
   }
 
