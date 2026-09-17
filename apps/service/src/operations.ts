@@ -12,6 +12,8 @@ import type { LibraryFrameInspection } from "@screenrec/core/frames";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceProcessing } from "@screenrec/core/processing";
+import type { SpeechModelStatus } from "@screenrec/core/speech-models";
+import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import { TimelineError } from "@screenrec/core/timeline";
 import { CatalogError, type RevisionStore } from "@screenrec/core/library";
 import {
@@ -40,6 +42,8 @@ export type OperationContext = {
   preview: PreviewInspection;
   delivery: DerivativeDelivery;
   scenes: SceneProcessing;
+  transcripts: TranscriptProcessing;
+  models: { status(): SpeechModelStatus; prepare(): SpeechModelStatus };
   cache: DerivedCache;
 };
 
@@ -111,6 +115,8 @@ export async function operate(
     preview,
     delivery,
     scenes,
+    transcripts,
+    models,
     cache,
     index,
     storage,
@@ -325,21 +331,21 @@ export async function operate(
         };
       }
       case "processing.status":
-        return {
-          ok: true,
-          data:
-            operation.params.artifact === "scenes"
-              ? scenes.status(operation.params.recordingId)
-              : processing.status(operation.params.recordingId),
-        };
-      case "processing.retry":
-        return {
-          ok: true,
-          data:
-            operation.params.artifact === "scenes"
-              ? scenes.retry(operation.params.recordingId)
-              : processing.retry(operation.params.recordingId),
-        };
+      case "processing.retry": {
+        const method = operation.operation === "processing.status" ? "status" : "retry";
+        const owner = { source: processing, scenes, transcript: transcripts }[
+          operation.params.artifact
+        ];
+        return { ok: true, data: owner[method](operation.params.recordingId) };
+      }
+      case "transcript.get":
+        return { ok: true, data: transcripts.get(operation.params) };
+      case "transcript.search":
+        return { ok: true, data: transcripts.search(operation.params) };
+      case "model.status":
+        return { ok: true, data: models.status() };
+      case "model.prepare":
+        return { ok: true, data: models.prepare() };
       case "service.health":
         return { ok: true, data: health() };
       case "capture.sources":

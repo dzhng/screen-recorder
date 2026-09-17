@@ -163,3 +163,37 @@ it("raw cursor target and continuation namespaces are exclusive", () => {
   ])
     expect(operationSchema.safeParse({ operation: "cursor.raw", params }).success).toBe(false);
 });
+
+it("transcript pages and searches are bounded and their cursors name the pinned generation", () => {
+  const parse = (operation: string, params: Record<string, unknown>) =>
+    operationSchema.safeParse({ operation, params: { recordingId: "take", ...params } });
+  expect(parse("transcript.get", {})).toMatchObject({ data: { params: { limit: 250 } } });
+  expect(parse("transcript.search", { text: "hello" })).toMatchObject({
+    data: { params: { limit: 100 } },
+  });
+  const position = { recordingId: "take", revisionId: "r0", generation: "attempt" };
+  const accepted: [string, Record<string, unknown>][] = [
+    ["transcript.get", { limit: 1000 }],
+    [
+      "transcript.get",
+      { cursor: { ...position, afterSourceUs: 0, afterOrdinal: null, range: null } },
+    ],
+    ["transcript.search", { text: "x".repeat(200), limit: 500 }],
+    [
+      "transcript.search",
+      { text: "hello", cursor: { ...position, afterSourceUs: 0, afterOrdinal: 3, text: "hello" } },
+    ],
+  ];
+  for (const [operation, params] of accepted)
+    expect(parse(operation, params).success, JSON.stringify(params)).toBe(true);
+  const refused: [string, Record<string, unknown>][] = [
+    ["transcript.get", { limit: 1001 }],
+    ["transcript.get", { cursor: { ...position, afterSourceUs: 0, afterOrdinal: null } }],
+    ["transcript.search", { text: "" }],
+    ["transcript.search", { text: "x".repeat(201) }],
+    ["transcript.search", { text: "hello", limit: 501 }],
+    ["transcript.search", { text: "hello", cursor: { ...position, afterSourceUs: 0 } }],
+  ];
+  for (const [operation, params] of refused)
+    expect(parse(operation, params).success, JSON.stringify(params)).toBe(false);
+});

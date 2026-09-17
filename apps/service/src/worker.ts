@@ -11,6 +11,7 @@ import {
   type OperationResult,
 } from "@screenrec/protocol";
 import { CatalogError } from "@screenrec/core/library";
+import type { TimeRange } from "@screenrec/core/timeline";
 
 /**
  * Where the packaged app's native worker executable is. The app is the one owner of that path:
@@ -20,6 +21,13 @@ import { CatalogError } from "@screenrec/core/library";
  */
 const NATIVE_EXECUTABLE_VARIABLE = "SCREENREC_NATIVE";
 export const MAX_MEDIA_TIMEOUT_MS = 2_147_483_647;
+
+/** Ten minutes covers a cold model load and verifying its files; inference gets twice the narration
+ * the request plans to read. */
+export function transcriptionDeadlineMs(available: readonly TimeRange[]): number {
+  const narrationUs = available.reduce((total, range) => total + range.endUs - range.startUs, 0);
+  return Math.min(MAX_MEDIA_TIMEOUT_MS, 600_000 + Math.ceil((2 * narrationUs) / 1000));
+}
 
 export type MediaWorker = (
   operation: string,

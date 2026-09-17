@@ -1,11 +1,29 @@
 import { afterEach, expect, it } from "vitest";
 import { spawn } from "node:child_process";
-import { mkdtemp, rm, mkdir } from "node:fs/promises";
-import { join } from "node:path";
+import {
+  chmod,
+  lstat,
+  mkdir,
+  mkdtemp,
+  readFile,
+  realpath,
+  rm,
+  truncate,
+  writeFile,
+} from "node:fs/promises";
+import { dirname, join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
+import { parakeetModel, SpeechModels } from "@screenrec/core/speech-models";
+import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
+import type { TranscriptRow } from "@screenrec/core/transcript-read";
 import { callLocal } from "@screenrec/client";
-import { CONTROL_FRAME_BYTES, JsonLineStream, controlMessageSchema } from "@screenrec/protocol";
+import {
+  CONTROL_FRAME_BYTES,
+  JsonLineStream,
+  controlMessageSchema,
+  type OperationResponse,
+} from "@screenrec/protocol";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -61,10 +79,10 @@ async function seed() {
   };
 }
 
-async function start(home: string) {
+async function start(home: string, environment: NodeJS.ProcessEnv = {}) {
   const child = spawn(process.execPath, [new URL("../dist/main.js", import.meta.url).pathname], {
     cwd: "/",
-    env: { ...process.env, SCREENREC_HOME: home },
+    env: { ...process.env, SCREENREC_HOME: home, ...environment },
     stdio: ["pipe", "pipe", "pipe"],
   });
   const exit = new Promise<void>((resolve) => child.once("exit", () => resolve()));
@@ -320,4 +338,313 @@ it("package root failure leaves the library available and returns an explicit pa
   expect(
     await service.call("revision.get", { recordingId, packageHandle: "foreign" }),
   ).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
+});
+
+const narration = [
+  { startUs: 0, endUs: 3_000_000 },
+  { startUs: 4_000_000, endUs: 6_000_000 },
+];
+const spoken = [
+  { text: "Open", startUs: 200_000, endUs: 500_000 },
+  { text: "the", startUs: 500_000, endUs: 700_000 },
+  { text: "Settings", startUs: 800_000, endUs: 1_400_000 },
+  { text: "panel.", startUs: 1_500_000, endUs: 2_000_000 },
+  { text: "Um,", startUs: 4_100_000, endUs: 4_300_000 },
+  { text: "press", startUs: 4_500_000, endUs: 5_000_000 },
+  { text: "record", startUs: 5_100_000, endUs: 5_800_000 },
+];
+
+/**
+ * A native worker that answers source evidence and speech.transcribe the way the real one does: it
+ * reports acquired narration, then writes one raw line per interval with words carrying source
+ * ranges, and logs each transcription request.
+ */
+async function fakeNativeWorker(home: string) {
+  const executable = join(home, "fake-native");
+  const log = join(home, "transcribe-requests.jsonl");
+  await writeFile(
+    executable,
+    `#!${process.execPath}
+import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+const narration = ${JSON.stringify(narration)};
+const spoken = ${JSON.stringify(spoken)};
+const engine = ${JSON.stringify(parakeetModel.engine)};
+let input = "";
+process.stdin.on("data", (bytes) => (input += bytes));
+process.stdin.on("end", () => {
+  const { operation, params } = JSON.parse(input);
+  const answer = (data) => process.stdout.write(JSON.stringify({ ok: true, data }) + "\\n");
+  if (operation === "media.sourceEvidence") {
+    const header = JSON.parse(readFileSync(params.directory + "/capture.journal.jsonl", "utf8").split("\\n")[0]).data;
+    const text = header.microphone
+      ? narration.map((data) => JSON.stringify({ event: "audioAcquired", data: { role: "narration", ...data } }) + "\\n").join("")
+      : "";
+    writeFileSync(params.output, text);
+    const count = header.microphone ? narration.length : 0;
+    return answer({ file: params.output, journal: "capture.journal.jsonl",
+      header: { sessionID: header.sessionID, microphone: header.microphone, systemAudio: false },
+      cursorSamples: 0, geometryRecords: 0, displaySpaces: 0, pauseEvents: 0, audioIntervals: count,
+      lastSequence: count, incompleteTail: false, finished: true, bytes: Buffer.byteLength(text) });
+  }
+  if (operation === "speech.transcribe") {
+    appendFileSync(${JSON.stringify(log)}, JSON.stringify(params) + "\\n");
+    const segments = [];
+    const text = params.track.available.map((source, ordinal) => {
+      const words = spoken
+        .filter((word) => word.startUs >= source.startUs && word.endUs <= source.endUs)
+        .map(({ text, ...range }) => ({ text, startSeconds: (range.startUs - source.startUs) / 1e6,
+          endSeconds: (range.endUs - source.startUs) / 1e6, confidence: 0.9, source: range }));
+      segments.push({ ordinal, source, state: "transcribed", wordCount: words.length });
+      return JSON.stringify({ ordinal, source, state: "transcribed", words }) + "\\n";
+    }).join("");
+    writeFileSync(params.output, text);
+    return answer({ output: { file: params.output, bytes: Buffer.byteLength(text),
+        sha256: createHash("sha256").update(text).digest("hex") },
+      engine: { ...engine, encoderPrecision: "int8", computeUnits: "cpuAndNeuralEngine" },
+      segments, wordCount: segments.reduce((total, segment) => total + segment.wordCount, 0),
+      details: { peakResidentBytes: 1 } });
+  }
+  process.stdout.write(JSON.stringify({ ok: false, error: { code: "UNSUPPORTED_FIXTURE",
+    message: operation, retryable: false, details: {} } }) + "\\n");
+});
+`,
+  );
+  await chmod(executable, 0o755);
+  return { executable, log };
+}
+
+/**
+ * An installed model the service reads as ready without downloading: sparse files of the pinned
+ * sizes and the receipt a prepare writes last. The fake worker never reads their bytes.
+ */
+async function installedModel(home: string) {
+  const { modelDigest } = new SpeechModels(home);
+  const root = join(home, "models", "parakeet", parakeetModel.revision);
+  const receipt: { modelDigest: string; files: Record<string, unknown> } = {
+    modelDigest,
+    files: {},
+  };
+  for (const file of parakeetModel.files) {
+    const path = join(root, parakeetModel.folderName, file.path);
+    await mkdir(dirname(path), { recursive: true });
+    await writeFile(path, "");
+    await truncate(path, file.bytes);
+    const stat = await lstat(path, { bigint: true });
+    receipt.files[file.path] = { modifiedNs: String(stat.mtimeNs), inode: String(stat.ino) };
+  }
+  await writeFile(join(root, "receipt.json"), JSON.stringify(receipt));
+}
+
+async function narratedTakes(home: string, microphones: boolean[]) {
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => "fixture",
+    newId: randomUUID,
+  });
+  const takes = microphones.map((microphone) => {
+    const { recordingId, sourceId } = store.allocate().recording;
+    for (const [sequence, state] of (["recording", "finalizing"] as const).entries())
+      store.ingestLifecycle(recordingId, { sourceId, sequence: sequence + 1, state });
+    store.ingestLifecycle(recordingId, {
+      sourceId,
+      sequence: 3,
+      state: "complete",
+      sourceDurationUs: 10_000_000,
+    });
+    return { recordingId, sourceId, microphone };
+  });
+  store.close();
+  for (const { recordingId, sourceId, microphone } of takes) {
+    const source = join(home, "recordings", recordingId, "source");
+    await mkdir(source, { recursive: true });
+    await writeFile(
+      join(source, "capture.journal.jsonl"),
+      JSON.stringify({ sequence: 1, event: "header", data: { sessionID: sourceId, microphone } }) +
+        "\n",
+    );
+  }
+  return takes.map((take) => take.recordingId);
+}
+
+type TranscriptStatus = ReturnType<TranscriptProcessing["status"]>;
+
+async function settled<T>(call: () => Promise<OperationResponse>, done: (data: T) => boolean) {
+  let data!: T;
+  await expect
+    .poll(
+      async () => {
+        const result = await call();
+        expect(result, JSON.stringify(result)).toMatchObject({ ok: true });
+        data = (result as { data: T }).data;
+        return done(data);
+      },
+      { timeout: 10_000, interval: 50 },
+    )
+    .toBe(true);
+  return data;
+}
+
+it("transcripts prepare, page, search, project cuts and retry through the service", async () => {
+  const home = await mkdtemp("/tmp/scr-transcript-operations-");
+  cleanup.push(() => rm(home, { recursive: true, force: true }));
+  const [narrated, silent] = await narratedTakes(home, [true, false]);
+  await installedModel(home);
+  const native = await fakeNativeWorker(home);
+  const { call } = await start(home, { SCREENREC_NATIVE: native.executable });
+
+  expect(await call("model.status")).toMatchObject({ ok: true, data: { state: "ready" } });
+  expect(await call("model.prepare")).toMatchObject({ ok: true, data: { state: "ready" } });
+  const status = (recordingId: string) =>
+    call("processing.status", { recordingId, artifact: "transcript" });
+  // A ready model lets startup admit every narrated take once its source evidence is published.
+  const ready = await settled<TranscriptStatus>(
+    () => status(narrated!),
+    (data) => data.state === "ready",
+  );
+  expect(
+    await settled<TranscriptStatus>(
+      () => status(silent!),
+      (data) => data.state !== "queued" && data.state !== "processing",
+    ),
+  ).toMatchObject({ state: "unavailable", reason: "no_narration", retryable: false });
+  const generation = ready.published!.transcript.generation;
+
+  const rows: TranscriptRow[] = [];
+  let cursor: unknown;
+  do {
+    const page = await call("transcript.get", {
+      recordingId: narrated,
+      limit: 4,
+      ...(cursor ? { cursor } : {}),
+    });
+    expect(page).toMatchObject({
+      ok: true,
+      data: { state: "ready", revisionId: "r0", generation },
+    });
+    const data = (page as { data: { page: { rows: TranscriptRow[]; nextCursor: unknown } } }).data;
+    rows.push(...data.page.rows);
+    cursor = data.page.nextCursor;
+  } while (cursor);
+  expect(
+    rows.map((row) => (row.type === "gap" ? `gap:${row.reason}` : `${row.id}:${row.text}`)),
+  ).toEqual([
+    "w0:Open",
+    "w1:the",
+    "w2:Settings",
+    "w3:panel.",
+    "gap:not_acquired",
+    "w4:Um,",
+    "w5:press",
+    "w6:record",
+    "gap:not_acquired",
+  ]);
+  expect(rows[5]).toMatchObject({
+    kind: "filler",
+    sourceRange: { startUs: 4_100_000, endUs: 4_300_000 },
+  });
+
+  expect(
+    await call("transcript.search", { recordingId: narrated, text: "settings PANEL" }),
+  ).toMatchObject({
+    ok: true,
+    data: {
+      generation,
+      page: {
+        entries: [{ wordIds: ["w2", "w3"], sourceRange: { startUs: 800_000, endUs: 2_000_000 } }],
+        nextCursor: null,
+      },
+    },
+  });
+
+  const cut = await call("edit.cut", {
+    recordingId: narrated,
+    requestId: "cut-inside-settings",
+    expectedRevisionId: "r0",
+    ranges: [{ startUs: 1_000_000, endUs: 1_200_000 }],
+  });
+  const revisionId = (cut as { data: { revision: { id: string } } }).data.revision.id;
+  const edited = await call("transcript.get", { recordingId: narrated, revisionId, limit: 3 });
+  expect(edited).toMatchObject({
+    ok: true,
+    data: {
+      revisionId,
+      generation,
+      page: {
+        rows: [
+          { id: "w0", partial: false },
+          { id: "w1", partial: false },
+          {
+            id: "w2",
+            text: "Settings",
+            partial: true,
+            fragments: [
+              {
+                source: { startUs: 800_000, endUs: 1_000_000 },
+                playback: { startUs: 800_000, endUs: 1_000_000 },
+              },
+              {
+                source: { startUs: 1_200_000, endUs: 1_400_000 },
+                playback: { startUs: 1_000_000, endUs: 1_200_000 },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  });
+
+  expect(
+    await call("processing.retry", { recordingId: narrated, artifact: "transcript" }),
+  ).toMatchObject({
+    ok: true,
+    data: { state: "ready", jobId: ready.jobId, published: ready.published },
+  });
+  const requests = (await readFile(native.log, "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line));
+  expect(requests).toHaveLength(1);
+  expect(requests[0]).toMatchObject({
+    models: {
+      directory: join(
+        await realpath(home),
+        "models",
+        "parakeet",
+        parakeetModel.revision,
+        parakeetModel.folderName,
+      ),
+    },
+    track: { role: "narration", available: narration },
+  });
+  expect(requests[0].models.files).toEqual(parakeetModel.files);
+});
+
+it("an unprepared model starts no transcript and says how to proceed", async () => {
+  const home = await mkdtemp("/tmp/scr-transcript-unprepared-");
+  cleanup.push(() => rm(home, { recursive: true, force: true }));
+  const [recordingId] = await narratedTakes(home, [true]);
+  const native = await fakeNativeWorker(home);
+  const { call } = await start(home, { SCREENREC_NATIVE: native.executable });
+  expect(await call("model.status")).toMatchObject({ ok: true, data: { state: "absent" } });
+  const blocked = {
+    state: "unavailable",
+    reason: "model_not_prepared",
+    retryable: true,
+    jobId: null,
+  };
+  expect(
+    await settled<TranscriptStatus>(
+      () => call("processing.status", { recordingId, artifact: "transcript" }),
+      (data) => data.state === "unavailable",
+    ),
+  ).toMatchObject(blocked);
+  expect(await call("transcript.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: { ...blocked, revisionId: "r0", page: null },
+  });
+  expect(await call("processing.retry", { recordingId, artifact: "transcript" })).toMatchObject({
+    ok: false,
+    error: { code: "MODEL_NOT_PREPARED", retryable: true },
+  });
+  await expect(lstat(native.log)).rejects.toMatchObject({ code: "ENOENT" });
 });

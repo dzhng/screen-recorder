@@ -9,6 +9,7 @@ import { DerivedCache } from "@screenrec/core/cache";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { TranscriptStore } from "@screenrec/core/transcript";
 import { CaptureService } from "./capture.js";
 import { DerivativeDelivery } from "./delivery.js";
 import { RecordingDeletion } from "./deletion.js";
@@ -57,6 +58,7 @@ async function fixture(
     source: new SourceEvidenceStore(store),
     scenes: new SceneEvidenceStore(store),
     index: new ScreenshotIndexStore(store, home),
+    transcripts: new TranscriptStore(store, home),
     cleanupReady: () => ready,
     // Coordinator tests model native receipts. The native suite owns race/containment proof.
     files: {
@@ -170,6 +172,49 @@ test("delete coalesces callers, revokes delivery immediately, and waits for a cl
     finish.resolve("late result");
     await finished;
   }
+});
+
+test("delete removes transcript generations and raw files but never prepared speech models", async () => {
+  const f = await fixture();
+  const target = await f.take(),
+    sibling = await f.take();
+  const transcriptRows = (recordingId: string) =>
+    f.store.catalog
+      .prepare(
+        "SELECT (SELECT COUNT(*) FROM transcript_generations WHERE recordingId=?)+(SELECT COUNT(*) FROM transcript_words WHERE recordingId=?) AS n",
+      )
+      .get(recordingId, recordingId);
+  for (const take of [target, sibling]) {
+    const generation = join(take.directory, "evidence", "transcript", "attempt");
+    await mkdir(generation, { recursive: true });
+    await writeFile(join(generation, "raw.jsonl"), "{}\n");
+    f.store.catalog
+      .prepare(
+        "INSERT INTO transcript_generations(recordingId,sourceId,generation,sourceGeneration,engine,narration,segmentCount,state) VALUES(?,?,'attempt','source','{}','{}',1,'complete')",
+      )
+      .run(take.recordingId, take.sourceId);
+    f.store.catalog
+      .prepare("INSERT INTO transcript_words VALUES(?,'attempt',0,0,1000,0,'hello','speech',0.9,0)")
+      .run(take.recordingId);
+  }
+  const model = join(f.home, "models", "parakeet", "revision", "parakeet-tdt-0.6b-v2");
+  await mkdir(model, { recursive: true });
+  await writeFile(join(model, "README.md"), "model card");
+
+  await expect(f.deletion.delete(target.recordingId)).resolves.toEqual({
+    recordingId: target.recordingId,
+    deleted: true,
+  });
+  expect(transcriptRows(target.recordingId)).toEqual({ n: 0 });
+  await expect(lstat(target.directory)).rejects.toMatchObject({ code: "ENOENT" });
+  expect(transcriptRows(sibling.recordingId)).toEqual({ n: 2 });
+  expect(
+    await readFile(
+      join(sibling.directory, "evidence", "transcript", "attempt", "raw.jsonl"),
+      "utf8",
+    ),
+  ).toBe("{}\n");
+  expect(await readFile(join(model, "README.md"), "utf8")).toBe("model card");
 });
 
 test("startup cleanup completion gates removal; a failed path keeps intent for retry", async () => {
