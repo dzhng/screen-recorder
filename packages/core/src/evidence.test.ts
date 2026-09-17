@@ -404,10 +404,10 @@ test("source timing queries keep pause boundaries and clip acquired audio withou
   ]);
   expect(f.evidence.audio(f.identity, "system", range)).toEqual([{ startUs: 50, endUs: 120 }]);
   expect(f.evidence.audio(f.identity, "narration", { startUs: 90, endUs: 110 })).toEqual([]);
-  expect(f.evidence.pauses(f.identity, { startUs: 0, endUs: 100 })).toEqual([
-    { atSourceUs: 100, elapsedPauseUs: 5000 },
+  expect(f.evidence.pauseBoundaries(f.identity, { startUs: 0, endUs: 100 })).toEqual([
+    expect.objectContaining({ atSourceUs: 100, elapsedPauseUs: 5000 }),
   ]);
-  expect(f.evidence.pauses(f.identity, { startUs: 101, endUs: 200 })).toEqual([]);
+  expect(f.evidence.pauseBoundaries(f.identity, { startUs: 101, endUs: 200 })).toEqual([]);
 });
 
 test("malformed overlapping audio intervals and wrong timing receipts never become readable", async () => {
@@ -500,7 +500,6 @@ test("cursor predecessor retains ineligible observations and exposes stable deli
   expect(f.evidence.pauseBoundaries(f.identity, { startUs: 100, endUs: 100 })).toEqual([
     { ...records[2]!.data, sequence: 3 },
   ]);
-  expect(f.evidence.pauses(f.identity, { startUs: 100, endUs: 100 })).toEqual([records[2]!.data]);
   expect(readFileSync(nativeFixture, "utf8")).toBe(original);
   expect(() => f.evidence.latestCursor({ ...f.identity, generation: "missing" }, 100)).toThrow(
     "not indexed",

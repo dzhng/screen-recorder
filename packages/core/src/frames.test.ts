@@ -432,7 +432,7 @@ test("annotated defaults wait for source evidence while clean frames bypass that
     clean: false,
     annotation: {
       trailUs: 2000000,
-      agedFromUs: 400,
+      requestedSourceUs: 400,
       interval: { startUs: 100, endUs: 200 },
       trailPoints: 2,
       trailRuns: 1,

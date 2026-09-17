@@ -13,7 +13,6 @@ export const evidenceIndexes = [
   "system",
 ] as const;
 export type EvidenceIndex = (typeof evidenceIndexes)[number];
-export type RecordBound = PageBound;
 export type RecordQuery = Omit<PageQuery, "index"> & { index: EvidenceIndex };
 const max = Number.MAX_SAFE_INTEGER;
 const integer = (value: unknown): value is number =>
@@ -44,10 +43,10 @@ export abstract class SourceEvidenceReader {
       if (!["cursor", "geometry", "pauses"].includes(index))
         invalid("Source ranges require cursor, geometry or pause records");
     }
-    let lower: RecordBound | undefined = range
+    let lower: PageBound | undefined = range
       ? { key: [range.startUs, 0], inclusive: true }
       : undefined;
-    const upper: RecordBound | undefined = range
+    const upper: PageBound | undefined = range
       ? { key: [range.endUs, 0], inclusive: false }
       : undefined;
     for (;;) {
@@ -189,15 +188,6 @@ export abstract class SourceEvidenceReader {
     if (rows.length > 1000)
       throw new CatalogError("LIMIT_EXCEEDED", "Too many unplaced geometry records in this range");
     return rows.map((row) => content<SourceGeometry>(row));
-  }
-  pauses(
-    identity: EvidenceIdentity,
-    range: TimeRange,
-  ): { atSourceUs: number; elapsedPauseUs: number }[] {
-    return this.pauseBoundaries(identity, range).map(({ atSourceUs, elapsedPauseUs }) => ({
-      atSourceUs,
-      elapsedPauseUs,
-    }));
   }
   /** Both retained boundaries include their markers without adding media duration. */
   pauseBoundaries(

@@ -185,7 +185,7 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
     signal?.throwIfAborted();
     const recording = this.store.get(recordingId);
     if (recording.state === "canceled") invalid("Canceled recording cannot accept evidence");
-    if (!generation || recording.sourceId !== sourceId || receipt.header?.sessionID !== sourceId)
+    if (!generation || recording.sourceId !== sourceId)
       invalid("Evidence identity does not match its recording");
     validateSourceReceipt(receipt, sourceId);
     if (receipt.file !== input.file) invalid("Invalid evidence receipt");

@@ -1,4 +1,9 @@
-import { RetainedIndexRead, validateIndexCoverageCursor } from "./index-read.js";
+import {
+  RetainedIndexRead,
+  validateIndexCoverageCursor,
+  type IndexCoverageCursor,
+  type IndexReadCursor,
+} from "./index-read.js";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError, type RevisionStore } from "./library.js";
@@ -19,12 +24,7 @@ export type IndexReference = Pick<
   ScreenshotIndexMetadata,
   "recordingId" | "revisionId" | "generation"
 >;
-export type IndexContinuation = IndexReference & { afterOrdinal: number };
 export type IndexFrameReference = IndexReference & { ordinal: number };
-export type IndexCoverageContinuation = IndexReference & {
-  afterSequence: number;
-  candidateOrdinal: number | null;
-};
 export type IndexEvidence = { source: SourceEvidenceMetadata; scenes: SceneEvidenceMetadata };
 type IndexInput = IndexEvidence & {
   selectionPolicy: string;
@@ -118,7 +118,7 @@ export class IndexProcessing {
   get(input: {
     recordingId: string;
     revisionId?: string | undefined;
-    cursor?: IndexContinuation | undefined;
+    cursor?: IndexReadCursor<IndexReference> | undefined;
     limit?: number | undefined;
   }) {
     const cursor = input.cursor;
@@ -144,7 +144,7 @@ export class IndexProcessing {
   coverage(
     input: IndexReference & {
       candidateOrdinal?: number | undefined;
-      cursor?: IndexCoverageContinuation | undefined;
+      cursor?: IndexCoverageCursor<IndexReference> | undefined;
       limit?: number | undefined;
     },
   ) {
@@ -256,14 +256,14 @@ export class IndexProcessing {
       sourceHeight: input.scenes.sourceHeight,
     };
     try {
-      await this.index.begin(identity);
+      this.index.begin(identity);
       for await (const row of selectIndex(
         selection,
         selectionEvidence(selection, this.evidence, signal),
         signal,
       )) {
         signal.throwIfAborted();
-        if (row.kind === "coverage") await this.index.appendCoverage(identity, row);
+        if (row.kind === "coverage") this.index.appendCoverage(identity, row);
         else {
           const selectionEndUs = row.reasons.reduce(
             (end, reason) => (reason.side === "before" ? Math.min(end, reason.eventSourceUs) : end),
@@ -287,7 +287,7 @@ export class IndexProcessing {
             { ...this.render, evidence: this.evidence.source },
             signal,
           );
-          await this.index.appendCandidate(identity, row, frame);
+          this.index.appendCandidate(identity, row, frame);
         }
         await setImmediate();
       }

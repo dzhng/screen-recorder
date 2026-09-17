@@ -96,9 +96,12 @@ test("native timing evidence publishes through the service and survives indexed 
     assert.deepEqual(evidence.audio(identity, "system", { startUs: 50, endUs: 350 }), [
       { startUs: 50, endUs: 300 },
     ]);
-    assert.deepEqual(evidence.pauses(identity, { startUs: 0, endUs: 200 }), [
-      { atSourceUs: 200, elapsedPauseUs: 5000 },
-    ]);
+    assert.deepEqual(
+      evidence
+        .pauseBoundaries(identity, { startUs: 0, endUs: 200 })
+        .map(({ atSourceUs, elapsedPauseUs }) => ({ atSourceUs, elapsedPauseUs })),
+      [{ atSourceUs: 200, elapsedPauseUs: 5000 }],
+    );
   } finally {
     store.close();
   }

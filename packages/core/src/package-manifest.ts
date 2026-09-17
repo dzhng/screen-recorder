@@ -379,7 +379,7 @@ export function validateManifest(
   );
   if (plan.state !== "ready" || plan.transcript !== manifest.transcript)
     invalid("Manifest is not complete");
-  // 08 has no accepted payload validator yet. A readiness envelope cannot certify narrated packages.
+  // No transcript payload validator exists, so a readiness envelope cannot certify narrated packages.
   if (manifest.transcript === "ready")
     throw new CatalogError(
       "UNSUPPORTED_ARTIFACT",

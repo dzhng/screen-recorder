@@ -375,7 +375,7 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
     signal?: AbortSignal,
   ): Promise<ScreenshotIndexMetadata> {
     const row = this.row(identity, "building");
-    if (row.throughUs !== row.durationUs || (row.durationUs > 0 && row.candidateCount === 0))
+    if (row.throughUs !== row.durationUs || row.candidateCount === 0)
       invalid("Index coverage is incomplete");
     signal?.throwIfAborted();
     this.store.catalog

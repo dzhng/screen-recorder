@@ -248,7 +248,7 @@ test("public default trails preserve held-frame gestures, reset history and reac
   assert.equal(results["future-changed"].frame.actualSourceUs, 12_000_000);
   const trail = results.default.frame.annotation;
   assert.equal(trail.trailUs, 2_000_000);
-  assert.equal(trail.agedFromUs, 2_000_000);
+  assert.equal(trail.requestedSourceUs, 2_000_000);
   assert.equal(trail.pointerObservation.sourceUs, 1_975_000);
   assert.equal(trail.pointer.atSourceUs, 1_975_000);
   assert.deepEqual(trail.interval, { startUs: 200_000, endUs: 1_975_000 });
@@ -368,7 +368,7 @@ test("public cut clips retained history while a pinned historical revision prese
   const options = { revisionId: edited.revision.id, atUs: 500_000, expectedSourceUs: 2_000_000 };
   const cut = await deliver("cut", options);
   const clean = await deliver("cut-clean", { ...options, clean: true });
-  assert.equal(cut.frame.annotation.agedFromUs, 2_000_000);
+  assert.equal(cut.frame.annotation.requestedSourceUs, 2_000_000);
   assert.deepEqual(cut.frame.annotation.interval, { startUs: 1_500_000, endUs: 1_975_000 });
   assert.ok(
     cut.frame.annotation.cutoffs.some(
