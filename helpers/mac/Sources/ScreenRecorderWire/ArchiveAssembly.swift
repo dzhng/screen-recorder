@@ -208,7 +208,7 @@ extension ArchiveOperation {
         guard fsync(fd) == 0 else { throw io("Flush ZIP output") }
         return ["path": "payload.zip", "bytes": output.bytes, "sha256": hex(output.hash.finalize()),
             "identity": try FileVersion(of: fd).json, "expandedBytes": total, "entries": members.count,
-            "peakResidentBytes": peakResidentBytes(), "writer": String(cString: archive_version_string())]
+            "peakResidentBytes": ProcessResources.peakResidentBytes(), "writer": String(cString: archive_version_string())]
     }
     static func openWriteInput(_ path: String) throws -> Int32 {
         var fd = dup(4)

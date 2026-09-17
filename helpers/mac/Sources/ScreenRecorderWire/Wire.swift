@@ -82,7 +82,7 @@ public enum NativeWire {
             table[name] = Operation(
                 run: { try ArchiveOperation.execute(name, $0) },
                 unexpected: { NativeFailure("INVALID_PACKAGE", $0.localizedDescription) },
-                details: { ["peakResidentBytes": ArchiveOperation.peakResidentBytes()] })
+                details: { ["peakResidentBytes": ProcessResources.peakResidentBytes()] })
         }
         return table
     }()
