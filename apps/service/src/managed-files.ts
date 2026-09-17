@@ -1,3 +1,4 @@
+import { join } from "node:path";
 import { constants, lstatSync, realpathSync } from "node:fs";
 import { open, realpath } from "node:fs/promises";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
@@ -49,6 +50,38 @@ export class ManagedFiles {
       return { directory, identity };
     } finally {
       await parent.close();
+    }
+  }
+  async recordingDirectory(recordingId: string, signal?: AbortSignal) {
+    const directory = join(this.home, "recordings", recordingId);
+    const handle = await open(
+      directory,
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000,
+    );
+    try {
+      const result = await this.worker(
+        "storage.recordingDirectory",
+        {
+          home: this.home,
+          expectedHome: this.expectedHome,
+          recordingId,
+        },
+        { descriptors: [handle.fd], ...(signal ? { signal } : {}) },
+      );
+      if (!result.ok)
+        throw new CatalogError(
+          result.error.code,
+          result.error.message,
+          result.error.details,
+          result.error.retryable,
+        );
+      const identity = result.data as DirectoryIdentity;
+      if (!identity || typeof identity.dev !== "string" || typeof identity.ino !== "string")
+        throw new CatalogError("INVALID_NATIVE_RESPONSE", "Recording directory was not identified");
+      return { directory, handle, identity };
+    } catch (error) {
+      await handle.close();
+      throw error;
     }
   }
   removeRecordingDirectory(recordingId: string, signal: AbortSignal): Promise<void> {

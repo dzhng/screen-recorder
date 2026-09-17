@@ -140,7 +140,7 @@ export class RevisionStore {
         .get() &&
         !this.catalog
           .prepare(
-            "SELECT 1 WHERE (SELECT COUNT(*) FROM pragma_table_info('export_intents') WHERE name IN ('stagingCleared','abandoning','kind'))=3",
+            "SELECT 1 WHERE (SELECT COUNT(*) FROM pragma_table_info('export_intents') WHERE name IN ('stagingCleared','abandoning','kind','packageEvidence','assembly'))=5",
           )
           .get()) ||
       this.catalog

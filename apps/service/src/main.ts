@@ -139,7 +139,7 @@ async function main(): Promise<void> {
       execute: async (execution) => {
         if (execution.job.artifact === "export-recovery") return exports!.execute(execution);
         if (
-          execution.job.artifact === "export-video" ||
+          execution.job.artifact === "export-recording" ||
           execution.job.artifact === "frame" ||
           execution.job.artifact === "audio" ||
           execution.job.artifact === "preview" ||
@@ -148,7 +148,7 @@ async function main(): Promise<void> {
         ) {
           await cacheReady;
           if (cacheFailure) throw cacheFailure;
-          if (execution.job.artifact === "export-video") return exports!.execute(execution);
+          if (execution.job.artifact === "export-recording") return exports!.execute(execution);
           if (execution.job.artifact === "preview") return preview.execute(execution);
           if (execution.job.artifact === "source-scenes") return scenes.execute(execution);
           if (execution.job.artifact === "screenshot-index") return index.execute(execution);

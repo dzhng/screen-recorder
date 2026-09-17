@@ -14,6 +14,7 @@ export class SceneProcessing {
     private readonly evidence: SceneEvidenceStore,
     private readonly home: string,
     private readonly sample: VisualSampler,
+    private readonly retained?: (recordingId: string, generation: string) => boolean,
   ) {}
   private identity(recordingId: string) {
     return { recordingId, revisionId: "r0", artifact, input: scenePolicy.id };
@@ -117,7 +118,8 @@ export class SceneProcessing {
     return this.evidence.reclaim(
       recordingId,
       (generation) => {
-        if (this.jobs.isAttemptActive(generation)) return true;
+        if (this.jobs.isAttemptActive(generation) || this.retained?.(recordingId, generation))
+          return true;
         if (
           this.store.catalog
             .prepare(

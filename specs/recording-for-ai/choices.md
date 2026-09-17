@@ -2199,3 +2199,27 @@ records them. These choices add no public export choice or transcript readiness.
   plan required containment but left adapter shape open; keeping resolution at the
   existing file owner preserves the native decoder and avoids a package-only
   audio planner.
+
+
+## Complete package consumer
+
+### Sound — high confidence
+
+- **Assembly bytes have one lifetime owner.** The existing export intent registers
+  two direct managed recording children before creation and saves identities before
+  writing. Existing workspace locks protect exactly what cleanup removes. This
+  avoids an unlocked enclosing directory and gives recording deletion the same
+  survivor fence as ordinary package cleanup.
+- **Committed truth and private cleanup remain independent.** Source, scene and
+  index retention ends at durable commit; pending intent capacity remains charged
+  while private workspace cleanup is unresolved. Explicit retry cleans those bytes
+  without requiring the moved external destination or publishing a second ZIP.
+- **Portable serialization uses existing immutable evidence ownership.** Assembly
+  validates its produced pages against pinned evidence, checks normalized receipt
+  size, and copies selected media with descriptor-relative identity checks. It does
+  not introduce a second normalized parser or a per-page native writing protocol.
+  JavaScript page writers still require stable private app-owned directories.
+- **The same lifecycle serves both product choices.** Package prerequisites and
+  assembly extend RecordingExports; no package preparation endpoint, intent table,
+  scheduler, or third export choice is introduced. Narrated recordings remain
+  blocked until real transcript payloads satisfy completeness.

@@ -1,3 +1,8 @@
+import { withArchiveCopyBarrier } from "../../macos/tests/fixtures/archive-copy-barrier.mjs";
+import { SceneProcessing } from "@screenrec/core/scene-processing";
+import { IndexProcessing } from "@screenrec/core/index-processing";
+import { admitArchive } from "../dist/archive-input.js";
+import { openPackageArchive } from "../dist/package-archive.js";
 import { callLocal } from "@screenrec/client";
 import { launchReady, socketPath, waitFor } from "../../macos/tests/harness.mjs";
 import assert from "node:assert/strict";
@@ -42,7 +47,7 @@ async function fixture(
   t,
   wrap = (value) => value,
   existing,
-  { warm = true, admission = true } = {},
+  { warm = true, admission = true, packages = false } = {},
 ) {
   const home = existing?.home ?? (await mkdtemp("/tmp/screenrec-video-export-"));
   const output = existing?.output ?? (await mkdtemp("/tmp/screenrec-video-destination-"));
@@ -60,7 +65,7 @@ async function fixture(
       sourceDurationUs: 2000000,
     });
     const source = join(home, "recordings", take.recordingId, "source");
-    await mkdir(source, { recursive: true });
+    await mkdir(source, { recursive: true, mode: 0o700 });
     const made = spawnSync(
       "ffmpeg",
       [
@@ -96,7 +101,9 @@ async function fixture(
   const cache = new DerivedCache(store, home);
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store);
-  let processing, preview, exports;
+  let processing, preview, exports, sceneOwner, indexOwner;
+  const sceneEvidence = new SceneEvidenceStore(store);
+  const indexEvidence = new ScreenshotIndexStore(store, home);
   let recoverOnCapacity = false;
   const recoveryErrors = [];
   const worker = wrap(native);
@@ -107,11 +114,15 @@ async function fixture(
       if (recoverOnCapacity) recoveryErrors.push(...exports.resumeRecovery());
     },
     execute: (execution) =>
-      ["export-video", "export-recovery"].includes(execution.job.artifact)
+      ["export-recording", "export-recovery"].includes(execution.job.artifact)
         ? exports.execute(execution)
-        : execution.job.artifact === "preview"
-          ? preview.execute(execution)
-          : processing.execute(execution),
+        : execution.job.artifact === "source-scenes"
+          ? sceneOwner.execute(execution)
+          : execution.job.artifact === "screenshot-index"
+            ? indexOwner.execute(execution)
+            : execution.job.artifact === "preview"
+              ? preview.execute(execution)
+              : processing.execute(execution),
   });
   const call = async (op, params, signal) => {
     const result = await worker(op, params, { signal });
@@ -133,8 +144,48 @@ async function fixture(
       signal,
     ),
   );
+  const sample = ({ source, kept, atSourceUs }, signal) =>
+    call("media.visualSamples", { source, kept, atSourceUs }, signal);
+  sceneOwner = new SceneProcessing(
+    store,
+    jobs,
+    sceneEvidence,
+    home,
+    sample,
+    (recordingId, generation) => exports.retainsScenes(recordingId, generation),
+  );
+  indexOwner = new IndexProcessing(
+    store,
+    jobs,
+    indexEvidence,
+    processing,
+    sceneOwner,
+    { source: evidence, scenes: sceneEvidence },
+    home,
+    { decode: (params, signal) => call("media.frame", params, signal), sample },
+    (recordingId, generation) => exports.retainsIndex(recordingId, generation),
+  );
   const files = new ManagedFiles(home, worker);
-  exports = new RecordingExports({ store, jobs, cache, preview, processing, worker, files });
+  exports = new RecordingExports({
+    store,
+    jobs,
+    cache,
+    preview,
+    processing,
+    worker,
+    files,
+    ...(packages
+      ? {
+          package: {
+            scenes: sceneOwner,
+            index: indexOwner,
+            source: evidence,
+            sceneEvidence,
+            indexEvidence,
+          },
+        }
+      : {}),
+  });
   const storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
     exports.usage(recordingId, signal),
   );
@@ -151,8 +202,8 @@ async function fixture(
     jobs,
     cache,
     source: evidence,
-    scenes: new SceneEvidenceStore(store),
-    index: new ScreenshotIndexStore(store, home),
+    scenes: sceneEvidence,
+    index: indexEvidence,
     capture: { quiesce: async () => {} },
     delivery,
     cleanupReady: async () => {},
@@ -190,6 +241,10 @@ async function fixture(
     ready,
     processing,
     evidence,
+    sceneOwner,
+    indexOwner,
+    sceneEvidence,
+    indexEvidence,
     closeOwners,
     storage,
     recoveryErrors,
@@ -234,6 +289,38 @@ async function crashFixture(t, gap, reopenWrap) {
   assert.deepEqual(await closed, [null, "SIGKILL"]);
   const reopened = await fixture(t, reopenWrap, existing);
   return { f, reopened, exportId };
+}
+async function packageCrashFixture(t, gap) {
+  const f = await fixture(t, undefined, undefined, {
+    warm: false,
+    admission: false,
+    packages: true,
+  });
+  const exportId = randomUUID();
+  await f.exports.create({
+    kind: "processed-package",
+    exportId,
+    recordingId: f.take.recordingId,
+    directory: f.output,
+    leaf: "recovered.zip",
+  });
+  await f.closeOwners();
+  const existing = { home: f.home, output: f.output, recordingId: f.take.recordingId };
+  const child = fork(
+    fileURLToPath(import.meta.url),
+    ["crash-owner", JSON.stringify(existing), gap],
+    {
+      stdio: ["ignore", "ignore", "inherit", "ipc"],
+      env: { ...process.env, SCREENREC_NATIVE: binary },
+    },
+  );
+  t.after(() => child.kill("SIGKILL"));
+  await once(child, "message", { signal: AbortSignal.timeout(20000) });
+  const terminal = once(child, "close");
+  child.kill("SIGKILL");
+  assert.deepEqual(await terminal, [null, "SIGKILL"]);
+  const reopened = await fixture(t, undefined, existing, { warm: false, packages: true });
+  return { reopened, exportId };
 }
 async function receiptCrash(t, mode = "write") {
   let limited,
@@ -288,11 +375,30 @@ if (process.argv[2] === "crash-owner") {
           process.send({ gap });
           await new Promise(() => {});
         }
+        if (gap === "package-survivor" && op === "archive.write") {
+          const environment = {
+            DYLD_INSERT_LIBRARIES: existing.library,
+            SCREENREC_TEST_COPY_BARRIER: existing.marker,
+            SCREENREC_TEST_COPY_PARTIAL: "0",
+            SCREENREC_TEST_COPY_MIN_FD: "6",
+          };
+          Object.assign(process.env, environment);
+          try {
+            return run(op, ...args);
+          } finally {
+            for (const key of Object.keys(environment)) delete process.env[key];
+          }
+        }
         const result = await run(op, ...args);
         if (
           (gap === "commit" && op === "publication.commit") ||
           (gap === "allocate" && op === "publication.allocate") ||
-          (gap === "abandon" && op === "publication.retire")
+          (gap === "abandon" && op === "publication.retire") ||
+          (gap === "package-create" && op === "packageWorkspace.create") ||
+          (gap === "package-copy" && op === "archive.copy") ||
+          (gap === "package-write" && op === "archive.write") ||
+          (gap === "package-commit" && op === "publication.commit") ||
+          (gap === "package-cleanup" && op === "packageWorkspace.remove")
         ) {
           process.send({ gap });
           await new Promise(() => {});
@@ -300,6 +406,7 @@ if (process.argv[2] === "crash-owner") {
         return result;
       },
     existing,
+    gap.startsWith("package-") ? { warm: false, packages: true } : {},
   );
   if (gap === "abandon") await crashed.exports.abandon(existing.exportId);
 } else {
@@ -862,7 +969,7 @@ if (process.argv[2] === "crash-owner") {
       f.jobs.status({
         recordingId: f.take.recordingId,
         revisionId: "r0",
-        artifact: "export-video",
+        artifact: "export-recording",
         input: exportId,
       }).published,
       null,
@@ -890,7 +997,7 @@ if (process.argv[2] === "crash-owner") {
       f.jobs.status({
         recordingId: f.take.recordingId,
         revisionId: "r0",
-        artifact: "export-video",
+        artifact: "export-recording",
         input: exportId,
       }).published,
       null,
@@ -1232,7 +1339,7 @@ if (process.argv[2] === "crash-owner") {
       f.jobs.status({
         recordingId: f.take.recordingId,
         revisionId: "r0",
-        artifact: "export-video",
+        artifact: "export-recording",
         input: exportId,
       }).published,
       null,
@@ -1851,106 +1958,768 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(JSON.parse(row.request)[0], "video");
     assert.equal(f.exports.status(request.exportId).jobId, first.jobId);
   });
-}
-
-test(
-  "shutdown fences and drains export destination admission before catalog closure",
-  { timeout: 10000 },
-  async (t) => {
-    let release, entered;
-    const held = new Promise((resolve) => {
-      release = resolve;
+  test("complete no-narration package uses the shared intent and reopens independent retained evidence", async (t) => {
+    const f = await fixture(t, undefined, undefined, { warm: false, packages: true });
+    const exportId = randomUUID();
+    const requested = await f.exports.create({
+      kind: "processed-package",
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "capture.zip",
     });
-    const atDestination = new Promise((resolve) => {
-      entered = resolve;
+    assert.equal(requested.state, "queued");
+    await f.jobs.idle();
+    const done = f.exports.status(exportId);
+    assert.equal(done.state, "committed", JSON.stringify(done));
+    const intent = f.store.catalog
+      .prepare(
+        "SELECT packageEvidence,assembly,sourceEvidence FROM export_intents WHERE exportId=?",
+      )
+      .get(exportId);
+    assert.equal(intent.assembly, null);
+    const source = JSON.parse(intent.sourceEvidence),
+      evidence = JSON.parse(intent.packageEvidence);
+    assert.equal(f.exports.retainsSource(f.take.recordingId, source.generation), false);
+    assert.equal(f.exports.retainsScenes(f.take.recordingId, evidence.scenes.generation), false);
+    assert.equal(f.exports.retainsIndex(f.take.recordingId, evidence.index.generation), false);
+    const directory = join(f.home, "verify-package");
+    await mkdir(directory, { mode: 0o700 });
+    const handle = await open(directory);
+    const archive = admitArchive(done.output);
+    let context;
+    try {
+      context = await openPackageArchive(
+        archive,
+        { directory: await (await import("node:fs/promises")).realpath(directory), handle },
+        native,
+      );
+      assert.equal(context.manifest.transcript, "unavailable:no_narration");
+      assert.equal(context.manifest.snapshot.revisionId, requested.snapshot.revisionId);
+      assert.equal(
+        context.manifest.inventory.find((entry) => entry.role === "video").sha256,
+        sha(await readFile(join(f.home, "recordings", f.take.recordingId, "source/video.mov"))),
+      );
+      assert.ok(
+        context.manifest.evidence
+          .find((item) => item.artifact.reference.kind === "events")
+          .files.includes("evidence/events/pages.json"),
+      );
+      assert.ok(context.manifest.inventory.some((item) => item.role === "image"));
+    } finally {
+      await context?.close();
+      archive.close();
+      await handle.close();
+    }
+  });
+  test("package request pins revision and source-scene generations across newer cleanup", async (t) => {
+    const sourceEntered = Promise.withResolvers(),
+      releaseSource = Promise.withResolvers();
+    const indexEntered = Promise.withResolvers(),
+      releaseIndex = Promise.withResolvers();
+    t.after(() => {
+      releaseSource.resolve();
+      releaseIndex.resolve();
     });
+    let firstSource = true,
+      firstFrame = true;
     const f = await fixture(
       t,
-      (native) => async (operation, params, options) => {
-        if (operation === "storage.externalDirectory") {
-          entered();
-          await held;
-        }
-        return native(operation, params, options);
-      },
+      (run) =>
+        async (operation, ...args) => {
+          if (operation === "media.sourceEvidence" && firstSource) {
+            firstSource = false;
+            sourceEntered.resolve();
+            await releaseSource.promise;
+          }
+          if (operation === "media.frame" && firstFrame) {
+            firstFrame = false;
+            indexEntered.resolve();
+            await releaseIndex.promise;
+          }
+          return run(operation, ...args);
+        },
       undefined,
-      { warm: false },
+      { warm: false, packages: true },
     );
-    const exportId = randomUUID();
-    const pending = f.exports.create({
-      exportId,
-      kind: "video",
+    const requested = await f.exports.create({
+      kind: "processed-package",
+      exportId: randomUUID(),
       recordingId: f.take.recordingId,
       directory: f.output,
-      leaf: "shutdown.mp4",
+      leaf: "pinned.zip",
     });
-    const outcome = pending.then(
-      () => "created",
-      () => "closed",
+    await sourceEntered.promise;
+    f.store.edit(f.take.recordingId, {
+      operation: "cut",
+      requestId: randomUUID(),
+      expectedRevisionId: "r0",
+      ranges: [{ startUs: 0, endUs: 500000 }],
+    });
+    releaseSource.resolve();
+    await indexEntered.promise;
+    const read = () =>
+      f.store.catalog
+        .prepare("SELECT sourceEvidence,packageEvidence FROM export_intents WHERE exportId=?")
+        .get(requested.exportId);
+    const selected = read(),
+      pinnedSource = JSON.parse(selected.sourceEvidence),
+      pinnedScene = JSON.parse(selected.packageEvidence).scenes;
+    const sourceJob = f.processing.status(f.take.recordingId),
+      sceneJob = f.sceneOwner.status(f.take.recordingId);
+    f.jobs.regenerate(sourceJob.jobId, sourceJob.published.generation);
+    f.jobs.regenerate(sceneJob.jobId, sceneJob.published.generation);
+    await waitFor(
+      () =>
+        f.processing.status(f.take.recordingId).state === "ready" &&
+        f.processing.status(f.take.recordingId).published.evidence.generation !==
+          pinnedSource.generation &&
+        f.sceneOwner.status(f.take.recordingId).state === "ready" &&
+        f.sceneOwner.status(f.take.recordingId).published.evidence.generation !==
+          pinnedScene.generation,
+      10000,
     );
-    await atDestination;
-    let closed = false;
-    const closing = f.exports.close().then(() => {
-      closed = true;
+    await f.processing.cleanup(new AbortController().signal);
+    await f.sceneOwner.cleanup(new AbortController().signal);
+    assert.equal(f.exports.retainsSource(f.take.recordingId, pinnedSource.generation), true);
+    assert.equal(f.exports.retainsScenes(f.take.recordingId, pinnedScene.generation), true);
+    assert.equal(f.evidence.hasAudio(pinnedSource, "narration"), false);
+    assert.equal(
+      f.sceneEvidence.page({ identity: pinnedScene }).metadata.generation,
+      pinnedScene.generation,
+    );
+    releaseIndex.resolve();
+    await f.jobs.idle();
+    const done = f.exports.status(requested.exportId);
+    assert.equal(done.state, "committed", JSON.stringify(done));
+    assert.equal(done.snapshot.revisionId, "r0");
+    assert.equal(done.snapshot.historyThroughOrdinal, 0);
+    const final = read(),
+      selectedIndex = JSON.parse(final.packageEvidence).index;
+    assert.equal(selectedIndex.sourceIdentity.generation, pinnedSource.generation);
+    assert.equal(selectedIndex.sceneIdentity.generation, pinnedScene.generation);
+    assert.equal(selectedIndex.revisionId, "r0");
+    assert.equal(f.exports.retainsSource(f.take.recordingId, pinnedSource.generation), false);
+    assert.equal(f.exports.retainsScenes(f.take.recordingId, pinnedScene.generation), false);
+    await f.processing.cleanup(new AbortController().signal);
+    await f.sceneOwner.cleanup(new AbortController().signal);
+    assert.throws(() => f.sceneEvidence.page({ identity: pinnedScene }));
+  });
+  test("committed package retains counted private cleanup until explicit retry and never republishes", async (t) => {
+    let refuse = true,
+      publicationCalls = 0;
+    const f = await fixture(
+      t,
+      (run) =>
+        async (operation, ...args) => {
+          if (operation.startsWith("publication.")) publicationCalls++;
+          if (operation === "packageWorkspace.remove" && refuse)
+            throw new Error("generated private cleanup failure");
+          return run(operation, ...args);
+        },
+      undefined,
+      { warm: false, packages: true },
+    );
+    const created = await f.exports.create({
+      kind: "processed-package",
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "historical.zip",
     });
-    try {
-      await new Promise((resolve) => setImmediate(resolve));
-      assert.equal(
-        closed,
-        false,
-        "close must retain the catalog until destination admission drains",
-      );
-    } finally {
-      release();
-      await closing;
-      await outcome;
+    await f.jobs.idle();
+    const committed = f.exports.status(created.exportId);
+    assert.equal(committed.state, "committed", JSON.stringify(committed));
+    const original = await readFile(committed.output);
+    const reservation = JSON.parse(
+      f.store.catalog
+        .prepare("SELECT assembly FROM export_intents WHERE exportId=?")
+        .get(created.exportId).assembly,
+    );
+    assert.ok(reservation.input.identity && reservation.zip.identity);
+    async function bytes(directory) {
+      let total = 0;
+      for (const name of await readdir(directory)) {
+        const path = join(directory, name),
+          info = await stat(path);
+        total += info.isDirectory() ? await bytes(path) : info.size;
+      }
+      return total;
     }
-    assert.equal(await outcome, "closed");
+    const owned =
+      (await bytes(join(f.home, "recordings", f.take.recordingId, reservation.input.name))) +
+      (await bytes(join(f.home, "recordings", f.take.recordingId, reservation.zip.name)));
+    assert.ok(owned > 0);
+    assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, owned);
     assert.equal(
       f.store.catalog
-        .prepare("SELECT count(*) AS n FROM export_intents WHERE exportId=?")
-        .get(exportId).n,
-      0,
+        .prepare(
+          "SELECT COUNT(*) AS n FROM export_intents WHERE receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL",
+        )
+        .get().n,
+      1,
     );
-    assert.deepEqual(await readdir(f.output), []);
-  },
-);
-
-test(
-  "bundled startup admits a persisted waiter only after its ready preview cache is reconciled",
-  { timeout: 30000 },
-  async (t) => {
-    const f = await fixture(t, (native) => native, undefined, { admission: false });
-    const exportId = randomUUID();
-    const pending = await f.exports.create({
-      exportId,
-      kind: "video",
+    const moved = f.output + "-moved";
+    await rename(f.output, moved);
+    t.after(async () => {
+      await rename(moved, f.output).catch(() => {});
+    });
+    refuse = false;
+    const before = publicationCalls;
+    await f.exports.retry(created.exportId);
+    await f.jobs.idle();
+    assert.equal(
+      publicationCalls,
+      before,
+      "Known acknowledged publication needs no external access for private cleanup",
+    );
+    assert.equal(f.exports.status(created.exportId).state, "committed");
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT assembly FROM export_intents WHERE exportId=?")
+        .get(created.exportId).assembly,
+      null,
+    );
+    assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, 0);
+    assert.deepEqual(await readFile(join(moved, "historical.zip")), original);
+    await rename(moved, f.output);
+  });
+  test("actual acquired narration remains blocked before any package assembly", async (t) => {
+    const f = await fixture(t, undefined, undefined, { warm: false, packages: true });
+    const source = join(f.home, "recordings", f.take.recordingId, "source");
+    const rows = journalRows({ sourceId: f.take.sourceId, width: 160, height: 90, samples: [] });
+    rows[0].data.microphone = true;
+    rows.splice(rows.length - 1, 0, {
+      event: "audioSamples",
+      data: { role: "narration", startUs: 0, endUs: 2000000 },
+    });
+    await writeFile(
+      join(source, "capture.journal.jsonl"),
+      rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
+    );
+    const made = spawnSync("ffmpeg", [
+      "-nostdin",
+      "-v",
+      "error",
+      "-f",
+      "lavfi",
+      "-i",
+      "sine=frequency=1000:duration=2",
+      "-c:a",
+      "pcm_f32le",
+      join(source, "narration.mov"),
+    ]);
+    assert.equal(made.status, 0);
+    const requested = await f.exports.create({
+      kind: "processed-package",
+      exportId: randomUUID(),
       recordingId: f.take.recordingId,
       directory: f.output,
-      leaf: "restarted.mp4",
+      leaf: "narrated.zip",
     });
-    assert.equal(pending.state, "queued");
-    assert.equal(f.jobs.job(pending.jobId).state, "waiting");
-    await f.closeOwners();
-    const { instance } = await launchReady(f.home);
-    try {
-      const status = await waitFor(async () => {
-        const result = await callLocal(socketPath(f.home), {
-          id: randomUUID(),
-          operation: "export.status",
-          params: { exportId },
-        });
-        assert.equal(result.ok, true, JSON.stringify(result));
-        if (["failed", "unavailable"].includes(result.data.state))
-          throw new Error(JSON.stringify(result.data));
-        return result.data.state === "committed" && result.data;
-      }, 15000);
-      assert.equal(status.snapshot.revisionId, "r0");
-      assert.equal(status.receipt.sha256, sha(await readFile(join(f.output, "restarted.mp4"))));
-    } finally {
-      instance.kill("SIGTERM");
-      await waitFor(() => !instance.running, 15000);
-      assert.equal((await instance.exited).code, 0);
+    await f.jobs.idle();
+    const blocked = f.exports.status(requested.exportId);
+    assert.equal(blocked.state, "failed");
+    assert.match(blocked.reason, /accepted transcript/);
+    assert.equal(
+      f.evidence.hasAudio(f.processing.status(f.take.recordingId).published.evidence, "narration"),
+      true,
+    );
+    const row = f.store.catalog
+      .prepare("SELECT assembly,staging FROM export_intents WHERE exportId=?")
+      .get(requested.exportId);
+    assert.equal(row.assembly, null);
+    assert.equal(row.staging, null);
+    assert.deepEqual(await readdir(f.output), []);
+    await f.exports.abandon(requested.exportId);
+    assert.ok((await stat(join(source, "narration.mov"))).size > 0);
+  });
+  test("failed package scene prerequisite is not restarted by polling or export retry", async (t) => {
+    let fail = true;
+    const f = await fixture(
+      t,
+      (run) =>
+        async (operation, ...args) => {
+          if (operation === "media.visualSamples" && fail)
+            throw new Error("generated scene failure");
+          return run(operation, ...args);
+        },
+      undefined,
+      { warm: false, packages: true },
+    );
+    const request = {
+      kind: "processed-package",
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "retry.zip",
+    };
+    await f.exports.create(request);
+    await f.jobs.idle();
+    const scene = f.sceneOwner.status(f.take.recordingId),
+      attempt = f.jobs.job(scene.jobId).attemptId;
+    assert.equal(f.exports.status(request.exportId).state, "failed");
+    for (let i = 0; i < 3; i++) {
+      await f.exports.create(request);
+      f.exports.status(request.exportId);
     }
-  },
-);
+    await f.exports.retry(request.exportId);
+    await f.jobs.idle();
+    assert.equal(f.jobs.job(scene.jobId).attemptId, attempt);
+    fail = false;
+    f.sceneOwner.retry(f.take.recordingId);
+    await f.jobs.idle();
+    await f.exports.retry(request.exportId);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(request.exportId).state, "committed");
+  });
+  test("canceled package retains its exact index across regeneration and retries those bytes", async (t) => {
+    const entered = Promise.withResolvers(),
+      release = Promise.withResolvers();
+    t.after(() => release.resolve());
+    let block = true;
+    const f = await fixture(
+      t,
+      (run) =>
+        async (operation, ...args) => {
+          if (operation === "archive.copy" && block) {
+            entered.resolve();
+            await release.promise;
+          }
+          return run(operation, ...args);
+        },
+      undefined,
+      { warm: false, packages: true },
+    );
+    const created = await f.exports.create({
+      kind: "processed-package",
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "old-index.zip",
+    });
+    await entered.promise;
+    const row = f.store.catalog
+      .prepare("SELECT sourceEvidence,packageEvidence FROM export_intents WHERE exportId=?")
+      .get(created.exportId);
+    const source = JSON.parse(row.sourceEvidence),
+      evidence = JSON.parse(row.packageEvidence),
+      old = evidence.index;
+    const request = f.indexOwner.request({
+      recordingId: f.take.recordingId,
+      revisionId: "r0",
+      evidence: { source, scenes: evidence.scenes },
+    });
+    f.jobs.regenerate(request.jobId, request.published.generation);
+    await waitFor(
+      () =>
+        f.jobs.job(request.jobId).state === "ready" &&
+        f.jobs.job(request.jobId).attemptId !== old.generation,
+      10000,
+    );
+    await f.indexOwner.cleanup(new AbortController().signal);
+    assert.equal(f.indexEvidence.metadata(old).generation, old.generation);
+    assert.equal(f.exports.retainsIndex(f.take.recordingId, old.generation), true);
+    f.exports.cancel(created.exportId);
+    block = false;
+    release.resolve();
+    await f.jobs.idle();
+    assert.equal(f.exports.status(created.exportId).state, "canceled");
+    await f.indexOwner.cleanup(new AbortController().signal);
+    assert.equal(f.indexEvidence.metadata(old).generation, old.generation);
+    await f.exports.retry(created.exportId);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(created.exportId).state, "committed");
+    assert.equal(
+      JSON.parse(
+        f.store.catalog
+          .prepare("SELECT packageEvidence FROM export_intents WHERE exportId=?")
+          .get(created.exportId).packageEvidence,
+      ).index.generation,
+      old.generation,
+    );
+    assert.equal(f.exports.retainsIndex(f.take.recordingId, old.generation), false);
+    await f.indexOwner.cleanup(new AbortController().signal);
+    assert.throws(() => f.indexEvidence.metadata(old));
+  });
+
+  for (const gap of ["create", "copy", "write", "commit", "cleanup"]) {
+    test(`package actual owner death at ${gap} retains recoverable workspace identity`, async (t) => {
+      const { reopened: f, exportId } = await packageCrashFixture(t, `package-${gap}`);
+      const row = f.store.catalog
+        .prepare("SELECT assembly FROM export_intents WHERE exportId=?")
+        .get(exportId);
+      assert.ok(row.assembly);
+      const before = await readFile(join(f.output, "recovered.zip")).catch((error) => {
+        if (error.code !== "ENOENT") throw error;
+        return null;
+      });
+      assert.equal(!!before, ["commit", "cleanup"].includes(gap));
+      f.exports.resumeRecovery();
+      await f.jobs.idle();
+      assert.equal(
+        f.store.catalog
+          .prepare("SELECT assembly FROM export_intents WHERE exportId=?")
+          .get(exportId).assembly,
+        null,
+      );
+      if (before) {
+        assert.equal(f.exports.status(exportId).state, "committed");
+        assert.deepEqual(await readFile(join(f.output, "recovered.zip")), before);
+      } else {
+        assert.notEqual(f.exports.status(exportId).state, "committed");
+        await f.exports.retry(exportId);
+        await f.jobs.idle();
+        assert.equal(
+          f.exports.status(exportId).state,
+          "committed",
+          JSON.stringify(f.exports.status(exportId)),
+        );
+      }
+      const bytes = await readFile(join(f.output, "recovered.zip"));
+      await f.exports.abandon(exportId);
+      assert.deepEqual(await readFile(join(f.output, "recovered.zip")), bytes);
+      assert.ok(
+        (await stat(join(f.home, "recordings", f.take.recordingId, "source/video.mov"))).size > 0,
+      );
+    });
+  }
+
+  test("surviving package writer fences actual recording deletion after service SIGKILL", async (t) => {
+    const original = await fixture(t, undefined, undefined, {
+      warm: false,
+      admission: false,
+      packages: true,
+    });
+    const exportId = randomUUID();
+    await original.exports.create({
+      kind: "processed-package",
+      exportId,
+      recordingId: original.take.recordingId,
+      directory: original.output,
+      leaf: "uncommitted.zip",
+    });
+    await original.closeOwners();
+    const library = join(original.home, "copy-barrier.dylib"),
+      marker = join(original.home, "copy-stopped");
+    const compiled = spawnSync("/usr/bin/clang", [
+      "-dynamiclib",
+      "-o",
+      library,
+      resolve("apps/macos/tests/fixtures/archive-copy-barrier.c"),
+    ]);
+    assert.equal(compiled.status, 0, compiled.stderr.toString());
+    const existing = {
+      home: original.home,
+      output: original.output,
+      recordingId: original.take.recordingId,
+      library,
+      marker,
+    };
+    const child = fork(
+      fileURLToPath(import.meta.url),
+      ["crash-owner", JSON.stringify(existing), "package-survivor"],
+      {
+        stdio: ["ignore", "ignore", "inherit", "ipc"],
+        env: { ...process.env, SCREENREC_NATIVE: binary },
+      },
+    );
+    t.after(() => child.kill("SIGKILL"));
+    const pid = await waitFor(
+      async () =>
+        Number(
+          await readFile(marker, "utf8").catch((error) => {
+            if (error.code !== "ENOENT") throw error;
+            return "";
+          }),
+        ),
+      20000,
+    );
+    t.after(() => {
+      try {
+        process.kill(pid, "SIGKILL");
+      } catch (error) {
+        if (error.code !== "ESRCH") throw error;
+      }
+    });
+    const closed = once(child, "close");
+    child.kill("SIGKILL");
+    assert.deepEqual(await closed, [null, "SIGKILL"]);
+    const f = await fixture(t, undefined, existing, { warm: false, packages: true });
+    const row = f.store.catalog
+      .prepare("SELECT assembly FROM export_intents WHERE exportId=?")
+      .get(exportId);
+    const reservation = JSON.parse(row.assembly);
+    assert.ok(reservation.input.identity && reservation.zip.identity);
+    await assert.rejects(
+      f.deletion.delete(f.take.recordingId),
+      (error) => error.retryable === true,
+    );
+    assert.ok(
+      (await stat(join(f.home, "recordings", f.take.recordingId, "source/video.mov"))).size > 0,
+    );
+    assert.ok(
+      (
+        await stat(
+          join(f.home, "recordings", f.take.recordingId, reservation.zip.name, "payload.zip"),
+        )
+      ).size > 0,
+    );
+    assert.equal(
+      f.store.catalog.prepare("SELECT assembly FROM export_intents WHERE exportId=?").get(exportId)
+        .assembly,
+      row.assembly,
+    );
+    process.kill(pid, "SIGKILL");
+    await waitFor(async () => {
+      try {
+        await f.deletion.delete(f.take.recordingId);
+        return true;
+      } catch (error) {
+        if (!error.retryable) throw error;
+        return false;
+      }
+    }, 5000);
+    assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
+    await assert.rejects(stat(join(f.home, "recordings", f.take.recordingId)), { code: "ENOENT" });
+    assert.deepEqual(await readdir(f.output), []);
+  });
+
+  test("package input locator substitution blocks publication and cleanup until owned identity returns", async (t) => {
+    let f,
+      moved,
+      original,
+      onceOnly = true;
+    f = await fixture(
+      t,
+      (run) =>
+        async (operation, ...args) => {
+          const result = await run(operation, ...args);
+          if (operation === "archive.copy" && onceOnly) {
+            onceOnly = false;
+            const row = f.store.catalog
+              .prepare("SELECT assembly FROM export_intents WHERE kind='processed-package'")
+              .get();
+            const reservation = JSON.parse(row.assembly);
+            original = join(f.home, "recordings", f.take.recordingId, reservation.input.name);
+            moved = original + "-owned";
+            await rename(original, moved);
+            await mkdir(original, { mode: 0o700 });
+            await writeFile(join(original, "foreign"), "preserve replacement");
+          }
+          return result;
+        },
+      undefined,
+      { warm: false, packages: true },
+    );
+    const created = await f.exports.create({
+      kind: "processed-package",
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "substituted.zip",
+    });
+    await f.jobs.idle();
+    assert.equal(f.exports.status(created.exportId).state, "failed");
+    await assert.rejects(stat(join(f.output, "substituted.zip")), { code: "ENOENT" });
+    f.exports.resumeRecovery();
+    await f.jobs.idle();
+    const failed = f.exports.status(created.exportId).recovery;
+    assert.equal(failed.state, "failed");
+    assert.equal(failed.retryable, true);
+    assert.equal(await readFile(join(original, "foreign"), "utf8"), "preserve replacement");
+    await rm(original, { recursive: true });
+    await rename(moved, original);
+    f.exports.recover(created.exportId);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(created.exportId).recovery.state, "ready");
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT assembly FROM export_intents WHERE exportId=?")
+        .get(created.exportId).assembly,
+      null,
+    );
+    await f.exports.abandon(created.exportId);
+    assert.deepEqual(await readdir(f.output), []);
+  });
+  test("source changes during descriptor copy cannot produce a complete package", async (t) => {
+    let selectedWorker = native;
+    const f = await fixture(
+      t,
+      () =>
+        (...args) =>
+          selectedWorker(...args),
+      undefined,
+      { warm: false, packages: true },
+    );
+    await withArchiveCopyBarrier(
+      f.home,
+      binary,
+      { operation: "archive.copy", minimumFd: 5 },
+      async ({ worker, held, drain, resume }) => {
+        selectedWorker = worker;
+        const created = await f.exports.create({
+          kind: "processed-package",
+          exportId: randomUUID(),
+          recordingId: f.take.recordingId,
+          directory: f.output,
+          leaf: "changed.zip",
+        });
+        const pending = drain(f.jobs.idle());
+        await held;
+        const file = await open(
+          join(f.home, "recordings", f.take.recordingId, "source/video.mov"),
+          "r+",
+        );
+        await file.write(Buffer.from([99]), 0, 1, 0);
+        await file.close();
+        await resume();
+        await pending;
+        assert.equal(f.exports.status(created.exportId).state, "failed");
+        assert.match(f.exports.status(created.exportId).reason, /Source changed/);
+        await assert.rejects(stat(join(f.output, "changed.zip")), { code: "ENOENT" });
+        selectedWorker = native;
+        await f.exports.abandon(created.exportId);
+        assert.deepEqual(await readdir(f.output), []);
+        assert.equal(
+          (await readFile(join(f.home, "recordings", f.take.recordingId, "source/video.mov")))[0],
+          99,
+        );
+      },
+    );
+  });
+
+  test("normalized source payload must still match its pinned generation byte receipt", async (t) => {
+    let f,
+      changed = false;
+    f = await fixture(
+      t,
+      (run) =>
+        async (operation, ...args) => {
+          if (operation === "media.frame" && !changed) {
+            changed = true;
+            const source = f.processing.status(f.take.recordingId).published.evidence;
+            await writeFile(source.receipt.file, "\n", { flag: "a" });
+          }
+          return run(operation, ...args);
+        },
+      undefined,
+      { warm: false, packages: true },
+    );
+    const created = await f.exports.create({
+      kind: "processed-package",
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "wrong-normalized.zip",
+    });
+    await f.jobs.idle();
+    const failed = f.exports.status(created.exportId);
+    assert.equal(failed.state, "failed");
+    assert.match(failed.reason, /pinned.*byte receipt/);
+    await assert.rejects(stat(join(f.output, "wrong-normalized.zip")), { code: "ENOENT" });
+    await f.exports.abandon(created.exportId);
+  });
+
+  test(
+    "shutdown fences and drains export destination admission before catalog closure",
+    { timeout: 10000 },
+    async (t) => {
+      let release, entered;
+      const held = new Promise((resolve) => {
+        release = resolve;
+      });
+      const atDestination = new Promise((resolve) => {
+        entered = resolve;
+      });
+      const f = await fixture(
+        t,
+        (native) => async (operation, params, options) => {
+          if (operation === "storage.externalDirectory") {
+            entered();
+            await held;
+          }
+          return native(operation, params, options);
+        },
+        undefined,
+        { warm: false },
+      );
+      const exportId = randomUUID();
+      const pending = f.exports.create({
+        exportId,
+        kind: "video",
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: "shutdown.mp4",
+      });
+      const outcome = pending.then(
+        () => "created",
+        () => "closed",
+      );
+      await atDestination;
+      let closed = false;
+      const closing = f.exports.close().then(() => {
+        closed = true;
+      });
+      try {
+        await new Promise((resolve) => setImmediate(resolve));
+        assert.equal(
+          closed,
+          false,
+          "close must retain the catalog until destination admission drains",
+        );
+      } finally {
+        release();
+        await closing;
+        await outcome;
+      }
+      assert.equal(await outcome, "closed");
+      assert.equal(
+        f.store.catalog
+          .prepare("SELECT count(*) AS n FROM export_intents WHERE exportId=?")
+          .get(exportId).n,
+        0,
+      );
+      assert.deepEqual(await readdir(f.output), []);
+    },
+  );
+
+  test(
+    "bundled startup admits a persisted waiter only after its ready preview cache is reconciled",
+    { timeout: 30000 },
+    async (t) => {
+      const f = await fixture(t, (native) => native, undefined, { admission: false });
+      const exportId = randomUUID();
+      const pending = await f.exports.create({
+        exportId,
+        kind: "video",
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: "restarted.mp4",
+      });
+      assert.equal(pending.state, "queued");
+      assert.equal(f.jobs.job(pending.jobId).state, "waiting");
+      await f.closeOwners();
+      const { instance } = await launchReady(f.home);
+      try {
+        const status = await waitFor(async () => {
+          const result = await callLocal(socketPath(f.home), {
+            id: randomUUID(),
+            operation: "export.status",
+            params: { exportId },
+          });
+          assert.equal(result.ok, true, JSON.stringify(result));
+          if (["failed", "unavailable"].includes(result.data.state))
+            throw new Error(JSON.stringify(result.data));
+          return result.data.state === "committed" && result.data;
+        }, 15000);
+        assert.equal(status.snapshot.revisionId, "r0");
+        assert.equal(status.receipt.sha256, sha(await readFile(join(f.output, "restarted.mp4"))));
+      } finally {
+        instance.kill("SIGTERM");
+        await waitFor(() => !instance.running, 15000);
+        assert.equal((await instance.exited).code, 0);
+      }
+    },
+  );
+}

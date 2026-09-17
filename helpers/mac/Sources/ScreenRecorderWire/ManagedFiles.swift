@@ -80,6 +80,30 @@ enum ManagedFiles {
         return ["dev": String(UInt64(truncatingIfNeeded: destination.st_dev)), "ino": String(destination.st_ino)]
     }
 
+    static func recordingDirectory(_ params: [String: Any]) throws -> [String: String] {
+        guard Set(params.keys) == ["home", "expectedHome", "recordingId"],
+            let home = params["home"] as? String, home.hasPrefix("/"), !home.contains("\0"),
+            let id = params["recordingId"] as? String, validID(id) else {
+            throw invalidRequest("Invalid recording directory request.")
+        }
+        let owned = open(home, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_CLOEXEC)
+        guard owned >= 0 else { throw failure("Open managed home") }
+        defer { close(owned) }
+        try Identity(params["expectedHome"]).check(owned)
+        let recordings = openat(owned, "recordings", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard recordings >= 0 else { throw failure("Open recording parent") }
+        defer { close(recordings) }
+        let selected = openat(recordings, id, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard selected >= 0 else { throw failure("Open recording directory") }
+        defer { close(selected) }
+        var info = stat()
+        guard fstat(selected, &info) == 0 else { throw failure("Inspect recording directory") }
+        let identity = ["dev": String(UInt64(truncatingIfNeeded: info.st_dev)), "ino": String(info.st_ino)]
+        try Identity(identity).check(3)
+        try lockPrivateDirectory(3)
+        return identity
+    }
+
     static func execute(_ operation: String, _ params: [String: Any]) throws {
         let recording = operation == "storage.removeRecordingDirectory"
         let fields: Set<String> =

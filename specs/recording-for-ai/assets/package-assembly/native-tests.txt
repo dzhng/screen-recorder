@@ -1,0 +1,62 @@
+(node:46385) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ streamed ZIP publishes through the existing no-clobber owner and independent reader (151.471ms)
+✔ substituted or modified inputs fail and only private ZIP bytes are cleaned (41.739042ms)
+✔ writer refuses foreign scratch and symlink ancestors (51.337625ms)
+✔ observed ZIP output limit refuses a partial archive and drains cleanup (33.4225ms)
+✔ cancellation drains a stopped partial writer before cleaning owned ZIP bytes (490.074292ms)
+(node:46512) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed service cannot retire scratch while its stopped native writer survives (796.62275ms)
+✔ input mutation during streaming fails after the actual copied bytes are checked (484.846708ms)
+✔ large member uses bounded native memory and produces the independently expected digest (1340.865125ms)
+✔ expected member digest is enforced independently of file identity (36.030833ms)
+✔ replaced scratch locator is rejected and cleanup follows only its retained descriptor (33.174208ms)
+✔ member names and declared counts cannot escape the bounded plan (62.328167ms)
+(node:46386) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ recovery removes bounded orphan trees through retained parent after locator replacement (32.362ms)
+✔ recovery preflights invalid and overbound roots without partial deletion (39.358ms)
+✔ recovery rejects linked or nonprivate children and preserves every orphan (20.914459ms)
+✔ unconfirmed creation recovery permits only empty private children or absence (35.945667ms)
+✔ failed provision cleanup retains exact identity and rejects a replacement (35.553375ms)
+(node:46430) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+screenrec-native: owning parent 1 exited; abandoning work
+✔ killed owner leaves native inherited lock busy until actual child termination (126.061209ms)
+(node:46457) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ orphan fixture reaps the stopped native child when consumer assertions fail (125.387416ms)
+(node:46476) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ normal fixture IPC disconnect terminates and reaps its stopped native child (98.785333ms)
+(node:46387) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ private staging usage observes partial bytes while the publication owner holds its lock (53.643459ms)
+✔ private staging usage rejects replacement and linked payloads without reading external data (21.60775ms)
+✔ private staging usage counts prepared files and clears after acknowledgement without counting the movie (88.004375ms)
+(node:46429) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner after commit reconciles exact bytes and inode before acknowledgement (140.981292ms)
+(node:46459) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner before commit leaves a resumable prepared file (128.811417ms)
+(node:46478) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ stopped surviving publisher fences recovery until actual descriptor release (109.06775ms)
+(node:46489) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ reopened owner refuses a replacement output parent and preserves both trees (129.182084ms)
+✔ abort before commit prevents publication; abort after native commit preserves observed truth (51.217166ms)
+✔ kernel write-limit failure never publishes and explicit discard removes only owned leaves (414.676833ms)
+✔ publication refuses a destination inside its disposable staging (12.823542ms)
+✔ one publication deadline covers preparation, commit, reconciliation and acknowledgement (51.027125ms)
+✔ all close callers wait for the active native operation before descriptors release (24.71175ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3602.494042

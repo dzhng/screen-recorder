@@ -256,6 +256,8 @@ async function childReader(root, output, executable) {
 }
 export function registerRelocationTest({
   reader = childReader,
+  beforeLibraryRemoval,
+  afterLibraryClose,
   narration = true,
   executable: selectedExecutable,
   evidenceScope = "Generated internal directory relocation; no ZIP/public package or ASR readiness claim",
@@ -295,7 +297,7 @@ export function registerRelocationTest({
           sourceDurationUs: 4_000_000,
         });
         const source = join(original, "recordings", take.recordingId, "source");
-        await mkdir(source, { recursive: true });
+        await mkdir(source, { recursive: true, mode: 0o700 });
         for (const [name, changed] of [
           ["a", false],
           ["b", true],
@@ -539,8 +541,19 @@ export function registerRelocationTest({
           join(portable, "index-pages"),
         );
         await writeFile(join(portable, "context.json"), JSON.stringify(context));
+        await beforeLibraryRemoval?.({
+          store,
+          home: original,
+          recordingId: take.recordingId,
+          revisionId: revision.id,
+        });
         store.close();
         store = undefined;
+        await afterLibraryClose?.({
+          home: original,
+          recordingId: take.recordingId,
+          revisionId: revision.id,
+        });
         await rm(original, { recursive: true });
         await assert.rejects(stat(original), { code: "ENOENT" });
         await rename(portable, moved);

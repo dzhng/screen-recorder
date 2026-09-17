@@ -29,9 +29,8 @@ export type IndexCoverageContinuation = IndexReference & {
   afterSequence: number;
   candidateOrdinal: number | null;
 };
-type IndexInput = {
-  source: SourceEvidenceMetadata;
-  scenes: SceneEvidenceMetadata;
+export type IndexEvidence = { source: SourceEvidenceMetadata; scenes: SceneEvidenceMetadata };
+type IndexInput = IndexEvidence & {
   selectionPolicy: string;
   framePolicy: string;
   trailPolicy: string;
@@ -47,36 +46,51 @@ export class IndexProcessing {
     private readonly evidence: { source: SourceTrailRead; scenes: SceneEvidenceRead },
     private readonly home: string,
     private readonly render: { decode: FrameDecoder; sample: VisualSampler },
+    private readonly retained?: (recordingId: string, generation: string) => boolean,
   ) {}
 
-  request(input: { recordingId: string; revisionId?: string | undefined }) {
+  request(input: {
+    recordingId: string;
+    revisionId?: string | undefined;
+    evidence?: IndexEvidence;
+  }) {
     const revision = this.store.revision(input.recordingId, input.revisionId);
-    this.source.prepare(input.recordingId);
-    this.scenes.prepare(input.recordingId);
-    const source = this.source.status(input.recordingId);
-    const scenes = this.scenes.status(input.recordingId);
-    const dependencies = [
-      { artifact: "source", ...source },
-      { artifact: "scenes", ...scenes },
-    ];
-    if (!source.published || !scenes.published) {
-      const waiting =
-        dependencies.find((item) => ["failed", "unavailable"].includes(item.state)) ??
-        dependencies.find((item) => !item.published)!;
-      return {
-        recordingId: input.recordingId,
-        revisionId: revision.id,
-        state: waiting.state,
-        reason: waiting.reason,
-        retryable: waiting.retryable,
-        jobId: null,
-        published: null,
-        dependencies,
-      };
+    let selected = input.evidence;
+    if (!selected) {
+      this.source.prepare(input.recordingId);
+      this.scenes.prepare(input.recordingId);
+      const source = this.source.status(input.recordingId);
+      const scenes = this.scenes.status(input.recordingId);
+      const dependencies = [
+        { artifact: "source", ...source },
+        { artifact: "scenes", ...scenes },
+      ];
+      if (!source.published || !scenes.published) {
+        const waiting =
+          dependencies.find((item) => ["failed", "unavailable"].includes(item.state)) ??
+          dependencies.find((item) => !item.published)!;
+        return {
+          recordingId: input.recordingId,
+          revisionId: revision.id,
+          state: waiting.state,
+          reason: waiting.reason,
+          retryable: waiting.retryable,
+          jobId: null,
+          published: null,
+          dependencies,
+        };
+      }
+      selected = { source: source.published.evidence, scenes: scenes.published.evidence };
     }
+    const sourceId = this.store.get(input.recordingId).sourceId;
+    if (
+      [selected.source, selected.scenes].some(
+        (value) => value.recordingId !== input.recordingId || value.sourceId !== sourceId,
+      )
+    )
+      throw new CatalogError("INVALID_EVIDENCE", "Index evidence belongs to another source");
     const options: IndexInput = {
-      source: source.published.evidence,
-      scenes: scenes.published.evidence,
+      ...selected,
       selectionPolicy: selectionPolicy.id,
       framePolicy,
       trailPolicy: trailPolicy.id,
@@ -296,7 +310,11 @@ export class IndexProcessing {
     return this.index.reclaim(
       recordingId,
       (identity) => {
-        if (this.jobs.isAttemptActive(identity.generation)) return true;
+        if (
+          this.jobs.isAttemptActive(identity.generation) ||
+          this.retained?.(recordingId, identity.generation)
+        )
+          return true;
         if (
           this.store.catalog
             .prepare(

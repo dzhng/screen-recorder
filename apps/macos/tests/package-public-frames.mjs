@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { packageMediaFailures } from "./fixtures/package-media-failures.mjs";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -25,16 +26,18 @@ function metadata(frame, clean) {
   return clean ? rest : { ...rest, sourceEvidence };
 }
 
-async function publicFrames(root, output, executable) {
+export async function publicFrames(root, output, executable, producedArchive) {
   // The relocation owner deleted the original library before entering this callback.
   await relocatedReader(root, output, executable);
   const expected = JSON.parse(await readFile(join(output, "result.json"), "utf8")).result;
   const context = JSON.parse(await readFile(join(root, "context.json"), "utf8"));
   const parent = dirname(root),
     source = join(parent, "frame-package"),
-    archive = join(parent, "frames.zip");
-  await archiveFixture(root, source);
-  execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
+    archive = producedArchive ?? join(parent, "frames.zip");
+  if (!producedArchive) {
+    await archiveFixture(root, source);
+    execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
+  }
   const archiveHash = sha(await readFile(archive));
   const home = await mkdtemp("/tmp/scr-public-frames-");
   const take = await seedPublicRecording(home, context.snapshot);
@@ -284,10 +287,11 @@ async function publicFrames(root, output, executable) {
     );
   return { publicFrames: true, ownedServiceGroupsReaped: true };
 }
-registerRelocationTest({
-  reader: publicFrames,
-  narration: false,
-  executable: native,
-  evidenceScope:
-    "Actual public arbitrary package frame CLI/MCP parity and output lifetime; injected failure retry and actual stopped-worker close drain",
-});
+if (process.argv[1] === fileURLToPath(import.meta.url))
+  registerRelocationTest({
+    reader: publicFrames,
+    narration: false,
+    executable: native,
+    evidenceScope:
+      "Actual public arbitrary package frame CLI/MCP parity and output lifetime; injected failure retry and actual stopped-worker close drain",
+  });

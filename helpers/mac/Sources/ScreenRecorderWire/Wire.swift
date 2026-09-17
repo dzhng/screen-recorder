@@ -55,11 +55,13 @@ public enum NativeWire {
                 }
             } else if operation == "storage.removeRecordingDirectory"
                 || operation == "storage.removeCacheFiles" || operation == "storage.clearRenderWorkspace"
-                || operation == "storage.externalDirectory"
+                || operation == "storage.externalDirectory" || operation == "storage.recordingDirectory"
             {
                 do {
                     var data: [String: Any] = ["removed": true]
-                    if operation == "storage.externalDirectory" {
+                    if operation == "storage.recordingDirectory" {
+                        data = try ManagedFiles.recordingDirectory(params)
+                    } else if operation == "storage.externalDirectory" {
                         data = try ManagedFiles.externalDirectory(params)
                     } else if operation == "storage.clearRenderWorkspace" {
                         try RenderWorkspace.clear(params)

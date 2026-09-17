@@ -1,6 +1,7 @@
 # 14d3b — Complete package assembly through the shared export owner
 
-Status: planned. Depends on the verified ZIP producer and canonical timeline-event
+Status: internal consumer implemented; public service composition remains a separate
+integration gate. Uses the verified ZIP producer and canonical timeline-event
 serialization. This pass lifts the unsupported-package gate only after a real
 complete no-narration package can be reopened. Acquired narration remains an explicit
 transcript prerequisite; an absent engine never becomes no narration.
@@ -72,3 +73,32 @@ storage owner.
 5. Missing/wrong-generation pages, a changed source, truncated bytes, bounded-space
    failure and narrated input without transcript must fail before claiming a
    complete package. A generated silent fixture never closes the speech gate.
+
+## Implemented ownership boundary
+
+The export intent persists selected scene/index metadata and the assembly reservation
+in its existing table. Separate direct children of the managed recording directory
+hold portable input and ZIP scratch. A surviving native copy inherits the recording
+parent/input locks; a surviving ZIP writer inherits both workspace removal locks.
+Recording deletion retires exports before its general recursive source removal.
+A committed receipt releases evidence pins, while failed private cleanup still
+consumes pending capacity until confirmed removal.
+
+Portable page writers retain their existing stable private-directory contract.
+Their destinations are app-created private workspaces, never arbitrary caller trees.
+Locator identities are checked before publication; native copy, ZIP and cleanup use
+descriptor-relative operations. This does not claim protection against malicious
+same-user path substitution during a JavaScript page write. Source generations are
+immutable under their existing owner: pinned normalized byte receipts are checked
+before copying and on the copied member, with native before/after identity checks.
+The original ingest remains the normalized semantic validator; assembly adds no
+second parser. The source journal receipt retains its canonical basename, while its
+normalized file locator becomes the portable member path.
+
+The next integration binds the package owners into the service, dispatches the
+shared `export-recording` artifact, and proves public creation against a closed
+fixture library. Without that bundle package requests remain explicitly unsupported.
+Acquired narration still requires the accepted transcript payload contract.
+
+The [consumer verification receipt](../assets/package-assembly/review.md) records
+actual lifecycle, native fault and relocated public-reader evidence.

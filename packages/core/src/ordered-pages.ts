@@ -69,6 +69,10 @@ export function readMember(root: FileAccess, file: string, limit: number): Buffe
     opened.close();
   }
 }
+/** Enumerate only the bounded transport manifest, never arbitrary directory contents. */
+export function readOrderedPageManifest(root: string | FileAccess) {
+  return parse(manifestSchema, readMember(fileAccess(root), "pages.json", metadataBytes));
+}
 export type OrderedPageCodec<Row, Metadata> = {
   metadata: z.ZodType<Metadata>;
   orders: Readonly<Record<string, number>>;

@@ -10,7 +10,7 @@ import type {
 } from "./evidence.js";
 
 const artifact = "source-evidence";
-const policy = "native-source-v1";
+export const sourcePolicy = "native-source-v1";
 
 export type SourceExporter = (
   directory: string,
@@ -91,7 +91,7 @@ export class SourceProcessing {
       AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.recordingId=recordings.recordingId
         AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.input=?)
       ORDER BY creationSequence LIMIT 1`)
-      .get(artifact, policy) as { recordingId: string } | undefined;
+      .get(artifact, sourcePolicy) as { recordingId: string } | undefined;
     if (!pending) return;
     try {
       this.prepare(pending.recordingId);
@@ -133,7 +133,7 @@ export class SourceProcessing {
       recordingId,
       revisionId: this.store.revision(recordingId, "r0").id,
       artifact,
-      input: policy,
+      input: sourcePolicy,
     };
   }
 
@@ -236,7 +236,7 @@ export class SourceProcessing {
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.artifact !== artifact || job.input !== policy || job.revisionId !== "r0")
+    if (job.artifact !== artifact || job.input !== sourcePolicy || job.revisionId !== "r0")
       throw new CatalogError("UNSUPPORTED_JOB", "Source processor cannot execute this job");
     const recording = this.store.get(job.recordingId);
     if (

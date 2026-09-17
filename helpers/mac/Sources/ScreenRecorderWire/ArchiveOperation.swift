@@ -66,7 +66,7 @@ enum ArchiveOperation {
             try requireEmpty()
             return ["empty": true]
         }
-        guard ["archive.extract", "archive.write"].contains(operation),
+        guard ["archive.extract", "archive.write", "archive.copy"].contains(operation),
             let values = params["limits"] as? [String: Any],
             values.values.allSatisfy({ value in
                 guard let n = value as? NSNumber else { return false }
@@ -79,6 +79,7 @@ enum ArchiveOperation {
         guard limits.depth <= 32, limits.receiptBytes <= 7 * 1024 * 1024 else {
             throw error("INVALID_REQUEST", "Unsupported archive limits.")
         }
+        if operation == "archive.copy" { return try copyMembers(params, limits) }
         if operation == "archive.write" { return try writeArchive(params, limits) }
         guard let admitted = params["input"] as? [String: Any],
             let expectedBytes = admitted["bytes"] as? NSNumber,
@@ -299,6 +300,65 @@ enum ArchiveOperation {
             throw error("LIMIT_EXCEEDED", "Archive receipt exceeds transport budget.")
         }
         return result
+    }
+
+    private static func copyMembers(_ params: [String: Any], _ limits: Limits) throws -> [String: Any] {
+        try ManagedFiles.Identity(params["inputIdentity"]).check(4)
+        try ManagedFiles.lockPrivateDirectory(4)
+        guard let members = params["members"] as? [[String: Any]], (1...4).contains(members.count) else {
+            throw error("INVALID_REQUEST", "Source copy requires one to four selected members.")
+        }
+        func parts(_ path: String) throws -> [String] {
+            let values = path.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+            guard path.utf8.count <= limits.pathBytes, values.count <= limits.depth,
+                path.utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) || [45,46,47,95].contains($0) }),
+                values.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." && $0.utf8.count <= limits.componentBytes }) else {
+                throw error("INVALID_REQUEST", "Unsafe source copy path.")
+            }
+            return values
+        }
+        var selected: [(source: String, target: String, parts: [String], bytes: Int, identity: [String: String])] = []
+        var names = Set<String>()
+        for member in members {
+            guard Set(member.keys) == ["source", "target", "bytes", "identity"], let source = member["source"] as? String, let target = member["target"] as? String,
+                let bytes = member["bytes"] as? Int, bytes >= 0, let identity = member["identity"] as? [String: String],
+                names.insert(target.lowercased()).inserted else { throw error("INVALID_REQUEST", "Invalid source copy selection.") }
+            _ = try parts(source)
+            selected.append((source, target, try parts(target), bytes, identity))
+        }
+        let buffer = UnsafeMutableRawPointer.allocate(byteCount: chunkBytes, alignment: 8)
+        defer { buffer.deallocate() }
+        var receipts: [[String: Any]] = [], total = 0
+        for member in selected {
+            let input = try openWriteInput(member.source)
+            defer { close(input) }
+            var info = stat()
+            guard fstat(input, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_nlink == 1,
+                info.st_size >= 0, info.st_size <= limits.memberBytes else {
+                throw error("INVALID_STORAGE", "Source copy requires a bounded regular file.")
+            }
+            let before = try identity(input)
+            guard info.st_size == member.bytes, before == member.identity else {
+                throw error("ARCHIVE_CHANGED", "Selected source differs from admission.")
+            }
+            let output = try createMember(root, member.parts, false)
+            defer { close(output) }
+            var copied = 0, hash = SHA256()
+            while copied < info.st_size {
+                let n = pread(input, buffer, min(chunkBytes, Int(info.st_size) - copied), off_t(copied))
+                if n < 0 && errno == EINTR { continue }
+                guard n > 0 else { throw error("ARCHIVE_CHANGED", "Source changed during copy.") }
+                try charge(n, &total, limits.expandedBytes)
+                let bytes = Data(bytes: buffer, count: n)
+                try writeAll(output, bytes)
+                hash.update(data: bytes)
+                copied += n
+            }
+            guard try identity(input) == before else { throw error("ARCHIVE_CHANGED", "Source changed during copy.") }
+            guard fsync(output) == 0 else { throw io("Flush selected source") }
+            receipts.append(["path": member.target, "bytes": copied, "sha256": hex(hash.finalize()), "identity": try identity(output)])
+        }
+        return ["members": receipts, "bytes": total]
     }
 
     private struct WriteMember: Decodable {

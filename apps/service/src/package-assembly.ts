@@ -1,0 +1,443 @@
+import { createHash } from "node:crypto";
+import { constants } from "node:fs";
+import { mkdir, open, writeFile, type FileHandle } from "node:fs/promises";
+import { join } from "node:path";
+import { setImmediate } from "node:timers/promises";
+import { isDeepStrictEqual } from "node:util";
+import { CatalogError, type RevisionStore } from "@screenrec/core/library";
+import type { DirectoryIdentity } from "@screenrec/core/cache";
+import type { SourceEvidenceMetadata, SourceEvidenceStore } from "@screenrec/core/evidence";
+import { evidenceIndexes } from "@screenrec/core/evidence-read";
+import { sourcePolicy } from "@screenrec/core/processing";
+import {
+  FileSourceEvidence,
+  readSourceMetadata,
+  writeSourceEvidencePages,
+} from "@screenrec/core/evidence-pages";
+import type { SceneEvidenceMetadata, SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import type { SceneProcessing } from "@screenrec/core/scene-processing";
+import { FileSceneEvidence, writeSceneEvidencePages } from "@screenrec/core/scene-pages";
+import type { IndexProcessing } from "@screenrec/core/index-processing";
+import type {
+  ScreenshotIndexMetadata,
+  ScreenshotIndexStore,
+  ScreenshotIndexEntry,
+} from "@screenrec/core/screenshot-index";
+import { FileScreenshotIndex, writeScreenshotIndexPages } from "@screenrec/core/index-pages";
+import {
+  FileTimelineEvents,
+  writeTimelineEventPages,
+  validateTimelineEventPages,
+  timelineEventPolicy,
+} from "@screenrec/core/event-pages";
+import { readOrderedPageManifest } from "@screenrec/core/ordered-pages";
+import { archiveLimits } from "@screenrec/core/package-archive";
+import {
+  validateManifest,
+  type PackageManifest,
+  type PackageSnapshot,
+} from "@screenrec/core/package-manifest";
+import { fileIdentity, type FileIdentity } from "@screenrec/core/files";
+import type { MediaWorker } from "./worker.js";
+import { publicationDeadlineMs } from "./publication.js";
+import { writeArchive } from "./archive-write.js";
+
+export type PackageOwners = {
+  scenes: SceneProcessing;
+  index: IndexProcessing;
+  source: SourceEvidenceStore;
+  sceneEvidence: SceneEvidenceStore;
+  indexEvidence: ScreenshotIndexStore;
+};
+export type PackageEvidence = {
+  scenes: SceneEvidenceMetadata | null;
+  index: ScreenshotIndexMetadata | null;
+};
+export type AssemblyReservation = {
+  parent: DirectoryIdentity;
+  bytes?: number;
+  input: { name: string; identity: DirectoryIdentity | null };
+  zip: { name: string; identity: DirectoryIdentity | null };
+};
+type Workspace = { directory: string; handle: FileHandle; identity: DirectoryIdentity };
+type Member = PackageManifest["inventory"][number];
+function invalid(message: string): never {
+  throw new CatalogError("INVALID_PACKAGE", message);
+}
+function same(actual: unknown, expected: unknown) {
+  if (!isDeepStrictEqual(actual, expected)) invalid("Portable evidence differs from pinned input");
+}
+export async function checkWorkspace(workspace: Workspace): Promise<void> {
+  const current = await open(
+    workspace.directory,
+    constants.O_RDONLY | constants.O_DIRECTORY | 0x20000000,
+  );
+  try {
+    const stat = await current.stat({ bigint: true });
+    if (String(stat.dev) !== workspace.identity.dev || String(stat.ino) !== workspace.identity.ino)
+      throw new CatalogError("INVALID_STORAGE", "Assembly workspace locator changed");
+  } finally {
+    await current.close();
+  }
+}
+function frames(entries: ScreenshotIndexEntry[]) {
+  return entries.map(({ frame, ...entry }) => {
+    const { file: _file, ...metadata } = frame;
+    return { ...entry, frame: metadata };
+  });
+}
+
+/** The export intent owns selection and workspace lifetime. This function owns only complete bytes. */
+export async function assemblePackage(
+  selected: {
+    snapshot: PackageSnapshot;
+    source: SourceEvidenceMetadata;
+    scenes: SceneEvidenceMetadata;
+    index: ScreenshotIndexMetadata;
+  },
+  owners: PackageOwners & { store: RevisionStore; worker: MediaWorker },
+  parent: Workspace,
+  input: Workspace,
+  zip: Workspace,
+  signal: AbortSignal,
+) {
+  const { snapshot, source, scenes, index } = selected;
+  const revision = owners.store.revision(snapshot.recordingId, snapshot.revisionId);
+  const sourceIdentity = {
+    recordingId: source.recordingId,
+    sourceId: source.sourceId,
+    generation: source.generation,
+  };
+  const sceneIdentity = {
+    recordingId: scenes.recordingId,
+    sourceId: scenes.sourceId,
+    generation: scenes.generation,
+    policy: scenes.policy,
+  };
+  if (owners.source.hasAudio(sourceIdentity, "narration"))
+    throw new CatalogError(
+      "UNSUPPORTED_ARTIFACT",
+      "Narrated export requires accepted transcript payloads",
+    );
+  const system = owners.source.hasAudio(sourceIdentity, "system");
+  await checkWorkspace(input);
+  await mkdir(join(input.directory, "evidence"));
+  const root = (kind: string) => join(input.directory, "evidence", kind);
+  await writeSourceEvidencePages(owners.source, sourceIdentity, root("source"), signal);
+  await writeSceneEvidencePages(owners.sceneEvidence, sceneIdentity, root("scenes"), signal);
+  await writeScreenshotIndexPages(owners.indexEvidence, index, revision, root("index"), signal);
+  const eventMetadata = {
+    sourceIdentity,
+    sceneIdentity,
+    revision,
+    interrupted: snapshot.capture.state === "interrupted",
+  };
+  const eventInput = { ...eventMetadata, source: owners.source, scenes: owners.sceneEvidence };
+  await writeTimelineEventPages(eventInput, root("events"), signal);
+
+  // Re-read every semantic page against the selected live generation before certifying completeness.
+  const sourceRead = new FileSourceEvidence(root("source"), sourceIdentity);
+  for (const order of evidenceIndexes) {
+    const expected = owners.source.exportRecords(sourceIdentity, order);
+    for (const batch of sourceRead.exportRecords(sourceIdentity, order)) {
+      signal.throwIfAborted();
+      const next = expected.next();
+      if (next.done) invalid("Portable source has unexpected rows");
+      same(
+        batch,
+        next.value.map((row) => ({ ...row })),
+      );
+      await setImmediate();
+    }
+    if (!expected.next().done) invalid("Portable source evidence ended early");
+  }
+  const sceneRead = new FileSceneEvidence(root("scenes"), sceneIdentity);
+  let sceneAfter: number | undefined;
+  for (;;) {
+    signal.throwIfAborted();
+    const query = {
+      identity: sceneIdentity,
+      ...(sceneAfter === undefined ? {} : { afterStartUs: sceneAfter }),
+      limit: 100,
+    };
+    const page = sceneRead.page(query);
+    same(page, owners.sceneEvidence.page(query));
+    if (page.nextStartUs === null) break;
+    sceneAfter = page.nextStartUs;
+    await setImmediate();
+  }
+  const indexRead = new FileScreenshotIndex(root("index"), index, revision);
+  let afterOrdinal: number | undefined;
+  for (;;) {
+    signal.throwIfAborted();
+    const query = {
+      identity: index,
+      ...(afterOrdinal === undefined ? {} : { afterOrdinal }),
+      limit: 50,
+    };
+    const page = indexRead.page(query),
+      expected = owners.indexEvidence.page(query);
+    same(page.metadata, expected.metadata);
+    same(frames(page.entries), frames(expected.entries));
+    same(page.nextOrdinal, expected.nextOrdinal);
+    for (const entry of page.entries) {
+      signal.throwIfAborted();
+      indexRead.openRead(index, entry.candidate.ordinal).release();
+      await setImmediate();
+    }
+    if (page.nextOrdinal === null) break;
+    afterOrdinal = page.nextOrdinal;
+    await setImmediate();
+  }
+  for (let candidate = -1; candidate < index.candidateCount; candidate++) {
+    let afterSequence: number | undefined;
+    for (;;) {
+      signal.throwIfAborted();
+      const query = {
+        identity: index,
+        ...(candidate < 0 ? {} : { candidateOrdinal: candidate }),
+        ...(afterSequence === undefined ? {} : { afterSequence }),
+        limit: 100,
+      };
+      const page = indexRead.coveragePage(query);
+      same(page, owners.indexEvidence.coveragePage(query));
+      if (page.nextSequence === null) break;
+      afterSequence = page.nextSequence;
+      await setImmediate();
+    }
+    await setImmediate();
+  }
+  await validateTimelineEventPages(
+    new FileTimelineEvents(root("events"), eventMetadata),
+    eventInput,
+    signal,
+  );
+  await checkWorkspace(input);
+
+  const selections = [
+    { source: "source/video.mov", target: "source/video.mov" },
+    { source: "source/capture.journal.jsonl", target: "source/capture.journal.jsonl" },
+    {
+      source: `evidence/source/${source.generation}/observations.jsonl`,
+      target: "evidence/source/normalized.jsonl",
+    },
+    ...(system ? [{ source: "source/system.mov", target: "source/system.mov" }] : []),
+  ];
+  const borrowed: FileHandle[] = [];
+  try {
+    const members = [];
+    for (const selection of selections) {
+      signal.throwIfAborted();
+      const handle = await open(
+        join(parent.directory, selection.source),
+        constants.O_RDONLY | constants.O_NONBLOCK | 0x20000000,
+      );
+      borrowed.push(handle);
+      const stat = await handle.stat({ bigint: true });
+      if (!stat.isFile() || stat.nlink !== 1n || stat.size > BigInt(archiveLimits.memberBytes))
+        invalid("Source member is not a bounded regular file");
+      if (
+        selection.target === "evidence/source/normalized.jsonl" &&
+        stat.size !== BigInt(source.receipt.bytes)
+      )
+        invalid("Normalized source differs from its pinned generation byte receipt");
+      members.push({ ...selection, bytes: Number(stat.size), identity: fileIdentity(stat) });
+    }
+    const bytes = members.reduce((sum, member) => sum + member.bytes, 0);
+    if (bytes > archiveLimits.expandedBytes) invalid("Source members exceed package budget");
+    const copied = await owners.worker(
+      "archive.copy",
+      { identity: input.identity, inputIdentity: parent.identity, members, limits: archiveLimits },
+      {
+        descriptors: [input.handle.fd, parent.handle.fd],
+        signal,
+        timeoutMs: publicationDeadlineMs(bytes),
+      },
+    );
+    if (!copied.ok)
+      throw new CatalogError(
+        copied.error.code,
+        copied.error.message,
+        copied.error.details,
+        copied.error.retryable,
+      );
+  } finally {
+    await Promise.all(borrowed.map((file) => file.close()));
+  }
+  await checkWorkspace(input);
+  const portableSource = {
+    ...source,
+    receipt: { ...source.receipt, file: "evidence/source/normalized.jsonl" },
+  };
+  await writeFile(join(root("source"), "metadata.json"), JSON.stringify(portableSource), {
+    flag: "wx",
+    signal,
+  });
+  same(readSourceMetadata(root("source"), sourceIdentity), portableSource);
+  await mkdir(join(input.directory, "revisions"));
+  const history: PackageManifest["history"] = [],
+    revisionContents = new Map<string, string>();
+  let cursor: Parameters<RevisionStore["history"]>[1] = {
+    recordingId: snapshot.recordingId,
+    afterOrdinal: -1,
+    throughOrdinal: snapshot.historyThroughOrdinal,
+  };
+  let revisionBytes = 0;
+  do {
+    const page = owners.store.history(snapshot.recordingId, cursor, 100);
+    for (const value of page.revisions) {
+      signal.throwIfAborted();
+      const path = `revisions/${value.id}.json`,
+        body = JSON.stringify(value);
+      revisionBytes += Buffer.byteLength(body);
+      if (revisionBytes > archiveLimits.revisionBytes || history.length >= archiveLimits.history)
+        invalid("Pinned history exceeds package limits");
+      await writeFile(join(input.directory, path), body, { flag: "wx", signal });
+      history.push({ id: value.id, path });
+      revisionContents.set(path, body);
+    }
+    cursor = page.nextCursor;
+  } while (cursor);
+
+  const names = new Map<string, Member["role"]>();
+  const add = (path: string, role: Member["role"]) => {
+    if (names.has(path) || names.size >= archiveLimits.entries - 1)
+      invalid("Package inventory exceeds its bound or repeats a file");
+    names.set(path, role);
+  };
+  add("source/video.mov", "video");
+  add("source/capture.journal.jsonl", "journal");
+  if (system) add("source/system.mov", "system");
+  for (const item of history) add(item.path, "revision");
+  add("evidence/source/normalized.jsonl", "source");
+  add("evidence/source/metadata.json", "source");
+  for (const kind of ["source", "scenes", "index", "events"] as const) {
+    const pages = readOrderedPageManifest(root(kind));
+    add(`evidence/${kind}/pages.json`, kind);
+    for (const [order, descriptors] of Object.entries(pages.indexes))
+      for (const descriptor of descriptors)
+        add(
+          `evidence/${kind}/${descriptor.file}`,
+          kind === "index" && ["coverage", "candidateCoverage"].includes(order) ? "coverage" : kind,
+        );
+  }
+  for (let ordinal = 0; ordinal < index.candidateCount; ordinal++)
+    add(`evidence/index/images/${ordinal}.png`, "image");
+  const plan: { path: string; bytes: number; sha256: string; identity: FileIdentity }[] = [];
+  let expanded = 0;
+  const inspect = async (path: string) => {
+    signal.throwIfAborted();
+    const file = await open(
+      join(input.directory, path),
+      constants.O_RDONLY | constants.O_NONBLOCK | 0x20000000,
+    );
+    try {
+      const before = await file.stat({ bigint: true });
+      if (
+        !before.isFile() ||
+        before.nlink !== 1n ||
+        before.size > BigInt(archiveLimits.memberBytes)
+      )
+        invalid("Assembly member is not a bounded regular file");
+      const bytes = Number(before.size);
+      expanded += bytes;
+      if (expanded > archiveLimits.expandedBytes) invalid("Assembly exceeds package byte budget");
+      const hash = createHash("sha256"),
+        buffer = Buffer.alloc(65536);
+      for (let at = 0; at < bytes;) {
+        signal.throwIfAborted();
+        const read = await file.read(buffer, 0, Math.min(buffer.length, bytes - at), at);
+        if (!read.bytesRead) invalid("Assembly member truncated while hashing");
+        hash.update(buffer.subarray(0, read.bytesRead));
+        at += read.bytesRead;
+      }
+      same(fileIdentity(await file.stat({ bigint: true })), fileIdentity(before));
+      const result = { path, bytes, sha256: hash.digest("hex"), identity: fileIdentity(before) };
+      plan.push(result);
+      return result;
+    } finally {
+      await file.close();
+    }
+  };
+  const inventory: Member[] = [];
+  for (const [path, role] of names) {
+    const { identity: _identity, ...member } = await inspect(path);
+    if (path === "evidence/source/normalized.jsonl" && member.bytes !== source.receipt.bytes)
+      invalid("Normalized source differs from its pinned generation byte receipt");
+    inventory.push({
+      ...member,
+      role,
+      ...(["video", "system"].includes(role) ? { durationUs: snapshot.sourceDurationUs } : {}),
+    });
+  }
+  const manifest: PackageManifest = {
+    schemaVersion: 1,
+    snapshot,
+    history,
+    inventory,
+    transcript: "unavailable:no_narration",
+    acquisition: {
+      recordingId: snapshot.recordingId,
+      sourceId: snapshot.sourceId,
+      sourceGeneration: source.generation,
+      narration: source.receipt.header?.microphone ? "not_acquired" : "not_requested",
+      system: system
+        ? "acquired"
+        : source.receipt.header?.systemAudio
+          ? "not_acquired"
+          : "not_requested",
+    },
+    evidence: (
+      [
+        ["source", source.generation, sourcePolicy],
+        ["scenes", scenes.generation, scenes.policy],
+        ["index", index.generation, index.selectionPolicy],
+        ["events", snapshot.revisionId, timelineEventPolicy],
+      ] as const
+    ).map(([kind, generation, policy]) => ({
+      artifact: {
+        reference: {
+          kind,
+          recordingId: snapshot.recordingId,
+          sourceId: snapshot.sourceId,
+          revisionId: ["source", "scenes"].includes(kind) ? "r0" : snapshot.revisionId,
+        },
+        generation,
+        policy,
+        options: {},
+        timeDomain: ["source", "scenes"].includes(kind) ? "source" : "playback",
+      },
+      files: inventory
+        .filter((entry) =>
+          kind === "index"
+            ? ["index", "coverage", "image"].includes(entry.role)
+            : entry.role === kind,
+        )
+        .map((entry) => entry.path),
+    })),
+  };
+  const body = JSON.stringify(manifest);
+  validateManifest(body, revisionContents, archiveLimits);
+  await writeFile(join(input.directory, "manifest.json"), body, { flag: "wx", signal });
+  await inspect("manifest.json");
+  const planBody = JSON.stringify(plan);
+  if (Buffer.byteLength(planBody) > archiveLimits.receiptBytes)
+    invalid("ZIP member plan exceeds metadata limit");
+  await writeFile(join(input.directory, "zip-plan.json"), planBody, { flag: "wx", signal });
+  await checkWorkspace(input);
+  await checkWorkspace(zip);
+  const planFile = await open(
+    join(input.directory, "zip-plan.json"),
+    constants.O_RDONLY | 0x20000000,
+  );
+  try {
+    return await writeArchive(
+      { handle: input.handle, plan: planFile, bytes: expanded },
+      zip,
+      owners.worker,
+      { signal },
+    );
+  } finally {
+    await planFile.close();
+  }
+}

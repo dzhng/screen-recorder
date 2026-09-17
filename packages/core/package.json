@@ -135,6 +135,14 @@
     "./raw-cursor": {
       "types": "./dist/raw-cursor.d.ts",
       "default": "./dist/raw-cursor.js"
+    },
+    "./ordered-pages": {
+      "types": "./dist/ordered-pages.d.ts",
+      "default": "./dist/ordered-pages.js"
+    },
+    "./evidence-read": {
+      "types": "./dist/evidence-read.d.ts",
+      "default": "./dist/evidence-read.js"
     }
   },
   "scripts": {
