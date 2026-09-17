@@ -8,22 +8,18 @@ import { RevisionStore } from "@screenrec/core/library";
 import { startPublicService, until } from "./fixtures/public-service.mjs";
 import { journalRows } from "./fixtures/generated-capture.mjs";
 import { callLocal } from "@screenrec/client";
-import { app, finderEnvironment, launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
+import {
+  app,
+  launchReady,
+  socketPath,
+  temporary,
+  waitFor,
+  requireScreenPermission,
+} from "./harness.mjs";
 
 // Real worker, service and catalog; capture is restricted to this app's own fixture with no audio.
 test("a finalized own-window take publishes pageable source evidence once across edits and relaunch", async () => {
-  const preflight = JSON.parse(
-    spawnSync(app, ["--capture-preflight"], {
-      env: finderEnvironment,
-      encoding: "utf8",
-      timeout: 20000,
-    }).stdout || "{}",
-  );
-  assert.equal(
-    preflight.screen,
-    true,
-    "The own-window capture gate requires existing screen permission",
-  );
+  requireScreenPermission();
   const home = temporary("/tmp/scr-source-processing-");
   const { instance } = await launchReady(home, { SCREENREC_FIXTURE_WINDOW: "1" });
   const [, window] = await instance.waitFor(/capture fixture window=(\d+)/);

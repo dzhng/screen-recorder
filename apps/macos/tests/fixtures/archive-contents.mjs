@@ -1,6 +1,5 @@
-import { createHash } from "node:crypto";
+import { hash } from "node:crypto";
 import { createOriginalRevision, createRevision } from "../../../../packages/core/dist/timeline.js";
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 export function archiveContents(video = "generated source") {
   const r0 = createOriginalRevision(100, "fixture");
@@ -47,7 +46,7 @@ export function archiveContents(video = "generated source") {
       path,
       role: role(path),
       bytes: Buffer.byteLength(value),
-      sha256: sha(value),
+      sha256: hash("sha256", value),
       ...(role(path) === "video" ? { durationUs: 100 } : {}),
     })),
     history: [

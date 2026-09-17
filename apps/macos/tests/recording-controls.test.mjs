@@ -1,34 +1,22 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
-import { app, finderEnvironment, launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
+import {
+  launchReady,
+  socketPath,
+  temporary,
+  waitFor,
+  requireScreenPermission,
+} from "./harness.mjs";
 
 /**
  * Read-only menu-state observations while public service calls control the own-window fixture.
  * Every take here records this app's own capture-fixture window with the microphone and system
  * audio explicitly off; no other window, display or audio device is ever selected.
  */
-const preflight = JSON.parse(
-  spawnSync(app, ["--capture-preflight"], {
-    cwd: "/",
-    env: finderEnvironment,
-    encoding: "utf8",
-    timeout: 20_000,
-  }).stdout || "{}",
-);
-
-function requireScreenPermission() {
-  assert.equal(
-    preflight.screen,
-    true,
-    "Screen recording permission is not authorized for this build, so these control gates cannot run. Grant it in System Settings > Privacy & Security > Screen & System Audio Recording; it is never requested automatically.",
-  );
-}
-
 /** Ordinary app launch with an own-window fixture and read-only menu observations. */
 async function controlledApp(home) {
   const commands = join(home, "controls");

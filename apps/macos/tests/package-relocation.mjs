@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
-import { createHash, randomUUID } from "node:crypto";
+import { hash, randomUUID } from "node:crypto";
 import {
   mkdtemp,
   mkdir,
@@ -37,7 +37,6 @@ import { page, width, height, journalRows } from "./fixtures/generated-capture.m
 const repository = fileURLToPath(new URL("../../../", import.meta.url));
 const lifetime = new AbortController();
 const signal = () => lifetime.signal;
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 function command(name, args, input) {
   const result = spawnSync(name, args, {
     cwd: repository,
@@ -72,7 +71,7 @@ async function hashes(root) {
       const path = join(relative, name),
         info = await stat(join(root, path));
       if (info.isDirectory()) await visit(path);
-      else result[path] = sha(await readFile(join(root, path)));
+      else result[path] = hash("sha256", await readFile(join(root, path)));
     }
   }
   await visit("");
@@ -123,7 +122,7 @@ export async function inspect(context, root, readers, media, output) {
       ],
       imageBytes,
     );
-    frames.push({ metadata, png: sha(imageBytes), pixels: sha(pixels) });
+    frames.push({ metadata, png: hash("sha256", imageBytes), pixels: hash("sha256", pixels) });
   }
   const plan = planAudioExcerpt(
     {
@@ -150,7 +149,7 @@ export async function inspect(context, root, readers, media, output) {
     try {
       const buffer = Buffer.alloc(read.bytes);
       assert.equal(read.read(buffer, 0), read.bytes);
-      images.push(sha(buffer));
+      images.push(hash("sha256", buffer));
     } finally {
       read.release();
     }
@@ -159,7 +158,10 @@ export async function inspect(context, root, readers, media, output) {
     frames,
     audio: {
       metadata: audioMetadata,
-      sha256: sha(media.readOutput ? await media.readOutput(file) : await readFile(file)),
+      sha256: hash(
+        "sha256",
+        media.readOutput ? await media.readOutput(file) : await readFile(file),
+      ),
       spans: plan.spans,
       missingRoles: plan.missingRoles,
     },
@@ -611,8 +613,9 @@ export function registerRelocationTest({
               {
                 scope: evidenceScope,
                 sourceCommit: command("git", ["rev-parse", "HEAD"]).toString().trim(),
-                nativeSha256: sha(await readFile(executable)),
-                coreSourceTreeSha256: sha(
+                nativeSha256: hash("sha256", await readFile(executable)),
+                coreSourceTreeSha256: hash(
+                  "sha256",
                   Buffer.from(
                     JSON.stringify(
                       await Promise.all(
@@ -630,7 +633,10 @@ export function registerRelocationTest({
                           .trim()
                           .split("\n")
                           .sort()
-                          .map(async (path) => [path, sha(await readFile(join(repository, path)))]),
+                          .map(async (path) => [
+                            path,
+                            hash("sha256", await readFile(join(repository, path))),
+                          ]),
                       ),
                     ),
                   ),
@@ -663,11 +669,11 @@ export function registerRelocationTest({
                 },
                 coverage: {
                   rows: actual.result.coverage.coverage.length,
-                  sha256: sha(Buffer.from(JSON.stringify(actual.result.coverage))),
+                  sha256: hash("sha256", Buffer.from(JSON.stringify(actual.result.coverage))),
                 },
                 scenes: {
                   metadata: actual.result.scenes.metadata,
-                  sha256: sha(Buffer.from(JSON.stringify(actual.result.scenes))),
+                  sha256: hash("sha256", Buffer.from(JSON.stringify(actual.result.scenes))),
                 },
               },
               null,

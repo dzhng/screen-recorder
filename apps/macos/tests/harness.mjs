@@ -1,4 +1,5 @@
-import { execFileSync, spawn } from "node:child_process";
+import assert from "node:assert/strict";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
 import { mkdtempSync, rmSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,6 +17,25 @@ export const finderEnvironment = {
   PATH: "/usr/bin:/bin:/usr/sbin:/sbin",
   TMPDIR: process.env.TMPDIR ?? "/tmp",
 };
+
+let screenAuthorized;
+/** Capture gates use existing screen permission only; preflight reads authorization and never prompts. */
+export function requireScreenPermission() {
+  screenAuthorized ??=
+    JSON.parse(
+      spawnSync(app, ["--capture-preflight"], {
+        cwd: "/",
+        env: finderEnvironment,
+        encoding: "utf8",
+        timeout: 20_000,
+      }).stdout || "{}",
+    ).screen === true;
+  assert.equal(
+    screenAuthorized,
+    true,
+    "Screen recording permission is not authorized for this build, so this capture gate cannot run. Grant it in System Settings > Privacy & Security > Screen & System Audio Recording; it is never requested automatically.",
+  );
+}
 
 const scratch = [];
 const launched = [];

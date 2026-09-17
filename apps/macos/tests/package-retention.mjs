@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import { packageOutputReuse } from "./fixtures/package-output-reuse.mjs";
 import { retainedParentDeath } from "./fixtures/retained-parent-check.mjs";
 import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
+import { hash } from "node:crypto";
 import { constants, fstatSync, readSync } from "node:fs";
 import {
   cp,
@@ -37,7 +37,6 @@ const repository = fileURLToPath(new URL("../../../", import.meta.url));
 const executable = resolve(
   process.env.SCREENREC_NATIVE ?? join(repository, "helpers/mac/.build/debug/screenrec-native"),
 );
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 function bytes(file, limit = 32 * 1024 ** 2) {
   try {
     const size = fstatSync(file.fd).size;
@@ -81,7 +80,7 @@ async function containmentChecks(archive, workspacePath, workspace, worker, nati
     });
     await context.run("media.frame", callerParams);
     assert.throws(() => context.openOutput("changed-by-caller"), { code: "NOT_FOUND" });
-    const expected = sha(bytes(context.openOutput("probe")));
+    const expected = hash("sha256", bytes(context.openOutput("probe")));
     await closed();
     const sourceDirectory = join(workspacePath, "content/source");
     const foreignDirectory = join(dirname(workspacePath), "foreign-source");
@@ -112,7 +111,7 @@ async function containmentChecks(archive, workspacePath, workspace, worker, nati
       return worker(operation, input, options);
     });
     await context.run("media.frame", params);
-    assert.equal(sha(bytes(context.openOutput("probe"))), expected);
+    assert.equal(hash("sha256", bytes(context.openOutput("probe"))), expected);
     assert.equal(admittedInput, true);
     assert.throws(() => context.files.open("source/video.mov"), { code: "INVALID_STORAGE" });
     await closed();
@@ -201,7 +200,7 @@ async function retainedReader(original, output, native) {
   await writeArchiveFixture(staging, archive, mediaWorker({ SCREENREC_NATIVE: native }));
   await rm(staging, { recursive: true });
   await rename(archive, moved);
-  const before = sha(await readFile(moved));
+  const before = hash("sha256", await readFile(moved));
   const input = admitArchive(moved);
   const unavailable = join(parent, "unavailable-portable");
   await rename(original, unavailable);
@@ -327,7 +326,7 @@ async function retainedReader(original, output, native) {
     for (const member of manifest.inventory.filter((entry) =>
       ["video", "system", "journal"].includes(entry.role),
     ))
-      assert.equal(sha(bytes(context.files.open(member.path))), member.sha256);
+      assert.equal(hash("sha256", bytes(context.files.open(member.path))), member.sha256);
     await context.releaseOutput(join(output, "excerpt.wav"));
     assert.throws(() => context.openOutput(join(output, "excerpt.wav")), { code: "NOT_FOUND" });
     const held = readers.index.openRead(indexIdentity, 0);
@@ -342,7 +341,7 @@ async function retainedReader(original, output, native) {
       readers.source.page({ ...sourceIdentity, range: { startUs: 0, endUs: 1000 } }),
     );
     assert.deepEqual(await readdir(workspacePath), []);
-    assert.equal(sha(await readFile(moved)), before);
+    assert.equal(hash("sha256", await readFile(moved)), before);
     const containment = await containmentChecks(input, workspacePath, workspace, worker, native);
     const outputReuse = await packageOutputReuse(input, workspacePath, workspace, worker);
     const parentDeath = await retainedParentDeath(

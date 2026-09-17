@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { randomUUID, createHash } from "node:crypto";
+import { randomUUID, hash } from "node:crypto";
 import { mkdir, writeFile, readFile, rename, stat, realpath } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -12,7 +12,6 @@ import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 import { journalRows } from "./fixtures/generated-capture.mjs";
 
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 test(
   "bundled export lifecycle pins video through CLI/MCP, restart and recording deletion",
   { timeout: 60000 },
@@ -65,7 +64,7 @@ test(
       join(source, "capture.journal.jsonl"),
       rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
     );
-    const originalHash = sha(await readFile(original));
+    const originalHash = hash("sha256", await readFile(original));
     let { instance } = await launchReady(home);
     const raw = (operation, params) =>
       callLocal(socketPath(home), { id: randomUUID(), operation, params });
@@ -133,7 +132,7 @@ test(
       const output = join(directory, request.leaf);
       assert.equal(committed.output, await realpath(output));
       const bytes = await readFile(output);
-      assert.equal(committed.receipt.sha256, sha(bytes));
+      assert.equal(committed.receipt.sha256, hash("sha256", bytes));
       const info = JSON.parse(
         execFileSync(
           "ffprobe",
@@ -142,7 +141,7 @@ test(
         ),
       );
       assert.equal(Number(info.format.duration), 2, "export stays pinned before concurrent cut");
-      assert.equal(sha(await readFile(original)), originalHash);
+      assert.equal(hash("sha256", await readFile(original)), originalHash);
       assert.equal(
         (await raw("export.create", { ...request, kind: "processed-package" })).error.code,
         "REQUEST_CONFLICT",
@@ -153,7 +152,11 @@ test(
           (await call("export.status", { exportId: conflict.exportId })).state === "failed",
         20000,
       );
-      assert.equal(sha(await readFile(output)), sha(bytes), "existing external bytes preserved");
+      assert.equal(
+        hash("sha256", await readFile(output)),
+        hash("sha256", bytes),
+        "existing external bytes preserved",
+      );
       const pendingUsage = await call("storage.usage", { recordingId: take.recordingId });
       assert.ok(pendingUsage.otherBytes > 0, "failed export private bytes contribute to storage");
       await call("export.cancel", { exportId: conflict.exportId });
@@ -177,11 +180,11 @@ test(
       assert.equal(historical.ok, true);
       assert.deepEqual(historical.data.receipt, committed.receipt);
       await assert.rejects(stat(output), { code: "ENOENT" });
-      assert.equal(sha(await readFile(moved)), sha(bytes));
+      assert.equal(hash("sha256", await readFile(moved)), hash("sha256", bytes));
       await call("recording.delete", { recordingId: take.recordingId });
       assert.equal(
-        sha(await readFile(moved)),
-        sha(bytes),
+        hash("sha256", await readFile(moved)),
+        hash("sha256", bytes),
         "deletion preserves committed external file",
       );
       assert.equal(

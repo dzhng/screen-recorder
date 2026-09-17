@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 import { packageMediaFailures } from "./fixtures/package-media-failures.mjs";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
+import { hash } from "node:crypto";
 import { readFile, writeFile, mkdtemp, rm, realpath, readdir } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { FileSourceEvidence } from "@screenrec/core/evidence-pages";
@@ -20,7 +20,6 @@ import { registerRelocationTest, relocatedReader } from "./package-relocation.mj
 
 const native = process.env.SCREENREC_NATIVE;
 assert.ok(native, "SCREENREC_NATIVE must name the pinned native build");
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 function metadata(frame, clean) {
   const { file: _file, outputId: _outputId, cacheId: _cacheId, sourceEvidence, ...rest } = frame;
   return clean ? rest : { ...rest, sourceEvidence };
@@ -38,7 +37,7 @@ export async function publicFrames(root, output, executable, producedArchive) {
     await archiveFixture(root, source);
     execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
   }
-  const archiveHash = sha(await readFile(archive));
+  const archiveHash = hash("sha256", await readFile(archive));
   const home = await mkdtemp("/tmp/scr-public-frames-");
   const take = await seedPublicRecording(home, context.snapshot);
   const nativeWorker = mediaWorker({ SCREENREC_NATIVE: executable });
@@ -279,7 +278,7 @@ export async function publicFrames(root, output, executable, producedArchive) {
     }
   }
   Object.assign(receipts, await packageMediaFailures(await realpath(archive), executable));
-  assert.equal(sha(await readFile(archive)), archiveHash);
+  assert.equal(hash("sha256", await readFile(archive)), archiveHash);
   if (process.env.SCREENREC_PUBLIC_FRAME_EVIDENCE)
     await writeFile(
       process.env.SCREENREC_PUBLIC_FRAME_EVIDENCE,

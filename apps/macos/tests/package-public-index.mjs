@@ -7,7 +7,7 @@ import {
 } from "./fixtures/public-service.mjs";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { randomUUID, createHash } from "node:crypto";
+import { randomUUID, hash } from "node:crypto";
 import { readFile, writeFile, readdir, realpath, mkdtemp, rm, cp } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { createConnection } from "node:net";
@@ -17,7 +17,6 @@ import { registerRelocationTest, relocatedReader } from "./package-relocation.mj
 
 const native = process.env.SCREENREC_NATIVE;
 assert.ok(native, "SCREENREC_NATIVE must name the pinned native build");
-const sha = (value) => createHash("sha256").update(value).digest("hex");
 
 async function publicReader(original, output, executable) {
   const parent = dirname(original),
@@ -27,7 +26,7 @@ async function publicReader(original, output, executable) {
   await archiveFixture(original, source);
   execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
   const manifest = JSON.parse(await readFile(join(source, "manifest.json"), "utf8"));
-  const inputHash = sha(await readFile(archive));
+  const inputHash = hash("sha256", await readFile(archive));
   const take = await seedPublicRecording(home, manifest.snapshot);
   let service, client;
   const receipts = {};
@@ -152,7 +151,7 @@ async function publicReader(original, output, executable) {
     rows[0].entry.frame.actualSourceUs = -1;
     const invalidPage = Buffer.from(JSON.stringify(rows));
     descriptor.bytes = invalidPage.length;
-    descriptor.sha256 = sha(invalidPage);
+    descriptor.sha256 = hash("sha256", invalidPage);
     await writeFile(join(malformed, pagePath), invalidPage);
     await writeFile(join(malformed, pagesPath), JSON.stringify(pages));
     const malformedManifest = structuredClone(manifest);
@@ -160,7 +159,7 @@ async function publicReader(original, output, executable) {
       const data = await readFile(join(malformed, path)),
         member = malformedManifest.inventory.find((entry) => entry.path === path);
       member.bytes = data.length;
-      member.sha256 = sha(data);
+      member.sha256 = hash("sha256", data);
     }
     await writeFile(join(malformed, "manifest.json"), JSON.stringify(malformedManifest));
     execFileSync("/usr/bin/zip", ["-q", "-r", badArchive, "."], { cwd: malformed });
@@ -245,7 +244,7 @@ async function publicReader(original, output, executable) {
       (await service.call("artifact.read", { token: sibling.token, offset: 0 })).error.code,
       "ARTIFACT_EXPIRED",
     );
-    receipts.imageSha256 = sha(actual);
+    receipts.imageSha256 = hash("sha256", actual);
     receipts.packageSha256 = inputHash;
     receipts.sameContentIndependent = true;
     receipts.cliAndMcpBytes = true;
@@ -256,7 +255,7 @@ async function publicReader(original, output, executable) {
     await service?.close();
     await rm(home, { recursive: true, force: true });
   }
-  assert.equal(sha(await readFile(archive)), inputHash);
+  assert.equal(hash("sha256", await readFile(archive)), inputHash);
   await relocatedReader(original, output, executable);
   if (process.env.SCREENREC_PUBLIC_PACKAGE_EVIDENCE)
     await writeFile(

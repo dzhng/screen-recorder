@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { randomUUID, createHash } from "node:crypto";
+import { randomUUID, hash } from "node:crypto";
 import { readFile, rename, realpath } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { registerRelocationTest } from "./package-relocation.mjs";
@@ -14,7 +14,6 @@ import {
 
 const executable = process.env.SCREENREC_NATIVE;
 assert.ok(executable, "SCREENREC_NATIVE must name the fresh bundled worker");
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 let produced;
 async function exportThroughClients({ home, recordingId, revisionId }) {
   // The fixture releases its catalog before this process becomes the sole writer.
@@ -62,7 +61,7 @@ async function exportThroughClients({ home, recordingId, revisionId }) {
     assert.deepEqual(committed.snapshot, admitted.snapshot);
     produced = committed.output;
     assert.equal(produced, await realpath(join(request.directory, request.leaf)));
-    assert.equal(committed.receipt.sha256, sha(await readFile(produced)));
+    assert.equal(committed.receipt.sha256, hash("sha256", await readFile(produced)));
     const retry = publicCommand(service.socket, "export.retry", { exportId: request.exportId });
     assert.deepEqual(retry.receipt, committed.receipt);
     const collisionId = randomUUID();
@@ -114,7 +113,7 @@ async function exportThroughClients({ home, recordingId, revisionId }) {
       publicCommand(service.socket, "export.list", { unfinishedOnly: true }).exports,
       [],
     );
-    assert.equal(sha(await readFile(produced)), committed.receipt.sha256);
+    assert.equal(hash("sha256", await readFile(produced)), committed.receipt.sha256);
   } finally {
     try {
       await mcp?.close();
@@ -131,7 +130,7 @@ registerRelocationTest({
     assert.ok(produced, "Public export must run before source removal");
     const relocated = join(dirname(root), "relocated-public-package.zip");
     await rename(produced, relocated);
-    const before = sha(await readFile(relocated));
+    const before = hash("sha256", await readFile(relocated));
     const result = await publicFrames(root, output, native, relocated);
     const audio = await publicAudio(
       root,
@@ -139,7 +138,7 @@ registerRelocationTest({
       native,
       relocated,
     );
-    assert.equal(sha(await readFile(relocated)), before);
+    assert.equal(hash("sha256", await readFile(relocated)), before);
     return { ...result, ...audio, publicPackageExport: true };
   },
   evidenceScope:

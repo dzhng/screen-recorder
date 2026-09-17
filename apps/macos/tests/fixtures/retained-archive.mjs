@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
+import { hash } from "node:crypto";
 import { cp, mkdir, writeFile, readFile, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { FileSourceEvidence } from "@screenrec/core/evidence-pages";
@@ -11,7 +11,6 @@ import {
   validateTimelineEventPages,
 } from "@screenrec/core/event-pages";
 import { selectionPolicy } from "@screenrec/core/selection";
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 async function files(root, prefix = "") {
   const result = [];
   for (const name of (await readdir(join(root, prefix))).sort()) {
@@ -106,7 +105,7 @@ export async function archiveFixture(original, destination) {
         path,
         role: role(path),
         bytes: content.length,
-        sha256: sha(content),
+        sha256: hash("sha256", content),
         ...(["video", "system"].includes(role(path))
           ? { durationUs: old.snapshot.sourceDurationUs }
           : {}),

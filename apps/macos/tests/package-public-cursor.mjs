@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
+import { hash } from "node:crypto";
 import { readFile, writeFile, mkdtemp, rm, realpath, readdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { FileSourceEvidence } from "@screenrec/core/evidence-pages";
@@ -15,7 +15,6 @@ import {
 import { registerRelocationTest, relocatedReader } from "./package-relocation.mjs";
 const native = process.env.SCREENREC_NATIVE;
 assert.ok(native, "SCREENREC_NATIVE must name the pinned native build");
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 async function publicCursor(root, output, executable) {
   await relocatedReader(root, output, executable);
   const context = JSON.parse(await readFile(join(root, "context.json"), "utf8"));
@@ -31,7 +30,7 @@ async function publicCursor(root, output, executable) {
     archive = join(dirname(root), "cursor.zip");
   await archiveFixture(root, source);
   execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
-  const originalHash = sha(await readFile(archive));
+  const originalHash = hash("sha256", await readFile(archive));
   const home = await mkdtemp("/tmp/scr-public-cursor-");
   const take = await seedPublicRecording(home, context.snapshot);
   let service, client;
@@ -156,7 +155,7 @@ async function publicCursor(root, output, executable) {
       }
     }
   }
-  assert.equal(sha(await readFile(archive)), originalHash);
+  assert.equal(hash("sha256", await readFile(archive)), originalHash);
   if (process.env.SCREENREC_PUBLIC_CURSOR_EVIDENCE)
     await writeFile(
       process.env.SCREENREC_PUBLIC_CURSOR_EVIDENCE,

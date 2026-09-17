@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { execFile, spawnSync } from "node:child_process";
+import { execFile } from "node:child_process";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -10,24 +10,20 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 const execute = promisify(execFile);
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
 import { callLocal } from "@screenrec/client";
-import { app, finderEnvironment, launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
+import {
+  launchReady,
+  socketPath,
+  temporary,
+  waitFor,
+  requireScreenPermission,
+} from "./harness.mjs";
 
 // This gate records only the app-owned fixture window, with both audio roles disabled.
 test(
   "public deletion ends the actual native take before removing its directory",
   { timeout: 60_000 },
   async () => {
-    const preflight = spawnSync(app, ["--capture-preflight"], {
-      cwd: "/",
-      env: finderEnvironment,
-      encoding: "utf8",
-      timeout: 20_000,
-    });
-    assert.equal(
-      JSON.parse(preflight.stdout || "{}").screen,
-      true,
-      "Existing screen permission is required; this gate never requests it",
-    );
+    requireScreenPermission();
     const home = temporary("/tmp/screenrec-public-delete-");
     const { instance } = await launchReady(home, { SCREENREC_FIXTURE_WINDOW: "1" });
     const [, windowId] = await instance.waitFor(/capture fixture window=(\d+)/);

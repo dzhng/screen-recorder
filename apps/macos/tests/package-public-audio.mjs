@@ -1,7 +1,7 @@
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
+import { hash } from "node:crypto";
 import { readFile, writeFile, mkdtemp, rm, realpath, readdir } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { renderAudio } from "@screenrec/core/audio";
@@ -19,7 +19,6 @@ import { packageMediaFailures } from "./fixtures/package-media-failures.mjs";
 import { registerRelocationTest, relocatedReader } from "./package-relocation.mjs";
 const native = process.env.SCREENREC_NATIVE;
 assert.ok(native, "SCREENREC_NATIVE must name the pinned native build");
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 function metadata(audio) {
   const { file: _file, cacheId: _cacheId, outputId: _outputId, ...rest } = audio;
   return rest;
@@ -32,7 +31,7 @@ export async function publicAudio(root, output, executable, producedArchive) {
     archive = producedArchive ?? join(parent, "audio.zip");
   await archiveFixture(root, source);
   if (!producedArchive) execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
-  const inputHash = sha(await readFile(archive));
+  const inputHash = hash("sha256", await readFile(archive));
   const home = await mkdtemp("/tmp/scr-public-audio-");
   const take = await seedPublicRecording(home, context.snapshot);
   const sourceEvidence = readSourceMetadata(join(source, "evidence/source"), context.source);
@@ -254,7 +253,7 @@ export async function publicAudio(root, output, executable, producedArchive) {
     }
   }
   Object.assign(receipt, await packageMediaFailures(await realpath(archive), executable, "audio"));
-  assert.equal(sha(await readFile(archive)), inputHash);
+  assert.equal(hash("sha256", await readFile(archive)), inputHash);
   if (process.env.SCREENREC_PUBLIC_AUDIO_EVIDENCE)
     await writeFile(
       process.env.SCREENREC_PUBLIC_AUDIO_EVIDENCE,

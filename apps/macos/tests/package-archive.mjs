@@ -20,7 +20,7 @@ import {
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { createHash } from "node:crypto";
+import { hash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { mediaWorker } from "../../service/dist/worker.js";
 import { verifyPackageArchive } from "../../service/dist/package-archive.js";
@@ -33,7 +33,6 @@ const native = resolve(
 );
 const run = mediaWorker({ SCREENREC_NATIVE: native });
 const fixtureWriter = fileURLToPath(new URL("./fixtures/package-archive.py", import.meta.url));
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const results = [];
 
 async function fixture(mode = "valid", files = contents()) {
@@ -49,7 +48,7 @@ async function fixture(mode = "valid", files = contents()) {
   execFileSync("/usr/bin/python3", [fixtureWriter, join(home, "files.json"), archive, mode], {
     stdio: "pipe",
   });
-  const inputHash = sha(await readFile(archive));
+  const inputHash = hash("sha256", await readFile(archive));
   return {
     home,
     directory,
@@ -58,7 +57,7 @@ async function fixture(mode = "valid", files = contents()) {
     input: admitArchive(archive),
     files,
     async close() {
-      assert.equal(sha(await readFile(archive)), inputHash);
+      assert.equal(hash("sha256", await readFile(archive)), inputHash);
       this.input.close();
       await workspace.close();
       await rm(home, { recursive: true, force: true });
@@ -86,7 +85,7 @@ test("native archive verifies inventory and pinned old revision with all admitte
       receipt.expandedBytes,
       Object.values(f.files).reduce((sum, value) => sum + Buffer.byteLength(value), 0),
     );
-    assert.equal(receipt.archiveSha256, sha(await readFile(f.archive)));
+    assert.equal(receipt.archiveSha256, hash("sha256", await readFile(f.archive)));
     results.push({ case: "valid", ...receipt, manifest: undefined });
   } finally {
     await f.close();
@@ -347,7 +346,7 @@ test("inner directory replacement fails without following its symlink outside wo
 test("opened input descriptor retains source bytes across pathname replacement", async () => {
   const f = await fixture("valid", contents("x".repeat(32 * 1024 * 1024)));
   const pinned = join(f.home, "pinned.zip");
-  const originalHash = sha(await readFile(f.archive));
+  const originalHash = hash("sha256", await readFile(f.archive));
   let replaced = false;
   const wrapped = async (operation, params, options) => {
     if (operation === "archive.extract") {
@@ -375,7 +374,7 @@ test("admission rejects changed input before copy and preserves independent desc
   try {
     const first = await inspect(f);
     const second = await inspect(f);
-    assert.equal(first.archiveSha256, sha(original));
+    assert.equal(first.archiveSha256, hash("sha256", original));
     assert.equal(second.archiveSha256, first.archiveSha256);
     assert.equal(second.copiedBytes, original.length);
     await writeFile(f.archive, Buffer.concat([original, Buffer.from("changed")]));

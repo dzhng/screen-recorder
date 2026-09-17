@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -8,12 +7,11 @@ import { setTimeout as delay } from "node:timers/promises";
 import { callLocal } from "@screenrec/client";
 import {
   alive,
-  app,
-  finderEnvironment,
   launchReady,
   socketPath,
   temporary,
   waitFor,
+  requireScreenPermission,
 } from "./harness.mjs";
 
 /**
@@ -21,23 +19,6 @@ import {
  * fixture window with microphone and system audio off; no other window, display or device is
  * ever selected, and no permission is requested here.
  */
-const preflight = JSON.parse(
-  spawnSync(app, ["--capture-preflight"], {
-    cwd: "/",
-    env: finderEnvironment,
-    encoding: "utf8",
-    timeout: 20_000,
-  }).stdout || "{}",
-);
-
-function requireScreenPermission() {
-  assert.equal(
-    preflight.screen,
-    true,
-    "Screen recording permission is not authorized for this build, so these capture gates cannot run. Grant it in System Settings > Privacy & Security > Screen & System Audio Recording; it is never requested automatically.",
-  );
-}
-
 function call(home, operation, params = {}) {
   return callLocal(
     socketPath(home),

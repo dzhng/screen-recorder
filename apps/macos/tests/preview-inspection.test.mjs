@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { randomUUID, createHash } from "node:crypto";
+import { randomUUID, hash } from "node:crypto";
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -21,7 +21,6 @@ function run(command, args, encoding = "utf8") {
   assert.equal(result.status, 0, result.stderr);
   return result.stdout;
 }
-const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 function pointerPixels(file, second, x, y) {
   const rgb = run(
@@ -108,7 +107,7 @@ test("public preview pins its revision and delivers a current-pointer movie thro
     join(source, "capture.journal.jsonl"),
     rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
   );
-  const before = sha(await readFile(join(source, "video.mov")));
+  const before = hash("sha256", await readFile(join(source, "video.mov")));
   let { instance } = await launchReady(home);
   const call = async (operation, params = {}) => {
     const result = await callLocal(socketPath(home), { id: randomUUID(), operation, params });
@@ -216,7 +215,7 @@ test("public preview pins its revision and delivers a current-pointer movie thro
       (await call("revision.get", { recordingId: take.recordingId })).revision.id,
       cut.revision.id,
     );
-    assert.equal(sha(await readFile(join(source, "video.mov"))), before);
+    assert.equal(hash("sha256", await readFile(join(source, "video.mov"))), before);
     const editedParams = { recordingId: take.recordingId, revisionId: cut.revision.id };
     const edited = await preview(editedParams);
     assert.equal(edited.published.preview.durationUs, 3_000_000);
@@ -277,7 +276,7 @@ test("public preview pins its revision and delivers a current-pointer movie thro
     assert.equal(regeneratedDownload.ok, true, JSON.stringify(regeneratedDownload));
     // The MP4 container can change bookkeeping; the decoded edited pointer must not change.
     assert.ok(pointerPixels(regeneratedFile, 2.1, 200, 40) > 10);
-    assert.equal(sha(await readFile(join(source, "video.mov"))), before);
+    assert.equal(hash("sha256", await readFile(join(source, "video.mov"))), before);
     // A prior failed attempt may have left private staging after its worker exited.
     await writeFile(join(home, "run", "render", "abandoned.mp4"), "staged recording bytes");
     await call("recording.delete", { recordingId: take.recordingId });

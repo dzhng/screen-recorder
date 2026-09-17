@@ -7,18 +7,17 @@ import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { app, finderEnvironment, launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
+import {
+  launchReady,
+  socketPath,
+  temporary,
+  waitFor,
+  requireScreenPermission,
+} from "./harness.mjs";
 
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
 test("real clean frames retain edit identity and reach CLI files and MCP pixels", async () => {
-  const preflight = JSON.parse(
-    spawnSync(app, ["--capture-preflight"], {
-      env: finderEnvironment,
-      encoding: "utf8",
-      timeout: 20000,
-    }).stdout || "{}",
-  );
-  assert.equal(preflight.screen, true);
+  requireScreenPermission();
   const home = temporary("/tmp/scr-frame-delivery-");
   const { instance } = await launchReady(home, { SCREENREC_FIXTURE_WINDOW: "1" });
   const [, window] = await instance.waitFor(/capture fixture window=(\d+)/);
