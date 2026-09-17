@@ -1,6 +1,7 @@
 import { afterEach, expect, it } from "vitest";
 import { closeSync, constants, openSync } from "node:fs";
 import { spawn } from "node:child_process";
+import { DatabaseSync } from "node:sqlite";
 import { lstat, mkdir, mkdtemp, readFile, rm, stat, symlink, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
@@ -30,6 +31,7 @@ type Service = {
   closeInput(): void;
   dropOutput(): void;
   exit: Promise<{ code: number | null; signal: NodeJS.Signals | null }>;
+  readonly diagnostics: string;
 };
 
 /** Starts the real packaged entrypoint as its own process, outside the repository. */
@@ -90,6 +92,9 @@ async function startService(home: string): Promise<Service> {
     closeInput: () => child.stdin.end(),
     dropOutput: () => child.stdout.destroy(),
     exit,
+    get diagnostics() {
+      return diagnostics;
+    },
   };
 }
 
@@ -195,6 +200,22 @@ it("closes its listener and removes its own socket when the control pipe reaches
   service.closeInput();
   expect(await service.exit).toEqual({ code: 0, signal: null });
   await expect(stat(socketPath)).rejects.toMatchObject({ code: "ENOENT" });
+});
+
+it("finishes every owner's shutdown when one of them fails to close", async () => {
+  const home = await temporaryHome();
+  const service = await startService(home);
+  await service.awaiting(1);
+  const socketPath = service.socketPath;
+  // Another writer holds the catalog, so the job queue cannot record its interrupted attempts.
+  const writer = new DatabaseSync(join(home, "library.sqlite"));
+  cleanup.push(async () => writer.close());
+  writer.exec("BEGIN IMMEDIATE");
+  service.closeInput();
+  expect(await service.exit).toEqual({ code: 0, signal: null });
+  expect(service.diagnostics).toMatch(/shutdown failed: Catalog is locked/);
+  await expect(stat(socketPath)).rejects.toMatchObject({ code: "ENOENT" });
+  writer.exec("ROLLBACK");
 });
 
 it("refuses a live socket owned by another service and leaves it serving", async () => {

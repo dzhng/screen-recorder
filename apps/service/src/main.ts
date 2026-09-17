@@ -479,11 +479,10 @@ async function main(): Promise<void> {
     // cannot become the metadata writer before this owner has closed them.
     cleanupLifetime.abort();
     transfers.dispose();
-    void Promise.all([
+    // One owner's failure to close must not release the catalog under the others still closing.
+    void Promise.allSettled([
       listener.close(),
-      packageOwner
-        .dispose()
-        .catch((error) => log(`package shutdown cleanup failed: ${(error as Error).message}`)),
+      packageOwner.dispose(),
       storageOwner.close(),
       deletion.close(),
       exportOwner.close(),
@@ -491,7 +490,10 @@ async function main(): Promise<void> {
       queue.close(),
       evidenceCleanup,
       cacheReady,
-    ]).finally(() => {
+    ]).then((results) => {
+      for (const result of results)
+        if (result.status === "rejected")
+          log(`shutdown failed: ${(result.reason as Error).message}`);
       catalog.close();
       ownership.release();
     });
