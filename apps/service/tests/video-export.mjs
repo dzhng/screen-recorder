@@ -672,13 +672,10 @@ if (process.argv[2] === "crash-owner") {
         .get().count,
       0,
     );
-    const names = await readdir(f.output);
     assert.deepEqual(
-      names.filter((name) => name.endsWith(".mp4")).sort(),
+      (await readdir(f.output)).sort(),
       Array.from({ length: 33 }, (_, n) => `${n}.mp4`).sort(),
     );
-    for (const name of names.filter((name) => name.startsWith(".screenrec-export-")))
-      assert.deepEqual(await readdir(join(f.output, name)), []);
   });
 
   test("recovery failures are isolated and explicit retry observes absence without publishing", async (t) => {
@@ -733,7 +730,7 @@ if (process.argv[2] === "crash-owner") {
     assert.notEqual(f.jobs.job(recovered.recovery.jobId).attemptId, attempt);
   });
 
-  test("acknowledged historical retry does not access a moved destination but abandonment still verifies ownership", async (t) => {
+  test("an acknowledged export leaves only its file and never needs the destination again", async (t) => {
     let nativeCalls = 0;
     const f = await fixture(t, (run) => async (...args) => {
       nativeCalls++;
@@ -748,24 +745,88 @@ if (process.argv[2] === "crash-owner") {
       leaf: "moved.mp4",
     });
     await f.jobs.idle();
+    assert.deepEqual(await readdir(f.output), ["moved.mp4"]);
     const moved = f.output + "-moved";
     t.after(() => rm(moved, { recursive: true, force: true }));
     await rename(f.output, moved);
     const before = nativeCalls;
     assert.equal((await f.exports.retry(exportId)).state, "committed");
     assert.equal(f.exports.status(exportId).state, "committed");
-    assert.equal(nativeCalls, before);
-    await assert.rejects(f.exports.abandon(exportId));
-    assert.equal(f.exports.status(exportId).abandoning, true);
-    assert.deepEqual(
-      f.exports
-        .list({ unfinishedOnly: true })
-        .exports.map((row) => [row.exportId, row.abandoning, row.cleanupPending]),
-      [[exportId, true, false]],
-    );
-    await rename(moved, f.output);
     await f.exports.abandon(exportId);
-    assert.deepEqual(await readdir(f.output), ["moved.mp4"]);
+    assert.equal(nativeCalls, before);
+    assert.throws(() => f.exports.status(exportId), { code: "NOT_FOUND" });
+    assert.deepEqual(await readdir(moved), ["moved.mp4"]);
+  });
+
+  test("recording deletion needs no removed, moved or replaced export destination", async (t) => {
+    const f = await fixture(t);
+    const directories = [f.output, f.output + "-failed", f.output + "-replaced"];
+    t.after(() =>
+      Promise.all(directories.slice(1).map((path) => rm(path, { recursive: true, force: true }))),
+    );
+    for (const directory of directories.slice(1)) await mkdir(directory);
+    await writeFile(join(directories[1], "taken.mp4"), "foreign");
+    await writeFile(join(directories[2], "taken.mp4"), "foreign");
+    const ids = [randomUUID(), randomUUID(), randomUUID()];
+    for (const [i, directory] of directories.entries()) {
+      await f.exports.create({
+        exportId: ids[i],
+        recordingId: f.take.recordingId,
+        kind: "video",
+        directory,
+        leaf: i === 0 ? "committed.mp4" : "taken.mp4",
+      });
+      await f.jobs.idle();
+    }
+    assert.deepEqual(
+      ids.map((id) => [f.exports.status(id).state, f.exports.status(id).cleanupPending]),
+      [
+        ["committed", false],
+        ["failed", true],
+        ["failed", true],
+      ],
+    );
+    await rm(directories[0], { recursive: true });
+    await rm(directories[1], { recursive: true });
+    const foreign = join(directories[2], ".screenrec-export-" + ids[2]);
+    await rename(directories[2], directories[2] + "-original");
+    directories.push(directories[2] + "-original");
+    await mkdir(foreign, { recursive: true, mode: 0o700 });
+    await writeFile(join(foreign, "payload"), "not this export's");
+    assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, 0);
+    await f.deletion.delete(f.take.recordingId);
+    assert.equal(f.store.deleting(f.take.recordingId), null);
+    assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
+    assert.equal(await readFile(join(foreign, "payload"), "utf8"), "not this export's");
+  });
+
+  test("a lost staging retirement after commit is confirmed absent by explicit recovery", async (t) => {
+    let lose = true;
+    const f = await fixture(t, (run) => async (op, ...args) => {
+      const result = await run(op, ...args);
+      if (op === "publication.retire" && lose) {
+        lose = false;
+        throw new Error("lost retirement response");
+      }
+      return result;
+    });
+    const exportId = randomUUID();
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      kind: "video",
+      directory: f.output,
+      leaf: "retired.mp4",
+    });
+    await f.jobs.idle();
+    assert.deepEqual(await readdir(f.output), ["retired.mp4"]);
+    const pending = f.exports.status(exportId);
+    assert.deepEqual([pending.state, pending.cleanupPending], ["committed", true]);
+    const recovered = await f.exports.retry(exportId);
+    await f.jobs.idle();
+    assert.ok(recovered.recovery.jobId);
+    assert.equal(f.exports.status(exportId).cleanupPending, false);
+    assert.deepEqual(f.exports.list({ unfinishedOnly: true }).exports, []);
   });
 
   test("startup recovery waits for the shared heavy lane and ignores failed source dependencies", async (t) => {
@@ -934,6 +995,7 @@ if (process.argv[2] === "crash-owner") {
   test("abandonment resumes after actual process death following private retirement", async (t) => {
     const f = await fixture(t),
       exportId = randomUUID();
+    await writeFile(join(f.output, "survives.mp4"), "foreign");
     const requested = await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
@@ -942,6 +1004,7 @@ if (process.argv[2] === "crash-owner") {
       leaf: "survives.mp4",
     });
     await f.jobs.idle();
+    assert.equal(f.exports.status(exportId).cleanupPending, true);
     const bytes = await readFile(join(f.output, "survives.mp4"));
     await f.closeOwners();
     const existing = { home: f.home, output: f.output, recordingId: f.take.recordingId, exportId };
@@ -1485,7 +1548,7 @@ if (process.argv[2] === "crash-owner") {
       assert.equal(status.state, "committed");
       assert.equal(reopened.jobs.job(status.jobId).state, "failed");
       assert.equal(sha(await readFile(join(f.output, "recovered.mp4"))), sha(before));
-      assert.deepEqual(await readdir(join(f.output, ".screenrec-export-" + exportId)), []);
+      assert.deepEqual(await readdir(f.output), ["recovered.mp4"]);
       await reopened.deletion.delete(f.take.recordingId);
       assert.deepEqual(await readdir(f.output), ["recovered.mp4"]);
     } finally {
@@ -1557,6 +1620,7 @@ if (process.argv[2] === "crash-owner") {
         return result;
       }),
       exportId = randomUUID();
+    await writeFile(join(f.output, "retained.mp4"), "foreign");
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
@@ -1565,6 +1629,7 @@ if (process.argv[2] === "crash-owner") {
       leaf: "retained.mp4",
     });
     await f.jobs.idle();
+    assert.equal(f.exports.status(exportId).cleanupPending, true);
     await assert.rejects(
       f.deletion.delete(f.take.recordingId),
       (e) => e.code === "MEDIA_WORKER_FAILED",
@@ -1587,7 +1652,7 @@ if (process.argv[2] === "crash-owner") {
       ]);
       await reopened.exports.recover(exportId);
       await reopened.jobs.idle();
-      assert.deepEqual(await readdir(join(f.output, ".screenrec-export-" + exportId)), []);
+      assert.deepEqual(await readdir(f.output), ["recovered.mp4"]);
       assert.deepEqual((await reopened.exports.status(exportId)).receipt, committed.receipt);
     } finally {
       await reopened.closeOwners();
@@ -1722,7 +1787,7 @@ if (process.argv[2] === "crash-owner") {
     const result = f.exports.status(exportId);
     assert.equal(result.state, "committed");
     assert.equal(result.receipt.file.ino, inode);
-    assert.deepEqual(await readdir(stage), []);
+    await assert.rejects(readdir(stage), { code: "ENOENT" });
   });
   test("recording deletion removes a receipt interrupted before its canonical publication", async (t) => {
     const { f, exportId, stage } = await receiptCrash(t);
@@ -1735,6 +1800,7 @@ if (process.argv[2] === "crash-owner") {
     const f = await fixture(t),
       ids = [randomUUID(), randomUUID()].sort();
     for (const [i, exportId] of ids.entries()) {
+      await writeFile(join(f.output, `saved-${i}.mp4`), "foreign");
       await f.exports.create({
         exportId,
         recordingId: f.take.recordingId,

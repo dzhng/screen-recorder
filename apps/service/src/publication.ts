@@ -15,10 +15,14 @@ export type PublicationReceipt = {
   bytes: number;
   sha256: string;
 };
+export type StagingPresence = "present" | "absent" | "unreachable";
 export type PublicationObservation = {
   state: PublicationState;
   receipt: PublicationReceipt | null;
 };
+
+const directoryFlags =
+  constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY;
 
 /** A single external publication lifetime. Closing releases descriptors, never evidence.
  * The caller retains this private directory until reconciliation/acknowledgement and
@@ -45,10 +49,7 @@ export class Publication {
   ): Promise<number> {
     if (!(await lstat(path)).isDirectory())
       throw new CatalogError("INVALID_STORAGE", "Publication staging must be a directory");
-    const stage = await open(
-      await realpath(path),
-      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
-    );
+    const stage = await open(await realpath(path), directoryFlags);
     try {
       const value = Publication.data(
         await worker(
@@ -88,9 +89,7 @@ export class Publication {
         "Publication staging must be an owned private directory",
       );
     // The staging lock belongs to this open file description, so inherited worker FDs share it.
-    const flags =
-      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY;
-    const stage = await open(await realpath(stagePath), flags | O_EXLOCK).catch(
+    const stage = await open(await realpath(stagePath), directoryFlags | O_EXLOCK).catch(
       (error: NodeJS.ErrnoException) => {
         if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
           throw new CatalogError(
@@ -110,7 +109,7 @@ export class Publication {
       const before = await lstat(destinationPath, { bigint: true });
       if (!before.isDirectory())
         throw new CatalogError("INVALID_STORAGE", "Publication destination must be a directory");
-      destination = await open(await realpath(destinationPath), flags);
+      destination = await open(await realpath(destinationPath), directoryFlags);
       const actual = await destination.stat({ bigint: true });
       if (actual.dev !== before.dev || actual.ino !== before.ino)
         throw new CatalogError("INVALID_STORAGE", "Publication destination changed while opening");
@@ -148,48 +147,59 @@ export class Publication {
     name: string,
     worker: MediaWorker,
   ): Promise<DirectoryIdentity> {
-    const value = await this.stageEntry("allocate", directory, expected, name, worker);
-    const identity = value.identity as DirectoryIdentity;
-    if (!identity || typeof identity.dev !== "string" || typeof identity.ino !== "string")
-      throw new CatalogError(
-        "INVALID_NATIVE_RESPONSE",
-        "Publication allocation did not identify staging",
-      );
-    return identity;
-  }
-
-  static async absent(
-    directory: string,
-    expected: DirectoryIdentity,
-    name: string,
-    worker: MediaWorker,
-    signal?: AbortSignal,
-  ): Promise<boolean> {
-    const value = await this.stageEntry("absent", directory, expected, name, worker, signal);
-    if (typeof value.absent !== "boolean")
-      throw new CatalogError("INVALID_NATIVE_RESPONSE", "Staging absence was not confirmed");
-    return value.absent;
-  }
-
-  private static async stageEntry(
-    operation: "allocate" | "absent",
-    directory: string,
-    expected: DirectoryIdentity,
-    name: string,
-    worker: MediaWorker,
-    signal?: AbortSignal,
-  ) {
-    const parent = await open(
-      directory,
-      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
-    );
+    const parent = await open(directory, directoryFlags);
     try {
-      const result = await worker(
-        `publication.${operation}`,
-        { destination: expected, name },
-        { descriptors: [parent.fd], ...(signal ? { signal } : {}) },
+      const value = this.data(
+        await worker(
+          "publication.allocate",
+          { destination: expected, name },
+          { descriptors: [parent.fd] },
+        ),
       );
-      return this.data(result);
+      const identity = value.identity as DirectoryIdentity;
+      if (!identity || typeof identity.dev !== "string" || typeof identity.ino !== "string")
+        throw new CatalogError(
+          "INVALID_NATIVE_RESPONSE",
+          "Publication allocation did not identify staging",
+        );
+      return identity;
+    } finally {
+      await parent.close();
+    }
+  }
+
+  /** A destination path that is gone, or now names another directory, holds nothing this
+   * owner may observe or remove beneath the admitted identity: that is `unreachable`.
+   * ELOOP counts too, because O_NOFOLLOW_ANY reports a symlink added to the admitted path. */
+  static async staging(
+    directory: string,
+    expected: DirectoryIdentity,
+    name: string,
+    worker: MediaWorker,
+    signal?: AbortSignal,
+  ): Promise<StagingPresence> {
+    let parent: FileHandle;
+    try {
+      parent = await open(directory, directoryFlags);
+    } catch (error) {
+      if (["ENOENT", "ENOTDIR", "ELOOP"].includes((error as NodeJS.ErrnoException).code ?? ""))
+        return "unreachable";
+      throw error;
+    }
+    try {
+      const actual = await parent.stat({ bigint: true });
+      if (actual.dev.toString() !== expected.dev || actual.ino.toString() !== expected.ino)
+        return "unreachable";
+      const value = this.data(
+        await worker(
+          "publication.absent",
+          { destination: expected, name },
+          { descriptors: [parent.fd], ...(signal ? { signal } : {}) },
+        ),
+      );
+      if (typeof value.absent !== "boolean")
+        throw new CatalogError("INVALID_NATIVE_RESPONSE", "Staging absence was not confirmed");
+      return value.absent ? "absent" : "present";
     } finally {
       await parent.close();
     }

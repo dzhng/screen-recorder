@@ -92,6 +92,9 @@ const artifact = "export-recording",
   recoveryArtifact = "export-recovery";
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 const stageName = (id: string) => `.screenrec-export-${id}`;
+/** Staging bytes or the staging directory beside the destination may still exist. */
+const stagingPending = (intent: Pick<Intent, "staging" | "stagingCleared">) =>
+  !!intent.staging && !intent.stagingCleared;
 
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
  * Prerequisites wait in the existing queue while this owner pins their source generation. */
@@ -661,19 +664,9 @@ export class RecordingExports {
         );
       } catch (error) {
         signal.throwIfAborted();
-        // Retirement can remove staging during a live observation. Only confirmed absence
-        // beneath the same destination identity counts as zero; replacement stays an error.
-        if (
-          (error as NodeJS.ErrnoException).code !== "ENOENT" ||
-          !(await Publication.absent(
-            intent.destination.directory,
-            intent.destination.identity,
-            stageName(intent.exportId),
-            this.owners.worker,
-            signal,
-          ))
-        )
-          throw error;
+        // Retirement can remove staging during a live observation, and a destination that is gone
+        // or replaced holds nothing this library can measure. A substituted entry stays an error.
+        if ((await this.stagingPresence(intent, signal)) === "present") throw error;
         observed = 0;
       }
       if (!Number.isSafeInteger(bytes + observed))
@@ -745,6 +738,36 @@ export class RecordingExports {
       },
     );
   }
+  private stagingPresence(intent: Intent, signal?: AbortSignal) {
+    return Publication.staging(
+      intent.destination.directory,
+      intent.destination.identity,
+      stageName(intent.exportId),
+      this.owners.worker,
+      signal,
+    );
+  }
+  /** Removes private evidence and then its directory while the publication lock is held. */
+  private async retireStaging(
+    intent: Intent,
+    publication: Publication,
+    evidence: "acknowledge" | "discard",
+  ) {
+    await publication[evidence]();
+    await publication.retire(stageName(intent.exportId));
+    this.markStagingCleared(intent.exportId);
+  }
+  /** The receipt is durable before private cleanup. An aborted attempt leaves that cleanup to
+   * its canceling owner or to recovery rather than racing their drain. */
+  private async settleCommit(
+    intent: Intent,
+    publication: Publication,
+    receipt: PublicationReceipt,
+    signal: AbortSignal,
+  ) {
+    this.recordCommit(intent, receipt);
+    if (!signal.aborted) await this.retireStaging(intent, publication, "acknowledge");
+  }
   private markStagingCleared(exportId: string) {
     this.owners.store.catalog
       .prepare("UPDATE export_intents SET stagingCleared=1 WHERE exportId=?")
@@ -814,9 +837,7 @@ export class RecordingExports {
           "Export destination belongs to another file or was modified",
           { state: observed.state },
         );
-      this.recordCommit(intent, observed.receipt);
-      await publication.acknowledge();
-      this.markStagingCleared(intent.exportId);
+      await this.settleCommit(intent, publication, observed.receipt, signal);
       await this.cleanupAssembly(intent);
       return JSON.stringify(observed.receipt);
     } finally {
@@ -857,27 +878,34 @@ export class RecordingExports {
     if (job.recordingId !== intent.recordingId || job.revisionId !== intent.snapshot.revisionId)
       throw new CatalogError("INVALID_JOB", "Recovery does not match the pinned export");
     signal.throwIfAborted();
-    if (!intent.staging || (intent.receipt && intent.stagingCleared)) {
-      await this.cleanupAssembly(intent);
+    await this.cleanupAssembly(intent);
+    if (!stagingPending(intent)) return JSON.stringify({ observation: null });
+    if (intent.receipt) {
+      // Recovery never forgets staging it cannot verify; abandonment is the explicit release.
+      const presence = await this.stagingPresence(intent, signal);
+      if (presence === "unreachable")
+        throw new CatalogError(
+          "DESTINATION_UNAVAILABLE",
+          "Export destination directory is missing or replaced; restore it or abandon the export",
+          { exportId },
+          true,
+        );
+      if (presence === "absent") this.markStagingCleared(exportId);
+      else {
+        const publication = await this.open(intent);
+        try {
+          await this.retireStaging(intent, publication, "discard");
+        } finally {
+          await publication.close();
+        }
+      }
       return JSON.stringify({ observation: null });
     }
     const publication = await this.open(intent);
     try {
-      if (intent.receipt) {
-        await publication.discard();
-        this.markStagingCleared(intent.exportId);
-        await this.cleanupAssembly(intent);
-        return JSON.stringify({ observation: null });
-      }
       const observed = await publication.reconcile({ signal });
-      if (observed.state === "committed" && observed.receipt) {
-        this.recordCommit(intent, observed.receipt);
-        if (!signal.aborted) {
-          await publication.acknowledge();
-          this.markStagingCleared(intent.exportId);
-        }
-      }
-      await this.cleanupAssembly(intent);
+      if (observed.state === "committed" && observed.receipt)
+        await this.settleCommit(intent, publication, observed.receipt, signal);
       return JSON.stringify({ observation: observed.state });
     } finally {
       await publication.close();
@@ -957,16 +985,10 @@ export class RecordingExports {
     intent = this.require(exportId);
     if (!intent.abandoning && !this.owners.store.isDeleting(intent.recordingId))
       throw new CatalogError("INVALID_STATE", "Export must be fenced before retirement");
-    const mayHaveStaging = intent.staging || jobId;
-    if (
-      mayHaveStaging &&
-      !(await Publication.absent(
-        intent.destination.directory,
-        intent.destination.identity,
-        stageName(exportId),
-        this.owners.worker,
-      ))
-    ) {
+    // Retired staging needs no destination access. Otherwise a destination that is gone or
+    // replaced has nothing of this export's to clean, and a job may have allocated unregistered staging.
+    const mayHaveStaging = intent.staging ? !intent.stagingCleared : jobId !== null;
+    if (mayHaveStaging && (await this.stagingPresence(intent)) === "present") {
       const publication = await this.open(intent);
       try {
         // Retirement forgets status, so unreadable external files cannot gate private cleanup.
