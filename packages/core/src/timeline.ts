@@ -151,9 +151,16 @@ export type SourceWord = TimeRange & Readonly<{ id: string; text: string }>;
 export function projectWords<T extends SourceWord>(
   revision: TimelineRevision,
   words: readonly T[],
+) {
+  return projectSourceRanges(revision, words);
+}
+/** Retained pieces of source-timed evidence (words, transcript gaps); a fully removed range vanishes. */
+export function projectSourceRanges<T extends TimeRange>(
+  revision: TimelineRevision,
+  ranges: readonly T[],
 ): (T & { partial: boolean; fragments: RenderSpan[] })[] {
   const plan = renderPlan(revision);
-  return words.flatMap((word) => {
+  return ranges.flatMap((word) => {
     validateRange(word, revision.sourceDurationUs);
     const fragments: RenderSpan[] = [];
     for (const span of plan) {
