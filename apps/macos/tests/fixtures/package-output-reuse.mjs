@@ -60,6 +60,37 @@ export async function packageOutputReuse(archive, directory, handle, worker) {
       await assert.rejects(context.run("media.frame", { ...params, atSourceUs: -1 }));
       assert.deepEqual(context.outputUsage(), { actualBytes: 0, reservedBytes: 0, outputs: 0 });
     }
+    const pinned = [];
+    try {
+      for (let i = 0; i < 40; i++) {
+        await context.run("media.frame", { ...params, output: `pressure-${i}`, maxLongEdge: 64 });
+        if (i === 0) pinned.push(context.openOutput("pressure-0"));
+      }
+      assert.equal(context.outputUsage().outputs, 32);
+      assert.throws(() => context.openOutput("pressure-1"), { code: "NOT_FOUND" });
+      const again = context.openOutput("pressure-0");
+      again.close();
+      for (let i = 9; i < 40; i++) pinned.push(context.openOutput(`pressure-${i}`));
+      assert.equal(pinned.length, 32);
+      const charge = context.outputUsage();
+      await assert.rejects(
+        context.run("media.frame", { ...params, output: "all-held", maxLongEdge: 64 }),
+        { code: "LIMIT_EXCEEDED", retryable: true },
+      );
+      assert.deepEqual(context.outputUsage(), charge);
+      pinned.pop().close();
+      pinned.pop().close();
+      pinned.pop().close(); // Native work also reopens its output for the final identity check.
+      await context.run("media.frame", { ...params, output: "after-unpin", maxLongEdge: 64 });
+      const signature = Buffer.alloc(8);
+      readSync(pinned[0].fd, signature, 0, 8, 0);
+      assert.deepEqual([...signature], [137, 80, 78, 71, 13, 10, 26, 10]);
+      assert.equal(context.outputUsage().outputs, 32);
+    } finally {
+      for (const read of pinned) read.close();
+    }
+    await context.close();
+    context = await openPackageArchive(archive, { directory, handle }, trackedWorker);
     for (const output of ["one", "two", "three"])
       await context.run("media.frame", { ...params, output });
     const releases = ["one", "two", "three"].map((label) => context.releaseOutput(label));
@@ -190,7 +221,9 @@ export async function packageOutputReuse(archive, directory, handle, worker) {
       await rm(siblingDirectory, { recursive: true });
     }
     return {
-      successfulRequests: 48,
+      successfulRequests: 89,
+      pressureReclaimedUnleasedOutputs: true,
+      pinnedOutputLimitRetryable: true,
       independentConcurrentSameInputLifetimes: true,
       failedFullCloseRetainedCreditAndRetried: true,
       failedRequests: 41,

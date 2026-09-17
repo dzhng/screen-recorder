@@ -1,6 +1,7 @@
 # 14c3c2 — Arbitrary package frame and audio inspection
 
-Status: pending. Depends on the public retained-index boundary in
+Status: frames implementation is bounded by [14c3c2a](14c3c2a-package-frames.md);
+audio remains pending. Depends on the public retained-index boundary in
 [14c3c1](14c3c1-public-package-index.md).
 
 The existing frame/audio operations gain the same mutually exclusive package

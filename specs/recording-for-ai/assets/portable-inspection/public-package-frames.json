@@ -1,0 +1,18 @@
+{
+  "originalLibraryAbsent": true,
+  "archiveSha256": "735924481be62dd8504d8b9ecfefd9e1d012adc3b89a9eb9689d4a5dcd5bca91",
+  "cliAndMcpImageParity": true,
+  "arbitraryNotSelected": true,
+  "cropAndCutJoinParity": true,
+  "cleanSourceEvidenceNull": true,
+  "historicalRevisionParity": true,
+  "sequentialUniqueOutputs": 40,
+  "heldReadSurvivesPressure": true,
+  "regeneration": true,
+  "sameContentIndependent": true,
+  "libraryDeletionIsolation": true,
+  "closeAndRestartRevoke": true,
+  "injectedFailureRetried": true,
+  "failedOutputRemoved": true,
+  "actualNativeCloseDrained": true
+}

@@ -116,6 +116,40 @@ export function validateRecord(event: string, data: Record<string, unknown>): vo
   } else invalid("Unknown normalized evidence event");
 }
 
+/** Receipt shape is shared by native ingest and portable evidence inspection. */
+export function validateSourceReceipt(value: unknown, sourceId: string): SourceEvidenceReceipt {
+  const receipt = object(value);
+  const header = object(receipt.header);
+  if (header.sessionID !== sourceId) invalid("Evidence identity does not match its recording");
+  if (
+    typeof receipt.file !== "string" ||
+    !receipt.file ||
+    receipt.journal !== "capture.journal.jsonl" ||
+    ![
+      receipt.cursorSamples,
+      receipt.geometryRecords,
+      receipt.displaySpaces,
+      receipt.pauseEvents,
+      receipt.audioIntervals,
+      receipt.lastSequence,
+    ].every(integer) ||
+    !integer(receipt.bytes) ||
+    receipt.bytes > maxBytes ||
+    typeof receipt.incompleteTail !== "boolean" ||
+    typeof receipt.finished !== "boolean" ||
+    [
+      receipt.originHostUs,
+      receipt.openPauseHostUs,
+      receipt.firstCursorSourceUs,
+      receipt.lastCursorSourceUs,
+      receipt.invalidAtSequence,
+    ].some((v) => v != null && !integer(v)) ||
+    Buffer.byteLength(JSON.stringify(receipt)) > 32768
+  )
+    invalid("Invalid evidence receipt");
+  return receipt as SourceEvidenceReceipt;
+}
+
 /** Indexes native-normalized evidence; the artifact queue alone decides whether to publish it. */
 export class SourceEvidenceStore extends SourceEvidenceReader {
   constructor(private readonly store: RevisionStore) {
@@ -155,31 +189,8 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
     if (recording.state === "canceled") invalid("Canceled recording cannot accept evidence");
     if (!generation || recording.sourceId !== sourceId || receipt.header?.sessionID !== sourceId)
       invalid("Evidence identity does not match its recording");
-    if (
-      receipt.file !== input.file ||
-      receipt.journal !== "capture.journal.jsonl" ||
-      ![
-        receipt.cursorSamples,
-        receipt.geometryRecords,
-        receipt.displaySpaces,
-        receipt.pauseEvents,
-        receipt.audioIntervals,
-        receipt.lastSequence,
-        receipt.bytes,
-      ].every(integer) ||
-      receipt.bytes > maxBytes ||
-      typeof receipt.incompleteTail !== "boolean" ||
-      typeof receipt.finished !== "boolean" ||
-      [
-        receipt.originHostUs,
-        receipt.openPauseHostUs,
-        receipt.firstCursorSourceUs,
-        receipt.lastCursorSourceUs,
-        receipt.invalidAtSequence,
-      ].some((v) => v != null && !integer(v)) ||
-      Buffer.byteLength(JSON.stringify(receipt)) > 32768
-    )
-      invalid("Invalid evidence receipt");
+    validateSourceReceipt(receipt, sourceId);
+    if (receipt.file !== input.file) invalid("Invalid evidence receipt");
     this.store.transaction(() => {
       if (
         this.store.catalog

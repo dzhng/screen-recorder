@@ -9,7 +9,11 @@ import { planFrameTrail } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
 import { RevisionStore } from "./library.js";
 import { SourceEvidenceStore } from "./evidence.js";
-import { FileSourceEvidence, writeSourceEvidencePages } from "./evidence-pages.js";
+import {
+  FileSourceEvidence,
+  readSourceMetadata,
+  writeSourceEvidencePages,
+} from "./evidence-pages.js";
 
 const roots: string[] = [];
 const stores = new Set<RevisionStore>();
@@ -341,4 +345,25 @@ test("aborted export never publishes a readable manifest", async () => {
   setImmediate(() => controller.abort(new Error("canceled export")));
   await expect(exporting).rejects.toThrow();
   expect(() => new FileSourceEvidence(output, f.identity)).toThrow();
+});
+
+test("portable receipt uses the native ingest validator and its pinned source generation", async () => {
+  const f = await fixture();
+  const path = join(f.root, "metadata.json");
+  writeFileSync(path, JSON.stringify(f.metadata));
+  expect(readSourceMetadata(f.root, f.identity)).toEqual(f.metadata);
+  expect(() => readSourceMetadata(f.root, { ...f.identity, generation: "other" })).toThrow(
+    "another generation",
+  );
+  const invalid = { ...f.metadata, receipt: { ...f.metadata.receipt, cursorSamples: -1 } };
+  writeFileSync(path, JSON.stringify(invalid));
+  expect(() => readSourceMetadata(f.root, f.identity)).toThrow("Invalid evidence receipt");
+  await expect(
+    f.evidence.ingest({
+      ...f.identity,
+      generation: "bad-receipt",
+      file: f.file,
+      receipt: invalid.receipt,
+    }),
+  ).rejects.toThrow("Invalid evidence receipt");
 });

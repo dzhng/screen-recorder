@@ -1,3 +1,4 @@
+import { PackageFrameInspection } from "./package-frames.js";
 import { constants } from "node:fs";
 import { mkdir, lstat, realpath, open, type FileHandle } from "node:fs/promises";
 import { dirname } from "node:path";
@@ -27,7 +28,11 @@ export class PackageInspection {
   private error: string | null = null;
   private readonly views = new WeakMap<
     object,
-    { revisions: readonly TimelineRevision[]; index?: RetainedIndexRead<Reference> }
+    {
+      revisions: readonly TimelineRevision[];
+      index?: RetainedIndexRead<Reference>;
+      frames?: PackageFrameInspection;
+    }
   >();
   constructor(
     private readonly options: {
@@ -206,6 +211,16 @@ export class PackageInspection {
             }
           : null,
     };
+  }
+  frames(packageHandle: string): PackageFrameInspection {
+    const { view } = this.revisions(packageHandle);
+    return (view.frames ??= new PackageFrameInspection(
+      this.registry!,
+      packageHandle,
+      (revisionId) =>
+        this.revision({ packageHandle, ...(revisionId === undefined ? {} : { revisionId }) })
+          .revision,
+    ));
   }
   index(input: {
     packageHandle: string;

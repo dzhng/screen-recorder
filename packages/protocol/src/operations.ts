@@ -25,24 +25,23 @@ const historyParams = <T extends z.ZodRawShape>(target: z.ZodObject<T>) =>
     })
     .strict();
 
-const frameParams = recording
-  .extend({
-    revisionId: id.optional(),
-    atUs: time,
-    clean: z.boolean().optional(),
-    trailUs: time.max(10_000_000).optional(),
-    maxLongEdge: z.int().min(1).max(8192).optional(),
-    crop: z
-      .object({
-        x: z.int().nonnegative(),
-        y: z.int().nonnegative(),
-        width: z.int().positive(),
-        height: z.int().positive(),
-      })
-      .strict()
-      .optional(),
-  })
-  .strict();
+const frameFields = {
+  revisionId: id.optional(),
+  atUs: time,
+  clean: z.boolean().optional(),
+  trailUs: time.max(10_000_000).optional(),
+  maxLongEdge: z.int().min(1).max(8192).optional(),
+  crop: z
+    .object({
+      x: z.int().nonnegative(),
+      y: z.int().nonnegative(),
+      width: z.int().positive(),
+      height: z.int().positive(),
+    })
+    .strict()
+    .optional(),
+};
+const frameParams = inspection(frameFields);
 
 const audioParams = recording
   .extend({
@@ -233,7 +232,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("frame.batch"),
-      params: frameParams.extend({ atUs: z.array(time).min(1).max(8) }),
+      params: inspection({ ...frameFields, atUs: z.array(time).min(1).max(8) }),
     })
     .strict()
     .describe(

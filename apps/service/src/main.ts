@@ -20,7 +20,7 @@ import { DerivedCache } from "@screenrec/core/cache";
 import type { VisualObservations } from "@screenrec/core/scenes";
 import { VisualObservationCache } from "@screenrec/core/visual-cache";
 import { AudioInspection, type NativeAudio } from "@screenrec/core/audio";
-import { FrameInspection } from "@screenrec/core/frames";
+import { LibraryFrameInspection } from "@screenrec/core/frames";
 import type { NativeFrame } from "@screenrec/core/frame-materialization";
 import { RecordingDeletion } from "./deletion.js";
 import { ManagedFiles } from "./managed-files.js";
@@ -80,7 +80,7 @@ async function main(): Promise<void> {
   let processing: SourceProcessing;
   let scenes: SceneProcessing;
   let index: IndexProcessing;
-  let frames: FrameInspection;
+  let frames: LibraryFrameInspection;
   let audio: AudioInspection;
   let preview: PreviewInspection;
   let files: ManagedFiles;
@@ -200,7 +200,7 @@ async function main(): Promise<void> {
         decode: (request, signal) => nativeData<NativeFrame>("media.frame", request, signal),
       },
     );
-    frames = new FrameInspection(
+    frames = new LibraryFrameInspection(
       store,
       jobs,
       cache,

@@ -86,9 +86,25 @@ it("package inspection requires one explicit target without silently accepting l
     ])
       expect(operationSchema.safeParse({ operation, params }).success).toBe(false);
   }
-  for (const operation of ["frame.get", "audio.get", "index.retry", "recording.delete"])
+  for (const operation of ["audio.get", "index.retry", "recording.delete"])
     expect(
       operationSchema.safeParse({ operation, params: { packageHandle: "open-1", atUs: 0 } })
         .success,
     ).toBe(false);
+});
+
+it("arbitrary frame operations select either a package or a library recording", () => {
+  for (const operation of ["frame.get", "frame.retry", "frame.batch"]) {
+    const atUs = operation === "frame.batch" ? [0, 1] : 0;
+    expect(
+      operationSchema.safeParse({ operation, params: { packageHandle: "p", atUs } }).success,
+    ).toBe(true);
+    expect(
+      operationSchema.safeParse({
+        operation,
+        params: { recordingId: "r", packageHandle: "p", atUs },
+      }).success,
+    ).toBe(false);
+    expect(operationSchema.safeParse({ operation, params: { atUs } }).success).toBe(false);
+  }
 });

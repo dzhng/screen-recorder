@@ -1,7 +1,13 @@
 import { z } from "zod";
-import type { FileAccess } from "./files.js";
+import { fileAccess, type FileAccess } from "./files.js";
 import { CatalogError } from "./library.js";
-import { validateRecord, type EvidenceIdentity, type RecordRow } from "./evidence.js";
+import {
+  validateRecord,
+  validateSourceReceipt,
+  type SourceEvidenceMetadata,
+  type EvidenceIdentity,
+  type RecordRow,
+} from "./evidence.js";
 import {
   SourceEvidenceReader,
   evidenceIndexes,
@@ -9,7 +15,12 @@ import {
   type EvidenceIndex,
   type RecordQuery,
 } from "./evidence-read.js";
-import { OrderedPages, writeOrderedPages, type OrderedPageCodec } from "./ordered-pages.js";
+import {
+  OrderedPages,
+  readMember,
+  writeOrderedPages,
+  type OrderedPageCodec,
+} from "./ordered-pages.js";
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const identitySchema = z.strictObject({
   recordingId: z.string().min(1).max(256),
@@ -91,4 +102,30 @@ export class FileSourceEvidence extends SourceEvidenceReader {
     this.requireComplete(identity);
     return this.pages.read(query);
   }
+}
+
+/** The receipt is bounded independently of the normalized rows, which remain lazy. */
+export function readSourceMetadata(
+  root: string | FileAccess,
+  identity: EvidenceIdentity,
+): SourceEvidenceMetadata {
+  const bytes = readMember(fileAccess(root), "metadata.json", 65536);
+  let value: unknown;
+  try {
+    value = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
+  } catch {
+    throw new CatalogError("INVALID_EVIDENCE", "Invalid portable source metadata");
+  }
+  const parsed = identitySchema.extend({ receipt: z.unknown() }).strict().safeParse(value);
+  if (
+    !parsed.success ||
+    parsed.data.recordingId !== identity.recordingId ||
+    parsed.data.sourceId !== identity.sourceId ||
+    parsed.data.generation !== identity.generation
+  )
+    throw new CatalogError(
+      "INVALID_EVIDENCE",
+      "Portable source metadata belongs to another generation",
+    );
+  return { ...identity, receipt: validateSourceReceipt(parsed.data.receipt, identity.sourceId) };
 }

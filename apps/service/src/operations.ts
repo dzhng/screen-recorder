@@ -1,3 +1,4 @@
+import type { PackageFrameInspection } from "./package-frames.js";
 import type { RecordingExports } from "./exports.js";
 import type { PackageInspection } from "./packages.js";
 import type { RecordingStorage } from "@screenrec/core/storage";
@@ -6,7 +7,7 @@ import type { IndexProcessing } from "@screenrec/core/index-processing";
 import type { DerivedCache } from "@screenrec/core/cache";
 import type { PreviewInspection } from "@screenrec/core/preview";
 import type { AudioInspection } from "@screenrec/core/audio";
-import type { FrameInspection } from "@screenrec/core/frames";
+import type { LibraryFrameInspection } from "@screenrec/core/frames";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceProcessing } from "@screenrec/core/processing";
@@ -34,7 +35,7 @@ export type OperationContext = {
   capture: CaptureService;
   health: () => unknown;
   processing: SourceProcessing;
-  frames: FrameInspection;
+  frames: LibraryFrameInspection;
   audio: AudioInspection;
   preview: PreviewInspection;
   delivery: DerivativeDelivery;
@@ -63,6 +64,33 @@ function indexReader(
     owner: { kind: "recording" as const, id: reference.recordingId },
     frame: (ordinal: number) => index.frame({ ...reference, ordinal }),
     openRead: (ordinal: number) => index.openRead({ ...reference, ordinal }),
+  };
+}
+
+function frameDelivery(
+  data:
+    | ReturnType<LibraryFrameInspection["request"]>
+    | ReturnType<PackageFrameInspection["request"]>,
+  delivery: DerivativeDelivery,
+  cache: DerivedCache,
+  packages: PackageInspection,
+) {
+  if (!data.published) return { ...data, delivery: null };
+  if ("packageHandle" in data) {
+    const frame = data.published.frame;
+    return {
+      ...data,
+      delivery: delivery.open({ kind: "package", id: data.packageHandle }, () =>
+        packages.frames(data.packageHandle).openRead(frame),
+      ),
+    };
+  }
+  const frame = data.published.frame;
+  return {
+    ...data,
+    delivery: delivery.open({ kind: "recording", id: data.recordingId }, () =>
+      cache.acquire(frame.cacheId),
+    ),
   };
 }
 
@@ -189,7 +217,11 @@ export async function operate(
         };
       }
       case "frame.batch": {
-        const batch = frames.batch(operation.params);
+        const params = operation.params;
+        const batch =
+          "packageHandle" in params
+            ? packages.frames(params.packageHandle).batch(params)
+            : frames.batch(params);
         return {
           ok: true,
           data: {
@@ -199,14 +231,7 @@ export async function operate(
               try {
                 return {
                   ...item,
-                  data: {
-                    ...item.data,
-                    delivery: item.data.published
-                      ? delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
-                          cache.acquire(item.data.published!.frame.cacheId),
-                        )
-                      : null,
-                  },
+                  data: frameDelivery(item.data, delivery, cache, packages),
                 };
               } catch (error) {
                 return {
@@ -227,22 +252,15 @@ export async function operate(
       }
       case "frame.get":
       case "frame.retry": {
+        const params = operation.params;
+        const method = operation.operation === "frame.get" ? "request" : "retry";
         const status =
-          operation.operation === "frame.get"
-            ? frames.request(operation.params)
-            : frames.retry(operation.params);
-        return {
-          ok: true,
-          data: {
-            ...status,
-            delivery: status.published
-              ? delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
-                  cache.acquire(status.published!.frame.cacheId),
-                )
-              : null,
-          },
-        };
+          "packageHandle" in params
+            ? packages.frames(params.packageHandle)[method](params)
+            : frames[method](params);
+        return { ok: true, data: frameDelivery(status, delivery, cache, packages) };
       }
+
       case "preview.get":
       case "preview.retry": {
         const status =

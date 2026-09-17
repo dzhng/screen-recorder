@@ -2131,3 +2131,37 @@ records them. These choices add no public export choice or transcript readiness.
   Pause and geometry markers at the same source position retain journal sequence;
   scenes and interruption follow them deterministically. The timeline owner still
   controls cut placement and boundary inclusion.
+
+## Arbitrary package frames (14c3c2a)
+
+### Sound — medium confidence
+
+- **Retained images are a bounded working set.** When a long inspection asks for
+  another image, the package owner removes the least recently read output that
+  has no active reader until its existing budget can admit the new frame. A held
+  delivery keeps its bytes; if every candidate is held, the request reports a
+  retryable limit instead of waiting while occupying a processing slot. The plan
+  required continued progress but did not choose eviction order. This favors
+  recently inspected images without adding another cache or changing the budget.
+- **Expired result metadata admits a new job identity.** After many different
+  requests, drained frame job receipts can leave the bounded queue metadata set.
+  Asking for that image again starts a new job and output, even if an older held
+  delivery still has its bytes. Attempt generations belong to each job, so the
+  fresh job starts its own sequence. The plan left the relationship between
+  metadata and image eviction open; independent bounded lifetimes avoid a second
+  request map and preserve existing delivery promises.
+
+### Sound — high confidence
+
+- **Clean frames need only media and timeline.** A caller asking for a clean
+  screenshot does not consume cursor evidence, so this route does not parse source
+  metadata and reports no annotation-evidence summary. Annotated requests use the
+  same receipt and normalized-row validators as library inspection. The portable
+  package already defers row validation until use; keeping that boundary avoids
+  making an unrelated malformed annotation page prevent clean image inspection.
+- **Both storage policies share one frame controller.** Library frames and package
+  frames use the same option checks, pinned revision, batch behavior, materializer
+  and failure cleanup contract. Their adapters own only their existing queue and
+  output storage policy. The plan required reuse but did not specify its seam;
+  this keeps timeline and trail decisions in one place without treating package
+  provenance as a live library recording.

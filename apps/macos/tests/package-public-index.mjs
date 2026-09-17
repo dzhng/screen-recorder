@@ -1,16 +1,17 @@
-import { until, startPublicService, publicCommand, connectPublicMcp } from "./fixtures/public-service.mjs";
+import {
+  until,
+  startPublicService,
+  publicCommand,
+  connectPublicMcp,
+  seedPublicRecording,
+} from "./fixtures/public-service.mjs";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { randomUUID, createHash } from "node:crypto";
-import { readFile, writeFile, mkdir, readdir, realpath, mkdtemp, rm, cp } from "node:fs/promises";
+import { readFile, writeFile, readdir, realpath, mkdtemp, rm, cp } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { createConnection } from "node:net";
-import {
-  encodeJsonLine,
-} from "../../../packages/protocol/dist/index.js";
-import { RevisionStore } from "@screenrec/core/library";
-import { JobQueue } from "@screenrec/core/jobs";
-import { scenePolicy } from "@screenrec/core/scenes";
+import { encodeJsonLine } from "../../../packages/protocol/dist/index.js";
 import { archiveFixture } from "./fixtures/retained-archive.mjs";
 import { registerRelocationTest, relocatedReader } from "./package-relocation.mjs";
 
@@ -27,43 +28,7 @@ async function publicReader(original, output, executable) {
   execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
   const manifest = JSON.parse(await readFile(join(source, "manifest.json"), "utf8"));
   const inputHash = sha(await readFile(archive));
-  const ids = [manifest.snapshot.recordingId, manifest.snapshot.sourceId];
-  const store = new RevisionStore(join(home, "library.sqlite"), {
-    now: () => "fixture",
-    newId: () => ids.shift() ?? randomUUID(),
-  });
-  const take = store.allocate().recording;
-  assert.equal(take.recordingId, manifest.snapshot.recordingId);
-  store.ingestLifecycle(take.recordingId, {
-    sourceId: take.sourceId,
-    sequence: 1,
-    state: "interrupted",
-    reason: "same-ID isolation fixture",
-    sourceDurationUs: manifest.snapshot.sourceDurationUs,
-  });
-  const jobs = new JobQueue({
-    store,
-    providers: { newId: randomUUID },
-    execute: async () => {
-      throw new Error("Seeded canceled work must not execute");
-    },
-  });
-  for (const [artifact, input, lane] of [
-    ["source-evidence", "native-source-v1", "heavy"],
-    ["source-scenes", scenePolicy.id, "frame"],
-  ]) {
-    const job = jobs.submit({
-      recordingId: take.recordingId,
-      revisionId: "r0",
-      artifact,
-      input,
-      lane,
-    });
-    jobs.cancel(job.jobId);
-  }
-  await jobs.close();
-  store.close();
-  await mkdir(join(home, "recordings", take.recordingId, "source"), { recursive: true });
+  const take = await seedPublicRecording(home, manifest.snapshot);
   let service, client;
   const receipts = {};
   try {
@@ -73,7 +38,8 @@ async function publicReader(original, output, executable) {
       assert.equal(result.ok, true, JSON.stringify(result));
       return result.data;
     };
-    const command = (operation, params, extra = []) => publicCommand(service.socket, operation, params, extra);
+    const command = (operation, params, extra = []) =>
+      publicCommand(service.socket, operation, params, extra);
     const archivePath = await realpath(archive);
     const opened = command("package.open", { path: archivePath });
     const ready = async (id) =>

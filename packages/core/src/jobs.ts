@@ -259,6 +259,13 @@ export class JobQueue {
     this.runQueued();
     return this.contextJob(context, job.jobId);
   }
+  contextJobs(context: JobContext): { jobs: ContextJob[]; capacity: number; valueBytes: number } {
+    return {
+      jobs: [...this.context(context).jobs.values()].map(contextValue),
+      capacity: contextJobLimit,
+      valueBytes: contextValueBytes,
+    };
+  }
   contextJob(context: JobContext, jobId: string): ContextJob {
     const job = this.context(context).jobs.get(jobId);
     if (!job) throw new CatalogError("NOT_FOUND", "Package job does not exist", { jobId });

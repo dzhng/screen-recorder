@@ -223,6 +223,12 @@ export class PackageRegistry {
     if (!entry.requests.has(job.jobId)) entry.requests.set(job.jobId, execute);
     return job;
   }
+  jobs(handle: string): ReturnType<JobQueue["contextJobs"]> {
+    return this.options.jobs.contextJobs(this.ready(handle).context);
+  }
+  openOutput(handle: string, label: string) {
+    return this.ready(handle).retained!.openOutput(label);
+  }
   job(handle: string, jobId: string): ContextJob {
     return this.options.jobs.contextJob(this.ready(handle).context, jobId);
   }

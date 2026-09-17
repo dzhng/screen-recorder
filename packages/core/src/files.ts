@@ -102,7 +102,7 @@ export class IdentifiedFiles implements FileAccess {
     const expected = this.entries.get(file);
     if (!expected) throw new CatalogError("NOT_FOUND", "File is not admitted to this package");
     if (this.leases.size >= this.maximumOpen)
-      throw new CatalogError("LIMIT_EXCEEDED", "Package open-file limit exceeded");
+      throw new CatalogError("LIMIT_EXCEEDED", "Package open-file limit exceeded", {}, true);
     // Darwin SDK sys/fcntl.h: O_NOFOLLOW_ANY is stable ABI but Node omits the named constant.
     const fd = openSync(
       this.path(file),

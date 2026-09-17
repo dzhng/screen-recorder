@@ -1,3 +1,8 @@
+import { mkdir } from "node:fs/promises";
+import { join } from "node:path";
+import { RevisionStore } from "@screenrec/core/library";
+import { JobQueue } from "@screenrec/core/jobs";
+import { scenePolicy } from "@screenrec/core/scenes";
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
@@ -82,15 +87,68 @@ export async function startPublicService(home, native) {
 }
 
 export function publicCommand(socket, operation, params, extra = []) {
-  const result = spawnSync(process.execPath, [cli, operation, "--socket", socket, "--params", JSON.stringify(params), ...extra],
-    { encoding: "utf8", timeout: 15000, maxBuffer: 8 * 1024 ** 2 });
+  const result = spawnSync(
+    process.execPath,
+    [cli, operation, "--socket", socket, "--params", JSON.stringify(params), ...extra],
+    { encoding: "utf8", timeout: 15000, maxBuffer: 8 * 1024 ** 2 },
+  );
   assert.equal(result.status, 0, result.stdout + result.stderr);
   return JSON.parse(result.stdout).data;
 }
 export async function connectPublicMcp(socket, name) {
   const client = new Client({ name, version: "1" });
   try {
-    await client.connect(new StdioClientTransport({ command: process.execPath, args: [cli, "mcp", "--socket", socket] }));
+    await client.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [cli, "mcp", "--socket", socket],
+      }),
+    );
     return client;
-  } catch (error) { await client.close(); throw error; }
+  } catch (error) {
+    await client.close();
+    throw error;
+  }
+}
+
+// A real library take sharing only package provenance, with no background fixture work.
+export async function seedPublicRecording(home, snapshot) {
+  const ids = [snapshot.recordingId, snapshot.sourceId];
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => "fixture",
+    newId: () => ids.shift() ?? randomUUID(),
+  });
+  const take = store.allocate().recording;
+  assert.equal(take.recordingId, snapshot.recordingId);
+  store.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 1,
+    state: "interrupted",
+    reason: "same-ID isolation fixture",
+    sourceDurationUs: snapshot.sourceDurationUs,
+  });
+  const jobs = new JobQueue({
+    store,
+    providers: { newId: randomUUID },
+    execute: async () => {
+      throw new Error("Seeded canceled work must not execute");
+    },
+  });
+  for (const [artifact, input, lane] of [
+    ["source-evidence", "native-source-v1", "heavy"],
+    ["source-scenes", scenePolicy.id, "frame"],
+  ]) {
+    const job = jobs.submit({
+      recordingId: take.recordingId,
+      revisionId: "r0",
+      artifact,
+      input,
+      lane,
+    });
+    jobs.cancel(job.jobId);
+  }
+  await jobs.close();
+  store.close();
+  await mkdir(join(home, "recordings", take.recordingId, "source"), { recursive: true });
+  return take;
 }

@@ -127,6 +127,10 @@
     "./event-pages": {
       "types": "./dist/event-pages.d.ts",
       "default": "./dist/event-pages.js"
+    },
+    "./retained-image": {
+      "types": "./dist/retained-image.d.ts",
+      "default": "./dist/retained-image.js"
     }
   },
   "scripts": {

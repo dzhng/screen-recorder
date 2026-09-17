@@ -52,7 +52,7 @@ function parse<T>(schema: z.ZodType<T>, bytes: Buffer): T {
   }
 }
 /** Reads one bounded regular member. Full archive/root lifetime containment belongs to the package owner. */
-function readMember(root: FileAccess, file: string, limit: number): Buffer {
+export function readMember(root: FileAccess, file: string, limit: number): Buffer {
   const opened = root.open(file),
     fd = opened.fd;
   try {
