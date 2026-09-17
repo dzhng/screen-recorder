@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import { CatalogError, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
+import { DerivativeInspection, LibraryDerivatives } from "./derivative-inspection.js";
 import type { DerivedCache } from "./cache.js";
 import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
@@ -50,79 +51,53 @@ type Options = { policy: string; sourceEvidence: SourceEvidenceMetadata };
 
 /** One pinned derivative under the existing job/cache authorities. The renderer owns
  * native execution and must leave its complete output in the reserved cache file. */
-export class PreviewInspection {
+export class PreviewInspection extends DerivativeInspection<
+  { recordingId: string },
+  PreviewInput & { sourceEvidence?: SourceEvidenceMetadata },
+  "preview",
+  PreviewArtifact
+> {
+  private readonly library: LibraryDerivatives;
   constructor(
     private readonly store: RevisionStore,
-    private readonly jobs: JobQueue,
+    jobs: JobQueue,
     private readonly cache: DerivedCache,
     private readonly evidence: SourceAudioRead,
-    private readonly processing: SourceProcessing,
+    processing: SourceProcessing,
     private readonly home: string,
     private readonly render: PreviewRenderer,
-  ) {}
-
-  request(input: PreviewInput & { sourceEvidence?: SourceEvidenceMetadata }) {
-    const revision = this.store.revision(input.recordingId, input.revisionId);
-    if (!revision.durationUs)
-      throw new CatalogError("UNAVAILABLE", "Revision has no retained video");
-    const identity = {
-      recordingId: input.recordingId,
-      sourceId: this.store.get(input.recordingId).sourceId,
-      revisionId: revision.id,
-    };
-    let selected = input.sourceEvidence;
-    if (!selected) {
-      this.processing.prepare(input.recordingId);
-      const source = this.processing.status(input.recordingId);
-      if (source.state !== "ready" || !source.published)
-        return {
-          ...identity,
-          state: source.state,
-          reason: source.reason,
-          retryable: source.retryable,
-          jobId: null,
-          published: null,
-          dependency: { artifact: "source" as const, jobId: source.jobId },
-        };
-      selected = source.published.evidence;
-    }
-    if (selected.recordingId !== identity.recordingId || selected.sourceId !== identity.sourceId)
-      throw new CatalogError("INVALID_EVIDENCE", "Preview evidence belongs to another source");
-    const options: Options = { policy, sourceEvidence: selected };
-    const jobIdentity = {
-      recordingId: input.recordingId,
-      revisionId: revision.id,
-      artifact,
-      input: JSON.stringify(options),
-    };
-    this.jobs.submit({ ...jobIdentity, lane: "heavy" });
-    let status = this.jobs.status(jobIdentity);
-    if (status.published) {
-      const result = JSON.parse(status.published.result) as PreviewArtifact;
-      const read = this.cache.acquire(result.cacheId);
-      if (read) read.release();
-      else {
-        this.jobs.regenerate(status.jobId!, status.published.generation);
-        status = this.jobs.status(jobIdentity);
-      }
-    }
-    return {
-      ...identity,
-      ...status,
-      dependency: null,
-      published: status.published
-        ? {
-            generation: status.published.generation,
-            preview: JSON.parse(status.published.result) as PreviewArtifact,
-          }
-        : null,
-    };
+  ) {
+    const library = new LibraryDerivatives(store, jobs, cache, processing);
+    super(library, "preview");
+    this.library = library;
   }
 
-  retry(input: PreviewInput) {
-    const status = this.request(input);
-    if (status.jobId) this.jobs.retry(status.jobId);
-    return this.request({ ...input, revisionId: status.revisionId });
+  /** Exports pass the source evidence their intent already pinned. */
+  request(input: PreviewInput & { sourceEvidence?: SourceEvidenceMetadata }) {
+    const context = this.backend.resolve(input);
+    const source = input.sourceEvidence
+      ? {
+          state: "ready",
+          reason: null,
+          retryable: false,
+          jobId: null,
+          evidence: input.sourceEvidence,
+        }
+      : this.backend.source(context);
+    return this.admit(context, source, (evidence) => {
+      if (evidence.recordingId !== context.recordingId || evidence.sourceId !== context.sourceId)
+        throw new CatalogError("INVALID_EVIDENCE", "Preview evidence belongs to another source");
+      const options: Options = { policy, sourceEvidence: evidence };
+      return this.library.submit<PreviewArtifact>(
+        {
+          recordingId: context.recordingId,
+          revisionId: context.revision.id,
+          artifact,
+          input: JSON.stringify(options),
+        },
+        "heavy",
+      );
+    });
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {

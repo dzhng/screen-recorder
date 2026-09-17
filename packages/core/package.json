@@ -147,6 +147,10 @@
     "./timeline-inspection": {
       "types": "./dist/timeline-inspection.d.ts",
       "default": "./dist/timeline-inspection.js"
+    },
+    "./derivative-inspection": {
+      "types": "./dist/derivative-inspection.d.ts",
+      "default": "./dist/derivative-inspection.js"
     }
   },
   "scripts": {

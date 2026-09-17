@@ -1,10 +1,5 @@
-import {
-  FrameInspection,
-  renderFrame,
-  type FrameContext,
-  type FrameOptions,
-  type FrameSubmission,
-} from "@screenrec/core/frames";
+import { FrameInspection, renderFrame, type FrameOptions } from "@screenrec/core/frames";
+import type { DerivativeContext } from "@screenrec/core/derivative-inspection";
 import type { MaterializedFrame, NativeFrame } from "@screenrec/core/frame-materialization";
 import type { VisualObservations } from "@screenrec/core/scenes";
 import { openRetainedImage } from "@screenrec/core/retained-image";
@@ -14,23 +9,11 @@ export type PackageFrameArtifact = MaterializedFrame & { outputId: string };
 
 export class PackageFrameInspection extends FrameInspection<PackageTarget, PackageFrameArtifact> {
   constructor(private readonly media: PackageMediaContext) {
-    super();
+    super(media);
   }
-  protected resolve(input: PackageTarget & { revisionId?: string | undefined }) {
-    return this.media.resolve(input);
-  }
-  protected source() {
-    return this.media.source();
-  }
-  protected retryJob(jobId: string) {
-    this.media.retry(jobId);
-  }
-  protected submit(
-    context: FrameContext<PackageTarget>,
-    options: FrameOptions,
-  ): FrameSubmission<PackageFrameArtifact> {
+  protected submit(context: DerivativeContext<PackageTarget>, options: FrameOptions) {
     const media = this.media;
-    const result = media.submit<MaterializedFrame>(
+    return media.submit<MaterializedFrame>(
       "frame",
       JSON.stringify({ revisionId: context.revision.id, options }),
       (output, run, signal) =>
@@ -53,12 +36,6 @@ export class PackageFrameInspection extends FrameInspection<PackageTarget, Packa
           signal,
         ),
     );
-    return {
-      ...result,
-      published: result.published
-        ? { generation: result.published.generation, frame: result.published.value }
-        : null,
-    };
   }
   openRead(frame: PackageFrameArtifact) {
     const read = openRetainedImage(this.media.openOutput(frame.outputId), frame);
