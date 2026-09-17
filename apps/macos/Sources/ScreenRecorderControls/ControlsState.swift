@@ -8,7 +8,15 @@ import Foundation
 public struct ControlsState: Equatable, Sendable {
     public init() {}
 
-    public var service: ServiceState = .starting
+    /// Whether the service can carry an operation. Device and take are observations through the
+    /// service, so once it cannot answer they describe nothing and are dropped rather than shown.
+    public var service: ServiceState = .starting {
+        didSet {
+            guard service != .ready else { return }
+            device = nil
+            take = nil
+        }
+    }
     /// What the capture device reports about itself, once a status answer has arrived.
     public var device: DeviceStatus?
     /// The take the device is working on, as the library holds it.
@@ -27,6 +35,10 @@ public struct ControlsState: Equatable, Sendable {
     public var unavailableShortcuts: [String] = []
     /// Where a person can state their own key combinations when a default is taken.
     public var shortcutOverridePath: String?
+    /// The start whose answer has not arrived: still in flight, or lost to a deadline.
+    public private(set) var unansweredStart: StartRequest?
+    /// Whether any source was ever selected. Only before then is a display offered by default.
+    private var sourceWasSelected = false
 
     public enum ServiceState: Equatable, Sendable {
         case starting
@@ -228,9 +240,10 @@ public struct ControlsState: Equatable, Sendable {
 }
 
 extension ControlsState.CaptureSelection {
-    /// What a start asks the service for. The protocol owns both audio defaults, so this always
-    /// states both explicitly, and the microphone is on unless a person turned it off.
-    public struct Start: Equatable, Sendable, Decodable {
+    /// What a start asks the service for, in the shape the service states a running take's
+    /// selection. The protocol owns both audio defaults, so this always states both explicitly, and
+    /// the microphone is on unless a person turned it off.
+    public struct Start: Equatable, Sendable, Codable {
         public init(source: Source, microphone: Bool, microphoneDeviceId: String?, systemAudio: Bool) {
             self.source = source
             self.microphone = microphone
@@ -243,7 +256,7 @@ extension ControlsState.CaptureSelection {
         public let microphoneDeviceId: String?
         public let systemAudio: Bool
 
-        public enum Source: Equatable, Sendable, Decodable {
+        public enum Source: Equatable, Sendable, Codable {
             case display(id: Int)
             case window(id: Int)
             case region(displayId: Int, x: Double, y: Double, width: Double, height: Double)
@@ -269,10 +282,29 @@ extension ControlsState.CaptureSelection {
                         forKey: .kind, in: fields, debugDescription: "Unknown capture source")
                 }
             }
+
+            public func encode(to encoder: Encoder) throws {
+                var fields = encoder.container(keyedBy: CodingKeys.self)
+                switch self {
+                case .display(let id):
+                    try fields.encode("display", forKey: .kind)
+                    try fields.encode(id, forKey: .displayId)
+                case .window(let id):
+                    try fields.encode("window", forKey: .kind)
+                    try fields.encode(id, forKey: .windowId)
+                case .region(let displayId, let x, let y, let width, let height):
+                    try fields.encode("region", forKey: .kind)
+                    try fields.encode(displayId, forKey: .displayId)
+                    try fields.encode(x, forKey: .x)
+                    try fields.encode(y, forKey: .y)
+                    try fields.encode(width, forKey: .width)
+                    try fields.encode(height, forKey: .height)
+                }
+            }
         }
     }
 
-    /// Nil until a person has chosen something to record: this app never guesses a source.
+    /// Nil until a source is selected.
     public func start() -> Start? {
         guard let source else { return nil }
         let chosen: Start.Source =
@@ -323,8 +355,29 @@ extension ControlsState.CaptureSelection {
 }
 
 extension ControlsState {
-    /// Refresh labels by identity. A browser navigation changes a title without closing its window.
-    public mutating func reconcileSelection() -> String? {
+    /// Takes a fresh catalog, keeping the selection to what still exists.
+    public mutating func observeSources(_ catalog: SourceCatalog) {
+        sources = catalog
+        if let lost = reconcileSelection() { failure = lost }
+    }
+
+    /// A catalog read that failed says nothing about which sources exist, so the last catalog and
+    /// the selection stand. Missing screen permission hides every source, and is already stated as
+    /// a permission rather than as a failure.
+    public mutating func sourcesUnavailable(code: String, description: String) {
+        if code == "PERMISSION_REQUIRED" {
+            sources = SourceCatalog()
+        } else {
+            failure = description
+        }
+    }
+
+    /// Refreshes labels by identity: a browser navigation changes a title without closing its
+    /// window. Until anything was ever selected, the first display is offered. A selected source
+    /// that disappears is dropped and said so, and never replaced by a guess, so a shortcut cannot
+    /// record something nobody chose.
+    private mutating func reconcileSelection() -> String? {
+        if selection.source != nil { sourceWasSelected = true }
         var failure: String?
         switch selection.source {
         case .display(let selected):
@@ -336,7 +389,7 @@ extension ControlsState {
         case .region(let chosen) where !sources.displays.contains(where: { $0.id == chosen.displayId }):
             selection.source = nil
             failure = "\(chosen.displayName) is no longer available."
-        case nil:
+        case nil where !sourceWasSelected:
             selection.source = sources.displays.first.map { .display($0) }
         default: break
         }
@@ -345,5 +398,63 @@ extension ControlsState {
             selection.microphone = .systemDefault
         }
         return failure
+    }
+}
+
+extension ControlsState {
+    /// One request to start a take, under the ID the service allocates that take against.
+    public struct StartRequest: Equatable, Sendable {
+        public let requestId: String
+        public let start: CaptureSelection.Start
+        /// Whether this asks again for a start whose answer had not arrived.
+        public let repeatsUnanswered: Bool
+    }
+
+    /// What a start's answer means for the person who asked for it.
+    public enum StartAnswer: Equatable, Sendable {
+        /// The take it names is on the device.
+        case live
+        /// The take it names has already ended.
+        case ended
+        /// Refused: no take is left for this request to resolve.
+        case refused
+        /// No answer: a deadline, a stopped service, or a start the service has not proved yet.
+        case unanswered
+
+        public init(recordingState: String) {
+            self = ["complete", "interrupted", "canceled"].contains(recordingState) ? .ended : .live
+        }
+
+        public init(failureCode: String) {
+            let unanswered = ["TIMEOUT", "SERVICE_STOPPED", "UNRESOLVED_START"]
+            self = unanswered.contains(failureCode) ? .unanswered : .refused
+        }
+    }
+
+    /// The request for a start of the current selection, or nil with the reason when there is none.
+    /// A start whose answer has not arrived is asked for again under its own request ID, so the
+    /// service resolves the take it already allocated instead of allocating another.
+    public mutating func beginStart(newRequestId: String) -> StartRequest? {
+        guard let start = selection.start() else {
+            failure = "Choose a source before recording."
+            return nil
+        }
+        let request =
+            if let unansweredStart, unansweredStart.start == start {
+                StartRequest(requestId: unansweredStart.requestId, start: start, repeatsUnanswered: true)
+            } else {
+                StartRequest(requestId: newRequestId, start: start, repeatsUnanswered: false)
+            }
+        unansweredStart = request
+        return request
+    }
+
+    /// Settles a start with its answer, and says whether the person's start still needs a new
+    /// request: a repeated request that resolves to a take that already ended has settled the lost
+    /// start, but recorded nothing for this one.
+    public mutating func finishStart(_ request: StartRequest, _ answer: StartAnswer) -> Bool {
+        guard answer != .unanswered else { return false }
+        if unansweredStart?.requestId == request.requestId { unansweredStart = nil }
+        return answer == .ended && request.repeatsUnanswered
     }
 }

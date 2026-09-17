@@ -378,13 +378,6 @@ final class CaptureController {
     /// Tells the library about a transition it did not ask for. The answer is awaited so a take
     /// that is being finalized is stored before the app stops reporting.
     private func send(report: [String: Any]) async {
-        guard let host, let params = try? JSONSerialization.data(withJSONObject: report) else {
-            return
-        }
-        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-            host.call(operation: "capture.report", params: params) { _ in
-                continuation.resume()
-            }
-        }
+        _ = try? await host?.call("capture.report", report)
     }
 }

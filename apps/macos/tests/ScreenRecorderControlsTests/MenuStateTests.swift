@@ -67,6 +67,19 @@ func runMenuStateTests() {
     precondition(statusLines(paused).first == "Paused — 0:12", "A paused take shows the time it reached")
     precondition(row(paused, "capture.pauseOrResume").title == "Resume Recording", "A paused take resumes")
 
+    var lost = recording(elapsedUs: 12_000_000)
+    lost.service = .unavailable("Service exited with status 9")
+    let orphaned = RecordingMenu.entries(for: lost)
+    precondition(
+        StatusItemAppearance.title(for: lost).isEmpty
+            && StatusItemAppearance.symbolName(for: lost) == "exclamationmark.triangle",
+        "A lost service leaves no recording clock in the menu bar")
+    precondition(
+        statusLines(orphaned).first == "Unavailable — Service exited with status 9"
+            && row(orphaned, "capture.startOrStop").title == "Start Recording"
+            && !row(orphaned, "capture.startOrStop").enabled,
+        "A take the service can no longer report is not shown as still recording")
+
     var interrupted = ready()
     interrupted.take = ControlsState.TakeStatus(
         recordingId: "rec-2", state: "interrupted", interruptionReason: "SOURCE_LOST",

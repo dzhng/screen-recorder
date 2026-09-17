@@ -68,15 +68,65 @@ func runSelectionTests() {
                  "An external take replaces the menu's source and both audio choices for restart")
     precondition(RecordingMenu.sourceTitle(for: state) == "Safari — Pricing",
                  "An external window resolves its catalog label")
-    state.sources.windows = [.init(id: 88, title: "Checkout", application: "Safari")]
-    precondition(state.reconcileSelection() == nil,
-                 "A title change is not a closed window")
+    let checkout = ControlsState.Window(id: 88, title: "Checkout", application: "Safari")
+    state.observeSources(.init(displays: [display], windows: [checkout], microphones: []))
+    precondition(state.failure == nil, "A title change is not a closed window")
     precondition(RecordingMenu.sourceTitle(for: state) == "Safari — Checkout",
                  "A retained selection shows the refreshed title")
     precondition(state.selection.start()?.source == .window(id: 88),
                  "Renaming a window preserves its capture identity")
-    state.sources.windows = []
-    precondition(state.reconcileSelection() != nil && state.selection.source == nil,
+    state.observeSources(.init(displays: [display], windows: [], microphones: []))
+    precondition(state.failure != nil && state.selection.source == nil,
                  "A missing window is visibly deselected")
+    state.failure = nil
+    state.observeSources(.init(displays: [display], windows: [], microphones: []))
+    precondition(state.selection.start() == nil,
+                 "A source that disappeared is never replaced by a display nobody chose")
+
+    var fresh = ControlsState()
+    fresh.observeSources(.init(displays: [display], windows: [window], microphones: []))
+    precondition(fresh.selection.source == .display(display),
+                 "Before anything was selected, the first display is offered")
+
+    var failing = ready(source: .window(window))
+    failing.sourcesUnavailable(code: "TIMEOUT", description: "TIMEOUT: capture.sources did not answer in time")
+    precondition(
+        failing.selection.source == .window(window) && failing.sources.windows == [window]
+            && failing.failure == "TIMEOUT: capture.sources did not answer in time",
+        "A catalog read that failed keeps the selection and states its own failure")
     print("PASS a selection becomes exactly the take it describes")
+}
+
+func runStartRequestTests() {
+    var state = ready(source: .window(window))
+    guard let first = state.beginStart(newRequestId: "first") else { preconditionFailure("A chosen source starts") }
+    precondition(first.requestId == "first" && !first.repeatsUnanswered, "A first start is a new request")
+    precondition(state.beginStart(newRequestId: "double")?.requestId == "first",
+                 "Pressing Start again while the answer is in flight asks for the same take")
+    precondition(!state.finishStart(first, .init(failureCode: "TIMEOUT")), "A lost answer asks for nothing yet")
+
+    guard let replay = state.beginStart(newRequestId: "second") else { preconditionFailure("A replay starts") }
+    precondition(replay.requestId == "first" && replay.repeatsUnanswered,
+                 "Asking again resolves the take the unanswered request allocated")
+    precondition(!state.finishStart(replay, .init(failureCode: "UNRESOLVED_START")),
+                 "A start the service has not proved yet stays unanswered")
+    guard let settled = state.beginStart(newRequestId: "third") else { preconditionFailure("A replay starts") }
+    precondition(settled.requestId == "first", "An unproved start is still asked for under its own ID")
+    precondition(state.finishStart(settled, .init(recordingState: "interrupted")),
+                 "A replay that resolves to an ended take recorded nothing, so the start asks again")
+    guard let next = state.beginStart(newRequestId: "fourth") else { preconditionFailure("A new start") }
+    precondition(next.requestId == "fourth" && !next.repeatsUnanswered,
+                 "Once the lost start is settled, the next press allocates a new take")
+    precondition(!state.finishStart(next, .init(recordingState: "recording")) && state.unansweredStart == nil,
+                 "A live answer settles the request")
+
+    guard let lost = state.beginStart(newRequestId: "fifth") else { preconditionFailure("A new start") }
+    _ = state.finishStart(lost, .init(failureCode: "SERVICE_STOPPED"))
+    state.selection.systemAudio.toggle()
+    precondition(state.beginStart(newRequestId: "sixth")?.requestId == "sixth",
+                 "A different selection is a different take, not a replay")
+    guard let refused = state.unansweredStart else { preconditionFailure("A start is in flight") }
+    precondition(!state.finishStart(refused, .init(failureCode: "INVALID_STATE")) && state.unansweredStart == nil,
+                 "A refusal leaves nothing to resolve")
+    print("PASS a start whose answer was lost is resolved once, then a new take is asked for")
 }

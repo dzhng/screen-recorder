@@ -7,6 +7,13 @@ func diagnostic(_ message: String) {
     FileHandle.standardError.write(Data("screenrec: \(message)\n".utf8))
 }
 
+/// The part of the service's health answer this app reports on stderr.
+private struct ServiceHealth: Decodable {
+    let status: String
+    let pid: Int
+    let node: String
+}
+
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var controls: RecordingControls?
@@ -31,16 +38,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             fixture = window
             diagnostic("capture fixture window=\(window.windowNumber)")
         }
-        controller = CaptureController(fixtureWindow: fixture)
+        let controller = CaptureController(fixtureWindow: fixture)
+        self.controller = controller
         probe = ControlsProbe.inFixture(fixture, controls: controls)
-        startService()
+        startService(capture: controller)
     }
 
     /// Ordinary launch owns the service only. Nothing here starts capture or touches a
     /// permission-gated API, so launching the app prompts for nothing. Resolving the
     /// interpreter runs child processes, so it answers back on the main actor rather
     /// than holding it while a candidate is probed.
-    private func startService() {
+    private func startService(capture: CaptureController) {
         apply(.starting)
         startup = ServiceBundle.resolve { [weak self] result in
             Task { @MainActor in
@@ -49,27 +57,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 case .failure(let failure):
                     self.apply(.unavailable(code: failure.code, message: failure.message))
                 case .success(let bundle):
-                    let capture = self.controller
                     let host = ServiceHost(
                         bundle: bundle,
                         onNativeCall: { operation, params, answer in
-                            Task { @MainActor in
-                                guard let capture else {
-                                    answer(
-                                        .failure(
-                                            ServiceFailure(
-                                                code: "UNKNOWN_OPERATION",
-                                                message: "This app owns no capture session")))
-                                    return
-                                }
-                                answer(await capture.handle(operation, params))
-                            }
+                            Task { @MainActor in answer(await capture.handle(operation, params)) }
                         }
                     ) { [weak self] state in
                         Task { @MainActor in self?.apply(state) }
                     }
                     self.service = host
-                    capture?.attach(to: host)
+                    capture.attach(to: host)
                     self.controls?.attach(to: host)
                     host.start()
                 }
@@ -90,12 +87,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         case .ready(let pid, let socketPath):
             diagnostic("service ready pid=\(pid) socket=\(socketPath)")
             // One real control round trip proves the inherited pipe, not just the spawn.
-            service?.health { result in
-                Task { @MainActor in
-                    guard case .success(let health) = result else { return }
-                    diagnostic(
-                        "service health status=\(health.status) pid=\(health.pid) node=v\(health.node)")
-                }
+            Task { @MainActor in
+                guard let health = try? await service?.call("service.health", as: ServiceHealth.self)
+                else { return }
+                diagnostic("service health status=\(health.status) pid=\(health.pid) node=v\(health.node)")
             }
         case .unavailable(let code, let message):
             diagnostic("service failed code=\(code) message=\(message)")

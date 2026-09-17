@@ -1,17 +1,6 @@
 import Darwin
 import Foundation
 
-/// Runtime facts the service reports about itself. It owns no capture state, so this
-/// slice's health answer describes process lifetime only.
-struct ServiceHealth: Decodable, Sendable {
-    let status: String
-    let pid: Int
-    let socketPath: String
-    let home: String
-    let node: String
-    let uptimeMs: Int
-}
-
 /// Owns the one Node service child this app launches, and the inherited JSON-lines
 /// control channel to it. The child owns the private socket listener; this type owns
 /// only its lifetime. There is no installed daemon and no automatic restart: a child
@@ -31,10 +20,6 @@ final class ServiceHost: @unchecked Sendable {
         case unavailable(code: String, message: String)
     }
 
-    /// A call answered with this has no failure to report yet: the child is still
-    /// inside its startup budget.
-    static let startingCode = "SERVICE_STARTING"
-
     /// Bounded quit budget: EOF first, then signals against this child's own PID only.
     static let eofDeadline: TimeInterval = 4
     static let signalDeadline: TimeInterval = 2
@@ -48,7 +33,6 @@ final class ServiceHost: @unchecked Sendable {
     private var buffer = Data()
     private var discarding = false
     private var pending: [String: @Sendable (Result<Data, ServiceFailure>) -> Void] = [:]
-    private var nextCall = 0
     private var stopping = false
     private var finished = false
     private var writerClosed = false
@@ -64,17 +48,20 @@ final class ServiceHost: @unchecked Sendable {
     }()
 
     private let onState: @Sendable (State) -> Void
-    private let onNativeCall: NativeHandler?
+    private let onNativeCall: NativeHandler
     private var inbound = 0
 
     init(
-        bundle: ServiceBundle, onNativeCall: NativeHandler? = nil,
+        bundle: ServiceBundle, onNativeCall: @escaping NativeHandler,
         onState: @escaping @Sendable (State) -> Void
     ) {
         self.bundle = bundle
         self.onNativeCall = onNativeCall
         self.onState = onState
     }
+
+    /// How long one call may wait for its answer, as the protocol states it.
+    var callTimeout: TimeInterval { bundle.callTimeout }
 
     func start() {
         publish(state)
@@ -123,66 +110,71 @@ final class ServiceHost: @unchecked Sendable {
         }
     }
 
-    func health(_ completion: @escaping @Sendable (Result<ServiceHealth, ServiceFailure>) -> Void) {
-        call(operation: "service.health", params: Data("{}".utf8)) { result in
-            completion(
-                result.flatMap { data in
-                    guard let health = try? JSONDecoder().decode(ServiceHealth.self, from: data) else {
-                        return .failure(
-                            ServiceFailure(
-                                code: "INVALID_RESPONSE", message: "Service returned unreadable health data"))
-                    }
-                    return .success(health)
-                })
+    /// Calls one service operation over the inherited pipe and answers with its `data` as JSON.
+    /// Every call is correlated, bounded by the in-flight limit, and settled by an answer, a
+    /// deadline or the channel ending. The request is encoded here, on the caller's actor, so only
+    /// bytes cross to the queue that owns the channel.
+    @MainActor
+    func call(_ operation: String, _ params: [String: Any] = [:]) async throws(ServiceFailure) -> Data {
+        let id = "app-\(UUID().uuidString)"
+        guard
+            let line = try? JSONSerialization.data(withJSONObject: [
+                "event": "request",
+                "request": ["id": id, "operation": operation, "params": params],
+            ])
+        else {
+            throw ServiceFailure(code: "INVALID_REQUEST", message: "Could not encode \(operation)")
         }
+        let answer = await withCheckedContinuation { continuation in
+            queue.async {
+                self.request(id: id, operation: operation, line: line) { continuation.resume(returning: $0) }
+            }
+        }
+        return try answer.get()
     }
 
-    /// Calls one service operation over the inherited pipe. Every call is correlated, bounded by
-    /// the in-flight limit, and settled by an answer, a deadline or the channel ending.
-    func call(
-        operation: String, params: Data,
+    /// The same call, with its answer read as `T`. An answer of another shape is a failed call.
+    @MainActor
+    func call<T: Decodable>(
+        _ operation: String, _ params: [String: Any] = [:], as type: T.Type
+    ) async throws(ServiceFailure) -> T {
+        let data = try await call(operation, params)
+        guard let value = try? JSONDecoder().decode(type, from: data) else {
+            throw ServiceFailure(code: "INVALID_RESPONSE", message: "\(operation) returned unreadable data")
+        }
+        return value
+    }
+
+    private func request(
+        id: String, operation: String, line: Data,
         _ completion: @escaping @Sendable (Result<Data, ServiceFailure>) -> Void
     ) {
-        queue.async {
-            guard case .ready = self.state, !self.stopping else {
-                completion(.failure(self.unavailableFailure()))
-                return
-            }
-            guard self.pending.count < self.bundle.maxPendingCalls else {
-                completion(
-                    .failure(
-                        ServiceFailure(
-                            code: "LIMIT_EXCEEDED",
-                            message: "Too many service requests are already in flight.")))
-                return
-            }
-            self.nextCall += 1
-            let id = "app-\(self.nextCall)"
-            guard let fields = (try? JSONSerialization.jsonObject(with: params)) as? [String: Any],
-                let line = try? JSONSerialization.data(withJSONObject: [
-                    "event": "request",
-                    "request": ["id": id, "operation": operation, "params": fields],
-                ])
-            else {
-                completion(
-                    .failure(ServiceFailure(code: "INVALID_REQUEST", message: "Could not encode \(operation)")))
-                return
-            }
-            self.pending[id] = completion
-            self.queue.asyncAfter(deadline: .now() + self.bundle.callTimeout) { [weak self] in
-                guard let self, let waiting = pending.removeValue(forKey: id) else { return }
-                waiting(.failure(ServiceFailure(code: "TIMEOUT", message: "\(operation) did not answer in time")))
-            }
-            // A child that died, or one that stopped reading, must surface as a settled
-            // failure here, never as a signal or a blocked queue.
-            if !self.send(line + Data([0x0a])) {
-                self.pending.removeValue(forKey: id)
-                completion(
-                    .failure(
-                        ServiceFailure(
-                            code: "LIMIT_EXCEEDED",
-                            message: "Service is not reading its control channel.")))
-            }
+        guard case .ready = state, !stopping else {
+            completion(.failure(unavailableFailure()))
+            return
+        }
+        guard pending.count < bundle.maxPendingCalls else {
+            completion(
+                .failure(
+                    ServiceFailure(
+                        code: "LIMIT_EXCEEDED",
+                        message: "Too many service requests are already in flight.")))
+            return
+        }
+        pending[id] = completion
+        queue.asyncAfter(deadline: .now() + bundle.callTimeout) { [weak self] in
+            guard let self, let waiting = pending.removeValue(forKey: id) else { return }
+            waiting(.failure(ServiceFailure(code: "TIMEOUT", message: "\(operation) did not answer in time")))
+        }
+        // A child that died, or one that stopped reading, must surface as a settled
+        // failure here, never as a signal or a blocked queue.
+        if !send(line + Data([0x0a])) {
+            pending.removeValue(forKey: id)
+            completion(
+                .failure(
+                    ServiceFailure(
+                        code: "LIMIT_EXCEEDED",
+                        message: "Service is not reading its control channel.")))
         }
     }
 
@@ -237,6 +229,8 @@ final class ServiceHost: @unchecked Sendable {
     // MARK: control channel
 
     private func consume(_ data: Data) {
+        // A failed child is being ended; nothing it still had buffered may act on this app.
+        guard !finished else { return }
         var rest = data[...]
         while let terminator = rest.firstIndex(of: 0x0a) {
             let line = rest[rest.startIndex..<terminator]
@@ -301,14 +295,6 @@ final class ServiceHost: @unchecked Sendable {
                 let params = try? JSONSerialization.data(withJSONObject: fields)
             else {
                 fail(code: "CONTROL_PROTOCOL", message: "Service sent an unreadable native call")
-                return
-            }
-            guard let onNativeCall else {
-                answer(
-                    id: id,
-                    .failure(
-                        ServiceFailure(
-                            code: "UNKNOWN_OPERATION", message: "This app owns no capture session")))
                 return
             }
             guard inbound < bundle.maxPendingCalls else {
@@ -451,6 +437,6 @@ final class ServiceHost: @unchecked Sendable {
             return ServiceFailure(code: "SERVICE_STOPPED", message: "Service is shutting down")
         }
         return ServiceFailure(
-            code: Self.startingCode, message: "Service has not reported a listener yet")
+            code: "SERVICE_STARTING", message: "Service has not reported a listener yet")
     }
 }

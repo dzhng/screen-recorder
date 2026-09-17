@@ -1,5 +1,6 @@
 runElapsedFormatTests()
 runSelectionTests()
+runStartRequestTests()
 runMenuStateTests()
 runRecentStorageTests()
 runShortcutTests()

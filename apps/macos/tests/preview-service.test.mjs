@@ -91,19 +91,7 @@ import Foundation
 import CryptoKit
 
 @MainActor final class Bridge {
-    var host: ServiceHost!
     var state: ServiceHost.State = .starting
-    func call(_ operation: String, _ params: [String: Any]) async throws -> Data {
-        let data = try JSONSerialization.data(withJSONObject: params)
-        return try await withCheckedThrowingContinuation { continuation in
-            host.call(operation: operation, params: data) { result in
-                continuation.resume(with: result.mapError { error in
-                    NSError(domain: error.code, code: 1,
-                        userInfo: [NSLocalizedDescriptionKey: "\\(error.code): \\(error.message)"])
-                })
-            }
-        }
-    }
 }
 @main struct Integration {
     @MainActor static func main() {
@@ -127,8 +115,12 @@ import CryptoKit
             ServiceBundle.resolve(in: bundle) { continuation.resume(with: $0) }
         }
         let bridge = Bridge()
-        let host = ServiceHost(bundle: resolved) { state in Task { @MainActor in bridge.state = state } }
-        bridge.host = host
+        let host = ServiceHost(
+            bundle: resolved,
+            onNativeCall: { _, _, answer in
+                answer(.failure(ServiceFailure(code: "UNKNOWN_OPERATION", message: "This check owns no capture session")))
+            }
+        ) { state in Task { @MainActor in bridge.state = state } }
         host.start()
         defer { host.shutdown() }
         var ready = false
@@ -142,7 +134,7 @@ import CryptoKit
             FileHandle.standardOutput.write(Data("SERVICE_PID=\\(pid)\\n".utf8))
         }
         var failures: [String] = []
-        let owner = PreviewController(call: bridge.call, failure: { failures.append($0) })
+        let owner = PreviewController(call: { try await host.call($0, $1) }, failure: { failures.append($0) })
         defer { owner.close() }
         let id = CommandLine.arguments[2]
         owner.open(id)
@@ -160,7 +152,7 @@ import CryptoKit
         precondition(abs(CMTimeGetSeconds(item.duration)-8) < 0.001)
         precondition(!view.allowsVideoFrameAnalysis)
         view.player!.pause()
-        _ = try await bridge.call("edit.cut", ["recordingId":id,"requestId":UUID().uuidString,
+        _ = try await host.call("edit.cut", ["recordingId":id,"requestId":UUID().uuidString,
             "expectedRevisionId":"r0","ranges":[["startUs":2000000,"endUs":4000000]]])
         // The real service lease initially lasts 30s. Paused playback must retain its
         // original item past that deadline while the current library edit advances.
@@ -171,7 +163,7 @@ import CryptoKit
                 "Pinned player changed or lost its renewed lease")
         }
         precondition(window.title.hasSuffix("r0") && abs(CMTimeGetSeconds(item.duration)-8) < 0.001)
-        let current = try JSONSerialization.jsonObject(with: await bridge.call("revision.get", ["recordingId":id])) as! [String:Any]
+        let current = try JSONSerialization.jsonObject(with: await host.call("revision.get", ["recordingId":id])) as! [String:Any]
         precondition((current["revision"] as! [String:Any])["durationUs"] as! Int == 6000000)
         let asset = item.asset as! AVURLAsset
         precondition(FileManager.default.fileExists(atPath: asset.url.path))
@@ -179,7 +171,7 @@ import CryptoKit
             .map { String(format: "%02x", $0) }.joined()
         precondition(hash == CommandLine.arguments[4], "Source changed during native playback")
         print("PASS pinned native player past original lease deadline; current edit is 6s")
-        _ = try await bridge.call("recording.delete", ["recordingId":id])
+        _ = try await host.call("recording.delete", ["recordingId":id])
         for _ in 0..<30 { owner.tick(); await pause(); if visible() == nil { break } }
         precondition(visible() == nil && view.player == nil)
         precondition(!FileManager.default.fileExists(atPath: asset.url.path))

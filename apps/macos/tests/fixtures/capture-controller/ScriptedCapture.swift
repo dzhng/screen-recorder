@@ -54,7 +54,9 @@ final class ScriptedCapture {
 
 struct ServiceFailure: Error { let code: String; let message: String }
 final class ServiceHost {
-    func call(operation: String, params: Data, _ completion: @escaping @Sendable (Result<Data, ServiceFailure>) -> Void) { completion(.success(params)) }
+    @MainActor func call(_ operation: String, _ params: [String: Any] = [:]) async throws(ServiceFailure) -> Data {
+        try! JSONSerialization.data(withJSONObject: params)
+    }
 }
 struct FixtureStartHold {
     static func inFixture(_ window: NSWindow?) -> Self? { nil }

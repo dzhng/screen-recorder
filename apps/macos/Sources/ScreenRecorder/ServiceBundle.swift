@@ -1,8 +1,11 @@
 import Foundation
 
-struct ServiceFailure: Error, Sendable {
+/// A refusal as the service states it: its own code, and a message a person can act on.
+struct ServiceFailure: LocalizedError, Sendable {
     let code: String
     let message: String
+
+    var errorDescription: String? { "\(code): \(message)" }
 }
 
 /// What the build placed in `Contents/Resources/service`: the bundled entrypoint, the
