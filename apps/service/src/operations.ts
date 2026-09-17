@@ -117,6 +117,7 @@ export async function operate(
     index,
     storage,
   }: OperationContext,
+  signal: AbortSignal,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
     return failure(
@@ -162,8 +163,8 @@ export async function operate(
         return {
           ok: true,
           data: await ("packageHandle" in operation.params
-            ? packages.timeline(operation.params.packageHandle).get(operation.params)
-            : timeline.get(operation.params)),
+            ? packages.timeline(operation.params.packageHandle).get(operation.params, signal)
+            : timeline.get(operation.params, signal)),
         };
       case "index.get":
         return {

@@ -128,8 +128,9 @@ async function startService(
         reported.set(id, resolve as (response: unknown) => void);
         send({ event: "request", request: { id, operation: "capture.report", params } });
       }),
-    call: (operation: string, params: Record<string, unknown> = {}, timeoutMs = 15_000) =>
-      callLocal(socketPath, { id: randomUUID(), operation, params }, { timeoutMs }),
+    // The client's own deadline for each operation: a test hears whatever the service answers.
+    call: (operation: string, params: Record<string, unknown> = {}) =>
+      callLocal(socketPath, { id: randomUUID(), operation, params }),
   };
 }
 
@@ -535,7 +536,6 @@ it(
     const answer = await service.call(
       "capture.start",
       { requestId: "silent", source: fixtureSource },
-      30_000,
     );
     expect(answer).toMatchObject({ ok: false, error: { code: "TIMEOUT", retryable: true } });
     const recordingId = (answer as unknown as { error: { details: { recordingId: string } } }).error
@@ -567,7 +567,6 @@ it(
     const answer = await service.call(
       "capture.start",
       { requestId: "silent", source: fixtureSource },
-      40_000,
     );
     expect(answer).toMatchObject({
       ok: false,
@@ -656,7 +655,7 @@ it(
       }),
     });
     const request = { requestId: "lost", source: fixtureSource };
-    const first = await service.call("capture.start", request, 60_000);
+    const first = await service.call("capture.start", request);
     expect(first).toMatchObject({
       ok: false,
       error: { code: "TIMEOUT", details: { state: "preparing" } },
@@ -669,7 +668,7 @@ it(
       data: { state: "preparing", sourceDurationUs: null },
     });
 
-    const replayed = await service.call("capture.start", request, 60_000);
+    const replayed = await service.call("capture.start", request);
     // The replay ended and settled the take it already named, from that take's own media.
     expect(replayed).toMatchObject({
       ok: true,
@@ -797,14 +796,10 @@ it(
       },
       { SCREENREC_NATIVE: await recovers({ durationUs: 6_000_000 }) },
     );
-    const started = await service.call(
-      "capture.start",
-      {
-        requestId: "unproved-stop",
-        source: fixtureSource,
-      },
-      30_000,
-    );
+    const started = await service.call("capture.start", {
+      requestId: "unproved-stop",
+      source: fixtureSource,
+    });
     expect(started).toMatchObject({ ok: false, error: { code: "TIMEOUT" } });
     const latest = await service.call("recording.latest");
     if (!latest.ok) throw new Error("Allocated take must be discoverable");

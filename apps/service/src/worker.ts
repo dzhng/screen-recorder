@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 import { isAbsolute } from "node:path";
 import {
+  MEDIA_WORKER_TIMEOUT_MS,
   REQUEST_FRAME_BYTES,
   RESPONSE_FRAME_BYTES,
   JsonLineReader,
@@ -16,7 +17,6 @@ import {
  * explicitly, and an unset variable is reported rather than searched around.
  */
 export const NATIVE_EXECUTABLE_VARIABLE = "SCREENREC_NATIVE";
-const DEFAULT_TIMEOUT_MS = 30_000;
 export const MAX_MEDIA_TIMEOUT_MS = 2_147_483_647;
 
 export type MediaWorker = (
@@ -37,7 +37,7 @@ function failure(code: string, message: string, retryable = false): OperationRes
  */
 export function mediaWorker(
   environment: NodeJS.ProcessEnv = process.env,
-  timeoutMs: number = DEFAULT_TIMEOUT_MS,
+  timeoutMs: number = MEDIA_WORKER_TIMEOUT_MS,
 ): MediaWorker {
   return (
     operation,

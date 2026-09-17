@@ -311,7 +311,7 @@ async function main(): Promise<void> {
     });
     listener = await listenLocal({
       runtimeDirectory,
-      handler: (request) => serve(request),
+      handler: (request, signal) => serve(request, signal),
     });
   } catch (error) {
     cleanupLifetime.abort();
@@ -410,27 +410,34 @@ async function main(): Promise<void> {
       log(`export recovery admission failed: ${(error as Error).message}`);
   }
 
-  /** Every public operation, for a local client on the socket and for the app alike. */
-  async function serve(request: OperationRequest): Promise<OperationResult> {
+  /**
+   * Every public operation, for a local client on the socket and for the app alike. The signal ends
+   * a caller's interest: a socket client's disconnect, or this service stopping for the app.
+   */
+  async function serve(request: OperationRequest, signal: AbortSignal): Promise<OperationResult> {
     try {
-      return await operate(request, {
-        index,
-        packages: packageOwner,
-        exports: exportOwner,
-        storage: storageOwner,
-        deletion,
-        store: catalog,
-        capture,
-        health: () => healthData(started, socketPath, home),
-        processing,
-        timeline,
-        frames,
-        audio,
-        preview,
-        delivery: transfers,
-        scenes,
-        cache,
-      });
+      return await operate(
+        request,
+        {
+          index,
+          packages: packageOwner,
+          exports: exportOwner,
+          storage: storageOwner,
+          deletion,
+          store: catalog,
+          capture,
+          health: () => healthData(started, socketPath, home),
+          processing,
+          timeline,
+          frames,
+          audio,
+          preview,
+          delivery: transfers,
+          scenes,
+          cache,
+        },
+        signal,
+      );
     } finally {
       queue.schedule();
     }
@@ -460,7 +467,7 @@ async function main(): Promise<void> {
         return Promise.resolve(operationFailure(error));
       }
     }
-    return serve(request);
+    return serve(request, cleanupLifetime.signal);
   }
 
   const stop = (): void => {

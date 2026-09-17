@@ -3,6 +3,8 @@ export const RESPONSE_FRAME_BYTES = 8 * 1024 * 1024;
 export const CONTROL_FRAME_BYTES = 64 * 1024;
 export const MAX_PENDING_CONTROL_CALLS = 32;
 export const DEFAULT_CALL_TIMEOUT_MS = 10_000;
+/** How long one native media worker run may take unless its caller budgets the work itself. */
+export const MEDIA_WORKER_TIMEOUT_MS = 30_000;
 
 export class FrameError extends Error {
   constructor(

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { captureSelectionSchema } from "./capture.js";
+import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";
 
 const id = z.string().min(1);
 const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -483,7 +484,40 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .describe("Restore retained spans from a historical revision into a new revision."),
 ]);
 
-export type SupportedOperation = z.infer<typeof operationSchema>;
+export type OperationName = z.infer<typeof operationSchema>["operation"];
 export const operationNames: ReadonlySet<string> = new Set(
   operationSchema.options.map((option) => option.shape.operation.value),
 );
+
+const nativeCall = DEFAULT_CALL_TIMEOUT_MS;
+const workerRun = MEDIA_WORKER_TIMEOUT_MS;
+// Drains and scans wait on other work finishing; a retry joins the same in-flight work.
+const drain = 180_000;
+const waits: Partial<Record<OperationName, number>> = {
+  "capture.sources": nativeCall,
+  "capture.status": nativeCall,
+  "capture.pause": nativeCall,
+  "capture.resume": nativeCall,
+  "capture.cancel": nativeCall,
+  // A stop native cannot perform is settled from the take's media by a recovery run.
+  "capture.stop": nativeCall + workerRun,
+  // An unanswered start is stopped and then recovered the same way.
+  "capture.start": 2 * nativeCall + workerRun,
+  // A restart discards the named take before it starts the next one.
+  "capture.restart": 3 * nativeCall + workerRun,
+  "export.create": workerRun,
+  "export.abandon": drain,
+  "package.open": drain,
+  "package.close": drain,
+  "recording.delete": drain,
+  "storage.usage": drain,
+};
+
+/**
+ * How long a client waits for one operation's answer. It outlasts every wait the service bounds on
+ * that operation's own path, so the service's outcome, including its own timeout, reaches the
+ * caller rather than a transport guess about work that is still running.
+ */
+export function operationDeadlineMs(operation: string): number {
+  return (waits[operation as OperationName] ?? DEFAULT_CALL_TIMEOUT_MS) + 5_000;
+}
