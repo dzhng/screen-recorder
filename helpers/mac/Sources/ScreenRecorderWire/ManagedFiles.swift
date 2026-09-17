@@ -180,11 +180,19 @@ enum ManagedFiles {
     }
 
     /// The lock follows the shared open-file description while the parent retains its FD.
-    static func lockPrivateDirectory(_ fd: Int32) throws {
+    static func lockPrivateDirectory(_ fd: Int32, busyCode: String? = nil) throws {
         var info = stat()
         guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
-            info.st_uid == getuid(), info.st_mode & 0o777 == 0o700,
-            flock(fd, LOCK_EX | LOCK_NB) == 0 else {
+            info.st_uid == getuid(), info.st_mode & 0o777 == 0o700 else {
+            throw StorageFailure("INVALID_STORAGE",
+                "Workspace must be a private directory owned exclusively by this attempt.",
+                retryable: false)
+        }
+        guard flock(fd, LOCK_EX | LOCK_NB) == 0 else {
+            let number = errno
+            if let busyCode, number == EWOULDBLOCK || number == EAGAIN {
+                throw StorageFailure(busyCode, "Workspace is still held by a live owner.", retryable: true)
+            }
             throw StorageFailure("INVALID_STORAGE",
                 "Workspace must be a private directory owned exclusively by this attempt.",
                 retryable: false)

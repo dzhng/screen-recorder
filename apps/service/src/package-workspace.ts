@@ -8,6 +8,28 @@ import type { MediaWorker } from "./worker.js";
 type Identity = Readonly<{ dev: string; ino: string }>;
 type Parent = Readonly<{ directory: string; handle: FileHandle }>;
 
+class FailedWorkspaceProvision extends CatalogError {
+  constructor(
+    readonly workspaceName: string,
+    readonly parentIdentity: Identity,
+    readonly childIdentity: Identity,
+    cause: unknown,
+    cleanup: unknown,
+  ) {
+    super(
+      "INVALID_STORAGE",
+      "Workspace admission and cleanup failed",
+      {
+        name: workspaceName,
+        identity: childIdentity,
+        cause: String(cause),
+        cleanup: String(cleanup),
+      },
+      true,
+    );
+  }
+}
+
 function result(value: Awaited<ReturnType<MediaWorker>>) {
   if (!value.ok)
     throw new CatalogError(
@@ -85,12 +107,7 @@ export async function provisionPackageWorkspace(
     try {
       result(await call("packageWorkspace.remove", identity));
     } catch (cleanup) {
-      throw new CatalogError(
-        "INVALID_STORAGE",
-        "Workspace admission and cleanup failed",
-        { name, identity, cause: String(cause), cleanup: String(cleanup) },
-        true,
-      );
+      throw new FailedWorkspaceProvision(name, parentIdentity, identity, cause, cleanup);
     }
     throw cause;
   }
@@ -119,4 +136,74 @@ export async function provisionPackageWorkspace(
       return removal;
     },
   };
+}
+
+/** Startup-only: caller blocks admission and exclusively owns the borrowed private parent. */
+export function recoverPackageWorkspaces(
+  parent: Parent,
+  worker: MediaWorker,
+): Promise<{ recovered: number }> {
+  return recoverWorkspaces(parent, worker);
+}
+
+/** No creation receipt was observed, so only an empty child (or absence) authorizes release. */
+export function recoverUnconfirmedPackageWorkspace(
+  parent: Parent,
+  name: string,
+  worker: MediaWorker,
+): Promise<{ recovered: number }> {
+  return recoverWorkspaces(parent, worker, name);
+}
+
+async function recoverWorkspaces(
+  parent: Parent,
+  worker: MediaWorker,
+  name?: string,
+): Promise<{ recovered: number }> {
+  const handle = parent.handle;
+  const info = await handle.stat({ bigint: true });
+  const receipt = result(
+    await worker(
+      name === undefined ? "packageWorkspace.recover" : "packageWorkspace.recoverUnconfirmed",
+      {
+        ...(name === undefined ? {} : { name }),
+        parent: { dev: info.dev.toString(), ino: info.ino.toString() },
+      },
+      { descriptors: [handle.fd] },
+    ),
+  ) as { recovered?: unknown };
+  if (
+    !receipt ||
+    !Number.isInteger(receipt.recovered) ||
+    (receipt.recovered as number) < 0 ||
+    (receipt.recovered as number) > 4
+  )
+    throw new CatalogError("INVALID_NATIVE_RESPONSE", "Invalid workspace recovery receipt");
+  return { recovered: receipt.recovered as number };
+}
+
+/** Retry owner-issued known identity; an unconfirmed creation may authorize only empty cleanup. */
+export async function cleanupFailedPackageWorkspace(
+  parent: Parent,
+  name: string,
+  failure: unknown,
+  worker: MediaWorker,
+): Promise<void> {
+  if (failure instanceof FailedWorkspaceProvision) {
+    if (failure.workspaceName !== name)
+      throw new CatalogError("INVALID_STORAGE", "Failed workspace name changed");
+    result(
+      await worker(
+        "packageWorkspace.remove",
+        {
+          parent: failure.parentIdentity,
+          name,
+          identity: failure.childIdentity,
+        },
+        { descriptors: [parent.handle.fd] },
+      ),
+    );
+  } else {
+    await recoverUnconfirmedPackageWorkspace(parent, name, worker);
+  }
 }
