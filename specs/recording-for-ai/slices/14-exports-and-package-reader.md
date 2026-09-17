@@ -1,8 +1,8 @@
 # 14 — Two exports and relocated AI inspection
 
 Status: package admission, public index/frame/audio inspection, queued export
-recovery and public video export pass their scoped gates. Complete-package
-assembly, public cursor/timeline reads, transcript integration and native export
+recovery, raw cursor pages and public video export pass their scoped gates. Complete-package
+assembly, public timeline reads, transcript integration and native export
 actions remain. See the [integration evidence](../assets/owner-integration/README.md).
 This does not close 08, 11c or 13.
 
@@ -59,7 +59,8 @@ reusable outputs and isolated delivery identities. [14c3b2](14c3b2-package-works
 workspace cleanup. [14c3b3](14c3b3-package-registry.md) now integrates registry
 reservations and startup reclamation. [Public opening/index](14c3c1-public-package-index.md)
 and [frame/audio selectors](14c3c2-package-frame-audio.md) now consume that owner;
-cursor and timeline selectors remain.
+[raw cursor pages](14c3c3-package-cursor.md) also use the shared source reader.
+Public timeline reads remain.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native

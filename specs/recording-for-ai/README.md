@@ -35,8 +35,9 @@ owner. The [bounded native ZIP producer](slices/14d3a-archive-writer.md) and
 [portable event producer](assets/export-publication/events.md) are implemented;
 complete assembly must consume the bounded semantic validator.
 [Public package audio](slices/14c3c2b-package-audio.md) now passes relocated CLI/MCP,
-retry, shared output pressure and close checks. Extend the remaining cursor and
-timeline read operations through the same package selector while assembly completes.
+retry, shared output pressure and close checks. [Raw cursor pages](slices/14c3c3-package-cursor.md)
+now pass relocated CLI/MCP pagination and handle-isolation checks. Timeline reads
+remain in progress through the same package selector while assembly completes.
 [Arbitrary package frames](slices/14c3c2a-package-frames.md) now pass actual CLI/MCP
 and retained-lifetime checks.
 [Public package index access](slices/14c3c1-public-package-index.md) and
@@ -57,7 +58,7 @@ Recent integration evidence:
   close and startup recovery. Pinned waiting exports, abandonment and private storage
   accounting preserve external files. [Merged verification](assets/owner-integration/README.md)
   records internal-owner and public-access integration checks. Retained index selectors
-  and arbitrary frames/audio are public; complete-package production remains.
+  and arbitrary frames/audio/cursor are public; complete-package production remains.
 - [Public preview](assets/preview-publication/public.md) passes generated pointer,
   cut/pause, CLI/MCP parity, restart and deletion checks. The
   [native player](assets/preview-publication/player.md) passes real bundled-service
@@ -176,6 +177,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [14c3c2 — Arbitrary package frame and audio](slices/14c3c2-package-frame-audio.md)
     - [x] [14c3c2a — Public arbitrary package frames](slices/14c3c2a-package-frames.md) (CLI/MCP delivery, retry, pressure and close)
     - [x] [14c3c2b — Public package audio](slices/14c3c2b-package-audio.md) (generated system/mix parity and lifetime; narration/audition remain separate)
+  - [x] [14c3c3 — Public package raw cursor](slices/14c3c3-package-cursor.md) (source-time pages and isolated continuations)
   - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md) (ready-preview queue/recovery/deletion; dependency consumers and public exports remain)
   - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md) (shared queue and rebuilt service integration)
   - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md) (source retention, retry and cache loss; public exports remain)

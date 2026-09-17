@@ -1,6 +1,18 @@
 # Integrated package and export owners
 
-## Current package audio integration
+## Current cursor integration
+
+At `2d2b860`, a fresh build and all type tasks pass. The merged
+[public cursor/index pair](package-cursor-native.txt) passes actual CLI/MCP relocation
+in 8.28 seconds, and all 14 protocol tests pass. The source agent
+[verified the shared cursor reader](../portable-inspection/public-package-cursor.md)
+with 325 core and 99 service tests plus an independent review. Integration review
+confirms there is one source-time range/continuation wrapper and no new queue or
+inspection operation. Raw cursor pages preserve observations removed from edited
+playback; their continuation is scoped to one package open. Timeline reads and
+complete-package production remain in progress.
+
+## Earlier package audio integration
 
 At `f244ede`, the freshly rebuilt bundle passes [143 native package/export checks](package-audio-export-native.txt), including the public audio consumer.
 A separate [actual CLI/MCP audio and frame run](package-audio-public-native.txt)
