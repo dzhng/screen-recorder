@@ -60,3 +60,28 @@ source selection or acquisition metadata caused the displacement. The next live
 probe needs an independent pointer/window coordinate witness before changing any
 production transform. No additional capture was made and no global positions are
 published here.
+
+## Independent live pointer witness
+
+A [new read-only witness](pointer-witness.json) compared `CGEvent.location` with
+`NSEvent.mouseLocation` converted to the same screen coordinate system. Both were
+normalized against the owned fixture's independently queried window bounds. No
+recording, audio access or production change was involved.
+
+During four UI drag calls, all 1,800 samples reported one unchanged position outside
+the fixture; the two APIs agreed. A second drag pair was bracketed by explicit UTC
+observations inside the sampler's 45-second run. The fixture was 800 by 532 points;
+the commanded drag coordinates were inside it. A preceding click also left the
+observed system pointer unchanged. Sampling continued through the action window.
+
+This establishes that these native UI automation calls supplied no observable global
+pointer path in this probe. It does not prove the automation backend's internals,
+exclude movements shorter than the sampling interval, or establish physical gesture
+accuracy. Keep the placement/circle/wave gate open; changing the production transform
+would not address the measured lack of movement. The raw normalized series and
+read-only witness remain under `/tmp/screenrec-pointer-*`; the receipt records its
+hash without publishing global pointer coordinates.
+
+The UI close action timed out. The exact owned fixture process was then verified and
+terminated; both the fixture and sampler handles reached exit zero. No owned service
+or capture session was created.

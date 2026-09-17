@@ -1,0 +1,74 @@
+{
+  "scope": "Read-only live coordinate witness over the owned fixture; no screen/audio recording or production changes",
+  "samples": 1800,
+  "firstObservedAt": "2026-09-17T01:33:31Z",
+  "lastObservedAt": "2026-09-17T01:34:16Z",
+  "insideFixtureSamples": 0,
+  "distinctQuartzPositions": 1,
+  "distinctCocoaPositions": 1,
+  "coordinateApisAgree": true,
+  "fixtureWindowSize": [
+    800,
+    532
+  ],
+  "actions": {
+    "click": [
+      304,
+      312
+    ],
+    "drags": [
+      [
+        [
+          240,
+          260
+        ],
+        [
+          380,
+          320
+        ]
+      ],
+      [
+        [
+          380,
+          320
+        ],
+        [
+          240,
+          260
+        ]
+      ],
+      [
+        [
+          240,
+          260
+        ],
+        [
+          380,
+          320
+        ]
+      ],
+      [
+        [
+          380,
+          320
+        ],
+        [
+          240,
+          260
+        ]
+      ]
+    ]
+  },
+  "confirmedSecondDragBatchWindowUtc": [
+    "2026-09-17T01:33:53Z",
+    "2026-09-17T01:34:07Z"
+  ],
+  "seriesSha256": "2913e9a4d5fa265ecb5ccb91c7a696b2b2837adf6a395b261495151da8c168b8",
+  "cleanup": {
+    "samplerExit": 0,
+    "fixtureExit": 0,
+    "uiCloseTimedOut": true,
+    "ownedProcessTerminated": true
+  },
+  "conclusion": "No global pointer movement was observed during native UI automation. Physical gesture accuracy remains unverified."
+}
