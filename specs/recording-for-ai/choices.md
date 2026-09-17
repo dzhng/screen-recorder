@@ -2393,4 +2393,29 @@ export controls. The choices below are the ones that change behavior or format.
   separately and checks the pinned model file hashes before loading, so FluidAudio
   can never download at inference. This costs a hash pass per job but keeps "no
   network after prepare" enforceable rather than conventional.
+- **FluidAudio is fetched at build time but links only into the worker.**
+  - Building helpers/mac, and therefore the app package that depends on it by path,
+    downloads the pinned FluidAudio revision and its NeMo text-normalization binary
+    (49 MB, checksummed), even with traits disabled.
+  - Symbol checks show neither in the ScreenRecorder app and no NeMo code in the worker.
+  - Splitting the worker into its own package would avoid the fetch, but it restructures
+    every native build and test target for a one-time pinned download on a personal host.
+- **Native transcription forces FluidAudio offline mode and diverts stdout.** Without
+  offline mode, a model that fails to load has its directory deleted for re-download.
+  Core ML writes a late shape-inference message to stdout. The worker points stdout at
+  stderr while transcribing, so its JSON response stays the only stdout content.
+- **Model assets are ready only when an exact, receipt-matched file set is present.**
+  Status never rehashes and never uses the network: it compares file set, sizes,
+  modification times and inodes with the receipt written last during prepare. Native
+  rehashes before each job. A failed prepare is remembered only in memory; after a
+  restart, status reports the files as they are.
+- **Transcript gaps are computed at ingest, and word IDs belong to one generation.**
+  Gap rows (audio never acquired, or intervals too short) are stored with the words,
+  so library and package reads share one simple record interface. A retry creates a
+  new generation, and a continuation from the old one fails with `ARTIFACT_CHANGED`
+  instead of mixing IDs.
+- **Adding tables does not change the catalog format.** Every owner creates its tables
+  idempotently, so the transcript tables need no bump; a changed existing table does.
+  An earlier draft bumped the format, which would have refused the freshly installed
+  personal library with no reason.
 

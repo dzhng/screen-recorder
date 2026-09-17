@@ -1,7 +1,16 @@
 # 08 — Durable local transcription and projections
 
-Status: planned into passes below; not started. Dependencies: 04 (Parakeet selected
-with best-effort fillers), 06.
+Status: P1–P3 are merged.
+- **P1:** native `speech.transcribe` gives exact word parity with the pinned CLI on
+  generated speech with network denied. See the
+  [evidence](../assets/speech/native-transcribe.md).
+- **P2:** pinned model assets prepare and verify against HuggingFace. See the
+  [assets record](../assets/speech/model-assets.md).
+- **P3:** core owns the durable transcript store, processing, projection and search.
+
+P4 public operations and P5 narrated packages are in progress. P6, real narration
+timing and resources, needs the user. Dependencies: 04 (Parakeet selected with
+best-effort fillers), 06.
 
 ## Passes
 
