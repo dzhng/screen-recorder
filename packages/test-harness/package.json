@@ -13,7 +13,8 @@
     "lab:render-timing": "node --test render-timing.mjs",
     "lab:package-relocation": "node --test ../../apps/macos/tests/package-relocation.mjs",
     "lab:package-archive": "node --test ../../apps/macos/tests/package-archive.mjs",
-    "lab:package-retention": "node --test ../../apps/macos/tests/package-retention.mjs"
+    "lab:package-retention": "node --test ../../apps/macos/tests/package-retention.mjs",
+    "lab:exports": "node package-exports.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",

@@ -33,9 +33,10 @@ Current pickup: finish the complete processed-package writer in
 prerequisites and register recoverable assembly scratch through the shared export
 owner. The [bounded native ZIP producer](slices/14d3a-archive-writer.md) and
 [portable event producer](assets/export-publication/events.md) are implemented;
-complete assembly must consume the bounded semantic validator. In parallel, extend
-existing inspection operations to arbitrary package
-frames and audio via [14c3c2](slices/14c3c2-package-frame-audio.md).
+complete assembly must consume the bounded semantic validator. In parallel, finish
+public package audio through [14c3c2](slices/14c3c2-package-frame-audio.md).
+[Arbitrary package frames](slices/14c3c2a-package-frames.md) now pass actual CLI/MCP
+and retained-lifetime checks.
 [Public package index access](slices/14c3c1-public-package-index.md) and
 [queued export reconciliation](slices/14d2b4-queued-recovery.md) are implemented.
 The shared export owner now distinguishes exactly video and processed-package; the
@@ -54,7 +55,7 @@ Recent integration evidence:
   close and startup recovery. Pinned waiting exports, abandonment and private storage
   accounting preserve external files. [Merged verification](assets/owner-integration/README.md)
   records internal-owner and public-access integration checks. Retained index selectors
-  are public; arbitrary package frame/audio and complete-package production remain.
+  and arbitrary frames are public; package audio and complete-package production remain.
 - [Public preview](assets/preview-publication/public.md) passes generated pointer,
   cut/pause, CLI/MCP parity, restart and deletion checks. The
   [native player](assets/preview-publication/player.md) passes real bundled-service
@@ -171,6 +172,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [14c3b3 — Internal package registry](slices/14c3b3-package-registry.md) (admission, reservations, recovery and lifetime; public selectors remain)
   - [x] [14c3c1 — Public package admission and retained index](slices/14c3c1-public-package-index.md) (actual CLI/MCP delivery; arbitrary frame/audio remains)
   - [ ] [14c3c2 — Arbitrary package frame and audio](slices/14c3c2-package-frame-audio.md)
+    - [x] [14c3c2a — Public arbitrary package frames](slices/14c3c2a-package-frames.md) (CLI/MCP delivery, retry, pressure and close)
   - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md) (ready-preview queue/recovery/deletion; dependency consumers and public exports remain)
   - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md) (shared queue and rebuilt service integration)
   - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md) (source retention, retry and cache loss; public exports remain)

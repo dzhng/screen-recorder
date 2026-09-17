@@ -1,0 +1,252 @@
+$ bun run build && bun run --cwd packages/test-harness lab:exports
+$ turbo build
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running build in 8 packages
+   • Remote caching disabled
+
+@screenrec/workbench:build: cache hit, replaying logs b2f3f22ef760b67c
+@screenrec/protocol:build: cache hit, replaying logs f9a8219bbab0c0c2
+@screenrec/workbench:build: $ node --check server.mjs && node --check public/app.js
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:build: cache hit, replaying logs b98db22616178419
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:build: cache hit, replaying logs 21e6220086137b58
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/test-harness:build: cache miss, executing 658d3fe967bb7927
+@screenrec/service:build: cache hit, replaying logs 8e81e685f0e31264
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:build: cache hit, replaying logs 69c91befb756fbd7
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/macos:build: cache bypass, force executing f4e485d4df45057c
+@screenrec/test-harness:build: $ tsc -p tsconfig.json
+@screenrec/macos:build: $ node ../../scripts/build-macos.mjs
+@screenrec/macos:build: Building for production...
+@screenrec/macos:build: [0/6] Write swift-version--1AB21518FC5DEDBE.txt
+@screenrec/macos:build: Build complete! (0.07s)
+@screenrec/macos:build: Building for production...
+@screenrec/macos:build: [0/3] Write swift-version--1AB21518FC5DEDBE.txt
+@screenrec/macos:build: Build complete! (0.07s)
+@screenrec/macos:build: Bundled 152 modules in 10ms
+@screenrec/macos:build: 
+@screenrec/macos:build:   main.mjs  1.12 MB  (entry point)
+@screenrec/macos:build: 
+@screenrec/macos:build: /Users/david/dev/screen-recorder/dist/ScreenRecorder.app: replacing existing signature
+@screenrec/macos:build: Built /Users/david/dev/screen-recorder/dist/ScreenRecorder.app
+
+ Tasks:    8 successful, 8 total
+Cached:    6 cached, 8 total
+  Time:    1.121s 
+
+$ node package-exports.mjs
+(node:24573) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ bundled export lifecycle pins video through CLI/MCP, restart and recording deletion (1511.916875ms)
+(node:24574) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ native archive verifies inventory and pinned old revision with all admitted history, then empties workspace (92.319709ms)
+✔ hostile extra fails with no remaining extracted files (58.4465ms)
+✔ hostile bad-central fails with no remaining extracted files (54.677333ms)
+✔ hostile bad-local fails with no remaining extracted files (58.459375ms)
+✔ hostile undercount fails with no remaining extracted files (69.224084ms)
+✔ hostile undercount-bad fails with no remaining extracted files (59.600167ms)
+✔ hostile crc fails with no remaining extracted files (52.77325ms)
+✔ hostile hash fails with no remaining extracted files (55.672875ms)
+✔ hostile mac fails with no remaining extracted files (59.633458ms)
+✔ hostile duplicate fails with no remaining extracted files (55.82375ms)
+✔ hostile case fails with no remaining extracted files (52.168125ms)
+✔ hostile directory fails with no remaining extracted files (54.487916ms)
+✔ hostile file-directory fails with no remaining extracted files (52.148ms)
+✔ hostile symlink fails with no remaining extracted files (53.230917ms)
+✔ hostile fifo fails with no remaining extracted files (53.514333ms)
+✔ hostile absolute fails with no remaining extracted files (54.850083ms)
+✔ hostile parent fails with no remaining extracted files (54.150125ms)
+✔ hostile backslash fails with no remaining extracted files (70.339292ms)
+✔ hostile nul fails with no remaining extracted files (51.725666ms)
+✔ hostile nul-empty fails with no remaining extracted files (53.296708ms)
+✔ hostile unicode-duplicate fails with no remaining extracted files (51.982625ms)
+✔ hostile unicode-parent fails with no remaining extracted files (55.630834ms)
+✔ hostile encrypted fails with no remaining extracted files (56.4415ms)
+✔ hostile size-lie fails with no remaining extracted files (56.552625ms)
+✔ safe parser Unicode alias is inventoried by effective ASCII name (61.498667ms)
+✔ actual expansion, member, manifest and entry counts enforce exact bounds (526.05025ms)
+✔ initial parser input budget rejects metadata-many before unbounded metadata intake (681.335417ms)
+✔ initial parser input budget rejects metadata-large before unbounded metadata intake (52.487417ms)
+✔ initial parser input budget rejects metadata-default before unbounded metadata intake (2179.37475ms)
+✔ retained workspace descriptor survives ancestor replacement without touching external sentinel (63.838208ms)
+✔ nonempty workspace admission preserves existing files (40.721958ms)
+✔ killed stopped parser is reaped before cleanup through parent-retained root FD (206.044791ms)
+✔ inner directory replacement fails without following its symlink outside workspace (371.347792ms)
+✔ opened input descriptor retains source bytes across pathname replacement (248.539958ms)
+✔ admission rejects changed input before copy and preserves independent descriptor reads (99.078958ms)
+✔ copy rejects an in-place input change at a confirmed syscall barrier (534.465542ms)
+✔ partial copy barrier cancels after actual snapshot bytes and drains the native worker (461.000125ms)
+✔ copy barrier callback failure drains inspection cleanup before fixture removal (458.499583ms)
+✔ copy barrier reports preparation failure instead of leaving its wait pending (73.909084ms)
+✔ workspace lock survives preparation worker exit and refuses a second open owner (63.893625ms)
+✔ cleanup ownership loss is explicit and original descriptor supports recovery (76.235167ms)
+✔ bounded receipt rejects metadata that cannot fit the existing transport (54.034708ms)
+✔ native file-size fault leaves workspace empty after worker termination (255.64325ms)
+(node:24783) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (15852.135625ms)
+(node:25195) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (8209.335709ms)
+(node:25709) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (6575.60175ms)
+(node:25827) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (21159.803291ms)
+(node:26285) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ streamed ZIP publishes through the existing no-clobber owner and independent reader (90.377042ms)
+✔ substituted or modified inputs fail and only private ZIP bytes are cleaned (23.065792ms)
+✔ writer refuses foreign scratch and symlink ancestors (31.39375ms)
+✔ observed ZIP output limit refuses a partial archive and drains cleanup (21.775166ms)
+✔ cancellation drains a stopped partial writer before cleaning owned ZIP bytes (497.972083ms)
+(node:26370) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed service cannot retire scratch while its stopped native writer survives (533.948958ms)
+✔ input mutation during streaming fails after the actual copied bytes are checked (446.93975ms)
+✔ large member uses bounded native memory and produces the independently expected digest (335.918417ms)
+✔ expected member digest is enforced independently of file identity (27.912417ms)
+✔ replaced scratch locator is rejected and cleanup follows only its retained descriptor (21.964959ms)
+✔ member names and declared counts cannot escape the bounded plan (44.198ms)
+(node:26485) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ registry reserves before extraction, charges copied bytes, and closes without library rows (95.188208ms)
+✔ 64 GiB admission pool rejects two maximum sparse inputs before extraction and releases canceled queue work (42.517792ms)
+✔ four same-content resource owners stay independent and failed close retains its slot and charge (251.249125ms)
+✔ one handle makes more than 32 requests and bounded terminal receipts expire without resurrection (1569.771584ms)
+✔ failed validation cleans up, while an unconfirmed nonempty creation keeps its reservation until explicit retry (140.642459ms)
+✔ same-provenance library deletion and package close revoke only their own delivery namespaces (173.510542ms)
+(node:26848) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+screenrec-native: owning parent 1 exited; abandoning work
+✔ startup remains blocked by a killed owner's actual native child while library jobs continue (171.288917ms)
+✔ close fences delivery and drains an actual native media worker before removing its directory (566.74275ms)
+✔ correctly hashed malformed payload is admitted structurally and rejected by the shared lazy reader (119.047625ms)
+✔ default peak reservations block a fourth pending open but validated steady bytes allow it (177.20175ms)
+✔ failed context work can retry and canceled queued work never consumes execution (90.698292ms)
+✔ partial copy cancellation drains the actual worker before returning reservation and removing its tree (525.578ms)
+(node:27018) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ recovery removes bounded orphan trees through retained parent after locator replacement (22.379667ms)
+✔ recovery preflights invalid and overbound roots without partial deletion (25.84475ms)
+✔ recovery rejects linked or nonprivate children and preserves every orphan (16.93325ms)
+✔ unconfirmed creation recovery permits only empty private children or absence (26.561542ms)
+✔ failed provision cleanup retains exact identity and rejects a replacement (23.277791ms)
+(node:27039) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+screenrec-native: owning parent 1 exited; abandoning work
+✔ killed owner leaves native inherited lock busy until actual child termination (96.248167ms)
+(node:27049) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ orphan fixture reaps the stopped native child when consumer assertions fail (86.994542ms)
+(node:27059) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ normal fixture IPC disconnect terminates and reaps its stopped native child (75.073042ms)
+(node:27068) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ owned workspace creates private child and removes only its contents (26.543875ms)
+✔ removal follows retained parent after ancestor replacement (19.834542ms)
+✔ foreign child directory and symlink are never cleaned (43.058833ms)
+✔ surviving inherited child blocks removal, then explicit retry succeeds (47.787375ms)
+✔ failed locator admission cleans created identity through original parent (14.80125ms)
+✔ cancellation after mkdir drains receipt and cleans the owned child (14.677541ms)
+✔ failed admission cleanup retains identity when a foreign child replaces its entry (23.465708ms)
+✔ lost response after actual rmdir retries truthfully through retained parent (27.993875ms)
+(node:27107) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ private staging usage observes partial bytes while the publication owner holds its lock (33.065959ms)
+✔ private staging usage rejects replacement and linked payloads without reading external data (19.094625ms)
+✔ private staging usage counts prepared files and clears after acknowledgement without counting the movie (57.197625ms)
+(node:27126) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner after commit reconciles exact bytes and inode before acknowledgement (102.08275ms)
+(node:27140) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner before commit leaves a resumable prepared file (87.654125ms)
+(node:27147) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ stopped surviving publisher fences recovery until actual descriptor release (81.301083ms)
+(node:27157) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ reopened owner refuses a replacement output parent and preserves both trees (95.197ms)
+✔ abort before commit prevents publication; abort after native commit preserves observed truth (31.198125ms)
+✔ kernel write-limit failure never publishes and explicit discard removes only owned leaves (219.674792ms)
+✔ publication refuses a destination inside its disposable staging (7.552416ms)
+✔ one publication deadline covers preparation, commit, reconciliation and acknowledgement (38.361667ms)
+✔ all close callers wait for the active native operation before descriptors release (15.8315ms)
+(node:27194) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:27225) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ explicit recovery refreshes a negative observation when the same committed file returns (347.893625ms)
+✔ abandonment drains and forgets recovery identities without touching neighboring intents (337.031125ms)
+(node:27322) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ canceling recovery keeps its lane until close and preserves an actually observed commit (336.088708ms)
+✔ publication uses its known-byte budget instead of the worker's unrelated short default (500.616833ms)
+✔ startup admission is bounded and capacity events discover the remaining recovery backlog (2393.880291ms)
+✔ recovery failures are isolated and explicit retry observes absence without publishing (326.09175ms)
+✔ acknowledged historical retry does not access a moved destination but abandonment still verifies ownership (273.931708ms)
+(node:27847) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ startup recovery waits for the shared heavy lane and ignores failed source dependencies (328.626375ms)
+✔ late commit releases source evidence but abandonment capacity waits for confirmed retirement (287.16675ms)
+✔ failed abandonment keeps its fence and pins until verified staging can retire (286.463042ms)
+(node:27973) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ abandonment resumes after actual process death following private retirement (352.467333ms)
+✔ abandonment fences retries and recording deletion joins its drain after external commit (295.290041ms)
+✔ abandonment releases a failed export without deleting its recording or external collision (340.583083ms)
+✔ failed source readiness is reported without export polling retrying it (263.810584ms)
+✔ canceled intents keep exact-retry pins within a bounded uncommitted allowance (925.886083ms)
+✔ cache eviction after promotion returns the settled exporter to admission and rebuilds its pinned preview (449.882833ms)
+✔ canceled export retains its selected source through newer evidence cleanup and retry then releases it (429.897333ms)
+✔ waiting export pins revision before source readiness and admits dependencies without a lane (263.736834ms)
+✔ ready preview exports its pinned bytes and real recording deletion forgets private export metadata (332.960375ms)
+✔ a committed export remains authoritative when cancellation discards its late job result (269.093334ms)
+✔ deletion drains the exporter and its validated cache descriptor before removing private bytes (269.169209ms)
+(node:28533) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death between external commit and catalog acknowledgement reconciles without republishing (367.458125ms)
+✔ committed history survives external removal or replacement without silently exporting again (284.133375ms)
+✔ concurrent request replay shares one intent and conflicting reuse is rejected (254.141541ms)
+✔ lost retirement acknowledgement resumes real recording deletion after the staging directory is gone (288.970459ms)
+(node:28665) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death after catalog commit finishes private acknowledgement on recovery (318.53275ms)
+(node:28695) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death before staging identity registration leaves only an empty recoverable directory (325.759625ms)
+✔ canceled queued export retries its original revision after preview eviction and regeneration (427.251209ms)
+(node:28775) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ interrupted allocation refuses nonempty substituted staging and keeps deletion pending (298.739167ms)
+✔ managed source directories cannot be selected as allegedly external exports (220.44525ms)
+✔ native death during receipt writing leaves unprepared evidence that the same intent can retry (1181.892083ms)
+✔ native death after canonical receipt publication retains that exact payload for retry (1138.488208ms)
+✔ recording deletion removes a receipt interrupted before its canonical publication (1081.933292ms)
+✔ one unsafe export staging entry does not prevent retiring independent intents of the same recording (376.516333ms)
+✔ an unreadable unrelated destination never prevents deleting owned private export data (295.921709ms)
+✔ storage totals include failed private exports and exclude the committed external movie (384.135875ms)
+✔ storage reconciles retired staging but rejects a substituted private directory (269.9095ms)
+✔ storage shutdown aborts and drains an export observation before catalog teardown (297.611375ms)
+✔ committed storage excludes the movie before acknowledgement and skips cleared destinations (274.522167ms)
+✔ processed-package requests leave no intent, job or destination before producer exists (189.523167ms)
+✔ export kind is persisted and incompatible replay cannot change video intent (213.9055ms)
+✔ shutdown fences and drains export destination admission before catalog closure (26.509958ms)
+✔ bundled startup admits a persisted waiter only after its ready preview cache is reconciled (566.494792ms)
+ℹ tests 142
+ℹ suites 0
+ℹ pass 142
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 49290.470709

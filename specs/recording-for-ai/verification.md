@@ -89,6 +89,10 @@ These are deliberately chosen initial gates, not guarantees on arbitrary media:
 
 Bootstrap defines `bun run build`, `check-types`, `lint`, `format:check`, and `test`.
 `build` orchestrates TS and Swift and fails when a required native build fails.
+`bun run lab:exports` builds a fresh bundle, then runs the implemented package/export
+native checks through the [test-harness runner](../../packages/test-harness/package-exports.mjs).
+Its coverage expands with the feature tests; a passing command does not close the
+still-unimplemented package, speech or installed-workflow requirements.
 Vitest targets individual package files; Swift tests use the owning package.
 `bun run lab:<slice-name>` commands described in slices are planned interfaces,
 not commands claimed to exist now. They belong to test-harness, forwarded at root.

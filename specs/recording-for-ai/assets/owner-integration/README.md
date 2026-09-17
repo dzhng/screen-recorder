@@ -1,5 +1,30 @@
 # Integrated package and export owners
 
+## Current public package/export checkpoint
+
+At `fb08d73` plus the verification runner, `bun run lab:exports` builds the full
+bundle and passes [142 native checks](public-package-export-native.txt). It includes
+the streaming ZIP writer, canonical event pages, retained/public index and arbitrary
+frame inspection, workspace lifetimes, publication recovery and bundled video
+exports. The runner selects the fresh native executable and bundle together; its
+first run exposed a missing relocation-bundle environment value, corrected without
+changing any test. Test-file concurrency is bounded separately from the product
+queues being exercised.
+
+Merged checks also pass [324 core](public-package-core.txt),
+[99 service](public-package-service.txt), [21 CLI](public-package-cli.txt), and
+[12 protocol](public-package-protocol.txt) tests, plus build/type checks. Source
+agent reviews and targeted negative controls are linked from the owning
+[frame](../portable-inspection/public-package-frames.md),
+[event](../export-publication/events.md), and
+[video](../export-publication/public-video.md) evidence.
+
+Production complete-package assembly and public package audio are still being
+implemented. This command tests the implemented boundaries; it does not claim
+accepted ASR, physical gesture/audio capture or installed end-to-end acceptance.
+
+## Earlier internal-owner checkpoint
+
 At `2fa1b5d`, the root build passed all eight tasks. The fresh bundled native worker
 passed 121 combined archive, retained inspection, workspace/recovery, registry and
 export/publication checks. All 315 core tests pass. All 97 service tests pass after

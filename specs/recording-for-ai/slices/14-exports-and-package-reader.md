@@ -119,7 +119,7 @@ for native work; a synthetic catalog recording is not an acceptable bridge.
 
 ## Final gate and scope
 
-Run planned `lab:exports`: export while edits advance; move ZIP and video outside
+Run `bun run lab:exports` for implemented native boundaries. The complete acceptance journey remains: export while edits advance; move ZIP and video outside
 the library; make the original root unavailable; use an empty derived cache. Inspect
 transcript, index/coverage, history, timeline, raw cursor and audio through CLI/MCP.
 Request a previously unselected annotated frame near cuts, scene changes, pauses and

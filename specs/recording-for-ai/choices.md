@@ -2165,3 +2165,17 @@ records them. These choices add no public export choice or transcript readiness.
   output storage policy. The plan required reuse but did not specify its seam;
   this keeps timeline and trail decisions in one place without treating package
   provenance as a live library recording.
+
+## Repeatable package/export verification
+
+### Sound — medium confidence
+
+- **Use a freshly built bundle and at most two test files at once for the export gate.**
+  The native tests previously required separate commands and environment settings;
+  forgetting one made a relocation check refuse to run. The root `lab:exports`
+  command now builds first and supplies that same bundle to all package/export
+  fixtures. Two test-file processes bound host contention while each test still
+  exercises the real product queues and workers. The plan required a repeatable
+  export checkpoint but left its orchestration unspecified. This creates no
+  runtime product limit, skips no selected checks, and does not turn unfinished
+  speech or package capabilities into claimed successes.
