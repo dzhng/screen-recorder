@@ -48,9 +48,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             self?.state.failure = message
             self?.render()
         })
-    private let shortcutFile: String
     private lazy var settings = SettingsWindow(
-        preferences: preferences, shortcutFile: shortcutFile,
+        preferences: preferences,
         perform: { [weak self] action in self?.perform(action) },
         refreshPermissions: { [weak self] in
             self?.readPermissions()
@@ -71,7 +70,6 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         self.preferences = preferences
         state = ControlsState(recording: preferences.recording)
         let overridePath = GlobalShortcuts.overridePath(home: home)
-        shortcutFile = overridePath
         super.init()
         state.shortcutOverridePath = overridePath
         bindings = ShortcutDefaults.overridden(by: FileManager.default.contents(atPath: overridePath))

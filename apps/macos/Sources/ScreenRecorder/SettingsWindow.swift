@@ -22,12 +22,12 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
     private var window: NSWindow?
 
     init(
-        preferences: Preferences, shortcutFile: String, perform: @escaping (ControlsAction) -> Void,
+        preferences: Preferences, perform: @escaping (ControlsAction) -> Void,
         refreshPermissions: @escaping () -> Void
     ) {
         self.preferences = preferences
         self.refreshPermissions = refreshPermissions
-        model = SettingsModel(preferences: preferences, shortcutFile: shortcutFile, perform: perform)
+        model = SettingsModel(preferences: preferences, perform: perform)
         super.init()
         // Returning from System Settings activates this app again; that is when access changes.
         NotificationCenter.default.addObserver(
@@ -120,13 +120,14 @@ final class SettingsModel: ObservableObject {
     @Published var showAtLaunch: Bool {
         didSet { preferences.showSettingsAtLaunch = showAtLaunch }
     }
-    let shortcutFile: String
     let perform: (ControlsAction) -> Void
     private let preferences: Preferences
 
-    init(preferences: Preferences, shortcutFile: String, perform: @escaping (ControlsAction) -> Void) {
+    /// Where a person states combinations of their own, as the controls state names it.
+    var shortcutFile: String { state.shortcutOverridePath ?? "" }
+
+    init(preferences: Preferences, perform: @escaping (ControlsAction) -> Void) {
         self.preferences = preferences
-        self.shortcutFile = shortcutFile
         self.perform = perform
         showAtLaunch = preferences.showSettingsAtLaunch
     }

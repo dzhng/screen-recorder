@@ -128,10 +128,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     /// This app's own defaults. A check names an absolute scratch domain instead, so launching the
-    /// bundle under test never reads or writes a person's real preferences.
+    /// bundle under test never reads or writes a person's real preferences. A named domain this
+    /// process cannot use is reported rather than quietly replaced by the real one.
     private func defaultsDomain() -> UserDefaults {
-        ProcessInfo.processInfo.environment["SCREENREC_DEFAULTS"]
-            .flatMap { $0.hasPrefix("/") ? UserDefaults(suiteName: $0) : nil } ?? .standard
+        guard let named = ProcessInfo.processInfo.environment["SCREENREC_DEFAULTS"] else {
+            return .standard
+        }
+        guard named.hasPrefix("/"), let scratch = UserDefaults(suiteName: named) else {
+            diagnostic("SCREENREC_DEFAULTS must be an absolute path; using this app's own defaults")
+            return .standard
+        }
+        return scratch
     }
 
     /// The Quit menu item and SIGTERM. A second request while the first is still finalizing asks
