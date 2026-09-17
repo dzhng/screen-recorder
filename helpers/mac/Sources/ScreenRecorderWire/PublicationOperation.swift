@@ -120,28 +120,8 @@ enum PublicationOperation {
         do { return try digest(fd, bytes: receipt.bytes) == receipt.sha256 ? "committed" : "modified" }
         catch let error as StorageFailure where error.code == "PUBLICATION_CHANGED" { return "modified" }
     }
-    private static func requireExternalDestination(_ stage: Identity) throws {
-        var current = dup(4)
-        guard current >= 0 else { throw io("Retain destination ancestry") }
-        defer { close(current) }
-        for _ in 0..<256 {
-            let here = Identity(try info(current, directory: true))
-            guard here != stage else {
-                throw failure("INVALID_STORAGE", "Destination cannot be inside publication staging.")
-            }
-            let parent = openat(current, "..", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-            guard parent >= 0 else { throw io("Inspect destination ancestry") }
-            let above: Identity
-            do { above = Identity(try info(parent, directory: true)) }
-            catch { close(parent); throw error }
-            if above == here { close(parent); return }
-            close(current)
-            current = parent
-        }
-        throw failure("LIMIT_EXCEEDED", "Destination ancestry exceeds 256 directories.")
-    }
-    private static func requireEmpty() throws {
-        let fd = openat(3, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+    private static func requireEmpty(_ directory: Int32 = 3) throws {
+        let fd = openat(directory, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard fd >= 0 else { throw io("Inspect empty publication staging") }
         guard let entries = fdopendir(fd) else { close(fd); throw io("Enumerate publication staging") }
         defer { closedir(entries) }
@@ -160,14 +140,43 @@ enum PublicationOperation {
         }
     }
     private static func cleanup() throws {
-        // Only this owner's two leaves are disposable; never recurse into an unexpected entry.
-        for name in ["payload", "prepared.json"] {
+        // Only this owner's known leaves are disposable; never recurse into an unexpected entry.
+        for name in ["payload", "receipt.pending", "prepared.json"] {
             if unlinkat(3, name, 0) != 0 && errno != ENOENT { throw io("Remove private publication evidence") }
         }
     }
     static func execute(_ operation: String, _ params: [String: Any]) throws -> [String: Any] {
+        if operation == "publication.absent" {
+            guard Set(params.keys) == ["destination", "name"], let name = params["name"] as? String,
+                leaf(name), name.hasPrefix(".screenrec-export-") else { throw failure("INVALID_REQUEST", "Invalid staging lookup.") }
+            try ManagedFiles.Identity(params["destination"]).check(3)
+            _ = try info(3, directory: true)
+            var entry = stat()
+            if fstatat(3, name, &entry, AT_SYMLINK_NOFOLLOW) == 0 { return ["absent": false] }
+            guard errno == ENOENT else { throw io("Inspect retired staging") }
+            return ["absent": true]
+        }
+        if operation == "publication.allocate" {
+            guard Set(params.keys) == ["destination", "name"], let name = params["name"] as? String,
+                leaf(name), name.hasPrefix(".screenrec-export-") else {
+                throw failure("INVALID_REQUEST", "Invalid publication staging allocation.")
+            }
+            try ManagedFiles.Identity(params["destination"]).check(3)
+            _ = try info(3, directory: true)
+            if mkdirat(3, name, 0o700) != 0 && errno != EEXIST { throw io("Allocate publication staging") }
+            let fd = openat(3, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK)
+            guard fd >= 0 else { throw io("Open allocated publication staging") }
+            defer { close(fd) }
+            try ManagedFiles.lockPrivateDirectory(fd)
+            // Before identity registration, no writer may enter: crash recovery adopts only empty staging.
+            try requireEmpty(fd)
+            let data = try JSONEncoder().encode(Identity(try info(fd, directory: true)))
+            return ["identity": try JSONSerialization.jsonObject(with: data)]
+        }
+
         let preparing = operation == "publication.prepare"
-        guard Set(params.keys) == (preparing ? ["stage", "destination", "leaf", "maxBytes"] : ["stage", "destination"]) else {
+        let retiring = operation == "publication.retire"
+        guard Set(params.keys) == (preparing ? ["stage", "destination", "leaf", "maxBytes"] : retiring ? ["stage", "destination", "name"] : ["stage", "destination"]) else {
             throw failure("INVALID_REQUEST", "Invalid publication parameters.")
         }
         try ManagedFiles.Identity(params["stage"]).check(3)
@@ -177,7 +186,7 @@ enum PublicationOperation {
         guard stage.st_dev == destination.st_dev else {
             throw failure("CROSS_DEVICE_PUBLICATION", "Staging and destination must share a filesystem.")
         }
-        try requireExternalDestination(Identity(stage))
+        try ManagedFiles.requireOutsideDirectory(4, ancestor: ManagedFiles.Identity(params["stage"]))
         if preparing {
             try requireEmpty()
             guard let name = params["leaf"] as? String, leaf(name),
@@ -199,12 +208,29 @@ enum PublicationOperation {
             let receipt = Receipt(stage: Identity(stage), destination: Identity(destination),
                 file: Identity(try info(fd)), leaf: name, bytes: source.st_size, sha256: sha)
             let data = try JSONEncoder().encode(receipt)
-            let record = openat(3, "prepared.json", O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+            let record = openat(3, "receipt.pending", O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
             guard record >= 0 else { throw io("Create publication receipt") }
             defer { close(record) }
             try writeAll(record, data)
             guard fsync(record) == 0 else { throw io("Synchronize publication receipt") }
+            // Only a complete synchronized receipt may authorize external publication after restart.
+            guard linkat(3, "receipt.pending", 3, "prepared.json", 0) == 0 else { throw io("Publish prepared receipt") }
+            guard unlinkat(3, "receipt.pending", 0) == 0 else { throw io("Remove pending receipt") }
             return ["receipt": try JSONSerialization.jsonObject(with: data)]
+        }
+        if retiring {
+            guard let name = params["name"] as? String, leaf(name), name.hasPrefix(".screenrec-export-") else {
+                throw failure("INVALID_REQUEST", "Invalid publication staging name.")
+            }
+            var entry = stat()
+            guard fstatat(4, name, &entry, AT_SYMLINK_NOFOLLOW) == 0,
+                entry.st_mode & S_IFMT == S_IFDIR, Identity(entry) == Identity(stage) else {
+                throw failure("PUBLICATION_CHANGED", "Publication staging entry changed.")
+            }
+            try cleanup()
+            try requireEmpty()
+            guard unlinkat(4, name, AT_REMOVEDIR) == 0 else { throw io("Retire publication staging") }
+            return ["removed": true]
         }
         if operation == "publication.discard" {
             // Explicit abandonment is private cleanup only, including an interrupted prepare.
@@ -219,8 +245,16 @@ enum PublicationOperation {
                 }
             }
         }
+        if operation == "publication.reconcile" {
+            var entry = stat()
+            if fstatat(3, "prepared.json", &entry, AT_SYMLINK_NOFOLLOW) != 0 && errno == ENOENT {
+                return ["state": "unprepared", "receipt": NSNull()]
+            }
+        }
         let receipt = try readReceipt()
-        if operation == "publication.reconcile" { return ["state": try reconcile(receipt)] }
+        if operation == "publication.reconcile" {
+            return ["state": try reconcile(receipt), "receipt": try JSONSerialization.jsonObject(with: JSONEncoder().encode(receipt))]
+        }
         if operation == "publication.acknowledge" {
             guard try reconcile(receipt) == "committed" else {
                 throw failure("PUBLICATION_CHANGED", "Only an observed committed publication can be acknowledged.")

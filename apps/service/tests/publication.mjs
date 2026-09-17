@@ -38,7 +38,7 @@ if (process.argv[2] === "owner") {
   await source.close();
   if (mode === "stopped") await publication.commit();
   else {
-    if (mode === "committed") assert.equal(await publication.commit(), "committed");
+    if (mode === "committed") assert.equal((await publication.commit()).state, "committed");
     process.send({ state: mode });
     await new Promise(() => {});
   }
@@ -71,12 +71,12 @@ if (process.argv[2] === "owner") {
     await killedOwner(t, f, "committed");
     const owner = await f.openOwner();
     t.after(() => owner.close());
-    assert.equal(await owner.reconcile(), "committed");
+    assert.equal((await owner.reconcile()).state, "committed");
     assert.equal(
       await readFile(join(f.root, "output/export.mp4"), "utf8"),
       "known complete output",
     );
-    assert.equal(await owner.commit(), "committed");
+    assert.equal((await owner.commit()).state, "committed");
     await owner.acknowledge();
     assert.deepEqual(await readdir(join(f.root, "stage")), []);
     await rm(join(f.root, "source"));
@@ -90,8 +90,8 @@ if (process.argv[2] === "owner") {
     await killedOwner(t, f, "prepared");
     const owner = await f.openOwner();
     t.after(() => owner.close());
-    assert.equal(await owner.reconcile(), "missing");
-    assert.equal(await owner.commit(), "committed");
+    assert.equal((await owner.reconcile()).state, "missing");
+    assert.equal((await owner.commit()).state, "committed");
     await owner.acknowledge();
   });
   test("stopped surviving publisher fences recovery until actual descriptor release", async (t) => {
@@ -117,8 +117,8 @@ if (process.argv[2] === "owner") {
       }
     }
     t.after(() => owner.close());
-    assert.equal(await owner.reconcile(), "missing");
-    assert.equal(await owner.commit(), "committed");
+    assert.equal((await owner.reconcile()).state, "missing");
+    assert.equal((await owner.commit()).state, "committed");
   });
   test("reopened owner refuses a replacement output parent and preserves both trees", async (t) => {
     const f = await fixture(t);
@@ -166,8 +166,8 @@ if (process.argv[2] === "owner") {
     const already = new AbortController();
     already.abort();
     await assert.rejects(owner.commit({ signal: already.signal }), (e) => e.code === "CANCELED");
-    assert.equal(await owner.reconcile(), "missing");
-    assert.equal(await owner.commit({ signal: controller.signal }), "committed");
+    assert.equal((await owner.reconcile()).state, "missing");
+    assert.equal((await owner.commit({ signal: controller.signal })).state, "committed");
     assert.equal(
       await readFile(join(f.root, "output/export.mp4"), "utf8"),
       "known complete output",
@@ -225,8 +225,8 @@ if (process.argv[2] === "owner") {
     const source = await open(join(f.root, "source"));
     t.after(() => source.close());
     await owner.prepare(source, "export.mp4", 1024);
-    assert.equal(await owner.commit(), "committed");
-    assert.equal(await owner.reconcile(), "committed");
+    assert.equal((await owner.commit()).state, "committed");
+    assert.equal((await owner.reconcile()).state, "committed");
     await owner.acknowledge();
   });
 
@@ -263,6 +263,6 @@ if (process.argv[2] === "owner") {
     }
     const reopened = await f.openOwner();
     t.after(() => reopened.close());
-    assert.equal(await reopened.reconcile(), "missing");
+    assert.equal((await reopened.reconcile()).state, "missing");
   });
 }

@@ -72,10 +72,10 @@ sandbox and are not evidence against these filesystem checks.
 
 ## Next integration
 
-14d2 must register the staged location and identities with its pinned export intent,
-retain input generations, and reconcile interrupted external outcomes before retry
-or recording deletion forgets their context. It must record acknowledgement before
-removing evidence. Both human-video and complete-package consumers then use this
-same boundary; no public route or export completeness gate is closed here.
+[The durable video-intent slice](../../slices/14d2a-video-intent.md) binds this owner
+to pinned previews, catalog acknowledgement and actual queue/deletion lifetimes.
+That slice distinguishes verified internal recovery from the remaining dependency,
+startup, storage and public-export integration. The full-package consumer remains
+separate; this filesystem owner makes no claim about package completeness.
 
-The merged native/service rerun passed all 15 tests; see [host receipt](merged-tests.txt).
+The earlier filesystem-owner integration passed its 15-test scope; see [host receipt](merged-tests.txt).

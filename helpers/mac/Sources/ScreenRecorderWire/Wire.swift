@@ -55,14 +55,18 @@ public enum NativeWire {
                 }
             } else if operation == "storage.removeRecordingDirectory"
                 || operation == "storage.removeCacheFiles" || operation == "storage.clearRenderWorkspace"
+                || operation == "storage.externalDirectory"
             {
                 do {
-                    if operation == "storage.clearRenderWorkspace" {
+                    var data: [String: Any] = ["removed": true]
+                    if operation == "storage.externalDirectory" {
+                        data = try ManagedFiles.externalDirectory(params)
+                    } else if operation == "storage.clearRenderWorkspace" {
                         try RenderWorkspace.clear(params)
                     } else {
                         try ManagedFiles.execute(operation, params)
                     }
-                    response = ["id": id, "ok": true, "data": ["removed": true]]
+                    response = ["id": id, "ok": true, "data": data]
                 } catch let error as StorageFailure {
                     response = [
                         "id": id, "ok": false,

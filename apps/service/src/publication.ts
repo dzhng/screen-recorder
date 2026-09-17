@@ -1,9 +1,23 @@
 import { constants } from "node:fs";
 import { lstat, open, realpath, type FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/library";
+import type { DirectoryIdentity } from "@screenrec/core/cache";
 import type { MediaWorker } from "./worker.js";
 
-export type PublicationState = "missing" | "committed" | "replaced" | "modified";
+export type PublicationState = "unprepared" | "missing" | "committed" | "replaced" | "modified";
+
+export type PublicationReceipt = {
+  stage: DirectoryIdentity;
+  destination: DirectoryIdentity;
+  file: DirectoryIdentity;
+  leaf: string;
+  bytes: number;
+  sha256: string;
+};
+export type PublicationObservation = {
+  state: PublicationState;
+  receipt: PublicationReceipt | null;
+};
 
 /** A single external publication lifetime. Closing releases descriptors, never evidence.
  * The caller retains this private directory until reconciliation/acknowledgement and
@@ -23,7 +37,10 @@ export class Publication {
     stagePath: string,
     destinationPath: string,
     worker: MediaWorker,
-    options: { timeoutMs?: number } = {},
+    options: {
+      timeoutMs?: number;
+      expected?: { stage: DirectoryIdentity; destination: DirectoryIdentity };
+    } = {},
   ) {
     const stageBefore = await lstat(stagePath, { bigint: true });
     if (
@@ -65,6 +82,14 @@ export class Publication {
         dev: value.dev.toString(),
         ino: value.ino.toString(),
       });
+      if (
+        options.expected &&
+        (actualStage.dev.toString() !== options.expected.stage.dev ||
+          actualStage.ino.toString() !== options.expected.stage.ino ||
+          actual.dev.toString() !== options.expected.destination.dev ||
+          actual.ino.toString() !== options.expected.destination.ino)
+      )
+        throw new CatalogError("PUBLICATION_CHANGED", "Registered publication ownership changed");
       return new Publication(
         stage,
         destination,
@@ -77,6 +102,72 @@ export class Publication {
       await stage.close();
       throw error;
     }
+  }
+
+  /** The catalog records this random sibling name before allocation. No payload writer
+   * may enter until the returned directory identity is committed to that catalog. */
+  static async allocate(
+    directory: string,
+    expected: DirectoryIdentity,
+    name: string,
+    worker: MediaWorker,
+  ): Promise<DirectoryIdentity> {
+    const value = await this.stageEntry("allocate", directory, expected, name, worker);
+    const identity = value.identity as DirectoryIdentity;
+    if (!identity || typeof identity.dev !== "string" || typeof identity.ino !== "string")
+      throw new CatalogError(
+        "INVALID_NATIVE_RESPONSE",
+        "Publication allocation did not identify staging",
+      );
+    return identity;
+  }
+
+  static async absent(
+    directory: string,
+    expected: DirectoryIdentity,
+    name: string,
+    worker: MediaWorker,
+  ): Promise<boolean> {
+    const value = await this.stageEntry("absent", directory, expected, name, worker);
+    if (typeof value.absent !== "boolean")
+      throw new CatalogError("INVALID_NATIVE_RESPONSE", "Staging absence was not confirmed");
+    return value.absent;
+  }
+
+  private static async stageEntry(
+    operation: "allocate" | "absent",
+    directory: string,
+    expected: DirectoryIdentity,
+    name: string,
+    worker: MediaWorker,
+  ) {
+    const parent = await open(
+      directory,
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000,
+    );
+    try {
+      const result = await worker(
+        `publication.${operation}`,
+        { destination: expected, name },
+        { descriptors: [parent.fd] },
+      );
+      return this.data(result);
+    } finally {
+      await parent.close();
+    }
+  }
+
+  private static data(result: Awaited<ReturnType<MediaWorker>>): Record<string, unknown> {
+    if (!result.ok)
+      throw new CatalogError(
+        result.error.code,
+        result.error.message,
+        result.error.details,
+        result.error.retryable,
+      );
+    if (!result.data || typeof result.data !== "object" || Array.isArray(result.data))
+      throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication response is missing");
+    return result.data as Record<string, unknown>;
   }
 
   private run<T>(action: () => Promise<T>): Promise<T> {
@@ -98,7 +189,7 @@ export class Publication {
     params: Record<string, unknown> = {},
     options: {
       signal?: AbortSignal;
-      source?: FileHandle;
+      source?: { readonly fd: number };
     } = {},
   ) {
     const result = await this.worker(
@@ -114,22 +205,13 @@ export class Publication {
         ],
       },
     );
-    if (!result.ok)
-      throw new CatalogError(
-        result.error.code,
-        result.error.message,
-        result.error.details,
-        result.error.retryable,
-      );
-    if (!result.data || typeof result.data !== "object")
-      throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication response is missing");
-    return result.data;
+    return Publication.data(result);
   }
 
   /** Source must remain open through this call. A failed prepare keeps partial private
    * evidence for explicit discard; it can never create the external destination. */
   prepare(
-    source: FileHandle,
+    source: { readonly fd: number },
     leaf: string,
     maxBytes: number,
     options: { signal?: AbortSignal } = {},
@@ -145,15 +227,21 @@ export class Publication {
     });
   }
 
-  private async observe(): Promise<PublicationState> {
+  private async observe(): Promise<PublicationObservation> {
     const value = await this.call("reconcile");
     if (
       !("state" in value) ||
       typeof value.state !== "string" ||
-      !["missing", "committed", "replaced", "modified"].includes(value.state)
+      !["unprepared", "missing", "committed", "replaced", "modified"].includes(value.state)
     )
       throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication outcome was not confirmed");
-    return value.state as PublicationState;
+    const receipt = "receipt" in value ? value.receipt : undefined;
+    if (value.state === "unprepared" ? receipt !== null : !receipt || typeof receipt !== "object")
+      throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication receipt is missing");
+    return {
+      state: value.state as PublicationState,
+      receipt: receipt as PublicationReceipt | null,
+    };
   }
 
   reconcile() {
@@ -171,9 +259,13 @@ export class Publication {
         failure = error;
       }
       // mediaWorker has reaped the child. Even a canceled/timeout result may have linked.
-      const state = await this.observe();
-      if (state === "missing" && failure !== undefined) throw failure;
-      return state;
+      const observed = await this.observe();
+      if (
+        (observed.state === "missing" || observed.state === "unprepared") &&
+        failure !== undefined
+      )
+        throw failure;
+      return observed;
     });
   }
 
@@ -190,6 +282,16 @@ export class Publication {
       const value = await this.call(operation);
       if (!("removed" in value) || value.removed !== true)
         throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication cleanup was not confirmed");
+    });
+  }
+  retire(name: string) {
+    return this.run(async () => {
+      const value = await this.call("retire", { name });
+      if (!("removed" in value) || value.removed !== true)
+        throw new CatalogError(
+          "INVALID_NATIVE_RESPONSE",
+          "Publication staging retirement was not confirmed",
+        );
     });
   }
   close(): Promise<void> {

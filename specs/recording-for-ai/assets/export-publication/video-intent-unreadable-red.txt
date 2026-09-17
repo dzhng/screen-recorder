@@ -1,0 +1,25 @@
+(node:1711) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ an unreadable unrelated destination never prevents deleting owned private export data (274.390333ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 347.663834
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:668:3
+✖ an unreadable unrelated destination never prevents deleting owned private export data (274.390333ms)
+  Error: Open published destination: Permission denied
+      at RecordingDeletion.remove (file:///private/tmp/screenrec-export-publication/apps/service/dist/deletion.js:52:23)
+      at async TestContext.<anonymous> (file:///private/tmp/screenrec-export-publication/apps/service/tests/video-export.mjs:674:5)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    code: 'PUBLICATION_IO',
+    details: { recordingId: '7a2c936f-64d3-43ac-90b2-a54fd457390b' },
+    retryable: true
+  }

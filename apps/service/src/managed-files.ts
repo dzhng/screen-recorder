@@ -1,4 +1,5 @@
-import { lstatSync, realpathSync } from "node:fs";
+import { constants, lstatSync, realpathSync } from "node:fs";
+import { open, realpath } from "node:fs/promises";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/library";
 import type { MediaWorker } from "./worker.js";
@@ -14,6 +15,39 @@ export class ManagedFiles {
     this.home = realpathSync(home);
     const stat = lstatSync(this.home, { bigint: true });
     this.expectedHome = { dev: stat.dev.toString(), ino: stat.ino.toString() };
+  }
+  /** The same library-root identity used for deletion defines where exports cannot live. */
+  async externalDirectory(
+    path: string,
+  ): Promise<{ directory: string; identity: DirectoryIdentity }> {
+    const directory = await realpath(path);
+    const parent = await open(
+      directory,
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000,
+    );
+    try {
+      const result = await this.worker(
+        "storage.externalDirectory",
+        { home: this.home, expectedHome: this.expectedHome },
+        { descriptors: [parent.fd] },
+      );
+      if (!result.ok)
+        throw new CatalogError(
+          result.error.code,
+          result.error.message,
+          result.error.details,
+          result.error.retryable,
+        );
+      const identity = result.data as DirectoryIdentity;
+      if (!identity || typeof identity.dev !== "string" || typeof identity.ino !== "string")
+        throw new CatalogError(
+          "INVALID_NATIVE_RESPONSE",
+          "External destination was not identified",
+        );
+      return { directory, identity };
+    } finally {
+      await parent.close();
+    }
   }
   removeRecordingDirectory(recordingId: string, signal: AbortSignal): Promise<void> {
     return this.remove("storage.removeRecordingDirectory", { recordingId }, signal);

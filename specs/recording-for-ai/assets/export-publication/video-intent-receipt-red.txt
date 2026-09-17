@@ -1,0 +1,27 @@
+(node:88144) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ native death during receipt writing leaves unprepared evidence that the same intent can retry (1197.1245ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1259.250667
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:560:3
+✖ native death during receipt writing leaves unprepared evidence that the same intent can retry (1197.1245ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///private/tmp/screenrec-export-publication/apps/service/tests/video-export.mjs:574:5)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'ENOENT' },
+    operator: 'rejects',
+    diff: 'simple'
+  }

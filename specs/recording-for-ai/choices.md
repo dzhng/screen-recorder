@@ -1684,7 +1684,7 @@ records them. These choices add no public export choice or transcript readiness.
   accidentally selects the staging directory as the export destination, ordinary
   cleanup could erase a supposedly published file. The native owner walks the
   retained destination's ancestors and rejects that arrangement. It removes only
-  its two private leaves and leaves unexpected entries untouched. A normal output
+  its owned private leaves and leaves unexpected entries untouched. A normal output
   directory needs no private-directory permission or exclusive lock; only staging
   does. The owner still assumes other processes do not maliciously mutate its
   exclusively controlled private staging while a syscall is executing.
@@ -1752,3 +1752,53 @@ records them. These choices add no public export choice or transcript readiness.
   and work but allows an explicit cleanup retry through the same owner. Storage
   charge returns only after cleanup succeeds. Concurrent close calls share the
   attempt; there is no automatic retry loop or promise of renewed inspection.
+
+## Durable video intent (14d2a)
+
+### Sound — medium confidence
+
+- **Committed status reports a past publication event, not ongoing file integrity.**
+  A user may delete or replace an exported video after the app successfully saved
+  it. The app retains that historical receipt but does not hash the entire video
+  every time an agent asks for status. Such polling could launch repeated large
+  reads outside the shared worker limit. Retrying this same completed intent never
+  recreates the user's deleted file; making another export requires another
+  request. Uncertain crash recovery still verifies the staged file's identity and
+  bytes before first recording that publication succeeded.
+
+### Sound — high confidence
+
+- **One catalog intent records what the queue cannot promise after cancellation.**
+  If the filesystem saves a video and cancellation arrives before the worker's
+  result reaches the queue, ordinary job settlement correctly ignores the late
+  answer. The export's pinned snapshot and committed native receipt live in one
+  separate catalog row, so that ignored job answer cannot erase a real external
+  save. Attempt state remains solely in JobQueue; there is no extra execution
+  scheduler. Successful recording deletion removes this intent and its private
+  context while preserving the deliberately exported file.
+
+- **Use the existing cache and library-root authorities for the first video consumer.**
+  Copying a ready preview by its advertised path could race cache cleanup or copy
+  another file. The cache now lends its validated open descriptor until the native
+  copy actually finishes. The existing managed-files owner also rejects a selected
+  directory inside the library by filesystem identity: otherwise deleting the
+  recording could erase a file the app had called external. No unrelated external
+  directory is prohibited. This internal ready-preview checkpoint does not turn
+  cache capacity or immediate dependency readiness into a new public export limit.
+
+- **Reserve identity before bytes, and publish complete preparation evidence atomically.**
+  The catalog records the random staging name before making its directory, then
+  records the directory identity before any payload is written. A crash in between
+  can therefore leave only an empty private directory; a nonempty substitute is
+  refused. The prepared receipt is synchronized under a pending name before its
+  canonical name is created atomically. A one-byte interrupted receipt cannot be
+  mistaken for a completed preparation or permanently prevent recording deletion.
+  Both receipt names belong to the same existing publication cleanup owner.
+
+- **Private deletion does not depend on being able to read the user's export.**
+  An unrelated destination may have permissions that prevent reading it. Once the
+  exporter has drained, deleting the recording only needs authority over its own
+  staging directory: it leaves every external file untouched and removes the
+  intent's status along with other private metadata. It therefore does not hash or
+  classify that external file first. A replaced or unsafe private staging directory
+  still blocks deletion, because that is where cleanup would actually write.

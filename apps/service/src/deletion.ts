@@ -18,6 +18,7 @@ type Owners = {
   capture: Pick<CaptureService, "quiesce">;
   delivery: DerivativeDelivery;
   cleanupReady: () => Promise<void>;
+  exports?: { retireRecording(recordingId: string, signal: AbortSignal): Promise<void> };
   files: Pick<ManagedFiles, "removeRecordingDirectory" | "removeCacheFiles">;
 };
 type Deleted = { recordingId: string; deleted: true };
@@ -51,6 +52,7 @@ export class RecordingDeletion {
         capture.quiesce(recordingId),
       ]);
       for (const result of stopped) if (result.status === "rejected") throw result.reason;
+      await this.owners.exports?.retireRecording(recordingId, signal);
       await cleanupReady();
       signal.throwIfAborted();
       await cache.purgeRecording(recordingId, ({ ids, root }) =>

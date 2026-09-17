@@ -176,7 +176,22 @@ export class DerivedCache {
     this.requireReady();
     return this.open(id, true);
   }
-  private open(id: string, touch: boolean): CacheRead | null {
+  /** Lends the same validated descriptor to a native child until its actual operation settles. */
+  async withDescriptor<T>(
+    id: string,
+    consume: (file: Readonly<{ fd: number; bytes: number }>) => Promise<T>,
+  ): Promise<T> {
+    this.requireReady();
+    const file = this.open(id, true);
+    if (!file)
+      throw new CatalogError("ARTIFACT_EXPIRED", "Derivative is no longer available", {}, true);
+    try {
+      return await consume({ fd: file.fd, bytes: file.bytes });
+    } finally {
+      file.release();
+    }
+  }
+  private open(id: string, touch: boolean): (CacheRead & { fd: number }) | null {
     this.checkRoot();
     const row = this.row(id);
     if (!row || row.bytes === null) return null;
@@ -213,6 +228,7 @@ export class DerivedCache {
     this.held.set(id, (this.held.get(id) ?? 0) + 1);
     let released = false;
     return {
+      fd,
       bytes: row.bytes,
       read: (buffer, position) => {
         if (released) throw new CatalogError("INVALID_CACHE", "Cache read has been released");

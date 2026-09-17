@@ -70,6 +70,11 @@ atomicity is a precondition; do not add a cross-device copy-as-atomic fallback.
 
 ## 14d2 — Intent, readiness and snapshot retention
 
+[14d2a](14d2a-video-intent.md) now materializes the first internal ready-preview
+video consumer with a durable intent and actual queue/deletion/restart checks.
+14d2b retains waiting admission, queue-admitted uncertain recovery, service wiring
+and truthful pending-staging storage accounting before public exports.
+
 Only after the commit receipt is proven, add the minimum durable intent under the
 existing catalog authority. It records the chosen export kind, revision/history
 snapshot and destination identity. It is not another scheduler. Admission/retry

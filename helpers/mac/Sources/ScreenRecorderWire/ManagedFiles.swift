@@ -42,6 +42,44 @@ enum ManagedFiles {
         }
     }
 
+    /// Reject a selected directory whose ancestry includes a managed storage owner.
+    static func requireOutsideDirectory(_ fd: Int32, ancestor: Identity) throws {
+        var current = dup(fd)
+        guard current >= 0 else { throw failure("Retain destination ancestry") }
+        defer { close(current) }
+        for _ in 0..<256 {
+            var here = stat()
+            guard fstat(current, &here) == 0, here.st_mode & S_IFMT == S_IFDIR else {
+                throw StorageFailure("INVALID_STORAGE", "Destination must be a directory.", retryable: false)
+            }
+            guard UInt64(truncatingIfNeeded: here.st_dev) != ancestor.dev || here.st_ino != ancestor.ino else {
+                throw StorageFailure("INVALID_STORAGE", "Destination must be outside managed storage.", retryable: false)
+            }
+            let parent = openat(current, "..", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            guard parent >= 0 else { throw failure("Inspect destination ancestry") }
+            var above = stat()
+            guard fstat(parent, &above) == 0 else { close(parent); throw failure("Inspect destination ancestor") }
+            if above.st_dev == here.st_dev && above.st_ino == here.st_ino { close(parent); return }
+            close(current)
+            current = parent
+        }
+        throw StorageFailure("LIMIT_EXCEEDED", "Destination ancestry exceeds 256 directories.", retryable: false)
+    }
+
+    static func externalDirectory(_ params: [String: Any]) throws -> [String: String] {
+        guard Set(params.keys) == ["home", "expectedHome"], let home = params["home"] as? String,
+            home.hasPrefix("/"), !home.contains("\0") else { throw invalidRequest("Invalid external destination check.") }
+        let expected = try Identity(params["expectedHome"])
+        let owned = open(home, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_CLOEXEC)
+        guard owned >= 0 else { throw failure("Open managed home") }
+        defer { close(owned) }
+        try expected.check(owned)
+        try requireOutsideDirectory(3, ancestor: expected)
+        var destination = stat()
+        guard fstat(3, &destination) == 0 else { throw failure("Inspect selected destination") }
+        return ["dev": String(UInt64(truncatingIfNeeded: destination.st_dev)), "ino": String(destination.st_ino)]
+    }
+
     static func execute(_ operation: String, _ params: [String: Any]) throws {
         let recording = operation == "storage.removeRecordingDirectory"
         let fields: Set<String> =
