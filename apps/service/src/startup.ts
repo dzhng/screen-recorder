@@ -2,7 +2,8 @@ import { closeSync, constants, openSync } from "node:fs";
 import { lstat, unlink } from "node:fs/promises";
 import { connect } from "node:net";
 import { join } from "node:path";
-import { prepareRuntimeDirectory, serviceSocketPath } from "./index.js";
+import { serviceSocketPath } from "@screenrec/protocol";
+import { prepareRuntimeDirectory } from "./index.js";
 
 /**
  * macOS `open(2)` takes an exclusive advisory lock atomically with the open under
@@ -23,7 +24,7 @@ export class StartupFailure extends Error {
   }
 }
 
-export type StartupClaim = { socketPath: string; release(): void };
+export type StartupClaim = { release(): void };
 
 /**
  * The one place a service instance becomes the owner of a personal runtime directory.
@@ -46,7 +47,6 @@ export async function claimStartup(runtimeDirectory: string): Promise<StartupCla
   }
   let held = true;
   return {
-    socketPath,
     release: () => {
       if (!held) return;
       held = false;

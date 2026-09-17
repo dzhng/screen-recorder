@@ -7,6 +7,7 @@ import {
   JsonLineStream,
   appMessageSchema,
   encodeJsonLine,
+  operationError,
   type ControlMessage,
   type ControlResponse,
   type OperationRequest,
@@ -21,12 +22,8 @@ export type ControlChannel = {
   close(): void;
 };
 
-function error(code: string, message: string, retryable = false): OperationResult {
-  return { ok: false, error: { code, message, retryable, details: {} } };
-}
-
 function rejection(id: string | null, code: string, message: string): ControlResponse {
-  return { id, ok: false, error: { code, message, retryable: false, details: {} } };
+  return { id, ...operationError(code, message) };
 }
 
 /**
@@ -87,7 +84,7 @@ export function openControl(options: {
     inbound += 1;
     void Promise.resolve()
       .then(() => options.dispatch(request))
-      .catch(() => error("INTERNAL_ERROR", "Service handler failed"))
+      .catch(() => operationError("INTERNAL_ERROR", "Service handler failed"))
       .then((result) => {
         inbound -= 1;
         reply({ id: request.id, ...result });
@@ -105,7 +102,18 @@ export function openControl(options: {
     const parsed = appMessageSchema.safeParse(value);
     if (!parsed.success) {
       const message = value as { request?: { id?: unknown }; response?: { id?: unknown } };
-      const id = message?.request?.id ?? message?.response?.id;
+      if (message?.response !== undefined) {
+        // An unreadable answer still ends the call it names. Echoing a result back would answer
+        // nothing the app asked.
+        const id = message.response?.id;
+        if (typeof id === "string")
+          settle(
+            id,
+            operationError("INVALID_RESPONSE", "The app answered with an unreadable result", true),
+          );
+        return;
+      }
+      const id = message?.request?.id;
       reply(
         rejection(
           typeof id === "string" && id.length > 0 ? id : null,
@@ -141,7 +149,10 @@ export function openControl(options: {
     options.input.pause();
     // Settling deletes the entry it answers, which a live Map iteration tolerates.
     for (const id of pending.keys())
-      settle(id, error("SERVICE_STOPPED", "The control channel closed before an answer", true));
+      settle(
+        id,
+        operationError("SERVICE_STOPPED", "The control channel closed before an answer", true),
+      );
     options.onEnd();
   };
   for (const event of ["end", "close", "error"] as const) options.input.on(event, close);
@@ -154,17 +165,17 @@ export function openControl(options: {
     call: (operation, params) =>
       new Promise<OperationResult>((resolve) => {
         if (ended) {
-          resolve(error("SERVICE_STOPPED", "The control channel is closed", true));
+          resolve(operationError("SERVICE_STOPPED", "The control channel is closed", true));
           return;
         }
         if (pending.size >= MAX_PENDING_CONTROL_CALLS) {
-          resolve(error("LIMIT_EXCEEDED", "Too many native calls are already in flight."));
+          resolve(operationError("LIMIT_EXCEEDED", "Too many native calls are already in flight."));
           return;
         }
         outbound += 1;
         const id = `service-${outbound}`;
         const timer = setTimeout(
-          () => settle(id, error("TIMEOUT", `${operation} did not answer in time`, true)),
+          () => settle(id, operationError("TIMEOUT", `${operation} did not answer in time`, true)),
           timeoutMs,
         );
         pending.set(id, (result) => {
@@ -172,7 +183,10 @@ export function openControl(options: {
           resolve(result);
         });
         if (!write({ event: "call", request: { id, operation, params } }))
-          settle(id, error("LIMIT_EXCEEDED", `${operation} exceeds the control byte limit`));
+          settle(
+            id,
+            operationError("LIMIT_EXCEEDED", `${operation} exceeds the control byte limit`),
+          );
       }),
   };
 }

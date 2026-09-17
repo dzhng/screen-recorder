@@ -35,7 +35,7 @@ let text=''; process.stdin.on('data',x=>text+=x); process.stdin.on('end',()=>{
   process.stdout.write(JSON.stringify({ok:true,data:{removed:true}})+'\\n'); return;
  }
  const dir=dirname(params.output);
- mkdirSync(join(dir,'.video-render-held')); writeFileSync(join(dir,'.video-render-held','partial'),'partial');
+ mkdirSync(join(dir,'.movie-render-held')); writeFileSync(join(dir,'.movie-render-held','partial'),'partial');
  writeFileSync(join(dir,'pid'),String(process.pid));
  if(params.source==='success') {
   writeFileSync(params.output,'finished');
@@ -91,14 +91,14 @@ it("abort waits for actual close before reclaiming native partial staging", asyn
     expect(() => process.kill(current.pid, 0)).toThrowError(
       expect.objectContaining({ code: "ESRCH" }),
     );
-    expect(await readFile(join(current.dir, ".video-render-held", "partial"), "utf8")).toBe(
+    expect(await readFile(join(current.dir, ".movie-render-held", "partial"), "utf8")).toBe(
       "partial",
     );
     return result;
   };
   const pending = withRenderedMedia(
     worker,
-    { source: "hold", plan, attemptParent: parent },
+    { source: "hold", plan, tracks: [], attemptParent: parent },
     controller.signal,
     async () => {
       throw new Error("must not consume");
@@ -121,7 +121,7 @@ it("deadline failure reclaims the closed attempt and preserves its reason", asyn
   await expect(
     withRenderedMedia(
       worker,
-      { source: "hold", plan, attemptParent: parent },
+      { source: "hold", plan, tracks: [], attemptParent: parent },
       new AbortController().signal,
       async () => null,
     ),
@@ -141,7 +141,7 @@ it("abort after native publication but before receipt prevents consumption", asy
   await expect(
     withRenderedMedia(
       worker,
-      { source: "success", plan, attemptParent: parent },
+      { source: "success", plan, tracks: [], attemptParent: parent },
       controller.signal,
       async () => {
         throw new Error("must not consume");
@@ -152,7 +152,7 @@ it("abort after native publication but before receipt prevents consumption", asy
 });
 it("successful consumption and consumer failure both end their attempt lifetime", async () => {
   const { parent, run } = await fixture();
-  const request = { source: "success", plan, attemptParent: parent };
+  const request = { source: "success", plan, tracks: [], attemptParent: parent };
   expect(
     await withRenderedMedia(run, request, new AbortController().signal, async (video) =>
       readFile(video.file, "utf8"),
@@ -172,7 +172,7 @@ it("abort during consumption preserves consumer-owned effects while reclaiming t
   await expect(
     withRenderedMedia(
       run,
-      { source: "success", plan, attemptParent: parent },
+      { source: "success", plan, tracks: [], attemptParent: parent },
       controller.signal,
       async () => {
         await writeFile(join(parent, "..", "consumer-owned"), "committed by consumer");
@@ -192,7 +192,7 @@ it("refuses busy workspace immediately without touching live staging", async () 
   const controller = new AbortController();
   const first = withRenderedMedia(
     run,
-    { source: "hold", plan, attemptParent: parent },
+    { source: "hold", plan, tracks: [], attemptParent: parent },
     controller.signal,
     async () => null,
   );
@@ -205,7 +205,7 @@ it("refuses busy workspace immediately without touching live staging", async () 
         called = true;
         throw new Error("must not spawn");
       },
-      { source: "hold", plan, attemptParent: parent },
+      { source: "hold", plan, tracks: [], attemptParent: parent },
       new AbortController().signal,
       async () => null,
     ),
@@ -214,7 +214,7 @@ it("refuses busy workspace immediately without touching live staging", async () 
     clearRenderWorkspace(run, parent, new AbortController().signal),
   ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY", retryable: true });
   expect(called).toBe(false);
-  expect(await readFile(join(active.dir, ".video-render-held", "partial"), "utf8")).toBe("partial");
+  expect(await readFile(join(active.dir, ".movie-render-held", "partial"), "utf8")).toBe("partial");
   controller.abort();
   await stopped;
 });
@@ -238,7 +238,7 @@ it("does not retry a failed cleanup or admit rendering behind it", async () => {
   await expect(
     withRenderedMedia(
       failed,
-      { source: "success", plan, attemptParent: parent },
+      { source: "success", plan, tracks: [], attemptParent: parent },
       new AbortController().signal,
       async () => null,
     ),
@@ -258,7 +258,7 @@ it("refuses non-private and linked workspaces without native cleanup", async () 
   await expect(
     withRenderedMedia(
       unused,
-      { source: "success", plan, attemptParent: parent },
+      { source: "success", plan, tracks: [], attemptParent: parent },
       new AbortController().signal,
       async () => null,
     ),
@@ -269,7 +269,7 @@ it("refuses non-private and linked workspaces without native cleanup", async () 
   await expect(
     withRenderedMedia(
       unused,
-      { source: "success", plan, attemptParent: linked },
+      { source: "success", plan, tracks: [], attemptParent: linked },
       new AbortController().signal,
       async () => null,
     ),
@@ -288,7 +288,7 @@ it("preparation cancellation waits for its bound worker before cleanup", async (
       tracks: [],
       attemptParent: parent,
       preparePointer: async (directory, worker) => {
-        const result = await worker("media.renderVideo", {
+        const result = await worker("media.presentationEvidence", {
           source: "hold",
           plan,
           output: join(directory, "preparation.mp4"),

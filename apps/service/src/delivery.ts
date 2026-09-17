@@ -18,7 +18,6 @@ type Lease = {
 };
 const lifetimeMs = 30_000;
 const maximumLeases = 32;
-const maximumChunkBytes = 512 * 1024;
 
 /** Local metadata transport carries bounded chunks; the service retains the acquired read handle.
  * EOF does not close a lease: the last chunk must remain retryable after a lost response. */
@@ -62,18 +61,9 @@ export class DerivativeDelivery {
     eof: boolean;
   } {
     const lease = this.requireLease(token);
-    if (
-      !Number.isSafeInteger(offset) ||
-      offset < 0 ||
-      offset > lease.handle.bytes ||
-      !Number.isSafeInteger(maxBytes) ||
-      maxBytes < 1 ||
-      maxBytes > maximumChunkBytes
-    )
-      throw new CatalogError(
-        "INVALID_RANGE",
-        "Expected an in-file offset and a chunk of 1 to 524288 bytes",
-      );
+    // The operation schema bounds both values; only the delivery knows its own size.
+    if (offset > lease.handle.bytes)
+      throw new CatalogError("INVALID_RANGE", "Offset is past the end of the delivery");
     const size = Math.min(maxBytes, lease.handle.bytes - offset);
     const buffer = Buffer.alloc(size);
     try {

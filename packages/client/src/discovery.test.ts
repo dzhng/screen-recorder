@@ -3,7 +3,13 @@ import { createServer, type Server } from "node:net";
 import { mkdtemp, mkdir, readFile, rm, writeFile, chmod } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { dirname, join } from "node:path";
-import { defaultSocketPath, resolveServiceSocket } from "./discovery.js";
+import { serviceRuntimeDirectory, serviceSocketPath } from "@screenrec/protocol";
+import { resolveServiceSocket } from "./discovery.js";
+
+/** Where a service of this personal root listens. */
+function socketIn(home: string): string {
+  return serviceSocketPath(serviceRuntimeDirectory(home));
+}
 
 /**
  * LaunchServices coalesces repeated launches of one bundle, so an app that is asked to start
@@ -169,7 +175,7 @@ createServer((socket) => {
 
 it("uses a service that already answers without launching an app", async () => {
   const home = await personalHome();
-  const socketPath = defaultSocketPath({ SCREENREC_HOME: home });
+  const socketPath = socketIn(home);
   const service = await serve(socketPath);
   const app = await appBundle(SERVES_ITS_HOME);
   expect(
@@ -186,7 +192,7 @@ it("launches the personal app once and reaches the service it opens for that hom
   const socketPath = await resolveServiceSocket({
     env: { SCREENREC_HOME: home, SCREENREC_APP: app.path },
   });
-  expect(socketPath).toBe(defaultSocketPath({ SCREENREC_HOME: home }));
+  expect(socketPath).toBe(socketIn(home));
   expect(await app.launches()).toEqual([home]);
   expect(launcherRuns).toHaveLength(1);
   const again = await resolveServiceSocket({
@@ -253,7 +259,7 @@ it.each([100, 1_500])("stops a bootstrap the caller canceled after %i ms", async
 
 it("connects to an explicitly selected socket without probing or launching anything", async () => {
   const home = await personalHome();
-  const service = await serve(defaultSocketPath({ SCREENREC_HOME: home }));
+  const service = await serve(socketIn(home));
   const app = await appBundle(SERVES_ITS_HOME);
   expect(
     await resolveServiceSocket({
@@ -268,7 +274,7 @@ it("connects to an explicitly selected socket without probing or launching anyth
 
 it("answers concurrent discoveries from one service without launching an app", async () => {
   const home = await personalHome();
-  const socketPath = defaultSocketPath({ SCREENREC_HOME: home });
+  const socketPath = socketIn(home);
   const service = await serve(socketPath);
   const app = await appBundle(SERVES_ITS_HOME);
   const env = { SCREENREC_HOME: home, SCREENREC_APP: app.path };
@@ -283,7 +289,7 @@ it("answers concurrent discoveries from one service without launching an app", a
 
 it("cancels during a probe rather than going on to launch an app", async () => {
   const home = await personalHome();
-  await serve(defaultSocketPath({ SCREENREC_HOME: home }), { answers: false });
+  await serve(socketIn(home), { answers: false });
   const app = await appBundle(SERVES_ITS_HOME);
   const controller = new AbortController();
   const canceling = setTimeout(() => controller.abort(), 200);
@@ -300,7 +306,7 @@ it("cancels during a probe rather than going on to launch an app", async () => {
 
 it("spends the same budget on the initial probe and never launches after expiry", async () => {
   const home = await personalHome();
-  await serve(defaultSocketPath({ SCREENREC_HOME: home }), { answers: false });
+  await serve(socketIn(home), { answers: false });
   const app = await appBundle(SERVES_ITS_HOME);
   const started = Date.now();
   await expect(

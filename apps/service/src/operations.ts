@@ -15,16 +15,14 @@ import type { SourceProcessing } from "@screenrec/core/processing";
 import { TimelineError } from "@screenrec/core/timeline";
 import { CatalogError, type RevisionStore } from "@screenrec/core/library";
 import {
+  operationError,
   operationNames,
   operationSchema,
+  type OperationFailure,
   type OperationRequest,
   type OperationResult,
 } from "@screenrec/protocol";
-import { CaptureError, type CaptureService } from "./capture.js";
-
-function failure(code: string, message: string): OperationResult {
-  return { ok: false, error: { code, message, retryable: false, details: {} } };
-}
+import type { CaptureService } from "./capture.js";
 
 export type OperationContext = {
   exports: RecordingExports;
@@ -117,9 +115,10 @@ export async function operate(
     index,
     storage,
   }: OperationContext,
+  signal: AbortSignal,
 ): Promise<OperationResult> {
   if (!operationNames.has(request.operation))
-    return failure(
+    return operationError(
       "UNKNOWN_OPERATION",
       `Unknown service operation: ${request.operation.slice(0, 120)}`,
     );
@@ -128,7 +127,7 @@ export async function operate(
     params: request.params,
   });
   if (!parsed.success)
-    return failure("INVALID_PARAMS", "Parameters do not match the operation schema.");
+    return operationError("INVALID_PARAMS", "Parameters do not match the operation schema.");
   const operation = parsed.data;
   try {
     switch (operation.operation) {
@@ -162,8 +161,8 @@ export async function operate(
         return {
           ok: true,
           data: await ("packageHandle" in operation.params
-            ? packages.timeline(operation.params.packageHandle).get(operation.params)
-            : timeline.get(operation.params)),
+            ? packages.timeline(operation.params.packageHandle).get(operation.params, signal)
+            : timeline.get(operation.params, signal)),
         };
       case "index.get":
         return {
@@ -212,17 +211,7 @@ export async function operate(
                   },
                 };
               } catch (error) {
-                return {
-                  ordinal,
-                  ...operationFailure(
-                    error instanceof CatalogError
-                      ? error
-                      : new CatalogError(
-                          "INTERNAL_ERROR",
-                          error instanceof Error ? error.message : "Index frame delivery failed",
-                        ),
-                  ),
-                };
+                return { ordinal, ...operationFailure(error) };
               }
             }),
           },
@@ -246,17 +235,7 @@ export async function operate(
                   data: frameDelivery(item.data, delivery, cache, packages),
                 };
               } catch (error) {
-                return {
-                  atUs: item.atUs,
-                  ...operationFailure(
-                    error instanceof CatalogError
-                      ? error
-                      : new CatalogError(
-                          "INTERNAL_ERROR",
-                          error instanceof Error ? error.message : "Frame delivery failed",
-                        ),
-                  ),
-                };
+                return { atUs: item.atUs, ...operationFailure(error) };
               }
             }),
           },
@@ -445,20 +424,12 @@ export async function operate(
 }
 
 /**
- * Turns an owner's refusal into the shared error envelope. Core states the code, retryability and
- * details; the service adds none of its own beyond naming an unexpected failure.
+ * Turns an owner's refusal into the shared error envelope. Owners state the code, retryability and
+ * details; anything else is an unexpected failure whose message stays inside the service.
  */
-export function operationFailure(error: unknown): OperationResult {
-  if (error instanceof CaptureError || error instanceof CatalogError)
-    return {
-      ok: false,
-      error: {
-        code: error.code,
-        message: error.message,
-        details: error.details,
-        retryable: error.retryable,
-      },
-    };
-  if (error instanceof TimelineError) return failure("INVALID_RANGE", error.message);
-  throw error;
+export function operationFailure(error: unknown): OperationFailure {
+  if (error instanceof CatalogError)
+    return operationError(error.code, error.message, error.retryable, error.details);
+  if (error instanceof TimelineError) return operationError("INVALID_RANGE", error.message);
+  return operationError("INTERNAL_ERROR", "Service handler failed");
 }

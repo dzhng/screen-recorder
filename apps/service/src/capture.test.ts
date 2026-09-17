@@ -128,8 +128,9 @@ async function startService(
         reported.set(id, resolve as (response: unknown) => void);
         send({ event: "request", request: { id, operation: "capture.report", params } });
       }),
-    call: (operation: string, params: Record<string, unknown> = {}, timeoutMs = 15_000) =>
-      callLocal(socketPath, { id: randomUUID(), operation, params }, { timeoutMs }),
+    // The client's own deadline for each operation: a test hears whatever the service answers.
+    call: (operation: string, params: Record<string, unknown> = {}) =>
+      callLocal(socketPath, { id: randomUUID(), operation, params }),
   };
 }
 
@@ -238,6 +239,33 @@ it("reports the active source and audio choices through the public status operat
   expect(await service.call("capture.status")).toMatchObject({
     ok: true,
     data: { device: { selection, elapsedUs: 1_500_000 } },
+  });
+});
+
+it("reports the device while the take it is capturing awaits deletion", async () => {
+  const capturing = capturingPeer();
+  const service = await startService(await temporaryHome(), (operation, params) =>
+    // Native keeps capturing a take it will not hand over, so deletion cannot prove it quiet.
+    operation === "capture.cancel"
+      ? {
+          ok: false,
+          error: { code: "INVALID_STATE", message: "not held", retryable: false, details: {} },
+        }
+      : capturing(operation, params),
+  );
+  const started = await service.call("capture.start", {
+    requestId: "deleted",
+    source: fixtureSource,
+  });
+  if (!started.ok) throw new Error("the take must start");
+  const { recordingId } = started.data as { recordingId: string };
+  expect(await service.call("recording.delete", { recordingId })).toMatchObject({
+    ok: false,
+    error: { code: "CAPTURE_NOT_QUIET", retryable: true },
+  });
+  expect(await service.call("capture.status")).toMatchObject({
+    ok: true,
+    data: { device: { state: "recording", recordingId }, recording: null },
   });
 });
 
@@ -476,6 +504,19 @@ it(
   },
 );
 
+it("settles a native call whose answer is unreadable as soon as that answer arrives", async () => {
+  const service = await startService(
+    await temporaryHome(),
+    () => ({ ok: false, error: { code: "DENIED", message: "no details" } }) as OperationResult,
+  );
+  const started = Date.now();
+  expect(await service.call("capture.status")).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_RESPONSE", retryable: true },
+  });
+  expect(Date.now() - started).toBeLessThan(DEFAULT_CALL_TIMEOUT_MS);
+});
+
 it(
   "settles a stranded take before it accepts a start replayed onto it",
   { timeout: 30_000 },
@@ -532,11 +573,10 @@ it(
         journal: { header: { sessionID: "s" } },
       }),
     });
-    const answer = await service.call(
-      "capture.start",
-      { requestId: "silent", source: fixtureSource },
-      30_000,
-    );
+    const answer = await service.call("capture.start", {
+      requestId: "silent",
+      source: fixtureSource,
+    });
     expect(answer).toMatchObject({ ok: false, error: { code: "TIMEOUT", retryable: true } });
     const recordingId = (answer as unknown as { error: { details: { recordingId: string } } }).error
       .details.recordingId;
@@ -564,11 +604,10 @@ it(
   async () => {
     const home = await temporaryHome();
     const service = await startService(home, () => undefined);
-    const answer = await service.call(
-      "capture.start",
-      { requestId: "silent", source: fixtureSource },
-      40_000,
-    );
+    const answer = await service.call("capture.start", {
+      requestId: "silent",
+      source: fixtureSource,
+    });
     expect(answer).toMatchObject({
       ok: false,
       error: { code: "TIMEOUT", details: { state: "preparing" } },
@@ -656,7 +695,7 @@ it(
       }),
     });
     const request = { requestId: "lost", source: fixtureSource };
-    const first = await service.call("capture.start", request, 60_000);
+    const first = await service.call("capture.start", request);
     expect(first).toMatchObject({
       ok: false,
       error: { code: "TIMEOUT", details: { state: "preparing" } },
@@ -669,7 +708,7 @@ it(
       data: { state: "preparing", sourceDurationUs: null },
     });
 
-    const replayed = await service.call("capture.start", request, 60_000);
+    const replayed = await service.call("capture.start", request);
     // The replay ended and settled the take it already named, from that take's own media.
     expect(replayed).toMatchObject({
       ok: true,
@@ -797,14 +836,10 @@ it(
       },
       { SCREENREC_NATIVE: await recovers({ durationUs: 6_000_000 }) },
     );
-    const started = await service.call(
-      "capture.start",
-      {
-        requestId: "unproved-stop",
-        source: fixtureSource,
-      },
-      30_000,
-    );
+    const started = await service.call("capture.start", {
+      requestId: "unproved-stop",
+      source: fixtureSource,
+    });
     expect(started).toMatchObject({ ok: false, error: { code: "TIMEOUT" } });
     const latest = await service.call("recording.latest");
     if (!latest.ok) throw new Error("Allocated take must be discoverable");

@@ -19,6 +19,7 @@ import {
   REQUEST_FRAME_BYTES,
   parseRequest,
   encodeJsonLine,
+  operationError,
   type OperationRequest,
   type OperationResponse,
 } from "@screenrec/protocol";
@@ -46,14 +47,15 @@ function failure(
   message: string,
   retryable = false,
 ): Extract<OperationResponse, { ok: false }> {
-  return { id, ok: false, error: { code, message, retryable, details: {} } };
+  return { id, ...operationError(code, message, retryable) };
 }
 
 function capabilities() {
   return operationSchema.options.map((definition) => ({
     name: definition.shape.operation.value,
     description: definition.description ?? "",
-    inputSchema: z.toJSONSchema(definition.shape.params),
+    // What a caller must send, so a parameter the service defaults stays optional.
+    inputSchema: z.toJSONSchema(definition.shape.params, { io: "input" }),
   }));
 }
 
@@ -254,11 +256,7 @@ async function main() {
   }
   if (values.output && !mediaOperations.has(operation) && !previewOperations.has(operation))
     throw new Error("--output applies only to media inspection operations");
-  const sending = request(
-    values.id ?? responseId,
-    operation,
-    await readParams(values.params ?? "{}"),
-  );
+  const sending = request(responseId, operation, await readParams(values.params ?? "{}"));
   let result = await invoke(selection, sending);
   const batchReference = batchReferences.get(operation);
   if (batchReference) {

@@ -92,6 +92,25 @@ async function serviceFixture() {
   return { home, socket: join(home, "run/service.sock"), recordingId: recording.recordingId };
 }
 
+type AdvertisedTool = {
+  name: string;
+  description?: string | undefined;
+  inputSchema: { required?: string[]; anyOf?: { required?: string[] }[] };
+};
+
+/** Callers may omit every parameter the service defaults, and every tool says what it does. */
+function expectCallableContract(tools: AdvertisedTool[]) {
+  const required = (name: string) => {
+    const schema = tools.find((tool) => tool.name === name)?.inputSchema;
+    return schema?.anyOf ? schema.anyOf.map((option) => option.required) : schema?.required;
+  };
+  expect(required("capture.start")).toEqual(["source", "requestId"]);
+  expect(required("artifact.read")).toEqual(["token", "offset"]);
+  expect(required("processing.status")).toEqual(["recordingId"]);
+  expect(required("index.get")).toEqual([["recordingId"], ["packageHandle"]]);
+  expect(tools.filter((tool) => !tool.description).map((tool) => tool.name)).toEqual([]);
+}
+
 function cli(socket: string, operation: string, params: Record<string, unknown> = {}) {
   const result = spawnSync(
     process.execPath,
@@ -115,6 +134,7 @@ it("help lists registry schemas without opening an app or service, and MCP start
       .sort(),
   ).toEqual([...operationNames].sort());
   expect(help.stdout).toContain("microseconds");
+  expectCallableContract(JSON.parse(help.stdout).operations);
   const bad = spawnSync(process.execPath, [entry, "mcp", "--id", "invalid"], {
     encoding: "utf8",
     timeout: 3_000,
@@ -142,9 +162,9 @@ it("CLI and real MCP transport share edits, replay, history and structured failu
   const client = new Client({ name: "screenrec-adapter-test", version: "1" });
   cleanup.push(() => client.close());
   await client.connect(transport);
-  expect((await client.listTools()).tools.map((tool) => tool.name).sort()).toEqual(
-    [...operationNames].sort(),
-  );
+  const { tools } = await client.listTools();
+  expect(tools.map((tool) => tool.name).sort()).toEqual([...operationNames].sort());
+  expectCallableContract(tools as AdvertisedTool[]);
   const listed = cli(socket, "recording.list", { limit: 1 });
   expect(listed.exitCode).toBe(0);
   expect(listed.result.data).toMatchObject({ recordings: [{ recordingId }], nextCursor: null });

@@ -1,15 +1,8 @@
 import { LibraryTimelineInspection } from "./timeline-inspection.js";
 import { RecordingExports } from "./exports.js";
 import { PackageInspection } from "./packages.js";
-import { copyFile, mkdir } from "node:fs/promises";
-import { constants } from "node:fs";
 import { PreviewInspection } from "@screenrec/core/preview";
-import {
-  PresentationEvidence,
-  type PresentationReceipt,
-} from "@screenrec/core/presentation-evidence";
-import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
-import { clearRenderWorkspace, renderDeadlineMs, withRenderedMedia } from "./render.js";
+import { clearRenderWorkspace, previewRenderer } from "./render.js";
 import { RecordingStorage } from "@screenrec/core/storage";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
@@ -30,12 +23,14 @@ import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { operate, operationFailure } from "./operations.js";
-import { homedir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import {
   CONTROL_FRAME_BYTES,
   captureReportSchema,
   encodeJsonLine,
+  operationError,
+  personalHome,
+  serviceRuntimeDirectory,
   type OperationRequest,
   type OperationResult,
 } from "@screenrec/protocol";
@@ -45,12 +40,7 @@ import { mediaWorker, type MediaWorker } from "./worker.js";
 import { listenLocal, type LocalListener } from "./index.js";
 import { StartupFailure, claimStartup, type StartupClaim } from "./startup.js";
 
-export function serviceHome(environment: NodeJS.ProcessEnv = process.env): string {
-  const override = environment.SCREENREC_HOME;
-  return override ? resolve(override) : join(homedir(), ".screen-recorder");
-}
-
-export function healthData(started: number, socketPath: string, home: string): unknown {
+function healthData(started: number, socketPath: string, home: string): unknown {
   return {
     status: "ready",
     pid: process.pid,
@@ -66,8 +56,8 @@ function log(message: string): void {
 }
 
 async function main(): Promise<void> {
-  const home = serviceHome();
-  const runtimeDirectory = join(home, "run");
+  const home = personalHome();
+  const runtimeDirectory = serviceRuntimeDirectory(home);
   const renderWorkspace = join(runtimeDirectory, "render");
   const started = performance.now();
 
@@ -239,57 +229,7 @@ async function main(): Promise<void> {
       evidence,
       processing,
       home,
-      async (request, signal) => {
-        await mkdir(renderWorkspace, { recursive: true, mode: 0o700 });
-        return withRenderedMedia(
-          worker,
-          {
-            source: request.source,
-            plan: request.plan,
-            tracks: request.tracks,
-            attemptParent: renderWorkspace,
-            preparePointer: async (attempt, execute, signal) => {
-              const receipt = await nativeData<PresentationReceipt>(
-                "media.presentationEvidence",
-                {
-                  source: request.source,
-                  plan: request.plan,
-                  output: join(attempt, "presentation.jsonl"),
-                  maxBytes: 1024 ** 3,
-                },
-                signal,
-                execute,
-                renderDeadlineMs(request.plan),
-              );
-              const presentation = await PresentationEvidence.open(
-                receipt,
-                request.revision,
-                signal,
-              );
-              try {
-                return await writePointerSchedule(
-                  {
-                    presentation,
-                    evidence,
-                    identity: request.sourceEvidence,
-                    output: join(attempt, "pointer.jsonl"),
-                    maxBytes: 128 * 1024 ** 2,
-                    maxEvents: 1_000_000,
-                  },
-                  signal,
-                );
-              } finally {
-                await presentation.close();
-              }
-            },
-          },
-          signal,
-          async (movie) => {
-            await copyFile(movie.file, request.output, constants.COPYFILE_EXCL);
-            return { ...movie, file: request.output };
-          },
-        );
-      },
+      previewRenderer(worker, renderWorkspace, evidence),
     );
     files = new ManagedFiles(home, worker);
     exports = new RecordingExports({
@@ -311,7 +251,7 @@ async function main(): Promise<void> {
     });
     listener = await listenLocal({
       runtimeDirectory,
-      handler: (request) => serve(request),
+      handler: (request, signal) => serve(request, signal),
     });
   } catch (error) {
     cleanupLifetime.abort();
@@ -410,27 +350,34 @@ async function main(): Promise<void> {
       log(`export recovery admission failed: ${(error as Error).message}`);
   }
 
-  /** Every public operation, for a local client on the socket and for the app alike. */
-  async function serve(request: OperationRequest): Promise<OperationResult> {
+  /**
+   * Every public operation, for a local client on the socket and for the app alike. The signal ends
+   * a caller's interest: a socket client's disconnect, or this service stopping for the app.
+   */
+  async function serve(request: OperationRequest, signal: AbortSignal): Promise<OperationResult> {
     try {
-      return await operate(request, {
-        index,
-        packages: packageOwner,
-        exports: exportOwner,
-        storage: storageOwner,
-        deletion,
-        store: catalog,
-        capture,
-        health: () => healthData(started, socketPath, home),
-        processing,
-        timeline,
-        frames,
-        audio,
-        preview,
-        delivery: transfers,
-        scenes,
-        cache,
-      });
+      return await operate(
+        request,
+        {
+          index,
+          packages: packageOwner,
+          exports: exportOwner,
+          storage: storageOwner,
+          deletion,
+          store: catalog,
+          capture,
+          health: () => healthData(started, socketPath, home),
+          processing,
+          timeline,
+          frames,
+          audio,
+          preview,
+          delivery: transfers,
+          scenes,
+          cache,
+        },
+        signal,
+      );
     } finally {
       queue.schedule();
     }
@@ -445,22 +392,19 @@ async function main(): Promise<void> {
     if (request.operation === "capture.report") {
       const report = captureReportSchema.safeParse(request.params);
       if (!report.success)
-        return Promise.resolve({
-          ok: false,
-          error: {
-            code: "INVALID_PARAMS",
-            message: "Capture reports carry a take, a sequence and a reported state.",
-            retryable: false,
-            details: {},
-          },
-        });
+        return Promise.resolve(
+          operationError(
+            "INVALID_PARAMS",
+            "Capture reports carry a take, a sequence and a reported state.",
+          ),
+        );
       try {
         return Promise.resolve({ ok: true, data: capture.report(report.data) });
       } catch (error) {
         return Promise.resolve(operationFailure(error));
       }
     }
-    return serve(request);
+    return serve(request, cleanupLifetime.signal);
   }
 
   const stop = (): void => {
@@ -472,11 +416,10 @@ async function main(): Promise<void> {
     // cannot become the metadata writer before this owner has closed them.
     cleanupLifetime.abort();
     transfers.dispose();
-    void Promise.all([
+    // One owner's failure to close must not release the catalog under the others still closing.
+    void Promise.allSettled([
       listener.close(),
-      packageOwner
-        .dispose()
-        .catch((error) => log(`package shutdown cleanup failed: ${(error as Error).message}`)),
+      packageOwner.dispose(),
       storageOwner.close(),
       deletion.close(),
       exportOwner.close(),
@@ -484,7 +427,10 @@ async function main(): Promise<void> {
       queue.close(),
       evidenceCleanup,
       cacheReady,
-    ]).finally(() => {
+    ]).then((results) => {
+      for (const result of results)
+        if (result.status === "rejected")
+          log(`shutdown failed: ${(result.reason as Error).message}`);
       catalog.close();
       ownership.release();
     });

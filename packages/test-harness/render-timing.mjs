@@ -489,6 +489,7 @@ test(
           {
             source,
             plan: kind === "late-abort" ? renderPlan(undo) : tiny,
+            tracks: [],
             attemptParent: attempts,
           },
           controller.signal,

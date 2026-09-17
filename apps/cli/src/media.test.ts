@@ -246,7 +246,7 @@ test("selected batch metadata cannot masquerade as timestamp batch metadata", as
       async () => ({}),
       () => ({ code: "UNEXPECTED", message: "unexpected", retryable: false, details: {} }),
     ),
-  ).rejects.toThrow();
+  ).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
   expect(f.reads()).toBe(0);
 });
 

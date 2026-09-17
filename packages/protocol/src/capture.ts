@@ -36,6 +36,7 @@ export const captureSelectionSchema = z.object({
   systemAudio: z.boolean().default(false),
   microphoneDeviceId: id.optional(),
 });
+export type CaptureSelection = z.output<typeof captureSelectionSchema>;
 
 /** Identity and directory are allocated before native runs, so native never invents either. */
 export const nativeStartSchema = captureSelectionSchema.extend({
@@ -47,7 +48,7 @@ export const nativeStartSchema = captureSelectionSchema.extend({
 /**
  * Lifecycle sequences below this belong to the native capture journal, which numbers its own
  * records. The service numbers the events it authors itself — a refused start, a cancel, a
- * reconciled interruption — from this value up, so the two producers share one strictly
+ * reconciled interruption — above this value, so the two producers share one strictly
  * increasing order and a native report can never silently occupy a service-authored number.
  */
 export const NATIVE_SEQUENCE_LIMIT = 2 ** 40;

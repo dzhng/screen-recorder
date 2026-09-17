@@ -2,9 +2,14 @@ import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { stat } from "node:fs/promises";
 import { homedir } from "node:os";
-import { isAbsolute, join, resolve } from "node:path";
+import { isAbsolute, join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { DEFAULT_CALL_TIMEOUT_MS } from "@screenrec/protocol";
+import {
+  DEFAULT_CALL_TIMEOUT_MS,
+  personalHome,
+  serviceRuntimeDirectory,
+  serviceSocketPath,
+} from "@screenrec/protocol";
 import { callLocal, LocalTransportError } from "./transport.js";
 
 export const DISCOVERY_BUDGET_MS = DEFAULT_CALL_TIMEOUT_MS;
@@ -18,21 +23,11 @@ export type ServiceSelection = {
   budgetMs?: number | undefined;
 };
 
-export function defaultSocketPath(env: NodeJS.ProcessEnv = process.env): string {
-  return join(personalHome(env), "run", "service.sock");
-}
-
-function personalHome(env: NodeJS.ProcessEnv): string {
-  return env.SCREENREC_HOME ? resolve(env.SCREENREC_HOME) : join(homedir(), ".screen-recorder");
-}
-
 /** Discovery sends only health probes. The caller sends its operation once after this returns. */
 export async function resolveServiceSocket(options: ServiceSelection = {}): Promise<string> {
   if (options.socketPath !== undefined) return options.socketPath;
   const env = options.env ?? process.env;
   const budgetMs = options.budgetMs ?? DISCOVERY_BUDGET_MS;
-  if (!Number.isSafeInteger(budgetMs) || budgetMs <= 0 || budgetMs > 2_147_483_647)
-    throw new RangeError("Discovery budget must be a positive supported timer interval");
   const controller = new AbortController();
   const abort = () =>
     controller.abort(
@@ -40,7 +35,7 @@ export async function resolveServiceSocket(options: ServiceSelection = {}): Prom
     );
   options.signal?.addEventListener("abort", abort, { once: true });
   if (options.signal?.aborted) abort();
-  const socketPath = defaultSocketPath(env);
+  const socketPath = serviceSocketPath(serviceRuntimeDirectory(personalHome(env)));
   const timer = setTimeout(
     () =>
       controller.abort(

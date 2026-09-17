@@ -4,7 +4,7 @@ import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { z } from "zod";
 import { callLocal, resolveServiceSocket, type ServiceSelection } from "@screenrec/client";
-import { resultSchema, type OperationResponse } from "@screenrec/protocol";
+import { ARTIFACT_CHUNK_BYTES, resultSchema, type OperationResponse } from "@screenrec/protocol";
 
 export class MediaDeliveryError extends Error {
   constructor(
@@ -69,7 +69,7 @@ async function consumeMedia<T>(
         {
           id: randomUUID(),
           operation: "artifact.read",
-          params: { token, offset, maxBytes: Math.min(512 * 1024, bytes - offset) },
+          params: { token, offset, maxBytes: Math.min(ARTIFACT_CHUNK_BYTES, bytes - offset) },
         },
         selection.signal ? { signal: selection.signal } : {},
       );
@@ -87,7 +87,7 @@ async function consumeMedia<T>(
       if (
         part.offset !== offset ||
         decoded.length < 1 ||
-        decoded.length > 512 * 1024 ||
+        decoded.length > ARTIFACT_CHUNK_BYTES ||
         part.nextOffset !== offset + decoded.length ||
         part.nextOffset > bytes ||
         part.eof !== (part.nextOffset === bytes) ||
@@ -218,7 +218,10 @@ export async function consumeBatch(
   errorDetails: (error: unknown) => Extract<OperationResponse, { ok: false }>["error"],
 ): Promise<OperationResponse> {
   if (!result.ok) return result;
-  const batch = batchResponse[reference].parse(result.data);
+  const parsed = batchResponse[reference].safeParse(result.data);
+  if (!parsed.success)
+    throw new MediaDeliveryError("INVALID_RESPONSE", "Batch response does not match its request");
+  const batch = parsed.data;
   const items = [];
   for (const [index, item] of batch.items.entries()) {
     try {
