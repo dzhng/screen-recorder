@@ -12,6 +12,7 @@ import {
   realpath,
   rename,
   rm,
+  stat,
   symlink,
   writeFile,
 } from "node:fs/promises";
@@ -20,7 +21,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import {
   recoverPackageWorkspaces,
-  recoverUnconfirmedPackageWorkspace,
+  removePackageWorkspace,
   provisionPackageWorkspace,
   cleanupFailedPackageWorkspace,
 } from "../dist/package-workspace.js";
@@ -102,15 +103,12 @@ test("recovery rejects linked or nonprivate children and preserves every orphan"
 test("unconfirmed creation recovery permits only empty private children or absence", async (t) => {
   const f = await fixture(t);
   const name = randomUUID();
-  assert.deepEqual(await recoverUnconfirmedPackageWorkspace(f.parent, name, worker), {
-    recovered: 0,
-  });
+  await removePackageWorkspace(f.parent, name, null, worker);
   await mkdir(join(f.parent.directory, name), { mode: 0o700 });
-  assert.deepEqual(await recoverUnconfirmedPackageWorkspace(f.parent, name, worker), {
-    recovered: 1,
-  });
+  await removePackageWorkspace(f.parent, name, null, worker);
+  await assert.rejects(stat(join(f.parent.directory, name)), { code: "ENOENT" });
   const nonempty = await f.orphan();
-  await assert.rejects(recoverUnconfirmedPackageWorkspace(f.parent, nonempty.name, worker), {
+  await assert.rejects(removePackageWorkspace(f.parent, nonempty.name, null, worker), {
     code: "INVALID_STORAGE",
   });
   await assert.rejects(

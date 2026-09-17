@@ -14,10 +14,7 @@ import type { SourceEvidenceMetadata } from "@screenrec/core/evidence";
 import type { SourceProcessing } from "@screenrec/core/processing";
 import type { PreviewInspection, PreviewArtifact } from "@screenrec/core/preview";
 import { Publication, publicationDeadlineMs, type PublicationReceipt } from "./publication.js";
-import {
-  provisionPackageWorkspace,
-  recoverUnconfirmedPackageWorkspace,
-} from "./package-workspace.js";
+import { provisionPackageWorkspace, removePackageWorkspace } from "./package-workspace.js";
 import {
   assemblePackage,
   checkWorkspace,
@@ -26,7 +23,7 @@ import {
   type AssemblyReservation,
 } from "./package-assembly.js";
 import type { ManagedFiles } from "./managed-files.js";
-import { nativeConfirmed, type MediaWorker } from "./worker.js";
+import type { MediaWorker } from "./worker.js";
 
 type Request = {
   kind: "video" | "processed-package";
@@ -116,7 +113,7 @@ function summarize(row: Lifecycle, job: Job["state"] | null) {
 }
 
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
- * Prerequisites wait in the existing queue while this owner pins their source generation. */
+ * Prerequisites wait in that queue while this owner pins their source generation. */
 export class RecordingExports {
   private readonly creating = new Map<Promise<unknown>, string>();
   private readonly lifetime = new AbortController();
@@ -364,21 +361,8 @@ export class RecordingExports {
         parent.identity.ino !== reservation.parent.ino
       )
         throw new CatalogError("INVALID_STORAGE", "Assembly recording parent changed");
-      for (const child of [reservation.input, reservation.zip]) {
-        if (!child.identity) {
-          await recoverUnconfirmedPackageWorkspace(parent, child.name, this.owners.worker);
-        } else {
-          nativeConfirmed(
-            await this.owners.worker(
-              "packageWorkspace.remove",
-              { parent: reservation.parent, name: child.name, identity: child.identity },
-              { descriptors: [parent.handle.fd] },
-            ),
-            "removed",
-            "Assembly removal was not confirmed",
-          );
-        }
-      }
+      for (const child of [reservation.input, reservation.zip])
+        await removePackageWorkspace(parent, child.name, child.identity, this.owners.worker);
       intent.assembly = null;
       this.saveAssembly(intent);
     } catch (error) {

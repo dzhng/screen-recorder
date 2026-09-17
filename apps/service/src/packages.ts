@@ -1,11 +1,10 @@
 import { readRawCursor, type RawCursorOptions } from "@screenrec/core/raw-cursor";
 import { PackageTimelineInspection } from "./timeline-inspection.js";
-import { PackageMediaContext } from "./package-media.js";
+import { PackageMediaContext, portableEvidence, portableIdentities } from "./package-media.js";
 import { PackageAudioInspection } from "./package-audio.js";
 import { PackageFrameInspection } from "./package-frames.js";
 import { constants } from "node:fs";
 import { mkdir, lstat, realpath, open, type FileHandle } from "node:fs/promises";
-import { dirname } from "node:path";
 import { CatalogError } from "@screenrec/core/library";
 import { archiveLimits } from "@screenrec/core/package-archive";
 import { parseRevisionHistory, type TimelineRevision } from "@screenrec/core/timeline";
@@ -17,6 +16,7 @@ import { trailPolicy } from "@screenrec/core/trails";
 import type { JobQueue } from "@screenrec/core/jobs";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { MediaWorker } from "./worker.js";
+import { isPrivateDirectory } from "./managed-files.js";
 import { PackageRegistry } from "./package-registry.js";
 
 type Reference = { packageHandle: string; revisionId: string; generation: string };
@@ -58,11 +58,7 @@ export class PackageInspection {
       if (!this.registry) {
         await mkdir(this.options.directory, { recursive: true, mode: 0o700 });
         const before = await lstat(this.options.directory, { bigint: true });
-        if (
-          !before.isDirectory() ||
-          before.uid !== BigInt(process.getuid!()) ||
-          (before.mode & 0o777n) !== 0o700n
-        )
+        if (!isPrivateDirectory(before))
           throw new CatalogError(
             "INVALID_STORAGE",
             "Package root must be an exclusively owned private directory",
@@ -74,13 +70,7 @@ export class PackageInspection {
         );
         try {
           const info = await handle.stat({ bigint: true });
-          if (
-            !info.isDirectory() ||
-            info.uid !== BigInt(process.getuid!()) ||
-            (info.mode & 0o777n) !== 0o700n ||
-            info.dev !== before.dev ||
-            info.ino !== before.ino
-          )
+          if (!isPrivateDirectory(info) || info.dev !== before.dev || info.ino !== before.ino)
             throw new CatalogError(
               "INVALID_STORAGE",
               "Package root must be an exclusively owned private directory",
@@ -236,9 +226,7 @@ export class PackageInspection {
   }
   timeline(packageHandle: string): PackageTimelineInspection {
     const { view } = this.revisions(packageHandle);
-    return (view.timeline ??= new PackageTimelineInspection(this.media(packageHandle), () =>
-      this.context(packageHandle),
-    ));
+    return (view.timeline ??= new PackageTimelineInspection(this.media(packageHandle)));
   }
   frames(packageHandle: string): PackageFrameInspection {
     const { view } = this.revisions(packageHandle);
@@ -254,51 +242,34 @@ export class PackageInspection {
     generation?: string | undefined;
   }) {
     const { context, view } = this.revisions(input.packageHandle);
-    const { snapshot, evidence } = context.manifest;
+    const { snapshot } = context.manifest;
     const revisionId = input.revisionId ?? snapshot.revisionId;
     if (revisionId !== snapshot.revisionId)
       throw new CatalogError(
         "ARTIFACT_UNAVAILABLE",
         "This package retains an index only for its exported revision",
       );
-    const artifact = (kind: "source" | "scenes" | "index") =>
-      evidence.find((value) => value.artifact.reference.kind === kind)!;
-    const source = artifact("source"),
-      scenes = artifact("scenes"),
-      index = artifact("index");
-    if ([source, scenes, index].some((value) => typeof value.artifact.generation !== "string"))
-      throw new CatalogError("INVALID_EVIDENCE", "Portable index generations must be text");
-    const generation = index.artifact.generation as string;
+    const index = portableEvidence(context.manifest, "index", "pages.json");
+    const generation = index.generation;
     if (input.generation !== undefined && input.generation !== generation)
       throw new CatalogError(
         "ARTIFACT_CHANGED",
         "Index generation differs from the package snapshot",
       );
     if (view.index) return view.index;
-    const pageFiles = index.files.filter((path) => path.endsWith("/pages.json"));
-    if (pageFiles.length !== 1)
-      throw new CatalogError("INVALID_EVIDENCE", "Index requires one normalized page manifest");
-    const sourceIdentity = {
-      recordingId: snapshot.recordingId,
-      sourceId: snapshot.sourceId,
-      generation: source.artifact.generation as string,
-    };
+    const { sourceIdentity, sceneIdentity } = portableIdentities(context.manifest);
     const identity = {
       ...sourceIdentity,
       revisionId,
       generation,
       sourceIdentity,
-      sceneIdentity: {
-        ...sourceIdentity,
-        generation: scenes.artifact.generation as string,
-        policy: scenes.artifact.policy,
-      },
+      sceneIdentity,
       selectionPolicy: index.artifact.policy,
       framePolicy,
       trailPolicy: trailPolicy.id,
     };
     const reader = new FileScreenshotIndex(
-      fileSubdirectory(context.files, dirname(pageFiles[0]!)),
+      fileSubdirectory(context.files, index.directory),
       identity,
       this.revision({ packageHandle: input.packageHandle, revisionId }).revision,
     );

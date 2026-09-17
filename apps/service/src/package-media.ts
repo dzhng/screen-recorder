@@ -7,6 +7,48 @@ import { fileSubdirectory } from "@screenrec/core/files";
 import type { PackageRegistry } from "./package-registry.js";
 import type { RetainedPackage } from "./package-archive.js";
 export type PackageTarget = { packageHandle: string };
+type Manifest = RetainedPackage["manifest"];
+
+/** One pinned evidence artifact of a package, located by its single `leaf` member. */
+export function portableEvidence(
+  manifest: Manifest,
+  kind: "source" | "scenes" | "index",
+  leaf: "metadata.json" | "pages.json",
+) {
+  const entry = manifest.evidence.find((value) => value.artifact.reference.kind === kind);
+  const members = entry?.files.filter((path) => path.endsWith(`/${leaf}`)) ?? [];
+  const generation = entry?.artifact.generation;
+  if (!entry || members.length !== 1 || typeof generation !== "string")
+    throw new CatalogError(
+      "INVALID_EVIDENCE",
+      `Package ${kind} evidence requires one pinned ${leaf}`,
+    );
+  return {
+    artifact: entry.artifact,
+    files: entry.files,
+    generation,
+    directory: dirname(members[0]!),
+  };
+}
+
+/** The source and scene identities that package evidence readers are keyed by. */
+export function portableIdentities(manifest: Manifest) {
+  const { recordingId, sourceId } = manifest.snapshot;
+  const source = portableEvidence(manifest, "source", "metadata.json"),
+    scenes = portableEvidence(manifest, "scenes", "pages.json");
+  const sourceIdentity = { recordingId, sourceId, generation: source.generation };
+  return {
+    source,
+    scenes,
+    sourceIdentity,
+    sceneIdentity: {
+      ...sourceIdentity,
+      generation: scenes.generation,
+      policy: scenes.artifact.policy,
+    },
+  };
+}
+
 export type PackageOutput<T> = {
   file: string;
   publish(value: T): Promise<T & { outputId: string }>;
@@ -34,24 +76,14 @@ export class PackageMediaContext {
       revision: this.revision(input.revisionId),
     };
   }
+  retained() {
+    return this.registry.lookup(this.handle);
+  }
   sourceData() {
-    const context = this.registry.lookup(this.handle);
+    const context = this.retained();
     if (!this.sourceRead) {
-      const source = context.manifest.evidence.find(
-        (entry) => entry.artifact.reference.kind === "source",
-      )!;
-      const metadataFiles = source.files.filter((path) => path.endsWith("/metadata.json"));
-      if (metadataFiles.length !== 1 || typeof source.artifact.generation !== "string")
-        throw new CatalogError(
-          "INVALID_EVIDENCE",
-          "Source evidence requires one pinned metadata member",
-        );
-      const root = fileSubdirectory(context.files, dirname(metadataFiles[0]!));
-      const identity = {
-        recordingId: context.manifest.snapshot.recordingId,
-        sourceId: context.manifest.snapshot.sourceId,
-        generation: source.artifact.generation,
-      };
+      const { source, sourceIdentity: identity } = portableIdentities(context.manifest);
+      const root = fileSubdirectory(context.files, source.directory);
       const metadata = readSourceMetadata(root, identity);
       if (!source.files.includes(metadata.receipt.file))
         throw new CatalogError(

@@ -3,9 +3,10 @@ import { lstat, open, realpath, type FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/library";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { O_EXLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { isPrivateDirectory } from "./managed-files.js";
 import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
-export type PublicationState = "unprepared" | "missing" | "committed" | "replaced" | "modified";
+type PublicationState = "unprepared" | "missing" | "committed" | "replaced" | "modified";
 
 export type PublicationReceipt = {
   stage: DirectoryIdentity;
@@ -15,8 +16,8 @@ export type PublicationReceipt = {
   bytes: number;
   sha256: string;
 };
-export type StagingPresence = "present" | "absent" | "unreachable";
-export type PublicationObservation = {
+type StagingPresence = "present" | "absent" | "unreachable";
+type PublicationObservation = {
   state: PublicationState;
   receipt: PublicationReceipt | null;
 };
@@ -79,11 +80,7 @@ export class Publication {
     } = {},
   ) {
     const stageBefore = await lstat(stagePath, { bigint: true });
-    if (
-      !stageBefore.isDirectory() ||
-      stageBefore.uid !== BigInt(process.getuid!()) ||
-      (stageBefore.mode & 0o777n) !== 0o700n
-    )
+    if (!isPrivateDirectory(stageBefore))
       throw new CatalogError(
         "INVALID_STORAGE",
         "Publication staging must be an owned private directory",

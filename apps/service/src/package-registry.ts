@@ -22,7 +22,7 @@ import {
 import type { MediaWorker } from "./worker.js";
 import type { DerivativeDelivery } from "./delivery.js";
 
-export const packageRegistryLimits = Object.freeze({
+const packageRegistryLimits = Object.freeze({
   bytes: 64 * 1024 ** 3,
   owners: 4,
   terminal: 32,
@@ -44,7 +44,7 @@ type Admission = {
   jobId: string;
   error: string | null;
 };
-export type PackageAdmission = Readonly<Admission>;
+type PackageAdmission = Readonly<Admission>;
 type Work = (context: RetainedPackage, signal: AbortSignal) => Promise<string>;
 type Workspace = Awaited<ReturnType<typeof provisionPackageWorkspace>>;
 type Entry = Admission & {
@@ -243,20 +243,13 @@ export class PackageRegistry {
     this.options.jobs.forgetContextJob(entry.context, jobId);
     entry.requests.delete(jobId);
   }
-  close(idOrHandle: string): Promise<void> {
-    const entry =
-      this.entries.get(idOrHandle) ??
-      [...this.entries.values()].find((value) => value.packageHandle === idOrHandle);
+  close(id: string): Promise<void> {
+    const entry = this.entries.get(id);
     if (entry) {
       if (entry.state === "queued" || entry.state === "opening") entry.terminal = "canceled";
       return this.closeEntry(entry);
     }
-    if (
-      [...this.terminal.values()].some(
-        (value) => value.id === idOrHandle || value.packageHandle === idOrHandle,
-      )
-    )
-      return Promise.resolve();
+    if (this.terminal.has(id)) return Promise.resolve();
     return Promise.reject(
       new CatalogError("NOT_FOUND", "Package admission expired or does not exist"),
     );

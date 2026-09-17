@@ -17,6 +17,7 @@ import {
 } from "@screenrec/core/files";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 import type { AdmittedArchive } from "./archive-input.js";
+import { isPrivateDirectory } from "./managed-files.js";
 
 export const packageOutputBytes = 128 * 1024 ** 2;
 
@@ -30,11 +31,7 @@ async function extractArchive(
   const limits = options.limits ?? archiveLimits;
   validateArchiveLimits(limits);
   const info = await workspace.stat({ bigint: true });
-  if (
-    !info.isDirectory() ||
-    info.uid !== BigInt(process.getuid!()) ||
-    (info.mode & 0o777n) !== 0o700n
-  )
+  if (!isPrivateDirectory(info))
     throw new CatalogError(
       "INVALID_STORAGE",
       "Archive workspace must be an owned private directory",
@@ -94,7 +91,7 @@ async function extractArchive(
 }
 type Extraction = Awaited<ReturnType<typeof extractArchive>>;
 
-/** Receipt-only admission and retained inspection use this same extraction/validation owner. */
+/** Validates and releases an extraction, returning the full receipt a retained context keeps private. */
 export async function verifyPackageArchive(
   archive: AdmittedArchive,
   workspace: FileHandle,
@@ -133,7 +130,8 @@ type Output = {
   retirement?: Promise<void>;
 };
 
-/** Internal read context. Public scheduling/cache/handle ownership belongs to the later service integration. */
+/** One validated, extracted package: its members, bounded derivative outputs and the native work
+ * that reads them. PackageRegistry owns its scheduling and handle lifetime. */
 export class RetainedPackage {
   readonly manifest: Extraction["verified"]["manifest"];
   readonly archiveUsage: Readonly<Pick<Extraction["verified"], "copiedBytes" | "expandedBytes">>;

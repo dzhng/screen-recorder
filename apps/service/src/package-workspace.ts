@@ -12,7 +12,6 @@ type Parent = Readonly<{ directory: string; handle: FileHandle }>;
 class FailedWorkspaceProvision extends CatalogError {
   constructor(
     readonly workspaceName: string,
-    readonly parentIdentity: Identity,
     readonly childIdentity: Identity,
     cause: unknown,
     cleanup: unknown,
@@ -95,13 +94,9 @@ export async function provisionPackageWorkspace(
   } catch (cause) {
     await handle?.close();
     try {
-      nativeConfirmed(
-        await call("packageWorkspace.remove", identity),
-        "removed",
-        "Workspace removal was not confirmed",
-      );
+      await removePackageWorkspace(parent, name, identity, worker);
     } catch (cleanup) {
-      throw new FailedWorkspaceProvision(name, parentIdentity, identity, cause, cleanup);
+      throw new FailedWorkspaceProvision(name, identity, cause, cleanup);
     }
     throw cause;
   }
@@ -122,11 +117,7 @@ export async function provisionPackageWorkspace(
           await admitted.close();
           closed = true;
         }
-        nativeConfirmed(
-          await call("packageWorkspace.remove", identity),
-          "removed",
-          "Workspace removal was not confirmed",
-        );
+        await removePackageWorkspace(parent, name, identity, worker);
         removed = true;
       })().finally(() => {
         removal = undefined;
@@ -144,13 +135,28 @@ export function recoverPackageWorkspaces(
   return recoverWorkspaces(parent, worker);
 }
 
-/** No creation receipt was observed, so only an empty child (or absence) authorizes release. */
-export function recoverUnconfirmedPackageWorkspace(
+/** A known identity is removed exactly. Without a creation receipt, only an empty child or
+ * absence authorizes release. Removing an already absent child succeeds. */
+export async function removePackageWorkspace(
   parent: Parent,
   name: string,
+  identity: Identity | null,
   worker: MediaWorker,
-): Promise<{ recovered: number }> {
-  return recoverWorkspaces(parent, worker, name);
+): Promise<void> {
+  if (!identity) {
+    await recoverWorkspaces(parent, worker, name);
+    return;
+  }
+  const info = await parent.handle.stat({ bigint: true });
+  nativeConfirmed(
+    await worker(
+      "packageWorkspace.remove",
+      { parent: { dev: info.dev.toString(), ino: info.ino.toString() }, name, identity },
+      { descriptors: [parent.handle.fd] },
+    ),
+    "removed",
+    "Workspace removal was not confirmed",
+  );
 }
 
 async function recoverWorkspaces(
@@ -180,30 +186,19 @@ async function recoverWorkspaces(
   return { recovered: receipt.recovered as number };
 }
 
-/** Retry owner-issued known identity; an unconfirmed creation may authorize only empty cleanup. */
-export async function cleanupFailedPackageWorkspace(
+/** Retries a failed provision with the identity it observed, or as an unconfirmed creation. */
+export function cleanupFailedPackageWorkspace(
   parent: Parent,
   name: string,
   failure: unknown,
   worker: MediaWorker,
 ): Promise<void> {
-  if (failure instanceof FailedWorkspaceProvision) {
-    if (failure.workspaceName !== name)
-      throw new CatalogError("INVALID_STORAGE", "Failed workspace name changed");
-    nativeConfirmed(
-      await worker(
-        "packageWorkspace.remove",
-        {
-          parent: failure.parentIdentity,
-          name,
-          identity: failure.childIdentity,
-        },
-        { descriptors: [parent.handle.fd] },
-      ),
-      "removed",
-      "Workspace removal was not confirmed",
-    );
-  } else {
-    await recoverUnconfirmedPackageWorkspace(parent, name, worker);
-  }
+  if (failure instanceof FailedWorkspaceProvision && failure.workspaceName !== name)
+    return Promise.reject(new CatalogError("INVALID_STORAGE", "Failed workspace name changed"));
+  return removePackageWorkspace(
+    parent,
+    name,
+    failure instanceof FailedWorkspaceProvision ? failure.childIdentity : null,
+    worker,
+  );
 }

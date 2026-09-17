@@ -1,4 +1,3 @@
-import { dirname } from "node:path";
 import { CatalogError, type RevisionStore } from "@screenrec/core/library";
 import { TimelineInspection } from "@screenrec/core/timeline-inspection";
 import type { SourceProcessing } from "@screenrec/core/processing";
@@ -7,8 +6,7 @@ import type { SourceEvidenceStore } from "@screenrec/core/evidence";
 import type { SceneEvidenceStore, SceneEvidenceIdentity } from "@screenrec/core/scene-evidence";
 import { FileSceneEvidence } from "@screenrec/core/scene-pages";
 import { fileSubdirectory } from "@screenrec/core/files";
-import { PackageMediaContext, type PackageTarget } from "./package-media.js";
-import type { PackageRegistry } from "./package-registry.js";
+import { PackageMediaContext, portableIdentities, type PackageTarget } from "./package-media.js";
 
 export class LibraryTimelineInspection extends TimelineInspection<{ recordingId: string }> {
   constructor(
@@ -55,43 +53,23 @@ export class LibraryTimelineInspection extends TimelineInspection<{ recordingId:
   }
 }
 
-/** PackageInspection supplies its existing private authority; no second handle registry is introduced. */
+/** Package timelines read the retained package's own source and scene pages. */
 export class PackageTimelineInspection extends TimelineInspection<PackageTarget> {
-  private sceneRead:
-    | { context: object; identity: SceneEvidenceIdentity; reader: FileSceneEvidence }
-    | undefined;
-  constructor(
-    private readonly media: PackageMediaContext,
-    private readonly context: () => ReturnType<PackageRegistry["lookup"]>,
-  ) {
+  private sceneRead: { identity: SceneEvidenceIdentity; reader: FileSceneEvidence } | undefined;
+  constructor(private readonly media: PackageMediaContext) {
     super();
   }
   protected resolve(input: PackageTarget & { revisionId?: string | undefined }) {
     const resolved = this.media.resolve(input),
-      context = this.context(),
+      context = this.media.retained(),
       source = this.media.sourceData();
-    if (this.sceneRead?.context !== context) {
-      const artifact = context.manifest.evidence.find(
-        (entry) => entry.artifact.reference.kind === "scenes",
-      )!;
-      const manifests = artifact.files.filter((path) => path.endsWith("/pages.json"));
-      if (manifests.length !== 1 || typeof artifact.artifact.generation !== "string")
-        throw new CatalogError(
-          "INVALID_EVIDENCE",
-          "Timeline requires one pinned scene page manifest",
-        );
-      const identity = {
-        recordingId: resolved.recordingId,
-        sourceId: resolved.sourceId,
-        generation: artifact.artifact.generation,
-        policy: artifact.artifact.policy,
-      };
+    if (!this.sceneRead) {
+      const { scenes, sceneIdentity } = portableIdentities(context.manifest);
       this.sceneRead = {
-        context,
-        identity,
+        identity: sceneIdentity,
         reader: new FileSceneEvidence(
-          fileSubdirectory(context.files, dirname(manifests[0]!)),
-          identity,
+          fileSubdirectory(context.files, scenes.directory),
+          sceneIdentity,
         ),
       };
     }

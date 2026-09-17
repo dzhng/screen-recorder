@@ -112,13 +112,13 @@ test("registry reserves before extraction, charges copied bytes, and closes with
   assert.equal(f.registry.usage().budgetBytes, bytes + expanded + 128 * 1024 ** 2);
   assert.equal(f.registry.usage().confirmedBytes, bytes + expanded);
   assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM recordings").get().n, 0);
-  await f.registry.close(handle);
+  await f.registry.close(admission.id);
   assert.equal(f.registry.status(admission.id).state, "closed");
   assert.deepEqual(await readdir(f.directory), []);
   assert.equal(f.registry.usage().budgetBytes, 0);
   assert.throws(() => f.registry.lookup(handle), { code: "CONTEXT_CLOSED" });
   assert.throws(() => context.files.open("source/video.mov"), { code: "CONTEXT_CLOSED" });
-  await f.registry.close(handle);
+  await f.registry.close(admission.id);
   await f.registry.dispose();
   await assert.rejects(f.registry.open(f.input), { code: "SERVICE_STOPPED" });
   await assert.rejects(f.registry.recover(), { code: "SERVICE_STOPPED" });
@@ -153,8 +153,8 @@ test("four same-content resource owners stay independent and failed close retain
   const directory = join(f.directory, admissions[0].id);
   await chmod(directory, 0o500);
   try {
-    const closing = f.registry.close(handles[0]);
-    assert.equal(f.registry.close(handles[0]), closing);
+    const closing = f.registry.close(admissions[0].id);
+    assert.equal(f.registry.close(admissions[0].id), closing);
     assert.throws(() => f.registry.lookup(handles[0]), { code: "CONTEXT_CLOSED" });
     await assert.rejects(closing, { code: "ARCHIVE_CLEANUP_FAILED" });
     assert.equal(f.registry.status(admissions[0].id).state, "cleanup_failed");
@@ -167,7 +167,7 @@ test("four same-content resource owners stay independent and failed close retain
   } finally {
     await chmod(directory, 0o700);
   }
-  await f.registry.close(handles[0]);
+  await f.registry.close(admissions[0].id);
   assert.equal(f.registry.usage().owners, 3);
   assert.equal(f.registry.usage().budgetBytes, (before.budgetBytes * 3) / 4);
   const replacement = await f.registry.open(f.input);
@@ -199,7 +199,7 @@ test("one handle makes more than 32 requests and bounded terminal receipts expir
     f.registry.forget(handle, job.jobId);
     assert.throws(() => f.registry.job(handle, job.jobId), { code: "NOT_FOUND" });
   }
-  await f.registry.close(handle);
+  await f.registry.close(initial.id);
   for (let i = 0; i < 32; i++) {
     const admission = await f.registry.open(f.input);
     await ready(f, admission.id);
@@ -208,7 +208,7 @@ test("one handle makes more than 32 requests and bounded terminal receipts expir
   assert.equal(f.registry.usage().terminalReceipts, 32);
   assert.throws(() => f.registry.status(initial.id), { code: "NOT_FOUND" });
   assert.throws(() => f.registry.lookup(handle), { code: "CONTEXT_CLOSED" });
-  await assert.rejects(f.registry.close(handle), { code: "NOT_FOUND" });
+  await assert.rejects(f.registry.close(initial.id), { code: "NOT_FOUND" });
   assert.equal(f.registry.usage().owners, 0);
 });
 
@@ -347,7 +347,7 @@ test("same-provenance library deletion and package close revoke only their own d
       Buffer.from(f.delivery.read(target.token, 0, 20).data, "base64").toString(),
       "generated source",
     );
-    await f.registry.close(first);
+    await f.registry.close(a.id);
     assert.throws(() => f.delivery.read(target.token, 0, 20), { code: "ARTIFACT_EXPIRED" });
     assert.equal(
       Buffer.from(f.delivery.read(sibling.token, 0, 20).data, "base64").toString(),
@@ -498,7 +498,7 @@ test("close fences delivery and drains an actual native media worker before remo
         execFileSync("/bin/ps", ["-p", String(pid), "-o", "state="], { encoding: "utf8" }).trim(),
       (value) => value.startsWith("T"),
     );
-    const closing = f.registry.close(handle);
+    const closing = f.registry.close(admission.id);
     assert.throws(() => f.registry.lookup(handle), { code: "CONTEXT_CLOSED" });
     assert.equal(
       Buffer.from(f.delivery.read(delivery.token, 0, 20).data, "base64").toString(),
@@ -514,7 +514,7 @@ test("close fences delivery and drains an actual native media worker before remo
     assert.equal(f.registry.usage().budgetBytes, 0);
     assert.deepEqual(await readdir(f.directory), []);
   } finally {
-    await f.registry.close(handle);
+    await f.registry.close(admission.id);
   }
 });
 

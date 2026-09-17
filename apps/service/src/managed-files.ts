@@ -1,10 +1,17 @@
 import { join } from "node:path";
-import { constants, lstatSync, realpathSync } from "node:fs";
+import { constants, lstatSync, realpathSync, type BigIntStats } from "node:fs";
 import { open, realpath } from "node:fs/promises";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/library";
 import { O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
+
+/** A directory only this user can enter: the precondition for every private workspace. */
+export function isPrivateDirectory(info: BigIntStats): boolean {
+  return (
+    info.isDirectory() && info.uid === BigInt(process.getuid!()) && (info.mode & 0o777n) === 0o700n
+  );
+}
 
 /** Native file operations anchor deletion to directory descriptors, not re-resolved paths. */
 export class ManagedFiles {
