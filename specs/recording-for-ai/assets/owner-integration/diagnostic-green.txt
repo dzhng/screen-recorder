@@ -1,0 +1,10 @@
+$ vitest run src/capture.test.ts -t "settles a stranded take with no recoverable video|leaves a take alone when its recovery cannot run"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/service
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 16 skipped (18)
+   Start at  08:26:17
+   Duration  2.13s (tests 97%, transform 2%, import 2%)
+

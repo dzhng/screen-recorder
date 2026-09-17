@@ -2,6 +2,7 @@ import { afterEach, expect, it } from "vitest";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { chmod, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
+import { once } from "node:events";
 import { join } from "node:path";
 import { callLocal } from "@screenrec/client";
 import {
@@ -110,8 +111,14 @@ async function startService(
   return {
     close,
     asked,
-    get diagnostics() {
-      return diagnostics;
+    // Background recovery may outlast readiness; await its diagnostic within the fixture budget.
+    async waitForDiagnostic(pattern: RegExp) {
+      const signal = AbortSignal.timeout(5_000);
+      while (!pattern.test(diagnostics)) {
+        if (child.exitCode !== null || child.signalCode !== null)
+          throw new Error(`Service exited before ${pattern}: ${diagnostics}`);
+        await once(child.stderr, "data", { signal });
+      }
     },
     kill: () => child.kill("SIGKILL"),
     /** Pushes one native capture report up the private pipe and waits for its answer. */
@@ -382,7 +389,7 @@ it("settles a stranded take from its own recovered media when a service starts a
       journal: { header: { sessionID: "s" } },
     }),
   });
-  await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
+  await service.waitForDiagnostic(/reconciliation complete/);
   expect(await service.call("recording.get", { recordingId })).toMatchObject({
     ok: true,
     data: {
@@ -407,9 +414,12 @@ it("settles a stranded take with no recoverable video without inventing a timeli
   abandoned.kill();
 
   const service = await startService(home, capturingPeer(), {
-    SCREENREC_NATIVE: await recovers({ durationUs: 0, journal: { header: { sessionID: "s" } } }),
+    SCREENREC_NATIVE: await recovers(
+      { durationUs: 0, journal: { header: { sessionID: "s" } } },
+      1.2,
+    ),
   });
-  await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
+  await service.waitForDiagnostic(/reconciliation complete/);
   expect(await service.call("recording.get", { recordingId })).toMatchObject({
     ok: true,
     data: {
@@ -436,7 +446,7 @@ it("leaves a take alone when its recovery cannot run, and settles it once one ca
   const blind = await startService(home, capturingPeer(), {
     SCREENREC_NATIVE: await nativeWorker("exit 3"),
   });
-  await expect.poll(() => blind.diagnostics).toMatch(/reconcile failed/);
+  await blind.waitForDiagnostic(/reconcile failed/);
   // An unprovable outcome is never published: the take keeps the state it actually had.
   expect(await blind.call("recording.get", { recordingId })).toMatchObject({
     ok: true,
@@ -447,7 +457,7 @@ it("leaves a take alone when its recovery cannot run, and settles it once one ca
   const service = await startService(home, capturingPeer(), {
     SCREENREC_NATIVE: await recovers({ durationUs: 2_000_000, journal: { header: {} } }),
   });
-  await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
+  await service.waitForDiagnostic(/reconciliation complete/);
   expect(await service.call("recording.get", { recordingId })).toMatchObject({
     ok: true,
     data: { state: "interrupted", sourceDurationUs: 2_000_000 },
@@ -507,7 +517,7 @@ it(
         source: { kind: "window", windowId: 8 },
       }),
     ).toMatchObject({ ok: false, error: { code: "REQUEST_CONFLICT" } });
-    await expect.poll(() => service.diagnostics).toMatch(/reconciliation complete/);
+    await service.waitForDiagnostic(/reconciliation complete/);
   },
 );
 

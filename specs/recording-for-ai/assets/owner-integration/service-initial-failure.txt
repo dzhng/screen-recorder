@@ -1,0 +1,77 @@
+$ vitest run "--maxWorkers=4"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/service
+
+(node:61443) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61491) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61525) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61532) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61541) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61544) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/capture.test.ts (18 tests | 2 failed) 88159ms
+   × settles a stranded take with no recoverable video without inventing a timeline 1130ms
+   × leaves a take alone when its recovery cannot run, and settles it once one can 1130ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/capture.test.ts > settles a stranded take with no recoverable video without inventing a timeline
+AssertionError: expected '(node:61512) ExperimentalWarning: SQL…' to match /reconciliation complete/
+
+- Expected:
+/reconciliation complete/
+
++ Received:
+"(node:61512) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+"
+
+ ❯ src/capture.test.ts:412:48
+    410|     SCREENREC_NATIVE: await recovers({ durationUs: 0, journal: { heade…
+    411|   });
+    412|   await expect.poll(() => service.diagnostics).toMatch(/reconciliation…
+       |                                                ^
+    413|   expect(await service.call("recording.get", { recordingId })).toMatch…
+    414|     ok: true,
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/capture.test.ts:412:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/capture.test.ts > leaves a take alone when its recovery cannot run, and settles it once one can
+AssertionError: expected '(node:61527) ExperimentalWarning: SQL…' to match /reconcile failed/
+
+- Expected:
+/reconcile failed/
+
++ Received:
+"(node:61527) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+"
+
+ ❯ src/capture.test.ts:439:46
+    437|     SCREENREC_NATIVE: await nativeWorker("exit 3"),
+    438|   });
+    439|   await expect.poll(() => blind.diagnostics).toMatch(/reconcile failed…
+       |                                              ^
+    440|   // An unprovable outcome is never published: the take keeps the stat…
+    441|   expect(await blind.call("recording.get", { recordingId })).toMatchOb…
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/capture.test.ts:439:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 9 passed (10)
+      Tests  2 failed | 95 passed (97)
+   Start at  08:21:16
+   Duration  88.28s (tests 99%)
+
+error: script "test" exited with code 1

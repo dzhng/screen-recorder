@@ -1,0 +1,40 @@
+$ vitest run src/capture.test.ts -t "settles a stranded take with no recoverable video"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/service
+
+ ❯ src/capture.test.ts (18 tests | 1 failed | 17 skipped) 1798ms
+   × settles a stranded take with no recoverable video without inventing a timeline 1797ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/capture.test.ts > settles a stranded take with no recoverable video without inventing a timeline
+AssertionError: expected '(node:62965) ExperimentalWarning: SQL…' to match /reconciliation complete/
+
+- Expected:
+/reconciliation complete/
+
++ Received:
+"(node:62965) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+"
+
+ ❯ src/capture.test.ts:412:48
+    410|     SCREENREC_NATIVE: await recovers({ durationUs: 0, journal: { heade…
+    411|   });
+    412|   await expect.poll(() => service.diagnostics).toMatch(/reconciliation…
+       |                                                ^
+    413|   expect(await service.call("recording.get", { recordingId })).toMatch…
+    414|     ok: true,
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/capture.test.ts:412:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 skipped (18)
+   Start at  08:25:46
+   Duration  1.92s (tests 96%, transform 2%, import 2%)
+
+error: script "test" exited with code 1
