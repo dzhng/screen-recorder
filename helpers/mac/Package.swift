@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 import PackageDescription
 
 let package = Package(
@@ -8,18 +8,29 @@ let package = Package(
         .library(name: "ScreenRecorderCapture", targets: ["ScreenRecorderCapture"]),
         .executable(name: "screenrec-native", targets: ["ScreenRecorderNative"]),
     ],
+    dependencies: [
+        // Traits disabled so the NeMo text-normalization binary is never linked. Only the worker's
+        // speech target uses it; the app's capture library never reaches it.
+        .package(url: "https://github.com/FluidInference/FluidAudio.git", exact: "0.15.7", traits: []),
+    ],
     targets: [
         .target(
             name: "ScreenRecorderWire",
             dependencies: [
                 "ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames",
-                "ScreenRecorderMedia", "CLibArchive",
+                "ScreenRecorderMedia", "ScreenRecorderSpeech", "CLibArchive",
             ],
             linkerSettings: [.linkedLibrary("archive.2")]),
         .systemLibrary(name: "CLibArchive"),
         .target(name: "ScreenRecorderCapture", dependencies: ["ScreenRecorderMedia"]),
         .target(name: "ScreenRecorderFrames", dependencies: ["ScreenRecorderMedia"]),
         .target(name: "ScreenRecorderAudio", dependencies: ["ScreenRecorderMedia"]),
+        .target(
+            name: "ScreenRecorderSpeech",
+            dependencies: [
+                "ScreenRecorderAudio", "ScreenRecorderMedia",
+                .product(name: "FluidAudio", package: "FluidAudio"),
+            ]),
         .target(name: "ScreenRecorderMedia"),
         .executableTarget(
             name: "ScreenRecorderCaptureTests",

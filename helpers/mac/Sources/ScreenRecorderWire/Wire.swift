@@ -55,6 +55,10 @@ public enum NativeWire {
                 },
                 unexpected: { _ in NativeFailure(
                     "EVIDENCE_FAILED", "Cannot export source evidence.") }),
+            "speech.transcribe": Operation(
+                run: { try json(await SpeechOperation.transcribe($0)) },
+                unexpected: { NativeFailure(
+                    "TRANSCRIPTION_FAILED", $0.localizedDescription, retryable: true) }),
             "storage.recordingDirectory": deletion { try ManagedFiles.recordingDirectory($0) },
             "storage.externalDirectory": deletion { try ManagedFiles.externalDirectory($0) },
             "storage.clearRenderWorkspace": deletion {

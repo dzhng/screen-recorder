@@ -56,6 +56,42 @@
     }
   },
   {
+    "name": "speech unknown field",
+    "line": "{\"id\":\"speech-extra-1\",\"operation\":\"speech.transcribe\",\"params\":{\"models\":{\"directory\":\"/nonexistent/screenrec/models/parakeet/fixture/parakeet-tdt-0.6b-v2\",\"files\":[{\"path\":\"Preprocessor.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"Encoder.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"Decoder.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"JointDecision.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"parakeet_vocab.json\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}]},\"track\":{\"role\":\"narration\",\"source\":\"/nonexistent/screenrec/recordings/fixture/source/narration.mov\",\"sourceOffsetUs\":0,\"available\":[{\"startUs\":0,\"endUs\":1000000}]},\"output\":\"/nonexistent/screenrec/recordings/fixture/evidence/transcript/attempt/raw.jsonl\",\"language\":\"en\"}}",
+    "expected": {
+      "id": "speech-extra-1",
+      "ok": false,
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "speech relative model directory",
+    "line": "{\"id\":\"speech-relative-1\",\"operation\":\"speech.transcribe\",\"params\":{\"models\":{\"directory\":\"models/parakeet-tdt-0.6b-v2\",\"files\":[{\"path\":\"Preprocessor.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"Encoder.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"Decoder.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"JointDecision.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"parakeet_vocab.json\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}]},\"track\":{\"role\":\"narration\",\"source\":\"/nonexistent/screenrec/recordings/fixture/source/narration.mov\",\"sourceOffsetUs\":0,\"available\":[{\"startUs\":0,\"endUs\":1000000}]},\"output\":\"/nonexistent/screenrec/recordings/fixture/evidence/transcript/attempt/raw.jsonl\"}}",
+    "expected": {
+      "id": "speech-relative-1",
+      "ok": false,
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "speech unsafe model file path",
+    "line": "{\"id\":\"speech-unsafe-1\",\"operation\":\"speech.transcribe\",\"params\":{\"models\":{\"directory\":\"/nonexistent/screenrec/models/parakeet/fixture/parakeet-tdt-0.6b-v2\",\"files\":[{\"path\":\"Preprocessor.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"Encoder.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"Decoder.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"JointDecision.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"parakeet_vocab.json\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"../weights.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}]},\"track\":{\"role\":\"narration\",\"source\":\"/nonexistent/screenrec/recordings/fixture/source/narration.mov\",\"sourceOffsetUs\":0,\"available\":[{\"startUs\":0,\"endUs\":1000000}]},\"output\":\"/nonexistent/screenrec/recordings/fixture/evidence/transcript/attempt/raw.jsonl\"}}",
+    "expected": {
+      "id": "speech-unsafe-1",
+      "ok": false,
+      "code": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "speech missing models",
+    "line": "{\"id\":\"speech-missing-1\",\"operation\":\"speech.transcribe\",\"params\":{\"models\":{\"directory\":\"/nonexistent/screenrec/models/parakeet/fixture/parakeet-tdt-0.6b-v2\",\"files\":[{\"path\":\"Preprocessor.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"Encoder.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"Decoder.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"JointDecision.mlmodelc/coremldata.bin\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"},{\"path\":\"parakeet_vocab.json\",\"bytes\":1,\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}]},\"track\":{\"role\":\"narration\",\"source\":\"/nonexistent/screenrec/recordings/fixture/source/narration.mov\",\"sourceOffsetUs\":0,\"available\":[{\"startUs\":0,\"endUs\":1000000}]},\"output\":\"/nonexistent/screenrec/recordings/fixture/evidence/transcript/attempt/raw.jsonl\"}}",
+    "expected": {
+      "id": "speech-missing-1",
+      "ok": false,
+      "code": "MODEL_UNAVAILABLE"
+    }
+  },
+  {
     "name": "ping after invalid lines",
     "line": "{\"id\":\"after-1\",\"operation\":\"system.ping\",\"params\":{}}",
     "expected": {
