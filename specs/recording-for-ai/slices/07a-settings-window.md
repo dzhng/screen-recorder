@@ -11,6 +11,12 @@ window states that honestly; registering and unregistering from the installed
 [Captures of the window](../assets/settings-window/README.md) cover both
 appearances with access granted, unanswered and denied.
 
+Review on the installed copy corrected three things: a row whose label runs to a
+second line now centers its control against the whole label, modifier glyphs are set
+apart so a shortcut reads as separate keys, and the Login Items pane button appears
+only when macOS keeps that registration for a person to confirm, since the toggle
+performs it otherwise.
+
 The menu bar is the recording surface, but a person should not have to find
 permissions or preferences inside nested submenus. Standard menu-bar apps open a
 settings window when they start until the person turns that off.
