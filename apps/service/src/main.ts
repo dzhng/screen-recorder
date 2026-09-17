@@ -1,15 +1,8 @@
 import { LibraryTimelineInspection } from "./timeline-inspection.js";
 import { RecordingExports } from "./exports.js";
 import { PackageInspection } from "./packages.js";
-import { copyFile, mkdir } from "node:fs/promises";
-import { constants } from "node:fs";
 import { PreviewInspection } from "@screenrec/core/preview";
-import {
-  PresentationEvidence,
-  type PresentationReceipt,
-} from "@screenrec/core/presentation-evidence";
-import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
-import { clearRenderWorkspace, renderDeadlineMs, withRenderedMedia } from "./render.js";
+import { clearRenderWorkspace, previewRenderer } from "./render.js";
 import { RecordingStorage } from "@screenrec/core/storage";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
@@ -240,57 +233,7 @@ async function main(): Promise<void> {
       evidence,
       processing,
       home,
-      async (request, signal) => {
-        await mkdir(renderWorkspace, { recursive: true, mode: 0o700 });
-        return withRenderedMedia(
-          worker,
-          {
-            source: request.source,
-            plan: request.plan,
-            tracks: request.tracks,
-            attemptParent: renderWorkspace,
-            preparePointer: async (attempt, execute, signal) => {
-              const receipt = await nativeData<PresentationReceipt>(
-                "media.presentationEvidence",
-                {
-                  source: request.source,
-                  plan: request.plan,
-                  output: join(attempt, "presentation.jsonl"),
-                  maxBytes: 1024 ** 3,
-                },
-                signal,
-                execute,
-                renderDeadlineMs(request.plan),
-              );
-              const presentation = await PresentationEvidence.open(
-                receipt,
-                request.revision,
-                signal,
-              );
-              try {
-                return await writePointerSchedule(
-                  {
-                    presentation,
-                    evidence,
-                    identity: request.sourceEvidence,
-                    output: join(attempt, "pointer.jsonl"),
-                    maxBytes: 128 * 1024 ** 2,
-                    maxEvents: 1_000_000,
-                  },
-                  signal,
-                );
-              } finally {
-                await presentation.close();
-              }
-            },
-          },
-          signal,
-          async (movie) => {
-            await copyFile(movie.file, request.output, constants.COPYFILE_EXCL);
-            return { ...movie, file: request.output };
-          },
-        );
-      },
+      previewRenderer(worker, renderWorkspace, evidence),
     );
     files = new ManagedFiles(home, worker);
     exports = new RecordingExports({

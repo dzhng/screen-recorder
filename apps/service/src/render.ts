@@ -1,17 +1,21 @@
 import { constants } from "node:fs";
-import { lstat, mkdtemp, open, realpath } from "node:fs/promises";
+import { copyFile, lstat, mkdir, mkdtemp, open, realpath } from "node:fs/promises";
 import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/library";
 import type { AudioTrackPlan } from "@screenrec/core/audio";
-import type { RenderedMovie } from "@screenrec/core/preview";
-import type { writePointerSchedule } from "@screenrec/core/pointer-schedule";
+import type { PreviewRenderer, RenderedMovie } from "@screenrec/core/preview";
+import {
+  PresentationEvidence,
+  type PresentationReceipt,
+} from "@screenrec/core/presentation-evidence";
+import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
 import type { RenderSpan } from "@screenrec/core/timeline";
 import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
 
 /** The sequential reader may decode discarded prefixes, so budget the last source
  * position, not merely the shorter edited result. Allow realtime work plus startup;
- * add retained playback time for the sequential AAC assembly phase. Keep unrelated
- * native calls on their existing short deadline. */
+ * add retained playback time for the sequential AAC assembly phase. Other native
+ * calls keep the worker's ordinary deadline. */
 export function renderDeadlineMs(plan: readonly RenderSpan[], withAudio = false): number {
   return Math.min(
     MAX_MEDIA_TIMEOUT_MS,
@@ -123,17 +127,85 @@ export async function clearRenderWorkspace(
   await withLockedRenderWorkspace(worker, parent, signal, async ({ clear }) => clear());
 }
 
+/**
+ * The playable preview of a pinned revision: the observed pointer is scheduled from the source's
+ * own presentation evidence, then the movie is rendered and copied to the preview's output, all
+ * inside one locked attempt in the service's private render workspace.
+ */
+export function previewRenderer(
+  worker: MediaWorker,
+  workspace: string,
+  evidence: Parameters<typeof writePointerSchedule>[0]["evidence"],
+): PreviewRenderer {
+  return async (request, signal) => {
+    await mkdir(workspace, { recursive: true, mode: 0o700 });
+    return withRenderedMedia(
+      worker,
+      {
+        source: request.source,
+        plan: request.plan,
+        tracks: request.tracks,
+        attemptParent: workspace,
+        preparePointer: async (attempt, execute, signal) => {
+          const response = await execute(
+            "media.presentationEvidence",
+            {
+              source: request.source,
+              plan: request.plan,
+              output: join(attempt, "presentation.jsonl"),
+              maxBytes: 1024 ** 3,
+            },
+            { signal, timeoutMs: renderDeadlineMs(request.plan) },
+          );
+          if (!response.ok)
+            throw new CatalogError(
+              response.error.code,
+              response.error.message,
+              response.error.details,
+              response.error.retryable,
+            );
+          const presentation = await PresentationEvidence.open(
+            response.data as PresentationReceipt,
+            request.revision,
+            signal,
+          );
+          try {
+            return await writePointerSchedule(
+              {
+                presentation,
+                evidence,
+                identity: request.sourceEvidence,
+                output: join(attempt, "pointer.jsonl"),
+                maxBytes: 128 * 1024 ** 2,
+                maxEvents: 1_000_000,
+              },
+              signal,
+            );
+          } finally {
+            await presentation.close();
+          }
+        },
+      },
+      signal,
+      async (movie) => {
+        await copyFile(movie.file, request.output, constants.COPYFILE_EXCL);
+        return { ...movie, file: request.output };
+      },
+    );
+  };
+}
+
 /** One service-owned attempt lifetime. The consumer must finish retaining/using
  * successful output before returning. A late native answer never reaches the
  * consumer. The consumer's commit owner must fence/reconcile its own durable side
- * effects; cancellation after consumption cannot undo them. The existing worker
- * resolves only after actual child close. */
+ * effects; cancellation after consumption cannot undo them. The worker resolves
+ * only after actual child close. */
 export async function withRenderedMedia<T>(
   worker: MediaWorker,
   request: {
     source: string;
     plan: readonly RenderSpan[];
-    tracks?: readonly AudioTrackPlan[];
+    tracks: readonly AudioTrackPlan[];
     /** Dedicated private workspace; keep its ancestry stable during path-based rendering. */
     attemptParent: string;
     /** Finish all preparation calls before returning; each inherits this workspace lock. */
@@ -150,8 +222,6 @@ export async function withRenderedMedia<T>(
     if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
   };
   checkCanceled();
-  if (request.preparePointer && request.tracks === undefined)
-    throw new CatalogError("INVALID_REQUEST", "Pointer preparation requires a movie request");
   return withLockedRenderWorkspace(
     worker,
     request.attemptParent,
@@ -165,18 +235,15 @@ export async function withRenderedMedia<T>(
         checkCanceled();
         const file = join(attempt, "video.mp4");
         const response = await boundWorker(
-          request.tracks === undefined ? "media.renderVideo" : "media.renderMovie",
+          "media.renderMovie",
           {
             source: request.source,
             plan: request.plan,
             output: file,
+            tracks: request.tracks,
             ...(pointerSchedule ? { pointerSchedule } : {}),
-            ...(request.tracks === undefined ? {} : { tracks: request.tracks }),
           },
-          {
-            signal,
-            timeoutMs: renderDeadlineMs(request.plan, (request.tracks?.length ?? 0) > 0),
-          },
+          { signal, timeoutMs: renderDeadlineMs(request.plan, request.tracks.length > 0) },
         );
         checkCanceled();
         if (!response.ok)
