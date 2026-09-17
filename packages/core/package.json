@@ -64,10 +64,6 @@
       "types": "./dist/selection.d.ts",
       "default": "./dist/selection.js"
     },
-    "./selection-evidence": {
-      "types": "./dist/selection-evidence.d.ts",
-      "default": "./dist/selection-evidence.js"
-    },
     "./screenshot-index": {
       "types": "./dist/screenshot-index.d.ts",
       "default": "./dist/screenshot-index.js"
@@ -99,10 +95,6 @@
     "./presentation-evidence": {
       "types": "./dist/presentation-evidence.d.ts",
       "default": "./dist/presentation-evidence.js"
-    },
-    "./presentation-pointer": {
-      "types": "./dist/presentation-pointer.d.ts",
-      "default": "./dist/presentation-pointer.js"
     },
     "./preview": {
       "types": "./dist/preview.d.ts",

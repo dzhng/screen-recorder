@@ -129,14 +129,14 @@ export class RecordingStorage {
     ) => {
       try {
         await checkDirectories(directories);
-        if (category === "cacheBytes") this.cache.recordingForFile(path);
+        if (category === "cacheBytes") this.cache.checkRoot();
         if ((await lstat(path)).isFile()) {
           const file = await open(path, constants.O_RDONLY | constants.O_NONBLOCK | noFollowAny);
           try {
             const stat = await file.stat();
             if (stat.isFile()) {
               await checkDirectories(directories);
-              if (category === "cacheBytes") this.cache.recordingForFile(path);
+              if (category === "cacheBytes") this.cache.checkRoot();
               if (
                 !Number.isSafeInteger(stat.size) ||
                 !Number.isSafeInteger(usage.totalBytes + stat.size)

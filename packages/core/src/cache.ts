@@ -8,11 +8,11 @@ import {
   mkdirSync,
   openSync,
   opendirSync,
-  readSync,
   realpathSync,
   unlinkSync,
 } from "node:fs";
 import { basename, dirname, join } from "node:path";
+import { openedFile, retainedFileRead, type OpenedFile, type RetainedRead } from "./files.js";
 import { CatalogError, type RevisionStore } from "./library.js";
 
 type Row = {
@@ -26,12 +26,6 @@ type Row = {
 export type CacheFile = Readonly<{ id: string; path: string; bytes: number }>;
 export type DirectoryIdentity = Readonly<{ dev: string; ino: string }>;
 export type RemoveCacheFiles = (batch: { ids: string[]; root: DirectoryIdentity }) => Promise<void>;
-export type CacheRead = Readonly<{
-  bytes: number;
-  /** Positioned reads leave the shared file offset untouched. */
-  read(buffer: Uint8Array, position: number): number;
-  release(): void;
-}>;
 const filename = /^[0-9a-f-]{36}\.cache$/;
 const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
 
@@ -77,7 +71,8 @@ export class DerivedCache {
         .get() as { bytes: number }
     ).bytes;
   }
-  private checkRoot(): void {
+  /** Refuses to continue once a cache directory was replaced or became a link while in use. */
+  checkRoot(): void {
     for (const directory of this.directories) {
       const stat = lstatSync(directory.path, { bigint: true });
       if (!stat.isDirectory() || stat.dev !== directory.dev || stat.ino !== directory.ino)
@@ -172,9 +167,9 @@ export class DerivedCache {
       if (fd !== undefined) closeSync(fd);
     }
   }
-  acquire(id: string): CacheRead | null {
+  acquire(id: string): RetainedRead | null {
     this.requireReady();
-    return this.open(id, true);
+    return this.open(id, true)?.read ?? null;
   }
   /** Lends the same validated descriptor to a native child until its actual operation settles. */
   async withDescriptor<T>(
@@ -182,16 +177,16 @@ export class DerivedCache {
     consume: (file: Readonly<{ fd: number; bytes: number }>) => Promise<T>,
   ): Promise<T> {
     this.requireReady();
-    const file = this.open(id, true);
-    if (!file)
+    const opened = this.open(id, true);
+    if (!opened)
       throw new CatalogError("ARTIFACT_EXPIRED", "Derivative is no longer available", {}, true);
     try {
-      return await consume({ fd: file.fd, bytes: file.bytes });
+      return await consume({ fd: opened.file.fd, bytes: opened.read.bytes });
     } finally {
-      file.release();
+      opened.read.release();
     }
   }
-  private open(id: string, touch: boolean): (CacheRead & { fd: number }) | null {
+  private open(id: string, touch: boolean): { file: OpenedFile; read: RetainedRead } | null {
     this.checkRoot();
     const row = this.row(id);
     if (!row || row.bytes === null) return null;
@@ -226,25 +221,12 @@ export class DerivedCache {
         .prepare("UPDATE derived_cache SET touched=? WHERE id=?")
         .run(this.tick(), id);
     this.held.set(id, (this.held.get(id) ?? 0) + 1);
-    let released = false;
-    return {
-      fd,
-      bytes: row.bytes,
-      read: (buffer, position) => {
-        if (released) throw new CatalogError("INVALID_CACHE", "Cache read has been released");
-        if (!Number.isSafeInteger(position) || position < 0)
-          throw new RangeError("Invalid read position");
-        return readSync(fd, buffer, 0, buffer.byteLength, position);
-      },
-      release: () => {
-        if (released) return;
-        released = true;
-        closeSync(fd);
-        const count = this.held.get(id)! - 1;
-        if (count) this.held.set(id, count);
-        else this.held.delete(id);
-      },
-    };
+    const file = openedFile(fd, () => {
+      const count = this.held.get(id)! - 1;
+      if (count) this.held.set(id, count);
+      else this.held.delete(id);
+    });
+    return { file, read: retainedFileRead(file, row.bytes) };
   }
   remove(id: string): void {
     this.requireReady();
@@ -343,7 +325,7 @@ export class DerivedCache {
       if (!row) break;
       after = row.id;
       if (row.bytes === null) this.removeFile(row.id);
-      else this.open(row.id, false)?.release();
+      else this.open(row.id, false)?.read.release();
     }
     this.checkRoot();
     const directory = opendirSync(this.root);

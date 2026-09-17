@@ -5,6 +5,7 @@ import type { DerivedCache } from "./cache.js";
 import {
   analyzeVisualSamples,
   observeVisualSamples,
+  sceneSampleLimits,
   scenePolicy,
   type VisualObservations,
   type VisualSample,
@@ -58,7 +59,7 @@ export class VisualObservationCache {
       kept.startUs < 0 ||
       kept.endUs <= kept.startUs ||
       times.length < 1 ||
-      times.length > 52 ||
+      times.length > sceneSampleLimits.count ||
       times.some(
         (at, i) =>
           !Number.isSafeInteger(at) ||
@@ -66,7 +67,7 @@ export class VisualObservationCache {
           at >= kept.endUs ||
           (i > 0 && at <= times[i - 1]!),
       ) ||
-      times.at(-1)! - times[0]! > 10_200_000
+      times.at(-1)! - times[0]! > sceneSampleLimits.spanUs
     )
       throw new CatalogError(
         "INVALID_RANGE",
