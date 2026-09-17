@@ -23,3 +23,8 @@ Light appearance comes from `-NSRequiresAquaSystemAppearance YES` on a Mac whose
 appearance is dark. The captures were brought forward through the accessibility API rather than
 by clicking, and the automated checks never activate the app at all: a launch with the controls
 fixture set orders the same window in behind everything.
+
+In every capture the launch preference reads off, because the harness that launches the app
+for a check turns it off so no window can appear over someone's work. A person's own install
+starts with it on.
+
