@@ -6,7 +6,7 @@ import type { RecordingDeletion } from "./deletion.js";
 import type { IndexProcessing } from "@screenrec/core/index-processing";
 import type { DerivedCache } from "@screenrec/core/cache";
 import type { PreviewInspection } from "@screenrec/core/preview";
-import type { AudioInspection } from "@screenrec/core/audio";
+import type { LibraryAudioInspection } from "@screenrec/core/audio";
 import type { LibraryFrameInspection } from "@screenrec/core/frames";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
@@ -36,7 +36,7 @@ export type OperationContext = {
   health: () => unknown;
   processing: SourceProcessing;
   frames: LibraryFrameInspection;
-  audio: AudioInspection;
+  audio: LibraryAudioInspection;
   preview: PreviewInspection;
   delivery: DerivativeDelivery;
   scenes: SceneProcessing;
@@ -281,16 +281,30 @@ export async function operate(
       }
       case "audio.get":
       case "audio.retry": {
-        const status =
-          operation.operation === "audio.get"
-            ? audio.request(operation.params)
-            : audio.retry(operation.params);
+        const params = operation.params;
+        const method = operation.operation === "audio.get" ? "request" : "retry";
+        if ("packageHandle" in params) {
+          const inspector = packages.audio(params.packageHandle);
+          const status = inspector[method](params);
+          return {
+            ok: true,
+            data: {
+              ...status,
+              delivery: status.published
+                ? delivery.open({ kind: "package", id: params.packageHandle }, () =>
+                    inspector.openRead(status.published!.audio),
+                  )
+                : null,
+            },
+          };
+        }
+        const status = audio[method](params);
         return {
           ok: true,
           data: {
             ...status,
             delivery: status.published
-              ? delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
+              ? delivery.open({ kind: "recording", id: params.recordingId }, () =>
                   cache.acquire(status.published!.audio.cacheId),
                 )
               : null,

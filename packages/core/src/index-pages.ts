@@ -1,3 +1,4 @@
+import { retainedFileRead } from "./files.js";
 import { z } from "zod";
 import { createHash } from "node:crypto";
 import { readSync } from "node:fs";
@@ -24,7 +25,7 @@ import { selectionPolicy } from "./selection.js";
 import { scenePolicy } from "./scenes.js";
 import { trailPolicy } from "./trails.js";
 import { type TimelineRevision, sourceToEdited } from "./timeline.js";
-import { openRetainedImage, retainedImageRead } from "./retained-image.js";
+import { openRetainedImage } from "./retained-image.js";
 import { OrderedPages, writeOrderedPages, type OrderedPageCodec } from "./ordered-pages.js";
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
   text = z.string().min(1).max(256);
@@ -340,7 +341,7 @@ export class FileScreenshotIndex extends ScreenshotIndexReader {
       }
       if (hash.digest("hex") !== entry.image.sha256)
         invalid("Portable image differs from its receipt");
-      return retainedImageRead(file, entry.image.bytes);
+      return retainedFileRead(file, entry.image.bytes);
     } catch (error) {
       file.close();
       throw error;

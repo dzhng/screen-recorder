@@ -1,4 +1,4 @@
-import { closeSync, constants, fstatSync, openSync, type BigIntStats } from "node:fs";
+import { readSync, closeSync, constants, fstatSync, openSync, type BigIntStats } from "node:fs";
 import { join } from "node:path";
 import { CatalogError } from "./library.js";
 
@@ -167,4 +167,24 @@ export class IdentifiedFiles implements FileAccess {
     }
     if (failures.length) throw new AggregateError(failures, "Package file closure failed");
   }
+}
+
+export function retainedFileRead(file: OpenedFile, bytes: number) {
+  let released = false;
+  return {
+    bytes,
+    read(buffer: Uint8Array, position: number): number {
+      if (released)
+        throw new CatalogError("INVALID_EVIDENCE", "Retained file read has been released");
+      if (!Number.isSafeInteger(position) || position < 0 || position > bytes)
+        throw new CatalogError("INVALID_EVIDENCE", "Invalid retained file read position");
+      return readSync(file.fd, buffer, 0, Math.min(buffer.length, bytes - position), position);
+    },
+    release() {
+      if (!released) {
+        released = true;
+        file.close();
+      }
+    },
+  };
 }

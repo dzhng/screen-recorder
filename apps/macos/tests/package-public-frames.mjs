@@ -1,4 +1,4 @@
-import { packageFrameFailures } from "./fixtures/package-frame-failures.mjs";
+import { packageMediaFailures } from "./fixtures/package-media-failures.mjs";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -275,7 +275,7 @@ async function publicFrames(root, output, executable) {
       }
     }
   }
-  Object.assign(receipts, await packageFrameFailures(await realpath(archive), executable));
+  Object.assign(receipts, await packageMediaFailures(await realpath(archive), executable));
   assert.equal(sha(await readFile(archive)), archiveHash);
   if (process.env.SCREENREC_PUBLIC_FRAME_EVIDENCE)
     await writeFile(

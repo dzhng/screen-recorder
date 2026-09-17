@@ -2,7 +2,6 @@ import { constants, fstatSync, openSync, readSync } from "node:fs";
 import { openedFile, type OpenedFile } from "./files.js";
 import { CatalogError } from "./library.js";
 import type { MaterializedFrame } from "./frame-materialization.js";
-const integer = (n: number) => Number.isSafeInteger(n) && n >= 0;
 function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
@@ -50,22 +49,4 @@ export function openRetainedImage(
     file.close();
     throw error;
   }
-}
-
-export function retainedImageRead(file: OpenedFile, bytes: number) {
-  let released = false;
-  return {
-    bytes,
-    read(buffer: Uint8Array, position: number): number {
-      if (released) invalid("Selected image read has been released");
-      if (!integer(position) || position > bytes) invalid("Invalid selected image read position");
-      return readSync(file.fd, buffer, 0, Math.min(buffer.length, bytes - position), position);
-    },
-    release() {
-      if (!released) {
-        released = true;
-        file.close();
-      }
-    },
-  };
 }

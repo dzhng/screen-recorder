@@ -2179,3 +2179,23 @@ records them. These choices add no public export choice or transcript readiness.
   export checkpoint but left its orchestration unspecified. This creates no
   runtime product limit, skips no selected checks, and does not turn unfinished
   speech or package capabilities into claimed successes.
+
+## Public package audio (14c3c2b)
+
+### Sound — high confidence
+
+- **Frame and audio receipts share the package's existing bounded working set.**
+  If an agent asks for many screenshots and then an audio excerpt, either kind's
+  drained terminal job receipt may leave the metadata set to admit new work. A
+  held image or audio delivery still keeps its file alive independently. The
+  original frame pass specified frame-only reclamation because it had one
+  consumer; two separate policies would let one kind block the other after
+  filling the same queue. A common package media owner now applies the same
+  lifetime rules to both without another cache, budget or scheduler.
+- **Audio sources use admitted member identities through the existing resolver.**
+  The shared planner still receives absolute logical paths, while retained native
+  execution resolves those names to already-inventoried descriptors before reading.
+  Moving a ZIP therefore needs no rewritten timeline or ambient source file. The
+  plan required containment but left adapter shape open; keeping resolution at the
+  existing file owner preserves the native decoder and avoids a package-only
+  audio planner.

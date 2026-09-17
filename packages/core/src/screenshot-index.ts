@@ -1,4 +1,5 @@
-import { openRetainedImage, retainedImageRead } from "./retained-image.js";
+import { retainedFileRead } from "./files.js";
+import { openRetainedImage } from "./retained-image.js";
 import {
   ScreenshotIndexReader,
   type EntryQuery,
@@ -453,7 +454,7 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
       JSON.parse(entry.frame),
       entry,
     );
-    return retainedImageRead(file, entry.bytes);
+    return retainedFileRead(file, entry.bytes);
   }
 
   async remove(identity: ScreenshotIndexIdentity): Promise<void> {

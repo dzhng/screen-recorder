@@ -11,7 +11,7 @@ import { DerivativeDelivery } from "../../../service/dist/delivery.js";
 import { mediaWorker } from "../../../service/dist/worker.js";
 import { until } from "./public-service.mjs";
 
-export async function packageFrameFailures(archive, native) {
+export async function packageMediaFailures(archive, native, kind = "frame") {
   const home = await realpath(await mkdtemp("/tmp/scr-frame-failure-"));
   const directory = join(home, "packages"),
     marker = join(home, "held"),
@@ -40,7 +40,7 @@ export async function packageFrameFailures(archive, native) {
       ["archive.removeOutput", "archive.cleanup", "packageWorkspace.remove"].includes(operation)
     )
       assert.equal(nativeClosed, true, "Output and workspace cleanup follow actual native closure");
-    if (operation !== "media.frame") return nativeWorker(operation, params, options);
+    if (operation !== `media.${kind}`) return nativeWorker(operation, params, options);
     if (fail) {
       fail = false;
       return {
@@ -82,29 +82,36 @@ export async function packageFrameFailures(archive, native) {
       const state = packages.status(admitted.id);
       assert.ok(!["failed", "cleanup_failed"].includes(state.state), JSON.stringify(state));
       return state.state === "ready" && state;
-    }, "Frame failure package did not open");
-    const frames = packages.frames(ready.packageHandle),
-      request = { packageHandle: ready.packageHandle, atUs: 100_000, clean: true, maxLongEdge: 96 };
+    }, "Media failure package did not open");
+    const inspector = packages[kind === "frame" ? "frames" : "audio"](ready.packageHandle),
+      request = {
+        packageHandle: ready.packageHandle,
+        ...(kind === "frame"
+          ? { atUs: 100_000, clean: true, maxLongEdge: 96 }
+          : { range: { startUs: 0, endUs: 250_000 }, track: "system" }),
+      };
     const failed = await until(() => {
-      const value = frames.request(request);
+      const value = inspector.request(request);
       return value.state === "failed" && value;
     }, "Injected failure did not settle");
     assert.equal(failed.retryable, true);
     assert.deepEqual((await readdir(join(directory, admitted.id))).sort(), [".input", "content"]);
-    frames.retry(request);
+    inspector.retry(request);
     const result = await until(() => {
-      const value = frames.request(request);
+      const value = inspector.request(request);
       assert.notEqual(value.state, "failed", JSON.stringify(value));
       return value.state === "ready" && value;
     }, "Explicit retry did not finish");
     assert.equal(result.jobId, failed.jobId);
     assert.equal(result.published.generation, 2);
     const lease = delivery.open({ kind: "package", id: ready.packageHandle }, () =>
-      frames.openRead(result.published.frame),
+      inspector.openRead(result.published[kind]),
     );
+    const signature =
+      kind === "frame" ? Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]) : Buffer.from("RIFF");
     assert.deepEqual(
-      [...Buffer.from(delivery.read(lease.token, 0, 8).data, "base64")],
-      [137, 80, 78, 71, 13, 10, 26, 10],
+      Buffer.from(delivery.read(lease.token, 0, signature.length).data, "base64"),
+      signature,
     );
     execFileSync("/usr/bin/clang", [
       "-dynamiclib",
@@ -115,14 +122,17 @@ export async function packageFrameFailures(archive, native) {
       ),
     ]);
     hold = true;
-    frames.request({ ...request, atUs: 200_000 });
+    inspector.request({
+      ...request,
+      ...(kind === "frame" ? { atUs: 200_000 } : { range: { startUs: 100_000, endUs: 350_000 } }),
+    });
     pid = await until(async () => {
       const value = await readFile(marker, "utf8").catch((error) => {
         if (error.code === "ENOENT") return "";
         throw error;
       });
       return value && Number(value);
-    }, "Actual native frame did not enter its barrier");
+    }, "Actual native media worker did not enter its barrier");
     assert.equal(
       execFileSync("/bin/ps", ["-p", String(pid), "-o", "ppid=,command="], {
         encoding: "utf8",
@@ -137,7 +147,7 @@ export async function packageFrameFailures(archive, native) {
       "Native child did not stop",
     );
     const closing = packages.close(admitted.id);
-    assert.throws(() => frames.request(request), { code: "CONTEXT_CLOSED" });
+    assert.throws(() => inspector.request(request), { code: "CONTEXT_CLOSED" });
     assert.equal(delivery.read(lease.token, 0, 8).offset, 0);
     await closing;
     assert.equal(nativeClosed, true);

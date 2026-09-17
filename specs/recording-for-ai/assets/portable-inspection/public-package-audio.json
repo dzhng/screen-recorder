@@ -1,0 +1,14 @@
+{
+  "archiveSha256": "7a5f4dc390d11c2dc83dd26570709372c15a78044a08e1b00134d47a33039958",
+  "cliAndMcpAudioParity": true,
+  "systemMixGapCutHistoryParity": true,
+  "missingNarration": true,
+  "interleavedUniqueOutputs": 40,
+  "heldReadSurvivesPressure": true,
+  "regeneration": true,
+  "libraryDeletionIsolation": true,
+  "closeAndRestartRevoke": true,
+  "injectedFailureRetried": true,
+  "failedOutputRemoved": true,
+  "actualNativeCloseDrained": true
+}

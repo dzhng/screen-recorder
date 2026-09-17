@@ -8,7 +8,7 @@ import { DerivedCache } from "./cache.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import {
-  AudioInspection,
+  LibraryAudioInspection,
   planAudioExcerpt,
   planAudioTracks,
   type AudioDecoder,
@@ -39,7 +39,7 @@ async function fixture(
   const cache = new DerivedCache(store, home, 100);
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store);
-  let processing!: SourceProcessing, audio!: AudioInspection;
+  let processing!: SourceProcessing, audio!: LibraryAudioInspection;
   const requests: Parameters<AudioDecoder>[0][] = [];
   let sourceCalls = 0;
   const jobs = new JobQueue({
@@ -87,7 +87,7 @@ async function fixture(
       bytes: Buffer.byteLength(text),
     };
   });
-  audio = new AudioInspection(
+  audio = new LibraryAudioInspection(
     store,
     jobs,
     cache,

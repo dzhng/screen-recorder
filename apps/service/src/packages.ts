@@ -1,3 +1,5 @@
+import { PackageMediaContext } from "./package-media.js";
+import { PackageAudioInspection } from "./package-audio.js";
 import { PackageFrameInspection } from "./package-frames.js";
 import { constants } from "node:fs";
 import { mkdir, lstat, realpath, open, type FileHandle } from "node:fs/promises";
@@ -31,7 +33,9 @@ export class PackageInspection {
     {
       revisions: readonly TimelineRevision[];
       index?: RetainedIndexRead<Reference>;
+      media?: PackageMediaContext;
       frames?: PackageFrameInspection;
+      audio?: PackageAudioInspection;
     }
   >();
   constructor(
@@ -212,15 +216,23 @@ export class PackageInspection {
           : null,
     };
   }
-  frames(packageHandle: string): PackageFrameInspection {
+  private media(packageHandle: string) {
     const { view } = this.revisions(packageHandle);
-    return (view.frames ??= new PackageFrameInspection(
+    return (view.media ??= new PackageMediaContext(
       this.registry!,
       packageHandle,
       (revisionId) =>
         this.revision({ packageHandle, ...(revisionId === undefined ? {} : { revisionId }) })
           .revision,
     ));
+  }
+  frames(packageHandle: string): PackageFrameInspection {
+    const { view } = this.revisions(packageHandle);
+    return (view.frames ??= new PackageFrameInspection(this.media(packageHandle)));
+  }
+  audio(packageHandle: string): PackageAudioInspection {
+    const { view } = this.revisions(packageHandle);
+    return (view.audio ??= new PackageAudioInspection(this.media(packageHandle)));
   }
   index(input: {
     packageHandle: string;

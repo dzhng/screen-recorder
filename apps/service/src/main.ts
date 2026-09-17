@@ -19,7 +19,7 @@ import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core
 import { DerivedCache } from "@screenrec/core/cache";
 import type { VisualObservations } from "@screenrec/core/scenes";
 import { VisualObservationCache } from "@screenrec/core/visual-cache";
-import { AudioInspection, type NativeAudio } from "@screenrec/core/audio";
+import { LibraryAudioInspection, type NativeAudio } from "@screenrec/core/audio";
 import { LibraryFrameInspection } from "@screenrec/core/frames";
 import type { NativeFrame } from "@screenrec/core/frame-materialization";
 import { RecordingDeletion } from "./deletion.js";
@@ -81,7 +81,7 @@ async function main(): Promise<void> {
   let scenes: SceneProcessing;
   let index: IndexProcessing;
   let frames: LibraryFrameInspection;
-  let audio: AudioInspection;
+  let audio: LibraryAudioInspection;
   let preview: PreviewInspection;
   let files: ManagedFiles;
   let exports: RecordingExports | undefined;
@@ -212,8 +212,14 @@ async function main(): Promise<void> {
         sample: visual.sample,
       },
     );
-    audio = new AudioInspection(store, jobs, cache, evidence, processing, home, (request, signal) =>
-      nativeData<NativeAudio>("media.audio", request, signal),
+    audio = new LibraryAudioInspection(
+      store,
+      jobs,
+      cache,
+      evidence,
+      processing,
+      home,
+      (request, signal) => nativeData<NativeAudio>("media.audio", request, signal),
     );
     preview = new PreviewInspection(
       store,

@@ -1,0 +1,22 @@
+(node:32203) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ public audio preserves cuts, acquisition gaps, pinned revisions and CLI/MCP bytes (1573.597125ms)
+✔ public audio distinguishes unrequested and unacquired roles and mixes one track at unity (966.14ms)
+✔ public audio keeps native failure until explicit retry after fixture repair (405.226958ms)
+(node:32283) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (12466.755ms)
+(node:32568) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (14876.746458ms)
+(node:33022) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (6736.799042ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 37381.456792

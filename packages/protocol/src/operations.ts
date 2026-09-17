@@ -43,15 +43,13 @@ const frameFields = {
 };
 const frameParams = inspection(frameFields);
 
-const audioParams = recording
-  .extend({
-    revisionId: id.optional(),
-    range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
-      message: "Audio range must be positive and no longer than 30 seconds",
-    }),
-    track: z.enum(["narration", "system", "mix"]).default("mix"),
-  })
-  .strict();
+const audioParams = inspection({
+  revisionId: id.optional(),
+  range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
+    message: "Audio range must be positive and no longer than 30 seconds",
+  }),
+  track: z.enum(["narration", "system", "mix"]).default("mix"),
+});
 
 const indexFields = { revisionId: id, generation: id };
 const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };

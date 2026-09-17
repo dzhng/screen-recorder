@@ -7,12 +7,12 @@ import type { SourceEvidenceMetadata, SourceAudioRead } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 
 export type AudioRole = "narration" | "system";
-export type AudioInput = {
-  recordingId: string;
+export type AudioRequest = {
   revisionId?: string | undefined;
   range: TimeRange;
   track: AudioRole | "mix";
 };
+export type AudioInput = AudioRequest & { recordingId: string };
 export type AudioTrackPlan = {
   role: AudioRole;
   source: string;
@@ -41,8 +41,7 @@ export type AudioDecoder = (
   signal: AbortSignal,
 ) => Promise<NativeAudio>;
 type MissingRole = { role: AudioRole; reason: "not_requested" | "not_acquired" };
-export type AudioArtifact = NativeAudio & {
-  cacheId: string;
+export type MaterializedAudio = NativeAudio & {
   recordingId: string;
   sourceId: string;
   revisionId: string;
@@ -51,7 +50,8 @@ export type AudioArtifact = NativeAudio & {
   missingRoles: MissingRole[];
   sourceEvidence: SourceEvidenceMetadata;
 };
-type Options = {
+export type AudioArtifact = MaterializedAudio & { cacheId: string };
+export type AudioOptions = {
   policy: string;
   range: TimeRange;
   track: AudioInput["track"];
@@ -159,30 +159,51 @@ export function planAudioTracks(
   return { tracks, missingRoles };
 }
 
-/** Core owns edit projection and acquisition evidence; native owns samples, mixing and WAVE output. */
-export class AudioInspection {
-  constructor(
-    private readonly store: RevisionStore,
-    private readonly jobs: JobQueue,
-    private readonly cache: DerivedCache,
-    private readonly evidence: SourceAudioRead,
-    private readonly processing: SourceProcessing,
-    private readonly home: string,
-    private readonly decode: AudioDecoder,
-  ) {}
+export type AudioContext<Target extends object> = {
+  target: Target;
+  recordingId: string;
+  sourceId: string;
+  revision: TimelineRevision;
+};
+export type AudioSourceState = {
+  state: string;
+  reason: string | null;
+  retryable: boolean;
+  jobId: string | null;
+  evidence: SourceEvidenceMetadata | null;
+};
+export type AudioSubmission<Artifact extends MaterializedAudio> = Omit<
+  AudioSourceState,
+  "evidence"
+> & {
+  published: { generation: number; audio: Artifact } | null;
+};
+export type AudioPlan = ReturnType<typeof planAudioExcerpt>;
 
-  request(input: AudioInput) {
-    const revision = this.store.revision(input.recordingId, input.revisionId);
-    audioExcerptSpans(revision, input.range);
+/** One admission policy for library and retained-package excerpts. */
+export abstract class AudioInspection<Target extends object, Artifact extends MaterializedAudio> {
+  protected abstract resolve(
+    input: Target & { revisionId?: string | undefined },
+  ): AudioContext<Target>;
+  protected abstract source(context: AudioContext<Target>): AudioSourceState;
+  protected abstract plan(context: AudioContext<Target>, options: AudioOptions): AudioPlan;
+  protected abstract submit(
+    context: AudioContext<Target>,
+    options: AudioOptions,
+  ): AudioSubmission<Artifact>;
+  protected abstract retryJob(jobId: string): void;
+
+  request(input: Target & AudioRequest) {
+    const context = this.resolve(input);
+    audioExcerptSpans(context.revision, input.range);
     validateTrack(input.track);
-    this.processing.prepare(input.recordingId);
-    const source = this.processing.status(input.recordingId);
+    const source = this.source(context);
     const identity = {
-      recordingId: input.recordingId,
-      sourceId: source.sourceId,
-      revisionId: revision.id,
+      ...context.target,
+      sourceId: context.sourceId,
+      revisionId: context.revision.id,
     };
-    if (source.state !== "ready" || !source.published)
+    if (source.state !== "ready" || !source.evidence)
       return {
         ...identity,
         state: source.state,
@@ -192,21 +213,173 @@ export class AudioInspection {
         published: null,
         dependency: { artifact: "source" as const, jobId: source.jobId },
       };
-    const options: Options = {
+    const options: AudioOptions = {
       policy,
       range: { startUs: input.range.startUs, endUs: input.range.endUs },
       track: input.track,
-      sourceEvidence: source.published.evidence,
+      sourceEvidence: source.evidence,
     };
-    // Refuse absent roles before admission, without consuming an audio worker for an impossible plan.
-    planAudioExcerpt(
-      { ...input, sourceId: source.sourceId, revision, sourceEvidence: options.sourceEvidence },
-      this.evidence,
-      (role) => join(this.home, "recordings", input.recordingId, "source", `${role}.mov`),
+    // Reject absent roles before occupying a heavy worker slot.
+    this.plan(context, options);
+    return { ...identity, ...this.submit(context, options), dependency: null };
+  }
+  retry(input: Target & AudioRequest) {
+    const status = this.request(input);
+    if (status.jobId) this.retryJob(status.jobId);
+    return this.request({ ...input, revisionId: status.revisionId });
+  }
+}
+
+/** Native sample validation and output cleanup are identical for both storage backends. */
+export async function renderAudio<Artifact extends MaterializedAudio>(
+  options: AudioOptions,
+  context: {
+    recordingId: string;
+    sourceId: string;
+    revision: TimelineRevision;
+    output: {
+      file: string;
+      publish(audio: MaterializedAudio): Promise<Artifact>;
+      discard(cause: unknown): Promise<void>;
+    };
+  },
+  dependencies: {
+    evidence: SourceAudioRead;
+    resolveSource: (role: AudioRole) => string;
+    decode: AudioDecoder;
+  },
+  signal: AbortSignal,
+): Promise<Artifact> {
+  try {
+    if (options.policy !== policy)
+      throw new CatalogError("UNSUPPORTED_JOB", "Audio inspector cannot execute this job");
+    const { spans, tracks, missingRoles } = planAudioExcerpt(
+      {
+        ...options,
+        recordingId: context.recordingId,
+        sourceId: context.sourceId,
+        revision: context.revision,
+      },
+      dependencies.evidence,
+      dependencies.resolveSource,
     );
-    const jobIdentity = {
+    signal.throwIfAborted();
+    const audio = await dependencies.decode({ tracks, spans, output: context.output.file }, signal);
+    signal.throwIfAborted();
+    const duration = options.range.endUs - options.range.startUs;
+    if (
+      audio.file !== context.output.file ||
+      audio.mediaType !== "audio/wav" ||
+      !Number.isSafeInteger(audio.sampleRate) ||
+      audio.sampleRate < 1 ||
+      audio.sampleRate > 192000 ||
+      !Number.isSafeInteger(audio.channels) ||
+      audio.channels < 1 ||
+      audio.channels > 2 ||
+      !Number.isSafeInteger(audio.frames) ||
+      audio.frames < 0 ||
+      !Number.isSafeInteger(audio.durationUs) ||
+      audio.durationUs < 0 ||
+      !Number.isSafeInteger(audio.bytes) ||
+      audio.bytes < 1 ||
+      audio.bytes > 48 * 1024 ** 2 ||
+      Math.abs(audio.durationUs - duration) > Math.ceil(1_000_000 / audio.sampleRate) ||
+      Math.abs(audio.durationUs - (audio.frames * 1_000_000) / audio.sampleRate) > 1 ||
+      audio.spans.length !== spans.length ||
+      audio.spans.some(
+        (span, index) =>
+          span.startUs !== spans[index]!.startUs || span.endUs !== spans[index]!.endUs,
+      ) ||
+      audio.tracks.length !== tracks.length ||
+      audio.tracks.some(
+        (track, index) =>
+          track.role !== tracks[index]!.role ||
+          track.gain !== (tracks.length === 1 ? 1 : 0.5) ||
+          !Number.isSafeInteger(track.sampleRate) ||
+          track.sampleRate < 1 ||
+          track.sampleRate > 192000 ||
+          !Number.isSafeInteger(track.channels) ||
+          track.channels < 1 ||
+          track.channels > 2 ||
+          track.unavailable.some(
+            (gap) =>
+              !Number.isSafeInteger(gap.startUs) ||
+              !Number.isSafeInteger(gap.endUs) ||
+              gap.startUs >= gap.endUs ||
+              !spans.some((span) => gap.startUs >= span.startUs && gap.endUs <= span.endUs),
+          ),
+      )
+    )
+      throw new CatalogError("INVALID_RESPONSE", "Decoder returned an unrelated audio excerpt");
+
+    const result = await context.output.publish({
+      ...audio,
+      recordingId: context.recordingId,
+      sourceId: context.sourceId,
+      revisionId: context.revision.id,
+      requestedPlaybackRange: options.range,
+      selectedTrack: options.track,
+      missingRoles,
+      sourceEvidence: options.sourceEvidence,
+    });
+    signal.throwIfAborted();
+    return result;
+  } catch (error) {
+    await context.output.discard(error);
+    throw error;
+  }
+}
+
+/** Library jobs and DerivedCache retain their durable recording ownership. */
+export class LibraryAudioInspection extends AudioInspection<
+  { recordingId: string },
+  AudioArtifact
+> {
+  constructor(
+    private readonly store: RevisionStore,
+    private readonly jobs: JobQueue,
+    private readonly cache: DerivedCache,
+    private readonly evidence: SourceAudioRead,
+    private readonly processing: SourceProcessing,
+    private readonly home: string,
+    private readonly decode: AudioDecoder,
+  ) {
+    super();
+  }
+  protected resolve(input: AudioInput) {
+    return {
+      target: { recordingId: input.recordingId },
       recordingId: input.recordingId,
-      revisionId: revision.id,
+      sourceId: this.store.get(input.recordingId).sourceId,
+      revision: this.store.revision(input.recordingId, input.revisionId),
+    };
+  }
+  protected source(context: AudioContext<{ recordingId: string }>) {
+    this.processing.prepare(context.recordingId);
+    const source = this.processing.status(context.recordingId);
+    return {
+      state: source.state,
+      reason: source.reason,
+      retryable: source.retryable,
+      jobId: source.jobId,
+      evidence: source.published?.evidence ?? null,
+    };
+  }
+  private sourcePath(recordingId: string, role: AudioRole) {
+    return join(this.home, "recordings", recordingId, "source", `${role}.mov`);
+  }
+  protected plan(context: AudioContext<{ recordingId: string }>, options: AudioOptions) {
+    return planAudioExcerpt({ ...context, ...options }, this.evidence, (role) =>
+      this.sourcePath(context.recordingId, role),
+    );
+  }
+  protected retryJob(jobId: string) {
+    this.jobs.retry(jobId);
+  }
+  protected submit(context: AudioContext<{ recordingId: string }>, options: AudioOptions) {
+    const jobIdentity = {
+      recordingId: context.recordingId,
+      revisionId: context.revision.id,
       artifact,
       input: JSON.stringify(options),
     };
@@ -222,9 +395,7 @@ export class AudioInspection {
       }
     }
     return {
-      ...identity,
       ...status,
-      dependency: null,
       published: status.published
         ? {
             generation: status.published.generation,
@@ -233,98 +404,42 @@ export class AudioInspection {
         : null,
     };
   }
-
-  retry(input: AudioInput) {
-    const status = this.request(input);
-    if (status.jobId) this.jobs.retry(status.jobId);
-    return this.request({ ...input, revisionId: status.revisionId });
-  }
-
   async execute({ job, signal }: JobExecution): Promise<string> {
-    const options = JSON.parse(job.input) as Options;
-    if (job.artifact !== artifact || options.policy !== policy)
+    if (job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Audio inspector cannot execute this job");
+    const options = JSON.parse(job.input) as AudioOptions;
     const revision = this.store.revision(job.recordingId, job.revisionId);
-    const { spans, tracks, missingRoles } = planAudioExcerpt(
-      {
-        ...options,
-        revision,
-        recordingId: job.recordingId,
-        sourceId: this.store.get(job.recordingId).sourceId,
-      },
-      this.evidence,
-      (role) => join(this.home, "recordings", job.recordingId, "source", `${role}.mov`),
-    );
-    signal.throwIfAborted();
+    const sourceId = this.store.get(job.recordingId).sourceId;
     const output = this.cache.reserve(job.recordingId);
-    try {
-      const audio = await this.decode({ tracks, spans, output: output.path }, signal);
-      signal.throwIfAborted();
-      const duration = options.range.endUs - options.range.startUs;
-      if (
-        audio.file !== output.path ||
-        audio.mediaType !== "audio/wav" ||
-        !Number.isSafeInteger(audio.sampleRate) ||
-        audio.sampleRate < 1 ||
-        audio.sampleRate > 192000 ||
-        !Number.isSafeInteger(audio.channels) ||
-        audio.channels < 1 ||
-        audio.channels > 2 ||
-        !Number.isSafeInteger(audio.frames) ||
-        audio.frames < 0 ||
-        !Number.isSafeInteger(audio.durationUs) ||
-        audio.durationUs < 0 ||
-        !Number.isSafeInteger(audio.bytes) ||
-        audio.bytes < 1 ||
-        audio.bytes > 48 * 1024 ** 2 ||
-        Math.abs(audio.durationUs - duration) > Math.ceil(1_000_000 / audio.sampleRate) ||
-        Math.abs(audio.durationUs - (audio.frames * 1_000_000) / audio.sampleRate) > 1 ||
-        audio.spans.length !== spans.length ||
-        audio.spans.some(
-          (span, index) =>
-            span.startUs !== spans[index]!.startUs || span.endUs !== spans[index]!.endUs,
-        ) ||
-        audio.tracks.length !== tracks.length ||
-        audio.tracks.some(
-          (track, index) =>
-            track.role !== tracks[index]!.role ||
-            track.gain !== (tracks.length === 1 ? 1 : 0.5) ||
-            !Number.isSafeInteger(track.sampleRate) ||
-            track.sampleRate < 1 ||
-            track.sampleRate > 192000 ||
-            !Number.isSafeInteger(track.channels) ||
-            track.channels < 1 ||
-            track.channels > 2 ||
-            track.unavailable.some(
-              (gap) =>
-                !Number.isSafeInteger(gap.startUs) ||
-                !Number.isSafeInteger(gap.endUs) ||
-                gap.startUs >= gap.endUs ||
-                !spans.some((span) => gap.startUs >= span.startUs && gap.endUs <= span.endUs),
-            ),
-        )
-      )
-        throw new CatalogError("INVALID_RESPONSE", "Decoder returned an unrelated audio excerpt");
-      const cached = await this.cache.publish(output.id);
-      signal.throwIfAborted();
-      if (cached.bytes !== audio.bytes)
-        throw new CatalogError("INVALID_RESPONSE", "Audio byte count does not match its file");
-      const result: AudioArtifact = {
-        ...audio,
-        bytes: cached.bytes,
-        cacheId: cached.id,
+    const result = await renderAudio(
+      options,
+      {
         recordingId: job.recordingId,
-        sourceId: options.sourceEvidence.sourceId,
-        revisionId: revision.id,
-        requestedPlaybackRange: options.range,
-        selectedTrack: options.track,
-        missingRoles,
-        sourceEvidence: options.sourceEvidence,
-      };
-      return JSON.stringify(result);
-    } catch (error) {
-      this.cache.remove(output.id);
-      throw error;
-    }
+        sourceId,
+        revision,
+        output: {
+          file: output.path,
+          publish: async (audio) => {
+            const cached = await this.cache.publish(output.id);
+            if (cached.bytes !== audio.bytes)
+              throw new CatalogError(
+                "INVALID_RESPONSE",
+                "Audio byte count does not match its file",
+              );
+            return { ...audio, bytes: cached.bytes, cacheId: cached.id };
+          },
+          discard: async () => {
+            this.cache.remove(output.id);
+          },
+        },
+      },
+      {
+        evidence: this.evidence,
+        resolveSource: (role) => this.sourcePath(job.recordingId, role),
+        decode: this.decode,
+      },
+      signal,
+    );
+    return JSON.stringify(result);
   }
 }
