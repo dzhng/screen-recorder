@@ -1,3 +1,4 @@
+import { admitArchive } from "../../../service/dist/archive-input.js";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { constants } from "node:fs";
@@ -30,7 +31,7 @@ const worker = async (operation, params, options) => {
   process.send({ nativePid: pid });
   return pending;
 };
-const context = await openPackageArchive(archive, { directory, handle }, worker);
+const context = await openPackageArchive(admitArchive(archive), { directory, handle }, worker);
 await context.run("media.frame", {
   source: "source/video.mov",
   output: "held",

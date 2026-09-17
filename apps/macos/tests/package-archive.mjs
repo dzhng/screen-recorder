@@ -1,3 +1,4 @@
+import { admitArchive } from "../../service/dist/archive-input.js";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { execFileSync } from "node:child_process";
@@ -126,9 +127,11 @@ async function fixture(mode = "valid", files = contents()) {
     directory,
     workspace,
     archive,
+    input: admitArchive(archive),
     files,
     async close() {
       assert.equal(sha(await readFile(archive)), inputHash);
+      this.input.close();
       await workspace.close();
       await rm(home, { recursive: true, force: true });
     },
@@ -136,7 +139,7 @@ async function fixture(mode = "valid", files = contents()) {
 }
 async function inspect(f, options = {}, worker = run) {
   try {
-    return await verifyPackageArchive(f.archive, f.workspace, worker, options);
+    return await verifyPackageArchive(f.input, f.workspace, worker, options);
   } finally {
     assert.deepEqual(await readdir(f.directory), []);
   }
@@ -282,7 +285,7 @@ test("retained workspace descriptor survives ancestor replacement without touchi
     await mkdir(outside);
     await writeFile(join(outside, "sentinel"), "untouched");
     await symlink(outside, f.directory);
-    const receipt = await verifyPackageArchive(f.archive, f.workspace, run);
+    const receipt = await verifyPackageArchive(f.input, f.workspace, run);
     assert.equal(receipt.manifest.snapshot.revisionId, "r0");
     assert.deepEqual(await readdir(retained), []);
     assert.deepEqual(await readdir(outside), ["sentinel"]);
@@ -297,7 +300,7 @@ test("nonempty workspace admission preserves existing files", async () => {
   try {
     await writeFile(join(f.directory, "sentinel"), "untouched");
     await assert.rejects(
-      verifyPackageArchive(f.archive, f.workspace, run),
+      verifyPackageArchive(f.input, f.workspace, run),
       (error) => error.code === "INVALID_STORAGE",
     );
     assert.equal(await readFile(join(f.directory, "sentinel"), "utf8"), "untouched");
@@ -315,35 +318,34 @@ function pauseParserAt(path, action) {
       done = true;
     });
     try {
+      const rows = execFileSync("/bin/ps", ["-axo", "pid=,ppid=,command="], {
+        encoding: "utf8",
+      }).split("\n");
+      const match = rows
+        .map((row) => row.trim().match(/^(\d+)\s+(\d+)\s+(.+)$/))
+        .find((row) => row && Number(row[2]) === process.pid && row[3] === native);
+      assert.ok(match, "Owned native worker must exist before the file barrier");
+      const pid = Number(match[1]);
       while (!done) {
         const created = await stat(path).then(
           () => true,
           () => false,
         );
         if (created) {
-          const rows = execFileSync("/bin/ps", ["-axo", "pid=,ppid=,command="], {
-            encoding: "utf8",
-          }).split("\n");
-          const match = rows
-            .map((row) => row.trim().match(/^(\d+)\s+(\d+)\s+(.+)$/))
-            .find((row) => row && Number(row[2]) === process.pid && row[3] === native);
-          if (match) {
-            const pid = Number(match[1]);
-            process.kill(pid, "SIGSTOP");
-            let actionFailure;
-            try {
-              await action(pid);
-            } catch (error) {
-              actionFailure = error;
-            }
-            try {
-              process.kill(pid, "SIGCONT");
-            } catch (error) {
-              if (error.code !== "ESRCH") throw error;
-            }
-            if (actionFailure) throw actionFailure;
-            return await pending;
+          process.kill(pid, "SIGSTOP");
+          let actionFailure;
+          try {
+            await action(pid);
+          } catch (error) {
+            actionFailure = error;
           }
+          try {
+            process.kill(pid, "SIGCONT");
+          } catch (error) {
+            if (error.code !== "ESRCH") throw error;
+          }
+          if (actionFailure) throw actionFailure;
+          return await pending;
         }
         await new Promise((resolve) => setTimeout(resolve, 1));
       }
@@ -355,7 +357,7 @@ function pauseParserAt(path, action) {
 }
 
 test("killed stopped parser is reaped before cleanup through parent-retained root FD", async () => {
-  const f = await fixture("deflate", contents("x".repeat(32 * 1024 * 1024)));
+  const f = await fixture("valid", contents("x".repeat(32 * 1024 * 1024)));
   const controller = new AbortController();
   let stopped;
   const wrapped = pauseParserAt(join(f.directory, ".input"), (pid) => {
@@ -419,11 +421,14 @@ test("opened input descriptor retains source bytes across pathname replacement",
   const pinned = join(f.home, "pinned.zip");
   const originalHash = sha(await readFile(f.archive));
   let replaced = false;
-  const wrapped = pauseParserAt(join(f.directory, ".input"), async () => {
-    await rename(f.archive, pinned);
-    await writeFile(f.archive, "foreign replacement");
-    replaced = true;
-  });
+  const wrapped = async (operation, params, options) => {
+    if (operation === "archive.extract") {
+      await rename(f.archive, pinned);
+      await writeFile(f.archive, "foreign replacement");
+      replaced = true;
+    }
+    return run(operation, params, options);
+  };
   try {
     assert.equal((await inspect(f, {}, wrapped)).archiveSha256, originalHash);
     assert.equal(await readFile(f.archive, "utf8"), "foreign replacement");
@@ -432,6 +437,121 @@ test("opened input descriptor retains source bytes across pathname replacement",
       await rm(f.archive);
       await rename(pinned, f.archive);
     }
+    await f.close();
+  }
+});
+
+test("admission rejects changed input before copy and preserves independent descriptor reads", async () => {
+  const f = await fixture();
+  const original = await readFile(f.archive);
+  try {
+    const first = await inspect(f);
+    const second = await inspect(f);
+    assert.equal(first.archiveSha256, sha(original));
+    assert.equal(second.archiveSha256, first.archiveSha256);
+    assert.equal(second.copiedBytes, original.length);
+    await writeFile(f.archive, Buffer.concat([original, Buffer.from("changed")]));
+    await assert.rejects(inspect(f), { code: "ARCHIVE_CHANGED" });
+  } finally {
+    await writeFile(f.archive, original);
+    await f.close();
+  }
+});
+
+test("copy rejects an in-place input change at a confirmed syscall barrier", async () => {
+  const f = await fixture();
+  let original;
+  try {
+    original = await readFile(f.archive);
+    const marker = join(f.home, "copy-held"),
+      library = join(f.home, "copy-barrier.dylib");
+    execFileSync("/usr/bin/clang", [
+      "-dynamiclib",
+      "-o",
+      library,
+      fileURLToPath(new URL("./fixtures/archive-copy-barrier.c", import.meta.url)),
+    ]);
+    let changed = false;
+    const wrapped = async (operation, params, options) => {
+      if (operation !== "archive.extract") return run(operation, params, options);
+      const previousLibrary = process.env.DYLD_INSERT_LIBRARIES;
+      const previousMarker = process.env.SCREENREC_TEST_COPY_BARRIER;
+      process.env.DYLD_INSERT_LIBRARIES = library;
+      process.env.SCREENREC_TEST_COPY_BARRIER = marker;
+      let pending;
+      try {
+        pending = run(operation, params, { ...options, timeoutMs: 5000 });
+      } finally {
+        if (previousLibrary === undefined) delete process.env.DYLD_INSERT_LIBRARIES;
+        else process.env.DYLD_INSERT_LIBRARIES = previousLibrary;
+        if (previousMarker === undefined) delete process.env.SCREENREC_TEST_COPY_BARRIER;
+        else process.env.SCREENREC_TEST_COPY_BARRIER = previousMarker;
+      }
+      let pid,
+        done = false;
+      void pending.then(() => {
+        done = true;
+      });
+      try {
+        while (!done) {
+          const value = await readFile(marker, "utf8").catch((error) => {
+            if (error.code === "ENOENT") return "";
+            throw error;
+          });
+          if (value) {
+            pid = Number(value);
+            break;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 1));
+        }
+        assert.ok(pid, "Native pread must reach the syscall barrier");
+        const owner = execFileSync("/bin/ps", ["-p", String(pid), "-o", "ppid=,command="], {
+          encoding: "utf8",
+        }).trim();
+        assert.equal(owner, `${process.pid} ${native}`);
+        while (
+          !/^T/.test(
+            execFileSync("/bin/ps", ["-p", String(pid), "-o", "state="], {
+              encoding: "utf8",
+            }).trim(),
+          )
+        )
+          await new Promise((resolve) => setTimeout(resolve, 1));
+        assert.equal(
+          (await stat(join(f.directory, ".input"))).size,
+          0,
+          "First source chunk is held before its snapshot write",
+        );
+        const file = await open(f.archive, "r+");
+        try {
+          await file.write(Buffer.from("!"), 0, 1, original.length);
+        } finally {
+          await file.close();
+        }
+        changed = true;
+      } finally {
+        try {
+          if (pid) {
+            try {
+              process.kill(pid, "SIGCONT");
+            } catch (error) {
+              if (error.code !== "ESRCH") throw error;
+            }
+          }
+        } finally {
+          await pending;
+        }
+      }
+      assert.throws(
+        () => process.kill(pid, 0),
+        (error) => error.code === "ESRCH",
+      );
+      return pending;
+    };
+    await assert.rejects(inspect(f, {}, wrapped), { code: "ARCHIVE_CHANGED" });
+    assert.equal(changed, true);
+  } finally {
+    if (original) await writeFile(f.archive, original);
     await f.close();
   }
 });
@@ -445,7 +565,7 @@ test("workspace lock survives preparation worker exit and refuses a second open 
   try {
     await inspect(f);
     await assert.rejects(
-      verifyPackageArchive(f.archive, other, run),
+      verifyPackageArchive(f.input, other, run),
       (error) => error.code === "INVALID_STORAGE",
     );
     assert.deepEqual(await readdir(f.directory), []);
@@ -464,7 +584,7 @@ test("cleanup ownership loss is explicit and original descriptor supports recove
   };
   try {
     await assert.rejects(
-      verifyPackageArchive(f.archive, f.workspace, wrapped),
+      verifyPackageArchive(f.input, f.workspace, wrapped),
       (error) => error.code === "ARCHIVE_CLEANUP_FAILED",
     );
     assert.ok((await readdir(f.directory)).length > 0);

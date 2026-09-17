@@ -1,3 +1,4 @@
+import { admitArchive } from "../../service/dist/archive-input.js";
 import assert from "node:assert/strict";
 import { packageOutputReuse } from "./fixtures/package-output-reuse.mjs";
 import { retainedParentDeath } from "./fixtures/retained-parent-check.mjs";
@@ -343,6 +344,7 @@ async function retainedReader(original, output, native) {
   await rm(staging, { recursive: true });
   await rename(archive, moved);
   const before = sha(await readFile(moved));
+  const input = admitArchive(moved);
   const unavailable = join(parent, "unavailable-portable");
   await rename(original, unavailable);
   const workspacePath = join(parent, "package-workspace");
@@ -356,10 +358,12 @@ async function retainedReader(original, output, native) {
   const worker = mediaWorker({ SCREENREC_NATIVE: native });
   try {
     context = await openPackageArchive(
-      moved,
+      input,
       { directory: workspacePath, handle: workspace },
       worker,
     );
+    assert.equal(context.archiveUsage.copiedBytes, (await readFile(moved)).length);
+    assert.ok(context.archiveUsage.expandedBytes > 0);
     const source = JSON.parse(
       bytes(context.files.open("evidence/source/metadata.json"), 32768).toString(),
     );
@@ -464,8 +468,8 @@ async function retainedReader(original, output, native) {
     );
     assert.deepEqual(await readdir(workspacePath), []);
     assert.equal(sha(await readFile(moved)), before);
-    const containment = await containmentChecks(moved, workspacePath, workspace, worker, native);
-    const outputReuse = await packageOutputReuse(moved, workspacePath, workspace, worker);
+    const containment = await containmentChecks(input, workspacePath, workspace, worker, native);
+    const outputReuse = await packageOutputReuse(input, workspacePath, workspace, worker);
     const parentDeath = await retainedParentDeath(
       moved,
       join(parent, "orphan-workspace"),
@@ -483,6 +487,7 @@ async function retainedReader(original, output, native) {
     };
   } finally {
     await context?.close();
+    input.close();
     await workspace.close();
     await rename(unavailable, original);
   }

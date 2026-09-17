@@ -16,6 +16,7 @@ import {
   type FileAccess,
 } from "@screenrec/core/files";
 import type { MediaWorker } from "./worker.js";
+import type { AdmittedArchive } from "./archive-input.js";
 
 type Options = { signal?: AbortSignal; limits?: ArchiveLimits; timeoutMs?: number };
 function requireResult(result: Awaited<ReturnType<MediaWorker>>) {
@@ -29,7 +30,7 @@ function requireResult(result: Awaited<ReturnType<MediaWorker>>) {
   return result.data;
 }
 async function extractArchive(
-  archive: string,
+  archive: AdmittedArchive,
   workspace: FileHandle,
   worker: MediaWorker,
   options: Options,
@@ -68,44 +69,47 @@ async function extractArchive(
       "INVALID_NATIVE_RESPONSE",
       "Archive workspace admission was not confirmed",
     );
-  let closing: Promise<void> | undefined;
-  const close = (failure?: unknown) =>
-    (closing ??= (async () => {
-      try {
-        const result = requireResult(
-          await worker("archive.cleanup", { identity }, { ...nativeOptions, timeoutMs: 30_000 }),
-        );
-        if (
-          !result ||
-          typeof result !== "object" ||
-          !("removed" in result) ||
-          result.removed !== true
-        )
-          throw new CatalogError(
-            "INVALID_NATIVE_RESPONSE",
-            "Archive cleanup did not confirm completion",
-          );
-      } catch (cleanup) {
-        const describe = (error: unknown) =>
-          error instanceof Error ? error.message : String(error);
+  const close = async (failure?: unknown) => {
+    try {
+      const result = requireResult(
+        await worker("archive.cleanup", { identity }, { ...nativeOptions, timeoutMs: 30_000 }),
+      );
+      if (
+        !result ||
+        typeof result !== "object" ||
+        !("removed" in result) ||
+        result.removed !== true
+      )
         throw new CatalogError(
-          "ARCHIVE_CLEANUP_FAILED",
-          "Archive workspace cleanup failed; its owner must retain it for recovery",
-          {
-            operationError: failure === undefined ? null : describe(failure),
-            cleanupError: describe(cleanup),
-          },
-          true,
+          "INVALID_NATIVE_RESPONSE",
+          "Archive cleanup did not confirm completion",
         );
-      }
-    })());
+    } catch (cleanup) {
+      const describe = (error: unknown) => (error instanceof Error ? error.message : String(error));
+      throw new CatalogError(
+        "ARCHIVE_CLEANUP_FAILED",
+        "Archive workspace cleanup failed; its owner must retain it for recovery",
+        {
+          operationError: failure === undefined ? null : describe(failure),
+          cleanupError: describe(cleanup),
+        },
+        true,
+      );
+    }
+  };
   try {
     const result = await worker(
       "archive.extract",
-      { archive, identity, limits },
-      { ...nativeOptions, ...(options.signal ? { signal: options.signal } : {}) },
+      { input: { bytes: archive.bytes, identity: archive.identity }, identity, limits },
+      {
+        ...nativeOptions,
+        descriptors: [workspace.fd, archive.fd],
+        ...(options.signal ? { signal: options.signal } : {}),
+      },
     );
     const verified = verifyArchiveReceipt(requireResult(result), limits);
+    if (verified.copiedBytes !== archive.bytes)
+      throw new CatalogError("INVALID_NATIVE_RESPONSE", "Archive copy size differs from admission");
     return { verified, identity, close };
   } catch (failure) {
     await close(failure);
@@ -116,7 +120,7 @@ type Extraction = Awaited<ReturnType<typeof extractArchive>>;
 
 /** Receipt-only admission and retained inspection use this same extraction/validation owner. */
 export async function verifyPackageArchive(
-  archive: string,
+  archive: AdmittedArchive,
   workspace: FileHandle,
   worker: MediaWorker,
   options: Options = {},
@@ -128,7 +132,7 @@ export async function verifyPackageArchive(
 }
 
 export async function openPackageArchive(
-  archive: string,
+  archive: AdmittedArchive,
   workspace: { directory: string; handle: FileHandle },
   worker: MediaWorker,
   options: Options = {},
@@ -156,6 +160,7 @@ type Output = {
 /** Internal read context. Public scheduling/cache/handle ownership belongs to the later service integration. */
 export class RetainedPackage {
   readonly manifest: Extraction["verified"]["manifest"];
+  readonly archiveUsage: Readonly<Pick<Extraction["verified"], "copiedBytes" | "expandedBytes">>;
   readonly revisionContents: Readonly<Record<string, string>>;
   readonly files: FileAccess;
   private readonly opened: IdentifiedFiles;
@@ -166,12 +171,17 @@ export class RetainedPackage {
   private outputBytes = 0;
   private workerTail: Promise<unknown> = Promise.resolve();
   private closing: Promise<void> | undefined;
+  private closeFailed = false;
   constructor(
     private readonly workspace: { directory: string; handle: FileHandle },
     private readonly worker: MediaWorker,
     private readonly extraction: Extraction,
   ) {
     this.manifest = extraction.verified.manifest;
+    this.archiveUsage = Object.freeze({
+      copiedBytes: extraction.verified.copiedBytes,
+      expandedBytes: extraction.verified.expandedBytes,
+    });
     this.revisionContents = extraction.verified.revisionContents;
     this.opened = new IdentifiedFiles(workspace.directory, extraction.verified.files);
     this.files = fileSubdirectory(this.opened, "content");
@@ -413,7 +423,9 @@ export class RetainedPackage {
     throw failure;
   }
   close(): Promise<void> {
-    return (this.closing ??= (async () => {
+    if (this.closing && !this.closeFailed) return this.closing;
+    this.closeFailed = false;
+    const attempt = (async () => {
       this.opened.stop();
       this.controller.abort();
       await Promise.allSettled(this.active);
@@ -428,6 +440,11 @@ export class RetainedPackage {
       this.outputs.clear();
       this.outputBytes = 0;
       if (closeFailure) throw closeFailure;
-    })());
+    })();
+    this.closing = attempt;
+    void attempt.catch(() => {
+      this.closeFailed = true;
+    });
+    return attempt;
   }
 }

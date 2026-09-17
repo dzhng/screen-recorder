@@ -66,8 +66,10 @@ enum ArchiveOperation {
             try requireEmpty()
             return ["empty": true]
         }
-        guard operation == "archive.extract", let path = params["archive"] as? String,
-            path.hasPrefix("/"), !path.contains("\0"),
+        guard operation == "archive.extract",
+            let admitted = params["input"] as? [String: Any],
+            let expectedBytes = admitted["bytes"] as? NSNumber,
+            let expectedIdentity = admitted["identity"] as? [String: String],
             let values = params["limits"] as? [String: Any],
             values.values.allSatisfy({ value in
                 guard let n = value as? NSNumber else { return false }
@@ -81,12 +83,20 @@ enum ArchiveOperation {
             throw error("INVALID_REQUEST", "Unsupported archive limits.")
         }
         try requireEmpty()
-        let source = open(path, O_RDONLY | O_NOFOLLOW_ANY | O_CLOEXEC | O_NONBLOCK)
-        guard source >= 0 else { throw io("Open archive") }
+        let source: Int32 = 4
         defer { close(source) }
         var sourceInfo = stat()
         guard fstat(source, &sourceInfo) == 0, sourceInfo.st_mode & S_IFMT == S_IFREG else {
             throw error("INVALID_PACKAGE", "Archive must be a regular file.")
+        }
+        let before = try identity(source)
+        guard sourceInfo.st_size > 0, expectedBytes.doubleValue == Double(sourceInfo.st_size),
+            Set(expectedIdentity.keys) == ["device", "inode", "modifiedNs"],
+            expectedIdentity.allSatisfy({ before[$0.key] == $0.value }) else {
+            throw error("ARCHIVE_CHANGED", "Admitted archive changed before copying.")
+        }
+        guard sourceInfo.st_size <= limits.compressedBytes else {
+            throw error("LIMIT_EXCEEDED", "Archive exceeds compressed byte limit.")
         }
         let snapshot = openat(
             root, ".input", O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
@@ -97,7 +107,7 @@ enum ArchiveOperation {
         var copied = 0
         var archiveHash = SHA256()
         while true {
-            let n = read(source, buffer, chunkBytes)
+            let n = pread(source, buffer, chunkBytes, off_t(copied))
             if n < 0 {
                 if errno == EINTR { continue }
                 throw io("Read archive")
@@ -107,6 +117,11 @@ enum ArchiveOperation {
             let bytes = Data(bytes: buffer, count: n)
             archiveHash.update(data: bytes)
             try writeAll(snapshot, bytes)
+        }
+        var afterInfo = stat()
+        guard fstat(source, &afterInfo) == 0, afterInfo.st_size == sourceInfo.st_size,
+            copied == sourceInfo.st_size, try identity(source) == before else {
+            throw error("ARCHIVE_CHANGED", "Admitted archive changed during copying.")
         }
         guard lseek(snapshot, 0, SEEK_SET) == 0 else { throw io("Rewind archive snapshot") }
         guard mkdirat(root, "content", 0o700) == 0 else { throw io("Create extraction directory") }
@@ -273,7 +288,7 @@ enum ArchiveOperation {
 
         let result: [String: Any] = [
             "manifest": manifest, "revisions": revisions, "members": entries,
-            "archiveSha256": hex(archiveHash.finalize()), "expandedBytes": total,
+            "archiveSha256": hex(archiveHash.finalize()), "expandedBytes": total, "copiedBytes": copied,
             "initialReadBytes": input.bytes, "peakResidentBytes": peakResidentBytes(),
             "parser": String(cString: archive_version_string()),
         ]

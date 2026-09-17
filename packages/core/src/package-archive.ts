@@ -40,6 +40,7 @@ const receiptSchema = z.strictObject({
   members: z.array(memberSchema),
   archiveSha256: digest,
   expandedBytes: integer,
+  copiedBytes: integer,
   initialReadBytes: integer,
   peakResidentBytes: integer,
   parser: z.string(),
@@ -66,6 +67,8 @@ export function verifyArchiveReceipt(value: unknown, limits: ArchiveLimits = arc
     Buffer.byteLength(JSON.stringify(receipt)) > limits.receiptBytes ||
     receipt.members.length > limits.entries ||
     receipt.expandedBytes > limits.expandedBytes ||
+    receipt.copiedBytes < 1 ||
+    receipt.copiedBytes > limits.compressedBytes ||
     receipt.initialReadBytes > limits.initialReadBytes
   )
     return invalid("Archive receipt exceeds its limits");
@@ -148,6 +151,7 @@ export function verifyArchiveReceipt(value: unknown, limits: ArchiveLimits = arc
       })),
     revisionContents: receipt.revisions,
     archiveSha256: receipt.archiveSha256,
+    copiedBytes: receipt.copiedBytes,
     expandedBytes: total,
     memberCount: actual.size,
     parser: receipt.parser,

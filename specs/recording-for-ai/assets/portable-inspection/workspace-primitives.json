@@ -1,0 +1,73 @@
+{
+  "scope": "Generated retained ZIP inspection and descriptor lifetime; no public package handle or ASR readiness claim",
+  "sourceCommit": "12654837f5df87d40b6bd3e9053f9fee6af9c553",
+  "nativeSha256": "42dce7e0368ffebb868983822619f6f8c30e73cd0c4b8d30e8037a1c7c1b2f31",
+  "coreSourceTreeSha256": "43c2e7f3b250111c098a1ad4c8084a4a861302156f35ab74e1f48d5a9285fd8d",
+  "originalInputsUnchanged": true,
+  "packageInputsUnchanged": true,
+  "readerProcess": {
+    "code": 0,
+    "retainedZip": true,
+    "closedReadRevoked": true,
+    "nativeCalls": 7,
+    "containment": {
+      "admittedInputPreserved": true,
+      "externalOutputUnchanged": true,
+      "liveWorkerPid": 1067,
+      "workerReapedBeforeCleanup": true,
+      "heldReadRevoked": true
+    },
+    "parentDeath": {
+      "parentPid": 1518,
+      "nativePid": 1522,
+      "parentKilled": true,
+      "blockedWhileChildLive": true,
+      "childReaped": true,
+      "cleanupAfterChild": true
+    },
+    "outputReuse": {
+      "successfulRequests": 48,
+      "independentConcurrentSameInputLifetimes": true,
+      "failedFullCloseRetainedCreditAndRetried": true,
+      "failedRequests": 41,
+      "joinedFailedOutputCleanup": true,
+      "unconfirmedCreationRetainedUntilClose": true,
+      "peakNativeWorkers": 1,
+      "heldReadPreserved": true,
+      "closeDrainedRelease": true,
+      "failedRemovalRetainedCredit": true,
+      "externalSentinelUnchanged": true
+    }
+  },
+  "workerClosure": "Every production mediaWorker promise settled after owned child and pipe closure",
+  "parity": {
+    "completeContext": true,
+    "framePixels": true,
+    "frameMetadata": true,
+    "audioBytes": true,
+    "retainedImages": true,
+    "coverage": true,
+    "sceneChunks": true
+  },
+  "checks": {
+    "archiveNative": 40,
+    "workspaceNative": 8,
+    "core": 306,
+    "service": 97,
+    "mutations": {
+      "cachedRejectedClose": "retry remains rejected; restored",
+      "sharedReadOffset": "second copy fails ARCHIVE_CHANGED; restored",
+      "removedIndependentWorkspaceLock": "removal unexpectedly succeeds with inherited live child; restored",
+      "removedCopyStamp": "deterministic first-pread barrier reaches INVALID_NATIVE_RESPONSE instead of ARCHIVE_CHANGED; restored"
+    },
+    "lostRemovalReply": "actual rmdir followed by lost reply: retry was ENOENT before fix, now confirms removal",
+    "copyBarrier": "fixture-only interposition after first FD4 pread; confirmed SIGSTOP and empty snapshot before mutation; child reaped before fixture removal"
+  },
+  "productionSources": {
+    "apps/service/src/archive-input.ts": "96836515829849bef481d336b51264c3133b3f026e0fccf03ff971a5d3c971e5",
+    "apps/service/src/package-archive.ts": "cb9f512cfda98fe237f03eab8c6f34742c55c3cbb47929f60cb4bb177cd5e8bd",
+    "apps/service/src/package-workspace.ts": "b71da35bc3299f3bab5dd9d5c7dafef5b0de704f227ed905d7062e66649b1f8d",
+    "helpers/mac/Sources/ScreenRecorderWire/ArchiveOperation.swift": "d7a0159bdf803a05be17e43ecf2e6898ca0fc14f1d7a66483fac6bc0639add07",
+    "helpers/mac/Sources/ScreenRecorderWire/PackageWorkspace.swift": "a11c0eb6982b1745cca491966e28c985356357d5395a46881a8f8e1fd45f1cf8"
+  }
+}

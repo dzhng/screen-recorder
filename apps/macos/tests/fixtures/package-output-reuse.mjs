@@ -1,6 +1,16 @@
 import assert from "node:assert/strict";
-import { readSync, fstatSync } from "node:fs";
-import { readFile, readdir, rename, symlink, writeFile, mkdir } from "node:fs/promises";
+import { readSync, fstatSync, constants } from "node:fs";
+import {
+  readFile,
+  readdir,
+  rename,
+  symlink,
+  writeFile,
+  mkdir,
+  chmod,
+  open,
+  rm,
+} from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { openPackageArchive } from "../../../service/dist/package-archive.js";
@@ -142,8 +152,47 @@ export async function packageOutputReuse(archive, directory, handle, worker) {
     assert.deepEqual(await readdir(directory), []);
     assert.equal(await readFile(sentinel, "utf8"), "untouched");
     assert.deepEqual(context.outputUsage(), { actualBytes: 0, reservedBytes: 0, outputs: 0 });
+    context = await openPackageArchive(archive, { directory, handle }, worker);
+    await context.run("media.frame", params);
+    const retryCharge = context.outputUsage();
+    await chmod(directory, 0o500);
+    try {
+      const closing = context.close();
+      assert.equal(context.close(), closing, "Concurrent closes share the cleanup attempt");
+      await assert.rejects(closing, { code: "ARCHIVE_CLEANUP_FAILED" });
+      assert.deepEqual(context.outputUsage(), retryCharge);
+      assert.throws(() => context.openOutput("reused"));
+      assert.throws(() => context.run("media.frame", params));
+    } finally {
+      await chmod(directory, 0o700);
+    }
+    await context.close();
+    assert.deepEqual(context.outputUsage(), { actualBytes: 0, reservedBytes: 0, outputs: 0 });
+    assert.deepEqual(await readdir(directory), []);
+    const siblingDirectory = join(dirname(directory), "independent-package-open");
+    await mkdir(siblingDirectory, { mode: 0o700 });
+    const siblingHandle = await open(siblingDirectory, constants.O_RDONLY | constants.O_DIRECTORY);
+    let sibling;
+    try {
+      [context, sibling] = await Promise.all([
+        openPackageArchive(archive, { directory, handle }, worker),
+        openPackageArchive(archive, { directory: siblingDirectory, handle: siblingHandle }, worker),
+      ]);
+      await context.close();
+      const held = sibling.files.open("source/video.mov");
+      assert.ok(fstatSync(held.fd).size > 0);
+      held.close();
+      await sibling.run("media.frame", params);
+      await sibling.releaseOutput("reused");
+    } finally {
+      await sibling?.close();
+      await siblingHandle.close();
+      await rm(siblingDirectory, { recursive: true });
+    }
     return {
-      successfulRequests: 46,
+      successfulRequests: 48,
+      independentConcurrentSameInputLifetimes: true,
+      failedFullCloseRetainedCreditAndRetried: true,
       failedRequests: 41,
       joinedFailedOutputCleanup: true,
       unconfirmedCreationRetainedUntilClose: true,

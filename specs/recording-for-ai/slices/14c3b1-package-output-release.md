@@ -61,9 +61,6 @@ The next registry must use the same inspection operations with an explicit packa
 handle, own storage reservations through full cleanup, and retain failed-cleanup
 charges. This pass neither publishes handles nor adds startup recovery or exports.
 
-**Concrete recovery seam for 14c3b2:** full extraction/context close currently
-caches a rejected cleanup promise. A registry must preserve the locked descriptor
-and storage reservation on that failure; it cannot promise that calling the same
-close again retries cleanup. Add an explicit retryable cleanup phase through the
-same owner, or retain the failed context for recovery, before exposing that promise
-publicly. Per-output release retries do not solve full-context recovery.
+[14c3b2](14c3b2-package-workspace-primitives.md) supplies retryable full cleanup
+through the same owner, admitted archive input and descriptor-owned workspace
+provision/removal before registry admission and recovery.

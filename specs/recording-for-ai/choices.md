@@ -1726,3 +1726,29 @@ records them. These choices add no public export choice or transcript readiness.
 - **Sound; high confidence:** Media work and output disposal share one bounded
   native-call lifetime per context. Concurrent release requests can wait for one
   another, but cannot launch a burst of cleanup workers outside execution ownership.
+
+### 14c3b2 — Archive admission and workspace recovery
+
+- **Sound; medium confidence:** A requested ZIP is pinned by an open file handle,
+  byte size and modification time before copying. Renaming its pathname still
+  copies that original object: admission excludes metadata-change time because a
+  rename changes it. The copy compares a full before/after stamp and validates the
+  actual snapshot. This detects ordinary in-place changes without pretending to
+  defeat an arbitrary same-user process rewriting bytes and restoring timestamps.
+- **Sound; medium confidence:** Workspace creation drains to its bounded native
+  receipt before honoring cancellation. That gives cleanup the exact new directory
+  identity. A crash before that receipt retains an explicit failure and its name;
+  the next registry must hold storage credit until recovery proves removal. Killing
+  creation immediately would lose that authority more often.
+- **Sound; high confidence:** Workspace removal closes its admission handle and
+  independently reacquires the directory lock beneath the retained parent. If an
+  old native child inherited the original handle, cleanup stays busy until it exits.
+  Reusing the original lock description would falsely authorize deletion while the
+  child still uses the tree. Under the exclusively owned private parent, an absent
+  named child is already removed, allowing retry after a lost success reply. A
+  different existing child still rejects. External child renaming is outside that
+  ownership model; parent pathname movement is supported by the held descriptor.
+- **Sound; high confidence:** Failed full close permanently fences package reads
+  and work but allows an explicit cleanup retry through the same owner. Storage
+  charge returns only after cleanup succeeds. Concurrent close calls share the
+  attempt; there is no automatic retry loop or promise of renewed inspection.
