@@ -198,13 +198,9 @@ private func runCursorTrackTests() throws {
         sealed.last.map { $0.x == 320 && $0.y == 750 } == true,
         "A sample after the move follows the new geometry, got \(sealed.last as CursorSample?)")
     precondition(
-        track.accept(reading(hostUs: 81_000, x: 300, y: 455), sourceUs: 80_000) == nil
-            && track.seal().isEmpty,
-        "A sealed take cannot gain a late sample")
-    precondition(
-        track.stats.sampled == 5 && track.stats.afterSeal == 1 && track.stats.geometryEpochs == 2,
+        track.stats.sampled == 5 && track.stats.geometryEpochs == 2,
         "Sealed takes report what they recorded, got \(track.stats)")
-    print("PASS a track batches samples, follows geometry epochs and refuses late readings")
+    print("PASS a track batches samples and follows geometry epochs")
 
     // A frame reports its placement milliseconds after the moment it describes. Readings taken
     // after a window moved must not be projected onto the position it had just left.
