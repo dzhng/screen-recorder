@@ -1,12 +1,12 @@
 import { join } from "node:path";
 import { trailPolicy } from "./trails.js";
 import { scenePolicy, type VisualSampler } from "./scenes.js";
-import type { SourceTrailRead } from "./evidence.js";
+import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 import { CatalogError, type RevisionStore } from "./library.js";
-import type { JobExecution, JobQueue } from "./jobs.js";
+import type { ArtifactStatus, JobExecution, JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
-import { editedToSource } from "./timeline.js";
+import { editedToSource, type TimelineRevision } from "./timeline.js";
 import {
   materializeFrame,
   framePolicy as policy,
@@ -16,8 +16,7 @@ import {
   type MaterializedFrame,
 } from "./frame-materialization.js";
 
-export type FrameInput = {
-  recordingId: string;
+export type FrameRequest = {
   revisionId?: string | undefined;
   atUs: number;
   clean?: boolean | undefined;
@@ -25,34 +24,108 @@ export type FrameInput = {
   crop?: FrameCrop | undefined;
   maxLongEdge?: number | undefined;
 };
+export type FrameInput = { recordingId: string } & FrameRequest;
 export type FrameArtifact = MaterializedFrame & { cacheId: string };
-type FrameOptions = FrameRenderOptions & {
+export type FrameOptions = FrameRenderOptions & {
   policy: string;
   trailPolicy: string | null;
   scenePolicy: string | null;
 };
 const artifact = "frame";
 
-/** Pins edits once; the native decoder only sees the resulting retained source interval. */
-export class FrameInspection {
-  constructor(
-    private readonly store: RevisionStore,
-    private readonly jobs: JobQueue,
-    private readonly cache: DerivedCache,
-    private readonly home: string,
-    private readonly decode: FrameDecoder,
-    private readonly annotations: {
-      processing: SourceProcessing;
-      evidence: SourceTrailRead;
-      sample: VisualSampler;
-    },
-  ) {}
+export type FrameContext<Target> = {
+  target: Target;
+  recordingId: string;
+  sourceId: string;
+  revision: TimelineRevision;
+};
+export type FrameSourceState = {
+  state: string;
+  reason: string | null;
+  retryable: boolean;
+  jobId: string | null;
+  evidence: SourceEvidenceMetadata | null;
+};
+export type FrameSubmission<Artifact extends MaterializedFrame> = Omit<
+  ArtifactStatus,
+  "published"
+> & {
+  published: { generation: number; frame: Artifact } | null;
+};
+export type FrameOutput<Artifact extends MaterializedFrame> = {
+  file: string;
+  publish(frame: MaterializedFrame): Promise<Artifact>;
+  discard(cause: unknown): Promise<void>;
+};
+export type FrameRenderContext<Artifact extends MaterializedFrame> = {
+  recordingId: string;
+  sourceId: string;
+  revision: TimelineRevision;
+  source: string;
+  output: FrameOutput<Artifact>;
+};
+export type FrameDependencies = {
+  decode: FrameDecoder;
+  evidence: SourceTrailRead;
+  sample: VisualSampler;
+};
 
-  private prepare(
-    input: FrameInput,
-    revision = this.store.revision(input.recordingId, input.revisionId),
-  ) {
-    const mapped = editedToSource(revision, input.atUs);
+function validateFramePolicy(options: FrameOptions): void {
+  if (
+    options.policy !== policy ||
+    (!options.clean &&
+      (!options.sourceEvidence ||
+        options.trailPolicy !== trailPolicy.id ||
+        options.scenePolicy !== scenePolicy.id))
+  )
+    throw new CatalogError("UNSUPPORTED_JOB", "Frame inspector cannot execute this job");
+}
+
+/** Output ownership stays with the backend; render policy and failure cleanup have one entry point. */
+export async function renderFrame<Artifact extends MaterializedFrame>(
+  options: FrameOptions,
+  context: FrameRenderContext<Artifact>,
+  dependencies: FrameDependencies,
+  signal: AbortSignal,
+): Promise<Artifact> {
+  try {
+    validateFramePolicy(options);
+    signal.throwIfAborted();
+    const frame = await materializeFrame(
+      {
+        ...options,
+        recordingId: context.recordingId,
+        sourceId: context.sourceId,
+        revision: context.revision,
+        source: context.source,
+        output: context.output.file,
+      },
+      dependencies,
+      signal,
+    );
+    const result = await context.output.publish(frame);
+    signal.throwIfAborted();
+    return result;
+  } catch (error) {
+    await context.output.discard(error);
+    throw error;
+  }
+}
+
+/** Pins edits once; backends supply target authority, dependencies, and job publication. */
+export abstract class FrameInspection<Target extends object, Artifact extends MaterializedFrame> {
+  protected abstract resolve(
+    input: Target & { revisionId?: string | undefined },
+  ): FrameContext<Target>;
+  protected abstract source(context: FrameContext<Target>): FrameSourceState;
+  protected abstract submit(
+    context: FrameContext<Target>,
+    options: FrameOptions,
+  ): FrameSubmission<Artifact>;
+  protected abstract retryJob(jobId: string): void;
+
+  private prepare(input: Target & FrameRequest, context = this.resolve(input)) {
+    const mapped = editedToSource(context.revision, input.atUs);
     if (!mapped) throw new CatalogError("INVALID_RANGE", "Frame time is outside this revision");
     const maxLongEdge = input.maxLongEdge ?? 1600;
     if (
@@ -88,21 +161,21 @@ export class FrameInspection {
       scenePolicy: clean ? null : scenePolicy.id,
       sourceEvidence: null,
     };
-    return { recordingId: input.recordingId, revisionId: revision.id, options };
+    return { context, options };
   }
 
-  request(input: FrameInput) {
+  request(input: Target & FrameRequest) {
     return this.admit(this.prepare(input));
   }
 
-  batch(input: Omit<FrameInput, "atUs"> & { atUs: number[] }) {
+  batch(input: Target & Omit<FrameRequest, "atUs"> & { atUs: number[] }) {
     if (input.atUs.length < 1 || input.atUs.length > 8)
       throw new CatalogError("INVALID_RANGE", "A frame batch requires one to eight timestamps");
-    const revision = this.store.revision(input.recordingId, input.revisionId);
-    const plans = input.atUs.map((atUs) => this.prepare({ ...input, atUs }, revision));
+    const context = this.resolve(input);
+    const plans = input.atUs.map((atUs) => this.prepare({ ...input, atUs }, context));
     return {
-      recordingId: input.recordingId,
-      revisionId: revision.id,
+      ...context.target,
+      revisionId: context.revision.id,
       items: plans.map((plan, index) => {
         const atUs = input.atUs[index]!;
         try {
@@ -130,16 +203,16 @@ export class FrameInspection {
     };
   }
 
-  private admit(plan: ReturnType<FrameInspection["prepare"]>) {
+  private admit(plan: { context: FrameContext<Target>; options: FrameOptions }) {
+    const { context } = plan;
     const options = { ...plan.options };
     if (!options.clean) {
-      this.annotations.processing.prepare(plan.recordingId);
-      const source = this.annotations.processing.status(plan.recordingId);
-      if (source.state !== "ready" || !source.published)
+      const source = this.source(context);
+      if (source.state !== "ready" || !source.evidence)
         return {
-          recordingId: plan.recordingId,
-          sourceId: source.sourceId,
-          revisionId: plan.revisionId,
+          ...context.target,
+          sourceId: context.sourceId,
+          revisionId: context.revision.id,
           state: source.state,
           reason: source.reason,
           retryable: source.retryable,
@@ -147,11 +220,72 @@ export class FrameInspection {
           published: null,
           dependency: { artifact: "source" as const, jobId: source.jobId },
         };
-      options.sourceEvidence = source.published.evidence;
+      options.sourceEvidence = source.evidence;
     }
+    return {
+      ...context.target,
+      sourceId: context.sourceId,
+      revisionId: context.revision.id,
+      ...this.submit(context, options),
+      dependency: null,
+    };
+  }
+
+  retry(input: Target & FrameRequest) {
+    const status = this.request(input);
+    if (status.jobId) this.retryJob(status.jobId);
+    return this.request({ ...input, revisionId: status.revisionId });
+  }
+}
+
+export class LibraryFrameInspection extends FrameInspection<
+  { recordingId: string },
+  FrameArtifact
+> {
+  constructor(
+    private readonly store: RevisionStore,
+    private readonly jobs: JobQueue,
+    private readonly cache: DerivedCache,
+    private readonly home: string,
+    private readonly decode: FrameDecoder,
+    private readonly annotations: {
+      processing: SourceProcessing;
+      evidence: SourceTrailRead;
+      sample: VisualSampler;
+    },
+  ) {
+    super();
+  }
+
+  protected resolve(input: { recordingId: string; revisionId?: string | undefined }) {
+    return {
+      target: { recordingId: input.recordingId },
+      recordingId: input.recordingId,
+      revision: this.store.revision(input.recordingId, input.revisionId),
+      sourceId: this.store.get(input.recordingId).sourceId,
+    };
+  }
+  protected source(context: FrameContext<{ recordingId: string }>): FrameSourceState {
+    this.annotations.processing.prepare(context.recordingId);
+    const status = this.annotations.processing.status(context.recordingId);
+    return {
+      state: status.state,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      evidence: status.published?.evidence ?? null,
+    };
+  }
+  protected retryJob(jobId: string) {
+    this.jobs.retry(jobId);
+  }
+  protected submit(
+    context: FrameContext<{ recordingId: string }>,
+    options: FrameOptions,
+  ): FrameSubmission<FrameArtifact> {
     const identity = {
-      recordingId: plan.recordingId,
-      revisionId: plan.revisionId,
+      recordingId: context.recordingId,
+      revisionId: context.revision.id,
       artifact,
       input: JSON.stringify(options),
     };
@@ -167,11 +301,7 @@ export class FrameInspection {
       }
     }
     return {
-      recordingId: identity.recordingId,
-      sourceId: this.store.get(identity.recordingId).sourceId,
-      revisionId: identity.revisionId,
       ...status,
-      dependency: null,
       published: status.published
         ? {
             generation: status.published.generation,
@@ -181,35 +311,33 @@ export class FrameInspection {
     };
   }
 
-  retry(input: FrameInput) {
-    const status = this.request(input);
-    if (status.jobId) this.jobs.retry(status.jobId);
-    return this.request({ ...input, revisionId: status.revisionId });
-  }
-
   async execute({ job, signal }: JobExecution): Promise<string> {
     const options = JSON.parse(job.input) as FrameOptions;
-    if (
-      job.artifact !== artifact ||
-      options.policy !== policy ||
-      (!options.clean &&
-        (!options.sourceEvidence ||
-          options.trailPolicy !== trailPolicy.id ||
-          options.scenePolicy !== scenePolicy.id))
-    )
+    if (job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Frame inspector cannot execute this job");
+    validateFramePolicy(options);
     const revision = this.store.revision(job.recordingId, job.revisionId);
     signal.throwIfAborted();
+    const sourceId = this.store.get(job.recordingId).sourceId;
     const output = this.cache.reserve(job.recordingId);
-    try {
-      const frame = await materializeFrame(
+    return JSON.stringify(
+      await renderFrame(
+        options,
         {
-          ...options,
           recordingId: job.recordingId,
-          sourceId: this.store.get(job.recordingId).sourceId,
+          sourceId,
           revision,
           source: join(this.home, "recordings", job.recordingId, "source", "video.mov"),
-          output: output.path,
+          output: {
+            file: output.path,
+            publish: async (frame) => {
+              const cached = await this.cache.publish(output.id);
+              return { ...frame, bytes: cached.bytes, cacheId: cached.id };
+            },
+            discard: async () => {
+              this.cache.remove(output.id);
+            },
+          },
         },
         {
           decode: this.decode,
@@ -217,14 +345,7 @@ export class FrameInspection {
           sample: this.annotations.sample,
         },
         signal,
-      );
-      const cached = await this.cache.publish(output.id);
-      signal.throwIfAborted();
-      const result: FrameArtifact = { ...frame, bytes: cached.bytes, cacheId: cached.id };
-      return JSON.stringify(result);
-    } catch (error) {
-      this.cache.remove(output.id);
-      throw error;
-    }
+      ),
+    );
   }
 }

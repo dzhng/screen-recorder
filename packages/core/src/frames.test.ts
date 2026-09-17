@@ -2,11 +2,25 @@ import { afterEach, expect, test } from "vitest";
 import { chmod, mkdtemp, rm, writeFile, mkdir, readFile } from "node:fs/promises";
 import { join, basename, dirname } from "node:path";
 import { randomUUID } from "node:crypto";
-import { RevisionStore } from "./library.js";
+import { CatalogError, RevisionStore } from "./library.js";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
-import { FrameInspection } from "./frames.js";
-import { materializeFrame, type FrameDecoder } from "./frame-materialization.js";
+import {
+  LibraryFrameInspection,
+  FrameInspection,
+  renderFrame,
+  type FrameContext,
+  type FrameOptions,
+  type FrameSourceState,
+  type FrameSubmission,
+} from "./frames.js";
+import { createOriginalRevision, createRevision } from "./timeline.js";
+import {
+  materializeFrame,
+  framePolicy,
+  type MaterializedFrame,
+  type FrameDecoder,
+} from "./frame-materialization.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import type { VisualSampler } from "./scenes.js";
@@ -24,7 +38,7 @@ async function fixture(held?: () => Promise<void>, decodedOffset = 0) {
   });
   const cache = new DerivedCache(store, home, 100);
   await cache.reconcile();
-  let frames!: FrameInspection;
+  let frames!: LibraryFrameInspection;
   let processing!: SourceProcessing;
   const evidence = new SourceEvidenceStore(store);
   const controls = {
@@ -154,7 +168,11 @@ async function fixture(held?: () => Promise<void>, decodedOffset = 0) {
         : {}),
     };
   };
-  frames = new FrameInspection(store, jobs, cache, home, decode, { processing, evidence, sample });
+  frames = new LibraryFrameInspection(store, jobs, cache, home, decode, {
+    processing,
+    evidence,
+    sample,
+  });
   const take = store.allocate().recording;
   store.ingestLifecycle(take.recordingId, {
     sourceId: take.sourceId,
@@ -862,4 +880,164 @@ test("a before-event image excludes the nearer sample on the far side of its bou
       new AbortController().signal,
     ),
   ).rejects.toThrow("selection");
+});
+
+test("shared frame controller pins a package batch and reports missing evidence without submitting", () => {
+  const original = createOriginalRevision(1000, "fixture");
+  const edited = createRevision(original, [{ startUs: 0, endUs: 500 }], {
+    id: "edited",
+    operation: "trim",
+    createdAt: "fixture",
+  });
+  type Target = { packageHandle: string };
+  class PackageFrames extends FrameInspection<Target, MaterializedFrame> {
+    current = original;
+    submitted: { revisionId: string; atUs: number; clean: boolean }[] = [];
+    retried: string[] = [];
+    protected resolve(input: Target & { revisionId?: string | undefined }): FrameContext<Target> {
+      return {
+        target: { packageHandle: input.packageHandle },
+        recordingId: "embedded",
+        sourceId: "source",
+        revision: input.revisionId === original.id ? original : this.current,
+      };
+    }
+    protected source(): FrameSourceState {
+      return {
+        state: "failed",
+        reason: "source_unavailable",
+        retryable: false,
+        jobId: null,
+        evidence: null,
+      };
+    }
+    protected submit(
+      context: FrameContext<Target>,
+      options: FrameOptions,
+    ): FrameSubmission<MaterializedFrame> {
+      this.submitted.push({
+        revisionId: context.revision.id,
+        atUs: options.atUs,
+        clean: options.clean,
+      });
+      this.current = edited;
+      return {
+        state: "queued",
+        jobId: `job-${this.submitted.length}`,
+        reason: null,
+        retryable: false,
+        published: null,
+      };
+    }
+    protected retryJob(jobId: string) {
+      this.retried.push(jobId);
+    }
+  }
+  const frames = new PackageFrames();
+  const batch = frames.batch({ packageHandle: "package", clean: true, atUs: [0, 900] });
+  expect(batch).toMatchObject({
+    packageHandle: "package",
+    revisionId: original.id,
+    items: [
+      { atUs: 0, ok: true, data: { packageHandle: "package", revisionId: original.id } },
+      { atUs: 900, ok: true, data: { packageHandle: "package", revisionId: original.id } },
+    ],
+  });
+  expect(frames.submitted).toEqual([
+    { revisionId: original.id, atUs: 0, clean: true },
+    { revisionId: original.id, atUs: 900, clean: true },
+  ]);
+  const before = structuredClone(frames.submitted);
+  expect(() => frames.batch({ packageHandle: "package", clean: true, atUs: [0, 1000] })).toThrow(
+    expect.objectContaining({ code: "INVALID_RANGE" }),
+  );
+  expect(frames.submitted).toEqual(before);
+  expect(frames.request({ packageHandle: "package", atUs: 0 })).toMatchObject({
+    packageHandle: "package",
+    state: "failed",
+    reason: "source_unavailable",
+    published: null,
+    jobId: null,
+    dependency: { artifact: "source", jobId: null },
+  });
+  expect(frames.submitted).toEqual(before);
+  const retry = frames.retry({ packageHandle: "package", atUs: 0, clean: true });
+  expect(retry.revisionId).toBe(edited.id);
+  expect(frames.retried).toEqual(["job-3"]);
+});
+
+test("shared rendering forwards failure identity and discards publication canceled after success", async () => {
+  const f = await fixture();
+  const output = join(dirname(f.original), "shared.png");
+  const options: FrameOptions = {
+    policy: framePolicy,
+    atUs: 0,
+    maxLongEdge: 1600,
+    crop: null,
+    clean: true,
+    trailUs: 0,
+    trailPolicy: null,
+    scenePolicy: null,
+    sourceEvidence: null,
+  };
+  const base = {
+    recordingId: f.take.recordingId,
+    sourceId: f.take.sourceId,
+    revision: f.store.revision(f.take.recordingId),
+    source: f.original,
+  };
+  const failure = new CatalogError("OUTPUT_CLEANUP_FAILED", "Native output cleanup failed");
+  const discarded: unknown[] = [];
+  await expect(
+    renderFrame(
+      options,
+      {
+        ...base,
+        output: {
+          file: output,
+          publish: async (frame) => frame,
+          discard: async (cause) => {
+            discarded.push(cause);
+          },
+        },
+      },
+      {
+        decode: async () => {
+          throw failure;
+        },
+        evidence: f.evidence,
+        sample: f.sample,
+      },
+      new AbortController().signal,
+    ),
+  ).rejects.toBe(failure);
+  expect(discarded).toEqual([failure]);
+  const controller = new AbortController(),
+    canceled = new Error("Canceled after publication");
+  let published = false;
+  await expect(
+    renderFrame(
+      options,
+      {
+        ...base,
+        output: {
+          file: output,
+          publish: async (frame) => {
+            published = true;
+            controller.abort(canceled);
+            return { ...frame, outputId: "package-output" };
+          },
+          discard: async (cause) => {
+            discarded.push(cause);
+            await rm(output);
+          },
+        },
+      },
+      { decode: f.decode, evidence: f.evidence, sample: f.sample },
+      controller.signal,
+    ),
+  ).rejects.toBe(canceled);
+  expect(published).toBe(true);
+  expect(discarded).toEqual([failure, canceled]);
+  await expect(readFile(output)).rejects.toMatchObject({ code: "ENOENT" });
 });
