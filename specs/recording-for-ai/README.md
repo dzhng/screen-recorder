@@ -73,6 +73,11 @@ Recent integration evidence:
 
 Current evidence:
 
+- Actual Codex [CLI](assets/agent-cli-journey/README.md) and
+  [MCP image-block](assets/agent-mcp-journey/README.md) journeys read fresh image-only
+  tokens and perform cut/inspect/stale rejection/undo on generated silent media.
+  MCP includes one disclosed glyph misreading corrected by reinspection. Narration,
+  captured-screen understanding, exports and installed acceptance remain open.
 - [Audio inspection](assets/audio-inspection/review.md): real bundled worker,
   generated cuts/gaps, missing roles, CLI/MCP parity, cache regeneration and explicit
   retry. Numerical checks do not close audition or physical audio capture.
