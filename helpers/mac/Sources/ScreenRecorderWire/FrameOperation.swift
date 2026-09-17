@@ -1,9 +1,11 @@
 import Foundation
 import ScreenRecorderFrames
+import ScreenRecorderMedia
 
-// The core resolves revisions and allocates derivative paths before calling this worker.
+/// The core resolves revisions and allocates derivative paths before calling this worker. Point
+/// values inside an overlay are the decoder's to validate against real media.
 enum FrameOperation {
-    private struct Parameters: Decodable {
+    private struct FrameRequestFields: Codable {
         let source: String
         let output: String
         let atSourceUs: Int64
@@ -14,89 +16,29 @@ enum FrameOperation {
         let maxEncodedBytes: Int?
     }
 
+    private struct VisualSampleFields: Codable {
+        let source: String
+        let kept: FrameInterval
+        let atSourceUs: [Int64]
+    }
+
     static func execute(_ params: [String: Any]) async throws -> DecodedFrame {
-        let required: Set<String> = ["source", "output", "atSourceUs", "kept"]
-        let optional: Set<String> = ["crop", "overlay", "maxLongEdge", "maxEncodedBytes"]
-        guard required.isSubset(of: Set(params.keys)),
-            Set(params.keys).isSubset(of: required.union(optional)),
-            let kept = params["kept"] as? [String: Any],
-            Set(kept.keys) == ["startUs", "endUs"]
-        else { throw FrameFailure("INVALID_REQUEST", "Invalid media.frame parameters.") }
-        if let crop = params["crop"], !(crop is NSNull) {
-            guard let fields = crop as? [String: Any],
-                Set(fields.keys) == ["x", "y", "width", "height"]
-            else { throw FrameFailure("INVALID_REQUEST", "Invalid frame crop fields.") }
-        }
-        if let overlay = params["overlay"], !(overlay is NSNull) {
-            try validateOverlayFields(overlay)
-        }
-        let parameters: Parameters
-        do {
-            parameters = try JSONDecoder().decode(
-                Parameters.self, from: JSONSerialization.data(withJSONObject: params))
-        } catch {
-            throw FrameFailure("INVALID_REQUEST", "Invalid media.frame parameter types.")
-        }
-        guard parameters.source.hasPrefix("/"), parameters.output.hasPrefix("/") else {
-            throw FrameFailure("INVALID_REQUEST", "Frame paths must be absolute.")
-        }
-        let source = try await FrameSource(url: URL(fileURLWithPath: parameters.source))
+        let request = try WireRequest.decode(FrameRequestFields.self, from: params)
+        try WireRequest.requireAbsolute(request.source, request.output)
+        let source = try await FrameSource(url: URL(fileURLWithPath: request.source))
         return try await source.decodeFrame(
             FrameRequest(
-                atSourceUs: parameters.atSourceUs, kept: parameters.kept,
-                output: URL(fileURLWithPath: parameters.output), overlay: parameters.overlay,
-                crop: parameters.crop,
-                maxLongEdge: parameters.maxLongEdge ?? FrameLimits.defaultLongEdge,
-                maxEncodedBytes: parameters.maxEncodedBytes ?? FrameLimits.maximumEncodedBytes))
+                atSourceUs: request.atSourceUs, kept: request.kept,
+                output: URL(fileURLWithPath: request.output), overlay: request.overlay,
+                crop: request.crop,
+                maxLongEdge: request.maxLongEdge ?? FrameLimits.defaultLongEdge,
+                maxEncodedBytes: request.maxEncodedBytes ?? FrameLimits.maximumEncodedBytes))
     }
 
     static func visualSamples(_ params: [String: Any]) async throws -> VisualSamples {
-        struct Parameters: Decodable {
-            let source: String
-            let kept: FrameInterval
-            let atSourceUs: [Int64]
-        }
-        guard Set(params.keys) == ["source", "kept", "atSourceUs"],
-            let kept = params["kept"] as? [String: Any],
-            Set(kept.keys) == ["startUs", "endUs"]
-        else { throw FrameFailure("INVALID_REQUEST", "Invalid visual sampling parameters.") }
-        let parameters: Parameters
-        do {
-            parameters = try JSONDecoder().decode(
-                Parameters.self, from: JSONSerialization.data(withJSONObject: params))
-        } catch {
-            throw FrameFailure("INVALID_REQUEST", "Invalid visual sampling parameter types.")
-        }
-        guard parameters.source.hasPrefix("/"), !parameters.source.contains("\0") else {
-            throw FrameFailure(
-                "INVALID_REQUEST", "Visual sampling source must be an absolute path.")
-        }
-        let source = try await FrameSource(url: URL(fileURLWithPath: parameters.source))
-        return try await source.visualSamples(
-            atSourceUs: parameters.atSourceUs, kept: parameters.kept)
-    }
-
-    /// Requests are parsed strictly: an unknown or missing overlay field is a caller mistake, not a
-    /// field to ignore. Point values themselves are the decoder's to validate against real media.
-    private static func validateOverlayFields(_ value: Any) throws {
-        guard let overlay = value as? [String: Any],
-            Set(["trail", "trailUs"]).isSubset(of: Set(overlay.keys)),
-            Set(overlay.keys).isSubset(of: ["trail", "trailUs", "pointer"]),
-            let runs = overlay["trail"] as? [Any]
-        else { throw FrameFailure("INVALID_REQUEST", "Invalid frame overlay fields.") }
-        var points: [Any] = []
-        if let pointer = overlay["pointer"], !(pointer is NSNull) { points.append(pointer) }
-        for run in runs {
-            guard let run = run as? [Any] else {
-                throw FrameFailure(
-                    "INVALID_REQUEST", "Each frame overlay trail run must be a list.")
-            }
-            points.append(contentsOf: run)
-        }
-        for point in points {
-            guard let fields = point as? [String: Any],
-                Set(fields.keys) == ["atSourceUs", "x", "y"]
-            else { throw FrameFailure("INVALID_REQUEST", "Invalid cursor point fields.") }
-        }
+        let request = try WireRequest.decode(VisualSampleFields.self, from: params)
+        try WireRequest.requireAbsolute(request.source)
+        let source = try await FrameSource(url: URL(fileURLWithPath: request.source))
+        return try await source.visualSamples(atSourceUs: request.atSourceUs, kept: request.kept)
     }
 }

@@ -1,5 +1,6 @@
 import CoreGraphics
 import Foundation
+import ScreenRecorderMedia
 
 /// Rasterizes the supplied pointer and trail into a transparent image the size of the oriented
 /// source frame, so the caller can composite it before cropping and scaling.
@@ -46,11 +47,10 @@ enum CursorOverlay {
         deliveredScale: Double
     ) throws -> CGImage? {
         guard width > 0, height > 0 else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Overlay raster has no pixels.")
+            throw NativeFailure.decodeFailed("Overlay raster has no pixels.")
         }
         guard deliveredScale > 0 else {
-            throw FrameFailure(
-                "NATIVE_DECODE_FAILED", "Overlay raster has no scale to size its marks against.")
+            throw NativeFailure.decodeFailed("Overlay raster has no scale to size its marks against.")
         }
         guard overlay.pointer != nil || overlay.trail.contains(where: { !$0.isEmpty }) else {
             return nil
@@ -61,7 +61,7 @@ enum CursorOverlay {
                 space: CGColorSpaceCreateDeviceRGB(),
                 bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
         else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot allocate the cursor overlay raster.")
+            throw NativeFailure.decodeFailed("Cannot allocate the cursor overlay raster.")
         }
         // Overlay points are stated in top-left source pixels; Core Graphics grows y upward.
         context.translateBy(x: 0, y: CGFloat(height))
@@ -92,7 +92,7 @@ enum CursorOverlay {
                 size: max(pointerFloor, (longEdge * pointerShare).rounded()))
         }
         guard let image = context.makeImage() else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot produce the cursor overlay image.")
+            throw NativeFailure.decodeFailed("Cannot produce the cursor overlay image.")
         }
         return image
     }

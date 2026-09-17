@@ -1,4 +1,5 @@
 import Foundation
+import ScreenRecorderMedia
 
 /// Where each requested span lands in the concatenated output, and how long its join ramps are.
 /// Every boundary is quantised from the cumulative playback microseconds that precede it, not from
@@ -96,16 +97,16 @@ enum ExcerptValidation {
         maximumAvailableIntervals: Int = AudioLimits.maximumAvailableIntervals
     ) throws {
         guard !tracks.isEmpty else {
-            throw AudioFailure("INVALID_REQUEST", "An excerpt reads at least one planned track.")
+            throw NativeFailure("INVALID_REQUEST", "An excerpt reads at least one planned track.")
         }
         // Capture stores one file per role, so uniqueness is also what bounds the plan's size.
         guard Set(tracks.map(\.role)).count == tracks.count else {
-            throw AudioFailure(
+            throw NativeFailure(
                 "INVALID_REQUEST", "Each track role may appear once in an excerpt plan.")
         }
         for track in tracks {
             guard track.source.hasPrefix("/") else {
-                throw AudioFailure(
+                throw NativeFailure(
                     "INVALID_REQUEST", "Audio source paths must be absolute, got \(track.source).")
             }
             // Compared against each bound in turn: negating the most negative offset would trap
@@ -113,17 +114,17 @@ enum ExcerptValidation {
             guard track.sourceOffsetUs >= -AudioLimits.maximumMicroseconds,
                 track.sourceOffsetUs <= AudioLimits.maximumMicroseconds
             else {
-                throw AudioFailure(
+                throw NativeFailure(
                     "INVALID_RANGE",
                     "Source offset \(track.sourceOffsetUs) is not a safe microsecond value.")
             }
             try checkAvailability(of: track, maximumIntervals: maximumAvailableIntervals)
         }
         guard !spans.isEmpty else {
-            throw AudioFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
+            throw NativeFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
         }
         guard spans.count <= maximumSpans else {
-            throw AudioFailure(
+            throw NativeFailure(
                 "LIMIT_EXCEEDED",
                 "Excerpt has \(spans.count) spans, over the \(maximumSpans) span limit.")
         }
@@ -133,14 +134,14 @@ enum ExcerptValidation {
             guard span.startUs >= 0, span.endUs <= AudioLimits.maximumMicroseconds,
                 span.endUs > span.startUs
             else {
-                throw AudioFailure(
+                throw NativeFailure(
                     "INVALID_RANGE",
                     "Span [\(span.startUs),\(span.endUs)) is not a valid half-open range.")
             }
             // Retained spans of a revision are disjoint and never touch; adjacent ones would have
             // been unioned, so accepting them here would ramp a join that does not exist.
             if let previous, span.startUs <= previous.endUs {
-                throw AudioFailure(
+                throw NativeFailure(
                     "INVALID_RANGE",
                     "Span [\(span.startUs),\(span.endUs)) is not strictly after [\(previous.startUs),\(previous.endUs))."
                 )
@@ -149,7 +150,7 @@ enum ExcerptValidation {
             previous = span
         }
         guard total <= maximumDurationUs else {
-            throw AudioFailure(
+            throw NativeFailure(
                 "LIMIT_EXCEEDED",
                 "Excerpt spans total \(total) microseconds, over the \(maximumDurationUs) microsecond limit."
             )
@@ -162,7 +163,7 @@ enum ExcerptValidation {
     /// start before recording source zero, because a track may hold material from before it.
     private static func checkAvailability(of track: AudioTrackPlan, maximumIntervals: Int) throws {
         guard track.available.count <= maximumIntervals else {
-            throw AudioFailure(
+            throw NativeFailure(
                 "LIMIT_EXCEEDED",
                 "Track \(track.role.rawValue) lists \(track.available.count) available intervals, over the \(maximumIntervals) interval limit."
             )
@@ -172,13 +173,13 @@ enum ExcerptValidation {
             guard interval.startUs >= -AudioLimits.maximumMicroseconds,
                 interval.endUs <= AudioLimits.maximumMicroseconds, interval.endUs > interval.startUs
             else {
-                throw AudioFailure(
+                throw NativeFailure(
                     "INVALID_RANGE",
                     "Available interval [\(interval.startUs),\(interval.endUs)) of \(track.role.rawValue) is not a valid half-open range."
                 )
             }
             if let previous, interval.startUs <= previous.endUs {
-                throw AudioFailure(
+                throw NativeFailure(
                     "INVALID_RANGE",
                     "Available interval [\(interval.startUs),\(interval.endUs)) of \(track.role.rawValue) is not strictly after [\(previous.startUs),\(previous.endUs))."
                 )

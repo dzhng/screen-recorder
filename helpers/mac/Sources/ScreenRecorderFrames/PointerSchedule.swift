@@ -4,7 +4,7 @@ import Darwin
 import Foundation
 import ScreenRecorderMedia
 
-public struct PointerScheduleReceipt: Decodable, Sendable {
+public struct PointerScheduleReceipt: Codable, Sendable {
     let version: Int
     let recordingId: String
     let sourceId: String
@@ -210,6 +210,6 @@ final class PointerSchedule {
         }
     }
 }
-private func invalid(_ message: String) -> FrameFailure {
-    FrameFailure("INVALID_REQUEST", message)
+private func invalid(_ message: String) -> NativeFailure {
+    NativeFailure("INVALID_REQUEST", message)
 }

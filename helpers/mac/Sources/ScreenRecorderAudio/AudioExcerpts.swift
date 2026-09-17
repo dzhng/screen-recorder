@@ -24,13 +24,13 @@ public enum AudioWave {
         guard !stream.sourceURLs.contains(destination),
             !stream.sourceURLs.contains(where: { MediaDescriptor.sameFile($0, output) })
         else {
-            throw AudioFailure("INVALID_OUTPUT", "Excerpt output would overwrite the source media.")
+            throw NativeFailure("INVALID_OUTPUT", "Excerpt output would overwrite the source media.")
         }
         var directory: ObjCBool = false
         if FileManager.default.fileExists(atPath: output.path, isDirectory: &directory),
             directory.boolValue
         {
-            throw AudioFailure("INVALID_OUTPUT", "Excerpt output is an existing directory.")
+            throw NativeFailure("INVALID_OUTPUT", "Excerpt output is an existing directory.")
         }
         guard
             let format = AVAudioFormat(
@@ -38,7 +38,7 @@ public enum AudioWave {
                 sampleRate: Double(stream.format.sampleRate),
                 channels: AVAudioChannelCount(stream.format.channels), interleaved: true)
         else {
-            throw AudioFailure("NATIVE_DECODE_FAILED", "Cannot describe audio output format.")
+            throw NativeFailure.decodeFailed("Cannot describe audio output format.")
         }
         let descriptor = try MediaDescriptor(url: output, writable: true)
         let staging =
@@ -64,8 +64,7 @@ public enum AudioWave {
                                 pcmFormat: format,
                                 frameCapacity: AVAudioFrameCount(block.frameCount))
                         else {
-                            throw AudioFailure(
-                                "NATIVE_DECODE_FAILED", "Cannot allocate WAVE block.")
+                            throw NativeFailure.decodeFailed("Cannot allocate WAVE block.")
                         }
                         buffer.frameLength = AVAudioFrameCount(block.frameCount)
                         block.samples.withUnsafeBufferPointer {
@@ -81,10 +80,9 @@ public enum AudioWave {
             try? FileManager.default.removeItem(at: output)
             try FileManager.default.moveItem(at: staging, to: output)
             return try FileManager.default.attributesOfItem(atPath: output.path)[.size] as! Int
-        } catch is CancellationError { throw CancellationError() } catch let failure as AudioFailure
+        } catch is CancellationError { throw CancellationError() } catch let failure as NativeFailure
         { throw failure } catch {
-            throw AudioFailure(
-                "NATIVE_DECODE_FAILED", "Cannot write audio: \(error.localizedDescription)")
+            throw NativeFailure.decodeFailed("Cannot write audio: \(error.localizedDescription)")
         }
     }
 }

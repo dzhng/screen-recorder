@@ -1,10 +1,16 @@
 import CryptoKit
 import Darwin
 import Foundation
+import ScreenRecorderMedia
 
 /// A completed staging hard link survives until its caller durably acknowledges the outcome.
 /// Mutations inherit locked staging on fd 3 and destination on fd 4; usage only observes fd 3.
 enum PublicationOperation {
+    static let operations = [
+        "publication.usage", "publication.absent", "publication.allocate", "publication.prepare",
+        "publication.retire", "publication.discard", "publication.acknowledge",
+        "publication.reconcile", "publication.commit",
+    ]
     private static let privateFiles = ["payload", "receipt.pending", "prepared.json"]
     private struct Identity: Codable, Equatable {
         let dev: String
@@ -22,11 +28,11 @@ enum PublicationOperation {
         let bytes: Int64
         let sha256: String
     }
-    private static func failure(_ code: String, _ message: String) -> StorageFailure {
-        StorageFailure(code, message, retryable: false)
+    private static func failure(_ code: String, _ message: String) -> NativeFailure {
+        NativeFailure(code, message, retryable: false)
     }
-    private static func io(_ action: String) -> StorageFailure {
-        StorageFailure("PUBLICATION_IO", "\(action): \(String(cString: strerror(errno)))")
+    private static func io(_ action: String) -> NativeFailure {
+        NativeFailure("PUBLICATION_IO", "\(action): \(String(cString: strerror(errno)))", retryable: true)
     }
     private static func info(_ fd: Int32, directory: Bool = false) throws -> stat {
         var value = stat()
@@ -119,7 +125,7 @@ enum PublicationOperation {
         guard value.st_mode & S_IFMT == S_IFREG, Identity(value) == receipt.file else { return "replaced" }
         guard value.st_size == receipt.bytes else { return "modified" }
         do { return try digest(fd, bytes: receipt.bytes) == receipt.sha256 ? "committed" : "modified" }
-        catch let error as StorageFailure where error.code == "PUBLICATION_CHANGED" { return "modified" }
+        catch let error as NativeFailure where error.code == "PUBLICATION_CHANGED" { return "modified" }
     }
     private static func requireEmpty(_ directory: Int32 = 3) throws {
         let fd = openat(directory, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)

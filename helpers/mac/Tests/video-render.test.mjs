@@ -102,7 +102,11 @@ function request(params) {
     run(
       native,
       [],
-      JSON.stringify({ id: "render", operation: "media.renderVideo", params }) + "\n",
+      JSON.stringify({
+        id: "render",
+        operation: "media.renderMovie",
+        params: { tracks: [], ...params },
+      }) + "\n",
     ),
   );
 }
@@ -291,12 +295,12 @@ test("video publication preserves a destination created during rendering", async
     child.stdin.end(
       JSON.stringify({
         id: "race",
-        operation: "media.renderVideo",
-        params: { source, output, plan: planFor(200000, spans) },
+        operation: "media.renderMovie",
+        params: { source, output, plan: planFor(200000, spans), tracks: [] },
       }) + "\n",
     );
     const deadline = Date.now() + 5000;
-    while (!readdirSync(directory).some((name) => name.startsWith(".video-render-"))) {
+    while (!readdirSync(directory).some((name) => name.startsWith(".movie-render-"))) {
       assert.ok(
         Date.now() < deadline && child.exitCode === null,
         "Render must reach staging before publication",
@@ -308,7 +312,7 @@ test("video publication preserves a destination created during rendering", async
     assert.equal(JSON.parse(stdout).error.code, "INVALID_OUTPUT");
     assert.equal(readFileSync(output, "utf8"), "concurrent owner's sentinel");
     assert.equal(
-      readdirSync(directory).some((name) => name.startsWith(".video-render-")),
+      readdirSync(directory).some((name) => name.startsWith(".movie-render-")),
       false,
     );
   } finally {

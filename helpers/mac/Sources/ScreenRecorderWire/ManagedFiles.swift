@@ -1,17 +1,6 @@
 import Darwin
 import Foundation
-
-struct StorageFailure: Error {
-    let code: String
-    let message: String
-    let retryable: Bool
-
-    init(_ code: String, _ message: String, retryable: Bool = true) {
-        self.code = code
-        self.message = message
-        self.retryable = retryable
-    }
-}
+import ScreenRecorderMedia
 
 /// Core selects owned identities; this boundary resolves and removes only beneath pinned directories.
 enum ManagedFiles {
@@ -37,7 +26,7 @@ enum ManagedFiles {
             var info = stat()
             guard fstat(fd, &info) == 0 else { throw failure("Inspect directory") }
             guard UInt64(truncatingIfNeeded: info.st_dev) == dev, info.st_ino == ino else {
-                throw StorageFailure("INVALID_STORAGE", "Managed directory identity changed.")
+                throw NativeFailure("INVALID_STORAGE", "Managed directory identity changed.")
             }
         }
     }
@@ -50,10 +39,10 @@ enum ManagedFiles {
         for _ in 0..<256 {
             var here = stat()
             guard fstat(current, &here) == 0, here.st_mode & S_IFMT == S_IFDIR else {
-                throw StorageFailure("INVALID_STORAGE", "Destination must be a directory.", retryable: false)
+                throw NativeFailure("INVALID_STORAGE", "Destination must be a directory.", retryable: false)
             }
             guard UInt64(truncatingIfNeeded: here.st_dev) != ancestor.dev || here.st_ino != ancestor.ino else {
-                throw StorageFailure("INVALID_STORAGE", "Destination must be outside managed storage.", retryable: false)
+                throw NativeFailure("INVALID_STORAGE", "Destination must be outside managed storage.", retryable: false)
             }
             let parent = openat(current, "..", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
             guard parent >= 0 else { throw failure("Inspect destination ancestry") }
@@ -63,7 +52,7 @@ enum ManagedFiles {
             close(current)
             current = parent
         }
-        throw StorageFailure("LIMIT_EXCEEDED", "Destination ancestry exceeds 256 directories.", retryable: false)
+        throw NativeFailure("LIMIT_EXCEEDED", "Destination ancestry exceeds 256 directories.", retryable: false)
     }
 
     static func externalDirectory(_ params: [String: Any]) throws -> [String: String] {
@@ -175,7 +164,7 @@ enum ManagedFiles {
         }
         guard (info.st_mode & S_IFMT) == S_IFDIR else {
             if requireDirectory {
-                throw StorageFailure("INVALID_STORAGE", "Recording root must be a real directory.")
+                throw NativeFailure("INVALID_STORAGE", "Recording root must be a real directory.", retryable: true)
             }
             if unlinkat(parent, name, 0) != 0 && errno != ENOENT {
                 throw failure("Remove managed entry")
@@ -183,7 +172,7 @@ enum ManagedFiles {
             return
         }
         guard depth < 64 else {
-            throw StorageFailure(
+            throw NativeFailure(
                 "LIMIT_EXCEEDED", "Managed directory nesting exceeds 64 levels.", retryable: false)
         }
         let fd = openat(parent, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
@@ -195,7 +184,7 @@ enum ManagedFiles {
         var opened = stat()
         guard fstat(fd, &opened) == 0 else { throw failure("Inspect opened directory") }
         guard opened.st_dev == info.st_dev, opened.st_ino == info.st_ino else {
-            throw StorageFailure("INVALID_STORAGE", "Recording directory changed while opening.")
+            throw NativeFailure("INVALID_STORAGE", "Recording directory changed while opening.", retryable: true)
         }
         try removeContents(fd, depth: depth)
         if unlinkat(parent, name, AT_REMOVEDIR) != 0 && errno != ENOENT {
@@ -208,16 +197,16 @@ enum ManagedFiles {
         var info = stat()
         guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
             info.st_uid == getuid(), info.st_mode & 0o777 == 0o700 else {
-            throw StorageFailure("INVALID_STORAGE",
+            throw NativeFailure("INVALID_STORAGE",
                 "Workspace must be a private directory owned exclusively by this attempt.",
                 retryable: false)
         }
         guard flock(fd, LOCK_EX | LOCK_NB) == 0 else {
             let number = errno
             if let busyCode, number == EWOULDBLOCK || number == EAGAIN {
-                throw StorageFailure(busyCode, "Workspace is still held by a live owner.", retryable: true)
+                throw NativeFailure(busyCode, "Workspace is still held by a live owner.", retryable: true)
             }
-            throw StorageFailure("INVALID_STORAGE",
+            throw NativeFailure("INVALID_STORAGE",
                 "Workspace must be a private directory owned exclusively by this attempt.",
                 retryable: false)
         }
@@ -249,13 +238,13 @@ enum ManagedFiles {
         }
     }
 
-    private static func invalidRequest(_ message: String) -> StorageFailure {
-        StorageFailure("INVALID_REQUEST", message, retryable: false)
+    private static func invalidRequest(_ message: String) -> NativeFailure {
+        NativeFailure("INVALID_REQUEST", message, retryable: false)
     }
 
-    private static func failure(_ action: String) -> StorageFailure {
+    private static func failure(_ action: String) -> NativeFailure {
         let number = errno
         let code = number == ELOOP || number == ENOTDIR ? "INVALID_STORAGE" : "DELETE_FAILED"
-        return StorageFailure(code, "\(action): \(String(cString: strerror(number))).")
+        return NativeFailure(code, "\(action): \(String(cString: strerror(number))).", retryable: true)
     }
 }

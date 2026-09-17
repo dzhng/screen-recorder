@@ -1,4 +1,5 @@
 import Foundation
+import ScreenRecorderMedia
 
 /// A half-open kept-source interval, already resolved by the timeline owner.
 /// This library never interprets edits; it only searches inside the supplied interval.
@@ -136,17 +137,4 @@ public struct DecodedFrame: Codable, Sendable, Equatable {
     public let crop: FrameCrop?
     public let overlay: RenderedOverlay?
     public let bytes: Int
-}
-
-/// Codes: `INVALID_RANGE` (times, intervals, crops, limits), `INVALID_OUTPUT` (output path),
-/// `UNAVAILABLE` (no sample inside the interval), `LIMIT_EXCEEDED` (encoded size),
-/// `NATIVE_DECODE_FAILED` (media open, decode or encode).
-public struct FrameFailure: Error, LocalizedError, Codable, Sendable, Equatable {
-    public var errorDescription: String? { message }
-    public let code: String
-    public let message: String
-    public init(_ code: String, _ message: String) {
-        self.code = code
-        self.message = message
-    }
 }

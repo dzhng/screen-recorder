@@ -37,7 +37,7 @@ public enum VideoRenderer {
             canonicalSource != output.resolvingSymlinksInPath().standardizedFileURL,
             lstat(output.path, &info) != 0, errno == ENOENT
         else {
-            throw FrameFailure(
+            throw NativeFailure(
                 "INVALID_OUTPUT", "Render output must be a new absolute path, distinct from source."
             )
         }
@@ -52,7 +52,7 @@ public enum VideoRenderer {
         let stagingDirectory = output.deletingLastPathComponent()
             .appendingPathComponent(".video-render-\(UUID().uuidString)")
         guard mkdir(stagingDirectory.path, 0o700) == 0 else {
-            throw FrameFailure("INVALID_OUTPUT", "Cannot create owned render staging directory.")
+            throw NativeFailure("INVALID_OUTPUT", "Cannot create owned render staging directory.")
         }
         defer { try? FileManager.default.removeItem(at: stagingDirectory) }
         let staging = stagingDirectory.appendingPathComponent("video.mp4")
@@ -80,7 +80,7 @@ public enum VideoRenderer {
             }
         }
         guard writer.startWriting() else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot start sequential video render.")
+            throw NativeFailure.decodeFailed("Cannot start sequential video render.")
         }
         writer.startSession(atSourceTime: .zero)
         let context = CIContext(options: [.cacheIntermediates: false])
@@ -94,7 +94,7 @@ public enum VideoRenderer {
                 let state = try pointers?.selection(spanIndex: spanIndex, at: at, end: selected.end)
                 let next = state?.1 ?? selected.end
                 guard next > at else {
-                    throw FrameFailure("INVALID_REQUEST", "Pointer composition made no progress.")
+                    throw NativeFailure("INVALID_REQUEST", "Pointer composition made no progress.")
                 }
                 _ = try clock.exact(at)
                 _ = try clock.exact(next)
@@ -120,8 +120,7 @@ public enum VideoRenderer {
                 while destination == nil {
                     try Task.checkCancellation()
                     guard writer.status == .writing, ContinuousClock.now < deadline else {
-                        throw FrameFailure(
-                            "NATIVE_DECODE_FAILED", "Video encoder stopped making progress.")
+                        throw NativeFailure.decodeFailed("Video encoder stopped making progress.")
                     }
                     if input.isReadyForMoreMediaData, let pool = adaptor.pixelBufferPool {
                         let status = CVPixelBufferPoolCreatePixelBufferWithAuxAttributes(
@@ -132,8 +131,7 @@ public enum VideoRenderer {
                             status == kCVReturnSuccess
                                 || status == kCVReturnWouldExceedAllocationThreshold
                         else {
-                            throw FrameFailure(
-                                "NATIVE_DECODE_FAILED", "Cannot allocate bounded render buffer.")
+                            throw NativeFailure.decodeFailed("Cannot allocate bounded render buffer.")
                         }
                     }
                     if destination == nil { try await Task.sleep(for: .milliseconds(1)) }
@@ -168,7 +166,7 @@ public enum VideoRenderer {
                         == noErr,
                     input.append(sample!)
                 else {
-                    throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot append timed video sample.")
+                    throw NativeFailure.decodeFailed("Cannot append timed video sample.")
                 }
                 destination = nil
                 count += 1
@@ -181,19 +179,18 @@ public enum VideoRenderer {
         await writer.finishWriting()
         try Task.checkCancellation()
         guard writer.status == .completed else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Video encoder did not finish output.")
+            throw NativeFailure.decodeFailed("Video encoder did not finish output.")
         }
         let result = AVURLAsset(url: staging)
         let actual = try await result.load(.duration)
         guard CMTimeCompare(actual, time(microseconds: through)) == 0 else {
-            throw FrameFailure(
-                "NATIVE_DECODE_FAILED", "Encoded video duration does not match the pinned plan.")
+            throw NativeFailure.decodeFailed("Encoded video duration does not match the pinned plan.")
         }
         let bytes = try FileManager.default.attributesOfItem(atPath: staging.path)[.size] as! Int
         // A hard-link publication is atomic and refuses a destination created while
         // rendering. Failure cleanup never owns or removes the destination name.
         guard link(staging.path, output.path) == 0 else {
-            throw FrameFailure(
+            throw NativeFailure(
                 "INVALID_OUTPUT", "Cannot publish video to an unoccupied destination.")
         }
         return RenderedVideo(

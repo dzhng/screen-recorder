@@ -1,4 +1,5 @@
 import Foundation
+import ScreenRecorderMedia
 
 /// A half-open interval of recording source time, already resolved by the timeline owner.
 /// This library never interprets edits; it only reads and concatenates the intervals it is given.
@@ -106,18 +107,4 @@ public struct AudioExcerpt: Codable, Sendable, Equatable {
     public let bytes: Int
     public let spans: [SourceSpan]
     public let tracks: [AudioTrackReport]
-}
-
-/// Codes: `INVALID_REQUEST` (track set), `INVALID_RANGE` (times, spans and available intervals),
-/// `INVALID_OUTPUT` (output path), `LIMIT_EXCEEDED` (excerpt duration, span and interval counts,
-/// source format bounds), `UNSUPPORTED_FORMAT` (a channel layout combination this owner will not
-/// invent a mapping for), `NATIVE_DECODE_FAILED` (media open, decode or write).
-public struct AudioFailure: Error, LocalizedError, Codable, Sendable, Equatable {
-    public var errorDescription: String? { message }
-    public let code: String
-    public let message: String
-    public init(_ code: String, _ message: String) {
-        self.code = code
-        self.message = message
-    }
 }

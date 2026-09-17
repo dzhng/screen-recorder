@@ -1,5 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
+import ScreenRecorderMedia
 
 public struct AudioPCMFormat: Sendable {
     public enum Layout: Sendable { case mono, stereo }
@@ -58,13 +59,13 @@ public final class AudioPCMStream {
         let sampleRate = sources.map(\.sampleRate).max()!
         let channels = sources.map(\.channels).max()!
         guard channels <= 2 else {
-            throw AudioFailure(
+            throw NativeFailure(
                 "UNSUPPORTED_FORMAT", "Retained audio supports mono or stereo output.")
         }
         let maps = try sources.map { source in
             if source.channels == channels { return Array(0..<channels) }
             if source.channels == 1 && channels == 2 { return [0, 0] }
-            throw AudioFailure(
+            throw NativeFailure(
                 "UNSUPPORTED_FORMAT",
                 "Cannot map acquired audio channels without inventing a layout.")
         }
@@ -120,7 +121,7 @@ public final class AudioPCMStream {
 
     public func consume(_ sink: (AudioPCMBlock) async throws -> Void) async throws {
         guard !consumed else {
-            throw AudioFailure("INVALID_REQUEST", "Audio stream already consumed.")
+            throw NativeFailure("INVALID_REQUEST", "Audio stream already consumed.")
         }
         consumed = true
         var indices = [Int](repeating: 0, count: sources.count)

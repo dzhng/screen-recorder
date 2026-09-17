@@ -18,7 +18,7 @@ struct SourceTrack {
     static func open(plan: AudioTrackPlan) async throws -> SourceTrack {
         let source = URL(fileURLWithPath: plan.source)
         guard FileManager.default.fileExists(atPath: source.path) else {
-            throw AudioFailure("NATIVE_DECODE_FAILED", "No source media at \(source.path).")
+            throw NativeFailure.decodeFailed("No source media at \(source.path).")
         }
         let input = try MediaInput(url: source)
         let asset = input.asset
@@ -27,32 +27,29 @@ struct SourceTrack {
         let segments: [SourceSegment]
         do {
             guard let track = try await asset.loadTracks(withMediaType: .audio).first else {
-                throw AudioFailure(
-                    "NATIVE_DECODE_FAILED", "Source has no audio track: \(source.path).")
+                throw NativeFailure.decodeFailed("Source has no audio track: \(source.path).")
             }
             guard let description = try await track.load(.formatDescriptions).first,
                 let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
             else {
-                throw AudioFailure(
-                    "NATIVE_DECODE_FAILED", "Source audio format is unreadable: \(source.path).")
+                throw NativeFailure.decodeFailed("Source audio format is unreadable: \(source.path).")
             }
             audio = track
             stream = basic
             segments = SourceSegment.occupied(of: try await track.load(.segments))
-        } catch let failure as AudioFailure {
-            if let detail = input.failure { throw AudioFailure(detail.code, detail.message) }
+        } catch let failure as NativeFailure {
+            if let detail = input.failure { throw detail }
             throw failure
         } catch {
-            if let detail = input.failure { throw AudioFailure(detail.code, detail.message) }
-            throw AudioFailure(
-                "NATIVE_DECODE_FAILED", "Cannot open \(source.path): \(error.localizedDescription)")
+            if let detail = input.failure { throw detail }
+            throw NativeFailure.decodeFailed("Cannot open \(source.path): \(error.localizedDescription)")
         }
         let sampleRate = Int(stream.mSampleRate.rounded())
         let channels = Int(stream.mChannelsPerFrame)
         guard (1...AudioLimits.maximumSampleRate).contains(sampleRate),
             (1...AudioLimits.maximumChannels).contains(channels)
         else {
-            throw AudioFailure(
+            throw NativeFailure(
                 "LIMIT_EXCEEDED",
                 "Source \(source.lastPathComponent) reports \(sampleRate) Hz and \(channels) channels, outside the excerpt bounds."
             )
@@ -99,16 +96,12 @@ final class ConvertedAudioInterval {
             // the explicit map below places the channels; a remix matrix would restate the gains.
             let converter = AVAudioConverter(from: sourceFormat, to: excerptFormat)
         else {
-            throw AudioFailure(
-                "NATIVE_DECODE_FAILED",
-                "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz."
+            throw NativeFailure.decodeFailed("Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz."
             )
         }
         let openedReader: AVAssetReader
         do { openedReader = try AVAssetReader(asset: source.asset) } catch {
-            throw AudioFailure(
-                "NATIVE_DECODE_FAILED",
-                "Cannot read \(source.url.path): \(error.localizedDescription)")
+            throw NativeFailure.decodeFailed("Cannot read \(source.url.path): \(error.localizedDescription)")
         }
         // Read as long as the output frames this interval owns, rather than as the interval's own
         // microseconds: a converter answers N input frames with floor(N x rate ratio) frames, so a
@@ -132,8 +125,7 @@ final class ConvertedAudioInterval {
             ])
         output.alwaysCopiesSampleData = false
         guard openedReader.canAdd(output) else {
-            throw AudioFailure(
-                "NATIVE_DECODE_FAILED", "Cannot decode audio track of \(source.url.path).")
+            throw NativeFailure.decodeFailed("Cannot decode audio track of \(source.url.path).")
         }
         openedReader.add(output)
 
@@ -142,14 +134,12 @@ final class ConvertedAudioInterval {
         // conversion memory as a 10 millisecond one.
         guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)
         else {
-            throw AudioFailure(
-                "NATIVE_DECODE_FAILED",
-                "Cannot allocate a conversion buffer for \(source.url.lastPathComponent).")
+            throw NativeFailure.decodeFailed("Cannot allocate a conversion buffer for \(source.url.lastPathComponent).")
         }
 
         guard openedReader.startReading() else {
-            if let detail = sourceInput.failure { throw AudioFailure(detail.code, detail.message) }
-            throw AudioFailure("NATIVE_DECODE_FAILED", "Cannot start audio reader.")
+            if let detail = sourceInput.failure { throw detail }
+            throw NativeFailure.decodeFailed("Cannot start audio reader.")
         }
         self.reader = openedReader
         self.converter = converter
@@ -170,11 +160,9 @@ final class ConvertedAudioInterval {
             if offset == Int(converted.frameLength) {
                 guard !exhausted else {
                     if let detail = sourceInput.failure {
-                        throw AudioFailure(detail.code, detail.message)
+                        throw detail
                     }
-                    throw AudioFailure(
-                        "NATIVE_DECODE_FAILED",
-                        "Audio interval ended before its quantized output boundary.")
+                    throw NativeFailure.decodeFailed("Audio interval ended before its quantized output boundary.")
                 }
                 var failure: NSError?
                 let input = self.input
@@ -186,11 +174,9 @@ final class ConvertedAudioInterval {
                     converted.frameLength > 0
                 else {
                     if let detail = sourceInput.failure {
-                        throw AudioFailure(detail.code, detail.message)
+                        throw detail
                     }
-                    throw AudioFailure(
-                        "NATIVE_DECODE_FAILED",
-                        "Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")"
+                    throw NativeFailure.decodeFailed("Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")"
                     )
                 }
                 exhausted = outcome == .endOfStream

@@ -1,8 +1,14 @@
 import Darwin
 import Foundation
+import ScreenRecorderMedia
 
 /// All mutation is relative to the caller's retained parent, never its locator.
 enum PackageWorkspace {
+    static let operations = [
+        "packageWorkspace.create", "packageWorkspace.admit", "packageWorkspace.remove",
+        "packageWorkspace.recover", "packageWorkspace.recoverUnconfirmed",
+    ]
+
     static func execute(_ operation: String, _ params: [String: Any]) throws -> [String: Any] {
         if operation == "packageWorkspace.recover"
             || operation == "packageWorkspace.recoverUnconfirmed"
@@ -13,7 +19,7 @@ enum PackageWorkspace {
                 !selected
                     || (name.map { UUID(uuidString: $0) != nil && $0.utf8.count == 36 } ?? false)
             else {
-                throw StorageFailure(
+                throw NativeFailure(
                     "INVALID_REQUEST", "Invalid recovery request.", retryable: false)
             }
             try ManagedFiles.Identity(params["parent"]).check(3)
@@ -28,7 +34,7 @@ enum PackageWorkspace {
             let name = params["name"] as? String, UUID(uuidString: name) != nil,
             name.utf8.count == 36
         else {
-            throw StorageFailure(
+            throw NativeFailure(
                 "INVALID_REQUEST", "Invalid package workspace request.", retryable: false)
         }
         try ManagedFiles.Identity(params["parent"]).check(3)
@@ -109,7 +115,7 @@ enum PackageWorkspace {
             }
             if name == "." || name == ".." { continue }
             guard UUID(uuidString: name) != nil, name.utf8.count == 36, names.count < maximum else {
-                throw StorageFailure(
+                throw NativeFailure(
                     "INVALID_STORAGE", "Workspace root contains unexpected or too many entries.",
                     retryable: false)
             }
@@ -149,7 +155,7 @@ enum PackageWorkspace {
         return ["recovered": children.count]
     }
 
-    private static func failure(_ action: String) -> StorageFailure {
-        StorageFailure("INVALID_STORAGE", "\(action): \(String(cString: strerror(errno)))")
+    private static func failure(_ action: String) -> NativeFailure {
+        NativeFailure("INVALID_STORAGE", "\(action): \(String(cString: strerror(errno)))", retryable: true)
     }
 }

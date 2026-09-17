@@ -51,7 +51,7 @@ public enum PresentationEvidence {
     ) async throws -> PresentationEvidenceReceipt {
         let duration = try PresentationSource.duration(of: plan)
         guard maxBytes > 0, maxBytes <= 9_007_199_254_740_991 else {
-            throw FrameFailure("INVALID_REQUEST", "Evidence requires a positive safe byte budget.")
+            throw NativeFailure("INVALID_REQUEST", "Evidence requires a positive safe byte budget.")
         }
         var info = stat()
         guard source.path.hasPrefix("/"), output.path.hasPrefix("/"),
@@ -59,20 +59,20 @@ public enum PresentationEvidence {
                 != output.resolvingSymlinksInPath().standardizedFileURL,
             lstat(output.path, &info) != 0, errno == ENOENT
         else {
-            throw FrameFailure("INVALID_OUTPUT", "Evidence output must be a new absolute path.")
+            throw NativeFailure("INVALID_OUTPUT", "Evidence output must be a new absolute path.")
         }
         try Task.checkCancellation()
         let presentation = try await PresentationSource(source: source, plan: plan)
         let staging = output.deletingLastPathComponent()
             .appendingPathComponent(".presentation-evidence-\(UUID().uuidString)")
         guard mkdir(staging.path, 0o700) == 0 else {
-            throw FrameFailure("INVALID_OUTPUT", "Cannot create owned evidence staging directory.")
+            throw NativeFailure("INVALID_OUTPUT", "Cannot create owned evidence staging directory.")
         }
         defer { try? FileManager.default.removeItem(at: staging) }
         let member = staging.appendingPathComponent("evidence.jsonl")
         let fd = open(member.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, 0o600)
         guard fd >= 0 else {
-            throw FrameFailure("INVALID_OUTPUT", "Cannot open evidence staging file.")
+            throw NativeFailure("INVALID_OUTPUT", "Cannot open evidence staging file.")
         }
         let file = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
         defer { try? file.close() }
@@ -84,7 +84,7 @@ public enum PresentationEvidence {
             var data = try encoder.encode(record)
             data.append(10)
             guard data.count <= 65_536, data.count <= maxBytes - bytes else {
-                throw FrameFailure(
+                throw NativeFailure(
                     "LIMIT_EXCEEDED", "Presentation evidence exceeds its byte budget.")
             }
             try file.write(contentsOf: data)
@@ -103,7 +103,7 @@ public enum PresentationEvidence {
                 let next = try autoreleasepool {
                     let selected = try presentation.selection(at: at, end: end)
                     guard selected.end > at else {
-                        throw FrameFailure("UNAVAILABLE", "Presentation evidence made no progress.")
+                        throw NativeFailure("UNAVAILABLE", "Presentation evidence made no progress.")
                     }
                     let image = try selected.buffer.map {
                         try FrameImage(
@@ -129,7 +129,7 @@ public enum PresentationEvidence {
         try file.synchronize()
         try Task.checkCancellation()
         guard link(member.path, output.path) == 0 else {
-            throw FrameFailure(
+            throw NativeFailure(
                 "INVALID_OUTPUT", "Cannot publish evidence to an occupied destination.")
         }
         return PresentationEvidenceReceipt(

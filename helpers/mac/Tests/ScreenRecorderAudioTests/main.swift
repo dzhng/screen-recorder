@@ -1,6 +1,7 @@
 @preconcurrency import AVFoundation
 import Foundation
 import ScreenRecorderAudio
+import ScreenRecorderMedia
 
 let evidence = URL(
     fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_AUDIO_EVIDENCE"]
@@ -608,7 +609,7 @@ let quadTone = FixtureTone(
 let quad = evidence.appendingPathComponent("quad.mov")
 try await FixtureAudioWriter.write(quadTone, frames: Int(rate), to: quad)
 let quadSpans = [SourceSpan(startUs: 100_000, endUs: 600_000)]
-func layoutRefusal(_ name: String, _ tracks: [AudioTrackPlan]) async -> AudioFailure? {
+func layoutRefusal(_ name: String, _ tracks: [AudioTrackPlan]) async -> NativeFailure? {
     await failure {
         _ = try await AudioExcerpts.write(
             AudioExcerptRequest(
@@ -783,14 +784,14 @@ precondition(
 print("PASS acquisition evidence decides absence, and the container cannot relabel a hole as silence")
 
 
-func failure(_ body: () async throws -> Void) async -> AudioFailure? {
+func failure(_ body: () async throws -> Void) async -> NativeFailure? {
     do {
         try await body()
         return nil
-    } catch let error as AudioFailure {
+    } catch let error as NativeFailure {
         return error
     } catch {
-        return AudioFailure("UNEXPECTED", "\(error)")
+        return NativeFailure("UNEXPECTED", "\(error)")
     }
 }
 
@@ -824,7 +825,7 @@ print("PASS the excerpt bound accepts exactly 30 seconds and refuses 30.000001")
 let sourceBefore = try Data(contentsOf: narration)
 let valid = [SourceSpan(startUs: 1_000_000, endUs: 1_500_000)]
 let output = evidence.appendingPathComponent("rejected.wav")
-func reject(_ tracks: [AudioTrackPlan], _ spans: [SourceSpan], to destination: URL = output) async -> AudioFailure? {
+func reject(_ tracks: [AudioTrackPlan], _ spans: [SourceSpan], to destination: URL = output) async -> NativeFailure? {
     await failure {
         _ = try await AudioExcerpts.write(
             AudioExcerptRequest(tracks: tracks, spans: spans, output: destination))
@@ -839,7 +840,7 @@ let aliasDirectory = evidence.appendingPathComponent("source-alias")
 try? FileManager.default.removeItem(at: aliasDirectory)
 try FileManager.default.createSymbolicLink(at: aliasDirectory, withDestinationURL: evidence)
 
-let rejected: [String: (String, AudioFailure?)] = await [
+let rejected: [String: (String, NativeFailure?)] = await [
     "no tracks": ("INVALID_REQUEST", reject([], valid)),
     "repeated role": (
         "INVALID_REQUEST", reject([plan(.narration, narration), plan(.narration, system)], valid)

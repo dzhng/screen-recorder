@@ -1,6 +1,7 @@
 @preconcurrency import AVFoundation
 import Foundation
 import ScreenRecorderFrames
+import ScreenRecorderMedia
 
 let evidence = URL(
     fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_FRAME_EVIDENCE"]
@@ -55,14 +56,14 @@ func ink(_ image: FixtureImage, x: Int, y: Int, size: Int = 3) -> Double {
         abs(sampled.red - 0.12), abs(sampled.green - 0.12), abs(sampled.blue - 0.12))
 }
 
-func failure(_ body: () async throws -> Void) async -> FrameFailure? {
+func failure(_ body: () async throws -> Void) async -> NativeFailure? {
     do {
         try await body()
         return nil
-    } catch let error as FrameFailure {
+    } catch let error as NativeFailure {
         return error
     } catch {
-        return FrameFailure("UNEXPECTED", "\(error)")
+        return NativeFailure("UNEXPECTED", "\(error)")
     }
 }
 

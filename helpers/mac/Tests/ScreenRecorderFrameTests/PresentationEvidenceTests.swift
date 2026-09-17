@@ -1,5 +1,6 @@
 import Foundation
 import ScreenRecorderFrames
+import ScreenRecorderMedia
 
 /// Cancels actual native work after bytes reach staging, rather than before admission.
 func verifyPresentationLifetime(source: URL, parent: URL) async throws {
@@ -52,7 +53,7 @@ func verifyPresentationLifetime(source: URL, parent: URL) async throws {
             preconditionFailure("Canceled/raced evidence must not publish")
         } catch is CancellationError {
             precondition(cancel)
-        } catch let error as FrameFailure {
+        } catch let error as NativeFailure {
             precondition(!cancel && error.code == "INVALID_OUTPUT", "\(error)")
         }
         let remaining = try FileManager.default.contentsOfDirectory(atPath: directory.path)

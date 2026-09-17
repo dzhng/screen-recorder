@@ -3,10 +3,11 @@ import Darwin
 import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderFrames
+import ScreenRecorderMedia
 
 /// One native assembly operation; the service owns the enclosing attempt lifetime.
 enum MovieOperation {
-    private struct Parameters: Decodable {
+    private struct Request: Codable {
         let source: String
         let output: String
         let plan: [VideoRenderSpan]
@@ -34,38 +35,21 @@ enum MovieOperation {
     }
 
     static func execute(_ params: [String: Any]) async throws -> Result {
-        guard
-            Set(params.keys).subtracting(["pointerSchedule"]) == [
-                "source", "output", "plan", "tracks",
-            ],
-            let tracks = params["tracks"] as? [[String: Any]],
-            tracks.allSatisfy({ Set($0.keys) == ["role", "source", "sourceOffsetUs", "available"] }
-            ),
-            tracks.allSatisfy({
-                ($0["available"] as? [[String: Any]])?.allSatisfy {
-                    Set($0.keys) == ["startUs", "endUs"]
-                } ?? false
-            })
-        else { throw FrameFailure("INVALID_REQUEST", "Invalid media.renderMovie parameters.") }
-        let request: Parameters
-        do {
-            request = try JSONDecoder().decode(
-                Parameters.self, from: JSONSerialization.data(withJSONObject: params))
-        } catch { throw FrameFailure("INVALID_REQUEST", "Invalid movie parameter types.") }
+        let request = try WireRequest.decode(Request.self, from: params)
         let output = URL(fileURLWithPath: request.output)
         var info = stat()
         guard request.output.hasPrefix("/"), !request.output.contains("\0"),
             lstat(output.path, &info) != 0, errno == ENOENT
-        else { throw FrameFailure("INVALID_OUTPUT", "Movie output must be a new absolute path.") }
+        else { throw NativeFailure("INVALID_OUTPUT", "Movie output must be a new absolute path.") }
         let staging = output.deletingLastPathComponent().appendingPathComponent(
             ".movie-render-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: staging, withIntermediateDirectories: false)
         defer { try? FileManager.default.removeItem(at: staging) }
         let video = staging.appendingPathComponent("video.mp4")
-        let rendered = try await VideoOperation.execute(
-            [
-                "source": request.source, "output": video.path, "plan": params["plan"]!,
-            ], pointerSchedule: request.pointerSchedule)
+        try WireRequest.requireAbsolute(request.source)
+        let rendered = try await VideoRenderer.write(
+            source: URL(fileURLWithPath: request.source), plan: request.plan, output: video,
+            pointerSchedule: request.pointerSchedule)
         let audio =
             request.tracks.isEmpty
             ? nil
@@ -84,12 +68,11 @@ enum MovieOperation {
         let duration = try await AVURLAsset(url: completed).load(.duration)
         guard CMTimeCompare(duration, CMTime(value: rendered.durationUs, timescale: 1_000_000)) == 0
         else {
-            throw FrameFailure(
-                "NATIVE_DECODE_FAILED", "Assembled movie changed the pinned duration.")
+            throw NativeFailure.decodeFailed("Assembled movie changed the pinned duration.")
         }
         let bytes = try FileManager.default.attributesOfItem(atPath: completed.path)[.size] as! Int
         guard link(completed.path, output.path) == 0 else {
-            throw FrameFailure("INVALID_OUTPUT", "Movie destination appeared before publication.")
+            throw NativeFailure("INVALID_OUTPUT", "Movie destination appeared before publication.")
         }
         return Result(
             file: output.path, durationUs: rendered.durationUs, width: rendered.width,

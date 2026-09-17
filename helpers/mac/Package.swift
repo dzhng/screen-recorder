@@ -15,7 +15,10 @@ let package = Package(
     targets: [
         .target(
             name: "ScreenRecorderWire",
-            dependencies: ["ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames", "CLibArchive"],
+            dependencies: [
+                "ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames",
+                "ScreenRecorderMedia", "CLibArchive",
+            ],
             linkerSettings: [.linkedLibrary("archive.2")]),
         .systemLibrary(name: "CLibArchive"),
         .target(name: "ScreenRecorderCapture", dependencies: ["ScreenRecorderMedia"]),
@@ -27,10 +30,10 @@ let package = Package(
             dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia"],
             path: "Tests/ScreenRecorderCaptureTests"),
         .executableTarget(
-            name: "ScreenRecorderFrameTests", dependencies: ["ScreenRecorderFrames"],
+            name: "ScreenRecorderFrameTests", dependencies: ["ScreenRecorderFrames", "ScreenRecorderMedia"],
             path: "Tests/ScreenRecorderFrameTests"),
         .executableTarget(
-            name: "ScreenRecorderAudioTests", dependencies: ["ScreenRecorderAudio"],
+            name: "ScreenRecorderAudioTests", dependencies: ["ScreenRecorderAudio", "ScreenRecorderMedia"],
             path: "Tests/ScreenRecorderAudioTests"),
         .executableTarget(
             name: "ScreenRecorderMovieTests", dependencies: ["ScreenRecorderWire"],

@@ -2,10 +2,15 @@ import CLibArchive
 import CryptoKit
 import Darwin
 import Foundation
+import ScreenRecorderMedia
 
 /// Internal extraction into an inherited, exclusively owned directory. The parent retains fd 3's
 /// original across worker death and invokes cleanup only after the extraction worker is reaped.
 enum ArchiveOperation {
+    static let operations = [
+        "archive.createOutput", "archive.removeOutput", "archive.cleanup", "archive.prepare",
+        "archive.extract", "archive.write", "archive.copy",
+    ]
     private static let root: Int32 = 3
     private static let chunkBytes = 65_536
     private struct Limits: Decodable {
@@ -608,10 +613,10 @@ enum ArchiveOperation {
     private static func hex<D: Sequence>(_ digest: D) -> String where D.Element == UInt8 {
         digest.map { String(format: "%02x", $0) }.joined()
     }
-    private static func error(_ code: String, _ message: String) -> StorageFailure {
-        StorageFailure(code, message, retryable: false)
+    private static func error(_ code: String, _ message: String) -> NativeFailure {
+        NativeFailure(code, message, retryable: false)
     }
-    private static func io(_ action: String) -> StorageFailure {
+    private static func io(_ action: String) -> NativeFailure {
         error("INVALID_STORAGE", "\(action): \(String(cString: strerror(errno)))")
     }
 }

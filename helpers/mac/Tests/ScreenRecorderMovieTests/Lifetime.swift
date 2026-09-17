@@ -1,6 +1,7 @@
 import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderWire
+import ScreenRecorderMedia
 
 /// Calls the production mux directly to observe the actual SDK finalization boundary.
 @main struct Lifetime {
@@ -44,11 +45,10 @@ import ScreenRecorderWire
                 audio: try await stream(), durationUs: duration,
                 output: attempt.appendingPathComponent("failed.mp4"),
                 didCopyVideoSample: {
-                    throw AudioFailure(
-                        "NATIVE_DECODE_FAILED", "Injected compressed-video read failure")
+                    throw NativeFailure.decodeFailed("Injected compressed-video read failure")
                 })
             fatalError("Injected video-pump failure completed")
-        } catch let error as AudioFailure {
+        } catch let error as NativeFailure {
             guard error.message == "Injected compressed-video read failure",
                 started.duration(to: .now) < .seconds(3)
             else { throw error }

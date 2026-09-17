@@ -1,4 +1,5 @@
 @preconcurrency import AVFoundation
+import ScreenRecorderMedia
 
 /// A common exact clock for cuts, presentation support, pointer states and final mux.
 /// Failure is explicit: converting with a rounding mode is never permission to round.
@@ -32,8 +33,8 @@ public struct MovieClock {
         return result
     }
 
-    private static func failure() -> FrameFailure {
-        FrameFailure(
+    private static func failure() -> NativeFailure {
+        NativeFailure(
             "UNSUPPORTED_CLOCK", "Movie clock cannot represent required transitions exactly.")
     }
 }

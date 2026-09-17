@@ -2,6 +2,7 @@
 import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderFrames
+import ScreenRecorderMedia
 
 /// Copies the already-rendered H.264 samples and consumes the sole retained PCM mixer.
 /// Both writer inputs finish before the caller may publish this attempt's file.
@@ -44,7 +45,7 @@ package enum MovieMux {
         let format: CMAudioFormatDescription
         let rate: Int
         let channels: Int
-        private var firstFailure: AudioFailure?
+        private var firstFailure: NativeFailure?
         private let didCopyVideoSample: (@Sendable () throws -> Void)?
 
         init(
@@ -77,7 +78,7 @@ package enum MovieMux {
                 AVNumberOfChannelsKey: channels, AVEncoderBitRateKey: channels * 96_000,
             ]
             guard writer.canApply(outputSettings: settings, forMediaType: .audio) else {
-                throw AudioFailure(
+                throw NativeFailure(
                     "UNSUPPORTED_FORMAT", "AAC cannot encode the resolved PCM format.")
             }
             sound = AVAssetWriterInput(mediaType: .audio, outputSettings: settings)
@@ -122,7 +123,7 @@ package enum MovieMux {
                     )
                 }
                 picture.markAsFinished()
-            } catch let error as AudioFailure {
+            } catch let error as NativeFailure {
                 if firstFailure == nil { firstFailure = error }
                 cancel()
                 throw error
@@ -217,7 +218,7 @@ package enum MovieMux {
         return sample
     }
 
-    private static func failure(_ message: String) -> AudioFailure {
-        AudioFailure("NATIVE_DECODE_FAILED", message)
+    private static func failure(_ message: String) -> NativeFailure {
+        NativeFailure.decodeFailed(message)
     }
 }
