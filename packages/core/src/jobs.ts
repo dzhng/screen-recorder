@@ -717,9 +717,13 @@ export class JobQueue {
   /**
    * Admits original-revision work for the oldest finalized take that never requested it. One take at
    * a time: while the artifact is busy the backlog waits rather than crowding foreground requests
-   * out of the shared admission budget, and a full queue leaves it for the next call.
+   * out of the shared admission budget, and a full queue leaves it for the next call. A dependency
+   * limits the backlog to takes whose original-revision prerequisite is already published.
    */
-  backfill(request: Pick<JobRequest, "artifact" | "lane" | "input">): void {
+  backfill(
+    request: Pick<JobRequest, "artifact" | "lane" | "input">,
+    dependency?: Pick<JobRequest, "artifact" | "input">,
+  ): void {
     if (this.isArtifactBusy(request.artifact)) return;
     const pending = this.store.catalog
       .prepare(`SELECT recordingId FROM recordings
@@ -727,8 +731,18 @@ export class JobQueue {
       AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
       AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.recordingId=recordings.recordingId
         AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.input=?)
+      ${
+        dependency
+          ? `AND EXISTS (SELECT 1 FROM artifacts WHERE artifacts.recordingId=recordings.recordingId
+        AND artifacts.revisionId='r0' AND artifacts.artifact=? AND artifacts.input=?)`
+          : ""
+      }
       ORDER BY creationSequence LIMIT 1`)
-      .get(request.artifact, request.input) as { recordingId: string } | undefined;
+      .get(
+        request.artifact,
+        request.input,
+        ...(dependency ? [dependency.artifact, dependency.input] : []),
+      ) as { recordingId: string } | undefined;
     if (!pending) return;
     try {
       this.submit({ ...request, recordingId: pending.recordingId, revisionId: "r0" });
