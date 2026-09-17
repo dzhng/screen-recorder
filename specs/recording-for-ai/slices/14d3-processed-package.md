@@ -1,9 +1,15 @@
 # 14d3 — Complete processed-package export
 
-Status: complete no-narration packages work through CLI/MCP. Acquired narration
-remains blocked on accepted transcript payloads. The native AI Package action uses
-the same export owner. The [public composition proof](../assets/package-assembly/public.md)
-records the current boundary.
+Status: complete no-narration packages work through CLI/MCP. Narrated packages
+export through the same owner: the intent pins the published transcript generation,
+and a reopened ZIP answers transcript get and search page for page like the library,
+including partial words after a cut. Service tests prove this with a fake transcriber;
+unprepared models fail the export retryably and a failed transcript fails it
+actionably. Core tests refuse tampered transcript pages on reopen. Public transcript
+reads of package handles and real narration remain with slice 08. The native AI
+Package action uses the same export owner. The
+[public composition proof](../assets/package-assembly/public.md) records the
+no-narration boundary.
 
 ## One lifecycle, two outputs
 
@@ -36,8 +42,14 @@ rewrite or remove that external output. The assembly slice owns the exact lifeti
 and stable-private-directory boundary.
 
 No narration is established from acquisition evidence, never a caller flag.
-Acquired narration fails explicitly until accepted transcript payloads can be
-included; a readiness envelope cannot substitute for them. Video remains independent
+Acquired narration requires the pinned transcript generation. Source-transcript pages
+hold words, gaps and segments in source time beside the hashed raw engine output.
+Edited-transcript pages hold the pinned revision's projection for tools without the
+projection owner. Package reads still project the source pages through any included
+revision, as timeline evidence does. Opening therefore refuses edited pages that
+differ from that projection, and source rows that disagree with the package's own
+narration acquisition, ordinals or hashes. Unprepared speech models start no job, so
+the export fails retryably instead of waiting on nothing. Video remains independent
 of transcription.
 
 ## Verification and remaining gates
@@ -49,6 +61,7 @@ The assembly evidence covers dependency retention, mutation, process crashes,
 surviving native writers, private storage and cleanup. These checks use generated
 no-narration media and do not establish power-loss safety or real speech fidelity.
 
-Complete narrated export still requires slice 08. [Public timeline inspection](14c3c4-timeline-inspection.md)
+Narrated export evidence uses generated speech timings, not a real engine.
+[Public timeline inspection](14c3c4-timeline-inspection.md)
 is implemented. Native menu actions, transcript inspection and the installed
 personal workflow remain separate acceptance gates. Keep all original release requirements in force.
