@@ -159,3 +159,27 @@ export function verifyArchiveReceipt(value: unknown, limits: ArchiveLimits = arc
     peakResidentBytes: receipt.peakResidentBytes,
   };
 }
+
+const writeReceiptSchema = z.strictObject({
+  path: z.literal("payload.zip"),
+  bytes: integer.positive(),
+  sha256: digest,
+  identity: localIdentity,
+  expandedBytes: integer,
+  entries: integer.positive(),
+  peakResidentBytes: integer,
+  writer: z.string().min(1),
+});
+/** Byte assembly only; complete package semantics belong to the manifest/payload owner. */
+export function verifyArchiveWriteReceipt(value: unknown, limits: ArchiveLimits = archiveLimits) {
+  validateArchiveLimits(limits);
+  const parsed = writeReceiptSchema.safeParse(value);
+  if (
+    !parsed.success ||
+    parsed.data.bytes > limits.compressedBytes ||
+    parsed.data.expandedBytes > limits.expandedBytes ||
+    parsed.data.entries > limits.entries
+  )
+    throw new CatalogError("INVALID_NATIVE_RESPONSE", "Invalid ZIP write receipt");
+  return parsed.data;
+}

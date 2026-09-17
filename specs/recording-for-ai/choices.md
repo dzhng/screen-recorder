@@ -2067,3 +2067,36 @@ records them. These choices add no public export choice or transcript readiness.
   state from becoming a durable failure. Observation of an already published file
   does not need cached media, so recovery remains independently runnable. This
   ordering keeps the shared queue and avoids automatic retries to mask startup races.
+
+## 14d3a ZIP byte producer
+
+- **Choice:** ZIP stores media entries without applying a second compression pass.
+  A large video is copied through a fixed buffer; packaging does not spend CPU
+  trying to compress bytes that the video codec already compressed. JSON may take
+  more space than a compressed ZIP. Existing archive size limits include overhead.
+- **Gap:** The package contract did not choose a ZIP compression method.
+- **Reach:** Output is a standard ZIP readable by the existing native reader. A
+  later compression policy may change bytes without changing the export lifecycle.
+- **Verdict:** sound; predictable bounded work is appropriate for media packaging.
+- **Confidence:** medium.
+
+- **Choice:** A bounded file descriptor carries the selected member plan. A package
+  with many screenshots can exceed the control message limit even though it is a
+  valid package. Sending an already-open plan file preserves the existing wire
+  limit and avoids keeping one open descriptor per screenshot. Each media member
+  is opened and verified when copied.
+- **Gap:** The producer needs metadata larger than a control request may carry.
+- **Reach:** The future assembler must own and register its plan and scratch
+  lifetime before writing, using the same export intent. No new scheduler is added.
+- **Verdict:** sound; bounded metadata and streamed media use existing ownership.
+- **Confidence:** high.
+
+- **Choice:** Prove the byte producer before wiring prerequisite retention. Public
+  package requests still fail before creating an intent. The next vertical pass
+  can connect real retained evidence to an actual writer rather than introduce a
+  test-only intent API for a package producer that does not exist.
+- **Gap:** The prerequisite-only pass had no honest admitted consumer while package
+  creation remained unsupported; its order needed refinement.
+- **Reach:** The accepted complete-package and narrated-transcript gates remain.
+- **Verdict:** sound; verified byte production now supplies the missing consumer.
+- **Confidence:** high; coordinated with the parent before implementation.

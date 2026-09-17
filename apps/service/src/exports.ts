@@ -12,9 +12,9 @@ import {
 import type { SourceEvidenceMetadata } from "@screenrec/core/evidence";
 import type { SourceProcessing } from "@screenrec/core/processing";
 import type { PreviewInspection, PreviewArtifact } from "@screenrec/core/preview";
-import { Publication, type PublicationReceipt } from "./publication.js";
+import { Publication, publicationDeadlineMs, type PublicationReceipt } from "./publication.js";
 import type { ManagedFiles } from "./managed-files.js";
-import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
+import { type MediaWorker } from "./worker.js";
 
 type Request = {
   kind: "video" | "processed-package";
@@ -55,16 +55,6 @@ type Row = Omit<
 const artifact = "export-video",
   recoveryArtifact = "export-recovery";
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
-/** Allow two full byte passes at 4 MiB/s plus startup; commit verifies payload and destination.
- * This is a conservative deadline policy, not a promise of destination throughput. */
-export function publicationDeadlineMs(bytes: number): number {
-  if (!Number.isSafeInteger(bytes) || bytes < 0)
-    throw new CatalogError("INVALID_STORAGE", "Publication byte count is invalid");
-  return Math.min(
-    MAX_MEDIA_TIMEOUT_MS,
-    30_000 + Math.ceil(((bytes * 2) / (4 * 1024 * 1024)) * 1000),
-  );
-}
 const stageName = (id: string) => `.screenrec-export-${id}`;
 
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.

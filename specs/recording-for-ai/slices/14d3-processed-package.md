@@ -19,50 +19,11 @@ Verification: actual owner requests prove unsupported packages leave no intent,
 job or output; video replay retains its identity and kind; changed-kind replay
 conflicts. Existing video cancellation, crashes, recovery and deletion remain gates.
 
-## Pass 2 — Pin complete prerequisites before assembly
+## Pass 2 — Bounded ZIP bytes and publication
 
-Pin revision/history at request. Select successful source and scene generations
-once, persist them before admitting their consumers, and pass them explicitly to
-the index owner. IndexProcessing currently selects latest source/scene evidence;
-it needs the explicit input seam already established for preview. Extend existing
-source/scene/index cleanup authorities with export retention predicates rather
-than add an export janitor. Pin the selected index generation too.
-
-Use the same deferred job and shared pending-intent allowance. Waiting requests
-consume no runnable lane. Dependency events may admit bounded work; failed owners
-require explicit retry. Missing regenerable output returns to deferred admission
-before expensive assembly, retaining the selected evidence. Durable publication
-commit releases pins because regeneration is no longer needed. Confirmed
-abandonment releases pending capacity and any remaining pins.
-
-Verification: request R1, edit to R2 while prerequisites wait, regenerate source
-and scenes, run cleanup, then retry. The assembled selection must still name R1
-and the generations selected once. Exercise cleanup during index work, missing
-index images at promotion, all waiting slots, failed dependencies and restart.
-
-## Pass 3 — Complete portable assembly
-
-Use the existing portable source, scene and screenshot-index page writers. Include
-original immutable video, capture journal, actually acquired audio tracks and all
-history through the pinned ordinal. Inventory hashes and lengths come from copied
-bytes; do not export database files or machine-local paths.
-
-The manifest planner requires source, scenes, index and edited events. The current
-events fixture is not a production serializer. Add a bounded events serializer and
-validator using the existing timeline projection, retaining pause placeholders
-and cut boundaries. Do not fill that requirement with fabricated empty events.
-
-No narration is determined from actual acquisition evidence, never a request
-flag. Acquired narration remains explicitly unsupported until the accepted source
-and edited transcript payload owners exist. A readiness envelope alone cannot
-certify narrated payloads; retain the manifest validator's gate.
-
-Verification: use generated media with nonempty cursor/geometry changes, pauses
-and cuts. Compare serialized pages, selected image bytes, projected events,
-track hashes and pinned history against independent live-source expectations.
-Missing pages, wrong generations and source mutation must fail before publication.
-
-## Pass 4 — Bounded ZIP bytes and publication
+Internal byte-producer checkpoint implemented; see
+[writer ownership and evidence](14d3a-archive-writer.md). The complete production
+package consumer remains in the prerequisite/assembly passes below.
 
 Add a streaming ZIP producer alongside the existing native archive owner. Give it
 verified regular inputs with fixed permitted relative member names; no shell ZIP,
@@ -89,6 +50,50 @@ on-demand frame/audio output with independent expectations. Truncated members an
 source substitution fail. Kill during scratch creation, assembly and publication;
 restart/retry/abandonment/deletion must clean only owned private data and preserve
 external ZIPs. Large-member tests verify bounded memory and cancellation drain.
+
+
+## Pass 3 — Pin complete prerequisites before assembly
+
+Pin revision/history at request. Select successful source and scene generations
+once, persist them before admitting their consumers, and pass them explicitly to
+the index owner. IndexProcessing currently selects latest source/scene evidence;
+it needs the explicit input seam already established for preview. Extend existing
+source/scene/index cleanup authorities with export retention predicates rather
+than add an export janitor. Pin the selected index generation too.
+
+Use the same deferred job and shared pending-intent allowance. Waiting requests
+consume no runnable lane. Dependency events may admit bounded work; failed owners
+require explicit retry. Missing regenerable output returns to deferred admission
+before expensive assembly, retaining the selected evidence. Durable publication
+commit releases pins because regeneration is no longer needed. Confirmed
+abandonment releases pending capacity and any remaining pins.
+
+Verification: request R1, edit to R2 while prerequisites wait, regenerate source
+and scenes, run cleanup, then retry. The assembled selection must still name R1
+and the generations selected once. Exercise cleanup during index work, missing
+index images at promotion, all waiting slots, failed dependencies and restart.
+
+## Pass 4 — Complete portable assembly
+
+Use the existing portable source, scene and screenshot-index page writers. Include
+original immutable video, capture journal, actually acquired audio tracks and all
+history through the pinned ordinal. Inventory hashes and lengths come from copied
+bytes; do not export database files or machine-local paths.
+
+The manifest planner requires source, scenes, index and edited events. The current
+events fixture is not a production serializer. Add a bounded events serializer and
+validator using the existing timeline projection, retaining pause placeholders
+and cut boundaries. Do not fill that requirement with fabricated empty events.
+
+No narration is determined from actual acquisition evidence, never a request
+flag. Acquired narration remains explicitly unsupported until the accepted source
+and edited transcript payload owners exist. A readiness envelope alone cannot
+certify narrated payloads; retain the manifest validator's gate.
+
+Verification: use generated media with nonempty cursor/geometry changes, pauses
+and cuts. Compare serialized pages, selected image bytes, projected events,
+track hashes and pinned history against independent live-source expectations.
+Missing pages, wrong generations and source mutation must fail before publication.
 
 ## Public completion gate
 

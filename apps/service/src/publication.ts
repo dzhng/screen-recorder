@@ -2,7 +2,7 @@ import { constants } from "node:fs";
 import { lstat, open, realpath, type FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/library";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
-import type { MediaWorker } from "./worker.js";
+import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
 
 export type PublicationState = "unprepared" | "missing" | "committed" | "replaced" | "modified";
 
@@ -336,4 +336,15 @@ export class Publication {
       await Promise.all([this.stage.close(), this.destination.close()]);
     })());
   }
+}
+
+/** Allow two full byte passes at 4 MiB/s plus startup; commit verifies payload and destination.
+ * This is a conservative deadline policy, not a promise of destination throughput. */
+export function publicationDeadlineMs(bytes: number): number {
+  if (!Number.isSafeInteger(bytes) || bytes < 0)
+    throw new CatalogError("INVALID_STORAGE", "Publication byte count is invalid");
+  return Math.min(
+    MAX_MEDIA_TIMEOUT_MS,
+    30_000 + Math.ceil(((bytes * 2) / (4 * 1024 * 1024)) * 1000),
+  );
 }

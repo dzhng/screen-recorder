@@ -7,7 +7,12 @@ import { fileURLToPath } from "node:url";
 import { mediaWorker } from "../../../service/dist/worker.js";
 
 /** Register the complete inspection with drain, or finish job teardown inside the callback. */
-export async function withArchiveCopyBarrier(home, native, { partial = false }, inspect) {
+export async function withArchiveCopyBarrier(
+  home,
+  native,
+  { partial = false, operation: selectedOperation = "archive.extract", minimumFd = 4 },
+  inspect,
+) {
   const marker = join(home, `copy-held-${randomUUID()}`);
   const library = `${marker}.dylib`;
   const run = mediaWorker({ SCREENREC_NATIVE: native });
@@ -35,11 +40,12 @@ export async function withArchiveCopyBarrier(home, native, { partial = false }, 
     ]);
     const worker = (operation, params, options) => {
       assert.equal(closed, false, "Barrier worker cannot outlive its fixture callback");
-      if (operation !== "archive.extract") return track(run(operation, params, options));
+      if (operation !== selectedOperation) return track(run(operation, params, options));
       assert.equal(pending, undefined, "Copy barrier admits one extraction");
       const environment = {
         DYLD_INSERT_LIBRARIES: library,
         SCREENREC_TEST_COPY_BARRIER: marker,
+        SCREENREC_TEST_COPY_MIN_FD: String(minimumFd),
         SCREENREC_TEST_COPY_PARTIAL: partial ? "1" : "0",
       };
       const previous = Object.fromEntries(

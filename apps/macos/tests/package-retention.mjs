@@ -1,3 +1,4 @@
+import { writeArchiveFixture } from "./fixtures/write-archive.mjs";
 import { archiveFixture } from "./fixtures/retained-archive.mjs";
 import { admitArchive } from "../../service/dist/archive-input.js";
 import assert from "node:assert/strict";
@@ -196,12 +197,7 @@ async function retainedReader(original, output, native) {
     archive = join(parent, "fixture.zip"),
     moved = join(parent, "relocated.zip");
   const requests = await archiveFixture(original, staging);
-  execFileSync("/usr/bin/python3", [
-    "-c",
-    "import pathlib,sys,zipfile; root=pathlib.Path(sys.argv[1]); z=zipfile.ZipFile(sys.argv[2],'w',compression=zipfile.ZIP_DEFLATED); [z.write(p,p.relative_to(root).as_posix()) for p in sorted(root.rglob('*')) if p.is_file()]; z.close()",
-    staging,
-    archive,
-  ]);
+  await writeArchiveFixture(staging, archive, mediaWorker({ SCREENREC_NATIVE: native }));
   await rm(staging, { recursive: true });
   await rename(archive, moved);
   const before = sha(await readFile(moved));
