@@ -1,6 +1,15 @@
 # 07a — Settings window, permissions and launch at login
 
-Status: planned (user request, 2026-09-18). Parent: [07](07-menu-bar-controls.md).
+Status: implemented (2026-09-18), except the login item, which needs this person's
+own installed copy. Parent: [07](07-menu-bar-controls.md).
+
+The window, the consistent permission rows, the saved recording defaults, the
+renamed bundle and its icon are in place and checked. `SMAppService.mainApp`
+reports `notFound` for an ad-hoc-signed build launched out of `dist/`, so the
+window states that honestly; registering and unregistering from the installed
+`~/Applications/Screen Recorder.app` remains for the person who owns that copy.
+[Captures of the window](../assets/settings-window/README.md) cover both
+appearances with access granted, unanswered and denied.
 
 The menu bar is the recording surface, but a person should not have to find
 permissions or preferences inside nested submenus. Standard menu-bar apps open a
@@ -45,15 +54,19 @@ selection or permission model.
 
 ## Verification
 
-- **Controls tests** pin the permission row shape for both submenus in the granted,
-  undetermined and denied states, and the persisted recording defaults applied to a
-  fresh launch.
-- **An app-level check** launches the bundled app with a scratch defaults suite. It
-  confirms that the window opens at launch by default and stays closed after the
-  preference is turned off, and that Settings… opens it.
-- **Login item:** register and unregister on the installed personal copy, reporting the
-  real `SMAppService` status. Record "requires approval" if macOS asks.
-- **Visual:** screenshots of the Settings window with permissions missing and granted,
-  in light and dark appearance. Compare against native System Settings conventions,
-  then an unprimed screenshot-critique last.
-- **Install test:** the installed bundle name, icon presence and Spotlight display name.
+- **Controls tests** (`ScreenRecorderControlsTests`) pin the permission row shape for both
+  submenus in the granted, undetermined and denied states, the Settings… row and its ⌘,,
+  and recording defaults read back through the preference owner on a fresh state.
+- **An app-level check** (`apps/macos/tests/settings-window.test.mjs`) launches the bundled
+  app against a scratch defaults domain named by `SCREENREC_DEFAULTS`, which production
+  ignores unless it is set. It confirms the window opens at launch by default, stays closed
+  once the preference is off, opens from the Settings… item, and starts from the saved
+  microphone and system-audio choices. Such a launch never activates the app.
+- **Login item:** open, and still to do on the installed copy. `SMAppService.mainApp.status`
+  is `notFound` for the ad-hoc-signed `dist` build, which is what the window shows.
+- **Visual:** [six captures](../assets/settings-window/README.md) of the real window, light
+  and dark, with access granted, unanswered and denied, and one with this Mac's real TCC
+  record. An unprimed critique reviewed them.
+- **Install test:** the installed bundle is `Screen Recorder.app`, carries the icon its
+  Info.plist names, keeps the personal identity, and replaces a copy installed under the
+  earlier name.

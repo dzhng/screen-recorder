@@ -42,6 +42,30 @@ interpreter resolution and the child reporting its listener together: the deadli
 before the first probe, so a slow interpreter spends the same budget the service
 would have, rather than starting a fresh one behind it.
 
+Recording controls have two surfaces and one state behind them: the status menu and
+a Settings window. The window sends the same actions the menu does, so neither
+holds a selection the other cannot see, and what a person chose to record with —
+the microphone and whether the machine's own sound is included — is saved in this
+app's defaults domain and is what the next launch starts from. A live take still
+owns its own selection while it runs.
+
+Access this app does not have is stated the same way wherever it matters: what is
+not granted, the one action that asks for it, and then the choices that remain
+without it. Access is read from native capture in this process and requested only
+when a person asks for it. macOS shows each prompt once, so an access already
+answered opens its privacy pane instead of asking again for nothing.
+
+The window opens at every launch until a person turns that off, which is what a
+menu-bar app with nothing else to show is expected to do. Two launches are not
+that: one that serves a client's request starts the service alone, and one a check
+drives orders the window in behind everything rather than taking the screen.
+Whether this app opens at login is the system's answer through `SMAppService`,
+read when the window comes forward and never copied into a preference of its own.
+
+The installed bundle is named the way Finder, Spotlight and Login Items read it,
+and carries an icon drawn by [a script](../../scripts/render-app-icon.swift) and
+checked in beside this README, because a build is not a drawing step.
+
 `--probe <name>` selects a native capture probe instead, which runs without the menu
 bar and without the service; any other argument is an ordinary launch. Frame, recovery and capture behavior all
 belong to [helpers/mac](../../helpers/mac/README.md).

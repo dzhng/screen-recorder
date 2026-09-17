@@ -2453,3 +2453,41 @@ export controls. The choices below are the ones that change behavior or format.
   - **Why not rename the development identity:** the screen permission already granted
     to test builds would be lost.
 
+
+## Settings window — 2026-09-18
+
+- **A refused screen request this launch is what "denied" means.** macOS exposes
+  screen recording access as one boolean preflight; unlike the microphone there is no
+  "not asked yet" to read. `CGRequestScreenCaptureAccess` shows its prompt once ever
+  and afterwards answers false without asking anything, so a request that came back
+  refused in this launch is what tells the controls to stop offering a prompt and
+  offer the privacy pane instead. A relaunch offers the prompt once more, which costs
+  a person one click and never claims an access state macOS did not report.
+- **A launch that serves a client request opens no window.** Discovery starts the app
+  so a CLI or MCP call has a service; nobody asked to see the app then. That launch
+  carries `SCREENREC_SERVICE_LAUNCH=1` and skips the window, so an agent's call never
+  puts a window in front of whatever a person is doing. A person's own launch, and a
+  reopen from Finder or Spotlight, still opens it.
+- **Checks never activate this app and never read a person's defaults.** The app's
+  preferences live in `UserDefaults`, so a check that launched the bundle would
+  otherwise read and write the same domain a person's app uses, and the window would
+  take the screen on every run. A launch names its own domain through
+  `SCREENREC_DEFAULTS`, an absolute scratch path production ignores unless it is set,
+  and a launch the controls fixture drives orders the window in behind everything
+  instead of activating. Screenshots were brought forward through the accessibility
+  API instead of synthetic clicks, which would have landed in whatever window was
+  actually in front.
+- **Access states for screenshots are displayed, not recorded.** A capture of the
+  denied and unanswered rows states its access through `SCREENREC_FIXTURE_PERMISSIONS`,
+  which replaces what the window displays and nothing else. Changing this Mac's real
+  TCC record to take a picture would cost the development build the screen permission
+  every capture test depends on.
+- **The installed bundle is renamed, and the old name is replaced.** Finder, Spotlight
+  and Login Items show a bundle's file name, so `ScreenRecorder.app` read as one word
+  with no icon. The installer now writes `Screen Recorder.app` and removes a copy
+  installed under the old name when it carries the personal identity, because two
+  bundles of one app under one identity is what confuses Login Items.
+- **The icon is a checked-in `.icns` rendered by a script.** Icon Composer needs a full
+  Xcode, and this Mac has the command line tools, so the icon is drawn with Core
+  Graphics at the iconset sizes and packed by `iconutil`. macOS 26 may still frame a
+  legacy icon in its own container; the glyph is designed to read inside one.

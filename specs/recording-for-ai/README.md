@@ -39,6 +39,9 @@ install are implemented. Still needing the user:
 - **Physical checks:** capture, gestures, menu interaction and edited-cut audition for
   [01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md),
   [07](slices/07-menu-bar-controls.md) and [13](slices/13-edited-media.md).
+- **Login item:** turn Open at login on and off in the reinstalled
+  `~/Applications/Screen Recorder.app` and record what `SMAppService` answers
+  ([07a](slices/07a-settings-window.md)); an ad-hoc build in `dist/` reports `notFound`.
 
 Reinstall with `bun run install:personal` after quitting the running app, then run
 `screenrec model.prepare` once before recording narration.
