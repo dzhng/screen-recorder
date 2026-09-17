@@ -656,14 +656,20 @@ export class JobQueue {
   /** Aborts everything in flight and stops admitting starts. The catalog stays the store's to close. */
   async close(): Promise<void> {
     this.closed = true;
-    this.store.transaction(() => {
-      for (const attemptId of this.attempts.keys())
-        this.store.catalog
-          .prepare(
-            "UPDATE jobs SET state='failed',reason='interrupted',retryable=1 WHERE attemptId=? AND state='running'",
-          )
-          .run(attemptId);
-    });
+    let interruption: unknown;
+    try {
+      this.store.transaction(() => {
+        for (const attemptId of this.attempts.keys())
+          this.store.catalog
+            .prepare(
+              "UPDATE jobs SET state='failed',reason='interrupted',retryable=1 WHERE attemptId=? AND state='running'",
+            )
+            .run(attemptId);
+      });
+    } catch (error) {
+      // Running workers must still stop; startup marks any attempt left running as interrupted.
+      interruption = error;
+    }
     const contexts = [...this.activeContexts];
     for (const state of contexts) state.closed = true;
     for (const attempt of this.attempts.values()) attempt.controller.abort();
@@ -673,6 +679,7 @@ export class JobQueue {
       delete state.execute;
     }
     this.activeContexts.clear();
+    if (interruption) throw interruption;
   }
 
   /** A canceled attempt still owns its files until its executor has settled. */

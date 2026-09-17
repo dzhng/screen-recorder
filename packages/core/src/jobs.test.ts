@@ -552,6 +552,41 @@ test("shutdown rejects late success and leaves the attempt explicitly retryable"
   });
 });
 
+test("shutdown still stops running work when the catalog cannot record the interruption", async () => {
+  const { path, store, queue, started } = fixture();
+  const job = queue.submit({
+    recordingId: finished(store),
+    artifact: "frame",
+    lane: "frame",
+    input: "at=3",
+  });
+  const attempt = await started(job.attemptId);
+  const { DatabaseSync } = await import("node:sqlite");
+  const other = new DatabaseSync(path);
+  other.exec("BEGIN IMMEDIATE");
+  try {
+    let settled = false;
+    const closing = queue.close().finally(() => {
+      settled = true;
+    });
+    expect(attempt.signal.aborted).toBe(true);
+    await Promise.resolve();
+    expect(settled).toBe(false);
+    attempt.fail(new Error("stopped"));
+    await expect(closing).rejects.toMatchObject({ code: "STORAGE_BUSY" });
+    await queue.idle();
+  } finally {
+    other.exec("ROLLBACK");
+    other.close();
+  }
+  const restarted = open(path, "restart");
+  expect(restarted.queue.status(job)).toMatchObject({
+    state: "failed",
+    retryable: true,
+    published: null,
+  });
+});
+
 test("an executor submitting dependent work cannot exceed the frame capacity", async () => {
   const { store, queue: initial } = fixture();
   await initial.close();
