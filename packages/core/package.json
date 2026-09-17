@@ -128,7 +128,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check-types": "tsc -p tsconfig.check.json",
-    "test": "vitest run"
+    "test": "vitest run --maxWorkers=4"
   },
   "dependencies": {
     "zod": "4.6.5"

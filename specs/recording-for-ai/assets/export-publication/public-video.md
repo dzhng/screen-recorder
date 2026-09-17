@@ -50,8 +50,11 @@ pass 11. The [service suite](public-service.txt) passes 99. Build, type checks, 
 The initial default-parallel core run exceeded the unchanged five-second limit in
 [two I/O-heavy cases](public-core-initial-timeouts.txt); a core-only retry still
 [timed out in one](public-core-isolated-timeout.txt). Four workers passed all cases
-without changing tests or thresholds. This is bounded-worker evidence, not a claim
-that the default parallel runner is free of host-load sensitivity. A run overlapping
+without changing tests or thresholds. The default core command now uses that same
+four-worker ceiling; its [317-test rerun](core-default-bounded.txt) passes. This
+limits concurrent test-file processes without changing test coverage, per-test
+limits or the independently exercised product job concurrency. It does not guarantee
+identical timings under every host load. A run overlapping
 the format-schema merge used stale build output and is excluded from integration
 proof; the fresh build supplies the reported result.
 

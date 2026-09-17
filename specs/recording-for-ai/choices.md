@@ -2100,3 +2100,16 @@ records them. These choices add no public export choice or transcript readiness.
 - **Reach:** The accepted complete-package and narrated-transcript gates remain.
 - **Verdict:** sound; verified byte production now supplies the missing consumer.
 - **Confidence:** high; coordinated with the parent before implementation.
+
+## Core verification worker ceiling
+
+### Sound — medium confidence
+
+- **Run at most four core test files concurrently by default.** With the automatic
+  worker count, the file-heavy portable-index and storage fixtures exceeded their
+  existing five-second test limit; the same complete suite passed with four workers.
+  The core test command now carries that ceiling, so an ordinary run uses the
+  verified scheduling configuration. No test, assertion or timeout changed, and
+  tests of product concurrency still drive that concurrency themselves. The plan
+  did not specify test-process parallelism; four is a conservative host-work budget,
+  not a product capacity limit or guarantee against all host-load variation.
