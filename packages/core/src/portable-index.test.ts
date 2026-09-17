@@ -205,7 +205,9 @@ test("scene chunks, retained images and coverage remain readable after library r
   expect(() =>
     index.coveragePage({ identity: f.identity, candidateOrdinal: 259, afterSequence: 0 }),
   ).toThrow("outside");
-  expect(() => index.page({ identity: f.identity, afterOrdinal: 999 })).toThrow("Unknown");
+  expect(() => index.page({ identity: f.identity, afterOrdinal: 999 })).toThrow(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
   expect(() => index.page({ identity: { ...f.identity, generation: "wrong" } })).toThrow(
     "identity",
   );
@@ -342,7 +344,14 @@ test("shared retained index reads bind package continuations and preserve both r
       coverageCount: 2,
     });
     expect(() => read.frame(-1)).toThrow(expect.objectContaining({ code: "INVALID_PARAMS" }));
-    expect(() => read.frame(2)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+    for (const absent of [2, 3, 50]) {
+      expect(() => read.frame(absent)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+      expect(() => read.openRead(absent)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+      expect(() => read.coverage({ candidateOrdinal: absent })).toThrow(
+        expect.objectContaining({ code: "NOT_FOUND" }),
+      );
+    }
+    expect(() => read.openRead(-1)).toThrow(expect.objectContaining({ code: "INVALID_PARAMS" }));
     const image = read.openRead(1),
       bytes = Buffer.alloc(image.bytes);
     try {

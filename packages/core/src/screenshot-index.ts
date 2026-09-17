@@ -447,8 +447,9 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
     return rows.map(({ sequence, content }) => ({ sequence, ...JSON.parse(content) }));
   }
   openRead(identity: ScreenshotIndexIdentity, ordinal: number) {
-    const row = this.row(identity, "complete"),
-      entry = this.entry(identity, ordinal);
+    const row = this.row(identity, "complete");
+    this.readEntry(identity, ordinal);
+    const entry = this.entry(identity, ordinal);
     const { file } = openRetainedImage(
       join(this.checkedDirectory(identity, row), `${ordinal}.png`),
       JSON.parse(entry.frame),

@@ -15,17 +15,12 @@ type CoverageInput<R> = {
   cursor?: IndexCoverageCursor<R> | undefined;
   limit?: number | undefined;
 };
-type Reader = Pick<ScreenshotIndexReader, "page" | "coveragePage"> & {
+type Reader = Pick<ScreenshotIndexReader, "page" | "coveragePage" | "readEntry"> & {
   openRead(
     identity: ScreenshotIndexIdentity,
     ordinal: number,
   ): ReturnType<ScreenshotIndexStore["openRead"]>;
 };
-
-export function validateIndexOrdinal(ordinal: number): void {
-  if (!Number.isSafeInteger(ordinal) || ordinal < 0)
-    throw new CatalogError("INVALID_PARAMS", "Index ordinal must be a nonnegative integer");
-}
 
 export function validateIndexCoverageCursor<R extends IndexReadReference>(
   reference: R,
@@ -115,13 +110,7 @@ export class RetainedIndexRead<R extends IndexReadReference> {
     };
   }
   frame(ordinal: number) {
-    validateIndexOrdinal(ordinal);
-    const entry = this.reader.page({
-      identity: this.metadata,
-      limit: 1,
-      ...(ordinal === 0 ? {} : { afterOrdinal: ordinal - 1 }),
-    }).entries[0];
-    if (!entry) throw new CatalogError("NOT_FOUND", "Selected index frame does not exist");
+    const entry = this.reader.readEntry(this.metadata, ordinal);
     return {
       ...structuredClone(this.reference),
       ordinal,

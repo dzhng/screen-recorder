@@ -186,7 +186,9 @@ test("pages and filtered coverage remain bounded and reject unrelated anchors", 
     [2, { startUs: 3_000_000, endUs: 6_000_000 }, "sampled"],
     [3, { startUs: 6_000_000, endUs: 10_000_000 }, "unproven"],
   ]);
-  expect(() => f.index.page({ identity: f.identity, afterOrdinal: 50 })).toThrow("Unknown");
+  expect(() => f.index.page({ identity: f.identity, afterOrdinal: 50 })).toThrow(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
   expect(() => f.index.page({ identity: f.identity, limit: 201 })).toThrow("limit");
   expect(() =>
     f.index.coveragePage({ identity: f.identity, candidateOrdinal: 0, afterSequence: 1 }),

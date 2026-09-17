@@ -1,8 +1,4 @@
-import {
-  RetainedIndexRead,
-  validateIndexOrdinal,
-  validateIndexCoverageCursor,
-} from "./index-read.js";
+import { RetainedIndexRead, validateIndexCoverageCursor } from "./index-read.js";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError, type RevisionStore } from "./library.js";
@@ -162,7 +158,6 @@ export class IndexProcessing {
   }
 
   frame(input: IndexFrameReference) {
-    validateIndexOrdinal(input.ordinal);
     return this.read(input).frame(input.ordinal);
   }
 
