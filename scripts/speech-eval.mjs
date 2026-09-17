@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile, readdir, realpath } from "node:fs/promises"
 import { createReadStream, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { resolve, join, basename, dirname } from "node:path";
+import { resolve, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { arch, release } from "node:os";
 import { engines, normalize } from "../packages/test-harness/speech/engines.mjs";
@@ -52,57 +52,36 @@ async function hashes(directory, prefix = "") {
   return output;
 }
 function setupPlan(engine, cache) {
-  const source = join(cache, "source"),
-    models = join(cache, engine.assetDirectory);
-  const plan = [
+  const source = join(cache, "source");
+  return [
     ["git", ["clone", "--depth", "1", "--branch", engine.version, engine.repository, source]],
     ["git", ["-C", source, "rev-parse", "HEAD"]],
     [
       "hf",
       [
         "download",
-        engine.modelRepo,
+        engine.model.repo,
         "--revision",
-        engine.modelRevision,
+        engine.model.revision,
         "--local-dir",
-        models,
-        ...engine.include.flatMap((pattern) => ["--include", pattern]),
+        join(cache, engine.model.folderName),
+        ...engine.model.files.flatMap((file) => ["--include", file.path]),
+      ],
+    ],
+    [
+      "swift",
+      [
+        "build",
+        "-c",
+        "release",
+        "--package-path",
+        source,
+        "--product",
+        engine.product,
+        ...engine.buildArguments,
       ],
     ],
   ];
-  if (engine.tokenizer)
-    plan.push([
-      "hf",
-      [
-        "download",
-        engine.tokenizer.repo,
-        "--revision",
-        engine.tokenizer.revision,
-        "--local-dir",
-        join(cache, "tokenizer"),
-        ...[
-          "config.json",
-          "tokenizer.json",
-          "tokenizer_config.json",
-          "README.md",
-          "LICENSE*",
-        ].flatMap((pattern) => ["--include", pattern]),
-      ],
-    ]);
-  plan.push([
-    "swift",
-    [
-      "build",
-      "-c",
-      "release",
-      "--package-path",
-      source,
-      "--product",
-      engine.product,
-      ...engine.buildArguments,
-    ],
-  ]);
-  return plan;
 }
 async function externalCache(path) {
   const cache = resolve(path);
@@ -125,12 +104,13 @@ async function main() {
   }
   if (!["plan", "prepare", "run"].includes(action) || !engines[first] || !second) {
     console.log(
-      "Usage:\n  node scripts/speech-eval.mjs plan|prepare ENGINE CACHE\n  node scripts/speech-eval.mjs run ENGINE CACHE CLIP.json OUTPUT_DIRECTORY\n  node scripts/speech-eval.mjs evaluate DATASET.json RUNS.json\nEngines: parakeet, whisperkit. prepare downloads and builds; plan only prints commands.\nrun reads only the explicit audioPath in CLIP.json and denies inference network.\nEvaluation exit codes: 0 pass, 1 fail/error, 2 pending.",
+      "Usage:\n  node scripts/speech-eval.mjs plan|prepare ENGINE CACHE\n  node scripts/speech-eval.mjs run ENGINE CACHE CLIP.json OUTPUT_DIRECTORY\n  node scripts/speech-eval.mjs evaluate DATASET.json RUNS.json\nEngines: parakeet. prepare downloads and builds; plan only prints commands.\nrun reads only the explicit audioPath in CLIP.json and denies inference network.\nEvaluation exit codes: 0 pass, 1 fail/error, 2 pending.",
     );
     if (action && action !== "--help") process.exitCode = 1;
     return;
   }
   const engine = engines[first];
+  const { model, ...runtime } = engine;
   if (action === "plan") {
     console.log(JSON.stringify({ engine, commands: setupPlan(engine, resolve(second)) }, null, 2));
     return;
@@ -149,17 +129,24 @@ async function main() {
       if (args.includes("rev-parse") && output !== engine.revision)
         throw new Error("Runtime checkout does not match pinned revision");
     }
+    const modelFiles = await hashes(join(cache, model.folderName));
+    if (
+      Object.keys(modelFiles).length !== model.files.length ||
+      model.files.some((file) => modelFiles[file.path] !== file.sha256)
+    )
+      throw new Error("Prepared model files differ from the pinned speech model");
     await save(join(cache, "provenance.json"), {
       engine: first,
-      ...engine,
+      ...runtime,
+      modelRepo: model.repo,
+      modelRevision: model.revision,
       preparedAt: new Date().toISOString(),
       swift: command("swift", ["--version"], undefined, true),
       binarySha256: await sha(join(source, ".build", "release", engine.product)),
       packageResolvedSha256: existsSync(join(source, "Package.resolved"))
         ? await sha(join(source, "Package.resolved"))
         : null,
-      modelFiles: await hashes(join(cache, engine.assetDirectory)),
-      tokenizerFiles: engine.tokenizer ? await hashes(join(cache, "tokenizer")) : null,
+      modelFiles,
     });
     return;
   }
@@ -174,17 +161,12 @@ async function main() {
   if (
     provenance.engine !== first ||
     provenance.revision !== engine.revision ||
-    provenance.modelRevision !== engine.modelRevision ||
+    provenance.modelRevision !== model.revision ||
     command("git", ["-C", source, "rev-parse", "HEAD"], undefined, true) !== engine.revision
   )
     throw new Error("Prepared runtime/model identity mismatch");
-  if (
-    JSON.stringify(await hashes(join(cache, engine.assetDirectory))) !==
-      JSON.stringify(provenance.modelFiles) ||
-    (engine.tokenizer &&
-      JSON.stringify(await hashes(join(cache, "tokenizer"))) !==
-        JSON.stringify(provenance.tokenizerFiles))
-  )
+  const modelDirectory = join(cache, model.folderName);
+  if (JSON.stringify(await hashes(modelDirectory)) !== JSON.stringify(provenance.modelFiles))
     throw new Error("Prepared model assets changed");
   const output = resolve(fourth);
   await mkdir(output, { recursive: true });
@@ -192,39 +174,18 @@ async function main() {
   await mkdir(runDirectory);
   const rawDirectory = join(runDirectory, "upstream");
   await mkdir(rawDirectory);
-  const model = join(cache, engine.assetDirectory, engine.modelFolder);
-  const rawPath = join(
-    rawDirectory,
-    first === "parakeet" ? "raw.json" : basename(audio).replace(/\.[^.]*$/, "") + ".json",
-  );
-  const args =
-    first === "parakeet"
-      ? [
-          "transcribe",
-          audio,
-          "--model-version",
-          "v2",
-          "--model-dir",
-          model,
-          "--word-timestamps",
-          "--output-json",
-          rawPath,
-        ]
-      : [
-          "transcribe",
-          "--model-path",
-          model,
-          "--download-tokenizer-path",
-          join(cache, "tokenizer"),
-          "--audio-path",
-          audio,
-          "--language",
-          "en",
-          "--word-timestamps",
-          "--report",
-          "--report-path",
-          rawDirectory,
-        ];
+  const rawPath = join(rawDirectory, "raw.json");
+  const args = [
+    "transcribe",
+    audio,
+    "--model-version",
+    "v2",
+    "--model-dir",
+    modelDirectory,
+    "--word-timestamps",
+    "--output-json",
+    rawPath,
+  ];
   const binary = join(source, ".build", "release", engine.product);
   if ((await sha(binary)) !== provenance.binarySha256)
     throw new Error("Prepared executable changed; prepare again");
@@ -251,10 +212,9 @@ async function main() {
     clipId: clip.id,
     engine: first,
     runtimeRevision: engine.revision,
-    modelRevision: engine.modelRevision,
+    modelRevision: model.revision,
     audioSha256: clip.audioSha256,
     modelFiles: provenance.modelFiles,
-    tokenizerFiles: provenance.tokenizerFiles,
     binarySha256: await sha(binary),
     hardware: { arch: arch(), release: release() },
     network: "sandbox-deny-network",
@@ -262,7 +222,7 @@ async function main() {
     elapsedSeconds,
     peakRssBytes,
     warm: false,
-    ...normalize(first, await json(rawPath)),
+    ...normalize(await json(rawPath)),
   };
   await save(join(runDirectory, "result.json"), result);
   console.log(join(runDirectory, "result.json"));

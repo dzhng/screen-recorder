@@ -1,11 +1,13 @@
 # Local speech experiment
 
-Run `node scripts/speech-eval.mjs --help` from the repository root. `plan` prints
-pinned acquisition commands without changing files; `prepare` downloads only one
-candidate and builds its upstream CLI outside the repository. This preparation
-harness does not install both engines into the product. Select one only after the
-[real narration gate](../../../specs/recording-for-ai/slices/04-local-speech-gate.md)
-passes through the intended production configuration.
+Build core, then run `node scripts/speech-eval.mjs --help` from the repository
+root. `plan` prints pinned acquisition commands without changing files; `prepare`
+downloads the Parakeet model and builds the upstream FluidAudio CLI outside the
+repository. The model files, sizes and hashes are the ones core's
+[speech model owner](../../core/src/speech-models.ts) prepares for the product, and
+`prepare` refuses a download that differs from them. Parakeet is the engine
+[selected](../../../specs/recording-for-ai/slices/04-local-speech-gate.md) by this
+experiment.
 
 ## Evidence belongs to the audio
 
@@ -25,7 +27,7 @@ which real clips exercise `repetition`, `false-start`, `silence`, and
 `technical-names`. The complete labeling, including ordinary neighboring words,
 is necessary for useful boundary measurements.
 
-Pass a JSON array of normalized results to `evaluate`. Evaluate each candidate
+Pass a JSON array of normalized results to `evaluate`. Evaluate each model
 separately: mixing model or executable identities is rejected. Human review adds
 `audition: { "reviewer": "name", "neighboringSpeechIntact": true }` to each result
 only after listening to actual removals at its returned ranges. Keep the raw
@@ -59,18 +61,16 @@ word timing support nor a vendor throughput claim establishes edit safety.
 
 ## Upstream provenance and notices
 
-[engines.mjs](engines.mjs) owns runtime commits, model snapshot commits, asset
-filters, and license identities. Source checkouts retain upstream LICENSE/NOTICES;
-model staging retains model cards and available licenses. FluidAudio code is
-Apache-2.0 and its converted Parakeet v2 weights are CC-BY-4.0; WhisperKit code and
-its model repository declare MIT. Preserve these notices and model attribution if
+[engines.mjs](engines.mjs) owns the runtime commit and license identities; the model
+snapshot and its files come from core. Source checkouts retain upstream
+LICENSE/NOTICES; the model card carries the model license, as the model repository
+has no LICENSE file. FluidAudio code is Apache-2.0 and its converted Parakeet v2
+weights are CC-BY-4.0. Preserve these notices and model attribution if
 redistributing assets. No upstream code or weights are vendored by this harness.
 
 The pinned [FluidAudio CLI](https://github.com/FluidInference/FluidAudio/blob/v0.15.7/Sources/FluidAudioCLI/Commands/ASR/Parakeet/SlidingWindow/TranscribeCommand.swift)
-merges subword timings at whitespace boundaries. The pinned
-[WhisperKit decoder options](https://github.com/argmaxinc/argmax-oss-swift/blob/v1.1.0/Sources/WhisperKit/Core/Configurations.swift)
-require word timestamps explicitly. Both probe CLIs have broader package build
-surfaces than a final application importing the single selected Swift product.
+merges subword timings at whitespace boundaries. The probe CLI has a broader package
+build surface than a final application importing the single selected Swift product.
 
 FluidAudio resolves the parent of a supplied model path and appends its own
 version-specific folder name. Its explicit asset directory therefore matches that

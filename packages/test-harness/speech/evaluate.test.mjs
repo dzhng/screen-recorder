@@ -36,7 +36,7 @@ test("results from different model configurations cannot produce one passing sco
     () =>
       evaluate({ clips: [], fillerTerms: [] }, [
         { clipId: "one", engine: "parakeet", modelRevision: "a" },
-        { clipId: "two", engine: "whisperkit", modelRevision: "b" },
+        { clipId: "two", engine: "parakeet", modelRevision: "b" },
       ]),
     /Mixed model/,
   );
