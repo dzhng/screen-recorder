@@ -252,24 +252,24 @@ public final class CaptureJournal {
         }
         let end = try readRecords(directory: directory, maximumBytes: maximumBytes) {
             line in
-            let event: (name: String, data: Data)
+            let record: JournalEntry
             do {
-                event = try apply(line, to: &summary)
+                record = try JSONDecoder().decode(JournalEntry.self, from: line)
+                try record.check(following: summary.lastSequence)
             } catch {
                 summary.invalidAtSequence = summary.lastSequence + 1
                 return false
             }
-            switch event.name {
-            case "pauseEnded":
-                if let completed = try JSONDecoder().decode(JournalPauseEnd.self, from: event.data)
-                    .pause
-                {
-                    try emitPause(completed)
-                }
-            case "pausePlaced":
-                try emitPause(JSONDecoder().decode(PauseEvent.self, from: event.data))
-            case "audioSamples":
-                let next = try JSONDecoder().decode(JournalAudioSamples.self, from: event.data)
+            summary.lastSequence = record.sequence
+            switch record.event {
+            case .header(let header): summary.header = header
+            case .origin(let hostUs): summary.originHostUs = hostUs
+            case .pauseBegan(let hostUs): summary.openPauseHostUs = hostUs
+            case .pauseEnded(let completed):
+                summary.openPauseHostUs = nil
+                if let completed { try emitPause(completed) }
+            case .pausePlaced(let placed): try emitPause(placed)
+            case .audioSamples(let next):
                 if let previous = pendingAudio[next.role] {
                     // Acquisition timestamps are monotonic per role. A one-microsecond rounding
                     // seam is contiguous; larger holes must remain visible to recovery and export.
@@ -284,14 +284,21 @@ public final class CaptureJournal {
                 } else {
                     pendingAudio[next.role] = next
                 }
-            case "geometry":
-                try geometry(JSONDecoder().decode(JournalGeometry.self, from: event.data))
-            case "cursorSamples":
-                try samples(
-                    JSONDecoder().decode(JournalCursorSamples.self, from: event.data).samples)
-            case "displaySpace":
-                try displaySpace(JSONDecoder().decode(JournalDisplaySpace.self, from: event.data))
-            default: break
+            case .geometry(let observed):
+                summary.geometryEpochs = observed.epoch
+                summary.lastGeometry = observed.geometry
+                try geometry(observed)
+            case .cursorSamples(let batch):
+                summary.cursorSamples += batch.count
+                summary.firstCursorSourceUs = summary.firstCursorSourceUs ?? batch.first?.sourceUs
+                summary.lastCursorSourceUs = batch.last?.sourceUs ?? summary.lastCursorSourceUs
+                try samples(batch)
+            case .displaySpace(let space):
+                summary.zeroOriginHeight = space.zeroOriginHeight
+                try displaySpace(space)
+            case .lifecycle(let lifecycle): summary.lastLifecycle = lifecycle
+            case .finished: summary.finished = true
+            case .other: break
             }
             return true
         }
@@ -312,89 +319,97 @@ public final class CaptureJournal {
             directory: directory, maximumBytes: nil, retainTiming: true,
             geometry: { _ in }, samples: { _ in }, displaySpace: { _ in })
     }
-
-    /// Folds one record into the summary and hands back the event it was, so a streaming reader
-    /// decodes the payload this call already validated instead of re-deriving it.
-    private static func apply(
-        _ line: Data, to summary: inout CaptureJournalSummary
-    ) throws -> (
-        name: String, data: Data
-    ) {
-        guard
-            let record = try JSONSerialization.jsonObject(with: line) as? [String: Any],
-            let sequence = record["sequence"] as? Int,
-            sequence == summary.lastSequence + 1,
-            let event = record["event"] as? String, sequence > 1 || event == "header",
-            let data = record["data"] as? [String: Any]
-        else {
-            throw CaptureFailure("INVALID_JOURNAL", "Invalid journal record.")
-        }
-        let encoded = try JSONSerialization.data(withJSONObject: data)
-        // Decode timing payloads through their written types so malformed fields
-        // reject the record instead of silently erasing previously observed timing.
-        switch event {
-        case "header":
-            let header = try JSONDecoder().decode(
-                CaptureJournalHeader.self, from: encoded)
-            guard sequence == 1, header.schemaVersion == 1 else {
-                throw CaptureFailure("INVALID_JOURNAL", "Invalid journal header.")
-            }
-            summary.header = header
-        case "origin":
-            summary.originHostUs = try JSONDecoder().decode(
-                JournalHostTime.self, from: encoded
-            ).hostUs
-        case "pauseBegan":
-            summary.openPauseHostUs = try JSONDecoder().decode(
-                JournalHostTime.self, from: encoded
-            ).hostUs
-        case "pauseEnded":
-            let ended = try JSONDecoder().decode(JournalPauseEnd.self, from: encoded)
-            if let pause = ended.pause, pause.atSourceUs < 0 || pause.elapsedPauseUs < 0 {
-                throw CaptureFailure("INVALID_JOURNAL", "Invalid pause interval.")
-            }
-            summary.openPauseHostUs = nil
-        case "pausePlaced":
-            let pause = try JSONDecoder().decode(PauseEvent.self, from: encoded)
-            guard pause.atSourceUs >= 0, pause.elapsedPauseUs >= 0 else {
-                throw CaptureFailure("INVALID_JOURNAL", "Invalid pause interval.")
-            }
-        case "audioSamples":
-            let samples = try JSONDecoder().decode(
-                JournalAudioSamples.self, from: encoded)
-            guard ["narration", "system"].contains(samples.role),
-                samples.startUs >= 0, samples.endUs > samples.startUs
-            else { throw CaptureFailure("INVALID_JOURNAL", "Invalid audio acquisition interval.") }
-        case "geometry":
-            let event = try JSONDecoder().decode(JournalGeometry.self, from: encoded)
-            summary.geometryEpochs = event.epoch
-            summary.lastGeometry = event.geometry
-        case "cursorSamples":
-            let batch = try JSONDecoder().decode(
-                JournalCursorSamples.self, from: encoded)
-            summary.cursorSamples += batch.samples.count
-            summary.firstCursorSourceUs =
-                summary.firstCursorSourceUs ?? batch.samples.first?.sourceUs
-            summary.lastCursorSourceUs =
-                batch.samples.last?.sourceUs ?? summary.lastCursorSourceUs
-        case "displaySpace":
-            summary.zeroOriginHeight = try JSONDecoder().decode(
-                JournalDisplaySpace.self, from: encoded
-            ).zeroOriginHeight
-        case "lifecycle":
-            summary.lastLifecycle = try JSONDecoder().decode(JournalLifecycle.self, from: encoded)
-        case "finished": summary.finished = true
-        default: break
-        }
-        summary.lastSequence = sequence
-        return (name: event, data: encoded)
-    }
 }
 
 private struct JournalRecord<Event: Encodable>: Encodable {
     let sequence: Int
     let event: String
     let data: Event
+}
+
+/// One journal line, decoded once through the payload type its event name declares. A payload
+/// that will not decode through that type rejects the whole record rather than leaving a boundary
+/// silently empty.
+private struct JournalEntry: Decodable {
+    enum Event {
+        case header(CaptureJournalHeader)
+        case origin(Int64)
+        case pauseBegan(Int64)
+        case pauseEnded(PauseEvent?)
+        case pausePlaced(PauseEvent)
+        case audioSamples(JournalAudioSamples)
+        case geometry(JournalGeometry)
+        case cursorSamples([CursorSample])
+        case displaySpace(JournalDisplaySpace)
+        case lifecycle(JournalLifecycle)
+        case finished
+        case other
+    }
+
+    private enum CodingKeys: String, CodingKey { case sequence, event, data }
+    private struct AnyKey: CodingKey {
+        let stringValue: String
+        var intValue: Int? { nil }
+        init?(stringValue: String) { self.stringValue = stringValue }
+        init?(intValue: Int) { nil }
+    }
+
+    let sequence: Int
+    let name: String
+    let event: Event
+
+    init(from decoder: Decoder) throws {
+        let record = try decoder.container(keyedBy: CodingKeys.self)
+        sequence = try record.decode(Int.self, forKey: .sequence)
+        name = try record.decode(String.self, forKey: .event)
+        // Every event carries an object payload, including events this reader does not interpret.
+        _ = try record.nestedContainer(keyedBy: AnyKey.self, forKey: .data)
+        func payload<T: Decodable>(_ type: T.Type) throws -> T {
+            try record.decode(type, forKey: .data)
+        }
+        func invalid(_ message: String) -> CaptureFailure {
+            CaptureFailure("INVALID_JOURNAL", message)
+        }
+        switch name {
+        case "header":
+            let header = try payload(CaptureJournalHeader.self)
+            guard header.schemaVersion == 1 else { throw invalid("Invalid journal header.") }
+            event = .header(header)
+        case "origin": event = .origin(try payload(JournalHostTime.self).hostUs)
+        case "pauseBegan": event = .pauseBegan(try payload(JournalHostTime.self).hostUs)
+        case "pauseEnded":
+            let ended = try payload(JournalPauseEnd.self)
+            if let pause = ended.pause, pause.atSourceUs < 0 || pause.elapsedPauseUs < 0 {
+                throw invalid("Invalid pause interval.")
+            }
+            event = .pauseEnded(ended.pause)
+        case "pausePlaced":
+            let pause = try payload(PauseEvent.self)
+            guard pause.atSourceUs >= 0, pause.elapsedPauseUs >= 0 else {
+                throw invalid("Invalid pause interval.")
+            }
+            event = .pausePlaced(pause)
+        case "audioSamples":
+            let samples = try payload(JournalAudioSamples.self)
+            guard ["narration", "system"].contains(samples.role),
+                samples.startUs >= 0, samples.endUs > samples.startUs
+            else { throw invalid("Invalid audio acquisition interval.") }
+            event = .audioSamples(samples)
+        case "geometry": event = .geometry(try payload(JournalGeometry.self))
+        case "cursorSamples": event = .cursorSamples(try payload(JournalCursorSamples.self).samples)
+        case "displaySpace": event = .displaySpace(try payload(JournalDisplaySpace.self))
+        case "lifecycle": event = .lifecycle(try payload(JournalLifecycle.self))
+        case "finished": event = .finished
+        default: event = .other
+        }
+    }
+
+    /// Records are numbered from one without gaps, and only the first is the header.
+    func check(following lastSequence: Int) throws {
+        guard sequence == lastSequence + 1, (sequence == 1) == (name == "header") else {
+            throw CaptureFailure("INVALID_JOURNAL", "Invalid journal record.")
+        }
+    }
 }
 
 /// A device transition as native reported it.
