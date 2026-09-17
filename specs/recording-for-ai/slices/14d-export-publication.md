@@ -155,3 +155,6 @@ verified generated-media behavior from native-menu and narrated-package gates.
 The remaining complete-package work is in
 [14d3](14d3-processed-package.md). Its shared format identity refuses package creation
 before admission until the complete producer exists.
+
+[Export discovery](14d4-export-discovery.md) supplies persisted IDs after restart;
+the native release gate includes consuming it so unfinished exports remain visible.

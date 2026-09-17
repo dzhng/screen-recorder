@@ -18,7 +18,7 @@ const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 let produced;
 async function exportThroughClients({ home, recordingId, revisionId }) {
   // The fixture releases its catalog before this process becomes the sole writer.
-  const service = await startPublicService(home, executable);
+  let service = await startPublicService(home, executable);
   let mcp;
   try {
     const request = {
@@ -65,6 +65,56 @@ async function exportThroughClients({ home, recordingId, revisionId }) {
     assert.equal(committed.receipt.sha256, sha(await readFile(produced)));
     const retry = publicCommand(service.socket, "export.retry", { exportId: request.exportId });
     assert.deepEqual(retry.receipt, committed.receipt);
+    const collisionId = randomUUID();
+    publicCommand(service.socket, "export.create", { ...request, exportId: collisionId });
+    await until(
+      () =>
+        publicCommand(service.socket, "export.status", { exportId: collisionId }).state ===
+        "failed",
+      "Collision export did not settle",
+    );
+    await mcp.close();
+    mcp = undefined;
+    await service.close();
+    service = await startPublicService(home, executable);
+    for (const params of [{ limit: 501 }, { unfinishedOnly: "yes" }, { typo: true }]) {
+      const invalid = await service.call("export.list", params);
+      assert.equal(invalid.ok, false);
+      assert.equal(invalid.error.code, "INVALID_PARAMS");
+    }
+    const discovered = publicCommand(service.socket, "export.list", { recordingId, limit: 1 });
+    const rest = publicCommand(service.socket, "export.list", {
+      recordingId,
+      cursor: discovered.nextCursor,
+    });
+    assert.deepEqual(
+      [...discovered.exports, ...rest.exports].map((row) => row.exportId).sort(),
+      [request.exportId, collisionId].sort(),
+    );
+    mcp = await connectPublicMcp(service.socket, "export-rediscovery-after-restart");
+    const unfinished = await mcp.callTool({
+      name: "export.list",
+      arguments: { recordingId, unfinishedOnly: true },
+    });
+    assert.equal(unfinished.isError, false, JSON.stringify(unfinished));
+    assert.deepEqual(
+      unfinished.structuredContent.data.exports.map((row) => [
+        row.exportId,
+        row.state,
+        row.cleanupPending,
+      ]),
+      [[collisionId, "failed", true]],
+    );
+    const rediscovered = publicCommand(service.socket, "export.status", {
+      exportId: request.exportId,
+    });
+    assert.deepEqual(rediscovered.receipt, committed.receipt);
+    publicCommand(service.socket, "export.abandon", { exportId: collisionId });
+    assert.deepEqual(
+      publicCommand(service.socket, "export.list", { unfinishedOnly: true }).exports,
+      [],
+    );
+    assert.equal(sha(await readFile(produced)), committed.receipt.sha256);
   } finally {
     try {
       await mcp?.close();

@@ -405,6 +405,72 @@ if (process.argv[2] === "crash-owner") {
   );
   if (gap === "abandon") await crashed.exports.abandon(existing.exportId);
 } else {
+  test("export discovery pages pinned summaries without admitting work and binds cursor filters", async (t) => {
+    const f = await fixture(t, (value) => value, undefined, { admission: false });
+    const ids = [1, 2, 3].map((value) => `${value}0000000-0000-4000-8000-000000000000`);
+    for (const exportId of ids)
+      await f.exports.create({
+        kind: "video",
+        exportId,
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: exportId + ".mp4",
+      });
+    const page = f.exports.list({ limit: 2, unfinishedOnly: true });
+    assert.deepEqual(
+      page.exports.map((row) => row.exportId),
+      ids.slice(0, 2),
+    );
+    assert.deepEqual(page.exports[0], {
+      exportId: ids[0],
+      recordingId: f.take.recordingId,
+      kind: "video",
+      revisionId: "r0",
+      state: "queued",
+      abandoning: false,
+      cleanupPending: false,
+    });
+    assert.throws(() => f.exports.list({ cursor: page.nextCursor }), /cursor.*filters/i);
+    assert.throws(
+      () =>
+        f.exports.list({
+          unfinishedOnly: true,
+          recordingId: f.take.recordingId,
+          cursor: page.nextCursor,
+        }),
+      /cursor.*filters/i,
+    );
+    assert.deepEqual(
+      f.exports
+        .list({ unfinishedOnly: true, cursor: page.nextCursor })
+        .exports.map((row) => row.exportId),
+      ids.slice(2),
+    );
+    const arrival = "00000000-0000-4000-8000-000000000000";
+    await f.exports.create({
+      kind: "video",
+      exportId: arrival,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "new.mp4",
+    });
+    assert.deepEqual(
+      f.exports
+        .list({ unfinishedOnly: true, cursor: page.nextCursor })
+        .exports.map((row) => row.exportId),
+      [ids[2]],
+    );
+    assert.equal(f.exports.list({ unfinishedOnly: true }).exports[0].exportId, arrival);
+    assert.deepEqual(f.exports.list({ recordingId: randomUUID() }).exports, []);
+    await f.exports.abandon(arrival);
+    await f.exports.abandon(ids[1]);
+    assert.deepEqual(
+      f.exports.list({}).exports.map((row) => row.exportId),
+      [ids[0], ids[2]],
+    );
+    assert.deepEqual(await readdir(f.output), []);
+    assert.equal(f.exports.status(ids[0]).state, "queued");
+  });
   test("explicit recovery refreshes a negative observation when the same committed file returns", async (t) => {
     const { reopened: f, exportId } = await crashFixture(t, "commit");
     const destination = join(f.output, "recovered.mp4"),
@@ -690,6 +756,12 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(nativeCalls, before);
     await assert.rejects(f.exports.abandon(exportId));
     assert.equal(f.exports.status(exportId).abandoning, true);
+    assert.deepEqual(
+      f.exports
+        .list({ unfinishedOnly: true })
+        .exports.map((row) => [row.exportId, row.abandoning, row.cleanupPending]),
+      [[exportId, true, false]],
+    );
     await rename(moved, f.output);
     await f.exports.abandon(exportId);
     assert.deepEqual(await readdir(f.output), ["moved.mp4"]);
@@ -820,6 +892,12 @@ if (process.argv[2] === "crash-owner") {
     await mkdir(stage, { mode: 0o700 });
     await writeFile(join(stage, "unrelated"), "do not delete");
     await assert.rejects(f.exports.abandon(exportId), { code: "PUBLICATION_CHANGED" });
+    assert.deepEqual(
+      f.exports
+        .list({ unfinishedOnly: true })
+        .exports.map((row) => [row.exportId, row.abandoning, row.cleanupPending]),
+      [[exportId, true, true]],
+    );
     assert.equal(f.exports.status(exportId).abandoning, true);
     assert.equal(f.exports.retainsSource(f.take.recordingId, generation), true);
     assert.equal(
@@ -2106,6 +2184,12 @@ if (process.argv[2] === "crash-owner") {
     await f.jobs.idle();
     const committed = f.exports.status(created.exportId);
     assert.equal(committed.state, "committed", JSON.stringify(committed));
+    assert.deepEqual(
+      f.exports
+        .list({ unfinishedOnly: true })
+        .exports.map((row) => [row.exportId, row.state, row.cleanupPending]),
+      [[created.exportId, "committed", true]],
+    );
     const original = await readFile(committed.output);
     const reservation = JSON.parse(
       f.store.catalog
@@ -2157,6 +2241,8 @@ if (process.argv[2] === "crash-owner") {
       null,
     );
     assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, 0);
+    assert.deepEqual(f.exports.list({ unfinishedOnly: true }).exports, []);
+    assert.equal(f.exports.list({}).exports[0].cleanupPending, false);
     assert.deepEqual(await readFile(join(moved, "historical.zip")), original);
     await rename(moved, f.output);
   });

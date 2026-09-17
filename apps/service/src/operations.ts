@@ -134,6 +134,8 @@ export async function operate(
     switch (operation.operation) {
       case "export.create":
         return { ok: true, data: await exports.create(operation.params) };
+      case "export.list":
+        return { ok: true, data: exports.list(operation.params) };
       case "export.status":
         return { ok: true, data: exports.status(operation.params.exportId) };
       case "export.retry":

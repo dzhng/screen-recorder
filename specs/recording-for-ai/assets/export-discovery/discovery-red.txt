@@ -1,0 +1,20 @@
+(node:66230) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ export discovery pages pinned summaries without admitting work and binds cursor filters (245.935584ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 337.858917
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:408:3
+✖ export discovery pages pinned summaries without admitting work and binds cursor filters (245.935584ms)
+  TypeError: f.exports.list is not a function
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-export-publication/apps/service/tests/video-export.mjs:412:28)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)

@@ -88,6 +88,29 @@ export const operationSchema = z.discriminatedUnion("operation", [
     ),
   z
     .object({
+      operation: z.literal("export.list"),
+      params: z
+        .object({
+          recordingId: id.optional(),
+          unfinishedOnly: z.boolean().optional(),
+          limit: z.int().min(1).max(500).optional(),
+          cursor: z
+            .object({
+              recordingId: id.nullable(),
+              unfinishedOnly: z.boolean(),
+              afterExportId: z.uuid(),
+            })
+            .strict()
+            .optional(),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Discover persisted export summaries after restart without starting work. Defaults to 100, maximum 500. unfinishedOnly includes uncommitted exports, abandonment and private cleanup. Cursor binds recordingId and unfinishedOnly. Pages follow live lexical export IDs; start a fresh traversal for new arrivals before your cursor. Use export.status for details.",
+    ),
+  z
+    .object({
       operation: z.literal("export.status"),
       params: z.object({ exportId: z.uuid() }).strict(),
     })

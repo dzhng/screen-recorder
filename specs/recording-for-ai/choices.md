@@ -2236,3 +2236,19 @@ records them. These choices add no public export choice or transcript readiness.
   The operation returns readiness errors until both evidence owners have published,
   rather than claim a complete timeline while silently omitting scene boundaries.
   Transcript readiness is independent and does not gate timeline inspection.
+
+
+## Export discovery
+
+- **Sound, high confidence — Discovery is a live lexical page.** Existing UUID
+  identity orders rows without a new sequence or snapshot owner. Filters travel in
+  the cursor; new arrivals before its position require a new traversal. This makes
+  restart discovery explicit without claiming a frozen view of active work.
+- **Sound, high confidence — Cleanup does not rewrite publication truth.** A
+  committed export stays committed while its summary separately shows remaining
+  private cleanup. Abandonment stays visible even after byte cleanup. The unfinished
+  filter therefore finds actionable obligations without mislabeling external files.
+- **Sound, high confidence — Summary reads select before joining.** Bounded rows
+  expose IDs and state, with partial indexes excluding completed history for either
+  filter scope. Status retains details; discovery does not spawn filesystem work or
+  another recovery attempt merely because an app restarted.

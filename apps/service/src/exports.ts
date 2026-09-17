@@ -36,6 +36,18 @@ type Request = {
   directory: string;
   leaf: string;
 };
+type ExportCursor = { recordingId: string | null; unfinishedOnly: boolean; afterExportId: string };
+type ExportSummary = {
+  exportId: string;
+  recordingId: string;
+  kind: Request["kind"];
+  revisionId: string;
+  state: Exclude<Job["state"], "waiting"> | "committed" | "not_requested";
+  abandoning: boolean;
+  cleanupPending: boolean;
+};
+const unfinished =
+  "receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL OR (staging IS NOT NULL AND stagingCleared=0)";
 type Snapshot = ReturnType<RevisionStore["pinPackageSnapshot"]>["snapshot"];
 type ReadyPreview = Pick<PreviewArtifact, "cacheId" | "bytes"> & { generation: number };
 type Intent = {
@@ -110,7 +122,9 @@ export class RecordingExports {
       abandoning INTEGER NOT NULL DEFAULT 0 CHECK(abandoning IN (0,1))
     ) STRICT; CREATE INDEX IF NOT EXISTS export_intents_pending ON export_intents(recordingId) WHERE receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL;
     CREATE INDEX IF NOT EXISTS export_intents_storage ON export_intents(exportId) WHERE staging IS NOT NULL AND stagingCleared=0;
-    CREATE INDEX IF NOT EXISTS export_intents_recording ON export_intents(recordingId,exportId);`);
+    CREATE INDEX IF NOT EXISTS export_intents_recording ON export_intents(recordingId,exportId);
+    CREATE INDEX IF NOT EXISTS export_discovery_unfinished ON export_intents(exportId) WHERE ${unfinished};
+    CREATE INDEX IF NOT EXISTS export_discovery_recording_unfinished ON export_intents(recordingId,exportId) WHERE ${unfinished};`);
   }
   private find(exportId: string): Intent | null {
     const row = this.owners.store.catalog
@@ -544,6 +558,66 @@ export class RecordingExports {
     });
     this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
     return this.status(request.exportId);
+  }
+  list(
+    input: {
+      recordingId?: string | undefined;
+      unfinishedOnly?: boolean | undefined;
+      limit?: number | undefined;
+      cursor?: ExportCursor | undefined;
+    } = {},
+  ) {
+    const recordingId = input.recordingId ?? null,
+      unfinishedOnly = input.unfinishedOnly ?? false,
+      limit = input.limit ?? 100;
+    if (!Number.isInteger(limit) || limit < 1 || limit > 500)
+      throw new CatalogError("INVALID_PARAMS", "Export page limit must be between 1 and 500");
+    if (
+      input.cursor &&
+      (input.cursor.recordingId !== recordingId || input.cursor.unfinishedOnly !== unfinishedOnly)
+    )
+      throw new CatalogError("INVALID_CURSOR", "Export cursor does not match filters");
+    const rows = this.owners.store.catalog
+      .prepare(`SELECT selected.*,j.state FROM (SELECT exportId,recordingId,kind,
+      json_extract(snapshot,'$.revisionId') AS revisionId,
+      receipt IS NOT NULL AS committed,abandoning,
+      (assembly IS NOT NULL OR (staging IS NOT NULL AND stagingCleared=0)) AS cleanupPending
+      FROM export_intents WHERE exportId>? ${recordingId === null ? "" : "AND recordingId=?"}
+      ${unfinishedOnly ? `AND (${unfinished})` : ""} ORDER BY exportId LIMIT ?) selected
+      LEFT JOIN jobs j ON j.recordingId=selected.recordingId AND j.revisionId=selected.revisionId
+      AND j.artifact=? AND j.input=selected.exportId ORDER BY selected.exportId`)
+      .all(
+        input.cursor?.afterExportId ?? "",
+        ...(recordingId === null ? [] : [recordingId]),
+        limit + 1,
+        artifact,
+      ) as (Omit<ExportSummary, "state" | "abandoning" | "cleanupPending"> & {
+      state: Job["state"] | null;
+      committed: number;
+      abandoning: number;
+      cleanupPending: number;
+    })[];
+    const exports = rows
+      .slice(0, limit)
+      .map(({ committed, abandoning, cleanupPending, state, ...row }): ExportSummary => {
+        return {
+          ...row,
+          state: committed
+            ? "committed"
+            : state === "waiting"
+              ? "queued"
+              : (state ?? "not_requested"),
+          abandoning: !!abandoning,
+          cleanupPending: !!cleanupPending,
+        };
+      });
+    return {
+      exports,
+      nextCursor:
+        rows.length > limit
+          ? { recordingId, unfinishedOnly, afterExportId: exports.at(-1)!.exportId }
+          : null,
+    };
   }
   status(exportId: string) {
     const intent = this.require(exportId);
