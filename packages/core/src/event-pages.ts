@@ -3,7 +3,11 @@ import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import type { EvidenceIdentity } from "./evidence.js";
 import type { SourceEvidenceReader } from "./evidence-read.js";
-import type { SceneEvidenceIdentity, SceneEvidenceRead } from "./scene-evidence.js";
+import {
+  sceneBoundaries,
+  type SceneEvidenceIdentity,
+  type SceneEvidenceRead,
+} from "./scene-evidence.js";
 import type { FileAccess } from "./files.js";
 import { CatalogError } from "./library.js";
 import { OrderedPages, writeOrderedPages, type OrderedPageCodec } from "./ordered-pages.js";
@@ -201,17 +205,18 @@ export class TimelineEventRead {
             return null;
           }
         }
-        const chunk = chunks[chunkOffset]!;
-        if (position.boundaryOffset > chunk.boundaries.length)
+        const chunk = chunks[chunkOffset]!,
+          boundaries = sceneBoundaries(chunk);
+        if (position.boundaryOffset > boundaries.length)
           throw new CatalogError("INVALID_RANGE", "Scene event continuation is outside its chunk");
-        if (position.boundaryOffset === chunk.boundaries.length) {
+        if (position.boundaryOffset === boundaries.length) {
           position.afterChunkStartUs = chunk.range.startUs;
           position.boundaryOffset = 0;
           chunkOffset++;
           await advance();
           continue;
         }
-        const event = chunk.boundaries[position.boundaryOffset]!;
+        const event = boundaries[position.boundaryOffset]!;
         const consume = async () => {
           position.boundaryOffset++;
           await advance();

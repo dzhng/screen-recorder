@@ -280,9 +280,6 @@ test("portable chunks apply the append owner's semantic validation even with mat
     (chunk: (typeof original)[number]) => {
       chunk.comparisons[0].actualSourceUs = chunk.comparisons[0].previousActualSourceUs;
     },
-    (chunk: (typeof original)[number]) => {
-      chunk.boundaries.push({ kind: "scene", atSourceUs: 1 });
-    },
   ]) {
     const rows = structuredClone(original);
     mutate(rows[0]);
@@ -329,7 +326,6 @@ test("portable chunks must continue their predecessor and cover the whole source
   };
   const repeated = structuredClone(original);
   repeated[1].comparisons.unshift(boundary);
-  repeated[1].boundaries.unshift({ kind: "scene", atSourceUs: boundary.actualSourceUs });
   for (const rows of [repeated, [original[0], original[2]], original.slice(0, 2)]) {
     write(rows);
     const reader = new FileSceneEvidence(directory, f.sceneIdentity);

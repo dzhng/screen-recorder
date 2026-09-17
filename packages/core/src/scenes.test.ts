@@ -129,13 +129,12 @@ test("held frames collapse comparisons without losing distances or covered reque
     }),
   ).analyze({ startUs: 0, endUs: 600_000 }, new AbortController().signal);
   expect(result.comparisons).toEqual([]);
-  expect(result.boundaries).toEqual([]);
   expect(result.coverage.map((sample) => sample.distanceUs)).toEqual([
     0, 200_000, 400_000, 600_000,
   ]);
 });
 
-test("boundaries use actual later PTS and future samples do not claim a reset in the requested range", async () => {
+test("canonical comparisons use the actual later PTS", async () => {
   const result = await new SourceSceneAnalysis(
     "fixture-recording",
     "/video",
@@ -150,7 +149,6 @@ test("boundaries use actual later PTS and future samples do not claim a reset in
     }),
   ).analyze({ startUs: 0, endUs: 200_000 }, new AbortController().signal);
   expect(result.comparisons[0]).toMatchObject({ actualSourceUs: 300_000, boundary: true });
-  expect(result.boundaries).toEqual([]);
   expect(result.coverage[1]?.distanceUs).toBe(100_000);
 });
 
@@ -421,5 +419,5 @@ test("canonical runs preserve both sides of a chunk overlap and held source fram
     [19_800_000, 19_750_000, 10_000_000],
     [20_000_000, 20_000_000, 20_000_000],
   ]);
-  expect(chunks.flatMap((chunk) => chunk.boundaries)).toEqual([]);
+  expect(chunks.flatMap((chunk) => chunk.comparisons.filter((pair) => pair.boundary))).toEqual([]);
 });

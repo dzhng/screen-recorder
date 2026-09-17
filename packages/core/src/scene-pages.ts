@@ -57,7 +57,6 @@ const chunkSchema = z.object({
       }),
     )
     .max(51),
-  boundaries: z.array(z.object({ kind: z.literal("scene"), atSourceUs: integer })).max(51),
 });
 const codec: OrderedPageCodec<SceneChunkReport, SceneEvidenceMetadata> = {
   metadata: metadataSchema,
