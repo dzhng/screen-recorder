@@ -156,26 +156,56 @@ test("unknown acquisition waits for source evidence without declaring no narrati
   expect(() => planPackage(f.manifest.snapshot, null, f.prerequisites())).toThrow(/acquisition/);
 });
 
-test("reported ready narration is only a readiness envelope, never accepted transcript payload", () => {
-  const f = fixture();
-  f.manifest.acquisition.narration = "acquired";
-  f.manifest.inventory.push({
-    path: "source/narration.mov",
-    role: "narration",
-    bytes: 1,
-    sha256: "b".repeat(64),
-    durationUs: 100,
+test("ready narration names the transcript payload members its page validator admits", () => {
+  const narrated = (members: Record<string, string[]>) => {
+    const f = fixture();
+    f.manifest.acquisition.narration = "acquired";
+    f.manifest.inventory.push({
+      path: "source/narration.mov",
+      role: "narration",
+      bytes: 1,
+      sha256: "b".repeat(64),
+      durationUs: 100,
+    });
+    for (const kind of ["source-transcript", "edited-transcript"] as const) {
+      const files = members[kind]!.map((name) => `evidence/${kind}/${name}`);
+      for (const path of files)
+        f.manifest.inventory.push({ path, role: kind, bytes: 1, sha256: "c".repeat(64) });
+      f.manifest.evidence.push({
+        artifact: { ...f.artifact(kind), generation: "transcript-1" },
+        files,
+      });
+    }
+    f.manifest.transcript = "ready";
+    return f;
+  };
+  const f = narrated({
+    "source-transcript": ["pages.json", "1.json", "raw.jsonl"],
+    "edited-transcript": ["pages.json", "2.json"],
   });
-  for (const kind of ["source-transcript", "edited-transcript"] as const) {
-    const path = `evidence/${kind}.jsonl`;
-    f.manifest.inventory.push({ path, role: kind, bytes: 1, sha256: "c".repeat(64) });
-    f.manifest.evidence.push({ artifact: f.artifact(kind), files: [path] });
-  }
-  f.manifest.transcript = "ready";
   expect(planPackage(f.manifest.snapshot, f.manifest.acquisition, f.prerequisites())).toMatchObject(
     { state: "ready", transcript: "ready" },
   );
-  expect(f.validate).toThrow(expect.objectContaining({ code: "UNSUPPORTED_ARTIFACT" }));
+  expect(f.validate().transcript).toBe("ready");
+  const withoutRaw = narrated({
+    "source-transcript": ["pages.json"],
+    "edited-transcript": ["pages.json"],
+  });
+  expect(withoutRaw.validate).toThrow(/Transcript inventory is incomplete/);
+  const otherGeneration = narrated({
+    "source-transcript": ["pages.json", "raw.jsonl"],
+    "edited-transcript": ["pages.json"],
+  });
+  otherGeneration.manifest.evidence.at(-1)!.artifact.generation = "transcript-2";
+  expect(otherGeneration.validate).toThrow(/does not project/);
+  const noNarrationFile = narrated({
+    "source-transcript": ["pages.json", "raw.jsonl"],
+    "edited-transcript": ["pages.json"],
+  });
+  noNarrationFile.manifest.inventory = noNarrationFile.manifest.inventory.filter(
+    (entry) => entry.role !== "narration",
+  );
+  expect(noNarrationFile.validate).toThrow(/narration member/);
 });
 
 test("cross-source, revision, acquisition generation and stale publication never become ready", () => {

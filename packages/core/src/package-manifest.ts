@@ -379,12 +379,6 @@ export function validateManifest(
   );
   if (plan.state !== "ready" || plan.transcript !== manifest.transcript)
     invalid("Manifest is not complete");
-  // No transcript payload validator exists, so a readiness envelope cannot certify narrated packages.
-  if (manifest.transcript === "ready")
-    throw new CatalogError(
-      "UNSUPPORTED_ARTIFACT",
-      "Narrated manifest validation requires the accepted transcript owner",
-    );
   for (const evidence of manifest.evidence) {
     const artifactKind = evidence.artifact.reference.kind;
     const allowed = artifactKind === "index" ? ["index", "coverage", "image"] : [artifactKind];
@@ -394,6 +388,22 @@ export function validateManifest(
         if (!evidence.files.some((path) => byPath.get(path)!.role === required))
           invalid("Index inventory is incomplete");
     }
+  }
+  // Transcript payloads are admitted by their page validator; this names the members it reads.
+  if (manifest.transcript === "ready") {
+    const transcript = (kind: "source-transcript" | "edited-transcript", members: string[]) => {
+      const evidence = manifest.evidence.find((item) => item.artifact.reference.kind === kind)!;
+      if (
+        typeof evidence.artifact.generation !== "string" ||
+        members.some((member) => !evidence.files.includes(`evidence/${kind}/${member}`))
+      )
+        invalid("Transcript inventory is incomplete");
+      return evidence.artifact;
+    };
+    const source = transcript("source-transcript", ["pages.json", "raw.jsonl"]);
+    const edited = transcript("edited-transcript", ["pages.json"]);
+    if (source.generation !== edited.generation || source.policy !== edited.policy)
+      invalid("Edited transcript does not project the source transcript");
   }
   for (const entry of manifest.inventory) {
     if (["video", "narration", "system", "journal"].includes(entry.role)) used.add(entry.path);

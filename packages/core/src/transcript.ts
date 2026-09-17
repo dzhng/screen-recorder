@@ -79,7 +79,15 @@ export type TranscriptWordRecord = {
   segment: number;
 };
 export type TranscriptGapRecord = { startUs: number; endUs: number; reason: GapReason };
-/** Words are ordered by [startUs, ordinal] (the same order as ordinal); gaps by [startUs]. */
+/** One readable narration interval as the engine saw it. */
+export type TranscriptSegmentRecord = {
+  ordinal: number;
+  startUs: number;
+  endUs: number;
+  state: "transcribed" | "skipped";
+  reason: "too_short" | null;
+};
+/** Words are ordered by [startUs, ordinal] (the same order as ordinal); gaps by [startUs]; segments by [ordinal]. */
 export type TranscriptRecordQuery = Omit<PageQuery, "index">;
 export type TranscriptRecords = {
   wordRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptWordRecord[];
@@ -427,15 +435,10 @@ export class TranscriptStore implements TranscriptRecords {
       await handle.close();
     }
 
-    const gaps: TranscriptGapRecord[] = [];
-    let atUs = 0;
-    for (const segment of receipt.segments) {
-      if (atUs < segment.source.startUs)
-        gaps.push({ startUs: atUs, endUs: segment.source.startUs, reason: "not_acquired" });
-      if (segment.state === "skipped") gaps.push({ ...segment.source, reason: "too_short" });
-      atUs = segment.source.endUs;
-    }
-    if (atUs < durationUs) gaps.push({ startUs: atUs, endUs: durationUs, reason: "not_acquired" });
+    const gaps = transcriptGaps(
+      receipt.segments.map(({ source, state }) => ({ ...source, state })),
+      durationUs,
+    );
     signal.throwIfAborted();
     return this.store.transaction(() => {
       const insertGap = this.store.catalog.prepare("INSERT INTO transcript_gaps VALUES(?,?,?,?,?)");
@@ -476,16 +479,29 @@ export class TranscriptStore implements TranscriptRecords {
     return this.records("transcript_gaps", ["startUs"], identity, query) as TranscriptGapRecord[];
   }
 
+  segmentRecords(
+    identity: TranscriptIdentity,
+    query: TranscriptRecordQuery,
+  ): TranscriptSegmentRecord[] {
+    return this.records(
+      "transcript_segments",
+      ["ordinal"],
+      identity,
+      query,
+    ) as TranscriptSegmentRecord[];
+  }
+
   private records(
-    table: "transcript_words" | "transcript_gaps",
+    table: "transcript_words" | "transcript_gaps" | "transcript_segments",
     keys: readonly string[],
     identity: TranscriptIdentity,
     query: TranscriptRecordQuery,
   ): unknown[] {
-    const columns =
-      table === "transcript_words"
-        ? "ordinal,text,kind,startUs,endUs,instant,confidence,segment"
-        : "startUs,endUs,reason";
+    const columns = {
+      transcript_words: "ordinal,text,kind,startUs,endUs,instant,confidence,segment",
+      transcript_gaps: "startUs,endUs,reason",
+      transcript_segments: "ordinal,startUs,endUs,state,reason",
+    }[table];
     const clauses = [where];
     const args: (string | number)[] = [identity.recordingId, identity.generation];
     const tuple = keys.length === 1 ? keys[0]! : `(${keys.join(",")})`;
@@ -578,6 +594,24 @@ export class TranscriptStore implements TranscriptRecords {
       throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
     await this.reclaim(recordingId, () => false, signal);
   }
+}
+
+/** Gaps are exactly the source never acquired between segments plus each skipped segment. */
+export function transcriptGaps(
+  segments: readonly (TimeRange & Pick<TranscriptSegmentRecord, "state">)[],
+  durationUs: number,
+): TranscriptGapRecord[] {
+  const gaps: TranscriptGapRecord[] = [];
+  let atUs = 0;
+  for (const segment of segments) {
+    if (atUs < segment.startUs)
+      gaps.push({ startUs: atUs, endUs: segment.startUs, reason: "not_acquired" });
+    if (segment.state === "skipped")
+      gaps.push({ startUs: segment.startUs, endUs: segment.endUs, reason: "too_short" });
+    atUs = segment.endUs;
+  }
+  if (atUs < durationUs) gaps.push({ startUs: atUs, endUs: durationUs, reason: "not_acquired" });
+  return gaps;
 }
 
 function metadata(row: GenerationRow): TranscriptMetadata {

@@ -160,6 +160,10 @@
       "types": "./dist/transcript-read.d.ts",
       "default": "./dist/transcript-read.js"
     },
+    "./transcript-pages": {
+      "types": "./dist/transcript-pages.d.ts",
+      "default": "./dist/transcript-pages.js"
+    },
     "./transcript-processing": {
       "types": "./dist/transcript-processing.d.ts",
       "default": "./dist/transcript-processing.js"
