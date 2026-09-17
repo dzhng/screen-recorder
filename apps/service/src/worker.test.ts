@@ -1,4 +1,4 @@
-import { afterEach, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, expect, it } from "vitest";
 import { chmod, mkdtemp, readFile, rm, writeFile, open } from "node:fs/promises";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
@@ -9,10 +9,12 @@ afterEach(async () => {
   for (const home of homes.splice(0)) await rm(home, { recursive: true, force: true });
 });
 
-async function fixture() {
-  const home = await mkdtemp("/tmp/scr-worker-");
-  homes.push(home);
-  const executable = join(home, "worker");
+// macOS assesses a newly written executable on its first launch, which can take longer than the
+// deadlines below. One shared worker pays that once, so each test times the worker itself.
+let executable: string;
+beforeAll(async () => {
+  const directory = await mkdtemp("/tmp/scr-worker-bin-");
+  executable = join(directory, "worker");
   await writeFile(
     executable,
     `#!${process.execPath}
@@ -29,6 +31,15 @@ process.stdin.on('end', () => {
 `,
   );
   await chmod(executable, 0o755);
+  expect((await mediaWorker({ SCREENREC_NATIVE: executable }, 30_000)("answer", {})).ok).toBe(true);
+});
+afterAll(async () => {
+  await rm(join(executable, ".."), { recursive: true, force: true });
+});
+
+async function fixture() {
+  const home = await mkdtemp("/tmp/scr-worker-");
+  homes.push(home);
   return { home, run: mediaWorker({ SCREENREC_NATIVE: executable }, 2000) };
 }
 
