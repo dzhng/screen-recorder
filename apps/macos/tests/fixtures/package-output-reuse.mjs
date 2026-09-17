@@ -145,20 +145,24 @@ export async function packageOutputReuse(archive, directory, handle, worker) {
       await failed;
     }
     await context.close();
+    let collided = false;
     context = await openPackageArchive(
       archive,
       { directory, handle },
       async (operation, input, options) => {
-        if (operation === "archive.createOutput") await mkdir(join(directory, input.name));
+        if (operation === "archive.createOutput" && !collided) {
+          collided = true;
+          await mkdir(join(directory, input.name));
+        }
         return worker(operation, input, options);
       },
     );
     await assert.rejects(context.run("media.frame", params), { code: "OUTPUT_CLEANUP_FAILED" });
-    assert.deepEqual(context.outputUsage(), {
-      actualBytes: 0,
-      reservedBytes: 32 * 1024 ** 2,
-      outputs: 1,
-    });
+    // Creation never writes bytes, so only the unknown entry keeps a slot until close.
+    assert.deepEqual(context.outputUsage(), { actualBytes: 0, reservedBytes: 0, outputs: 1 });
+    for (let i = 0; i < 32; i++)
+      await context.run("media.frame", { ...params, output: `after-${i}`, maxLongEdge: 64 });
+    assert.equal(context.outputUsage().outputs, 32);
     await context.close();
     assert.deepEqual(context.outputUsage(), { actualBytes: 0, reservedBytes: 0, outputs: 0 });
     const sentinel = join(dirname(directory), "output-cleanup-sentinel");
@@ -228,7 +232,7 @@ export async function packageOutputReuse(archive, directory, handle, worker) {
       failedFullCloseRetainedCreditAndRetried: true,
       failedRequests: 41,
       joinedFailedOutputCleanup: true,
-      unconfirmedCreationRetainedUntilClose: true,
+      unconfirmedCreationHeldOnlyItsSlot: true,
       peakNativeWorkers: peakWorkers,
       heldReadPreserved: true,
       closeDrainedRelease: true,

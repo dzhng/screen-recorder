@@ -250,7 +250,9 @@ export class RetainedPackage {
     for (const output of candidates) {
       signal.throwIfAborted();
       if (available()) return;
-      if (output.phase === "writing" || output.readers || output.retirement) continue;
+      // An unconfirmed creation has no identity to remove; only close recovers its slot.
+      if (output.phase === "writing" || output.readers || output.retirement || !output.file)
+        continue;
       await this.releaseOutput(output.label);
     }
     if (!available())
@@ -396,7 +398,18 @@ export class RetainedPackage {
       for (const file of leases) file.close();
       if (owned?.phase === "writing") owned.phase = "retired";
     }
-    if (owned && !this.closing) {
+    if (owned && !owned.file) {
+      // Native creation writes no bytes, so an unknown entry holds only its output slot.
+      this.outputBytes -= owned.charged;
+      owned.charged = 0;
+      if (!this.closing)
+        throw new CatalogError(
+          "OUTPUT_CLEANUP_FAILED",
+          "Output creation was not confirmed; its slot is held until context close",
+          { operationError: failure instanceof Error ? failure.message : String(failure) },
+          true,
+        );
+    } else if (owned && !this.closing) {
       try {
         await this.releaseOutput(owned.label);
       } catch (cleanup) {
