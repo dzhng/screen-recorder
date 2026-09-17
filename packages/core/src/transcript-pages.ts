@@ -268,8 +268,8 @@ function invalid(message: string): never {
  */
 export async function validateTranscriptPages(
   input: {
-    source: FileAccess;
-    edited: FileAccess;
+    source: string | FileAccess;
+    edited: string | FileAccess;
     identity: TranscriptIdentity;
     revision: TimelineRevision;
     /** Acquired narration intervals from the same package's source evidence. */

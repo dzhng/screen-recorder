@@ -3,7 +3,6 @@ import { createHash, randomUUID } from "node:crypto";
 import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { fileAccess } from "./files.js";
 import { TranscriptStore } from "./transcript.js";
 import { TranscriptRead } from "./transcript-read.js";
 import {
@@ -143,8 +142,8 @@ async function fixture() {
   );
   const validate = () =>
     validateTranscriptPages({
-      source: fileAccess(source),
-      edited: fileAccess(edited),
+      source,
+      edited,
       identity,
       revision,
       narration,

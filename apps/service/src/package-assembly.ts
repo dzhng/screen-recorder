@@ -51,7 +51,7 @@ import {
   type PackageManifest,
   type PackageSnapshot,
 } from "@screenrec/core/package-manifest";
-import { fileAccess, fileIdentity, O_NOFOLLOW_ANY, type FileIdentity } from "@screenrec/core/files";
+import { fileIdentity, O_NOFOLLOW_ANY, type FileIdentity } from "@screenrec/core/files";
 import { nativeResult, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";
 import { writeArchive } from "./archive-write.js";
@@ -312,8 +312,8 @@ export async function assemblePackage(
   if (transcript) {
     const portable = await validateTranscriptPages(
       {
-        source: fileAccess(root("source-transcript")),
-        edited: fileAccess(root("edited-transcript")),
+        source: root("source-transcript"),
+        edited: root("edited-transcript"),
         identity: transcript,
         revision,
         narration: owners.source.audio(sourceIdentity, "narration", {

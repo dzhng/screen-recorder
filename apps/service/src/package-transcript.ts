@@ -24,16 +24,13 @@ export async function validatePackageTranscript(
   const { manifest } = context;
   if (manifest.transcript !== "ready") return;
   const { source, sourceIdentity } = portableIdentities(manifest);
-  const directory = (kind: "source-transcript" | "edited-transcript") =>
-    fileSubdirectory(context.files, portableEvidence(manifest, kind, "pages.json").directory);
+  const transcript = portableEvidence(manifest, "source-transcript", "pages.json"),
+    edited = portableEvidence(manifest, "edited-transcript", "pages.json");
   await validateTranscriptPages(
     {
-      source: directory("source-transcript"),
-      edited: directory("edited-transcript"),
-      identity: {
-        ...sourceIdentity,
-        generation: portableEvidence(manifest, "source-transcript", "pages.json").generation,
-      },
+      source: fileSubdirectory(context.files, transcript.directory),
+      edited: fileSubdirectory(context.files, edited.directory),
+      identity: { ...sourceIdentity, generation: transcript.generation },
       revision: packageRevisions(context).find(({ id }) => id === manifest.snapshot.revisionId)!,
       narration: new FileSourceEvidence(
         fileSubdirectory(context.files, source.directory),
