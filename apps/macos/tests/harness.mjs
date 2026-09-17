@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawn, spawnSync } from "node:child_process";
-import { mkdtempSync, rmSync, statSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { after } from "node:test";
@@ -55,11 +55,22 @@ export function temporary(prefix) {
   return directory;
 }
 
-/** Launches the packaged app the way Finder would, and keeps its diagnostics readable. */
+/**
+ * Launches the packaged app the way Finder would, and keeps its diagnostics readable. Its
+ * preferences live in a scratch defaults domain beside its home, never this person's own, and
+ * the Settings window stays closed unless a check names a domain of its own.
+ */
 export function launch(home, environment = {}, args = []) {
+  const defaults = join(home, "preferences");
+  if (!environment.SCREENREC_DEFAULTS) setDefault(defaults, "showSettingsAtLaunch", "-bool", "NO");
   const child = spawn(app, args, {
     cwd: "/",
-    env: { ...finderEnvironment, SCREENREC_HOME: home, ...environment },
+    env: {
+      ...finderEnvironment,
+      SCREENREC_HOME: home,
+      SCREENREC_DEFAULTS: defaults,
+      ...environment,
+    },
     stdio: ["ignore", "pipe", "pipe"],
   });
   let diagnostics = "";
@@ -125,6 +136,33 @@ export async function launchReady(home, environment, args) {
   const [, pid] = await instance.waitFor(/service ready pid=(\d+)/);
   instance.owned.push(Number(pid));
   return { instance, servicePid: Number(pid) };
+}
+
+/** Writes one preference into an absolute scratch defaults domain, as the app would store it. */
+export function setDefault(domain, key, ...value) {
+  execFileSync("/usr/bin/defaults", ["write", domain, key, ...value]);
+}
+
+/**
+ * Talks to a launch's controls probe through its command directory: one command at a time, each
+ * answered in a file of its own once that answer is whole.
+ */
+export function controlsProbe(directory) {
+  let next = 0;
+  return async (payload) => {
+    const id = (next += 1);
+    writeFileSync(join(directory, "command.json"), JSON.stringify({ id, ...payload }));
+    const answered = join(directory, `answer-${id}.json`);
+    const answer = await waitFor(() => {
+      try {
+        return JSON.parse(readFileSync(answered, "utf8"));
+      } catch {
+        return undefined;
+      }
+    }, 20_000);
+    rmSync(answered, { force: true });
+    return answer;
+  };
 }
 
 export async function waitFor(probe, timeoutMs, describe = () => "") {

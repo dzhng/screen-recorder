@@ -10,7 +10,8 @@ import ScreenRecorderControls
  It keeps no device state machine, no catalog and no clock of its own — the elapsed time it shows
  is the running take's own playback time, read back through the same status call the CLI reads.
  Permissions are the one thing native owns outright, and they are only ever requested by a person
- choosing to request them.
+ choosing to request them. The Settings window is a second view of this same state: it sends the
+ same actions the menu does, and the audio choices both edit are saved as the next launch's defaults.
  */
 @MainActor
 final class RecordingControls: NSObject, NSMenuDelegate {
@@ -20,7 +21,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private let shortcuts = GlobalShortcuts()
     private let region = RegionSelection()
     private let quit: () -> Void
-    private var state = ControlsState()
+    private let preferences: Preferences
+    private var state: ControlsState
+    /// Screen access has no "not yet asked" state to read, so a request this launch that came back
+    /// refused is what says asking again would prompt for nothing.
+    private var screenRequestRefused = false
     private var bindings = ShortcutDefaults.suggested
     private var held: Set<String> = []
     private weak var host: ServiceHost?
@@ -43,6 +48,14 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             self?.state.failure = message
             self?.render()
         })
+    private let shortcutFile: String
+    private lazy var settings = SettingsWindow(
+        preferences: preferences, shortcutFile: shortcutFile,
+        perform: { [weak self] action in self?.perform(action) },
+        refreshPermissions: { [weak self] in
+            self?.readPermissions()
+            self?.render()
+        })
     private var ticker: Timer?
     private var reading = false
     private var pendingRefresh = false
@@ -53,10 +66,13 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     /// How many recent takes the menu lists.
     private static let recentTakes = 5
 
-    init(home: String, quit: @escaping () -> Void) {
+    init(home: String, preferences: Preferences, quit: @escaping () -> Void) {
         self.quit = quit
-        super.init()
+        self.preferences = preferences
+        state = ControlsState(recording: preferences.recording)
         let overridePath = GlobalShortcuts.overridePath(home: home)
+        shortcutFile = overridePath
+        super.init()
         state.shortcutOverridePath = overridePath
         bindings = ShortcutDefaults.overridden(by: FileManager.default.contents(atPath: overridePath))
         let outcome = shortcuts.claim(bindings) { [weak self] action in self?.perform(action) }
@@ -65,6 +81,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         menu.delegate = self
         statusItem.menu = menu
         statusItem.button?.setAccessibilityLabel("Screen Recorder")
+        readPermissions()
         render()
     }
 
@@ -107,6 +124,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     func perform(_ action: ControlsAction) {
         state.failure = nil
+        let chosen = state.selection.recordingDefaults
         switch action {
         case .selectDisplay(let id):
             if let display = state.sources.displays.first(where: { $0.id == id }) {
@@ -161,11 +179,16 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         case .refreshStorage:
             readStorage()
         case .requestScreenPermission:
-            request("screen")
+            request(.screen)
         case .requestMicrophonePermission:
-            request("microphone")
+            request(.microphone)
+        case .openSettings:
+            settings.show()
         case .quit:
             quit()
+        }
+        if state.selection.recordingDefaults != chosen {
+            preferences.recording = state.selection.recordingDefaults
         }
         render()
     }
@@ -285,26 +308,48 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     }
 
     /// Permission is requested only here, by a person choosing to request it. Nothing on the way
-    /// to a launched, ready app reaches this.
-    private func request(_ kind: String) {
+    /// to a launched, ready app reaches this. Once a prompt has been answered macOS never shows it
+    /// again, so a denied access opens its privacy pane instead of asking for nothing.
+    private func request(_ kind: PermissionKind) {
+        readPermissions()
+        switch state.permissions?.access(to: kind) {
+        case .granted: return
+        case .denied:
+            NSWorkspace.shared.open(kind.settingsURL)
+            return
+        case .undetermined, nil: break
+        }
         Task { @MainActor in
             do {
-                let granted = try await NativeCapture.requestPermission(kind)
+                let granted = try await NativeCapture.requestPermission(
+                    kind == .screen ? "screen" : "microphone")
                 if !granted {
+                    if kind == .screen { screenRequestRefused = true }
                     state.failure =
-                        "\(kind == "screen" ? "Screen recording" : "Microphone") access was not granted. Allow it in System Settings > Privacy & Security."
+                        "\(kind.missingLine) Allow it in System Settings > Privacy & Security."
                 }
             } catch {
                 state.failure = error.localizedDescription
             }
             refresh()
+            render()
         }
+    }
+
+    /// What native capture in this process may do, read without asking for anything. A display
+    /// fixture may state it instead, so each access state can be looked at without changing the
+    /// system's own record.
+    private func readPermissions() {
+        state.permissions = ControlsProbe.displayedPermissions ?? ControlsState.Permissions(
+            screen: NativeCapture.screenPermission ? .granted : screenRequestRefused ? .denied : .undetermined,
+            microphone: .init(microphoneAuthorization: NativeCapture.microphonePermission))
     }
 
     // MARK: reading
 
     /// Reads everything the menu shows. Used when a person looks at the controls or acts on them.
     private func refresh() {
+        readPermissions()
         read(everything: true)
         readStorage()
     }
@@ -347,10 +392,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         else { return }
         state.device = ControlsState.DeviceStatus(
             state: ControlsState.DeviceState(rawValue: answer.device.state) ?? .idle,
-            recordingId: answer.device.recordingId, elapsedUs: answer.device.elapsedUs,
-            permissions: ControlsState.Permissions(
-                screen: answer.device.permissions.screen,
-                microphone: answer.device.permissions.microphone))
+            recordingId: answer.device.recordingId, elapsedUs: answer.device.elapsedUs)
         if let selection = answer.device.selection {
             state.selection.apply(selection, catalog: state.sources)
         }
@@ -406,9 +448,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     // MARK: showing
 
     private func render() {
-        let entries = RecordingMenu.entries(
-            for: state, exports: exports.state,
-            shortcuts: ShortcutDefaults(bindings: bindings, registered: held))
+        let shortcuts = ShortcutDefaults(bindings: bindings, registered: held)
+        let entries = RecordingMenu.entries(for: state, exports: exports.state, shortcuts: shortcuts)
         // Preserve the tracked menu and its open submenus when only the clock title changes.
         if !renderedEntries.isEmpty && entries.dropFirst().elementsEqual(renderedEntries.dropFirst()) {
             menu.items.first?.title = entries[0].title
@@ -417,6 +458,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 previous: renderedEntries)
         }
         renderedEntries = entries
+        settings.update(state, shortcuts: shortcuts)
         showStatusItem()
         pace()
     }
@@ -454,16 +496,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 }
 
 private struct StatusAnswer: Decodable {
-    struct Permissions: Decodable {
-        let screen: Bool
-        let microphone: String
-    }
     struct Device: Decodable {
         let state: String
         let recordingId: String?
         let elapsedUs: Int64?
         let selection: ControlsState.CaptureSelection.Start?
-        let permissions: Permissions
     }
     struct Take: Decodable {
         let recordingId: String

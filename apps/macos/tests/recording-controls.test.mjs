@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import {
+  controlsProbe,
   launchReady,
   socketPath,
   temporary,
@@ -27,21 +28,7 @@ async function controlledApp(home) {
   });
   const [, windowId] = await instance.waitFor(/capture fixture window=(\d+)/);
   await instance.waitFor(/controls probe listening/);
-  let next = 0;
-  const send = async (payload) => {
-    const id = (next += 1);
-    writeFileSync(join(commands, "command.json"), JSON.stringify({ id, ...payload }));
-    const answered = join(commands, `answer-${id}.json`);
-    const answer = await waitFor(() => {
-      try {
-        return JSON.parse(readFileSync(answered, "utf8"));
-      } catch {
-        return undefined;
-      }
-    }, 20_000);
-    rmSync(answered, { force: true });
-    return answer;
-  };
+  const send = controlsProbe(commands);
   const controls = { instance, windowId: Number(windowId), send };
   await waitFor(
     async () => Boolean(find((await send({ do: "snapshot" })).rows, `source.window.${windowId}`)),

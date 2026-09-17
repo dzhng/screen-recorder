@@ -1,5 +1,6 @@
 import AppKit
 import Darwin
+import ScreenRecorderControls
 
 /// One line of this app's diagnostics. Everything this app says about itself goes to stderr, in
 /// this one form, so a launch's whole story reads in order whichever part of it wrote a line.
@@ -32,7 +33,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             Task { await runCaptureProbe(Array(arguments.dropFirst())) }
             return
         }
-        controls = RecordingControls(home: personalRoot()) { [weak self] in self?.quit() }
+        let preferences = Preferences(defaults: defaultsDomain())
+        controls = RecordingControls(home: personalRoot(), preferences: preferences) { [weak self] in
+            self?.quit()
+        }
         // The capture fixture is an ordinary launch that additionally opens this app's own window
         // and refuses every other source, so the real service and controller path is what runs.
         if ProcessInfo.processInfo.environment["SCREENREC_FIXTURE_WINDOW"] == "1" {
@@ -42,8 +46,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         let controller = CaptureController(fixtureWindow: fixture)
         self.controller = controller
-        probe = ControlsProbe.inFixture(fixture, controls: controls)
+        probe = ControlsProbe.requested(controls: controls)
         startService(capture: controller)
+        if preferences.showSettingsAtLaunch { controls?.perform(.openSettings) }
+    }
+
+    /// Opening the app again while it runs, from Finder or Spotlight, is how a person asks to see it.
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
+        controls?.perform(.openSettings)
+        return false
     }
 
     /// Ordinary launch owns the service only. Nothing here starts capture or touches a
@@ -109,6 +120,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func personalRoot() -> String {
         ProcessInfo.processInfo.environment["SCREENREC_HOME"]
             ?? (NSHomeDirectory() as NSString).appendingPathComponent(".screen-recorder")
+    }
+
+    /// This app's own defaults. A check names an absolute scratch domain instead, so launching the
+    /// bundle under test never reads or writes a person's real preferences.
+    private func defaultsDomain() -> UserDefaults {
+        ProcessInfo.processInfo.environment["SCREENREC_DEFAULTS"]
+            .flatMap { $0.hasPrefix("/") ? UserDefaults(suiteName: $0) : nil } ?? .standard
     }
 
     /// The Quit menu item and SIGTERM. A second request while the first is still finalizing asks
