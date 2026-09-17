@@ -6,6 +6,7 @@ import {
   RESPONSE_FRAME_BYTES,
   JsonLineReader,
   encodeJsonLine,
+  operationError,
   resultSchema,
   type OperationResult,
 } from "@screenrec/protocol";
@@ -17,7 +18,7 @@ import { CatalogError } from "@screenrec/core/library";
  * the service never guesses a bundle layout. A test that runs the service without an app sets it
  * explicitly, and an unset variable is reported rather than searched around.
  */
-export const NATIVE_EXECUTABLE_VARIABLE = "SCREENREC_NATIVE";
+const NATIVE_EXECUTABLE_VARIABLE = "SCREENREC_NATIVE";
 export const MAX_MEDIA_TIMEOUT_MS = 2_147_483_647;
 
 export type MediaWorker = (
@@ -54,10 +55,6 @@ export function nativeConfirmed(
     throw new CatalogError("INVALID_NATIVE_RESPONSE", message);
 }
 
-function failure(code: string, message: string, retryable = false): OperationResult {
-  return { ok: false, error: { code, message, retryable, details: {} } };
-}
-
 /**
  * Runs one bounded native worker process per call: one JSON line in, one JSON line out, then the
  * child is gone. Arguments never reach a shell, and no call waits without a deadline. This is the
@@ -74,7 +71,7 @@ export function mediaWorker(
     { signal, timeoutMs: callTimeoutMs = timeoutMs, descriptors = [] } = {},
   ) =>
     new Promise<OperationResult>((settle) => {
-      const canceled = () => failure("CANCELED", `${operation} was canceled`);
+      const canceled = () => operationError("CANCELED", `${operation} was canceled`);
       if (signal?.aborted) {
         settle(canceled());
         return;
@@ -84,13 +81,15 @@ export function mediaWorker(
         callTimeoutMs <= 0 ||
         callTimeoutMs > MAX_MEDIA_TIMEOUT_MS
       ) {
-        settle(failure("INVALID_REQUEST", "Native deadline must be positive and fit a timer"));
+        settle(
+          operationError("INVALID_REQUEST", "Native deadline must be positive and fit a timer"),
+        );
         return;
       }
       const executable = environment[NATIVE_EXECUTABLE_VARIABLE];
       if (!executable || !isAbsolute(executable)) {
         settle(
-          failure(
+          operationError(
             "MEDIA_WORKER_UNAVAILABLE",
             `${NATIVE_EXECUTABLE_VARIABLE} must name the packaged native worker executable`,
           ),
@@ -104,11 +103,15 @@ export function mediaWorker(
           REQUEST_FRAME_BYTES,
         );
       } catch {
-        settle(failure("INVALID_REQUEST", `Cannot encode ${operation} for the native worker`));
+        settle(
+          operationError("INVALID_REQUEST", `Cannot encode ${operation} for the native worker`),
+        );
         return;
       }
       if (descriptors.some((fd) => !Number.isSafeInteger(fd) || fd < 0)) {
-        settle(failure("INVALID_REQUEST", "Inherited descriptors must be open file descriptors"));
+        settle(
+          operationError("INVALID_REQUEST", "Inherited descriptors must be open file descriptors"),
+        );
         return;
       }
       const child = spawn(executable, [], {
@@ -131,11 +134,16 @@ export function mediaWorker(
       };
       const abort = () => finish(canceled());
       const deadline = setTimeout(
-        () => finish(failure("MEDIA_WORKER_TIMEOUT", `${operation} did not answer in time`, true)),
+        () =>
+          finish(
+            operationError("MEDIA_WORKER_TIMEOUT", `${operation} did not answer in time`, true),
+          ),
         callTimeoutMs,
       );
       child.on("error", (error) =>
-        finish(failure("MEDIA_WORKER_UNAVAILABLE", `Cannot run ${executable}: ${error.message}`)),
+        finish(
+          operationError("MEDIA_WORKER_UNAVAILABLE", `Cannot run ${executable}: ${error.message}`),
+        ),
       );
       // `close` rather than `exit`: a child can exit with its answer still buffered in this
       // process's pipe, and that answer must not be thrown away as a failure.
@@ -144,14 +152,16 @@ export function mediaWorker(
         signal?.removeEventListener("abort", abort);
         // A scheduler may reuse capacity as soon as this promise settles. Keep the slot
         // until the child and its pipes are closed, even after a successful response.
-        settle(result ?? failure("MEDIA_WORKER_FAILED", `${operation} produced no result`, true));
+        settle(
+          result ?? operationError("MEDIA_WORKER_FAILED", `${operation} produced no result`, true),
+        );
       });
       child.stdout!.on("data", (chunk: Buffer) => {
         let value: unknown;
         try {
           value = reader.push(chunk);
         } catch (error) {
-          finish(failure("MEDIA_WORKER_FAILED", (error as Error).message));
+          finish(operationError("MEDIA_WORKER_FAILED", (error as Error).message));
           return;
         }
         if (value === undefined) return;
@@ -159,12 +169,11 @@ export function mediaWorker(
         finish(
           parsed.success
             ? parsed.data
-            : failure("MEDIA_WORKER_FAILED", `${operation} returned an unreadable result`),
+            : operationError("MEDIA_WORKER_FAILED", `${operation} returned an unreadable result`),
         );
       });
       child.stdin!.on("error", () => {});
       signal?.addEventListener("abort", abort, { once: true });
-      if (signal?.aborted) abort();
       child.stdin!.end(frame);
     });
 }

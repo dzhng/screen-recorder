@@ -36,7 +36,7 @@ import {
 } from "@screenrec/protocol";
 import { CaptureService } from "./capture.js";
 import { openControl } from "./control.js";
-import { mediaWorker, nativeResult, type MediaWorker } from "./worker.js";
+import { mediaWorker, nativeResult } from "./worker.js";
 import { listenLocal, type LocalListener } from "./index.js";
 import { StartupFailure, claimStartup, type StartupClaim } from "./startup.js";
 
@@ -91,15 +91,8 @@ async function main(): Promise<void> {
     operation: string,
     params: Record<string, unknown>,
     signal: AbortSignal,
-    execute: MediaWorker = worker,
-    timeoutMs?: number,
   ): Promise<T> {
-    return nativeResult(
-      await execute(operation, params, {
-        signal,
-        ...(timeoutMs === undefined ? {} : { timeoutMs }),
-      }),
-    ) as T;
+    return nativeResult(await worker(operation, params, { signal })) as T;
   }
   try {
     claim = await claimStartup(runtimeDirectory);

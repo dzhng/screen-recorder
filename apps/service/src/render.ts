@@ -143,15 +143,8 @@ export function previewRenderer(
             },
             { signal, timeoutMs: renderDeadlineMs(request.plan) },
           );
-          if (!response.ok)
-            throw new CatalogError(
-              response.error.code,
-              response.error.message,
-              response.error.details,
-              response.error.retryable,
-            );
           const presentation = await PresentationEvidence.open(
-            response.data as PresentationReceipt,
+            nativeResult(response) as PresentationReceipt,
             request.revision,
             signal,
           );
