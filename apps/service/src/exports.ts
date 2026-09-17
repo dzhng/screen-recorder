@@ -37,17 +37,6 @@ type Request = {
   leaf: string;
 };
 type ExportCursor = { recordingId: string | null; unfinishedOnly: boolean; afterExportId: string };
-type ExportSummary = {
-  exportId: string;
-  recordingId: string;
-  kind: Request["kind"];
-  revisionId: string;
-  state: Exclude<Job["state"], "waiting"> | "committed" | "not_requested";
-  abandoning: boolean;
-  cleanupPending: boolean;
-};
-const unfinished =
-  "receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL OR (staging IS NOT NULL AND stagingCleared=0)";
 type Snapshot = ReturnType<RevisionStore["pinPackageSnapshot"]>["snapshot"];
 type ReadyPreview = Pick<PreviewArtifact, "cacheId" | "bytes"> & { generation: number };
 type Intent = {
@@ -92,9 +81,39 @@ const artifact = "export-recording",
   recoveryArtifact = "export-recovery";
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 const stageName = (id: string) => `.screenrec-export-${id}`;
+
+/** Lifecycle columns as stored: JSON or null for staging, assembly and receipt, 0/1 flags. */
+type Lifecycle = {
+  staging: unknown;
+  stagingCleared: number;
+  assembly: unknown;
+  receipt: unknown;
+  abandoning: unknown;
+};
 /** Staging bytes or the staging directory beside the destination may still exist. */
-const stagingPending = (intent: Pick<Intent, "staging" | "stagingCleared">) =>
-  !!intent.staging && !intent.stagingCleared;
+const stagingPending = (row: Pick<Lifecycle, "staging" | "stagingCleared">) =>
+  !!row.staging && !row.stagingCleared;
+/** Private obligations remain: staging beside the destination or package assembly workspaces. */
+const cleanupPending = (row: Lifecycle) => !!row.assembly || stagingPending(row);
+// Partial indexes and page filters need these predicates in SQL; each mirrors its TS twin above.
+const stagingPendingSql = "(staging IS NOT NULL AND stagingCleared=0)";
+const cleanupPendingSql = `(assembly IS NOT NULL OR ${stagingPendingSql})`;
+const unfinishedSql = `(receipt IS NULL OR abandoning=1 OR ${cleanupPendingSql})`;
+/** Intents that still pin prerequisites or library workspaces count against admission. */
+const admittedSql = "(receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL)";
+
+/** The summary both discovery pages and status report for one intent. */
+function summarize(row: Lifecycle, job: Job["state"] | null) {
+  return {
+    state: row.receipt
+      ? ("committed" as const)
+      : job === "waiting"
+        ? ("queued" as const)
+        : (job ?? ("not_requested" as const)),
+    abandoning: !!row.abandoning,
+    cleanupPending: cleanupPending(row),
+  };
+}
 
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
  * Prerequisites wait in the existing queue while this owner pins their source generation. */
@@ -123,11 +142,11 @@ export class RecordingExports {
       staging TEXT, stagingCleared INTEGER NOT NULL DEFAULT 0 CHECK(stagingCleared IN (0,1)),
       preview TEXT, sourceEvidence TEXT, packageEvidence TEXT, assembly TEXT, receipt TEXT,
       abandoning INTEGER NOT NULL DEFAULT 0 CHECK(abandoning IN (0,1))
-    ) STRICT; CREATE INDEX IF NOT EXISTS export_intents_pending ON export_intents(recordingId) WHERE receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL;
-    CREATE INDEX IF NOT EXISTS export_intents_storage ON export_intents(exportId) WHERE staging IS NOT NULL AND stagingCleared=0;
+    ) STRICT; CREATE INDEX IF NOT EXISTS export_intents_pending ON export_intents(recordingId) WHERE ${admittedSql};
+    CREATE INDEX IF NOT EXISTS export_intents_storage ON export_intents(exportId) WHERE ${stagingPendingSql};
     CREATE INDEX IF NOT EXISTS export_intents_recording ON export_intents(recordingId,exportId);
-    CREATE INDEX IF NOT EXISTS export_discovery_unfinished ON export_intents(exportId) WHERE ${unfinished};
-    CREATE INDEX IF NOT EXISTS export_discovery_recording_unfinished ON export_intents(recordingId,exportId) WHERE ${unfinished};`);
+    CREATE INDEX IF NOT EXISTS export_discovery_unfinished ON export_intents(exportId) WHERE ${unfinishedSql};
+    CREATE INDEX IF NOT EXISTS export_discovery_recording_unfinished ON export_intents(recordingId,exportId) WHERE ${unfinishedSql};`);
   }
   private find(exportId: string): Intent | null {
     const row = this.owners.store.catalog
@@ -183,8 +202,6 @@ export class RecordingExports {
     };
   }
   private recoveryIdentity(intent: Intent, attemptId: string) {
-    if (!uuid.test(intent.exportId) || !uuid.test(attemptId))
-      throw new CatalogError("INVALID_JOB", "Recovery requires export and attempt UUIDs");
     return {
       recordingId: intent.recordingId,
       revisionId: intent.snapshot.revisionId,
@@ -202,7 +219,7 @@ export class RecordingExports {
       const rows = this.owners.store.catalog
         .prepare(`SELECT i.exportId,j.attemptId FROM export_intents i
         JOIN jobs j ON j.recordingId=i.recordingId AND j.artifact=? AND j.input=i.exportId
-        WHERE ((i.staging IS NOT NULL AND i.stagingCleared=0) OR i.assembly IS NOT NULL) AND i.abandoning=0
+        WHERE ${cleanupPendingSql} AND i.abandoning=0
         AND j.state IN ('failed','canceled','ready','unavailable')
         AND NOT EXISTS(SELECT 1 FROM recording_deletions d WHERE d.recordingId=i.recordingId)
         AND NOT EXISTS(SELECT 1 FROM jobs r WHERE r.recordingId=j.recordingId AND r.revisionId=j.revisionId
@@ -235,7 +252,7 @@ export class RecordingExports {
     return !!this.owners.store.catalog
       .prepare(`SELECT 1 FROM export_intents
       WHERE receipt IS NULL AND recordingId=? AND sourceEvidence IS NOT NULL
-      AND CASE WHEN json_valid(sourceEvidence) THEN json_extract(sourceEvidence,'$.generation')=? ELSE 1 END LIMIT 1`)
+      AND json_extract(sourceEvidence,'$.generation')=? LIMIT 1`)
       .get(recordingId, generation);
   }
   admit(job: Job): ReturnType<JobAdmission> {
@@ -294,7 +311,7 @@ export class RecordingExports {
     return !!this.owners.store.catalog
       .prepare(`SELECT 1 FROM export_intents
       WHERE receipt IS NULL AND recordingId=? AND packageEvidence IS NOT NULL
-      AND CASE WHEN json_valid(packageEvidence) THEN json_extract(packageEvidence,?)=? ELSE 1 END LIMIT 1`)
+      AND json_extract(packageEvidence,?)=? LIMIT 1`)
       .get(recordingId, `$.${kind}.generation`, generation);
   }
   private savePackageEvidence(intent: Intent) {
@@ -466,8 +483,6 @@ export class RecordingExports {
   }
   private async prepareIntent(request: Request) {
     this.requireAdmission(request.exportId);
-    if (request.kind !== "video" && request.kind !== "processed-package")
-      throw new CatalogError("INVALID_PARAMS", "Export kind must be video or processed-package");
     if (
       !uuid.test(request.exportId) ||
       !request.leaf ||
@@ -517,9 +532,7 @@ export class RecordingExports {
         return existing;
       }
       const pending = this.owners.store.catalog
-        .prepare(
-          "SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL OR abandoning=1 OR assembly IS NOT NULL",
-        )
+        .prepare(`SELECT COUNT(*) AS count FROM export_intents WHERE ${admittedSql}`)
         .get() as { count: number };
       if (pending.count >= 32)
         throw new CatalogError(
@@ -559,8 +572,6 @@ export class RecordingExports {
     const recordingId = input.recordingId ?? null,
       unfinishedOnly = input.unfinishedOnly ?? false,
       limit = input.limit ?? 100;
-    if (!Number.isInteger(limit) || limit < 1 || limit > 500)
-      throw new CatalogError("INVALID_PARAMS", "Export page limit must be between 1 and 500");
     if (
       input.cursor &&
       (input.cursor.recordingId !== recordingId || input.cursor.unfinishedOnly !== unfinishedOnly)
@@ -568,11 +579,10 @@ export class RecordingExports {
       throw new CatalogError("INVALID_CURSOR", "Export cursor does not match filters");
     const rows = this.owners.store.catalog
       .prepare(`SELECT selected.*,j.state FROM (SELECT exportId,recordingId,kind,
-      json_extract(snapshot,'$.revisionId') AS revisionId,
-      receipt IS NOT NULL AS committed,abandoning,
-      (assembly IS NOT NULL OR (staging IS NOT NULL AND stagingCleared=0)) AS cleanupPending
+      json_extract(snapshot,'$.revisionId') AS revisionId,receipt IS NOT NULL AS receipt,abandoning,
+      assembly IS NOT NULL AS assembly,staging IS NOT NULL AS staging,stagingCleared
       FROM export_intents WHERE exportId>? ${recordingId === null ? "" : "AND recordingId=?"}
-      ${unfinishedOnly ? `AND (${unfinished})` : ""} ORDER BY exportId LIMIT ?) selected
+      ${unfinishedOnly ? `AND ${unfinishedSql}` : ""} ORDER BY exportId LIMIT ?) selected
       LEFT JOIN jobs j ON j.recordingId=selected.recordingId AND j.revisionId=selected.revisionId
       AND j.artifact=? AND j.input=selected.exportId ORDER BY selected.exportId`)
       .all(
@@ -580,26 +590,22 @@ export class RecordingExports {
         ...(recordingId === null ? [] : [recordingId]),
         limit + 1,
         artifact,
-      ) as (Omit<ExportSummary, "state" | "abandoning" | "cleanupPending"> & {
+      ) as (Lifecycle & {
+      exportId: string;
+      recordingId: string;
+      kind: Request["kind"];
+      revisionId: string;
       state: Job["state"] | null;
-      committed: number;
-      abandoning: number;
-      cleanupPending: number;
     })[];
     const exports = rows
       .slice(0, limit)
-      .map(({ committed, abandoning, cleanupPending, state, ...row }): ExportSummary => {
-        return {
-          ...row,
-          state: committed
-            ? "committed"
-            : state === "waiting"
-              ? "queued"
-              : (state ?? "not_requested"),
-          abandoning: !!abandoning,
-          cleanupPending: !!cleanupPending,
-        };
-      });
+      .map(({ exportId, recordingId, kind, revisionId, state, ...lifecycle }) => ({
+        exportId,
+        recordingId,
+        kind,
+        revisionId,
+        ...summarize(lifecycle, state),
+      }));
     return {
       exports,
       nextCursor:
@@ -608,27 +614,24 @@ export class RecordingExports {
           : null,
     };
   }
+  /** Reads the durable intent even while its recording is being deleted, as discovery does. */
   status(exportId: string) {
     const intent = this.require(exportId);
-    this.owners.store.get(intent.recordingId);
     const job = this.owners.jobs.status(this.identity(intent));
     const current = job.jobId ? this.owners.jobs.job(job.jobId) : null;
-    const state = current?.state ?? "not_requested";
     const recovery = current
       ? this.owners.jobs.status(this.recoveryIdentity(intent, current.attemptId))
       : null;
     return {
       exportId,
       kind: intent.kind,
-      abandoning: intent.abandoning,
+      ...summarize(intent, current?.state ?? null),
       recovery,
       recordingId: intent.recordingId,
       snapshot: intent.snapshot,
-      state: intent.receipt ? ("committed" as const) : state === "waiting" ? "queued" : state,
-      // The admitted destination lets a restarted client describe an unfinished export
-      // without keeping its own copy; output still names only a committed file.
+      // A restarted client can describe an unfinished export from this alone; output still
+      // names only a committed file.
       destination: { directory: intent.destination.directory, leaf: intent.destination.leaf },
-      cleanupPending: !!intent.assembly || (!!intent.staging && !intent.stagingCleared),
       receipt: intent.receipt,
       output: intent.receipt ? join(intent.destination.directory, intent.destination.leaf) : null,
       jobId: job.jobId,
@@ -641,9 +644,7 @@ export class RecordingExports {
     let after = "",
       bytes = 0;
     const query = this.owners.store.catalog.prepare(
-      recordingId === undefined
-        ? "SELECT exportId FROM export_intents WHERE staging IS NOT NULL AND stagingCleared=0 AND exportId>? ORDER BY exportId LIMIT 1"
-        : "SELECT exportId FROM export_intents WHERE recordingId=? AND staging IS NOT NULL AND stagingCleared=0 AND exportId>? ORDER BY exportId LIMIT 1",
+      `SELECT exportId FROM export_intents WHERE ${recordingId === undefined ? "" : "recordingId=? AND "}${stagingPendingSql} AND exportId>? ORDER BY exportId LIMIT 1`,
     );
     for (;;) {
       signal.throwIfAborted();
@@ -683,9 +684,7 @@ export class RecordingExports {
     this.owners.store.get(intent.recordingId);
     // An acknowledged commit never becomes a second export because the user moved/deleted it.
     if (intent.receipt)
-      return intent.stagingCleared && !intent.assembly
-        ? this.status(exportId)
-        : this.recover(exportId);
+      return cleanupPending(intent) ? this.recover(exportId) : this.status(exportId);
     const job = this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
     this.owners.jobs.retry(job.jobId);
     return this.status(exportId);
@@ -694,10 +693,8 @@ export class RecordingExports {
     const intent = this.require(exportId);
     this.requireActive(intent);
     this.owners.store.get(intent.recordingId);
-    if (!intent.receipt) {
-      const job = this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
-      this.owners.jobs.cancel(job.jobId);
-    }
+    const { jobId } = this.owners.jobs.status(this.identity(intent));
+    if (!intent.receipt && jobId) this.owners.jobs.cancel(jobId);
     // Only runnable/active heavy jobs are returned: the shared queue bounds this set.
     const active = this.owners.store.catalog
       .prepare(`SELECT jobId FROM jobs WHERE recordingId=?
@@ -844,13 +841,12 @@ export class RecordingExports {
       await publication.close();
     }
   }
-  /** Explicit recovery/retry requests enqueue work; status and startup never hash files. */
+  /** Status never observes publication files; this queues the job that does. */
   recover(exportId: string) {
     const intent = this.require(exportId);
     this.requireActive(intent);
     this.owners.store.get(intent.recordingId);
-    if (!intent.assembly && (!intent.staging || (intent.receipt && intent.stagingCleared)))
-      return this.status(exportId);
+    if (!cleanupPending(intent)) return this.status(exportId);
     const original = this.owners.jobs.status(this.identity(intent));
     if (!original.jobId)
       throw new CatalogError("INVALID_JOB", "Staged export has no publication job");
@@ -864,15 +860,7 @@ export class RecordingExports {
   }
 
   private async reconcile({ job, signal }: JobExecution): Promise<string> {
-    const [exportId, attemptId, extra] = job.input.split("/");
-    if (
-      !exportId ||
-      !attemptId ||
-      extra !== undefined ||
-      !uuid.test(exportId) ||
-      !uuid.test(attemptId)
-    )
-      throw new CatalogError("INVALID_JOB", "Recovery identity is invalid");
+    const exportId = job.input.slice(0, job.input.indexOf("/"));
     const intent = this.require(exportId);
     this.requireActive(intent);
     if (job.recordingId !== intent.recordingId || job.revisionId !== intent.snapshot.revisionId)

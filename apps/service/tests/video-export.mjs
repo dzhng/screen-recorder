@@ -1818,12 +1818,16 @@ if (process.argv[2] === "crash-owner") {
       f.deletion.delete(f.take.recordingId),
       (e) => e.code === "PUBLICATION_CHANGED",
     );
+    const discovery = f.exports.list({}).exports;
     assert.deepEqual(
-      f.store.catalog
-        .prepare("SELECT exportId FROM export_intents ORDER BY exportId")
-        .all()
-        .map((row) => row.exportId),
+      discovery.map((row) => row.exportId),
       [ids[0]],
+    );
+    const [discovered] = discovery;
+    const detailed = f.exports.status(ids[0]);
+    assert.deepEqual(
+      [detailed.state, detailed.abandoning, detailed.cleanupPending],
+      [discovered.state, discovered.abandoning, discovered.cleanupPending],
     );
     assert.equal(await readFile(join(stage, "sentinel"), "utf8"), "keep");
     await assert.rejects(readdir(join(f.output, ".screenrec-export-" + ids[1])), {
