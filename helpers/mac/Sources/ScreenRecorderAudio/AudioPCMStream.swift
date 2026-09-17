@@ -35,16 +35,16 @@ public final class AudioPCMStream {
     private var consumed = false
 
     private struct Interval {
-        let source: SourceSpan
+        let source: TimeSpan
         let start: Int64
         let end: Int64
     }
 
-    public static func open(tracks: [AudioTrackPlan], spans: [SourceSpan]) async throws
+    public static func open(tracks: [AudioTrackPlan], spans: [TimeSpan]) async throws
         -> AudioPCMStream
     {
         try ExcerptValidation.check(
-            tracks: tracks, spans: spans, maximumDurationUs: AudioLimits.maximumMicroseconds,
+            tracks: tracks, spans: spans, maximumDurationUs: TimeSpan.maximumMicroseconds,
             maximumSpans: AudioLimits.maximumRetainedSpans,
             maximumAvailableIntervals: AudioLimits.maximumRetainedAvailableIntervals)
         var opened: [SourceTrack] = []
@@ -54,7 +54,7 @@ public final class AudioPCMStream {
         return try AudioPCMStream(sources: opened, spans: spans)
     }
 
-    private init(sources: [SourceTrack], spans: [SourceSpan]) throws {
+    private init(sources: [SourceTrack], spans: [TimeSpan]) throws {
         let sampleRate = sources.map(\.sampleRate).max()!
         let channels = sources.map(\.channels).max()!
         guard channels <= 2 else {
@@ -74,18 +74,18 @@ public final class AudioPCMStream {
         var reports: [AudioTrackReport] = []
         for track in sources {
             var readableIntervals: [Interval] = []
-            var unavailable: [SourceSpan] = []
+            var unavailable: [TimeSpan] = []
             var availableIndex = 0
             for (index, span) in spans.enumerated() {
                 while availableIndex < track.available.count,
                     track.available[availableIndex].endUs <= span.startUs
                 { availableIndex += 1 }
                 var cursor = availableIndex
-                var readable: [SourceSpan] = []
+                var readable: [TimeSpan] = []
                 while cursor < track.available.count,
                     track.available[cursor].startUs < span.endUs
                 {
-                    if let interval = SpanMath.intersection(span, track.available[cursor]) {
+                    if let interval = span.intersection(track.available[cursor]) {
                         readable.append(interval)
                     }
                     cursor += 1
@@ -97,7 +97,7 @@ public final class AudioPCMStream {
                         readableIntervals.append(Interval(source: interval, start: start, end: end))
                     }
                 }
-                unavailable.append(contentsOf: SpanMath.subtract(span, covering: readable))
+                unavailable.append(contentsOf: span.subtracting(readable))
             }
             intervals.append(readableIntervals)
             reports.append(

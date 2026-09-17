@@ -8,7 +8,7 @@ import ScreenRecorderMedia
 enum AudioOperation {
     private struct Request: Codable {
         let output: String
-        let spans: [SourceSpan]
+        let spans: [TimeSpan]
         let tracks: [AudioTrackPlan]
     }
 

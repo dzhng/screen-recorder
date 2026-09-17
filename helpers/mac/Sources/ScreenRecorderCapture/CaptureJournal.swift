@@ -1,5 +1,6 @@
 import Darwin
 import Foundation
+import ScreenRecorderMedia
 
 public struct CaptureJournalHeader: Codable, Sendable {
     public init(
@@ -45,7 +46,7 @@ public struct CaptureJournalSummary: Codable, Sendable {
     public var header: CaptureJournalHeader?
     public var originHostUs: Int64?
     public var pauses: [PauseEvent] = []
-    public var acquiredAudio: [String: [MediaInterval]] = [:]
+    public var acquiredAudio: [String: [TimeSpan]] = [:]
     public var openPauseHostUs: Int64?
     /// Cursor evidence stays a count and a range here. A consumer that needs the samples
     /// themselves streams the journal file; a summary never grows with recording length.
@@ -242,7 +243,7 @@ public final class CaptureJournal {
         func emitAudio(_ interval: JournalAudioSamples) throws {
             if retainTiming {
                 summary.acquiredAudio[interval.role, default: []].append(
-                    MediaInterval(startUs: interval.startUs, endUs: interval.endUs))
+                    TimeSpan(startUs: interval.startUs, endUs: interval.endUs))
             }
             try audioAcquired(interval)
         }
@@ -271,12 +272,13 @@ public final class CaptureJournal {
             case .pausePlaced(let placed): try emitPause(placed)
             case .audioSamples(let next):
                 if let previous = pendingAudio[next.role] {
-                    // Acquisition timestamps are monotonic per role. A one-microsecond rounding
-                    // seam is contiguous; larger holes must remain visible to recovery and export.
-                    if next.startUs <= previous.endUs || next.startUs - previous.endUs == 1 {
+                    // Acquisition timestamps are monotonic per role.
+                    let span = TimeSpan(startUs: previous.startUs, endUs: previous.endUs)
+                    let arriving = TimeSpan(startUs: next.startUs, endUs: next.endUs)
+                    if span.isContinued(by: arriving) {
+                        let merged = span.merged(with: arriving)
                         pendingAudio[next.role] = JournalAudioSamples(
-                            role: next.role, startUs: min(previous.startUs, next.startUs),
-                            endUs: max(previous.endUs, next.endUs))
+                            role: next.role, startUs: merged.startUs, endUs: merged.endUs)
                     } else {
                         try emitAudio(previous)
                         pendingAudio[next.role] = next

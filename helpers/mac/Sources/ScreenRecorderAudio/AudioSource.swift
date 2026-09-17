@@ -13,7 +13,7 @@ struct SourceTrack {
     let track: AVAssetTrack
     let sampleRate: Int
     let channels: Int
-    let available: [SourceSpan]
+    let available: [TimeSpan]
 
     static func open(plan: AudioTrackPlan) async throws -> SourceTrack {
         let source = URL(fileURLWithPath: plan.source)
@@ -58,7 +58,7 @@ struct SourceTrack {
         // indistinguishable from recorded quiet, so absence is decided from the container's own
         // occupied segments rather than from the samples it is willing to produce.
         let occupied = segments.map {
-            SourceSpan(
+            TimeSpan(
                 startUs: microseconds($0.asset.start) + plan.sourceOffsetUs,
                 endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + plan.sourceOffsetUs)
         }
@@ -68,7 +68,7 @@ struct SourceTrack {
             // A container cannot testify that acquisition happened: it will decode padding for a
             // hole the caller knows nothing was captured over. Only where the caller's evidence and
             // the file agree is material read; everywhere else is reported unavailable and silent.
-            available: SpanMath.intersection(plan.available, occupied))
+            available: TimeSpan.intersection(plan.available, occupied))
     }
 
 }
@@ -83,7 +83,7 @@ final class ConvertedAudioInterval {
     private var offset = 0
     private var exhausted = false
 
-    init(source: SourceTrack, interval: SourceSpan, outputRate: Int, owed: Int64) throws {
+    init(source: SourceTrack, interval: TimeSpan, outputRate: Int, owed: Int64) throws {
         sourceInput = source.input
         guard
             let sourceFormat = AVAudioFormat(

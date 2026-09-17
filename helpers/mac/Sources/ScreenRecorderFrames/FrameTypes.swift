@@ -1,17 +1,6 @@
 import Foundation
 import ScreenRecorderMedia
 
-/// A half-open kept-source interval, already resolved by the timeline owner.
-/// This library never interprets edits; it only searches inside the supplied interval.
-public struct FrameInterval: Codable, Sendable, Equatable {
-    public let startUs: Int64
-    public let endUs: Int64
-    public init(startUs: Int64, endUs: Int64) {
-        self.startUs = startUs
-        self.endUs = endUs
-    }
-}
-
 /// Crop rectangle in oriented source-image pixels, origin at the top left.
 public struct FrameCrop: Codable, Sendable, Equatable {
     public let x: Int
@@ -36,6 +25,12 @@ public struct CursorPoint: Codable, Sendable, Equatable {
         self.atSourceUs = atSourceUs
         self.x = x
         self.y = y
+    }
+
+    /// Whether the point addresses a pixel of a `width` by `height` raster. Output pixels are
+    /// half-open, as the capture journals them: a coordinate equal to the width is past the edge.
+    func isOnRaster(width: Int, height: Int) -> Bool {
+        x.isFinite && y.isFinite && x >= 0 && y >= 0 && x < Double(width) && y < Double(height)
     }
 }
 
@@ -62,8 +57,6 @@ public struct FrameOverlay: Codable, Sendable, Equatable {
 }
 
 public enum FrameLimits {
-    /// Public times are safe integer microseconds on both sides of the wire.
-    public static let maximumMicroseconds: Int64 = 9_007_199_254_740_991
     public static let defaultLongEdge = 1600
     public static let maximumLongEdge = 8192
     public static let maximumEncodedBytes = 32 * 1024 * 1024
@@ -76,7 +69,7 @@ public enum FrameLimits {
 
 public struct FrameRequest: Sendable {
     public let atSourceUs: Int64
-    public let kept: FrameInterval
+    public let kept: TimeSpan
     public let output: URL
     /// Drawn in source pixels before the crop, so overlay coordinates and crop coordinates are read
     /// in the same geometry. Absent means a clean frame.
@@ -86,7 +79,7 @@ public struct FrameRequest: Sendable {
     public let maxEncodedBytes: Int
 
     public init(
-        atSourceUs: Int64, kept: FrameInterval, output: URL, overlay: FrameOverlay? = nil,
+        atSourceUs: Int64, kept: TimeSpan, output: URL, overlay: FrameOverlay? = nil,
         crop: FrameCrop? = nil, maxLongEdge: Int = FrameLimits.defaultLongEdge,
         maxEncodedBytes: Int = FrameLimits.maximumEncodedBytes
     ) {

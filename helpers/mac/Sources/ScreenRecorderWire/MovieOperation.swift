@@ -44,7 +44,7 @@ enum MovieOperation {
             : try await AudioPCMStream.open(
                 tracks: request.tracks,
                 spans: request.plan.map {
-                    SourceSpan(startUs: $0.source.startUs, endUs: $0.source.endUs)
+                    TimeSpan(startUs: $0.source.startUs, endUs: $0.source.endUs)
                 })
         let muxed = audio.map { $0.frames > 0 } ?? false
         let video = muxed ? output.scratch(named: "video.mp4") : output.url

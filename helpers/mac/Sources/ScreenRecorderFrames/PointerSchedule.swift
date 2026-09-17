@@ -169,8 +169,7 @@ final class PointerSchedule {
                 }
             }
             if let p = state.pointer {
-                guard p.x.isFinite, p.y.isFinite, p.x >= 0, p.y >= 0,
-                    p.x < Double(receipt.sourceWidth), p.y < Double(receipt.sourceHeight),
+                guard p.isOnRaster(width: receipt.sourceWidth, height: receipt.sourceHeight),
                     p.atSourceUs >= 0, time(microseconds: p.atSourceUs) <= at
                 else { throw invalid("Pointer coordinates or observation time are invalid.") }
             }

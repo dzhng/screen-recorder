@@ -5,8 +5,8 @@ import Foundation
 import ScreenRecorderMedia
 
 public struct VideoRenderSpan: Codable, Sendable {
-    public let source: FrameInterval
-    public let playback: FrameInterval
+    public let source: TimeSpan
+    public let playback: TimeSpan
 }
 
 public struct RenderedVideo: Sendable {

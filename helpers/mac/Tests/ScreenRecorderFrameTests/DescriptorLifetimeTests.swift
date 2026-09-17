@@ -30,7 +30,7 @@ func verifyDescriptorLifetime(source: URL, parent: URL) async throws {
         try FileManager.default.removeItem(at: copy)
         _ = try await frames.decodeFrame(
             FrameRequest(
-                atSourceUs: 700_000, kept: FrameInterval(startUs: 0, endUs: 3_000_000),
+                atSourceUs: 700_000, kept: TimeSpan(startUs: 0, endUs: 3_000_000),
                 output: directory.appendingPathComponent("frame.png")))
     }
     try await retainedRead()

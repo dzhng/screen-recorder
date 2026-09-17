@@ -2,15 +2,16 @@
 import Darwin
 import Foundation
 import ScreenRecorderAudio
+import ScreenRecorderMedia
 
 func streamingProof(source: String, seconds: Int64, evidence: URL) async throws {
-    let span = SourceSpan(startUs: 0, endUs: seconds * 1_000_000)
+    let span = TimeSpan(startUs: 0, endUs: seconds * 1_000_000)
     let track = AudioTrackPlan(
         role: .narration, source: source, sourceOffsetUs: 0, available: [span])
     let spans = [
-        SourceSpan(startUs: 0, endUs: 168_583),
-        SourceSpan(startUs: 200_000, endUs: 372_750),
-        SourceSpan(startUs: 400_000, endUs: span.endUs),
+        TimeSpan(startUs: 0, endUs: 168_583),
+        TimeSpan(startUs: 200_000, endUs: 372_750),
+        TimeSpan(startUs: 400_000, endUs: span.endUs),
     ]
     let stream = try await AudioPCMStream.open(tracks: [track], spans: spans)
     precondition(stream.format.sampleRate == 48_000 && stream.format.channels == 2)
@@ -95,7 +96,7 @@ func streamingProof(source: String, seconds: Int64, evidence: URL) async throws 
 func writePlanReference(_ path: String) async throws {
     struct Plan: Decodable {
         let tracks: [AudioTrackPlan]
-        let spans: [SourceSpan]
+        let spans: [TimeSpan]
         let output: String
     }
     let plan = try JSONDecoder().decode(

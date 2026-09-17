@@ -25,23 +25,21 @@ final class PresentationSource {
     private var segmentIndex = 0
 
     static func duration(of plan: [VideoRenderSpan]) throws -> Int64 {
-        var through: Int64 = 0
-        var sourceEnd: Int64 = 0
         guard !plan.isEmpty, plan.count <= 10_000 else {
             throw NativeFailure("INVALID_REQUEST", "Render plan requires 1...10000 spans.")
         }
+        var through: Int64 = 0
         for span in plan {
-            guard span.source.startUs >= sourceEnd, span.source.endUs > span.source.startUs,
-                span.source.endUs <= FrameLimits.maximumMicroseconds,
-                span.playback.startUs == through, span.playback.endUs > through,
-                span.playback.endUs <= FrameLimits.maximumMicroseconds,
-                span.source.endUs - span.source.startUs == span.playback.endUs - through
+            guard span.playback.startUs == through,
+                span.playback.endUs - span.playback.startUs == span.source.endUs - span.source.startUs
             else {
                 throw NativeFailure(
-                    "INVALID_REQUEST", "Render plan has invalid source or playback ranges.")
+                    "INVALID_REQUEST", "Render plan playback must follow its source spans.")
             }
-            sourceEnd = span.source.endUs
             through = span.playback.endUs
+        }
+        guard TimeSpan.areRetained(plan.map(\.source)) else {
+            throw NativeFailure("INVALID_REQUEST", "Render plan has invalid source ranges.")
         }
         return through
     }

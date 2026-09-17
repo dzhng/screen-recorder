@@ -75,7 +75,7 @@ public actor FrameSource {
     }
 
     /// One bounded analysis batch. The core owns sampling cadence and every scene judgment.
-    public func visualSamples(atSourceUs times: [Int64], kept: FrameInterval) throws
+    public func visualSamples(atSourceUs times: [Int64], kept: TimeSpan) throws
         -> VisualSamples
     {
         guard !times.isEmpty, times.count <= 52 else {
@@ -119,7 +119,7 @@ public actor FrameSource {
         return VisualSamples(sourceWidth: width, sourceHeight: height, samples: samples)
     }
 
-    private func nearestSample(atSourceUs requestedUs: Int64, in kept: FrameInterval) throws
+    private func nearestSample(atSourceUs requestedUs: Int64, in kept: TimeSpan) throws
         -> (CMTime, FrameSelection)
     {
         try validate(requestedUs: requestedUs, kept: kept)
@@ -169,14 +169,14 @@ public actor FrameSource {
         throw NativeFailure.decodeFailed("Decoder did not produce the sample at \(actualUs) microseconds.")
     }
 
-    private func validate(requestedUs: Int64, kept: FrameInterval) throws {
-        guard requestedUs >= 0, requestedUs <= FrameLimits.maximumMicroseconds else {
+    private func validate(requestedUs: Int64, kept: TimeSpan) throws {
+        guard requestedUs >= 0, requestedUs <= TimeSpan.maximumMicroseconds else {
             throw NativeFailure(
                 "INVALID_RANGE",
                 "Requested source time \(requestedUs) is not a safe non-negative microsecond value."
             )
         }
-        guard kept.startUs >= 0, kept.endUs <= FrameLimits.maximumMicroseconds,
+        guard kept.startUs >= 0, kept.endUs <= TimeSpan.maximumMicroseconds,
             kept.endUs > kept.startUs
         else {
             throw NativeFailure(
@@ -254,9 +254,8 @@ public actor FrameSource {
     }
 
     private func validate(point: CursorPoint) throws {
-        guard point.atSourceUs >= 0, point.atSourceUs <= FrameLimits.maximumMicroseconds,
-            point.x.isFinite, point.y.isFinite, point.x >= 0, point.x <= Double(width),
-            point.y >= 0, point.y <= Double(height)
+        guard point.atSourceUs >= 0, point.atSourceUs <= TimeSpan.maximumMicroseconds,
+            point.isOnRaster(width: width, height: height)
         else {
             throw NativeFailure(
                 "INVALID_RANGE",

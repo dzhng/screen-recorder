@@ -9,7 +9,7 @@ enum FrameOperation {
         let source: String
         let output: String
         let atSourceUs: Int64
-        let kept: FrameInterval
+        let kept: TimeSpan
         let crop: FrameCrop?
         let overlay: FrameOverlay?
         let maxLongEdge: Int?
@@ -18,7 +18,7 @@ enum FrameOperation {
 
     private struct VisualSampleFields: Codable {
         let source: String
-        let kept: FrameInterval
+        let kept: TimeSpan
         let atSourceUs: [Int64]
     }
 

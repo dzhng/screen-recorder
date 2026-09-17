@@ -266,6 +266,12 @@ test("video worker refuses malformed plans and output aliases without source mut
     [{ source: { startUs: 0, endUs: 10 }, playback: { startUs: 1, endUs: 11 } }],
     [{ source: { startUs: true, endUs: 10 }, playback: { startUs: 0, endUs: 10 } }],
     [{ source: { startUs: 0, endUs: 300000 }, playback: { startUs: 0, endUs: 300000 } }],
+    // Retained spans never touch: adjacent ones are one span, and audio mixing refuses to ramp a
+    // join that does not exist, so video must refuse the same plan.
+    [
+      { source: { startUs: 0, endUs: 1000 }, playback: { startUs: 0, endUs: 1000 } },
+      { source: { startUs: 1000, endUs: 2000 }, playback: { startUs: 1000, endUs: 2000 } },
+    ],
   ]) {
     const output = join(directory, "invalid.mp4");
     assert.equal(request({ source, output, plan: bad }).ok, false);
