@@ -187,6 +187,7 @@ async function main(): Promise<void> {
           signal,
           transcriptionDeadlineMs(request.track.available),
         ),
+      (recordingId, generation) => exports!.retainsTranscript(recordingId, generation),
     );
     const visual = new VisualObservationCache(
       store,
@@ -258,7 +259,15 @@ async function main(): Promise<void> {
       processing,
       worker,
       files,
-      package: { source: evidence, scenes, index, sceneEvidence, indexEvidence },
+      package: {
+        source: evidence,
+        scenes,
+        index,
+        transcript: transcripts,
+        sceneEvidence,
+        indexEvidence,
+        transcriptEvidence: transcriptStore,
+      },
     });
     void cacheReady.then(() => {
       if (cleanupLifetime.signal.aborted) return;

@@ -70,6 +70,14 @@ const inspectionPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields
   z.union([paged(recording, fields, position), paged(packageTarget, fields, position)]);
 const processingArtifact = z.enum(["source", "scenes", "transcript"]);
 const transcriptPosition = { revisionId: id, generation: id, afterSourceUs: time };
+/** A package's transcript cursor still names the embedded recording its generation belongs to. */
+const transcriptPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields: S, position: C) =>
+  z.union([
+    paged(recording, fields, position),
+    packageTarget
+      .extend({ ...fields, cursor: recording.extend(position).strict().optional() })
+      .strict(),
+  ]);
 
 // Adapters derive their advertised tools from the same schemas the service validates.
 export const operationSchema = z.discriminatedUnion("operation", [
@@ -88,7 +96,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Choose video or a complete processed-package ZIP. Package export requires all acquired evidence; acquired narration requires an accepted transcript and currently reports UNSUPPORTED_ARTIFACT.",
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Choose video or a complete processed-package ZIP. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
     ),
   z
     .object({
@@ -262,8 +270,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("transcript.get"),
-      params: paged(
-        recording,
+      params: transcriptPage(
         {
           revisionId: id.optional(),
           range: range.optional(),
@@ -274,13 +281,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request the narration transcript projected through a revision. Returns readiness until complete, then source-ordered word and acquisition-gap rows, optionally only those retained in a playback range. Words keep verbatim text, kind, source range and a per-generation ID; words a cut intersects are partial with retained fragments. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to keep the same revision, generation and range.",
+      "Request the narration transcript of a recording or open package, projected through a revision. Returns readiness until complete, then source-ordered word and acquisition-gap rows, optionally only those retained in a playback range. Words keep verbatim text, kind, source range and a per-generation ID; words a cut intersects are partial with retained fragments. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to keep the same revision, generation and range.",
     ),
   z
     .object({
       operation: z.literal("transcript.search"),
-      params: paged(
-        recording,
+      params: transcriptPage(
         {
           revisionId: id.optional(),
           text: z.string().min(1).max(200),

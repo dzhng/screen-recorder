@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { hash, randomUUID } from "node:crypto";
 import { existsSync, linkSync, mkdirSync, readdirSync, statSync } from "node:fs";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, realpath, writeFile } from "node:fs/promises";
 import { isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
@@ -112,12 +112,29 @@ test(
     });
     const take = store.allocate().recording;
     const source = join(home, "recordings", take.recordingId, "source");
-    await mkdir(source, { recursive: true });
+    // The service creates recording directories private; package assembly relies on it.
+    await mkdir(source, { recursive: true, mode: 0o700 });
     const narration = join(source, "narration.mov");
     const { gap, durationUs } = narrationMovie(
       temporary("/tmp/scr-transcript-narration-"),
       narration,
     );
+    // A plain picture track lets the take export as a complete package.
+    const video = join(source, "video.mov");
+    run("ffmpeg", [
+      "-v",
+      "error",
+      "-f",
+      "lavfi",
+      "-i",
+      `color=c=gray:s=100x80:r=30:d=${durationUs / 1e6}`,
+      "-an",
+      "-c:v",
+      "libx264",
+      "-pix_fmt",
+      "yuv420p",
+      video,
+    ]);
     for (const [sequence, state] of ["recording", "finalizing"].entries())
       store.ingestLifecycle(take.recordingId, {
         sourceId: take.sourceId,
@@ -146,6 +163,22 @@ test(
         },
       },
       { event: "origin", data: { hostUs: 1000 } },
+      {
+        event: "geometry",
+        data: {
+          epoch: 1,
+          hostUs: 1000,
+          sourceUs: 0,
+          geometry: {
+            outputWidth: 100,
+            outputHeight: 80,
+            contentRect: { x: 0, y: 0, width: 100, height: 80 },
+            contentScale: 1,
+            scaleFactor: 1,
+            screenRect: { x: 0, y: 0, width: 100, height: 80 },
+          },
+        },
+      },
       { event: "audioSamples", data: { role: "narration", startUs: 0, endUs: durationUs } },
       { event: "finished", data: {} },
     ];
@@ -155,7 +188,9 @@ test(
       rows.map((row, index) => JSON.stringify({ sequence: index + 1, ...row }) + "\n").join(""),
     );
     const hashes = async () =>
-      Promise.all([narration, journal].map(async (path) => hash("sha256", await readFile(path))));
+      Promise.all(
+        [narration, video, journal].map(async (path) => hash("sha256", await readFile(path))),
+      );
     const original = await hashes();
 
     const { instance } = await launchReady(home);
@@ -327,6 +362,62 @@ test(
       "raw.jsonl",
     );
     assert.equal(statSync(raw).size, ready.published.transcript.raw.bytes);
+
+    // A narrated package carries the transcript: reopened, it answers exactly as the library does.
+    const output = await realpath(temporary("/tmp/scr-transcript-export-"));
+    const exportId = randomUUID();
+    screenrec("export.create", {
+      exportId,
+      recordingId,
+      kind: "processed-package",
+      revisionId: revision.id,
+      directory: output,
+      leaf: "narrated.zip",
+    });
+    await waitFor(
+      () => {
+        const status = screenrec("export.status", { exportId });
+        if (["failed", "unavailable", "canceled"].includes(status.state))
+          throw new Error(JSON.stringify(status));
+        return status.state === "committed";
+      },
+      240_000,
+      () => instance.diagnostics,
+    );
+    const admitted = screenrec("package.open", { path: join(output, "narrated.zip") });
+    const opened = await waitFor(
+      () => {
+        const status = screenrec("package.status", { admissionId: admitted.id });
+        if (["failed", "cleanup_failed"].includes(status.state))
+          throw new Error(JSON.stringify(status));
+        return status.state === "ready" && status;
+      },
+      60_000,
+      () => instance.diagnostics,
+    );
+    const packaged = [];
+    cursor = undefined;
+    do {
+      const page = screenrec("transcript.get", {
+        packageHandle: opened.packageHandle,
+        revisionId: revision.id,
+        limit: 7,
+        ...(cursor ? { cursor } : {}),
+      });
+      assert.equal(page.generation, generation);
+      packaged.push(...page.page.rows);
+      cursor = page.page.nextCursor;
+    } while (cursor);
+    assert.deepEqual(packaged, edited, "Package transcript pages equal the library's");
+    assert.deepEqual(
+      screenrec("transcript.search", {
+        packageHandle: opened.packageHandle,
+        revisionId: revision.id,
+        text: `${settings.text} panel`,
+      }).page.entries,
+      phrase.page.entries,
+    );
+    screenrec("package.close", { admissionId: admitted.id });
 
     instance.kill("SIGTERM");
     await waitFor(

@@ -339,9 +339,21 @@ export async function operate(
         return { ok: true, data: owner[method](operation.params.recordingId) };
       }
       case "transcript.get":
-        return { ok: true, data: transcripts.get(operation.params) };
+        return {
+          ok: true,
+          data:
+            "packageHandle" in operation.params
+              ? packages.transcript(operation.params.packageHandle).get(operation.params)
+              : transcripts.get(operation.params),
+        };
       case "transcript.search":
-        return { ok: true, data: transcripts.search(operation.params) };
+        return {
+          ok: true,
+          data:
+            "packageHandle" in operation.params
+              ? packages.transcript(operation.params.packageHandle).search(operation.params)
+              : transcripts.search(operation.params),
+        };
       case "model.status":
         return { ok: true, data: models.status() };
       case "model.prepare":
