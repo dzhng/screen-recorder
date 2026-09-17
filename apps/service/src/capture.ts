@@ -108,7 +108,11 @@ export class CaptureService {
     const device = captureDeviceSchema.parse(await this.ask("capture.status", {}));
     return {
       device,
-      recording: device.recordingId === null ? null : this.store.get(device.recordingId),
+      // A take awaiting deletion is no longer discoverable, though native may still be ending it.
+      recording:
+        device.recordingId === null || this.store.isDeleting(device.recordingId)
+          ? null
+          : this.store.get(device.recordingId),
     };
   }
 

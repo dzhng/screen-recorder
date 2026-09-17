@@ -242,6 +242,33 @@ it("reports the active source and audio choices through the public status operat
   });
 });
 
+it("reports the device while the take it is capturing awaits deletion", async () => {
+  const capturing = capturingPeer();
+  const service = await startService(await temporaryHome(), (operation, params) =>
+    // Native keeps capturing a take it will not hand over, so deletion cannot prove it quiet.
+    operation === "capture.cancel"
+      ? {
+          ok: false,
+          error: { code: "INVALID_STATE", message: "not held", retryable: false, details: {} },
+        }
+      : capturing(operation, params),
+  );
+  const started = await service.call("capture.start", {
+    requestId: "deleted",
+    source: fixtureSource,
+  });
+  if (!started.ok) throw new Error("the take must start");
+  const { recordingId } = started.data as { recordingId: string };
+  expect(await service.call("recording.delete", { recordingId })).toMatchObject({
+    ok: false,
+    error: { retryable: true },
+  });
+  expect(await service.call("capture.status")).toMatchObject({
+    ok: true,
+    data: { device: { state: "recording", recordingId }, recording: null },
+  });
+});
+
 it("gives concurrent start requests one capturing take and one honest terminal failure", async () => {
   const home = await temporaryHome();
   const service = await startService(home, capturingPeer());
