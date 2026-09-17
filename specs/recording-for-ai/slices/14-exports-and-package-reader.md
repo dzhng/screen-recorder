@@ -2,7 +2,7 @@
 
 Status: package admission, public index/frame/audio inspection, queued export
 recovery, raw cursor pages and public video export pass their scoped gates. Complete-package
-assembly now passes public no-narration export/relocation. Public timeline reads,
+assembly now passes public no-narration export/relocation. Public timeline reads are also implemented;
 transcript integration and native export actions remain. See the [integration evidence](../assets/owner-integration/README.md).
 This does not close 08, 11c or 13.
 
@@ -60,7 +60,8 @@ workspace cleanup. [14c3b3](14c3b3-package-registry.md) now integrates registry
 reservations and startup reclamation. [Public opening/index](14c3c1-public-package-index.md)
 and [frame/audio selectors](14c3c2-package-frame-audio.md) now consume that owner;
 [raw cursor pages](14c3c3-package-cursor.md) also use the shared source reader.
-Public timeline reads remain.
+[Timeline inspection](14c3c4-timeline-inspection.md) reprojects included history
+through the same source/scene evidence.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native

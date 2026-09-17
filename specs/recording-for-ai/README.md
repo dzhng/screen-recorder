@@ -28,7 +28,8 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish public timeline inspection and native export controls.
+Current pickup: finish the native export workflow: persisted-export discovery,
+menu controls, and the native source-receipt path-alias fix.
 The [complete no-narration package](assets/package-assembly/public.md) now exports
 through CLI/MCP and survives relocation with public frame/audio inspection.
 Native controls must use the shared owner, preserve ambiguous request identities,
@@ -40,9 +41,11 @@ Acquired narration remains an explicit transcript prerequisite, never an implici
 no-narration package. The [abandonment admission fence](assets/export-publication/admission-abandon.md)
 now drains destination validation before reporting a stopped export absent.
 
-[Public timeline inspection](slices/14c3c3-timeline-inspection.md) is implemented for
+[Public timeline inspection](slices/14c3c4-timeline-inspection.md) is implemented for
 library and retained-package history with bounded, generation-scoped continuations.
-It does not imply transcript readiness.
+It does not imply transcript readiness. Native export verification also exposed
+a /private/tmp versus /tmp source-receipt alias mismatch; its owning native
+boundary is being fixed, without relaxing unrelated-file rejection.
 
 Priority order: package/export execution, remaining native controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
@@ -57,7 +60,8 @@ Recent integration evidence:
   accounting preserve external files. [Merged verification](assets/owner-integration/README.md)
   records internal-owner and public-access integration checks. Retained index selectors
   and arbitrary frames/audio/cursor are public; no-narration package creation is verified.
-  Narrated completeness, timeline reads and native controls remain.
+  Timeline reads now pass library/package history and continuation checks.
+  Narrated completeness and native controls remain.
 - [Public preview](assets/preview-publication/public.md) passes generated pointer,
   cut/pause, CLI/MCP parity, restart and deletion checks. The
   [native player](assets/preview-publication/player.md) passes real bundled-service
@@ -177,6 +181,7 @@ and unit checks do not close the full read → edit → inspect → export journ
     - [x] [14c3c2a — Public arbitrary package frames](slices/14c3c2a-package-frames.md) (CLI/MCP delivery, retry, pressure and close)
     - [x] [14c3c2b — Public package audio](slices/14c3c2b-package-audio.md) (generated system/mix parity and lifetime; narration/audition remain separate)
   - [x] [14c3c3 — Public package raw cursor](slices/14c3c3-package-cursor.md) (source-time pages and isolated continuations)
+  - [x] [14c3c4 — Public timeline inspection](slices/14c3c4-timeline-inspection.md) (library/package history and bounded continuations)
   - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md) (ready-preview queue/recovery/deletion; dependency consumers and public exports remain)
   - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md) (shared queue and rebuilt service integration)
   - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md) (source retention, retry and cache loss; public exports remain)

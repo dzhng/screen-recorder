@@ -1,6 +1,20 @@
 # Integrated package and export owners
 
-## Current public complete-package integration
+## Current timeline integration
+
+At `63e521a`, the merged library/package timeline route and the complete public
+package export workflow pass [two actual native journeys](timeline-native.txt).
+The latter regenerates portable event pages through the new shared projection
+owner before public frame/audio inspection. [327 core tests](timeline-core.txt),
+14 protocol tests, a fresh build and all type tasks pass. The
+[timeline evidence](../timeline-inspection/README.md) records independent review,
+negative controls and source-agent service/CLI checks. Integration preserves export
+retention callbacks and the public raw cursor route.
+
+Native export controls, persisted-export discovery and the source-receipt alias fix
+are in progress. Transcript fidelity and installed acceptance remain open.
+
+## Earlier public complete-package integration
 
 The [public composition receipt](../package-assembly/public.md) verifies actual
 CLI creation, MCP completion, concurrent editing, relocation and frame/audio

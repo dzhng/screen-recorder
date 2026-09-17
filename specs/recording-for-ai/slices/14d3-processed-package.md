@@ -49,6 +49,6 @@ The assembly evidence covers dependency retention, mutation, process crashes,
 surviving native writers, private storage and cleanup. These checks use generated
 no-narration media and do not establish power-loss safety or real speech fidelity.
 
-Complete narrated export still requires slice 08. Native menu actions, complete
-public timeline/transcript inspection and the installed personal workflow remain
-separate acceptance gates. Keep all original release requirements in force.
+Complete narrated export still requires slice 08. [Public timeline inspection](14c3c4-timeline-inspection.md)
+is implemented. Native menu actions, transcript inspection and the installed
+personal workflow remain separate acceptance gates. Keep all original release requirements in force.

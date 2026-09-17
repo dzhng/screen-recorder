@@ -1,4 +1,4 @@
-# 14c3c3 — Bounded timeline inspection
+# 14c3c4 — Bounded timeline inspection
 
 Status: implemented through shared core/service ownership and actual CLI/MCP
 composition. [Verification and ownership](../assets/timeline-inspection/README.md)
