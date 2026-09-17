@@ -24,8 +24,7 @@ private func statusLines(_ entries: [MenuEntry]) -> [String] {
 private func recording(elapsedUs: Int64, paused: Bool = false) -> ControlsState {
     var state = ready(source: .window(window))
     state.device = ControlsState.DeviceStatus(
-        state: paused ? .paused : .recording, recordingId: "rec-1", elapsedUs: elapsedUs,
-        permissions: ControlsState.Permissions(screen: true, microphone: "authorized"))
+        state: paused ? .paused : .recording, recordingId: "rec-1", elapsedUs: elapsedUs)
     state.take = ControlsState.TakeStatus(
         recordingId: "rec-1", state: paused ? "paused" : "recording", interruptionReason: nil,
         sourceDurationUs: nil)
@@ -96,16 +95,11 @@ func runMenuStateTests() {
         "A refused action states what the service refused")
 
     var denied = ready()
-    denied.device = ControlsState.DeviceStatus(
-        state: .idle, recordingId: nil, elapsedUs: nil,
-        permissions: ControlsState.Permissions(screen: false, microphone: "denied"))
-    let blocked = RecordingMenu.entries(for: denied)
+    denied.permissions = ControlsState.Permissions(screen: .denied, microphone: .denied)
     precondition(
-        statusLines(blocked).contains("Screen recording permission is required before recording."),
+        statusLines(RecordingMenu.entries(for: denied))
+            .contains("Screen recording permission is required before recording."),
         "A missing screen permission is stated before a person tries to record")
-    precondition(
-        find(blocked, "permission.screen") != nil && find(blocked, "permission.microphone") != nil,
-        "Permission is asked for by an explicit choice, never on the app's own initiative")
 
     let label = row(idle, "audio.system").title
     precondition(

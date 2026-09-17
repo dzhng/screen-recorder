@@ -29,6 +29,7 @@ public enum ControlsAction: Hashable, Sendable {
     case refreshStorage
     case requestScreenPermission
     case requestMicrophonePermission
+    case openSettings
     case quit
 
     /// A stable name for this action, so a menu row can be addressed by what it does.
@@ -55,6 +56,7 @@ public enum ControlsAction: Hashable, Sendable {
         case .refreshStorage: "storage.refresh"
         case .requestScreenPermission: "permission.screen"
         case .requestMicrophonePermission: "permission.microphone"
+        case .openSettings: "app.settings"
         case .quit: "app.quit"
         }
     }
@@ -129,6 +131,7 @@ public enum RecordingMenu {
         rows.append(contentsOf: ExportMenu.entries(for: state, exports: exports))
         rows.append(contentsOf: storageEntries(for: state))
         rows.append(.separator())
+        rows.append(MenuEntry(.command(.openSettings), "Settings…", shortcut: "⌘,"))
         rows.append(MenuEntry(.command(.quit), "Quit Screen Recorder", shortcut: "⌘Q"))
         return rows
     }
@@ -159,7 +162,7 @@ public enum RecordingMenu {
             notes.append(
                 "Last take interrupted — \(take.interruptionReason ?? "reason unavailable")")
         }
-        if let permissions = state.device?.permissions, !permissions.screen {
+        if let screen = state.permissions?.screen, screen != .granted {
             notes.append("Screen recording permission is required before recording.")
         }
         if !state.unavailableShortcuts.isEmpty {
@@ -194,18 +197,26 @@ public enum RecordingMenu {
         }
     }
 
+    /// Both audio and source submenus say the same thing when access is missing: that it is not
+    /// granted, the one action that grants it, then the choices that remain without it.
+    private static func permissionEntries(_ kind: PermissionKind, for state: ControlsState) -> [MenuEntry] {
+        guard let access = state.permissions?.access(to: kind), access != .granted else { return [] }
+        return [
+            MenuEntry(.status, kind.missingLine, enabled: false),
+            MenuEntry(.command(kind.action), kind.allowTitle(for: access)),
+            .separator(),
+        ]
+    }
+
     /// What a take records is fixed once it is recording, so every selection row here is refused
     /// while a take is live rather than silently applying to the next one.
     private static func sourceEntries(for state: ControlsState) -> [MenuEntry] {
         let selectable = !state.isLive
-        guard state.device?.permissions.screen != false else {
-            return [
-                MenuEntry(
-                    .status, "Screen recording permission is not granted.", enabled: false),
-                MenuEntry(.command(.requestScreenPermission), "Allow Screen Recording…"),
-            ]
+        var rows = permissionEntries(.screen, for: state)
+        if !rows.isEmpty {
+            rows.append(
+                MenuEntry(.status, "Displays and windows are listed once access is allowed.", enabled: false))
         }
-        var rows: [MenuEntry] = []
         if !state.sources.displays.isEmpty {
             rows.append(MenuEntry(.header, "Displays"))
             for display in state.sources.displays {
@@ -243,7 +254,8 @@ public enum RecordingMenu {
 
     private static func microphoneEntries(for state: ControlsState) -> [MenuEntry] {
         let selectable = !state.isLive
-        var rows: [MenuEntry] = [
+        var rows = permissionEntries(.microphone, for: state)
+        rows += [
             MenuEntry(
                 .command(.disableMicrophone), "Off (no narration)", enabled: selectable,
                 checked: state.selection.microphone == .off),
@@ -261,13 +273,6 @@ public enum RecordingMenu {
                         checked: state.selection.microphone
                             == .device(id: microphone.id, name: microphone.name)))
             }
-        }
-        if let permissions = state.device?.permissions, !permissions.microphoneAuthorized {
-            rows.append(.separator())
-            rows.append(
-                MenuEntry(.status, "Microphone access is not granted.", enabled: false))
-            rows.append(
-                MenuEntry(.command(.requestMicrophonePermission), "Allow Microphone Access…"))
         }
         return rows
     }

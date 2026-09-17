@@ -1,0 +1,84 @@
+import Foundation
+
+/// The audio choices a new take starts from. The menu and the Settings window edit the same
+/// selection; this is only the part of it that outlives a launch.
+public struct RecordingDefaults: Equatable, Sendable {
+    public init(microphone: ControlsState.MicrophoneChoice = .systemDefault, systemAudio: Bool = false) {
+        self.microphone = microphone
+        self.systemAudio = systemAudio
+    }
+    public var microphone: ControlsState.MicrophoneChoice
+    public var systemAudio: Bool
+}
+
+/**
+ This app's own preferences, in one defaults domain. Capture state, permissions and login-item
+ registration are read from where they live and never copied here.
+ */
+public struct Preferences {
+    public init(defaults: UserDefaults) {
+        self.defaults = defaults
+    }
+
+    private let defaults: UserDefaults
+
+    private enum Key {
+        static let showSettingsAtLaunch = "showSettingsAtLaunch"
+        static let settingsFrame = "settingsFrame"
+        static let microphone = "recording.microphone"
+        static let microphoneDeviceId = "recording.microphoneDeviceId"
+        static let microphoneDeviceName = "recording.microphoneDeviceName"
+        static let systemAudio = "recording.systemAudio"
+    }
+
+    /// Standard menu-bar apps open their window at every launch until a person turns that off.
+    public var showSettingsAtLaunch: Bool {
+        get { defaults.object(forKey: Key.showSettingsAtLaunch) as? Bool ?? true }
+        nonmutating set { defaults.set(newValue, forKey: Key.showSettingsAtLaunch) }
+    }
+
+    /// Where the Settings window was last closed, as AppKit describes a window frame.
+    public var settingsFrame: String? {
+        get { defaults.string(forKey: Key.settingsFrame) }
+        nonmutating set { defaults.set(newValue, forKey: Key.settingsFrame) }
+    }
+
+    public var recording: RecordingDefaults {
+        get {
+            let microphone: ControlsState.MicrophoneChoice =
+                switch defaults.string(forKey: Key.microphone) {
+                case "off": .off
+                case "device":
+                    defaults.string(forKey: Key.microphoneDeviceId).map { id in
+                        .device(id: id, name: defaults.string(forKey: Key.microphoneDeviceName) ?? id)
+                    } ?? .systemDefault
+                default: .systemDefault
+                }
+            return RecordingDefaults(microphone: microphone, systemAudio: defaults.bool(forKey: Key.systemAudio))
+        }
+        nonmutating set {
+            switch newValue.microphone {
+            case .off:
+                defaults.set("off", forKey: Key.microphone)
+                defaults.removeObject(forKey: Key.microphoneDeviceId)
+                defaults.removeObject(forKey: Key.microphoneDeviceName)
+            case .systemDefault:
+                defaults.set("default", forKey: Key.microphone)
+                defaults.removeObject(forKey: Key.microphoneDeviceId)
+                defaults.removeObject(forKey: Key.microphoneDeviceName)
+            case .device(let id, let name):
+                defaults.set("device", forKey: Key.microphone)
+                defaults.set(id, forKey: Key.microphoneDeviceId)
+                defaults.set(name, forKey: Key.microphoneDeviceName)
+            }
+            defaults.set(newValue.systemAudio, forKey: Key.systemAudio)
+        }
+    }
+}
+
+extension ControlsState.CaptureSelection {
+    /// The audio part of this selection, as a new take's defaults.
+    public var recordingDefaults: RecordingDefaults {
+        RecordingDefaults(microphone: microphone, systemAudio: systemAudio)
+    }
+}

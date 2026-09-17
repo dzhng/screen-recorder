@@ -13,9 +13,8 @@ func ready(source: ControlsState.SelectedSource? = .display(display)) -> Control
     state.sources = ControlsState.SourceCatalog(
         displays: [display], windows: [window], microphones: [builtIn, headset])
     state.selection.source = source
-    state.device = ControlsState.DeviceStatus(
-        state: .idle, recordingId: nil, elapsedUs: nil,
-        permissions: ControlsState.Permissions(screen: true, microphone: "authorized"))
+    state.device = ControlsState.DeviceStatus(state: .idle, recordingId: nil, elapsedUs: nil)
+    state.permissions = ControlsState.Permissions(screen: .granted, microphone: .granted)
     return state
 }
 

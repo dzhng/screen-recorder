@@ -6,7 +6,11 @@ import Foundation
  requests, never a second recording lifecycle.
  */
 public struct ControlsState: Equatable, Sendable {
-    public init() {}
+    /// A fresh launch starts from the person's saved audio choices; no source is chosen yet.
+    public init(recording: RecordingDefaults = RecordingDefaults()) {
+        selection.microphone = recording.microphone
+        selection.systemAudio = recording.systemAudio
+    }
 
     /// Whether the service can carry an operation. Device and take are observations through the
     /// service, so once it cannot answer they describe nothing and are dropped rather than shown.
@@ -21,6 +25,8 @@ public struct ControlsState: Equatable, Sendable {
     public var device: DeviceStatus?
     /// The take the device is working on, as the library holds it.
     public var take: TakeStatus?
+    /// Read from native capture in this process, so it is known before the service is.
+    public var permissions: Permissions?
     public var sources = SourceCatalog()
     public var selection = CaptureSelection()
     public var recent: [RecentTake] = []
@@ -50,30 +56,16 @@ public struct ControlsState: Equatable, Sendable {
         case idle, selecting, recording, paused, finalizing
     }
 
-    public struct Permissions: Equatable, Sendable {
-        public init(screen: Bool, microphone: String) {
-            self.screen = screen
-            self.microphone = microphone
-        }
-        public let screen: Bool
-        public let microphone: String
-        public var microphoneAuthorized: Bool { microphone == "authorized" }
-    }
-
     public struct DeviceStatus: Equatable, Sendable {
-        public init(
-            state: DeviceState, recordingId: String?, elapsedUs: Int64?, permissions: Permissions
-        ) {
+        public init(state: DeviceState, recordingId: String?, elapsedUs: Int64?) {
             self.state = state
             self.recordingId = recordingId
             self.elapsedUs = elapsedUs
-            self.permissions = permissions
         }
         public let state: DeviceState
         public let recordingId: String?
         /// The running take's playback time, as its own capture clock measures it.
         public let elapsedUs: Int64?
-        public let permissions: Permissions
     }
 
     public struct TakeStatus: Equatable, Sendable {
