@@ -117,6 +117,25 @@ test("writer refuses foreign scratch and symlink ancestors", async (t) => {
   await assert.rejects(writeArchive(f.input, f.workspace, worker), { code: "INVALID_STORAGE" });
   assert.equal(await readFile(join(f.root, "moved/source.bin"), "utf8"), "expected bytes");
 });
+test("a writer refused after opening its ZIP answers without touching freed memory", async (t) => {
+  // Guard Malloc unmaps freed allocations, so a trailer flush through a destroyed callback
+  // context crashes the worker every time instead of occasionally corrupting its heap.
+  const guarded = (operation, params, options) => {
+    const previous = process.env.DYLD_INSERT_LIBRARIES;
+    process.env.DYLD_INSERT_LIBRARIES = "/usr/lib/libgmalloc.dylib";
+    try {
+      return worker(operation, params, options);
+    } finally {
+      if (previous === undefined) delete process.env.DYLD_INSERT_LIBRARIES;
+      else process.env.DYLD_INSERT_LIBRARIES = previous;
+    }
+  };
+  const f = await fixture(t, { "nested/source.bin": "expected bytes" });
+  await rename(join(f.paths.input, "nested"), join(f.root, "moved"));
+  await symlink(join(f.root, "moved"), join(f.paths.input, "nested"));
+  await assert.rejects(writeArchive(f.input, f.workspace, guarded), { code: "INVALID_STORAGE" });
+  assert.deepEqual(await readdir(f.paths.scratch), []);
+});
 test("observed ZIP output limit refuses a partial archive and drains cleanup", async (t) => {
   const f = await fixture(t, { "source.bin": Buffer.alloc(1024 * 1024, 17) });
   await assert.rejects(

@@ -435,9 +435,11 @@ enum ArchiveOperation {
         let fd = openat(root, "payload.zip", O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
         guard fd >= 0 else { throw io("Create ZIP output") }
         defer { close(fd) }
-        guard let writer = archive_write_new() else { throw error("INVALID_PACKAGE", "Cannot create ZIP writer.") }
-        defer { archive_write_free(writer) }
         let output = Output(fd, limits.compressedBytes)
+        guard let writer = archive_write_new() else { throw error("INVALID_PACKAGE", "Cannot create ZIP writer.") }
+        // The write callback borrows output unretained, and freeing an unclosed writer flushes the
+        // ZIP trailer through it, so output must outlive the free on every error path.
+        defer { withExtendedLifetime(output) { _ = archive_write_free(writer) } }
         func checked(_ status: Int32) throws {
             guard status == ARCHIVE_OK else {
                 if output.failed { throw error("LIMIT_EXCEEDED", "ZIP output limit or write failure.") }
