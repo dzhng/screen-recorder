@@ -181,7 +181,6 @@ final class PointerSchedule {
     }
 
     private func line() throws -> Data? {
-        try Task.checkCancellation()
         while true {
             if let newline = buffer[offset...].firstIndex(of: 10) {
                 let data = buffer.subdata(in: offset..<newline)

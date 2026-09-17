@@ -156,7 +156,6 @@ final class ConvertedAudioInterval {
     ) throws {
         var written = 0
         while written < frames {
-            try Task.checkCancellation()
             if offset == Int(converted.frameLength) {
                 guard !exhausted else {
                     if let detail = sourceInput.failure {
@@ -169,7 +168,6 @@ final class ConvertedAudioInterval {
                 let outcome = converter.convert(to: converted, error: &failure) { _, status in
                     input.next(status)
                 }
-                try Task.checkCancellation()
                 guard !input.undecodable, outcome != .error, reader.status != .failed,
                     converted.frameLength > 0
                 else {
@@ -214,12 +212,6 @@ private final class ConversionInput: @unchecked Sendable {
     }
 
     func next(_ status: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioPCMBuffer? {
-        // End of this interval's material, not a dry input: the converter is told the stream ended
-        // so that it flushes the output its filter still owes instead of waiting for more frames.
-        guard !Task.isCancelled else {
-            status.pointee = .endOfStream
-            return nil
-        }
         let copied: AVAudioPCMBuffer? = autoreleasepool {
             guard let sample = output.copyNextSampleBuffer() else { return nil }
             guard let buffer = copy(of: sample) else {
@@ -228,6 +220,8 @@ private final class ConversionInput: @unchecked Sendable {
             }
             return buffer
         }
+        // End of this interval's material, not a dry input: the converter is told the stream ended
+        // so that it flushes the output its filter still owes instead of waiting for more frames.
         guard let buffer = copied else {
             status.pointee = .endOfStream
             return nil

@@ -3,9 +3,15 @@ import Foundation
 import ScreenRecorderFrames
 import ScreenRecorderMedia
 
-let evidence = URL(
-    fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_FRAME_EVIDENCE"]
-        ?? NSTemporaryDirectory() + "screenrec-frame-tests")
+// Outputs are published only at new paths, so a run starts from an empty evidence directory. A
+// caller that supplies one supplies a fresh one.
+let evidence: URL
+if let supplied = ProcessInfo.processInfo.environment["SCREENREC_FRAME_EVIDENCE"] {
+    evidence = URL(fileURLWithPath: supplied)
+} else {
+    evidence = URL(fileURLWithPath: NSTemporaryDirectory() + "screenrec-frame-tests")
+    try? FileManager.default.removeItem(at: evidence)
+}
 try FileManager.default.createDirectory(at: evidence, withIntermediateDirectories: true)
 let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
@@ -259,7 +265,11 @@ for (fixtureSource, interval, times) in [
 ] {
     let observed = try await fixtureSource.visualSamples(atSourceUs: times, kept: interval)
     for sample in observed.samples {
-        let expected = try await fixtureSource.selection(atSourceUs: sample.requestedSourceUs, in: interval)
+        let expected = try await fixtureSource.decodeFrame(
+            FrameRequest(
+                atSourceUs: sample.requestedSourceUs, kept: interval,
+                output: images.appendingPathComponent("selection-\(UUID().uuidString).png"),
+                maxLongEdge: 16))
         precondition(sample.actualSourceUs == expected.actualSourceUs && sample.distanceUs == expected.distanceUs,
             "Analysis must reuse exact frame selection, including held and restricted samples")
         precondition(Data(base64Encoded: sample.rgbBase64)?.count == sample.width * sample.height * 3,
@@ -814,11 +824,18 @@ precondition(
 print("PASS encoded size limit rejects \(overLimit!.message) and accepts \(withinLimit.bytes) bytes at 64 pixels")
 
 for (index, actualUs) in stepsTruth.enumerated() {
-    let selected = try await source.selection(atSourceUs: actualUs, in: whole)
+    func selection(atSourceUs requestedUs: Int64) async throws -> DecodedFrame {
+        try await source.decodeFrame(
+            FrameRequest(
+                atSourceUs: requestedUs, kept: whole,
+                output: images.appendingPathComponent("reach-\(UUID().uuidString).png"),
+                maxLongEdge: 16))
+    }
+    let selected = try await selection(atSourceUs: actualUs)
     precondition(
         selected.actualSourceUs == actualUs && selected.distanceUs == 0,
         "Requesting sample \(index) at \(actualUs)us must select itself, got \(selected)")
-    let nudged = try await source.selection(atSourceUs: actualUs + 40_000, in: whole)
+    let nudged = try await selection(atSourceUs: actualUs + 40_000)
     precondition(
         nudged.actualSourceUs == actualUs && nudged.distanceUs == 40_000,
         "Requesting \(actualUs + 40_000)us must still select sample \(index), got \(nudged)")
@@ -905,7 +922,6 @@ precondition(
     "Decoded frame 7 must show the picture it was generated from, mean channel difference \(difference)")
 print(String(format: "PASS decoded frame 7 matches its generated reference, mean difference %.4f", difference))
 
-try await verifyPresentationLifetime(source: stepsFixture, parent: evidence)
+try await verifyPresentationPublicationRace(source: stepsFixture, parent: evidence)
 
-try await pointerCompositionCancellation(source: stepsFixture, parent: evidence)
 try await verifyDescriptorLifetime(source: stepsFixture, parent: evidence)

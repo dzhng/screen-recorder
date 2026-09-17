@@ -49,7 +49,6 @@ public final class AudioPCMStream {
             maximumAvailableIntervals: AudioLimits.maximumRetainedAvailableIntervals)
         var opened: [SourceTrack] = []
         for track in tracks {
-            try Task.checkCancellation()
             opened.append(try await SourceTrack.open(plan: track))
         }
         return try AudioPCMStream(sources: opened, spans: spans)
@@ -131,7 +130,6 @@ public final class AudioPCMStream {
             var position = layout.starts[span]
             let spanEnd = layout.starts[span + 1]
             while position < spanEnd {
-                try Task.checkCancellation()
                 let count = Int(min(Int64(Self.maximumBlockFrames), spanEnd - position))
                 let end = position + Int64(count)
                 var mixed = [Float](repeating: 0, count: count * format.channels)
@@ -180,7 +178,6 @@ public final class AudioPCMStream {
                 }
                 try await sink(
                     AudioPCMBlock(startFrame: position, frameCount: count, samples: mixed))
-                try Task.checkCancellation()
                 position = end
             }
         }

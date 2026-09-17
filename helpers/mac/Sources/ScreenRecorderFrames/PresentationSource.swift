@@ -100,7 +100,6 @@ final class PresentationSource {
             { firstSegment += 1 }
             for segment in segments[firstSegment...] {
                 if segment.timeMapping.target.start >= end { break }
-                try Task.checkCancellation()
                 let range = segment.timeMapping.target
                 let begin = CMTimeMaximum(start, range.start)
                 let through = CMTimeMinimum(end, CMTimeRangeGetEnd(range))
@@ -116,7 +115,6 @@ final class PresentationSource {
                     throw NativeFailure("UNAVAILABLE", "Cannot inspect movie presentation clock.")
                 }
                 repeat {
-                    try Task.checkCancellation()
                     let at = mapping.assetTime(ofMedia: cursor.presentationTimeStamp)
                     if at >= through { break }
                     if at >= begin { try clock.include(at) }
@@ -134,7 +132,6 @@ final class PresentationSource {
     deinit { reader.cancelReading() }
 
     func selection(at: CMTime, end: CMTime) throws -> Selection {
-        try Task.checkCancellation()
         while segmentIndex < segments.count
             && CMTimeRangeGetEnd(segments[segmentIndex].timeMapping.target) <= at
         { segmentIndex += 1 }
@@ -150,7 +147,6 @@ final class PresentationSource {
                 end: CMTimeMinimum(end, CMTimeRangeGetEnd(segment.timeMapping.target)))
         }
         while held == nil || heldEnd <= at {
-            try Task.checkCancellation()
             held = nil
             guard let sample = autoreleasepool(invoking: { decoded.copyNextSampleBuffer() }) else {
                 throw NativeFailure("UNAVAILABLE", "Decoder ended before retained sample support.")

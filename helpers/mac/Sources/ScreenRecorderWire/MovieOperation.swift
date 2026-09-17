@@ -1,5 +1,4 @@
 @preconcurrency import AVFoundation
-import Darwin
 import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderFrames
@@ -36,20 +35,9 @@ enum MovieOperation {
 
     static func execute(_ params: [String: Any]) async throws -> Result {
         let request = try WireRequest.decode(Request.self, from: params)
-        let output = URL(fileURLWithPath: request.output)
-        var info = stat()
-        guard request.output.hasPrefix("/"), !request.output.contains("\0"),
-            lstat(output.path, &info) != 0, errno == ENOENT
-        else { throw NativeFailure("INVALID_OUTPUT", "Movie output must be a new absolute path.") }
-        let staging = output.deletingLastPathComponent().appendingPathComponent(
-            ".movie-render-\(UUID().uuidString)")
-        try FileManager.default.createDirectory(at: staging, withIntermediateDirectories: false)
-        defer { try? FileManager.default.removeItem(at: staging) }
-        let video = staging.appendingPathComponent("video.mp4")
         try WireRequest.requireAbsolute(request.source)
-        let rendered = try await VideoRenderer.write(
-            source: URL(fileURLWithPath: request.source), plan: request.plan, output: video,
-            pointerSchedule: request.pointerSchedule)
+        let output = try NewFile(at: request.output)
+        defer { output.discard() }
         let audio =
             request.tracks.isEmpty
             ? nil
@@ -58,24 +46,23 @@ enum MovieOperation {
                 spans: request.plan.map {
                     SourceSpan(startUs: $0.source.startUs, endUs: $0.source.endUs)
                 })
-        var completed = video
-        if let audio, audio.frames > 0 {
-            completed = staging.appendingPathComponent("movie.mp4")
+        let muxed = audio.map { $0.frames > 0 } ?? false
+        let video = muxed ? output.scratch(named: "video.mp4") : output.url
+        let rendered = try await VideoRenderer.write(
+            source: URL(fileURLWithPath: request.source), plan: request.plan, into: video,
+            pointerSchedule: request.pointerSchedule)
+        if let audio, muxed {
             try await MovieMux.write(
-                video: video, audio: audio, durationUs: rendered.durationUs, output: completed)
+                video: video, audio: audio, durationUs: rendered.durationUs, output: output.url)
+            let duration = try await AVURLAsset(url: output.url).load(.duration)
+            guard CMTimeCompare(duration, CMTime(value: rendered.durationUs, timescale: 1_000_000)) == 0
+            else {
+                throw NativeFailure.decodeFailed("Assembled movie changed the pinned duration.")
+            }
         }
-        try Task.checkCancellation()
-        let duration = try await AVURLAsset(url: completed).load(.duration)
-        guard CMTimeCompare(duration, CMTime(value: rendered.durationUs, timescale: 1_000_000)) == 0
-        else {
-            throw NativeFailure.decodeFailed("Assembled movie changed the pinned duration.")
-        }
-        let bytes = try FileManager.default.attributesOfItem(atPath: completed.path)[.size] as! Int
-        guard link(completed.path, output.path) == 0 else {
-            throw NativeFailure("INVALID_OUTPUT", "Movie destination appeared before publication.")
-        }
+        let bytes = try output.publish()
         return Result(
-            file: output.path, durationUs: rendered.durationUs, width: rendered.width,
+            file: request.output, durationUs: rendered.durationUs, width: rendered.width,
             height: rendered.height, frameCount: rendered.frameCount,
             audio: audio.map {
                 Audio(

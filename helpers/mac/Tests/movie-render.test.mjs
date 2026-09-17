@@ -340,7 +340,7 @@ for (const [name, ranges, tracks] of cases)
             "Native presentation retains nonzero sample; FFmpeg emits no PCM for this sub-packet movie.";
         }
       } else assert.equal(audio, undefined);
-      assert.ok(!readdirSync(dir).some((f) => f.startsWith(".movie-render-")));
+      assert.ok(!readdirSync(dir).some((f) => f.startsWith(".screenrec-output-")));
       reports.push({
         name,
         plan: p,

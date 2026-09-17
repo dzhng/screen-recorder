@@ -105,6 +105,7 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
       },
       {
         ...params,
+        output: join(directory, "mixed.wav"),
         tracks: [
           params.tracks[0],
           {
@@ -185,6 +186,18 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
 
     const bytes = readFileSync(output);
     assert.equal(excerpt.data.bytes, bytes.length);
+    // A new output path is the contract: repeating the request never replaces what is there.
+    const replay = spawnSync(executable, [], {
+      input: JSON.stringify({ id: "replay", operation: "media.audio", params }) + "\n",
+      encoding: "utf8",
+      timeout: 30000,
+    });
+    assert.equal(JSON.parse(replay.stdout).error.code, "INVALID_OUTPUT");
+    assert.deepEqual(readFileSync(output), bytes);
+    assert.deepEqual(
+      readdirSync(directory).filter((name) => name.startsWith(".")),
+      [],
+    );
     const { format, audio } = wave(bytes);
     assert.deepEqual(format, { tag: 3, channels: 1, sampleRate: 48000, bits: 32 });
     assert.equal(audio.length, 24000 * 4);

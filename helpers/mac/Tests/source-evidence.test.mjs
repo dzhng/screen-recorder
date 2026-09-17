@@ -200,7 +200,7 @@ test("existing paths, links, source descendants and invalid requests never mutat
   assert.equal(existsSync(f.output), false);
   assert.equal(existsSync(join(f.directory, "new")), false);
   assert.equal(
-    readdirSync(f.root).some((p) => p.startsWith(".source-evidence-")),
+    readdirSync(f.root).some((p) => p.startsWith(".screenrec-output-")),
     false,
   );
 });

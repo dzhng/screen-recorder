@@ -300,7 +300,7 @@ test("video publication preserves a destination created during rendering", async
       }) + "\n",
     );
     const deadline = Date.now() + 5000;
-    while (!readdirSync(directory).some((name) => name.startsWith(".movie-render-"))) {
+    while (!readdirSync(directory).some((name) => name.startsWith(".screenrec-output-"))) {
       assert.ok(
         Date.now() < deadline && child.exitCode === null,
         "Render must reach staging before publication",
@@ -312,7 +312,7 @@ test("video publication preserves a destination created during rendering", async
     assert.equal(JSON.parse(stdout).error.code, "INVALID_OUTPUT");
     assert.equal(readFileSync(output, "utf8"), "concurrent owner's sentinel");
     assert.equal(
-      readdirSync(directory).some((name) => name.startsWith(".movie-render-")),
+      readdirSync(directory).some((name) => name.startsWith(".screenrec-output-")),
       false,
     );
   } finally {
@@ -520,7 +520,7 @@ test("presentation evidence refuses unsupported video tail and partial byte-budg
   assert.equal(limited.result.ok, false);
   assert.equal(limited.result.error.code, "LIMIT_EXCEEDED");
   assert.equal(existsSync(limited.output), false);
-  assert.ok(!readdirSync(directory).some((name) => name.startsWith(".presentation-evidence-")));
+  assert.ok(!readdirSync(directory).some((name) => name.startsWith(".screenrec-output-")));
 });
 
 test("presentation evidence memory stays bounded while streamed output grows", async () => {

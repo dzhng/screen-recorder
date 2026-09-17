@@ -47,15 +47,10 @@ public actor FrameSource {
         }
     }
 
-    /// The sample this source would decode, without decoding it.
-    public func selection(atSourceUs requestedUs: Int64, in kept: FrameInterval) throws
-        -> FrameSelection
-    {
-        try nearestSample(atSourceUs: requestedUs, in: kept).1
-    }
-
     public func decodeFrame(_ request: FrameRequest) throws -> DecodedFrame {
         try validate(request)
+        let output = try OutputFile(request.output.path, distinctFrom: [url])
+        defer { output.discard() }
         let (sampleTime, selected) = try nearestSample(
             atSourceUs: request.atSourceUs, in: request.kept)
         let decoded = try decode(at: sampleTime, actualUs: selected.actualSourceUs)
@@ -69,22 +64,14 @@ public actor FrameSource {
                 "Encoded frame is \(data.count) bytes, over the \(request.maxEncodedBytes) byte limit."
             )
         }
-        do {
-            if let descriptor = try MediaDescriptor(url: request.output, writable: true) {
-                try descriptor.write(data)
-            } else {
-                try data.write(to: request.output, options: .atomic)
-            }
-        } catch {
-            throw NativeFailure.decodeFailed("Cannot write \(request.output.path): \(error.localizedDescription)")
-        }
+        try output.write(data)
+        let bytes = try output.finish()
         return DecodedFrame(
             file: request.output.path, mediaType: "image/png",
             requestedSourceUs: request.atSourceUs,
             actualSourceUs: selected.actualSourceUs, distanceUs: selected.distanceUs,
             width: image.width, height: image.height, sourceWidth: width, sourceHeight: height,
-            crop: request.crop, overlay: request.overlay.map(RenderedOverlay.init),
-            bytes: data.count)
+            crop: request.crop, overlay: request.overlay.map(RenderedOverlay.init), bytes: bytes)
     }
 
     /// One bounded analysis batch. The core owns sampling cadence and every scene judgment.
@@ -215,7 +202,6 @@ public actor FrameSource {
         }
         if let crop = request.crop {
             guard crop.width > 0, crop.height > 0, crop.x >= 0, crop.y >= 0,
-                crop.x <= width, crop.y <= height,
                 crop.width <= width - crop.x, crop.height <= height - crop.y
             else {
                 throw NativeFailure(
@@ -225,11 +211,6 @@ public actor FrameSource {
             }
         }
         if let overlay = request.overlay { try validate(overlay) }
-        guard request.output.resolvingSymlinksInPath().standardizedFileURL != url,
-            !MediaDescriptor.sameFile(url, request.output)
-        else {
-            throw NativeFailure("INVALID_OUTPUT", "Frame output would overwrite the source media.")
-        }
     }
 
     /// Bounds the drawing work and refuses evidence this library would have to guess about: points

@@ -30,10 +30,6 @@ public final class MediaInput: @unchecked Sendable {
 
     public var failure: NativeFailure? { loader?.currentFailure() }
 
-    public func cancel() {
-        asset.cancelLoading()
-        loader?.stop()
-    }
     deinit { loader?.stop() }
 }
 
@@ -68,31 +64,6 @@ public final class MediaDescriptor: @unchecked Sendable {
         descriptor = owned
     }
     deinit { close(descriptor) }
-
-    public static func sameFile(_ source: URL, _ output: URL) -> Bool {
-        var left = stat()
-        var right = stat()
-        return stat(source.path, &left) == 0 && stat(output.path, &right) == 0
-            && left.st_dev == right.st_dev && left.st_ino == right.st_ino
-    }
-
-    public func write(_ data: Data) throws {
-        try data.withUnsafeBytes { bytes in
-            var offset = 0
-            while offset < bytes.count {
-                try Task.checkCancellation()
-                let count = pwrite(
-                    descriptor, bytes.baseAddress!.advanced(by: offset), bytes.count - offset,
-                    off_t(offset))
-                if count < 0 && errno == EINTR { continue }
-                guard count > 0 else { throw NativeFailure.decodeFailed("Cannot write inherited media output.") }
-                offset += count
-            }
-        }
-        guard ftruncate(descriptor, off_t(data.count)) == 0, fsync(descriptor) == 0 else {
-            throw NativeFailure.decodeFailed("Cannot finish inherited media output.")
-        }
-    }
 }
 
 private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @unchecked Sendable {

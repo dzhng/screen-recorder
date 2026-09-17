@@ -39,25 +39,5 @@ func verifyDescriptorLifetime(source: URL, parent: URL) async throws {
         precondition(ContinuousClock.now < deadline, "Retired source leaked its retained handle")
         try await Task.sleep(for: .milliseconds(2))
     }
-    try FileManager.default.copyItem(at: source, to: copy)
-    precondition(stat(copy.path, &identity) == 0)
-    func canceledRead() async throws {
-        let original = open(copy.path, O_RDONLY)
-        precondition(original >= 0)
-        let input = try MediaInput(url: URL(fileURLWithPath: "/dev/fd/\(original)"))
-        close(original)
-        input.cancel()
-        do {
-            _ = try await input.asset.load(.duration)
-            preconditionFailure("Canceled descriptor input unexpectedly loaded")
-        } catch {}
-    }
-    try await canceledRead()
-    let cancelDeadline = ContinuousClock.now.advanced(by: .seconds(3))
-    while matchingHandles() != 0 {
-        precondition(ContinuousClock.now < cancelDeadline, "Canceled input leaked its handle")
-        try await Task.sleep(for: .milliseconds(2))
-    }
     print("PASS descriptor source survives caller close/unlink and releases its duplicate")
-    print("PASS canceled descriptor asset fails and releases its duplicate")
 }

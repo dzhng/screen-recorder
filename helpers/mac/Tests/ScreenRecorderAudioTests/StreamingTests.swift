@@ -3,17 +3,6 @@ import Darwin
 import Foundation
 import ScreenRecorderAudio
 
-private actor HeldSink {
-    var count = 0
-    private var waiter: CheckedContinuation<Void, Never>?
-    func entered() {
-        count += 1
-        waiter?.resume()
-        waiter = nil
-    }
-    func wait() async { if count == 0 { await withCheckedContinuation { waiter = $0 } } }
-}
-
 func streamingProof(source: String, seconds: Int64, evidence: URL) async throws {
     let span = SourceSpan(startUs: 0, endUs: seconds * 1_000_000)
     let track = AudioTrackPlan(
@@ -74,25 +63,6 @@ func streamingProof(source: String, seconds: Int64, evidence: URL) async throws 
     let readback = try AVAudioFile(forReading: wave)
     precondition(readback.length == expectedFrames)
 
-    let held = HeldSink()
-    let pending = Task {
-        let one = try await AudioPCMStream.open(tracks: [track], spans: [span])
-        try await one.consume { block in
-            precondition(block.frameCount <= AudioPCMStream.maximumBlockFrames)
-            await held.entered()
-            try await Task.sleep(for: .seconds(60))
-        }
-    }
-    await held.wait()
-    try await Task.sleep(for: .milliseconds(50))
-    let heldCount = await held.count
-    precondition(heldCount == 1)
-    pending.cancel()
-    do {
-        try await pending.value
-        preconditionFailure("Held sink ignored cancellation")
-    } catch is CancellationError {}
-
     enum SinkFailure: Error { case intentional }
     let failed = try await AudioPCMStream.open(tracks: [track], spans: [span])
     var accepted = 0
@@ -105,38 +75,6 @@ func streamingProof(source: String, seconds: Int64, evidence: URL) async throws 
         completed = true
     } catch SinkFailure.intentional {}
     precondition(accepted == 3 && !completed)
-    var canceledWaveRemoved = false
-    if seconds >= 300 {
-        let canceledOutput = evidence.appendingPathComponent("canceled.wav")
-        let writing = Task {
-            let stream = try await AudioPCMStream.open(tracks: [track], spans: [span])
-            return try await AudioWave.write(stream, to: canceledOutput)
-        }
-        let deadline = ContinuousClock.now.advanced(by: .seconds(10))
-        var progressed = false
-        while !progressed && ContinuousClock.now < deadline {
-            let entries = try FileManager.default.contentsOfDirectory(
-                at: evidence, includingPropertiesForKeys: nil)
-            for entry in entries
-            where entry.lastPathComponent.hasPrefix(".") && entry.pathExtension == "wav" {
-                let size =
-                    try FileManager.default.attributesOfItem(atPath: entry.path)[.size] as! Int
-                if size > 100_000 { progressed = true }
-            }
-            if !progressed { try await Task.sleep(for: .milliseconds(1)) }
-        }
-        precondition(progressed, "WAVE sink did not reach several written blocks")
-        writing.cancel()
-        do {
-            _ = try await writing.value
-            preconditionFailure("Canceled WAVE returned a completed receipt")
-        } catch is CancellationError {}
-        let remaining = try FileManager.default.contentsOfDirectory(atPath: evidence.path)
-        canceledWaveRemoved =
-            !FileManager.default.fileExists(atPath: canceledOutput.path)
-            && !remaining.contains { $0.hasPrefix(".") && $0.hasSuffix(".wav") }
-        precondition(canceledWaveRemoved)
-    }
     var usage = rusage()
     getrusage(RUSAGE_SELF, &usage)
     let report: [String: Any] = [
@@ -144,9 +82,8 @@ func streamingProof(source: String, seconds: Int64, evidence: URL) async throws 
         "sampleRate": stream.format.sampleRate, "channels": stream.format.channels,
         "blocks": blocks, "largestBlockFrames": largest, "finalBlockFrames": lastCount,
         "checkedSamples": checked, "maximumSampleError": maximumError, "waveBytes": bytes,
-        "peakNativeRSSBytes": usage.ru_maxrss, "heldSinkBlocks": heldCount,
-        "cancellationObserved": true, "sinkFailureAfterBlocks": accepted,
-        "completedAfterFailure": completed, "canceledWaveRemoved": canceledWaveRemoved,
+        "peakNativeRSSBytes": usage.ru_maxrss, "sinkFailureAfterBlocks": accepted,
+        "completedAfterFailure": completed,
     ]
     let data = try JSONSerialization.data(
         withJSONObject: report, options: [.prettyPrinted, .sortedKeys])

@@ -1,5 +1,6 @@
 import Darwin
 import Foundation
+import ScreenRecorderMedia
 
 /// Compact receipt for a caller-owned derivative. Timing arrays and raw records stay off the wire.
 public struct SourceEvidenceExport: Encodable {
@@ -25,38 +26,30 @@ public struct SourceEvidenceExport: Encodable {
     /// because recovery may retain a trustworthy prefix after the capture process died.
     public static func write(directory: String, output: String) throws -> Self {
         let source = URL(fileURLWithPath: directory).resolvingSymlinksInPath().standardizedFileURL
-        let target = URL(fileURLWithPath: output).standardizedFileURL
-        let parent = target.deletingLastPathComponent().resolvingSymlinksInPath()
-            .standardizedFileURL
-        let destination = parent.appendingPathComponent(target.lastPathComponent)
-        var info = stat()
+        let parent = URL(fileURLWithPath: output).standardizedFileURL.deletingLastPathComponent()
+            .resolvingSymlinksInPath().standardizedFileURL
         guard source.path != "/", parent.path != source.path,
-            !parent.path.hasPrefix(source.path + "/"),
-            lstat(destination.path, &info) != 0, errno == ENOENT
+            !parent.path.hasPrefix(source.path + "/")
         else {
             throw CaptureFailure(
                 "INVALID_OUTPUT", "Evidence requires a new file outside the source directory.")
         }
         let journal = source.appendingPathComponent("capture.journal.jsonl")
+        var info = stat()
         guard stat(journal.path, &info) == 0, (info.st_mode & S_IFMT) == S_IFREG else {
             throw CaptureFailure("INVALID_JOURNAL", "Evidence requires a regular journal file.")
         }
         guard info.st_size <= 268_435_456 else {
             throw CaptureFailure("EVIDENCE_LIMIT", "Journal exceeds the evidence read budget.")
         }
-        // Exclusive creation and no-replace publication also reject symlinks/hardlinks and races
-        // with another producer. Existing audio/frame helpers intentionally replace derivatives.
-        let staging = parent.appendingPathComponent(".source-evidence-\(UUID().uuidString)")
+        let destination = try NewFile(at: output)
+        defer { destination.discard() }
         let descriptor = Darwin.open(
-            staging.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, S_IRUSR | S_IWUSR)
+            destination.url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)
         guard descriptor >= 0 else {
             throw CaptureFailure("INVALID_OUTPUT", "Cannot create evidence output.")
         }
         let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
-        defer {
-            try? handle.close()
-            try? FileManager.default.removeItem(at: staging)
-        }
         var bytes = 0
         var geometryRecords = 0
         var displaySpaces = 0
@@ -98,22 +91,8 @@ public struct SourceEvidenceExport: Encodable {
             throw CaptureFailure(
                 "EVIDENCE_LIMIT", "Journal provenance exceeds the response budget.")
         }
-        try handle.synchronize()
-        // link publishes the complete inode atomically and never replaces an existing name.
-        guard Darwin.link(staging.path, destination.path) == 0 else {
-            throw CaptureFailure("INVALID_OUTPUT", "Cannot publish evidence to a new output file.")
-        }
-        // Foundation may shorten /private/tmp to /tmp. Echo the requested locator only
-        // after proving it still names the inode this exporter created.
-        var created = stat()
-        var requested = stat()
-        guard fstat(descriptor, &created) == 0, lstat(output, &requested) == 0,
-            (requested.st_mode & S_IFMT) == S_IFREG,
-            requested.st_dev == created.st_dev, requested.st_ino == created.st_ino
-        else {
-            throw CaptureFailure(
-                "INVALID_OUTPUT", "Evidence output locator changed before receipt publication.")
-        }
+        try handle.close()
+        _ = try destination.publish()
         return Self(
             file: output, header: summary.header, originHostUs: summary.originHostUs,
             cursorSamples: summary.cursorSamples, geometryRecords: geometryRecords,

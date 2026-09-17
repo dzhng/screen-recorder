@@ -9,39 +9,27 @@ public struct VideoRenderSpan: Codable, Sendable {
     public let playback: FrameInterval
 }
 
-public struct RenderedVideo: Codable, Sendable {
-    public let file: String
-    public let mediaType: String
-    public let codec: String
+public struct RenderedVideo: Sendable {
     public let durationUs: Int64
     public let width: Int
     public let height: Int
     public let frameCount: Int
-    public let bytes: Int
 }
 
 /// Sequential video-only rendering. The plan owns cuts; sample support owns visible
 /// content. Explicit empty edits map to the measured default player's opaque black.
 /// Unexplained gaps never inherit either the previous image or this appearance rule.
 public enum VideoRenderer {
+    /// Writes an H.264 MP4 at `file`, a private path the caller owns and publishes.
     public static func write(
-        source: URL, plan: [VideoRenderSpan], output: URL,
+        source: URL, plan: [VideoRenderSpan], into file: URL,
         pointerSchedule: PointerScheduleReceipt? = nil
     ) async throws
         -> RenderedVideo
     {
         let through = try PresentationSource.duration(of: plan)
-        let canonicalSource = source.resolvingSymlinksInPath().standardizedFileURL
-        var info = stat()
-        guard source.path.hasPrefix("/"), output.path.hasPrefix("/"),
-            canonicalSource != output.resolvingSymlinksInPath().standardizedFileURL,
-            lstat(output.path, &info) != 0, errno == ENOENT
-        else {
-            throw NativeFailure(
-                "INVALID_OUTPUT", "Render output must be a new absolute path, distinct from source."
-            )
-        }
-        let presentation = try await PresentationSource(source: canonicalSource, plan: plan)
+        let presentation = try await PresentationSource(
+            source: source.resolvingSymlinksInPath().standardizedFileURL, plan: plan)
         let width = presentation.width
         let height = presentation.height
         let pointers = try pointerSchedule.map {
@@ -49,14 +37,7 @@ public enum VideoRenderer {
         }
         var clock = try presentation.movieClock(plan: plan)
         if let pointers { try clock.include(pointers.clock.timescale) }
-        let stagingDirectory = output.deletingLastPathComponent()
-            .appendingPathComponent(".video-render-\(UUID().uuidString)")
-        guard mkdir(stagingDirectory.path, 0o700) == 0 else {
-            throw NativeFailure("INVALID_OUTPUT", "Cannot create owned render staging directory.")
-        }
-        defer { try? FileManager.default.removeItem(at: stagingDirectory) }
-        let staging = stagingDirectory.appendingPathComponent("video.mp4")
-        let writer = try AVAssetWriter(outputURL: staging, fileType: .mp4)
+        let writer = try AVAssetWriter(outputURL: file, fileType: .mp4)
         let input = AVAssetWriterInput(
             mediaType: .video,
             outputSettings: [
@@ -89,7 +70,6 @@ public enum VideoRenderer {
             var at = time(microseconds: span.source.startUs)
             let end = time(microseconds: span.source.endUs)
             while at < end {
-                try Task.checkCancellation()
                 let selected = try presentation.selection(at: at, end: end)
                 let state = try pointers?.selection(spanIndex: spanIndex, at: at, end: selected.end)
                 let next = state?.1 ?? selected.end
@@ -118,7 +98,6 @@ public enum VideoRenderer {
                 let deadline = ContinuousClock.now.advanced(by: .seconds(10))
                 var destination: CVPixelBuffer?
                 while destination == nil {
-                    try Task.checkCancellation()
                     guard writer.status == .writing, ContinuousClock.now < deadline else {
                         throw NativeFailure.decodeFailed("Video encoder stopped making progress.")
                     }
@@ -177,24 +156,13 @@ public enum VideoRenderer {
         writer.endSession(atSourceTime: time(microseconds: through))
         input.markAsFinished()
         await writer.finishWriting()
-        try Task.checkCancellation()
         guard writer.status == .completed else {
             throw NativeFailure.decodeFailed("Video encoder did not finish output.")
         }
-        let result = AVURLAsset(url: staging)
-        let actual = try await result.load(.duration)
+        let actual = try await AVURLAsset(url: file).load(.duration)
         guard CMTimeCompare(actual, time(microseconds: through)) == 0 else {
             throw NativeFailure.decodeFailed("Encoded video duration does not match the pinned plan.")
         }
-        let bytes = try FileManager.default.attributesOfItem(atPath: staging.path)[.size] as! Int
-        // A hard-link publication is atomic and refuses a destination created while
-        // rendering. Failure cleanup never owns or removes the destination name.
-        guard link(staging.path, output.path) == 0 else {
-            throw NativeFailure(
-                "INVALID_OUTPUT", "Cannot publish video to an unoccupied destination.")
-        }
-        return RenderedVideo(
-            file: output.path, mediaType: "video/mp4", codec: "h264",
-            durationUs: through, width: width, height: height, frameCount: count, bytes: bytes)
+        return RenderedVideo(durationUs: through, width: width, height: height, frameCount: count)
     }
 }

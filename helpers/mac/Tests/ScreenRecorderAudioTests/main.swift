@@ -3,9 +3,15 @@ import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderMedia
 
-let evidence = URL(
-    fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_AUDIO_EVIDENCE"]
-        ?? NSTemporaryDirectory() + "screenrec-audio-tests")
+// Outputs are published only at new paths, so a run starts from an empty evidence directory. A
+// caller that supplies one supplies a fresh one.
+let evidence: URL
+if let supplied = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_EVIDENCE"] {
+    evidence = URL(fileURLWithPath: supplied)
+} else {
+    evidence = URL(fileURLWithPath: NSTemporaryDirectory() + "screenrec-audio-tests")
+    try? FileManager.default.removeItem(at: evidence)
+}
 try FileManager.default.createDirectory(at: evidence, withIntermediateDirectories: true)
 
 if let plan = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_REFERENCE_PLAN"] {
