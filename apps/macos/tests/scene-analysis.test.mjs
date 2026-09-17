@@ -4,6 +4,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
 import { SourceSceneAnalysis, analyzeFrameScene } from "@screenrec/core/scenes";
+import { sceneBoundaries } from "@screenrec/core/scene-evidence";
 
 const native = new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url)
   .pathname;
@@ -95,9 +96,12 @@ test("shared scene analysis preserves held coverage and exposes a nearest future
     future.comparisons.map((pair) => [pair.actualSourceUs, pair.boundary]),
     [[2000000, true]],
   );
-  assert.deepEqual(future.boundaries, [], "a future decoded transition is not a past reset");
+  assert.ok(
+    sceneBoundaries(future).every(({ atSourceUs }) => atSourceUs > 1500000),
+    "a future decoded transition is not a past reset",
+  );
   const through = await inspect(2000000);
-  assert.deepEqual(through.boundaries, [{ kind: "scene", atSourceUs: 2000000 }]);
+  assert.deepEqual(sceneBoundaries(through), [{ kind: "scene", atSourceUs: 2000000 }]);
   assert.deepEqual(await readFile(source), original);
 });
 

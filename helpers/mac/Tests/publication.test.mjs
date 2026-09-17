@@ -16,7 +16,8 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { spawn } from "node:child_process";
 import { test } from "node:test";
-const binary = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+const binary =
+  process.env.SCREENREC_NATIVE ?? resolve(import.meta.dirname, "../.build/debug/screenrec-native");
 const identity = (s) => ({ dev: String(s.dev), ino: String(s.ino) });
 async function fixture(t) {
   const root = await mkdtemp(join(tmpdir(), "screenrec-publication-"));
