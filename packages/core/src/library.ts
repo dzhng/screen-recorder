@@ -44,6 +44,11 @@ const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = 
 };
 const recordingColumns =
   "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,sourceDurationUs,currentRevisionId";
+/**
+ * The format of every table in the catalog, including those sibling owners create in it. Any schema
+ * change bumps it; a catalog stamped with another format is refused, never migrated.
+ */
+const catalogFormat = 1;
 export class CatalogError extends Error {
   constructor(
     readonly code: string,
@@ -112,47 +117,17 @@ export class RevisionStore {
     if (!Number.isSafeInteger(busyTimeoutMs) || busyTimeoutMs < 0 || busyTimeoutMs > 10000)
       throw new RangeError("SQLite timeout must be 0–10000 milliseconds");
     this.catalog = new DatabaseSync(path, { timeout: busyTimeoutMs });
-    // Development formats are a hard cutover; opening an older catalog never migrates it.
-    if (
-      (this.catalog
-        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='recordings'")
-        .get() &&
-        !this.catalog
-          .prepare("SELECT 1 FROM pragma_table_info('recordings') WHERE name='allocationArguments'")
-          .get()) ||
-      (this.catalog
-        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='derived_cache'")
-        .get() &&
-        !this.catalog
-          .prepare("SELECT 1 FROM pragma_table_info('derived_cache') WHERE name='recordingId'")
-          .get()) ||
-      (this.catalog
-        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='jobs'")
-        .get() &&
-        (!this.catalog
-          .prepare("SELECT 1 FROM pragma_table_info('jobs') WHERE name='deferred'")
-          .get() ||
-          !this.catalog
-            .prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='jobs_identity'")
-            .get())) ||
-      (this.catalog
-        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='export_intents'")
-        .get() &&
-        !this.catalog
-          .prepare(
-            "SELECT 1 WHERE (SELECT COUNT(*) FROM pragma_table_info('export_intents') WHERE name IN ('stagingCleared','abandoning','kind','packageEvidence','assembly'))=5",
-          )
-          .get()) ||
-      this.catalog
-        .prepare(
-          "SELECT 1 FROM sqlite_master WHERE type='table' AND name='cursor_evidence_generations'",
-        )
-        .get()
-    ) {
+    const { user_version: format } = this.catalog.prepare("PRAGMA user_version").get() as {
+      user_version: number;
+    };
+    if (format === 0 && !this.catalog.prepare("SELECT 1 FROM sqlite_master LIMIT 1").get())
+      this.catalog.exec(`PRAGMA user_version=${catalogFormat}`);
+    else if (format !== catalogFormat) {
       this.catalog.close();
       throw new CatalogError(
         "UNSUPPORTED_CATALOG",
-        "This catalog predates the current format; open a library created by this version.",
+        "This catalog was written in another format; open a library created by this version.",
+        { format, supportedFormat: catalogFormat },
       );
     }
     this.catalog.exec(`

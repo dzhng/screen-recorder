@@ -40,8 +40,7 @@ export class VisualObservationCache {
     private readonly cache: DerivedCache,
     private readonly decode: VisualSampler,
   ) {
-    // Old exact-batch lookups are disposable; their files remain budgeted until normal eviction.
-    store.catalog.exec(`DROP TABLE IF EXISTS visual_observation_cache;
+    store.catalog.exec(`
     CREATE TABLE IF NOT EXISTS visual_observation_samples (
       identity TEXT NOT NULL,requestedUs INTEGER NOT NULL,cacheId TEXT NOT NULL REFERENCES derived_cache(id) ON DELETE CASCADE,
       sampleOrdinal INTEGER NOT NULL,PRIMARY KEY(identity,requestedUs)

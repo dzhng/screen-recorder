@@ -302,36 +302,6 @@ test("purge yields across reservations and serializes already queued and late pu
   expect(cache.bytes).toBe(0);
 });
 
-test("unsupported cache catalogs fail at catalog open before any schema or owned data changes", () => {
-  const home = mkdtempSync(join(tmpdir(), "cache-legacy-"));
-  const path = join(home, "library.sqlite");
-  const providers = { now: () => "", newId: () => "unused" };
-  const store = new RevisionStore(path, providers);
-  cleanups.push(
-    () => rmSync(home, { recursive: true, force: true }),
-    () => store.close(),
-  );
-  store.catalog.exec(
-    "DROP TABLE recording_deletions; CREATE TABLE derived_cache(id TEXT PRIMARY KEY, bytes INTEGER, touched INTEGER NOT NULL, device INTEGER, inode INTEGER); INSERT INTO derived_cache VALUES ('legacy',4,1,2,3)",
-  );
-  const source = join(home, "source.mov");
-  writeFileSync(source, "keep");
-  store.close();
-  const before = readFileSync(path);
-  const original = readFileSync(source);
-  expect(() => {
-    const reopened = new RevisionStore(path, providers);
-    try {
-      new DerivedCache(reopened, home);
-    } finally {
-      reopened.close();
-    }
-  }).toThrowError(expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }));
-  expect(readFileSync(path).equals(before)).toBe(true);
-  expect(readFileSync(source).equals(original)).toBe(true);
-  expect(existsSync(join(home, "cache"))).toBe(false);
-});
-
 test("reservations reject missing owners and retain their owner after reopening", async () => {
   const { cache, home, store, removeFiles } = await fixture(100);
   expect(() => cache.reserve("missing")).toThrowError(

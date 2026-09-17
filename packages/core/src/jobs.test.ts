@@ -1,5 +1,5 @@
 import { test, expect, afterEach } from "vitest";
-import { mkdtempSync, rmSync, readFileSync } from "node:fs";
+import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { CatalogError, RevisionStore } from "./library.js";
@@ -602,34 +602,6 @@ test("explicit retry of canceled work waits for its old executor to release capa
   await queue.idle();
   expect(queue.status(retry).published?.result).toBe("fresh");
 });
-
-test.each([
-  "DROP TABLE recording_deletions; DROP INDEX jobs_identity; CREATE UNIQUE INDEX jobs_active_identity ON jobs(recordingId,artifact,input) WHERE state IN ('queued','running')",
-  "ALTER TABLE jobs DROP COLUMN deferred",
-])(
-  "an earlier development job catalog is refused before catalog schema writes: %s",
-  async (schema) => {
-    const { store, queue, path } = fixture();
-    await queue.close();
-    queues.splice(queues.indexOf(queue), 1);
-    store.catalog.exec(schema);
-    store.close();
-    const before = readFileSync(path);
-    expect(() => {
-      const reopened = new RevisionStore(path, { now: () => "", newId: () => "unused" });
-      try {
-        new JobQueue({
-          store: reopened,
-          providers: { newId: () => "unused" },
-          execute: async () => "unused",
-        });
-      } finally {
-        reopened.close();
-      }
-    }).toThrow(expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }));
-    expect(readFileSync(path).equals(before)).toBe(true);
-  },
-);
 
 test("regenerating an evicted artifact preserves its revision and cannot invalidate a newer publication", async () => {
   const { store, queue, started } = fixture();
