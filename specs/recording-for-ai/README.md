@@ -29,9 +29,11 @@ recording or permission is pending, but do not call that gate passed.
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
 Current pickup: finish the complete processed-package writer in
-[14d3](slices/14d3-processed-package.md), starting with bounded native ZIP production,
-then pin and assemble real source/scene/index/events prerequisites through the shared
-export owner. In parallel, extend existing inspection operations to arbitrary package
+[14d3](slices/14d3-processed-package.md): pin and assemble real source/scene/index/events
+prerequisites and register recoverable assembly scratch through the shared export
+owner. The [bounded native ZIP producer](slices/14d3a-archive-writer.md) is implemented
+and integrated with public video publication; canonical timeline-event serialization
+is the next independent prerequisite. In parallel, extend existing inspection operations to arbitrary package
 frames and audio via [14c3c2](slices/14c3c2-package-frame-audio.md).
 [Public package index access](slices/14c3c1-public-package-index.md) and
 [queued export reconciliation](slices/14d2b4-queued-recovery.md) are implemented.
@@ -173,7 +175,8 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md) (source retention, retry and cache loss; public exports remain)
   - [x] [14d2b3 — Per-export abandonment](slices/14d2b3-export-abandonment.md) (drain, private cleanup and capacity release; public route remains)
   - [x] [14d2b4 — Queued publication recovery](slices/14d2b4-queued-recovery.md) (internal recovery/deadline owner)
-  - [ ] [14d3 — Complete processed-package export](slices/14d3-processed-package.md) (shared format identity implemented; producer remains)
+  - [ ] [14d3 — Complete processed-package export](slices/14d3-processed-package.md) (shared format identity and ZIP bytes implemented; production assembly remains)
+    - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md) (native byte writing/publication; complete package consumer remains)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

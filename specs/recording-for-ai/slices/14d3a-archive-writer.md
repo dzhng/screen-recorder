@@ -64,3 +64,13 @@ Fresh core/service/native builds, service types, lint and format passed. Indepen
 Codex review found no actionable defects and passed types, deadline and nine writer
 cases; its two process-barrier cases were blocked by sandbox access to ps. The
 host native receipt above is the authority for those process tests.
+
+## Root integration
+
+Merged with the public video lifecycle, including destination-admission shutdown
+and cache-before-dependency startup ordering. Fresh bundle build and type checks
+pass; [56 combined native checks](../assets/export-publication/zip-integrated-native.txt)
+cover writer, video owner, actual bundled exports and retained package relocation.
+The [8 shared publication-budget/worker checks](../assets/export-publication/zip-integrated-unit.txt)
+also pass. The shared deadline moved without changing its formula. These integration
+checks preserve the producer-versus-complete-consumer boundary above.

@@ -1,0 +1,90 @@
+(node:3418) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ bundled export lifecycle pins video through CLI/MCP, restart and recording deletion (1648.133291ms)
+(node:3419) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (16264.715875ms)
+(node:3420) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ streamed ZIP publishes through the existing no-clobber owner and independent reader (136.110416ms)
+✔ substituted or modified inputs fail and only private ZIP bytes are cleaned (25.194667ms)
+✔ writer refuses foreign scratch and symlink ancestors (34.189917ms)
+✔ observed ZIP output limit refuses a partial archive and drains cleanup (27.264917ms)
+✔ cancellation drains a stopped partial writer before cleaning owned ZIP bytes (467.5045ms)
+(node:3526) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed service cannot retire scratch while its stopped native writer survives (531.570209ms)
+✔ input mutation during streaming fails after the actual copied bytes are checked (443.309708ms)
+✔ large member uses bounded native memory and produces the independently expected digest (360.144666ms)
+✔ expected member digest is enforced independently of file identity (25.080541ms)
+✔ replaced scratch locator is rejected and cleanup follows only its retained descriptor (27.49275ms)
+✔ member names and declared counts cannot escape the bounded plan (45.559875ms)
+(node:3421) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3469) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ explicit recovery refreshes a negative observation when the same committed file returns (416.064333ms)
+✔ abandonment drains and forgets recovery identities without touching neighboring intents (377.258583ms)
+(node:3563) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ canceling recovery keeps its lane until close and preserves an actually observed commit (350.209458ms)
+✔ publication uses its known-byte budget instead of the worker's unrelated short default (715.064083ms)
+✔ startup admission is bounded and capacity events discover the remaining recovery backlog (2421.419542ms)
+✔ recovery failures are isolated and explicit retry observes absence without publishing (340.490583ms)
+✔ acknowledged historical retry does not access a moved destination but abandonment still verifies ownership (280.538708ms)
+(node:4034) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ startup recovery waits for the shared heavy lane and ignores failed source dependencies (342.76875ms)
+✔ late commit releases source evidence but abandonment capacity waits for confirmed retirement (293.667667ms)
+✔ failed abandonment keeps its fence and pins until verified staging can retire (282.982375ms)
+(node:4126) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ abandonment resumes after actual process death following private retirement (351.138417ms)
+✔ abandonment fences retries and recording deletion joins its drain after external commit (314.993916ms)
+✔ abandonment releases a failed export without deleting its recording or external collision (345.745542ms)
+✔ failed source readiness is reported without export polling retrying it (265.896875ms)
+✔ canceled intents keep exact-retry pins within a bounded uncommitted allowance (956.939375ms)
+✔ cache eviction after promotion returns the settled exporter to admission and rebuilds its pinned preview (445.486ms)
+✔ canceled export retains its selected source through newer evidence cleanup and retry then releases it (452.52075ms)
+✔ waiting export pins revision before source readiness and admits dependencies without a lane (262.420667ms)
+✔ ready preview exports its pinned bytes and real recording deletion forgets private export metadata (306.92425ms)
+✔ a committed export remains authoritative when cancellation discards its late job result (258.431417ms)
+✔ deletion drains the exporter and its validated cache descriptor before removing private bytes (272.98375ms)
+(node:4557) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death between external commit and catalog acknowledgement reconciles without republishing (404.519625ms)
+✔ committed history survives external removal or replacement without silently exporting again (346.719584ms)
+✔ concurrent request replay shares one intent and conflicting reuse is rejected (281.313833ms)
+✔ lost retirement acknowledgement resumes real recording deletion after the staging directory is gone (295.647542ms)
+(node:4680) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death after catalog commit finishes private acknowledgement on recovery (325.923209ms)
+(node:4709) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death before staging identity registration leaves only an empty recoverable directory (332.281208ms)
+✔ canceled queued export retries its original revision after preview eviction and regeneration (437.890834ms)
+(node:4775) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ interrupted allocation refuses nonempty substituted staging and keeps deletion pending (302.244791ms)
+✔ managed source directories cannot be selected as allegedly external exports (218.03075ms)
+✔ native death during receipt writing leaves unprepared evidence that the same intent can retry (1118.213125ms)
+✔ native death after canonical receipt publication retains that exact payload for retry (1266.161792ms)
+✔ recording deletion removes a receipt interrupted before its canonical publication (1095.217792ms)
+✔ one unsafe export staging entry does not prevent retiring independent intents of the same recording (332.898209ms)
+✔ an unreadable unrelated destination never prevents deleting owned private export data (276.795042ms)
+✔ storage totals include failed private exports and exclude the committed external movie (449.487833ms)
+✔ storage reconciles retired staging but rejects a substituted private directory (287.2105ms)
+✔ storage shutdown aborts and drains an export observation before catalog teardown (256.249208ms)
+✔ committed storage excludes the movie before acknowledgement and skips cleared destinations (263.517166ms)
+✔ processed-package requests leave no intent, job or destination before producer exists (206.610958ms)
+✔ export kind is persisted and incompatible replay cannot change video intent (216.88325ms)
+✔ shutdown fences and drains export destination admission before catalog closure (27.174541ms)
+✔ bundled startup admits a persisted waiter only after its ready preview cache is reconciled (569.970166ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19435.664792
