@@ -1,6 +1,8 @@
 # 14d2a — Durable ready-preview video intent
 
 Status: internal implementation verified with generated native/process checks.
+Its ready-only creation checkpoint is superseded by [14d2b2](14d2b2-pinned-waiting-video.md);
+the publication/deletion evidence below remains applicable.
 Independent review identified interrupted receipt publication; the native owner
 now atomically publishes its complete prepared receipt and the regression passes. This is the first bounded consumer of the publication owner. The
 public export operation must still accept requests whose dependencies are pending;

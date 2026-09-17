@@ -61,28 +61,34 @@ export class PreviewInspection {
     private readonly render: PreviewRenderer,
   ) {}
 
-  request(input: PreviewInput) {
+  request(input: PreviewInput & { sourceEvidence?: SourceEvidenceMetadata }) {
     const revision = this.store.revision(input.recordingId, input.revisionId);
     if (!revision.durationUs)
       throw new CatalogError("UNAVAILABLE", "Revision has no retained video");
-    this.processing.prepare(input.recordingId);
-    const source = this.processing.status(input.recordingId);
     const identity = {
       recordingId: input.recordingId,
-      sourceId: source.sourceId,
+      sourceId: this.store.get(input.recordingId).sourceId,
       revisionId: revision.id,
     };
-    if (source.state !== "ready" || !source.published)
-      return {
-        ...identity,
-        state: source.state,
-        reason: source.reason,
-        retryable: source.retryable,
-        jobId: null,
-        published: null,
-        dependency: { artifact: "source" as const, jobId: source.jobId },
-      };
-    const options: Options = { policy, sourceEvidence: source.published.evidence };
+    let selected = input.sourceEvidence;
+    if (!selected) {
+      this.processing.prepare(input.recordingId);
+      const source = this.processing.status(input.recordingId);
+      if (source.state !== "ready" || !source.published)
+        return {
+          ...identity,
+          state: source.state,
+          reason: source.reason,
+          retryable: source.retryable,
+          jobId: null,
+          published: null,
+          dependency: { artifact: "source" as const, jobId: source.jobId },
+        };
+      selected = source.published.evidence;
+    }
+    if (selected.recordingId !== identity.recordingId || selected.sourceId !== identity.sourceId)
+      throw new CatalogError("INVALID_EVIDENCE", "Preview evidence belongs to another source");
+    const options: Options = { policy, sourceEvidence: selected };
     const jobIdentity = {
       recordingId: input.recordingId,
       revisionId: revision.id,

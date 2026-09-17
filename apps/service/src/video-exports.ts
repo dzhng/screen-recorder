@@ -1,7 +1,15 @@
 import { join } from "node:path";
 import { CatalogError, type RevisionStore } from "@screenrec/core/library";
 import type { DerivedCache, DirectoryIdentity } from "@screenrec/core/cache";
-import type { JobExecution, JobQueue } from "@screenrec/core/jobs";
+import {
+  JobDependencyLost,
+  type Job,
+  type JobAdmission,
+  type JobExecution,
+  type JobQueue,
+} from "@screenrec/core/jobs";
+import type { SourceEvidenceMetadata } from "@screenrec/core/evidence";
+import type { SourceProcessing } from "@screenrec/core/processing";
 import type { PreviewInspection, PreviewArtifact } from "@screenrec/core/preview";
 import { Publication, type PublicationReceipt } from "./publication.js";
 import type { ManagedFiles } from "./managed-files.js";
@@ -23,22 +31,26 @@ type Intent = {
   snapshot: Snapshot;
   destination: { directory: string; identity: DirectoryIdentity; leaf: string };
   staging: DirectoryIdentity | null;
-  preview: ReadyPreview;
+  preview: ReadyPreview | null;
+  sourceEvidence: SourceEvidenceMetadata | null;
   receipt: PublicationReceipt | null;
 };
-type Row = Omit<Intent, "snapshot" | "destination" | "staging" | "preview" | "receipt"> & {
+type Row = Omit<
+  Intent,
+  "snapshot" | "destination" | "staging" | "preview" | "receipt" | "sourceEvidence"
+> & {
   snapshot: string;
   destination: string;
   staging: string | null;
-  preview: string;
+  preview: string | null;
+  sourceEvidence: string | null;
   receipt: string | null;
 };
 const artifact = "export-video";
 const stageName = (id: string) => `.screenrec-export-${id}`;
 
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
- * This first internal consumer admits an already-ready preview. Waiting admission is a
- * separate pass, not a restriction on the eventual public export operation. */
+ * Prerequisites wait in the existing queue while this owner pins their source generation. */
 export class VideoExports {
   constructor(
     private readonly owners: {
@@ -46,6 +58,7 @@ export class VideoExports {
       jobs: JobQueue;
       cache: DerivedCache;
       preview: PreviewInspection;
+      processing: SourceProcessing;
       worker: MediaWorker;
       files: Pick<ManagedFiles, "externalDirectory">;
     },
@@ -53,8 +66,9 @@ export class VideoExports {
     owners.store.catalog.exec(`CREATE TABLE IF NOT EXISTS export_intents (
       exportId TEXT PRIMARY KEY, recordingId TEXT NOT NULL REFERENCES recordings(recordingId),
       request TEXT NOT NULL, snapshot TEXT NOT NULL, destination TEXT NOT NULL,
-      staging TEXT, preview TEXT NOT NULL, receipt TEXT
-    ) STRICT; CREATE INDEX IF NOT EXISTS export_intents_recording ON export_intents(recordingId,exportId);`);
+      staging TEXT, preview TEXT, sourceEvidence TEXT, receipt TEXT
+    ) STRICT; CREATE INDEX IF NOT EXISTS export_intents_pending ON export_intents(recordingId) WHERE receipt IS NULL;
+    CREATE INDEX IF NOT EXISTS export_intents_recording ON export_intents(recordingId,exportId);`);
   }
   private find(exportId: string): Intent | null {
     const row = this.owners.store.catalog
@@ -66,7 +80,8 @@ export class VideoExports {
       snapshot: JSON.parse(row.snapshot),
       destination: JSON.parse(row.destination),
       staging: row.staging ? JSON.parse(row.staging) : null,
-      preview: JSON.parse(row.preview),
+      preview: row.preview ? JSON.parse(row.preview) : null,
+      sourceEvidence: row.sourceEvidence ? JSON.parse(row.sourceEvidence) : null,
       receipt: row.receipt ? JSON.parse(row.receipt) : null,
     };
   }
@@ -83,22 +98,70 @@ export class VideoExports {
       input: intent.exportId,
     };
   }
-  private readyPreview(recordingId: string, revisionId: string): ReadyPreview {
-    const ready = this.owners.preview.request({ recordingId, revisionId });
-    if (ready.state !== "ready" || !ready.published)
-      throw new CatalogError(
-        "DEPENDENCY_NOT_READY",
-        "Internal video export requires a ready pinned preview",
-        { dependency: ready.jobId },
-        true,
-      );
-    return {
+  retainsSource(recordingId: string, generation: string): boolean {
+    return !!this.owners.store.catalog
+      .prepare(`SELECT 1 FROM export_intents
+      WHERE receipt IS NULL AND recordingId=? AND sourceEvidence IS NOT NULL
+      AND CASE WHEN json_valid(sourceEvidence) THEN json_extract(sourceEvidence,'$.generation')=? ELSE 1 END LIMIT 1`)
+      .get(recordingId, generation);
+  }
+  admit(job: Job): ReturnType<JobAdmission> {
+    const intent = this.require(job.input);
+    if (
+      job.artifact !== artifact ||
+      job.recordingId !== intent.recordingId ||
+      job.revisionId !== intent.snapshot.revisionId
+    )
+      throw new CatalogError("INVALID_JOB", "Export job does not match its pinned intent");
+    // A staged attempt may already have committed; reconcile before asking dependencies again.
+    if (intent.receipt || (intent.staging && intent.preview)) return { state: "ready" };
+    if (!intent.sourceEvidence) {
+      this.owners.processing.prepare(intent.recordingId);
+      const source = this.owners.processing.status(intent.recordingId);
+      if (source.state !== "ready" || !source.published) return this.dependency(source);
+      intent.sourceEvidence = source.published.evidence;
+      this.owners.store.catalog
+        .prepare("UPDATE export_intents SET sourceEvidence=? WHERE exportId=?")
+        .run(JSON.stringify(intent.sourceEvidence), intent.exportId);
+    }
+    const ready = this.owners.preview.request({
+      recordingId: intent.recordingId,
+      revisionId: intent.snapshot.revisionId,
+      sourceEvidence: intent.sourceEvidence,
+    });
+    if (ready.state !== "ready" || !ready.published) return this.dependency(ready);
+    intent.preview = {
       cacheId: ready.published.preview.cacheId,
       bytes: ready.published.preview.bytes,
       generation: ready.published.generation,
     };
+    this.owners.store.catalog
+      .prepare("UPDATE export_intents SET preview=? WHERE exportId=?")
+      .run(JSON.stringify(intent.preview), intent.exportId);
+    return { state: "ready" };
   }
-  async createReady(request: Request) {
+  private dependency(status: {
+    state: string;
+    jobId: string | null;
+    reason: string | null;
+    retryable: boolean;
+  }): ReturnType<JobAdmission> {
+    if (
+      status.state === "failed" ||
+      status.state === "unavailable" ||
+      status.state === "not_requested"
+    )
+      throw new CatalogError(
+        status.state === "unavailable" ? "UNAVAILABLE" : "DEPENDENCY_FAILED",
+        status.reason ?? "Required evidence is unavailable",
+        { dependency: status.jobId },
+        status.retryable,
+      );
+    if (!status.jobId)
+      throw new CatalogError("INVALID_STATE", "Waiting export dependency has no job identity");
+    return { state: "waiting", dependency: status.jobId };
+  }
+  async create(request: Request) {
     if (
       !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(request.exportId) ||
       !request.leaf ||
@@ -121,21 +184,37 @@ export class VideoExports {
       if (existing.request !== key)
         throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
       this.owners.store.get(existing.recordingId);
-      if (!existing.receipt) this.owners.jobs.submit({ ...this.identity(existing), lane: "heavy" });
+      if (!existing.receipt)
+        this.owners.jobs.submitDeferred({ ...this.identity(existing), lane: "heavy" });
       return this.status(existing.exportId);
     }
     const { snapshot } = this.owners.store.pinPackageSnapshot(
       request.recordingId,
       request.revisionId,
     );
-    const ready = this.readyPreview(request.recordingId, snapshot.revisionId);
     const selected = await this.owners.files.externalDirectory(request.directory);
     this.owners.store.get(request.recordingId);
     const destination = { ...selected, leaf: request.leaf };
     const intent = this.owners.store.transaction(() => {
+      const existing = this.find(request.exportId);
+      if (existing) {
+        if (existing.request !== key)
+          throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
+        return existing;
+      }
+      const pending = this.owners.store.catalog
+        .prepare("SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL")
+        .get() as { count: number };
+      if (pending.count >= 32)
+        throw new CatalogError(
+          "LIMIT_EXCEEDED",
+          "Too many uncommitted exports retain their prerequisites",
+          {},
+          true,
+        );
       this.owners.store.catalog
         .prepare(
-          "INSERT OR IGNORE INTO export_intents(exportId,recordingId,request,snapshot,destination,preview) VALUES (?,?,?,?,?,?)",
+          "INSERT OR IGNORE INTO export_intents(exportId,recordingId,request,snapshot,destination) VALUES (?,?,?,?,?)",
         )
         .run(
           request.exportId,
@@ -143,29 +222,25 @@ export class VideoExports {
           key,
           JSON.stringify(snapshot),
           JSON.stringify(destination),
-          JSON.stringify(ready),
         );
       const admitted = this.require(request.exportId);
       if (admitted.request !== key)
         throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
       return admitted;
     });
-    this.owners.jobs.submit({ ...this.identity(intent), lane: "heavy" });
+    this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
     return this.status(request.exportId);
   }
   status(exportId: string) {
     const intent = this.require(exportId);
     this.owners.store.get(intent.recordingId);
     const job = this.owners.jobs.status(this.identity(intent));
+    const state = job.jobId ? this.owners.jobs.job(job.jobId).state : "not_requested";
     return {
       exportId,
       recordingId: intent.recordingId,
       snapshot: intent.snapshot,
-      state: intent.receipt
-        ? ("committed" as const)
-        : job.jobId
-          ? this.owners.jobs.job(job.jobId).state
-          : ("not_requested" as const),
+      state: intent.receipt ? ("committed" as const) : state === "waiting" ? "queued" : state,
       receipt: intent.receipt,
       jobId: job.jobId,
       reason: intent.receipt ? null : job.reason,
@@ -180,7 +255,7 @@ export class VideoExports {
       await this.recover(exportId);
       return this.status(exportId);
     }
-    const job = this.owners.jobs.submit({ ...this.identity(intent), lane: "heavy" });
+    const job = this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
     this.owners.jobs.retry(job.jobId);
     return this.status(exportId);
   }
@@ -188,7 +263,7 @@ export class VideoExports {
     const intent = this.require(exportId);
     this.owners.store.get(intent.recordingId);
     if (intent.receipt) return;
-    const job = this.owners.jobs.submit({ ...this.identity(intent), lane: "heavy" });
+    const job = this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
     this.owners.jobs.cancel(job.jobId);
   }
   private async open(intent: Intent) {
@@ -236,17 +311,26 @@ export class VideoExports {
       if (observed.state === "unprepared") {
         signal.throwIfAborted();
         await publication.discard();
-        intent.preview = this.readyPreview(intent.recordingId, intent.snapshot.revisionId);
-        this.owners.store.transaction(() =>
-          this.owners.store.catalog
-            .prepare("UPDATE export_intents SET preview=? WHERE exportId=?")
-            .run(JSON.stringify(intent.preview), intent.exportId),
-        );
-        await this.owners.cache.withDescriptor(intent.preview.cacheId, async (source) => {
-          if (source.bytes !== intent.preview.bytes)
-            throw new CatalogError("INVALID_CACHE", "Pinned preview size changed");
-          await publication.prepare(source, intent.destination.leaf, source.bytes, { signal });
-        });
+        try {
+          if (!intent.preview) throw new JobDependencyLost("Preview is not admitted");
+          const preview = intent.preview;
+          await this.owners.cache.withDescriptor(preview.cacheId, async (source) => {
+            if (source.bytes !== preview.bytes)
+              throw new CatalogError("INVALID_CACHE", "Pinned preview size changed");
+            await publication.prepare(source, intent.destination.leaf, source.bytes, { signal });
+          });
+        } catch (error) {
+          if (
+            error instanceof JobDependencyLost ||
+            (error instanceof CatalogError && error.code === "ARTIFACT_EXPIRED")
+          ) {
+            this.owners.store.catalog
+              .prepare("UPDATE export_intents SET preview=NULL WHERE exportId=?")
+              .run(intent.exportId);
+            throw new JobDependencyLost("Preview disappeared before preparation");
+          }
+          throw error;
+        }
         observed = await publication.commit({ signal });
       } else if (observed.state === "missing") observed = await publication.commit({ signal });
       if (observed.state !== "committed" || !observed.receipt)

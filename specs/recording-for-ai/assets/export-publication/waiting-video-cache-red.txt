@@ -1,0 +1,32 @@
+(node:37375) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ cache eviction after promotion returns the settled exporter to admission and rebuilds its pinned preview (236.532625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 293.503166
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:361:3
+✖ cache eviction after promotion returns the settled exporter to admission and rebuilds its pinned preview (236.532625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'failed'
+  - 'committed'
+
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-export-publication/apps/service/tests/video-export.mjs:394:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'failed',
+    expected: 'committed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

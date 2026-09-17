@@ -33,6 +33,7 @@ export class SourceProcessing {
     private readonly evidence: SourceEvidenceStore,
     private readonly home: string,
     private readonly exportSource: SourceExporter,
+    private readonly retained?: (recordingId: string, generation: string) => boolean,
   ) {}
 
   status(recordingId: string) {
@@ -225,7 +226,8 @@ export class SourceProcessing {
   }
 
   private protectedGeneration(recordingId: string, generation: string): boolean {
-    if (this.jobs.isAttemptActive(generation)) return true;
+    if (this.jobs.isAttemptActive(generation) || this.retained?.(recordingId, generation))
+      return true;
     if (
       this.store.catalog
         .prepare(

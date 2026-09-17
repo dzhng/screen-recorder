@@ -88,6 +88,8 @@ export type JobExecution = Readonly<{ job: Job; signal: AbortSignal }>;
  * non-retryable errors remain failures rather than pretending the evidence cannot exist.
  */
 export type JobExecutor = (execution: JobExecution) => Promise<string>;
+/** A lost prerequisite releases the settled attempt before dependency admission runs again. */
+export class JobDependencyLost extends Error {}
 
 declare const contextBrand: unique symbol;
 /** Queue-issued lifetime authority. The embedded recording ID is never a scheduling owner. */
@@ -872,7 +874,20 @@ export class JobQueue {
         return;
       }
       if ("error" in outcome) {
-        const error = outcome.error;
+        let error = outcome.error;
+        if (error instanceof JobDependencyLost) {
+          const row = this.store.catalog
+            .prepare("SELECT deferred FROM jobs WHERE jobId=?")
+            .get(job.jobId) as { deferred: number };
+          if (row.deferred) {
+            try {
+              this.requeue(toJob(current));
+              return;
+            } catch (failure) {
+              error = failure;
+            }
+          }
+        }
         const retryable = !(error instanceof CatalogError) || error.retryable;
         this.store.catalog
           .prepare("UPDATE jobs SET state=?,reason=?,retryable=? WHERE jobId=?")

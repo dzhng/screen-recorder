@@ -1854,3 +1854,37 @@ records them. These choices add no public export choice or transcript readiness.
 - **Verdict:** Sound: actual file metadata reports partial work without creating a
   second storage owner or blocking exports. Identity checks reject replacement.
 - **Confidence:** High.
+
+## Pinned waiting video consumer (14d2b2)
+
+### Sound — medium confidence
+
+- **Canceled and failed export requests still count against the retained-intent allowance.**
+  A canceled export may later retry the exact source evidence it originally selected.
+  Dropping that protection on cancellation would let cleanup erase evidence needed
+  for the promised retry. Counting every uncommitted intent, even one still waiting
+  for its first evidence, bounds this obligation. The plan left the retention limit
+  and cancellation interaction open. Public release must also offer explicit export
+  abandonment that drains one intent and frees its private resources while preserving
+  its recording and external files; deleting recordings is not the public escape hatch.
+
+### Sound — high confidence
+
+- **Source evidence is chosen once when available, while revision/history are chosen at request.**
+  A user can request an export before source processing finishes and edit the recording
+  while it waits. The export keeps the original edit revision and history bound, then
+  records the first ready source-evidence generation before asking for its preview.
+  A later source reprocessing run cannot redirect retries to newer evidence. The
+  existing source cleanup owner consults the intent's retention predicate, keeping
+  filesystem and database reclamation under one authority. A committed export stops
+  protecting that generation because its historical receipt forbids regeneration.
+
+- **Cache loss returns the settled export attempt to prerequisite admission.**
+  If another operation evicts a preview after the export was queued, rebuilding it
+  inside the exporter would occupy the heavy worker needed to render that preview.
+  Instead the exporter closes its publication handles, invalidates the obsolete
+  preview selection, and gives JobQueue a typed lost-dependency outcome. The same job
+  receives a fresh attempt before the existing preview owner rebuilds its pinned
+  input. The plan required forward progress but left this race's handoff unspecified.
+  Actual prepared publication evidence is reconciled first so missing dependencies
+  cannot hide a file that has already committed externally.

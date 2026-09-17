@@ -147,3 +147,7 @@ records the scoped native/process gates and the deferred catalog/product gates.
 The first waiting-admission checkpoint is [14d2b1](14d2b1-deferred-admission.md).
 It establishes bounded deferred jobs inside JobQueue; wiring pinned export
 prerequisites and restart recovery remains subsequent work.
+
+[14d2b2](14d2b2-pinned-waiting-video.md) connects the internal video intent to
+pinned dependency admission and bounded source-evidence retention. Public wiring
+still requires explicit abandonment, queued recovery, storage accounting and budgets.

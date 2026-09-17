@@ -33,7 +33,7 @@ import { journalRows } from "../../macos/tests/fixtures/generated-capture.mjs";
 const binary = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
 const native = mediaWorker({ SCREENREC_NATIVE: binary });
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
-async function fixture(t, wrap = (value) => value, existing) {
+async function fixture(t, wrap = (value) => value, existing, { warm = true } = {}) {
   const home = existing?.home ?? (await mkdtemp("/tmp/screenrec-video-export-"));
   const output = existing?.output ?? (await mkdtemp("/tmp/screenrec-video-destination-"));
   const store = new RevisionStore(join(home, "library.sqlite"), {
@@ -99,12 +99,17 @@ async function fixture(t, wrap = (value) => value, existing) {
           : processing.execute(execution),
   });
   const call = async (op, params, signal) => {
-    const result = await native(op, params, { signal });
+    const result = await worker(op, params, { signal });
     assert.equal(result.ok, true, JSON.stringify(result));
     return result.data;
   };
-  processing = new SourceProcessing(store, jobs, evidence, home, (directory, output, signal) =>
-    call("media.sourceEvidence", { directory, output }, signal),
+  processing = new SourceProcessing(
+    store,
+    jobs,
+    evidence,
+    home,
+    (directory, output, signal) => call("media.sourceEvidence", { directory, output }, signal),
+    (recordingId, generation) => exports.retainsSource(recordingId, generation),
   );
   preview = new PreviewInspection(store, jobs, cache, evidence, processing, home, (r, signal) =>
     call(
@@ -114,13 +119,14 @@ async function fixture(t, wrap = (value) => value, existing) {
     ),
   );
   const files = new ManagedFiles(home, native);
-  exports = new VideoExports({ store, jobs, cache, preview, worker, files });
-  processing.prepare(take.recordingId);
+  exports = new VideoExports({ store, jobs, cache, preview, processing, worker, files });
+  jobs.startAdmission((job) => exports.admit(job));
+  if (warm) processing.prepare(take.recordingId);
   await jobs.idle();
-  preview.request({ recordingId: take.recordingId });
+  if (warm) preview.request({ recordingId: take.recordingId });
   await jobs.idle();
-  const ready = preview.request({ recordingId: take.recordingId });
-  assert.equal(ready.state, "ready");
+  const ready = warm ? preview.request({ recordingId: take.recordingId }) : null;
+  if (warm) assert.equal(ready.state, "ready");
   const delivery = new DerivativeDelivery();
   const deletion = new RecordingDeletion({
     store,
@@ -151,7 +157,21 @@ async function fixture(t, wrap = (value) => value, existing) {
       await rm(output, { recursive: true, force: true });
     }
   });
-  return { home, output, store, take, cache, jobs, preview, exports, deletion, ready, closeOwners };
+  return {
+    home,
+    output,
+    store,
+    take,
+    cache,
+    jobs,
+    preview,
+    exports,
+    deletion,
+    ready,
+    processing,
+    evidence,
+    closeOwners,
+  };
 }
 async function crashFixture(t, gap) {
   const f = await fixture(t),
@@ -164,7 +184,7 @@ async function crashFixture(t, gap) {
   );
   f.jobs.submitContext(hold, { artifact: "held", input: "fixture", lane: "heavy" });
   await new Promise(setImmediate);
-  await f.exports.createReady({
+  await f.exports.create({
     exportId,
     recordingId: f.take.recordingId,
     directory: f.output,
@@ -219,7 +239,7 @@ async function receiptCrash(t, mode = "write") {
     { mode: 0o700 },
   );
   limited = mediaWorker({ SCREENREC_NATIVE: executable });
-  await f.exports.createReady({
+  await f.exports.create({
     exportId,
     recordingId: f.take.recordingId,
     directory: f.output,
@@ -253,6 +273,243 @@ if (process.argv[2] === "crash-owner") {
     existing,
   );
 } else {
+  test("failed source readiness is reported without export polling retrying it", async (t) => {
+    let calls = 0;
+    const f = await fixture(
+      t,
+      (run) =>
+        async (operation, ...args) => {
+          if (operation === "media.sourceEvidence" && ++calls === 1)
+            throw new Error("generated source failure");
+          return run(operation, ...args);
+        },
+      undefined,
+      { warm: false },
+    );
+    const request = {
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "source-retry.mp4",
+    };
+    await f.exports.create(request);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(request.exportId).state, "failed");
+    const failed = f.processing.status(f.take.recordingId),
+      attempt = f.jobs.job(failed.jobId).attemptId;
+    for (let n = 0; n < 10; n++) {
+      await f.exports.create(request);
+      f.exports.status(request.exportId);
+    }
+    assert.equal(f.jobs.job(failed.jobId).attemptId, attempt);
+    assert.equal(calls, 1);
+    f.processing.retry(f.take.recordingId);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(request.exportId).state, "failed");
+    await f.exports.retry(request.exportId);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(request.exportId).state, "committed");
+    assert.equal(calls, 2);
+  });
+
+  test("canceled intents keep exact-retry pins within a bounded uncommitted allowance", async (t) => {
+    const f = await fixture(t);
+    const hold = f.jobs.createContext(
+      ({ signal }) =>
+        new Promise((resolve) =>
+          signal.addEventListener("abort", () => resolve("closed"), { once: true }),
+        ),
+    );
+    f.jobs.submitContext(hold, { artifact: "held", input: "pin-limit", lane: "heavy" });
+    const ids = [];
+    for (let n = 0; n < 32; n++) {
+      const exportId = randomUUID();
+      ids.push(exportId);
+      await f.exports.create({
+        exportId,
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: `bounded-${n}.mp4`,
+      });
+      f.exports.cancel(exportId);
+    }
+    const overflow = {
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "overflow.mp4",
+    };
+    await assert.rejects(f.exports.create(overflow), { code: "LIMIT_EXCEEDED" });
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT COUNT(*) AS count FROM export_intents WHERE receipt IS NULL")
+        .get().count,
+      32,
+    );
+    assert.deepEqual(await readdir(f.output), []);
+    await f.jobs.closeContext(hold);
+    await f.exports.retry(ids[0]);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(ids[0]).state, "committed");
+    await f.exports.create(overflow);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(overflow.exportId).state, "committed");
+    await f.deletion.delete(f.take.recordingId);
+    assert.deepEqual((await readdir(f.output)).sort(), ["bounded-0.mp4", "overflow.mp4"]);
+  });
+
+  test("cache eviction after promotion returns the settled exporter to admission and rebuilds its pinned preview", async (t) => {
+    const entered = Promise.withResolvers(),
+      release = Promise.withResolvers();
+    let intercept = true;
+    t.after(() => release.resolve());
+    const f = await fixture(t, (run) => async (operation, ...args) => {
+      if (operation === "publication.reconcile" && intercept) {
+        intercept = false;
+        entered.resolve();
+        await release.promise;
+      }
+      return run(operation, ...args);
+    });
+    const exportId = randomUUID();
+    const request = await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "evicted.mp4",
+    });
+    const first = f.jobs.job(request.jobId);
+    await entered.promise;
+    f.cache.remove(f.ready.published.preview.cacheId);
+    f.store.edit(f.take.recordingId, {
+      operation: "cut",
+      requestId: randomUUID(),
+      expectedRevisionId: "r0",
+      ranges: [{ startUs: 0, endUs: 1000000 }],
+    });
+    release.resolve();
+    await f.jobs.idle();
+    const result = f.exports.status(exportId),
+      last = f.jobs.job(request.jobId);
+    assert.equal(result.state, "committed");
+    assert.notEqual(last.attemptId, first.attemptId);
+    assert.equal(last.generation, first.generation + 1);
+    const selected = JSON.parse(
+      f.store.catalog.prepare("SELECT preview FROM export_intents WHERE exportId=?").get(exportId)
+        .preview,
+    );
+    assert.notEqual(selected.cacheId, f.ready.published.preview.cacheId);
+    const regenerated = f.preview.request({ recordingId: f.take.recordingId, revisionId: "r0" });
+    const bytes = await readFile(regenerated.published.preview.file);
+    assert.deepEqual(await readFile(join(f.output, "evicted.mp4")), bytes);
+    assert.equal(regenerated.published.preview.durationUs, 2000000);
+  });
+
+  test("canceled export retains its selected source through newer evidence cleanup and retry then releases it", async (t) => {
+    const f = await fixture(t),
+      exportId = randomUUID();
+    const old = f.processing.status(f.take.recordingId);
+    const generation = old.published.evidence.generation;
+    const oldDirectory = join(
+      f.home,
+      "recordings",
+      f.take.recordingId,
+      "evidence",
+      "source",
+      generation,
+    );
+    const hold = f.jobs.createContext(
+      ({ signal }) =>
+        new Promise((resolve) =>
+          signal.addEventListener("abort", () => resolve("closed"), { once: true }),
+        ),
+    );
+    f.jobs.submitContext(hold, { artifact: "held", input: "cancel-before-export", lane: "heavy" });
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "old-generation.mp4",
+    });
+    f.exports.cancel(exportId);
+    assert.equal(f.exports.retainsSource(f.take.recordingId, generation), true);
+    f.cache.remove(f.ready.published.preview.cacheId);
+    f.jobs.regenerate(old.jobId, old.published.generation);
+    await f.jobs.closeContext(hold);
+    await f.jobs.idle();
+    const newer = f.processing.status(f.take.recordingId).published.evidence;
+    assert.notEqual(newer.generation, generation);
+    await f.processing.cleanup(new AbortController().signal);
+    assert.equal((await stat(oldDirectory)).isDirectory(), true);
+    f.store.edit(f.take.recordingId, {
+      operation: "cut",
+      requestId: randomUUID(),
+      expectedRevisionId: "r0",
+      ranges: [{ startUs: 0, endUs: 1000000 }],
+    });
+    await f.exports.retry(exportId);
+    await f.jobs.idle();
+    assert.equal(f.exports.status(exportId).state, "committed");
+    const regenerated = f.preview.request({
+      recordingId: f.take.recordingId,
+      revisionId: "r0",
+      sourceEvidence: old.published.evidence,
+    });
+    assert.equal(regenerated.state, "ready");
+    assert.equal(regenerated.published.preview.sourceEvidence.generation, generation);
+    assert.equal(f.exports.retainsSource(f.take.recordingId, generation), false);
+    await f.processing.cleanup(new AbortController().signal);
+    await assert.rejects(stat(oldDirectory), { code: "ENOENT" });
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT 1 FROM source_evidence_generations WHERE generation=?")
+        .get(generation),
+      undefined,
+    );
+    assert.equal(
+      (
+        await stat(
+          join(f.home, "recordings", f.take.recordingId, "evidence", "source", newer.generation),
+        )
+      ).isDirectory(),
+      true,
+    );
+  });
+
+  test("waiting export pins revision before source readiness and admits dependencies without a lane", async (t) => {
+    const f = await fixture(t, undefined, undefined, { warm: false });
+    const hold = f.jobs.createContext(
+      ({ signal }) =>
+        new Promise((resolve) =>
+          signal.addEventListener("abort", () => resolve("closed"), { once: true }),
+        ),
+    );
+    f.jobs.submitContext(hold, { artifact: "hold", input: "source-delay", lane: "heavy" });
+    const exportId = randomUUID();
+    const requested = await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "waiting.mp4",
+    });
+    assert.equal(requested.state, "queued");
+    assert.equal(f.jobs.job(requested.jobId).state, "waiting");
+    f.store.edit(f.take.recordingId, {
+      operation: "cut",
+      requestId: randomUUID(),
+      expectedRevisionId: "r0",
+      ranges: [{ startUs: 0, endUs: 1000000 }],
+    });
+    await f.jobs.closeContext(hold);
+    await f.jobs.idle();
+    const result = f.exports.status(exportId);
+    assert.equal(result.state, "committed");
+    assert.equal(result.snapshot.revisionId, "r0");
+    assert.equal(result.snapshot.historyThroughOrdinal, requested.snapshot.historyThroughOrdinal);
+    const source = f.processing.status(f.take.recordingId).published.evidence;
+    assert.equal(f.exports.retainsSource(f.take.recordingId, source.generation), false);
+  });
+
   test("ready preview exports its pinned bytes and real recording deletion forgets private export metadata", async (t) => {
     const f = await fixture(t);
     const exportId = randomUUID();
@@ -267,7 +524,7 @@ if (process.argv[2] === "crash-owner") {
       directory: f.output,
       leaf: "recording.mp4",
     };
-    const admitted = await f.exports.createReady(request);
+    const admitted = await f.exports.create(request);
     f.store.edit(f.take.recordingId, {
       operation: "cut",
       requestId: randomUUID(),
@@ -295,7 +552,7 @@ if (process.argv[2] === "crash-owner") {
       { encoding: "utf8" },
     );
     assert.equal(Number(JSON.parse(info.stdout).format.duration), 2);
-    assert.equal((await f.exports.createReady(request)).exportId, admitted.exportId);
+    assert.equal((await f.exports.create(request)).exportId, admitted.exportId);
     await f.deletion.delete(f.take.recordingId);
     assert.throws(
       () => f.exports.status(exportId),
@@ -319,7 +576,7 @@ if (process.argv[2] === "crash-owner") {
       return result;
     });
     const exportId = randomUUID();
-    await f.exports.createReady({
+    await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
       directory: f.output,
@@ -357,7 +614,7 @@ if (process.argv[2] === "crash-owner") {
       return result;
     });
     const exportId = randomUUID();
-    await f.exports.createReady({
+    await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
       directory: f.output,
@@ -407,7 +664,7 @@ if (process.argv[2] === "crash-owner") {
     const f = await fixture(t),
       exportId = randomUUID(),
       file = join(f.output, "external.mp4");
-    await f.exports.createReady({
+    await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
       directory: f.output,
@@ -436,14 +693,11 @@ if (process.argv[2] === "crash-owner") {
       directory: f.output,
       leaf: "once.mp4",
     };
-    const results = await Promise.all([
-      f.exports.createReady(request),
-      f.exports.createReady(request),
-    ]);
+    const results = await Promise.all([f.exports.create(request), f.exports.create(request)]);
     assert.equal(results[0].jobId, results[1].jobId);
     await f.jobs.idle();
     await assert.rejects(
-      f.exports.createReady({ ...request, leaf: "different.mp4" }),
+      f.exports.create({ ...request, leaf: "different.mp4" }),
       (e) => e.code === "REQUEST_CONFLICT",
     );
     assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 1);
@@ -468,7 +722,7 @@ if (process.argv[2] === "crash-owner") {
         return result;
       }),
       exportId = randomUUID();
-    await f.exports.createReady({
+    await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
       directory: f.output,
@@ -531,7 +785,7 @@ if (process.argv[2] === "crash-owner") {
     );
     f.jobs.submitContext(hold, { artifact: "held", input: "fixture", lane: "heavy" });
     await new Promise(setImmediate);
-    await f.exports.createReady({
+    await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
       directory: f.output,
@@ -547,11 +801,6 @@ if (process.argv[2] === "crash-owner") {
       ranges: [{ startUs: 0, endUs: 1000000 }],
     });
     await f.jobs.closeContext(hold);
-    await f.exports.retry(exportId);
-    await f.jobs.idle();
-    const failed = f.exports.status(exportId);
-    assert.equal(failed.state, "failed");
-    assert.equal(failed.retryable, true);
     await f.exports.retry(exportId);
     await f.jobs.idle();
     const result = f.exports.status(exportId);
@@ -596,7 +845,7 @@ if (process.argv[2] === "crash-owner") {
     const f = await fixture(t),
       exportId = randomUUID();
     await assert.rejects(
-      f.exports.createReady({
+      f.exports.create({
         exportId,
         recordingId: f.take.recordingId,
         directory: join(f.home, "recordings", f.take.recordingId, "source"),
@@ -647,7 +896,7 @@ if (process.argv[2] === "crash-owner") {
     const f = await fixture(t),
       ids = [randomUUID(), randomUUID()].sort();
     for (const [i, exportId] of ids.entries()) {
-      await f.exports.createReady({
+      await f.exports.create({
         exportId,
         recordingId: f.take.recordingId,
         directory: f.output,
@@ -681,7 +930,7 @@ if (process.argv[2] === "crash-owner") {
       destination = join(f.output, "unreadable.mp4");
     await writeFile(destination, "unreadable foreign bytes", { mode: 0 });
     const before = await stat(destination, { bigint: true });
-    await f.exports.createReady({
+    await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
       directory: f.output,

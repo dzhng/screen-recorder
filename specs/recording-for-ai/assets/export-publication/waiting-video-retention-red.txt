@@ -1,0 +1,26 @@
+(node:36704) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ canceled export retains its selected source through newer evidence cleanup and retry then releases it (239.266459ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 299.737667
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:408:3
+✖ canceled export retains its selected source through newer evidence cleanup and retry then releases it (239.266459ms)
+  Error: ENOENT: no such file or directory, stat '/tmp/screenrec-video-export-mmawxu/recordings/86ac1cab-00db-415f-95cd-fc83f54b8bd9/evidence/source/bb78c7fb-7aa6-4714-8ae9-fd6a4b183a61'
+      at async stat (node:internal/fs/promises:1030:18)
+      at async TestContext.<anonymous> (file:///private/tmp/screenrec-export-publication/apps/service/tests/video-export.mjs:443:19)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'stat',
+    path: '/tmp/screenrec-video-export-mmawxu/recordings/86ac1cab-00db-415f-95cd-fc83f54b8bd9/evidence/source/bb78c7fb-7aa6-4714-8ae9-fd6a4b183a61'
+  }

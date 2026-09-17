@@ -135,6 +135,12 @@ export class RevisionStore {
           !this.catalog
             .prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='jobs_identity'")
             .get())) ||
+      (this.catalog
+        .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='export_intents'")
+        .get() &&
+        !this.catalog
+          .prepare("SELECT 1 FROM pragma_table_info('export_intents') WHERE name='sourceEvidence'")
+          .get()) ||
       this.catalog
         .prepare(
           "SELECT 1 FROM sqlite_master WHERE type='table' AND name='cursor_evidence_generations'",
