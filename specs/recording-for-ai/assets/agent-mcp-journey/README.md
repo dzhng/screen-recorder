@@ -29,7 +29,8 @@ All four images are retained: [initial](first.png), [later source](second.png),
 later source image; restored bytes equal the initial image. The [source movie](source.mov)
 and [journal](source.journal.jsonl) preserve generated inputs, and the movie hash
 remained unchanged. The fixture owner accepted its stop message, reaped its app and
-service with no survivors, and exited zero.
+service with no survivors, and exited zero. Its fixture home was removed after
+durable evidence was retained.
 
 As with the CLI companion, this is a bounded generated-media consumer proof.
 Narration/filler editing, cursor understanding, audio audition, package exports,

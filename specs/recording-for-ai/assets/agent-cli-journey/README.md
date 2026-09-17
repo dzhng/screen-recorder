@@ -42,5 +42,5 @@ The fixture owner's stdin was closed by the command runner, so its stop message
 could not be sent. The known owned app was terminated and both app and service
 PIDs were verified gone before terminating the idle fixture driver. Its exit143
 is cleanup, not a test-success signal; the behavioral receipts above are the evidence.
-No fixture recording was deleted through a user library. Scratch data remains under
-the temporary fixture directory, with durable evidence copied here.
+No fixture recording was deleted through a user library. Both fixture homes were removed only after their owned processes exited and durable
+evidence was copied into the spec.
