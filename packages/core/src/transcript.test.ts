@@ -16,6 +16,8 @@ afterEach(async () => {
 });
 
 type Word = { text: string; startUs: number; endUs: number };
+/** A merged word as native writes it to raw.jsonl: engine seconds beside its source range. */
+type RawWord = { text: string; source: { startUs: number; endUs: number } };
 type Line = { ordinal: number; source: { startUs: number; endUs: number }; state: string } & Record<
   string,
   unknown
@@ -48,6 +50,8 @@ type Options = {
   microphone?: boolean;
   script?: Word[];
   intervals?: typeof acquired;
+  /** The parts of the acquired intervals the fake narration movie actually holds. */
+  occupied?: typeof acquired;
   models?: "absent" | "ready";
   hold?: Promise<void>;
   corrupt?: (lines: Line[], receipt: Record<string, unknown>) => void;
@@ -125,7 +129,7 @@ async function fixture(options: Options = {}) {
         signal.addEventListener("abort", () => reject(signal.reason), { once: true });
         void options.hold!.then(resolve);
       });
-    const lines: Line[] = request.track.available.map((interval, ordinal) => {
+    const lines: Line[] = (options.occupied ?? request.track.available).map((interval, ordinal) => {
       if (interval.endUs - interval.startUs < 200_000)
         return { ordinal, source: interval, state: "skipped", reason: "too_short", words: [] };
       const words = (options.script ?? script).filter(
@@ -139,9 +143,11 @@ async function fixture(options: Options = {}) {
         confidence: 0.9,
         tokenTimings: words.map((word) => ({ token: word.text, startTime: word.startUs / 1e6 })),
         words: words.map((word, index) => ({
-          ...word,
+          text: word.text,
           startSeconds: (word.startUs - interval.startUs) / 1e6,
+          endSeconds: (word.endUs - interval.startUs) / 1e6,
           confidence: index === 0 ? null : 0.75,
+          source: { startUs: word.startUs, endUs: word.endUs },
         })),
       };
     });
@@ -453,6 +459,30 @@ test("pages under a playback range traverse to exactly the single-page result", 
   );
 });
 
+test("time the narration movie does not hold inside an acquired interval reads as a gap", async () => {
+  const f = await fixture({
+    intervals: [{ startUs: 500_000, endUs: 8_600_000 }],
+    occupied: acquired,
+  });
+  const recordingId = await transcribed(f);
+  expect(f.transcript.status(recordingId)).toMatchObject({
+    state: "ready",
+    published: { transcript: { segmentCount: 3, wordCount: 7 } },
+  });
+  const page = f.transcript.get({ recordingId });
+  const rows = "page" in page ? page.page!.rows : [];
+  expect(
+    rows.flatMap((row) => (row.type === "gap" ? [[row.reason, row.sourceRange]] : [])),
+  ).toEqual([
+    ["not_acquired", { startUs: 0, endUs: 500_000 }],
+    ["not_acquired", { startUs: 4_000_000, endUs: 5_500_000 }],
+    ["not_acquired", { startUs: 8_000_000, endUs: 8_500_000 }],
+    ["too_short", { startUs: 8_500_000, endUs: 8_600_000 }],
+    ["not_acquired", { startUs: 8_600_000, endUs: 10_000_000 }],
+  ]);
+  expect(words(page).map((word) => word.text)).toEqual(script.map((word) => word.text));
+});
+
 test("a long narration pages and searches identically across storage batches", async () => {
   const long = Array.from({ length: 3000 }, (_, index) => ({
     text: `word${index % 1000}`,
@@ -675,7 +705,7 @@ test("ingest refuses inconsistent native output and leaves no generation behind"
     [
       {
         corrupt: (lines) => {
-          (lines[0]!.words as Word[])[0]!.startUs = 100_000;
+          (lines[0]!.words as RawWord[])[0]!.source.startUs = 100_000;
         },
       },
       "Transcript word lies outside its segment",
@@ -683,7 +713,7 @@ test("ingest refuses inconsistent native output and leaves no generation behind"
     [
       {
         corrupt: (lines) => {
-          (lines[0]!.words as Word[])[1]!.endUs = 1_000_000;
+          (lines[0]!.words as RawWord[])[1]!.source.endUs = 1_000_000;
         },
       },
       "Transcript word range is reversed",
@@ -691,7 +721,7 @@ test("ingest refuses inconsistent native output and leaves no generation behind"
     [
       {
         corrupt: (lines) => {
-          const words = lines[0]!.words as Word[];
+          const words = lines[0]!.words as RawWord[];
           [words[1], words[2]] = [words[2]!, words[1]!];
         },
       },
@@ -723,6 +753,14 @@ test("ingest refuses inconsistent native output and leaves no generation behind"
         },
       },
       "Raw transcript segment differs from its receipt",
+    ],
+    [
+      {
+        corrupt: (_lines, receipt) => {
+          (receipt.segments as Line[])[0]!.source = { startUs: 0, endUs: 4_000_000 };
+        },
+      },
+      "Transcription segment does not lie in an acquired narration interval",
     ],
     [{ tamperHash: true }, "Raw transcript does not match its receipt"],
   ];

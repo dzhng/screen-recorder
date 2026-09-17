@@ -61,8 +61,8 @@ word timing support nor a vendor throughput claim establishes edit safety.
 
 ## Upstream provenance and notices
 
-[engines.mjs](engines.mjs) owns the runtime commit and license identities; the model
-snapshot and its files come from core. Source checkouts retain upstream
+[engines.mjs](engines.mjs) owns the license identities; the runtime version and
+commit, the model snapshot and its files come from core's speech model owner. Source checkouts retain upstream
 LICENSE/NOTICES; the model card carries the model license, as the model repository
 has no LICENSE file. FluidAudio code is Apache-2.0 and its converted Parakeet v2
 weights are CC-BY-4.0. Preserve these notices and model attribution if

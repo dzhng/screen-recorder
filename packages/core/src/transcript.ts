@@ -7,15 +7,15 @@ import { z } from "zod";
 import { CatalogError, type RevisionStore } from "./library.js";
 import type { AudioTrackPlan } from "./audio.js";
 import type { PageQuery } from "./ordered-pages.js";
+import type { SpeechEnginePins, SpeechModelRequest } from "./speech-models.js";
 import type { TimeRange } from "./timeline.js";
 import { wordKind, wordKindPolicy, type WordKind } from "./word-kind.js";
 
 export const transcriptPolicy = "transcript-v1";
 
-export type SpeechModelFile = Readonly<{ path: string; bytes: number; sha256: string }>;
 /** What the native `speech.transcribe` operation receives. */
 export type SpeechTranscriptionRequest = {
-  models: { directory: string; files: readonly SpeechModelFile[] };
+  models: SpeechModelRequest;
   track: AudioTrackPlan;
   output: string;
 };
@@ -42,15 +42,6 @@ export type SpeechTranscriber = (
   request: SpeechTranscriptionRequest,
   signal: AbortSignal,
 ) => Promise<SpeechTranscriptionReceipt>;
-/** The evaluated engine a transcript must come from; the model owner holds these pins. */
-export type SpeechEnginePins = Readonly<{
-  runtime: string;
-  runtimeVersion: string;
-  runtimeRevision: string;
-  decoder: string;
-  model: string;
-  modelRevision: string;
-}>;
 export type TranscriptEngine = SpeechEnginePins & {
   modelDigest: string;
   encoderPrecision: string;
@@ -134,8 +125,7 @@ const lineSchema = z.object({
   words: z.array(
     z.object({
       text: z.string().min(1).max(1024),
-      startUs: time,
-      endUs: time,
+      source: range,
       confidence: z.number().min(0).max(1).nullable().optional(),
     }),
   ),
@@ -251,19 +241,28 @@ export class TranscriptStore implements TranscriptRecords {
       receipt.engine.decoder !== pins.decoder
     )
       invalid("Transcription receipt names another output or engine");
-    if (receipt.segments.length !== available.length)
-      invalid("Transcription segments must match the readable narration intervals");
-    let words = 0;
+    // Native narrows each acquired interval to the media the narration movie actually holds, so a
+    // segment is any ordered, nonempty part of one acquired interval; time between segments was not read.
+    let words = 0,
+      interval = 0,
+      readUs = 0;
     for (const [ordinal, segment] of receipt.segments.entries()) {
       if (segment.ordinal !== ordinal)
         invalid("Transcription segment ordinals must be unique and ordered");
+      while (interval < available.length && available[interval]!.endUs <= segment.source.startUs)
+        interval++;
+      const acquired = available[interval];
       if (
-        segment.source.startUs !== available[ordinal]!.startUs ||
-        segment.source.endUs !== available[ordinal]!.endUs ||
+        segment.source.startUs < readUs ||
+        segment.source.endUs <= segment.source.startUs ||
+        !acquired ||
+        segment.source.startUs < acquired.startUs ||
+        segment.source.endUs > acquired.endUs ||
         (segment.state === "skipped") !== (segment.reason === "too_short") ||
         (segment.state === "skipped" && segment.wordCount !== 0)
       )
-        invalid("Transcription segment does not describe its readable interval");
+        invalid("Transcription segment does not lie in an acquired narration interval");
+      readUs = segment.source.endUs;
       words += segment.wordCount;
     }
     if (words !== receipt.wordCount) invalid("Transcription word count does not match segments");
@@ -362,13 +361,16 @@ export class TranscriptStore implements TranscriptRecords {
         invalid("Raw transcript segment differs from its receipt");
       segments.push(segment);
       for (const word of line.data.words) {
-        if (word.endUs < word.startUs) invalid("Transcript word range is reversed");
-        if (word.startUs < segment.source.startUs || word.endUs > segment.source.endUs)
+        const { source } = word;
+        if (source.endUs < source.startUs) invalid("Transcript word range is reversed");
+        if (source.startUs < segment.source.startUs || source.endUs > segment.source.endUs)
           invalid("Transcript word lies outside its segment");
-        const instant = word.startUs === word.endUs;
+        const instant = source.startUs === source.endUs;
         // A zero-width word at the interval end keeps its microsecond inside the interval.
-        const startUs = instant ? Math.min(word.startUs, segment.source.endUs - 1) : word.startUs;
-        const endUs = instant ? startUs + 1 : word.endUs;
+        const startUs = instant
+          ? Math.min(source.startUs, segment.source.endUs - 1)
+          : source.startUs;
+        const endUs = instant ? startUs + 1 : source.endUs;
         if (startUs < previousStartUs) invalid("Transcript words must be ordered by start");
         previousStartUs = startUs;
         maxWordUs = Math.max(maxWordUs, endUs - startUs);

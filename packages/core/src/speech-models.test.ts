@@ -16,7 +16,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import type { AddressInfo } from "node:net";
 import { join } from "node:path";
 import { CatalogError } from "./library.js";
-import { SpeechModels, type SpeechModelManifest } from "./speech-models.js";
+import { parakeetModel, SpeechModels, type SpeechModelManifest } from "./speech-models.js";
 
 const cleanups: (() => Promise<unknown> | void)[] = [];
 afterEach(async () => {
@@ -37,6 +37,12 @@ const manifest: SpeechModelManifest = {
   repo: "test/tiny-coreml",
   revision: "r1",
   folderName: "tiny-model",
+  engine: {
+    runtime: "TinyRuntime",
+    runtimeVersion: "1.0.0",
+    runtimeRevision: "c".repeat(40),
+    decoder: "tiny-decoder",
+  },
   files: Object.entries(contents).map(([path, body]) => pin(path, body)),
 };
 type Handler = (path: string, response: ServerResponse, request: IncomingMessage) => void;
@@ -118,6 +124,17 @@ test("prepare installs pinned files whole and reports them for the native reques
   ]);
   expect(await staged()).toEqual([]);
   expect((await stat(models)).mode & 0o777).toBe(0o700);
+});
+
+test("the runtime pinned beside the model is the one the native worker resolves", async () => {
+  const resolved = JSON.parse(
+    await readFile(new URL("../../../helpers/mac/Package.resolved", import.meta.url), "utf8"),
+  ) as { pins: { identity: string; state: { version?: string; revision: string } }[] };
+  const fluidAudio = resolved.pins.find((pin) => pin.identity === "fluidaudio");
+  expect(fluidAudio?.state).toEqual({
+    version: parakeetModel.engine.runtimeVersion,
+    revision: parakeetModel.engine.runtimeRevision,
+  });
 });
 
 test("the model digest names the pinned file list, not the order it is declared in", async () => {
