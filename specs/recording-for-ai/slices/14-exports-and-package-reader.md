@@ -1,9 +1,10 @@
 # 14 — Two exports and relocated AI inspection
 
-Status: internal package admission, reservations, orphan recovery and retained
-inspection pass their gates. Pinned waiting exports, abandonment and private staging
-accounting also pass merged checks. Public package selectors, queued export recovery
-and two-export composition are next. This does not close 08, 11c or 13.
+Status: package admission, public index/frame/audio inspection, queued export
+recovery and public video export pass their scoped gates. Complete-package
+assembly, public cursor/timeline reads, transcript integration and native export
+actions remain. See the [integration evidence](../assets/owner-integration/README.md).
+This does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
 and [verification](../verification.md). No public contract changes are proposed:
@@ -56,7 +57,9 @@ and parent-death lifetime. [14c3a](14c3a-transient-context-jobs.md) adds isolate
 capabilities to the shared queue. [14c3b1](14c3b1-package-output-release.md) now proves
 reusable outputs and isolated delivery identities. [14c3b2](14c3b2-package-workspace-primitives.md) pins archive inputs and owns retryable
 workspace cleanup. [14c3b3](14c3b3-package-registry.md) now integrates registry
-reservations and startup reclamation. Public opening and selectors come next.
+reservations and startup reclamation. [Public opening/index](14c3c1-public-package-index.md)
+and [frame/audio selectors](14c3c2-package-frame-audio.md) now consume that owner;
+cursor and timeline selectors remain.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native
@@ -89,9 +92,10 @@ ready-preview intent and actual recording deletion. [Deferred admission](14d2b1-
 uses the existing queue. [Pinned source retention](14d2b2-pinned-waiting-video.md)
 and [private staging accounting](../assets/export-publication/staging-usage.md) are
 internally integrated. [Abandonment](14d2b3-export-abandonment.md) is verified.
-Queue-admitted restart recovery and public wiring
-remain; the [scoped evidence](../assets/export-publication/video-intent.md) records
-the boundary.
+[Queue-admitted restart recovery](14d2b4-queued-recovery.md) and
+[public video wiring](../assets/export-publication/public-video.md) are implemented.
+[Complete-package assembly](14d3-processed-package.md) remains the next production
+consumer; native export actions follow its reviewed public composition.
 
 Pin revision and history bound before waiting. Use existing job authority to expose
 required dependency IDs while waiting outside every worker slot; do not add a
