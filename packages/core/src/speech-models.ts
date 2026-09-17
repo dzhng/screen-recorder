@@ -17,12 +17,23 @@ import { O_NOFOLLOW_ANY } from "./files.js";
 import { CatalogError } from "./library.js";
 
 export type SpeechModelFile = Readonly<{ path: string; bytes: number; sha256: string }>;
+/** The runtime and decoder evaluated with a model; native reports the same identity per transcript. */
+export type SpeechRuntime = Readonly<{
+  runtime: string;
+  runtimeVersion: string;
+  /** The source revision the worker's Package.resolved pins for `runtimeVersion`. */
+  runtimeRevision: string;
+  decoder: string;
+}>;
+/** The evaluated engine a transcript must come from. */
+export type SpeechEnginePins = SpeechRuntime & Readonly<{ model: string; modelRevision: string }>;
 export type SpeechModelManifest = Readonly<{
   name: string;
   repo: string;
   revision: string;
   /** FluidAudio loads from the parent directory joined with this exact folder name. */
   folderName: string;
+  engine: SpeechRuntime;
   files: readonly SpeechModelFile[];
 }>;
 export type SpeechModelStatus =
@@ -41,6 +52,12 @@ export const parakeetModel: SpeechModelManifest = {
   repo: "FluidInference/parakeet-tdt-0.6b-v2-coreml",
   revision: "ee09c569f73759e6d44c9bd16766f477b2b36d39",
   folderName: "parakeet-tdt-0.6b-v2",
+  engine: {
+    runtime: "FluidAudio",
+    runtimeVersion: "0.15.7",
+    runtimeRevision: "41540ea237350afe5117a082b5c28eda642d0612",
+    decoder: "parakeet-tdt-batch",
+  },
   files: [
     {
       path: "Decoder.mlmodelc/analytics/coremldata.bin",
@@ -206,6 +223,7 @@ const createFile = (path: string) =>
  */
 export class SpeechModels {
   readonly modelDigest: string;
+  readonly pins: SpeechEnginePins;
   private readonly models: string;
   private flight: Flight | undefined;
   private failure: CatalogError | undefined;
@@ -223,6 +241,7 @@ export class SpeechModels {
         ),
       )
       .digest("hex");
+    this.pins = { ...manifest.engine, model: manifest.repo, modelRevision: manifest.revision };
     this.models = join(realpathSync(home), "models");
     try {
       privateDirectory(this.models);

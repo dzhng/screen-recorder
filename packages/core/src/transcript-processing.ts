@@ -5,11 +5,10 @@ import { planAudioTracks } from "./audio.js";
 import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
 import { sourceArtifact, sourcePolicy, type SourceProcessing } from "./processing.js";
 import type { TimeRange } from "./timeline.js";
+import type { SpeechModels } from "./speech-models.js";
 import {
   transcriptPolicy,
-  type SpeechEnginePins,
   type SpeechTranscriber,
-  type SpeechTranscriptionRequest,
   type TranscriptMetadata,
   type TranscriptStore,
 } from "./transcript.js";
@@ -18,12 +17,10 @@ import { TranscriptRead, transcriptContinuation } from "./transcript-read.js";
 const artifact = "transcript";
 
 /** The model owner as transcription sees it: readiness, the verified file list and its pins. */
-export type TranscriptionModels = {
-  status(): { state: "absent" | "preparing" | "ready" | "invalid" | "failed" };
-  nativeRequest(): SpeechTranscriptionRequest["models"];
-  readonly modelDigest: string;
-  readonly pins: SpeechEnginePins;
-};
+export type TranscriptionModels = Pick<
+  SpeechModels,
+  "status" | "nativeRequest" | "modelDigest" | "pins"
+>;
 
 type ReadInput = {
   recordingId: string;

@@ -22,6 +22,9 @@ import { DerivativeDelivery } from "./delivery.js";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SourceProcessing } from "@screenrec/core/processing";
+import { SpeechModels } from "@screenrec/core/speech-models";
+import { TranscriptStore, type SpeechTranscriptionReceipt } from "@screenrec/core/transcript";
+import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import { operate, operationFailure } from "./operations.js";
 import { join } from "node:path";
 import {
@@ -36,7 +39,7 @@ import {
 } from "@screenrec/protocol";
 import { CaptureService } from "./capture.js";
 import { openControl } from "./control.js";
-import { mediaWorker, nativeResult } from "./worker.js";
+import { mediaWorker, nativeResult, transcriptionDeadlineMs } from "./worker.js";
 import { listenLocal, type LocalListener } from "./index.js";
 import { StartupFailure, claimStartup, type StartupClaim } from "./startup.js";
 
@@ -70,6 +73,9 @@ async function main(): Promise<void> {
   let indexEvidence: ScreenshotIndexStore;
   let processing: SourceProcessing;
   let scenes: SceneProcessing;
+  let models: SpeechModels;
+  let transcriptStore: TranscriptStore;
+  let transcripts: TranscriptProcessing;
   let timeline: LibraryTimelineInspection;
   let index: IndexProcessing;
   let frames: LibraryFrameInspection;
@@ -91,8 +97,14 @@ async function main(): Promise<void> {
     operation: string,
     params: Record<string, unknown>,
     signal: AbortSignal,
+    timeoutMs?: number,
   ): Promise<T> {
-    return nativeResult(await worker(operation, params, { signal })) as T;
+    return nativeResult(
+      await worker(operation, params, {
+        signal,
+        ...(timeoutMs === undefined ? {} : { timeoutMs }),
+      }),
+    ) as T;
   }
   try {
     claim = await claimStartup(runtimeDirectory);
@@ -117,6 +129,7 @@ async function main(): Promise<void> {
       providers: { newId: randomUUID },
       execute: async (execution) => {
         if (execution.job.artifact === "export-recovery") return exports!.execute(execution);
+        if (execution.job.artifact === "transcript") return transcripts.execute(execution);
         if (
           execution.job.artifact === "export-recording" ||
           execution.job.artifact === "frame" ||
@@ -156,6 +169,24 @@ async function main(): Promise<void> {
       (directory, output, signal) =>
         nativeData<SourceEvidenceReceipt>("media.sourceEvidence", { directory, output }, signal),
       (recordingId, generation) => exports!.retainsSource(recordingId, generation),
+    );
+    models = new SpeechModels(home);
+    transcriptStore = new TranscriptStore(store, home);
+    transcripts = new TranscriptProcessing(
+      store,
+      jobs,
+      transcriptStore,
+      processing,
+      evidence,
+      models,
+      home,
+      (request, signal) =>
+        nativeData<SpeechTranscriptionReceipt>(
+          "speech.transcribe",
+          request,
+          signal,
+          transcriptionDeadlineMs(request.track.available),
+        ),
     );
     const visual = new VisualObservationCache(
       store,
@@ -314,6 +345,7 @@ async function main(): Promise<void> {
     source: evidence,
     scenes: sceneEvidence,
     index: indexEvidence,
+    transcripts: transcriptStore,
     capture,
     delivery: transfers,
     files,
@@ -330,11 +362,25 @@ async function main(): Promise<void> {
     try {
       processing.resume();
       scenes.resume();
+      transcripts.resume();
     } catch (error) {
       log(`processing admission failed: ${(error as Error).message}`);
     }
     for (const error of exports?.resumeRecovery() ?? [])
       log(`export recovery admission failed: ${(error as Error).message}`);
+  }
+
+  /**
+   * A download outlives the client that asked for it, so asking again while it runs only reports its
+   * progress. A ready model admits the transcripts that were waiting for it.
+   */
+  function prepareModels() {
+    const status = models.status();
+    if (status.state === "ready" || status.state === "preparing") return status;
+    void models.prepare(cleanupLifetime.signal).then(resumeProcessing, (error: Error) => {
+      if (!cleanupLifetime.signal.aborted) log(`speech model preparation failed: ${error.message}`);
+    });
+    return models.status();
   }
 
   /**
@@ -361,6 +407,8 @@ async function main(): Promise<void> {
           preview,
           delivery: transfers,
           scenes,
+          transcripts,
+          models: { status: () => models.status(), prepare: prepareModels },
           cache,
         },
         signal,
@@ -433,6 +481,7 @@ async function main(): Promise<void> {
     index.cleanup(cleanupLifetime.signal),
     processing.cleanup(cleanupLifetime.signal),
     scenes.cleanup(cleanupLifetime.signal),
+    transcripts.cleanup(cleanupLifetime.signal),
   ]).then((results) => {
     for (const result of results)
       if (result.status === "rejected" && !cleanupLifetime.signal.aborted)

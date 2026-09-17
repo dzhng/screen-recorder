@@ -68,6 +68,8 @@ const paged = <T extends z.ZodRawShape, S extends z.ZodRawShape, C extends z.Zod
 ) => target.extend({ ...fields, cursor: target.extend(position).strict().optional() }).strict();
 const inspectionPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields: S, position: C) =>
   z.union([paged(recording, fields, position), paged(packageTarget, fields, position)]);
+const processingArtifact = z.enum(["source", "scenes", "transcript"]);
+const transcriptPosition = { revisionId: id, generation: id, afterSourceUs: time };
 
 // Adapters derive their advertised tools from the same schemas the service validates.
 export const operationSchema = z.discriminatedUnion("operation", [
@@ -259,6 +261,52 @@ export const operationSchema = z.discriminatedUnion("operation", [
 
   z
     .object({
+      operation: z.literal("transcript.get"),
+      params: paged(
+        recording,
+        {
+          revisionId: id.optional(),
+          range: range.optional(),
+          limit: z.int().min(1).max(1000).default(250),
+        },
+        { ...transcriptPosition, afterOrdinal: time.nullable(), range: range.nullable() },
+      ),
+    })
+    .strict()
+    .describe(
+      "Request the narration transcript projected through a revision. Returns readiness until complete, then source-ordered word and acquisition-gap rows, optionally only those retained in a playback range. Words keep verbatim text, kind, source range and a per-generation ID; words a cut intersects are partial with retained fragments. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to keep the same revision, generation and range.",
+    ),
+  z
+    .object({
+      operation: z.literal("transcript.search"),
+      params: paged(
+        recording,
+        {
+          revisionId: id.optional(),
+          text: z.string().min(1).max(200),
+          limit: z.int().min(1).max(500).default(100),
+        },
+        { ...transcriptPosition, afterOrdinal: time, text: z.string() },
+      ),
+    })
+    .strict()
+    .describe(
+      "Search the ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Entries carry word IDs, source range and retained fragments; words cut from the revision never match. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
+    ),
+  z
+    .object({ operation: z.literal("model.status"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Read the local speech model without using the network: absent, preparing with received and total bytes, ready, invalid, or failed with a code and retryability.",
+    ),
+  z
+    .object({ operation: z.literal("model.prepare"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Download and verify the pinned speech model (about 465 MB) and answer at once with model.status; poll model.status for progress. Joins a download already running, and a ready model is not downloaded again. The only operation that uses the network: transcription never downloads. Waiting transcripts start once the model is ready.",
+    ),
+  z
+    .object({
       operation: z.literal("frame.batch"),
       params: inspection({ ...frameFields, atUs: z.array(time).min(1).max(8) }),
     })
@@ -367,19 +415,19 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("processing.status"),
-      params: recording
-        .extend({ artifact: z.enum(["source", "scenes"]).default("source") })
-        .strict(),
+      params: recording.extend({ artifact: processingArtifact.default("source") }).strict(),
     })
     .strict()
-    .describe("Read source or scene processing state and its published generation."),
+    .describe("Read source, scene or transcript processing state and its published generation."),
   z
     .object({
       operation: z.literal("processing.retry"),
-      params: recording.extend({ artifact: z.enum(["source", "scenes"]) }).strict(),
+      params: recording.extend({ artifact: processingArtifact }).strict(),
     })
     .strict()
-    .describe("Explicitly start or retry source or scene processing; never duplicate active work."),
+    .describe(
+      "Explicitly start or retry source, scene or transcript processing; returns the running job instead of duplicating it. A transcript needs a prepared model.",
+    ),
   z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
     .strict()

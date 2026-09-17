@@ -3,8 +3,8 @@ import { parakeetModel } from "@screenrec/core/speech-models";
 export const engines = {
   parakeet: {
     repository: "https://github.com/FluidInference/FluidAudio.git",
-    version: "v0.15.7",
-    revision: "41540ea237350afe5117a082b5c28eda642d0612",
+    version: `v${parakeetModel.engine.runtimeVersion}`,
+    revision: parakeetModel.engine.runtimeRevision,
     product: "fluidaudiocli",
     buildArguments: ["--disable-default-traits"],
     runtimeLicense: "Apache-2.0",

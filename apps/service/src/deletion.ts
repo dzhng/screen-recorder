@@ -4,6 +4,7 @@ import type { DerivedCache } from "@screenrec/core/cache";
 import type { SourceEvidenceStore } from "@screenrec/core/evidence";
 import type { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import type { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import type { TranscriptStore } from "@screenrec/core/transcript";
 import type { CaptureService } from "./capture.js";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { ManagedFiles } from "./managed-files.js";
@@ -15,6 +16,7 @@ type Owners = {
   source: SourceEvidenceStore;
   scenes: SceneEvidenceStore;
   index: ScreenshotIndexStore;
+  transcripts: TranscriptStore;
   capture: Pick<CaptureService, "quiesce">;
   delivery: DerivativeDelivery;
   cleanupReady: () => Promise<void>;
@@ -43,7 +45,8 @@ export class RecordingDeletion {
   }
 
   private async remove(recordingId: string): Promise<Deleted> {
-    const { jobs, capture, cache, source, scenes, index, store, cleanupReady, files } = this.owners;
+    const { jobs, capture, cache, source, scenes, index, transcripts, store, cleanupReady, files } =
+      this.owners;
     const signal = this.lifetime.signal;
     try {
       // A refusal from one owner must not abandon another owner's still-running shutdown.
@@ -62,6 +65,8 @@ export class RecordingDeletion {
       await scenes.reclaim(recordingId, () => false, signal);
       await files.removeRecordingDirectory(recordingId, signal);
       await index.forgetRecording(recordingId, signal);
+      // Native removed the transcript files with the recording root; only catalog rows remain.
+      await transcripts.purgeRecording(recordingId, signal);
       signal.throwIfAborted();
       await jobs.forgetRecording(recordingId);
       signal.throwIfAborted();
