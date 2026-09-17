@@ -74,7 +74,9 @@ test("foreign child directory and symlink are never cleaned", async (t) => {
   await assert.rejects(owner.remove(), /ownership may be lost/);
   assert.equal(await readFile(join(target, "sentinel"), "utf8"), "outside");
   await rm(owner.directory);
+  await symlink(join(f.root, "absent-target"), owner.directory);
   await assert.rejects(owner.remove(), /ownership may be lost/);
+  await rm(owner.directory);
   await rename(original, owner.directory);
   await owner.remove();
 });
@@ -141,7 +143,7 @@ test("cancellation after mkdir drains receipt and cleans the owned child", async
   );
   assert.deepEqual(await readdir(f.parent.directory), []);
 });
-test("failed admission cleanup retains exact recovery identity and never guesses a renamed child", async (t) => {
+test("failed admission cleanup retains identity when a foreign child replaces its entry", async (t) => {
   const f = await fixture(t);
   let created;
   const displaced = join(f.parent.directory, "displaced");
@@ -151,6 +153,8 @@ test("failed admission cleanup retains exact recovery identity and never guesses
       created = reply.data;
       await rename(join(f.parent.directory, created.name), displaced);
       await writeFile(join(displaced, "data"), "retained");
+      await mkdir(join(f.parent.directory, created.name), { mode: 0o700 });
+      await writeFile(join(f.parent.directory, created.name, "sentinel"), "foreign");
     }
     return reply;
   };
@@ -161,6 +165,11 @@ test("failed admission cleanup retains exact recovery identity and never guesses
     return true;
   });
   assert.equal(await readFile(join(displaced, "data"), "utf8"), "retained");
+  assert.equal(
+    await readFile(join(f.parent.directory, created.name, "sentinel"), "utf8"),
+    "foreign",
+  );
+  await rm(join(f.parent.directory, created.name), { recursive: true });
   await rename(displaced, join(f.parent.directory, created.name));
   const info = await f.parent.handle.stat({ bigint: true });
   const removed = await worker(
@@ -173,4 +182,36 @@ test("failed admission cleanup retains exact recovery identity and never guesses
   );
   assert.equal(removed.ok, true);
   assert.deepEqual(await readdir(f.parent.directory), []);
+});
+test("lost response after actual rmdir retries truthfully through retained parent", async (t) => {
+  const f = await fixture(t);
+  let loseReply = true;
+  const lossyWorker = async (operation, params, options) => {
+    const reply = await worker(operation, params, options);
+    if (operation === "packageWorkspace.remove" && reply.ok && loseReply) {
+      loseReply = false;
+      return {
+        ok: false,
+        error: {
+          code: "LOST_REPLY",
+          message: "Lost reply after native removal",
+          retryable: true,
+          details: {},
+        },
+      };
+    }
+    return reply;
+  };
+  const owner = await provisionPackageWorkspace(f.parent, lossyWorker);
+  await writeFile(join(owner.directory, "data"), "owned");
+  const original = join(f.root, "original");
+  await rename(f.parent.directory, original);
+  await mkdir(f.parent.directory, { mode: 0o700 });
+  await mkdir(join(f.parent.directory, owner.name));
+  await writeFile(join(f.parent.directory, owner.name, "sentinel"), "foreign");
+  await assert.rejects(owner.remove(), { code: "LOST_REPLY" });
+  assert.deepEqual(await readdir(original), []);
+  await owner.remove();
+  await owner.remove();
+  assert.equal(await readFile(join(f.parent.directory, owner.name, "sentinel"), "utf8"), "foreign");
 });

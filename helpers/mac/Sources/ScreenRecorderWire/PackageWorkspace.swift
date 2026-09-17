@@ -34,6 +34,11 @@ enum PackageWorkspace {
         }
         let expected = try ManagedFiles.Identity(params["identity"])
         let child = openat(3, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        // The exclusively owned parent never relocates child entries. Absence therefore also
+        // covers a completed removal whose worker reply was lost; existing replacements still fail.
+        if child < 0 && errno == ENOENT && operation == "packageWorkspace.remove" {
+            return ["removed": true]
+        }
         guard child >= 0 else { throw failure("Open owned workspace; ownership may be lost") }
         defer { close(child) }
         try expected.check(child)
