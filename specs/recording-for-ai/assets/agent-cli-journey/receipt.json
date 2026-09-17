@@ -1,0 +1,20 @@
+{
+  "commit": "3cc76d4a2e4f32e763f7fc49198e6343c963cf39",
+  "consumer": "Codex assistant in root task using production CLI and view_image",
+  "node": "v24.14.0",
+  "scope": "Generated silent media; actual CLI read/cut/inspect/stale-rejection/undo, not narration, MCP-image ingestion or installed workflow",
+  "checks": {
+    "initialImageToken": "71717F",
+    "laterImageToken": "AF452F",
+    "tokensMatchedAfterImageRead": true,
+    "editedMatchesLaterPng": true,
+    "undoMatchesInitialPng": true,
+    "staleRejected": true,
+    "sourceSha256": "1bd8d3cc877ec10915193937e69da6b60246c7d3275f5257466bcde8ad4f6402",
+    "sourceUnchanged": true,
+    "ownedAppAndServiceExited": true
+  },
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "nativeSha256": "674b602ad6b448e461363d83f32d73f7a6ff5fae5be296c548f8bf8b8ae6bdc1",
+  "cliSha256": "bfeac4caeb071bf2687a540f99602fe98569ef83e7f7d5d6df4e46aa29cc3584"
+}

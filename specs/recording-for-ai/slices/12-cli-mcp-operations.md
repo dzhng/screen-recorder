@@ -1,7 +1,10 @@
 # 12 — Complete CLI/MCP inspection and editing
 
 Status: adapter seam implemented in [12a](12a-cli-mcp-adapters.md); full capability
-and actual-media journey remain open. Dependencies: 00b, 07, 08, 11.
+and the full actual-media journey remain open. A [Codex CLI journey](../assets/agent-cli-journey/README.md)
+now proves image-only token reading, cut/inspect, stale rejection and undo on
+generated silent media; narration, MCP consumption, exports and installed acceptance remain.
+Dependencies: 00b, 07, 08, 11.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

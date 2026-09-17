@@ -1,0 +1,4 @@
+{"sequence":1,"event":"header","data":{"schemaVersion":1,"sessionID":"543e4b6d-bc61-4c3a-ac44-97f6408c62c6","source":{"kind":"window","windowID":1},"width":640,"height":360,"microphone":false,"systemAudio":false}}
+{"sequence":2,"event":"origin","data":{"hostUs":1000000}}
+{"sequence":3,"event":"geometry","data":{"epoch":1,"hostUs":1000000,"sourceUs":0,"geometry":{"outputWidth":640,"outputHeight":360,"contentRect":{"x":0,"y":0,"width":640,"height":360},"contentScale":1,"scaleFactor":1,"screenRect":{"x":0,"y":0,"width":640,"height":360}}}}
+{"sequence":4,"event":"finished","data":{}}
