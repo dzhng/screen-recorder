@@ -305,3 +305,5 @@ preserving each request's actual timestamp and distance.
 The operation accepts explicit timestamps, not a sampling cadence or scene policy.
 Core owns both local trail analysis and global screenshot selection. No overlay,
 crop or derivative file enters this seam, and no scene boundary is inferred here.
+
+ZIP reading and writing bind the OS libarchive through [CLibArchive](Sources/CLibArchive/README.md).

@@ -4,6 +4,13 @@ A local macOS recorder that gives external AI agents inspectable narration, imag
 pointing history and non-destructive edits. Source media remains intact; the app,
 CLI and MCP share the same recording and editing contracts.
 
+## Components
+
+- [Menu-bar app](apps/macos/README.md): owns the service child's lifetime and native controls.
+- [Local service](apps/service/README.md): the socket listener and app-owned process lifetime.
+- [CLI and MCP adapters](apps/cli/README.md): the same service operations for command-line and MCP clients.
+- [Native capture and media](helpers/mac/README.md): capture, recovery, cursor geometry and media workers.
+
 ## Development
 
 Bun installs and orchestrates; Node 24 runs TypeScript and Swift builds the native

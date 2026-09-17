@@ -8,13 +8,12 @@ is a requirement, not a claim about the current implementation.
 
 Run `bun run lab:workbench` for the local fixture website in `apps/workbench`.
 Its [browser review evidence](assets/workbench/review.md) covers the test surface;
-recording acceptance still requires capture of that surface. It has an asymmetric labeled
-grid, submenu bug, long scroll section, changing visual token, and optional audio
-tones. Tokens used to prove actual image visibility are not copied into transcript,
+recording acceptance still requires capture of that surface. [Its page](../../apps/workbench/public/index.html) owns the
+fixture set. Tokens used to prove actual image visibility are not copied into transcript,
 tool text, filenames, prompts, or hidden fixture metadata given to the agent.
 
-`packages/test-harness` generates numbered/timestamped media with separate labeled
-tracks and retains real narrated captures. Synthetic media validates mechanics;
+Generated fixtures produce numbered/timestamped media with separate labeled tracks;
+real narrated captures are retained as evidence. Synthetic media validates mechanics;
 real human narration validates speech models. Never substitute TTS for a claim
 about David's disfluencies. If no real narration fixture exists, let the recording
 probe collect one when the user is available; mark that gate pending and continue
@@ -89,16 +88,23 @@ These are deliberately chosen initial gates, not guarantees on arbitrary media:
 
 Bootstrap defines `bun run build`, `check-types`, `lint`, `format:check`, and `test`.
 `build` orchestrates TS and Swift and fails when a required native build fails.
-`bun run lab:exports` builds a fresh bundle, then runs the implemented package/export
-native checks through the [test-harness runner](../../packages/test-harness/package-exports.mjs).
-Its coverage expands with the feature tests; a passing command does not close the
-still-unimplemented package, speech or installed-workflow requirements.
-Vitest targets individual package files; Swift tests use the owning package.
-`bun run lab:<slice-name>` commands described in slices are planned interfaces,
-not commands claimed to exist now. They belong to test-harness, forwarded at root.
+
+Tests live beside the code they exercise, and the file name decides whether the
+default suite runs them. `bun run test` runs Vitest `*.test.ts` files in the
+TypeScript packages, and the `apps/macos` suite runs the Swift test executables plus
+`node --test` over `*.test.mjs` in `apps/macos/tests` and `helpers/mac/Tests`. A bare
+`.mjs` beside those suites, or in `apps/service/tests`, is an opt-in lab: it needs a
+fresh bundle, a selected native build, a long workload or recorded evidence, so the
+default suite never runs it. `lab:*` scripts in the root manifest or
+`packages/test-harness` are the entrypoints; a lab without a script documents its command in
+its evidence README. `bun run lab:exports` builds a fresh bundle, then runs the
+package/export labs through the [test-harness runner](../../packages/test-harness/package-exports.mjs);
+a passing run does not close the still-unimplemented package, speech or
+installed-workflow requirements. `bun run lab:<slice-name>` commands that slices
+describe without a root script are planned interfaces, not existing commands.
 
 Run narrow tests while iterating. Once at release closeout, run build, formatting,
-lint, type checks, TS/native tests, and the installed journey. Repeat only if a
+lint, type checks, TS/native tests, `bun run lab:exports`, and the installed journey. Repeat only if a
 subsequent change or failure warrants it. No speculative Docker/cross-platform
 suite for this Mac-only native product.
 

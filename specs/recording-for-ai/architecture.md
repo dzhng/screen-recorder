@@ -5,16 +5,15 @@ They are intended defaults for the personal release, not claims of implemented b
 
 ## Target and conventions
 
-Target Apple Silicon and macOS 26 for the personal release. The inspected host is
-macOS 26.6.2 arm64, Swift 6.3.3, Node 24.14.0, Bun 1.3.14, with the active developer
-directory at `/Library/Developer/CommandLineTools`. Do not require Intel/Linux
+Target Apple Silicon and macOS 26 for the personal release, built with the Command
+Line Tools developer directory; the [root manifest](../../package.json) pins the Node
+engine and Bun version. Do not require Intel/Linux
 validation or a paid distribution setup. Prove a SwiftPM-built local `.app` bundle
 with stable bundle identity first; investigate missing tooling only if that fails.
 
 Bun installs and orchestrates; Node 24 runs TypeScript/ESM and Vitest. Use Turborepo,
 oxfmt, oxlint, and explicit `workspace:*` dependencies, matching the common pattern
-in [Factory](/Users/david/dev/factory/package.json) and
-[Photoctl](/Users/david/dev/photoctl/package.json). Pin exact dependencies and lockfiles
+of the user's Factory and Photoctl monorepos. Pin exact dependencies and lockfiles
 when bootstrapping; do not copy stale version numbers merely for visual similarity.
 
 ## Monorepo shape
@@ -24,13 +23,13 @@ when bootstrapping; do not copy stale version numbers merely for visual similari
 | `apps/macos` | Native Swift menu-bar shell: selection, permissions, recording controls, native capture clock/state. Owns a package manifest for root build orchestration and its SwiftPM app target. |
 | `apps/service` | App-managed Node process; composes core, native media calls, and the local socket server. No domain behavior lives in this composition root. |
 | `apps/cli` | `screenrec` CLI plus `screenrec mcp` stdio entrypoint. Formats the same operations for human, JSON, and MCP clients. |
-| `apps/workbench` | Development-only localhost demonstration fixtures: dropdown bug, scrolling, numbered grid, moving target, audio tones. Not the future editing UI. |
+| `apps/workbench` | Development-only localhost demonstration fixtures; [its page](../../apps/workbench/public/index.html) owns the fixture set. Not the future editing UI. |
 | `packages/protocol` | Public operation definitions, schemas, result/error envelopes, time/ID types, native wire messages, generated JSON Schema and native conformance fixtures. |
 | `packages/core` | Cohesive modules for library/revisions, pure timeline mapping, evidence selection, jobs, and export planning. Split modules by concept; no package per noun. |
 | `packages/client` | User-local socket client and app discovery. Used by CLI/MCP, never a second business-logic owner. |
-| `packages/test-harness` | Media fixtures, process drivers, CLI/MCP parity, evidence reports and installed journeys. |
+| `packages/test-harness` | Opt-in lab runners, the speech evaluator and the root forwarding point for labs whose suites live beside the app or helper they exercise. |
 | [helpers/mac](../../helpers/mac/README.md) | Swift package for ScreenCaptureKit, AVFoundation frame/render operations, capture journal and cursor geometry, plus the selected local speech runtime. Consumed by the app and a bounded media-worker executable. |
-| `scripts` | Build/bundle/install-to-personal-location orchestration and checks. No runtime editing behavior. |
+| `scripts` | App bundle build plus native probe and evaluation command lines run from the repository root. No runtime editing behavior. |
 
 Do not create an empty package merely because this table names it; materialize each
 with its first consumer. No Rust, Electron/Tauri, hosted service, generic plugin

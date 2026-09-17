@@ -18,17 +18,14 @@ captures, transcribes, exposes, and edits recordings through explicit operations
 The project directory was empty at the initial scan. The existing reference
 monorepos establish the requested development pattern:
 
-- [Factory manifest](/Users/david/dev/factory/package.json) and
-  [Photoctl manifest](/Users/david/dev/photoctl/package.json): Bun workspaces under
-  `apps/*` and `packages/*`, TypeScript/ESM, Turborepo, oxfmt, and oxlint.
-- [Photoctl development guide](/Users/david/dev/photoctl/README.md): separately built
-  native components, with Bun orchestration and a distinct runtime boundary.
-- [Photoctl CLI manifest](/Users/david/dev/photoctl/apps/cli/package.json) and
-  [protocol manifest](/Users/david/dev/photoctl/packages/protocol/package.json):
-  explicit workspace dependencies and shared contracts.
-- [Factory guidance](/Users/david/dev/factory/AGENTS.md) and
-  [Photoctl guidance](/Users/david/dev/photoctl/AGENTS.md): focused iteration checks,
-  broad closeout verification, and real end-to-end evidence.
+- Factory and Photoctl manifests: Bun workspaces under `apps/*` and `packages/*`,
+  TypeScript/ESM, Turborepo, oxfmt, and oxlint.
+- Photoctl development guide: separately built native components, with Bun
+  orchestration and a distinct runtime boundary.
+- Photoctl CLI and protocol manifests: explicit workspace dependencies and shared
+  contracts.
+- Factory and Photoctl agent guidance: focused iteration checks, broad closeout
+  verification, and real end-to-end evidence.
 
 Follow that monorepo pattern. Keep native macOS code behind an explicit build and
 protocol boundary; do not infer a requirement for Rust or a web-based desktop shell.

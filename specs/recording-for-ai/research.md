@@ -93,10 +93,12 @@ Use a pinned official TypeScript SDK release and its matching protocol version;
 do not hand-roll the MCP transport or assume a draft protocol is required. Latest
 SDK symbols/versions are a bootstrap check, not frozen by these documentation URLs.
 
-Choose the installed Claude Code CLI as the first concrete consumer for the
-personal acceptance harness. Record its version at execution, supply isolated
-session MCP configuration, and never change the user's global configuration for
-tests. A second client is optional future coverage, not required for personal release.
+Personal acceptance uses an available non-Claude agent: the user requested no
+further Claude use, and the earlier Claude Code image evidence stays recorded in
+[slice 00b](slices/00b-client-image-probe.md). Record the client version at
+execution, supply isolated session MCP configuration, and never change the user's
+global configuration for tests. A second client is optional future coverage, not
+required for personal release.
 Prove both MCP image blocks and CLI-file image ingestion. A protocol inspector alone
 cannot prove the language model received or understood an image.
 

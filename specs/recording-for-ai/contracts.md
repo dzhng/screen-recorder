@@ -133,8 +133,9 @@ requested/actual source and playback times. Never select a deleted frame because
 is nearer. Tolerance target is one captured frame; sparse/static captures report
 actual distance and hold the last valid unchanged frame only within the same span.
 
-Cursor samples include source time, video-pixel x/y, visibility, buttons when
-observed, and geometry epoch. Preserve raw samples; timestamps must share capture
+Cursor samples include source time, video-pixel x/y, eligibility (inside, outside or
+unknown geometry; not OS pointer visibility), buttons when observed, and geometry
+epoch. Preserve raw samples; timestamps must share capture
 clock. Default images add current pointer plus preceding 2 seconds of fading trail.
 `clean:true` disables both; `trailUs:0` retains only current pointer. Custom trail
 duration is capped at 10 seconds per request. Reset at pause, cut, detected scene,
@@ -212,11 +213,12 @@ No transport-specific text parsing is required to decide whether to retry.
 export product. Editing can be audited from images, transcript, and audio excerpts
 before preview rendering completes. Cut commands never run a semantic model.
 
-Default limits: list 20/max100; transcript 250/max1000 words; index 50/max200;
-frame batch max8; audio excerpt max30 seconds; cut batch max1000 intervals.
-Cursor queries require a bounded time range (max60 seconds), page 1000/max5000
-samples; events/history/search page 100/max500 entries. Every list returns an
-explicit continuation cursor rather than truncating silently. Search results carry
+Every list, page, batch, cursor range and audio excerpt is bounded; the
+[operation registry](../../packages/protocol/src/operations.ts) owns the exact
+defaults and maxima. Cursor queries always require a bounded time range. Operations
+not yet declared there start from these planned bounds: transcript 250/max1000
+words, search 100/max500 entries. Every list returns an explicit continuation cursor
+rather than truncating silently. Search results carry
 word IDs/ranges and share the pinned transcript generation. Pagination never loads
 all cursor samples to return one page.
 Images default to max1600-pixel long edge, with full captured resolution and crop
@@ -290,10 +292,10 @@ from that recording is canceled before deletion; explicit completed exports outs
 the library are not removed. Model assets and other recordings are untouched.
 Storage usage reports source/evidence/cache totals; no automatic recording expiry.
 
-Recovery claims cover observed process termination. Prefer AVAssetWriter file
-fragmentation (5-second checkpoint candidate, first fragment 1 second) and validate
-separate-track recovery. If it fails, compare finalized short segments in slice 02.
-Only after evidence choose one mechanism. Recovered source duration is the validated
+Recovery claims cover observed process termination. Source writers use AVAssetWriter
+movie fragments; the [capture writer](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift)
+owns the checkpoint intervals, and slice 02 owns separate-track recovery evidence.
+Recovered source duration is the validated
 video duration, not the minimum across optional audio tracks. Keep per-track usable
 intervals and offsets, cursor gaps, and untrusted tails explicit. Missing audio is
 silence during playback/export but remains an unavailable interval for transcript
