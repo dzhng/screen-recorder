@@ -1,7 +1,7 @@
 # 04 — Select a local speech engine
 
 Status: **Parakeet TDT 0.6b v2 through FluidAudio is selected** (2026-09-17), with
-the pins recorded in the [evaluation engines](../../../packages/test-harness/speech/engines.mjs).
+the pins owned by [core speech models](../../../packages/core/src/speech-models.ts).
 No evaluated engine met verbatim filler fidelity. The user then chose to ship
 word-timed transcripts with best-effort fillers, and the removed gate is recorded in
 [verification](../verification.md#performance-and-fidelity-targets). Parakeet is the

@@ -5,3 +5,4 @@ dist/
 .swiftpm/
 .DS_Store
 *.tsbuildinfo
+.claude/worktrees/
