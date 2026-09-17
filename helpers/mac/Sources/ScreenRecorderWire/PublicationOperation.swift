@@ -3,8 +3,9 @@ import Darwin
 import Foundation
 
 /// A completed staging hard link survives until its caller durably acknowledges the outcome.
-/// fd 3 is an inherited locked private staging directory; fd 4 is the selected output directory.
+/// Mutations inherit locked staging on fd 3 and destination on fd 4; usage only observes fd 3.
 enum PublicationOperation {
+    private static let privateFiles = ["payload", "receipt.pending", "prepared.json"]
     private struct Identity: Codable, Equatable {
         let dev: String
         let ino: String
@@ -141,11 +142,37 @@ enum PublicationOperation {
     }
     private static func cleanup() throws {
         // Only this owner's known leaves are disposable; never recurse into an unexpected entry.
-        for name in ["payload", "receipt.pending", "prepared.json"] {
+        for name in privateFiles {
             if unlinkat(3, name, 0) != 0 && errno != ENOENT { throw io("Remove private publication evidence") }
         }
     }
     static func execute(_ operation: String, _ params: [String: Any]) throws -> [String: Any] {
+        if operation == "publication.usage" {
+            guard Set(params.keys) == ["stage"] else { throw failure("INVALID_REQUEST", "Invalid staging measurement.") }
+            try ManagedFiles.Identity(params["stage"]).check(3)
+            let stage = try info(3, directory: true)
+            guard stage.st_uid == getuid(), stage.st_mode & 0o777 == 0o700 else {
+                throw failure("INVALID_STORAGE", "Publication staging must be private and owned.")
+            }
+            // Metadata-only observation can coexist with the inherited writer lock. No pathname
+            // traversal or receipt parsing is needed to report an interrupted preparation.
+            var bytes: Int64 = 0
+            for name in privateFiles {
+                var entry = stat()
+                if fstatat(3, name, &entry, AT_SYMLINK_NOFOLLOW) != 0 {
+                    if errno == ENOENT { continue }
+                    throw io("Measure private publication file")
+                }
+                guard entry.st_mode & S_IFMT == S_IFREG, entry.st_size >= 0 else {
+                    throw failure("INVALID_STORAGE", "Unexpected private publication file type.")
+                }
+                guard entry.st_size <= 9_007_199_254_740_991 - bytes else {
+                    throw failure("LIMIT_EXCEEDED", "Publication storage exceeds safe byte range.")
+                }
+                bytes += entry.st_size
+            }
+            return ["bytes": bytes]
+        }
         if operation == "publication.absent" {
             guard Set(params.keys) == ["destination", "name"], let name = params["name"] as? String,
                 leaf(name), name.hasPrefix(".screenrec-export-") else { throw failure("INVALID_REQUEST", "Invalid staging lookup.") }

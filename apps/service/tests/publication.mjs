@@ -1,7 +1,17 @@
 import assert from "node:assert/strict";
 import { fork, spawn } from "node:child_process";
 import { once } from "node:events";
-import { mkdtemp, mkdir, open, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
+import {
+  mkdtemp,
+  mkdir,
+  open,
+  readFile,
+  readdir,
+  rename,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -66,6 +76,77 @@ if (process.argv[2] === "owner") {
     assert.equal(signal, "SIGKILL");
     return message;
   }
+  test("private staging usage observes partial bytes while the publication owner holds its lock", async (t) => {
+    const f = await fixture(t);
+    const owner = await f.openOwner();
+    t.after(() => owner.close());
+    const stage = await open(join(f.root, "stage"));
+    t.after(() => stage.close());
+    const stat = await stage.stat({ bigint: true });
+    const identity = { dev: String(stat.dev), ino: String(stat.ino) };
+    await writeFile(join(f.root, "stage/payload"), "partial");
+    assert.equal(await Publication.usage(join(f.root, "stage"), identity, worker), 7);
+    await writeFile(join(f.root, "stage/payload"), "completed payload");
+    assert.equal(await Publication.usage(join(f.root, "stage"), identity, worker), 17);
+    await owner.discard();
+    assert.equal(await Publication.usage(join(f.root, "stage"), identity, worker), 0);
+  });
+  test("private staging usage rejects replacement and linked payloads without reading external data", async (t) => {
+    const f = await fixture(t);
+    const handle = await open(join(f.root, "stage"));
+    const stat = await handle.stat({ bigint: true });
+    await handle.close();
+    const identity = { dev: String(stat.dev), ino: String(stat.ino) };
+    await rename(join(f.root, "stage"), join(f.root, "original"));
+    await mkdir(join(f.root, "stage"), { mode: 0o700 });
+    await assert.rejects(Publication.usage(join(f.root, "stage"), identity, worker));
+    await symlink(join(f.root, "source"), join(f.root, "original/payload"));
+    await assert.rejects(Publication.usage(join(f.root, "original"), identity, worker), {
+      code: "INVALID_STORAGE",
+    });
+    assert.equal(await readFile(join(f.root, "source"), "utf8"), "known complete output");
+  });
+  test("private staging usage counts prepared files and clears after acknowledgement without counting the movie", async (t) => {
+    const f = await fixture(t);
+    const owner = await f.openOwner();
+    t.after(() => owner.close());
+    const stage = await open(join(f.root, "stage"));
+    const stat = await stage.stat({ bigint: true });
+    await stage.close();
+    const identity = { dev: String(stat.dev), ino: String(stat.ino) };
+    const source = await open(join(f.root, "source"));
+    try {
+      await owner.prepare(source, "export.mp4", 1024);
+    } finally {
+      await source.close();
+    }
+    const receiptBytes = (await readFile(join(f.root, "stage/prepared.json"))).length;
+    assert.equal(
+      await Publication.usage(join(f.root, "stage"), identity, worker),
+      21 + receiptBytes,
+    );
+    await owner.commit();
+    assert.equal(
+      await Publication.usage(join(f.root, "stage"), identity, worker),
+      21 + receiptBytes,
+    );
+    await owner.acknowledge();
+    assert.equal(await Publication.usage(join(f.root, "stage"), identity, worker), 0);
+    assert.equal(
+      await readFile(join(f.root, "output/export.mp4"), "utf8"),
+      "known complete output",
+    );
+    const sparse = await open(join(f.root, "stage/payload"), "w");
+    try {
+      await sparse.truncate(3 * 1024 ** 3 + 7);
+    } finally {
+      await sparse.close();
+    }
+    assert.equal(
+      await Publication.usage(join(f.root, "stage"), identity, worker),
+      3 * 1024 ** 3 + 7,
+    );
+  });
   test("killed owner after commit reconciles exact bytes and inode before acknowledgement", async (t) => {
     const f = await fixture(t);
     await killedOwner(t, f, "committed");

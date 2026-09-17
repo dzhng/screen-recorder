@@ -33,6 +33,39 @@ export class Publication {
     private readonly timeoutMs: number | undefined,
   ) {}
 
+  /** Live private file lengths, including partial preparation; never opens the destination.
+   * Observation borrows no exclusive lock, so it can run alongside a writer. */
+  static async usage(
+    path: string,
+    expected: DirectoryIdentity,
+    worker: MediaWorker,
+    signal?: AbortSignal,
+  ): Promise<number> {
+    if (!(await lstat(path)).isDirectory())
+      throw new CatalogError("INVALID_STORAGE", "Publication staging must be a directory");
+    const stage = await open(
+      await realpath(path),
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000,
+    );
+    try {
+      const value = Publication.data(
+        await worker(
+          "publication.usage",
+          { stage: expected },
+          {
+            descriptors: [stage.fd],
+            ...(signal ? { signal } : {}),
+          },
+        ),
+      );
+      if (typeof value.bytes !== "number" || !Number.isSafeInteger(value.bytes) || value.bytes < 0)
+        throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication storage was not measured");
+      return value.bytes;
+    } finally {
+      await stage.close();
+    }
+  }
+
   static async open(
     stagePath: string,
     destinationPath: string,

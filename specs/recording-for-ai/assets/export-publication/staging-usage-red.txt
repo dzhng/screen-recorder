@@ -1,0 +1,20 @@
+(node:38123) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ private staging usage observes partial bytes while the publication owner holds its lock (3.321042ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 60.774333
+
+✖ failing tests:
+
+test at apps/service/tests/publication.mjs:69:3
+✖ private staging usage observes partial bytes while the publication owner holds its lock (3.321042ms)
+  TypeError: Publication.usage is not a function
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/service/tests/publication.mjs:78:36)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)

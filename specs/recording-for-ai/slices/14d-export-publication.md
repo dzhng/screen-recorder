@@ -75,6 +75,8 @@ video consumer with a durable intent and actual queue/deletion/restart checks.
 [14d2b1](14d2b1-deferred-admission.md) implements bounded waiting admission.
 Pinned dependency consumers, queue-admitted uncertain recovery, service wiring
 and truthful pending-staging storage accounting remain before public exports.
+[Private staging measurement](../assets/export-publication/staging-usage.md) now has
+native consumer evidence; intent enumeration and public totals remain integration work.
 
 Only after the commit receipt is proven, add the minimum durable intent under the
 existing catalog authority. It records the chosen export kind, revision/history

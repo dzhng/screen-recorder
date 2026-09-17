@@ -1838,3 +1838,19 @@ records them. These choices add no public export choice or transcript readiness.
   development hard-cutover policy: old catalogs are rejected before writes, rather
   than guessing how their jobs should execute. A partial index limits admission
   scans to the bounded active waiting set, not accumulated historical jobs.
+
+## Private export storage observation (2026-09-17)
+
+- **Choice:** Measure private file lengths without taking the writer's exclusive
+  lock. While a video is being copied, a storage request can see how large its
+  partial file has become; it does not wait for the movie to finish or read the
+  exported movie. The native publication owner supplies the same fixed file set
+  to measurement and cleanup.
+- **Gap:** The spec required truthful temporary storage totals but did not define
+  whether measurement blocks publication or estimates bytes from intent metadata.
+- **Reach:** Public totals must label this as a live observation, matching the
+  existing storage API. Concurrent growth or cleanup can change the next reading;
+  this does not claim a single instant snapshot or physical disk allocation.
+- **Verdict:** Sound: actual file metadata reports partial work without creating a
+  second storage owner or blocking exports. Identity checks reject replacement.
+- **Confidence:** High.

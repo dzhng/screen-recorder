@@ -1,0 +1,37 @@
+(node:41289) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ private staging usage observes partial bytes while the publication owner holds its lock (42.309792ms)
+✔ private staging usage rejects replacement and linked payloads without reading external data (14.522208ms)
+✔ private staging usage counts prepared files and clears after acknowledgement without counting the movie (56.673167ms)
+(node:41320) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner after commit reconciles exact bytes and inode before acknowledgement (99.149417ms)
+(node:41335) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ killed owner before commit leaves a resumable prepared file (82.470292ms)
+(node:41341) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ stopped surviving publisher fences recovery until actual descriptor release (76.845417ms)
+(node:41347) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ reopened owner refuses a replacement output parent and preserves both trees (91.543833ms)
+✔ abort before commit prevents publication; abort after native commit preserves observed truth (28.048625ms)
+✔ kernel write-limit failure never publishes and explicit discard removes only owned leaves (404.645292ms)
+✔ publication refuses a destination inside its disposable staging (8.742416ms)
+✔ one publication deadline covers preparation, commit, reconciliation and acknowledgement (33.38975ms)
+✔ all close callers wait for the active native operation before descriptors release (14.561791ms)
+✔ complete prepared bytes publish exclusively and reconcile before acknowledgement (77.82625ms)
+ℹ {"prepared":{"bytes":21,"destination":{"dev":"16777234","ino":"280593348"},"file":{"dev":"16777234","ino":"280593356"},"leaf":"export.mp4","sha256":"fdae36b1a720103b48a48c3a4024e78961866bb7cd9981cfce0b7a08f06d8d30","stage":{"dev":"16777234","ino":"280593347"}}}
+✔ reconciliation distinguishes same bytes in another inode from changes in the committed inode (43.825083ms)
+✔ existing destination and symlink leaves are never replaced or followed (21.15975ms)
+✔ retained output and source descriptors survive controlled path replacement (16.72625ms)
+✔ preparation budget failure leaves destination absent (15.342833ms)
+✔ private cleanup stays on its inherited directory after staging path replacement (21.574958ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1004.891
