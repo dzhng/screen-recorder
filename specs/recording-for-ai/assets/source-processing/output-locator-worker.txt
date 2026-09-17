@@ -1,0 +1,22 @@
+✔ worker exports display-space observations and preserves source (511.121ms)
+✔ receipt preserves the requested output locator across macOS temporary-directory aliases (31.2245ms)
+✔ samples preserve raw values and geometry ordering across batches (9.475541ms)
+✔ corrupt and incomplete tails retain only observed prefix with explicit markers (89.4995ms)
+✔ existing paths, links, source descendants and invalid requests never mutate source (75.460709ms)
+✔ large journal streams individual samples through the real worker with a small receipt (1453.12175ms)
+✔ budget and malformed-header failures publish nothing and clean staging (24.7155ms)
+✔ interleaved audio merges per role, preserves gaps and completed pauses (10.114875ms)
+✔ timing evidence flushes trusted audio at corrupt or unfinished pause tails (18.572708ms)
+✔ invalid timing record stops before emitting or clearing observed pause (41.785792ms)
+✔ many audio gaps stream with bounded worker memory and a constant-size receipt (1257.844333ms)
+ℹ 100,000 audio gaps: peak worker RSS 23298048 bytes
+✔ many deferred pauses stream with bounded worker memory and a constant-size receipt (1240.803209ms)
+ℹ 100,000 deferred pauses: peak worker RSS 22315008 bytes
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4824.829

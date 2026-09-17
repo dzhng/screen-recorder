@@ -1,0 +1,30 @@
+(node:71439) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ generated source processing supports both spellings of an absolute temporary home (236.443917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 354.000625
+
+✖ failing tests:
+
+test at apps/macos/tests/source-processing.test.mjs:140:1
+✖ generated source processing supports both spellings of an absolute temporary home (236.443917ms)
+  AssertionError [ERR_ASSERTION]: {"ok":true,"data":{"recordingId":"d9656a07-1f84-4e70-98f0-4d9b12949237","sourceId":"7a9f6217-1d3c-4c14-bb84-cf14ef6979ad","sourceRevisionId":"r0","state":"failed","jobId":"ecd7a83a-9d07-4aca-8ecc-9f0bb1a103af","reason":"Invalid evidence receipt","retryable":false,"published":null},"id":"f6f990a3-08be-42ae-b7b7-b2bcaccf7102"}
+      at file:///private/tmp/screenrec-source-receipt/apps/macos/tests/source-processing.test.mjs:203:16
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async until (file:///private/tmp/screenrec-source-receipt/apps/macos/tests/fixtures/public-service.mjs:20:19)
+      at async TestContext.<anonymous> (file:///private/tmp/screenrec-source-receipt/apps/macos/tests/source-processing.test.mjs:197:21)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

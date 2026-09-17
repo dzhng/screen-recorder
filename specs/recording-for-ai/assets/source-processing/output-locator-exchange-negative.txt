@@ -1,0 +1,60 @@
+@screenrec/core test:
+@screenrec/core test:  RUN  v5.0.0 /private/tmp/screenrec-source-receipt/packages/core
+@screenrec/core test:
+@screenrec/core test: (node:77419) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+@screenrec/core test: (Use `node --trace-warnings ...` to show where the warning was created)
+@screenrec/core test:  ❯ src/evidence.test.ts (20 tests | 1 failed | 19 skipped) 15ms
+@screenrec/core test:    × exchanging valid receipts between different output files cannot publish evidence 15ms
+@screenrec/core test:
+@screenrec/core test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+@screenrec/core test:
+@screenrec/core test:  FAIL  src/evidence.test.ts > exchanging valid receipts between different output files cannot publish evidence
+@screenrec/core test: AssertionError: promise resolved "{ recordingId: 'id-1', …(3) }" instead of rejecting
+@screenrec/core test:
+@screenrec/core test: - Expected
+@screenrec/core test: + Received
+@screenrec/core test:
+@screenrec/core test: - Error {
+@screenrec/core test: -   "message": "rejected promise",
+@screenrec/core test: + {
+@screenrec/core test: +   "generation": "attempt-1",
+@screenrec/core test: +   "receipt": {
+@screenrec/core test: +     "audioIntervals": 0,
+@screenrec/core test: +     "bytes": 281,
+@screenrec/core test: +     "cursorSamples": 2,
+@screenrec/core test: +     "displaySpaces": 0,
+@screenrec/core test: +     "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/evidence-zMMTKU/normalized.jsonl",
+@screenrec/core test: +     "finished": false,
+@screenrec/core test: +     "firstCursorSourceUs": 0,
+@screenrec/core test: +     "geometryRecords": 0,
+@screenrec/core test: +     "header": {
+@screenrec/core test: +       "sessionID": "id-2",
+@screenrec/core test: +     },
+@screenrec/core test: +     "incompleteTail": true,
+@screenrec/core test: +     "invalidAtSequence": 6,
+@screenrec/core test: +     "journal": "capture.journal.jsonl",
+@screenrec/core test: +     "lastCursorSourceUs": 10,
+@screenrec/core test: +     "lastSequence": 5,
+@screenrec/core test: +     "pauseEvents": 0,
+@screenrec/core test: +   },
+@screenrec/core test: +   "recordingId": "id-1",
+@screenrec/core test: +   "sourceId": "id-2",
+@screenrec/core test:   }
+@screenrec/core test:
+@screenrec/core test:  ❯ src/evidence.test.ts:324:6
+@screenrec/core test:     322|     await expect(
+@screenrec/core test:     323|       owner.evidence.ingest({ ...owner.identity, file: owner.file, rec…
+@screenrec/core test:     324|     ).rejects.toThrow("receipt");
+@screenrec/core test:        |      ^
+@screenrec/core test:     325|     expect(() =>
+@screenrec/core test:     326|       owner.evidence.page({ ...owner.identity, range: { startUs: 0, en…
+@screenrec/core test:
+@screenrec/core test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+@screenrec/core test:
+@screenrec/core test:
+@screenrec/core test:  Test Files  1 failed (1)
+@screenrec/core test:       Tests  1 failed | 19 skipped (20)
+@screenrec/core test:    Start at  10:45:59
+@screenrec/core test:    Duration  133ms (transform 43%, import 37%, tests 18%, worker 2%)
+@screenrec/core test:
+@screenrec/core test: Exited with code 1

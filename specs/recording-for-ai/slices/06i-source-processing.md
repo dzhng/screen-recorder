@@ -1,7 +1,8 @@
 # Source processing integration
 
 Status: integrated and verified for source cursor evidence.
-See [integration review](../assets/source-processing/review.md).
+See [integration review](../assets/source-processing/review.md) and
+[absolute output locator verification](../assets/source-processing/output-locators.md).
 
 Source evidence belongs to the immutable recording, not an edit revision. The
 processor pins the original revision so a cut never causes another native export.

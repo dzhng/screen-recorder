@@ -312,6 +312,28 @@ test("source time ordering handles out-of-order records and bounds invalid reque
   );
 });
 
+test("exchanging valid receipts between different output files cannot publish evidence", async () => {
+  const first = fixture([0, 10]),
+    second = fixture([0, 10]);
+  for (const [owner, foreign] of [
+    [first, second],
+    [second, first],
+  ] as const) {
+    await expect(
+      owner.evidence.ingest({ ...owner.identity, file: owner.file, receipt: foreign.receipt }),
+    ).rejects.toThrow("receipt");
+    expect(() =>
+      owner.evidence.page({ ...owner.identity, range: { startUs: 0, endUs: 40 } }),
+    ).toThrow("not indexed");
+  }
+  await first.evidence.ingest({ ...first.identity, file: first.file, receipt: first.receipt });
+  expect(
+    first.evidence
+      .page({ ...first.identity, range: { startUs: 0, endUs: 40 } })
+      .samples.map((sample) => sample.sourceUs),
+  ).toEqual([0, 10]);
+});
+
 test("rejects a wrong export path and nonfinite coordinates without publishing rows", async () => {
   const f = fixture();
   await expect(

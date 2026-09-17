@@ -269,7 +269,10 @@ The internal `media.sourceEvidence` worker seam reads a caller-selected finalize
 or recovered source and publishes normalized JSONL to a new caller-owned file
 outside that source directory. [SourceEvidenceExport](Sources/ScreenRecorderCapture/SourceEvidenceExport.swift)
 owns publication and its compact receipt; the existing journal reader owns record
-validation and integrity boundaries. Each cursor sample remains an observation in
+validation and integrity boundaries. Containment uses resolved directories, while
+the receipt preserves the exact requested output locator. Before returning it, the
+exporter verifies that this locator still names the regular inode it created; core
+retains exact request/receipt matching. Each cursor sample remains an observation in
 source time, with geometry and display-space records preserved in journal order.
 No coordinates are recalculated and no gestures are inferred. Completed pauses
 retain their source boundary and removed wall duration. An unfinished pause remains

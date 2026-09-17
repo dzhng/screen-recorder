@@ -103,8 +103,19 @@ public struct SourceEvidenceExport: Encodable {
         guard Darwin.link(staging.path, destination.path) == 0 else {
             throw CaptureFailure("INVALID_OUTPUT", "Cannot publish evidence to a new output file.")
         }
+        // Foundation may shorten /private/tmp to /tmp. Echo the requested locator only
+        // after proving it still names the inode this exporter created.
+        var created = stat()
+        var requested = stat()
+        guard fstat(descriptor, &created) == 0, lstat(output, &requested) == 0,
+            (requested.st_mode & S_IFMT) == S_IFREG,
+            requested.st_dev == created.st_dev, requested.st_ino == created.st_ino
+        else {
+            throw CaptureFailure(
+                "INVALID_OUTPUT", "Evidence output locator changed before receipt publication.")
+        }
         return Self(
-            file: destination.path, header: summary.header, originHostUs: summary.originHostUs,
+            file: output, header: summary.header, originHostUs: summary.originHostUs,
             cursorSamples: summary.cursorSamples, geometryRecords: geometryRecords,
             pauseEvents: pauseEvents, audioIntervals: audioIntervals,
             openPauseHostUs: summary.openPauseHostUs, displaySpaces: displaySpaces,

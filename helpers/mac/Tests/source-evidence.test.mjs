@@ -12,6 +12,7 @@ import {
   linkSync,
   readdirSync,
   truncateSync,
+  realpathSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -33,8 +34,8 @@ function request(directory, output, extra = {}) {
   assert.equal(result.status, 0, result.stderr);
   return JSON.parse(result.stdout);
 }
-function fixture(t, records) {
-  const root = mkdtempSync(join(tmpdir(), "cursor-evidence-"));
+function fixture(t, records, prefix = join(tmpdir(), "cursor-evidence-")) {
+  const root = mkdtempSync(prefix);
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const directory = join(root, "source");
   mkdirSync(directory);
@@ -68,6 +69,31 @@ test("worker exports display-space observations and preserves source", (t) => {
     { event: "displaySpace", data: { hostUs: 123, zeroOriginHeight: 900 } },
   ]);
   assert.equal(readFileSync(f.journal, "utf8"), f.text);
+});
+test("receipt preserves the requested output locator across macOS temporary-directory aliases", (t) => {
+  const f = fixture(
+    t,
+    [
+      { event: "displaySpace", data: { hostUs: 123, zeroOriginHeight: 900 } },
+      { event: "finished", data: {} },
+    ],
+    "/tmp/source-locator-",
+  );
+  const canonical = realpathSync(f.root);
+  assert.ok(canonical.startsWith("/private/tmp/"));
+  let sequence = 0;
+  for (const sourceRoot of [f.root, canonical])
+    for (const outputRoot of [f.root, canonical]) {
+      const output = join(outputRoot, `evidence-${sequence++}.jsonl`);
+      const result = request(join(sourceRoot, "source"), output);
+      assert.equal(result.ok, true, JSON.stringify(result));
+      assert.equal(result.data.file, output);
+      assert.equal(result.data.bytes, readFileSync(output).length);
+      assert.deepEqual(JSON.parse(readFileSync(output, "utf8")), {
+        event: "displaySpace",
+        data: { hostUs: 123, zeroOriginHeight: 900 },
+      });
+    }
 });
 const sample = {
   sourceUs: 22,

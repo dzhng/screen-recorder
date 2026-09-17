@@ -5,6 +5,10 @@ Package registry/export integration and the remaining native capture, speech and
 installed-workflow gates are still open. The handoff and slice checklist below
 separate verified internal behavior from full personal-release acceptance.
 
+Source processing now preserves the exact requested absolute output locator,
+including canonical `/private/tmp` homes; [verification](assets/source-processing/output-locators.md)
+retains strict receipt ownership.
+
 ## Next Agent Prompt
 
 You are implementing the personal Mac release. Read this spec, its

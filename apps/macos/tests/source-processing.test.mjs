@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdir, writeFile, access } from "node:fs/promises";
-import { join } from "node:path";
+import { mkdir, writeFile, access, readFile, realpath } from "node:fs/promises";
+import { join, dirname } from "node:path";
 import { test } from "node:test";
+import { RevisionStore } from "@screenrec/core/library";
+import { startPublicService, until } from "./fixtures/public-service.mjs";
+import { journalRows } from "./fixtures/generated-capture.mjs";
 import { callLocal } from "@screenrec/client";
 import { app, finderEnvironment, launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
@@ -132,4 +135,93 @@ test("a finalized own-window take publishes pageable source evidence once across
     await call("cursor.raw", { recordingId: take.recordingId, sourceRange, limit: 1 }),
     first,
   );
+});
+
+test("generated source processing supports both spellings of an absolute temporary home", async () => {
+  const native = process.env.SCREENREC_NATIVE ?? join(dirname(app), "screenrec-native");
+  for (const canonical of [false, true]) {
+    const aliased = temporary("/tmp/scr-source-locator-"),
+      home = canonical ? await realpath(aliased) : aliased;
+    assert.ok(home.startsWith(canonical ? "/private/tmp/" : "/tmp/"));
+    const store = new RevisionStore(join(home, "library.sqlite"), {
+      now: () => "fixture",
+      newId: randomUUID,
+    });
+    const take = store.allocate().recording;
+    store.ingestLifecycle(take.recordingId, {
+      sourceId: take.sourceId,
+      sequence: 1,
+      state: "interrupted",
+      reason: "generated source locator fixture",
+      sourceDurationUs: 1_000_000,
+    });
+    store.close();
+    const source = join(home, "recordings", take.recordingId, "source");
+    await mkdir(source, { recursive: true });
+    const movie = spawnSync(
+      "ffmpeg",
+      [
+        "-v",
+        "error",
+        "-f",
+        "lavfi",
+        "-i",
+        "color=c=red:s=64x48:r=10:d=1",
+        "-an",
+        "-c:v",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        join(source, "video.mov"),
+      ],
+      { encoding: "utf8", timeout: 30_000 },
+    );
+    assert.equal(movie.status, 0, movie.stderr);
+    const samples = [0, 100_000, 800_000].map((sourceUs) => ({
+      sourceUs,
+      x: 10,
+      y: 10,
+      globalX: 10,
+      globalY: 10,
+      buttons: 0,
+      eligibility: "inside",
+      geometryEpoch: 1,
+    }));
+    const rows = journalRows({ sourceId: take.sourceId, width: 64, height: 48, samples });
+    await writeFile(
+      join(source, "capture.journal.jsonl"),
+      rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
+    );
+    const service = await startPublicService(home, native);
+    try {
+      const ready = await until(async () => {
+        const result = await service.call("processing.status", {
+          recordingId: take.recordingId,
+          artifact: "source",
+        });
+        assert.equal(result.ok, true, JSON.stringify(result));
+        assert.ok(!["failed", "unavailable"].includes(result.data.state), JSON.stringify(result));
+        return result.data.state === "ready" && result.data;
+      }, "Source locator processing did not become ready");
+      assert.ok(
+        ready.published.evidence.receipt.file.startsWith(home + "/"),
+        ready.published.evidence.receipt.file,
+      );
+      assert.ok(
+        (await readFile(ready.published.evidence.receipt.file, "utf8")).includes('"cursorSample"'),
+      );
+      const raw = await service.call("cursor.raw", {
+        recordingId: take.recordingId,
+        sourceRange: { startUs: 0, endUs: 1_000_000 },
+        limit: 10,
+      });
+      assert.equal(raw.ok, true, JSON.stringify(raw));
+      assert.deepEqual(
+        raw.data.samples.map((sample) => sample.sourceUs),
+        [0, 100_000, 800_000],
+      );
+    } finally {
+      await service.close();
+    }
+  }
 });

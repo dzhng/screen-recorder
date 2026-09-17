@@ -2252,3 +2252,12 @@ records them. These choices add no public export choice or transcript readiness.
   expose IDs and state, with partial indexes excluding completed history for either
   filter scope. Status retains details; discovery does not spawn filesystem work or
   another recovery attempt merely because an app restarted.
+
+## Source receipt locators — 2026-09-17
+
+- **Sound, high confidence — Preserve the caller's locator after checking identity.**
+  Native code may canonicalize directories for containment, but it returns the
+  original requested output spelling only after checking that it names the inode
+  the exporter created. Core keeps exact request/receipt equality instead of
+  accepting arbitrary equivalent-looking paths. This repairs alias handling
+  without changing the immutable-generation ownership contract.
