@@ -4,50 +4,23 @@ import ScreenRecorderMedia
 
 /// Core selects owned identities; this boundary resolves and removes only beneath pinned directories.
 enum ManagedFiles {
-    struct Identity {
-        let dev: UInt64
-        let ino: UInt64
-
-        init(_ value: Any?) throws {
-            guard let fields = value as? [String: Any], Set(fields.keys) == ["dev", "ino"],
-                let dev = fields["dev"] as? String, let ino = fields["ino"] as? String,
-                !dev.isEmpty, !ino.isEmpty,
-                dev.utf8.allSatisfy({ $0 >= 48 && $0 <= 57 }),
-                ino.utf8.allSatisfy({ $0 >= 48 && $0 <= 57 }),
-                let device = UInt64(dev), let inode = UInt64(ino)
-            else {
-                throw invalidRequest("Directory identities require decimal dev and ino strings.")
-            }
-            self.dev = device
-            self.ino = inode
-        }
-
-        func check(_ fd: Int32) throws {
-            var info = stat()
-            guard fstat(fd, &info) == 0 else { throw failure("Inspect directory") }
-            guard UInt64(truncatingIfNeeded: info.st_dev) == dev, info.st_ino == ino else {
-                throw NativeFailure("INVALID_STORAGE", "Managed directory identity changed.")
-            }
-        }
-    }
-
     /// Reject a selected directory whose ancestry includes a managed storage owner.
-    static func requireOutsideDirectory(_ fd: Int32, ancestor: Identity) throws {
+    static func requireOutsideDirectory(_ fd: Int32, ancestor: InodeIdentity) throws {
         var current = dup(fd)
-        guard current >= 0 else { throw failure("Retain destination ancestry") }
+        guard current >= 0 else { throw Descriptors.failure("Retain destination ancestry") }
         defer { close(current) }
         for _ in 0..<256 {
             var here = stat()
             guard fstat(current, &here) == 0, here.st_mode & S_IFMT == S_IFDIR else {
                 throw NativeFailure("INVALID_STORAGE", "Destination must be a directory.", retryable: false)
             }
-            guard UInt64(truncatingIfNeeded: here.st_dev) != ancestor.dev || here.st_ino != ancestor.ino else {
+            guard InodeIdentity(here) != ancestor else {
                 throw NativeFailure("INVALID_STORAGE", "Destination must be outside managed storage.", retryable: false)
             }
             let parent = openat(current, "..", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-            guard parent >= 0 else { throw failure("Inspect destination ancestry") }
+            guard parent >= 0 else { throw Descriptors.failure("Inspect destination ancestry") }
             var above = stat()
-            guard fstat(parent, &above) == 0 else { close(parent); throw failure("Inspect destination ancestor") }
+            guard fstat(parent, &above) == 0 else { close(parent); throw Descriptors.failure("Inspect destination ancestor") }
             if above.st_dev == here.st_dev && above.st_ino == here.st_ino { close(parent); return }
             close(current)
             current = parent
@@ -58,15 +31,16 @@ enum ManagedFiles {
     static func externalDirectory(_ params: [String: Any]) throws -> [String: String] {
         guard Set(params.keys) == ["home", "expectedHome"], let home = params["home"] as? String,
             home.hasPrefix("/"), !home.contains("\0") else { throw invalidRequest("Invalid external destination check.") }
-        let expected = try Identity(params["expectedHome"])
+        let expected = try InodeIdentity(params["expectedHome"])
         let owned = open(home, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_CLOEXEC)
-        guard owned >= 0 else { throw failure("Open managed home") }
+        guard owned >= 0 else { throw Descriptors.failure("Open managed home") }
         defer { close(owned) }
         try expected.check(owned)
         try requireOutsideDirectory(3, ancestor: expected)
         var destination = stat()
-        guard fstat(3, &destination) == 0 else { throw failure("Inspect selected destination") }
-        return ["dev": String(UInt64(truncatingIfNeeded: destination.st_dev)), "ino": String(destination.st_ino)]
+        guard fstat(3, &destination) == 0 else { throw Descriptors.failure("Inspect selected destination") }
+        let identity = InodeIdentity(destination)
+        return ["dev": identity.dev, "ino": identity.ino]
     }
 
     static func recordingDirectory(_ params: [String: Any]) throws -> [String: String] {
@@ -76,21 +50,21 @@ enum ManagedFiles {
             throw invalidRequest("Invalid recording directory request.")
         }
         let owned = open(home, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_CLOEXEC)
-        guard owned >= 0 else { throw failure("Open managed home") }
+        guard owned >= 0 else { throw Descriptors.failure("Open managed home") }
         defer { close(owned) }
-        try Identity(params["expectedHome"]).check(owned)
+        try InodeIdentity(params["expectedHome"]).check(owned)
         let recordings = openat(owned, "recordings", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-        guard recordings >= 0 else { throw failure("Open recording parent") }
+        guard recordings >= 0 else { throw Descriptors.failure("Open recording parent") }
         defer { close(recordings) }
         let selected = openat(recordings, id, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-        guard selected >= 0 else { throw failure("Open recording directory") }
+        guard selected >= 0 else { throw Descriptors.failure("Open recording directory") }
         defer { close(selected) }
         var info = stat()
-        guard fstat(selected, &info) == 0 else { throw failure("Inspect recording directory") }
-        let identity = ["dev": String(UInt64(truncatingIfNeeded: info.st_dev)), "ino": String(info.st_ino)]
-        try Identity(identity).check(3)
+        guard fstat(selected, &info) == 0 else { throw Descriptors.failure("Inspect recording directory") }
+        let identity = InodeIdentity(info)
+        try identity.check(3)
         try lockPrivateDirectory(3)
-        return identity
+        return ["dev": identity.dev, "ino": identity.ino]
     }
 
     static func execute(_ operation: String, _ params: [String: Any]) throws {
@@ -102,9 +76,9 @@ enum ManagedFiles {
         guard Set(params.keys) == fields, let home = params["home"] as? String,
             home.hasPrefix("/"), !home.contains("\0")
         else { throw invalidRequest("Invalid managed file removal parameters.") }
-        let expectedHome = try Identity(params["expectedHome"])
+        let expectedHome = try InodeIdentity(params["expectedHome"])
         let names: [String]
-        let expectedCache: Identity?
+        let expectedCache: InodeIdentity?
         if recording {
             guard let id = params["recordingId"] as? String, validID(id) else {
                 throw invalidRequest("Recording identity must be a UUID.")
@@ -116,11 +90,11 @@ enum ManagedFiles {
                 ids.allSatisfy(validID)
             else { throw invalidRequest("Cache removal requires one to 64 UUIDs.") }
             names = ids
-            expectedCache = try Identity(params["expectedCacheRoot"])
+            expectedCache = try InodeIdentity(params["expectedCacheRoot"])
         }
         // Darwin rejects symlinks in every component, including ancestors of the supplied home.
         let homeFD = open(home, O_RDONLY | O_DIRECTORY | O_NOFOLLOW_ANY | O_CLOEXEC)
-        guard homeFD >= 0 else { throw failure("Open managed home") }
+        guard homeFD >= 0 else { throw Descriptors.failure("Open managed home") }
         defer { close(homeFD) }
         try expectedHome.check(homeFD)
         if recording {
@@ -137,7 +111,7 @@ enum ManagedFiles {
             try expectedCache!.check(derived)
             for id in names {
                 if unlinkat(derived, "\(id).cache", 0) != 0 && errno != ENOENT {
-                    throw failure("Remove owned cache file")
+                    throw Descriptors.failure("Remove owned cache file")
                 }
             }
         }
@@ -151,7 +125,7 @@ enum ManagedFiles {
         let fd = openat(parent, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         if fd >= 0 { return fd }
         if errno == ENOENT { return nil }
-        throw failure("Open managed directory")
+        throw Descriptors.failure("Open managed directory")
     }
 
     private static func removeEntry(
@@ -160,14 +134,14 @@ enum ManagedFiles {
         var info = stat()
         if fstatat(parent, name, &info, AT_SYMLINK_NOFOLLOW) != 0 {
             if errno == ENOENT { return }
-            throw failure("Inspect managed entry")
+            throw Descriptors.failure("Inspect managed entry")
         }
         guard (info.st_mode & S_IFMT) == S_IFDIR else {
             if requireDirectory {
                 throw NativeFailure("INVALID_STORAGE", "Recording root must be a real directory.", retryable: true)
             }
             if unlinkat(parent, name, 0) != 0 && errno != ENOENT {
-                throw failure("Remove managed entry")
+                throw Descriptors.failure("Remove managed entry")
             }
             return
         }
@@ -178,17 +152,17 @@ enum ManagedFiles {
         let fd = openat(parent, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         if fd < 0 {
             if errno == ENOENT { return }
-            throw failure("Open recording directory")
+            throw Descriptors.failure("Open recording directory")
         }
         defer { close(fd) }
         var opened = stat()
-        guard fstat(fd, &opened) == 0 else { throw failure("Inspect opened directory") }
+        guard fstat(fd, &opened) == 0 else { throw Descriptors.failure("Inspect opened directory") }
         guard opened.st_dev == info.st_dev, opened.st_ino == info.st_ino else {
             throw NativeFailure("INVALID_STORAGE", "Recording directory changed while opening.", retryable: true)
         }
         try removeContents(fd, depth: depth)
         if unlinkat(parent, name, AT_REMOVEDIR) != 0 && errno != ENOENT {
-            throw failure("Remove emptied recording directory")
+            throw Descriptors.failure("Remove emptied recording directory")
         }
     }
 
@@ -214,27 +188,9 @@ enum ManagedFiles {
 
     // The caller exclusively owns the directory; cleanup never re-resolves its path.
     static func removeContents(_ fd: Int32, depth: Int = 0) throws {
-        let scan = openat(fd, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-        guard scan >= 0 else { throw failure("Open owned directory") }
-        guard let stream = fdopendir(scan) else {
-            close(scan)
-            throw failure("Enumerate owned directory")
-        }
-        defer { closedir(stream) }
-        while true {
-            errno = 0
-            guard let entry = readdir(stream) else {
-                if errno != 0 { throw failure("Read recording directory") }
-                break
-            }
-            let nameCapacity = MemoryLayout.size(ofValue: entry.pointee.d_name)
-            try withUnsafePointer(to: &entry.pointee.d_name) { pointer in
-                try pointer.withMemoryRebound(to: CChar.self, capacity: nameCapacity) {
-                    child in
-                    if strcmp(child, ".") == 0 || strcmp(child, "..") == 0 { return }
-                    try removeEntry(fd, child, depth: depth + 1)
-                }
-            }
+        try Descriptors.forEachName(in: fd) { child in
+            try removeEntry(fd, child, depth: depth + 1)
+            return true
         }
     }
 
@@ -242,9 +198,4 @@ enum ManagedFiles {
         NativeFailure("INVALID_REQUEST", message, retryable: false)
     }
 
-    private static func failure(_ action: String) -> NativeFailure {
-        let number = errno
-        let code = number == ELOOP || number == ENOTDIR ? "INVALID_STORAGE" : "DELETE_FAILED"
-        return NativeFailure(code, "\(action): \(String(cString: strerror(number))).", retryable: true)
-    }
 }

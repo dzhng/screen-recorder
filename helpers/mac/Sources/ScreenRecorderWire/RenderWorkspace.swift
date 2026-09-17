@@ -7,7 +7,7 @@ enum RenderWorkspace {
         guard Set(params.keys) == ["expectedDirectory"] else {
             throw NativeFailure("INVALID_REQUEST", "Render cleanup requires its directory identity.", retryable: false)
         }
-        try ManagedFiles.Identity(params["expectedDirectory"]).check(3)
+        try InodeIdentity(params["expectedDirectory"]).check(3)
         try ManagedFiles.lockPrivateDirectory(3)
         try ManagedFiles.removeContents(3)
     }

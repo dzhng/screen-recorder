@@ -13,10 +13,92 @@ enum ArchiveOperation {
     ]
     private static let root: Int32 = 3
     private static let chunkBytes = 65_536
-    private struct Limits: Decodable {
+    private struct Limits: Codable {
         let compressedBytes, expandedBytes, memberBytes, entries, pathBytes: Int
         let componentBytes, depth, manifestBytes, revisionBytes, history: Int
         let initialReadBytes, receiptBytes: Int
+
+        func check() throws {
+            let values = [
+                compressedBytes, expandedBytes, memberBytes, entries, pathBytes, componentBytes,
+                depth, manifestBytes, revisionBytes, history, initialReadBytes, receiptBytes,
+            ]
+            guard values.allSatisfy({ (1...Int.max / 2).contains($0) }), depth <= 32,
+                receiptBytes <= 7 * 1024 * 1024
+            else { throw error("INVALID_REQUEST", "Unsupported archive limits.") }
+        }
+    }
+    /// A file pinned by content version, not only by inode: a rewrite in place changes it.
+    private struct FileVersion: Codable, Equatable {
+        let device: String
+        let inode: String
+        let modifiedNs: String
+        let changedNs: String
+
+        init(of fd: Int32) throws {
+            var info = stat()
+            guard fstat(fd, &info) == 0 else { throw io("Inspect package member") }
+            device = String(UInt64(truncatingIfNeeded: info.st_dev))
+            inode = String(info.st_ino)
+            modifiedNs = String(
+                Int64(info.st_mtimespec.tv_sec) * 1_000_000_000 + Int64(info.st_mtimespec.tv_nsec))
+            changedNs = String(
+                Int64(info.st_ctimespec.tv_sec) * 1_000_000_000 + Int64(info.st_ctimespec.tv_nsec))
+        }
+
+        var json: [String: String] {
+            ["device": device, "inode": inode, "modifiedNs": modifiedNs, "changedNs": changedNs]
+        }
+    }
+    private struct Workspace: Codable {
+        let identity: InodeIdentity
+    }
+    private struct NewOutput: Codable {
+        let identity: InodeIdentity
+        let name: String
+    }
+    private struct ReleasedOutput: Codable {
+        let identity: InodeIdentity
+        let name: String
+        let fileIdentity: FileVersion
+    }
+    private struct Extraction: Codable {
+        /// The archive the service admitted, before its change time is part of the pin.
+        struct Admitted: Codable {
+            struct Version: Codable {
+                let device: String
+                let inode: String
+                let modifiedNs: String
+            }
+            let bytes: Int64
+            let identity: Version
+        }
+        let identity: InodeIdentity
+        let limits: Limits
+        let input: Admitted
+    }
+    private struct Copy: Codable {
+        struct Member: Codable {
+            let source: String
+            let target: String
+            let bytes: Int
+            let identity: FileVersion
+        }
+        let identity: InodeIdentity
+        let inputIdentity: InodeIdentity
+        let members: [Member]
+        let limits: Limits
+    }
+    private struct Write: Codable {
+        struct Plan: Codable {
+            let bytes: Int
+            let identity: FileVersion
+        }
+        let identity: InodeIdentity
+        let inputIdentity: InodeIdentity
+        let inputBytes: Int
+        let plan: Plan
+        let limits: Limits
     }
     private final class Input {
         let fd: Int32
@@ -35,62 +117,57 @@ enum ArchiveOperation {
     }
 
     static func execute(_ operation: String, _ params: [String: Any]) throws -> [String: Any] {
-        try ManagedFiles.Identity(params["identity"]).check(root)
-        try ManagedFiles.lockPrivateDirectory(root)
-        if operation == "archive.createOutput" || operation == "archive.removeOutput" {
-            guard let name = params["name"] as? String,
-                name.count == 40, [".png", ".wav"].contains(String(name.suffix(4))),
-                UUID(uuidString: String(name.prefix(36))) != nil else {
-                throw error("INVALID_REQUEST", "Output name must be a unique media leaf.")
-            }
-            if operation == "archive.removeOutput" {
-                guard let expected = params["fileIdentity"] as? [String: String] else {
-                    throw error("INVALID_REQUEST", "Output removal requires its admitted identity.")
-                }
-                let fd = openat(root, name, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
-                guard fd >= 0 else { throw io("Open released output") }
-                defer { close(fd) }
-                var info = stat()
-                guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
-                    info.st_nlink == 1, try identity(fd) == expected else {
-                    throw error("INVALID_STORAGE", "Output changed before release.")
-                }
-                guard unlinkat(root, name, 0) == 0 else { throw io("Remove released output") }
-                return ["removed": true]
-            }
-            let fd = openat(root, name, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        switch operation {
+        case "archive.copy": return try copyMembers(WireRequest.decode(Copy.self, from: params))
+        case "archive.write": return try writeArchive(WireRequest.decode(Write.self, from: params))
+        case "archive.extract": return try extract(WireRequest.decode(Extraction.self, from: params))
+        case "archive.createOutput":
+            let request = try WireRequest.decode(NewOutput.self, from: params)
+            try outputWorkspace(request.identity, name: request.name)
+            let fd = openat(
+                root, request.name, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
             guard fd >= 0 else { throw io("Create context output") }
             defer { close(fd) }
-            return ["path": name, "bytes": 0, "identity": try identity(fd)]
-        }
-        if operation == "archive.cleanup" {
-            try ManagedFiles.removeContents(root)
+            return ["path": request.name, "bytes": 0, "identity": try FileVersion(of: fd).json]
+        case "archive.removeOutput":
+            let request = try WireRequest.decode(ReleasedOutput.self, from: params)
+            try outputWorkspace(request.identity, name: request.name)
+            let fd = openat(root, request.name, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
+            guard fd >= 0 else { throw io("Open released output") }
+            defer { close(fd) }
+            var info = stat()
+            guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_nlink == 1,
+                try FileVersion(of: fd) == request.fileIdentity
+            else { throw error("INVALID_STORAGE", "Output changed before release.") }
+            guard unlinkat(root, request.name, 0) == 0 else { throw io("Remove released output") }
             return ["removed": true]
-        }
-        if operation == "archive.prepare" {
+        default:
+            let request = try WireRequest.decode(Workspace.self, from: params)
+            try request.identity.check(root)
+            try ManagedFiles.lockPrivateDirectory(root)
+            if operation == "archive.cleanup" {
+                try ManagedFiles.removeContents(root)
+                return ["removed": true]
+            }
             try requireEmpty()
             return ["empty": true]
         }
-        guard ["archive.extract", "archive.write", "archive.copy"].contains(operation),
-            let values = params["limits"] as? [String: Any],
-            values.values.allSatisfy({ value in
-                guard let n = value as? NSNumber else { return false }
-                return n.doubleValue >= 1 && n.doubleValue <= Double(Int.max / 2)
-                    && n.doubleValue.rounded() == n.doubleValue
-            })
-        else { throw error("INVALID_REQUEST", "Invalid archive request.") }
-        let limits = try JSONDecoder().decode(
-            Limits.self, from: JSONSerialization.data(withJSONObject: values))
-        guard limits.depth <= 32, limits.receiptBytes <= 7 * 1024 * 1024 else {
-            throw error("INVALID_REQUEST", "Unsupported archive limits.")
-        }
-        if operation == "archive.copy" { return try copyMembers(params, limits) }
-        if operation == "archive.write" { return try writeArchive(params, limits) }
-        guard let admitted = params["input"] as? [String: Any],
-            let expectedBytes = admitted["bytes"] as? NSNumber,
-            let expectedIdentity = admitted["identity"] as? [String: String] else {
-            throw error("INVALID_REQUEST", "Invalid archive input.")
-        }
+    }
+
+    /// Pins the context workspace and admits only a unique media leaf inside it.
+    private static func outputWorkspace(_ identity: InodeIdentity, name: String) throws {
+        try identity.check(root)
+        try ManagedFiles.lockPrivateDirectory(root)
+        guard name.count == 40, [".png", ".wav"].contains(String(name.suffix(4))),
+            UUID(uuidString: String(name.prefix(36))) != nil
+        else { throw error("INVALID_REQUEST", "Output name must be a unique media leaf.") }
+    }
+
+    private static func extract(_ request: Extraction) throws -> [String: Any] {
+        try request.identity.check(root)
+        try ManagedFiles.lockPrivateDirectory(root)
+        let limits = request.limits
+        try limits.check()
         try requireEmpty()
         let source: Int32 = 4
         defer { close(source) }
@@ -98,10 +175,12 @@ enum ArchiveOperation {
         guard fstat(source, &sourceInfo) == 0, sourceInfo.st_mode & S_IFMT == S_IFREG else {
             throw error("INVALID_PACKAGE", "Archive must be a regular file.")
         }
-        let before = try identity(source)
-        guard sourceInfo.st_size > 0, expectedBytes.doubleValue == Double(sourceInfo.st_size),
-            Set(expectedIdentity.keys) == ["device", "inode", "modifiedNs"],
-            expectedIdentity.allSatisfy({ before[$0.key] == $0.value }) else {
+        let before = try FileVersion(of: source)
+        let admitted = request.input
+        guard sourceInfo.st_size > 0, admitted.bytes == sourceInfo.st_size,
+            admitted.identity.device == before.device, admitted.identity.inode == before.inode,
+            admitted.identity.modifiedNs == before.modifiedNs
+        else {
             throw error("ARCHIVE_CHANGED", "Admitted archive changed before copying.")
         }
         guard sourceInfo.st_size <= limits.compressedBytes else {
@@ -129,7 +208,7 @@ enum ArchiveOperation {
         }
         var afterInfo = stat()
         guard fstat(source, &afterInfo) == 0, afterInfo.st_size == sourceInfo.st_size,
-            copied == sourceInfo.st_size, try identity(source) == before else {
+            copied == sourceInfo.st_size, try FileVersion(of: source) == before else {
             throw error("ARCHIVE_CHANGED", "Admitted archive changed during copying.")
         }
         guard lseek(snapshot, 0, SEEK_SET) == 0 else { throw io("Rewind archive snapshot") }
@@ -202,23 +281,15 @@ enum ArchiveOperation {
             }
             var name = String(cString: rawName)
             if directory && name.hasSuffix("/") { name.removeLast() }
-            let parts = name.split(separator: "/", omittingEmptySubsequences: false).map(
-                String.init)
-            guard name.utf8.count <= limits.pathBytes, parts.count <= limits.depth,
-                parts.allSatisfy({ $0.utf8.count <= limits.componentBytes })
-            else {
-                throw error("LIMIT_EXCEEDED", "ZIP member path limit exceeded.")
+            let parts: [String]
+            switch memberPath(name, limits) {
+            case .exceedsLimits: throw error("LIMIT_EXCEEDED", "ZIP member path limit exceeded.")
+            case .unsafe: throw error("INVALID_PACKAGE", "Invalid or duplicate ZIP member name.")
+            case .safe(let components): parts = components
             }
-            guard !name.isEmpty,
-                name.utf8.allSatisfy({
-                    (65...90).contains($0) || (97...122).contains($0) || (48...57).contains($0)
-                        || [95, 46, 47, 45].contains($0)
-                }),
-                parts.allSatisfy({
-                    !$0.isEmpty && $0 != "." && $0 != ".." && $0.utf8.count <= limits.componentBytes
-                }),
-                names.insert(name.lowercased()).inserted
-            else { throw error("INVALID_PACKAGE", "Invalid or duplicate ZIP member name.") }
+            guard names.insert(name.lowercased()).inserted else {
+                throw error("INVALID_PACKAGE", "Invalid or duplicate ZIP member name.")
+            }
             for count in 1...parts.count {
                 let component = parts.prefix(count).joined(separator: "/")
                 let isDirectory = count < parts.count || directory
@@ -284,7 +355,7 @@ enum ArchiveOperation {
             let row: [String: Any] = [
                 "path": name, "directory": directory, "bytes": bytes,
                 "sha256": hex(hash.finalize()),
-                "identity": directory ? NSNull() : try identity(fd),
+                "identity": directory ? NSNull() : try FileVersion(of: fd).json,
             ]
             try charge(
                 try JSONSerialization.data(withJSONObject: row).count + 1, &receiptEstimate,
@@ -307,34 +378,35 @@ enum ArchiveOperation {
         return result
     }
 
-    private static func copyMembers(_ params: [String: Any], _ limits: Limits) throws -> [String: Any] {
-        try ManagedFiles.Identity(params["inputIdentity"]).check(4)
+    private static func copyMembers(_ request: Copy) throws -> [String: Any] {
+        try request.identity.check(root)
+        try ManagedFiles.lockPrivateDirectory(root)
+        let limits = request.limits
+        try limits.check()
+        try request.inputIdentity.check(4)
         try ManagedFiles.lockPrivateDirectory(4)
-        guard let members = params["members"] as? [[String: Any]], (1...4).contains(members.count) else {
+        guard (1...4).contains(request.members.count) else {
             throw error("INVALID_REQUEST", "Source copy requires one to four selected members.")
         }
         func parts(_ path: String) throws -> [String] {
-            let values = path.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
-            guard path.utf8.count <= limits.pathBytes, values.count <= limits.depth,
-                path.utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) || [45,46,47,95].contains($0) }),
-                values.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." && $0.utf8.count <= limits.componentBytes }) else {
+            guard case .safe(let components) = memberPath(path, limits) else {
                 throw error("INVALID_REQUEST", "Unsafe source copy path.")
             }
-            return values
+            return components
         }
-        var selected: [(source: String, target: String, parts: [String], bytes: Int, identity: [String: String])] = []
+        var selected: [(member: Copy.Member, parts: [String])] = []
         var names = Set<String>()
-        for member in members {
-            guard Set(member.keys) == ["source", "target", "bytes", "identity"], let source = member["source"] as? String, let target = member["target"] as? String,
-                let bytes = member["bytes"] as? Int, bytes >= 0, let identity = member["identity"] as? [String: String],
-                names.insert(target.lowercased()).inserted else { throw error("INVALID_REQUEST", "Invalid source copy selection.") }
-            _ = try parts(source)
-            selected.append((source, target, try parts(target), bytes, identity))
+        for member in request.members {
+            guard member.bytes >= 0, names.insert(member.target.lowercased()).inserted else {
+                throw error("INVALID_REQUEST", "Invalid source copy selection.")
+            }
+            _ = try parts(member.source)
+            selected.append((member, try parts(member.target)))
         }
         let buffer = UnsafeMutableRawPointer.allocate(byteCount: chunkBytes, alignment: 8)
         defer { buffer.deallocate() }
         var receipts: [[String: Any]] = [], total = 0
-        for member in selected {
+        for (member, parts) in selected {
             let input = try openWriteInput(member.source)
             defer { close(input) }
             var info = stat()
@@ -342,11 +414,11 @@ enum ArchiveOperation {
                 info.st_size >= 0, info.st_size <= limits.memberBytes else {
                 throw error("INVALID_STORAGE", "Source copy requires a bounded regular file.")
             }
-            let before = try identity(input)
+            let before = try FileVersion(of: input)
             guard info.st_size == member.bytes, before == member.identity else {
                 throw error("ARCHIVE_CHANGED", "Selected source differs from admission.")
             }
-            let output = try createMember(root, member.parts, false)
+            let output = try createMember(root, parts, false)
             defer { close(output) }
             var copied = 0, hash = SHA256()
             while copied < info.st_size {
@@ -359,9 +431,9 @@ enum ArchiveOperation {
                 hash.update(data: bytes)
                 copied += n
             }
-            guard try identity(input) == before else { throw error("ARCHIVE_CHANGED", "Source changed during copy.") }
+            guard try FileVersion(of: input) == before else { throw error("ARCHIVE_CHANGED", "Source changed during copy.") }
             guard fsync(output) == 0 else { throw io("Flush selected source") }
-            receipts.append(["path": member.target, "bytes": copied, "sha256": hex(hash.finalize()), "identity": try identity(output)])
+            receipts.append(["path": member.target, "bytes": copied, "sha256": hex(hash.finalize()), "identity": try FileVersion(of: output).json])
         }
         return ["members": receipts, "bytes": total]
     }
@@ -370,7 +442,7 @@ enum ArchiveOperation {
         let path: String
         let bytes: Int
         let sha256: String
-        let identity: [String: String]
+        let identity: FileVersion
     }
     private final class Output {
         let fd: Int32
@@ -381,9 +453,13 @@ enum ArchiveOperation {
         init(_ fd: Int32, _ limit: Int) { self.fd = fd; self.limit = limit }
     }
 
-    private static func writeArchive(_ params: [String: Any], _ limits: Limits) throws -> [String: Any] {
+    private static func writeArchive(_ request: Write) throws -> [String: Any] {
+        try request.identity.check(root)
+        try ManagedFiles.lockPrivateDirectory(root)
+        let limits = request.limits
+        try limits.check()
         try requireEmpty()
-        try ManagedFiles.Identity(params["inputIdentity"]).check(4)
+        try request.inputIdentity.check(4)
         try ManagedFiles.lockPrivateDirectory(4)
         var sourceRoot = stat(), outputRoot = stat(), planInfo = stat()
         guard fstat(4, &sourceRoot) == 0, fstat(root, &outputRoot) == 0,
@@ -394,10 +470,8 @@ enum ArchiveOperation {
             planInfo.st_size > 0, planInfo.st_size <= limits.receiptBytes else {
             throw error("LIMIT_EXCEEDED", "ZIP member plan must be a bounded regular file.")
         }
-        let planIdentity = try identity(5)
-        guard let admitted = params["plan"] as? [String: Any],
-            let expectedBytes = admitted["bytes"] as? Int, expectedBytes == planInfo.st_size,
-            let expectedIdentity = admitted["identity"] as? [String: String], expectedIdentity == planIdentity else {
+        let planIdentity = try FileVersion(of: 5)
+        guard request.plan.bytes == planInfo.st_size, request.plan.identity == planIdentity else {
             throw error("ARCHIVE_CHANGED", "ZIP plan differs from admission.")
         }
         var plan = Data(count: Int(planInfo.st_size))
@@ -410,18 +484,15 @@ enum ArchiveOperation {
                 offset += n
             }
         }
-        guard try identity(5) == planIdentity else { throw error("ARCHIVE_CHANGED", "ZIP plan changed during read.") }
+        guard try FileVersion(of: 5) == planIdentity else { throw error("ARCHIVE_CHANGED", "ZIP plan changed during read.") }
         let members = try JSONDecoder().decode([WriteMember].self, from: plan)
         guard !members.isEmpty, members.count <= limits.entries else {
             throw error("LIMIT_EXCEEDED", "ZIP member count exceeds limit.")
         }
         var names = Set<String>(), parents = Set<String>(), expectedTotal = 0
         for member in members {
-            let parts = member.path.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
             let folded = member.path.lowercased()
-            guard !parts.isEmpty, parts.count <= limits.depth, member.path.utf8.count <= limits.pathBytes,
-                member.path.utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0) || [45,46,47,95].contains($0) }),
-                parts.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." && $0.utf8.count <= limits.componentBytes }),
+            guard case .safe(let parts) = memberPath(member.path, limits),
                 !parents.contains(folded), names.insert(folded).inserted,
                 member.bytes >= 0, member.bytes <= limits.memberBytes,
                 member.sha256.count == 64, member.sha256.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }) else {
@@ -434,7 +505,7 @@ enum ArchiveOperation {
             }
             try charge(member.bytes, &expectedTotal, limits.expandedBytes)
         }
-        guard let inputBytes = params["inputBytes"] as? Int, inputBytes == expectedTotal else {
+        guard request.inputBytes == expectedTotal else {
             throw error("ARCHIVE_CHANGED", "ZIP byte total differs from admission.")
         }
         let fd = openat(root, "payload.zip", O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
@@ -474,7 +545,7 @@ enum ArchiveOperation {
             defer { close(input) }
             var info = stat()
             guard fstat(input, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_nlink == 1,
-                info.st_size == member.bytes, try identity(input) == member.identity else {
+                info.st_size == member.bytes, try FileVersion(of: input) == member.identity else {
                 throw error("ARCHIVE_CHANGED", "ZIP member differs from selected input.")
             }
             guard let entry = archive_entry_new() else { throw error("INVALID_PACKAGE", "Cannot create ZIP entry.") }
@@ -496,7 +567,7 @@ enum ArchiveOperation {
                 copied += n
                 try charge(n, &total, limits.expandedBytes)
             }
-            guard try identity(input) == member.identity, hex(hash.finalize()) == member.sha256 else {
+            guard try FileVersion(of: input) == member.identity, hex(hash.finalize()) == member.sha256 else {
                 throw error("ARCHIVE_CHANGED", "ZIP member changed while copying.")
             }
             try checked(archive_write_finish_entry(writer))
@@ -504,7 +575,7 @@ enum ArchiveOperation {
         try checked(archive_write_close(writer))
         guard fsync(fd) == 0 else { throw io("Flush ZIP output") }
         return ["path": "payload.zip", "bytes": output.bytes, "sha256": hex(output.hash.finalize()),
-            "identity": try identity(fd), "expandedBytes": total, "entries": members.count,
+            "identity": try FileVersion(of: fd).json, "expandedBytes": total, "entries": members.count,
             "peakResidentBytes": peakResidentBytes(), "writer": String(cString: archive_version_string())]
     }
     private static func openWriteInput(_ path: String) throws -> Int32 {
@@ -522,12 +593,27 @@ enum ArchiveOperation {
         } catch { close(fd); throw error }
     }
 
-    private static func identity(_ fd: Int32) throws -> [String: String] {
-        var info = stat()
-        guard fstat(fd, &info) == 0 else { throw io("Inspect package member") }
-        return ["device": String(UInt64(truncatingIfNeeded: info.st_dev)), "inode": String(info.st_ino),
-            "modifiedNs": String(Int64(info.st_mtimespec.tv_sec) * 1_000_000_000 + Int64(info.st_mtimespec.tv_nsec)),
-            "changedNs": String(Int64(info.st_ctimespec.tv_sec) * 1_000_000_000 + Int64(info.st_ctimespec.tv_nsec))]
+    private enum MemberPath {
+        case safe([String])
+        case exceedsLimits
+        case unsafe
+    }
+
+    /// A relative member path of plain ASCII components, none empty or a dot segment, within the
+    /// request's path, depth and component limits.
+    private static func memberPath(_ path: String, _ limits: Limits) -> MemberPath {
+        let parts = path.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+        guard path.utf8.count <= limits.pathBytes, parts.count <= limits.depth,
+            parts.allSatisfy({ $0.utf8.count <= limits.componentBytes })
+        else { return .exceedsLimits }
+        guard !path.isEmpty,
+            path.utf8.allSatisfy({
+                (48...57).contains($0) || (65...90).contains($0) || (97...122).contains($0)
+                    || [45, 46, 47, 95].contains($0)
+            }),
+            parts.allSatisfy({ !$0.isEmpty && $0 != "." && $0 != ".." })
+        else { return .unsafe }
+        return .safe(parts)
     }
 
     static func peakResidentBytes() -> Int64 {
@@ -537,25 +623,8 @@ enum ArchiveOperation {
     }
 
     private static func requireEmpty() throws {
-        let fd = openat(root, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-        guard fd >= 0 else { throw io("Open workspace") }
-        guard let stream = fdopendir(fd) else {
-            close(fd)
-            throw io("Inspect workspace")
-        }
-        defer { closedir(stream) }
-        while true {
-            errno = 0
-            guard let entry = readdir(stream) else {
-                if errno != 0 { throw io("Enumerate workspace") }
-                break
-            }
-            let name = withUnsafePointer(to: &entry.pointee.d_name) { pointer in
-                pointer.withMemoryRebound(to: CChar.self, capacity: 256) { String(cString: $0) }
-            }
-            guard name == "." || name == ".." else {
-                throw error("INVALID_STORAGE", "Archive workspace is not empty.")
-            }
+        guard try Descriptors.isEmpty(root, failing: io) else {
+            throw error("INVALID_STORAGE", "Archive workspace is not empty.")
         }
     }
     private static func createMember(_ base: Int32, _ parts: [String], _ directory: Bool) throws
@@ -584,15 +653,7 @@ enum ArchiveOperation {
         }
     }
     private static func writeAll(_ fd: Int32, _ bytes: Data) throws {
-        try bytes.withUnsafeBytes { raw in
-            var offset = 0
-            while offset < raw.count {
-                let n = write(fd, raw.baseAddress!.advanced(by: offset), raw.count - offset)
-                if n < 0 && errno == EINTR { continue }
-                guard n > 0 else { throw io("Write archive member") }
-                offset += n
-            }
-        }
+        guard Descriptors.writeAll(fd, bytes) else { throw io("Write archive member") }
     }
     private static func charge(_ value: Int, _ total: inout Int, _ limit: Int) throws {
         guard value <= limit - total else {
