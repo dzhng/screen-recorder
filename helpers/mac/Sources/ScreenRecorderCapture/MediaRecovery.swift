@@ -1,6 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 public struct MediaInterval: Codable, Sendable, Equatable {
     public let startUs: Int64

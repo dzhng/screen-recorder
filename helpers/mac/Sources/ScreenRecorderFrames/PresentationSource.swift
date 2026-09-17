@@ -1,7 +1,7 @@
 @preconcurrency import AVFoundation
 import CoreImage
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// One owner for sequential movie presentation membership. Unlike still selection,
 /// the retained moment belongs to a sample's support, not its nearest timestamp.

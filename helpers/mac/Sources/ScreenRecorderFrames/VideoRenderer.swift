@@ -2,7 +2,7 @@
 import CoreImage
 import Darwin
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 public struct VideoRenderSpan: Codable, Sendable {
     public let source: FrameInterval

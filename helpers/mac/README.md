@@ -128,7 +128,7 @@ AVFoundation can return silence for empty audio edit-list segments and unavailab
 sample durations for decoded video. Recovery excludes empty segments and clips to the
 track's media range. A take's last frame has no successor to bound it, so its duration
 comes from the sample cursor that states it — positioned through
-[ScreenRecorderMediaTime](Sources/ScreenRecorderMediaTime), because readers report asset
+[ScreenRecorderMedia](Sources/ScreenRecorderMedia), because readers report asset
 time while cursors navigate media time. When no cursor confirms that sample, the recovered
 interval stops at the last decoded timestamp and the track fails with `UNKNOWN_TAIL`; the
 gap to the previous sample is not evidence of how long the last one lasted, and an empty
@@ -238,7 +238,7 @@ says nothing about a worker that is itself killed.
 [ScreenRecorderFrames](Sources/ScreenRecorderFrames) selects and decodes within a
 kept interval supplied by the timeline owner. It never interprets edits. Sample
 cursor timestamps belong to media time; the edit-list mappings in
-[ScreenRecorderMediaTime](Sources/ScreenRecorderMediaTime) translate them into
+[ScreenRecorderMedia](Sources/ScreenRecorderMedia) translate them into
 the recording timeline before comparison, and recovery reads them through the same owner
 so the two cannot disagree about where a sample sits. The selected exact native timestamp is
 retained for decoding, and the response reports the actual sample time and distance.

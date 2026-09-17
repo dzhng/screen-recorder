@@ -1,6 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// The public excerpt remains capped; all retained-audio mixing belongs to AudioPCMStream.
 public enum AudioExcerpts {

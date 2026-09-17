@@ -61,7 +61,7 @@ for (const [name, rate] of [
   ]);
 run("swiftc", [
   "-parse-as-library",
-  join(root, "helpers/mac/Sources/ScreenRecorderMediaTime/SampleTiming.swift"),
+  join(root, "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift"),
   join(import.meta.dirname, "RenderMembership/main.swift"),
   "-o",
   join(out, "probe"),

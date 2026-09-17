@@ -1,7 +1,7 @@
 @preconcurrency import AVFoundation
 import Foundation
 import ScreenRecorderCapture
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 private func track(_ role: String, of capture: RecoveredCapture) -> RecoveredTrack {
     guard let found = capture.tracks.first(where: { $0.role == role }) else {

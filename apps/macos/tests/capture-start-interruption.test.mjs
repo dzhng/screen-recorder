@@ -43,7 +43,7 @@ test(
       );
       for (const name of ["ScriptedCapture.swift", "main.swift"])
         copyFileSync(join(fixtures, name), join(temporary, name));
-      const objects = ["ScreenRecorderCapture", "ScreenRecorderMediaTime"].flatMap((target) => {
+      const objects = ["ScreenRecorderCapture", "ScreenRecorderMedia"].flatMap((target) => {
         const directory = join(bin, `${target}.build`);
         // SwiftPM can retain obsolete objects after a source is removed. Link only this build's map.
         const outputs = JSON.parse(readFileSync(join(directory, "output-file-map.json"), "utf8"));

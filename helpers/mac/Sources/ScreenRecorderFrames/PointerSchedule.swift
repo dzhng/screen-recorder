@@ -2,7 +2,7 @@
 import CryptoKit
 import Darwin
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 public struct PointerScheduleReceipt: Decodable, Sendable {
     let version: Int

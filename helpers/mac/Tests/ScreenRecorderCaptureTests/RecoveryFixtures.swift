@@ -2,7 +2,7 @@
 import CoreVideo
 import Foundation
 import ScreenRecorderCapture
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// Generated media for recovery tests. Frames carry enough detail to encode, nothing more; these
 /// tests read timing, never pixels.

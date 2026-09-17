@@ -1,6 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// One planned source file, opened once. `available` states, in recording source time, where this
 /// excerpt may read: where the caller's acquisition evidence and the file's own occupied edit-list

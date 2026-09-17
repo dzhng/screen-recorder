@@ -1,6 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// Selects the sample whose own presentation timestamp is closest to `requestedUs` among the
 /// samples inside `kept`. Earlier wins ties. Membership and distance are judged on the same
