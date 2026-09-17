@@ -17,6 +17,15 @@ public enum ControlsAction: Hashable, Sendable {
     case restart
     case previewRecording(String)
     case deleteRecording(String)
+    /// Choose a destination and export the take's current revision.
+    case exportRecording(String, ExportsState.Kind)
+    /// Send an unconfirmed export request again under its original export ID.
+    case resendExport(String)
+    case retryExport(String)
+    case abandonExport(String)
+    case revealExport(String)
+    /// Remove a finished export from this menu; its file and service history remain.
+    case dismissExport(String)
     case refreshStorage
     case requestScreenPermission
     case requestMicrophonePermission
@@ -37,6 +46,12 @@ public enum ControlsAction: Hashable, Sendable {
         case .restart: "capture.restart"
         case .previewRecording(let id): "recording.preview.\(id)"
         case .deleteRecording(let id): "recording.delete.\(id)"
+        case .exportRecording(let id, let kind): "recording.export.\(kind.rawValue).\(id)"
+        case .resendExport(let id): "export.resend.\(id)"
+        case .retryExport(let id): "export.retry.\(id)"
+        case .abandonExport(let id): "export.abandon.\(id)"
+        case .revealExport(let id): "export.reveal.\(id)"
+        case .dismissExport(let id): "export.dismiss.\(id)"
         case .refreshStorage: "storage.refresh"
         case .requestScreenPermission: "permission.screen"
         case .requestMicrophonePermission: "permission.microphone"
@@ -88,9 +103,9 @@ public struct MenuEntry: Equatable, Sendable {
 /// Builds the rows of the recording controls from what the service reported. It is a pure function
 /// of the state: there is no second copy of device, catalog or clock behind it.
 public enum RecordingMenu {
-    public static func entries(for state: ControlsState, shortcuts: ShortcutDefaults = .init())
-        -> [MenuEntry]
-    {
+    public static func entries(
+        for state: ControlsState, exports: ExportsState = .init(), shortcuts: ShortcutDefaults = .init()
+    ) -> [MenuEntry] {
         var rows: [MenuEntry] = [MenuEntry(.status, statusTitle(for: state), enabled: false)]
         for note in notes(for: state) { rows.append(MenuEntry(.status, note, enabled: false)) }
         rows.append(.separator())
@@ -109,7 +124,9 @@ public enum RecordingMenu {
         rows.append(.separator())
         rows.append(contentsOf: transportEntries(for: state, shortcuts: shortcuts))
         rows.append(.separator())
-        rows.append(MenuEntry(.status, "Recent Recordings", submenu: recentEntries(for: state)))
+        rows.append(
+            MenuEntry(.status, "Recent Recordings", submenu: recentEntries(for: state, exports: exports)))
+        rows.append(contentsOf: ExportMenu.entries(for: state, exports: exports))
         rows.append(contentsOf: storageEntries(for: state))
         rows.append(.separator())
         rows.append(MenuEntry(.command(.quit), "Quit Screen Recorder", shortcut: "⌘Q"))
@@ -284,8 +301,8 @@ public enum RecordingMenu {
         return rows
     }
 
-    /// Recent library takes expose the shared preview operation; exports remain separate work.
-    private static func recentEntries(for state: ControlsState) -> [MenuEntry] {
+    /// Recent library takes expose the shared preview operation and the two export choices.
+    private static func recentEntries(for state: ControlsState, exports: ExportsState) -> [MenuEntry] {
         let takes = state.recent + state.deletions.values
             .map(\.take)
             .filter { pending in !state.recent.contains { $0.recordingId == pending.recordingId } }
@@ -300,14 +317,20 @@ public enum RecordingMenu {
             if let failure = request?.failure {
                 details.append(MenuEntry(.status, "Delete not confirmed — \(failure)", enabled: false))
             }
+            let playable = state.service == .ready && request == nil
+                && (take.state == "complete" || take.state == "interrupted")
+                && (take.sourceDurationUs ?? 0) > 0
+            // One save panel at a time; a take can still be exported again once a choice is made.
+            let exportable = playable && exports.choosing == nil
             details.append(contentsOf: [
                 .separator(),
-                MenuEntry(.command(.previewRecording(take.recordingId)), "Preview",
-                    enabled: state.service == .ready && request == nil
-                        && (take.state == "complete" || take.state == "interrupted")
-                        && (take.sourceDurationUs ?? 0) > 0),
-                MenuEntry(.status, "Export Video — not available yet", enabled: false),
-                MenuEntry(.status, "Export AI Package — not available yet", enabled: false),
+                MenuEntry(.command(.previewRecording(take.recordingId)), "Preview", enabled: playable),
+                MenuEntry(
+                    .command(.exportRecording(take.recordingId, .video)), "Export Video…",
+                    enabled: exportable),
+                MenuEntry(
+                    .command(.exportRecording(take.recordingId, .package)), "Export AI Package…",
+                    enabled: exportable),
                 .separator(),
                 MenuEntry(
                     .command(.deleteRecording(take.recordingId)),

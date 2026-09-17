@@ -123,11 +123,11 @@ func runMenuStateTests() {
     else { preconditionFailure("A stored take is listed") }
     precondition(takes.title.hasSuffix("— 1:05"), "A listed take states the media it holds")
     let offered = takes.submenu.filter(\.enabled).compactMap(\.action)
-    precondition(offered == [.previewRecording("rec-9"), .deleteRecording("rec-9")], "Preview and deletion name the stored take")
     precondition(
-        takes.submenu.contains { $0.title == "Export Video — not available yet" }
-            && takes.submenu.contains { $0.title == "Export AI Package — not available yet" },
-        "Both export choices remain visibly unavailable")
+        offered == [
+            .previewRecording("rec-9"), .exportRecording("rec-9", .video),
+            .exportRecording("rec-9", .package), .deleteRecording("rec-9"),
+        ], "Preview, both export choices and deletion name the stored take")
     for (status, duration, available) in [("complete", Int64(1), true), ("interrupted", 1, true),
         ("interrupted", 0, false), ("recording", 1, false), ("canceled", 1, false)] {
         stored.recent = [.init(recordingId: "rec-9", createdAt: "2026-09-15T18:04:05Z",

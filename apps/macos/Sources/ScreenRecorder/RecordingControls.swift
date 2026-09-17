@@ -33,6 +33,16 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             self?.state.failure = message
             self?.render()
         })
+    private lazy var exports = ExportController(
+        call: { [weak self] operation, params throws(ServiceFailure) in
+            guard let self else { throw Self.noService }
+            return try await self.service().call(operation, params)
+        },
+        changed: { [weak self] in self?.render() },
+        failure: { [weak self] message in
+            self?.state.failure = message
+            self?.render()
+        })
     private var ticker: Timer?
     private var reading = false
     private var pendingRefresh = false
@@ -71,13 +81,22 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         case .ready: state.service = .ready
         case .unavailable(_, let message): state.service = .unavailable(message)
         }
-        if state.service == .ready { refresh() } else { preview.close(); render() }
+        if state.service == .ready {
+            refresh()
+            exports.discover()
+        } else {
+            preview.close()
+            render()
+        }
     }
 
     /// The live menu, so a check can read exactly what a person would see.
     var visibleMenu: NSMenu { menu }
 
-    func menuWillOpen(_ menu: NSMenu) { refresh() }
+    func menuWillOpen(_ menu: NSMenu) {
+        refresh()
+        if state.service == .ready { exports.discover() }
+    }
 
     // MARK: acting
 
@@ -126,6 +145,19 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             preview.open(recordingId)
         case .deleteRecording(let recordingId):
             deleteRecording(recordingId)
+        case .exportRecording(let recordingId, let kind):
+            guard state.service == .ready else { return }
+            exports.export(recordingId, kind: kind)
+        case .resendExport(let exportId):
+            exports.resend(exportId)
+        case .retryExport(let exportId):
+            exports.retry(exportId)
+        case .abandonExport(let exportId):
+            exports.abandon(exportId)
+        case .revealExport(let exportId):
+            exports.reveal(exportId)
+        case .dismissExport(let exportId):
+            exports.dismiss(exportId)
         case .refreshStorage:
             readStorage()
         case .requestScreenPermission:
@@ -215,6 +247,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 let confirmed = receipt.recordingId == recordingId && receipt.deleted
                 state.finishDelete(
                     recordingId, failure: confirmed ? nil : "The service did not confirm deletion.")
+                // Deletion retires the take's export intents; files already exported remain.
+                if confirmed { exports.forgetRecording(recordingId) }
             } catch {
                 state.finishDelete(recordingId, failure: error.localizedDescription)
             }
@@ -276,7 +310,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     }
 
     /// Status-only polling observes external controls without re-enumerating idle sources.
-    private func tick() { preview.tick(); read(everything: false) }
+    private func tick() {
+        preview.tick()
+        exports.tick()
+        read(everything: false)
+    }
 
     func closePreview() { preview.close() }
 
@@ -369,7 +407,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     private func render() {
         let entries = RecordingMenu.entries(
-            for: state, shortcuts: ShortcutDefaults(bindings: bindings, registered: held))
+            for: state, exports: exports.state,
+            shortcuts: ShortcutDefaults(bindings: bindings, registered: held))
         // Preserve the tracked menu and its open submenus when only the clock title changes.
         if !renderedEntries.isEmpty && entries.dropFirst().elementsEqual(renderedEntries.dropFirst()) {
             menu.items.first?.title = entries[0].title
