@@ -2418,4 +2418,28 @@ export controls. The choices below are the ones that change behavior or format.
   idempotently, so the transcript tables need no bump; a changed existing table does.
   An earlier draft bumped the format, which would have refused the freshly installed
   personal library with no reason.
+- **`model.prepare` answers at once and the download belongs to the service.**
+  - Blocking on a roughly 465 MB download would outlast ordinary MCP call deadlines,
+    and a disconnect would cancel it.
+  - Prepare starts or joins the download and returns status; `model.status` reports
+    progress.
+  - A ready model admits waiting transcripts automatically.
+- **Narrated package export waits on the transcript, but unprepared models fail the
+  export.** Missing models start no transcription job, so there is nothing to wait
+  on. The export reports a retryable `MODEL_NOT_PREPARED` that names the fix. A
+  failed transcript is an actionable dependency failure, and retrying the export
+  never silently restarts transcription.
+- **Packages carry an edited transcript and validate it on open.** The pinned
+  revision's projection is written as pages, like timeline events, and must equal a
+  fresh projection of the portable source pages when the package opens. Tampering is
+  refused before a handle exists.
+- **Package transcript cursors still name the recording.** Continuations are owned by
+  the shared transcript reader, so a package continuation carries the embedded
+  recording ID beside the package handle target. A continuation from another
+  recording or revision fails with `ARTIFACT_CHANGED`.
+- **A span that starts between frames uses its first retained frame as the scene
+  reference.** A cut ending between video frames used to fail screenshot indexing
+  permanently. Nothing earlier is visible in that span, so its first retained picture
+  is the reference, with no future comparison. This surfaced only once a real 30 fps
+  take was cut at an arbitrary microsecond.
 

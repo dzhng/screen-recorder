@@ -1,15 +1,24 @@
 # 08 — Durable local transcription and projections
 
-Status: P1–P3 are merged.
+Status: P1–P5 are merged and verified; P6 (boundary timing and warm resources on real
+narration) needs the user.
 - **P1:** native `speech.transcribe` gives exact word parity with the pinned CLI on
   generated speech with network denied. See the
   [evidence](../assets/speech/native-transcribe.md).
 - **P2:** pinned model assets prepare and verify against HuggingFace. See the
   [assets record](../assets/speech/model-assets.md).
 - **P3:** core owns the durable transcript store, processing, projection and search.
+- **P4:** `transcript.get`, `transcript.search`, `model.status`, `model.prepare` and
+  the transcript processing artifact are public through CLI/MCP.
+- **P5:** narrated processed packages export with portable source and edited
+  transcript pages and reopen with identical reads.
 
-P4 public operations and P5 narrated packages are in progress. P6, real narration
-timing and resources, needs the user. Dependencies: 04 (Parakeet selected with
+`apps/macos/tests/transcript-service.test.mjs` runs the bundled service with the
+real prepared model (set `SCREENREC_SPEECH_MODELS`) on generated `say` narration
+with an empty edit. It checks the gap row, paging, search, a mid-word cut, retry
+and unchanged sources. It then exports the cut take as a narrated package, reopens
+it, and requires identical transcript pages and search entries. Generated speech
+proves plumbing only. Dependencies: 04 (Parakeet selected with
 best-effort fillers), 06.
 
 ## Passes
