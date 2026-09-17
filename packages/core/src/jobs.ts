@@ -3,7 +3,14 @@ import { CatalogError, type RevisionStore } from "./library.js";
 
 /** What an attempt occupies while it runs. Frame work is small and parallel; heavy work is not. */
 export type JobLane = "heavy" | "frame";
-export type JobState = "queued" | "running" | "ready" | "failed" | "unavailable" | "canceled";
+export type JobState =
+  | "waiting"
+  | "queued"
+  | "running"
+  | "ready"
+  | "failed"
+  | "unavailable"
+  | "canceled";
 /** The readiness vocabulary a caller sees for one artifact of one recording. */
 export type ArtifactState =
   | "not_requested"
@@ -20,6 +27,10 @@ const laneLimits: Readonly<Record<JobLane, number>> = { heavy: 1, frame: 2 };
  * catalog; a caller that hits this retries after the queue drains instead of being absorbed.
  */
 const queuedLimit = 32;
+const waitingLimit = 32;
+export type JobAdmission = (
+  job: Job,
+) => { state: "ready" } | { state: "waiting"; dependency: string };
 
 export type JobRequest = Readonly<{
   recordingId: string;
@@ -82,7 +93,8 @@ declare const contextBrand: unique symbol;
 /** Queue-issued lifetime authority. The embedded recording ID is never a scheduling owner. */
 export type JobContext = Readonly<{ contextId: string; [contextBrand]: true }>;
 export type ContextJobRequest = Pick<JobRequest, "artifact" | "lane" | "input">;
-export type ContextJob = Omit<Job, "recordingId" | "revisionId"> & {
+export type ContextJob = Omit<Job, "recordingId" | "revisionId" | "state"> & {
+  state: Exclude<JobState, "waiting">;
   contextId: string;
   result: string | null;
 };
@@ -146,6 +158,8 @@ export class JobQueue {
   private readonly activeContexts = new Set<ContextState>();
   private sequence = 0;
   private closed = false;
+  private admission: JobAdmission | undefined;
+  private admitting = false;
   private readonly onCapacity: (() => void) | undefined;
 
   constructor(options: {
@@ -162,10 +176,12 @@ export class JobQueue {
    CREATE TABLE IF NOT EXISTS jobs (
     jobId TEXT PRIMARY KEY,attemptId TEXT NOT NULL,recordingId TEXT NOT NULL REFERENCES recordings(recordingId),
     artifact TEXT NOT NULL,lane TEXT NOT NULL,input TEXT NOT NULL,revisionId TEXT NOT NULL,state TEXT NOT NULL,
-    reason TEXT,retryable INTEGER NOT NULL,generation INTEGER NOT NULL,queuedSequence INTEGER NOT NULL
+    reason TEXT,retryable INTEGER NOT NULL,generation INTEGER NOT NULL,queuedSequence INTEGER NOT NULL,
+    deferred INTEGER NOT NULL DEFAULT 0 CHECK(deferred IN (0,1))
    ) STRICT;
    CREATE UNIQUE INDEX IF NOT EXISTS jobs_identity
     ON jobs(recordingId,revisionId,artifact,input);
+   CREATE INDEX IF NOT EXISTS jobs_waiting ON jobs(queuedSequence) WHERE state='waiting';
    CREATE TABLE IF NOT EXISTS artifacts (
     recordingId TEXT NOT NULL REFERENCES recordings(recordingId),artifact TEXT NOT NULL,generation INTEGER NOT NULL,
     revisionId TEXT NOT NULL,input TEXT NOT NULL,result TEXT NOT NULL,PRIMARY KEY(recordingId,revisionId,artifact,input)
@@ -183,7 +199,7 @@ export class JobQueue {
           .get() as { sequence: number }
       ).sequence,
     );
-    this.schedule();
+    this.runQueued();
   }
 
   createContext(execute: ContextJobExecutor): JobContext {
@@ -217,7 +233,7 @@ export class JobQueue {
     if (existing) {
       if (existing.lane !== request.lane)
         throw new CatalogError("INVALID_REQUEST", "An existing job cannot change execution lane");
-      this.schedule();
+      this.runQueued();
       return this.contextJob(context, existing.jobId);
     }
     if (state.jobs.size >= contextJobLimit)
@@ -238,7 +254,7 @@ export class JobQueue {
       queuedSequence: ++this.sequence,
     };
     state.jobs.set(job.jobId, job);
-    this.schedule();
+    this.runQueued();
     return this.contextJob(context, job.jobId);
   }
   contextJob(context: JobContext, jobId: string): ContextJob {
@@ -251,7 +267,7 @@ export class JobQueue {
     const state = this.context(context),
       current = this.contextJob(context, jobId);
     if (["queued", "running", "ready"].includes(current.state)) {
-      this.schedule();
+      this.runQueued();
       return this.contextJob(context, jobId);
     }
     if (!current.retryable) throw new CatalogError("UNAVAILABLE", "Package job cannot be retried");
@@ -266,7 +282,7 @@ export class JobQueue {
       retryable: false,
       result: null,
     });
-    this.schedule();
+    this.runQueued();
     return this.contextJob(context, jobId);
   }
   cancelContextJob(context: JobContext, jobId: string): ContextJob {
@@ -319,6 +335,15 @@ export class JobQueue {
    * creates another attempt, so repeated inspection cannot trigger automatic retry loops.
    */
   submit(request: JobRequest): Job {
+    return this.submitJob(request, false);
+  }
+
+  submitDeferred(request: JobRequest): Job {
+    return this.submitJob(request, true);
+  }
+
+  private submitJob(request: JobRequest, deferred: boolean): Job {
+    let created = false;
     const jobId = this.store.transaction(() => {
       this.requireOpen();
       const revisionId = this.store.revision(request.recordingId, request.revisionId).id;
@@ -328,12 +353,14 @@ export class JobQueue {
           throw new CatalogError("INVALID_REQUEST", "An existing job cannot change execution lane");
         return existing.jobId;
       }
-      this.admit();
+      if (deferred) this.admitWaiting();
+      else this.admit();
+      created = true;
       const admitted = this.newId();
       this.store.catalog
         .prepare(
-          `INSERT INTO jobs(${jobColumns},queuedSequence)
-           VALUES (?,?,?,?,?,?,?,'queued',NULL,0,1,?)`,
+          `INSERT INTO jobs(${jobColumns},queuedSequence,deferred)
+           VALUES (?,?,?,?,?,?,?,?,NULL,0,1,?,?)`,
         )
         .run(
           admitted,
@@ -343,11 +370,14 @@ export class JobQueue {
           request.lane,
           request.input,
           revisionId,
+          deferred ? "waiting" : "queued",
           ++this.sequence,
+          Number(deferred),
         );
       return admitted;
     });
-    this.schedule();
+    if (created) this.resumeAdmission();
+    this.runQueued();
     return this.job(jobId);
   }
 
@@ -357,11 +387,17 @@ export class JobQueue {
    * being asked for, so both are returned unchanged rather than duplicated.
    */
   retry(jobId: string): Job {
+    let changed = false;
     const retried = this.store.transaction(() => {
       this.requireOpen();
       const current = this.job(jobId);
       this.store.revision(current.recordingId, current.revisionId);
-      if (current.state === "queued" || current.state === "running" || current.state === "ready")
+      if (
+        current.state === "waiting" ||
+        current.state === "queued" ||
+        current.state === "running" ||
+        current.state === "ready"
+      )
         return current.jobId;
       if (!current.retryable)
         throw new CatalogError("UNAVAILABLE", "This job cannot be retried", {
@@ -369,14 +405,17 @@ export class JobQueue {
           reason: current.reason,
         });
       this.requeue(current);
+      changed = true;
       return jobId;
     });
-    this.schedule();
+    if (changed) this.resumeAdmission();
+    this.runQueued();
     return this.job(retried);
   }
 
   /** Rebuild an evicted derivative only if the caller still names the published generation. */
   regenerate(jobId: string, generation: number): Job {
+    let changed = false;
     this.store.transaction(() => {
       this.requireOpen();
       const current = this.job(jobId);
@@ -388,19 +427,25 @@ export class JobQueue {
           "DELETE FROM artifacts WHERE recordingId=? AND revisionId=? AND artifact=? AND input=? AND generation=?",
         )
         .run(current.recordingId, current.revisionId, current.artifact, current.input, generation);
+      changed = true;
     });
-    this.schedule();
+    if (changed) this.resumeAdmission();
+    this.runQueued();
     return this.job(jobId);
   }
 
   private requeue(current: Job): void {
-    this.admit();
+    const { deferred } = this.store.catalog
+      .prepare("SELECT deferred FROM jobs WHERE jobId=?")
+      .get(current.jobId) as { deferred: number };
+    if (deferred) this.admitWaiting();
+    else this.admit();
     this.store.catalog
       .prepare(
-        `UPDATE jobs SET state='queued',attemptId=?,reason=NULL,retryable=0,generation=generation+1,
+        `UPDATE jobs SET state=?,attemptId=?,reason=NULL,retryable=0,generation=generation+1,
          queuedSequence=? WHERE jobId=?`,
       )
-      .run(this.newId(), ++this.sequence, current.jobId);
+      .run(deferred ? "waiting" : "queued", this.newId(), ++this.sequence, current.jobId);
   }
 
   /**
@@ -411,12 +456,15 @@ export class JobQueue {
     this.requireOpen();
     const stopped = this.store.transaction(() => {
       const current = this.job(jobId);
-      if (current.state !== "queued" && current.state !== "running") return null;
+      if (current.state !== "waiting" && current.state !== "queued" && current.state !== "running")
+        return null;
       this.discard(jobId, "canceled");
       return current.attemptId;
     });
-    if (stopped !== null) this.attempts.get(stopped)?.controller.abort();
-    this.capacityAvailable();
+    if (stopped !== null) {
+      this.attempts.get(stopped)?.controller.abort();
+      this.capacityAvailable();
+    }
     return this.job(jobId);
   }
 
@@ -466,9 +514,11 @@ export class JobQueue {
       state:
         !job || job.state === "canceled" || !present
           ? "not_requested"
-          : job.state === "running"
-            ? "processing"
-            : job.state,
+          : job.state === "waiting"
+            ? "queued"
+            : job.state === "running"
+              ? "processing"
+              : job.state,
       jobId: job?.jobId ?? null,
       reason: job?.reason ?? null,
       retryable: job?.retryable ?? false,
@@ -481,7 +531,12 @@ export class JobQueue {
    * capture transition; every other trigger is a submission, a retry, a cancel or a settled attempt.
    */
   schedule(): void {
-    if (this.closed) return;
+    this.resumeAdmission();
+    this.runQueued();
+  }
+
+  private runQueued(): void {
+    if (this.closed || this.admitting) return;
     // A take that can still produce media outranks heavy background work, so heavy attempts wait for
     // it. Startup reconciliation is what settles a stranded take, and with it this pause.
     const capturing = this.store.unsettled().length > 0;
@@ -502,7 +557,7 @@ export class JobQueue {
       throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
     this.store.catalog
       .prepare(`UPDATE jobs SET state='canceled',reason='recording_unavailable',retryable=0
-      WHERE recordingId=? AND state IN ('queued','running')`)
+      WHERE recordingId=? AND state IN ('waiting','queued','running')`)
       .run(recordingId);
     const active = [...this.attempts.values()].filter(
       (attempt) => attempt.recordingId === recordingId,
@@ -519,7 +574,9 @@ export class JobQueue {
     if (
       [...this.attempts.values()].some((attempt) => attempt.recordingId === recordingId) ||
       this.store.catalog
-        .prepare("SELECT 1 FROM jobs WHERE recordingId=? AND state IN ('queued','running') LIMIT 1")
+        .prepare(
+          "SELECT 1 FROM jobs WHERE recordingId=? AND state IN ('waiting','queued','running') LIMIT 1",
+        )
         .get(recordingId)
     )
       throw new CatalogError(
@@ -581,6 +638,80 @@ export class JobQueue {
     let count = 0;
     for (const attempt of this.attempts.values()) if (attempt.lane === lane) count += 1;
     return count;
+  }
+
+  /** Install only after dependency owners exist. Persisted waiters cannot execute before this. */
+  startAdmission(admit: JobAdmission): void {
+    this.requireOpen();
+    if (this.admission)
+      throw new CatalogError("INVALID_STATE", "Admission owner already installed");
+    this.admission = admit;
+    this.resumeAdmission();
+  }
+
+  /** One bounded event turn. Dependency submissions cannot recursively restart this scan. */
+  resumeAdmission(): void {
+    if (this.closed || this.admitting || !this.admission) return;
+    this.admitting = true;
+    try {
+      const rows = this.store.catalog
+        .prepare(
+          `SELECT ${jobColumns} FROM jobs WHERE state='waiting' ORDER BY queuedSequence LIMIT ?`,
+        )
+        .all(waitingLimit) as JobRow[];
+      for (const row of rows) {
+        if (this.closed) break;
+        if (this.job(row.jobId).state !== "waiting") continue;
+        if (this.store.isDeleting(row.recordingId)) {
+          this.discard(row.jobId, "recording_unavailable");
+          continue;
+        }
+        try {
+          const outcome = this.admission(toJob(row));
+          // The callback may cancel this job while requesting another owner.
+          if (this.job(row.jobId).state !== "waiting") continue;
+          if (outcome.state === "waiting") {
+            this.store.catalog
+              .prepare("UPDATE jobs SET reason=? WHERE jobId=?")
+              .run(outcome.dependency, row.jobId);
+          } else {
+            this.admit();
+            this.store.catalog
+              .prepare("UPDATE jobs SET state='queued',reason=NULL,queuedSequence=? WHERE jobId=?")
+              .run(++this.sequence, row.jobId);
+          }
+        } catch (error) {
+          if (error instanceof CatalogError && error.code === "LIMIT_EXCEEDED") continue;
+          if (this.job(row.jobId).state !== "waiting") continue;
+          this.store.catalog
+            .prepare("UPDATE jobs SET state=?,reason=?,retryable=? WHERE jobId=?")
+            .run(
+              error instanceof CatalogError && error.code === "UNAVAILABLE"
+                ? "unavailable"
+                : "failed",
+              error instanceof Error ? error.message : String(error),
+              Number(!(error instanceof CatalogError) || error.retryable),
+              row.jobId,
+            );
+        }
+      }
+    } finally {
+      this.admitting = false;
+    }
+    this.runQueued();
+  }
+
+  private admitWaiting(): void {
+    const row = this.store.catalog
+      .prepare("SELECT COUNT(*) AS count FROM jobs WHERE state='waiting'")
+      .get() as { count: number };
+    if (row.count >= waitingLimit)
+      throw new CatalogError(
+        "LIMIT_EXCEEDED",
+        "Too much dependency work is already waiting",
+        {},
+        true,
+      );
   }
 
   private admit(): void {
@@ -723,7 +854,8 @@ export class JobQueue {
   }
 
   private capacityAvailable(): void {
-    this.schedule();
+    this.resumeAdmission();
+    this.runQueued();
     if (!this.closed) this.onCapacity?.();
   }
 

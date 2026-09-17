@@ -603,29 +603,33 @@ test("explicit retry of canceled work waits for its old executor to release capa
   expect(queue.status(retry).published?.result).toBe("fresh");
 });
 
-test("an earlier development job catalog is refused before catalog schema writes", async () => {
-  const { store, queue, path } = fixture();
-  await queue.close();
-  queues.splice(queues.indexOf(queue), 1);
-  store.catalog.exec(
-    "DROP TABLE recording_deletions; DROP INDEX jobs_identity; CREATE UNIQUE INDEX jobs_active_identity ON jobs(recordingId,artifact,input) WHERE state IN ('queued','running')",
-  );
-  store.close();
-  const before = readFileSync(path);
-  expect(() => {
-    const reopened = new RevisionStore(path, { now: () => "", newId: () => "unused" });
-    try {
-      new JobQueue({
-        store: reopened,
-        providers: { newId: () => "unused" },
-        execute: async () => "unused",
-      });
-    } finally {
-      reopened.close();
-    }
-  }).toThrow(expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }));
-  expect(readFileSync(path).equals(before)).toBe(true);
-});
+test.each([
+  "DROP TABLE recording_deletions; DROP INDEX jobs_identity; CREATE UNIQUE INDEX jobs_active_identity ON jobs(recordingId,artifact,input) WHERE state IN ('queued','running')",
+  "ALTER TABLE jobs DROP COLUMN deferred",
+])(
+  "an earlier development job catalog is refused before catalog schema writes: %s",
+  async (schema) => {
+    const { store, queue, path } = fixture();
+    await queue.close();
+    queues.splice(queues.indexOf(queue), 1);
+    store.catalog.exec(schema);
+    store.close();
+    const before = readFileSync(path);
+    expect(() => {
+      const reopened = new RevisionStore(path, { now: () => "", newId: () => "unused" });
+      try {
+        new JobQueue({
+          store: reopened,
+          providers: { newId: () => "unused" },
+          execute: async () => "unused",
+        });
+      } finally {
+        reopened.close();
+      }
+    }).toThrow(expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }));
+    expect(readFileSync(path).equals(before)).toBe(true);
+  },
+);
 
 test("regenerating an evicted artifact preserves its revision and cannot invalidate a newer publication", async () => {
   const { store, queue, started } = fixture();
@@ -1134,4 +1138,267 @@ test("oversized result metadata fails explicitly and queue shutdown invalidates 
   expect(() => queue.contextJob(context, job.jobId)).toThrow("not open");
   expect(() => queue.submitContext(context, packageRequest("next"))).toThrow("queue is closed");
   await queue.closeContext(context);
+});
+
+test("32 deferred jobs leave capacity for their shared prerequisite and never spin on replay", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const dependency = {
+    recordingId,
+    revisionId: "r0",
+    artifact: "source",
+    input: "shared",
+    lane: "heavy" as const,
+  };
+  let calls = 0;
+  const pending = Array.from({ length: 32 }, (_, n) =>
+    queue.submitDeferred({ recordingId, artifact: "export", input: String(n), lane: "heavy" }),
+  );
+  expect(() =>
+    queue.submitDeferred({ recordingId, artifact: "export", input: "overflow", lane: "heavy" }),
+  ).toThrow("Too much dependency work");
+  expect(calls).toBe(0);
+  queue.startAdmission(() => {
+    calls++;
+    const job = queue.submit(dependency);
+    return queue.job(job.jobId).state === "ready"
+      ? { state: "ready" }
+      : { state: "waiting", dependency: job.jobId };
+  });
+  expect(calls).toBe(32);
+  const source = queue.submit(dependency);
+  const active = await started(source.attemptId);
+  for (let n = 0; n < 100; n++) {
+    queue.submit(dependency);
+    queue.status({ ...dependency });
+  }
+  expect(calls).toBe(32);
+  expect(
+    queue.status({ recordingId, revisionId: "r0", artifact: "export", input: "0" }),
+  ).toMatchObject({ state: "queued", reason: source.jobId });
+  active.finish("source-evidence");
+  await started(pending[0]!.attemptId);
+  expect(queue.job(pending[0]!.jobId).state).toBe("running");
+  expect(queue.job(pending[31]!.jobId).state).toBe("queued");
+  expect(calls).toBe(64);
+});
+
+test("deferred cancellation and restart preserve identity until explicit retry", async () => {
+  const first = fixture();
+  const recordingId = finished(first.store);
+  const request = { recordingId, artifact: "export", input: "pinned-r0", lane: "heavy" as const };
+  const original = first.queue.submitDeferred(request);
+  first.queue.startAdmission(() => ({ state: "waiting", dependency: "source-job" }));
+  await first.queue.close();
+  first.store.close();
+  stores.splice(stores.indexOf(first.store), 1);
+  queues.splice(queues.indexOf(first.queue), 1);
+  const next = open(first.path, "restart");
+  expect(next.queue.job(original.jobId)).toMatchObject({
+    attemptId: original.attemptId,
+    state: "waiting",
+    reason: "source-job",
+  });
+  expect(next.attempts.size).toBe(0);
+  next.queue.cancel(original.jobId);
+  let evaluations = 0;
+  next.queue.startAdmission(() => {
+    evaluations++;
+    return { state: "ready" };
+  });
+  expect(evaluations).toBe(0);
+  expect(next.queue.submitDeferred(request).state).toBe("canceled");
+  const retry = next.queue.retry(original.jobId);
+  expect(retry.attemptId).not.toBe(original.attemptId);
+  expect(retry.revisionId).toBe("r0");
+  expect(retry.state).toBe("running");
+  (await next.started(retry.attemptId)).finish("export");
+  await next.queue.idle();
+  expect(next.queue.job(original.jobId).state).toBe("ready");
+});
+
+test("admission failures stay terminal, isolate siblings, and never retry dependencies", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const dependency = queue.submit({
+    recordingId,
+    artifact: "source",
+    input: "source",
+    lane: "heavy",
+  });
+  (await started(dependency.attemptId)).fail(
+    new CatalogError("SOURCE_BAD", "bad source", {}, true),
+  );
+  await queue.idle();
+  const bad = queue.submitDeferred({
+    recordingId,
+    artifact: "export",
+    input: "bad",
+    lane: "heavy",
+  });
+  const good = queue.submitDeferred({
+    recordingId,
+    artifact: "export",
+    input: "good",
+    lane: "heavy",
+  });
+  queue.startAdmission((job) => {
+    if (job.input === "bad") {
+      const source = queue.submit({
+        recordingId,
+        artifact: "source",
+        input: "source",
+        lane: "heavy",
+      });
+      expect(source.attemptId).toBe(dependency.attemptId);
+      throw new CatalogError("DEPENDENCY_FAILED", source.reason!, {}, true);
+    }
+    return { state: "ready" };
+  });
+  expect(queue.job(bad.jobId)).toMatchObject({
+    state: "failed",
+    reason: "bad source",
+    retryable: true,
+  });
+  (await started(good.attemptId)).finish("good");
+  await queue.idle();
+  queue.schedule();
+  expect(queue.job(dependency.jobId)).toMatchObject({
+    state: "failed",
+    attemptId: dependency.attemptId,
+  });
+  expect(queue.job(bad.jobId)).toMatchObject({ state: "failed", attemptId: bad.attemptId });
+});
+
+test("ready admission respects package capacity, FIFO and capture while frame work progresses", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const blocker = queue.submit({
+    recordingId,
+    artifact: "source",
+    input: "blocker",
+    lane: "heavy",
+  });
+  const active = await started(blocker.attemptId);
+  const context = packageContext(queue);
+  const packages = Array.from({ length: 32 }, (_, n) =>
+    queue.submitContext(context.context, packageRequest(String(n))),
+  );
+  const deferred = queue.submitDeferred({
+    recordingId,
+    artifact: "export",
+    input: "after-packages",
+    lane: "heavy",
+  });
+  queue.startAdmission(() => ({ state: "ready" }));
+  expect(queue.job(deferred.jobId).state).toBe("waiting");
+  queue.cancelContextJob(context.context, packages[31]!.jobId);
+  expect(queue.job(deferred.jobId).state).toBe("queued");
+  const capture = store.allocate().recording;
+  active.finish("done");
+  await turn();
+  expect(context.attempts).toEqual([]);
+  expect(queue.job(deferred.jobId).state).toBe("queued");
+  queue.cancelContextJob(context.context, packages[30]!.jobId);
+  const frame = queue.submit({ recordingId, artifact: "frame", input: "frame", lane: "frame" });
+  (await started(frame.attemptId)).finish("frame");
+  store.ingestLifecycle(capture.recordingId, {
+    sourceId: capture.sourceId,
+    sequence: 1,
+    state: "canceled",
+  });
+  queue.schedule();
+  await turn();
+  expect(context.attempts.map((a) => a.job.input)).toEqual(["0"]);
+  expect(queue.job(deferred.jobId).state).toBe("queued");
+  for (let n = 0; n < 30; n++) {
+    context.attempts[n]!.finish(String(n));
+    await turn();
+  }
+  (await started(deferred.attemptId)).finish("export");
+  await queue.idle();
+  expect(queue.job(deferred.jobId).state).toBe("ready");
+});
+
+test("deletion fences waiting jobs before admission and forgets them after drain", async () => {
+  const { store, queue } = fixture();
+  const recordingId = finished(store);
+  const waiting = queue.submitDeferred({
+    recordingId,
+    artifact: "export",
+    input: "pending",
+    lane: "heavy",
+  });
+  store.markDeleting(recordingId);
+  let evaluations = 0;
+  queue.startAdmission(() => {
+    evaluations++;
+    return { state: "ready" };
+  });
+  await queue.drainRecording(recordingId);
+  expect(evaluations).toBe(0);
+  expect(queue.job(waiting.jobId)).toMatchObject({
+    state: "canceled",
+    reason: "recording_unavailable",
+    retryable: false,
+  });
+  expect(() => queue.retry(waiting.jobId)).toThrow();
+  await queue.forgetRecording(recordingId);
+  expect(() => queue.job(waiting.jobId)).toThrow("Job does not exist");
+});
+
+test("dependency owners can cancel a waiting sibling without admitting its stale snapshot", () => {
+  const { store, queue } = fixture();
+  const recordingId = finished(store);
+  const first = queue.submitDeferred({
+    recordingId,
+    artifact: "export",
+    input: "first",
+    lane: "heavy",
+  });
+  const sibling = queue.submitDeferred({
+    recordingId,
+    artifact: "export",
+    input: "sibling",
+    lane: "heavy",
+  });
+  const visited: string[] = [];
+  queue.startAdmission((job) => {
+    visited.push(job.input);
+    queue.cancel(sibling.jobId);
+    queue.submit({ recordingId, artifact: "source", input: "source", lane: "heavy" });
+    return { state: "waiting", dependency: "source" };
+  });
+  expect(visited).toEqual(["first"]);
+  expect(queue.job(first.jobId).state).toBe("waiting");
+  expect(queue.job(sibling.jobId).state).toBe("canceled");
+  queue.retry(first.jobId);
+  queue.submitDeferred({ recordingId, artifact: "export", input: "first", lane: "heavy" });
+  expect(visited).toEqual(["first"]);
+});
+
+test("regeneration re-admits deferred work without an unrelated wake and ignores stale generations", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  let calls = 0;
+  queue.startAdmission(() => {
+    calls++;
+    return { state: "ready" };
+  });
+  const job = queue.submitDeferred({
+    recordingId,
+    artifact: "derivative",
+    input: "pinned",
+    lane: "heavy",
+  });
+  (await started(job.attemptId)).finish("first");
+  await queue.idle();
+  const replacement = queue.regenerate(job.jobId, job.generation);
+  expect(replacement.state).toBe("running");
+  const before = calls;
+  queue.regenerate(job.jobId, job.generation);
+  expect(calls).toBe(before);
+  (await started(replacement.attemptId)).finish("regenerated");
+  await queue.idle();
+  expect(queue.status(job).published?.result).toBe("regenerated");
 });

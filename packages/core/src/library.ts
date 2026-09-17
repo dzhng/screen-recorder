@@ -129,9 +129,12 @@ export class RevisionStore {
       (this.catalog
         .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='jobs'")
         .get() &&
-        !this.catalog
-          .prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='jobs_identity'")
-          .get()) ||
+        (!this.catalog
+          .prepare("SELECT 1 FROM pragma_table_info('jobs') WHERE name='deferred'")
+          .get() ||
+          !this.catalog
+            .prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='jobs_identity'")
+            .get())) ||
       this.catalog
         .prepare(
           "SELECT 1 FROM sqlite_master WHERE type='table' AND name='cursor_evidence_generations'",

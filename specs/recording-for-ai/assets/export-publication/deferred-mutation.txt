@@ -1,0 +1,34 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-export-publication
+
+(node:22639) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/jobs.test.ts (41 tests | 1 failed | 40 skipped) 306ms
+   × 32 deferred jobs leave capacity for their shared prerequisite and never spin on replay 306ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/jobs.test.ts > 32 deferred jobs leave capacity for their shared prerequisite and never spin on replay
+AssertionError: expected 3264 to be 32 // Object.is equality
+
+- Expected
++ Received
+
+- 32
++ 3264
+
+ ❯ packages/core/src/jobs.test.ts:1171:17
+    1169|     queue.status({ ...dependency });
+    1170|   }
+    1171|   expect(calls).toBe(32);
+       |                 ^
+    1172|   expect(
+    1173|     queue.status({ recordingId, revisionId: "r0", artifact: "export", …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 40 skipped (41)
+   Start at  07:42:13
+   Duration  421ms (tests 82%, transform 11%, import 7%)

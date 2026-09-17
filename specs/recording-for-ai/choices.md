@@ -1802,3 +1802,39 @@ records them. These choices add no public export choice or transcript readiness.
   intent's status along with other private metadata. It therefore does not hash or
   classify that external file first. A replaced or unsafe private staging directory
   still blocks deletion, because that is where cleanup would actually write.
+
+## Deferred dependency admission (14d2b1)
+
+### Sound — medium confidence
+
+- **Waiting jobs have a separate finite allowance in the existing queue.** When
+  many exports all need the same preview, they wait without consuming the runnable
+  backlog that the preview needs to enter. Promotion joins the back of the shared
+  library/package queue once dependencies are ready. The plan required bounded
+  waiting but did not specify a fairness rule; runnable-entry order preserves the
+  queue's existing ordering without letting old blocked requests jump ahead. This
+  is one jobs table and scheduler, not an export-owned pending-work loop.
+
+- **Dependency identifiers use the existing queued reason field.** An agent asking
+  for artifact readiness sees queued and the dependency identifier while work is
+  blocked; internal queue code can distinguish waiting from runnable queued work.
+  No new public state is required. The plan left the transport of dependency detail
+  open; richer export responses can project this information without redefining
+  execution state in the export intent.
+
+### Sound — high confidence
+
+- **Install dependency admission only after its owners exist.** Reopening a catalog
+  can find old waiting jobs before the service has constructed its preview owner.
+  They remain inert until the service explicitly installs its admission callback.
+  Existing dependency requests made by that callback cannot recursively restart
+  admission. The plan left initialization and reentrancy mechanics open; this
+  avoids fake default-success callbacks and work launched against undefined owners.
+
+- **Retry remembers that a job requires prerequisites.** A durable boolean on the
+  existing job row distinguishes ordinary work from deferred work even after a
+  failure or completed publication. Retrying or regenerating that job checks its
+  prerequisites again; repeated status reads do not. The schema follows the existing
+  development hard-cutover policy: old catalogs are rejected before writes, rather
+  than guessing how their jobs should execute. A partial index limits admission
+  scans to the bounded active waiting set, not accumulated historical jobs.

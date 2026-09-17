@@ -126,3 +126,7 @@ commit owner, catalog acknowledgement, surviving-child fence, full disk or power
 loss. Independent review identified those boundaries and the separate private
 staging/destination identities above. The [native owner evidence](../assets/export-publication/native-owner.md) now
 records the scoped native/process gates and the deferred catalog/product gates.
+
+The first waiting-admission checkpoint is [14d2b1](14d2b1-deferred-admission.md).
+It establishes bounded deferred jobs inside JobQueue; wiring pinned export
+prerequisites and restart recovery remains subsequent work.

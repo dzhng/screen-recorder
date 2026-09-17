@@ -1,0 +1,31 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-export-publication
+
+(node:27147) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/jobs.test.ts (43 tests | 1 failed | 42 skipped) 12ms
+   × regeneration re-admits deferred work without an unrelated wake and ignores stale generations 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/jobs.test.ts > regeneration re-admits deferred work without an unrelated wake and ignores stale generations
+AssertionError: expected 'waiting' to be 'running' // Object.is equality
+
+Expected: "running"
+Received: "waiting"
+
+ ❯ packages/core/src/jobs.test.ts:1389:29
+    1387|   await queue.idle();
+    1388|   const replacement = queue.regenerate(job.jobId, job.generation);
+    1389|   expect(replacement.state).toBe("running");
+       |                             ^
+    1390|   const before = calls;
+    1391|   queue.regenerate(job.jobId, job.generation);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 42 skipped (43)
+   Start at  07:43:54
+   Duration  136ms (transform 52%, import 32%, tests 14%, worker 2%)
