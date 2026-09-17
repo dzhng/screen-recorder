@@ -1,0 +1,10 @@
+{
+  "archiveSha256": "c5d1cfef03841aaab6c53260d6819f8be49ce903005afae9759b574965659599",
+  "samples": 80,
+  "cliAndMcpParity": true,
+  "sourceTimeRetainsDeletedObservations": true,
+  "filteredContinuationIsolation": true,
+  "libraryDeletionIsolation": true,
+  "closedAndRestartedHandleRejected": true,
+  "ownedProcessGroupsReaped": true
+}

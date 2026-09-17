@@ -1,3 +1,4 @@
+import { readRawCursor, type RawCursorOptions } from "./raw-cursor.js";
 import { lstat, mkdir, opendir, rm } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { CatalogError, isSettled, type RevisionStore } from "./library.js";
@@ -7,14 +8,6 @@ import type {
   SourceEvidenceReceipt,
   SourceEvidenceStore,
 } from "./evidence.js";
-
-export type RawCursorContinuation = {
-  recordingId: string;
-  sourceId: string;
-  generation: string;
-  sourceRange: { startUs: number; endUs: number };
-  afterSequence: number;
-};
 
 const artifact = "source-evidence";
 const policy = "native-source-v1";
@@ -117,80 +110,22 @@ export class SourceProcessing {
     return this.status(recordingId);
   }
 
-  rawCursor(input: {
-    recordingId: string;
-    sourceRange: { startUs: number; endUs: number };
-    cursor?: RawCursorContinuation | undefined;
-    limit?: number;
-  }) {
-    const { startUs, endUs } = input.sourceRange;
-    if (
-      !Number.isSafeInteger(startUs) ||
-      !Number.isSafeInteger(endUs) ||
-      startUs < 0 ||
-      endUs <= startUs ||
-      endUs - startUs > 60_000_000
-    )
-      throw new CatalogError(
-        "INVALID_RANGE",
-        "Cursor range must be positive and at most 60 seconds",
-      );
-    const status = this.status(input.recordingId);
-    if (!status.published)
-      throw new CatalogError(
-        status.state === "unavailable"
-          ? "UNAVAILABLE"
-          : status.state === "failed"
-            ? "PROCESSING_FAILED"
-            : "NOT_READY",
-        status.reason ?? "Source cursor evidence is not ready",
-        { state: status.state },
-        status.retryable,
-      );
-    const metadata = status.published.evidence;
-    const cursor = input.cursor;
-    if (
-      cursor &&
-      (cursor.recordingId !== input.recordingId ||
-        cursor.sourceId !== metadata.sourceId ||
-        cursor.generation !== metadata.generation ||
-        cursor.sourceRange.startUs !== input.sourceRange.startUs ||
-        cursor.sourceRange.endUs !== input.sourceRange.endUs)
-    )
-      throw new CatalogError(
-        "ARTIFACT_CHANGED",
-        "Cursor continuation belongs to different evidence or filters",
-      );
-    const page = this.evidence.page({
-      ...metadata,
-      range: input.sourceRange,
-      ...(cursor ? { afterSequence: cursor.afterSequence } : {}),
-      ...(input.limit === undefined ? {} : { limit: input.limit }),
+  rawCursor(input: { recordingId: string } & RawCursorOptions<{ recordingId: string }>) {
+    return readRawCursor({ recordingId: input.recordingId }, input, () => {
+      const status = this.status(input.recordingId);
+      if (!status.published)
+        throw new CatalogError(
+          status.state === "unavailable"
+            ? "UNAVAILABLE"
+            : status.state === "failed"
+              ? "PROCESSING_FAILED"
+              : "NOT_READY",
+          status.reason ?? "Source cursor evidence is not ready",
+          { state: status.state },
+          status.retryable,
+        );
+      return { metadata: status.published.evidence, reader: this.evidence };
     });
-    return {
-      recordingId: input.recordingId,
-      sourceId: metadata.sourceId,
-      sourceRevisionId: "r0",
-      generation: metadata.generation,
-      sourceRange: input.sourceRange,
-      samples: page.samples,
-      integrity: {
-        finished: metadata.receipt.finished,
-        incompleteTail: metadata.receipt.incompleteTail,
-        invalidAtSequence: metadata.receipt.invalidAtSequence ?? null,
-        lastSequence: metadata.receipt.lastSequence,
-      },
-      nextCursor:
-        page.nextSequence === null
-          ? null
-          : {
-              recordingId: input.recordingId,
-              sourceId: metadata.sourceId,
-              generation: metadata.generation,
-              sourceRange: input.sourceRange,
-              afterSequence: page.nextSequence,
-            },
-    };
   }
 
   private identity(recordingId: string) {

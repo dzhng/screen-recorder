@@ -1,3 +1,4 @@
+import { readRawCursor, type RawCursorOptions } from "@screenrec/core/raw-cursor";
 import { PackageMediaContext } from "./package-media.js";
 import { PackageAudioInspection } from "./package-audio.js";
 import { PackageFrameInspection } from "./package-frames.js";
@@ -225,6 +226,11 @@ export class PackageInspection {
         this.revision({ packageHandle, ...(revisionId === undefined ? {} : { revisionId }) })
           .revision,
     ));
+  }
+  rawCursor(input: { packageHandle: string } & RawCursorOptions<{ packageHandle: string }>) {
+    return readRawCursor({ packageHandle: input.packageHandle }, input, () =>
+      this.media(input.packageHandle).sourceData(),
+    );
   }
   frames(packageHandle: string): PackageFrameInspection {
     const { view } = this.revisions(packageHandle);

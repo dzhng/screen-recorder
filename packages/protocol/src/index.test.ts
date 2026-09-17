@@ -118,3 +118,30 @@ it("audio inspection selects exactly one library or package target", () => {
     ).toThrow();
   }
 });
+
+it("raw cursor target and continuation namespaces are exclusive", () => {
+  const fields = { sourceRange: { startUs: 0, endUs: 1000 }, limit: 1 };
+  const position = {
+    sourceId: "source",
+    generation: "generation",
+    sourceRange: fields.sourceRange,
+    afterSequence: 1,
+  };
+  for (const target of [{ recordingId: "library" }, { packageHandle: "package" }]) {
+    expect(
+      operationSchema.safeParse({
+        operation: "cursor.raw",
+        params: { ...target, ...fields, cursor: { ...target, ...position } },
+      }).success,
+    ).toBe(true);
+  }
+  for (const params of [
+    fields,
+    { ...fields, recordingId: "library", packageHandle: "package" },
+    { ...fields, packageHandle: "package", latest: true },
+    { ...fields, packageHandle: "package", revisionId: "r1" },
+    { ...fields, packageHandle: "package", cursor: { recordingId: "library", ...position } },
+    { ...fields, recordingId: "library", cursor: { packageHandle: "package", ...position } },
+  ])
+    expect(operationSchema.safeParse({ operation: "cursor.raw", params }).success).toBe(false);
+});

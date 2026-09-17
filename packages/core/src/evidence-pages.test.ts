@@ -1,3 +1,4 @@
+import { readRawCursor } from "./raw-cursor.js";
 import { test, expect, afterEach } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, renameSync, readFileSync, symlinkSync } from "node:fs";
 import { randomUUID } from "node:crypto";
@@ -366,4 +367,56 @@ test("portable receipt uses the native ingest validator and its pinned source ge
       receipt: invalid.receipt,
     }),
   ).rejects.toThrow("Invalid evidence receipt");
+});
+
+test("raw cursor pages share source-time ordering and isolate package continuations", async () => {
+  const f = await fixture();
+  await writeSourceEvidencePages(f.evidence, f.identity, join(f.root, "portable"));
+  const reader = new FileSourceEvidence(join(f.root, "portable"), f.identity);
+  const sourceRange = { startUs: 10, endUs: 40 };
+  const target = { packageHandle: "first-open" };
+  const source = () => ({ metadata: f.metadata, reader });
+  const first = readRawCursor(target, { sourceRange, limit: 1 }, source);
+  const second = readRawCursor(
+    target,
+    { sourceRange, limit: 2, cursor: first.nextCursor! },
+    source,
+  );
+  expect(
+    [...first.samples, ...second.samples].map(({ sourceUs, sequence, eligibility }) => ({
+      sourceUs,
+      sequence,
+      eligibility,
+    })),
+  ).toEqual([
+    { sourceUs: 10, sequence: 4, eligibility: "inside" },
+    { sourceUs: 10, sequence: 5, eligibility: "unknownGeometry" },
+    { sourceUs: 30, sequence: 3, eligibility: "inside" },
+  ]);
+  expect(second.nextCursor).toBeNull();
+  expect(first.sourceRevisionId).toBe("r0");
+  const library = readRawCursor({ recordingId: f.identity.recordingId }, { sourceRange }, () => ({
+    metadata: f.metadata,
+    reader: f.evidence,
+  }));
+  expect([...first.samples, ...second.samples]).toEqual(library.samples);
+  expect(first.integrity).toEqual(library.integrity);
+  for (const changed of [
+    { packageHandle: "second-open" },
+    { sourceId: "other" },
+    { generation: "other" },
+    { sourceRange: { startUs: 0, endUs: 40 } },
+  ])
+    expect(() =>
+      readRawCursor(target, { sourceRange, cursor: { ...first.nextCursor!, ...changed } }, source),
+    ).toThrow(expect.objectContaining({ code: "ARTIFACT_CHANGED" }));
+  expect(() =>
+    readRawCursor(
+      target,
+      { sourceRange, cursor: { ...first.nextCursor!, afterSequence: 99 } },
+      source,
+    ),
+  ).toThrow(expect.objectContaining({ code: "INVALID_EVIDENCE" }));
+  for (const limit of [0, 5001])
+    expect(() => readRawCursor(target, { sourceRange, limit }, source)).toThrow();
 });

@@ -325,8 +325,14 @@ export async function operate(
       case "artifact.close":
         delivery.close(operation.params.token);
         return { ok: true, data: { closed: true } };
-      case "cursor.raw":
-        return { ok: true, data: processing.rawCursor(operation.params) };
+      case "cursor.raw": {
+        const params = operation.params;
+        return {
+          ok: true,
+          data:
+            "packageHandle" in params ? packages.rawCursor(params) : processing.rawCursor(params),
+        };
+      }
       case "processing.status":
         return {
           ok: true,

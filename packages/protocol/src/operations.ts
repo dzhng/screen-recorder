@@ -311,22 +311,15 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("cursor.raw"),
-      params: recording
-        .extend({
+      params: inspectionPage(
+        { sourceRange: cursorRange, limit: z.int().min(1).max(5000).default(1000) },
+        {
+          sourceId: id,
+          generation: id,
           sourceRange: cursorRange,
-          cursor: z
-            .object({
-              recordingId: id,
-              sourceId: id,
-              generation: id,
-              sourceRange: cursorRange,
-              afterSequence: z.int().positive(),
-            })
-            .strict()
-            .optional(),
-          limit: z.int().min(1).max(5000).default(1000),
-        })
-        .strict(),
+          afterSequence: z.int().positive(),
+        },
+      ),
     })
     .strict()
     .describe(
