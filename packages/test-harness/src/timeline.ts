@@ -5,10 +5,10 @@ import {
   trimSpans,
   cutSpans,
   editedToSource,
-  projectEvents,
+  eventProjector,
+  projectedCuts,
   projectWords,
   renderPlan,
-  trailBounds,
 } from "@screenrec/core/timeline";
 
 // Synthetic 20-second source; expected intervals are stated independently below.
@@ -38,18 +38,16 @@ assert.equal(edited.durationUs, 12_000_000);
 assert.equal(editedToSource(edited, 3_000_000)?.sourceUs, 7_000_000);
 assert.equal(editedToSource(edited, 7_000_000)?.sourceUs, 13_000_000);
 assert.equal(editedToSource(edited, 12_000_000), null);
-const events = projectEvents(edited, [
-  { kind: "pause", atSourceUs: 5_000_000, elapsedPauseUs: 30_000_000 },
-  { kind: "pause", atSourceUs: 6_000_000, elapsedPauseUs: 10_000_000 },
-]);
+const project = eventProjector(edited);
 assert.deepEqual(
-  events.map((group) => ({ atUs: group.atUs, kinds: group.events.map((event) => event.kind) })),
-  [
-    { atUs: 0, kinds: ["cut"] },
-    { atUs: 3_000_000, kinds: ["pause", "cut"] },
-    { atUs: 7_000_000, kinds: ["cut"] },
-    { atUs: 12_000_000, kinds: ["cut"] },
-  ],
+  [5_000_000, 6_000_000].map(
+    (atSourceUs) => project({ kind: "pause", atSourceUs, elapsedPauseUs: 1 })?.atUs ?? null,
+  ),
+  [3_000_000, null],
+);
+assert.deepEqual(
+  [...projectedCuts(edited)].map((cut) => cut.atUs),
+  [0, 3_000_000, 7_000_000, 12_000_000],
 );
 const words = projectWords(edited, [
   { id: "phrase", text: "free", startUs: 4_000_000, endUs: 8_000_000 },
@@ -65,12 +63,6 @@ assert.deepEqual(words[0]?.fragments, [
   },
 ]);
 assert.equal(words[0]?.partial, true);
-const trail = trailBounds(edited, 3_500_000, []);
-assert.deepEqual(trail, {
-  source: { startUs: 7_000_000, endUs: 7_500_000 },
-  playback: { startUs: 3_000_000, endUs: 3_500_000 },
-  cutoffReason: "cut",
-});
 const restored = createRevision(edited, original.spans, {
   id: "lab-restore",
   operation: "restore",
@@ -87,9 +79,8 @@ console.log(
       expectedSpans,
       revision: edited,
       renderPlan: renderPlan(edited),
-      events,
+      cuts: [...projectedCuts(edited)],
       words,
-      trail,
       restored,
     },
     null,

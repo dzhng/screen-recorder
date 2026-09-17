@@ -15,6 +15,11 @@ export const scenePolicy = Object.freeze({
   spatialPixelFraction: 0.04,
   broadCellFraction: 0.5,
 });
+/** The widest sample grid a scene interval yields: a predecessor, each step through it, and its endpoint. */
+export const sceneSampleLimits = Object.freeze({
+  count: scenePolicy.maximumRangeUs / scenePolicy.stepUs + 2,
+  spanUs: scenePolicy.maximumRangeUs + scenePolicy.stepUs,
+});
 export type VisualSample = {
   requestedSourceUs: number;
   actualSourceUs: number;
@@ -143,8 +148,8 @@ function measureVisualChange(before: Buffer, after: Buffer, width: number, heigh
 
 /** Whole-recording chunks can pass the preceding chunk's final observation without a second detector. */
 export function analyzeVisualSamples(samples: readonly VisualSample[], previous?: VisualSample) {
-  if (samples.length === 0 || samples.length > 52)
-    invalid("Visual analysis requires 1...52 observations");
+  if (samples.length === 0 || samples.length > sceneSampleLimits.count)
+    invalid(`Visual analysis requires 1...${sceneSampleLimits.count} observations`);
   const comparisons: VisualComparison[] = [];
   let last = previous;
   if (last) pixels(last);

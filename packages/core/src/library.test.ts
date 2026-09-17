@@ -622,21 +622,24 @@ test("an allocation request is a durable receipt that replays and refuses differ
   ).toThrow(expect.objectContaining({ code: "REQUEST_CONFLICT" }));
 });
 
-test("an older development catalog is refused without migrating its data", () => {
+test("a catalog in another format, or unstamped with tables, is refused without migrating its data", () => {
   const { store, path, providers } = fixture();
   const { recording } = store.allocate();
   store.registerSource(recording.recordingId, 20);
   store.close();
-  const old = new DatabaseSync(path);
-  old.exec(
-    "DROP TABLE recording_deletions; ALTER TABLE recordings DROP COLUMN allocationArguments",
-  );
-  old.close();
-  const before = readFileSync(path);
-  expect(() => new RevisionStore(path, providers)).toThrow(
-    expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
-  );
-  expect(readFileSync(path)).toEqual(before);
+  const reopened = new RevisionStore(path, providers);
+  expect(reopened.get(recording.recordingId).sourceDurationUs).toBe(20);
+  reopened.close();
+  for (const format of [0, 2]) {
+    const other = new DatabaseSync(path);
+    other.exec(`PRAGMA user_version=${format}`);
+    other.close();
+    const before = readFileSync(path);
+    expect(() => new RevisionStore(path, providers)).toThrow(
+      expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
+    );
+    expect(readFileSync(path)).toEqual(before);
+  }
 });
 
 test("deletion intent hides a take and fences replay and late source publication across restart", () => {
@@ -746,17 +749,4 @@ test("deletion replay pages use stable recording IDs and survive restart", () =>
   expect(() => reopened.deletionsPage(undefined, 201)).toThrowError(
     expect.objectContaining({ code: "INVALID_PARAMS" }),
   );
-});
-
-test("catalog without explicit export kind is refused without changing stored intents", () => {
-  const { store, path, providers } = fixture();
-  store.catalog.exec(
-    "CREATE TABLE export_intents (exportId TEXT, stagingCleared INTEGER, abandoning INTEGER); INSERT INTO export_intents VALUES ('existing',0,0)",
-  );
-  store.close();
-  const before = readFileSync(path);
-  expect(() => new RevisionStore(path, providers)).toThrow(
-    expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
-  );
-  expect(readFileSync(path)).toEqual(before);
 });

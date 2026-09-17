@@ -5,6 +5,7 @@ import type { DerivedCache } from "./cache.js";
 import {
   analyzeVisualSamples,
   observeVisualSamples,
+  sceneSampleLimits,
   scenePolicy,
   type VisualObservations,
   type VisualSample,
@@ -40,8 +41,7 @@ export class VisualObservationCache {
     private readonly cache: DerivedCache,
     private readonly decode: VisualSampler,
   ) {
-    // Old exact-batch lookups are disposable; their files remain budgeted until normal eviction.
-    store.catalog.exec(`DROP TABLE IF EXISTS visual_observation_cache;
+    store.catalog.exec(`
     CREATE TABLE IF NOT EXISTS visual_observation_samples (
       identity TEXT NOT NULL,requestedUs INTEGER NOT NULL,cacheId TEXT NOT NULL REFERENCES derived_cache(id) ON DELETE CASCADE,
       sampleOrdinal INTEGER NOT NULL,PRIMARY KEY(identity,requestedUs)
@@ -59,7 +59,7 @@ export class VisualObservationCache {
       kept.startUs < 0 ||
       kept.endUs <= kept.startUs ||
       times.length < 1 ||
-      times.length > 52 ||
+      times.length > sceneSampleLimits.count ||
       times.some(
         (at, i) =>
           !Number.isSafeInteger(at) ||
@@ -67,7 +67,7 @@ export class VisualObservationCache {
           at >= kept.endUs ||
           (i > 0 && at <= times[i - 1]!),
       ) ||
-      times.at(-1)! - times[0]! > 10_200_000
+      times.at(-1)! - times[0]! > sceneSampleLimits.spanUs
     )
       throw new CatalogError(
         "INVALID_RANGE",

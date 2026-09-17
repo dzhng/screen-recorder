@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { DerivedCache } from "./cache.js";
@@ -308,28 +308,6 @@ test("partial hits stay usable when publishing missing samples evicts their old 
     [6, 8],
   ]);
   expect(f.cache.bytes).toBeLessThanOrEqual(500);
-});
-
-test("replacing the obsolete disposable lookup keeps old bytes budgeted and starts with a cache miss", async () => {
-  const f = await fixture();
-  const expected = await f.decode(request, signal());
-  const old = f.cache.reserve(request.recordingId);
-  await writeFile(old.path, JSON.stringify(expected));
-  await f.cache.publish(old.id);
-  f.store.catalog.exec(
-    "CREATE TABLE visual_observation_cache(identity TEXT PRIMARY KEY,cacheId TEXT NOT NULL UNIQUE REFERENCES derived_cache(id) ON DELETE CASCADE) STRICT",
-  );
-  f.store.catalog
-    .prepare("INSERT INTO visual_observation_cache VALUES(?,?)")
-    .run("old-exact-batch", old.id);
-  const before = f.cache.bytes;
-  const observations = new VisualObservationCache(f.store, f.cache, f.decode);
-  expect(f.cache.bytes).toBe(before);
-  expect(await observations.sample(request, signal())).toEqual(expected);
-  expect(f.calls()).toBe(2);
-  f.cache.remove(old.id);
-  expect((await observations.sample(request, signal())).samples).toEqual(expected.samples);
-  expect(f.calls()).toBe(2);
 });
 
 test("same-path visual requests retain independent recording ownership and purge only their own lookup", async () => {

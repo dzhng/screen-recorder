@@ -205,12 +205,7 @@ export class IndexProcessing {
     return this.request({ ...input, revisionId: status.revisionId });
   }
   private requireSlot() {
-    if (
-      this.jobs.isArtifactActive(artifact) ||
-      this.store.catalog
-        .prepare("SELECT 1 FROM jobs WHERE artifact=? AND state IN ('queued','running') LIMIT 1")
-        .get(artifact)
-    )
+    if (this.jobs.isArtifactBusy(artifact))
       throw new CatalogError(
         "LIMIT_EXCEEDED",
         "Another screenshot index is using the background frame slot",
@@ -309,48 +304,15 @@ export class IndexProcessing {
   private cleanupRecording(recordingId: string, signal: AbortSignal) {
     return this.index.reclaim(
       recordingId,
-      (identity) => {
-        if (
-          this.jobs.isAttemptActive(identity.generation) ||
-          this.retained?.(recordingId, identity.generation)
-        )
-          return true;
-        if (
-          this.store.catalog
-            .prepare(
-              "SELECT 1 FROM jobs WHERE recordingId=? AND artifact=? AND attemptId=? AND state IN ('queued','running')",
-            )
-            .get(recordingId, artifact, identity.generation)
-        )
-          return true;
-        return !!this.store.catalog
-          .prepare(`SELECT 1 FROM artifacts WHERE recordingId=? AND artifact=?
-       AND CASE WHEN json_valid(result) THEN CASE WHEN json_type(result,'$.generation')='text'
-       THEN json_extract(result,'$.generation')=? ELSE 1 END ELSE 1 END`)
-          .get(recordingId, artifact, identity.generation);
-      },
+      ({ generation }) =>
+        this.jobs.retainsAttempt(recordingId, artifact, generation) ||
+        !!this.retained?.(recordingId, generation),
       signal,
     );
   }
   async cleanup(signal: AbortSignal): Promise<void> {
-    let after = "",
-      firstError: unknown;
-    for (;;) {
-      signal.throwIfAborted();
-      const row = this.store.catalog
-        .prepare(
-          "SELECT recordingId FROM recordings WHERE recordingId>? ORDER BY recordingId LIMIT 1",
-        )
-        .get(after) as { recordingId: string } | undefined;
-      if (!row) break;
-      after = row.recordingId;
-      try {
-        await this.cleanupRecording(row.recordingId, signal);
-      } catch (error) {
-        signal.throwIfAborted();
-        firstError ??= error;
-      }
-    }
-    if (firstError) throw firstError;
+    await this.store.forEachRecording(signal, ({ recordingId }) =>
+      this.cleanupRecording(recordingId, signal),
+    );
   }
 }

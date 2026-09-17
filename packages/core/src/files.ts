@@ -169,7 +169,13 @@ export class IdentifiedFiles implements FileAccess {
   }
 }
 
-export function retainedFileRead(file: OpenedFile, bytes: number) {
+/** Positioned reads of one retained file, bounded by its admitted length, until released. */
+export type RetainedRead = Readonly<{
+  bytes: number;
+  read(buffer: Uint8Array, position: number): number;
+  release(): void;
+}>;
+export function retainedFileRead(file: OpenedFile, bytes: number): RetainedRead {
   let released = false;
   return {
     bytes,

@@ -1,9 +1,16 @@
 import { test, expect, afterEach } from "vitest";
-import { mkdtempSync, rmSync, readFileSync } from "node:fs";
+import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { CatalogError, RevisionStore } from "./library.js";
-import { JobQueue, type Job, type JobExecutor, type ContextJob, type JobContext } from "./jobs.js";
+import {
+  JobDependencyLost,
+  JobQueue,
+  type Job,
+  type JobExecutor,
+  type ContextJob,
+  type JobContext,
+} from "./jobs.js";
 
 /** One attempt the queue handed to the executor, held open until the test answers it. */
 type Attempt = {
@@ -603,34 +610,6 @@ test("explicit retry of canceled work waits for its old executor to release capa
   expect(queue.status(retry).published?.result).toBe("fresh");
 });
 
-test.each([
-  "DROP TABLE recording_deletions; DROP INDEX jobs_identity; CREATE UNIQUE INDEX jobs_active_identity ON jobs(recordingId,artifact,input) WHERE state IN ('queued','running')",
-  "ALTER TABLE jobs DROP COLUMN deferred",
-])(
-  "an earlier development job catalog is refused before catalog schema writes: %s",
-  async (schema) => {
-    const { store, queue, path } = fixture();
-    await queue.close();
-    queues.splice(queues.indexOf(queue), 1);
-    store.catalog.exec(schema);
-    store.close();
-    const before = readFileSync(path);
-    expect(() => {
-      const reopened = new RevisionStore(path, { now: () => "", newId: () => "unused" });
-      try {
-        new JobQueue({
-          store: reopened,
-          providers: { newId: () => "unused" },
-          execute: async () => "unused",
-        });
-      } finally {
-        reopened.close();
-      }
-    }).toThrow(expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }));
-    expect(readFileSync(path).equals(before)).toBe(true);
-  },
-);
-
 test("regenerating an evicted artifact preserves its revision and cannot invalidate a newer publication", async () => {
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
@@ -679,22 +658,21 @@ test("cache regeneration preserves the published artifact when queue admission i
   ).toMatchObject({ state: "ready", published: { generation: 1, result: "still-readable" } });
 });
 
-test("artifact activity remains visible until a canceled executor settles", async () => {
+test("an artifact stays busy while queued and until a canceled executor settles", async () => {
   const { store, queue, started } = fixture();
   const recordingId = finished(store);
-  const job = queue.submit({
-    recordingId,
-    artifact: "screenshot-index",
-    lane: "frame",
-    input: "retained",
-  });
-  const executor = await started(job.attemptId);
-  expect(queue.isArtifactActive("screenshot-index")).toBe(true);
-  queue.cancel(job.jobId);
-  expect(queue.isArtifactActive("screenshot-index")).toBe(true);
+  const request = { recordingId, artifact: "screenshot-index", lane: "heavy" as const };
+  const running = queue.submit({ ...request, input: "running" });
+  const queued = queue.submit({ ...request, input: "queued" });
+  const executor = await started(running.attemptId);
+  queue.cancel(running.jobId);
+  expect(queue.isArtifactBusy("screenshot-index")).toBe(true);
+  queue.cancel(queued.jobId);
+  expect(queue.isArtifactBusy("screenshot-index")).toBe(true);
+  expect(queue.isArtifactBusy("source")).toBe(false);
   executor.finish("late");
   await queue.idle();
-  expect(queue.isArtifactActive("screenshot-index")).toBe(false);
+  expect(queue.isArtifactBusy("screenshot-index")).toBe(false);
 });
 
 test("recording deletion drains only its held attempts and fences queued and late publication", async () => {
@@ -1181,6 +1159,40 @@ test("32 deferred jobs leave capacity for their shared prerequisite and never sp
   expect(queue.job(pending[0]!.jobId).state).toBe("running");
   expect(queue.job(pending[31]!.jobId).state).toBe("queued");
   expect(calls).toBe(64);
+});
+
+test("a lost prerequisite readmits a deferred job once, and only an explicit retry renews that", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const exporter = queue.submitDeferred({
+    recordingId,
+    artifact: "export",
+    input: "pinned",
+    lane: "heavy",
+  });
+  let admissions = 0;
+  queue.startAdmission(() => {
+    admissions++;
+    return { state: "ready" };
+  });
+  const lose = async (attemptId: string) => {
+    (await started(attemptId)).fail(new JobDependencyLost("Preview disappeared"));
+    await turn();
+    return queue.job(exporter.jobId);
+  };
+  const readmitted = await lose(exporter.attemptId);
+  expect(readmitted.attemptId).not.toBe(exporter.attemptId);
+  expect(readmitted.state).toBe("running");
+  expect(admissions).toBe(2);
+  expect(await lose(readmitted.attemptId)).toMatchObject({
+    attemptId: readmitted.attemptId,
+    state: "failed",
+    reason: "Preview disappeared",
+    retryable: true,
+  });
+  expect(admissions).toBe(2);
+  const retried = queue.retry(exporter.jobId);
+  expect(await lose(retried.attemptId)).toMatchObject({ state: "running" });
 });
 
 test("deferred cancellation and restart preserve identity until explicit retry", async () => {
