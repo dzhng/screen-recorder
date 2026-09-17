@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -23,14 +24,14 @@ function metadata(audio) {
   const { file: _file, cacheId: _cacheId, outputId: _outputId, ...rest } = audio;
   return rest;
 }
-async function publicAudio(root, output, executable) {
+export async function publicAudio(root, output, executable, producedArchive) {
   await relocatedReader(root, output, executable);
   const context = JSON.parse(await readFile(join(root, "context.json"), "utf8"));
   const parent = dirname(root),
     source = join(parent, "audio-package"),
-    archive = join(parent, "audio.zip");
+    archive = producedArchive ?? join(parent, "audio.zip");
   await archiveFixture(root, source);
-  execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
+  if (!producedArchive) execFileSync("/usr/bin/zip", ["-q", "-r", archive, "."], { cwd: source });
   const inputHash = sha(await readFile(archive));
   const home = await mkdtemp("/tmp/scr-public-audio-");
   const take = await seedPublicRecording(home, context.snapshot);
@@ -261,10 +262,11 @@ async function publicAudio(root, output, executable) {
     );
   return { publicAudio: true, ownedServiceGroupsReaped: true };
 }
-registerRelocationTest({
-  reader: publicAudio,
-  narration: false,
-  executable: native,
-  evidenceScope:
-    "Actual public package audio CLI/MCP sample parity and lifetime, not audition or ASR readiness",
-});
+if (process.argv[1] === fileURLToPath(import.meta.url))
+  registerRelocationTest({
+    reader: publicAudio,
+    narration: false,
+    executable: native,
+    evidenceScope:
+      "Actual public package audio CLI/MCP sample parity and lifetime, not audition or ASR readiness",
+  });

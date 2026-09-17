@@ -1,6 +1,15 @@
 # Integrated package and export owners
 
-## Current cursor integration
+## Current public complete-package integration
+
+The [public composition receipt](../package-assembly/public.md) verifies actual
+CLI creation, MCP completion, concurrent editing, relocation and frame/audio
+inspection from the produced ZIP after source-library removal. The complete
+fresh-bundle gate passes 161 native checks; core/service/CLI/protocol checks pass.
+Acquired narration still requires accepted transcript payloads. Public timeline
+access, native export controls and installed acceptance remain open.
+
+## Earlier cursor integration
 
 At `2d2b860`, a fresh build and all type tasks pass. The merged
 [public cursor/index pair](package-cursor-native.txt) passes actual CLI/MCP relocation

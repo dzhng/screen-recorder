@@ -186,7 +186,14 @@ async function main(): Promise<void> {
     );
     sceneEvidence = new SceneEvidenceStore(store);
     indexEvidence = new ScreenshotIndexStore(store, home);
-    scenes = new SceneProcessing(store, jobs, sceneEvidence, home, visual.sample);
+    scenes = new SceneProcessing(
+      store,
+      jobs,
+      sceneEvidence,
+      home,
+      visual.sample,
+      (recordingId, generation) => exports!.retainsScenes(recordingId, generation),
+    );
     index = new IndexProcessing(
       store,
       jobs,
@@ -199,6 +206,7 @@ async function main(): Promise<void> {
         sample: visual.sample,
         decode: (request, signal) => nativeData<NativeFrame>("media.frame", request, signal),
       },
+      (recordingId, generation) => exports!.retainsIndex(recordingId, generation),
     );
     frames = new LibraryFrameInspection(
       store,
@@ -289,6 +297,7 @@ async function main(): Promise<void> {
       processing,
       worker,
       files,
+      package: { source: evidence, scenes, index, sceneEvidence, indexEvidence },
     });
     void cacheReady.then(() => {
       if (cleanupLifetime.signal.aborted) return;

@@ -2219,7 +2219,3 @@ records them. These choices add no public export choice or transcript readiness.
   size, and copies selected media with descriptor-relative identity checks. It does
   not introduce a second normalized parser or a per-page native writing protocol.
   JavaScript page writers still require stable private app-owned directories.
-- **The same lifecycle serves both product choices.** Package prerequisites and
-  assembly extend RecordingExports; no package preparation endpoint, intent table,
-  scheduler, or third export choice is introduced. Narrated recordings remain
-  blocked until real transcript payloads satisfy completeness.

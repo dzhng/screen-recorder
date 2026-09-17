@@ -1,0 +1,35 @@
+(node:52609) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ bundled export lifecycle pins video through CLI/MCP, restart and recording deletion (1877.78475ms)
+(node:52610) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ generated package inspection survives relocation without its library (5561.821959ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5680.980583
+
+✖ failing tests:
+
+test at apps/macos/tests/package-relocation.mjs:265:3
+✖ generated package inspection survives relocation without its library (5561.821959ms)
+  AssertionError [ERR_ASSERTION]: {"ok":false,"error":{"code":"STALE_REVISION","message":"Current revision has changed","retryable":false,"details":{"currentRevisionId":"7547f2be-e1a6-4adf-a878-fc9906c3129c"}},"id":"a7a3174e-d9e1-4267-809c-af2a93911332"}
+  
+  false !== true
+  
+      at exportThroughClients (file:///Users/david/dev/screen-recorder/apps/macos/tests/package-public-export.mjs:41:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/macos/tests/package-relocation.mjs:552:9)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

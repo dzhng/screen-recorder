@@ -84,7 +84,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Video is implemented; processed-package currently returns UNSUPPORTED_EXPORT before admission.",
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Choose video or a complete processed-package ZIP. Package export requires all acquired evidence; acquired narration requires an accepted transcript and currently reports UNSUPPORTED_ARTIFACT.",
     ),
   z
     .object({

@@ -98,7 +98,7 @@ export class RecordingExports {
       processing: SourceProcessing;
       worker: MediaWorker;
       files: Pick<ManagedFiles, "externalDirectory" | "recordingDirectory">;
-      package?: PackageOwners;
+      package: PackageOwners;
     },
   ) {
     owners.store.catalog.exec(`CREATE TABLE IF NOT EXISTS export_intents (
@@ -287,8 +287,6 @@ export class RecordingExports {
   }
   private admitPackage(intent: Intent): ReturnType<JobAdmission> {
     const owners = this.owners.package;
-    if (!owners)
-      throw new CatalogError("UNSUPPORTED_EXPORT", "Package assembly owner is unavailable");
     const source = intent.sourceEvidence;
     if (!source) throw new CatalogError("INVALID_EVIDENCE", "Package source is not selected");
     if (owners.source.hasAudio(source, "narration"))
@@ -378,8 +376,6 @@ export class RecordingExports {
   ) {
     await this.cleanupAssembly(intent);
     const owners = this.owners.package;
-    if (!owners)
-      throw new CatalogError("UNSUPPORTED_EXPORT", "Package assembly owner is unavailable");
     const source = intent.sourceEvidence,
       scenes = intent.packageEvidence?.scenes,
       index = intent.packageEvidence?.index;
@@ -497,8 +493,6 @@ export class RecordingExports {
         this.owners.jobs.submitDeferred({ ...this.identity(existing), lane: "heavy" });
       return this.status(existing.exportId);
     }
-    if (request.kind === "processed-package" && !this.owners.package)
-      throw new CatalogError("UNSUPPORTED_EXPORT", "Processed-package export is not implemented");
     const { snapshot } = this.owners.store.pinPackageSnapshot(
       request.recordingId,
       request.revisionId,

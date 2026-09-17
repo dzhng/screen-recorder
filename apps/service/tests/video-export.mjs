@@ -47,7 +47,7 @@ async function fixture(
   t,
   wrap = (value) => value,
   existing,
-  { warm = true, admission = true, packages = false } = {},
+  { warm = true, admission = true } = {},
 ) {
   const home = existing?.home ?? (await mkdtemp("/tmp/screenrec-video-export-"));
   const output = existing?.output ?? (await mkdtemp("/tmp/screenrec-video-destination-"));
@@ -174,17 +174,13 @@ async function fixture(
     processing,
     worker,
     files,
-    ...(packages
-      ? {
-          package: {
-            scenes: sceneOwner,
-            index: indexOwner,
-            source: evidence,
-            sceneEvidence,
-            indexEvidence,
-          },
-        }
-      : {}),
+    package: {
+      scenes: sceneOwner,
+      index: indexOwner,
+      source: evidence,
+      sceneEvidence,
+      indexEvidence,
+    },
   });
   const storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
     exports.usage(recordingId, signal),
@@ -294,7 +290,6 @@ async function packageCrashFixture(t, gap) {
   const f = await fixture(t, undefined, undefined, {
     warm: false,
     admission: false,
-    packages: true,
   });
   const exportId = randomUUID();
   await f.exports.create({
@@ -319,7 +314,7 @@ async function packageCrashFixture(t, gap) {
   const terminal = once(child, "close");
   child.kill("SIGKILL");
   assert.deepEqual(await terminal, [null, "SIGKILL"]);
-  const reopened = await fixture(t, undefined, existing, { warm: false, packages: true });
+  const reopened = await fixture(t, undefined, existing, { warm: false });
   return { reopened, exportId };
 }
 async function receiptCrash(t, mode = "write") {
@@ -406,7 +401,7 @@ if (process.argv[2] === "crash-owner") {
         return result;
       },
     existing,
-    gap.startsWith("package-") ? { warm: false, packages: true } : {},
+    gap.startsWith("package-") ? { warm: false } : {},
   );
   if (gap === "abandon") await crashed.exports.abandon(existing.exportId);
 } else {
@@ -1917,25 +1912,6 @@ if (process.argv[2] === "crash-owner") {
     },
   );
 
-  test("processed-package requests leave no intent, job or destination before producer exists", async (t) => {
-    const f = await fixture(t);
-    const request = {
-      exportId: randomUUID(),
-      recordingId: f.take.recordingId,
-      kind: "processed-package",
-      directory: f.output,
-      leaf: "capture.zip",
-    };
-    const beforeJobs = f.store.catalog.prepare("SELECT * FROM jobs ORDER BY jobId").all();
-    await assert.rejects(f.exports.create(request), { code: "UNSUPPORTED_EXPORT" });
-    assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
-    assert.deepEqual(
-      f.store.catalog.prepare("SELECT * FROM jobs ORDER BY jobId").all(),
-      beforeJobs,
-    );
-    assert.deepEqual(await readdir(f.output), []);
-  });
-
   test("export kind is persisted and incompatible replay cannot change video intent", async (t) => {
     const f = await fixture(t);
     const request = {
@@ -1959,7 +1935,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(f.exports.status(request.exportId).jobId, first.jobId);
   });
   test("complete no-narration package uses the shared intent and reopens independent retained evidence", async (t) => {
-    const f = await fixture(t, undefined, undefined, { warm: false, packages: true });
+    const f = await fixture(t, undefined, undefined, { warm: false });
     const exportId = randomUUID();
     const requested = await f.exports.create({
       kind: "processed-package",
@@ -2040,7 +2016,7 @@ if (process.argv[2] === "crash-owner") {
           return run(operation, ...args);
         },
       undefined,
-      { warm: false, packages: true },
+      { warm: false },
     );
     const requested = await f.exports.create({
       kind: "processed-package",
@@ -2118,7 +2094,7 @@ if (process.argv[2] === "crash-owner") {
           return run(operation, ...args);
         },
       undefined,
-      { warm: false, packages: true },
+      { warm: false },
     );
     const created = await f.exports.create({
       kind: "processed-package",
@@ -2185,7 +2161,7 @@ if (process.argv[2] === "crash-owner") {
     await rename(moved, f.output);
   });
   test("actual acquired narration remains blocked before any package assembly", async (t) => {
-    const f = await fixture(t, undefined, undefined, { warm: false, packages: true });
+    const f = await fixture(t, undefined, undefined, { warm: false });
     const source = join(f.home, "recordings", f.take.recordingId, "source");
     const rows = journalRows({ sourceId: f.take.sourceId, width: 160, height: 90, samples: [] });
     rows[0].data.microphone = true;
@@ -2245,7 +2221,7 @@ if (process.argv[2] === "crash-owner") {
           return run(operation, ...args);
         },
       undefined,
-      { warm: false, packages: true },
+      { warm: false },
     );
     const request = {
       kind: "processed-package",
@@ -2289,7 +2265,7 @@ if (process.argv[2] === "crash-owner") {
           return run(operation, ...args);
         },
       undefined,
-      { warm: false, packages: true },
+      { warm: false },
     );
     const created = await f.exports.create({
       kind: "processed-package",
@@ -2389,7 +2365,6 @@ if (process.argv[2] === "crash-owner") {
     const original = await fixture(t, undefined, undefined, {
       warm: false,
       admission: false,
-      packages: true,
     });
     const exportId = randomUUID();
     await original.exports.create({
@@ -2445,7 +2420,7 @@ if (process.argv[2] === "crash-owner") {
     const closed = once(child, "close");
     child.kill("SIGKILL");
     assert.deepEqual(await closed, [null, "SIGKILL"]);
-    const f = await fixture(t, undefined, existing, { warm: false, packages: true });
+    const f = await fixture(t, undefined, existing, { warm: false });
     const row = f.store.catalog
       .prepare("SELECT assembly FROM export_intents WHERE exportId=?")
       .get(exportId);
@@ -2510,7 +2485,7 @@ if (process.argv[2] === "crash-owner") {
           return result;
         },
       undefined,
-      { warm: false, packages: true },
+      { warm: false },
     );
     const created = await f.exports.create({
       kind: "processed-package",
@@ -2550,7 +2525,7 @@ if (process.argv[2] === "crash-owner") {
         (...args) =>
           selectedWorker(...args),
       undefined,
-      { warm: false, packages: true },
+      { warm: false },
     );
     await withArchiveCopyBarrier(
       f.home,
@@ -2604,7 +2579,7 @@ if (process.argv[2] === "crash-owner") {
           return run(operation, ...args);
         },
       undefined,
-      { warm: false, packages: true },
+      { warm: false },
     );
     const created = await f.exports.create({
       kind: "processed-package",

@@ -143,18 +143,6 @@ test(
       );
       assert.equal(Number(info.format.duration), 2, "export stays pinned before concurrent cut");
       assert.equal(sha(await readFile(original)), originalHash);
-      const unsupportedId = randomUUID();
-      const unsupported = await raw("export.create", {
-        ...request,
-        exportId: unsupportedId,
-        kind: "processed-package",
-        leaf: "demo.zip",
-      });
-      assert.equal(unsupported.error.code, "UNSUPPORTED_EXPORT");
-      assert.equal(
-        (await raw("export.status", { exportId: unsupportedId })).error.code,
-        "NOT_FOUND",
-      );
       assert.equal(
         (await raw("export.create", { ...request, kind: "processed-package" })).error.code,
         "REQUEST_CONFLICT",

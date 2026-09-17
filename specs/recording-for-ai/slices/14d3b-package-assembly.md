@@ -1,7 +1,7 @@
 # 14d3b — Complete package assembly through the shared export owner
 
-Status: internal consumer implemented; public service composition remains a separate
-integration gate. Uses the verified ZIP producer and canonical timeline-event
+Status: internal consumer and public no-narration composition are implemented;
+see the [public integration receipt](../assets/package-assembly/public.md). Uses the verified ZIP producer and canonical timeline-event
 serialization. This pass lifts the unsupported-package gate only after a real
 complete no-narration package can be reopened. Acquired narration remains an explicit
 transcript prerequisite; an absent engine never becomes no narration.
@@ -95,10 +95,10 @@ The original ingest remains the normalized semantic validator; assembly adds no
 second parser. The source journal receipt retains its canonical basename, while its
 normalized file locator becomes the portable member path.
 
-The next integration binds the package owners into the service, dispatches the
-shared `export-recording` artifact, and proves public creation against a closed
-fixture library. Without that bundle package requests remain explicitly unsupported.
-Acquired narration still requires the accepted transcript payload contract.
+The service supplies both producer owners, dispatches the shared export-recording
+artifact and connects source/scene/index retention to their existing cleanup paths.
+Public creation is verified against a fixture library whose earlier writer has
+closed. Acquired narration still requires accepted transcript payloads.
 
 The [consumer verification receipt](../assets/package-assembly/review.md) records
 actual lifecycle, native fault and relocated public-reader evidence.

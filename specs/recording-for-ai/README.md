@@ -28,23 +28,17 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish the complete processed-package writer in
-[14d3](slices/14d3-processed-package.md): pin and assemble real source/scene/index/events
-prerequisites and register recoverable assembly scratch through the shared export
-owner. The [bounded native ZIP producer](slices/14d3a-archive-writer.md) and
-[portable event producer](assets/export-publication/events.md) are implemented;
-complete assembly must consume the bounded semantic validator.
-[Public package audio](slices/14c3c2b-package-audio.md) now passes relocated CLI/MCP,
-retry, shared output pressure and close checks. [Raw cursor pages](slices/14c3c3-package-cursor.md)
-now pass relocated CLI/MCP pagination and handle-isolation checks. Timeline reads
-remain in progress through the same package selector while assembly completes.
-[Arbitrary package frames](slices/14c3c2a-package-frames.md) now pass actual CLI/MCP
-and retained-lifetime checks.
-[Public package index access](slices/14c3c1-public-package-index.md) and
-[queued export reconciliation](slices/14d2b4-queued-recovery.md) are implemented.
-The shared export owner now distinguishes exactly video and processed-package; the
-latter fails before admission until its producer exists. [Public video composition](assets/export-publication/public-video.md) is verified
-through the bundled app, CLI and MCP; native menu export controls remain.
+Current pickup: finish public timeline inspection and native export controls.
+The [complete no-narration package](assets/package-assembly/public.md) now exports
+through CLI/MCP and survives relocation with public frame/audio inspection.
+Native controls must use the shared owner, preserve ambiguous request identities,
+and expose rediscovery of persisted exports after restart; export enumeration is
+still missing. [Raw cursor pages](slices/14c3c3-package-cursor.md),
+[arbitrary frames](slices/14c3c2a-package-frames.md),
+[audio](slices/14c3c2b-package-audio.md) and retained index reads are public.
+Acquired narration remains an explicit transcript prerequisite, never an implicit
+no-narration package. The [abandonment admission fence](assets/export-publication/admission-abandon.md)
+now drains destination validation before reporting a stopped export absent.
 
 Priority order: package/export execution, remaining native controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
@@ -58,7 +52,8 @@ Recent integration evidence:
   close and startup recovery. Pinned waiting exports, abandonment and private storage
   accounting preserve external files. [Merged verification](assets/owner-integration/README.md)
   records internal-owner and public-access integration checks. Retained index selectors
-  and arbitrary frames/audio/cursor are public; complete-package production remains.
+  and arbitrary frames/audio/cursor are public; no-narration package creation is verified.
+  Narrated completeness, timeline reads and native controls remain.
 - [Public preview](assets/preview-publication/public.md) passes generated pointer,
   cut/pause, CLI/MCP parity, restart and deletion checks. The
   [native player](assets/preview-publication/player.md) passes real bundled-service
@@ -183,8 +178,9 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md) (source retention, retry and cache loss; public exports remain)
   - [x] [14d2b3 — Per-export abandonment](slices/14d2b3-export-abandonment.md) (drain, private cleanup and capacity release; public route remains)
   - [x] [14d2b4 — Queued publication recovery](slices/14d2b4-queued-recovery.md) (internal recovery/deadline owner)
-  - [ ] [14d3 — Complete processed-package export](slices/14d3-processed-package.md) (shared format identity and ZIP bytes implemented; production assembly remains)
-    - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md) (native byte writing/publication; complete package consumer remains)
+  - [ ] [14d3 — Complete processed-package export](slices/14d3-processed-package.md) (public no-narration packages implemented; narrated completeness remains)
+    - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md)
+    - [x] [14d3b — Complete no-narration assembly](slices/14d3b-package-assembly.md) (public production, relocation and cleanup)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

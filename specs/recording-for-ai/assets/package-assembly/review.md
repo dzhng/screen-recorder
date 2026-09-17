@@ -24,8 +24,9 @@ the owner; no other findings were reported. Shape/diff/docs review keeps one exp
 lifecycle and a byte-only assembly module, with no parallel scheduler or public
 preparation surface.
 
-Public package creation still requires the service's package owner bundle and
-retention wiring. The standalone bundled-startup case was excluded in this worktree,
-which has no built app bundle; root integration owns the bundled public checkpoint.
+At this internal checkpoint, public creation still required service composition.
+The [subsequent public integration](public.md) supplies that bundle and verifies
+bundled startup. The standalone bundled-startup case was excluded only in this
+source worktree, which had no built app bundle.
 Acquired narration remains unsupported until accepted transcript data exists.
 Process-kill recovery is tested; these receipts do not establish power-loss safety.

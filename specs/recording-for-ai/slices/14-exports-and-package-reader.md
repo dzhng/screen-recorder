@@ -2,8 +2,8 @@
 
 Status: package admission, public index/frame/audio inspection, queued export
 recovery, raw cursor pages and public video export pass their scoped gates. Complete-package
-assembly, public timeline reads, transcript integration and native export
-actions remain. See the [integration evidence](../assets/owner-integration/README.md).
+assembly now passes public no-narration export/relocation. Public timeline reads,
+transcript integration and native export actions remain. See the [integration evidence](../assets/owner-integration/README.md).
 This does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
@@ -95,8 +95,8 @@ and [private staging accounting](../assets/export-publication/staging-usage.md) 
 internally integrated. [Abandonment](14d2b3-export-abandonment.md) is verified.
 [Queue-admitted restart recovery](14d2b4-queued-recovery.md) and
 [public video wiring](../assets/export-publication/public-video.md) are implemented.
-[Complete-package assembly](14d3-processed-package.md) remains the next production
-consumer; native export actions follow its reviewed public composition.
+[Complete-package assembly](14d3-processed-package.md) now passes public no-narration
+composition; native export actions and narrated completeness remain.
 
 Pin revision and history bound before waiting. Use existing job authority to expose
 required dependency IDs while waiting outside every worker slot; do not add a
