@@ -7,7 +7,6 @@ export const evidenceIndexes = [
   "cursor",
   "cursorSequence",
   "geometry",
-  "geometryEpoch",
   "unplaced",
   "pauses",
   "narration",
@@ -25,7 +24,7 @@ function invalid(message: string): never {
 const content = <T>(row: RecordRow): T => ({ ...JSON.parse(row.content), sequence: row.sequence });
 export function recordKey(index: EvidenceIndex, row: RecordRow): number[] {
   if (index === "cursorSequence" || index === "unplaced") return [row.sequence];
-  return [index === "geometryEpoch" ? JSON.parse(row.content).epoch : row.sourceUs!, row.sequence];
+  return [row.sourceUs!, row.sequence];
 }
 
 /** One query semantics owner; storage adapters only provide bounded ordered records. */
@@ -163,18 +162,6 @@ export abstract class SourceEvidenceReader {
       limit: 1,
     })[0];
     return row ? content<T>(row) : null;
-  }
-  geometryByEpoch(identity: EvidenceIdentity, epoch: number): SourceGeometry | null {
-    if (!integer(epoch)) invalid("Invalid geometry epoch");
-    this.requireComplete(identity);
-    const row = this.records(identity, {
-      index: "geometryEpoch",
-      lower: { key: [epoch, 0], inclusive: true },
-      upper: { key: [epoch, max], inclusive: true },
-      reverse: true,
-      limit: 1,
-    })[0];
-    return row ? content<SourceGeometry>(row) : null;
   }
   geometryChanges(identity: EvidenceIdentity, range: TimeRange): SourceGeometry[] {
     return this.boundaries(

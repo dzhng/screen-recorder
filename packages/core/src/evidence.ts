@@ -170,8 +170,6 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
         (recordingId,sourceId,generation,sourceUs,sequence) WHERE event='pause';
       CREATE INDEX IF NOT EXISTS source_evidence_geometry ON source_evidence_records
         (recordingId,sourceId,generation,sourceUs,sequence) WHERE event='geometry';
-      CREATE INDEX IF NOT EXISTS source_evidence_geometry_epoch ON source_evidence_records
-        (recordingId,sourceId,generation,json_extract(content,'$.epoch'),sequence) WHERE event='geometry';
       CREATE INDEX IF NOT EXISTS source_evidence_audio ON source_evidence_records
         (recordingId,sourceId,generation,json_extract(content,'$.role'),sourceUs,sequence) WHERE event='audioAcquired';
     `);
@@ -368,10 +366,6 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
         condition: "event='geometry' AND sourceUs IS NOT NULL",
         keys: ["sourceUs", "sequence"],
       },
-      geometryEpoch: {
-        condition: "event='geometry'",
-        keys: ["json_extract(content,'$.epoch')", "sequence"],
-      },
       unplaced: { condition: "event='geometry' AND sourceUs IS NULL", keys: ["sequence"] },
       pauses: { condition: "event='pause'", keys: ["sourceUs", "sequence"] },
       narration: {
@@ -400,11 +394,6 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
         index.keys.length === 1 ? "?" : `(${index.keys.map(() => "?").join(",")})`;
       clauses.push(`${columns}${operator}${bound.inclusive ? "=" : ""}${placeholders}`);
       args.push(...bound.key);
-      if (query.index === "geometryEpoch") {
-        // SQLite cannot seek expression indexes using the tuple bound alone.
-        clauses.push(`${index.keys[0]}${operator}=?`);
-        args.push(bound.key[0]!);
-      }
     }
     args.push(query.limit);
     return this.store.catalog

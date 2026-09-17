@@ -549,8 +549,6 @@ test("geometry reads preserve nullable placements, epoch identity and same-time 
     row(3),
   ]);
   expect(f.evidence.geometryChanges(f.identity, { startUs: 11, endUs: 29 })).toEqual([]);
-  expect(f.evidence.geometryByEpoch(f.identity, 4)).toEqual(row(5));
-  expect(f.evidence.geometryByEpoch(f.identity, 99)).toBeNull();
   expect(f.evidence.unplacedGeometry(f.identity, { afterSequence: 0 })).toEqual([row(0), row(4)]);
   expect(f.evidence.unplacedGeometry(f.identity, { afterSequence: 2, beforeSequence: 6 })).toEqual([
     row(4),
@@ -559,10 +557,6 @@ test("geometry reads preserve nullable placements, epoch identity and same-time 
   const unknown = fixture([]);
   await ingestRecords(unknown, [geometry(1, null)]);
   expect(unknown.evidence.timedGeometryAt(unknown.identity, 10000)).toBeNull();
-  expect(unknown.evidence.geometryByEpoch(unknown.identity, 1)).toEqual({
-    ...geometry(1, null).data,
-    sequence: 1,
-  });
 });
 
 test("bounded geometry and pause reads reject excess rather than truncating resets", async () => {
@@ -621,7 +615,6 @@ test("production geometry reads and export batches seek indexes without full sor
         "source_evidence_geometry",
         "sourceUs",
       ],
-      [() => f.evidence.geometryByEpoch(f.identity, 1), "source_evidence_geometry_epoch", "<expr>"],
       [
         () => f.evidence.unplacedGeometry(f.identity, { afterSequence: 0 }),
         "source_evidence_geometry",
@@ -640,14 +633,6 @@ test("production geometry reads and export batches seek indexes without full sor
       expect(plans[0]).toContain(seek);
       expect(plans[0]).not.toContain("TEMP B-TREE");
     }
-    plans.length = 0;
-    expect(
-      Array.from(f.evidence.exportRecords(f.identity, "geometryEpoch"))
-        .flat()
-        .map((row) => row.sequence),
-    ).toEqual([1, 2, 3]);
-    expect(plans[1]).toContain("<expr>");
-    expect(plans[1]).not.toContain("TEMP B-TREE");
   } finally {
     spy.mockRestore();
   }
