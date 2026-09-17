@@ -1,6 +1,21 @@
 # Integrated package and export owners
 
-## Current public package/export checkpoint
+## Current package audio integration
+
+At `f244ede`, the freshly rebuilt bundle passes [143 native package/export checks](package-audio-export-native.txt), including the public audio consumer.
+A separate [actual CLI/MCP audio and frame run](package-audio-public-native.txt)
+passes after relocation; the generated media covers cuts, gaps, history, retries,
+shared output pressure, held delivery and close. [324 core tests](package-audio-core.txt),
+13 protocol tests and all build/type tasks also pass on the merged tree.
+The [audio evidence](../portable-inspection/public-package-audio.md) records the
+independent review and negative controls. Integration review found no new owner,
+scheduler, operation or dependency; library and package planning share the same
+controller while the retained registry owns package lifetimes.
+
+Complete-package production remains in progress. Generated audio byte parity does
+not prove human audition, real microphone acquisition or narrated-package readiness.
+
+## Earlier public package/export checkpoint
 
 At `fb08d73` plus the verification runner, `bun run lab:exports` builds the full
 bundle and passes [142 native checks](public-package-export-native.txt). It includes
@@ -19,8 +34,8 @@ agent reviews and targeted negative controls are linked from the owning
 [event](../export-publication/events.md), and
 [video](../export-publication/public-video.md) evidence.
 
-Production complete-package assembly and public package audio are still being
-implemented. This command tests the implemented boundaries; it does not claim
+At that checkpoint, production complete-package assembly and public package audio
+were not implemented. This command tests the implemented boundaries; it does not claim
 accepted ASR, physical gesture/audio capture or installed end-to-end acceptance.
 
 ## Earlier internal-owner checkpoint
