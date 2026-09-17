@@ -84,7 +84,7 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
       { ...params, tracks: [{ ...params.tracks[0], extra: true }] },
       { ...params, tracks: [{ ...params.tracks[0], role: "music" }] },
       { ...params, extra: true },
-      { ...params, output: "excerpt.wav" },
+      { ...params, output: "relative.wav" },
       { ...params, output: directory },
       { ...params, output: narration },
       { ...params, spans: [{ startUs: 0, endUs: 30000001 }] },
@@ -133,10 +133,13 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
           extremeOffset,
           JSON.stringify(requests.at(-1)),
         ].join("\n") + "\n",
+      cwd: directory,
       encoding: "utf8",
       timeout: 30000,
     });
     assert.equal(run.status, 0, run.stderr);
+    // A refused relative output never lands beside the worker's working directory either.
+    assert.equal(existsSync(join(directory, "relative.wav")), false);
     const replies = run.stdout.trim().split("\n").map(JSON.parse);
     for (const [index, code] of [
       "INVALID_REQUEST",

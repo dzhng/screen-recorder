@@ -14,6 +14,10 @@ enum AudioOperation {
 
     static func execute(_ params: [String: Any]) async throws -> AudioExcerpt {
         let request = try WireRequest.decode(Request.self, from: params)
+        // A relative path would silently resolve against the worker's working directory.
+        guard request.output.hasPrefix("/") else {
+            throw NativeFailure("INVALID_OUTPUT", "Excerpt output path must be absolute.")
+        }
         return try await AudioExcerpts.write(
             AudioExcerptRequest(
                 tracks: request.tracks, spans: request.spans,
