@@ -47,3 +47,16 @@ observed drag, even though its UI actions returned. These counts narrow the next
 probe: independently verify actual pointer movement over the fixture before using
 its recording to judge the geometry transform. They do not identify which control
 or coordinate layer caused the first path to remain outside.
+
+
+## Coordinate diagnostic
+
+A [read-only normalized-coordinate check](coordinate-diagnostic.json) verified the
+first probe's journal hash before analysis. Every recorded global X lay outside the
+frame's reported screen rectangle: approximately 2.64–4.26 rectangle widths from
+its left edge, where inside would be 0–1. Changing only the vertical flip therefore
+cannot explain this failure. This does not identify whether UI event coordinates,
+source selection or acquisition metadata caused the displacement. The next live
+probe needs an independent pointer/window coordinate witness before changing any
+production transform. No additional capture was made and no global positions are
+published here.

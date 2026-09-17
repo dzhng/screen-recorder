@@ -1,0 +1,17 @@
+{
+  "scope": "Read-only analysis of existing owned gesture probe; no new capture or transformed cursor points",
+  "journalSha256": "0ec20aadf16831d7d70f70c4d7c634613841ea567d1111577050a6a43a2ce68f",
+  "samples": 1783,
+  "geometryEpochs": 1,
+  "normalizedXRange": [
+    2.6424658203125,
+    4.25810546875
+  ],
+  "normalizedYRange": [
+    -2.3433902138157894,
+    -1.2139185855263157
+  ],
+  "insideReportedScreenRect": 0,
+  "allXOutside": true,
+  "conclusion": "A Y-only flip cannot explain this failed probe; independent pointer/window coordinate witness still required"
+}
