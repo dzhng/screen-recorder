@@ -168,12 +168,6 @@ enum ArchiveOperation {
         return .safe(parts)
     }
 
-    static func peakResidentBytes() -> Int64 {
-        var usage = rusage()
-        getrusage(RUSAGE_SELF, &usage)
-        return Int64(usage.ru_maxrss)
-    }
-
     static func requireEmpty() throws {
         guard try Descriptors.isEmpty(root, failing: io) else {
             throw error("INVALID_STORAGE", "Archive workspace is not empty.")

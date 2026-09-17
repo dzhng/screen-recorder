@@ -61,6 +61,30 @@ enum ExcerptValidation {
         maximumSpans: Int = AudioLimits.maximumSpans,
         maximumAvailableIntervals: Int = AudioLimits.maximumAvailableIntervals
     ) throws {
+        try check(tracks: tracks, maximumAvailableIntervals: maximumAvailableIntervals)
+        guard !spans.isEmpty else {
+            throw NativeFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
+        }
+        guard spans.count <= maximumSpans else {
+            throw NativeFailure(
+                "LIMIT_EXCEEDED",
+                "Excerpt has \(spans.count) spans, over the \(maximumSpans) span limit.")
+        }
+        guard TimeSpan.areRetained(spans) else {
+            throw NativeFailure(
+                "INVALID_RANGE", "Excerpt spans must be ascending, non-touching safe ranges.")
+        }
+        let total = spans.reduce(0) { $0 + $1.endUs - $1.startUs }
+        guard total <= maximumDurationUs else {
+            throw NativeFailure(
+                "LIMIT_EXCEEDED",
+                "Excerpt spans total \(total) microseconds, over the \(maximumDurationUs) microsecond limit."
+            )
+        }
+    }
+
+    /// Rejects track plans that cannot be read honestly, before any media is opened.
+    static func check(tracks: [AudioTrackPlan], maximumAvailableIntervals: Int) throws {
         guard !tracks.isEmpty else {
             throw NativeFailure("INVALID_REQUEST", "An excerpt reads at least one planned track.")
         }
@@ -85,26 +109,6 @@ enum ExcerptValidation {
             }
             try checkAvailability(of: track, maximumIntervals: maximumAvailableIntervals)
         }
-        guard !spans.isEmpty else {
-            throw NativeFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
-        }
-        guard spans.count <= maximumSpans else {
-            throw NativeFailure(
-                "LIMIT_EXCEEDED",
-                "Excerpt has \(spans.count) spans, over the \(maximumSpans) span limit.")
-        }
-        guard TimeSpan.areRetained(spans) else {
-            throw NativeFailure(
-                "INVALID_RANGE", "Excerpt spans must be ascending, non-touching safe ranges.")
-        }
-        let total = spans.reduce(0) { $0 + $1.endUs - $1.startUs }
-        guard total <= maximumDurationUs else {
-            throw NativeFailure(
-                "LIMIT_EXCEEDED",
-                "Excerpt spans total \(total) microseconds, over the \(maximumDurationUs) microsecond limit."
-            )
-        }
-
     }
 
     /// A track's acquired intervals are the caller's recovery evidence, so they are held to the

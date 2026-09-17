@@ -230,7 +230,7 @@ extension ArchiveOperation {
         let result: [String: Any] = [
             "manifest": manifest, "revisions": revisions, "members": entries,
             "archiveSha256": hex(archiveHash.finalize()), "expandedBytes": total, "copiedBytes": copied,
-            "initialReadBytes": input.bytes, "peakResidentBytes": peakResidentBytes(),
+            "initialReadBytes": input.bytes, "peakResidentBytes": ProcessResources.peakResidentBytes(),
             "parser": String(cString: archive_version_string()),
         ]
         guard try JSONSerialization.data(withJSONObject: result).count <= limits.receiptBytes else {

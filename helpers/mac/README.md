@@ -215,3 +215,13 @@ Audio reads only where the caller's acquisition evidence and the file's own occu
 agree; everywhere else is reported unavailable and silent, because a container decodes padding for
 holes nothing was captured over. Joins between retained spans get short ramps, and every span
 boundary is quantized from cumulative playback time so rounding never accumulates across spans.
+
+## Speech
+
+**ScreenRecorderSpeech** is the only target that links FluidAudio, with its traits disabled, and
+only the worker reaches it. It transcribes each readable narration interval on its own, through
+the same audio stream owner, so unavailable time is never heard as silence and every word maps back
+into the interval it came from. The request pins every model file by size and digest, and nothing
+loads until the directory holds exactly those files. FluidAudio would purge and re-download a model
+that fails to load, so the worker runs it offline and a failure is only ever reported. Core ML
+prints diagnostics to standard output, so the response channel is diverted while the engine runs.

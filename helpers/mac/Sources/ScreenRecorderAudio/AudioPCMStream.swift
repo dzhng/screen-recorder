@@ -40,22 +40,36 @@ public final class AudioPCMStream {
         let end: Int64
     }
 
-    public static func open(tracks: [AudioTrackPlan], spans: [TimeSpan]) async throws
-        -> AudioPCMStream
+    /// `sampleRate` defaults to the highest rate among the tracks, so nothing is resampled down
+    /// unless the consumer names the rate it needs.
+    public static func open(tracks: [AudioTrackPlan], spans: [TimeSpan], sampleRate: Int? = nil)
+        async throws -> AudioPCMStream
     {
         try ExcerptValidation.check(
             tracks: tracks, spans: spans, maximumDurationUs: TimeSpan.maximumMicroseconds,
             maximumSpans: AudioLimits.maximumRetainedSpans,
             maximumAvailableIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        if let sampleRate, !(1...AudioLimits.maximumSampleRate).contains(sampleRate) {
+            throw NativeFailure("INVALID_REQUEST", "Output rate \(sampleRate) Hz is out of bounds.")
+        }
         var opened: [SourceTrack] = []
         for track in tracks {
             opened.append(try await SourceTrack.open(plan: track))
         }
-        return try AudioPCMStream(sources: opened, spans: spans)
+        return try AudioPCMStream(sources: opened, spans: spans, sampleRate: sampleRate)
     }
 
-    private init(sources: [SourceTrack], spans: [TimeSpan]) throws {
-        let sampleRate = sources.map(\.sampleRate).max()!
+    /// Where one planned track can be read, in recording source time: its acquisition evidence
+    /// intersected with the file's own occupied segments. A consumer that must never hear
+    /// unavailable time as silence opens one stream per interval rather than one across a gap.
+    public static func readableIntervals(of track: AudioTrackPlan) async throws -> [TimeSpan] {
+        try ExcerptValidation.check(
+            tracks: [track], maximumAvailableIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        return try await SourceTrack.open(plan: track).available
+    }
+
+    private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?) throws {
+        let sampleRate = sampleRate ?? sources.map(\.sampleRate).max()!
         let channels = sources.map(\.channels).max()!
         guard channels <= 2 else {
             throw NativeFailure(
