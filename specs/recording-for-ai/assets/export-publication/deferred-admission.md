@@ -28,3 +28,11 @@ The type-only closeout narrows transient package job states: this pass gives dur
 library jobs dependency waiting, not transient package jobs. Source-generation
 retention, export consumers, native startup recovery and public routes are still
 owned by subsequent passes.
+
+## Merged-tree integration
+
+At `eca8ec6`, the root workspace rebuilt all eight build tasks, then passed all
+97 service tests across ten files (86.19 seconds). Workspace imports resolve built
+core output, so the earlier service run before rebuilding is not counted as
+integration evidence for this change. The focused root jobs/library checks also
+passed 66 tests. [Rebuilt service receipt](deferred-merged-service.txt).

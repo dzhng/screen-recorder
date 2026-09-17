@@ -1,0 +1,65 @@
+$ turbo build
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running build in 8 packages
+   • Remote caching disabled
+
+@screenrec/core:build: cache miss, executing 180451b3c094dd5a
+@screenrec/workbench:build: cache hit, replaying logs b2f3f22ef760b67c
+@screenrec/workbench:build: $ node --check server.mjs && node --check public/app.js
+@screenrec/protocol:build: cache hit, replaying logs f2d04a38fc75cab1
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:build: cache hit, replaying logs 52ed415fd277dfb2
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/service:build: cache miss, executing abee9ee96d4f8107
+@screenrec/test-harness:build: cache miss, executing d7d7f18e5c9d4b78
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/test-harness:build: $ tsc -p tsconfig.json
+@screenrec/cli:build: cache miss, executing 96600c63648f4c6c
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/macos:build: cache bypass, force executing da7047fff5423147
+@screenrec/macos:build: $ node ../../scripts/build-macos.mjs
+@screenrec/macos:build: [0/1] Planning build
+@screenrec/macos:build: Building for production...
+@screenrec/macos:build: [0/6] Write swift-version--1AB21518FC5DEDBE.txt
+@screenrec/macos:build: Build complete! (0.12s)
+@screenrec/macos:build: [0/1] Planning build
+@screenrec/macos:build: Building for production...
+@screenrec/macos:build: [0/3] Write swift-version--1AB21518FC5DEDBE.txt
+@screenrec/macos:build: Build complete! (0.11s)
+@screenrec/macos:build: Bundled 138 modules in 10ms
+@screenrec/macos:build: 
+@screenrec/macos:build:   main.mjs  0.99 MB  (entry point)
+@screenrec/macos:build: 
+@screenrec/macos:build: /Users/david/dev/screen-recorder/dist/ScreenRecorder.app: replacing existing signature
+@screenrec/macos:build: Built /Users/david/dev/screen-recorder/dist/ScreenRecorder.app
+
+ Tasks:    8 successful, 8 total
+Cached:    3 cached, 8 total
+  Time:    3.118s 
+
+
+$ vitest run "--maxWorkers=4"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/service
+
+(node:29954) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30009) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30037) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30046) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30055) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30058) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  10 passed (10)
+      Tests  97 passed (97)
+   Start at  07:48:49
+   Duration  86.19s (tests 99%)
+

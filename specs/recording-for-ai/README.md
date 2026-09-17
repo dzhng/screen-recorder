@@ -33,8 +33,9 @@ startup orphan reclamation in
 [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
 The shared queue now has [transient contexts](slices/14c3a-transient-context-jobs.md);
 public handles must use these capabilities and the retained native descriptor owner.
-In parallel, add bounded dependency waiting to the existing job queue, then pinned
-evidence retention and queued export recovery in [14d](slices/14d-export-publication.md).
+In parallel, implement pinned evidence retention and queued export recovery in
+[14d](slices/14d-export-publication.md), using the verified
+[deferred admission seam](slices/14d2b1-deferred-admission.md).
 [Durable video intent](slices/14d2a-video-intent.md) now passes actual cancellation,
 restart and recording deletion. Service/public wiring, staging accounting and
 size-appropriate deadlines remain before public exports.
@@ -57,7 +58,8 @@ Recent integration evidence:
 - [Durable video intent](assets/export-publication/video-intent.md) passes native
   no-clobber publication, atomic prepared receipts, process-crash reconciliation,
   cancellation and actual recording deletion. Merged native and shared-owner checks
-  pass; pending-dependency admission, service wiring and public exports remain.
+  pass. [Deferred admission](slices/14d2b1-deferred-admission.md) passes rebuilt
+  service integration; pinned dependency consumers, service wiring and public exports remain.
 - [Public preview](assets/preview-publication/public.md) passes generated pointer,
   cut/pause, CLI/MCP parity, restart and deletion checks. The
   [native player](assets/preview-publication/player.md) passes real bundled-service
@@ -171,7 +173,8 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [14c3a — Transient package job contexts](slices/14c3a-transient-context-jobs.md) (shared scheduling and bounded metadata; registry/public handles remain)
   - [x] [14c3b1 — Reusable outputs and isolated delivery](slices/14c3b1-package-output-release.md) (native storage/read lifetime; registry recovery remains)
   - [x] [14c3b2 — Admitted inputs and workspace cleanup](slices/14c3b2-package-workspace-primitives.md) (native primitives; service registry remains)
-  - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md) (ready-preview queue/recovery/deletion; deferred admission and public exports remain)
+  - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md) (ready-preview queue/recovery/deletion; dependency consumers and public exports remain)
+  - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md) (shared queue and rebuilt service integration; pinned export consumers remain)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)
