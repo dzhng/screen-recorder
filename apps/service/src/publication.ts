@@ -263,8 +263,8 @@ export class Publication {
     });
   }
 
-  private async observe(): Promise<PublicationObservation> {
-    const value = await this.call("reconcile");
+  private async observe(options: { signal?: AbortSignal } = {}): Promise<PublicationObservation> {
+    const value = await this.call("reconcile", {}, options);
     if (
       !("state" in value) ||
       typeof value.state !== "string" ||
@@ -280,8 +280,8 @@ export class Publication {
     };
   }
 
-  reconcile() {
-    return this.run(() => this.observe());
+  reconcile(options: { signal?: AbortSignal } = {}) {
+    return this.run(() => this.observe(options));
   }
 
   commit(options: { signal?: AbortSignal } = {}) {

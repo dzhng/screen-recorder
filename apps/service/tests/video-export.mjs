@@ -90,12 +90,17 @@ async function fixture(t, wrap = (value) => value, existing, { warm = true } = {
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store);
   let processing, preview, exports;
+  let recoverOnCapacity = false;
+  const recoveryErrors = [];
   const worker = wrap(native);
   const jobs = new JobQueue({
     store,
     providers: { newId: randomUUID },
+    onCapacity: () => {
+      if (recoverOnCapacity) recoveryErrors.push(...exports.resumeRecovery());
+    },
     execute: (execution) =>
-      execution.job.artifact === "export-video"
+      ["export-video", "export-recovery"].includes(execution.job.artifact)
         ? exports.execute(execution)
         : execution.job.artifact === "preview"
           ? preview.execute(execution)
@@ -180,9 +185,14 @@ async function fixture(t, wrap = (value) => value, existing, { warm = true } = {
     evidence,
     closeOwners,
     storage,
+    recoveryErrors,
+    startRecovery: () => {
+      recoverOnCapacity = true;
+      return exports.resumeRecovery();
+    },
   };
 }
-async function crashFixture(t, gap) {
+async function crashFixture(t, gap, reopenWrap) {
   const f = await fixture(t),
     exportId = randomUUID();
   const hold = f.jobs.createContext(
@@ -214,7 +224,7 @@ async function crashFixture(t, gap) {
   const closed = once(child, "close");
   assert.equal(child.kill("SIGKILL"), true);
   assert.deepEqual(await closed, [null, "SIGKILL"]);
-  const reopened = await fixture(t, undefined, existing);
+  const reopened = await fixture(t, reopenWrap, existing);
   return { f, reopened, exportId };
 }
 async function receiptCrash(t, mode = "write") {
@@ -284,6 +294,340 @@ if (process.argv[2] === "crash-owner") {
   );
   if (gap === "abandon") await crashed.exports.abandon(existing.exportId);
 } else {
+  test("explicit recovery refreshes a negative observation when the same committed file returns", async (t) => {
+    const { reopened: f, exportId } = await crashFixture(t, "commit");
+    const destination = join(f.output, "recovered.mp4"),
+      moved = join(f.output, "moved.mp4");
+    const before = await stat(destination, { bigint: true });
+    await rename(destination, moved);
+    f.exports.resumeRecovery();
+    await f.jobs.idle();
+    const missing = f.exports.status(exportId);
+    assert.equal(missing.receipt, null);
+    assert.equal(JSON.parse(missing.recovery.published.result).observation, "missing");
+    const attempt = f.jobs.job(missing.recovery.jobId).attemptId;
+    await rename(moved, destination);
+    f.exports.resumeRecovery();
+    assert.equal(f.jobs.job(missing.recovery.jobId).attemptId, attempt);
+    f.exports.recover(exportId);
+    await f.jobs.idle();
+    const restored = f.exports.status(exportId);
+    assert.equal(restored.state, "committed");
+    assert.notEqual(f.jobs.job(restored.recovery.jobId).attemptId, attempt);
+    assert.equal((await stat(destination, { bigint: true })).ino, before.ino);
+  });
+
+  test("abandonment drains and forgets recovery identities without touching neighboring intents", async (t) => {
+    const entered = Promise.withResolvers(),
+      release = Promise.withResolvers();
+    t.after(() => release.resolve());
+    let intercept = false;
+    const f = await fixture(t, (run) => async (operation, ...args) => {
+      const result = await run(operation, ...args);
+      if (operation === "publication.reconcile" && intercept) {
+        entered.resolve();
+        await release.promise;
+      }
+      return result;
+    });
+    const ids = ["10000000-0000-4000-8000-000000000001", "10000000-0000-4000-8000-000000000002"];
+    for (const exportId of ids) {
+      await writeFile(join(f.output, exportId + ".mp4"), "foreign");
+      await f.exports.create({
+        exportId,
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: exportId + ".mp4",
+      });
+      await f.jobs.idle();
+    }
+    intercept = true;
+    f.exports.resumeRecovery();
+    await entered.promise;
+    const firstRecovery = f.exports.status(ids[0]).recovery.jobId;
+    const siblingRecovery = f.exports.status(ids[1]).recovery.jobId;
+    let finished = false;
+    const removing = f.exports.abandon(ids[0]).then(() => {
+      finished = true;
+    });
+    await new Promise(setImmediate);
+    assert.equal(finished, false);
+    release.resolve();
+    await removing;
+    await f.jobs.idle();
+    assert.throws(() => f.jobs.job(firstRecovery), { code: "NOT_FOUND" });
+    assert.equal(f.jobs.job(siblingRecovery).state, "ready");
+    assert.equal(f.exports.status(ids[1]).state, "failed");
+    assert.equal(f.store.get(f.take.recordingId).recordingId, f.take.recordingId);
+    for (const exportId of ids)
+      assert.equal(await readFile(join(f.output, exportId + ".mp4"), "utf8"), "foreign");
+  });
+
+  test("canceling recovery keeps its lane until close and preserves an actually observed commit", async (t) => {
+    const entered = Promise.withResolvers(),
+      release = Promise.withResolvers();
+    t.after(() => release.resolve());
+    const { reopened: f, exportId } = await crashFixture(
+      t,
+      "commit",
+      (run) =>
+        async (operation, ...args) => {
+          const result = await run(operation, ...args);
+          if (operation === "publication.reconcile") {
+            entered.resolve();
+            await release.promise;
+          }
+          return result;
+        },
+    );
+    f.exports.resumeRecovery();
+    await entered.promise;
+    const recovery = f.exports.status(exportId).recovery;
+    f.exports.cancel(exportId);
+    assert.equal(f.jobs.job(recovery.jobId).state, "canceled");
+    assert.equal(f.jobs.isAttemptActive(f.jobs.job(recovery.jobId).attemptId), true);
+    release.resolve();
+    await f.jobs.idle();
+    const committed = f.exports.status(exportId);
+    assert.equal(committed.state, "committed");
+    assert.equal(f.jobs.job(recovery.jobId).state, "canceled");
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT stagingCleared FROM export_intents WHERE exportId=?")
+        .get(exportId).stagingCleared,
+      0,
+    );
+    assert.deepEqual(f.exports.resumeRecovery(), []);
+    assert.equal(f.jobs.job(recovery.jobId).state, "canceled");
+    f.exports.recover(exportId);
+    await f.jobs.idle();
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT stagingCleared FROM export_intents WHERE exportId=?")
+        .get(exportId).stagingCleared,
+      1,
+    );
+  });
+
+  test("publication uses its known-byte budget instead of the worker's unrelated short default", async (t) => {
+    let delayed;
+    const f = await fixture(
+      t,
+      (run) =>
+        (operation, ...args) =>
+          operation === "publication.prepare"
+            ? delayed(operation, ...args)
+            : run(operation, ...args),
+    );
+    const executable = join(f.home, "delayed-publication");
+    const quote = (value) => "'" + value.replaceAll("'", "'\\''") + "'";
+    await writeFile(executable, `#!/bin/sh\nsleep 0.05\nexec ${quote(binary)}\n`, { mode: 0o700 });
+    delayed = mediaWorker({ SCREENREC_NATIVE: executable }, 1);
+    const exportId = randomUUID();
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "budget.mp4",
+    });
+    await f.jobs.idle();
+    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.deepEqual(
+      await readFile(join(f.output, "budget.mp4")),
+      await readFile(f.ready.published.preview.file),
+    );
+  });
+
+  test("startup admission is bounded and capacity events discover the remaining recovery backlog", async (t) => {
+    const f = await fixture(t, (run) => async (operation, ...args) => {
+      if (operation === "publication.acknowledge") throw new Error("generated lost acknowledgment");
+      return run(operation, ...args);
+    });
+    for (let n = 0; n < 33; n++) {
+      await f.exports.create({
+        exportId: randomUUID(),
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: `${n}.mp4`,
+      });
+      await f.jobs.idle();
+    }
+    const hold = f.jobs.createContext(
+      ({ signal }) =>
+        new Promise((resolve) =>
+          signal.addEventListener("abort", () => resolve("closed"), { once: true }),
+        ),
+    );
+    f.jobs.submitContext(hold, { artifact: "hold", input: "recovery-capacity", lane: "heavy" });
+    await new Promise(setImmediate);
+    assert.deepEqual(f.startRecovery(), []);
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT COUNT(*) AS count FROM jobs WHERE artifact='export-recovery'")
+        .get().count,
+      32,
+    );
+    assert.deepEqual(f.exports.resumeRecovery(), []);
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT COUNT(*) AS count FROM jobs WHERE artifact='export-recovery'")
+        .get().count,
+      32,
+    );
+    await f.jobs.closeContext(hold);
+    await f.jobs.idle();
+    assert.deepEqual(f.recoveryErrors, []);
+    assert.equal(
+      f.store.catalog
+        .prepare(
+          "SELECT COUNT(*) AS count FROM jobs WHERE artifact='export-recovery' AND state='ready'",
+        )
+        .get().count,
+      33,
+    );
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT COUNT(*) AS count FROM export_intents WHERE stagingCleared=0")
+        .get().count,
+      0,
+    );
+    const names = await readdir(f.output);
+    assert.deepEqual(
+      names.filter((name) => name.endsWith(".mp4")).sort(),
+      Array.from({ length: 33 }, (_, n) => `${n}.mp4`).sort(),
+    );
+    for (const name of names.filter((name) => name.startsWith(".screenrec-export-")))
+      assert.deepEqual(await readdir(join(f.output, name)), []);
+  });
+
+  test("recovery failures are isolated and explicit retry observes absence without publishing", async (t) => {
+    let failOnce = false,
+      calls = 0;
+    const f = await fixture(t, (run) => async (operation, ...args) => {
+      if (operation === "publication.reconcile") {
+        calls++;
+        if (failOnce) {
+          failOnce = false;
+          throw new Error("generated recovery failure");
+        }
+      }
+      return run(operation, ...args);
+    });
+    const ids = [randomUUID(), randomUUID()];
+    for (const exportId of ids) {
+      await writeFile(join(f.output, exportId + ".mp4"), "foreign");
+      await f.exports.create({
+        exportId,
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: exportId + ".mp4",
+      });
+      await f.jobs.idle();
+      assert.equal(f.exports.status(exportId).state, "failed");
+    }
+    failOnce = true;
+    assert.deepEqual(f.exports.resumeRecovery(), []);
+    await f.jobs.idle();
+    const states = ids.map((id) => f.exports.status(id));
+    assert.deepEqual(states.map((s) => s.recovery.state).sort(), ["failed", "ready"]);
+    const failed = states.find((s) => s.recovery.state === "failed");
+    const attempt = f.jobs.job(failed.recovery.jobId).attemptId,
+      before = calls;
+    for (let n = 0; n < 10; n++) {
+      assert.deepEqual(f.exports.resumeRecovery(), []);
+      f.exports.status(failed.exportId);
+    }
+    assert.equal(calls, before);
+    assert.equal(f.jobs.job(failed.recovery.jobId).attemptId, attempt);
+    await rm(join(f.output, failed.exportId + ".mp4"));
+    f.exports.recover(failed.exportId);
+    await f.jobs.idle();
+    const recovered = f.exports.status(failed.exportId);
+    assert.equal(recovered.receipt, null);
+    assert.equal(recovered.state, "failed");
+    assert.equal(recovered.recovery.state, "ready");
+    assert.equal(JSON.parse(recovered.recovery.published.result).observation, "missing");
+    await assert.rejects(stat(join(f.output, failed.exportId + ".mp4")), { code: "ENOENT" });
+    assert.notEqual(f.jobs.job(recovered.recovery.jobId).attemptId, attempt);
+  });
+
+  test("acknowledged historical retry does not access a moved destination but abandonment still verifies ownership", async (t) => {
+    let nativeCalls = 0;
+    const f = await fixture(t, (run) => async (...args) => {
+      nativeCalls++;
+      return run(...args);
+    });
+    const exportId = randomUUID();
+    await f.exports.create({
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "moved.mp4",
+    });
+    await f.jobs.idle();
+    const moved = f.output + "-moved";
+    t.after(() => rm(moved, { recursive: true, force: true }));
+    await rename(f.output, moved);
+    const before = nativeCalls;
+    assert.equal((await f.exports.retry(exportId)).state, "committed");
+    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.equal(nativeCalls, before);
+    await assert.rejects(f.exports.abandon(exportId));
+    assert.equal(f.exports.status(exportId).abandoning, true);
+    await rename(moved, f.output);
+    await f.exports.abandon(exportId);
+    assert.deepEqual(await readdir(f.output), ["moved.mp4"]);
+  });
+
+  test("startup recovery waits for the shared heavy lane and ignores failed source dependencies", async (t) => {
+    let failSource = false;
+    const { reopened: f, exportId } = await crashFixture(
+      t,
+      "commit",
+      (run) =>
+        async (operation, ...args) => {
+          if (operation === "media.sourceEvidence" && failSource)
+            throw new Error("generated dependency failure");
+          return run(operation, ...args);
+        },
+    );
+    const source = f.processing.status(f.take.recordingId);
+    failSource = true;
+    f.jobs.regenerate(source.jobId, source.published.generation);
+    await f.jobs.idle();
+    assert.equal(f.processing.status(f.take.recordingId).state, "failed");
+    const failedAttempt = f.jobs.job(source.jobId).attemptId;
+    const hold = f.jobs.createContext(
+      ({ signal }) =>
+        new Promise((resolve) =>
+          signal.addEventListener("abort", () => resolve("closed"), { once: true }),
+        ),
+    );
+    f.jobs.submitContext(hold, { artifact: "hold", input: "startup-recovery", lane: "heavy" });
+    await new Promise(setImmediate);
+    assert.deepEqual(f.exports.resumeRecovery(), []);
+    const before = f.exports.status(exportId);
+    assert.equal(before.receipt, null);
+    assert.equal(before.recovery.state, "queued");
+    for (let n = 0; n < 20; n++) {
+      f.exports.status(exportId);
+      assert.deepEqual(f.exports.resumeRecovery(), []);
+    }
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT COUNT(*) AS count FROM jobs WHERE artifact='export-recovery'")
+        .get().count,
+      1,
+    );
+    await f.jobs.closeContext(hold);
+    await f.jobs.idle();
+    const after = f.exports.status(exportId);
+    assert.equal(after.state, "committed");
+    assert.equal(after.recovery.state, "ready");
+    assert.equal(f.jobs.job(source.jobId).attemptId, failedAttempt);
+    assert.equal(f.processing.status(f.take.recordingId).state, "failed");
+  });
+
   test("late commit releases source evidence but abandonment capacity waits for confirmed retirement", async (t) => {
     const entered = Promise.withResolvers(),
       release = Promise.withResolvers();
@@ -919,6 +1263,7 @@ if (process.argv[2] === "crash-owner") {
       ).size;
       assert.equal((await reopened.storage.usage(f.take.recordingId)).otherBytes, metadataBytes);
       await reopened.exports.recover(exportId);
+      await reopened.jobs.idle();
       const status = await reopened.exports.status(exportId);
       assert.equal(status.state, "committed");
       assert.equal(reopened.jobs.job(status.jobId).state, "failed");
@@ -1021,6 +1366,7 @@ if (process.argv[2] === "crash-owner") {
         "prepared.json",
       ]);
       await reopened.exports.recover(exportId);
+      await reopened.jobs.idle();
       assert.deepEqual(await readdir(join(f.output, ".screenrec-export-" + exportId)), []);
       assert.deepEqual((await reopened.exports.status(exportId)).receipt, committed.receipt);
     } finally {
@@ -1343,6 +1689,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, metadataBytes);
     failAcknowledgement = false;
     await f.exports.retry(exportId);
+    await f.jobs.idle();
     const moved = f.output + "-moved";
     await rename(f.output, moved);
     t.after(() => rm(moved, { recursive: true, force: true }));

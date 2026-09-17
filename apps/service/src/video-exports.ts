@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { setImmediate } from "node:timers/promises";
 import { CatalogError, type RevisionStore } from "@screenrec/core/library";
 import type { DerivedCache, DirectoryIdentity } from "@screenrec/core/cache";
 import {
@@ -13,7 +14,7 @@ import type { SourceProcessing } from "@screenrec/core/processing";
 import type { PreviewInspection, PreviewArtifact } from "@screenrec/core/preview";
 import { Publication, type PublicationReceipt } from "./publication.js";
 import type { ManagedFiles } from "./managed-files.js";
-import type { MediaWorker } from "./worker.js";
+import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
 
 type Request = {
   exportId: string;
@@ -49,7 +50,19 @@ type Row = Omit<
   receipt: string | null;
   abandoning: number;
 };
-const artifact = "export-video";
+const artifact = "export-video",
+  recoveryArtifact = "export-recovery";
+const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+/** Allow two full byte passes at 4 MiB/s plus startup; commit verifies payload and destination.
+ * This is a conservative deadline policy, not a promise of destination throughput. */
+export function publicationDeadlineMs(bytes: number): number {
+  if (!Number.isSafeInteger(bytes) || bytes < 0)
+    throw new CatalogError("INVALID_STORAGE", "Publication byte count is invalid");
+  return Math.min(
+    MAX_MEDIA_TIMEOUT_MS,
+    30_000 + Math.ceil(((bytes * 2) / (4 * 1024 * 1024)) * 1000),
+  );
+}
 const stageName = (id: string) => `.screenrec-export-${id}`;
 
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
@@ -57,6 +70,7 @@ const stageName = (id: string) => `.screenrec-export-${id}`;
 export class VideoExports {
   private readonly retiring = new Map<string, Promise<void>>();
   private closed = false;
+  private admittingRecovery = false;
   constructor(
     private readonly owners: {
       store: RevisionStore;
@@ -130,6 +144,55 @@ export class VideoExports {
       input: intent.exportId,
     };
   }
+  private recoveryIdentity(intent: Intent, attemptId: string) {
+    if (!uuid.test(intent.exportId) || !uuid.test(attemptId))
+      throw new CatalogError("INVALID_JOB", "Recovery requires export and attempt UUIDs");
+    return {
+      recordingId: intent.recordingId,
+      revisionId: intent.snapshot.revisionId,
+      artifact: recoveryArtifact,
+      input: `${intent.exportId}/${attemptId}`,
+    };
+  }
+
+  /** One metadata-only admission turn; capacity hooks call again after real queue progress. */
+  resumeRecovery(): unknown[] {
+    if (this.closed || this.admittingRecovery) return [];
+    this.admittingRecovery = true;
+    const errors: unknown[] = [];
+    try {
+      const rows = this.owners.store.catalog
+        .prepare(`SELECT i.exportId,j.attemptId FROM export_intents i
+        JOIN jobs j ON j.recordingId=i.recordingId AND j.artifact=? AND j.input=i.exportId
+        WHERE i.staging IS NOT NULL AND i.stagingCleared=0 AND i.abandoning=0
+        AND j.state IN ('failed','canceled','ready','unavailable')
+        AND NOT EXISTS(SELECT 1 FROM recording_deletions d WHERE d.recordingId=i.recordingId)
+        AND NOT EXISTS(SELECT 1 FROM jobs r WHERE r.recordingId=j.recordingId AND r.revisionId=j.revisionId
+          AND r.artifact=? AND r.input=i.exportId || '/' || j.attemptId)
+        ORDER BY i.exportId LIMIT 32`)
+        .all(artifact, recoveryArtifact) as { exportId: string; attemptId: string }[];
+      for (const row of rows) {
+        try {
+          const intent = this.require(row.exportId);
+          this.owners.jobs.submit({
+            ...this.recoveryIdentity(intent, row.attemptId),
+            lane: "heavy",
+          });
+        } catch (error) {
+          if (
+            error instanceof CatalogError &&
+            (error.code === "LIMIT_EXCEEDED" || error.code === "SERVICE_STOPPED")
+          )
+            break;
+          errors.push(error);
+        }
+      }
+    } finally {
+      this.admittingRecovery = false;
+    }
+    return errors;
+  }
+
   retainsSource(recordingId: string, generation: string): boolean {
     return !!this.owners.store.catalog
       .prepare(`SELECT 1 FROM export_intents
@@ -196,7 +259,7 @@ export class VideoExports {
   }
   async create(request: Request) {
     if (
-      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(request.exportId) ||
+      !uuid.test(request.exportId) ||
       !request.leaf ||
       [".", ".."].includes(request.leaf) ||
       /[/\0]/.test(request.leaf) ||
@@ -272,10 +335,15 @@ export class VideoExports {
     const intent = this.require(exportId);
     this.owners.store.get(intent.recordingId);
     const job = this.owners.jobs.status(this.identity(intent));
-    const state = job.jobId ? this.owners.jobs.job(job.jobId).state : "not_requested";
+    const current = job.jobId ? this.owners.jobs.job(job.jobId) : null;
+    const state = current?.state ?? "not_requested";
+    const recovery = current
+      ? this.owners.jobs.status(this.recoveryIdentity(intent, current.attemptId))
+      : null;
     return {
       exportId,
       abandoning: intent.abandoning,
+      recovery,
       recordingId: intent.recordingId,
       snapshot: intent.snapshot,
       state: intent.receipt ? ("committed" as const) : state === "waiting" ? "queued" : state,
@@ -341,10 +409,8 @@ export class VideoExports {
     this.requireActive(intent);
     this.owners.store.get(intent.recordingId);
     // An acknowledged commit never becomes a second export because the user moved/deleted it.
-    if (intent.receipt) {
-      await this.recover(exportId);
-      return this.status(exportId);
-    }
+    if (intent.receipt)
+      return intent.stagingCleared ? this.status(exportId) : this.recover(exportId);
     const job = this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
     this.owners.jobs.retry(job.jobId);
     return this.status(exportId);
@@ -353,9 +419,22 @@ export class VideoExports {
     const intent = this.require(exportId);
     this.requireActive(intent);
     this.owners.store.get(intent.recordingId);
-    if (intent.receipt) return;
-    const job = this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
-    this.owners.jobs.cancel(job.jobId);
+    if (!intent.receipt) {
+      const job = this.owners.jobs.submitDeferred({ ...this.identity(intent), lane: "heavy" });
+      this.owners.jobs.cancel(job.jobId);
+    }
+    // Only runnable/active heavy jobs are returned: the shared queue bounds this set.
+    const active = this.owners.store.catalog
+      .prepare(`SELECT jobId FROM jobs WHERE recordingId=?
+      AND revisionId=? AND artifact=? AND input>? AND input<? AND state IN ('queued','running')`)
+      .all(
+        intent.recordingId,
+        intent.snapshot.revisionId,
+        recoveryArtifact,
+        `${exportId}/`,
+        `${exportId}0`,
+      ) as { jobId: string }[];
+    for (const recovery of active) this.owners.jobs.cancel(recovery.jobId);
   }
   private async open(intent: Intent) {
     if (!intent.staging) {
@@ -376,7 +455,10 @@ export class VideoExports {
       join(intent.destination.directory, stageName(intent.exportId)),
       intent.destination.directory,
       this.owners.worker,
-      { expected: { stage: intent.staging, destination: intent.destination.identity } },
+      {
+        expected: { stage: intent.staging, destination: intent.destination.identity },
+        timeoutMs: publicationDeadlineMs(intent.receipt?.bytes ?? intent.preview?.bytes ?? 0),
+      },
     );
   }
   private markStagingCleared(exportId: string) {
@@ -394,6 +476,7 @@ export class VideoExports {
     intent.receipt = receipt;
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.artifact === recoveryArtifact) return this.reconcile({ job, signal });
     if (job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Video exporter cannot execute this job");
     const intent = this.require(job.input);
@@ -444,31 +527,62 @@ export class VideoExports {
       await publication.close();
     }
   }
-  /** Startup recovery records an already-created file without starting another export. */
-  async recover(exportId: string) {
+  /** Explicit recovery/retry requests enqueue work; status and startup never hash files. */
+  recover(exportId: string) {
     const intent = this.require(exportId);
     this.requireActive(intent);
-    const job = this.owners.jobs.status(this.identity(intent));
-    if (job.jobId && this.owners.jobs.isAttemptActive(this.owners.jobs.job(job.jobId).attemptId))
-      throw new CatalogError("PROCESSING_BUSY", "Export attempt is still closing", {}, true);
-    if (!intent.staging) return;
+    this.owners.store.get(intent.recordingId);
+    if (!intent.staging || (intent.receipt && intent.stagingCleared)) return this.status(exportId);
+    const original = this.owners.jobs.status(this.identity(intent));
+    if (!original.jobId)
+      throw new CatalogError("INVALID_JOB", "Staged export has no publication job");
+    const job = this.owners.jobs.submit({
+      ...this.recoveryIdentity(intent, this.owners.jobs.job(original.jobId).attemptId),
+      lane: "heavy",
+    });
+    if (job.state === "ready") this.owners.jobs.regenerate(job.jobId, job.generation);
+    else this.owners.jobs.retry(job.jobId);
+    return this.status(exportId);
+  }
+
+  private async reconcile({ job, signal }: JobExecution): Promise<string> {
+    const [exportId, attemptId, extra] = job.input.split("/");
+    if (
+      !exportId ||
+      !attemptId ||
+      extra !== undefined ||
+      !uuid.test(exportId) ||
+      !uuid.test(attemptId)
+    )
+      throw new CatalogError("INVALID_JOB", "Recovery identity is invalid");
+    const intent = this.require(exportId);
+    this.requireActive(intent);
+    if (job.recordingId !== intent.recordingId || job.revisionId !== intent.snapshot.revisionId)
+      throw new CatalogError("INVALID_JOB", "Recovery does not match the pinned export");
+    signal.throwIfAborted();
+    if (!intent.staging || (intent.receipt && intent.stagingCleared))
+      return JSON.stringify({ observation: null });
     const publication = await this.open(intent);
     try {
       if (intent.receipt) {
         await publication.discard();
         this.markStagingCleared(intent.exportId);
-        return;
+        return JSON.stringify({ observation: null });
       }
-      const observed = await publication.reconcile();
+      const observed = await publication.reconcile({ signal });
       if (observed.state === "committed" && observed.receipt) {
         this.recordCommit(intent, observed.receipt);
-        await publication.acknowledge();
-        this.markStagingCleared(intent.exportId);
+        if (!signal.aborted) {
+          await publication.acknowledge();
+          this.markStagingCleared(intent.exportId);
+        }
       }
+      return JSON.stringify({ observation: observed.state });
     } finally {
       await publication.close();
     }
   }
+
   async retireRecording(recordingId: string, signal?: AbortSignal) {
     if (!this.owners.store.isDeleting(recordingId))
       throw new CatalogError("INVALID_STATE", "Recording deletion must be marked first");
@@ -516,6 +630,24 @@ export class VideoExports {
     if (!intent) return;
     const jobId = this.owners.jobs.status(this.identity(intent)).jobId;
     if (jobId) await this.owners.jobs.drainJob(jobId);
+    // The durable intent fence stops every recovery identity before any drain begins.
+    const recoveryJobs = this.owners.store.catalog.prepare(`SELECT jobId,input FROM jobs
+      WHERE recordingId=? AND revisionId=? AND artifact=? AND input>? AND input<? ORDER BY input LIMIT 1`);
+    let after = `${exportId}/`;
+    for (;;) {
+      const recovery = recoveryJobs.get(
+        intent.recordingId,
+        intent.snapshot.revisionId,
+        recoveryArtifact,
+        after,
+        `${exportId}0`,
+      ) as { jobId: string; input: string } | undefined;
+      if (!recovery) break;
+      after = recovery.input;
+      await this.owners.jobs.drainJob(recovery.jobId);
+      this.owners.jobs.forgetJob(recovery.jobId);
+      await setImmediate();
+    }
     // A late commit may have updated the receipt while the canceled executor drained.
     intent = this.require(exportId);
     if (!intent.abandoning && !this.owners.store.isDeleting(intent.recordingId))

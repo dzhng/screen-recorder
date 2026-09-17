@@ -1,0 +1,32 @@
+(node:71021) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ publication uses its known-byte budget instead of the worker's unrelated short default (478.132166ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 603.124667
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:389:3
+✖ publication uses its known-byte budget instead of the worker's unrelated short default (478.132166ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'failed'
+  - 'committed'
+
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-export-publication/apps/service/tests/video-export.mjs:411:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'failed',
+    expected: 'committed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

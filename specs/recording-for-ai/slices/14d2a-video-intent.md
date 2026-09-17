@@ -46,15 +46,11 @@ not finish. Discard and retirement own both receipt names.
 Once bytes exist, every reopen checks the recorded staging and destination identities.
 Recovery distinguishes the gap before catalog acknowledgement from the gap before
 private cleanup: the first reconciles and records a committed file, while the second
-only removes private evidence whose external truth is already durable. Concurrent
-recovery with an active export attempt is refused; native staging ownership fences
-other simultaneous callers. This internal recovery caller must await completion
-before closing the catalog. No startup or public recovery sweep is wired here.
-
-Uncertain recovery can hash a completed file. **14d2b must admit that recovery through
-the existing heavy queue before startup/public consumption.** It must not invoke an
-unbounded recovery loop or create a second scheduler. This pass proves one explicitly
-sequenced recovery against real process death.
+only removes private evidence whose external truth is already durable. Recovery now
+runs through the shared heavy queue; see
+[14d2b4](14d2b4-queued-recovery.md) for observation identity, explicit refresh,
+shutdown ordering and the distinction between historical receipt and current file
+observation. This original checkpoint's direct recovery entry point has been replaced.
 
 ## Deletion
 
@@ -83,17 +79,8 @@ recording deletion and killed-owner recovery. It uses no narration and no pointe
 observations; it is not another acceptance claim for the production pointer pipeline
 or real speech audition. [Evidence](../assets/export-publication/video-intent.md).
 
-14d2b still owns waiting dependency admission, bounded/coalesced capacity/startup hooks,
-queue-admitted uncertain recovery, and public service wiring. Its full-package branch
-must preserve accepted-transcript prerequisites; this human-video pass fabricates no
-speech readiness. [Private export storage accounting](../assets/export-publication/staging-usage.md)
-now composes through the existing storage owner internally. Public service wiring
-remains required. Attribute only identity-validated app-owned pending staging, exclude
-completed external exports, and do not double-count the retained hard link to an
-already committed file.
-
-Before public admission, 14d2b must also choose a bounded, size-appropriate publication
-budget for long videos and slow destination volumes using the existing configurable
-`Publication` deadline. This internal consumer currently inherits the worker default
-of 30 seconds per call. Repeating an intent with that same insufficient deadline is
-not a progress strategy; no separate timer or retry scheduler should be added.
+Waiting admission and retention are covered by [14d2b2](14d2b2-pinned-waiting-video.md),
+private retirement by [14d2b3](14d2b3-export-abandonment.md), and queued recovery and
+publication budgets by [14d2b4](14d2b4-queued-recovery.md). Storage accounting includes
+registered private staging and excludes completed external movie bytes. Public service
+composition and accepted-transcript/full-package writing remain separate prerequisites.

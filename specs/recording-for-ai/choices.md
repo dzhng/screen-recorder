@@ -1985,3 +1985,47 @@ records them. These choices add no public export choice or transcript readiness.
   rule rather than resolving a client path relative to the service's directory.
   The service's own private package root supports ordinary home-path aliases by
   matching its non-symlink leaf identity before and after canonical open.
+## Queued publication recovery (14d2b4)
+
+### Sound — medium confidence
+
+- **Publication deadlines grow with known bytes, using a conservative per-call allowance.**
+  A large movie on a slower volume can legitimately outlast the generic short worker
+  deadline. Publication now budgets two complete byte passes at four MiB per second
+  plus startup overhead, capped at the existing worker maximum. The plan required
+  size-aware deadlines but did not set a throughput allowance. This covers the copy
+  and verification paths without another timer; it is a policy allowance rather than
+  a promise that every destination can sustain that rate. Timeout does not authorize
+  automatic retries or a claim that no external file was created.
+
+- **An empty staging directory still requires verified retirement.** After private
+  bytes are cleared, a moved destination volume cannot invalidate the historical
+  committed receipt or make ordinary retry touch that volume. Its empty staging
+  directory has not thereby been removed, however. Abandonment/deletion retains its
+  identity and can require restored access before directory retirement completes.
+  The plan distinguished byte cleanup from directory ownership but left this missing-
+  volume case open; no detached cleanup registry or unverified removal is introduced.
+
+### Sound — high confidence
+
+- **Recovery has an attempt identity in the existing heavy queue.** Restarting after
+  a publication crash schedules an observation of the existing staged receipt and
+  destination, not another writer. A bounded metadata scan submits only identities
+  the queue has not seen, and failures remain terminal until an explicit request.
+  Source processing failures do not prevent discovering a file already committed.
+  The plan left admission representation open; using the queue preserves shared
+  capacity, cancellation, retry and shutdown instead of adding an export scheduler.
+
+- **Explicit observation refresh differs from automatic admission.** If recovery
+  observes a missing file and the user later restores it, explicit recovery must be
+  able to inspect again. It regenerates that observation job; repeated startup scans
+  and status reads do not. A negative observation remains a point-in-time statement,
+  not proof that publication never happened. A known acknowledged receipt stays
+  historical and never causes another export merely because the file moved.
+
+- **Cancel and abandonment cover recovery workers as well as publication workers.**
+  Cancel can stop a long recovery read, while the shared queue retains its slot until
+  the native worker closes. Any commit already observed is still recorded. Abandonment
+  then drains and forgets every recovery identity belonging to that export, using
+  validated UUID boundaries so a neighbor's jobs remain untouched. No separate
+  cancellation registry or destination-deletion authority is added.

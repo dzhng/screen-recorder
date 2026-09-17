@@ -151,3 +151,7 @@ still requires explicit abandonment, queued recovery, storage accounting and bud
 [14d2b3](14d2b3-export-abandonment.md) provides internal per-export abandonment
 through the existing queue and publication owners, including restartable cleanup.
 It does not expose public operations or add a recovery scheduler.
+
+[14d2b4](14d2b4-queued-recovery.md) admits internal startup reconciliation through
+the shared heavy queue and sets publication budgets from known bytes. Public
+service/menu composition and the processed-package writer remain separate gates.
