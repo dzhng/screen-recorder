@@ -477,6 +477,19 @@ it(
   },
 );
 
+it("settles a native call whose answer is unreadable as soon as that answer arrives", async () => {
+  const service = await startService(
+    await temporaryHome(),
+    () => ({ ok: false, error: { code: "DENIED", message: "no details" } }) as OperationResult,
+  );
+  const started = Date.now();
+  expect(await service.call("capture.status")).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_RESPONSE", retryable: true },
+  });
+  expect(Date.now() - started).toBeLessThan(DEFAULT_CALL_TIMEOUT_MS);
+});
+
 it(
   "settles a stranded take before it accepts a start replayed onto it",
   { timeout: 30_000 },
@@ -533,10 +546,10 @@ it(
         journal: { header: { sessionID: "s" } },
       }),
     });
-    const answer = await service.call(
-      "capture.start",
-      { requestId: "silent", source: fixtureSource },
-    );
+    const answer = await service.call("capture.start", {
+      requestId: "silent",
+      source: fixtureSource,
+    });
     expect(answer).toMatchObject({ ok: false, error: { code: "TIMEOUT", retryable: true } });
     const recordingId = (answer as unknown as { error: { details: { recordingId: string } } }).error
       .details.recordingId;
@@ -564,10 +577,10 @@ it(
   async () => {
     const home = await temporaryHome();
     const service = await startService(home, () => undefined);
-    const answer = await service.call(
-      "capture.start",
-      { requestId: "silent", source: fixtureSource },
-    );
+    const answer = await service.call("capture.start", {
+      requestId: "silent",
+      source: fixtureSource,
+    });
     expect(answer).toMatchObject({
       ok: false,
       error: { code: "TIMEOUT", details: { state: "preparing" } },

@@ -105,7 +105,15 @@ export function openControl(options: {
     const parsed = appMessageSchema.safeParse(value);
     if (!parsed.success) {
       const message = value as { request?: { id?: unknown }; response?: { id?: unknown } };
-      const id = message?.request?.id ?? message?.response?.id;
+      if (message?.response !== undefined) {
+        // An unreadable answer still ends the call it names. Echoing a result back would answer
+        // nothing the app asked.
+        const id = message.response?.id;
+        if (typeof id === "string")
+          settle(id, error("INVALID_RESPONSE", "The app answered with an unreadable result", true));
+        return;
+      }
+      const id = message?.request?.id;
       reply(
         rejection(
           typeof id === "string" && id.length > 0 ? id : null,

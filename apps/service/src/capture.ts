@@ -473,7 +473,7 @@ function allocationArguments(
  * Every other code is native's own answer, and so is proof of what it did.
  */
 function unanswered(code: string): boolean {
-  return code === "TIMEOUT" || code === "SERVICE_STOPPED";
+  return code === "TIMEOUT" || code === "SERVICE_STOPPED" || code === "INVALID_RESPONSE";
 }
 
 function fromNative(result: OperationResult & { ok: false }): CaptureError {
