@@ -9,6 +9,7 @@ import {
   resultSchema,
   type OperationResult,
 } from "@screenrec/protocol";
+import { CatalogError } from "@screenrec/core/library";
 
 /**
  * Where the packaged app's native worker executable is. The app is the one owner of that path:
@@ -24,6 +25,34 @@ export type MediaWorker = (
   params: Record<string, unknown>,
   options?: { signal?: AbortSignal; timeoutMs?: number; descriptors?: readonly number[] },
 ) => Promise<OperationResult>;
+
+/** A refused native call surfaces native's own code, details and retryability. */
+export function nativeResult(result: OperationResult): unknown {
+  if (!result.ok)
+    throw new CatalogError(
+      result.error.code,
+      result.error.message,
+      result.error.details,
+      result.error.retryable,
+    );
+  return result.data;
+}
+
+/** Native answers `{ [field]: true }` only after it has finished; any other success is not proof. */
+export function nativeConfirmed(
+  result: OperationResult,
+  field: "removed" | "empty",
+  message: string,
+): void {
+  const data = nativeResult(result);
+  if (
+    !data ||
+    typeof data !== "object" ||
+    !(field in data) ||
+    (data as Record<string, unknown>)[field] !== true
+  )
+    throw new CatalogError("INVALID_NATIVE_RESPONSE", message);
+}
 
 function failure(code: string, message: string, retryable = false): OperationResult {
   return { ok: false, error: { code, message, retryable, details: {} } };

@@ -2,7 +2,8 @@ import { constants } from "node:fs";
 import { lstat, open, realpath, type FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/library";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
-import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
+import { O_EXLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 export type PublicationState = "unprepared" | "missing" | "committed" | "replaced" | "modified";
 
@@ -46,7 +47,7 @@ export class Publication {
       throw new CatalogError("INVALID_STORAGE", "Publication staging must be a directory");
     const stage = await open(
       await realpath(path),
-      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000,
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
     );
     try {
       const value = Publication.data(
@@ -86,9 +87,10 @@ export class Publication {
         "INVALID_STORAGE",
         "Publication staging must be an owned private directory",
       );
-    // Darwin O_NOFOLLOW_ANY rejects symlink ancestry; O_EXLOCK follows inherited FDs.
-    const flags = constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000;
-    const stage = await open(await realpath(stagePath), flags | 0x20).catch(
+    // The staging lock belongs to this open file description, so inherited worker FDs share it.
+    const flags =
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY;
+    const stage = await open(await realpath(stagePath), flags | O_EXLOCK).catch(
       (error: NodeJS.ErrnoException) => {
         if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
           throw new CatalogError(
@@ -179,7 +181,7 @@ export class Publication {
   ) {
     const parent = await open(
       directory,
-      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000,
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
     );
     try {
       const result = await worker(
@@ -194,16 +196,10 @@ export class Publication {
   }
 
   private static data(result: Awaited<ReturnType<MediaWorker>>): Record<string, unknown> {
-    if (!result.ok)
-      throw new CatalogError(
-        result.error.code,
-        result.error.message,
-        result.error.details,
-        result.error.retryable,
-      );
-    if (!result.data || typeof result.data !== "object" || Array.isArray(result.data))
+    const data = nativeResult(result);
+    if (!data || typeof data !== "object" || Array.isArray(data))
       throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication response is missing");
-    return result.data as Record<string, unknown>;
+    return data as Record<string, unknown>;
   }
 
   private run<T>(action: () => Promise<T>): Promise<T> {
@@ -220,7 +216,7 @@ export class Publication {
     });
   }
 
-  private async call(
+  private call(
     operation: string,
     params: Record<string, unknown> = {},
     options: {
@@ -228,7 +224,7 @@ export class Publication {
       source?: { readonly fd: number };
     } = {},
   ) {
-    const result = await this.worker(
+    return this.worker(
       `publication.${operation}`,
       { ...this.identities, ...params },
       {
@@ -241,7 +237,6 @@ export class Publication {
         ],
       },
     );
-    return Publication.data(result);
   }
 
   /** Source must remain open through this call. A failed prepare keeps partial private
@@ -253,7 +248,9 @@ export class Publication {
     options: { signal?: AbortSignal } = {},
   ) {
     return this.run(async () => {
-      const value = await this.call("prepare", { leaf, maxBytes }, { ...options, source });
+      const value = Publication.data(
+        await this.call("prepare", { leaf, maxBytes }, { ...options, source }),
+      );
       if (!("receipt" in value))
         throw new CatalogError(
           "INVALID_NATIVE_RESPONSE",
@@ -264,7 +261,7 @@ export class Publication {
   }
 
   private async observe(options: { signal?: AbortSignal } = {}): Promise<PublicationObservation> {
-    const value = await this.call("reconcile", {}, options);
+    const value = Publication.data(await this.call("reconcile", {}, options));
     if (
       !("state" in value) ||
       typeof value.state !== "string" ||
@@ -290,7 +287,7 @@ export class Publication {
       if (options.signal?.aborted) throw new CatalogError("CANCELED", "Publication was canceled");
       let failure: unknown;
       try {
-        await this.call("commit", {}, options);
+        Publication.data(await this.call("commit", {}, options));
       } catch (error) {
         failure = error;
       }
@@ -314,21 +311,22 @@ export class Publication {
     return this.remove("discard");
   }
   private remove(operation: "acknowledge" | "discard") {
-    return this.run(async () => {
-      const value = await this.call(operation);
-      if (!("removed" in value) || value.removed !== true)
-        throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication cleanup was not confirmed");
-    });
+    return this.run(async () =>
+      nativeConfirmed(
+        await this.call(operation),
+        "removed",
+        "Publication cleanup was not confirmed",
+      ),
+    );
   }
   retire(name: string) {
-    return this.run(async () => {
-      const value = await this.call("retire", { name });
-      if (!("removed" in value) || value.removed !== true)
-        throw new CatalogError(
-          "INVALID_NATIVE_RESPONSE",
-          "Publication staging retirement was not confirmed",
-        );
-    });
+    return this.run(async () =>
+      nativeConfirmed(
+        await this.call("retire", { name }),
+        "removed",
+        "Publication staging retirement was not confirmed",
+      ),
+    );
   }
   close(): Promise<void> {
     return (this.closing ??= (async () => {

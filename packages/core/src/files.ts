@@ -2,6 +2,11 @@ import { readSync, closeSync, constants, fstatSync, openSync, type BigIntStats }
 import { join } from "node:path";
 import { CatalogError } from "./library.js";
 
+// Darwin sys/fcntl.h flags that Node does not export by name.
+/** Refuses a symlink in every path component, unlike O_NOFOLLOW which checks only the leaf. */
+export const O_NOFOLLOW_ANY = 0x20000000;
+/** Takes an exclusive flock as part of open; with O_NONBLOCK a held lock fails with EAGAIN. */
+export const O_EXLOCK = 0x20;
 export type OpenedFile = { readonly fd: number; close(): void };
 export type FileAccess = {
   path(file: string): string;
@@ -103,10 +108,9 @@ export class IdentifiedFiles implements FileAccess {
     if (!expected) throw new CatalogError("NOT_FOUND", "File is not admitted to this package");
     if (this.leases.size >= this.maximumOpen)
       throw new CatalogError("LIMIT_EXCEEDED", "Package open-file limit exceeded", {}, true);
-    // Darwin SDK sys/fcntl.h: O_NOFOLLOW_ANY is stable ABI but Node omits the named constant.
     const fd = openSync(
       this.path(file),
-      (writable ? constants.O_RDWR : constants.O_RDONLY) | constants.O_NONBLOCK | 0x20000000,
+      (writable ? constants.O_RDWR : constants.O_RDONLY) | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
     );
     try {
       const stat = fstatSync(fd, { bigint: true }),

@@ -26,7 +26,7 @@ import {
   type AssemblyReservation,
 } from "./package-assembly.js";
 import type { ManagedFiles } from "./managed-files.js";
-import { type MediaWorker } from "./worker.js";
+import { nativeConfirmed, type MediaWorker } from "./worker.js";
 
 type Request = {
   kind: "video" | "processed-package";
@@ -348,29 +348,15 @@ export class RecordingExports {
         if (!child.identity) {
           await recoverUnconfirmedPackageWorkspace(parent, child.name, this.owners.worker);
         } else {
-          const removed = await this.owners.worker(
-            "packageWorkspace.remove",
-            {
-              parent: reservation.parent,
-              name: child.name,
-              identity: child.identity,
-            },
-            { descriptors: [parent.handle.fd] },
+          nativeConfirmed(
+            await this.owners.worker(
+              "packageWorkspace.remove",
+              { parent: reservation.parent, name: child.name, identity: child.identity },
+              { descriptors: [parent.handle.fd] },
+            ),
+            "removed",
+            "Assembly removal was not confirmed",
           );
-          if (!removed.ok)
-            throw new CatalogError(
-              removed.error.code,
-              removed.error.message,
-              removed.error.details,
-              removed.error.retryable,
-            );
-          if (
-            !removed.data ||
-            typeof removed.data !== "object" ||
-            !("removed" in removed.data) ||
-            removed.data.removed !== true
-          )
-            throw new CatalogError("INVALID_NATIVE_RESPONSE", "Assembly removal was not confirmed");
         }
       }
       intent.assembly = null;

@@ -3,7 +3,8 @@ import { constants, lstatSync, realpathSync } from "node:fs";
 import { open, realpath } from "node:fs/promises";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/library";
-import type { MediaWorker } from "./worker.js";
+import { O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 /** Native file operations anchor deletion to directory descriptors, not re-resolved paths. */
 export class ManagedFiles {
@@ -26,22 +27,16 @@ export class ManagedFiles {
     const directory = await realpath(path);
     const parent = await open(
       directory,
-      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000,
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
     );
     try {
-      const result = await this.worker(
-        "storage.externalDirectory",
-        { home: this.home, expectedHome: this.expectedHome },
-        { descriptors: [parent.fd], ...(signal ? { signal } : {}) },
-      );
-      if (!result.ok)
-        throw new CatalogError(
-          result.error.code,
-          result.error.message,
-          result.error.details,
-          result.error.retryable,
-        );
-      const identity = result.data as DirectoryIdentity;
+      const identity = nativeResult(
+        await this.worker(
+          "storage.externalDirectory",
+          { home: this.home, expectedHome: this.expectedHome },
+          { descriptors: [parent.fd], ...(signal ? { signal } : {}) },
+        ),
+      ) as DirectoryIdentity;
       if (!identity || typeof identity.dev !== "string" || typeof identity.ino !== "string")
         throw new CatalogError(
           "INVALID_NATIVE_RESPONSE",
@@ -56,26 +51,16 @@ export class ManagedFiles {
     const directory = join(this.home, "recordings", recordingId);
     const handle = await open(
       directory,
-      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20000000,
+      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
     );
     try {
-      const result = await this.worker(
-        "storage.recordingDirectory",
-        {
-          home: this.home,
-          expectedHome: this.expectedHome,
-          recordingId,
-        },
-        { descriptors: [handle.fd], ...(signal ? { signal } : {}) },
-      );
-      if (!result.ok)
-        throw new CatalogError(
-          result.error.code,
-          result.error.message,
-          result.error.details,
-          result.error.retryable,
-        );
-      const identity = result.data as DirectoryIdentity;
+      const identity = nativeResult(
+        await this.worker(
+          "storage.recordingDirectory",
+          { home: this.home, expectedHome: this.expectedHome, recordingId },
+          { descriptors: [handle.fd], ...(signal ? { signal } : {}) },
+        ),
+      ) as DirectoryIdentity;
       if (!identity || typeof identity.dev !== "string" || typeof identity.ino !== "string")
         throw new CatalogError("INVALID_NATIVE_RESPONSE", "Recording directory was not identified");
       return { directory, handle, identity };
@@ -95,27 +80,14 @@ export class ManagedFiles {
     params: Record<string, unknown>,
     signal: AbortSignal,
   ): Promise<void> {
-    const result = await this.worker(
-      operation,
-      { home: this.home, expectedHome: this.expectedHome, ...params },
-      { signal },
+    nativeConfirmed(
+      await this.worker(
+        operation,
+        { home: this.home, expectedHome: this.expectedHome, ...params },
+        { signal },
+      ),
+      "removed",
+      "Native storage removal did not confirm completion",
     );
-    if (!result.ok)
-      throw new CatalogError(
-        result.error.code,
-        result.error.message,
-        result.error.details,
-        result.error.retryable,
-      );
-    if (
-      !result.data ||
-      typeof result.data !== "object" ||
-      !("removed" in result.data) ||
-      result.data.removed !== true
-    )
-      throw new CatalogError(
-        "INVALID_NATIVE_RESPONSE",
-        "Native storage removal did not confirm completion",
-      );
   }
 }

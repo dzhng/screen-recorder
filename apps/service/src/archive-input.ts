@@ -5,6 +5,7 @@ import {
   type OpenedFile,
   type FileIdentity,
   fileIdentity,
+  O_NOFOLLOW_ANY,
 } from "@screenrec/core/files";
 import { archiveLimits } from "@screenrec/core/package-archive";
 
@@ -17,7 +18,9 @@ export type AdmittedArchive = OpenedFile &
 export function admitArchive(path: string): AdmittedArchive {
   if (process.platform !== "darwin")
     throw new CatalogError("UNSUPPORTED_PLATFORM", "Archive admission requires macOS");
-  const file = openedFile(openSync(path, constants.O_RDONLY | constants.O_NONBLOCK | 0x20000000));
+  const file = openedFile(
+    openSync(path, constants.O_RDONLY | constants.O_NONBLOCK | O_NOFOLLOW_ANY),
+  );
   try {
     const stat = fstatSync(file.fd, { bigint: true });
     if (!stat.isFile() || stat.size < 1n || stat.size > BigInt(archiveLimits.compressedBytes))

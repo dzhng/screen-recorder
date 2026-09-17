@@ -9,7 +9,7 @@ import { dirname } from "node:path";
 import { CatalogError } from "@screenrec/core/library";
 import { archiveLimits } from "@screenrec/core/package-archive";
 import { parseRevisionHistory, type TimelineRevision } from "@screenrec/core/timeline";
-import { fileSubdirectory } from "@screenrec/core/files";
+import { fileSubdirectory, O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { FileScreenshotIndex } from "@screenrec/core/index-pages";
 import { RetainedIndexRead } from "@screenrec/core/index-read";
 import { framePolicy } from "@screenrec/core/frame-materialization";
@@ -70,7 +70,7 @@ export class PackageInspection {
         const directory = await realpath(this.options.directory);
         const handle = await open(
           directory,
-          constants.O_RDONLY | constants.O_DIRECTORY | 0x20000000,
+          constants.O_RDONLY | constants.O_DIRECTORY | O_NOFOLLOW_ANY,
         );
         try {
           const info = await handle.stat({ bigint: true });

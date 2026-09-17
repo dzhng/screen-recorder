@@ -15,22 +15,12 @@ import {
   type OpenedFile,
   type FileAccess,
 } from "@screenrec/core/files";
-import type { MediaWorker } from "./worker.js";
+import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 import type { AdmittedArchive } from "./archive-input.js";
 
 export const packageOutputBytes = 128 * 1024 ** 2;
 
 type Options = { signal?: AbortSignal; limits?: ArchiveLimits; timeoutMs?: number };
-function requireResult(result: Awaited<ReturnType<MediaWorker>>) {
-  if (!result.ok)
-    throw new CatalogError(
-      result.error.code,
-      result.error.message,
-      result.error.details,
-      result.error.retryable,
-    );
-  return result.data;
-}
 async function extractArchive(
   archive: AdmittedArchive,
   workspace: FileHandle,
@@ -54,38 +44,22 @@ async function extractArchive(
     descriptors: [workspace.fd],
     timeoutMs: options.timeoutMs ?? 30 * 60_000,
   };
-  const prepared = requireResult(
+  nativeConfirmed(
     await worker(
       "archive.prepare",
       { identity },
       { ...nativeOptions, ...(options.signal ? { signal: options.signal } : {}) },
     ),
+    "empty",
+    "Archive workspace admission was not confirmed",
   );
-  if (
-    !prepared ||
-    typeof prepared !== "object" ||
-    !("empty" in prepared) ||
-    prepared.empty !== true
-  )
-    throw new CatalogError(
-      "INVALID_NATIVE_RESPONSE",
-      "Archive workspace admission was not confirmed",
-    );
   const close = async (failure?: unknown) => {
     try {
-      const result = requireResult(
+      nativeConfirmed(
         await worker("archive.cleanup", { identity }, { ...nativeOptions, timeoutMs: 30_000 }),
+        "removed",
+        "Archive cleanup did not confirm completion",
       );
-      if (
-        !result ||
-        typeof result !== "object" ||
-        !("removed" in result) ||
-        result.removed !== true
-      )
-        throw new CatalogError(
-          "INVALID_NATIVE_RESPONSE",
-          "Archive cleanup did not confirm completion",
-        );
     } catch (cleanup) {
       const describe = (error: unknown) => (error instanceof Error ? error.message : String(error));
       throw new CatalogError(
@@ -109,7 +83,7 @@ async function extractArchive(
         ...(options.signal ? { signal: options.signal } : {}),
       },
     );
-    const verified = verifyArchiveReceipt(requireResult(result), limits);
+    const verified = verifyArchiveReceipt(nativeResult(result), limits);
     if (verified.copiedBytes !== archive.bytes)
       throw new CatalogError("INVALID_NATIVE_RESPONSE", "Archive copy size differs from admission");
     return { verified, identity, close };
@@ -245,7 +219,7 @@ export class RetainedPackage {
           "OUTPUT_CLEANUP_FAILED",
           "Output creation was not confirmed; close the context for recovery",
         );
-      const result = requireResult(
+      nativeConfirmed(
         await this.callWorker(
           "archive.removeOutput",
           {
@@ -255,14 +229,9 @@ export class RetainedPackage {
           },
           { descriptors: [this.workspace.handle.fd] },
         ),
+        "removed",
+        "Output cleanup did not confirm removal",
       );
-      if (
-        !result ||
-        typeof result !== "object" ||
-        !("removed" in result) ||
-        result.removed !== true
-      )
-        throw new CatalogError("INVALID_NATIVE_RESPONSE", "Output cleanup did not confirm removal");
       this.opened.forget(output.name);
       this.outputBytes -= output.charged;
       this.outputs.delete(output.label);
@@ -366,7 +335,7 @@ export class RetainedPackage {
           readers: 0,
         };
         this.outputs.set(params.output, owned);
-        const created = requireResult(
+        const created = nativeResult(
           await this.callWorker(
             "archive.createOutput",
             { identity: this.extraction.identity, name: outputName },
@@ -382,7 +351,7 @@ export class RetainedPackage {
         leases.push(output);
         mapped.output = `/dev/fd/${leases.length + 2}`;
       }
-      const data = requireResult(
+      const data = nativeResult(
         await this.callWorker(operation, mapped, {
           // Keep the workspace lock alive if this parent dies before the native child.
           descriptors: [...leases.map((file) => file.fd), this.workspace.handle.fd],

@@ -10,7 +10,8 @@ import {
 } from "@screenrec/core/presentation-evidence";
 import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
 import type { RenderSpan } from "@screenrec/core/timeline";
-import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
+import { O_EXLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 /** The sequential reader may decode discarded prefixes, so budget the last source
  * position, not merely the shorter edited result. Allow realtime work plus startup;
@@ -52,7 +53,7 @@ async function withLockedRenderWorkspace<T>(
     );
   const parent = await realpath(directory);
   const flags =
-    constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | 0x20 | 0x20000000; // Darwin O_EXLOCK and O_NOFOLLOW_ANY.
+    constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_EXLOCK | O_NOFOLLOW_ANY;
   const workspace = await open(parent, flags).catch((error: NodeJS.ErrnoException) => {
     if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
       throw new CatalogError(
@@ -71,32 +72,17 @@ async function withLockedRenderWorkspace<T>(
       descriptors: [...descriptors, ...(options?.descriptors ?? [])],
     });
   const clear = async () => {
-    const response = await worker(
-      "storage.clearRenderWorkspace",
-      {
-        expectedDirectory: { dev: before.dev.toString(), ino: before.ino.toString() },
-      },
-      { descriptors },
+    nativeConfirmed(
+      await worker(
+        "storage.clearRenderWorkspace",
+        {
+          expectedDirectory: { dev: before.dev.toString(), ino: before.ino.toString() },
+        },
+        { descriptors },
+      ),
+      "removed",
+      "Render workspace cleanup did not confirm completion",
     );
-    if (!response.ok)
-      throw new CatalogError(
-        response.error.code,
-        response.error.message,
-        response.error.details,
-        response.error.retryable,
-      );
-    if (
-      !(
-        response.data &&
-        typeof response.data === "object" &&
-        "removed" in response.data &&
-        response.data.removed === true
-      )
-    )
-      throw new CatalogError(
-        "INVALID_NATIVE_RESPONSE",
-        "Render workspace cleanup did not confirm completion",
-      );
   };
   try {
     const opened = await workspace.stat({ bigint: true });
@@ -246,14 +232,7 @@ export async function withRenderedMedia<T>(
           { signal, timeoutMs: renderDeadlineMs(request.plan, request.tracks.length > 0) },
         );
         checkCanceled();
-        if (!response.ok)
-          throw new CatalogError(
-            response.error.code,
-            response.error.message,
-            response.error.details,
-            response.error.retryable,
-          );
-        const receipt = response.data as RenderedMovie;
+        const receipt = nativeResult(response) as RenderedMovie;
         if (
           receipt.file !== file ||
           receipt.durationUs !== request.plan.at(-1)?.playback.endUs ||

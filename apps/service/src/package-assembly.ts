@@ -37,8 +37,8 @@ import {
   type PackageManifest,
   type PackageSnapshot,
 } from "@screenrec/core/package-manifest";
-import { fileIdentity, type FileIdentity } from "@screenrec/core/files";
-import type { MediaWorker } from "./worker.js";
+import { fileIdentity, O_NOFOLLOW_ANY, type FileIdentity } from "@screenrec/core/files";
+import { nativeResult, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";
 import { writeArchive } from "./archive-write.js";
 
@@ -70,7 +70,7 @@ function same(actual: unknown, expected: unknown) {
 export async function checkWorkspace(workspace: Workspace): Promise<void> {
   const current = await open(
     workspace.directory,
-    constants.O_RDONLY | constants.O_DIRECTORY | 0x20000000,
+    constants.O_RDONLY | constants.O_DIRECTORY | O_NOFOLLOW_ANY,
   );
   try {
     const stat = await current.stat({ bigint: true });
@@ -230,7 +230,7 @@ export async function assemblePackage(
       signal.throwIfAborted();
       const handle = await open(
         join(parent.directory, selection.source),
-        constants.O_RDONLY | constants.O_NONBLOCK | 0x20000000,
+        constants.O_RDONLY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
       );
       borrowed.push(handle);
       const stat = await handle.stat({ bigint: true });
@@ -245,22 +245,22 @@ export async function assemblePackage(
     }
     const bytes = members.reduce((sum, member) => sum + member.bytes, 0);
     if (bytes > archiveLimits.expandedBytes) invalid("Source members exceed package budget");
-    const copied = await owners.worker(
-      "archive.copy",
-      { identity: input.identity, inputIdentity: parent.identity, members, limits: archiveLimits },
-      {
-        descriptors: [input.handle.fd, parent.handle.fd],
-        signal,
-        timeoutMs: publicationDeadlineMs(bytes),
-      },
+    nativeResult(
+      await owners.worker(
+        "archive.copy",
+        {
+          identity: input.identity,
+          inputIdentity: parent.identity,
+          members,
+          limits: archiveLimits,
+        },
+        {
+          descriptors: [input.handle.fd, parent.handle.fd],
+          signal,
+          timeoutMs: publicationDeadlineMs(bytes),
+        },
+      ),
     );
-    if (!copied.ok)
-      throw new CatalogError(
-        copied.error.code,
-        copied.error.message,
-        copied.error.details,
-        copied.error.retryable,
-      );
   } finally {
     await Promise.all(borrowed.map((file) => file.close()));
   }
@@ -329,7 +329,7 @@ export async function assemblePackage(
     signal.throwIfAborted();
     const file = await open(
       join(input.directory, path),
-      constants.O_RDONLY | constants.O_NONBLOCK | 0x20000000,
+      constants.O_RDONLY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
     );
     try {
       const before = await file.stat({ bigint: true });
@@ -428,7 +428,7 @@ export async function assemblePackage(
   await checkWorkspace(zip);
   const planFile = await open(
     join(input.directory, "zip-plan.json"),
-    constants.O_RDONLY | 0x20000000,
+    constants.O_RDONLY | O_NOFOLLOW_ANY,
   );
   try {
     return await writeArchive(

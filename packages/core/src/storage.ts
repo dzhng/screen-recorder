@@ -4,6 +4,7 @@ import { basename, join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError, type Recording, type RevisionStore } from "./library.js";
 import type { DerivedCache } from "./cache.js";
+import { O_NOFOLLOW_ANY } from "./files.js";
 
 type Category = "sourceBytes" | "evidenceBytes" | "cacheBytes" | "otherBytes" | "sharedBytes";
 export type StorageUsage = Record<Category | "totalBytes", number> & {
@@ -13,9 +14,6 @@ export type StorageUsage = Record<Category | "totalBytes", number> & {
 };
 type DirectoryIdentity = { path: string; dev: bigint; ino: bigint };
 type Location = { area: "home" | "recordings" | "recording" | "files"; category: Category };
-// Darwin sys/fcntl.h: unlike O_NOFOLLOW, this forbids symlinks in every path component.
-// Node does not export this macOS flag. https://github.com/apple/darwin-xnu/blob/main/bsd/sys/fcntl.h
-const noFollowAny = 0x20000000;
 const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
 
 /** Actual regular-file lengths, never artifact metadata or an estimate of SQLite row ownership. */
@@ -131,7 +129,7 @@ export class RecordingStorage {
         await checkDirectories(directories);
         if (category === "cacheBytes") this.cache.checkRoot();
         if ((await lstat(path)).isFile()) {
-          const file = await open(path, constants.O_RDONLY | constants.O_NONBLOCK | noFollowAny);
+          const file = await open(path, constants.O_RDONLY | constants.O_NONBLOCK | O_NOFOLLOW_ANY);
           try {
             const stat = await file.stat();
             if (stat.isFile()) {

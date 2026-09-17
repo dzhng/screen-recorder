@@ -7,20 +7,10 @@ import {
   validateArchiveLimits,
   type ArchiveLimits,
 } from "@screenrec/core/package-archive";
-import type { MediaWorker } from "./worker.js";
+import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";
 
 type Options = { signal?: AbortSignal; limits?: ArchiveLimits; timeoutMs?: number };
-function result(value: Awaited<ReturnType<MediaWorker>>) {
-  if (!value.ok)
-    throw new CatalogError(
-      value.error.code,
-      value.error.message,
-      value.error.details,
-      value.error.retryable,
-    );
-  return value.data;
-}
 /** Borrow both private directories and the immutable member plan until close settles.
  * The caller registers their identities for crash recovery before this operation writes bytes. */
 export async function writeArchive(
@@ -41,24 +31,30 @@ export async function writeArchive(
     descriptors: [workspace.handle.fd],
     timeoutMs: options.timeoutMs ?? publicationDeadlineMs(input.bytes),
   };
-  result(
+  nativeConfirmed(
     await worker(
       "archive.prepare",
       { identity },
       { ...nativeOptions, ...(options.signal ? { signal: options.signal } : {}) },
     ),
+    "empty",
+    "ZIP workspace admission was not confirmed",
   );
   let files: IdentifiedFiles | undefined;
   let closed = false;
   const close = async () => {
     if (closed) return;
     files?.close();
-    result(await worker("archive.cleanup", { identity }, { ...nativeOptions, timeoutMs: 30_000 }));
+    nativeConfirmed(
+      await worker("archive.cleanup", { identity }, { ...nativeOptions, timeoutMs: 30_000 }),
+      "removed",
+      "ZIP workspace cleanup was not confirmed",
+    );
     closed = true;
   };
   try {
     const receipt = verifyArchiveWriteReceipt(
-      result(
+      nativeResult(
         await worker(
           "archive.write",
           {

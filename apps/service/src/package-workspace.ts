@@ -3,7 +3,8 @@ import { constants } from "node:fs";
 import { open, type FileHandle } from "node:fs/promises";
 import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/library";
-import type { MediaWorker } from "./worker.js";
+import { O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 type Identity = Readonly<{ dev: string; ino: string }>;
 type Parent = Readonly<{ directory: string; handle: FileHandle }>;
@@ -28,17 +29,6 @@ class FailedWorkspaceProvision extends CatalogError {
       true,
     );
   }
-}
-
-function result(value: Awaited<ReturnType<MediaWorker>>) {
-  if (!value.ok)
-    throw new CatalogError(
-      value.error.code,
-      value.error.message,
-      value.error.details,
-      value.error.retryable,
-    );
-  return value.data;
 }
 
 /** Parent is borrowed until removal succeeds. Close RetainedPackage before calling remove. */
@@ -71,7 +61,7 @@ export async function provisionPackageWorkspace(
   // Once mkdir can occur, drain creation to its receipt before honoring cancellation.
   let receipt: { name?: unknown; identity?: Identity };
   try {
-    receipt = result(await call("packageWorkspace.create")) as typeof receipt;
+    receipt = nativeResult(await call("packageWorkspace.create")) as typeof receipt;
   } catch (cause) {
     throw new CatalogError(
       "INVALID_STORAGE",
@@ -93,7 +83,7 @@ export async function provisionPackageWorkspace(
   let handle: FileHandle | undefined;
   try {
     if (signal?.aborted) throw new CatalogError("CANCELED", "Workspace creation canceled");
-    handle = await open(directory, constants.O_RDONLY | constants.O_DIRECTORY | 0x20000000);
+    handle = await open(directory, constants.O_RDONLY | constants.O_DIRECTORY | O_NOFOLLOW_ANY);
     const actual = await handle.stat({ bigint: true });
     if (
       !actual.isDirectory() ||
@@ -101,11 +91,15 @@ export async function provisionPackageWorkspace(
       actual.ino.toString() !== identity.ino
     )
       throw new CatalogError("INVALID_STORAGE", "Workspace locator identity changed");
-    result(await call("packageWorkspace.admit", identity, handle, signal));
+    nativeResult(await call("packageWorkspace.admit", identity, handle, signal));
   } catch (cause) {
     await handle?.close();
     try {
-      result(await call("packageWorkspace.remove", identity));
+      nativeConfirmed(
+        await call("packageWorkspace.remove", identity),
+        "removed",
+        "Workspace removal was not confirmed",
+      );
     } catch (cleanup) {
       throw new FailedWorkspaceProvision(name, parentIdentity, identity, cause, cleanup);
     }
@@ -128,7 +122,11 @@ export async function provisionPackageWorkspace(
           await admitted.close();
           closed = true;
         }
-        result(await call("packageWorkspace.remove", identity));
+        nativeConfirmed(
+          await call("packageWorkspace.remove", identity),
+          "removed",
+          "Workspace removal was not confirmed",
+        );
         removed = true;
       })().finally(() => {
         removal = undefined;
@@ -162,7 +160,7 @@ async function recoverWorkspaces(
 ): Promise<{ recovered: number }> {
   const handle = parent.handle;
   const info = await handle.stat({ bigint: true });
-  const receipt = result(
+  const receipt = nativeResult(
     await worker(
       name === undefined ? "packageWorkspace.recover" : "packageWorkspace.recoverUnconfirmed",
       {
@@ -192,7 +190,7 @@ export async function cleanupFailedPackageWorkspace(
   if (failure instanceof FailedWorkspaceProvision) {
     if (failure.workspaceName !== name)
       throw new CatalogError("INVALID_STORAGE", "Failed workspace name changed");
-    result(
+    nativeConfirmed(
       await worker(
         "packageWorkspace.remove",
         {
@@ -202,6 +200,8 @@ export async function cleanupFailedPackageWorkspace(
         },
         { descriptors: [parent.handle.fd] },
       ),
+      "removed",
+      "Workspace removal was not confirmed",
     );
   } else {
     await recoverUnconfirmedPackageWorkspace(parent, name, worker);
