@@ -18,6 +18,7 @@ import {
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 import type { AdmittedArchive } from "./archive-input.js";
 import { isPrivateDirectory } from "./managed-files.js";
+import { validatePackageTranscript } from "./package-transcript.js";
 
 export const packageOutputBytes = 128 * 1024 ** 2;
 
@@ -111,12 +112,20 @@ export async function openPackageArchive(
   options: Options = {},
 ) {
   const extraction = await extractArchive(archive, workspace.handle, worker, options);
+  let retained: RetainedPackage;
   try {
-    return new RetainedPackage(workspace, worker, extraction);
+    retained = new RetainedPackage(workspace, worker, extraction);
   } catch (error) {
     await extraction.close(error);
     throw error;
   }
+  try {
+    await validatePackageTranscript(retained, options.signal);
+  } catch (error) {
+    await retained.close();
+    throw error;
+  }
+  return retained;
 }
 
 type Output = {

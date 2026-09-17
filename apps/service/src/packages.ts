@@ -1,13 +1,18 @@
 import { readRawCursor, type RawCursorOptions } from "@screenrec/core/raw-cursor";
 import { PackageTimelineInspection } from "./timeline-inspection.js";
-import { PackageMediaContext, portableEvidence, portableIdentities } from "./package-media.js";
+import {
+  PackageMediaContext,
+  packageRevisions,
+  portableEvidence,
+  portableIdentities,
+} from "./package-media.js";
+import { PackageTranscriptInspection } from "./package-transcript.js";
 import { PackageAudioInspection } from "./package-audio.js";
 import { PackageFrameInspection } from "./package-frames.js";
 import { constants } from "node:fs";
 import { mkdir, lstat, realpath, open, type FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/library";
-import { archiveLimits } from "@screenrec/core/package-archive";
-import { parseRevisionHistory, type TimelineRevision } from "@screenrec/core/timeline";
+import type { TimelineRevision } from "@screenrec/core/timeline";
 import { fileSubdirectory, O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { FileScreenshotIndex } from "@screenrec/core/index-pages";
 import { RetainedIndexRead } from "@screenrec/core/index-read";
@@ -39,6 +44,7 @@ export class PackageInspection {
       frames?: PackageFrameInspection;
       audio?: PackageAudioInspection;
       timeline?: PackageTimelineInspection;
+      transcript?: PackageTranscriptInspection;
     }
   >();
   constructor(
@@ -149,12 +155,7 @@ export class PackageInspection {
     const context = this.context(handle);
     let view = this.views.get(context);
     if (!view) {
-      view = {
-        revisions: parseRevisionHistory(
-          context.manifest.history.map(({ path }) => JSON.parse(context.revisionContents[path]!)),
-          archiveLimits.history,
-        ),
-      };
+      view = { revisions: packageRevisions(context) };
       this.views.set(context, view);
     }
     return { context, view, revisions: view.revisions };
@@ -227,6 +228,10 @@ export class PackageInspection {
   timeline(packageHandle: string): PackageTimelineInspection {
     const { view } = this.revisions(packageHandle);
     return (view.timeline ??= new PackageTimelineInspection(this.media(packageHandle)));
+  }
+  transcript(packageHandle: string): PackageTranscriptInspection {
+    const { view } = this.revisions(packageHandle);
+    return (view.transcript ??= new PackageTranscriptInspection(this.media(packageHandle)));
   }
   frames(packageHandle: string): PackageFrameInspection {
     const { view } = this.revisions(packageHandle);

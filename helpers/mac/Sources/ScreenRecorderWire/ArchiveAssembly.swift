@@ -14,8 +14,8 @@ extension ArchiveOperation {
         try limits.check()
         try request.inputIdentity.check(4)
         try ManagedFiles.lockPrivateDirectory(4)
-        guard (1...4).contains(request.members.count) else {
-            throw error("INVALID_REQUEST", "Source copy requires one to four selected members.")
+        guard (1...6).contains(request.members.count) else {
+            throw error("INVALID_REQUEST", "Source copy requires one to six selected members.")
         }
         func parts(_ path: String) throws -> [String] {
             guard case .safe(let components) = memberPath(path, limits) else {

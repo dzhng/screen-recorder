@@ -35,16 +35,50 @@ import { PreviewInspection } from "@screenrec/core/preview";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { TranscriptStore } from "@screenrec/core/transcript";
+import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import { Publication } from "../dist/publication.js";
 import { RecordingExports } from "../dist/exports.js";
 import { RecordingDeletion } from "../dist/deletion.js";
 import { DerivativeDelivery } from "../dist/delivery.js";
+import { PackageInspection } from "../dist/packages.js";
 import { ManagedFiles } from "../dist/managed-files.js";
 import { mediaWorker } from "../dist/worker.js";
 import { journalRows } from "../../macos/tests/fixtures/generated-capture.mjs";
 const binary = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
 const native = mediaWorker({ SCREENREC_NATIVE: binary });
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
+const speechEngine = {
+  runtime: "FluidAudio",
+  runtimeVersion: "0.15.7",
+  decoder: "parakeet-tdt-batch",
+  encoderPrecision: "float16",
+  computeUnits: "cpuAndNeuralEngine",
+};
+/** Stands in for native speech: words every 250 ms of each readable narration interval, never in gaps. */
+function fakeTranscriber(speech) {
+  const texts = ["Um,", "hello", "world.", "hello", "again"];
+  return async (request) => {
+    speech.requests++;
+    if (speech.fail) throw new Error(speech.fail);
+    let spoken = 0;
+    const lines = request.track.available.map((interval, ordinal) => {
+      const words = [];
+      for (let at = interval.startUs + 50_000; at + 200_000 <= interval.endUs; at += 250_000) {
+        const source = { startUs: at, endUs: at + 200_000 };
+        words.push({ text: texts[spoken++ % texts.length], ...source, source, confidence: 0.9 });
+      }
+      return { ordinal, source: interval, state: "transcribed", words };
+    });
+    const body = lines.map((line) => `${JSON.stringify(line)}\n`).join("");
+    await writeFile(request.output, body);
+    return {
+      output: { file: request.output, bytes: Buffer.byteLength(body), sha256: sha(body) },
+      engine: speechEngine,
+      segments: lines.map(({ words, ...line }) => ({ ...line, wordCount: words.length })),
+      wordCount: spoken,
+    };
+  };
+}
 async function fixture(
   t,
   wrap = (value) => value,
@@ -103,9 +137,11 @@ async function fixture(
   const cache = new DerivedCache(store, home);
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store);
-  let processing, preview, exports, sceneOwner, indexOwner;
+  let processing, preview, exports, sceneOwner, indexOwner, transcriptOwner;
   const sceneEvidence = new SceneEvidenceStore(store);
   const indexEvidence = new ScreenshotIndexStore(store, home);
+  const transcriptEvidence = new TranscriptStore(store, home);
+  const speech = { models: "ready", fail: null, requests: 0 };
   let recoverOnCapacity = false;
   const recoveryErrors = [];
   const worker = wrap(native);
@@ -122,9 +158,11 @@ async function fixture(
           ? sceneOwner.execute(execution)
           : execution.job.artifact === "screenshot-index"
             ? indexOwner.execute(execution)
-            : execution.job.artifact === "preview"
-              ? preview.execute(execution)
-              : processing.execute(execution),
+            : execution.job.artifact === "transcript"
+              ? transcriptOwner.execute(execution)
+              : execution.job.artifact === "preview"
+                ? preview.execute(execution)
+                : processing.execute(execution),
   });
   const call = async (op, params, signal) => {
     const result = await worker(op, params, { signal });
@@ -167,6 +205,27 @@ async function fixture(
     { decode: (params, signal) => call("media.frame", params, signal), sample },
     (recordingId, generation) => exports.retainsIndex(recordingId, generation),
   );
+  transcriptOwner = new TranscriptProcessing(
+    store,
+    jobs,
+    transcriptEvidence,
+    processing,
+    evidence,
+    {
+      status: () => ({ state: speech.models }),
+      nativeRequest: () => ({ directory: join(home, "models"), files: [] }),
+      modelDigest: "a".repeat(64),
+      pins: {
+        ...speechEngine,
+        runtimeRevision: "41540ea237350afe5117a082b5c28eda642d0612",
+        model: "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+        modelRevision: "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+      },
+    },
+    home,
+    fakeTranscriber(speech),
+    (recordingId, generation) => exports.retainsTranscript(recordingId, generation),
+  );
   const files = new ManagedFiles(home, worker);
   exports = new RecordingExports({
     store,
@@ -179,9 +238,11 @@ async function fixture(
     package: {
       scenes: sceneOwner,
       index: indexOwner,
+      transcript: transcriptOwner,
       source: evidence,
       sceneEvidence,
       indexEvidence,
+      transcriptEvidence,
     },
   });
   const storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
@@ -202,7 +263,7 @@ async function fixture(
     source: evidence,
     scenes: sceneEvidence,
     index: indexEvidence,
-    transcripts: new TranscriptStore(store, home),
+    transcripts: transcriptEvidence,
     capture: { quiesce: async () => {} },
     delivery,
     cleanupReady: async () => {},
@@ -244,6 +305,9 @@ async function fixture(
     indexOwner,
     sceneEvidence,
     indexEvidence,
+    transcriptOwner,
+    speech,
+    worker,
     closeOwners,
     storage,
     recoveryErrors,
@@ -613,7 +677,11 @@ if (process.argv[2] === "crash-owner") {
       leaf: "budget.mp4",
     });
     await f.jobs.idle();
-    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.equal(
+      f.exports.status(exportId).state,
+      "committed",
+      JSON.stringify(f.exports.status(exportId)),
+    );
     assert.deepEqual(
       await readFile(join(f.output, "budget.mp4")),
       await readFile(f.ready.published.preview.file),
@@ -753,7 +821,11 @@ if (process.argv[2] === "crash-owner") {
     await rename(f.output, moved);
     const before = nativeCalls;
     assert.equal((await f.exports.retry(exportId)).state, "committed");
-    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.equal(
+      f.exports.status(exportId).state,
+      "committed",
+      JSON.stringify(f.exports.status(exportId)),
+    );
     await f.exports.abandon(exportId);
     assert.equal(nativeCalls, before);
     assert.throws(() => f.exports.status(exportId), { code: "NOT_FOUND" });
@@ -1137,7 +1209,11 @@ if (process.argv[2] === "crash-owner") {
     });
     assert.notEqual(reused.jobId, status.jobId);
     await f.jobs.idle();
-    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.equal(
+      f.exports.status(exportId).state,
+      "committed",
+      JSON.stringify(f.exports.status(exportId)),
+    );
     await f.exports.abandon(exportId);
     assert.equal(
       f.jobs.status({
@@ -1338,7 +1414,11 @@ if (process.argv[2] === "crash-owner") {
     });
     await f.exports.retry(exportId);
     await f.jobs.idle();
-    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.equal(
+      f.exports.status(exportId).state,
+      "committed",
+      JSON.stringify(f.exports.status(exportId)),
+    );
     const regenerated = f.preview.request({
       recordingId: f.take.recordingId,
       revisionId: "r0",
@@ -1601,7 +1681,11 @@ if (process.argv[2] === "crash-owner") {
       (e) => e.code === "REQUEST_CONFLICT",
     );
     assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 1);
-    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.equal(
+      f.exports.status(exportId).state,
+      "committed",
+      JSON.stringify(f.exports.status(exportId)),
+    );
   });
   test("lost retirement acknowledgement resumes real recording deletion after the staging directory is gone", async (t) => {
     let lost = true;
@@ -1771,7 +1855,11 @@ if (process.argv[2] === "crash-owner") {
     assert.equal((await readFile(join(stage, "receipt.pending"))).length, 1);
     await f.exports.retry(exportId);
     await f.jobs.idle();
-    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.equal(
+      f.exports.status(exportId).state,
+      "committed",
+      JSON.stringify(f.exports.status(exportId)),
+    );
     await f.deletion.delete(f.take.recordingId);
     assert.deepEqual(await readdir(f.output), ["retry.mp4"]);
   });
@@ -1984,7 +2072,11 @@ if (process.argv[2] === "crash-owner") {
       leaf: "export.mp4",
     });
     await f.jobs.idle();
-    assert.equal(f.exports.status(exportId).state, "committed");
+    assert.equal(
+      f.exports.status(exportId).state,
+      "committed",
+      JSON.stringify(f.exports.status(exportId)),
+    );
     const stage = join(f.output, ".screenrec-export-" + exportId);
     const metadataBytes = (await stat(join(stage, "prepared.json"))).size;
     assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, metadataBytes);
@@ -2328,55 +2420,262 @@ if (process.argv[2] === "crash-owner") {
     assert.deepEqual(await readFile(join(moved, "historical.zip")), original);
     await rename(moved, f.output);
   });
-  test("actual acquired narration remains blocked before any package assembly", async (t) => {
-    const f = await fixture(t, undefined, undefined, { warm: false });
+  /** Acquired narration in two readable intervals, recorded as the capture journal reports it. */
+  async function narrate(f) {
     const source = join(f.home, "recordings", f.take.recordingId, "source");
     const rows = journalRows({ sourceId: f.take.sourceId, width: 160, height: 90, samples: [] });
     rows[0].data.microphone = true;
-    rows.splice(rows.length - 1, 0, {
-      event: "audioSamples",
-      data: { role: "narration", startUs: 0, endUs: 2000000 },
-    });
+    rows.splice(
+      rows.length - 1,
+      0,
+      ...[
+        { role: "narration", startUs: 0, endUs: 900_000 },
+        { role: "narration", startUs: 1_200_000, endUs: 2_000_000 },
+      ].map((data) => ({ event: "audioSamples", data })),
+    );
     await writeFile(
       join(source, "capture.journal.jsonl"),
       rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
     );
-    const made = spawnSync("ffmpeg", [
-      "-nostdin",
-      "-v",
-      "error",
-      "-f",
-      "lavfi",
-      "-i",
-      "sine=frequency=1000:duration=2",
-      "-c:a",
-      "pcm_f32le",
-      join(source, "narration.mov"),
-    ]);
-    assert.equal(made.status, 0);
-    const requested = await f.exports.create({
+    for (const [input, codec, file] of [
+      ["sine=frequency=1000:duration=2", ["-c:a", "pcm_f32le"], "narration.mov"],
+      // Ten frames a second give the index a sample at every cut this test makes.
+      ["color=c=gray:s=160x90:r=10:d=2", ["-c:v", "libx264", "-pix_fmt", "yuv420p"], "video.mov"],
+    ]) {
+      const made = spawnSync("ffmpeg", [
+        "-nostdin",
+        "-y",
+        "-v",
+        "error",
+        "-f",
+        "lavfi",
+        "-i",
+        input,
+        ...codec,
+        join(source, file),
+      ]);
+      assert.equal(made.status, 0);
+    }
+    return source;
+  }
+  async function openPackage(t, f, path) {
+    const directory = join(f.home, "opened-packages");
+    const packages = new PackageInspection({
+      directory,
+      jobs: f.jobs,
+      worker: f.worker,
+      delivery: new DerivativeDelivery(),
+    });
+    t.after(() => packages.dispose());
+    await packages.prepare();
+    const admitted = await packages.open(path);
+    const opened = await waitFor(() => {
+      const status = packages.status(admitted.id);
+      return ["ready", "failed"].includes(status.state) && status;
+    }, 30_000);
+    return { packages, opened };
+  }
+  test("narrated package pins its transcript and reopens with the library's transcript reads", async (t) => {
+    const f = await fixture(t, undefined, undefined, { warm: false });
+    await narrate(f);
+    f.processing.prepare(f.take.recordingId);
+    await f.jobs.idle();
+    // Cut through the second word so the pinned revision holds a partial word and a removed one.
+    const revision = f.store.edit(f.take.recordingId, {
+      operation: "cut",
+      requestId: randomUUID(),
+      expectedRevisionId: "r0",
+      ranges: [{ startUs: 0, endUs: 400_000 }],
+    });
+    const exportId = randomUUID();
+    await f.exports.create({
       kind: "processed-package",
-      exportId: randomUUID(),
+      exportId,
       recordingId: f.take.recordingId,
+      revisionId: revision.id,
       directory: f.output,
       leaf: "narrated.zip",
     });
     await f.jobs.idle();
-    const blocked = f.exports.status(requested.exportId);
-    assert.equal(blocked.state, "failed");
-    assert.match(blocked.reason, /accepted transcript/);
-    assert.equal(
-      f.evidence.hasAudio(f.processing.status(f.take.recordingId).published.evidence, "narration"),
-      true,
+    const done = f.exports.status(exportId);
+    assert.equal(done.state, "committed", JSON.stringify(done));
+    assert.equal(f.speech.requests, 1);
+    const selected = JSON.parse(
+      f.store.catalog
+        .prepare("SELECT packageEvidence FROM export_intents WHERE exportId=?")
+        .get(exportId).packageEvidence,
+    ).transcript;
+    const library = f.transcriptOwner.status(f.take.recordingId).published.transcript;
+    assert.equal(selected.generation, library.generation);
+    assert.equal(f.exports.retainsTranscript(f.take.recordingId, selected.generation), false);
+
+    const { packages, opened } = await openPackage(t, f, done.output);
+    assert.equal(opened.state, "ready", JSON.stringify(opened));
+    const handle = opened.packageHandle;
+    const manifest = packages.revision({ packageHandle: handle });
+    assert.equal(manifest.revision.id, revision.id);
+    const transcript = packages.transcript(handle);
+    const whole = f.transcriptOwner.get({ recordingId: f.take.recordingId, limit: 1000 });
+    const words = whole.page.rows.filter((row) => row.type === "word");
+    assert.ok(
+      words.some((row) => row.partial),
+      "the cut leaves a partial word",
     );
+    assert.ok(words.length < library.wordCount, "the cut removes a whole word");
+    assert.ok(whole.page.rows.some((row) => row.type === "gap"));
+    const same = (actual, expected) => {
+      assert.equal(actual.revisionId, expected.revisionId);
+      assert.equal(actual.generation, expected.generation);
+      assert.deepEqual(
+        actual.page.rows ?? actual.page.entries,
+        expected.page.rows ?? expected.page.entries,
+      );
+      assert.deepEqual(actual.page.nextCursor, expected.page.nextCursor);
+      return expected.page.nextCursor;
+    };
+    for (const revisionId of [undefined, "r0"])
+      for (const range of [undefined, { startUs: 300_000, endUs: 1_400_000 }])
+        for (const limit of [1, 3, 1000]) {
+          let cursor;
+          do {
+            const query = { revisionId, limit, ...(cursor ? { cursor } : { range }) };
+            cursor = same(
+              transcript.get({ packageHandle: handle, ...query }),
+              f.transcriptOwner.get({ recordingId: f.take.recordingId, ...query }),
+            );
+          } while (cursor);
+        }
+    for (const text of ["hello", "hello again", "world."]) {
+      let cursor;
+      do {
+        const query = { text, limit: 1, ...(cursor ? { cursor } : {}) };
+        cursor = same(
+          transcript.search({ packageHandle: handle, ...query }),
+          f.transcriptOwner.search({ recordingId: f.take.recordingId, ...query }),
+        );
+      } while (cursor);
+    }
+    const page = transcript.get({ packageHandle: handle });
+    assert.deepEqual(page.page.transcript, {
+      ...library,
+      narration: { source: "source/narration.mov", sourceOffsetUs: 0 },
+    });
+  });
+  test("narrated package keeps its selected transcript generation across regeneration and cleanup", async (t) => {
+    const entered = Promise.withResolvers(),
+      release = Promise.withResolvers();
+    t.after(() => release.resolve());
+    let first = true;
+    const f = await fixture(
+      t,
+      (run) =>
+        async (operation, ...args) => {
+          if (operation === "media.frame" && first) {
+            first = false;
+            entered.resolve();
+            await release.promise;
+          }
+          return run(operation, ...args);
+        },
+      undefined,
+      { warm: false },
+    );
+    await narrate(f);
+    const exportId = randomUUID();
+    await f.exports.create({
+      kind: "processed-package",
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "pinned-transcript.zip",
+    });
+    await entered.promise;
+    const pinned = JSON.parse(
+      f.store.catalog
+        .prepare("SELECT packageEvidence FROM export_intents WHERE exportId=?")
+        .get(exportId).packageEvidence,
+    ).transcript;
+    const status = f.transcriptOwner.status(f.take.recordingId);
+    assert.equal(status.published.transcript.generation, pinned.generation);
+    f.jobs.regenerate(status.jobId, status.published.generation);
+    await waitFor(
+      () =>
+        f.transcriptOwner.status(f.take.recordingId).published?.transcript.generation !==
+        pinned.generation,
+      10_000,
+    );
+    await f.transcriptOwner.cleanup(new AbortController().signal);
+    const raw = join(
+      f.home,
+      "recordings",
+      f.take.recordingId,
+      "evidence/transcript",
+      pinned.generation,
+      "raw.jsonl",
+    );
+    assert.equal(f.exports.retainsTranscript(f.take.recordingId, pinned.generation), true);
+    assert.equal((await stat(raw)).size, pinned.raw.bytes);
+    release.resolve();
+    await f.jobs.idle();
+    const done = f.exports.status(exportId);
+    assert.equal(done.state, "committed", JSON.stringify(done));
+    const { packages, opened } = await openPackage(t, f, done.output);
+    assert.equal(opened.state, "ready", JSON.stringify(opened));
+    assert.equal(
+      packages.transcript(opened.packageHandle).get({ packageHandle: opened.packageHandle })
+        .generation,
+      pinned.generation,
+    );
+    assert.equal(f.exports.retainsTranscript(f.take.recordingId, pinned.generation), false);
+    await f.transcriptOwner.cleanup(new AbortController().signal);
+    await assert.rejects(stat(raw), { code: "ENOENT" });
+  });
+  test("narrated export fails retryably until models are prepared, then waits for transcription", async (t) => {
+    const f = await fixture(t, undefined, undefined, { warm: false });
+    await narrate(f);
+    f.speech.models = "absent";
+    const exportId = randomUUID();
+    await f.exports.create({
+      kind: "processed-package",
+      exportId,
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "unprepared.zip",
+    });
+    await f.jobs.idle();
+    const blocked = f.exports.status(exportId);
+    assert.equal(blocked.state, "failed");
+    assert.equal(blocked.retryable, true);
+    assert.match(blocked.reason, /prepare speech models, then retry the export/);
+    assert.equal(f.transcriptOwner.status(f.take.recordingId).jobId, null);
     const row = f.store.catalog
       .prepare("SELECT assembly,staging FROM export_intents WHERE exportId=?")
-      .get(requested.exportId);
-    assert.equal(row.assembly, null);
-    assert.equal(row.staging, null);
+      .get(exportId);
+    assert.deepEqual([row.assembly, row.staging], [null, null]);
     assert.deepEqual(await readdir(f.output), []);
-    await f.exports.abandon(requested.exportId);
-    assert.ok((await stat(join(source, "narration.mov"))).size > 0);
+
+    f.speech.models = "ready";
+    f.speech.fail = "generated transcription failure";
+    await f.exports.retry(exportId);
+    await f.jobs.idle();
+    const failed = f.exports.status(exportId);
+    assert.equal(failed.state, "failed");
+    assert.match(failed.reason, /generated transcription failure.*retry transcription/);
+    assert.equal(f.speech.requests, 1);
+    await f.exports.retry(exportId);
+    await f.jobs.idle();
+    assert.equal(f.speech.requests, 1, "export retry never restarts a failed transcript");
+
+    f.speech.fail = null;
+    f.transcriptOwner.retry(f.take.recordingId);
+    await f.jobs.idle();
+    await f.exports.retry(exportId);
+    await f.jobs.idle();
+    assert.equal(
+      f.exports.status(exportId).state,
+      "committed",
+      JSON.stringify(f.exports.status(exportId)),
+    );
   });
   test("failed package scene prerequisite is not restarted by polling or export retry", async (t) => {
     let fail = true;
@@ -2508,7 +2807,11 @@ if (process.argv[2] === "crash-owner") {
         null,
       );
       if (before) {
-        assert.equal(f.exports.status(exportId).state, "committed");
+        assert.equal(
+          f.exports.status(exportId).state,
+          "committed",
+          JSON.stringify(f.exports.status(exportId)),
+        );
         assert.deepEqual(await readFile(join(f.output, "recovered.zip")), before);
       } else {
         assert.notEqual(f.exports.status(exportId).state, "committed");

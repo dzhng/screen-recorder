@@ -153,7 +153,10 @@ export class RecordingExports {
     return {
       ...row,
       abandoning: row.abandoning === 1,
-      packageEvidence: row.packageEvidence ? JSON.parse(row.packageEvidence) : null,
+      // A selection stored without a transcript field selected none.
+      packageEvidence: row.packageEvidence
+        ? { transcript: null, ...JSON.parse(row.packageEvidence) }
+        : null,
       assembly: row.assembly ? JSON.parse(row.assembly) : null,
       snapshot: JSON.parse(row.snapshot),
       destination: JSON.parse(row.destination),
@@ -300,10 +303,13 @@ export class RecordingExports {
   retainsIndex(recordingId: string, generation: string): boolean {
     return this.retainsPackageEvidence(recordingId, generation, "index");
   }
+  retainsTranscript(recordingId: string, generation: string): boolean {
+    return this.retainsPackageEvidence(recordingId, generation, "transcript");
+  }
   private retainsPackageEvidence(
     recordingId: string,
     generation: string,
-    kind: "scenes" | "index",
+    kind: keyof PackageEvidence,
   ) {
     return !!this.owners.store.catalog
       .prepare(`SELECT 1 FROM export_intents
@@ -320,12 +326,30 @@ export class RecordingExports {
     const owners = this.owners.package;
     const source = intent.sourceEvidence;
     if (!source) throw new CatalogError("INVALID_EVIDENCE", "Package source is not selected");
-    if (owners.source.hasAudio(source, "narration"))
-      throw new CatalogError(
-        "UNSUPPORTED_ARTIFACT",
-        "Narrated export requires accepted transcript payloads",
-      );
-    intent.packageEvidence ??= { scenes: null, index: null };
+    intent.packageEvidence ??= { scenes: null, index: null, transcript: null };
+    // Acquired narration, never a caller flag, makes the transcript required.
+    if (owners.source.hasAudio(source, "narration") && !intent.packageEvidence.transcript) {
+      owners.transcript.prepare(intent.recordingId);
+      const transcript = owners.transcript.status(intent.recordingId);
+      // Unprepared models start no job, so there is nothing to wait on; the caller must act.
+      if (transcript.state === "failed" || transcript.state === "unavailable")
+        throw transcript.reason === "model_not_prepared"
+          ? new CatalogError(
+              "MODEL_NOT_PREPARED",
+              "Narrated export needs a transcript; prepare speech models, then retry the export",
+              {},
+              true,
+            )
+          : new CatalogError(
+              "DEPENDENCY_FAILED",
+              `Narrated export needs a transcript, which failed (${transcript.reason}); retry transcription, then retry the export`,
+              { dependency: transcript.jobId },
+              transcript.retryable,
+            );
+      if (transcript.state !== "ready" || !transcript.published) return this.dependency(transcript);
+      intent.packageEvidence.transcript = transcript.published.transcript;
+      this.savePackageEvidence(intent);
+    }
     if (!intent.packageEvidence.scenes) {
       owners.scenes.prepare(intent.recordingId);
       const scenes = owners.scenes.status(intent.recordingId);
@@ -382,8 +406,14 @@ export class RecordingExports {
     const owners = this.owners.package;
     const source = intent.sourceEvidence,
       scenes = intent.packageEvidence?.scenes,
-      index = intent.packageEvidence?.index;
-    if (!source || !scenes || !index)
+      index = intent.packageEvidence?.index,
+      transcript = intent.packageEvidence?.transcript ?? null;
+    if (
+      !source ||
+      !scenes ||
+      !index ||
+      (!transcript && owners.source.hasAudio(source, "narration"))
+    )
       throw new JobDependencyLost("Package evidence is not admitted");
     const parent = await this.owners.files.recordingDirectory(intent.recordingId, signal);
     const workspaces: Awaited<ReturnType<typeof provisionPackageWorkspace>>[] = [];
@@ -410,7 +440,7 @@ export class RecordingExports {
       const input = workspaces[0]!,
         zip = workspaces[1]!;
       archive = await assemblePackage(
-        { snapshot: intent.snapshot, source, scenes, index },
+        { snapshot: intent.snapshot, source, scenes, index, transcript },
         { ...owners, store: this.owners.store, worker: this.owners.worker },
         parent,
         input,

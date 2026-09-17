@@ -1,7 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { dirname } from "node:path";
 import { CatalogError } from "@screenrec/core/library";
-import type { TimelineRevision } from "@screenrec/core/timeline";
+import { parseRevisionHistory, type TimelineRevision } from "@screenrec/core/timeline";
+import { archiveLimits } from "@screenrec/core/package-archive";
 import { FileSourceEvidence, readSourceMetadata } from "@screenrec/core/evidence-pages";
 import { fileSubdirectory } from "@screenrec/core/files";
 import type { PackageRegistry } from "./package-registry.js";
@@ -12,7 +13,7 @@ type Manifest = RetainedPackage["manifest"];
 /** One pinned evidence artifact of a package, located by its single `leaf` member. */
 export function portableEvidence(
   manifest: Manifest,
-  kind: "source" | "scenes" | "index",
+  kind: "source" | "scenes" | "index" | "source-transcript" | "edited-transcript",
   leaf: "metadata.json" | "pages.json",
 ) {
   const entry = manifest.evidence.find((value) => value.artifact.reference.kind === kind);
@@ -29,6 +30,16 @@ export function portableEvidence(
     generation,
     directory: dirname(members[0]!),
   };
+}
+
+/** The package's included history, parsed by the timeline owner. */
+export function packageRevisions(
+  context: Pick<RetainedPackage, "manifest" | "revisionContents">,
+): readonly TimelineRevision[] {
+  return parseRevisionHistory(
+    context.manifest.history.map(({ path }) => JSON.parse(context.revisionContents[path]!)),
+    archiveLimits.history,
+  );
 }
 
 /** The source and scene identities that package evidence readers are keyed by. */

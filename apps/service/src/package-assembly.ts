@@ -31,13 +31,27 @@ import {
   timelineEventPolicy,
 } from "@screenrec/core/event-pages";
 import { readOrderedPageManifest } from "@screenrec/core/ordered-pages";
+import {
+  transcriptPolicy,
+  type TranscriptMetadata,
+  type TranscriptStore,
+} from "@screenrec/core/transcript";
+import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
+import { TranscriptRead } from "@screenrec/core/transcript-read";
+import {
+  portableNarration,
+  portableRawTranscript,
+  validateTranscriptPages,
+  writeEditedTranscriptPages,
+  writeTranscriptPages,
+} from "@screenrec/core/transcript-pages";
 import { archiveLimits } from "@screenrec/core/package-archive";
 import {
   validateManifest,
   type PackageManifest,
   type PackageSnapshot,
 } from "@screenrec/core/package-manifest";
-import { fileIdentity, O_NOFOLLOW_ANY, type FileIdentity } from "@screenrec/core/files";
+import { fileAccess, fileIdentity, O_NOFOLLOW_ANY, type FileIdentity } from "@screenrec/core/files";
 import { nativeResult, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";
 import { writeArchive } from "./archive-write.js";
@@ -45,13 +59,17 @@ import { writeArchive } from "./archive-write.js";
 export type PackageOwners = {
   scenes: SceneProcessing;
   index: IndexProcessing;
+  transcript: Pick<TranscriptProcessing, "status" | "prepare">;
   source: SourceEvidenceStore;
   sceneEvidence: SceneEvidenceStore;
   indexEvidence: ScreenshotIndexStore;
+  transcriptEvidence: TranscriptStore;
 };
 export type PackageEvidence = {
   scenes: SceneEvidenceMetadata | null;
   index: ScreenshotIndexMetadata | null;
+  /** Selected only when the pinned source acquired narration. */
+  transcript: TranscriptMetadata | null;
 };
 export type AssemblyReservation = {
   parent: DirectoryIdentity;
@@ -94,6 +112,7 @@ export async function assemblePackage(
     source: SourceEvidenceMetadata;
     scenes: SceneEvidenceMetadata;
     index: ScreenshotIndexMetadata;
+    transcript: TranscriptMetadata | null;
   },
   owners: PackageOwners & { store: RevisionStore; worker: MediaWorker },
   parent: Workspace,
@@ -101,7 +120,7 @@ export async function assemblePackage(
   zip: Workspace,
   signal: AbortSignal,
 ) {
-  const { snapshot, source, scenes, index } = selected;
+  const { snapshot, source, scenes, index, transcript } = selected;
   const revision = owners.store.revision(snapshot.recordingId, snapshot.revisionId);
   const sourceIdentity = {
     recordingId: source.recordingId,
@@ -114,11 +133,7 @@ export async function assemblePackage(
     generation: scenes.generation,
     policy: scenes.policy,
   };
-  if (owners.source.hasAudio(sourceIdentity, "narration"))
-    throw new CatalogError(
-      "UNSUPPORTED_ARTIFACT",
-      "Narrated export requires accepted transcript payloads",
-    );
+  const narration = owners.source.hasAudio(sourceIdentity, "narration");
   const system = owners.source.hasAudio(sourceIdentity, "system");
   await checkWorkspace(input);
   await mkdir(join(input.directory, "evidence"));
@@ -134,6 +149,26 @@ export async function assemblePackage(
   };
   const eventInput = { ...eventMetadata, source: owners.source, scenes: owners.sceneEvidence };
   await writeTimelineEventPages(eventInput, root("events"), signal);
+  if (transcript) {
+    await writeTranscriptPages(
+      owners.transcriptEvidence,
+      transcript,
+      root("source-transcript"),
+      signal,
+    );
+    await writeEditedTranscriptPages(
+      new TranscriptRead(owners.transcriptEvidence, transcript, revision),
+      {
+        recordingId: transcript.recordingId,
+        sourceId: transcript.sourceId,
+        revisionId: revision.id,
+        generation: transcript.generation,
+        policy: transcriptPolicy,
+      },
+      root("edited-transcript"),
+      signal,
+    );
+  }
 
   // Re-read every semantic page against the selected live generation before certifying completeness.
   const sourceRead = new FileSourceEvidence(root("source"), sourceIdentity);
@@ -222,6 +257,15 @@ export async function assemblePackage(
       target: "evidence/source/normalized.jsonl",
     },
     ...(system ? [{ source: "source/system.mov", target: "source/system.mov" }] : []),
+    ...(narration ? [{ source: "source/narration.mov", target: portableNarration }] : []),
+    ...(transcript
+      ? [
+          {
+            source: `evidence/transcript/${transcript.generation}/raw.jsonl`,
+            target: `evidence/source-transcript/${portableRawTranscript}`,
+          },
+        ]
+      : []),
   ];
   const borrowed: FileHandle[] = [];
   try {
@@ -265,6 +309,38 @@ export async function assemblePackage(
     await Promise.all(borrowed.map((file) => file.close()));
   }
   await checkWorkspace(input);
+  if (transcript) {
+    const portable = await validateTranscriptPages(
+      {
+        source: fileAccess(root("source-transcript")),
+        edited: fileAccess(root("edited-transcript")),
+        identity: transcript,
+        revision,
+        narration: owners.source.audio(sourceIdentity, "narration", {
+          startUs: 0,
+          endUs: snapshot.sourceDurationUs,
+        }),
+      },
+      signal,
+    );
+    same(portable.metadata, {
+      ...transcript,
+      narration: { ...transcript.narration, source: portableNarration },
+    });
+    // The original revision cuts nothing, so its projection compares every word and gap.
+    const original = owners.store.revision(snapshot.recordingId, "r0");
+    const expected = new TranscriptRead(owners.transcriptEvidence, transcript, original),
+      actual = new TranscriptRead(portable, portable.metadata, original);
+    let cursor: unknown;
+    do {
+      signal.throwIfAborted();
+      const query = { limit: 1000, ...(cursor ? { cursor } : {}) };
+      const page = actual.page(query);
+      same(page, expected.page(query));
+      cursor = page.nextCursor;
+      await setImmediate();
+    } while (cursor);
+  }
   const portableSource = {
     ...source,
     receipt: { ...source.receipt, file: "evidence/source/normalized.jsonl" },
@@ -308,10 +384,14 @@ export async function assemblePackage(
   add("source/video.mov", "video");
   add("source/capture.journal.jsonl", "journal");
   if (system) add("source/system.mov", "system");
+  if (narration) add(portableNarration, "narration");
   for (const item of history) add(item.path, "revision");
   add("evidence/source/normalized.jsonl", "source");
   add("evidence/source/metadata.json", "source");
-  for (const kind of ["source", "scenes", "index", "events"] as const) {
+  if (transcript) add(`evidence/source-transcript/${portableRawTranscript}`, "source-transcript");
+  const kinds = ["source", "scenes", "index", "events"] as const,
+    transcriptKinds = ["source-transcript", "edited-transcript"] as const;
+  for (const kind of [...kinds, ...(transcript ? transcriptKinds : [])]) {
     const pages = readOrderedPageManifest(root(kind));
     add(`evidence/${kind}/pages.json`, kind);
     for (const [order, descriptors] of Object.entries(pages.indexes))
@@ -367,20 +447,27 @@ export async function assemblePackage(
     inventory.push({
       ...member,
       role,
-      ...(["video", "system"].includes(role) ? { durationUs: snapshot.sourceDurationUs } : {}),
+      ...(["video", "system", "narration"].includes(role)
+        ? { durationUs: snapshot.sourceDurationUs }
+        : {}),
     });
   }
+  const sourceTime: readonly string[] = ["source", "scenes", "source-transcript"];
   const manifest: PackageManifest = {
     schemaVersion: 1,
     snapshot,
     history,
     inventory,
-    transcript: "unavailable:no_narration",
+    transcript: transcript ? "ready" : "unavailable:no_narration",
     acquisition: {
       recordingId: snapshot.recordingId,
       sourceId: snapshot.sourceId,
       sourceGeneration: source.generation,
-      narration: source.receipt.header?.microphone ? "not_acquired" : "not_requested",
+      narration: narration
+        ? "acquired"
+        : source.receipt.header?.microphone
+          ? "not_acquired"
+          : "not_requested",
       system: system
         ? "acquired"
         : source.receipt.header?.systemAudio
@@ -393,6 +480,9 @@ export async function assemblePackage(
         ["scenes", scenes.generation, scenes.policy],
         ["index", index.generation, index.selectionPolicy],
         ["events", snapshot.revisionId, timelineEventPolicy],
+        ...(transcript
+          ? transcriptKinds.map((kind) => [kind, transcript.generation, transcriptPolicy] as const)
+          : []),
       ] as const
     ).map(([kind, generation, policy]) => ({
       artifact: {
@@ -400,12 +490,12 @@ export async function assemblePackage(
           kind,
           recordingId: snapshot.recordingId,
           sourceId: snapshot.sourceId,
-          revisionId: ["source", "scenes"].includes(kind) ? "r0" : snapshot.revisionId,
+          revisionId: sourceTime.includes(kind) ? "r0" : snapshot.revisionId,
         },
         generation,
         policy,
         options: {},
-        timeDomain: ["source", "scenes"].includes(kind) ? "source" : "playback",
+        timeDomain: sourceTime.includes(kind) ? ("source" as const) : ("playback" as const),
       },
       files: inventory
         .filter((entry) =>
