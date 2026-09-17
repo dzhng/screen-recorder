@@ -29,6 +29,6 @@ health; each actual operation is sent once, with no automatic mutation replay.
 MCP request cancellation also cancels discovery. Ordinary app launch starts its
 service; recording and permissions belong to explicit capture operations.
 
-Media operations must add actual MCP image/audio content when implemented; a
-returned file path is not an image-delivery implementation. Installed-app proof
+Media operations return actual MCP image/audio content; a returned file path is not
+an image-delivery implementation. Installed-app proof
 remains in [personal release verification](../../specs/recording-for-ai/slices/15-personal-release.md).
