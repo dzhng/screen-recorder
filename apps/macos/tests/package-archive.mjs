@@ -1,3 +1,4 @@
+import { withArchiveCopyBarrier } from "./fixtures/archive-copy-barrier.mjs";
 import { admitArchive } from "../../service/dist/archive-input.js";
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -463,95 +464,98 @@ test("copy rejects an in-place input change at a confirmed syscall barrier", asy
   let original;
   try {
     original = await readFile(f.archive);
-    const marker = join(f.home, "copy-held"),
-      library = join(f.home, "copy-barrier.dylib");
-    execFileSync("/usr/bin/clang", [
-      "-dynamiclib",
-      "-o",
-      library,
-      fileURLToPath(new URL("./fixtures/archive-copy-barrier.c", import.meta.url)),
-    ]);
-    let changed = false;
-    const wrapped = async (operation, params, options) => {
-      if (operation !== "archive.extract") return run(operation, params, options);
-      const previousLibrary = process.env.DYLD_INSERT_LIBRARIES;
-      const previousMarker = process.env.SCREENREC_TEST_COPY_BARRIER;
-      process.env.DYLD_INSERT_LIBRARIES = library;
-      process.env.SCREENREC_TEST_COPY_BARRIER = marker;
-      let pending;
-      try {
-        pending = run(operation, params, { ...options, timeoutMs: 5000 });
-      } finally {
-        if (previousLibrary === undefined) delete process.env.DYLD_INSERT_LIBRARIES;
-        else process.env.DYLD_INSERT_LIBRARIES = previousLibrary;
-        if (previousMarker === undefined) delete process.env.SCREENREC_TEST_COPY_BARRIER;
-        else process.env.SCREENREC_TEST_COPY_BARRIER = previousMarker;
-      }
-      let pid,
-        done = false;
-      void pending.then(() => {
-        done = true;
-      });
-      try {
-        while (!done) {
-          const value = await readFile(marker, "utf8").catch((error) => {
-            if (error.code === "ENOENT") return "";
-            throw error;
-          });
-          if (value) {
-            pid = Number(value);
-            break;
-          }
-          await new Promise((resolve) => setTimeout(resolve, 1));
-        }
-        assert.ok(pid, "Native pread must reach the syscall barrier");
-        const owner = execFileSync("/bin/ps", ["-p", String(pid), "-o", "ppid=,command="], {
-          encoding: "utf8",
-        }).trim();
-        assert.equal(owner, `${process.pid} ${native}`);
-        while (
-          !/^T/.test(
-            execFileSync("/bin/ps", ["-p", String(pid), "-o", "state="], {
-              encoding: "utf8",
-            }).trim(),
-          )
-        )
-          await new Promise((resolve) => setTimeout(resolve, 1));
-        assert.equal(
-          (await stat(join(f.directory, ".input"))).size,
-          0,
-          "First source chunk is held before its snapshot write",
-        );
-        const file = await open(f.archive, "r+");
-        try {
-          await file.write(Buffer.from("!"), 0, 1, original.length);
-        } finally {
-          await file.close();
-        }
-        changed = true;
-      } finally {
-        try {
-          if (pid) {
-            try {
-              process.kill(pid, "SIGCONT");
-            } catch (error) {
-              if (error.code !== "ESRCH") throw error;
-            }
-          }
-        } finally {
-          await pending;
-        }
-      }
-      assert.throws(
-        () => process.kill(pid, 0),
-        (error) => error.code === "ESRCH",
+    await withArchiveCopyBarrier(f.home, native, {}, async ({ worker, held, resume, drain }) => {
+      const rejected = drain(assert.rejects(inspect(f, {}, worker), { code: "ARCHIVE_CHANGED" }));
+      await held;
+      assert.equal(
+        (await stat(join(f.directory, ".input"))).size,
+        0,
+        "First source chunk is held before its snapshot write",
       );
-      return pending;
-    };
-    await assert.rejects(inspect(f, {}, wrapped), { code: "ARCHIVE_CHANGED" });
-    assert.equal(changed, true);
+      const file = await open(f.archive, "r+");
+      try {
+        await file.write(Buffer.from("!"), 0, 1, original.length);
+      } finally {
+        await file.close();
+      }
+      await resume();
+      await rejected;
+    });
   } finally {
     if (original) await writeFile(f.archive, original);
+    await f.close();
+  }
+});
+
+test("partial copy barrier cancels after actual snapshot bytes and drains the native worker", async () => {
+  const f = await fixture("valid", contents("generated".repeat(32_768)));
+  try {
+    const controller = new AbortController();
+    await withArchiveCopyBarrier(
+      f.home,
+      native,
+      { partial: true },
+      async ({ worker, held, resume, drain }) => {
+        const canceled = drain(
+          assert.rejects(inspect(f, { signal: controller.signal }, worker), {
+            code: "CANCELED",
+          }),
+        );
+        await held;
+        const copied = (await stat(join(f.directory, ".input"))).size;
+        assert.ok(
+          copied > 0 && copied < (await stat(f.archive)).size,
+          "Barrier must expose a real partial snapshot",
+        );
+        controller.abort();
+        await canceled;
+        await resume();
+      },
+    );
+  } finally {
+    await f.close();
+  }
+});
+
+test("copy barrier callback failure drains inspection cleanup before fixture removal", async () => {
+  const f = await fixture();
+  let pid;
+  try {
+    await assert.rejects(
+      withArchiveCopyBarrier(f.home, native, {}, async ({ worker, held, drain }) => {
+        drain(inspect(f, {}, worker));
+        ({ pid } = await held);
+        throw new Error("generated callback failure");
+      }),
+      /generated callback failure/,
+    );
+    assert.deepEqual(await readdir(f.directory), []);
+    assert.throws(
+      () => process.kill(pid, 0),
+      (error) => error.code === "ESRCH",
+    );
+  } finally {
+    await f.close();
+  }
+});
+
+test("copy barrier reports preparation failure instead of leaving its wait pending", async () => {
+  const f = await fixture();
+  try {
+    await assert.rejects(
+      withArchiveCopyBarrier(
+        f.home,
+        join(f.home, "missing-native"),
+        {},
+        async ({ worker, held, drain }) => {
+          drain(inspect(f, {}, worker));
+          await held;
+        },
+      ),
+      { code: "MEDIA_WORKER_UNAVAILABLE" },
+    );
+    assert.deepEqual(await readdir(f.directory), []);
+  } finally {
     await f.close();
   }
 });
