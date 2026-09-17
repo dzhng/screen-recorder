@@ -53,7 +53,8 @@ function capabilities() {
   return operationSchema.options.map((definition) => ({
     name: definition.shape.operation.value,
     description: definition.description ?? "",
-    inputSchema: z.toJSONSchema(definition.shape.params),
+    // What a caller must send, so a parameter the service defaults stays optional.
+    inputSchema: z.toJSONSchema(definition.shape.params, { io: "input" }),
   }));
 }
 

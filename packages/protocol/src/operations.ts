@@ -181,7 +181,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .describe(
       "Cancel or close a package admission, draining work and revoking its image deliveries before cleanup. Retry explicit cleanup failures with the same admissionId.",
     ),
-  z.object({ operation: z.literal("recording.delete"), params: recording }).strict(),
+  z
+    .object({ operation: z.literal("recording.delete"), params: recording })
+    .strict()
+    .describe(
+      "Delete a recording with its media, evidence, caches and open deliveries once capture has proved the take stopped. Retrying joins the same deletion; deleting an absent recording succeeds.",
+    ),
   z
     .object({
       operation: z.literal("storage.usage"),
@@ -384,7 +389,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("capture.sources"), params: z.object({}).strict() })
     .strict()
-    .describe("List the displays and windows this host can capture."),
+    .describe("List the displays, windows and microphones this host can capture."),
   z
     .object({
       operation: z.literal("capture.start"),
