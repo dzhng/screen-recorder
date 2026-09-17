@@ -8,7 +8,15 @@ installs into scratch paths, then from `/` with a Finder environment:
 - reinstalling over a running copy is refused;
 - a reinstall after quitting leaves no staging copy and a valid signature.
 
-[Client discovery](15a-client-discovery.md) has fixture proof. The recorded installed
+[Client discovery](15a-client-discovery.md) has fixture proof.
+
+**Open: a stable signing identity.** Each build signs ad hoc, so every reinstall
+changes the app's code signature and macOS discards the screen and microphone
+permissions granted to the previous copy. A person then re-grants after every
+install. Signing the personal copy with one self-signed certificate kept in the
+login keychain would let its permissions survive reinstalls; that certificate's
+creation, trust and renewal belong to this slice, not to a public distribution
+setup. The recorded installed
 journey (real narrated capture, speech, agent edit and both exports) remains open
 and depends on 04 and physical capture. Dependencies: 00–14.
 
