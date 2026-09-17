@@ -66,3 +66,13 @@ runs above supply that part of the evidence.
 The unreadable-output [red result](video-intent-unreadable-red.txt) and
 [restored result](video-intent-unreadable-tests.txt) retain the actual mode-000
 regression receipts.
+
+
+## Root integration
+
+Main 45b5c23 rebuilt all eight workspace build tasks. The freshly bundled release
+worker passed all 32 native/service publication and video-intent tests in 8.34 seconds;
+30 cache/deletion/worker neighbors passed in 3.11 seconds. The merged native router
+retains both the new package-workspace and external-directory operations. Receipts:
+[native/process checks](video-intent-merged-tests.txt),
+[shared-owner checks](video-intent-merged-neighbors.txt).

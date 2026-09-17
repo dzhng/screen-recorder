@@ -2,7 +2,8 @@
 
 Status: metadata, relocated inspection, bounded extraction, retained descriptors,
 transient queue contexts, reusable outputs and isolated deliveries pass their internal
-gates. Registry/storage recovery is next, alongside durable export intent. This plan
+gates. Durable ready-preview video intent also passes its internal recovery/deletion
+checks. Registry/storage recovery and deferred export admission are next. This plan
 does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
@@ -54,8 +55,9 @@ Its bounded receipt validates container bytes and 14a metadata.
 [14c2](14c2-retained-package-inspection.md) proves retained descriptor/media access
 and parent-death lifetime. [14c3a](14c3a-transient-context-jobs.md) adds isolated
 capabilities to the shared queue. [14c3b1](14c3b1-package-output-release.md) now proves
-reusable outputs and isolated delivery identities. Registry/storage reservation and
-startup reclamation come next, then public opening and selectors.
+reusable outputs and isolated delivery identities. [14c3b2](14c3b2-package-workspace-primitives.md) pins archive inputs and owns retryable
+workspace cleanup. Registry/storage reservation and startup reclamation come next,
+then public opening and selectors.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native
@@ -83,9 +85,11 @@ must be explicit and tested at their limits before adding public open/close.
 ## 14d — Readiness, snapshot retention and publication
 
 [The publication plan](14d-export-publication.md) has a verified internal
-external commit/recovery owner. Next, integrate durable intent, snapshot retention
-and recording deletion; the [scoped evidence](../assets/export-publication/native-owner.md)
-distinguishes those pending product gates from filesystem recovery.
+external commit/recovery owner. [14d2a](14d2a-video-intent.md) now integrates durable
+ready-preview intent and actual recording deletion. Deferred admission, pinned source
+evidence retention, queue-admitted restart recovery, accounting and public wiring
+remain; the [scoped evidence](../assets/export-publication/video-intent.md) records
+the boundary.
 
 Pin revision and history bound before waiting. Use existing job authority to expose
 required dependency IDs while waiting outside every worker slot; do not add a
