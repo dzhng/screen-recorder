@@ -232,7 +232,7 @@ struct SettingsView: View {
             } label: {
                 Text("Microphone")
             }
-            detailRow("Include All System Audio", "Records everything the Mac plays, not a single app or tab.") {
+            detailRow("Include System Audio", "Records everything the Mac plays, not a single app or tab.") {
                 Toggle("", isOn: systemAudio).labelsHidden()
             }
         } header: {

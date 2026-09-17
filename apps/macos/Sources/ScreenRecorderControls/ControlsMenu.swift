@@ -121,7 +121,7 @@ public enum RecordingMenu {
                 submenu: microphoneEntries(for: state)))
         rows.append(
             MenuEntry(
-                .command(.toggleSystemAudio), "Include All System Audio", enabled: !state.isLive,
+                .command(.toggleSystemAudio), "Include System Audio", enabled: !state.isLive,
                 checked: state.selection.systemAudio))
         rows.append(.separator())
         rows.append(contentsOf: transportEntries(for: state, shortcuts: shortcuts))

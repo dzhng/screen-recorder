@@ -103,8 +103,9 @@ func runMenuStateTests() {
 
     let label = row(idle, "audio.system").title
     precondition(
-        label == "Include All System Audio",
-        "System audio is all of it: the label must not suggest one tab or application")
+        label == "Include System Audio" && !label.lowercased().contains("tab")
+            && !label.lowercased().contains("browser"),
+        "The system audio label must not suggest one tab or application")
 
     var stored = ready()
     stored.recent = [

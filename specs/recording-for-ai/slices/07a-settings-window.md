@@ -36,7 +36,8 @@ settings window when they start until the person turns that off.
     button that requests access. After a denial, the button opens the matching System
     Settings privacy pane. It never prompts on its own.
   - **Recording.** The microphone choice (off, system default or a named input) and
-    Include All System Audio. These persist as the defaults for new takes and are the
+    Include System Audio, whose second line says it records everything the Mac plays
+    rather than one app or tab. These persist as the defaults for new takes and are the
     same selection the menu edits; one owner holds it.
   - **Shortcuts.** The current bindings, any that could not be registered, and a button
     that reveals the override file.
