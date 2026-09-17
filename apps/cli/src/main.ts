@@ -256,11 +256,7 @@ async function main() {
   }
   if (values.output && !mediaOperations.has(operation) && !previewOperations.has(operation))
     throw new Error("--output applies only to media inspection operations");
-  const sending = request(
-    values.id ?? responseId,
-    operation,
-    await readParams(values.params ?? "{}"),
-  );
+  const sending = request(responseId, operation, await readParams(values.params ?? "{}"));
   let result = await invoke(selection, sending);
   const batchReference = batchReferences.get(operation);
   if (batchReference) {

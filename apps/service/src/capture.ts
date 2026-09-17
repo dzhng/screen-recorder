@@ -14,23 +14,11 @@ import {
   captureSourcesSchema,
   nativeStartSchema,
   type CaptureReport,
-  type CaptureSource,
+  type CaptureSelection,
   type OperationResult,
 } from "@screenrec/protocol";
+import type { ControlChannel } from "./control.js";
 import type { MediaWorker } from "./worker.js";
-
-/** The native peer reached over the app's private control channel. */
-export type NativeCall = (
-  operation: string,
-  params: Record<string, unknown>,
-) => Promise<OperationResult>;
-
-export type CaptureSelection = {
-  source: CaptureSource;
-  microphone: boolean;
-  systemAudio: boolean;
-  microphoneDeviceId?: string | undefined;
-};
 
 /**
  * The only outcomes this service states on its own behalf: a take it discarded, and a take whose
@@ -61,7 +49,8 @@ export class CaptureService {
   constructor(
     private readonly store: RevisionStore,
     private readonly home: string,
-    private readonly native: NativeCall,
+    /** The native capture session, reached over the app's private control channel. */
+    private readonly native: ControlChannel["call"],
     private readonly worker: MediaWorker,
     private readonly log: (message: string) => void = () => {},
     private readonly changed: (recording: Recording) => void = () => {},

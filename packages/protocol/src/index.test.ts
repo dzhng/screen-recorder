@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  ARTIFACT_CHUNK_BYTES,
   captureSelectionSchema,
   nativeStartSchema,
   operationSchema,
@@ -31,6 +32,23 @@ describe("capture selection", () => {
       nativeStartSchema.parse({ source, recordingId: "r", sourceId: "s", outputDirectory: "/tmp" }),
     ).toMatchObject({ microphone: true, systemAudio: false });
   });
+});
+
+it("artifact reads ask for one bounded chunk at a whole offset", () => {
+  const read = (params: Record<string, unknown>) =>
+    operationSchema.safeParse({ operation: "artifact.read", params: { token: "t", ...params } });
+  expect(read({ offset: 0 })).toMatchObject({
+    success: true,
+    data: { params: { maxBytes: ARTIFACT_CHUNK_BYTES } },
+  });
+  for (const [offset, maxBytes] of [
+    [-1, 1],
+    [0.5, 1],
+    [0, 0],
+    [0, ARTIFACT_CHUNK_BYTES + 1],
+    [0, Number.NaN],
+  ])
+    expect(read({ offset, maxBytes }).success).toBe(false);
 });
 
 it("retained index requests bound paging, references and media batches", () => {

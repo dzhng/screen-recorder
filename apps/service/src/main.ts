@@ -23,13 +23,14 @@ import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { operate, operationFailure } from "./operations.js";
-import { homedir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import {
   CONTROL_FRAME_BYTES,
   captureReportSchema,
   encodeJsonLine,
   operationError,
+  personalHome,
+  serviceRuntimeDirectory,
   type OperationRequest,
   type OperationResult,
 } from "@screenrec/protocol";
@@ -39,12 +40,7 @@ import { mediaWorker, type MediaWorker } from "./worker.js";
 import { listenLocal, type LocalListener } from "./index.js";
 import { StartupFailure, claimStartup, type StartupClaim } from "./startup.js";
 
-export function serviceHome(environment: NodeJS.ProcessEnv = process.env): string {
-  const override = environment.SCREENREC_HOME;
-  return override ? resolve(override) : join(homedir(), ".screen-recorder");
-}
-
-export function healthData(started: number, socketPath: string, home: string): unknown {
+function healthData(started: number, socketPath: string, home: string): unknown {
   return {
     status: "ready",
     pid: process.pid,
@@ -60,8 +56,8 @@ function log(message: string): void {
 }
 
 async function main(): Promise<void> {
-  const home = serviceHome();
-  const runtimeDirectory = join(home, "run");
+  const home = personalHome();
+  const runtimeDirectory = serviceRuntimeDirectory(home);
   const renderWorkspace = join(runtimeDirectory, "render");
   const started = performance.now();
 

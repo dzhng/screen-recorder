@@ -29,8 +29,6 @@ export async function callLocal(
   const frame = encodeJsonLine(sent, REQUEST_FRAME_BYTES);
   const signal = options.signal;
   const timeoutMs = options.timeoutMs ?? operationDeadlineMs(sent.operation);
-  if (!Number.isSafeInteger(timeoutMs) || timeoutMs <= 0 || timeoutMs > 2_147_483_647)
-    throw new RangeError("Timeout must be a positive supported timer interval");
   if (signal?.aborted) throw new LocalTransportError("ABORTED", "Call canceled before connection");
   return new Promise((resolve, reject) => {
     const socket = new Socket();

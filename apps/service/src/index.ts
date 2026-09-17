@@ -1,6 +1,6 @@
 import { createServer, type Socket } from "node:net";
 import { chmod, lstat, mkdir } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { resolve } from "node:path";
 import {
   DEFAULT_CALL_TIMEOUT_MS,
   REQUEST_FRAME_BYTES,
@@ -11,6 +11,7 @@ import {
   operationError,
   parseRequest,
   resultSchema,
+  serviceSocketPath,
   type OperationRequest,
   type OperationResult,
 } from "@screenrec/protocol";
@@ -20,11 +21,6 @@ export type LocalHandler = (
   signal: AbortSignal,
 ) => OperationResult | Promise<OperationResult>;
 export type LocalListener = { socketPath: string; close(): Promise<void> };
-
-/** The one socket a runtime directory holds; startup and the listener name it here. */
-export function serviceSocketPath(runtimeDirectory: string): string {
-  return join(runtimeDirectory, "service.sock");
-}
 
 /**
  * Creates a missing runtime directory privately and refuses an existing one that is not
@@ -53,13 +49,7 @@ export async function listenLocal(options: {
 }): Promise<LocalListener> {
   const maxConnections = options.maxConnections ?? 64;
   const maxInFlight = options.maxInFlight ?? 32;
-  for (const limit of [maxConnections, maxInFlight]) {
-    if (!Number.isSafeInteger(limit) || limit < 1)
-      throw new RangeError("Admission limits must be positive safe integers");
-  }
   const readTimeoutMs = options.readTimeoutMs ?? DEFAULT_CALL_TIMEOUT_MS;
-  if (!Number.isSafeInteger(readTimeoutMs) || readTimeoutMs <= 0 || readTimeoutMs > 2_147_483_647)
-    throw new RangeError("Read timeout must be a positive supported timer interval");
   const runtimeDirectory = await prepareRuntimeDirectory(options.runtimeDirectory);
   const socketPath = serviceSocketPath(runtimeDirectory);
   const sockets = new Set<Socket>();

@@ -137,22 +137,14 @@ test("lease limit is explicit and dispose releases every reader and refuses reop
   );
 });
 
-test("chunk bounds reject invalid reads without discarding an otherwise usable lease", async () => {
+test("a read past the delivery's end is refused without discarding a usable lease", async () => {
   const f = await fixture(Buffer.alloc(512 * 1024 + 1, 0xfa));
   const lease = f.delivery.open({ kind: "recording", id: f.recordingId }, () =>
     f.cache.acquire(f.file.id),
   );
-  for (const [offset, size] of [
-    [-1, 1],
-    [0.5, 1],
-    [f.data.length + 1, 1],
-    [0, 0],
-    [0, 512 * 1024 + 1],
-    [0, NaN],
-  ])
-    expect(() => f.delivery.read(lease.token, offset!, size!)).toThrow(
-      expect.objectContaining({ code: "INVALID_RANGE" }),
-    );
+  expect(() => f.delivery.read(lease.token, f.data.length + 1, 1)).toThrow(
+    expect.objectContaining({ code: "INVALID_RANGE" }),
+  );
   const first = f.delivery.read(lease.token, 0, 512 * 1024);
   const last = f.delivery.read(lease.token, first.nextOffset, 512 * 1024);
   expect(

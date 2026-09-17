@@ -3,6 +3,8 @@ import { captureSelectionSchema } from "./capture.js";
 import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";
 
 const id = z.string().min(1);
+/** The most bytes one artifact.read returns. */
+export const ARTIFACT_CHUNK_BYTES = 512 * 1024;
 const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const range = z.object({ startUs: time, endUs: time }).strict();
 const cursorRange = range.refine(
@@ -67,8 +69,7 @@ const paged = <T extends z.ZodRawShape, S extends z.ZodRawShape, C extends z.Zod
 const inspectionPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields: S, position: C) =>
   z.union([paged(recording, fields, position), paged(packageTarget, fields, position)]);
 
-// These are implemented capabilities. Adapters derive their advertised tools from
-// the same schemas the service validates, rather than promising future operations.
+// Adapters derive their advertised tools from the same schemas the service validates.
 export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
@@ -315,11 +316,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
         .object({
           token: id,
           offset: time,
-          maxBytes: z
-            .int()
-            .min(1)
-            .max(512 * 1024)
-            .default(512 * 1024),
+          maxBytes: z.int().min(1).max(ARTIFACT_CHUNK_BYTES).default(ARTIFACT_CHUNK_BYTES),
         })
         .strict(),
     })
