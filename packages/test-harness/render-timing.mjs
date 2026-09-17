@@ -20,7 +20,7 @@ import { JobQueue } from "@screenrec/core/jobs";
 import {
   createOriginalRevision,
   createRevision,
-  projectEvents,
+  eventProjector,
   renderPlan,
 } from "@screenrec/core/timeline";
 import { mediaWorker } from "../../apps/service/dist/worker.js";
@@ -226,16 +226,8 @@ test(
         ],
       });
       const pause = { kind: "pause", atSourceUs: 3000000, elapsedPauseUs: 60000000 };
-      const events = projectEvents(cut, [pause]);
-      assert.ok(
-        events.some(
-          (group) =>
-            group.atUs === 2000000 &&
-            group.events.some(
-              (event) => event.kind === "pause" && event.elapsedPauseUs === 60000000,
-            ),
-        ),
-      );
+      const projectedPause = eventProjector(cut)(pause);
+      assert.equal(projectedPause?.atUs, 2000000);
       const raw = join(home, "recordings", recordingId, "source");
       await mkdir(raw, { recursive: true });
       await copyFile(source, join(raw, "video.mov"));
@@ -291,7 +283,7 @@ test(
           .map(({ sequence: _sequence, ...event }) => ({ kind: "pause", ...event })),
         [pause],
       );
-      report.pause = events;
+      report.pause = projectedPause;
       const gate = Promise.withResolvers(),
         started = Promise.withResolvers();
       preview = new PreviewInspection(

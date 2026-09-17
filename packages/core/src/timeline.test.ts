@@ -106,7 +106,7 @@ test("word text survives a middle cut as explicitly partial retained fragments",
   ]);
 });
 
-test("pauses touching retained edges coalesce with cut markers in source order", () => {
+test("pauses touching retained edges share their join with the cut marker", () => {
   const revision = timeline.createRevision(
     timeline.createOriginalRevision(20, "2026-09-15T00:00:00.000Z"),
     [
@@ -115,74 +115,19 @@ test("pauses touching retained edges coalesce with cut markers in source order",
     ],
     { id: "a", operation: "cut", createdAt: "now" },
   );
+  const project = timeline.eventProjector(revision);
   expect(
-    timeline.projectEvents(revision, [
-      { kind: "pause", atSourceUs: 9, elapsedPauseUs: 50 },
-      { kind: "pause", atSourceUs: 7, elapsedPauseUs: 100 },
-      { kind: "pause", atSourceUs: 5, elapsedPauseUs: 20 },
-      { kind: "pause", atSourceUs: 2, elapsedPauseUs: 30 },
-      { kind: "pause", atSourceUs: 15, elapsedPauseUs: 40 },
-    ]),
-  ).toEqual([
-    {
-      atUs: 0,
-      events: [
-        { kind: "cut", atSourceUs: 0, removedSourceSpans: [{ startUs: 0, endUs: 2 }] },
-        { kind: "pause", atSourceUs: 2, elapsedPauseUs: 30 },
-      ],
-    },
-    {
-      atUs: 3,
-      events: [
-        { kind: "pause", atSourceUs: 5, elapsedPauseUs: 20 },
-        { kind: "cut", atSourceUs: 5, removedSourceSpans: [{ startUs: 5, endUs: 9 }] },
-        { kind: "pause", atSourceUs: 9, elapsedPauseUs: 50 },
-      ],
-    },
-    {
-      atUs: 9,
-      events: [
-        { kind: "pause", atSourceUs: 15, elapsedPauseUs: 40 },
-        { kind: "cut", atSourceUs: 15, removedSourceSpans: [{ startUs: 15, endUs: 20 }] },
-      ],
-    },
-  ]);
-});
-
-test("trail cannot bridge deleted source and later pause or scene boundaries win", () => {
-  const revision = timeline.createRevision(
-    timeline.createOriginalRevision(20_000_000, "2026-09-15T00:00:00.000Z"),
-    [
-      { startUs: 0, endUs: 5_000_000 },
-      { startUs: 9_000_000, endUs: 20_000_000 },
-    ],
-    { id: "a", operation: "cut", createdAt: "now" },
-  );
-  expect(timeline.trailBounds(revision, 5_500_000, [], 2_000_000)).toEqual({
-    source: { startUs: 9_000_000, endUs: 9_500_000 },
-    playback: { startUs: 5_000_000, endUs: 5_500_000 },
-    cutoffReason: "cut",
-  });
-  expect(
-    timeline.trailBounds(
-      revision,
-      5_500_000,
-      [
-        { kind: "pause", atSourceUs: 9_100_000, elapsedPauseUs: 7_000_000 },
-        { kind: "scene", atSourceUs: 9_300_000 },
-      ],
-      2_000_000,
+    [2, 5, 7, 9, 15].map(
+      (atSourceUs) => project({ kind: "pause", atSourceUs, elapsedPauseUs: 10 })?.atUs ?? null,
     ),
-  ).toEqual({
-    source: { startUs: 9_300_000, endUs: 9_500_000 },
-    playback: { startUs: 5_300_000, endUs: 5_500_000 },
-    cutoffReason: "scene",
-  });
-  expect(timeline.trailBounds(revision, 5_000_000, [], 0)).toEqual({
-    source: { startUs: 9_000_000, endUs: 9_000_000 },
-    playback: { startUs: 5_000_000, endUs: 5_000_000 },
-    cutoffReason: "requested",
-  });
+  ).toEqual([0, 3, null, 3, 9]);
+  expect(
+    [...timeline.projectedCuts(revision)].map(({ atUs, event }) => ({ atUs, ...event })),
+  ).toEqual([
+    { atUs: 0, kind: "cut", atSourceUs: 0, removedSourceSpans: [{ startUs: 0, endUs: 2 }] },
+    { atUs: 3, kind: "cut", atSourceUs: 5, removedSourceSpans: [{ startUs: 5, endUs: 9 }] },
+    { atUs: 9, kind: "cut", atSourceUs: 15, removedSourceSpans: [{ startUs: 15, endUs: 20 }] },
+  ]);
 });
 
 test("invalid batch rejects atomically including fractional times and total removal", () => {
@@ -212,7 +157,7 @@ test("invalid batch rejects atomically including fractional times and total remo
   );
 });
 
-test("adjacent restored spans are continuous for cursor trails and copied immutably", () => {
+test("adjacent restored spans merge into one continuous span and are copied immutably", () => {
   const spans = [
     { startUs: 0, endUs: 5_000_000 },
     { startUs: 5_000_000, endUs: 10_000_000 },
@@ -227,11 +172,7 @@ test("adjacent restored spans are continuous for cursor trails and copied immuta
     },
   );
   spans[0]!.endUs = 1;
-  expect(timeline.trailBounds(revision, 5_500_000, [])).toEqual({
-    source: { startUs: 3_500_000, endUs: 5_500_000 },
-    playback: { startUs: 3_500_000, endUs: 5_500_000 },
-    cutoffReason: "requested",
-  });
+  expect(revision.spans).toEqual([{ startUs: 0, endUs: 10_000_000 }]);
   expect(() => {
     (revision.spans[0] as { endUs: number }).endUs = 2;
   }).toThrow();

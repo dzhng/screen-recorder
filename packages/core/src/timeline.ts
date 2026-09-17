@@ -185,8 +185,7 @@ export type CutEvent = Readonly<{
   atSourceUs: number;
   removedSourceSpans: readonly TimeRange[];
 }>;
-export type EventGroup = { atUs: number; events: (SourceEvent | CutEvent)[] };
-/** Shared point and cut projection for grouped reads and bounded portable streams. */
+/** Projects source point events into playback time; a removed moment projects to null. */
 export function eventProjector(revision: TimelineRevision) {
   const plan = renderPlan(revision);
   return (event: SourceEvent): { atUs: number; event: SourceEvent } | null => {
@@ -229,54 +228,6 @@ export function* projectedCuts(
         removedSourceSpans: [{ startUs: previousEnd, endUs: revision.sourceDurationUs }],
       },
     };
-}
-export function projectEvents(
-  revision: TimelineRevision,
-  events: readonly SourceEvent[],
-): EventGroup[] {
-  const project = eventProjector(revision);
-  const projected: { atUs: number; event: SourceEvent | CutEvent }[] = [];
-  for (const event of events) {
-    const row = project(event);
-    if (row) projected.push(row);
-  }
-  for (const cut of projectedCuts(revision)) projected.push(cut);
-  projected.sort((a, b) => a.atUs - b.atUs || a.event.atSourceUs - b.event.atSourceUs);
-  const groups: EventGroup[] = [];
-  for (const { atUs, event } of projected) {
-    const last = groups.at(-1);
-    if (last?.atUs === atUs) last.events.push(event);
-    else groups.push({ atUs, events: [event] });
-  }
-  return groups;
-}
-export function trailBounds(
-  revision: TimelineRevision,
-  atUs: number,
-  boundaries: readonly SourceEvent[],
-  trailUs = 2_000_000,
-): RenderSpan & { cutoffReason: "requested" | "source_start" | "cut" | SourceEvent["kind"] } {
-  if (!validTime(trailUs) || trailUs > 10_000_000)
-    throw new TimelineError("Trail must be between zero and ten seconds");
-  const frame = editedToSource(revision, atUs);
-  if (!frame) throw new TimelineError("Frame time is outside the timeline");
-  let startUs = Math.max(0, atUs - trailUs);
-  let cutoffReason: "requested" | "source_start" | "cut" | SourceEvent["kind"] =
-    atUs < trailUs ? "source_start" : "requested";
-  if (frame.span.playback.startUs > startUs || (frame.span.source.startUs > 0 && atUs < trailUs)) {
-    startUs = frame.span.playback.startUs;
-    cutoffReason = "cut";
-  }
-  for (const group of projectEvents(revision, boundaries)) {
-    if (group.atUs > atUs || group.atUs <= startUs) continue;
-    startUs = group.atUs;
-    cutoffReason = group.events.at(-1)!.kind;
-  }
-  return {
-    source: { startUs: frame.sourceUs - (atUs - startUs), endUs: frame.sourceUs },
-    playback: { startUs, endUs: atUs },
-    cutoffReason,
-  };
 }
 
 /** Portable revision history uses the same constructors and normalization as live edits. */
