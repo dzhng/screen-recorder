@@ -30,29 +30,20 @@ Each slice's Status line is the one home for what it verified, its evidence and
 what remains open. Before ending a pass, update the owning Status lines and the
 checklist box, then replace the pickup below.
 
-Current pickup: no remaining pass is independent of the user.
-[Slice 15](slices/15-personal-release.md) personal install is implemented; install it
-with `bun run install:personal` when ready. Everything else still open needs the user:
+Current pickup: [slice 08](slices/08-transcript-processing.md) passes P1–P3 in
+parallel (native speech operation, model assets, transcript store), then P4 public
+operations and P5 narrated packages. Parakeet through FluidAudio is selected with
+best-effort fillers by user decision. Still needing the user: real narration for
+boundary timing (08 P6), and physical capture, gesture, menu and audition checks for
+[01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md),
+[07](slices/07-menu-bar-controls.md) and [13](slices/13-edited-media.md).
 
-- **Speech engine selection ([04](slices/04-local-speech-gate.md)):** real narration
-  and a decision, because no evaluated engine meets verbatim filler fidelity. This
-  blocks [08](slices/08-transcript-processing.md), narrated packages and the full
-  agent journey.
-- **Physical acceptance:** real capture, gesture and menu interaction for
-  [01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md),
-  [07](slices/07-menu-bar-controls.md) and [13](slices/13-edited-media.md) audition,
-  including clicking the native export actions.
+The [native export controls](assets/export-controls/README.md), the review-pass
+decisions in the [choices ledger](choices.md#whole-codebase-review--2026-09-17) and the
+[personal install](slices/15-personal-release.md) are current.
 
-The [native export controls](assets/export-controls/README.md) and the review-pass
-decisions in the [choices ledger](choices.md#whole-codebase-review--2026-09-17) are
-current. An existing unstamped personal catalog is now refused
-(`UNSUPPORTED_CATALOG`); remove `~/.screen-recorder/library.sqlite` if it holds no
-recordings.
-
-Priority order: installable personal workflow, speech fidelity with the user's
-narration, physical capture/gesture/menu verification, then installed-journey closeout.
-Keep one queue, immutable sources, explicit dependency failure and the complete
-CLI/MCP surface. No more Claude use.
+Priority order: transcription (08), narrated packages, real-narration and physical
+verification, then the installed-journey closeout.
 
 The original [verification gates](verification.md) remain requirements. Fixtures
 and unit checks do not close the full read → edit → inspect → export journey.
@@ -145,8 +136,9 @@ index, requests images/audio at useful moments, and uses cursor trails to unders
 what was pointed at. It can trim or cut specified ranges, undo, and inspect or export
 the edited result.
 
-“Cut out the ums” and “cut out the part where I said this is free” are external-agent
-workflows over evidence and explicit edit operations. The app contains local speech
+“Cut out the part where I said this is free” and “cut out the ums” are external-agent
+workflows over evidence and explicit edit operations. Filler removal is best-effort:
+the transcript reports a filler only when the engine emitted one. The app contains local speech
 recognition but no assistant, semantic editing model, rewriting or summarization.
 The original recording and non-destructive history remain intact.
 
@@ -157,7 +149,8 @@ The original recording and non-destructive history remain intact.
   source selection does not imply browser-tab sound isolation.
 - Start, stop, cancel, pause/resume and restart through native controls/shortcuts
   and machine operations. Pauses omit media time but add explicit elapsed-pause markers.
-- Local English transcription with words, fillers/repetitions and timestamps.
+- Local English transcription with word timestamps; fillers and repetitions appear
+  when the engine emits them, without a capture guarantee.
 - Clean source media plus raw cursor history; default two-second fading trail on
   inspection images, reset at pause/cut/scene/geometry boundaries; optional clean frames.
 - Visual-change/coverage/cursor-aware screenshot index; arbitrary frame, crop,
@@ -208,7 +201,7 @@ Each slice file states its dependencies; this table names what a top-level gate 
 | [01 Native capture and separate audio](slices/01-native-capture.md) | Three capture sources + isolated audio playback |
 | [02 Recover interrupted source media](slices/02-interruption-recovery.md) | Killed writer, decoded recovered prefix |
 | [03 Cursor positions in captured coordinates](slices/03-cursor-geometry.md) | Asymmetric grid and cursor error |
-| [04 Select a verbatim local speech engine](slices/04-local-speech-gate.md) | Real narration, filler ledger, audible cuts |
+| [04 Select a local speech engine](slices/04-local-speech-gate.md) | Emitted-token diagnostic and selected runtime |
 | [05 Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md) | Expected source spans and revision examples |
 | [06 Single-writer library and app-managed service](slices/06-service-and-jobs.md) | Real-process state/race/restart cases |
 | [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | Native controls and recording state shots |
@@ -229,9 +222,10 @@ No slice may declare a downstream contract complete using an upstream failed pro
 
 ## Risk decisions before mechanical work
 
-1. **Speech fidelity:** compare Parakeet and Whisper through real local runtimes.
-   One engine ships; if neither passes filler/timing requirements, slice 04 owns a
-   bounded alternative, not a model-picker detour.
+1. **Speech engine:** Parakeet and Whisper were compared through real local runtimes,
+   with Apple and a verbatim model as bounded alternatives. None met the filler gate.
+   The user chose best-effort fillers, and Parakeet ships. Boundary timing and
+   resources stay measured on real narration.
 2. **Recoverable media:** try native fragmented files before custom segmented
    storage. Slice 02 chooses from observed interruption behavior.
 3. **Cursor geometry:** native metadata owns coordinate transforms. Slice 03 must

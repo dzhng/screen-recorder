@@ -72,14 +72,13 @@ These are deliberately chosen initial gates, not guarantees on arbitrary media:
 - Recovery: validate claimed playable prefix; target no more than 5 seconds loss
   after the first committed checkpoint. A kill before any checkpoint may recover
   zero, which must be reported. No power-loss claim without corresponding testing.
-- Speech: all deliberate fillers/repetitions in the canonical short edit fixture;
-  held-out set at least 40 labeled fillers across real clips, ≥95% filler precision
-  and recall, median boundary error ≤100 ms/p95 ≤250 ms. Audition phrase/filler cuts
-  for clipped neighboring words. Report denominators and uncertainty; do not claim
-  universal accuracy from this small acceptance set.
+- Speech: on real narration, median word boundary error ≤100 ms/p95 ≤250 ms, and
+  audition phrase cuts for clipped neighboring words. Filler precision/recall is
+  reported with denominators but is not a gate (user decision 2026-09-17). Do not
+  claim universal accuracy from this small acceptance set.
 - Speech resources: warm five-minute clip no slower than real time, peak process
   RSS target ≤4 GiB on this host; prefer faster/lighter only among fidelity passers.
-  If targets conflict, reslice/measure the alternative; do not quietly drop fillers.
+  If targets conflict, reslice and measure the alternative.
 - Long inspection: use a 30-minute fixture; page extraction doesn't load all images
   or decode entire video per request. Repeat the same frame and observe a cache
   hit. Record RSS vs duration and cache eviction with unchanged source hashes.
@@ -114,7 +113,7 @@ From the installed local app/CLI outside the checkout: record localhost narratio
 with cursor emphasis, optional browser audio, a pause, a filler and the phrase
 "this is free". Show processing status immediately. The external AI reads the
 transcript/index, sees returned images, fetches another frame, identifies the phrase
-and filler, submits revision-bound cuts, previews/listens, encounters a stale edit,
+and any filler the engine emitted, submits revision-bound cuts, previews/listens, encounters a stale edit,
 and undoes. Export both choices, move/reopen the package, request a new timestamp.
 Also demonstrate interrupted recovery, failed transcription retry, disk accounting,
 and deletion without recreating artifacts. No app implementation is complete until

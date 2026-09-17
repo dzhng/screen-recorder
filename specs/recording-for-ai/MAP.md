@@ -43,7 +43,7 @@ Unless marked otherwise, the user closed these decisions during the walk.
 | Handoff | Ask for the latest recording; resolve to a stable ID for follow-up calls. |
 | Availability | Expose newest recording immediately with status; never silently substitute an older ready recording. |
 | Processing failures | Separate video, transcript, and index readiness; report failure/retryability and allow retry from retained sources. |
-| Transcription | Local, English first; word-level timing and faithful fillers/repetitions required for editing. Engine is OPEN. |
+| Transcription | Local, English first; word-level timing required for editing. On 2026-09-17, after no evaluated engine met verbatim filler fidelity, the user chose to ship word-timed transcripts without guaranteeing filler capture: fillers appear when the engine emits them. |
 | Capture area | One selected display, window, or rectangular region. |
 | Audio | Microphone narration plus optional system/browser audio, stored separately for independent narration transcription. |
 | Controls | Start, stop, cancel, pause/resume, restart via menu bar and keyboard shortcuts. Restart discards the take. |

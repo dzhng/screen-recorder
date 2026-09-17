@@ -1,6 +1,17 @@
-# 04 — Select a verbatim local speech engine
+# 04 — Select a local speech engine
 
-Status: preparation/evaluation harness integrated; eight evaluator tests pass.
+Status: **Parakeet TDT 0.6b v2 through FluidAudio is selected** (2026-09-17), with
+the pins recorded in the [evaluation engines](../../../packages/test-harness/speech/engines.mjs).
+No evaluated engine met verbatim filler fidelity. The user then chose to ship
+word-timed transcripts with best-effort fillers, and the removed gate is recorded in
+[verification](../verification.md#performance-and-fidelity-targets). Parakeet is the
+only candidate that emitted most fillers (144 um/uh tokens where WhisperKit emitted
+none), keeps disfluent wording instead of rewriting it, and carries permissive
+licenses. WhisperKit is eliminated. Word boundary timing and warm resource use stay
+open until measured on real narration in [08](08-transcript-processing.md) and
+[15](15-personal-release.md). The history of the gate follows.
+
+Earlier status: preparation/evaluation harness integrated; eight evaluator tests pass.
 Independent review found repeated-token alignment and raw-report filename defects;
 both are fixed, with red/green coverage and an actual offline synthetic inference
 for the filename case. Human fidelity and production-engine selection remain open.

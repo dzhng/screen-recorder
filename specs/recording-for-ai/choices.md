@@ -2372,3 +2372,25 @@ export controls. The choices below are the ones that change behavior or format.
 - **An unconfirmed package output holds only its slot, not bytes,** so one lost
   output creation cannot wedge later frame and audio requests.
 
+## Speech engine and transcription plan — 2026-09-17
+
+- **Best-effort fillers ship with Parakeet.**
+  - **When:** after the whole-codebase review, by user decision.
+  - **Decision:** no evaluated engine reached the 95% verbatim filler gate. The user
+    chose to ship word-timed transcripts without guaranteeing fillers. Parakeet TDT v2
+    through FluidAudio is selected because it:
+    - emitted most fillers while WhisperKit emitted none and rewrote hesitant speech;
+    - keeps disfluent wording, which matters for cutting a quoted phrase;
+    - has Apache-2.0 and CC-BY-4.0 licenses, unlike the restricted verbatim model.
+  - **Gap:** the spec had no fallback product rule for a failed filler gate.
+  - **Rationale:** the user owns the product scope. Among the engines, the only one
+    that preserves disfluencies at all serves both phrase cuts and best-effort
+    filler cuts.
+  - **Consequence:** "cut out the ums" may miss fillers the model dropped. Boundary
+    timing and warm resources remain gates to measure on real narration.
+- **Transcription feeds only acquired narration intervals and refuses to load
+  unverified models.** Native transcribes each readable narration interval
+  separately and checks the pinned model file hashes before loading, so FluidAudio
+  can never download at inference. This costs a hash pass per job but keeps "no
+  network after prepare" enforceable rather than conventional.
+

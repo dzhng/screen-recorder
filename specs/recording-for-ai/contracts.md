@@ -111,8 +111,9 @@ inspect sound. System audio transcription/diarization is not part of this releas
 Source transcript words carry text, source start/end, available confidence,
 model/runtime identity, and `kind: speech|filler|vocalization` when actually provided
 or deterministically classified from recognized text. Never invent missing words.
-Raw model output is retained; no rewriting or cleanup pass. Word timing and filler
-fidelity must pass slice 04 before promising the filler-edit workflow.
+Raw model output is retained; no rewriting or cleanup pass. Filler capture is
+best-effort by user decision: a filler the engine did not emit is simply absent, and
+no filler-edit workflow is promised. Word boundary timing remains a measured gate.
 
 Project transcript through kept spans. Fully removed words vanish; intersected
 words retain their source text but are explicitly `partial:true` with retained
