@@ -36,7 +36,6 @@ const rowSchema = z.strictObject({
 function matches(index: EvidenceIndex, row: RecordRow, data: Record<string, unknown>): boolean {
   if (index === "cursor" || index === "cursorSequence") return row.event === "cursorSample";
   if (index === "geometry") return row.event === "geometry" && row.sourceUs !== null;
-  if (index === "geometryEpoch") return row.event === "geometry";
   if (index === "unplaced") return row.event === "geometry" && row.sourceUs === null;
   if (index === "pauses") return row.event === "pause";
   return row.event === "audioAcquired" && data.role === index;

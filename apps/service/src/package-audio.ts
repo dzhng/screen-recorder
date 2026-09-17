@@ -2,39 +2,26 @@ import {
   AudioInspection,
   planAudioExcerpt,
   renderAudio,
-  type AudioContext,
   type AudioOptions,
-  type AudioSubmission,
   type MaterializedAudio,
   type NativeAudio,
 } from "@screenrec/core/audio";
+import type { DerivativeContext } from "@screenrec/core/derivative-inspection";
 import { retainedFileRead } from "@screenrec/core/files";
 import { PackageMediaContext, type PackageTarget } from "./package-media.js";
 export type PackageAudioArtifact = MaterializedAudio & { outputId: string };
 
 export class PackageAudioInspection extends AudioInspection<PackageTarget, PackageAudioArtifact> {
   constructor(private readonly media: PackageMediaContext) {
-    super();
+    super(media);
   }
-  protected resolve(input: PackageTarget & { revisionId?: string | undefined }) {
-    return this.media.resolve(input);
-  }
-  protected source() {
-    return this.media.source();
-  }
-  protected retryJob(jobId: string) {
-    this.media.retry(jobId);
-  }
-  protected plan(context: AudioContext<PackageTarget>, options: AudioOptions) {
+  protected plan(context: DerivativeContext<PackageTarget>, options: AudioOptions) {
     return planAudioExcerpt({ ...context, ...options }, this.media.sourceData().reader, (role) =>
       this.media.sourcePath(role),
     );
   }
-  protected submit(
-    context: AudioContext<PackageTarget>,
-    options: AudioOptions,
-  ): AudioSubmission<PackageAudioArtifact> {
-    const result = this.media.submit<MaterializedAudio>(
+  protected submit(context: DerivativeContext<PackageTarget>, options: AudioOptions) {
+    return this.media.submit<MaterializedAudio>(
       "audio",
       JSON.stringify({ revisionId: context.revision.id, options }),
       (output, run, signal) =>
@@ -50,12 +37,6 @@ export class PackageAudioInspection extends AudioInspection<PackageTarget, Packa
           signal,
         ),
     );
-    return {
-      ...result,
-      published: result.published
-        ? { generation: result.published.generation, audio: result.published.value }
-        : null,
-    };
   }
   openRead(audio: PackageAudioArtifact) {
     return retainedFileRead(this.media.openOutput(audio.outputId), audio.bytes);

@@ -31,10 +31,11 @@ export abstract class ScreenshotIndexReader {
     identity: ScreenshotIndexIdentity,
     query: CoverageQuery,
   ): IndexCoverage[];
-  protected readEntry(identity: ScreenshotIndexIdentity, ordinal: number): ScreenshotIndexEntry {
-    if (!integer(ordinal)) invalid("Invalid candidate ordinal");
+  readEntry(identity: ScreenshotIndexIdentity, ordinal: number): ScreenshotIndexEntry {
+    if (!integer(ordinal))
+      throw new CatalogError("INVALID_PARAMS", "Index ordinal must be a nonnegative integer");
     const row = this.entryRows(identity, { after: ordinal - 1, through: ordinal, limit: 1 })[0];
-    if (!row) invalid("Unknown selected image");
+    if (!row) throw new CatalogError("NOT_FOUND", "Selected index frame does not exist");
     return row;
   }
   page({

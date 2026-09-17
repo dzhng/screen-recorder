@@ -44,7 +44,7 @@ function pointScene(
   };
 }
 
-/** Sequential point inspection only. A future movie event planner owns which moments to request. */
+/** Sequential point inspection only; the pointer schedule decides which moments to request. */
 export class PresentationPointer {
   private busy = false;
   private readonly current;

@@ -103,7 +103,6 @@ function summarizeAnnotation(plan: Awaited<ReturnType<typeof planFrameTrail>>) {
   return {
     policy: plan.policy,
     trailUs: plan.overlay.trailUs,
-    agedFromUs: plan.agedFromUs,
     requestedSourceUs: plan.requestedSourceUs,
     actualSourceUs: plan.actualSourceUs,
     evidenceRange: plan.evidenceRange,

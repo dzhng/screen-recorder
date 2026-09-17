@@ -186,7 +186,9 @@ test("pages and filtered coverage remain bounded and reject unrelated anchors", 
     [2, { startUs: 3_000_000, endUs: 6_000_000 }, "sampled"],
     [3, { startUs: 6_000_000, endUs: 10_000_000 }, "unproven"],
   ]);
-  expect(() => f.index.page({ identity: f.identity, afterOrdinal: 50 })).toThrow("Unknown");
+  expect(() => f.index.page({ identity: f.identity, afterOrdinal: 50 })).toThrow(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
   expect(() => f.index.page({ identity: f.identity, limit: 201 })).toThrow("limit");
   expect(() =>
     f.index.coveragePage({ identity: f.identity, candidateOrdinal: 0, afterSequence: 1 }),
@@ -206,6 +208,16 @@ test("incomplete coverage and missing retained files cannot become complete", as
   await expect(f.index.finish(f.identity)).rejects.toThrow();
   expect(() => f.index.page({ identity: f.identity })).toThrow("complete");
   await f.index.remove(f.identity);
+});
+test("removing a generation that begin refused succeeds without replacing the refusal", async () => {
+  const f = fixture();
+  const refused = {
+    ...f.identity,
+    sourceIdentity: { ...f.identity.sourceIdentity, sourceId: "x" },
+  };
+  expect(() => f.index.begin(refused)).toThrow("does not match source");
+  await expect(f.index.remove(refused)).resolves.toBeUndefined();
+  await expect(f.index.remove(refused)).resolves.toBeUndefined();
 });
 test("canceling final validation hides partial evidence and prevents late appends", async () => {
   const f = fixture();

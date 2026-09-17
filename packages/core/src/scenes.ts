@@ -280,10 +280,9 @@ export class SourceSceneAnalysis {
       this.sample,
       signal,
     );
-    const { lastSample: _lastSample, ...result } = analyzeSceneObservations(observed, {
-      range,
-      kept,
-    });
+    // Canonical scene boundaries derive from comparisons; the frame-local range filter does not apply.
+    const { policy, comparisons, sourceWidth, sourceHeight, ...observation } =
+      analyzeSceneObservations(observed, { range, kept });
     const coverage = observed.samples.map((sample, index) => {
       const last = this.recent.at(-1);
       let stillnessRunStartUs: number;
@@ -340,10 +339,10 @@ export class SourceSceneAnalysis {
         this.recent.push({ sample, stillnessRunStartUs });
         if (this.recent.length > 2) this.recent.shift();
       }
-      return { ...result.coverage[index]!, stillnessRunStartUs };
+      return { ...observation.coverage[index]!, stillnessRunStartUs };
     });
     this.throughUs = range.endUs;
-    return { ...result, coverage };
+    return { policy, range, kept, sourceWidth, sourceHeight, comparisons, coverage };
   }
 }
 

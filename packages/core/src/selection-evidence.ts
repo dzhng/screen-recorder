@@ -1,7 +1,7 @@
 import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./library.js";
 import type { SourceSelectionRead } from "./evidence.js";
-import type { SceneEvidenceRead } from "./scene-evidence.js";
+import { sceneBoundaries, type SceneEvidenceRead } from "./scene-evidence.js";
 import type { SelectionEvent, SelectionInput } from "./selection.js";
 
 /** Streams published source evidence; the selector owns kept-span filtering and cut events. */
@@ -90,10 +90,9 @@ export async function* selectionEvidence(
   }
   async function* scenes(): AsyncGenerator<SelectionEvent> {
     for await (const chunk of chunks())
-      for (const pair of chunk.comparisons) {
+      for (const boundary of sceneBoundaries(chunk)) {
         signal.throwIfAborted();
-        if (pair.boundary)
-          yield { kind: "boundary", atSourceUs: pair.actualSourceUs, reason: "scene" };
+        yield { kind: "boundary", atSourceUs: boundary.atSourceUs, reason: "scene" };
       }
   }
   async function* visuals(): AsyncGenerator<SelectionEvent> {

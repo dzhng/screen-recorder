@@ -57,7 +57,6 @@ const chunkSchema = z.object({
       }),
     )
     .max(51),
-  boundaries: z.array(z.object({ kind: z.literal("scene"), atSourceUs: integer })).max(51),
 });
 const codec: OrderedPageCodec<SceneChunkReport, SceneEvidenceMetadata> = {
   metadata: metadataSchema,
@@ -123,11 +122,36 @@ export class FileSceneEvidence extends SceneEvidenceReader {
     limit: number,
   ): SceneChunkReport[] {
     const metadata = this.readMetadata(identity);
+    // A continuation normally names a chunk start, so the predecessor shares the same page read.
     const rows = this.pages.read({
       index: "chunks",
-      ...(afterStartUs < 0 ? {} : { lower: { key: [afterStartUs], inclusive: false } }),
-      limit,
+      ...(afterStartUs < 0 ? {} : { lower: { key: [afterStartUs], inclusive: true } }),
+      limit: limit + 1,
     });
+    let previous = rows[0]?.range.startUs === afterStartUs ? rows.shift() : undefined;
+    if (rows.length > limit) rows.pop();
+    if (!previous && afterStartUs >= 0)
+      previous = this.pages.read({
+        index: "chunks",
+        upper: { key: [afterStartUs], inclusive: true },
+        reverse: true,
+        limit: 1,
+      })[0];
+    // Each chunk is canonical alone; the append owner's contiguity and cross-chunk
+    // deduplication are only visible against the predecessor.
+    let expectedStartUs = previous?.range.endUs ?? 0,
+      observedThroughUs = previous?.coverage.at(-1)!.actualSourceUs ?? -1;
+    for (const row of rows) {
+      if (
+        row.range.startUs !== expectedStartUs ||
+        row.comparisons.some((pair) => pair.actualSourceUs <= observedThroughUs)
+      )
+        throw new CatalogError("INVALID_EVIDENCE", "Scene chunk does not continue its predecessor");
+      expectedStartUs = row.range.endUs;
+      observedThroughUs = row.coverage.at(-1)!.actualSourceUs;
+    }
+    if (rows.length < limit && expectedStartUs !== metadata.durationUs)
+      throw new CatalogError("INVALID_EVIDENCE", "Scene chunks do not cover the source");
     if (
       rows.some(
         (row) =>

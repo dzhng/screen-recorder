@@ -7,14 +7,12 @@ export const evidenceIndexes = [
   "cursor",
   "cursorSequence",
   "geometry",
-  "geometryEpoch",
   "unplaced",
   "pauses",
   "narration",
   "system",
 ] as const;
 export type EvidenceIndex = (typeof evidenceIndexes)[number];
-export type RecordBound = PageBound;
 export type RecordQuery = Omit<PageQuery, "index"> & { index: EvidenceIndex };
 const max = Number.MAX_SAFE_INTEGER;
 const integer = (value: unknown): value is number =>
@@ -25,7 +23,7 @@ function invalid(message: string): never {
 const content = <T>(row: RecordRow): T => ({ ...JSON.parse(row.content), sequence: row.sequence });
 export function recordKey(index: EvidenceIndex, row: RecordRow): number[] {
   if (index === "cursorSequence" || index === "unplaced") return [row.sequence];
-  return [index === "geometryEpoch" ? JSON.parse(row.content).epoch : row.sourceUs!, row.sequence];
+  return [row.sourceUs!, row.sequence];
 }
 
 /** One query semantics owner; storage adapters only provide bounded ordered records. */
@@ -45,10 +43,10 @@ export abstract class SourceEvidenceReader {
       if (!["cursor", "geometry", "pauses"].includes(index))
         invalid("Source ranges require cursor, geometry or pause records");
     }
-    let lower: RecordBound | undefined = range
+    let lower: PageBound | undefined = range
       ? { key: [range.startUs, 0], inclusive: true }
       : undefined;
-    const upper: RecordBound | undefined = range
+    const upper: PageBound | undefined = range
       ? { key: [range.endUs, 0], inclusive: false }
       : undefined;
     for (;;) {
@@ -164,18 +162,6 @@ export abstract class SourceEvidenceReader {
     })[0];
     return row ? content<T>(row) : null;
   }
-  geometryByEpoch(identity: EvidenceIdentity, epoch: number): SourceGeometry | null {
-    if (!integer(epoch)) invalid("Invalid geometry epoch");
-    this.requireComplete(identity);
-    const row = this.records(identity, {
-      index: "geometryEpoch",
-      lower: { key: [epoch, 0], inclusive: true },
-      upper: { key: [epoch, max], inclusive: true },
-      reverse: true,
-      limit: 1,
-    })[0];
-    return row ? content<SourceGeometry>(row) : null;
-  }
   geometryChanges(identity: EvidenceIdentity, range: TimeRange): SourceGeometry[] {
     return this.boundaries(
       identity,
@@ -202,15 +188,6 @@ export abstract class SourceEvidenceReader {
     if (rows.length > 1000)
       throw new CatalogError("LIMIT_EXCEEDED", "Too many unplaced geometry records in this range");
     return rows.map((row) => content<SourceGeometry>(row));
-  }
-  pauses(
-    identity: EvidenceIdentity,
-    range: TimeRange,
-  ): { atSourceUs: number; elapsedPauseUs: number }[] {
-    return this.pauseBoundaries(identity, range).map(({ atSourceUs, elapsedPauseUs }) => ({
-      atSourceUs,
-      elapsedPauseUs,
-    }));
   }
   /** Both retained boundaries include their markers without adding media duration. */
   pauseBoundaries(

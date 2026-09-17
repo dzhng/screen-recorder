@@ -288,7 +288,6 @@ export async function planVisualTrail(
   return {
     policy: trailPolicy.id,
     overlay,
-    agedFromUs: at,
     requestedSourceUs: at,
     actualSourceUs: actual,
     evidenceRange: { startUs: start, endUs: at },

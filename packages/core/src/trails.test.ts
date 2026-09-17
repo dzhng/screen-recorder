@@ -133,7 +133,7 @@ test("held image retains requested-time circle and future identical image never 
       ],
     ]);
     expect(plan.overlay.pointer).toEqual({ atSourceUs: 1000000, x: 20, y: 20 });
-    expect(plan.agedFromUs).toBe(1500000);
+    expect(plan.requestedSourceUs).toBe(1500000);
   }
 });
 

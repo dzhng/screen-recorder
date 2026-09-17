@@ -375,7 +375,7 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
     signal?: AbortSignal,
   ): Promise<ScreenshotIndexMetadata> {
     const row = this.row(identity, "building");
-    if (row.throughUs !== row.durationUs || (row.durationUs > 0 && row.candidateCount === 0))
+    if (row.throughUs !== row.durationUs || row.candidateCount === 0)
       invalid("Index coverage is incomplete");
     signal?.throwIfAborted();
     this.store.catalog
@@ -447,8 +447,9 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
     return rows.map(({ sequence, content }) => ({ sequence, ...JSON.parse(content) }));
   }
   openRead(identity: ScreenshotIndexIdentity, ordinal: number) {
-    const row = this.row(identity, "complete"),
-      entry = this.entry(identity, ordinal);
+    const row = this.row(identity, "complete");
+    this.readEntry(identity, ordinal);
+    const entry = this.entry(identity, ordinal);
     const { file } = openRetainedImage(
       join(this.checkedDirectory(identity, row), `${ordinal}.png`),
       JSON.parse(entry.frame),
@@ -458,6 +459,12 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
   }
 
   async remove(identity: ScreenshotIndexIdentity): Promise<void> {
+    if (
+      !this.store.catalog
+        .prepare(`SELECT 1 FROM screenshot_index_generations WHERE ${where}`)
+        .get(...key(identity))
+    )
+      return;
     const row = this.row(identity);
     this.store.catalog
       .prepare(`UPDATE screenshot_index_generations SET state='deleting' WHERE ${where}`)

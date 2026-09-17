@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
-import { SceneEvidenceStore } from "./scene-evidence.js";
+import { SceneEvidenceStore, sceneBoundaries } from "./scene-evidence.js";
 const stores: RevisionStore[] = [],
   roots: string[] = [];
 afterEach(() => {
@@ -113,7 +113,7 @@ test("sparse future comparisons are retained once while request coverage remains
       boundary: true,
     },
   ]);
-  expect(chunks.flatMap((c) => c.boundaries)).toEqual([{ kind: "scene", atSourceUs: 100_000_000 }]);
+  expect(chunks.flatMap(sceneBoundaries)).toEqual([{ kind: "scene", atSourceUs: 100_000_000 }]);
   expect(chunks.find((c) => c.comparisons.length)!.range.endUs).toBe(50_000_000);
 });
 

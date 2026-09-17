@@ -111,7 +111,6 @@ function observed(
     latest: reader.latestCursor(identity, 10),
     timed: reader.timedGeometryAt(identity, 24),
     next: reader.nextTimedGeometry(identity, 24),
-    epoch: reader.geometryByEpoch(identity, 2),
     unplaced: reader.unplacedGeometry(identity, { afterSequence: 2, beforeSequence: 8 }),
     changes: reader.geometryChanges(identity, { startUs: 0, endUs: 25 }),
     pauses: reader.pauseBoundaries(identity, { startUs: 20, endUs: 20 }),

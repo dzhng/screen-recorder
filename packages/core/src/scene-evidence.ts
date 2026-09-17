@@ -42,6 +42,13 @@ function metadata(row: Generation): SceneEvidenceMetadata {
   } = row;
   return result;
 }
+/** Scene resets are the boundary comparisons; chunks do not store a second copy. */
+export function sceneBoundaries(chunk: Pick<SceneChunkReport, "comparisons">) {
+  return chunk.comparisons
+    .filter((pair) => pair.boundary)
+    .map((pair) => ({ kind: "scene" as const, atSourceUs: pair.actualSourceUs }));
+}
+
 /** Canonical chunk semantics shared by append and portable payload reads. */
 export function normalizeSceneChunk(
   report: SceneChunkReport,
@@ -102,9 +109,6 @@ export function normalizeSceneChunk(
     comparisons.push(pair);
     last = pair;
   }
-  const boundaries = comparisons
-    .filter((pair) => pair.boundary)
-    .map((pair) => ({ kind: "scene" as const, atSourceUs: pair.actualSourceUs }));
   const chunk: SceneChunkReport = {
     policy: report.policy,
     range: report.range,
@@ -113,7 +117,6 @@ export function normalizeSceneChunk(
     sourceHeight: report.sourceHeight,
     coverage: report.coverage,
     comparisons,
-    boundaries,
   };
   if (Buffer.byteLength(JSON.stringify(chunk)) > 65_536)
     invalid("Scene chunk exceeds bounded storage");
@@ -220,7 +223,7 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
         .run(
           report.range.endUs,
           chunk.comparisons.length,
-          chunk.boundaries.length,
+          sceneBoundaries(chunk).length,
           last ? JSON.stringify(last) : null,
           ...key(identity),
         );

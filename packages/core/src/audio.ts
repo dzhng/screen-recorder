@@ -1,6 +1,13 @@
 import { isAbsolute, join } from "node:path";
 import { CatalogError, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
+import {
+  DerivativeInspection,
+  LibraryDerivatives,
+  type DerivativeBackend,
+  type DerivativeContext,
+  type DerivativeSubmission,
+} from "./derivative-inspection.js";
 import type { DerivedCache } from "./cache.js";
 import { trimSpans, type TimeRange, type TimelineRevision } from "./timeline.js";
 import type { SourceEvidenceMetadata, SourceAudioRead } from "./evidence.js";
@@ -159,74 +166,37 @@ export function planAudioTracks(
   return { tracks, missingRoles };
 }
 
-export type AudioContext<Target extends object> = {
-  target: Target;
-  recordingId: string;
-  sourceId: string;
-  revision: TimelineRevision;
-};
-export type AudioSourceState = {
-  state: string;
-  reason: string | null;
-  retryable: boolean;
-  jobId: string | null;
-  evidence: SourceEvidenceMetadata | null;
-};
-export type AudioSubmission<Artifact extends MaterializedAudio> = Omit<
-  AudioSourceState,
-  "evidence"
-> & {
-  published: { generation: number; audio: Artifact } | null;
-};
 export type AudioPlan = ReturnType<typeof planAudioExcerpt>;
 
 /** One admission policy for library and retained-package excerpts. */
-export abstract class AudioInspection<Target extends object, Artifact extends MaterializedAudio> {
-  protected abstract resolve(
-    input: Target & { revisionId?: string | undefined },
-  ): AudioContext<Target>;
-  protected abstract source(context: AudioContext<Target>): AudioSourceState;
-  protected abstract plan(context: AudioContext<Target>, options: AudioOptions): AudioPlan;
+export abstract class AudioInspection<
+  Target extends object,
+  Artifact extends MaterializedAudio,
+> extends DerivativeInspection<Target, Target & AudioRequest, "audio", Artifact> {
+  constructor(backend: DerivativeBackend<Target>) {
+    super(backend, "audio");
+  }
+  protected abstract plan(context: DerivativeContext<Target>, options: AudioOptions): AudioPlan;
   protected abstract submit(
-    context: AudioContext<Target>,
+    context: DerivativeContext<Target>,
     options: AudioOptions,
-  ): AudioSubmission<Artifact>;
-  protected abstract retryJob(jobId: string): void;
+  ): DerivativeSubmission<Artifact>;
 
   request(input: Target & AudioRequest) {
-    const context = this.resolve(input);
+    const context = this.backend.resolve(input);
     audioExcerptSpans(context.revision, input.range);
     validateTrack(input.track);
-    const source = this.source(context);
-    const identity = {
-      ...context.target,
-      sourceId: context.sourceId,
-      revisionId: context.revision.id,
-    };
-    if (source.state !== "ready" || !source.evidence)
-      return {
-        ...identity,
-        state: source.state,
-        reason: source.reason,
-        retryable: source.retryable,
-        jobId: null,
-        published: null,
-        dependency: { artifact: "source" as const, jobId: source.jobId },
+    return this.admit(context, this.backend.source(context), (evidence) => {
+      const options: AudioOptions = {
+        policy,
+        range: { startUs: input.range.startUs, endUs: input.range.endUs },
+        track: input.track,
+        sourceEvidence: evidence,
       };
-    const options: AudioOptions = {
-      policy,
-      range: { startUs: input.range.startUs, endUs: input.range.endUs },
-      track: input.track,
-      sourceEvidence: source.evidence,
-    };
-    // Reject absent roles before occupying a heavy worker slot.
-    this.plan(context, options);
-    return { ...identity, ...this.submit(context, options), dependency: null };
-  }
-  retry(input: Target & AudioRequest) {
-    const status = this.request(input);
-    if (status.jobId) this.retryJob(status.jobId);
-    return this.request({ ...input, revisionId: status.revisionId });
+      // Reject absent roles before occupying a heavy worker slot.
+      this.plan(context, options);
+      return this.submit(context, options);
+    });
   }
 }
 
@@ -335,74 +305,38 @@ export class LibraryAudioInspection extends AudioInspection<
   { recordingId: string },
   AudioArtifact
 > {
+  private readonly library: LibraryDerivatives;
   constructor(
     private readonly store: RevisionStore,
-    private readonly jobs: JobQueue,
+    jobs: JobQueue,
     private readonly cache: DerivedCache,
     private readonly evidence: SourceAudioRead,
-    private readonly processing: SourceProcessing,
+    processing: SourceProcessing,
     private readonly home: string,
     private readonly decode: AudioDecoder,
   ) {
-    super();
-  }
-  protected resolve(input: AudioInput) {
-    return {
-      target: { recordingId: input.recordingId },
-      recordingId: input.recordingId,
-      sourceId: this.store.get(input.recordingId).sourceId,
-      revision: this.store.revision(input.recordingId, input.revisionId),
-    };
-  }
-  protected source(context: AudioContext<{ recordingId: string }>) {
-    this.processing.prepare(context.recordingId);
-    const source = this.processing.status(context.recordingId);
-    return {
-      state: source.state,
-      reason: source.reason,
-      retryable: source.retryable,
-      jobId: source.jobId,
-      evidence: source.published?.evidence ?? null,
-    };
+    const library = new LibraryDerivatives(store, jobs, cache, processing);
+    super(library);
+    this.library = library;
   }
   private sourcePath(recordingId: string, role: AudioRole) {
     return join(this.home, "recordings", recordingId, "source", `${role}.mov`);
   }
-  protected plan(context: AudioContext<{ recordingId: string }>, options: AudioOptions) {
+  protected plan(context: DerivativeContext<{ recordingId: string }>, options: AudioOptions) {
     return planAudioExcerpt({ ...context, ...options }, this.evidence, (role) =>
       this.sourcePath(context.recordingId, role),
     );
   }
-  protected retryJob(jobId: string) {
-    this.jobs.retry(jobId);
-  }
-  protected submit(context: AudioContext<{ recordingId: string }>, options: AudioOptions) {
-    const jobIdentity = {
-      recordingId: context.recordingId,
-      revisionId: context.revision.id,
-      artifact,
-      input: JSON.stringify(options),
-    };
-    this.jobs.submit({ ...jobIdentity, lane: "heavy" });
-    let status = this.jobs.status(jobIdentity);
-    if (status.published) {
-      const audio = JSON.parse(status.published.result) as AudioArtifact;
-      const read = this.cache.acquire(audio.cacheId);
-      if (read) read.release();
-      else {
-        this.jobs.regenerate(status.jobId!, status.published.generation);
-        status = this.jobs.status(jobIdentity);
-      }
-    }
-    return {
-      ...status,
-      published: status.published
-        ? {
-            generation: status.published.generation,
-            audio: JSON.parse(status.published.result) as AudioArtifact,
-          }
-        : null,
-    };
+  protected submit(context: DerivativeContext<{ recordingId: string }>, options: AudioOptions) {
+    return this.library.submit<AudioArtifact>(
+      {
+        recordingId: context.recordingId,
+        revisionId: context.revision.id,
+        artifact,
+        input: JSON.stringify(options),
+      },
+      "heavy",
+    );
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
     if (job.artifact !== artifact)

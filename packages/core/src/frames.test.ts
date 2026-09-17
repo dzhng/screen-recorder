@@ -9,11 +9,13 @@ import {
   LibraryFrameInspection,
   FrameInspection,
   renderFrame,
-  type FrameContext,
   type FrameOptions,
-  type FrameSourceState,
-  type FrameSubmission,
 } from "./frames.js";
+import type {
+  DerivativeBackend,
+  DerivativeContext,
+  DerivativeSubmission,
+} from "./derivative-inspection.js";
 import { createOriginalRevision, createRevision } from "./timeline.js";
 import {
   materializeFrame,
@@ -430,7 +432,7 @@ test("annotated defaults wait for source evidence while clean frames bypass that
     clean: false,
     annotation: {
       trailUs: 2000000,
-      agedFromUs: 400,
+      requestedSourceUs: 400,
       interval: { startUs: 100, endUs: 200 },
       trailPoints: 2,
       trailRuns: 1,
@@ -890,37 +892,36 @@ test("shared frame controller pins a package batch and reports missing evidence 
     createdAt: "fixture",
   });
   type Target = { packageHandle: string };
+  let current = original;
+  const retried: string[] = [];
+  const backend: DerivativeBackend<Target> = {
+    resolve: (input) => ({
+      target: { packageHandle: input.packageHandle },
+      recordingId: "embedded",
+      sourceId: "source",
+      revision: input.revisionId === original.id ? original : current,
+    }),
+    source: () => ({
+      state: "failed",
+      reason: "source_unavailable",
+      retryable: false,
+      jobId: null,
+      evidence: null,
+    }),
+    retry: (jobId) => retried.push(jobId),
+  };
   class PackageFrames extends FrameInspection<Target, MaterializedFrame> {
-    current = original;
     submitted: { revisionId: string; atUs: number; clean: boolean }[] = [];
-    retried: string[] = [];
-    protected resolve(input: Target & { revisionId?: string | undefined }): FrameContext<Target> {
-      return {
-        target: { packageHandle: input.packageHandle },
-        recordingId: "embedded",
-        sourceId: "source",
-        revision: input.revisionId === original.id ? original : this.current,
-      };
-    }
-    protected source(): FrameSourceState {
-      return {
-        state: "failed",
-        reason: "source_unavailable",
-        retryable: false,
-        jobId: null,
-        evidence: null,
-      };
-    }
     protected submit(
-      context: FrameContext<Target>,
+      context: DerivativeContext<Target>,
       options: FrameOptions,
-    ): FrameSubmission<MaterializedFrame> {
+    ): DerivativeSubmission<MaterializedFrame> {
       this.submitted.push({
         revisionId: context.revision.id,
         atUs: options.atUs,
         clean: options.clean,
       });
-      this.current = edited;
+      current = edited;
       return {
         state: "queued",
         jobId: `job-${this.submitted.length}`,
@@ -929,11 +930,8 @@ test("shared frame controller pins a package batch and reports missing evidence 
         published: null,
       };
     }
-    protected retryJob(jobId: string) {
-      this.retried.push(jobId);
-    }
   }
-  const frames = new PackageFrames();
+  const frames = new PackageFrames(backend);
   const batch = frames.batch({ packageHandle: "package", clean: true, atUs: [0, 900] });
   expect(batch).toMatchObject({
     packageHandle: "package",
@@ -963,7 +961,7 @@ test("shared frame controller pins a package batch and reports missing evidence 
   expect(frames.submitted).toEqual(before);
   const retry = frames.retry({ packageHandle: "package", atUs: 0, clean: true });
   expect(retry.revisionId).toBe(edited.id);
-  expect(frames.retried).toEqual(["job-3"]);
+  expect(retried).toEqual(["job-3"]);
 });
 
 test("shared rendering forwards failure identity and discards publication canceled after success", async () => {
