@@ -18,6 +18,8 @@ import {
 import type { MediaWorker } from "./worker.js";
 import type { AdmittedArchive } from "./archive-input.js";
 
+export const packageOutputBytes = 128 * 1024 ** 2;
+
 type Options = { signal?: AbortSignal; limits?: ArchiveLimits; timeoutMs?: number };
 function requireResult(result: Awaited<ReturnType<MediaWorker>>) {
   if (!result.ok)
@@ -332,7 +334,7 @@ export class RetainedPackage {
         if (typeof params.output !== "string" || !params.output || this.outputs.has(params.output))
           throw new CatalogError("INVALID_REQUEST", "Output label must be new within this context");
         reserve = operation === "media.audio" ? 64 * 1024 ** 2 : 32 * 1024 ** 2;
-        if (this.outputs.size >= 32 || this.outputBytes + reserve > 128 * 1024 ** 2)
+        if (this.outputs.size >= 32 || this.outputBytes + reserve > packageOutputBytes)
           throw new CatalogError("LIMIT_EXCEEDED", "Package derivative budget exceeded");
         this.outputBytes += reserve;
         outputName = `${randomUUID()}.${operation === "media.audio" ? "wav" : "png"}`;

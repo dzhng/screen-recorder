@@ -1,0 +1,60 @@
+{
+  "scope": "Internal process-local registry; generated non-narrated archives; no public routes or ASR claim",
+  "base": "fbdac77",
+  "prerequisites": [
+    "7be2faa",
+    "e50eca0",
+    "9ac51d1"
+  ],
+  "nativeSha256": "eab2154e3f577a654e4f6dfef98b25c00264a7a246c7a0d885c37f2a24167d07",
+  "checks": {
+    "nativeTotal": 72,
+    "registry": 12,
+    "archive": 43,
+    "workspace": 8,
+    "recovery": 8,
+    "retainedInspection": 1,
+    "core": 306,
+    "service": 97,
+    "nativeDurationMs": 16657.466792
+  },
+  "assertedPolicy": {
+    "poolBytes": 68719476736,
+    "owners": 4,
+    "terminalReceipts": 32,
+    "derivativeBytesPerOwner": 134217728,
+    "maximumInputPeakBytes": 34493956096,
+    "requestsOnOneHandle": 40
+  },
+  "copyCancellation": "Actual partial .input bytes; held FD4 read; queue cancellation drains native closure before cleanup; original input unchanged",
+  "closeDrain": "Actual media worker held before dispatch with inherited source/output/workspace descriptors; closure precedes directory removal and delivery revocation completion",
+  "recovery": "Killed Node owner with stopped inherited native child; RECOVERY_BUSY preserves tree; library heavy work proceeds; explicit retry after terminal child succeeds",
+  "mutations": {
+    "earlyBudgetCredit": "failed retained-byte assertion",
+    "missingDeliveryRevocation": "CONTEXT_CLOSED instead of ARTIFACT_EXPIRED",
+    "omittedWorkspaceLock": "recovery unexpectedly allowed with live inherited child",
+    "copyStampAndFixtureCleanup": "previous fixture missing-stamp and early-close mutations fail; restored"
+  },
+  "retainedParity": {
+    "completeContext": true,
+    "framePixels": true,
+    "frameMetadata": true,
+    "audioBytes": true,
+    "retainedImages": true,
+    "coverage": true,
+    "sceneChunks": true
+  },
+  "inputsUnchanged": true,
+  "workerClosure": "Every production mediaWorker promise settled after owned child and pipe closure",
+  "productionSources": {
+    "apps/service/src/package-registry.ts": "fd4a1d3f6f3ad8a76a5fd363b7d4c56ee693bfd546a1f17763db8286ea6aefcd",
+    "apps/service/src/package-workspace.ts": "2806ada693113a31f0d60ecd0ed571b9eeeac27f7d461ae716044c76d76bb8aa",
+    "apps/service/src/package-archive.ts": "83ca7a59fa06e1ae832315025fb0661d4642e1853e9a577fcf775ca1127a812a",
+    "helpers/mac/Sources/ScreenRecorderWire/PackageWorkspace.swift": "89b565f2729ff0bd74cd76db125af6ee4da181d1135bae0ddd4e0441158a8e5d",
+    "helpers/mac/Sources/ScreenRecorderWire/ManagedFiles.swift": "e294d11e220d912590ca0a902053b3612fddf4c47efa5e3d5efabb4da0b78839"
+  },
+  "followupChecks": [
+    "Disposed registry rejects reopening with SERVICE_STOPPED",
+    "Normal IPC disconnect and failure cleanup wait for native termination before removing fixture"
+  ]
+}

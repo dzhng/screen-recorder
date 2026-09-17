@@ -66,11 +66,7 @@ retained charge, ancestor/child replacement and inherited-worker lock ownership.
 The existing hostile ZIP and relocated frame/audio/index matrix stays required.
 [Evidence](../assets/portable-inspection/workspace-primitives.md) records results.
 
-Next: service registry using these owners and the existing transient JobQueue
-contexts. Keep peak admission reservation distinct from steady confirmed charges:
-ZIP bytes + allowed expansion + derivative allowance becomes copied ZIP + expanded
-bytes + derivative allowance after validation. Provisional limits remain 64 GiB
-across four active/closing contexts, 128 MiB derivatives per context and 32 terminal
-receipts. Two maximum admissions exceed the pool; four contexts do not promise
-four maximum-size opens. Registry startup recovery and public same-operation
-package selectors remain unimplemented; do not deduplicate independent opens.
+[14c3b3](14c3b3-package-registry.md) composes these primitives with the existing
+transient JobQueue into internal admission, reservation and startup recovery.
+Public package selectors remain a later adapter pass; independent opens are never
+deduplicated by content.

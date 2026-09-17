@@ -1,0 +1,100 @@
+(node:49995) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ native archive verifies inventory and pinned old revision with all admitted history, then empties workspace (81.140709ms)
+✔ hostile extra fails with no remaining extracted files (59.928792ms)
+✔ hostile bad-central fails with no remaining extracted files (54.947167ms)
+✔ hostile bad-local fails with no remaining extracted files (60.507041ms)
+✔ hostile undercount fails with no remaining extracted files (60.986667ms)
+✔ hostile undercount-bad fails with no remaining extracted files (55.113875ms)
+✔ hostile crc fails with no remaining extracted files (55.956292ms)
+✔ hostile hash fails with no remaining extracted files (56.102333ms)
+✔ hostile mac fails with no remaining extracted files (55.542667ms)
+✔ hostile duplicate fails with no remaining extracted files (57.985542ms)
+✔ hostile case fails with no remaining extracted files (53.957375ms)
+✔ hostile directory fails with no remaining extracted files (56.007125ms)
+✔ hostile file-directory fails with no remaining extracted files (55.883875ms)
+✔ hostile symlink fails with no remaining extracted files (55.785ms)
+✔ hostile fifo fails with no remaining extracted files (57.037833ms)
+✔ hostile absolute fails with no remaining extracted files (56.512708ms)
+✔ hostile parent fails with no remaining extracted files (55.84ms)
+✔ hostile backslash fails with no remaining extracted files (57.634375ms)
+✔ hostile nul fails with no remaining extracted files (55.519333ms)
+✔ hostile nul-empty fails with no remaining extracted files (53.102916ms)
+✔ hostile unicode-duplicate fails with no remaining extracted files (54.740583ms)
+✔ hostile unicode-parent fails with no remaining extracted files (54.621584ms)
+✔ hostile encrypted fails with no remaining extracted files (52.930292ms)
+✔ hostile size-lie fails with no remaining extracted files (54.940167ms)
+✔ safe parser Unicode alias is inventoried by effective ASCII name (56.640167ms)
+✔ actual expansion, member, manifest and entry counts enforce exact bounds (516.241958ms)
+✔ initial parser input budget rejects metadata-many before unbounded metadata intake (705.011375ms)
+✔ initial parser input budget rejects metadata-large before unbounded metadata intake (54.860208ms)
+✔ initial parser input budget rejects metadata-default before unbounded metadata intake (2241.210958ms)
+✔ retained workspace descriptor survives ancestor replacement without touching external sentinel (59.829709ms)
+✔ nonempty workspace admission preserves existing files (38.045791ms)
+✔ killed stopped parser is reaped before cleanup through parent-retained root FD (189.739792ms)
+✔ inner directory replacement fails without following its symlink outside workspace (380.862334ms)
+✔ opened input descriptor retains source bytes across pathname replacement (331.486041ms)
+✔ admission rejects changed input before copy and preserves independent descriptor reads (148.58875ms)
+✔ copy rejects an in-place input change at a confirmed syscall barrier (506.240375ms)
+✔ partial copy barrier cancels after actual snapshot bytes and drains the native worker (478.115084ms)
+✔ copy barrier callback failure drains inspection cleanup before fixture removal (477.516833ms)
+✔ copy barrier reports preparation failure instead of leaving its wait pending (73.965583ms)
+✔ workspace lock survives preparation worker exit and refuses a second open owner (62.311584ms)
+✔ cleanup ownership loss is explicit and original descriptor supports recovery (60.436792ms)
+✔ bounded receipt rejects metadata that cannot fit the existing transport (53.899208ms)
+✔ native file-size fault leaves workspace empty after worker termination (498.985375ms)
+(node:49996) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (16582.791917ms)
+(node:49997) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ registry reserves before extraction, charges copied bytes, and closes without library rows (112.754875ms)
+✔ 64 GiB admission pool rejects two maximum sparse inputs before extraction and releases canceled queue work (42.40025ms)
+✔ four same-content resource owners stay independent and failed close retains its slot and charge (258.905583ms)
+✔ one handle makes more than 32 requests and bounded terminal receipts expire without resurrection (1629.8135ms)
+✔ failed validation cleans up, while an unconfirmed nonempty creation keeps its reservation until explicit retry (148.318584ms)
+✔ same-provenance library deletion and package close revoke only their own delivery namespaces (189.804709ms)
+(node:50543) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+screenrec-native: owning parent 1 exited; abandoning work
+✔ startup remains blocked by a killed owner's actual native child while library jobs continue (179.876792ms)
+✔ close fences delivery and drains an actual native media worker before removing its directory (543.334083ms)
+✔ correctly hashed malformed payload is admitted structurally and rejected by the shared lazy reader (118.921542ms)
+✔ default peak reservations block a fourth pending open but validated steady bytes allow it (199.720958ms)
+✔ failed context work can retry and canceled queued work never consumes execution (106.537875ms)
+✔ partial copy cancellation drains the actual worker before returning reservation and removing its tree (587.031291ms)
+(node:49998) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ recovery removes bounded orphan trees through retained parent after locator replacement (23.808458ms)
+✔ recovery preflights invalid and overbound roots without partial deletion (24.4505ms)
+✔ recovery rejects linked or nonprivate children and preserves every orphan (20.556791ms)
+✔ unconfirmed creation recovery permits only empty private children or absence (32.269958ms)
+✔ failed provision cleanup retains exact identity and rejects a replacement (22.450541ms)
+(node:50049) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+screenrec-native: owning parent 1 exited; abandoning work
+✔ killed owner leaves native inherited lock busy until actual child termination (98.363084ms)
+(node:50083) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ orphan fixture reaps the stopped native child when consumer assertions fail (90.748834ms)
+(node:50110) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ normal fixture IPC disconnect terminates and reaps its stopped native child (74.311417ms)
+(node:49999) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ owned workspace creates private child and removes only its contents (31.783542ms)
+✔ removal follows retained parent after ancestor replacement (26.98975ms)
+✔ foreign child directory and symlink are never cleaned (48.562875ms)
+✔ surviving inherited child blocks removal, then explicit retry succeeds (48.956041ms)
+✔ failed locator admission cleans created identity through original parent (17.966125ms)
+✔ cancellation after mkdir drains receipt and cleans the owned child (15.578167ms)
+✔ failed admission cleanup retains identity when a foreign child replaces its entry (23.081834ms)
+✔ lost response after actual rmdir retries truthfully through retained parent (32.338333ms)
+ℹ tests 72
+ℹ suites 0
+ℹ pass 72
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16657.466792

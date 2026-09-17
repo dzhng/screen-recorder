@@ -10,7 +10,16 @@ const parent = { directory, handle: await open(directory) };
 const owner = await provisionPackageWorkspace(parent, mediaWorker({ SCREENREC_NATIVE: native }));
 await writeFile(join(owner.directory, "data"), "held by inherited native descriptor");
 const child = spawn(native, [], { stdio: ["pipe", "ignore", "inherit", owner.handle.fd] });
+const childClosed = once(child, "close");
 await once(child, "spawn");
 child.kill("SIGSTOP");
 process.send({ pid: child.pid, name: owner.name });
 process.on("message", () => {});
+
+await new Promise((resolve) => process.once("disconnect", resolve));
+try {
+  child.kill("SIGKILL");
+  await childClosed;
+} finally {
+  await Promise.all([owner.handle.close(), parent.handle.close()]);
+}

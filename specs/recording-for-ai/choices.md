@@ -1914,3 +1914,14 @@ records them. These choices add no public export choice or transcript readiness.
   though they live outside the library. The existing owner coalesces repeated requests
   and aborts and drains observations during shutdown. The plan specified attribution
   without requiring another public category; this keeps one accounting lifetime.
+### 14c3b3 — Internal package admission lifetime
+
+- **Sound; high confidence:** Opening first returns an admission ID, and only
+  verified extraction creates the usable package handle. A recording in progress
+  may keep the shared heavy queue paused; callers can inspect or cancel that
+  queued admission instead of keeping a request blocked. Restart invalidates both
+  identities, and neither identity is the embedded recording UUID.
+- **Sound; medium confidence:** Keep the 32 most recently retired admission
+  receipts in completion order. An old close remains idempotent while its receipt
+  exists, then explicitly expires. This bounds server memory without permanent
+  tombstones; it does not evict any active or cleanup-failed resource owner.

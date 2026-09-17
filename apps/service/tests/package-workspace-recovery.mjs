@@ -1,3 +1,6 @@
+import { fork } from "node:child_process";
+import { once } from "node:events";
+import { fileURLToPath } from "node:url";
 import { withOrphanedPackageWorkspace } from "./fixtures/orphaned-package-workspace.mjs";
 import assert from "node:assert/strict";
 import {
@@ -199,3 +202,59 @@ test("orphan fixture reaps the stopped native child when consumer assertions fai
   );
   assert.deepEqual(await recoverPackageWorkspaces(f.parent, worker), { recovered: 1 });
 });
+
+test(
+  "normal fixture IPC disconnect terminates and reaps its stopped native child",
+  { timeout: 10000 },
+  async (t) => {
+    const f = await fixture(t);
+    const owner = fork(
+      fileURLToPath(new URL("./fixtures/package-workspace-owner.mjs", import.meta.url)),
+      [f.parent.directory],
+      {
+        stdio: ["ignore", "ignore", "inherit", "ipc"],
+        env: { ...process.env, SCREENREC_NATIVE: binary },
+      },
+    );
+    const closed = once(owner, "exit");
+    let pid;
+    try {
+      const [message] = await Promise.race([
+        once(owner, "message"),
+        closed.then(() => {
+          throw new Error("Owner exited before child receipt");
+        }),
+      ]);
+      pid = message.pid;
+      const disconnected = once(owner, "disconnect");
+      owner.disconnect();
+      await Promise.all([closed, disconnected]);
+      assert.throws(
+        () => process.kill(pid, 0),
+        (error) => error.code === "ESRCH",
+      );
+      assert.deepEqual(await recoverPackageWorkspaces(f.parent, worker), { recovered: 1 });
+    } finally {
+      owner.kill("SIGKILL");
+      await closed;
+      if (pid) {
+        try {
+          process.kill(pid, "SIGKILL");
+        } catch (error) {
+          if (error.code !== "ESRCH") throw error;
+        }
+        const deadline = Date.now() + 3000;
+        while (true) {
+          try {
+            process.kill(pid, 0);
+          } catch (error) {
+            if (error.code === "ESRCH") break;
+            throw error;
+          }
+          assert.ok(Date.now() < deadline, "Native process must terminate before fixture removal");
+          await new Promise((resolve) => setTimeout(resolve, 10));
+        }
+      }
+    }
+  },
+);
