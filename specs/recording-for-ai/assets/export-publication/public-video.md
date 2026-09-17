@@ -7,7 +7,10 @@ Until the package producer exists, package creation fails before reserving work.
 
 The shared queue owns waiting dependencies, execution and recovery. Service startup
 and capacity events admit reconciliation; status reads only metadata. Source cleanup
-respects active export pins. Storage includes private export bytes, deletion and
+respects active export pins. Destination validation and recording deletion share
+one ManagedFiles instance, so both use the same captured library-home identity.
+The [bundled export/deletion regression](shared-home-identity.txt), build and type
+checks pass after consolidating that composition. Storage includes private export bytes, deletion and
 abandonment drain their owners, and completed external files stay untouched.
 
 A commit's output path is the canonical destination recorded at publication. It is

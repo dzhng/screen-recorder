@@ -83,6 +83,7 @@ async function main(): Promise<void> {
   let frames: FrameInspection;
   let audio: AudioInspection;
   let preview: PreviewInspection;
+  let files: ManagedFiles;
   let exports: RecordingExports | undefined;
   let delivery: DerivativeDelivery | undefined;
   let cache: DerivedCache;
@@ -273,6 +274,7 @@ async function main(): Promise<void> {
         );
       },
     );
+    files = new ManagedFiles(home, worker);
     exports = new RecordingExports({
       store,
       jobs,
@@ -280,7 +282,7 @@ async function main(): Promise<void> {
       preview,
       processing,
       worker,
-      files: new ManagedFiles(home, worker),
+      files,
     });
     void cacheReady.then(() => {
       if (cleanupLifetime.signal.aborted) return;
@@ -369,7 +371,7 @@ async function main(): Promise<void> {
     index: indexEvidence,
     capture,
     delivery: transfers,
-    files: new ManagedFiles(home, worker),
+    files,
     exports: exportOwner,
     cleanupReady: async () => {
       await Promise.all([cacheReady, evidenceCleanup]);
