@@ -1,7 +1,7 @@
 # 14d — Pinned export intent and atomic publication
 
 Status: internal publication, pinned waiting consumers and private storage accounting
-are verified; abandonment, queued startup recovery and public composition remain.
+and abandonment are verified; queued startup recovery and public composition remain.
 [Ownership evidence](../assets/export-publication/native-owner.md) defines the proven
 receipt, limits and remaining integration. No public export writer is claimed. Parent [14](14-exports-and-package-reader.md)
 retains the two-product scope and narrated-package prerequisites.
@@ -50,7 +50,7 @@ must be reconcilable after interruption, including the gap between external comm
 and catalog acknowledgement. Do not report a missing or replaced destination as a
 successful export merely because an intent row exists.
 
-The next red test uses two real processes and a temporary output directory:
+The verified publication checkpoint uses two real processes and a temporary output directory:
 prepare known complete bytes, publish, kill before acknowledgement, reopen the
 owner, and observe exactly that committed file without replacing it. Then substitute
 a different destination and prove reconciliation refuses to claim or remove it.
@@ -95,19 +95,13 @@ its readers. Keep external commit truth distinct from the queue's disposable
 artifact result so a late canceled return cannot erase a committed export receipt.
 Do not choose a table shape before the 14d1 recovery trace proves what must persist.
 
-### Required before public exposure: abandon one unfinished export
+### Verified internally: abandon one export
 
-Bounded durable intent admission must have an explicit release path. Failed or
-canceled exports can retain their exact inputs for retry, but filling that allowance
-must not force the user to delete a recording or an unrelated destination file.
-Add per-export abandonment through the existing intent owner: fence new attempts,
-cancel and drain the current worker, clean only its identity-validated private
-staging, then release source pins and intent metadata. Already published files and
-the recording remain untouched. Interrupted cleanup must retain ownership and be
-retryable; capacity is returned only after that cleanup is confirmed. Prove a full
-allowance of destination-collision failures can recover capacity by abandoning one
-intent while every external sentinel and source remains unchanged. This capability
-is a required integration pass, not part of the current pinned-consumer checkpoint.
+[14d2b3](14d2b3-export-abandonment.md) implements the per-intent escape hatch:
+fence new attempts, drain workers, retire only verified private staging, then forget
+job and intent identity. Failure keeps ownership for explicit retry. The recording
+and external files survive. Public wiring remains; the child slice owns these
+invariants and the exact lifetime evidence.
 
 ## 14d3 — Shared publication consumers
 
@@ -146,8 +140,9 @@ staging/destination identities above. The [native owner evidence](../assets/expo
 records the scoped native/process gates and the deferred catalog/product gates.
 
 The first waiting-admission checkpoint is [14d2b1](14d2b1-deferred-admission.md).
-It establishes bounded deferred jobs inside JobQueue; wiring pinned export
-prerequisites and restart recovery remains subsequent work.
+It establishes bounded deferred jobs inside JobQueue. Pinned prerequisites are
+implemented by [14d2b2](14d2b2-pinned-waiting-video.md); queued restart recovery
+and downstream composition remain.
 
 [14d2b2](14d2b2-pinned-waiting-video.md) connects the internal video intent to
 pinned dependency admission and bounded source-evidence retention. Public wiring

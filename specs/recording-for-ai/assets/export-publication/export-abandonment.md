@@ -31,3 +31,5 @@ readiness, before abandonment ran; the host native receipt supplies that evidenc
 
 These checks cover process interruption, not power loss. Public service wiring,
 queued recovery, staging storage totals and long-video budgets remain later gates.
+
+[Root combined verification](../owner-integration/README.md) covers the merged package, export and storage owners.

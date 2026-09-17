@@ -55,3 +55,5 @@ The final merged run has no descriptor-GC warnings or live owned jobs.
 
 Public package selectors, adapter startup/shutdown integration and package export
 publication remain outside this internal registry pass.
+
+[Root combined verification](../owner-integration/README.md) covers the merged package, export and storage owners.

@@ -1,12 +1,9 @@
 # 14 — Two exports and relocated AI inspection
 
-Status: metadata, relocated inspection, bounded extraction, retained descriptors,
-transient queue contexts, reusable outputs and isolated deliveries pass their internal
-gates. Durable ready-preview video intent also passes its internal recovery/deletion
-checks. Deferred queue admission is verified; registry/storage recovery and pinned
-export recovery/public composition are next. Pinned dependency consumers and internal
-private staging accounting pass their merged checks. This plan
-does not close 08, 11c or 13.
+Status: internal package admission, reservations, orphan recovery and retained
+inspection pass their gates. Pinned waiting exports, abandonment and private staging
+accounting also pass merged checks. Public package selectors, queued export recovery
+and two-export composition are next. This does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
 and [verification](../verification.md). No public contract changes are proposed:
@@ -58,8 +55,8 @@ Its bounded receipt validates container bytes and 14a metadata.
 and parent-death lifetime. [14c3a](14c3a-transient-context-jobs.md) adds isolated
 capabilities to the shared queue. [14c3b1](14c3b1-package-output-release.md) now proves
 reusable outputs and isolated delivery identities. [14c3b2](14c3b2-package-workspace-primitives.md) pins archive inputs and owns retryable
-workspace cleanup. Registry/storage reservation and startup reclamation come next,
-then public opening and selectors.
+workspace cleanup. [14c3b3](14c3b3-package-registry.md) now integrates registry
+reservations and startup reclamation. Public opening and selectors come next.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native
@@ -91,7 +88,8 @@ external commit/recovery owner. [14d2a](14d2a-video-intent.md) now integrates du
 ready-preview intent and actual recording deletion. [Deferred admission](14d2b1-deferred-admission.md)
 uses the existing queue. [Pinned source retention](14d2b2-pinned-waiting-video.md)
 and [private staging accounting](../assets/export-publication/staging-usage.md) are
-internally integrated. Queue-admitted restart recovery, per-export abandonment and public wiring
+internally integrated. [Abandonment](14d2b3-export-abandonment.md) is verified.
+Queue-admitted restart recovery and public wiring
 remain; the [scoped evidence](../assets/export-publication/video-intent.md) records
 the boundary.
 
