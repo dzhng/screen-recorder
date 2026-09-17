@@ -747,3 +747,16 @@ test("deletion replay pages use stable recording IDs and survive restart", () =>
     expect.objectContaining({ code: "INVALID_PARAMS" }),
   );
 });
+
+test("catalog without explicit export kind is refused without changing stored intents", () => {
+  const { store, path, providers } = fixture();
+  store.catalog.exec(
+    "CREATE TABLE export_intents (exportId TEXT, stagingCleared INTEGER, abandoning INTEGER); INSERT INTO export_intents VALUES ('existing',0,0)",
+  );
+  store.close();
+  const before = readFileSync(path);
+  expect(() => new RevisionStore(path, providers)).toThrow(
+    expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
+  );
+  expect(readFileSync(path)).toEqual(before);
+});

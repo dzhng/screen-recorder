@@ -5,7 +5,7 @@ wiring remain later work.
 
 ## Durable fence, shared retirement
 
-[VideoExports](../../../apps/service/src/video-exports.ts) marks an intent as abandoning
+[RecordingExports](../../../apps/service/src/exports.ts) marks an intent as abandoning
 before awaiting anything. Replayed creation, retry, execution, admission and recovery
 cannot restart it. Status still exposes a historical committed receipt while also
 reporting the abandonment marker. A failed cleanup keeps that marker and its original

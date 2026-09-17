@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { publicationDeadlineMs } from "./video-exports.js";
+import { publicationDeadlineMs } from "./exports.js";
 import { MAX_MEDIA_TIMEOUT_MS } from "./worker.js";
 
 test("publication budgets scale with known bytes and stay representable by the worker", () => {

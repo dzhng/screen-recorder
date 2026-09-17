@@ -17,6 +17,7 @@ import type { ManagedFiles } from "./managed-files.js";
 import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
 
 type Request = {
+  kind: "video" | "processed-package";
   exportId: string;
   recordingId: string;
   revisionId?: string;
@@ -26,6 +27,7 @@ type Request = {
 type Snapshot = ReturnType<RevisionStore["pinPackageSnapshot"]>["snapshot"];
 type ReadyPreview = Pick<PreviewArtifact, "cacheId" | "bytes"> & { generation: number };
 type Intent = {
+  kind: Request["kind"];
   exportId: string;
   recordingId: string;
   request: string;
@@ -67,7 +69,7 @@ const stageName = (id: string) => `.screenrec-export-${id}`;
 
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
  * Prerequisites wait in the existing queue while this owner pins their source generation. */
-export class VideoExports {
+export class RecordingExports {
   private readonly retiring = new Map<string, Promise<void>>();
   private closed = false;
   private admittingRecovery = false;
@@ -84,6 +86,7 @@ export class VideoExports {
   ) {
     owners.store.catalog.exec(`CREATE TABLE IF NOT EXISTS export_intents (
       exportId TEXT PRIMARY KEY, recordingId TEXT NOT NULL REFERENCES recordings(recordingId),
+      kind TEXT NOT NULL CHECK(kind IN ('video','processed-package')),
       request TEXT NOT NULL, snapshot TEXT NOT NULL, destination TEXT NOT NULL,
       staging TEXT, stagingCleared INTEGER NOT NULL DEFAULT 0 CHECK(stagingCleared IN (0,1)),
       preview TEXT, sourceEvidence TEXT, receipt TEXT,
@@ -258,6 +261,8 @@ export class VideoExports {
     return { state: "waiting", dependency: status.jobId };
   }
   async create(request: Request) {
+    if (request.kind !== "video" && request.kind !== "processed-package")
+      throw new CatalogError("INVALID_PARAMS", "Export kind must be video or processed-package");
     if (
       !uuid.test(request.exportId) ||
       !request.leaf ||
@@ -270,6 +275,7 @@ export class VideoExports {
         "Export needs a UUID identity and destination filename",
       );
     const key = JSON.stringify([
+      request.kind,
       request.recordingId,
       request.revisionId ?? null,
       request.directory,
@@ -285,6 +291,8 @@ export class VideoExports {
         this.owners.jobs.submitDeferred({ ...this.identity(existing), lane: "heavy" });
       return this.status(existing.exportId);
     }
+    if (request.kind === "processed-package")
+      throw new CatalogError("UNSUPPORTED_EXPORT", "Processed-package export is not implemented");
     const { snapshot } = this.owners.store.pinPackageSnapshot(
       request.recordingId,
       request.revisionId,
@@ -314,11 +322,12 @@ export class VideoExports {
         );
       this.owners.store.catalog
         .prepare(
-          "INSERT OR IGNORE INTO export_intents(exportId,recordingId,request,snapshot,destination) VALUES (?,?,?,?,?)",
+          "INSERT OR IGNORE INTO export_intents(exportId,recordingId,kind,request,snapshot,destination) VALUES (?,?,?,?,?,?)",
         )
         .run(
           request.exportId,
           request.recordingId,
+          request.kind,
           key,
           JSON.stringify(snapshot),
           JSON.stringify(destination),
@@ -342,6 +351,7 @@ export class VideoExports {
       : null;
     return {
       exportId,
+      kind: intent.kind,
       abandoning: intent.abandoning,
       recovery,
       recordingId: intent.recordingId,

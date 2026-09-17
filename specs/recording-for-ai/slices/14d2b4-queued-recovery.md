@@ -5,7 +5,7 @@ and processed-package writing remain later work.
 
 ## Recovery is work in the existing queue
 
-[VideoExports](../../../apps/service/src/video-exports.ts) admits recovery-only jobs
+[RecordingExports](../../../apps/service/src/exports.ts) admits recovery-only jobs
 through the same heavy lane as rendering, video export and transient package work.
 Startup and status do not open or hash publication files. The service calls the
 metadata-only admission pass after binding all owners and again on existing queue

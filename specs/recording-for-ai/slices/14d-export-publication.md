@@ -155,3 +155,8 @@ It does not expose public operations or add a recovery scheduler.
 [14d2b4](14d2b4-queued-recovery.md) admits internal startup reconciliation through
 the shared heavy queue and sets publication budgets from known bytes. Public
 service/menu composition and the processed-package writer remain separate gates.
+
+The remaining complete-package work is sliced in
+[14d3 — processed-package export](14d3-processed-package.md). Its first checkpoint
+shares request identity and lifecycle with video while refusing unsupported package
+creation before admission.

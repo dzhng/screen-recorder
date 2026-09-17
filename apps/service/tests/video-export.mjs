@@ -27,7 +27,7 @@ import { PreviewInspection } from "@screenrec/core/preview";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { Publication } from "../dist/publication.js";
-import { VideoExports } from "../dist/video-exports.js";
+import { RecordingExports } from "../dist/exports.js";
 import { RecordingDeletion } from "../dist/deletion.js";
 import { DerivativeDelivery } from "../dist/delivery.js";
 import { ManagedFiles } from "../dist/managed-files.js";
@@ -127,7 +127,7 @@ async function fixture(t, wrap = (value) => value, existing, { warm = true } = {
     ),
   );
   const files = new ManagedFiles(home, native);
-  exports = new VideoExports({ store, jobs, cache, preview, processing, worker, files });
+  exports = new RecordingExports({ store, jobs, cache, preview, processing, worker, files });
   const storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
     exports.usage(recordingId, signal),
   );
@@ -206,6 +206,7 @@ async function crashFixture(t, gap, reopenWrap) {
   await f.exports.create({
     exportId,
     recordingId: f.take.recordingId,
+    kind: "video",
     directory: f.output,
     leaf: "recovered.mp4",
   });
@@ -261,6 +262,7 @@ async function receiptCrash(t, mode = "write") {
   await f.exports.create({
     exportId,
     recordingId: f.take.recordingId,
+    kind: "video",
     directory: f.output,
     leaf: "retry.mp4",
   });
@@ -336,6 +338,7 @@ if (process.argv[2] === "crash-owner") {
       await f.exports.create({
         exportId,
         recordingId: f.take.recordingId,
+        kind: "video",
         directory: f.output,
         leaf: exportId + ".mp4",
       });
@@ -427,6 +430,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "budget.mp4",
     });
@@ -447,6 +451,7 @@ if (process.argv[2] === "crash-owner") {
       await f.exports.create({
         exportId: randomUUID(),
         recordingId: f.take.recordingId,
+        kind: "video",
         directory: f.output,
         leaf: `${n}.mp4`,
       });
@@ -519,6 +524,7 @@ if (process.argv[2] === "crash-owner") {
       await f.exports.create({
         exportId,
         recordingId: f.take.recordingId,
+        kind: "video",
         directory: f.output,
         leaf: exportId + ".mp4",
       });
@@ -561,6 +567,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "moved.mp4",
     });
@@ -649,6 +656,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "late-retire.mp4",
     });
@@ -690,6 +698,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "occupied.mp4",
     });
@@ -733,6 +742,7 @@ if (process.argv[2] === "crash-owner") {
     const requested = await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "survives.mp4",
     });
@@ -780,6 +790,7 @@ if (process.argv[2] === "crash-owner") {
       request = {
         exportId,
         recordingId: f.take.recordingId,
+        kind: "video",
         directory: f.output,
         leaf: "late.mp4",
       };
@@ -827,6 +838,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf,
     });
@@ -859,6 +871,7 @@ if (process.argv[2] === "crash-owner") {
     const reused = await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "reused.mp4",
     });
@@ -894,6 +907,7 @@ if (process.argv[2] === "crash-owner") {
     const request = {
       exportId: randomUUID(),
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "source-retry.mp4",
     };
@@ -933,6 +947,7 @@ if (process.argv[2] === "crash-owner") {
       await f.exports.create({
         exportId,
         recordingId: f.take.recordingId,
+        kind: "video",
         directory: f.output,
         leaf: `bounded-${n}.mp4`,
       });
@@ -941,6 +956,7 @@ if (process.argv[2] === "crash-owner") {
     const overflow = {
       exportId: randomUUID(),
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "overflow.mp4",
     };
@@ -986,6 +1002,7 @@ if (process.argv[2] === "crash-owner") {
     const request = await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "evicted.mp4",
     });
@@ -1039,6 +1056,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "old-generation.mp4",
     });
@@ -1100,6 +1118,7 @@ if (process.argv[2] === "crash-owner") {
     const requested = await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "waiting.mp4",
     });
@@ -1132,6 +1151,7 @@ if (process.argv[2] === "crash-owner") {
     const request = {
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "recording.mp4",
     };
@@ -1190,6 +1210,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "late.mp4",
     });
@@ -1228,6 +1249,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "never.mp4",
     });
@@ -1283,6 +1305,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "external.mp4",
     });
@@ -1306,6 +1329,7 @@ if (process.argv[2] === "crash-owner") {
     const request = {
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "once.mp4",
     };
@@ -1341,6 +1365,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "retained.mp4",
     });
@@ -1405,6 +1430,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "retried.mp4",
     });
@@ -1465,6 +1491,7 @@ if (process.argv[2] === "crash-owner") {
       f.exports.create({
         exportId,
         recordingId: f.take.recordingId,
+        kind: "video",
         directory: join(f.home, "recordings", f.take.recordingId, "source"),
         leaf: "wrong.mp4",
       }),
@@ -1516,6 +1543,7 @@ if (process.argv[2] === "crash-owner") {
       await f.exports.create({
         exportId,
         recordingId: f.take.recordingId,
+        kind: "video",
         directory: f.output,
         leaf: `saved-${i}.mp4`,
       });
@@ -1550,6 +1578,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "unreadable.mp4",
     });
@@ -1574,6 +1603,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "taken.mp4",
     });
@@ -1592,6 +1622,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId: successful,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "export.mp4",
     });
@@ -1611,6 +1642,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "taken.mp4",
     });
@@ -1650,6 +1682,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId: randomUUID(),
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "taken.mp4",
     });
@@ -1679,6 +1712,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.create({
       exportId,
       recordingId: f.take.recordingId,
+      kind: "video",
       directory: f.output,
       leaf: "export.mp4",
     });
@@ -1695,5 +1729,47 @@ if (process.argv[2] === "crash-owner") {
     t.after(() => rm(moved, { recursive: true, force: true }));
     assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, 0);
     assert.ok((await stat(join(moved, "export.mp4"))).size > 0);
+  });
+
+  test("processed-package requests leave no intent, job or destination before producer exists", async (t) => {
+    const f = await fixture(t);
+    const request = {
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      kind: "processed-package",
+      directory: f.output,
+      leaf: "capture.zip",
+    };
+    const beforeJobs = f.store.catalog.prepare("SELECT * FROM jobs ORDER BY jobId").all();
+    await assert.rejects(f.exports.create(request), { code: "UNSUPPORTED_EXPORT" });
+    assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
+    assert.deepEqual(
+      f.store.catalog.prepare("SELECT * FROM jobs ORDER BY jobId").all(),
+      beforeJobs,
+    );
+    assert.deepEqual(await readdir(f.output), []);
+  });
+
+  test("export kind is persisted and incompatible replay cannot change video intent", async (t) => {
+    const f = await fixture(t);
+    const request = {
+      exportId: randomUUID(),
+      recordingId: f.take.recordingId,
+      kind: "video",
+      directory: f.output,
+      leaf: "pinned.mp4",
+    };
+    const first = await f.exports.create(request);
+    assert.equal(first.kind, "video");
+    assert.equal((await f.exports.create(request)).jobId, first.jobId);
+    await assert.rejects(f.exports.create({ ...request, kind: "processed-package" }), {
+      code: "REQUEST_CONFLICT",
+    });
+    const row = f.store.catalog
+      .prepare("SELECT kind,request FROM export_intents WHERE exportId=?")
+      .get(request.exportId);
+    assert.equal(row.kind, "video");
+    assert.equal(JSON.parse(row.request)[0], "video");
+    assert.equal(f.exports.status(request.exportId).jobId, first.jobId);
   });
 }

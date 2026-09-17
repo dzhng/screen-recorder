@@ -10,7 +10,7 @@ public export operation must still accept requests whose dependencies are pendin
 
 ## One record of external truth
 
-[VideoExports](../../../apps/service/src/video-exports.ts) owns one catalog intent
+[RecordingExports](../../../apps/service/src/exports.ts) owns one catalog intent
 per request identity. The original revision/history snapshot, destination directory
 identity and filename survive edits, retries and restarts. The selected preview is
 retained by [the cache owner](../../../packages/core/src/cache.ts), which lends its

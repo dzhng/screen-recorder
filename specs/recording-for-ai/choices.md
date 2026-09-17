@@ -2029,3 +2029,18 @@ records them. These choices add no public export choice or transcript readiness.
   then drains and forgets every recovery identity belonging to that export, using
   validated UUID boundaries so a neighbor's jobs remain untouched. No separate
   cancellation registry or destination-deletion authority is added.
+
+## 14d3 shared export request identity
+
+- **Choice:** Kind belongs to the existing durable export request. A caller that
+  repeats a video UUID asking for a package receives a conflict; a new package
+  request receives an explicit unsupported error before anything is queued or
+  stored. The existing video request remains intact.
+- **Gap:** The two product choices were settled, but the order of replay conflict
+  and not-yet-supported handling needed a concrete rule.
+- **Reach:** One lifecycle remains usable by public adapters. Future package work
+  adds a producer to this owner rather than another intent table or scheduler.
+- **Verdict:** sound; changed requests cannot silently reuse another format's work.
+- **Confidence:** high. The owner rename and required kind are the agreed shared
+  contract, not new product scope. Older development catalogs retain the existing
+  refusal policy rather than silently assuming a kind.
