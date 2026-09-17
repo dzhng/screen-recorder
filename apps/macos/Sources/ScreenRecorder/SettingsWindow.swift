@@ -180,7 +180,7 @@ struct SettingsView: View {
     @ViewBuilder
     private func permissionRow(_ kind: PermissionKind) -> some View {
         let access = model.state.permissions?.access(to: kind)
-        LabeledContent {
+        detailRow(kind.name, kind.purpose) {
             switch access {
             case .granted?:
                 Label(kind.statusTitle(for: .granted), systemImage: "checkmark.circle.fill")
@@ -198,9 +198,22 @@ struct SettingsView: View {
             case nil:
                 Text("Checking…").foregroundStyle(.secondary)
             }
-        } label: {
-            Text(kind.name)
-            Text(kind.purpose)
+        }
+    }
+
+    /// A row whose label runs to a second explanatory line. `LabeledContent` aligns its value with
+    /// the first line, which leaves a status and its button riding high against two lines of text,
+    /// so this centers the value against the whole label the way System Settings does.
+    private func detailRow(
+        _ title: String, _ detail: String, @ViewBuilder content: () -> some View
+    ) -> some View {
+        HStack(alignment: .center, spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                Text(detail).font(.callout).foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 12)
+            content()
         }
     }
 
@@ -239,11 +252,8 @@ struct SettingsView: View {
             ForEach(Self.shortcutActions, id: \.0.id) { action, name in
                 LabeledContent(name) { shortcutValue(action) }
             }
-            LabeledContent {
+            detailRow("Custom Shortcuts", (model.shortcutFile as NSString).abbreviatingWithTildeInPath) {
                 Button("Show in Finder") { model.revealShortcutFile() }
-            } label: {
-                Text("Custom Shortcuts")
-                Text((model.shortcutFile as NSString).abbreviatingWithTildeInPath)
             }
         } header: {
             Text("Shortcuts")
@@ -256,7 +266,8 @@ struct SettingsView: View {
     @ViewBuilder
     private func shortcutValue(_ action: ControlsAction) -> some View {
         if let held = model.shortcuts.display(of: action) {
-            Text(held).monospaced()
+            // Modifier glyphs set solid read as one mark; a thin space keeps each one legible.
+            Text(held.map(String.init).joined(separator: "\u{2009}")).monospaced()
         } else if let bound = model.shortcuts.bindings[action] {
             Label("\(bound.display) is in use elsewhere", systemImage: "exclamationmark.triangle.fill")
                 .labelStyle(StatusLabelStyle(tint: .orange))
@@ -275,8 +286,13 @@ struct SettingsView: View {
             if let failure = model.loginFailure {
                 Text(failure).foregroundStyle(.red)
             }
-            LabeledContent("Login Items") {
-                Button("Open Login Items Settings…") { SMAppService.openSystemSettingsLoginItems() }
+            // The toggle registers the login item by itself. Only when macOS keeps that decision
+            // for a person to confirm, or does not recognise this copy, does anyone need the pane.
+            if [.requiresApproval, .notFound].contains(model.loginItem) {
+                HStack {
+                    Spacer(minLength: 12)
+                    Button("Open Login Items Settings…") { SMAppService.openSystemSettingsLoginItems() }
+                }
             }
         }
     }
