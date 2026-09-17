@@ -18,7 +18,7 @@ import { parseArgs } from "node:util";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const { values } = parseArgs({
   options: {
-    app: { type: "string", default: join(homedir(), "Applications", "ScreenRecorder.app") },
+    app: { type: "string", default: join(homedir(), "Applications", "Screen Recorder.app") },
     bin: { type: "string", default: join(homedir(), ".local", "bin") },
   },
 });
@@ -30,7 +30,8 @@ for (const [flag, path] of [
 ]) {
   if (!isAbsolute(path)) fail(`${flag} must be an absolute path; received ${JSON.stringify(path)}`);
 }
-if (basename(app) !== "ScreenRecorder.app") fail("--app must name a ScreenRecorder.app bundle");
+// Finder, Spotlight and Login Items show the bundle's file name.
+if (basename(app) !== "Screen Recorder.app") fail('--app must name a "Screen Recorder.app" bundle');
 
 const built = join(root, "dist/ScreenRecorder.app");
 const personalIdentifier = "com.david.screenrec.personal";
@@ -47,17 +48,30 @@ if (!node.startsWith("v24.")) fail(`${nodePath} is ${node}; this personal releas
 mkdirSync(dirname(app), { recursive: true });
 app = join(realpathSync(dirname(app)), basename(app));
 
+// Earlier installs were named ScreenRecorder.app under the same identity. Left beside the new copy,
+// Spotlight and Login Items would offer two apps that are one.
+const superseded = join(dirname(app), "ScreenRecorder.app");
+const supersededIdentity = existsSync(superseded)
+  ? execFileSync(
+      "/usr/libexec/PlistBuddy",
+      ["-c", "Print :CFBundleIdentifier", join(superseded, "Contents/Info.plist")],
+      { encoding: "utf8" },
+    ).trim()
+  : undefined;
+const replaced = [app, ...(supersededIdentity === personalIdentifier ? [superseded] : [])];
+
 // Replacing a running app's bundle would pull its service code out from under it.
-const executable = join(app, "Contents/MacOS/ScreenRecorder");
-const running = execFileSync("ps", ["-axo", "command="], { encoding: "utf8" })
-  .split("\n")
-  .some((command) => command === executable || command.startsWith(`${executable} `));
-if (running) fail(`Quit Screen Recorder (${app}) before installing over it.`);
+const commands = execFileSync("ps", ["-axo", "command="], { encoding: "utf8" }).split("\n");
+for (const bundle of replaced) {
+  const executable = join(bundle, "Contents/MacOS/ScreenRecorder");
+  if (commands.some((command) => command === executable || command.startsWith(`${executable} `)))
+    fail(`Quit Screen Recorder (${bundle}) before installing over it.`);
+}
 
 // Stage beside the destination so the swap is a rename on one volume; the previous copy is
 // removed only after the new one is in place.
-const staging = join(dirname(app), `.ScreenRecorder.app.installing-${process.pid}`);
-const previous = join(dirname(app), `.ScreenRecorder.app.previous-${process.pid}`);
+const staging = join(dirname(app), `.Screen Recorder.app.installing-${process.pid}`);
+const previous = join(dirname(app), `.Screen Recorder.app.previous-${process.pid}`);
 rmSync(staging, { recursive: true, force: true });
 execFileSync("ditto", [built, staging]);
 // Development builds and their tests launch many short-lived copies under the build identity;
@@ -78,6 +92,7 @@ try {
   throw error;
 }
 if (replacing) rmSync(previous, { recursive: true, force: true });
+if (replaced.includes(superseded)) rmSync(superseded, { recursive: true, force: true });
 
 const quote = (text) => `'${text.replaceAll("'", `'\\''`)}'`;
 const launcher = join(bin, "screenrec");

@@ -55,5 +55,7 @@ writeFileSync(
 );
 
 copyFileSync(join(root, "apps/macos/Info.plist"), join(app, "Contents/Info.plist"));
+// Rendered by scripts/render-app-icon.swift and checked in, so a build needs no drawing step.
+copyFileSync(join(root, "apps/macos/AppIcon.icns"), join(app, "Contents/Resources/AppIcon.icns"));
 execFileSync("codesign", ["--force", "--sign", "-", app], { stdio: "inherit" });
 console.error(`Built ${app}`);

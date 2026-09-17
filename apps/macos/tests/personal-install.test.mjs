@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
@@ -24,7 +24,7 @@ test(
   { timeout: 120_000 },
   async () => {
     const scratch = realpathSync(mkdtempSync("/tmp/screenrec-install-"));
-    const app = join(scratch, "Applications/ScreenRecorder.app");
+    const app = join(scratch, "Applications/Screen Recorder.app");
     const bin = join(scratch, "bin");
     const launcher = join(bin, "screenrec");
     const executable = join(app, "Contents/MacOS/ScreenRecorder");
@@ -40,8 +40,29 @@ test(
       });
     const installed = () => processes().find(({ command }) => command === executable);
     try {
+      // A copy installed under the earlier bundle name is the same app, so it is replaced.
+      const superseded = join(scratch, "Applications/ScreenRecorder.app");
+      execFileSync("ditto", [join(root, "dist/ScreenRecorder.app"), superseded]);
+      execFileSync("/usr/libexec/PlistBuddy", [
+        "-c",
+        "Set :CFBundleIdentifier com.david.screenrec.personal",
+        join(superseded, "Contents/Info.plist"),
+      ]);
       const first = install();
       assert.equal(first.status, 0, first.stderr);
+      assert.deepEqual(readdirSync(join(scratch, "Applications")), ["Screen Recorder.app"]);
+      const info = (key) =>
+        execFileSync(
+          "/usr/libexec/PlistBuddy",
+          ["-c", `Print :${key}`, join(app, "Contents/Info.plist")],
+          { encoding: "utf8" },
+        ).trim();
+      assert.equal(info("CFBundleDisplayName"), "Screen Recorder");
+      assert.equal(info("CFBundleIdentifier"), "com.david.screenrec.personal");
+      assert.ok(
+        statSync(join(app, "Contents/Resources", `${info("CFBundleIconFile")}.icns`)).size > 0,
+        "the installed bundle carries the icon its Info.plist names",
+      );
       assert.match(first.stdout, /"args": \["mcp"\]/);
       for (const file of [launcher, join(app, "Contents/Resources/cli/main.mjs")])
         assert.ok(
@@ -99,7 +120,7 @@ test(
       assert.equal(second.status, 0, second.stderr);
       assert.deepEqual(
         readdirSync(join(scratch, "Applications")),
-        ["ScreenRecorder.app"],
+        ["Screen Recorder.app"],
         "no staging copy remains",
       );
       execFileSync("codesign", ["--verify", "--strict", app]);
