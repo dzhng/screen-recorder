@@ -80,7 +80,8 @@ extension ArchiveOperation {
         guard let reader = archive_read_new() else {
             throw error("INVALID_PACKAGE", "Cannot create ZIP reader.")
         }
-        defer { archive_read_free(reader) }
+        // The reader's callbacks read `input` through an unretained pointer until it is freed.
+        defer { withExtendedLifetime(input) { _ = archive_read_free(reader) } }
         try parser(archive_read_support_format_zip_seekable(reader), reader, input)
         try parser(archive_read_set_format_option(reader, "zip", "mac-ext", nil), reader, input)
         try parser(
