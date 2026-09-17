@@ -33,6 +33,7 @@ for (const [flag, path] of [
 if (basename(app) !== "ScreenRecorder.app") fail("--app must name a ScreenRecorder.app bundle");
 
 const built = join(root, "dist/ScreenRecorder.app");
+const personalIdentifier = "com.david.screenrec.personal";
 const cli = "Contents/Resources/cli/main.mjs";
 if (!existsSync(join(built, cli))) fail(`No built app at ${built}; run \`bun run build\` first.`);
 const { nodePath } = JSON.parse(
@@ -59,6 +60,14 @@ const staging = join(dirname(app), `.ScreenRecorder.app.installing-${process.pid
 const previous = join(dirname(app), `.ScreenRecorder.app.previous-${process.pid}`);
 rmSync(staging, { recursive: true, force: true });
 execFileSync("ditto", [built, staging]);
+// Development builds and their tests launch many short-lived copies under the build identity;
+// macOS can stop showing that identity's menu-bar item. The personal copy keeps its own.
+execFileSync("/usr/libexec/PlistBuddy", [
+  "-c",
+  `Set :CFBundleIdentifier ${personalIdentifier}`,
+  join(staging, "Contents/Info.plist"),
+]);
+execFileSync("codesign", ["--force", "--sign", "-", staging]);
 execFileSync("codesign", ["--verify", "--strict", staging]);
 const replacing = existsSync(app);
 if (replacing) renameSync(app, previous);

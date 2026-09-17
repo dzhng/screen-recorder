@@ -11,8 +11,10 @@ the checkout, `bun run install:personal` builds, installs the app into
 CLI bundled inside the installed app under the Node 24 interpreter the build
 recorded. That interpreter is a host prerequisite, not a bundled runtime. The
 installer refuses to replace a running copy, and it prints the MCP command
-(`screenrec mcp`) for client configuration. A rebuilt ad-hoc signature can require
-granting screen and microphone access again. The help lists
+(`screenrec mcp`) for client configuration. The installed copy is re-signed under its
+own bundle identifier, so its menu-bar item and permissions are separate from
+development builds. A reinstall can still require granting screen and microphone
+access again. The help lists
 implemented operations and their JSON schemas without connecting to the app.
 `--params -` reads bounded JSON from stdin. Edit timestamps are integer microseconds
 in the named revision's playback coordinates, with half-open ranges.

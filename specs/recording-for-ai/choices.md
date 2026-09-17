@@ -2442,4 +2442,14 @@ export controls. The choices below are the ones that change behavior or format.
   permanently. Nothing earlier is visible in that span, so its first retained picture
   is the reference, with no future comparison. This surfaced only once a real 30 fps
   take was cut at an arbitrary microsecond.
+- **The personal install has its own bundle identity.**
+  - **Observed:** development builds and their tests launch and kill many short-lived
+    copies under `com.david.screenrec`. On this Mac, macOS then stopped showing that
+    identity's menu-bar item. The installed app created its status item, but Control
+    Center never displayed it. Toggling the Menu Bar setting and unregistering stale
+    copies did not help.
+  - **Decision:** the installer re-identifies and re-signs its copy as
+    `com.david.screenrec.personal`, and the icon then appears.
+  - **Why not rename the development identity:** the screen permission already granted
+    to test builds would be lost.
 
