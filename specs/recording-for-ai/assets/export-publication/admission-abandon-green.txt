@@ -1,0 +1,14 @@
+(node:49669) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ abandonment fences retries and recording deletion joins its drain after external commit (301.091625ms)
+✔ abandonment releases a failed export without deleting its recording or external collision (355.300708ms)
+✔ abandonment drains in-flight destination admissions before confirming absence (51.009625ms)
+✔ shutdown fences and drains export destination admission before catalog closure (27.831208ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 813.077458

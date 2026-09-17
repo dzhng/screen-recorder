@@ -1738,6 +1738,78 @@ if (process.argv[2] === "crash-owner") {
     assert.ok((await stat(join(moved, "export.mp4"))).size > 0);
   });
 
+  test(
+    "abandonment drains in-flight destination admissions before confirming absence",
+    { timeout: 10000 },
+    async (t) => {
+      let release,
+        entered,
+        count = 0;
+      const held = new Promise((resolve) => {
+        release = resolve;
+      });
+      const atDestination = new Promise((resolve) => {
+        entered = resolve;
+      });
+      const f = await fixture(
+        t,
+        (native) => async (operation, params, options) => {
+          if (operation === "storage.externalDirectory" && ++count <= 2) {
+            if (count === 2) entered();
+            await held;
+          }
+          return native(operation, params, options);
+        },
+        undefined,
+        { warm: false, admission: false },
+      );
+      const request = {
+        exportId: randomUUID(),
+        kind: "video",
+        recordingId: f.take.recordingId,
+        directory: f.output,
+        leaf: "abandoned-before-admission.mp4",
+      };
+      const pending = [f.exports.create(request), f.exports.create(request)];
+      const outcomes = Promise.allSettled(pending);
+      await atDestination;
+      assert.throws(() => f.exports.status(request.exportId), { code: "NOT_FOUND" });
+      const removing = f.exports.abandon(request.exportId);
+      let removed = false;
+      void removing.then(() => {
+        removed = true;
+      });
+      try {
+        await new Promise((resolve) => setImmediate(resolve));
+        assert.equal(
+          removed,
+          false,
+          "absence is not final while matching create calls remain active",
+        );
+        assert.equal(f.exports.abandon(request.exportId), removing);
+        await assert.rejects(f.exports.create(request), { code: "EXPORT_ABANDONING" });
+        const other = await f.exports.create({
+          ...request,
+          exportId: randomUUID(),
+          leaf: "other.mp4",
+        });
+        assert.equal(other.state, "queued", "an unrelated admission must remain independent");
+        await f.exports.abandon(other.exportId);
+      } finally {
+        release();
+        await removing;
+        await outcomes;
+      }
+      for (const result of await outcomes) {
+        assert.equal(result.status, "rejected");
+        assert.equal(result.reason.code, "EXPORT_ABANDONING");
+      }
+      assert.throws(() => f.exports.status(request.exportId), { code: "NOT_FOUND" });
+      assert.equal(f.store.catalog.prepare("SELECT COUNT(*) AS n FROM export_intents").get().n, 0);
+      assert.deepEqual(await readdir(f.output), []);
+    },
+  );
+
   test("processed-package requests leave no intent, job or destination before producer exists", async (t) => {
     const f = await fixture(t);
     const request = {

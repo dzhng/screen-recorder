@@ -60,7 +60,7 @@ const stageName = (id: string) => `.screenrec-export-${id}`;
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
  * Prerequisites wait in the existing queue while this owner pins their source generation. */
 export class RecordingExports {
-  private readonly creating = new Set<Promise<unknown>>();
+  private readonly creating = new Map<Promise<unknown>, string>();
   private readonly lifetime = new AbortController();
   private readonly retiring = new Map<string, Promise<void>>();
   private closed = false;
@@ -118,8 +118,6 @@ export class RecordingExports {
   abandon(exportId: string): Promise<void> {
     if (this.closed)
       throw new CatalogError("SERVICE_STOPPED", "Export cleanup is closed", {}, true);
-    const intent = this.find(exportId);
-    if (!intent) return Promise.resolve();
     this.owners.store.catalog
       .prepare("UPDATE export_intents SET abandoning=1 WHERE exportId=?")
       .run(exportId);
@@ -129,7 +127,7 @@ export class RecordingExports {
   async close(): Promise<void> {
     this.closed = true;
     this.lifetime.abort();
-    await Promise.allSettled([...this.creating, ...this.retiring.values()]);
+    await Promise.allSettled([...this.creating.keys(), ...this.retiring.values()]);
   }
 
   private identity(intent: Intent) {
@@ -254,15 +252,20 @@ export class RecordingExports {
     return { state: "waiting", dependency: status.jobId };
   }
   create(request: Request) {
-    if (this.closed)
-      return Promise.reject(
-        new CatalogError("SERVICE_STOPPED", "Export admission is closed", {}, true),
-      );
     const pending = this.prepareIntent(request).finally(() => this.creating.delete(pending));
-    this.creating.add(pending);
+    this.creating.set(pending, request.exportId);
     return pending;
   }
+  private requireAdmission(exportId: string): void {
+    if (this.closed)
+      throw new CatalogError("SERVICE_STOPPED", "Export admission is closed", {}, true);
+    if (this.retiring.has(exportId))
+      throw new CatalogError("EXPORT_ABANDONING", "Export cleanup is pending; retry abandonment", {
+        exportId,
+      });
+  }
   private async prepareIntent(request: Request) {
+    this.requireAdmission(request.exportId);
     if (request.kind !== "video" && request.kind !== "processed-package")
       throw new CatalogError("INVALID_PARAMS", "Export kind must be video or processed-package");
     if (
@@ -304,6 +307,7 @@ export class RecordingExports {
       this.lifetime.signal,
     );
     this.lifetime.signal.throwIfAborted();
+    this.requireAdmission(request.exportId);
     this.owners.store.get(request.recordingId);
     const destination = { ...selected, leaf: request.leaf };
     const intent = this.owners.store.transaction(() => {
@@ -643,6 +647,10 @@ export class RecordingExports {
   }
 
   private async remove(exportId: string): Promise<void> {
+    // Destination admission can precede the intent row; absence is final only after those calls drain.
+    await Promise.allSettled(
+      [...this.creating].filter(([, id]) => id === exportId).map(([pending]) => pending),
+    );
     let intent = this.find(exportId);
     if (!intent) return;
     const jobId = this.owners.jobs.status(this.identity(intent)).jobId;

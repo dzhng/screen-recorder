@@ -1,12 +1,15 @@
 # 14d2b3 — Abandon one export without deleting its recording
 
-Status: internal abandonment owner verified. Public operations and startup recovery
-wiring remain later work.
+Status: abandonment owner and public operations verified; native controls remain
+in progress. [Queued startup recovery](14d2b4-queued-recovery.md) is implemented.
 
 ## Durable fence, shared retirement
 
 [RecordingExports](../../../apps/service/src/exports.ts) marks an intent as abandoning
-before awaiting anything. Replayed creation, retry, execution, admission and recovery
+before awaiting anything. If destination validation is still running before an
+intent exists, the same retirement owner fences and drains those matching
+admissions before reporting absence. See the [admission race proof](../assets/export-publication/admission-abandon.md).
+Replayed creation, retry, execution, admission and recovery
 cannot restart it. Status still exposes a historical committed receipt while also
 reporting the abandonment marker. A failed cleanup keeps that marker and its original
 staging identity for explicit retry; it does not become another export attempt.
@@ -54,5 +57,6 @@ running, and removal of a ready artifact together with its identity.
 
 This closes the per-export abandonment prerequisite at the internal owner boundary.
 Queued startup reconciliation, outside-home staging accounting, size-appropriate
-Publication deadlines and actual service/public/menu integration remain required.
+Publication deadlines and public operations have scoped evidence in their owning
+slices. Native menu integration remains required.
 The two public export choices and processed-package/narrated prerequisites are unchanged.
