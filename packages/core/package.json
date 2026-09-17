@@ -147,6 +147,22 @@
     "./speech-models": {
       "types": "./dist/speech-models.d.ts",
       "default": "./dist/speech-models.js"
+    },
+    "./word-kind": {
+      "types": "./dist/word-kind.d.ts",
+      "default": "./dist/word-kind.js"
+    },
+    "./transcript": {
+      "types": "./dist/transcript.d.ts",
+      "default": "./dist/transcript.js"
+    },
+    "./transcript-read": {
+      "types": "./dist/transcript-read.d.ts",
+      "default": "./dist/transcript-read.js"
+    },
+    "./transcript-processing": {
+      "types": "./dist/transcript-processing.d.ts",
+      "default": "./dist/transcript-processing.js"
     }
   },
   "scripts": {

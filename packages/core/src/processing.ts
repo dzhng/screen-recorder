@@ -9,7 +9,7 @@ import type {
   SourceEvidenceStore,
 } from "./evidence.js";
 
-const artifact = "source-evidence";
+export const sourceArtifact = "source-evidence";
 export const sourcePolicy = "native-source-v1";
 
 export type SourceExporter = (
@@ -76,7 +76,7 @@ export class SourceProcessing {
 
   /** Recover the gap between finalization and admission without inventing another durable queue. */
   resume(): void {
-    this.jobs.backfill({ artifact, input: sourcePolicy, lane: "heavy" });
+    this.jobs.backfill({ artifact: sourceArtifact, input: sourcePolicy, lane: "heavy" });
   }
 
   retry(recordingId: string) {
@@ -110,7 +110,7 @@ export class SourceProcessing {
     return {
       recordingId,
       revisionId: this.store.revision(recordingId, "r0").id,
-      artifact,
+      artifact: sourceArtifact,
       input: sourcePolicy,
     };
   }
@@ -150,7 +150,7 @@ export class SourceProcessing {
       signal.throwIfAborted();
       if (basename(generation) !== generation || [".", "..", ""].includes(generation)) return;
       if (
-        this.jobs.retainsAttempt(recordingId, artifact, generation) ||
+        this.jobs.retainsAttempt(recordingId, sourceArtifact, generation) ||
         this.retained?.(recordingId, generation)
       )
         return;
@@ -183,7 +183,7 @@ export class SourceProcessing {
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.artifact !== artifact || job.input !== sourcePolicy || job.revisionId !== "r0")
+    if (job.artifact !== sourceArtifact || job.input !== sourcePolicy || job.revisionId !== "r0")
       throw new CatalogError("UNSUPPORTED_JOB", "Source processor cannot execute this job");
     const recording = this.store.get(job.recordingId);
     if (
