@@ -44,3 +44,12 @@ selected combined executable did.
 The registry, pool reservation/recovery policy and public package selectors remain
 unimplemented. This evidence proves the owner primitives and current retained
 inspection, not a user-visible package-open operation.
+
+
+## Root integration
+
+Main fbdac77 rebuilt all eight workspace build tasks. With SCREENREC_NATIVE set to
+the freshly bundled release worker, the combined archive, workspace and retained-ZIP
+suites passed all 49 tests in 16.65 seconds. This includes actual input mutation,
+independent descriptor copies, parent replacement, inherited-worker locking,
+cleanup retry and lost-removal acknowledgement. [Merged receipt](workspace-primitives-merged-tests.txt).

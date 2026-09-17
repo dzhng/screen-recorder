@@ -28,8 +28,8 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: implement registry storage reservations, admitted archive inputs
-and retryable startup/full-close cleanup in
+Current pickup: implement the service package registry, storage reservations and
+startup orphan reclamation in
 [14c](slices/14-exports-and-package-reader.md#14c--archive-boundary-and-package-lifetime).
 The shared queue now has [transient contexts](slices/14c3a-transient-context-jobs.md);
 public handles must use these capabilities and the retained native descriptor owner.
@@ -49,8 +49,9 @@ Recent integration evidence:
   [Transient contexts](slices/14c3a-transient-context-jobs.md) share queue capacity
   and release terminal metadata for continued requests. Registry/storage recovery
   and public selectors remain. [Reusable outputs](slices/14c3b1-package-output-release.md)
-  now return storage after reads drain; real ZIP/native repetition and merged public
-  delivery/deletion checks pass.
+  now return storage after reads drain. [Workspace/input prerequisites](slices/14c3b2-package-workspace-primitives.md)
+  pin admitted archive descriptors and support retryable cleanup; the merged native
+  matrix passes. Registry admission/recovery and public handles remain.
 - [External publication](assets/export-publication/native-owner.md) passes native
   no-clobber publication and process-crash reconciliation. Durable intent and actual
   recording-deletion integration remain next.
@@ -166,6 +167,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [14c2 — Retained archive inspection](slices/14c2-retained-package-inspection.md) (native descriptor containment and parent-death lifetime; public handles remain)
   - [x] [14c3a — Transient package job contexts](slices/14c3a-transient-context-jobs.md) (shared scheduling and bounded metadata; registry/public handles remain)
   - [x] [14c3b1 — Reusable outputs and isolated delivery](slices/14c3b1-package-output-release.md) (native storage/read lifetime; registry recovery remains)
+  - [x] [14c3b2 — Admitted inputs and workspace cleanup](slices/14c3b2-package-workspace-primitives.md) (native primitives; service registry remains)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

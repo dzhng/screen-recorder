@@ -1,0 +1,63 @@
+(node:4075) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ native archive verifies inventory and pinned old revision with all admitted history, then empties workspace (69.733791ms)
+✔ hostile extra fails with no remaining extracted files (60.444166ms)
+✔ hostile bad-central fails with no remaining extracted files (57.726209ms)
+✔ hostile bad-local fails with no remaining extracted files (57.45525ms)
+✔ hostile undercount fails with no remaining extracted files (62.942709ms)
+✔ hostile undercount-bad fails with no remaining extracted files (56.941375ms)
+✔ hostile crc fails with no remaining extracted files (56.553333ms)
+✔ hostile hash fails with no remaining extracted files (58.680125ms)
+✔ hostile mac fails with no remaining extracted files (58.009458ms)
+✔ hostile duplicate fails with no remaining extracted files (57.479542ms)
+✔ hostile case fails with no remaining extracted files (56.48425ms)
+✔ hostile directory fails with no remaining extracted files (59.166ms)
+✔ hostile file-directory fails with no remaining extracted files (57.917083ms)
+✔ hostile symlink fails with no remaining extracted files (58.809708ms)
+✔ hostile fifo fails with no remaining extracted files (59.597708ms)
+✔ hostile absolute fails with no remaining extracted files (59.196ms)
+✔ hostile parent fails with no remaining extracted files (60.933209ms)
+✔ hostile backslash fails with no remaining extracted files (64.355ms)
+✔ hostile nul fails with no remaining extracted files (65.524208ms)
+✔ hostile nul-empty fails with no remaining extracted files (65.422167ms)
+✔ hostile unicode-duplicate fails with no remaining extracted files (65.779875ms)
+✔ hostile unicode-parent fails with no remaining extracted files (66.936875ms)
+✔ hostile encrypted fails with no remaining extracted files (67.341708ms)
+✔ hostile size-lie fails with no remaining extracted files (67.192458ms)
+✔ safe parser Unicode alias is inventoried by effective ASCII name (63.699ms)
+✔ actual expansion, member, manifest and entry counts enforce exact bounds (562.39375ms)
+✔ initial parser input budget rejects metadata-many before unbounded metadata intake (700.030292ms)
+✔ initial parser input budget rejects metadata-large before unbounded metadata intake (54.08775ms)
+✔ initial parser input budget rejects metadata-default before unbounded metadata intake (2191.163833ms)
+✔ retained workspace descriptor survives ancestor replacement without touching external sentinel (63.607709ms)
+✔ nonempty workspace admission preserves existing files (40.657583ms)
+✔ killed stopped parser is reaped before cleanup through parent-retained root FD (242.912166ms)
+✔ inner directory replacement fails without following its symlink outside workspace (506.505958ms)
+✔ opened input descriptor retains source bytes across pathname replacement (413.175166ms)
+✔ admission rejects changed input before copy and preserves independent descriptor reads (108.558167ms)
+✔ copy rejects an in-place input change at a confirmed syscall barrier (482.406791ms)
+✔ workspace lock survives preparation worker exit and refuses a second open owner (63.310375ms)
+✔ cleanup ownership loss is explicit and original descriptor supports recovery (64.891916ms)
+✔ bounded receipt rejects metadata that cannot fit the existing transport (52.782458ms)
+✔ native file-size fault leaves workspace empty after worker termination (484.081666ms)
+(node:4076) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ generated package inspection survives relocation without its library (16581.754833ms)
+(node:4077) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ owned workspace creates private child and removes only its contents (58.712875ms)
+✔ removal follows retained parent after ancestor replacement (27.242583ms)
+✔ foreign child directory and symlink are never cleaned (46.72ms)
+✔ surviving inherited child blocks removal, then explicit retry succeeds (51.069083ms)
+✔ failed locator admission cleans created identity through original parent (15.515667ms)
+✔ cancellation after mkdir drains receipt and cleans the owned child (14.937667ms)
+✔ failed admission cleanup retains identity when a foreign child replaces its entry (24.416167ms)
+✔ lost response after actual rmdir retries truthfully through retained parent (34.366958ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 49
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16649.667084
