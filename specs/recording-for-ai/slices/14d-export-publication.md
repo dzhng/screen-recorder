@@ -1,6 +1,7 @@
 # 14d — Pinned export intent and atomic publication
 
-Status: 14d1 internal native/service publication and process-crash recovery verified.
+Status: internal publication, pinned waiting consumers and private storage accounting
+are verified; abandonment, queued startup recovery and public composition remain.
 [Ownership evidence](../assets/export-publication/native-owner.md) defines the proven
 receipt, limits and remaining integration. No public export writer is claimed. Parent [14](14-exports-and-package-reader.md)
 retains the two-product scope and narrated-package prerequisites.
@@ -73,8 +74,8 @@ atomicity is a precondition; do not add a cross-device copy-as-atomic fallback.
 [14d2a](14d2a-video-intent.md) now materializes the first internal ready-preview
 video consumer with a durable intent and actual queue/deletion/restart checks.
 [14d2b1](14d2b1-deferred-admission.md) implements bounded waiting admission.
-Pinned dependency consumers, queue-admitted uncertain recovery, service wiring
-and truthful pending-staging storage accounting remain before public exports.
+[14d2b2](14d2b2-pinned-waiting-video.md) pins waiting dependencies. Queue-admitted
+uncertain recovery and service/public wiring remain.
 [Private staging measurement](../assets/export-publication/staging-usage.md) now has
 native and composed storage-owner evidence; service wiring remains integration work.
 
