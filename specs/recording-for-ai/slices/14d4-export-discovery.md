@@ -1,5 +1,8 @@
 # Export discovery after restart
 
+Status: backend verified through public CLI/MCP restart discovery; the native
+recovery UI remains with [14d](14d-export-publication.md).
+
 Native application release requires rediscovery of persisted export IDs. A lost
 window or process must not hide a failed request, an unfinished export or private
 cleanup behind completed history. The existing RecordingExports owner provides a

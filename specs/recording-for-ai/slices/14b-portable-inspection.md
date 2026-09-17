@@ -4,9 +4,10 @@ Status: internal directory inspection/native parity passes in
 [14b3](14b3-retained-inspection.md), building on the [14b1 consumer seam](14b1-audio-read-seam.md)
 and [14b2 source reader](14b2-source-evidence-pages.md).
 [Generated evidence](../assets/portable-inspection/native-relocation.md) includes the
-original catalog/media being unavailable. Public ZIP/package lifetime, export
-admission and accepted transcript integration remain 14c–e. No public export menu
-or playable movie is claimed by this checkpoint.
+original catalog/media being unavailable. Retained ZIP inspection and public
+package handles are delivered by [14c2](14c2-retained-package-inspection.md) and
+[14c3c1](14c3c1-public-package-index.md); export belongs to
+[14d](14d-export-publication.md), and accepted transcript integration remains with 08.
 
 ## One question and seam
 

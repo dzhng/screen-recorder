@@ -1,5 +1,8 @@
 # Normalized source evidence index
 
+Status: implemented and verified in core with real SQLite; evidence below. Public raw
+cursor reads belong to [06i](06i-source-processing.md).
+
 Core consumes the native source export, never the capture journal. Native owns
 coordinates, geometry epochs and journal integrity; indexing preserves its raw
 fields and receipt without interpreting pointer eligibility as OS visibility.

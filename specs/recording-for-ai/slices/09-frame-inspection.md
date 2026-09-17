@@ -1,9 +1,11 @@
 # 09 — Arbitrary clean frames and media excerpts
 
-Status: [native frame decoding](09a-native-frame-decode.md) is integrated; native
-audio execution passes [generated-media checks](../assets/audio/review.md). Core inspection,
-cache integration and full audio/edited-frame gates remain. The
-[derived-cache owner](09c-derived-cache.md) is independently verified.
+Status: [native frame decoding](09a-native-frame-decode.md), [native audio
+excerpts](09b-native-audio-excerpts.md) and the [derived cache](09c-derived-cache.md)
+are verified. Clean frames and bounded batches are public through
+[09d](09d-public-frames.md); revision-bound audio is public through
+[09e](09e-public-audio.md). Excerpt audition, model-level understanding of captured
+screens and the planned frame harness remain open.
 Dependencies: 03, 05, 06.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and

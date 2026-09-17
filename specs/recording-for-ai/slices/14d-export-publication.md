@@ -1,8 +1,10 @@
 # 14d — Pinned export intent and atomic publication
 
 Status: internal publication, pinned waiting consumers, private storage accounting,
-abandonment and queued recovery are verified. Public video composition is verified;
-the complete-package producer and native export controls remain.
+abandonment, queued recovery and public video export are verified, as are complete
+no-narration packages ([14d3b](14d3b-package-assembly.md)) and persisted export
+discovery ([14d4](14d4-export-discovery.md)). Narrated packages
+([14d3](14d3-processed-package.md)) and native export controls remain.
 [Ownership evidence](../assets/export-publication/native-owner.md) defines the proven
 receipt, limits and remaining integration. Public video evidence is tracked in [the integration record](../assets/export-publication/public-video.md). Parent [14](14-exports-and-package-reader.md)
 retains the two-product scope and narrated-package prerequisites.

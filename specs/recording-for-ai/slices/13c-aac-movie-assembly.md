@@ -1,10 +1,11 @@
 # 13c — AAC and video assembly
 
-Status: production native assembly and shared service attempt lifetime implemented;
-**no public preview route**. [Production evidence](../assets/movie-assembly/production/README.md)
+Status: production native assembly and shared service attempt lifetime implemented.
+[Production evidence](../assets/movie-assembly/production/README.md)
 records real worker/lifetime checks. The [five-minute encoded clock/memory proof](../assets/movie-assembly/scale/README.md)
 also passes on generated sparse video, AAC input and container/acquisition gaps.
-Parent [13](13-edited-media.md) remains open for audition, pointer and app playback.
+Public preview delivery belongs to [13e](13e-preview-publication.md); parent
+[13](13-edited-media.md) owns audition.
 
 ## One assembly owner
 

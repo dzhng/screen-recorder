@@ -1,10 +1,13 @@
 # 10 — Readable cursor trails on requested frames
 
-Status: bounded [native clean visual observations](../assets/visual-observations/native-review.md)
-are implemented; scene decisions remain in core. The [native rendering subpass](10a-native-cursor-render.md) draws supplied
-points on decoded frames. Bounded core scene analysis is integrated; trail selection
-and cutoff reporting remain unimplemented. [Sparse timing](10c-trail-timing.md)
-now has an encoded native/core fixture and owns the next policy decision. Dependencies: 09.
+Status: [native rendering](10a-native-cursor-render.md),
+[clean visual observations](10b-visual-observations.md),
+[requested-time trail planning](10c-trail-timing.md),
+[indexed trail evidence](10d-trail-evidence.md),
+[durable scenes](10f-durable-scenes.md) and
+[default public trail frames](10e-public-trails.md) pass generated-media gates.
+Real captured gestures and geometry, real UI scene thresholds and broader vertical
+cases remain open. Dependencies: 09.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

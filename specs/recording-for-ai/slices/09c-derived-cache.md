@@ -1,6 +1,7 @@
 # 09c — Disposable derivative ownership
 
-Status: core owner implemented and tested; service/frame integration remains in 09.
+Status: core owner implemented and tested; public frame ([09d](09d-public-frames.md))
+and audio ([09e](09e-public-audio.md)) inspection consume it.
 
 The [cache owner](../../../packages/core/src/cache.ts) keeps disposable files in a
 separate cache root and records their admission in the library catalog. Producers

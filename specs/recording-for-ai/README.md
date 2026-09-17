@@ -18,107 +18,32 @@ and media execution in Swift, and shared library/edit/timeline behavior in one
 TypeScript core. CLI and MCP expose the same full operation registry. The future
 editing UI calls the CLI.
 
-Work through dependency-ready slices, committing focused green checkpoints when
-a repository is initialized for implementation. Do not invent a remote, push target
-or distribution step. Collect real native, speech and client evidence: a protocol
-mock is not an image-visibility result, and an untested ASR engine is not a solution
-to removing fillers. If a feasibility gate fails, reslice its bounded alternative;
-do not quietly reduce scope. Continue independent work while an actual user
-recording or permission is pending, but do not call that gate passed.
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
 
-Update this section and the owning slice before ending each implementation pass:
-completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: implement the native export controls, then expose persisted-export
-rediscovery in the native app after restart. The control layer has no merged code:
-keep one UI-owned active request, retain its UUID across a lost create reply, pin a
-revision before Save, and use the existing owner for retry, abandonment and status.
-For a resumed uncommitted export, expose its admitted destination from status rather
-than inventing UI-side persistence; consume unfinished `export.list` pages and then
-read selected `export.status` records.
-The [complete no-narration package](assets/package-assembly/public.md) now exports
-through CLI/MCP and survives relocation with public frame/audio inspection.
-Native controls must use the shared owner, preserve ambiguous request identities,
-and expose rediscovery of persisted exports after restart. The shared
-[export enumeration](slices/14d4-export-discovery.md) backend is verified.
-[Raw cursor pages](slices/14c3c3-package-cursor.md),
-[arbitrary frames](slices/14c3c2a-package-frames.md),
-[audio](slices/14c3c2b-package-audio.md) and retained index reads are public.
-Acquired narration remains an explicit transcript prerequisite, never an implicit
-no-narration package. The [abandonment admission fence](assets/export-publication/admission-abandon.md)
-now drains destination validation before reporting a stopped export absent.
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
 
-[Public timeline inspection](slices/14c3c4-timeline-inspection.md) is implemented for
-library and retained-package history with bounded, generation-scoped continuations.
-It does not imply transcript readiness. The native
-[source-receipt alias fix](assets/source-processing/output-locators.md) preserves
-requested locators without relaxing unrelated-file rejection. Generated processing
-passes for both temporary-home spellings; live capture remains a separate gate.
+Current pickup: implement the native export controls and persisted-export
+rediscovery in the native app, then apply the whole-codebase review fixes being
+integrated from the `review/*` branches. The control layer has no merged code: keep
+one UI-owned active request, retain its UUID across a lost create reply, pin a
+revision before Save, and use the existing export owner for retry, abandonment and
+status. After a restart, consume unfinished `export.list` pages and then read the
+selected `export.status` records; a resumed uncommitted export reports its admitted
+destination from status rather than from UI-side persistence. The shared
+[export discovery](slices/14d4-export-discovery.md) backend is verified.
 
 Priority order: package/export execution, remaining native controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
 Keep one queue, immutable sources, explicit dependency failure and the complete
 CLI/MCP surface. No more Claude use.
-
-Recent integration evidence:
-
-- [Package registry](slices/14c3b3-package-registry.md), retained inspection and
-  shared queue contexts preserve isolated package lifetimes through cancellation,
-  close and startup recovery. Pinned waiting exports, abandonment and private storage
-  accounting preserve external files. [Merged verification](assets/owner-integration/README.md)
-  records internal-owner and public-access integration checks. Retained index selectors
-  and arbitrary frames/audio/cursor are public; no-narration package creation is verified.
-  Timeline reads now pass library/package history and continuation checks.
-  Narrated completeness and native controls remain.
-- [Public preview](assets/preview-publication/public.md) passes generated pointer,
-  cut/pause, CLI/MCP parity, restart and deletion checks. The
-  [native player](assets/preview-publication/player.md) passes real bundled-service
-  edit/renew/delete integration. Live window inspection confirms complete fixture
-  framing only; physical status-menu interaction, controls, full visual acceptance
-  and speech audition remain open.
-- [Capture endpoints](assets/capture-duration/README.md),
-  [geometry placement](assets/source-timing/geometry-placement.md) and
-  [pause placement](assets/source-timing/deferred-pauses.md) have merged native
-  evidence. Keep these clock mappings in their native owner.
-- [Generated index scale](assets/screenshot-index/performance.md) passes thirty
-  minutes plus the long-input cache companion. Actual capture usefulness remains
-  unverified. [Browser text](assets/text-fidelity/README.md) supports automatic
-  bitrate; the controlled alternative did not improve readability.
-
-
-Current evidence:
-
-- Actual Codex [CLI](assets/agent-cli-journey/README.md) and
-  [MCP image-block](assets/agent-mcp-journey/README.md) journeys read fresh image-only
-  tokens and perform cut/inspect/stale rejection/undo on generated silent media.
-  MCP includes one disclosed glyph misreading corrected by reinspection. Narration,
-  captured-screen understanding, exports and installed acceptance remain open.
-- [Audio inspection](assets/audio-inspection/review.md): real bundled worker,
-  generated cuts/gaps, missing roles, CLI/MCP parity, cache regeneration and explicit
-  retry. Numerical checks do not close audition or physical audio capture.
-- [Clean frames](assets/frame-delivery/review.md) and [eight-image batches](assets/frame-delivery/batches.md):
-  own-window and sparse generated sources, full resolution/crop, cuts, historical
-  revisions, LRU/restart, actual CLI/MCP bytes and failure isolation. Public clean
-  mode is available alongside [default trail images](assets/public-trails/review.md)
-  and [generated boundary checks](assets/public-trails/boundaries.md).
-  SDK receipt is not model-level recorded-image understanding.
-- [Source timing](assets/source-timing/integration-review.md), [indexed trail evidence](assets/trail-evidence/review.md)
-  and [scene compatibility](assets/scene-analysis/core-review.md): shared normalized
-  cursor/geometry/pause/audio evidence and bounded comparisons. Real UI scene
-  thresholds and captured gesture acceptance remain open. [Canonical scans](assets/scene-analysis/canonical-scan.md)
-  now retain chunked coverage and actual-time boundaries across restarts.
-- [Native controls](assets/recording-controls/integration.md): closed-menu state and
-  clock follow actual own-window service-driven capture. Native UI interaction,
-  display/region placement and physical audio remain unverified. Localhost browser
-  automation works. A [native gesture probe](assets/real-gesture-probe/review.md)
-  reached the fixture UI but recorded no inside cursor observations; physical
-  gesture acquisition remains unverified.
-- [Discovery](slices/15a-client-discovery.md) passes a built-app launch, not an
-  installed-copy workflow. [Durable jobs](assets/durable-jobs/review.md) preserve
-  attempt identity and retain capacity until workers exit.
-- [Speech](slices/04-local-speech-gate.md) remains a feasibility gate. No engine
-  meets the required fidelity; the research-only [alternative](assets/speech/verbatim-alternative.md)
-  also exceeds the memory target and has a restrictive license. Do not claim
-  filler editing from metadata fixtures or replace real narration with TTS.
 
 The original [verification gates](verification.md) remain requirements. Fixtures
 and unit checks do not close the full read → edit → inspect → export journey.
@@ -131,26 +56,26 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
 - [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
 - [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
-  - [x] [06a — Durable revision transactions](slices/06a-revision-store.md) (independent after 05)
-  - [x] [06b — Bounded local transport](slices/06b-local-transport.md) (independent after 00)
-  - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md) (independent after 00, 06b)
-  - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md) (storage proof)
-  - [x] [06e — Library operations through the service](slices/06e-library-operations.md) (independent after 06a–06c)
-  - [x] [06f — Native capture service control](slices/06f-capture-service.md) (own-window control/recovery proof)
-  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md) (core queue)
+  - [x] [06a — Durable revision transactions](slices/06a-revision-store.md)
+  - [x] [06b — Bounded local transport](slices/06b-local-transport.md)
+  - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md)
+  - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md)
+  - [x] [06e — Library operations through the service](slices/06e-library-operations.md)
+  - [x] [06f — Native capture service control](slices/06f-capture-service.md)
+  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md)
   - [x] [06h — Normalized cursor evidence index](slices/06h-evidence-index.md)
   - [x] [06i — Source processing integration](slices/06i-source-processing.md)
   - [x] [06j — Source timing evidence](slices/06j-source-timing.md)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
-  - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md) (independent after 00)
-  - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md) (generated-media execution; audition still open)
-  - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md) (public delivery remains)
+  - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md)
+  - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md)
+  - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md)
   - [ ] [09d — Revision-bound public frame inspection](slices/09d-public-frames.md)
-  - [x] [09e — Revision-bound audio inspection](slices/09e-public-audio.md) (generated public-media proof; parent audition gate remains)
+  - [x] [09e — Revision-bound audio inspection](slices/09e-public-audio.md)
 - [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
-  - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md) (independent after 09a)
+  - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md)
   - [ ] [10b — Shared clean visual observations](slices/10b-visual-observations.md)
   - [ ] [10c — Requested-time trail planning](slices/10c-trail-timing.md)
   - [x] [10d — Indexed trail evidence](slices/10d-trail-evidence.md)
@@ -161,45 +86,46 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [11b — Shared frame materialization](slices/11b-shared-frame-materialization.md)
   - [ ] [11c — Retained index and public delivery](slices/11c-retained-index.md)
 - [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
-  - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md) (current library/edit operations)
+  - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md)
 - [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
-  - [x] [13a — Native render timing feasibility](slices/13a-native-render-timing.md) (independent of speech)
-  - [x] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md) (independent of speech and video job integration)
-  - [x] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md) (generated encoded timing, lifetime and five-minute scale; parent audition remains)
-  - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md) (bounded exact support)
-  - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md) (point inspection only; native composition remains)
-  - [x] [13d3 — Sequential pointer schedule](slices/13d3-pointer-schedule.md) (exact events/reset memory; native composition remains)
-  - [x] [13d4 — Native pointer composition](slices/13d4-pointer-composition.md) (exact encoded transitions; physical gesture acquisition remains)
-  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md) (public delivery, staging recovery and native service/player lifetime verified; actual menu/visual acceptance remains)
+  - [x] [13a — Native render timing feasibility](slices/13a-native-render-timing.md)
+  - [x] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md)
+  - [x] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md)
+  - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md)
+  - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md)
+  - [x] [13d3 — Sequential pointer schedule](slices/13d3-pointer-schedule.md)
+  - [x] [13d4 — Native pointer composition](slices/13d4-pointer-composition.md)
+  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md)
 - [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
   - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
-  - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md) (internal directory/native parity; ZIP and public handles remain)
-    - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md) (consumer planning, not full package relocation)
-    - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md) (source-only relocation)
-    - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md) (shared readers and fresh-process frame/audio parity)
+  - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)
+    - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md)
+    - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md)
+    - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md)
   - [x] [14c1 — Bounded archive extraction](slices/14c1-bounded-archive-extraction.md)
-  - [x] [14c2 — Retained archive inspection](slices/14c2-retained-package-inspection.md) (native descriptor containment and parent-death lifetime; public handles remain)
-  - [x] [14c3a — Transient package job contexts](slices/14c3a-transient-context-jobs.md) (shared scheduling and bounded metadata; registry/public handles remain)
-  - [x] [14c3b1 — Reusable outputs and isolated delivery](slices/14c3b1-package-output-release.md) (native storage/read lifetime; registry recovery remains)
-  - [x] [14c3b2 — Admitted inputs and workspace cleanup](slices/14c3b2-package-workspace-primitives.md) (native primitives; registry integrated below)
-  - [x] [14c3b3 — Internal package registry](slices/14c3b3-package-registry.md) (admission, reservations, recovery and lifetime; public selectors remain)
-  - [x] [14c3c1 — Public package admission and retained index](slices/14c3c1-public-package-index.md) (actual CLI/MCP delivery; arbitrary frame/audio remains)
+  - [x] [14c2 — Retained archive inspection](slices/14c2-retained-package-inspection.md)
+  - [x] [14c3a — Transient package job contexts](slices/14c3a-transient-context-jobs.md)
+  - [x] [14c3b1 — Reusable outputs and isolated delivery](slices/14c3b1-package-output-release.md)
+  - [x] [14c3b2 — Admitted inputs and workspace cleanup](slices/14c3b2-package-workspace-primitives.md)
+  - [x] [14c3b3 — Internal package registry](slices/14c3b3-package-registry.md)
+  - [x] [14c3c1 — Public package admission and retained index](slices/14c3c1-public-package-index.md)
   - [x] [14c3c2 — Arbitrary package frame and audio](slices/14c3c2-package-frame-audio.md)
-    - [x] [14c3c2a — Public arbitrary package frames](slices/14c3c2a-package-frames.md) (CLI/MCP delivery, retry, pressure and close)
-    - [x] [14c3c2b — Public package audio](slices/14c3c2b-package-audio.md) (generated system/mix parity and lifetime; narration/audition remain separate)
-  - [x] [14c3c3 — Public package raw cursor](slices/14c3c3-package-cursor.md) (source-time pages and isolated continuations)
-  - [x] [14c3c4 — Public timeline inspection](slices/14c3c4-timeline-inspection.md) (library/package history and bounded continuations)
-  - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md) (ready-preview queue/recovery/deletion; dependency consumers and public exports remain)
-  - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md) (shared queue and rebuilt service integration)
-  - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md) (source retention, retry and cache loss; public exports remain)
-  - [x] [14d2b3 — Per-export abandonment](slices/14d2b3-export-abandonment.md) (drain, private cleanup and capacity release; public route remains)
-  - [x] [14d2b4 — Queued publication recovery](slices/14d2b4-queued-recovery.md) (internal recovery/deadline owner)
-  - [ ] [14d3 — Complete processed-package export](slices/14d3-processed-package.md) (public no-narration packages implemented; narrated completeness remains)
-    - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md)
-    - [x] [14d3b — Complete no-narration assembly](slices/14d3b-package-assembly.md) (public production, relocation and cleanup)
-  - [x] [14d4 — Persisted export discovery](slices/14d4-export-discovery.md) (CLI/MCP restart proof; native recovery UI remains)
+    - [x] [14c3c2a — Public arbitrary package frames](slices/14c3c2a-package-frames.md)
+    - [x] [14c3c2b — Public package audio](slices/14c3c2b-package-audio.md)
+  - [x] [14c3c3 — Public package raw cursor](slices/14c3c3-package-cursor.md)
+  - [x] [14c3c4 — Public timeline inspection](slices/14c3c4-timeline-inspection.md)
+  - [ ] [14d — Pinned export intent and atomic publication](slices/14d-export-publication.md)
+    - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md)
+    - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md)
+    - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md)
+    - [x] [14d2b3 — Per-export abandonment](slices/14d2b3-export-abandonment.md)
+    - [x] [14d2b4 — Queued publication recovery](slices/14d2b4-queued-recovery.md)
+    - [ ] [14d3 — Complete processed-package export](slices/14d3-processed-package.md)
+      - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md)
+      - [x] [14d3b — Complete no-narration assembly](slices/14d3b-package-assembly.md)
+    - [x] [14d4 — Persisted export discovery](slices/14d4-export-discovery.md)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
-  - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
+  - [x] [15a — Client discovery](slices/15a-client-discovery.md)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)
 
 ## Outcome
@@ -262,35 +188,29 @@ flowchart LR
 pause/cut events, limits, request replay, audio mix and export semantics.
 [Research](research.md) records actual SDK/reference evidence and the three-draft synthesis.
 
-## Slice ladder and review surfaces
+## Review surfaces
 
-| Slice | Depends on | Review surface |
-| --- | --- | --- |
-| [00 Workspace and native harness](slices/00-workspace.md) | None | Local .app launch and protocol round trip |
-| [00b Real-agent image access](slices/00b-client-image-probe.md) | 00 | Actual agent MCP/CLI image read |
-| [01 Native capture and separate audio](slices/01-native-capture.md) | 00 | Three capture sources + isolated audio playback |
-| [02 Recover interrupted source media](slices/02-interruption-recovery.md) | 01 | Killed writer, decoded recovered prefix |
-| [03 Cursor positions in captured coordinates](slices/03-cursor-geometry.md) | 01 | Asymmetric grid and cursor error |
-| [04 Select a verbatim local speech engine](slices/04-local-speech-gate.md) | 00 | Real narration, filler ledger, audible cuts |
-| [05 Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md) | 00 | Expected source spans and revision examples |
-| [06a Durable revision transactions](slices/06a-revision-store.md) | 05 | Real SQLite replay, undo and competing writers |
-| [06b Bounded local transport](slices/06b-local-transport.md) | 00, 06a for edit fixture | Real socket calls and bounded failure |
-| [06c App-owned service lifetime](slices/06c-app-service-lifetime.md) | 00, 06b | Packaged app/child health, shutdown and failure |
-| [06 Single-writer library and app-managed service](slices/06-service-and-jobs.md) | 02, 05 | Real-process state/race/restart cases |
-| [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | 03, 06, 15b for delete/storage | Native controls and recording state shots |
-| [08 Durable local transcription and projections](slices/08-transcript-processing.md) | 04, 06 | Word-timed transcript and retry |
-| [09 Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md) | 03, 05, 06 | Timestamped clean frames/audio |
-| [10 Readable cursor trails on requested frames](slices/10-cursor-trails.md) | 09 | Circle/wave and boundary trail shots |
-| [11 Useful bounded screenshot index](slices/11-screenshot-selection.md) | 10 | Contact sheet with selection reasons |
-| [12 Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md) | 00b, 07, 08, 11 | CLI/MCP parity and actual agent edit calls |
-| [13a Native render timing](slices/13a-native-render-timing.md) | 05 and native media worker | Exact cut timing and independently decoded output |
-| [13b Bounded retained audio](slices/13b-streaming-audio.md) | Existing audio excerpt owner | Same sample policy with bounded streaming memory |
-| [13 Playable edited media and audio joins](slices/13-edited-media.md) | 09, 12 | Audition/inspect actual edited media |
-| [14a Package manifest and readiness](slices/14a-package-manifest.md) | Existing revision/evidence owners | Pinned history and prerequisite truth table |
-| [14b Portable read-only inspection](slices/14b-portable-inspection.md) | 14a and shared inspection | Relocated directory, new frame/trail/audio requests |
-| [14 Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md) | 08, 11, 13 | Two exports; moved package, new frame |
-| [15b Recording storage and manual deletion](slices/15b-storage-and-deletion.md) | 06 and cache/evidence ownership | Busy delete, restart cleanup and CLI/MCP storage totals |
-| [15 Installed personal workflow and closeout](slices/15-personal-release.md) | 00–14 | Installed localhost journey and closeout |
+Each slice file states its dependencies; this table names what a top-level gate shows.
+
+| Slice | Review surface |
+| --- | --- |
+| [00 Workspace and native harness](slices/00-workspace.md) | Local .app launch and protocol round trip |
+| [00b Real-agent image access](slices/00b-client-image-probe.md) | Actual agent MCP/CLI image read |
+| [01 Native capture and separate audio](slices/01-native-capture.md) | Three capture sources + isolated audio playback |
+| [02 Recover interrupted source media](slices/02-interruption-recovery.md) | Killed writer, decoded recovered prefix |
+| [03 Cursor positions in captured coordinates](slices/03-cursor-geometry.md) | Asymmetric grid and cursor error |
+| [04 Select a verbatim local speech engine](slices/04-local-speech-gate.md) | Real narration, filler ledger, audible cuts |
+| [05 Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md) | Expected source spans and revision examples |
+| [06 Single-writer library and app-managed service](slices/06-service-and-jobs.md) | Real-process state/race/restart cases |
+| [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | Native controls and recording state shots |
+| [08 Durable local transcription and projections](slices/08-transcript-processing.md) | Word-timed transcript and retry |
+| [09 Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md) | Timestamped clean frames/audio |
+| [10 Readable cursor trails on requested frames](slices/10-cursor-trails.md) | Circle/wave and boundary trail shots |
+| [11 Useful bounded screenshot index](slices/11-screenshot-selection.md) | Contact sheet with selection reasons |
+| [12 Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md) | CLI/MCP parity and actual agent edit calls |
+| [13 Playable edited media and audio joins](slices/13-edited-media.md) | Audition/inspect actual edited media |
+| [14 Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md) | Two exports; moved package, new frame |
+| [15 Installed personal workflow and closeout](slices/15-personal-release.md) | Installed localhost journey and closeout |
 
 Slices 00b, 01, 04 and 05 can progress independently after bootstrap; pending
 client login in 00b does not block the other probes. Recovery follows
@@ -342,7 +262,7 @@ future implementation testing.
 The [map](MAP.md) preserves user decisions and discovery evidence; its old OPEN
 checklist and kickoff prompt are superseded by this spec. Keep it as rationale, not
 a competing task list. A new discovery updates the relevant contract/slice and this
-handoff; record changed user-visible choices in an implementation choices ledger.
+handoff; record changed user-visible choices in the [implementation choices ledger](choices.md).
 No file may carry instructions to implement an abandoned architecture.
 
 Implementation-only discretion: internal algorithms/names and reversible styling

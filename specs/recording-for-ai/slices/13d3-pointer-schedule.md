@@ -1,6 +1,6 @@
 # 13d3 — Sequential current-pointer schedule
 
-Status: core schedule implemented and verified; native composition remains open. Dependencies: [13d1](13d1-presentation-evidence.md),
+Status: core schedule implemented and verified; [13d4](13d4-pointer-composition.md) composes it natively. Dependencies: [13d1](13d1-presentation-evidence.md),
 [13d2](13d2-presentation-pointer-core.md). Parent: [13](13-edited-media.md).
 
 ## Contract

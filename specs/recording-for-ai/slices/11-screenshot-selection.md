@@ -1,10 +1,10 @@
 # 11 — Useful bounded screenshot index
 
-Status: implementation split into [selection ledger](11a-selection-ledger.md),
-[shared materialization](11b-shared-frame-materialization.md), and
-[retained/public index](11c-retained-index.md). The first two are verified and retained public delivery is implemented;
-contact sheets, scale and parent real capture/threshold gates remain open. Dependencies: source evidence,
-10f canonical scenes and existing frame rendering.
+Status: the [selection ledger](11a-selection-ledger.md) and
+[shared materialization](11b-shared-frame-materialization.md) are verified;
+[retained/public index](11c-retained-index.md) delivery passes the thirty-minute
+generated workload. Real-capture selection usefulness and threshold gates remain
+open. Dependencies: source evidence, 10f canonical scenes and existing frame rendering.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

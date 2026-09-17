@@ -1,7 +1,8 @@
 # 14d2b4 — Queue-admitted publication recovery and byte budgets
 
-Status: internal recovery/deadline owner verified. Public service/menu composition
-and processed-package writing remain later work.
+Status: internal recovery/deadline owner verified. Public service composition and
+package writing are delivered by [14d](14d-export-publication.md) and
+[14d3b](14d3b-package-assembly.md); native menu composition remains.
 
 ## Recovery is work in the existing queue
 

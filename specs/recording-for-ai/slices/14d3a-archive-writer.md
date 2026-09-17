@@ -1,5 +1,9 @@
 # 14d3a — Descriptor-owned ZIP byte producer
 
+Status: implemented, reviewed and integrated; receipts are under
+[evidence and limits](#evidence-and-limits-of-the-claim). Public package creation is
+delivered by [14d3b](14d3b-package-assembly.md).
+
 The [archive writer](../../../apps/service/src/archive-write.ts) produces private
 ZIP bytes for the existing Publication owner. It does not select prerequisites,
 certify transcript readiness or create another export lifecycle. Package creation

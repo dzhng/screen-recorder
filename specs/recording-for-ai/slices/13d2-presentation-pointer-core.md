@@ -1,6 +1,6 @@
 # 13d2 — Shared pointer policy over presentation support
 
-Status: scoped core seam implemented and verified; movie scheduling remains open. Dependency: [13d1](13d1-presentation-evidence.md).
+Status: scoped core seam implemented and verified; [13d3](13d3-pointer-schedule.md) schedules it for movies. Dependency: [13d1](13d1-presentation-evidence.md).
 Parent: [13](13-edited-media.md).
 
 ## Contract

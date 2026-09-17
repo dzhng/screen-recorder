@@ -1,7 +1,9 @@
 # 14d2b1 — Deferred jobs without worker occupancy
 
-Status: queue seam implemented; export consumers and service startup recovery remain
-later passes. This changes no public export route or menu capability.
+Status: queue seam implemented and integrated with the rebuilt service. Export
+consumers build on it in [14d2b2](14d2b2-pinned-waiting-video.md) and startup
+recovery in [14d2b4](14d2b4-queued-recovery.md). This pass changes no public export
+route or menu capability.
 
 ## One scheduler, two admission boundaries
 

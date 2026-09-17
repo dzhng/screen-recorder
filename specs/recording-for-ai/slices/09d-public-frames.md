@@ -1,8 +1,10 @@
 # Revision-bound public frame inspection
 
-Status: implementation started. Native decoding is already verified; this pass
-connects it to the shared core, public operations and actual client image delivery.
-Parent slice 09 remains open until frame and audio inspection gates pass.
+Status: explicit clean single frames and bounded batches pass through the public
+service, CLI files and MCP image content; see the [single-frame](../assets/frame-delivery/review.md)
+and [batch](../assets/frame-delivery/batches.md) evidence. Default trail frames are
+delivered by [10e](10e-public-trails.md). SDK receipt of image bytes is not
+model-level understanding of captured screens, which remains open with parent 09.
 
 ## Owners and invariants
 
@@ -71,8 +73,7 @@ inside one metadata response. The CLI accepts an explicit output path or creates
 a temporary image file; it never overwrites an existing output.
 
 Bounded clean batches now use the same public route; see the [batch evidence](../assets/frame-delivery/batches.md).
-Next: the default trail dependency and actual model-level MCP visual inspection.
-The parent remains open; audio acceptance is tracked in slice 09e.
+Default trails are delivered by slice 10e; audio acceptance is tracked in slice 09e.
 
 The generated sparse-source coverage pass adds public start/end/earlier-tie checks,
 full 2048×1152 CLI/MCP pixel equality, exact cut joins and genuine LRU eviction

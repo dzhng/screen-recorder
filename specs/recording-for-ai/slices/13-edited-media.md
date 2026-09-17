@@ -1,12 +1,13 @@
 # 13 — Playable edited media and audio joins
 
-Status: native video timing, bounded PCM and encoded movie assembly verified; full edited playback remains open.
-Dependencies for full completion: 09, 12.
-Start with [13a — native render timing feasibility](13a-native-render-timing.md),
-which can prove the existing render-plan/native-worker seam before speech and the
-full CLI/MCP journey are ready. [13b — bounded retained audio](13b-streaming-audio.md)
-can proceed independently through the existing excerpt consumer. These checkpoints
-do not relax this parent's completion gates.
+Status: native render timing ([13a](13a-native-render-timing.md)), bounded retained
+audio ([13b](13b-streaming-audio.md)), encoded movie assembly
+([13c](13c-aac-movie-assembly.md)), pointer composition
+([13d1](13d1-presentation-evidence.md)–[13d4](13d4-pointer-composition.md)) and
+public preview delivery ([13e](13e-preview-publication.md)) pass generated-media
+gates. Adjacent-speech audition, physical menu interaction and player visual
+acceptance remain open. Dependencies for full completion: 09, 12. Sub-slice
+checkpoints do not relax this parent's completion gates.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

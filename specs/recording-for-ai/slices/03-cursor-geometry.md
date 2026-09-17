@@ -6,7 +6,9 @@ Native sampling and journaled geometry are implemented. Root's integrated own-wi
 measurement and remaining gates are recorded in the [cursor checkpoint](../assets/cursor/review.md).
 The delayed-reading and unknown-geometry corrections, independent reader review
 and real sampler tests are integrated. Window measurements do not close the
-deliberate-gesture, display or region gates.
+deliberate-gesture, display or region gates. A [native gesture probe](../assets/real-gesture-probe/review.md)
+reached the fixture UI but recorded no inside cursor observations, so physical
+gesture acquisition remains unverified.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. `bun run lab:cursor-geometry` now exists
