@@ -1,0 +1,29 @@
+@screenrec/core test:
+@screenrec/core test:  RUN  v5.0.0 /private/tmp/screenrec-portable-events/packages/core
+@screenrec/core test:
+@screenrec/core test: (node:9770) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+@screenrec/core test: (Use `node --trace-warnings ...` to show where the warning was created)
+@screenrec/core test:  ❯ src/event-pages.test.ts (3 tests | 1 failed | 2 skipped) 1542ms
+@screenrec/core test:    × static scene scans yield cancellation before repeated decoding exhausts their input budget 1541ms
+@screenrec/core test:
+@screenrec/core test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+@screenrec/core test:
+@screenrec/core test:  FAIL  src/event-pages.test.ts > static scene scans yield cancellation before repeated decoding exhausts their input budget
+@screenrec/core test: AssertionError: expected 257616217 to be less than or equal to 7648418
+@screenrec/core test:  ❯ src/event-pages.test.ts:259:24
+@screenrec/core test:     257|     ),
+@screenrec/core test:     258|   ).rejects.toMatchObject({name:"AbortError"});
+@screenrec/core test:     259|   expect(decodedBytes).toBeLessThanOrEqual(inputBytes * 2);
+@screenrec/core test:        |                        ^
+@screenrec/core test:     260| });
+@screenrec/core test:     261|
+@screenrec/core test:
+@screenrec/core test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+@screenrec/core test:
+@screenrec/core test:
+@screenrec/core test:  Test Files  1 failed (1)
+@screenrec/core test:       Tests  1 failed | 2 skipped (3)
+@screenrec/core test:    Start at  09:35:21
+@screenrec/core test:    Duration  1.67s (tests 95%, transform 3%, import 2%)
+@screenrec/core test:
+@screenrec/core test: Exited with code 1

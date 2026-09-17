@@ -25,6 +25,7 @@ import { registerRelocationTest, inspect } from "./package-relocation.mjs";
 import { openPackageArchive } from "../../service/dist/package-archive.js";
 import { mediaWorker } from "../../service/dist/worker.js";
 import { fileSubdirectory } from "@screenrec/core/files";
+import { FileTimelineEvents, validateTimelineEventPages } from "@screenrec/core/event-pages";
 import { FileSourceEvidence } from "@screenrec/core/evidence-pages";
 import { FileSceneEvidence } from "@screenrec/core/scene-pages";
 import { FileScreenshotIndex } from "@screenrec/core/index-pages";
@@ -268,6 +269,22 @@ async function retainedReader(original, output, native) {
         revision,
       ),
     };
+    const eventMetadata = {
+      sourceIdentity,
+      sceneIdentity,
+      revision,
+      interrupted: manifest.snapshot.capture.state === "interrupted",
+    };
+    const events = new FileTimelineEvents(
+      fileSubdirectory(context.files, "evidence/events"),
+      eventMetadata,
+    );
+    await validateTimelineEventPages(events, {
+      ...eventMetadata,
+      source: readers.source,
+      scenes: readers.scenes,
+    });
+    assert.ok(events.page().rows.some((row) => row.event.kind === "cut"));
     const run = async (operation, params, signal) => {
       const value = await context.run(operation, params, signal);
       nativeCalls++;
@@ -318,6 +335,7 @@ async function retainedReader(original, output, native) {
     assert.equal(closing, context.close());
     await closing;
     assert.throws(() => held.read(Buffer.alloc(1), 0));
+    assert.throws(() => events.page());
     held.release();
     assert.throws(() => readers.index.page({ identity: indexIdentity, limit: 1 }));
     assert.throws(() =>

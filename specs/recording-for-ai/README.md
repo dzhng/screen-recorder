@@ -31,9 +31,10 @@ completed work, exact next pickup, evidence paths, failures and delegated decisi
 Current pickup: finish the complete processed-package writer in
 [14d3](slices/14d3-processed-package.md): pin and assemble real source/scene/index/events
 prerequisites and register recoverable assembly scratch through the shared export
-owner. The [bounded native ZIP producer](slices/14d3a-archive-writer.md) is implemented
-and integrated with public video publication; canonical timeline-event serialization
-is the next independent prerequisite. In parallel, extend existing inspection operations to arbitrary package
+owner. The [bounded native ZIP producer](slices/14d3a-archive-writer.md) and
+[portable event producer](assets/export-publication/events.md) are implemented;
+complete assembly must consume the bounded semantic validator. In parallel, extend
+existing inspection operations to arbitrary package
 frames and audio via [14c3c2](slices/14c3c2-package-frame-audio.md).
 [Public package index access](slices/14c3c1-public-package-index.md) and
 [queued export reconciliation](slices/14d2b4-queued-recovery.md) are implemented.

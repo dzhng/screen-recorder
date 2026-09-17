@@ -123,6 +123,10 @@
     "./index-read": {
       "types": "./dist/index-read.d.ts",
       "default": "./dist/index-read.js"
+    },
+    "./event-pages": {
+      "types": "./dist/event-pages.d.ts",
+      "default": "./dist/event-pages.js"
     }
   },
   "scripts": {

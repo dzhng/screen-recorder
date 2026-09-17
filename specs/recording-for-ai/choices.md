@@ -2113,3 +2113,21 @@ records them. These choices add no public export choice or transcript readiness.
   tests of product concurrency still drive that concurrency themselves. The plan
   did not specify test-process parallelism; four is a conservative host-work budget,
   not a product capacity limit or guarantee against all host-load variation.
+
+
+## Portable timeline events — 2026-09-17
+
+- **Sound, medium confidence — Split equal-time groups across portable pages.**
+  Store individual ordered events with a playback position and ordinal instead
+  of one potentially unbounded array for all events at a cut boundary. Consumers
+  combine adjacent equal-position rows, continuing by ordinal. This preserves
+  the logical grouped timeline while keeping each read bounded.
+- **Sound, high confidence — Certify completeness against pinned evidence.**
+  Page hashes and valid timestamps cannot show that no event was omitted. The
+  package assembler compares every event with the same source/scene projection
+  used by its writer before publication. This uses the existing readers and
+  introduces no event database or scheduler.
+- **Sound, high confidence — Journal order breaks simultaneous source ties.**
+  Pause and geometry markers at the same source position retain journal sequence;
+  scenes and interruption follow them deterministically. The timeline owner still
+  controls cut placement and boundary inclusion.

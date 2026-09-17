@@ -186,13 +186,10 @@ export type CutEvent = Readonly<{
   removedSourceSpans: readonly TimeRange[];
 }>;
 export type EventGroup = { atUs: number; events: (SourceEvent | CutEvent)[] };
-export function projectEvents(
-  revision: TimelineRevision,
-  events: readonly SourceEvent[],
-): EventGroup[] {
+/** Shared point and cut projection for grouped reads and bounded portable streams. */
+export function eventProjector(revision: TimelineRevision) {
   const plan = renderPlan(revision);
-  const projected: { atUs: number; event: SourceEvent | CutEvent }[] = [];
-  for (const event of events) {
+  return (event: SourceEvent): { atUs: number; event: SourceEvent } | null => {
     if (!validTime(event.atSourceUs) || event.atSourceUs > revision.sourceDurationUs)
       throw new TimelineError("Invalid event time");
     if (event.kind === "pause" && !validTime(event.elapsedPauseUs))
@@ -201,34 +198,49 @@ export function projectEvents(
     const span = plan.find(
       ({ source }) => event.atSourceUs >= source.startUs && event.atSourceUs <= source.endUs,
     );
-    if (span)
-      projected.push({
-        atUs: span.playback.startUs + (event.atSourceUs - span.source.startUs),
-        event,
-      });
-  }
+    return span
+      ? { atUs: span.playback.startUs + (event.atSourceUs - span.source.startUs), event }
+      : null;
+  };
+}
+export function* projectedCuts(
+  revision: TimelineRevision,
+): Generator<{ atUs: number; event: CutEvent }> {
+  const plan = renderPlan(revision);
   let previousEnd = 0;
   for (const span of plan) {
     if (previousEnd < span.source.startUs)
-      projected.push({
+      yield {
         atUs: span.playback.startUs,
         event: {
           kind: "cut",
           atSourceUs: previousEnd,
           removedSourceSpans: [{ startUs: previousEnd, endUs: span.source.startUs }],
         },
-      });
+      };
     previousEnd = span.source.endUs;
   }
   if (previousEnd < revision.sourceDurationUs)
-    projected.push({
+    yield {
       atUs: revision.durationUs,
       event: {
         kind: "cut",
         atSourceUs: previousEnd,
         removedSourceSpans: [{ startUs: previousEnd, endUs: revision.sourceDurationUs }],
       },
-    });
+    };
+}
+export function projectEvents(
+  revision: TimelineRevision,
+  events: readonly SourceEvent[],
+): EventGroup[] {
+  const project = eventProjector(revision);
+  const projected: { atUs: number; event: SourceEvent | CutEvent }[] = [];
+  for (const event of events) {
+    const row = project(event);
+    if (row) projected.push(row);
+  }
+  for (const cut of projectedCuts(revision)) projected.push(cut);
   projected.sort((a, b) => a.atUs - b.atUs || a.event.atSourceUs - b.event.atSourceUs);
   const groups: EventGroup[] = [];
   for (const { atUs, event } of projected) {

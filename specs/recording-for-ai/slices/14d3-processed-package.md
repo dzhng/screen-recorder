@@ -84,10 +84,11 @@ original immutable video, capture journal, actually acquired audio tracks and al
 history through the pinned ordinal. Inventory hashes and lengths come from copied
 bytes; do not export database files or machine-local paths.
 
-The manifest planner requires source, scenes, index and edited events. The current
-events fixture is not a production serializer. Add a bounded events serializer and
-validator using the existing timeline projection, retaining pause placeholders
-and cut boundaries. Do not fill that requirement with fabricated empty events.
+The manifest planner requires source, scenes, index and edited events. The bounded
+[event serializer and validator](../assets/export-publication/events.md) now uses the existing timeline projection, retaining pause placeholders and cut
+boundaries. Assembly must run its complete semantic comparison against the pinned
+source and scene evidence before publication; page hashes alone do not certify
+that every event was included.
 
 No narration is determined from actual acquisition evidence, never a request
 flag. Acquired narration remains explicitly unsupported until the accepted source

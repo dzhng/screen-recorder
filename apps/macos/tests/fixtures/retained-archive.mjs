@@ -4,7 +4,12 @@ import { cp, mkdir, writeFile, readFile, readdir, stat } from "node:fs/promises"
 import { join } from "node:path";
 import { FileSourceEvidence } from "@screenrec/core/evidence-pages";
 import { FileSceneEvidence } from "@screenrec/core/scene-pages";
-import { projectEvents } from "@screenrec/core/timeline";
+import {
+  timelineEventPolicy,
+  writeTimelineEventPages,
+  FileTimelineEvents,
+  validateTimelineEventPages,
+} from "@screenrec/core/event-pages";
 import { selectionPolicy } from "@screenrec/core/selection";
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 async function files(root, prefix = "") {
@@ -40,21 +45,29 @@ export async function archiveFixture(original, destination) {
   assert.equal(sourceReader.hasAudio(source, "narration"), false);
   assert.equal(sourceReader.hasAudio(source, "system"), true);
   const revision = old.history.find((value) => value.id === old.snapshot.revisionId);
-  const range = { startUs: 0, endUs: old.snapshot.sourceDurationUs };
-  const events = [
-    ...sourceReader.pauses(source, range).map((event) => ({ kind: "pause", ...event })),
-    ...sourceReader
-      .geometryChanges(source, range)
-      .map((event) => ({ kind: "geometry", atSourceUs: event.sourceUs })),
-    ...new FileSceneEvidence(join(destination, "evidence/scenes"), old.scenes)
-      .page({ identity: old.scenes })
-      .chunks.flatMap((chunk) => chunk.boundaries),
-    { kind: "interruption", atSourceUs: old.snapshot.sourceDurationUs },
-  ];
-  await writeFile(
-    join(destination, "evidence/events.json"),
-    JSON.stringify(projectEvents(revision, events)),
-  );
+  const metadata = {
+    sourceIdentity: {
+      recordingId: source.recordingId,
+      sourceId: source.sourceId,
+      generation: source.generation,
+    },
+    sceneIdentity: {
+      recordingId: old.scenes.recordingId,
+      sourceId: old.scenes.sourceId,
+      generation: old.scenes.generation,
+      policy: old.scenes.policy,
+    },
+    revision,
+    interrupted: old.snapshot.capture.state === "interrupted",
+  };
+  const eventInput = {
+    ...metadata,
+    source: sourceReader,
+    scenes: new FileSceneEvidence(join(destination, "evidence/scenes"), old.scenes),
+  };
+  await writeTimelineEventPages(eventInput, join(destination, "evidence/events"));
+  const eventReader = new FileTimelineEvents(join(destination, "evidence/events"), metadata);
+  await validateTimelineEventPages(eventReader, eventInput);
   await mkdir(join(destination, "revisions"));
   for (const value of old.history)
     await writeFile(join(destination, "revisions", `${value.id}.json`), JSON.stringify(value));
@@ -79,7 +92,7 @@ export async function archiveFixture(original, destination) {
               ? "source"
               : path.startsWith("evidence/scenes/")
                 ? "scenes"
-                : path === "evidence/events.json"
+                : path.startsWith("evidence/events/")
                   ? "events"
                   : path.startsWith("evidence/index/images/")
                     ? "image"
@@ -119,7 +132,7 @@ export async function archiveFixture(original, destination) {
     ["source", source.generation, "native-source-v1"],
     ["scenes", old.scenes.generation, old.scenes.policy],
     ["index", old.index.generation, selectionPolicy.id],
-    ["events", 1, "timeline-v1"],
+    ["events", 1, timelineEventPolicy],
   ])
     manifest.evidence.push({
       artifact: {
