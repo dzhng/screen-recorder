@@ -1,0 +1,23 @@
+(node:86065) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ bundled export lifecycle pins video through CLI/MCP, restart and recording deletion (689.836ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 772.20675
+
+✖ failing tests:
+
+test at apps/macos/tests/export-inspection.test.mjs:16:1
+✖ bundled export lifecycle pins video through CLI/MCP, restart and recording deletion (689.836ms)
+  Error: {"exportId":"d5098377-2403-49e3-8d82-8eb96d5766a0","kind":"video","abandoning":false,"recovery":{"state":"not_requested","jobId":null,"reason":null,"retryable":false,"published":null},"recordingId":"24878cc3-4bb1-4e60-9535-704bd8d8e230","snapshot":{"recordingId":"24878cc3-4bb1-4e60-9535-704bd8d8e230","sourceId":"8f6f2a4f-cb37-4978-816d-5dca820a6aac","revisionId":"r0","sourceDurationUs":2000000,"historyThroughOrdinal":0,"capture":{"state":"interrupted","createdAt":"2026-09-17T02:09:35.161Z","interruptionReason":"generated export fixture"}},"state":"failed","receipt":null,"output":null,"jobId":"74b18082-c43d-4a63-b884-25603f7c721e","reason":"Source processor cannot execute this job","retryable":false}
+      at file:///Users/david/dev/screen-recorder/apps/macos/tests/export-inspection.test.mjs:127:19
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async waitFor (file:///Users/david/dev/screen-recorder/apps/macos/tests/harness.mjs:113:19)
+      at async TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/macos/tests/export-inspection.test.mjs:119:21)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)

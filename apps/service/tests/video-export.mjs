@@ -1,3 +1,5 @@
+import { callLocal } from "@screenrec/client";
+import { launchReady, socketPath, waitFor } from "../../macos/tests/harness.mjs";
 import assert from "node:assert/strict";
 import { randomUUID, createHash } from "node:crypto";
 import { fork, spawnSync } from "node:child_process";
@@ -36,7 +38,12 @@ import { journalRows } from "../../macos/tests/fixtures/generated-capture.mjs";
 const binary = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
 const native = mediaWorker({ SCREENREC_NATIVE: binary });
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
-async function fixture(t, wrap = (value) => value, existing, { warm = true } = {}) {
+async function fixture(
+  t,
+  wrap = (value) => value,
+  existing,
+  { warm = true, admission = true } = {},
+) {
   const home = existing?.home ?? (await mkdtemp("/tmp/screenrec-video-export-"));
   const output = existing?.output ?? (await mkdtemp("/tmp/screenrec-video-destination-"));
   const store = new RevisionStore(join(home, "library.sqlite"), {
@@ -126,12 +133,12 @@ async function fixture(t, wrap = (value) => value, existing, { warm = true } = {
       signal,
     ),
   );
-  const files = new ManagedFiles(home, native);
+  const files = new ManagedFiles(home, worker);
   exports = new RecordingExports({ store, jobs, cache, preview, processing, worker, files });
   const storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
     exports.usage(recordingId, signal),
   );
-  jobs.startAdmission((job) => exports.admit(job));
+  if (admission) jobs.startAdmission((job) => exports.admit(job));
   if (warm) processing.prepare(take.recordingId);
   await jobs.idle();
   if (warm) preview.request({ recordingId: take.recordingId });
@@ -1773,3 +1780,105 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(f.exports.status(request.exportId).jobId, first.jobId);
   });
 }
+
+test(
+  "shutdown fences and drains export destination admission before catalog closure",
+  { timeout: 10000 },
+  async (t) => {
+    let release, entered;
+    const held = new Promise((resolve) => {
+      release = resolve;
+    });
+    const atDestination = new Promise((resolve) => {
+      entered = resolve;
+    });
+    const f = await fixture(
+      t,
+      (native) => async (operation, params, options) => {
+        if (operation === "storage.externalDirectory") {
+          entered();
+          await held;
+        }
+        return native(operation, params, options);
+      },
+      undefined,
+      { warm: false },
+    );
+    const exportId = randomUUID();
+    const pending = f.exports.create({
+      exportId,
+      kind: "video",
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "shutdown.mp4",
+    });
+    const outcome = pending.then(
+      () => "created",
+      () => "closed",
+    );
+    await atDestination;
+    let closed = false;
+    const closing = f.exports.close().then(() => {
+      closed = true;
+    });
+    try {
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.equal(
+        closed,
+        false,
+        "close must retain the catalog until destination admission drains",
+      );
+    } finally {
+      release();
+      await closing;
+      await outcome;
+    }
+    assert.equal(await outcome, "closed");
+    assert.equal(
+      f.store.catalog
+        .prepare("SELECT count(*) AS n FROM export_intents WHERE exportId=?")
+        .get(exportId).n,
+      0,
+    );
+    assert.deepEqual(await readdir(f.output), []);
+  },
+);
+
+test(
+  "bundled startup admits a persisted waiter only after its ready preview cache is reconciled",
+  { timeout: 30000 },
+  async (t) => {
+    const f = await fixture(t, (native) => native, undefined, { admission: false });
+    const exportId = randomUUID();
+    const pending = await f.exports.create({
+      exportId,
+      kind: "video",
+      recordingId: f.take.recordingId,
+      directory: f.output,
+      leaf: "restarted.mp4",
+    });
+    assert.equal(pending.state, "queued");
+    assert.equal(f.jobs.job(pending.jobId).state, "waiting");
+    await f.closeOwners();
+    const { instance } = await launchReady(f.home);
+    try {
+      const status = await waitFor(async () => {
+        const result = await callLocal(socketPath(f.home), {
+          id: randomUUID(),
+          operation: "export.status",
+          params: { exportId },
+        });
+        assert.equal(result.ok, true, JSON.stringify(result));
+        if (["failed", "unavailable"].includes(result.data.state))
+          throw new Error(JSON.stringify(result.data));
+        return result.data.state === "committed" && result.data;
+      }, 15000);
+      assert.equal(status.snapshot.revisionId, "r0");
+      assert.equal(status.receipt.sha256, sha(await readFile(join(f.output, "restarted.mp4"))));
+    } finally {
+      instance.kill("SIGTERM");
+      await waitFor(() => !instance.running, 15000);
+      assert.equal((await instance.exited).code, 0);
+    }
+  },
+);

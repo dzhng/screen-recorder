@@ -19,7 +19,9 @@ export class ManagedFiles {
   /** The same library-root identity used for deletion defines where exports cannot live. */
   async externalDirectory(
     path: string,
+    signal?: AbortSignal,
   ): Promise<{ directory: string; identity: DirectoryIdentity }> {
+    signal?.throwIfAborted();
     const directory = await realpath(path);
     const parent = await open(
       directory,
@@ -29,7 +31,7 @@ export class ManagedFiles {
       const result = await this.worker(
         "storage.externalDirectory",
         { home: this.home, expectedHome: this.expectedHome },
-        { descriptors: [parent.fd] },
+        { descriptors: [parent.fd], ...(signal ? { signal } : {}) },
       );
       if (!result.ok)
         throw new CatalogError(

@@ -1,3 +1,4 @@
+import { RecordingExports } from "./exports.js";
 import { PackageInspection } from "./packages.js";
 import { copyFile, mkdir } from "node:fs/promises";
 import { constants } from "node:fs";
@@ -82,6 +83,7 @@ async function main(): Promise<void> {
   let frames: FrameInspection;
   let audio: AudioInspection;
   let preview: PreviewInspection;
+  let exports: RecordingExports | undefined;
   let delivery: DerivativeDelivery | undefined;
   let cache: DerivedCache;
   let storage: RecordingStorage | undefined;
@@ -121,7 +123,9 @@ async function main(): Promise<void> {
     });
     evidence = new SourceEvidenceStore(store);
     cache = new DerivedCache(store, home);
-    storage = new RecordingStorage(store, cache, home);
+    storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
+      exports!.usage(recordingId, signal),
+    );
     cacheReady = cache.reconcile(cleanupLifetime.signal).catch((error) => {
       cacheFailure = error;
       if (!cleanupLifetime.signal.aborted)
@@ -132,7 +136,9 @@ async function main(): Promise<void> {
       store,
       providers: { newId: randomUUID },
       execute: async (execution) => {
+        if (execution.job.artifact === "export-recovery") return exports!.execute(execution);
         if (
+          execution.job.artifact === "export-video" ||
           execution.job.artifact === "frame" ||
           execution.job.artifact === "audio" ||
           execution.job.artifact === "preview" ||
@@ -141,6 +147,7 @@ async function main(): Promise<void> {
         ) {
           await cacheReady;
           if (cacheFailure) throw cacheFailure;
+          if (execution.job.artifact === "export-video") return exports!.execute(execution);
           if (execution.job.artifact === "preview") return preview.execute(execution);
           if (execution.job.artifact === "source-scenes") return scenes.execute(execution);
           if (execution.job.artifact === "screenshot-index") return index.execute(execution);
@@ -161,8 +168,14 @@ async function main(): Promise<void> {
     void packages
       .prepare()
       .catch((error) => log(`package recovery unavailable: ${(error as Error).message}`));
-    processing = new SourceProcessing(store, jobs, evidence, home, (directory, output, signal) =>
-      nativeData<SourceEvidenceReceipt>("media.sourceEvidence", { directory, output }, signal),
+    processing = new SourceProcessing(
+      store,
+      jobs,
+      evidence,
+      home,
+      (directory, output, signal) =>
+        nativeData<SourceEvidenceReceipt>("media.sourceEvidence", { directory, output }, signal),
+      (recordingId, generation) => exports!.retainsSource(recordingId, generation),
     );
     const visual = new VisualObservationCache(
       store,
@@ -260,6 +273,22 @@ async function main(): Promise<void> {
         );
       },
     );
+    exports = new RecordingExports({
+      store,
+      jobs,
+      cache,
+      preview,
+      processing,
+      worker,
+      files: new ManagedFiles(home, worker),
+    });
+    void cacheReady.then(() => {
+      if (cleanupLifetime.signal.aborted) return;
+      jobs!.startAdmission((job) => {
+        if (cacheFailure) throw cacheFailure;
+        return exports!.admit(job);
+      });
+    });
     listener = await listenLocal({
       runtimeDirectory,
       handler: (request) => serve(request),
@@ -267,7 +296,13 @@ async function main(): Promise<void> {
   } catch (error) {
     cleanupLifetime.abort();
     delivery?.dispose();
-    await Promise.allSettled([packages?.dispose(), jobs?.close(), cacheReady, storage?.close()]);
+    await Promise.allSettled([
+      packages?.dispose(),
+      exports?.close(),
+      jobs?.close(),
+      cacheReady,
+      storage?.close(),
+    ]);
     store?.close();
     claim?.release();
     const startup = error instanceof StartupFailure;
@@ -300,6 +335,7 @@ async function main(): Promise<void> {
   const catalog = store;
   const storageOwner = storage;
   const packageOwner = packages;
+  const exportOwner = exports;
   const ownership = claim;
   const queue = jobs;
   const transfers = delivery;
@@ -334,6 +370,7 @@ async function main(): Promise<void> {
     capture,
     delivery: transfers,
     files: new ManagedFiles(home, worker),
+    exports: exportOwner,
     cleanupReady: async () => {
       await Promise.all([cacheReady, evidenceCleanup]);
       if (cacheFailure) throw cacheFailure;
@@ -349,6 +386,8 @@ async function main(): Promise<void> {
     } catch (error) {
       log(`processing admission failed: ${(error as Error).message}`);
     }
+    for (const error of exports?.resumeRecovery() ?? [])
+      log(`export recovery admission failed: ${(error as Error).message}`);
   }
 
   /** Every public operation, for a local client on the socket and for the app alike. */
@@ -357,6 +396,7 @@ async function main(): Promise<void> {
       return await operate(request, {
         index,
         packages: packageOwner,
+        exports: exportOwner,
         storage: storageOwner,
         deletion,
         store: catalog,
@@ -418,6 +458,7 @@ async function main(): Promise<void> {
         .catch((error) => log(`package shutdown cleanup failed: ${(error as Error).message}`)),
       storageOwner.close(),
       deletion.close(),
+      exportOwner.close(),
       capture.close(),
       queue.close(),
       evidenceCleanup,

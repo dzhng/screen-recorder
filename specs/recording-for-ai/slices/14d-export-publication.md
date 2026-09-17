@@ -1,9 +1,10 @@
 # 14d — Pinned export intent and atomic publication
 
-Status: internal publication, pinned waiting consumers and private storage accounting
-and abandonment are verified; queued startup recovery and public composition remain.
+Status: internal publication, pinned waiting consumers, private storage accounting,
+abandonment and queued recovery are verified. Public video composition is verified;
+the complete-package producer and native export controls remain.
 [Ownership evidence](../assets/export-publication/native-owner.md) defines the proven
-receipt, limits and remaining integration. No public export writer is claimed. Parent [14](14-exports-and-package-reader.md)
+receipt, limits and remaining integration. Public video evidence is tracked in [the integration record](../assets/export-publication/public-video.md). Parent [14](14-exports-and-package-reader.md)
 retains the two-product scope and narrated-package prerequisites.
 
 ## Existing authorities
@@ -17,7 +18,7 @@ file already published outside the library.
 
 The service render owner provides complete pinned MP4s inside a private lifetime.
 The archive reader provides an independent way to validate an AI ZIP after writing.
-Neither owner currently commits a durable external destination. CLI media delivery
+The recording export owner commits through native Publication. CLI media delivery
 uses exclusive hard-link publication for its completed download, but has no durable
 export intent or crash reconciliation. Do not copy its client-local completion
 semantics into a claimed recoverable export.
@@ -75,9 +76,9 @@ atomicity is a precondition; do not add a cross-device copy-as-atomic fallback.
 video consumer with a durable intent and actual queue/deletion/restart checks.
 [14d2b1](14d2b1-deferred-admission.md) implements bounded waiting admission.
 [14d2b2](14d2b2-pinned-waiting-video.md) pins waiting dependencies. Queue-admitted
-uncertain recovery and service/public wiring remain.
+uncertain recovery is implemented in [14d2b4](14d2b4-queued-recovery.md).
 [Private staging measurement](../assets/export-publication/staging-usage.md) now has
-native and composed storage-owner evidence; service wiring remains integration work.
+native and composed storage-owner evidence; public composition connects its callback.
 
 Only after the commit receipt is proven, add the minimum durable intent under the
 existing catalog authority. It records the chosen export kind, revision/history
@@ -139,24 +140,18 @@ loss. Independent review identified those boundaries and the separate private
 staging/destination identities above. The [native owner evidence](../assets/export-publication/native-owner.md) now
 records the scoped native/process gates and the deferred catalog/product gates.
 
-The first waiting-admission checkpoint is [14d2b1](14d2b1-deferred-admission.md).
-It establishes bounded deferred jobs inside JobQueue. Pinned prerequisites are
-implemented by [14d2b2](14d2b2-pinned-waiting-video.md); queued restart recovery
-and downstream composition remain.
+## Current integration
 
-[14d2b2](14d2b2-pinned-waiting-video.md) connects the internal video intent to
-pinned dependency admission and bounded source-evidence retention. Public wiring
-still requires explicit abandonment, queued recovery, storage accounting and budgets.
+[Deferred admission](14d2b1-deferred-admission.md),
+[pinned prerequisites](14d2b2-pinned-waiting-video.md),
+[abandonment](14d2b3-export-abandonment.md) and
+[queued recovery](14d2b4-queued-recovery.md) share the existing queue and publication
+owners. Their service composition includes startup/capacity recovery, storage,
+source retention, deletion and shutdown. CLI/MCP derive the same export operations
+from the shared registry; they do not implement publication themselves.
 
-[14d2b3](14d2b3-export-abandonment.md) provides internal per-export abandonment
-through the existing queue and publication owners, including restartable cleanup.
-It does not expose public operations or add a recovery scheduler.
-
-[14d2b4](14d2b4-queued-recovery.md) admits internal startup reconciliation through
-the shared heavy queue and sets publication budgets from known bytes. Public
-service/menu composition and the processed-package writer remain separate gates.
-
-The remaining complete-package work is sliced in
-[14d3 — processed-package export](14d3-processed-package.md). Its first checkpoint
-shares request identity and lifecycle with video while refusing unsupported package
-creation before admission.
+[Public video evidence](../assets/export-publication/public-video.md) distinguishes
+verified generated-media behavior from native-menu and narrated-package gates.
+The remaining complete-package work is in
+[14d3](14d3-processed-package.md). Its shared format identity refuses package creation
+before admission until the complete producer exists.

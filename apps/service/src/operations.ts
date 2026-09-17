@@ -1,3 +1,4 @@
+import type { RecordingExports } from "./exports.js";
 import type { PackageInspection } from "./packages.js";
 import type { RecordingStorage } from "@screenrec/core/storage";
 import type { RecordingDeletion } from "./deletion.js";
@@ -24,6 +25,7 @@ function failure(code: string, message: string): OperationResult {
 }
 
 export type OperationContext = {
+  exports: RecordingExports;
   packages: PackageInspection;
   deletion: RecordingDeletion;
   index: IndexProcessing;
@@ -70,6 +72,7 @@ export async function operate(
   {
     store,
     packages,
+    exports,
     deletion,
     capture,
     health,
@@ -98,6 +101,20 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "export.create":
+        return { ok: true, data: await exports.create(operation.params) };
+      case "export.status":
+        return { ok: true, data: exports.status(operation.params.exportId) };
+      case "export.retry":
+        return { ok: true, data: await exports.retry(operation.params.exportId) };
+      case "export.recover":
+        return { ok: true, data: await exports.recover(operation.params.exportId) };
+      case "export.cancel":
+        exports.cancel(operation.params.exportId);
+        return { ok: true, data: exports.status(operation.params.exportId) };
+      case "export.abandon":
+        await exports.abandon(operation.params.exportId);
+        return { ok: true, data: { exportId: operation.params.exportId, abandoned: true } };
       case "package.open":
         return { ok: true, data: await packages.open(operation.params.path) };
       case "package.status":

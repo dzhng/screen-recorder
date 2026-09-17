@@ -2044,3 +2044,26 @@ records them. These choices add no public export choice or transcript readiness.
 - **Confidence:** high. The owner rename and required kind are the agreed shared
   contract, not new product scope. Older development catalogs retain the existing
   refusal policy rather than silently assuming a kind.
+
+## Public video export composition
+
+### Sound — high confidence
+
+- **Completed output paths describe publication history.** After the user moves a
+  movie, status still reports the canonical path used when it was committed and
+  its recorded receipt. Retry does not recreate the missing path. The plan required
+  an output path but did not define whether it remains visible after movement;
+  returning history avoids extra filesystem reads and keeps moved files successful.
+- **Destination validation belongs to the export owner's shutdown lifetime.** A
+  client can request an export just before the service exits. Before a queue job
+  exists, the native destination check may still hold a directory descriptor.
+  Export close now prevents new creation, cancels that check, and waits for its
+  promise before the catalog closes. The plan required worker draining but left
+  pre-queue validation implicit; this closes the same lifetime instead of creating
+  another queue for quick destination checks.
+- **Export dependency admission waits for cache startup; recovery does not.** On
+  restart, a valid cached preview must be reconciled before export admission tries
+  to read it. Waiting on that existing startup promise prevents a transient cache
+  state from becoming a durable failure. Observation of an already published file
+  does not need cached media, so recovery remains independently runnable. This
+  ordering keeps the shared queue and avoids automatic retries to mask startup races.

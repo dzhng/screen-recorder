@@ -74,6 +74,68 @@ const inspectionPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields
 export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
+      operation: z.literal("export.create"),
+      params: recording
+        .extend({
+          exportId: z.uuid(),
+          kind: z.enum(["video", "processed-package"]),
+          revisionId: id.optional(),
+          directory: z.string().min(1),
+          leaf: z.string().min(1),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Video is implemented; processed-package currently returns UNSUPPORTED_EXPORT before admission.",
+    ),
+  z
+    .object({
+      operation: z.literal("export.status"),
+      params: z.object({ exportId: z.uuid() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Read an export's pinned revision, job and historical commit receipt without opening the destination.",
+    ),
+  z
+    .object({
+      operation: z.literal("export.retry"),
+      params: z.object({ exportId: z.uuid() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Explicitly retry the same pinned export. A committed export is never recreated if its external file moved or was removed.",
+    ),
+  z
+    .object({
+      operation: z.literal("export.recover"),
+      params: z.object({ exportId: z.uuid() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Queue a fresh observation of uncertain publication evidence. Does not create or replace an external file.",
+    ),
+  z
+    .object({
+      operation: z.literal("export.cancel"),
+      params: z.object({ exportId: z.uuid() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Cancel this export and its active recovery work. A file already committed remains intact.",
+    ),
+  z
+    .object({
+      operation: z.literal("export.abandon"),
+      params: z.object({ exportId: z.uuid() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Drain this export and remove its owned private staging and intent. Never deletes the external export. An absent intent is already abandoned.",
+    ),
+  z
+    .object({
       operation: z.literal("package.open"),
       params: z.object({ path: z.string().startsWith("/") }).strict(),
     })

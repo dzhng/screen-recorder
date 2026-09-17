@@ -1,0 +1,30 @@
+(node:89222) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ shutdown fences and drains export destination admission before catalog closure (43.721ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 104.591042
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:1777:1
+✖ shutdown fences and drains export destination admission before catalog closure (43.721ms)
+  AssertionError [ERR_ASSERTION]: close must retain the catalog until destination admission drains
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/service/tests/video-export.mjs:1816:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

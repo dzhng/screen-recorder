@@ -1,0 +1,23 @@
+(node:97272) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ bundled startup admits a persisted waiter only after its ready preview cache is reconciled (527.580417ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 589.457708
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:1847:1
+✖ bundled startup admits a persisted waiter only after its ready preview cache is reconciled (527.580417ms)
+  Error: {"exportId":"457433c2-93b7-47ea-a0c6-4e3c98df2ca9","kind":"video","abandoning":false,"recovery":{"state":"not_requested","jobId":null,"reason":null,"retryable":false,"published":null},"recordingId":"c315d164-7e95-45a6-9517-c8393c921b52","snapshot":{"recordingId":"c315d164-7e95-45a6-9517-c8393c921b52","sourceId":"ac0ab4e3-032a-4621-9949-73f434c846fb","revisionId":"r0","sourceDurationUs":2000000,"historyThroughOrdinal":0,"capture":{"state":"interrupted","createdAt":"2026-09-17T02:18:18.644Z","interruptionReason":"generated"}},"state":"failed","receipt":null,"output":null,"jobId":"276a9066-8936-42de-a4f3-90cddc32bd0f","reason":"Cache reconciliation is pending","retryable":true}
+      at file:///Users/david/dev/screen-recorder/apps/service/tests/video-export.mjs:1873:17
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async waitFor (file:///Users/david/dev/screen-recorder/apps/macos/tests/harness.mjs:113:19)
+      at async TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/service/tests/video-export.mjs:1865:22)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)

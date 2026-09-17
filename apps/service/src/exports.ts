@@ -20,7 +20,7 @@ type Request = {
   kind: "video" | "processed-package";
   exportId: string;
   recordingId: string;
-  revisionId?: string;
+  revisionId?: string | undefined;
   directory: string;
   leaf: string;
 };
@@ -70,6 +70,8 @@ const stageName = (id: string) => `.screenrec-export-${id}`;
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
  * Prerequisites wait in the existing queue while this owner pins their source generation. */
 export class RecordingExports {
+  private readonly creating = new Set<Promise<unknown>>();
+  private readonly lifetime = new AbortController();
   private readonly retiring = new Map<string, Promise<void>>();
   private closed = false;
   private admittingRecovery = false;
@@ -136,7 +138,8 @@ export class RecordingExports {
 
   async close(): Promise<void> {
     this.closed = true;
-    await Promise.allSettled(this.retiring.values());
+    this.lifetime.abort();
+    await Promise.allSettled([...this.creating, ...this.retiring.values()]);
   }
 
   private identity(intent: Intent) {
@@ -260,7 +263,16 @@ export class RecordingExports {
       throw new CatalogError("INVALID_STATE", "Waiting export dependency has no job identity");
     return { state: "waiting", dependency: status.jobId };
   }
-  async create(request: Request) {
+  create(request: Request) {
+    if (this.closed)
+      return Promise.reject(
+        new CatalogError("SERVICE_STOPPED", "Export admission is closed", {}, true),
+      );
+    const pending = this.prepareIntent(request).finally(() => this.creating.delete(pending));
+    this.creating.add(pending);
+    return pending;
+  }
+  private async prepareIntent(request: Request) {
     if (request.kind !== "video" && request.kind !== "processed-package")
       throw new CatalogError("INVALID_PARAMS", "Export kind must be video or processed-package");
     if (
@@ -297,7 +309,11 @@ export class RecordingExports {
       request.recordingId,
       request.revisionId,
     );
-    const selected = await this.owners.files.externalDirectory(request.directory);
+    const selected = await this.owners.files.externalDirectory(
+      request.directory,
+      this.lifetime.signal,
+    );
+    this.lifetime.signal.throwIfAborted();
     this.owners.store.get(request.recordingId);
     const destination = { ...selected, leaf: request.leaf };
     const intent = this.owners.store.transaction(() => {
@@ -358,6 +374,7 @@ export class RecordingExports {
       snapshot: intent.snapshot,
       state: intent.receipt ? ("committed" as const) : state === "waiting" ? "queued" : state,
       receipt: intent.receipt,
+      output: intent.receipt ? join(intent.destination.directory, intent.destination.leaf) : null,
       jobId: job.jobId,
       reason: intent.receipt ? null : job.reason,
       retryable: !intent.receipt && job.retryable,
