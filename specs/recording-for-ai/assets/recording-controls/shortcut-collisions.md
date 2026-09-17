@@ -29,3 +29,11 @@ was awaited before scratch cleanup. These are registration results, not physical
 shortcut delivery or screenshot evidence. The temporary failing probe stayed out
 of the default test suite. Independent review of the candidate was terminated when
 the extended host experiment invalidated it; no independent approval is claimed.
+
+
+A separate [two-process registration matrix](shortcut-registration-matrix.json)
+confirms all four mode combinations directly against Carbon on macOS 26.6.2.
+Only exclusive-over-exclusive returns an error (-9878); both shared-over-exclusive
+and exclusive-over-shared return success. Every fixture owner registered successfully,
+and each child exited after unregistering. This pins the API limitation without
+changing product code or inferring physical key delivery from registration success.

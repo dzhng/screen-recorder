@@ -1,0 +1,35 @@
+{
+  "scope": "Actual two-process Carbon registration statuses; no key events or capture",
+  "macOS": "26.6.2",
+  "options": {
+    "0": "non-exclusive",
+    "1": "exclusive"
+  },
+  "sourceSha256": "f0db58ea661749afc3d45afa71de433a0a38066d323addcb6709b450e501c891",
+  "results": [
+    {
+      "existingOptions": 0,
+      "requestedOptions": 0,
+      "holderStatus": 0,
+      "contenderStatus": 0
+    },
+    {
+      "existingOptions": 0,
+      "requestedOptions": 1,
+      "holderStatus": 0,
+      "contenderStatus": 0
+    },
+    {
+      "existingOptions": 1,
+      "requestedOptions": 0,
+      "holderStatus": 0,
+      "contenderStatus": 0
+    },
+    {
+      "existingOptions": 1,
+      "requestedOptions": 1,
+      "holderStatus": 0,
+      "contenderStatus": -9878
+    }
+  ]
+}
