@@ -19,6 +19,9 @@ function invalid(message: string): never {
 }
 /** Entry and coverage continuation semantics shared by live and portable retained indexes. */
 export abstract class ScreenshotIndexReader {
+  metadata(identity: ScreenshotIndexIdentity): ScreenshotIndexMetadata {
+    return this.readMetadata(identity);
+  }
   protected abstract readMetadata(identity: ScreenshotIndexIdentity): ScreenshotIndexMetadata;
   protected abstract entryRows(
     identity: ScreenshotIndexIdentity,

@@ -1,3 +1,4 @@
+import { RetainedIndexRead } from "./index-read.js";
 import { test, expect, afterEach } from "vitest";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync, renameSync } from "node:fs";
 import { join } from "node:path";
@@ -291,6 +292,76 @@ test("portable chunks apply the append owner's semantic validation even with mat
     const reader = new FileSceneEvidence(directory, f.sceneIdentity);
     expect(() => reader.page({ identity: f.sceneIdentity })).toThrow(
       expect.objectContaining({ code: "INVALID_EVIDENCE" }),
+    );
+  }
+});
+
+test("shared retained index reads bind package continuations and preserve both reader behaviors", async () => {
+  const f = await fixture(2),
+    directory = join(f.root, "shared-index");
+  await writeScreenshotIndexPages(f.index, f.identity, f.revision, directory);
+  const portable = new FileScreenshotIndex(directory, f.identity, f.revision);
+  const reference = {
+    packageHandle: "package-one",
+    revisionId: f.revision.id,
+    generation: f.identity.generation,
+  };
+  for (const reader of [f.index, portable]) {
+    const metadata = reader.metadata(f.identity);
+    const read = new RetainedIndexRead(reader, metadata, reference);
+    const first = read.get({ limit: 1 });
+    expect(first.page.entries[0]!.reference).toEqual({ ...reference, ordinal: 0 });
+    expect(first.page.nextCursor).toEqual({ ...reference, afterOrdinal: 0 });
+    const next = read.get({ cursor: first.page.nextCursor!, limit: 1 });
+    expect(next.page.entries[0]!.reference).toEqual({ ...reference, ordinal: 1 });
+    expect(next.page.nextCursor).toBeNull();
+    expect(() =>
+      read.get({ cursor: { ...first.page.nextCursor!, packageHandle: "another-package" } }),
+    ).toThrow(expect.objectContaining({ code: "ARTIFACT_CHANGED" }));
+    const coverage = read.coverage({ candidateOrdinal: 1, limit: 1 });
+    expect(coverage.coverage[0]!.equality).toBe("sampled");
+    expect(coverage.nextCursor).toEqual({ ...reference, candidateOrdinal: 1, afterSequence: 2 });
+    expect(
+      read.coverage({ candidateOrdinal: 1, cursor: coverage.nextCursor!, limit: 1 }).coverage[0]!
+        .equality,
+    ).toBe("unproven");
+    expect(() => read.coverage({ candidateOrdinal: 0, cursor: coverage.nextCursor! })).toThrow(
+      expect.objectContaining({ code: "ARTIFACT_CHANGED" }),
+    );
+    expect(() =>
+      read.coverage({
+        candidateOrdinal: 1,
+        cursor: { ...coverage.nextCursor!, packageHandle: "another-package" },
+      }),
+    ).toThrow(expect.objectContaining({ code: "ARTIFACT_CHANGED" }));
+    expect(read.frame(1)).toMatchObject({
+      ...reference,
+      ordinal: 1,
+      state: "ready",
+      candidate: { ordinal: 1 },
+      coverageCount: 2,
+    });
+    expect(() => read.frame(-1)).toThrow(expect.objectContaining({ code: "INVALID_PARAMS" }));
+    expect(() => read.frame(2)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+    const image = read.openRead(1),
+      bytes = Buffer.alloc(image.bytes);
+    try {
+      expect(image.read(bytes, 0)).toBe(png.length);
+      expect(bytes).toEqual(png);
+    } finally {
+      image.release();
+    }
+    expect(() => image.read(bytes, 0)).toThrow("released");
+    for (const wrong of [
+      { ...reference, generation: "wrong" },
+      { ...reference, revisionId: "wrong" },
+    ])
+      expect(() => new RetainedIndexRead(reader, metadata, wrong)).toThrow(
+        expect.objectContaining({ code: "ARTIFACT_CHANGED" }),
+      );
+    Reflect.set(metadata.sourceIdentity, "generation", "changed after controller admission");
+    expect(read.get({ limit: 1 }).page.metadata.sourceIdentity.generation).toBe(
+      f.identity.sourceIdentity.generation,
     );
   }
 });

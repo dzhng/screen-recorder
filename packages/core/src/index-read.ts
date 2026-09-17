@@ -1,0 +1,137 @@
+import { isDeepStrictEqual } from "node:util";
+import { CatalogError } from "./library.js";
+import type { ScreenshotIndexReader } from "./screenshot-index-read.js";
+import type {
+  ScreenshotIndexIdentity,
+  ScreenshotIndexMetadata,
+  ScreenshotIndexStore,
+} from "./screenshot-index.js";
+
+export type IndexReadReference = { revisionId: string; generation: string };
+export type IndexReadCursor<R> = R & { afterOrdinal: number };
+export type IndexCoverageCursor<R> = R & { afterSequence: number; candidateOrdinal: number | null };
+type CoverageInput<R> = {
+  candidateOrdinal?: number | undefined;
+  cursor?: IndexCoverageCursor<R> | undefined;
+  limit?: number | undefined;
+};
+type Reader = Pick<ScreenshotIndexReader, "page" | "coveragePage"> & {
+  openRead(
+    identity: ScreenshotIndexIdentity,
+    ordinal: number,
+  ): ReturnType<ScreenshotIndexStore["openRead"]>;
+};
+
+export function validateIndexOrdinal(ordinal: number): void {
+  if (!Number.isSafeInteger(ordinal) || ordinal < 0)
+    throw new CatalogError("INVALID_PARAMS", "Index ordinal must be a nonnegative integer");
+}
+
+export function validateIndexCoverageCursor<R extends IndexReadReference>(
+  reference: R,
+  input: CoverageInput<R>,
+): void {
+  if (!input.cursor) return;
+  const { afterSequence: _after, candidateOrdinal, ...cursorReference } = input.cursor;
+  if (
+    !isDeepStrictEqual(reference, cursorReference) ||
+    candidateOrdinal !== (input.candidateOrdinal ?? null)
+  )
+    throw new CatalogError(
+      "ARTIFACT_CHANGED",
+      "Coverage continuation belongs to another index or filter",
+    );
+}
+
+/** Read-only formatting over an admitted retained generation; callers own target resolution/publication. */
+export class RetainedIndexRead<R extends IndexReadReference> {
+  private readonly metadata: ScreenshotIndexMetadata;
+  private readonly reference: R;
+  constructor(
+    private readonly reader: Reader,
+    metadata: ScreenshotIndexMetadata,
+    reference: R,
+  ) {
+    if (
+      reference.revisionId !== metadata.revisionId ||
+      reference.generation !== metadata.generation
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Index reference does not match retained metadata",
+      );
+    this.metadata = structuredClone(metadata);
+    this.reference = structuredClone(reference);
+  }
+  get(input: { cursor?: IndexReadCursor<R> | undefined; limit?: number | undefined } = {}) {
+    if (input.cursor) {
+      const { afterOrdinal: _after, ...reference } = input.cursor;
+      if (!isDeepStrictEqual(reference, this.reference))
+        throw new CatalogError(
+          "ARTIFACT_CHANGED",
+          "Index continuation belongs to another target or revision",
+        );
+    }
+    const page = this.reader.page({
+      identity: this.metadata,
+      ...(input.cursor ? { afterOrdinal: input.cursor.afterOrdinal } : {}),
+      ...(input.limit === undefined ? {} : { limit: input.limit }),
+    });
+    const reference = structuredClone(this.reference);
+    return {
+      ...reference,
+      state: "ready" as const,
+      page: {
+        metadata: page.metadata,
+        entries: page.entries.map((entry) => ({
+          ...entry,
+          reference: { ...reference, ordinal: entry.candidate.ordinal },
+        })),
+        nextCursor:
+          page.nextOrdinal === null ? null : { ...reference, afterOrdinal: page.nextOrdinal },
+      },
+    };
+  }
+  coverage(input: CoverageInput<R> = {}) {
+    validateIndexCoverageCursor(this.reference, input);
+    const page = this.reader.coveragePage({
+      identity: this.metadata,
+      ...(input.candidateOrdinal === undefined ? {} : { candidateOrdinal: input.candidateOrdinal }),
+      ...(input.limit === undefined ? {} : { limit: input.limit }),
+      ...(input.cursor ? { afterSequence: input.cursor.afterSequence } : {}),
+    });
+    const reference = structuredClone(this.reference);
+    return {
+      ...reference,
+      coverage: page.coverage,
+      nextCursor:
+        page.nextSequence === null
+          ? null
+          : {
+              ...reference,
+              candidateOrdinal: input.candidateOrdinal ?? null,
+              afterSequence: page.nextSequence,
+            },
+    };
+  }
+  frame(ordinal: number) {
+    validateIndexOrdinal(ordinal);
+    const entry = this.reader.page({
+      identity: this.metadata,
+      limit: 1,
+      ...(ordinal === 0 ? {} : { afterOrdinal: ordinal - 1 }),
+    }).entries[0];
+    if (!entry) throw new CatalogError("NOT_FOUND", "Selected index frame does not exist");
+    return {
+      ...structuredClone(this.reference),
+      ordinal,
+      state: "ready" as const,
+      published: { frame: entry.frame },
+      candidate: entry.candidate,
+      coverageCount: entry.coverageCount,
+    };
+  }
+  openRead(ordinal: number) {
+    return this.reader.openRead(this.metadata, ordinal);
+  }
+}

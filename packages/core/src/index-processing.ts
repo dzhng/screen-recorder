@@ -1,3 +1,8 @@
+import {
+  RetainedIndexRead,
+  validateIndexOrdinal,
+  validateIndexCoverageCursor,
+} from "./index-read.js";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError, type RevisionStore } from "./library.js";
@@ -119,29 +124,11 @@ export class IndexProcessing {
     const status = cursor ? null : this.request(input);
     if (status && !status.published) return { ...status, page: null };
     const metadata = cursor ? this.published(cursor) : status!.published!.evidence;
-    const page = this.index.page({
-      identity: metadata,
-      ...(cursor ? { afterOrdinal: cursor.afterOrdinal } : {}),
-      ...(input.limit === undefined ? {} : { limit: input.limit }),
-    });
-    const reference: IndexReference = {
+    return new RetainedIndexRead(this.index, metadata, {
       recordingId: metadata.recordingId,
       revisionId: metadata.revisionId,
       generation: metadata.generation,
-    };
-    return {
-      ...reference,
-      state: "ready" as const,
-      page: {
-        metadata: page.metadata,
-        entries: page.entries.map((entry) => ({
-          ...entry,
-          reference: { ...reference, ordinal: entry.candidate.ordinal },
-        })),
-        nextCursor:
-          page.nextOrdinal === null ? null : { ...reference, afterOrdinal: page.nextOrdinal },
-      },
-    };
+    }).get({ cursor, limit: input.limit });
   }
 
   coverage(
@@ -151,64 +138,31 @@ export class IndexProcessing {
       limit?: number | undefined;
     },
   ) {
-    const cursor = input.cursor;
-    if (
-      cursor &&
-      (cursor.recordingId !== input.recordingId ||
-        cursor.revisionId !== input.revisionId ||
-        cursor.generation !== input.generation ||
-        cursor.candidateOrdinal !== (input.candidateOrdinal ?? null))
-    )
-      throw new CatalogError(
-        "ARTIFACT_CHANGED",
-        "Coverage continuation belongs to another index or filter",
-      );
-    const identity = this.published(input);
-    const page = this.index.coveragePage({
-      identity,
-      ...(input.candidateOrdinal === undefined ? {} : { candidateOrdinal: input.candidateOrdinal }),
-      ...(input.limit === undefined ? {} : { limit: input.limit }),
-      ...(cursor ? { afterSequence: cursor.afterSequence } : {}),
-    });
-    return {
+    const reference: IndexReference = {
       recordingId: input.recordingId,
       revisionId: input.revisionId,
       generation: input.generation,
-      coverage: page.coverage,
-      nextCursor:
-        page.nextSequence === null
-          ? null
-          : {
-              recordingId: input.recordingId,
-              revisionId: input.revisionId,
-              generation: input.generation,
-              candidateOrdinal: input.candidateOrdinal ?? null,
-              afterSequence: page.nextSequence,
-            },
     };
+    validateIndexCoverageCursor(reference, input);
+    return new RetainedIndexRead(this.index, this.published(reference), reference).coverage(input);
   }
 
   frame(input: IndexFrameReference) {
-    if (!Number.isSafeInteger(input.ordinal) || input.ordinal < 0)
-      throw new CatalogError("INVALID_PARAMS", "Index ordinal must be a nonnegative integer");
-    const identity = this.published(input);
-    const entry = this.index.page({
-      identity,
-      limit: 1,
-      ...(input.ordinal === 0 ? {} : { afterOrdinal: input.ordinal - 1 }),
-    }).entries[0];
-    if (!entry) throw new CatalogError("NOT_FOUND", "Selected index frame does not exist");
-    return {
-      ...input,
-      state: "ready" as const,
-      published: { frame: entry.frame },
-      candidate: entry.candidate,
-      coverageCount: entry.coverageCount,
-    };
+    validateIndexOrdinal(input.ordinal);
+    return this.read(input).frame(input.ordinal);
   }
 
   openRead(input: IndexFrameReference) {
-    return this.index.openRead(this.published(input), input.ordinal);
+    return this.read(input).openRead(input.ordinal);
+  }
+
+  private read(input: IndexReference) {
+    const reference: IndexReference = {
+      recordingId: input.recordingId,
+      revisionId: input.revisionId,
+      generation: input.generation,
+    };
+    return new RetainedIndexRead(this.index, this.published(reference), reference);
   }
 
   /** Public references resolve through queue publication, never merely a completed store row. */

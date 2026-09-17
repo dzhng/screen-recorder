@@ -119,6 +119,10 @@
     "./files": {
       "types": "./dist/files.d.ts",
       "default": "./dist/files.js"
+    },
+    "./index-read": {
+      "types": "./dist/index-read.d.ts",
+      "default": "./dist/index-read.js"
     }
   },
   "scripts": {
