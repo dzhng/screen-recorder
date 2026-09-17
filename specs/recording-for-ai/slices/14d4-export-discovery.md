@@ -1,7 +1,8 @@
 # Export discovery after restart
 
-Status: backend verified through public CLI/MCP restart discovery; the native
-recovery UI remains with [14d](14d-export-publication.md).
+Status: verified through public CLI/MCP restart discovery and the
+[native export controls](../assets/export-controls/README.md), which rediscover and
+abandon an unfinished export after a real bundled-service restart.
 
 Native application release requires rediscovery of persisted export IDs. A lost
 window or process must not hide a failed request, an unfinished export or private
@@ -16,8 +17,9 @@ before the cursor require a fresh traversal. Page size may change during travers
 
 Unfinished includes uncommitted intents, abandonment and known private payload or
 assembly cleanup. A committed receipt remains committed while cleanup is pending.
-The cleanup indicator describes byte/workspace obligations, not whether an empty
-acknowledged external staging directory still exists. Abandonment has its own flag
+The cleanup indicator describes private staging and assembly obligations; an
+acknowledged commit retires its staging directory, so a finished export never needs
+its destination folder again. Abandonment has its own flag
 and remains unfinished even when payload bytes are already clear.
 
 Two partial indexes support unfinished global and per-recording traversal without
@@ -26,10 +28,9 @@ select a bounded page before joining existing job identities, so no full status
 payload or filesystem observation is needed. No new table, scheduler or ordering
 sequence is introduced.
 
-The native adapter should discover unfinished summaries at restart and request
-status for selected IDs. It must preserve committed receipts when reopening a
-cleanup failure and use existing explicit retry/abandon actions. This backend pass
-does not claim that the native recovery UI is already shipped.
+The native adapter discovers unfinished summaries at launch, service restart and
+menu open, then requests status for each. It preserves committed receipts while
+cleanup is pending and uses the existing explicit retry/abandon actions.
 
 [Verification receipt](../assets/export-discovery/review.md) records actual public
 restart discovery and lifecycle coverage.

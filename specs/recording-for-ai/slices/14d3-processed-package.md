@@ -1,8 +1,8 @@
 # 14d3 — Complete processed-package export
 
 Status: complete no-narration packages work through CLI/MCP. Acquired narration
-remains blocked on accepted transcript payloads; native export controls are still
-in progress. The [public composition proof](../assets/package-assembly/public.md)
+remains blocked on accepted transcript payloads. The native AI Package action uses
+the same export owner. The [public composition proof](../assets/package-assembly/public.md)
 records the current boundary.
 
 ## One lifecycle, two outputs

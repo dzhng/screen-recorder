@@ -5,8 +5,9 @@ Status: partial implementation; native acceptance remains open. Dependencies: 03
 See [integration notes](../assets/recording-controls/integration.md) for the tested
 boundary, unfinished verification, and next pickup.
 [Recent delete/storage controls](../assets/recording-controls/recent-storage.md)
-pass focused state/identity checks. Actual native interaction and visual review
-remain open; this slice is not complete. The [native shortcut collision probe](../assets/recording-controls/shortcut-collisions.md)
+pass focused state/identity checks, and both [export actions](../assets/export-controls/README.md)
+pass controller and bundled-service checks. Actual native interaction and visual
+review remain open; this slice is not complete. The [native shortcut collision probe](../assets/recording-controls/shortcut-collisions.md)
 also identifies an unresolved availability contract; exclusive registration is not a safe fix.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
@@ -17,9 +18,8 @@ harness entrypoints to create in this slice, not existing executable claims.
 
 The user can perform all agreed capture controls without invoking an editing UI.
 
-Build the native status-bar shell over service operations: select display/window/region, mic device/on-off, optional system audio, start/stop/cancel/pause/resume/restart. Show recording/paused elapsed playback time, processing and interruption state. Add a small recent-recordings list with status, playback-preview action, two exports, delete and storage total; no trimming timeline. In this slice preview and export actions are visibly unavailable
-until their owning slices are implemented; slice 13 wires preview and slice 14 wires
-the two exports and verifies their menu behavior. Never fake successful actions.
+Build the native status-bar shell over service operations: select display/window/region, mic device/on-off, optional system audio, start/stop/cancel/pause/resume/restart. Show recording/paused elapsed playback time, processing and interruption state. Add a small recent-recordings list with status, playback-preview action, two exports, delete and storage total; no trimming timeline. Slice 13 wires preview and slice 14 wires the two exports and verifies their menu
+behavior. Never fake successful actions.
 Use stable app identity for permissions.
 
 ## Runnable checkpoint

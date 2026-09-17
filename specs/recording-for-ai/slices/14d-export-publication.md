@@ -3,8 +3,9 @@
 Status: internal publication, pinned waiting consumers, private storage accounting,
 abandonment, queued recovery and public video export are verified, as are complete
 no-narration packages ([14d3b](14d3b-package-assembly.md)) and persisted export
-discovery ([14d4](14d4-export-discovery.md)). Narrated packages
-([14d3](14d3-processed-package.md)) and native export controls remain.
+discovery ([14d4](14d4-export-discovery.md)). [Native export controls](../assets/export-controls/README.md)
+pass controller and bundled-service checks. Narrated packages
+([14d3](14d3-processed-package.md)) and physical menu interaction remain.
 [Ownership evidence](../assets/export-publication/native-owner.md) defines the proven
 receipt, limits and remaining integration. Public video evidence is tracked in [the integration record](../assets/export-publication/public-video.md). Parent [14](14-exports-and-package-reader.md)
 retains the two-product scope and narrated-package prerequisites.

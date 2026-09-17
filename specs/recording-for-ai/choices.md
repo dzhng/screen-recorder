@@ -1998,7 +1998,7 @@ records them. These choices add no public export choice or transcript readiness.
   a promise that every destination can sustain that rate. Timeout does not authorize
   automatic retries or a claim that no external file was created.
 
-- **An empty staging directory still requires verified retirement.** After private
+- **Superseded by "Commit retires export staging" below.** An empty staging directory still requires verified retirement. After private
   bytes are cleared, a moved destination volume cannot invalidate the historical
   committed receipt or make ordinary retry touch that volume. Its empty staging
   directory has not thereby been removed, however. Abandonment/deletion retains its
@@ -2261,3 +2261,114 @@ records them. These choices add no public export choice or transcript readiness.
   the exporter created. Core keeps exact request/receipt equality instead of
   accepting arbitrary equivalent-looking paths. This repairs alias handling
   without changing the immutable-generation ownership contract.
+
+
+## Whole-codebase review — 2026-09-17
+
+Seven parallel review lanes (core store, core evidence, service exports, service
+core/protocol/CLI, macOS app, native helpers, docs) reported verified findings. Each
+lane then fixed its own findings on a branch, and the branches merged with native
+export controls. The choices below are the ones that change behavior or format.
+
+### Most consequential
+
+- **Commit retires export staging; a finished export never needs its folder again.**
+  - **When:** service-export review fix.
+  - **Decision:** a successful export used to leave an empty hidden
+    `.screenrec-export-<id>` directory in the destination until the export was
+    abandoned or its recording deleted. Retirement then needed that folder, so
+    someone who moved or deleted their export folder could never delete the
+    recording. Acknowledgement now removes the empty directory while the
+    publication is still verified. Deletion and abandonment treat a destination
+    that is gone or replaced as nothing to clean, and never remove foreign
+    content. Startup recovery still refuses to mark unreachable staging cleared,
+    so a briefly unmounted volume does not orphan real staging bytes.
+  - **Gap:** the earlier plan left the missing-destination case open.
+  - **Rationale:** a protection against leaving an empty directory must not ban
+    a valid deletion forever.
+  - **Consequence:** exports leave only their file. An unreachable destination
+    during deletion may leave an empty directory on a volume that later returns.
+- **The catalog carries one format stamp and refuses anything else.**
+  - **When:** core-store review fix.
+  - **Decision:** `RevisionStore` stamps a new catalog with `PRAGMA user_version`
+    and refuses a different stamp, or an unstamped catalog that already has
+    tables, with `UNSUPPORTED_CATALOG`. Before this it sniffed old development
+    columns, including one table owned by the service.
+  - **Gap:** the spec says fresh version 1 with no migrations.
+  - **Rationale:** one stamp owned by one module replaces a growing list of
+    other modules' schema details.
+  - **Consequence:** the existing personal `~/.screen-recorder/library.sqlite`
+    holds no recordings but predates the stamp. The app refuses it until that
+    file is removed. A future format change bumps the stamp.
+- **Client deadlines come from the operation, not one 10-second default.**
+  - **When:** service-core review fix.
+  - **Decision:** protocol declares each operation's client deadline from the
+    service's own inner bounds plus a margin:
+    - reads get 15 seconds;
+    - `capture.stop` and `capture.start` get 45 and 55 seconds;
+    - operations that join unbounded drains (delete, abandon, package
+      open/close, storage) get 185 seconds.
+    Before, the CLI reported `TIMEOUT` while the service was still legitimately
+    working, and agent retries piled up.
+  - **Gap:** only a single default existed.
+  - **Rationale:** the caller should hear the service's own answer or refusal.
+  - **Consequence:** a hung service takes longer to surface for those operations.
+
+### Native app
+
+- **A repeated lost start that returns an ended take asks for a new take.** The
+  menu used to replay a lost start request forever. After that take had been
+  stopped, pressing Start again silently "succeeded" without recording. Now the
+  stale request is dropped and the same press starts a new take.
+- **A closed chosen window leaves the source unselected.** The first display is
+  offered only before any source has ever been chosen, so a shortcut never
+  silently records a whole display after a window closes.
+- **Every quit finalizes a running take within two call deadlines plus 10
+  seconds.** This covers the Quit menu, SIGTERM and system quits such as logout,
+  through `applicationShouldTerminate`. A stuck but alive service can hold quit
+  for about 30 seconds.
+- **Probes need an explicit `--probe <name>`.** An unrelated launch argument is an
+  ordinary launch.
+- **Native export controls allow one save panel at a time, not one export at a
+  time.**
+  - The handoff asked for one active request. That would have blocked exporting
+    another take while a request waited for its reply.
+  - Only destination choice is serialized. Each request keeps its own export
+    identity through a lost reply and is sent again only by an explicit action.
+  - Committed, clean exports can be removed from the menu list; service history
+    and files remain.
+  - Unfinished exports are rediscovered at launch, on service readiness and on
+    menu open.
+
+### Service, core and native formats
+
+- **A deferred job is automatically readmitted at most once after its
+  prerequisite disappears.** A second loss fails it as retryable. Before, cache
+  pressure could cycle an export forever.
+- **Shutdown stops running work even if the catalog cannot record the
+  interruption.** Startup already marks attempts left running as interrupted.
+- **Status reads an export intent even while its recording is being deleted,**
+  so discovery and status describe the same rows.
+- **Storage usage counts unreachable export staging as zero** instead of failing
+  the whole library total.
+- **Missing index ordinals are `NOT_FOUND`; malformed ones are `INVALID_PARAMS`**
+  on every reader path.
+- **Portable scene chunks are validated for contiguity and duplicate comparisons
+  when read.** Scene boundaries are derived from stored comparisons, not stored
+  twice. The unused geometry-epoch evidence order was removed. These change the
+  unshipped package version 1 format.
+- **Native outputs are published through one no-overwrite primitive.** Repeating
+  a native frame or audio output request for an existing path returns
+  `INVALID_OUTPUT`; TypeScript callers always name fresh paths. Worker-only media
+  recovery and source-evidence export left the app's capture library.
+  `media.renderVideo` is gone; every render is `media.renderMovie`.
+- **Native failures have one type and one retryable flag per failure.** A changed
+  directory identity is now final in every operation family.
+- **Journal records are capped at 1 MiB.** An oversized unterminated run is
+  corruption (`invalidAtSequence`), not a crash tail. A sequence number is
+  consumed only after a successful write.
+- **Unknown service handler errors keep their message inside the service** for
+  whole operations and batch items alike; callers see `INTERNAL_ERROR`.
+- **An unconfirmed package output holds only its slot, not bytes,** so one lost
+  output creation cannot wedge later frame and audio requests.
+

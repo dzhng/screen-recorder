@@ -1,8 +1,8 @@
 # Recording for AI — personal release spec
 
 Status: spec complete; implementation partial. Last updated: 2026-09-17.
-Native export controls and the remaining native capture, speech and
-installed-workflow gates are still open. The handoff and slice checklist below
+Native export controls and a whole-codebase review pass have landed. Speech engine
+selection, physical capture/menu acceptance and the installed workflow remain open. The handoff and slice checklist below
 separate verified internal behavior from full personal-release acceptance.
 
 ## Next Agent Prompt
@@ -30,18 +30,28 @@ Each slice's Status line is the one home for what it verified, its evidence and
 what remains open. Before ending a pass, update the owning Status lines and the
 checklist box, then replace the pickup below.
 
-Current pickup: implement the native export controls and persisted-export
-rediscovery in the native app, then apply the whole-codebase review fixes being
-integrated from the `review/*` branches. The control layer has no merged code: keep
-one UI-owned active request, retain its UUID across a lost create reply, pin a
-revision before Save, and use the existing export owner for retry, abandonment and
-status. After a restart, consume unfinished `export.list` pages and then read the
-selected `export.status` records; a resumed uncommitted export reports its admitted
-destination from status rather than from UI-side persistence. The shared
-[export discovery](slices/14d4-export-discovery.md) backend is verified.
+Current pickup: [slice 15](slices/15-personal-release.md) personal install scripts
+(install the built app outside the checkout, CLI/MCP discovery of the installed copy,
+Node 24 prerequisite), which need no user recording. Everything else still open needs
+the user:
 
-Priority order: package/export execution, remaining native controls and physical
-capture/gesture verification, speech fidelity, then installed-workflow closeout.
+- **Speech engine selection ([04](slices/04-local-speech-gate.md)):** real narration
+  and a decision, because no evaluated engine meets verbatim filler fidelity. This
+  blocks [08](slices/08-transcript-processing.md), narrated packages and the full
+  agent journey.
+- **Physical acceptance:** real capture, gesture and menu interaction for
+  [01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md),
+  [07](slices/07-menu-bar-controls.md) and [13](slices/13-edited-media.md) audition,
+  including clicking the native export actions.
+
+The [native export controls](assets/export-controls/README.md) and the review-pass
+decisions in the [choices ledger](choices.md#whole-codebase-review--2026-09-17) are
+current. An existing unstamped personal catalog is now refused
+(`UNSUPPORTED_CATALOG`); remove `~/.screen-recorder/library.sqlite` if it holds no
+recordings.
+
+Priority order: installable personal workflow, speech fidelity with the user's
+narration, physical capture/gesture/menu verification, then installed-journey closeout.
 Keep one queue, immutable sources, explicit dependency failure and the complete
 CLI/MCP surface. No more Claude use.
 
