@@ -6,7 +6,7 @@ import {
   type IndexCoverage,
 } from "./screenshot-index-read.js";
 import { createHash } from "node:crypto";
-import { closeSync, lstatSync, mkdirSync, realpathSync, rmdirSync, unlinkSync } from "node:fs";
+import { lstatSync, mkdirSync, realpathSync, rmdirSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";

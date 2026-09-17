@@ -1,6 +1,6 @@
 import { afterEach, expect, it } from "vitest";
 import { spawn } from "node:child_process";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, rm, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
@@ -298,4 +298,26 @@ it("pages discoverable recordings over the real transport and resumes after serv
       error: { code: "INVALID_PARAMS" },
     });
   }
+});
+
+it("package root failure leaves the library available and returns an explicit package error", async () => {
+  const { home, recordingId } = await seed();
+  await mkdir(join(home, "run"), { mode: 0o700 });
+  await mkdir(join(home, "run", "packages"), { mode: 0o755 });
+  const service = await start(home);
+  expect(await service.call("package.open", { path: "/absent.zip" })).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_STORAGE" },
+  });
+  expect(await service.call("package.status")).toMatchObject({
+    ok: true,
+    data: { state: "recovery" },
+  });
+  expect(await service.call("recording.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: { recordingId, state: "complete" },
+  });
+  expect(
+    await service.call("revision.get", { recordingId, packageHandle: "foreign" }),
+  ).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
 });

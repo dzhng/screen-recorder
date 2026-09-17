@@ -182,6 +182,14 @@ export async function mediaFile(
   }
 }
 
+const indexBatchResponse = z.object({
+  revisionId: z.string(),
+  generation: z.string(),
+  items: z
+    .array(z.intersection(resultSchema, z.object({ ordinal: z.int().nonnegative() })))
+    .min(1)
+    .max(8),
+});
 const batchResponse = {
   atUs: z.object({
     recordingId: z.string(),
@@ -191,15 +199,10 @@ const batchResponse = {
       .min(1)
       .max(8),
   }),
-  ordinal: z.object({
-    recordingId: z.string(),
-    revisionId: z.string(),
-    generation: z.string(),
-    items: z
-      .array(z.intersection(resultSchema, z.object({ ordinal: z.int().nonnegative() })))
-      .min(1)
-      .max(8),
-  }),
+  ordinal: z.union([
+    indexBatchResponse.extend({ recordingId: z.string(), packageHandle: z.never().optional() }),
+    indexBatchResponse.extend({ packageHandle: z.string(), recordingId: z.never().optional() }),
+  ]),
 };
 
 // Drain every ready item's lease even when another read or output write fails.

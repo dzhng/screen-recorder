@@ -1,3 +1,4 @@
+import type { PackageInspection } from "./packages.js";
 import type { RecordingStorage } from "@screenrec/core/storage";
 import type { RecordingDeletion } from "./deletion.js";
 import type { IndexProcessing } from "@screenrec/core/index-processing";
@@ -23,6 +24,7 @@ function failure(code: string, message: string): OperationResult {
 }
 
 export type OperationContext = {
+  packages: PackageInspection;
   deletion: RecordingDeletion;
   index: IndexProcessing;
   storage: RecordingStorage;
@@ -38,11 +40,36 @@ export type OperationContext = {
   cache: DerivedCache;
 };
 
+function indexReader(
+  reference: { revisionId: string; generation: string } & (
+    | { recordingId: string }
+    | { packageHandle: string }
+  ),
+  index: IndexProcessing,
+  packages: PackageInspection,
+) {
+  if ("packageHandle" in reference) {
+    const reader = packages.index(reference);
+    return {
+      owner: { kind: "package" as const, id: reference.packageHandle },
+      frame: (ordinal: number) => reader.frame(ordinal),
+      openRead: (ordinal: number) => reader.openRead(ordinal),
+    };
+  }
+  index.published(reference);
+  return {
+    owner: { kind: "recording" as const, id: reference.recordingId },
+    frame: (ordinal: number) => index.frame({ ...reference, ordinal }),
+    openRead: (ordinal: number) => index.openRead({ ...reference, ordinal }),
+  };
+}
+
 /** The service composes owners; edit algebra and every catalog transaction stay in core. */
 export async function operate(
   request: OperationRequest,
   {
     store,
+    packages,
     deletion,
     capture,
     health,
@@ -71,47 +98,60 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "package.open":
+        return { ok: true, data: await packages.open(operation.params.path) };
+      case "package.status":
+        return { ok: true, data: packages.status(operation.params.admissionId) };
+      case "package.close":
+        return { ok: true, data: await packages.close(operation.params.admissionId) };
       case "storage.usage":
         return { ok: true, data: await storage.usage(operation.params.recordingId) };
       case "recording.delete":
         return { ok: true, data: await deletion.delete(operation.params.recordingId) };
       case "index.get":
-        return { ok: true, data: index.get(operation.params) };
+        return {
+          ok: true,
+          data:
+            "packageHandle" in operation.params
+              ? packages.index(operation.params).get(operation.params)
+              : index.get(operation.params),
+        };
       case "index.retry":
         return { ok: true, data: index.retry(operation.params) };
       case "index.coverage":
-        return { ok: true, data: index.coverage(operation.params) };
+        return {
+          ok: true,
+          data:
+            "packageHandle" in operation.params
+              ? packages.index(operation.params).coverage(operation.params)
+              : index.coverage(operation.params),
+        };
       case "index.frame": {
-        const data = index.frame(operation.params);
+        const { ordinal, ...reference } = operation.params;
+        const read = indexReader(reference, index, packages);
         return {
           ok: true,
           data: {
-            ...data,
-            delivery: delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
-              index.openRead(operation.params),
-            ),
+            ...read.frame(ordinal),
+            delivery: delivery.open(read.owner, () => read.openRead(ordinal)),
           },
         };
       }
       case "index.frames": {
         const { ordinals, ...reference } = operation.params;
-        index.published(reference);
+        const read = indexReader(reference, index, packages);
         return {
           ok: true,
           data: {
             ...reference,
             items: ordinals.map((ordinal) => {
-              const input = { ...reference, ordinal };
               try {
-                const data = index.frame(input);
                 return {
                   ordinal,
                   ok: true as const,
                   data: {
-                    ...data,
-                    delivery: delivery.open({ kind: "recording", id: input.recordingId }, () =>
-                      index.openRead(input),
-                    ),
+                    ...read.frame(ordinal),
+                    delivery: delivery.open(read.owner, () => read.openRead(ordinal)),
                   },
                 };
               } catch (error) {
@@ -279,6 +319,8 @@ export async function operate(
       case "recording.get":
         return { ok: true, data: store.get(operation.params.recordingId) };
       case "revision.get":
+        if ("packageHandle" in operation.params)
+          return { ok: true, data: packages.revision(operation.params) };
         return {
           ok: true,
           data: {
@@ -287,6 +329,11 @@ export async function operate(
           },
         };
       case "revision.history":
+        if ("packageHandle" in operation.params)
+          return {
+            ok: true,
+            data: packages.history(operation.params),
+          };
         return {
           ok: true,
           data: {

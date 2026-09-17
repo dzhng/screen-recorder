@@ -177,7 +177,7 @@ export async function inspect(context, root, readers, media, output) {
     history,
   };
 }
-async function relocatedReader(root, output, executable) {
+export async function relocatedReader(root, output, executable) {
   const context = JSON.parse(await readFile(join(root, "context.json"), "utf8")),
     media = native(executable);
   const revision = parseRevisionHistory(context.history, 500).find(

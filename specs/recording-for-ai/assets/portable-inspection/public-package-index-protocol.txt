@@ -1,0 +1,10 @@
+$ vitest run "--maxWorkers=1"
+
+ RUN  v5.0.0 /private/tmp/screenrec-public-package-index/packages/protocol
+
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  08:49:59
+   Duration  362ms (import 46%, transform 37%, tests 12%, worker 5%)
+

@@ -1,0 +1,12 @@
+$ vitest run "--maxWorkers=1"
+
+ RUN  v5.0.0 /private/tmp/screenrec-public-package-index/apps/cli
+
+(node:74612) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  08:49:51
+   Duration  7.78s (tests 97%, import 2%, transform 1%)
+

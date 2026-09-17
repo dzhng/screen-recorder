@@ -201,6 +201,9 @@ export class PackageRegistry {
       throw error;
     }
   }
+  active(): PackageAdmission[] {
+    return [...this.entries.values()].map((entry) => this.snapshot(entry));
+  }
   status(id: string): PackageAdmission {
     const entry = this.entries.get(id);
     const result = entry ? this.snapshot(entry) : this.terminal.get(id);

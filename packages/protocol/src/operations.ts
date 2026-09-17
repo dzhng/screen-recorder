@@ -9,14 +9,21 @@ const cursorRange = range.refine(
   { message: "Cursor range must be nonempty and no longer than 60 seconds" },
 );
 const recording = z.object({ recordingId: id }).strict();
+const packageTarget = z.object({ packageHandle: id }).strict();
+const inspection = <T extends z.ZodRawShape>(shape: T) =>
+  z.union([recording.extend(shape).strict(), packageTarget.extend(shape).strict()]);
 const edit = recording.extend({ requestId: id, expectedRevisionId: id });
-const historyCursor = z
-  .object({
-    recordingId: id,
-    afterOrdinal: z.int().min(-1),
-    throughOrdinal: z.int().min(-1),
-  })
-  .strict();
+const historyPosition = {
+  afterOrdinal: z.int().min(-1),
+  throughOrdinal: z.int().min(-1),
+};
+const historyParams = <T extends z.ZodRawShape>(target: z.ZodObject<T>) =>
+  target
+    .extend({
+      cursor: target.extend(historyPosition).strict().nullable().optional(),
+      limit: z.int().min(1).max(500).optional(),
+    })
+    .strict();
 
 const frameParams = recording
   .extend({
@@ -47,18 +54,51 @@ const audioParams = recording
   })
   .strict();
 
-const indexReference = recording.extend({ revisionId: id, generation: id }).strict();
-const indexCursor = indexReference.extend({ afterOrdinal: z.int().nonnegative() }).strict();
-const coverageCursor = indexReference
-  .extend({
-    afterSequence: z.int().nonnegative(),
-    candidateOrdinal: z.int().nonnegative().nullable(),
-  })
-  .strict();
+const indexFields = { revisionId: id, generation: id };
+const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };
+const coveragePosition = {
+  ...indexFields,
+  afterSequence: z.int().nonnegative(),
+  candidateOrdinal: z.int().nonnegative().nullable(),
+};
+const paged = <T extends z.ZodRawShape, S extends z.ZodRawShape, C extends z.ZodRawShape>(
+  target: z.ZodObject<T>,
+  fields: S,
+  position: C,
+) => target.extend({ ...fields, cursor: target.extend(position).strict().optional() }).strict();
+const inspectionPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields: S, position: C) =>
+  z.union([paged(recording, fields, position), paged(packageTarget, fields, position)]);
 
 // These are implemented capabilities. Adapters derive their advertised tools from
 // the same schemas the service validates, rather than promising future operations.
 export const operationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("package.open"),
+      params: z.object({ path: z.string().startsWith("/") }).strict(),
+    })
+    .strict()
+    .describe(
+      "Admit a local processed ZIP from an absolute path without symlink components, asynchronously. Poll package.status with the returned admission ID; only ready results contain a process-local packageHandle. Opening twice creates independent lifetimes.",
+    ),
+  z
+    .object({
+      operation: z.literal("package.status"),
+      params: z.object({ admissionId: id.optional() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Read one package admission, or omit admissionId for package recovery, storage status and active admissions (including opens whose reply was lost). Handles expire when closed or the service restarts.",
+    ),
+  z
+    .object({
+      operation: z.literal("package.close"),
+      params: z.object({ admissionId: id }).strict(),
+    })
+    .strict()
+    .describe(
+      "Cancel or close a package admission, draining work and revoking its image deliveries before cleanup. Retry explicit cleanup failures with the same admissionId.",
+    ),
   z.object({ operation: z.literal("recording.delete"), params: recording }).strict(),
   z
     .object({
@@ -72,13 +112,10 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("index.get"),
-      params: recording
-        .extend({
-          revisionId: id.optional(),
-          cursor: indexCursor.optional(),
-          limit: z.int().min(1).max(200).default(50),
-        })
-        .strict(),
+      params: inspectionPage(
+        { revisionId: id.optional(), limit: z.int().min(1).max(200).default(50) },
+        indexPosition,
+      ),
     })
     .strict()
     .describe(
@@ -96,13 +133,14 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("index.coverage"),
-      params: indexReference
-        .extend({
+      params: inspectionPage(
+        {
+          ...indexFields,
           candidateOrdinal: z.int().nonnegative().optional(),
-          cursor: coverageCursor.optional(),
           limit: z.int().min(1).max(200).default(50),
-        })
-        .strict(),
+        },
+        coveragePosition,
+      ),
     })
     .strict()
     .describe(
@@ -111,7 +149,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("index.frame"),
-      params: indexReference.extend({ ordinal: z.int().nonnegative() }).strict(),
+      params: inspection({ ...indexFields, ordinal: z.int().nonnegative() }),
     })
     .strict()
     .describe(
@@ -120,9 +158,10 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("index.frames"),
-      params: indexReference
-        .extend({ ordinals: z.array(z.int().nonnegative()).min(1).max(8) })
-        .strict(),
+      params: inspection({
+        ...indexFields,
+        ordinals: z.array(z.int().nonnegative()).min(1).max(8),
+      }),
     })
     .strict()
     .describe(
@@ -317,17 +356,16 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("revision.get"),
-      params: recording.extend({ revisionId: id.optional() }),
+      params: inspection({ revisionId: id.optional() }),
     })
     .strict()
-    .describe("Read a specified revision, or resolve the current revision once."),
+    .describe(
+      "Read a specified revision, or resolve the library current revision / package exported revision once. Package history may contain newer entries than its exported revision.",
+    ),
   z
     .object({
       operation: z.literal("revision.history"),
-      params: recording.extend({
-        cursor: historyCursor.nullable().optional(),
-        limit: z.int().min(1).max(500).optional(),
-      }),
+      params: z.union([historyParams(recording), historyParams(packageTarget)]),
     })
     .strict()
     .describe("Read a bounded page of history pinned to its initial revision ordinal."),

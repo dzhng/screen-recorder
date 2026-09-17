@@ -1,3 +1,4 @@
+import { PackageInspection } from "./packages.js";
 import { copyFile, mkdir } from "node:fs/promises";
 import { constants } from "node:fs";
 import { PreviewInspection } from "@screenrec/core/preview";
@@ -84,6 +85,7 @@ async function main(): Promise<void> {
   let delivery: DerivativeDelivery | undefined;
   let cache: DerivedCache;
   let storage: RecordingStorage | undefined;
+  let packages: PackageInspection | undefined;
   let cacheReady: Promise<void> = Promise.resolve();
   let cacheFailure: unknown;
   let stopping = false;
@@ -150,6 +152,15 @@ async function main(): Promise<void> {
       },
       onCapacity: () => resumeProcessing(),
     });
+    packages = new PackageInspection({
+      directory: join(runtimeDirectory, "packages"),
+      jobs,
+      worker,
+      delivery,
+    });
+    void packages
+      .prepare()
+      .catch((error) => log(`package recovery unavailable: ${(error as Error).message}`));
     processing = new SourceProcessing(store, jobs, evidence, home, (directory, output, signal) =>
       nativeData<SourceEvidenceReceipt>("media.sourceEvidence", { directory, output }, signal),
     );
@@ -256,7 +267,7 @@ async function main(): Promise<void> {
   } catch (error) {
     cleanupLifetime.abort();
     delivery?.dispose();
-    await Promise.all([jobs?.close(), cacheReady, storage?.close()]);
+    await Promise.allSettled([packages?.dispose(), jobs?.close(), cacheReady, storage?.close()]);
     store?.close();
     claim?.release();
     const startup = error instanceof StartupFailure;
@@ -288,6 +299,7 @@ async function main(): Promise<void> {
   const socketPath = listener.socketPath;
   const catalog = store;
   const storageOwner = storage;
+  const packageOwner = packages;
   const ownership = claim;
   const queue = jobs;
   const transfers = delivery;
@@ -344,6 +356,7 @@ async function main(): Promise<void> {
     try {
       return await operate(request, {
         index,
+        packages: packageOwner,
         storage: storageOwner,
         deletion,
         store: catalog,
@@ -400,6 +413,9 @@ async function main(): Promise<void> {
     transfers.dispose();
     void Promise.all([
       listener.close(),
+      packageOwner
+        .dispose()
+        .catch((error) => log(`package shutdown cleanup failed: ${(error as Error).message}`)),
       storageOwner.close(),
       deletion.close(),
       capture.close(),

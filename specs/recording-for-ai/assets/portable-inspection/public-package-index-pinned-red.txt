@@ -1,0 +1,34 @@
+(node:72830) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ generated package inspection survives relocation without its library (5980.090916ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6065.12725
+
+✖ failing tests:
+
+test at apps/macos/tests/package-relocation.mjs:263:3
+✖ generated package inspection survives relocation without its library (5980.090916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'e5f03c77-9850-4396-a86b-c34804604fa6'
+  - 'a5bda505-9f59-41ba-a65e-28125f06f2dc'
+
+      at publicReader (file:///private/tmp/screenrec-public-package-index/apps/macos/tests/package-public-index.mjs:180:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///private/tmp/screenrec-public-package-index/apps/macos/tests/package-relocation.mjs:548:19)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'e5f03c77-9850-4396-a86b-c34804604fa6',
+    expected: 'a5bda505-9f59-41ba-a65e-28125f06f2dc',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

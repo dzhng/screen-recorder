@@ -1,7 +1,7 @@
 # 14c3b3 — Internal package registry and resource lifetime
 
-Status: implemented and reviewed. Internal admission/lifetime only; public selectors and adapters
-remain a later pass. The existing inspection operations will receive package handles.
+Status: implemented and reviewed. Internal admission/lifetime authority; the public
+selector boundary is owned by [14c3c1](14c3c1-public-package-index.md).
 
 ## Authority and accounting
 
@@ -65,6 +65,7 @@ and reusable output checks; no fabricated narration readiness.
 
 [Verification evidence](../assets/portable-inspection/package-registry.md) records
 actual native cancellation/recovery/drain, budget boundaries and isolation.
-Next: wire explicit package selectors through the existing shared public inspection
-operations. Registry startup, public status/results and service shutdown still need
-adapter integration; no public package-open/close route is claimed by this pass.
+The public boundary is specified and verified separately in
+[14c3c1](14c3c1-public-package-index.md); arbitrary package frame/audio follows in
+[14c3c2](14c3c2-package-frame-audio.md). Registry semantics remain the lifetime
+authority for those adapters.

@@ -1,0 +1,16 @@
+{
+  "lazyRowValidation": true,
+  "lostOpenReplyRecovered": true,
+  "libraryDeletion": {
+    "recordingId": "d655bea8-bf02-446b-a5e6-449bfa96dc9f",
+    "deleted": true
+  },
+  "imageSha256": "f7d616b8f50530ae3da76882f92cbb5fdb5d9534e27fd08588ec100780d8bbef",
+  "packageSha256": "f7fc7500b65ac7254cb7f6494b98b0475bac83a6aaf26e8b413fa6d19cec186c",
+  "sameContentIndependent": true,
+  "cliAndMcpBytes": true,
+  "closeBeforeExpiry": true,
+  "restartInvalidates": true,
+  "nativeBinarySha256": "ebcab6e3ebd4f38f4198576dfc93fb4dc53ea827bdd96eddb91e84a54613d0be",
+  "scope": "Generated no-narration public package admission and retained index CLI/MCP byte transport; arbitrary package frame/audio and model understanding unclaimed"
+}

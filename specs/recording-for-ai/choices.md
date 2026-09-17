@@ -1962,3 +1962,26 @@ records them. These choices add no public export choice or transcript readiness.
   ready artifact and job identity atomically. The intent marker remains until private
   cleanup and queue retirement are confirmed, making interruption between those
   steps repeatable without preserving stale results or deleting the recording.
+
+### 14c3c1 — Public package selection and recovery
+
+- **Sound; medium confidence:** An open returns an admission receipt, and close
+  accepts that receipt's ID even before a readable handle exists. Status without
+  an ID lists only the bounded active admissions and their storage/recovery state.
+  If an open reply is lost, the caller can discover and close the still-owned
+  admission; opening the same file again remains a separate lifetime, not replay.
+  Retired receipt history is not a new public listing or persistent package library.
+- **Sound; high confidence:** Package initialization and orphan recovery are a
+  separate availability boundary from capture/library startup. An unavailable
+  native helper, busy inherited lock or invalid private package directory reports
+  a package error while existing library operations continue. Explicit open
+  retries recovery; there is no additional timer or polling service.
+- **Sound; high confidence:** Retain parsed history and the index reader only as
+  long as the admitted context is reachable. Repeated image/page reads therefore
+  reuse the accepted history instead of reparsing it, while handle lookup still
+  fences every request and evidence rows retain their shared lazy validation.
+- **Sound; high confidence:** Public archive inputs require an absolute path
+  with no symlink components, preserving the admitted-file owner's containment
+  rule rather than resolving a client path relative to the service's directory.
+  The service's own private package root supports ordinary home-path aliases by
+  matching its non-symlink leaf identity before and after canonical open.

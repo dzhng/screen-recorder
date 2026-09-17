@@ -73,3 +73,22 @@ it("retained index requests bound paging, references and media batches", () => {
     }).success,
   ).toBe(true);
 });
+
+it("package inspection requires one explicit target without silently accepting latest or mixed selectors", () => {
+  for (const operation of ["revision.get", "revision.history", "index.get"]) {
+    expect(
+      operationSchema.safeParse({ operation, params: { packageHandle: "open-1" } }).success,
+    ).toBe(true);
+    for (const params of [
+      {},
+      { packageHandle: "open-1", recordingId: "take" },
+      { packageHandle: "open-1", latest: true },
+    ])
+      expect(operationSchema.safeParse({ operation, params }).success).toBe(false);
+  }
+  for (const operation of ["frame.get", "audio.get", "index.retry", "recording.delete"])
+    expect(
+      operationSchema.safeParse({ operation, params: { packageHandle: "open-1", atUs: 0 } })
+        .success,
+    ).toBe(false);
+});
