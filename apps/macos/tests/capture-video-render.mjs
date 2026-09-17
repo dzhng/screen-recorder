@@ -87,9 +87,9 @@ test(
       createdAt: "probe",
     });
     const results = [];
-    for (const [name, selected, operation] of [
-      ["full-original", revision, "media.renderMovie"],
-      ["cut", edited, "media.renderVideo"],
+    for (const [name, selected] of [
+      ["full-original", revision],
+      ["cut", edited],
     ]) {
       const output = join(home, name + ".mp4");
       const plan = renderPlan(selected);
@@ -99,8 +99,8 @@ test(
           [],
           JSON.stringify({
             id: "capture-render",
-            operation,
-            params: { source, output, plan, ...(name === "full-original" ? { tracks: [] } : {}) },
+            operation: "media.renderMovie",
+            params: { source, output, plan, tracks: [] },
           }) + "\n",
         ),
       );
