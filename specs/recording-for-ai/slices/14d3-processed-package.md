@@ -6,7 +6,9 @@ and a reopened ZIP answers transcript get and search page for page like the libr
 including partial words after a cut. Service tests prove this with a fake transcriber;
 unprepared models fail the export retryably and a failed transcript fails it
 actionably. Core tests refuse tampered transcript pages on reopen. Public transcript
-reads of package handles and real narration remain with slice 08. The native AI
+reads accept package handles. The real-model service test exports a cut narrated take
+through the CLI and reads identical transcript pages from the reopened package.
+Actual human narration remains with slice 15. The native AI
 Package action uses the same export owner. The
 [public composition proof](../assets/package-assembly/public.md) records the
 no-narration boundary.

@@ -30,20 +30,21 @@ Each slice's Status line is the one home for what it verified, its evidence and
 what remains open. Before ending a pass, update the owning Status lines and the
 checklist box, then replace the pickup below.
 
-Current pickup: [slice 08](slices/08-transcript-processing.md) passes P1–P3 in
-parallel (native speech operation, model assets, transcript store), then P4 public
-operations and P5 narrated packages. Parakeet through FluidAudio is selected with
-best-effort fillers by user decision. Still needing the user: real narration for
-boundary timing (08 P6), and physical capture, gesture, menu and audition checks for
-[01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md),
-[07](slices/07-menu-bar-controls.md) and [13](slices/13-edited-media.md).
+Current pickup: no remaining pass is independent of the user. Transcription
+([08](slices/08-transcript-processing.md) P1–P5), narrated packages and personal
+install are implemented. Still needing the user:
 
-The [native export controls](assets/export-controls/README.md), the review-pass
-decisions in the [choices ledger](choices.md#whole-codebase-review--2026-09-17) and the
-[personal install](slices/15-personal-release.md) are current.
+- **Real narration:** boundary timing and warm resources (08 P6), then the installed
+  journey in [15](slices/15-personal-release.md).
+- **Physical checks:** capture, gestures, menu interaction and edited-cut audition for
+  [01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md),
+  [07](slices/07-menu-bar-controls.md) and [13](slices/13-edited-media.md).
 
-Priority order: transcription (08), narrated packages, real-narration and physical
-verification, then the installed-journey closeout.
+Reinstall with `bun run install:personal` after quitting the running app, then run
+`screenrec model.prepare` once before recording narration.
+
+Priority order: real-narration evidence and physical verification, then the installed
+journey closeout.
 
 The original [verification gates](verification.md) remain requirements. Fixtures
 and unit checks do not close the full read → edit → inspect → export journey.
@@ -120,7 +121,7 @@ and unit checks do not close the full read → edit → inspect → export journ
     - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md)
     - [x] [14d2b3 — Per-export abandonment](slices/14d2b3-export-abandonment.md)
     - [x] [14d2b4 — Queued publication recovery](slices/14d2b4-queued-recovery.md)
-    - [ ] [14d3 — Complete processed-package export](slices/14d3-processed-package.md)
+    - [x] [14d3 — Complete processed-package export](slices/14d3-processed-package.md)
       - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md)
       - [x] [14d3b — Complete no-narration assembly](slices/14d3b-package-assembly.md)
     - [x] [14d4 — Persisted export discovery](slices/14d4-export-discovery.md)
