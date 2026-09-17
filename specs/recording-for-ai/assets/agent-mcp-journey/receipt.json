@@ -1,0 +1,25 @@
+{
+  "commit": "1dbc7fc7edbff53411cb57296485403f6e8af1f6",
+  "consumer": "Codex root assistant; official SDK calls production stdio MCP adapter; original returned image blocks forwarded through functions.exec image() without image transformation",
+  "sdk": "1.30.0",
+  "firstReadingMatched": false,
+  "reinspectionMatched": true,
+  "initialObservation": {
+    "first": "BF3E02",
+    "second": "493909",
+    "source": "Codex read actual MCP image blocks forwarded unchanged by functions.exec, before private truth"
+  },
+  "reinspection": {
+    "first": "BF3E02",
+    "second": "4939D9",
+    "reason": "Reinspected returned second PNG: fifth glyph has no internal zero slash and has D outline; withheld truth still not printed"
+  },
+  "tokensAbsentFromToolText": true,
+  "editedMatchesSecondPng": true,
+  "restoredMatchesFirstPng": true,
+  "staleRejected": true,
+  "sourceSha256": "62b9cdaaaf5b9ce56aa1a5ac035f2f84a48882b5e2ce3d55f926084210cf29e9",
+  "sourceUnchanged": true,
+  "fixtureOwnerExit": 0,
+  "survivingOwnedProcesses": []
+}
