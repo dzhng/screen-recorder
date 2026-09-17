@@ -27,8 +27,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var awaitingFinalization = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        if CommandLine.arguments.count > 1 {
-            Task { await runCaptureProbe() }
+        let arguments = CommandLine.arguments.dropFirst()
+        if arguments.first == "--probe" {
+            Task { await runCaptureProbe(Array(arguments.dropFirst())) }
             return
         }
         controls = RecordingControls(home: personalRoot()) { [weak self] in self?.quit() }

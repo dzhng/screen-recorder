@@ -21,7 +21,7 @@ mkdirSync(output, { recursive: true });
 if (!existsSync(app) || !existsSync(worker)) {
   spawnSync("node", [join(root, "scripts/build-macos.mjs")], { stdio: "inherit" });
 }
-const preflight = spawnSync(app, ["--capture-preflight"], { encoding: "utf8" });
+const preflight = spawnSync(app, ["--probe", "preflight"], { encoding: "utf8" });
 const permissions = JSON.parse(preflight.stdout.trim().split("\n").pop());
 if (!permissions.screen) {
   throw new Error(
@@ -66,7 +66,7 @@ const config = {
 };
 const configPath = join(output, "probe.json");
 writeFileSync(configPath, JSON.stringify(config, null, 2));
-const probe = spawnSync(app, ["--cursor-geometry", configPath], {
+const probe = spawnSync(app, ["--probe", "cursor-geometry", configPath], {
   encoding: "utf8",
   timeout: 120_000,
 });

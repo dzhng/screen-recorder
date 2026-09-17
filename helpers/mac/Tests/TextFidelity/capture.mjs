@@ -32,7 +32,7 @@ test(
   "capture only the owned browser text fixture with audio disabled",
   { timeout: 60000 },
   async () => {
-    assert.equal(JSON.parse(run(app, ["--capture-preflight"])).screen, true);
+    assert.equal(JSON.parse(run(app, ["--probe", "preflight"])).screen, true);
     const captures = [];
     for (const [width, height] of [
       [1280, 800],

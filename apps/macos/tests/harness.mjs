@@ -23,7 +23,7 @@ let screenAuthorized;
 export function requireScreenPermission() {
   screenAuthorized ??=
     JSON.parse(
-      spawnSync(app, ["--capture-preflight"], {
+      spawnSync(app, ["--probe", "preflight"], {
         cwd: "/",
         env: finderEnvironment,
         encoding: "utf8",
@@ -56,8 +56,8 @@ export function temporary(prefix) {
 }
 
 /** Launches the packaged app the way Finder would, and keeps its diagnostics readable. */
-export function launch(home, environment = {}) {
-  const child = spawn(app, [], {
+export function launch(home, environment = {}, args = []) {
+  const child = spawn(app, args, {
     cwd: "/",
     env: { ...finderEnvironment, SCREENREC_HOME: home, ...environment },
     stdio: ["ignore", "pipe", "pipe"],
@@ -120,8 +120,8 @@ export function launch(home, environment = {}) {
   return instance;
 }
 
-export async function launchReady(home, environment) {
-  const instance = launch(home, environment);
+export async function launchReady(home, environment, args) {
+  const instance = launch(home, environment, args);
   const [, pid] = await instance.waitFor(/service ready pid=(\d+)/);
   instance.owned.push(Number(pid));
   return { instance, servicePid: Number(pid) };

@@ -9,11 +9,11 @@ const app = join(root, "dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder");
 const args = process.argv.slice(2);
 let nativeArgs;
 if (args.length === 0 || args[0] === "--preflight") {
-  nativeArgs = ["--capture-preflight"];
+  nativeArgs = ["--probe", "preflight"];
 } else if (args[0] === "--permission" && args.length === 2) {
-  nativeArgs = ["--capture-permission", args[1]];
+  nativeArgs = ["--probe", "permission", args[1]];
 } else if (args[0] === "--sources") {
-  nativeArgs = ["--capture-sources"];
+  nativeArgs = ["--probe", "sources"];
 } else if (args[0] === "--fixture") {
   const output = args[1] ? resolve(args[1]) : mkdtempSync(join(tmpdir(), "screenrec-capture-"));
   mkdirSync(output, { recursive: true });
@@ -32,9 +32,9 @@ if (args.length === 0 || args[0] === "--preflight") {
       pauseSeconds: 2,
     }),
   );
-  nativeArgs = ["--capture-probe", config];
+  nativeArgs = ["--probe", "capture", config];
 } else if (args[0] === "--request" && args[1]) {
-  nativeArgs = ["--capture-probe", resolve(args[1])];
+  nativeArgs = ["--probe", "capture", resolve(args[1])];
 } else {
   throw new Error(
     "Usage: native-capture-probe.mjs [--preflight | --permission screen|microphone | --sources | --fixture [output-directory] | --request probe.json]",

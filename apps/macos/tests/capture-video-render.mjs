@@ -28,7 +28,7 @@ test(
   "actual paused silent window capture renders retained source timing",
   { timeout: 60000 },
   async () => {
-    assert.equal(JSON.parse(run(app, ["--capture-preflight"])).screen, true);
+    assert.equal(JSON.parse(run(app, ["--probe", "preflight"])).screen, true);
     const home = temporary("/tmp/screenrec-render-capture-");
     const { instance } = await launchReady(home, { SCREENREC_FIXTURE_WINDOW: "1" });
     const [, id] = await instance.waitFor(/capture fixture window=(\d+)/);

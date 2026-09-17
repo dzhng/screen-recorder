@@ -42,6 +42,6 @@ resolution and the child reporting its listener together: the deadline is fixed
 before the first probe, so a slow interpreter spends the same budget the service
 would have, rather than starting a fresh one behind it.
 
-Command-line arguments still select the native capture probes, which run instead
-of the menu bar and without the service. Frame, recovery and capture behavior all
+`--probe <name>` selects a native capture probe instead, which runs without the menu
+bar and without the service; any other argument is an ordinary launch. Frame, recovery and capture behavior all
 belong to [helpers/mac](../../helpers/mac/README.md).

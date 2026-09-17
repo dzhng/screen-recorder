@@ -13,8 +13,10 @@ private struct ProbeRequest: Decodable {
     let minimizeFixtureAtSeconds: Double?
 }
 
+/// The native capture probes, reached only by `--probe <name>`: each runs instead of the menu bar
+/// and without the service, inside this app so it carries the app's own capture permission.
 @MainActor
-func runCaptureProbe() async {
+func runCaptureProbe(_ arguments: [String]) async {
     var activeCapture: NativeCapture?
     var fixtureWindow: NSWindow?
     var outputDirectory: String?
@@ -28,25 +30,24 @@ func runCaptureProbe() async {
         exit(status)
     }
     do {
-        let args = CommandLine.arguments
-        switch args[1] {
-        case "--fixture-window":
+        switch arguments.first {
+        case "fixture-window":
             fixtureWindow = makeCaptureFixtureWindow()
             try emit(["windowID": fixtureWindow!.windowNumber])
             try await Task.sleep(for: .seconds(3600))
-        case "--capture-preflight":
+        case "preflight":
             try emit(
                 [
                     "screen": NativeCapture.screenPermission,
                     "microphone": NativeCapture.microphonePermission,
                 ] as [String: Any])
-        case "--capture-permission":
-            guard args.count == 3 else {
+        case "permission":
+            guard arguments.count == 2 else {
                 throw CaptureFailure("INVALID_REQUEST", "Pass screen or microphone.")
             }
-            let granted = try await NativeCapture.requestPermission(args[2])
-            try emit(["permission": args[2], "granted": granted] as [String: Any])
-        case "--capture-sources":
+            let granted = try await NativeCapture.requestPermission(arguments[1])
+            try emit(["permission": arguments[1], "granted": granted] as [String: Any])
+        case "sources":
             guard NativeCapture.screenPermission else {
                 throw CaptureFailure(
                     "PERMISSION_REQUIRED", "Screen recording permission is not authorized.")
@@ -64,16 +65,16 @@ func runCaptureProbe() async {
                     ]
                 },
             ])
-        case "--cursor-geometry":
-            guard args.count == 3 else {
+        case "cursor-geometry":
+            guard arguments.count == 2 else {
                 throw CaptureFailure("INVALID_REQUEST", "Pass one cursor geometry JSON path.")
             }
-            try await runCursorGeometryProbe(configPath: args[2])
-        case "--capture-probe":
-            guard args.count == 3 else {
+            try await runCursorGeometryProbe(configPath: arguments[1])
+        case "capture":
+            guard arguments.count == 2 else {
                 throw CaptureFailure("INVALID_REQUEST", "Pass one probe JSON path.")
             }
-            let data = try Data(contentsOf: URL(fileURLWithPath: args[2]))
+            let data = try Data(contentsOf: URL(fileURLWithPath: arguments[1]))
             let probe = try JSONDecoder().decode(ProbeRequest.self, from: data)
             guard probe.durationSeconds.isFinite, probe.durationSeconds > 0,
                 probe.durationSeconds <= 3600
@@ -127,7 +128,7 @@ func runCaptureProbe() async {
                 if probe.closeFixtureAtSeconds != nil {
                     let process = Process()
                     process.executableURL = Bundle.main.executableURL
-                    process.arguments = ["--fixture-window"]
+                    process.arguments = ["--probe", "fixture-window"]
                     let pipe = Pipe()
                     process.standardOutput = pipe
                     try process.run()
@@ -194,7 +195,9 @@ func runCaptureProbe() async {
             fixtureWindow?.close()
             finishProbe(result.failure == nil ? 0 : 1)
         default:
-            throw CaptureFailure("INVALID_REQUEST", "Unknown probe argument.")
+            throw CaptureFailure(
+                "INVALID_REQUEST",
+                "Name a probe: preflight, permission, sources, capture, cursor-geometry or fixture-window.")
         }
         finishProbe(0)
     } catch {
@@ -216,7 +219,7 @@ func runCaptureProbe() async {
     }
 }
 
-func emit(_ value: Any) throws {
+private func emit(_ value: Any) throws {
     FileHandle.standardOutput.write(
         try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]) + Data([10]))
 }

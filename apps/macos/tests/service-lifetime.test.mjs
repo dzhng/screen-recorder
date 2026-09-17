@@ -76,7 +76,7 @@ test("ordinary launch owns one service child and answers health without starting
 
 test("a native probe run owns no service and leaves the personal root untouched", async () => {
   const home = temporary("/tmp/scr-app-");
-  const probe = spawnSync(app, ["--capture-preflight"], {
+  const probe = spawnSync(app, ["--probe", "preflight"], {
     cwd: "/",
     env: { ...finderEnvironment, SCREENREC_HOME: home },
     encoding: "utf8",
@@ -85,6 +85,12 @@ test("a native probe run owns no service and leaves the personal root untouched"
   assert.equal(probe.status, 0, probe.stderr);
   assert.deepEqual(Object.keys(JSON.parse(probe.stdout)).sort(), ["microphone", "screen"]);
   assert.deepEqual(readdirSync(home), []);
+});
+
+test("an argument that names no probe is an ordinary launch", async () => {
+  const home = temporary("/tmp/scr-app-");
+  const { instance } = await launchReady(home, {}, ["-NSDocumentRevisionsDebugMode", "YES"]);
+  await instance.waitFor(/service health status=ready/);
 });
 
 test("normal quit stops the service and removes its socket within the deadline", async () => {

@@ -1,5 +1,4 @@
 import AppKit
-import ScreenRecorderCapture
 
 /// The window every capture probe records: this process's own window, never another application's.
 @MainActor
@@ -75,18 +74,6 @@ final class CaptureFixtureView: NSView {
                 x: center.x - side / 2, y: center.y - side / 2, width: side, height: side
             ).fill()
         }
-    }
-}
-
-/// Where each fiducial sits in global display points with a top-left origin: the same space the
-/// pointer is sampled in, so a measured fiducial pixel and a sampled pointer pixel are comparable.
-@MainActor
-func fiducialGlobalPoints(of window: NSWindow) -> [CGPoint] {
-    guard let view = window.contentView else { return [] }
-    let height = GlobalPointSpace.zeroOriginHeight()
-    return CaptureFixtureView.fiducialCenters(in: view.bounds).map { local in
-        let onScreen = window.convertPoint(toScreen: view.convert(local, to: nil))
-        return GlobalPointSpace.flip(appKit: onScreen, zeroOriginHeight: height)
     }
 }
 

@@ -33,7 +33,7 @@ struct ProbePoint: Codable {
 /// One timed action against this process's own fixture window.
 private struct ProbeStep: Decodable {
     let atSeconds: Double
-    /// `place`, `coverPointer`, `calibrate`, `pause` or `resume`.
+    /// `place`, `coverPointer`, `placeOnOtherDisplay`, `calibrate`, `pause` or `resume`.
     let action: String
     /// Full window frame in AppKit global points, required by `place`.
     let frame: ProbeRect?
@@ -395,6 +395,18 @@ private func placement(label: String, movedAtHostUs: Int64, of window: NSWindow)
         backingScaleFactor: Double(window.screen?.backingScaleFactor ?? 1),
         zeroOriginHeight: GlobalPointSpace.zeroOriginHeight(),
         fiducials: fiducialGlobalPoints(of: window).map(ProbePoint.init))
+}
+
+/// Where each fiducial sits in global display points with a top-left origin: the same space the
+/// pointer is sampled in, so a measured fiducial pixel and a sampled pointer pixel are comparable.
+@MainActor
+private func fiducialGlobalPoints(of window: NSWindow) -> [CGPoint] {
+    guard let view = window.contentView else { return [] }
+    let height = GlobalPointSpace.zeroOriginHeight()
+    return CaptureFixtureView.fiducialCenters(in: view.bounds).map { local in
+        let onScreen = window.convertPoint(toScreen: view.convert(local, to: nil))
+        return GlobalPointSpace.flip(appKit: onScreen, zeroOriginHeight: height)
+    }
 }
 
 /// The placement a frame's host time belongs to: the most recent window position asked for at that
