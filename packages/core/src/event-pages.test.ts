@@ -22,7 +22,7 @@ afterEach(() => {
   stores.splice(0).forEach((s) => s.close());
   roots.splice(0).forEach((p) => rmSync(p, { recursive: true, force: true }));
 });
-async function fixture(staticScenes = false) {
+async function fixture(staticScenes = false, sourceCount = 520, duration = 2_600_000_000) {
   const root = mkdtempSync(join(tmpdir(), "event-pages-"));
   roots.push(root);
   const store = new RevisionStore(join(root, "db"), { now: () => "fixture", newId: randomUUID });
@@ -33,11 +33,10 @@ async function fixture(staticScenes = false) {
       sourceId: recording.sourceId,
       generation: "source-1",
     };
-  const duration = 2_600_000_000;
   store.registerSource(recording.recordingId, duration);
   const source = new SourceEvidenceStore(store);
   const records = [];
-  for (let i = 0; i < 520; i++) {
+  for (let i = 0; i < sourceCount; i++) {
     const atSourceUs = i * 5_000_000;
     records.push({
       event: "geometry",
@@ -59,7 +58,7 @@ async function fixture(staticScenes = false) {
   const file = join(root, "normalized.jsonl"),
     body = records.map((row) => JSON.stringify(row) + "\n").join("");
   writeFileSync(file, body);
-  await source.ingest({
+  const sourceMetadata = await source.ingest({
     ...sourceIdentity,
     file,
     receipt: {
@@ -67,9 +66,9 @@ async function fixture(staticScenes = false) {
       header: { sessionID: sourceIdentity.sourceId },
       journal: "capture.journal.jsonl",
       cursorSamples: 0,
-      geometryRecords: 520,
+      geometryRecords: sourceCount,
       displaySpaces: 0,
-      pauseEvents: 520,
+      pauseEvents: sourceCount,
       audioIntervals: 0,
       lastSequence: records.length,
       incompleteTail: false,
@@ -107,7 +106,7 @@ async function fixture(staticScenes = false) {
         new AbortController().signal,
       ),
     );
-  scenes.finish(sceneIdentity, duration);
+  const sceneMetadata = scenes.finish(sceneIdentity, duration);
   const revision = createRevision(
     createOriginalRevision(duration, "fixture"),
     [
@@ -120,13 +119,18 @@ async function fixture(staticScenes = false) {
   await writeSceneEvidencePages(scenes, sceneIdentity, join(root, "scenes"));
   const input = {
     source: new FileSourceEvidence(join(root, "source"), sourceIdentity),
-    sourceIdentity,
+    sourceIdentity: sourceMetadata,
     scenes: new FileSceneEvidence(join(root, "scenes"), sceneIdentity),
-    sceneIdentity,
+    sceneIdentity: sceneMetadata,
     revision,
     interrupted: true,
   };
-  const metadata = { sourceIdentity, sceneIdentity, revision, interrupted: true };
+  const metadata = {
+    sourceIdentity: sourceMetadata,
+    sceneIdentity: sceneMetadata,
+    revision,
+    interrupted: true,
+  };
   return { root, input, metadata };
 }
 test("portable events preserve all source/scene pages, journal ties, cuts and pause boundary markers", async () => {
@@ -188,6 +192,9 @@ test("portable events preserve all source/scene pages, journal ties, cuts and pa
   descriptor.sha256 = createHash("sha256").update(forged).digest("hex");
   writeFileSync(join(directory, "pages.json"), JSON.stringify(manifest));
   expect(() => new FileTimelineEvents(directory, f.metadata).page()).toThrow("projection");
+  manifest.metadata.sourceIdentity.receipt = f.input.sourceIdentity.receipt;
+  writeFileSync(join(directory, "pages.json"), JSON.stringify(manifest));
+  expect(() => new FileTimelineEvents(directory, f.metadata)).toThrow();
 });
 
 test("complete event admission rejects missing evidence and excludes unacquired interruptions", async () => {
@@ -258,4 +265,28 @@ test("static scene scans yield cancellation before repeated decoding exhausts th
   ).rejects.toMatchObject({ name: "AbortError" });
   expect(decodedBytes).toBeLessThanOrEqual(inputBytes * 2);
   expect(existsSync(join(f.root, "cancel-static/pages.json"))).toBe(false);
+});
+
+test("validation yields cancellation across cut-only event pages", async () => {
+  const f = await fixture(true, 1, 20_000_000);
+  const revision = createRevision(
+    createOriginalRevision(20_000_000, "fixture"),
+    Array.from({ length: 300 }, (_, i) => ({ startUs: i * 2, endUs: i * 2 + 1 })),
+    { id: "many-cuts", createdAt: "fixture", operation: "cut" },
+  );
+  const input = { ...f.input, revision, interrupted: false };
+  const metadata = { ...f.metadata, revision, interrupted: false };
+  const directory = join(f.root, "cut-events");
+  await writeTimelineEventPages(input, directory);
+  const reader = new FileTimelineEvents(directory, metadata);
+  const controller = new AbortController();
+  const abort = setImmediate(() => controller.abort());
+  try {
+    await expect(
+      validateTimelineEventPages(reader, input, controller.signal),
+    ).rejects.toMatchObject({ name: "AbortError" });
+  } finally {
+    clearImmediate(abort);
+  }
+  await validateTimelineEventPages(reader, input);
 });

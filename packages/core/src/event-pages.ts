@@ -52,7 +52,9 @@ function codec(
   expected: TimelineEventMetadata,
 ): OrderedPageCodec<TimelineEventRow, TimelineEventMetadata> {
   const project = eventProjector(expected.revision);
-  const cuts = [...projectedCuts(expected.revision)];
+  const cuts = new Map(
+    [...projectedCuts(expected.revision)].map((cut) => [cut.event.atSourceUs, cut]),
+  );
   return {
     metadata: z.custom<TimelineEventMetadata>((value) => isDeepStrictEqual(value, expected)),
     orders: { events: 1 },
@@ -61,7 +63,7 @@ function codec(
       const row = rowSchema.parse(value);
       const projected = { atUs: row.atUs, event: row.event };
       if (row.event.kind === "cut") {
-        if (!cuts.some((cut) => isDeepStrictEqual(cut, projected)))
+        if (!isDeepStrictEqual(cuts.get(row.event.atSourceUs), projected))
           invalid("Noncanonical cut event");
       } else {
         if (
@@ -185,13 +187,9 @@ async function* timelineEventRows(
   ))
     yield { ordinal: ordinal++, ...row };
 }
-export function writeTimelineEventPages(
-  input: TimelineEventInput,
-  directory: string,
-  signal?: AbortSignal,
-): Promise<void> {
+function eventMetadata(input: TimelineEventMetadata): TimelineEventMetadata {
   const { sourceIdentity, sceneIdentity, revision, interrupted } = input;
-  const metadata = {
+  return {
     sourceIdentity: {
       recordingId: sourceIdentity.recordingId,
       sourceId: sourceIdentity.sourceId,
@@ -206,6 +204,13 @@ export function writeTimelineEventPages(
     revision,
     interrupted,
   };
+}
+export function writeTimelineEventPages(
+  input: TimelineEventInput,
+  directory: string,
+  signal?: AbortSignal,
+): Promise<void> {
+  const metadata = eventMetadata(input);
   async function* batches() {
     let batch: TimelineEventRow[] = [];
     for await (const row of timelineEventRows(input, signal)) {
@@ -223,7 +228,7 @@ export function writeTimelineEventPages(
 export class FileTimelineEvents {
   private readonly pages: OrderedPages<TimelineEventRow, TimelineEventMetadata>;
   constructor(root: string | FileAccess, expected: TimelineEventMetadata) {
-    this.pages = new OrderedPages(root, codec(expected));
+    this.pages = new OrderedPages(root, codec(eventMetadata(expected)));
   }
   page({ afterOrdinal, limit = 100 }: { afterOrdinal?: number; limit?: number } = {}) {
     if (
@@ -268,6 +273,7 @@ export async function validateTimelineEventPages(
       }
       if (page.nextOrdinal === null) break;
       afterOrdinal = page.nextOrdinal;
+      await setImmediate(undefined, { signal });
     }
     if (!(await expected.next()).done) invalid("Event pages omit pinned source evidence");
     signal?.throwIfAborted();

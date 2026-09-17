@@ -1,0 +1,38 @@
+@screenrec/core test:
+@screenrec/core test:  RUN  v5.0.0 /private/tmp/screenrec-portable-events/packages/core
+@screenrec/core test:
+@screenrec/core test: (node:14311) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+@screenrec/core test: (Use `node --trace-warnings ...` to show where the warning was created)
+@screenrec/core test:  ❯ src/event-pages.test.ts (4 tests | 1 failed | 3 skipped) 56ms
+@screenrec/core test:    × validation yields cancellation across cut-only event pages 55ms
+@screenrec/core test:
+@screenrec/core test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+@screenrec/core test:
+@screenrec/core test:  FAIL  src/event-pages.test.ts > validation yields cancellation across cut-only event pages
+@screenrec/core test: AssertionError: promise resolved "undefined" instead of rejecting
+@screenrec/core test:
+@screenrec/core test: - Expected:
+@screenrec/core test: Error {
+@screenrec/core test:   "message": "rejected promise",
+@screenrec/core test: }
+@screenrec/core test:
+@screenrec/core test: + Received:
+@screenrec/core test: undefined
+@screenrec/core test:
+@screenrec/core test:  ❯ src/event-pages.test.ts:278:77
+@screenrec/core test:     276|   const abort = setImmediate(()=>controller.abort());
+@screenrec/core test:     277|   try {
+@screenrec/core test:     278|     await expect(validateTimelineEventPages(reader,input,controller.si…
+@screenrec/core test:        |                                                                             ^
+@screenrec/core test:     279|   } finally {
+@screenrec/core test:     280|     clearImmediate(abort);
+@screenrec/core test:
+@screenrec/core test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+@screenrec/core test:
+@screenrec/core test:
+@screenrec/core test:  Test Files  1 failed (1)
+@screenrec/core test:       Tests  1 failed | 3 skipped (4)
+@screenrec/core test:    Start at  09:41:21
+@screenrec/core test:    Duration  201ms (tests 38%, transform 38%, import 23%, worker 1%)
+@screenrec/core test:
+@screenrec/core test: Exited with code 1
