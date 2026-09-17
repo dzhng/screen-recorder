@@ -76,6 +76,7 @@ public struct CaptureJournalSummary: Codable, Sendable {
 
 // One capture queue owns append order. Media bytes never enter this journal.
 public final class CaptureJournal {
+    private static let maximumRecordBytes = 1_048_576
     private let handle: FileHandle
     private var sequence = 0
 
@@ -151,21 +152,37 @@ public final class CaptureJournal {
     private func append<Event: Encodable>(_ event: String, data: Event, durable: Bool = false)
         throws
     {
-        sequence += 1
-        let payload = try JSONSerialization.jsonObject(with: JSONEncoder().encode(data))
-        let record = try JSONSerialization.data(
-            withJSONObject: ["sequence": sequence, "event": event, "data": payload],
-            options: [.sortedKeys])
+        // The number is taken only once the record is in the file: a record that could not be
+        // encoded or written must not leave a gap the reader would treat as corruption.
+        let next = sequence + 1
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        let record = try encoder.encode(JournalRecord(sequence: next, event: event, data: data))
+        // The reader treats any longer run as corruption, which is only sound if no record is.
+        guard record.count < Self.maximumRecordBytes else {
+            throw CaptureFailure("JOURNAL_FAILED", "Journal record exceeds its size bound.")
+        }
         try handle.write(contentsOf: record + Data([10]))
+        sequence = next
         if durable { try handle.synchronize() }
     }
 
-    /// Reads terminated records in order until the reader stops or the file ends, and reports
-    /// whether the file ended mid-record. Both the summary and the evidence stream read through
-    /// this one loop so they cannot disagree about where a journal stops being believable.
+    /// How a pass over the journal's records ended.
+    private enum RecordsEnd {
+        /// Every byte was read or the reader asked to stop.
+        case read
+        /// The final line has no terminator: a crash boundary.
+        case tornTail
+        /// An unterminated run longer than any record the writer produces.
+        case oversized
+    }
+
+    /// Reads terminated records in order until the reader stops or the file ends. Both the summary
+    /// and the evidence stream read through this one loop so they cannot disagree about where a
+    /// journal stops being believable.
     private static func readRecords(
         directory: String, maximumBytes: Int?, _ body: (Data) throws -> Bool
-    ) throws -> Bool {
+    ) throws -> RecordsEnd {
         let url = URL(fileURLWithPath: directory).appendingPathComponent("capture.journal.jsonl")
         let input = try FileHandle(forReadingFrom: url)
         defer { try? input.close() }
@@ -182,11 +199,13 @@ public final class CaptureJournal {
                 pending.removeSubrange(...end)
                 // Foundation JSON bridging creates autoreleased objects. Drain each record so
                 // a long worker request does not retain the entire parsed journal indirectly.
-                guard try autoreleasepool(invoking: { try body(line) }) else { return false }
+                guard try autoreleasepool(invoking: { try body(line) }) else { return .read }
             }
-            guard pending.count <= 1_048_576 else { return true }
+            // The writer never produces a record this long, so an unterminated run past the bound
+            // is corruption wherever it sits, never a crash that cut a record short.
+            guard pending.count <= maximumRecordBytes else { return .oversized }
         }
-        return !pending.isEmpty
+        return pending.isEmpty ? .read : .tornTail
     }
 
     /// Streams a take's placement evidence without retaining it. A take changes geometry as often
@@ -231,7 +250,7 @@ public final class CaptureJournal {
             if retainTiming { summary.pauses.append(completed) }
             try pause(completed)
         }
-        summary.incompleteTail = try readRecords(directory: directory, maximumBytes: maximumBytes) {
+        let end = try readRecords(directory: directory, maximumBytes: maximumBytes) {
             line in
             let event: (name: String, data: Data)
             do {
@@ -275,6 +294,11 @@ public final class CaptureJournal {
             default: break
             }
             return true
+        }
+        switch end {
+        case .read: break
+        case .tornTail: summary.incompleteTail = true
+        case .oversized: summary.invalidAtSequence = summary.lastSequence + 1
         }
         for role in ["narration", "system"] {
             if let interval = pendingAudio[role] { try emitAudio(interval) }
@@ -365,6 +389,12 @@ public final class CaptureJournal {
         summary.lastSequence = sequence
         return (name: event, data: encoded)
     }
+}
+
+private struct JournalRecord<Event: Encodable>: Encodable {
+    let sequence: Int
+    let event: String
+    let data: Event
 }
 
 /// A device transition as native reported it.

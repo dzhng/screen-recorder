@@ -134,4 +134,41 @@ func runCaptureJournalTests() async throws {
         boundary.openPauseHostUs == 1_700_000 && boundary.lastSequence == 7,
         "A torn journal keeps its whole prefix, got sequence \(boundary.lastSequence)")
     print("PASS a torn last line reads as a crash boundary distinct from a bad record")
+
+    // Bytes past the record bound with no terminator, followed by more records, are corruption
+    // inside the file, not a crash that cut its last line short.
+    let oversized = RecoveryFixture.directory("journal-oversized")
+    defer { try? FileManager.default.removeItem(at: oversized) }
+    try writeTake(in: oversized, finished: true)
+    var bloated = try lines(of: oversized)
+    bloated[7] = String(repeating: "x", count: 1_100_000) + bloated[7]
+    try write(bloated, to: oversized)
+    let overrun = try CaptureJournal.inspect(directory: oversized.path)
+    precondition(
+        overrun.invalidAtSequence == 8 && !overrun.incompleteTail,
+        "An oversized run inside the file is a bad record, got invalid \(overrun.invalidAtSequence as Int?) torn \(overrun.incompleteTail)"
+    )
+    precondition(
+        overrun.lastSequence == 7 && !overrun.finished,
+        "Records before the oversized run stand and nothing after it is believed")
+    print("PASS an oversized unterminated run inside the journal reads as a bad record")
+
+    // A record that could not be written must not use up a sequence number: the next record the
+    // take writes, and the sequence reported for it, must still be believed by the reader.
+    let refused = RecoveryFixture.directory("journal-refused")
+    defer { try? FileManager.default.removeItem(at: refused) }
+    let journal = try CaptureJournal(directory: refused.path, header: header)
+    do {
+        try journal.recordDisplaySpace(hostUs: 1, zeroOriginHeight: .nan)
+        preconditionFailure("A non-finite height cannot be journaled")
+    } catch {}
+    let reported = try journal.recordLifecycle(state: "recording", reason: nil)
+    let afterRefusal = try CaptureJournal.inspect(directory: refused.path)
+    precondition(
+        reported == 2 && afterRefusal.lastSequence == 2
+            && afterRefusal.invalidAtSequence == nil
+            && afterRefusal.lastLifecycle?.state == "recording",
+        "A refused record must leave the sequence the next record reports readable, reported \(reported) read \(afterRefusal.lastSequence) invalid \(afterRefusal.invalidAtSequence as Int?)"
+    )
+    print("PASS a record the journal could not write leaves the sequence unbroken")
 }
