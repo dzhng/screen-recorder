@@ -36,7 +36,7 @@ enum MovieOperation {
     static func execute(_ params: [String: Any]) async throws -> Result {
         let request = try WireRequest.decode(Request.self, from: params)
         try WireRequest.requireAbsolute(request.source)
-        let output = try NewFile(at: request.output)
+        let output = try NewFile(at: request.output, assembledAs: "movie.mp4")
         defer { output.discard() }
         let audio =
             request.tracks.isEmpty

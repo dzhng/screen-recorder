@@ -50,7 +50,8 @@ public actor FrameSource {
 
     public func decodeFrame(_ request: FrameRequest) throws -> DecodedFrame {
         try validate(request)
-        let output = try OutputFile(request.output.path, distinctFrom: [url])
+        let output = try OutputFile(
+            request.output.path, assembledAs: "frame.png", distinctFrom: [url])
         defer { output.discard() }
         let (sampleTime, selected) = try nearestSample(
             atSourceUs: request.atSourceUs, in: request.kept)

@@ -28,7 +28,8 @@ public enum AudioWave {
         else {
             throw NativeFailure.decodeFailed("Cannot describe audio output format.")
         }
-        let destination = try OutputFile(output.path, distinctFrom: stream.sourceURLs)
+        let destination = try OutputFile(
+            output.path, assembledAs: "excerpt.wav", distinctFrom: stream.sourceURLs)
         defer { destination.discard() }
         var settings = format.settings
         settings[AVAudioFileTypeKey] = kAudioFileWAVEType

@@ -218,8 +218,9 @@ const cases = [
 ];
 for (const [name, sourceName, duration, ranges, identities, pts] of cases) {
   test(`video worker preserves ${name} pixels and exact plan duration`, () => {
+    // The service names cached derivatives without a media extension; the worker must not care.
     const source = join(directory, sourceName + ".mov"),
-      output = join(directory, name + ".mp4");
+      output = join(directory, name + ".cache");
     const before = readFileSync(source);
     const plan = planFor(
       duration,
@@ -234,7 +235,7 @@ for (const [name, sourceName, duration, ranges, identities, pts] of cases) {
       name,
       source: sourceName,
       plan,
-      receipt: { ...result.data, file: name + ".mp4" },
+      receipt: { ...result.data, file: name + ".cache" },
       decoded,
     });
     assert.equal(decoded.durationUs, result.data.durationUs);

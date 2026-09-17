@@ -53,7 +53,7 @@ public enum PresentationEvidence {
         guard maxBytes > 0, maxBytes <= 9_007_199_254_740_991 else {
             throw NativeFailure("INVALID_REQUEST", "Evidence requires a positive safe byte budget.")
         }
-        let destination = try NewFile(at: output.path)
+        let destination = try NewFile(at: output.path, assembledAs: "evidence.jsonl")
         defer { destination.discard() }
         let presentation = try await PresentationSource(source: source, plan: plan)
         let fd = open(destination.url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)

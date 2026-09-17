@@ -43,7 +43,7 @@ package struct SourceEvidenceExport: Encodable {
         guard info.st_size <= 268_435_456 else {
             throw CaptureFailure("EVIDENCE_LIMIT", "Journal exceeds the evidence read budget.")
         }
-        let destination = try NewFile(at: output)
+        let destination = try NewFile(at: output, assembledAs: "observations.jsonl")
         defer { destination.discard() }
         let descriptor = Darwin.open(
             destination.url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)

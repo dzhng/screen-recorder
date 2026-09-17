@@ -62,7 +62,8 @@ test("audio worker writes a concatenated excerpt and survives invalid requests",
     tone(narration, 1000);
     tone(system, 400);
     const before = readFileSync(narration);
-    const output = join(directory, "excerpt.wav");
+    // The service names cached derivatives without a media extension; the worker must not care.
+    const output = join(directory, "excerpt.cache");
     const params = {
       output,
       spans: [

@@ -30,7 +30,7 @@ func verifyPresentationPublicationRace(source: URL, parent: URL) async throws {
         .first { $0.lastPathComponent.hasPrefix(".screenrec-output-") }
         if let staging,
             let attributes = try? FileManager.default.attributesOfItem(
-                atPath: staging.appendingPathComponent(output.lastPathComponent).path),
+                atPath: staging.appendingPathComponent("evidence.jsonl").path),
             let bytes = attributes[.size] as? Int, bytes > 1000
         {
             break

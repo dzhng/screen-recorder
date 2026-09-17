@@ -12,7 +12,9 @@ public final class NewFile: @unchecked Sendable {
     private let requested: String
     private let staging: URL
 
-    public init(at path: String) throws {
+    /// `name` is what the file is called while assembled: platform writers infer behavior from
+    /// its extension, and the published path's own name need not carry one.
+    public init(at path: String, assembledAs name: String) throws {
         var info = stat()
         guard path.hasPrefix("/"), !path.contains("\0"), lstat(path, &info) != 0, errno == ENOENT
         else { throw NativeFailure("INVALID_OUTPUT", "Output must be a new absolute path.") }
@@ -25,7 +27,7 @@ public final class NewFile: @unchecked Sendable {
         }
         requested = path
         self.staging = staging
-        url = staging.appendingPathComponent(destination.lastPathComponent)
+        url = staging.appendingPathComponent(name)
     }
 
     /// Private space for intermediate files that never become the published output.
@@ -91,7 +93,7 @@ public enum OutputFile: Sendable {
     case handle(MediaDescriptor)
     case new(NewFile)
 
-    public init(_ path: String, distinctFrom sources: [URL]) throws {
+    public init(_ path: String, assembledAs name: String, distinctFrom sources: [URL]) throws {
         let handle: MediaDescriptor?
         do {
             handle = try MediaDescriptor(url: URL(fileURLWithPath: path), writable: true)
@@ -99,7 +101,7 @@ public enum OutputFile: Sendable {
             throw NativeFailure("INVALID_OUTPUT", failure.message)
         }
         guard let handle else {
-            self = .new(try NewFile(at: path))
+            self = .new(try NewFile(at: path, assembledAs: name))
             return
         }
         var output = stat()

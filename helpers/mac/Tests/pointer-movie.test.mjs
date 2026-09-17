@@ -323,7 +323,7 @@ test("changing schedule bytes after preflight prevents movie publication", async
     while (
       !readdirSync(dir).some(
         (x) =>
-          x.startsWith(".screenrec-output-") && readdirSync(join(dir, x)).includes("changing.mp4"),
+          x.startsWith(".screenrec-output-") && readdirSync(join(dir, x)).includes("movie.mp4"),
       )
     ) {
       assert.ok(
