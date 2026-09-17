@@ -17,18 +17,16 @@ final class GlobalShortcuts {
     static func overridePath(home: String) -> String { (home as NSString).appendingPathComponent("shortcuts.json") }
 
     private var actions: [UInt32: ControlsAction] = [:]
-    private var registered: [EventHotKeyRef] = []
     private var handler: EventHandlerRef?
     private var perform: (ControlsAction) -> Void = { _ in }
     private var nextIdentifier: UInt32 = 1
 
-    /// Claims what it can of the given bindings and reports both sides of the outcome: the action
-    /// IDs this app now holds, and the combinations it refused to take from something else.
-    @discardableResult
+    /// Claims what it can of the given bindings for this app's lifetime, and reports both sides of
+    /// the outcome: the action IDs this app now holds, and the combinations it refused to take from
+    /// something else.
     func claim(
         _ bindings: [ControlsAction: Shortcut], perform: @escaping (ControlsAction) -> Void
     ) -> (held: Set<String>, unavailable: [String]) {
-        release()
         self.perform = perform
         installHandler()
         var held: Set<String> = []
@@ -46,25 +44,17 @@ final class GlobalShortcuts {
                 key, Self.carbonModifiers(of: shortcut),
                 EventHotKeyID(signature: Self.signature, id: identifier),
                 GetApplicationEventTarget(), 0, &reference)
-            guard status == noErr, let reference else {
+            guard status == noErr, reference != nil else {
                 unavailable.append(shortcut.display)
                 continue
             }
             actions[identifier] = action
-            registered.append(reference)
             held.insert(action.id)
         }
         return (held, unavailable)
     }
 
-    func release() {
-        for reference in registered { UnregisterEventHotKey(reference) }
-        registered.removeAll()
-        actions.removeAll()
-    }
-
     private func installHandler() {
-        guard handler == nil else { return }
         var pressed = EventTypeSpec(
             eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         InstallEventHandler(

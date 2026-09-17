@@ -65,8 +65,6 @@ public struct ShortcutDefaults: Equatable, Sendable {
     /// shown without a shortcut, because pressing it would do nothing.
     public let registered: Set<String>
 
-    public func shortcut(of action: ControlsAction) -> Shortcut? { bindings[action] }
-
     public func display(of action: ControlsAction) -> String? {
         guard registered.contains(action.id), let shortcut = bindings[action] else { return nil }
         return shortcut.display

@@ -87,7 +87,7 @@ final class PreviewController: NSObject, NSWindowDelegate {
 
     func windowWillClose(_ notification: Notification) { close() }
 
-    /// Driven by the existing controls cadence. Expiry is checked even with a request in flight;
+    /// Driven by the controls' status cadence. Expiry is checked even with a request in flight;
     /// no renewal response may revive a session that was closed while awaiting the service.
     func tick() {
         guard let id = recordingId else { return }

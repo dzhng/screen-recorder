@@ -37,8 +37,8 @@ quietly replaced, which is the whole point of setting one.
 Probing a candidate runs a real process, so it never runs on the main thread and
 never waits unbounded on one. Each candidate gets its own short budget, its output
 is read asynchronously and capped, and a candidate that answers nothing or answers
-endlessly is terminated and then killed. One ten-second budget covers interpreter
-resolution and the child reporting its listener together: the deadline is fixed
+endlessly is terminated and then killed. One budget, the protocol's call timeout, covers
+interpreter resolution and the child reporting its listener together: the deadline is fixed
 before the first probe, so a slow interpreter spends the same budget the service
 would have, rather than starting a fresh one behind it.
 
