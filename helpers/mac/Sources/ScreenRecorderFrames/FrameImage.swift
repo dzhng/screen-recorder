@@ -2,6 +2,7 @@ import CoreImage
 import CoreVideo
 import Foundation
 import ImageIO
+import ScreenRecorderMedia
 import UniformTypeIdentifiers
 
 /// Orients a decoded sample, applies an already validated crop, bounds its long edge and encodes
@@ -39,7 +40,7 @@ struct FrameImage {
         let sourceHeight = Int(visible.height.rounded())
         let longEdge = max(sourceWidth, sourceHeight)
         guard longEdge > 0 else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Decoded sample has no pixels.")
+            throw NativeFailure.decodeFailed("Decoded sample has no pixels.")
         }
         // Drawing happens in source pixels, before the crop and the long-edge bound, so the points
         // the core supplied are read in the geometry they were measured in. The bound that follows
@@ -91,18 +92,18 @@ struct FrameImage {
             let rendered = context.createCGImage(
                 image, from: CGRect(x: 0, y: 0, width: width, height: height))
         else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot render \(width)x\(height) frame.")
+            throw NativeFailure.decodeFailed("Cannot render \(width)x\(height) frame.")
         }
         let data = NSMutableData()
         guard
             let destination = CGImageDestinationCreateWithData(
                 data, UTType.png.identifier as CFString, 1, nil)
         else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot create PNG encoder.")
+            throw NativeFailure.decodeFailed("Cannot create PNG encoder.")
         }
         CGImageDestinationAddImage(destination, rendered, nil)
         guard CGImageDestinationFinalize(destination) else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot encode PNG frame.")
+            throw NativeFailure.decodeFailed("Cannot encode PNG frame.")
         }
         return data as Data
     }

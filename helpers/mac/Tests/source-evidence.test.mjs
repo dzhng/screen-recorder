@@ -143,7 +143,7 @@ test("samples preserve raw values and geometry ordering across batches", (t) => 
 test("corrupt and incomplete tails retain only observed prefix with explicit markers", (t) => {
   for (const [tail, incompleteTail, invalidAtSequence] of [
     ["{", true, undefined],
-    ["x".repeat(1_048_577), true, undefined],
+    ["x".repeat(1_048_577), false, 3],
     ["{bad}\n", false, 3],
   ]) {
     const f = fixture(t, [{ event: "cursorSamples", data: { samples: [sample] } }]);
@@ -200,7 +200,7 @@ test("existing paths, links, source descendants and invalid requests never mutat
   assert.equal(existsSync(f.output), false);
   assert.equal(existsSync(join(f.directory, "new")), false);
   assert.equal(
-    readdirSync(f.root).some((p) => p.startsWith(".source-evidence-")),
+    readdirSync(f.root).some((p) => p.startsWith(".screenrec-output-")),
     false,
   );
 });

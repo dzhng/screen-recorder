@@ -1,5 +1,6 @@
 import Foundation
 import ScreenRecorderCapture
+import ScreenRecorderWire
 
 private struct NormalizedPause: Decodable {
     let event: String

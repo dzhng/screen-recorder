@@ -2,7 +2,7 @@
 import CoreImage
 import Darwin
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 public struct PresentationEvidenceReceipt: Encodable, Sendable {
     public let file: String
@@ -51,40 +51,24 @@ public enum PresentationEvidence {
     ) async throws -> PresentationEvidenceReceipt {
         let duration = try PresentationSource.duration(of: plan)
         guard maxBytes > 0, maxBytes <= 9_007_199_254_740_991 else {
-            throw FrameFailure("INVALID_REQUEST", "Evidence requires a positive safe byte budget.")
+            throw NativeFailure("INVALID_REQUEST", "Evidence requires a positive safe byte budget.")
         }
-        var info = stat()
-        guard source.path.hasPrefix("/"), output.path.hasPrefix("/"),
-            source.resolvingSymlinksInPath().standardizedFileURL
-                != output.resolvingSymlinksInPath().standardizedFileURL,
-            lstat(output.path, &info) != 0, errno == ENOENT
-        else {
-            throw FrameFailure("INVALID_OUTPUT", "Evidence output must be a new absolute path.")
-        }
-        try Task.checkCancellation()
+        let destination = try NewFile(at: output.path, assembledAs: "evidence.jsonl")
+        defer { destination.discard() }
         let presentation = try await PresentationSource(source: source, plan: plan)
-        let staging = output.deletingLastPathComponent()
-            .appendingPathComponent(".presentation-evidence-\(UUID().uuidString)")
-        guard mkdir(staging.path, 0o700) == 0 else {
-            throw FrameFailure("INVALID_OUTPUT", "Cannot create owned evidence staging directory.")
-        }
-        defer { try? FileManager.default.removeItem(at: staging) }
-        let member = staging.appendingPathComponent("evidence.jsonl")
-        let fd = open(member.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, 0o600)
+        let fd = open(destination.url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)
         guard fd >= 0 else {
-            throw FrameFailure("INVALID_OUTPUT", "Cannot open evidence staging file.")
+            throw NativeFailure.decodeFailed("Cannot open evidence output.")
         }
         let file = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
-        defer { try? file.close() }
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         var bytes = 0
         func append(_ record: some Encodable) throws {
-            try Task.checkCancellation()
             var data = try encoder.encode(record)
             data.append(10)
             guard data.count <= 65_536, data.count <= maxBytes - bytes else {
-                throw FrameFailure(
+                throw NativeFailure(
                     "LIMIT_EXCEEDED", "Presentation evidence exceeds its byte budget.")
             }
             try file.write(contentsOf: data)
@@ -103,7 +87,8 @@ public enum PresentationEvidence {
                 let next = try autoreleasepool {
                     let selected = try presentation.selection(at: at, end: end)
                     guard selected.end > at else {
-                        throw FrameFailure("UNAVAILABLE", "Presentation evidence made no progress.")
+                        throw NativeFailure(
+                            "UNAVAILABLE", "Presentation evidence made no progress.")
                     }
                     let image = try selected.buffer.map {
                         try FrameImage(
@@ -122,16 +107,10 @@ public enum PresentationEvidence {
                 }
                 at = next
                 count += 1
-                // Yield without retaining prior rasters; in-process cancellation can progress too.
-                if count.isMultiple(of: 64) { await Task.yield() }
             }
         }
-        try file.synchronize()
-        try Task.checkCancellation()
-        guard link(member.path, output.path) == 0 else {
-            throw FrameFailure(
-                "INVALID_OUTPUT", "Cannot publish evidence to an occupied destination.")
-        }
+        try file.close()
+        _ = try destination.publish()
         return PresentationEvidenceReceipt(
             file: output.path, version: 1, sourceWidth: presentation.width,
             sourceHeight: presentation.height, durationUs: duration, records: count, bytes: bytes)

@@ -1,8 +1,9 @@
 @preconcurrency import AVFoundation
 import Foundation
 import ScreenCaptureKit
-import ScreenRecorderMediaTime
 import ScreenRecorderCapture
+import ScreenRecorderMedia
+import ScreenRecorderWire
 
 func runCaptureWriterTests() throws {
     for canceled in [false, true] {

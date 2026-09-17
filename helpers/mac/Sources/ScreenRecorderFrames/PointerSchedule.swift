@@ -2,9 +2,9 @@
 import CryptoKit
 import Darwin
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
-public struct PointerScheduleReceipt: Decodable, Sendable {
+public struct PointerScheduleReceipt: Codable, Sendable {
     let version: Int
     let recordingId: String
     let sourceId: String
@@ -169,8 +169,7 @@ final class PointerSchedule {
                 }
             }
             if let p = state.pointer {
-                guard p.x.isFinite, p.y.isFinite, p.x >= 0, p.y >= 0,
-                    p.x < Double(receipt.sourceWidth), p.y < Double(receipt.sourceHeight),
+                guard p.isOnRaster(width: receipt.sourceWidth, height: receipt.sourceHeight),
                     p.atSourceUs >= 0, time(microseconds: p.atSourceUs) <= at
                 else { throw invalid("Pointer coordinates or observation time are invalid.") }
             }
@@ -181,7 +180,6 @@ final class PointerSchedule {
     }
 
     private func line() throws -> Data? {
-        try Task.checkCancellation()
         while true {
             if let newline = buffer[offset...].firstIndex(of: 10) {
                 let data = buffer.subdata(in: offset..<newline)
@@ -210,6 +208,6 @@ final class PointerSchedule {
         }
     }
 }
-private func invalid(_ message: String) -> FrameFailure {
-    FrameFailure("INVALID_REQUEST", message)
+private func invalid(_ message: String) -> NativeFailure {
+    NativeFailure("INVALID_REQUEST", message)
 }

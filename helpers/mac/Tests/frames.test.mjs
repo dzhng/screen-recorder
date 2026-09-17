@@ -78,6 +78,14 @@ test("frame worker returns actual sample pixels and survives invalid requests", 
     assert.equal(png.readUInt32BE(20), 45);
     assert.equal(frame.data.bytes, png.length);
     assert.deepEqual(readFileSync(source), before);
+    // A new output path is the contract: repeating the request never replaces what is there.
+    const replay = spawnSync(executable, [], {
+      input: JSON.stringify({ id: "replay", operation: "media.frame", params }) + "\n",
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(JSON.parse(replay.stdout).error.code, "INVALID_OUTPUT");
+    assert.deepEqual(readFileSync(output), png);
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }

@@ -1,6 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// Selects the sample whose own presentation timestamp is closest to `requestedUs` among the
 /// samples inside `kept`. Earlier wins ties. Membership and distance are judged on the same
@@ -15,7 +15,7 @@ struct SampleSelector {
         self.segments = SourceSegment.occupied(of: segments)
     }
 
-    func nearestSample(toUs requestedUs: Int64, in kept: FrameInterval) -> (CMTime, Int64)? {
+    func nearestSample(toUs requestedUs: Int64, in kept: TimeSpan) -> (CMTime, Int64)? {
         var best: (CMTime, Int64)?
         for segment in segments {
             guard let candidate = nearestSample(toUs: requestedUs, in: kept, of: segment) else {
@@ -26,7 +26,7 @@ struct SampleSelector {
         return best
     }
 
-    private func nearestSample(toUs requestedUs: Int64, in kept: FrameInterval, of segment: SourceSegment)
+    private func nearestSample(toUs requestedUs: Int64, in kept: TimeSpan, of segment: SourceSegment)
         -> (CMTime, Int64)?
     {
         // Anchoring inside the interval keeps both walks adjacent to the kept material even when
@@ -44,7 +44,7 @@ struct SampleSelector {
     /// Walks presentation order from the cursor to the first sample inside the interval, stopping
     /// once the walk has passed the interval or run off the segment.
     private func walk(
-        from cursor: AVSampleCursor, step: Int64, in kept: FrameInterval, of segment: SourceSegment,
+        from cursor: AVSampleCursor, step: Int64, in kept: TimeSpan, of segment: SourceSegment,
         skippingCurrent: Bool = false
     ) -> (CMTime, Int64)? {
         guard let walker = cursor.copy() as? AVSampleCursor else { return nil }

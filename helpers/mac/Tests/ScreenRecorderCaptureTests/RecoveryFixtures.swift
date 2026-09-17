@@ -2,7 +2,7 @@
 import CoreVideo
 import Foundation
 import ScreenRecorderCapture
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// Generated media for recovery tests. Frames carry enough detail to encode, nothing more; these
 /// tests read timing, never pixels.
@@ -156,7 +156,7 @@ enum RecoveryFixture {
     }
 
     /// Interval bounds as plain numbers, so tests state expectations without building response types.
-    static func bounds(_ intervals: [MediaInterval]) -> [[Int64]] {
+    static func bounds(_ intervals: [TimeSpan]) -> [[Int64]] {
         intervals.map { [$0.startUs, $0.endUs] }
     }
 

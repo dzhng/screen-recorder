@@ -2,36 +2,27 @@
 import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderFrames
+import ScreenRecorderMedia
 
 /// Copies the already-rendered H.264 samples and consumes the sole retained PCM mixer.
 /// Both writer inputs finish before the caller may publish this attempt's file.
-package enum MovieMux {
-    package static func write(
-        video: URL, audio: AudioPCMStream, durationUs: Int64, output: URL,
-        didStartFinishing: (@Sendable (Bool) -> Void)? = nil,
-        didCopyVideoSample: (@Sendable () throws -> Void)? = nil
-    )
+enum MovieMux {
+    static func write(video: URL, audio: AudioPCMStream, durationUs: Int64, output: URL)
         async throws
     {
         let inputs = try await Inputs(
-            video: video, rate: audio.format.sampleRate,
-            channels: audio.format.channels, output: output, didCopyVideoSample: didCopyVideoSample)
-        try await withTaskCancellationHandler {
-            do {
-                // The input actor shares the first failure promptly with the other pump.
-                async let pictures: Void = inputs.copyVideo()
-                try await audio.consume { try await inputs.appendAudio($0) }
-                await inputs.finishAudio()
-                try await pictures
-                try await inputs.finish(durationUs: durationUs, didStart: didStartFinishing)
-            } catch {
-                await inputs.cancel()
-                throw error
-            }
-        } onCancel: {
-            // finishWriting suspends the actor, so cancellation can reach the writer while
-            // that SDK call is awaiting completion. The service process deadline remains final.
-            Task { await inputs.cancel() }
+            video: video, rate: audio.format.sampleRate, channels: audio.format.channels,
+            output: output)
+        do {
+            // The input actor shares the first failure promptly with the other pump.
+            async let pictures: Void = inputs.copyVideo()
+            try await audio.consume { try await inputs.appendAudio($0) }
+            await inputs.finishAudio()
+            try await pictures
+            try await inputs.finish(durationUs: durationUs)
+        } catch {
+            await inputs.cancel()
+            throw error
         }
     }
 
@@ -44,18 +35,13 @@ package enum MovieMux {
         let format: CMAudioFormatDescription
         let rate: Int
         let channels: Int
-        private var firstFailure: AudioFailure?
-        private let didCopyVideoSample: (@Sendable () throws -> Void)?
+        private var firstFailure: NativeFailure?
 
-        init(
-            video: URL, rate: Int, channels: Int, output: URL,
-            didCopyVideoSample: (@Sendable () throws -> Void)?
-        ) async throws {
+        init(video: URL, rate: Int, channels: Int, output: URL) async throws {
             let asset = AVURLAsset(url: video)
             guard let track = try await asset.loadTracks(withMediaType: .video).first,
                 let description = try await track.load(.formatDescriptions).first
             else { throw failure("Rendered video has no compressed track.") }
-            self.didCopyVideoSample = didCopyVideoSample
             self.rate = rate
             self.channels = channels
             format = try pcmDescription(rate: rate, channels: channels)
@@ -77,7 +63,7 @@ package enum MovieMux {
                 AVNumberOfChannelsKey: channels, AVEncoderBitRateKey: channels * 96_000,
             ]
             guard writer.canApply(outputSettings: settings, forMediaType: .audio) else {
-                throw AudioFailure(
+                throw NativeFailure(
                     "UNSUPPORTED_FORMAT", "AAC cannot encode the resolved PCM format.")
             }
             sound = AVAssetWriterInput(mediaType: .audio, outputSettings: settings)
@@ -105,7 +91,6 @@ package enum MovieMux {
         func copyVideo() async throws {
             do {
                 while true {
-                    try Task.checkCancellation()
                     guard let sample = autoreleasepool(invoking: { samples.copyNextSampleBuffer() })
                     else { break }
                     try await ready(picture)
@@ -114,7 +99,6 @@ package enum MovieMux {
                             "Cannot copy rendered video samples: \(writer.error?.localizedDescription ?? "writer failed")."
                         )
                     }
-                    try didCopyVideoSample?()
                 }
                 guard reader.status == .completed else {
                     throw failure(
@@ -122,21 +106,16 @@ package enum MovieMux {
                     )
                 }
                 picture.markAsFinished()
-            } catch let error as AudioFailure {
+            } catch let error as NativeFailure {
                 if firstFailure == nil { firstFailure = error }
                 cancel()
                 throw error
             }
         }
 
-        func finish(durationUs: Int64, didStart: (@Sendable (Bool) -> Void)?) async throws {
-            try Task.checkCancellation()
+        func finish(durationUs: Int64) async throws {
             writer.endSession(atSourceTime: CMTime(value: durationUs, timescale: 1_000_000))
-            await withCheckedContinuation { continuation in
-                writer.finishWriting { continuation.resume() }
-                didStart?(writer.status == .writing)
-            }
-            try Task.checkCancellation()
+            await writer.finishWriting()
             guard writer.status == .completed else {
                 throw failure(
                     "Cannot finish movie: \(writer.error?.localizedDescription ?? "writer failed")."
@@ -154,14 +133,12 @@ package enum MovieMux {
             if let firstFailure { throw firstFailure }
             while !input.isReadyForMoreMediaData {
                 if let firstFailure { throw firstFailure }
-                try Task.checkCancellation()
                 guard writer.status == .writing, ContinuousClock.now < deadline else {
                     throw failure("Movie writer stopped making progress.")
                 }
                 try await Task.sleep(for: .milliseconds(1))
             }
             if let firstFailure { throw firstFailure }
-            try Task.checkCancellation()
         }
     }
 
@@ -217,7 +194,7 @@ package enum MovieMux {
         return sample
     }
 
-    private static func failure(_ message: String) -> AudioFailure {
-        AudioFailure("NATIVE_DECODE_FAILED", message)
+    private static func failure(_ message: String) -> NativeFailure {
+        NativeFailure.decodeFailed(message)
     }
 }

@@ -1,15 +1,5 @@
 import Foundation
-
-/// A half-open interval of recording source time, already resolved by the timeline owner.
-/// This library never interprets edits; it only reads and concatenates the intervals it is given.
-public struct SourceSpan: Codable, Sendable, Equatable {
-    public let startUs: Int64
-    public let endUs: Int64
-    public init(startUs: Int64, endUs: Int64) {
-        self.startUs = startUs
-        self.endUs = endUs
-    }
-}
+import ScreenRecorderMedia
 
 /// Capture stores narration and system audio as separate files, so an excerpt names which of them
 /// it is reading rather than describing a mix mode. One track is the separate-track excerpt; both
@@ -34,8 +24,8 @@ public struct AudioTrackPlan: Codable, Sendable, Equatable {
     public let role: AudioRole
     public let source: String
     public let sourceOffsetUs: Int64
-    public let available: [SourceSpan]
-    public init(role: AudioRole, source: String, sourceOffsetUs: Int64, available: [SourceSpan]) {
+    public let available: [TimeSpan]
+    public init(role: AudioRole, source: String, sourceOffsetUs: Int64, available: [TimeSpan]) {
         self.role = role
         self.source = source
         self.sourceOffsetUs = sourceOffsetUs
@@ -45,9 +35,9 @@ public struct AudioTrackPlan: Codable, Sendable, Equatable {
 
 public struct AudioExcerptRequest: Sendable {
     public let tracks: [AudioTrackPlan]
-    public let spans: [SourceSpan]
+    public let spans: [TimeSpan]
     public let output: URL
-    public init(tracks: [AudioTrackPlan], spans: [SourceSpan], output: URL) {
+    public init(tracks: [AudioTrackPlan], spans: [TimeSpan], output: URL) {
         self.tracks = tracks
         self.spans = spans
         self.output = output
@@ -55,8 +45,6 @@ public struct AudioExcerptRequest: Sendable {
 }
 
 public enum AudioLimits {
-    /// Public times are safe integer microseconds on both sides of the wire.
-    public static let maximumMicroseconds: Int64 = 9_007_199_254_740_991
     public static let maximumExcerptUs: Int64 = 30_000_000
     public static let maximumSpans = 1_000
     /// Internal movie plans share the video renderer's bounded metadata capacity.
@@ -81,9 +69,9 @@ public struct AudioTrackReport: Codable, Sendable, Equatable {
     public let gain: Double
     public let sampleRate: Int
     public let channels: Int
-    public let unavailable: [SourceSpan]
+    public let unavailable: [TimeSpan]
     public init(
-        role: AudioRole, gain: Double, sampleRate: Int, channels: Int, unavailable: [SourceSpan]
+        role: AudioRole, gain: Double, sampleRate: Int, channels: Int, unavailable: [TimeSpan]
     ) {
         self.role = role
         self.gain = gain
@@ -104,20 +92,6 @@ public struct AudioExcerpt: Codable, Sendable, Equatable {
     public let frames: Int64
     public let durationUs: Int64
     public let bytes: Int
-    public let spans: [SourceSpan]
+    public let spans: [TimeSpan]
     public let tracks: [AudioTrackReport]
-}
-
-/// Codes: `INVALID_REQUEST` (track set), `INVALID_RANGE` (times, spans and available intervals),
-/// `INVALID_OUTPUT` (output path), `LIMIT_EXCEEDED` (excerpt duration, span and interval counts,
-/// source format bounds), `UNSUPPORTED_FORMAT` (a channel layout combination this owner will not
-/// invent a mapping for), `NATIVE_DECODE_FAILED` (media open, decode or write).
-public struct AudioFailure: Error, LocalizedError, Codable, Sendable, Equatable {
-    public var errorDescription: String? { message }
-    public let code: String
-    public let message: String
-    public init(_ code: String, _ message: String) {
-        self.code = code
-        self.message = message
-    }
 }

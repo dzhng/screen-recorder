@@ -191,7 +191,10 @@ for (const [name, ranges, tracks] of cases)
       );
       if (av.playerEndedNotification) assert.ok(Math.abs(av.playerEndUs - duration) < 0.001);
       const video = join(dir, name + ".video.mp4");
-      assert.equal(request("media.renderVideo", { source, output: video, plan: p }).ok, true);
+      assert.equal(
+        request("media.renderMovie", { source, output: video, plan: p, tracks: [] }).ok,
+        true,
+      );
       const sourceTags = JSON.parse(
         run("ffprobe", [
           "-v",
@@ -337,7 +340,7 @@ for (const [name, ranges, tracks] of cases)
             "Native presentation retains nonzero sample; FFmpeg emits no PCM for this sub-packet movie.";
         }
       } else assert.equal(audio, undefined);
-      assert.ok(!readdirSync(dir).some((f) => f.startsWith(".movie-render-")));
+      assert.ok(!readdirSync(dir).some((f) => f.startsWith(".screenrec-output-")));
       reports.push({
         name,
         plan: p,

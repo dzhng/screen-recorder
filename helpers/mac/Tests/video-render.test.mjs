@@ -102,7 +102,11 @@ function request(params) {
     run(
       native,
       [],
-      JSON.stringify({ id: "render", operation: "media.renderVideo", params }) + "\n",
+      JSON.stringify({
+        id: "render",
+        operation: "media.renderMovie",
+        params: { tracks: [], ...params },
+      }) + "\n",
     ),
   );
 }
@@ -214,8 +218,9 @@ const cases = [
 ];
 for (const [name, sourceName, duration, ranges, identities, pts] of cases) {
   test(`video worker preserves ${name} pixels and exact plan duration`, () => {
+    // The service names cached derivatives without a media extension; the worker must not care.
     const source = join(directory, sourceName + ".mov"),
-      output = join(directory, name + ".mp4");
+      output = join(directory, name + ".cache");
     const before = readFileSync(source);
     const plan = planFor(
       duration,
@@ -230,7 +235,7 @@ for (const [name, sourceName, duration, ranges, identities, pts] of cases) {
       name,
       source: sourceName,
       plan,
-      receipt: { ...result.data, file: name + ".mp4" },
+      receipt: { ...result.data, file: name + ".cache" },
       decoded,
     });
     assert.equal(decoded.durationUs, result.data.durationUs);
@@ -262,6 +267,12 @@ test("video worker refuses malformed plans and output aliases without source mut
     [{ source: { startUs: 0, endUs: 10 }, playback: { startUs: 1, endUs: 11 } }],
     [{ source: { startUs: true, endUs: 10 }, playback: { startUs: 0, endUs: 10 } }],
     [{ source: { startUs: 0, endUs: 300000 }, playback: { startUs: 0, endUs: 300000 } }],
+    // Retained spans never touch: adjacent ones are one span, and audio mixing refuses to ramp a
+    // join that does not exist, so video must refuse the same plan.
+    [
+      { source: { startUs: 0, endUs: 1000 }, playback: { startUs: 0, endUs: 1000 } },
+      { source: { startUs: 1000, endUs: 2000 }, playback: { startUs: 1000, endUs: 2000 } },
+    ],
   ]) {
     const output = join(directory, "invalid.mp4");
     assert.equal(request({ source, output, plan: bad }).ok, false);
@@ -291,12 +302,12 @@ test("video publication preserves a destination created during rendering", async
     child.stdin.end(
       JSON.stringify({
         id: "race",
-        operation: "media.renderVideo",
-        params: { source, output, plan: planFor(200000, spans) },
+        operation: "media.renderMovie",
+        params: { source, output, plan: planFor(200000, spans), tracks: [] },
       }) + "\n",
     );
     const deadline = Date.now() + 5000;
-    while (!readdirSync(directory).some((name) => name.startsWith(".video-render-"))) {
+    while (!readdirSync(directory).some((name) => name.startsWith(".screenrec-output-"))) {
       assert.ok(
         Date.now() < deadline && child.exitCode === null,
         "Render must reach staging before publication",
@@ -308,7 +319,7 @@ test("video publication preserves a destination created during rendering", async
     assert.equal(JSON.parse(stdout).error.code, "INVALID_OUTPUT");
     assert.equal(readFileSync(output, "utf8"), "concurrent owner's sentinel");
     assert.equal(
-      readdirSync(directory).some((name) => name.startsWith(".video-render-")),
+      readdirSync(directory).some((name) => name.startsWith(".screenrec-output-")),
       false,
     );
   } finally {
@@ -516,7 +527,7 @@ test("presentation evidence refuses unsupported video tail and partial byte-budg
   assert.equal(limited.result.ok, false);
   assert.equal(limited.result.error.code, "LIMIT_EXCEEDED");
   assert.equal(existsSync(limited.output), false);
-  assert.ok(!readdirSync(directory).some((name) => name.startsWith(".presentation-evidence-")));
+  assert.ok(!readdirSync(directory).some((name) => name.startsWith(".screenrec-output-")));
 });
 
 test("presentation evidence memory stays bounded while streamed output grows", async () => {

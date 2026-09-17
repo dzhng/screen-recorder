@@ -1,309 +1,217 @@
-# Native capture
+# Native capture and media
 
-`ScreenRecorderCapture` owns device state, source selection, sample timing and media
-writers. The app consumes `NativeCapture`; the JSON-file probe calls the same owner.
-The app's capture controller invokes this object on the service's behalf over their private
-control channel, and answers `onInterruption` by calling `stop()` so partial media is finalized
-and reported rather than abandoned. The take's identity comes from the service: `sourceId` is
-what the journal header records, while the session's own generation guard stays separate so a
-superseded session cannot interrupt a later one. The worker executable remains separate
-because capture must run under the stable app identity.
+This Swift package holds everything that must run natively: capture under the app's stable
+identity, and the bounded media worker the service spawns for decode, render, recovery and
+package storage. [Package.swift](Package.swift) is the roster of targets; the rule for what
+belongs where is:
 
-`CaptureTypes.swift` is the Swift boundary. Source region coordinates are local to
-the selected display, in logical points; emitted video dimensions are pixels.
-Window capture follows the window through ScreenCaptureKit's independent-window
-filter. System audio uses a separate whole-display stream so selecting a window
-cannot silently narrow audio to that application. It excludes the recorder process.
+- **ScreenRecorderCapture** is the only library the app links. It owns device state, source
+  selection, the capture clock, media writers, the acquisition journal and cursor geometry.
+- **ScreenRecorderMedia** holds primitives every native owner shares and that must not drift
+  between them: how a media file or inherited handle is opened, how asset time maps to media time,
+  the half-open microsecond span, the one failure type and new-output publication.
+- **ScreenRecorderFrames** and **ScreenRecorderAudio** decode, draw, mix and encode exactly what
+  they are given. They never interpret edits, choose cursor history or decide cuts: the timeline,
+  trail and scene owners live in `packages/core`.
+- **ScreenRecorderWire** is the worker boundary: request decoding, the operation table, and the
+  operations that exist only in the worker (recovery, evidence export, archives, storage).
+- **ScreenRecorderNative** is the `screenrec-native` executable around that boundary.
 
-All delivered tracks use the ScreenCaptureKit host timestamp domain. The first
-complete video sample establishes source zero. Samples before source zero are
-omitted. Pause intervals remove real elapsed time from all tracks, including late
-samples delivered after resume. Audio buffers intersecting a pause boundary are
-omitted rather than including speech recorded during the pause; their omission
-contributes to omitted-sample counts. Dropped-sample counts separately report
-writer backpressure; intentional pause omission does not count as an encoder stall. A pause event records its source boundary
-and actual elapsed duration.
+## Capture timing
 
-Video uses H.264 in MOV. Narration and system audio use separate float PCM MOV files.
-System capture requests 48 kHz stereo from ScreenCaptureKit; microphone capture
-retains the device's reported rate and channels. No app resampling or mixing occurs.
-Each result reports submitted sample times, rate and channels. A submitted buffer can
-extend beyond the clipped file end; those statistics are not decoded availability. Missing
-requested tracks and stream failures return interrupted status, never successful
-complete media. Healthy unchanged tails hold the last available frame and report
-`heldTailUs`. Stopping routinely lands while the encoder is still draining, so
-the held frame waits for the writer input to accept it instead of reading that
-backpressure as a broken take. Only a writer that has stopped accepting samples,
-or one that never drains within a bounded wait, truncates the take. An
-interruption stops at the last available sample rather than inventing captured
-tail media.
+All delivered tracks use the ScreenCaptureKit host timestamp domain. The first complete video
+sample establishes source zero, and samples before it are omitted. Pauses remove real elapsed time
+from every track, including late samples delivered after resume; an audio buffer that intersects a
+pause boundary is omitted rather than letting speech recorded during the pause through. Omission is
+counted separately from dropped samples: dropped means writer backpressure, and intentional pause
+omission is not an encoder stall.
 
-Hidden/minimized windows remain valid sources. ScreenCaptureKit can deliver
-blank frames while a window is hidden; these are preserved as delivered, not
-classified by pixel color. Visibility/acquisition metadata still needs the
-geometry-journal slice before this condition is fully explained to consumers.
-A closed window retained by its
-application can be indistinguishable from a hidden one; the recorder does not
-infer destruction from missing complete frames. Actual source destruction and
-stream errors use ScreenCaptureKit's delegate signal. The native owner
-seals the clock and writer immediately, then notifies `onInterruption`. The controller
-ends it through the same joined stop/discard operation; interruption does not own a
-second asynchronous stream teardown.
+Video is H.264 in MOV at a microsecond timescale; narration and system audio are separate float PCM
+MOV files. System audio is requested at 48 kHz stereo from a separate whole-display stream, so
+selecting a window cannot narrow audio to that application, and it excludes the recorder. The
+microphone keeps its device rate and channels. Nothing is resampled or mixed at capture. A
+submitted buffer can extend past the clipped file end, so submitted-sample statistics are not
+decoded availability.
 
-The app never requests permission or starts capture at ordinary launch. Probe
-preflight only reads authorization. Explicit probe requests with a missing
-permission fail before opening streams. The fixture command captures only its own
-visible native window with both audio inputs disabled.
+Missing requested tracks and stream failures return an interrupted take, never complete media. A
+healthy unchanged tail holds the last available frame through the stop boundary and reports how
+long it held. Stopping routinely lands while the encoder drains, so the held frame waits for the
+writer input to accept it rather than reading backpressure as a broken take; only a writer that
+stopped accepting samples, or never drains within a bounded wait, truncates the take. An
+interruption stops at the last available sample rather than inventing tail media.
 
-An explicit `--permission microphone` or `--permission screen` probe action invokes
-the corresponding macOS authorization API without starting capture. This lets a
-fresh installation request access before macOS exposes its permission toggle.
-The future recording UI uses the same native action from its permission controls.
-Denials still require the user's System Settings decision; ordinary launch and
-preflight never open a permission prompt.
+Hidden and minimized windows remain valid sources, and ScreenCaptureKit can deliver blank frames
+for them; these are preserved as delivered, not classified by pixel color. A closed window its
+application retains can be indistinguishable from a hidden one, so destruction is taken only from
+ScreenCaptureKit's delegate signal. On that signal, or any stream error, the native owner seals the
+clock and writers immediately and notifies `onInterruption`; the app's capture controller ends the
+take through the same joined stop or discard, so interruption never owns a second teardown. The
+take's identity comes from the service: `sourceId` is what the journal header records, while the
+session's own generation guard keeps a superseded session from interrupting a later one.
 
-## Probe contract
+The app never requests permission or starts capture at ordinary launch. Preflight only reads
+authorization; an explicit permission action invokes the macOS authorization API without starting
+capture, so a fresh install can request access before System Settings shows the toggle. Denials
+still require the user's decision in System Settings.
 
-Build the app first, then run `node scripts/native-capture-probe.mjs --preflight`
-from the repository root. `--sources` lists available IDs only after authorization.
-`--fixture [output-directory]` explicitly records the generated grid. `--request`
-accepts a JSON file containing the following shape; `durationSeconds` includes the
-pause and is bounded to one hour for this test driver:
+Writers emit movie fragments while recording, so a crashed process leaves a decodable prefix. The
+first fragment bounds the vulnerable opening; a crash before it can leave no usable video. These
+are process-crash guarantees, not power-loss durability.
 
-```json
-{
-  "capture": {
-    "source": { "kind": "window", "windowID": 123 },
-    "outputDirectory": "/absolute/empty/source-directory",
-    "microphone": false,
-    "systemAudio": false
-  },
-  "durationSeconds": 6,
-  "pauseAtSeconds": 2,
-  "pauseSeconds": 2
-}
-```
+## Acquisition journal
 
-The driver prints the capture result and writes `capture.json` beside media. It
-returns a nonzero exit code on failures. The fixture-only optional
-`closeFixtureAtSeconds` field exits a separate fixture-owner process to exercise
-actual source destruction. `hideFixtureAtSeconds` and `minimizeFixtureAtSeconds`
-exercise retained windows without treating them as destroyed. This is a bounded probe, not the app's
-future long-lived service protocol. Do not infer microphone, source-loss, drift,
-or framing acceptance from clock tests or a successful compile; those require
-real captures and decoded/auditioned media.
+[CaptureJournal](Sources/ScreenRecorderCapture/CaptureJournal.swift) owns ordered acquisition
+evidence beside the media. Each event's name, payload type, validation and durability live in one
+place, so the writer and every reader decode the same record the same way. Boundaries a recovery
+needs to place the take in time are synchronized when written; per-buffer audio ranges, geometry
+and cursor batches are ordinary writes whose file order still puts an epoch before the samples
+citing it. Reported device transitions are records too, so the sequence a live report carries is
+the sequence the file holds.
 
-## Recoverable acquisition
+Records are numbered from one without gaps, and a record that could not be encoded or written does
+not consume a number. A reader keeps the valid prefix and reports where the file stopped being
+believable, in one of two ways that mean different things:
 
-Writers emit movie fragments while recording so abrupt process termination can
-leave a decodable prefix without a final stop callback. The initial fragment
-limits the vulnerable opening; subsequent fragments bound ordinary unwritten
-tail loss. A crash before the first fragment can leave no usable video. These
-are process-crash guarantees, not a power-loss durability claim.
+- `incompleteTail`: the last line has no terminator. That is a crash boundary.
+- `invalidAtSequence`: a record will not decode through its written type, breaks the numbering, or
+  is an unterminated run longer than any record the writer produces. That is corruption, and
+  nothing after it is believed.
 
-[CaptureJournal](Sources/ScreenRecorderCapture/CaptureJournal.swift) owns ordered
-acquisition evidence beside the media. It owns each event's name, payload type and
-durability, so the writer and the reader cannot drift apart. Identity, source clock and
-pause boundaries are synchronized when written; audio sample ranges record which time
-spans actually arrived. The reader retains the valid prefix after a torn final record and
-keeps an unfinished pause open. Every payload decodes through its written type: a record
-whose field will not decode is rejected and named by `invalidAtSequence` rather than
-silently leaving a boundary empty, and nothing after it is believed. That is distinct from
-`incompleteTail`, which means only that the last line has no terminator — a crash
-boundary, not corruption. A clean journal ending alone does not mean a take finished.
-Geometry acquisition events can use the same append owner; this layer does not
-compute edit-time transforms. Reported device transitions are journal records too, so the
-sequence a live report carries is the sequence the file itself holds and a reader cannot
-disagree with what the library was told.
+A clean ending alone does not mean a take finished. `inspect` accumulates completed pauses and
+audio ranges for recovery; `streamEvidence` delivers them through callbacks without retaining
+timing arrays, because a take samples the pointer sixty times a second.
 
-[MediaRecovery](Sources/ScreenRecorderCapture/MediaRecovery.swift) decodes each
-source independently and returns intervals through the worker's `media.recover`
-operation. Video determines the recovered take extent. Optional audio never
-shortens video, and missing media retains an explicit per-track failure. Audio the
-journal header never requested is reported as an allowed absence rather than a loss;
-without a header an absence stays unexplained. Recovery is read-only: package
-reconciliation belongs to the service.
-
-AVFoundation can return silence for empty audio edit-list segments and unavailable
-sample durations for decoded video. Recovery excludes empty segments and clips to the
-track's media range. A take's last frame has no successor to bound it, so its duration
-comes from the sample cursor that states it — positioned through
-[ScreenRecorderMediaTime](Sources/ScreenRecorderMediaTime), because readers report asset
-time while cursors navigate media time. When no cursor confirms that sample, the recovered
-interval stops at the last decoded timestamp and the track fails with `UNKNOWN_TAIL`; the
-gap to the previous sample is not evidence of how long the last one lasted, and an empty
-successful track is not an acceptable answer. Audio also intersects the acquisition
-journal: decoder padding must not become evidence that speech was recorded. Adjacent audio
-ranges coalesce within one microsecond to absorb timestamp conversion rounding. Without a
-journal, physical audio ranges remain available but acquisition verification is false.
-
-The worker returns a compact journal summary and relative journal filename;
-consumers that need individual events stream that file. Types beside the reader
-are the response contract. `ScreenRecorderCaptureTests` generates its own media through
-AVFoundation, including an unfinalized fragmented take and a take whose edit list separates
-the two time domains; the worker-level tests drive the same operation with FFmpeg-made
-fixtures. FFmpeg is a development fixture dependency, not an app dependency. Real device
-audio fragmentation and interruption still require capture evidence.
-
-## Cursor sampling and capture geometry
+## Cursor sampling and geometry
 
 [CursorGeometry](Sources/ScreenRecorderCapture/CursorGeometry.swift) owns pointer sampling and the
-source transform. `CursorSampler` reads `NSEvent.mouseLocation` and
-`NSEvent.pressedMouseButtons` on its own queue at a 60 Hz cadence, only while a take is actually
-recording: pausing suspends the cadence and sealing ends it. There is no event tap, no keyboard
-observation and no Accessibility authorization; screen recording permission is the only one this
-adds to. The handoff to the capture queue is bounded, so a capture queue that falls far behind
-refuses further readings and counts them rather than queueing without limit. Ticks the queue misses
-are reported as skipped; a gap in the evidence is never filled with movement nobody observed.
+source transform. The sampler reads `NSEvent` pointer state on its own queue at a 60 Hz cadence only
+while a take records: no event tap, keyboard observation or Accessibility authorization. Its
+handoff to the capture queue is bounded, so a queue that falls behind refuses and counts readings
+instead of queueing without limit, and missed ticks are reported, never filled with movement nobody
+observed.
 
 AppKit reports the pointer in a bottom-left space anchored to the display at the global origin,
-which is not necessarily `NSScreen.main` — that one follows the key window. `GlobalPointSpace`
-converts through the zero-origin display's height, and each take journals that height whenever it
-changes. Both readers surface it — `inspect` keeps the last one, `streamEvidence` streams each
-— so a consumer checks a reading against the height that recording used rather than the one the
-display arrangement happens to have when the evidence is read.
+which is not necessarily `NSScreen.main` (that follows the key window). Readings convert through
+that display's height, and each take journals the height whenever it changes, so a consumer checks
+a reading against the height the recording used rather than today's display arrangement.
 
-`CaptureGeometry` is built from each delivered frame's own `SCStreamFrameInfo` attachments,
-including idle and blank frames whose pixels are never written. `contentRect` places the content
-inside the surface in points, `scaleFactor` converts surface points to output pixels, and
-`contentScale` is the source-point to surface-point ratio: a window that grows past the surface is
-letterboxed rather than rescaling the take, so fixed output dimensions do not imply fixed source
-geometry. `screenRect` reports the captured window's onscreen rect; measured on this host it is the
-window frame in global display points with a top-left origin, on the origin display and on a second
-display whose global origin is negative. On the window captures measured here, display and region
-captures carried no per-frame screen rect, so the request's own global rect is what explains them
-and a region's display-local points are offset into its display once, natively; that fallback has
-not itself been measured against a display or region take, and if those do report a screen rect the
-frame's own report wins.
+Geometry comes from each delivered frame's own `SCStreamFrameInfo`, including idle and blank frames
+whose pixels are never written. `contentRect` places content in the surface in points,
+`scaleFactor` converts surface points to output pixels, and `contentScale` is the source-point to
+surface-point ratio: a window that grows past the surface is letterboxed rather than rescaling the
+take, so fixed output dimensions do not imply fixed source geometry. Measured on this host, a
+window's `screenRect` is its frame in global display points with a top-left origin, including on a
+display whose global origin is negative. Display and region captures fall back to the request's own
+global rect, a fallback not yet measured against a display or region take; if such a frame does
+report a screen rect, the frame wins.
 
-Geometry that differs from the current one opens the next epoch of the take, and every sample
-carries the epoch it was taken under. A reading is projected through the geometry in effect when it
-was taken, not when it was written, and the sampler enqueues independently of the frame producer:
-an empty batch is no proof that an older reading is not still in flight, so only a reading the
-track has actually been handed lets earlier geometry be forgotten. That watermark stops advancing
-while a pause suspends the cadence, so retention is also bounded by a count, dropping the oldest
-placements and reporting them. A sample no retained geometry covers cites epoch 0 rather than an
-epoch it was never projected through. Samples record source time, unclamped output-pixel
-coordinates, the raw global point they came from, button state, eligibility and that epoch. A point
-outside the capture keeps its projected coordinates and is marked `outside`: it is never pulled onto
-an edge it never touched. Eligibility means the point falls inside the captured content, not that
-macOS was drawing a pointer — `CGCursorIsVisible` has been unsupported since 10.9 and this recorder
-never renders a cursor into the source at all.
+Geometry that differs from the current one opens the next epoch, and every sample cites the epoch
+it was projected through. A reading is projected through the geometry in effect when it was taken,
+not when it was written: frames report placement milliseconds after the moment they describe, and
+the sampler enqueues independently of frames, so only a reading the track has been handed lets
+earlier geometry be forgotten. Retention is also bounded by count, because a paused cadence stops
+that watermark. A sample no retained geometry covers cites epoch 0. Output-pixel coordinates are
+never clamped: a point outside the capture keeps its projected coordinates and is marked `outside`.
+Eligibility means the point falls inside captured content, not that macOS drew a pointer;
+`CGCursorIsVisible` has been unsupported since 10.9, and this recorder never renders a cursor into
+the source.
 
-The journal owns these records like any other acquisition evidence. Geometry epochs and cursor
-batches are ordinary writes, and their file order guarantees an epoch is written before the samples
-citing it. Both readers retain only cursor counts, the sample range and the last geometry.
-`inspect` also accumulates completed pauses and audio intervals for recovery; `streamEvidence`
-delivers those through callbacks without retaining timing arrays. Both use the same parser and
-report where the file stopped being believable — a stream that stopped at a corrupt record is
-otherwise indistinguishable from a short take.
+The capture probe and lab drive these owners against real captures; their request shapes live in
+[CaptureProbe](../../apps/macos/Sources/ScreenRecorder/CaptureProbe.swift) and
+[CursorGeometryProbe](../../apps/macos/Sources/ScreenRecorder/CursorGeometryProbe.swift), run through
+`scripts/native-capture-probe.mjs` and `bun run lab:cursor-geometry`. A successful compile or clock
+test is no evidence of microphone, source-loss, drift or framing behavior; those need real captures
+and decoded or auditioned media. The lab's pointer hot-spot conversion reads the journaled
+`scaleFactor * contentScale`, so a change to how `CaptureGeometry` scales must be made there too.
 
-`node scripts/cursor-geometry-lab.mjs` (`bun run lab:cursor-geometry`) records this process's own
-fixture window with both audio inputs disabled, moves and resizes it, sends it to another display,
-pauses and resumes, and parks it under the pointer. It then measures where the fixture's fiducial
-squares actually landed in decoded video, and pairs one-shot captures of the same window with and
-without a drawn pointer to measure the pointer itself. Predictions come from the native owner
-through the journal; the script locates blobs and subtracts coordinates, and converts the cursor's
-own hot spot into output pixels through the journaled `scaleFactor * contentScale` — a second
-reader of that ratio, so a change to how `CaptureGeometry` scales has to be made in both. A
-one-shot capture
-carries no frame metadata, so its prediction uses the take's journaled geometry at the same host
-time, and the fiducials visible in both confirm the two surfaces agree. Pointer comparisons are
-only valid while the pointer is still, so each one reports the drift measured around it.
+## The worker boundary
 
-## Worker lifetime
+The worker is owned work, not a service. Each request line is decoded strictly: a request type's
+`Codable` shape is the single statement of its fields, and a field it does not read is a caller
+mistake at any depth. Every failure is a `NativeFailure` whose `retryable` says whether the identical
+request can succeed later. A changed identity, a malformed request or an occupied output cannot; a
+decode failure or a transient filesystem error can. The operation table in
+[Wire](Sources/ScreenRecorderWire/Wire.swift) names, per operation, only what an unrecognised
+platform error means.
 
-The worker is owned work, not a service: every request it serves belongs to the process
-that spawned it, and that work must not outlive its owner. End of input cannot carry that
-meaning, because a runner writes one request and closes stdin immediately, so a worker
-still decoding has no living owner to report to yet reads nothing.
+[ParentLifetime](Sources/ScreenRecorderNative/ParentLifetime.swift) binds the worker to the process
+that spawned it. End of input cannot carry that meaning, because a runner writes one request and
+closes stdin immediately. macOS announces a parent's exit through a Dispatch process source on its
+own queue, and the parent is read again once the watch is registered: an orphan is reparented to
+launchd without any announcement, and only that second reading distinguishes a recycled process ID
+from a living owner. Abandoned work exits 75, meaning the owner disappeared rather than the request
+failed. The worker never cancels in-process work; the service cancels by killing the process.
 
-[ParentLifetime](Sources/ScreenRecorderNative/ParentLifetime.swift) is the only owner of
-that rule. macOS announces a parent's exit through a Dispatch process source, watched on
-its own queue because the worker spends its life blocked in a stdin read or inside a native
-operation. Reading the parent and registering the watch cannot be one step, so the parent
-is read once more afterwards: the kernel reparents an orphan to launchd instead of
-announcing anything, so a worker whose owner is already gone ends without doing the work
-waiting on its stdin. A dead parent's process ID can also be reused, and only that second
-reading distinguishes a recycled identity from a living owner.
+## Descriptors, identities and publication
 
-Abandoned work exits 75 with a stderr diagnostic naming the parent, meaning the owner
-disappeared rather than the request failed. Nothing partial is left behind: frames are
-written atomically at the caller's path and sources are never opened for writing. This
-binds the worker to its spawning parent only. It is not a cancellation channel, and it
-says nothing about a worker that is itself killed.
+Storage work is contained by descriptors, never by re-resolving paths. The service resolves and
+pins what an operation may touch, then hands it over as inherited descriptors in a fixed order each
+operation defines, beginning at fd 3. A pinned directory or file carries a
+`dev`/`ino` identity as decimal strings; the worker checks the descriptor still names it, and walks
+beneath it only with `openat` and no-follow flags. Exclusive ownership is a `flock` on the shared
+open-file description, so a lock taken by the parent's descriptor stays held while any inherited
+copy lives, and a crashed worker cannot release what its owner still holds.
+[Descriptors](Sources/ScreenRecorderWire/Descriptors.swift) owns these primitives.
 
-## Frame inspection
+A new output is either a caller-created writable handle (`/dev/fd/N`), filled in place, or a path
+that must not exist yet. [NewFile](Sources/ScreenRecorderMedia/OutputFile.swift) assembles a path
+output in a private staging directory beside it and publishes it with one `link`, which never
+replaces a name that appeared meanwhile; nothing partial is ever visible at the path, and a path
+output can never alias a source. A worker killed mid-operation can leave that staging directory
+behind, so outputs belong in an attempt directory whose owner removes it.
 
-[ScreenRecorderFrames](Sources/ScreenRecorderFrames) selects and decodes within a
-kept interval supplied by the timeline owner. It never interprets edits. Sample
-cursor timestamps belong to media time; the edit-list mappings in
-[ScreenRecorderMediaTime](Sources/ScreenRecorderMediaTime) translate them into
-the recording timeline before comparison, and recovery reads them through the same owner
-so the two cannot disagree about where a sample sits. The selected exact native timestamp is
-retained for decoding, and the response reports the actual sample time and distance.
+Export publication to a user's destination is a separate protocol with its own durable receipt:
+[PublicationOperation](Sources/ScreenRecorderWire/PublicationOperation.swift) keeps a completed
+staging link until its caller durably acknowledges the outcome, and reconciles a destination by
+inode and digest after a restart. ZIP reading and writing bind the OS libarchive through
+[CLibArchive](Sources/CLibArchive/README.md) and read only bytes whose size and file version match
+what the service admitted.
 
-The worker's `media.frame` request is defined by
-[FrameOperation](Sources/ScreenRecorderWire/FrameOperation.swift). It writes a PNG
-to a caller-allocated derivative path, validates crops against oriented dimensions,
-and preserves the original even when directory aliases name it. This boundary
-executes one request at a time; service-level cancellation, concurrency and caching
-belong to the app-managed service.
+## Recovery and source evidence
 
-An optional `overlay` on that same request draws the pointer and its trail.
-[CursorOverlay](Sources/ScreenRecorderFrames/CursorOverlay.swift) owns those pixels
-and is composited before the crop and the long-edge bound, so overlay points and
-crop rectangles are read in the same source geometry. The core supplies every point
-in oriented source pixels with its own sample time, already clipped at pause, cut,
-scene and geometry boundaries; native selects no history, resolves no cutoff and
-draws nothing between two runs of points, because a gap between them is a gap in
-the evidence. Opacity falls with each point's age against the requested trail
-duration, measured from the requested frame time so identical parameters render
-identical pixels. An absent overlay leaves the frame clean. Points off the source
-raster, out-of-order or overlapping runs, a trail without a duration and trails past
-the ten-second or 1200-point bounds are refused without writing an image.
+[MediaRecovery](Sources/ScreenRecorderWire/MediaRecovery.swift) decodes each source independently
+and is read-only; reconciling the library belongs to the service. Video determines the recovered
+take extent, optional audio never shortens it, and missing media keeps an explicit per-track
+failure. Audio the journal header never requested is an allowed absence; without a header an
+absence stays unexplained.
 
-## Source evidence derivatives
+AVFoundation can return silence for empty audio edits and unavailable durations for decoded video,
+so recovery excludes empty segments and clips to the track's media range. A take's last frame has no
+successor to bound it, so its duration comes only from a sample cursor that states it, positioned
+through the media-time mapping because readers report asset time while cursors navigate media
+time. Without that cursor the interval stops at the last decoded timestamp and the track fails with
+`UNKNOWN_TAIL`: the gap to the previous sample is not evidence. Audio also intersects the journal's
+acquisition ranges, so decoder padding never counts as recorded speech. Adjacent ranges coalesce
+across a one-microsecond seam, the rounding contiguous samples can acquire; larger holes stay gaps.
 
-The internal `media.sourceEvidence` worker seam reads a caller-selected finalized
-or recovered source and publishes normalized JSONL to a new caller-owned file
-outside that source directory. [SourceEvidenceExport](Sources/ScreenRecorderCapture/SourceEvidenceExport.swift)
-owns publication and its compact receipt; the existing journal reader owns record
-validation and integrity boundaries. Containment uses resolved directories, while
-the receipt preserves the exact requested output locator. Before returning it, the
-exporter verifies that this locator still names the regular inode it created; core
-retains exact request/receipt matching. Each cursor sample remains an observation in
-source time, with geometry and display-space records preserved in journal order.
-No coordinates are recalculated and no gestures are inferred. Completed pauses
-retain their source boundary and removed wall duration. An unfinished pause remains
-an open host timestamp in the receipt; no elapsed duration is guessed.
+[SourceEvidenceExport](Sources/ScreenRecorderWire/SourceEvidenceExport.swift) normalizes a finalized
+or recovered journal into JSONL outside the source directory, streaming without retaining cursor
+history. Cursor samples stay observations in source time with geometry and display-space records
+in journal order; nothing is recalculated and no gesture is inferred. File order is observation
+order per record type, not global source-time order, so consumers index the explicit timestamps.
+Its receipt echoes the requested locator only after proving it names the created inode, and keeps
+the journal's integrity markers: `finished` is the journal's claim, not a new validation of media.
 
-Audio acquisition ranges use the same per-role coalescing pass as recovery. A tiny
-rounding seam is contiguous; larger gaps remain separate. Export retains only the
-current interval for each role and emits it when the next gap or file end proves
-its boundary. Consequently normalized file order is observation order for cursor
-and geometry, not global source-time order across event types. Consumers index the
-explicit timestamps rather than inferring chronology from line numbers.
+## Frames, renders and audio
 
-A corrupt or incomplete tail can leave usable prefix evidence. Consumers must keep
-the receipt's integrity markers with that evidence; `finished` reports the journal's
-claim, not a new validation of media finalization. Budget failures publish nothing,
-and existing output paths are refused. The export streams records without retaining
-cursor history or unrelated timing arrays. Its byte budgets and provenance limit
-live in the export owner. This native seam supplies the core's persistent evidence
-index. Public querying and edited-time projection belong to that core, not the worker.
+Frame selection works inside a kept interval the timeline owner supplies. Sample cursor timestamps
+are media time and are compared in asset time through the shared mapping, so selection and recovery
+cannot disagree about where a sample sits; the exact native timestamp is kept for decoding, and the
+response reports the actual sample time and distance. An overlay is drawn in source pixels before
+the crop and long-edge bound, so overlay points and crops share one geometry. The core supplies
+every point already clipped at pause, cut, scene and geometry boundaries; native draws nothing
+between two runs, because a gap between them is a gap in the evidence. Output pixels are half-open
+everywhere: a coordinate equal to the width is past the raster. Clean visual observations reuse the
+same selection and decoding, reusing a held frame's pixels while keeping each request's own
+timestamp, and accept explicit timestamps rather than a cadence or scene policy.
 
-## Clean visual observations
+Movie rendering executes a render plan without interpreting it. Retained source spans are ascending
+and never touch, because adjacent retained spans are one span, and video and audio refuse the same
+malformed plan through one rule. Explicit empty edits render as the default player's opaque black;
+an unexplained gap never inherits the previous image. Presentation evidence walks the same
+sequential decode and publishes bounded JSONL records.
 
-`media.visualSamples` returns a bounded batch of small clean RGB observations from
-one retained source interval. [FrameSource](Sources/ScreenRecorderFrames/FrameSource.swift)
-owns the same nearest-sample selection and decoding used for requested images;
-[FrameImage](Sources/ScreenRecorderFrames/FrameImage.swift) owns orientation and
-sRGB byte conversion. Repeated selections reuse the held frame's pixels while
-preserving each request's actual timestamp and distance.
-
-The operation accepts explicit timestamps, not a sampling cadence or scene policy.
-Core owns both local trail analysis and global screenshot selection. No overlay,
-crop or derivative file enters this seam, and no scene boundary is inferred here.
-
-ZIP reading and writing bind the OS libarchive through [CLibArchive](Sources/CLibArchive/README.md).
+Audio reads only where the caller's acquisition evidence and the file's own occupied segments
+agree; everywhere else is reported unavailable and silent, because a container decodes padding for
+holes nothing was captured over. Joins between retained spans get short ramps, and every span
+boundary is quantized from cumulative playback time so rounding never accumulates across spans.

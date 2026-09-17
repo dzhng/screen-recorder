@@ -1,32 +1,31 @@
 import CryptoKit
 import Darwin
 import Foundation
+import ScreenRecorderMedia
 
 /// A completed staging hard link survives until its caller durably acknowledges the outcome.
 /// Mutations inherit locked staging on fd 3 and destination on fd 4; usage only observes fd 3.
 enum PublicationOperation {
+    static let operations = [
+        "publication.usage", "publication.absent", "publication.allocate", "publication.prepare",
+        "publication.retire", "publication.discard", "publication.acknowledge",
+        "publication.reconcile", "publication.commit",
+    ]
     private static let privateFiles = ["payload", "receipt.pending", "prepared.json"]
-    private struct Identity: Codable, Equatable {
-        let dev: String
-        let ino: String
-        init(_ info: stat) {
-            dev = String(UInt64(truncatingIfNeeded: info.st_dev))
-            ino = String(info.st_ino)
-        }
-    }
     private struct Receipt: Codable {
-        let stage: Identity
-        let destination: Identity
-        let file: Identity
+        let stage: InodeIdentity
+        let destination: InodeIdentity
+        let file: InodeIdentity
         let leaf: String
         let bytes: Int64
         let sha256: String
     }
-    private static func failure(_ code: String, _ message: String) -> StorageFailure {
-        StorageFailure(code, message, retryable: false)
+    private static func failure(_ code: String, _ message: String) -> NativeFailure {
+        NativeFailure(code, message, retryable: false)
     }
-    private static func io(_ action: String) -> StorageFailure {
-        StorageFailure("PUBLICATION_IO", "\(action): \(String(cString: strerror(errno)))")
+    private static func io(_ action: String) -> NativeFailure {
+        NativeFailure(
+            "PUBLICATION_IO", "\(action): \(String(cString: strerror(errno)))", retryable: true)
     }
     private static func info(_ fd: Int32, directory: Bool = false) throws -> stat {
         var value = stat()
@@ -39,17 +38,6 @@ enum PublicationOperation {
     private static func leaf(_ value: String) -> Bool {
         !value.isEmpty && value != "." && value != ".." && !value.contains("/")
             && !value.contains("\0") && value.utf8.count <= 255
-    }
-    private static func writeAll(_ fd: Int32, _ data: Data) throws {
-        try data.withUnsafeBytes { buffer in
-            var offset = 0
-            while offset < buffer.count {
-                let n = write(fd, buffer.baseAddress!.advanced(by: offset), buffer.count - offset)
-                if n < 0 && errno == EINTR { continue }
-                guard n > 0 else { throw io("Write publication file") }
-                offset += n
-            }
-        }
     }
     private static func digest(_ fd: Int32, bytes: Int64, copyTo: Int32? = nil) throws -> String {
         let initial = try info(fd)
@@ -64,7 +52,7 @@ enum PublicationOperation {
             guard n > 0 else { throw io("Read publication bytes") }
             let data = Data(bytes: buffer, count: n)
             hash.update(data: data)
-            if let copyTo { try writeAll(copyTo, data) }
+            if let copyTo, !Descriptors.writeAll(copyTo, data) { throw io("Write publication file") }
             offset += Int64(n)
         }
         let final = try info(fd)
@@ -89,8 +77,8 @@ enum PublicationOperation {
         let receipt = try JSONDecoder().decode(Receipt.self, from: data)
         guard leaf(receipt.leaf), receipt.bytes >= 0, receipt.bytes <= 9_007_199_254_740_991,
             receipt.sha256.count == 64, receipt.sha256.allSatisfy({ $0.isHexDigit }),
-            receipt.stage == Identity(try info(3, directory: true)),
-            receipt.destination == Identity(try info(4, directory: true)) else {
+            receipt.stage == InodeIdentity(try info(3, directory: true)),
+            receipt.destination == InodeIdentity(try info(4, directory: true)) else {
             throw failure("PUBLICATION_CHANGED", "Prepared publication ownership changed.")
         }
         return receipt
@@ -99,7 +87,7 @@ enum PublicationOperation {
         let fd = openat(3, "payload", O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
         guard fd >= 0 else { throw io("Open publication payload") }
         do {
-            guard Identity(try info(fd)) == receipt.file,
+            guard InodeIdentity(try info(fd)) == receipt.file,
                 try digest(fd, bytes: receipt.bytes) == receipt.sha256 else {
                 throw failure("PUBLICATION_CHANGED", "Prepared publication bytes changed.")
             }
@@ -116,28 +104,14 @@ enum PublicationOperation {
         defer { close(fd) }
         var value = stat()
         guard fstat(fd, &value) == 0 else { throw io("Inspect published destination") }
-        guard value.st_mode & S_IFMT == S_IFREG, Identity(value) == receipt.file else { return "replaced" }
+        guard value.st_mode & S_IFMT == S_IFREG, InodeIdentity(value) == receipt.file else { return "replaced" }
         guard value.st_size == receipt.bytes else { return "modified" }
         do { return try digest(fd, bytes: receipt.bytes) == receipt.sha256 ? "committed" : "modified" }
-        catch let error as StorageFailure where error.code == "PUBLICATION_CHANGED" { return "modified" }
+        catch let error as NativeFailure where error.code == "PUBLICATION_CHANGED" { return "modified" }
     }
     private static func requireEmpty(_ directory: Int32 = 3) throws {
-        let fd = openat(directory, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-        guard fd >= 0 else { throw io("Inspect empty publication staging") }
-        guard let entries = fdopendir(fd) else { close(fd); throw io("Enumerate publication staging") }
-        defer { closedir(entries) }
-        while true {
-            errno = 0
-            guard let entry = readdir(entries) else {
-                if errno != 0 { throw io("Read publication staging") }
-                return
-            }
-            let name = withUnsafePointer(to: &entry.pointee.d_name) {
-                $0.withMemoryRebound(to: CChar.self, capacity: Int(entry.pointee.d_namlen) + 1) { String(cString: $0) }
-            }
-            if name != "." && name != ".." {
-                throw failure("INVALID_STORAGE", "Publication preparation requires empty private staging.")
-            }
+        guard try Descriptors.isEmpty(directory, failing: io) else {
+            throw failure("INVALID_STORAGE", "Publication preparation requires empty private staging.")
         }
     }
     private static func cleanup() throws {
@@ -152,7 +126,7 @@ enum PublicationOperation {
                 let committed = params["committed"] as? NSNumber, CFGetTypeID(committed) == CFBooleanGetTypeID() else {
                 throw failure("INVALID_REQUEST", "Invalid staging measurement.")
             }
-            try ManagedFiles.Identity(params["stage"]).check(3)
+            try InodeIdentity(params["stage"]).check(3)
             let stage = try info(3, directory: true)
             guard stage.st_uid == getuid(), stage.st_mode & 0o777 == 0o700 else {
                 throw failure("INVALID_STORAGE", "Publication staging must be private and owned.")
@@ -182,7 +156,7 @@ enum PublicationOperation {
         if operation == "publication.absent" {
             guard Set(params.keys) == ["destination", "name"], let name = params["name"] as? String,
                 leaf(name), name.hasPrefix(".screenrec-export-") else { throw failure("INVALID_REQUEST", "Invalid staging lookup.") }
-            try ManagedFiles.Identity(params["destination"]).check(3)
+            try InodeIdentity(params["destination"]).check(3)
             _ = try info(3, directory: true)
             var entry = stat()
             if fstatat(3, name, &entry, AT_SYMLINK_NOFOLLOW) == 0 { return ["absent": false] }
@@ -194,7 +168,7 @@ enum PublicationOperation {
                 leaf(name), name.hasPrefix(".screenrec-export-") else {
                 throw failure("INVALID_REQUEST", "Invalid publication staging allocation.")
             }
-            try ManagedFiles.Identity(params["destination"]).check(3)
+            try InodeIdentity(params["destination"]).check(3)
             _ = try info(3, directory: true)
             if mkdirat(3, name, 0o700) != 0 && errno != EEXIST { throw io("Allocate publication staging") }
             let fd = openat(3, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK)
@@ -203,7 +177,7 @@ enum PublicationOperation {
             try ManagedFiles.lockPrivateDirectory(fd)
             // Before identity registration, no writer may enter: crash recovery adopts only empty staging.
             try requireEmpty(fd)
-            let data = try JSONEncoder().encode(Identity(try info(fd, directory: true)))
+            let data = try JSONEncoder().encode(InodeIdentity(try info(fd, directory: true)))
             return ["identity": try JSONSerialization.jsonObject(with: data)]
         }
 
@@ -212,14 +186,14 @@ enum PublicationOperation {
         guard Set(params.keys) == (preparing ? ["stage", "destination", "leaf", "maxBytes"] : retiring ? ["stage", "destination", "name"] : ["stage", "destination"]) else {
             throw failure("INVALID_REQUEST", "Invalid publication parameters.")
         }
-        try ManagedFiles.Identity(params["stage"]).check(3)
+        try InodeIdentity(params["stage"]).check(3)
         try ManagedFiles.lockPrivateDirectory(3)
-        try ManagedFiles.Identity(params["destination"]).check(4)
+        try InodeIdentity(params["destination"]).check(4)
         let stage = try info(3, directory: true), destination = try info(4, directory: true)
         guard stage.st_dev == destination.st_dev else {
             throw failure("CROSS_DEVICE_PUBLICATION", "Staging and destination must share a filesystem.")
         }
-        try ManagedFiles.requireOutsideDirectory(4, ancestor: ManagedFiles.Identity(params["stage"]))
+        try ManagedFiles.requireOutsideDirectory(4, ancestor: InodeIdentity(params["stage"]))
         if preparing {
             try requireEmpty()
             guard let name = params["leaf"] as? String, leaf(name),
@@ -238,13 +212,13 @@ enum PublicationOperation {
             defer { close(fd) }
             let sha = try digest(5, bytes: source.st_size, copyTo: fd)
             guard fsync(fd) == 0 else { throw io("Synchronize publication payload") }
-            let receipt = Receipt(stage: Identity(stage), destination: Identity(destination),
-                file: Identity(try info(fd)), leaf: name, bytes: source.st_size, sha256: sha)
+            let receipt = Receipt(stage: InodeIdentity(stage), destination: InodeIdentity(destination),
+                file: InodeIdentity(try info(fd)), leaf: name, bytes: source.st_size, sha256: sha)
             let data = try JSONEncoder().encode(receipt)
             let record = openat(3, "receipt.pending", O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
             guard record >= 0 else { throw io("Create publication receipt") }
             defer { close(record) }
-            try writeAll(record, data)
+            guard Descriptors.writeAll(record, data) else { throw io("Write publication file") }
             guard fsync(record) == 0 else { throw io("Synchronize publication receipt") }
             // Only a complete synchronized receipt may authorize external publication after restart.
             guard linkat(3, "receipt.pending", 3, "prepared.json", 0) == 0 else { throw io("Publish prepared receipt") }
@@ -257,7 +231,7 @@ enum PublicationOperation {
             }
             var entry = stat()
             guard fstatat(4, name, &entry, AT_SYMLINK_NOFOLLOW) == 0,
-                entry.st_mode & S_IFMT == S_IFDIR, Identity(entry) == Identity(stage) else {
+                entry.st_mode & S_IFMT == S_IFDIR, InodeIdentity(entry) == InodeIdentity(stage) else {
                 throw failure("PUBLICATION_CHANGED", "Publication staging entry changed.")
             }
             try cleanup()

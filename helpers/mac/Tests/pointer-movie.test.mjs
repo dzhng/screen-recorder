@@ -199,7 +199,7 @@ test("unsupported exact clock never publishes output or leaves staging", () => {
   assert.equal(reply.error.code, "UNSUPPORTED_CLOCK");
   assert.equal(existsSync(output), false);
   assert.equal(
-    readdirSync(dir).some((x) => x.startsWith(".movie-render-")),
+    readdirSync(dir).some((x) => x.startsWith(".screenrec-output-")),
     false,
   );
 });
@@ -323,8 +323,7 @@ test("changing schedule bytes after preflight prevents movie publication", async
     while (
       !readdirSync(dir).some(
         (x) =>
-          x.startsWith(".movie-render-") &&
-          readdirSync(join(dir, x)).some((y) => y.startsWith(".video-render-")),
+          x.startsWith(".screenrec-output-") && readdirSync(join(dir, x)).includes("movie.mp4"),
       )
     ) {
       assert.ok(
@@ -339,7 +338,7 @@ test("changing schedule bytes after preflight prevents movie publication", async
     assert.equal(JSON.parse(stdout).ok, false);
     assert.equal(existsSync(output), false);
     assert.equal(
-      readdirSync(dir).some((x) => x.startsWith(".movie-render-")),
+      readdirSync(dir).some((x) => x.startsWith(".screenrec-output-")),
       false,
     );
   } finally {

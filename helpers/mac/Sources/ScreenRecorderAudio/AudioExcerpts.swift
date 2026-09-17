@@ -1,6 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// The public excerpt remains capped; all retained-audio mixing belongs to AudioPCMStream.
 public enum AudioExcerpts {
@@ -20,42 +20,24 @@ public enum AudioExcerpts {
 /// Lossless sink shared with the internal streaming proof. Consumption finishes before publication.
 public enum AudioWave {
     public static func write(_ stream: AudioPCMStream, to output: URL) async throws -> Int {
-        let destination = output.resolvingSymlinksInPath().standardizedFileURL
-        guard !stream.sourceURLs.contains(destination),
-            !stream.sourceURLs.contains(where: { MediaDescriptor.sameFile($0, output) })
-        else {
-            throw AudioFailure("INVALID_OUTPUT", "Excerpt output would overwrite the source media.")
-        }
-        var directory: ObjCBool = false
-        if FileManager.default.fileExists(atPath: output.path, isDirectory: &directory),
-            directory.boolValue
-        {
-            throw AudioFailure("INVALID_OUTPUT", "Excerpt output is an existing directory.")
-        }
         guard
             let format = AVAudioFormat(
                 commonFormat: .pcmFormatFloat32,
                 sampleRate: Double(stream.format.sampleRate),
                 channels: AVAudioChannelCount(stream.format.channels), interleaved: true)
         else {
-            throw AudioFailure("NATIVE_DECODE_FAILED", "Cannot describe audio output format.")
+            throw NativeFailure.decodeFailed("Cannot describe audio output format.")
         }
-        let descriptor = try MediaDescriptor(url: output, writable: true)
-        let staging =
-            descriptor?.url
-            ?? output.deletingLastPathComponent().appendingPathComponent(
-                ".\(UUID().uuidString).wav")
-        defer {
-            withExtendedLifetime(descriptor) {}
-            if descriptor == nil { try? FileManager.default.removeItem(at: staging) }
-        }
+        let destination = try OutputFile(
+            output.path, assembledAs: "excerpt.wav", distinctFrom: stream.sourceURLs)
+        defer { destination.discard() }
         var settings = format.settings
         settings[AVAudioFileTypeKey] = kAudioFileWAVEType
         do {
-            // Scope closes the WAVE header before the file becomes visible to its consumer.
+            // Scope closes the WAVE header before the file is finished.
             do {
                 let file = try AVAudioFile(
-                    forWriting: staging, settings: settings,
+                    forWriting: destination.url, settings: settings,
                     commonFormat: .pcmFormatFloat32, interleaved: true)
                 try await stream.consume { block in
                     try autoreleasepool {
@@ -64,8 +46,7 @@ public enum AudioWave {
                                 pcmFormat: format,
                                 frameCapacity: AVAudioFrameCount(block.frameCount))
                         else {
-                            throw AudioFailure(
-                                "NATIVE_DECODE_FAILED", "Cannot allocate WAVE block.")
+                            throw NativeFailure.decodeFailed("Cannot allocate WAVE block.")
                         }
                         buffer.frameLength = AVAudioFrameCount(block.frameCount)
                         block.samples.withUnsafeBufferPointer {
@@ -76,15 +57,11 @@ public enum AudioWave {
                     }
                 }
             }
-            try Task.checkCancellation()
-            if let descriptor { return Int(try descriptor.size) }
-            try? FileManager.default.removeItem(at: output)
-            try FileManager.default.moveItem(at: staging, to: output)
-            return try FileManager.default.attributesOfItem(atPath: output.path)[.size] as! Int
-        } catch is CancellationError { throw CancellationError() } catch let failure as AudioFailure
-        { throw failure } catch {
-            throw AudioFailure(
-                "NATIVE_DECODE_FAILED", "Cannot write audio: \(error.localizedDescription)")
+        } catch let failure as NativeFailure {
+            throw failure
+        } catch {
+            throw NativeFailure.decodeFailed("Cannot write audio: \(error.localizedDescription)")
         }
+        return try destination.finish()
     }
 }

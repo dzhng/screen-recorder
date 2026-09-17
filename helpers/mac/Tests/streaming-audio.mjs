@@ -89,7 +89,6 @@ for (const seconds of [10, 300]) {
       SCREENREC_AUDIO_STREAM_SECONDS: String(seconds),
     }),
   );
-  if (seconds === 300) assert.equal(report.canceledWaveRemoved, true);
   const file = join(out, `stream-${seconds}.wav`),
     info = await wave(file);
   assert.equal(info.sampleRate, 48000);
@@ -131,7 +130,6 @@ for (const seconds of [10, 300]) {
   assert.ok(maximumError < 0.000001);
   scale.push({
     ...report,
-    waveCancellationExercised: seconds >= 300,
     independentlyCountedFrames: info.bytes / 8,
     independentWindowMaximumError: maximumError,
   });

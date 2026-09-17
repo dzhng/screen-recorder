@@ -98,8 +98,8 @@ for (const capture of captures) {
       ["-l", native],
       JSON.stringify({
         id: "render",
-        operation: "media.renderVideo",
-        params: { source, output, plan },
+        operation: "media.renderMovie",
+        params: { source, output, plan, tracks: [] },
       }) + "\n",
     ),
     elapsedMs = Date.now() - started;

@@ -1,31 +1,27 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderCapture
+import ScreenRecorderMedia
 
-public struct MediaInterval: Codable, Sendable, Equatable {
-    public let startUs: Int64
-    public let endUs: Int64
+package struct RecoveredTrack: Codable, Sendable {
+    package let role: String
+    package let file: String
+    package let intervals: [TimeSpan]
+    package let decodedSamples: Int
+    package let decodeReachedEnd: Bool
+    package let acquisitionVerified: Bool
+    package let failure: CaptureFailure?
 }
 
-public struct RecoveredTrack: Codable, Sendable {
-    public let role: String
-    public let file: String
-    public let intervals: [MediaInterval]
-    public let decodedSamples: Int
-    public let decodeReachedEnd: Bool
-    public let acquisitionVerified: Bool
-    public let failure: CaptureFailure?
+package struct RecoveredCapture: Codable, Sendable {
+    package let durationUs: Int64
+    package let tracks: [RecoveredTrack]
+    package let journal: CaptureJournalSummary?
+    package let journalFailure: CaptureFailure?
 }
 
-public struct RecoveredCapture: Codable, Sendable {
-    public let durationUs: Int64
-    public let tracks: [RecoveredTrack]
-    public let journal: CaptureJournalSummary?
-    public let journalFailure: CaptureFailure?
-}
-
-public enum MediaRecovery {
-    public static func inspect(directory: String) async -> RecoveredCapture {
+package enum MediaRecovery {
+    package static func inspect(directory: String) async -> RecoveredCapture {
         var journal: CaptureJournalSummary?
         var journalFailure: CaptureFailure?
         do { journal = try CaptureJournal.inspect(directory: directory) } catch {
@@ -47,7 +43,7 @@ public enum MediaRecovery {
 
     /// `requested` is nil when no journal header says whether this take asked for the role.
     private static func inspectTrack(
-        role: String, directory: String, acquired: [MediaInterval]?, requested: Bool?
+        role: String, directory: String, acquired: [TimeSpan]?, requested: Bool?
     ) async -> RecoveredTrack {
         // Video bounds are half-open integer source-clock ticks. Nearest rounding may
         // admit a tick after a fractional container/sample endpoint.
@@ -60,7 +56,7 @@ public enum MediaRecovery {
         }
         let file = "\(role).mov"
         let url = URL(fileURLWithPath: directory).appendingPathComponent(file)
-        var intervals: [MediaInterval] = []
+        var intervals: [TimeSpan] = []
         var samples = 0
         var reachedEnd = false
         var failure: CaptureFailure?
@@ -100,7 +96,7 @@ public enum MediaRecovery {
             var firstVideoTime: CMTime?
             var lastVideoTime: CMTime?
             var unknownTail: CaptureFailure?
-            while let interval = autoreleasepool(invoking: { () -> MediaInterval? in
+            while let interval = autoreleasepool(invoking: { () -> TimeSpan? in
                 guard let sample = output.copyNextSampleBuffer() else { return nil }
                 let start = CMSampleBufferGetPresentationTimeStamp(sample)
                 guard sample.isValid, CMSampleBufferDataIsReady(sample), start.isNumeric else {
@@ -129,13 +125,13 @@ public enum MediaRecovery {
                         seconds: Double(sample.numSamples) / description.mSampleRate,
                         preferredTimescale: 1_000_000_000)
                 }
-                return MediaInterval(
+                return TimeSpan(
                     startUs: microseconds(start), endUs: microseconds(CMTimeAdd(start, duration)))
             }) {
                 samples += 1
                 if role == "video" { continue }
                 if let last = intervals.last, interval.startUs <= last.endUs + 1 {
-                    intervals[intervals.count - 1] = MediaInterval(
+                    intervals[intervals.count - 1] = TimeSpan(
                         startUs: last.startUs, endUs: max(last.endUs, interval.endUs))
                 } else {
                     intervals.append(interval)
@@ -144,7 +140,7 @@ public enum MediaRecovery {
             if let first = firstVideoTime, let last = lastVideoTime {
                 if let end = assetEnd(ofSamplePresentedAt: last, in: segments, of: track) {
                     intervals = [
-                        MediaInterval(startUs: microseconds(first), endUs: endUs(end))
+                        TimeSpan(startUs: microseconds(first), endUs: endUs(end))
                     ]
                 } else {
                     // Decoded samples prove coverage up to the last one's own timestamp and no
@@ -152,7 +148,7 @@ public enum MediaRecovery {
                     // previous sample is not evidence of it, so the shortfall is reported instead
                     // of filled in.
                     intervals = [
-                        MediaInterval(startUs: microseconds(first), endUs: endUs(last))
+                        TimeSpan(startUs: microseconds(first), endUs: endUs(last))
                     ]
                     unknownTail = CaptureFailure(
                         "UNKNOWN_TAIL",
@@ -169,17 +165,17 @@ public enum MediaRecovery {
                     let clippedStart = max(start, interval.startUs)
                     let clippedEnd = min(end, interval.endUs)
                     return clippedStart < clippedEnd
-                        ? MediaInterval(startUs: clippedStart, endUs: clippedEnd) : nil
+                        ? TimeSpan(startUs: clippedStart, endUs: clippedEnd) : nil
                 }
             }
             // Decoders can synthesize video or silence for empty edits. Neither is acquisition.
             let occupied = segments.map {
-                MediaInterval(
+                TimeSpan(
                     startUs: microseconds($0.asset.start),
                     endUs: endUs(CMTimeRangeGetEnd($0.asset)))
             }
-            intervals = intersect(intervals, occupied)
-            if role != "video", let acquired { intervals = intersect(intervals, acquired) }
+            intervals = TimeSpan.intersection(intervals, occupied)
+            if role != "video", let acquired { intervals = TimeSpan.intersection(intervals, acquired) }
             reachedEnd = reader.status == .completed
             if !reachedEnd {
                 failure = CaptureFailure(
@@ -196,23 +192,6 @@ public enum MediaRecovery {
             role: role, file: file, intervals: intervals, decodedSamples: samples,
             decodeReachedEnd: reachedEnd, acquisitionVerified: role == "video" || acquired != nil,
             failure: failure)
-    }
-    private static func intersect(_ samples: [MediaInterval], _ limits: [MediaInterval])
-        -> [MediaInterval]
-    {
-        var result: [MediaInterval] = []
-        var index = 0
-        for sample in samples {
-            while index < limits.count && limits[index].endUs <= sample.startUs { index += 1 }
-            var cursor = index
-            while cursor < limits.count && limits[cursor].startUs < sample.endUs {
-                let start = max(sample.startUs, limits[cursor].startUs)
-                let end = min(sample.endUs, limits[cursor].endUs)
-                if start < end { result.append(MediaInterval(startUs: start, endUs: end)) }
-                cursor += 1
-            }
-        }
-        return result
     }
 
 }

@@ -1,7 +1,7 @@
 @preconcurrency import AVFoundation
 import CoreImage
 import Foundation
-import ScreenRecorderMediaTime
+import ScreenRecorderMedia
 
 /// One owner for sequential movie presentation membership. Unlike still selection,
 /// the retained moment belongs to a sample's support, not its nearest timestamp.
@@ -25,23 +25,21 @@ final class PresentationSource {
     private var segmentIndex = 0
 
     static func duration(of plan: [VideoRenderSpan]) throws -> Int64 {
-        var through: Int64 = 0
-        var sourceEnd: Int64 = 0
         guard !plan.isEmpty, plan.count <= 10_000 else {
-            throw FrameFailure("INVALID_REQUEST", "Render plan requires 1...10000 spans.")
+            throw NativeFailure("INVALID_REQUEST", "Render plan requires 1...10000 spans.")
         }
+        var through: Int64 = 0
         for span in plan {
-            guard span.source.startUs >= sourceEnd, span.source.endUs > span.source.startUs,
-                span.source.endUs <= FrameLimits.maximumMicroseconds,
-                span.playback.startUs == through, span.playback.endUs > through,
-                span.playback.endUs <= FrameLimits.maximumMicroseconds,
-                span.source.endUs - span.source.startUs == span.playback.endUs - through
+            guard span.playback.startUs == through,
+                span.playback.endUs - span.playback.startUs == span.source.endUs - span.source.startUs
             else {
-                throw FrameFailure(
-                    "INVALID_REQUEST", "Render plan has invalid source or playback ranges.")
+                throw NativeFailure(
+                    "INVALID_REQUEST", "Render plan playback must follow its source spans.")
             }
-            sourceEnd = span.source.endUs
             through = span.playback.endUs
+        }
+        guard TimeSpan.areRetained(plan.map(\.source)) else {
+            throw NativeFailure("INVALID_REQUEST", "Render plan has invalid source ranges.")
         }
         return through
     }
@@ -55,7 +53,7 @@ final class PresentationSource {
         guard let track = try await asset.loadTracks(withMediaType: .video).first,
             try await track.load(.canProvideSampleCursors),
             time(microseconds: plan.last!.source.endUs) <= sourceDuration
-        else { throw FrameFailure("UNAVAILABLE", "Render plan exceeds a usable video source.") }
+        else { throw NativeFailure("UNAVAILABLE", "Render plan exceeds a usable video source.") }
         let segments = try await track.load(.segments)
         let occupied = SourceSegment.occupied(of: segments)
         let transform = try await track.load(.preferredTransform)
@@ -65,7 +63,7 @@ final class PresentationSource {
         guard width > 0, height > 0, width <= 8192, height <= 8192,
             width.isMultiple(of: 2), height.isMultiple(of: 2)
         else {
-            throw FrameFailure(
+            throw NativeFailure(
                 "UNAVAILABLE", "Video renderer requires even dimensions up to 8192 pixels.")
         }
         let reader = try AVAssetReader(asset: asset)
@@ -83,7 +81,7 @@ final class PresentationSource {
         self.reader = reader
         self.decoded = decoded
         guard reader.startReading() else {
-            throw FrameFailure("NATIVE_DECODE_FAILED", "Cannot start sequential presentation read.")
+            throw NativeFailure.decodeFailed("Cannot start sequential presentation read.")
         }
     }
 
@@ -100,7 +98,6 @@ final class PresentationSource {
             { firstSegment += 1 }
             for segment in segments[firstSegment...] {
                 if segment.timeMapping.target.start >= end { break }
-                try Task.checkCancellation()
                 let range = segment.timeMapping.target
                 let begin = CMTimeMaximum(start, range.start)
                 let through = CMTimeMinimum(end, CMTimeRangeGetEnd(range))
@@ -113,10 +110,9 @@ final class PresentationSource {
                     let cursor = track.makeSampleCursor(
                         presentationTimeStamp: mapping.mediaTime(ofAsset: begin))
                 else {
-                    throw FrameFailure("UNAVAILABLE", "Cannot inspect movie presentation clock.")
+                    throw NativeFailure("UNAVAILABLE", "Cannot inspect movie presentation clock.")
                 }
                 repeat {
-                    try Task.checkCancellation()
                     let at = mapping.assetTime(ofMedia: cursor.presentationTimeStamp)
                     if at >= through { break }
                     if at >= begin { try clock.include(at) }
@@ -134,14 +130,13 @@ final class PresentationSource {
     deinit { reader.cancelReading() }
 
     func selection(at: CMTime, end: CMTime) throws -> Selection {
-        try Task.checkCancellation()
         while segmentIndex < segments.count
             && CMTimeRangeGetEnd(segments[segmentIndex].timeMapping.target) <= at
         { segmentIndex += 1 }
         guard segmentIndex < segments.count,
             segments[segmentIndex].timeMapping.target.containsTime(at)
         else {
-            throw FrameFailure("UNAVAILABLE", "Retained time has no proven track support.")
+            throw NativeFailure("UNAVAILABLE", "Retained time has no proven track support.")
         }
         let segment = segments[segmentIndex]
         if segment.isEmpty {
@@ -150,10 +145,9 @@ final class PresentationSource {
                 end: CMTimeMinimum(end, CMTimeRangeGetEnd(segment.timeMapping.target)))
         }
         while held == nil || heldEnd <= at {
-            try Task.checkCancellation()
             held = nil
             guard let sample = autoreleasepool(invoking: { decoded.copyNextSampleBuffer() }) else {
-                throw FrameFailure("UNAVAILABLE", "Decoder ended before retained sample support.")
+                throw NativeFailure("UNAVAILABLE", "Decoder ended before retained sample support.")
             }
             let pts = CMSampleBufferGetPresentationTimeStamp(sample)
             // Duplicate pictures in empty edits do not prove nonempty support.
@@ -164,7 +158,7 @@ final class PresentationSource {
             heldEnd = supportEnd
         }
         guard heldStart <= at, let buffer = CMSampleBufferGetImageBuffer(held!) else {
-            throw FrameFailure("UNAVAILABLE", "Retained time has unknown sample support.")
+            throw NativeFailure("UNAVAILABLE", "Retained time has unknown sample support.")
         }
         return Selection(buffer: buffer, sampleTime: heldStart, end: CMTimeMinimum(end, heldEnd))
     }

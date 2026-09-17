@@ -189,8 +189,6 @@ public struct CursorStats: Codable, Sendable, Equatable {
     public var skippedTicks = 0
     /// Readings the bounded handoff refused because the capture queue was behind.
     public var droppedReadings = 0
-    /// Readings that arrived after the take sealed.
-    public var afterSeal = 0
     /// Geometry placements the counted retention bound discarded before any reading claimed them.
     /// A reading older than every placement left cites epoch 0 rather than a placement that does
     /// not cover it.
@@ -227,7 +225,6 @@ public struct CursorTrack: Sendable {
     private var pending: [Pending] = []
     /// The newest reading the track has actually been handed, in host time.
     private var lastReadingHostUs: Int64?
-    private var sealed = false
     public private(set) var stats = CursorStats()
     public private(set) var epoch = 0
     public private(set) var geometry: CaptureGeometry?
@@ -240,7 +237,6 @@ public struct CursorTrack: Sendable {
     public mutating func observe(
         _ observed: CaptureGeometry, hostUs: Int64, sourceUs: Int64?, usable: Bool
     ) -> JournalGeometry? {
-        guard !sealed else { return nil }
         if observed != geometry {
             geometry = observed
             epoch += 1
@@ -260,10 +256,6 @@ public struct CursorTrack: Sendable {
     public mutating func accept(_ reading: CursorReading, sourceUs: Int64?) -> [CursorSample]? {
         lastReadingHostUs = reading.hostUs
         stats.skippedTicks += reading.skippedTicks
-        guard !sealed else {
-            stats.afterSeal += 1
-            return nil
-        }
         guard let sourceUs else {
             stats.omittedPaused += 1
             return nil
@@ -278,12 +270,9 @@ public struct CursorTrack: Sendable {
     /// take's cursor evidence.
     public mutating func note(refusedReadings: Int) { stats.droppedReadings = refusedReadings }
 
-    /// Returns whatever has not been written yet and stops accepting. A sealed take cannot gain
-    /// samples from a late reading, and a restarted take uses a new track.
-    public mutating func seal() -> [CursorSample] {
-        defer { sealed = true }
-        return writePending()
-    }
+    /// Returns whatever has not been written yet. The capture writer stops handing readings and
+    /// frames to a track once its take is finishing, and a restarted take uses a new track.
+    public mutating func seal() -> [CursorSample] { writePending() }
 
     private mutating func writePending() -> [CursorSample] {
         defer {

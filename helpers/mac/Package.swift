@@ -5,36 +5,32 @@ let package = Package(
     name: "ScreenRecorderNative",
     platforms: [.macOS("26.0")],
     products: [
-        .library(name: "ScreenRecorderWire", targets: ["ScreenRecorderWire"]),
         .library(name: "ScreenRecorderCapture", targets: ["ScreenRecorderCapture"]),
-        .library(name: "ScreenRecorderFrames", targets: ["ScreenRecorderFrames"]),
-        .library(name: "ScreenRecorderAudio", targets: ["ScreenRecorderAudio"]),
-        .library(name: "ScreenRecorderMediaTime", targets: ["ScreenRecorderMediaTime"]),
         .executable(name: "screenrec-native", targets: ["ScreenRecorderNative"]),
     ],
     targets: [
         .target(
             name: "ScreenRecorderWire",
-            dependencies: ["ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames", "CLibArchive"],
+            dependencies: [
+                "ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames",
+                "ScreenRecorderMedia", "CLibArchive",
+            ],
             linkerSettings: [.linkedLibrary("archive.2")]),
         .systemLibrary(name: "CLibArchive"),
-        .target(name: "ScreenRecorderCapture", dependencies: ["ScreenRecorderMediaTime"]),
-        .target(name: "ScreenRecorderFrames", dependencies: ["ScreenRecorderMediaTime"]),
-        .target(name: "ScreenRecorderAudio", dependencies: ["ScreenRecorderMediaTime"]),
-        .target(name: "ScreenRecorderMediaTime"),
+        .target(name: "ScreenRecorderCapture", dependencies: ["ScreenRecorderMedia"]),
+        .target(name: "ScreenRecorderFrames", dependencies: ["ScreenRecorderMedia"]),
+        .target(name: "ScreenRecorderAudio", dependencies: ["ScreenRecorderMedia"]),
+        .target(name: "ScreenRecorderMedia"),
         .executableTarget(
             name: "ScreenRecorderCaptureTests",
-            dependencies: ["ScreenRecorderCapture", "ScreenRecorderMediaTime"],
+            dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire"],
             path: "Tests/ScreenRecorderCaptureTests"),
         .executableTarget(
-            name: "ScreenRecorderFrameTests", dependencies: ["ScreenRecorderFrames"],
+            name: "ScreenRecorderFrameTests", dependencies: ["ScreenRecorderFrames", "ScreenRecorderMedia"],
             path: "Tests/ScreenRecorderFrameTests"),
         .executableTarget(
-            name: "ScreenRecorderAudioTests", dependencies: ["ScreenRecorderAudio"],
+            name: "ScreenRecorderAudioTests", dependencies: ["ScreenRecorderAudio", "ScreenRecorderMedia"],
             path: "Tests/ScreenRecorderAudioTests"),
-        .executableTarget(
-            name: "ScreenRecorderMovieTests", dependencies: ["ScreenRecorderWire"],
-            path: "Tests/ScreenRecorderMovieTests"),
         .executableTarget(name: "ScreenRecorderNative", dependencies: ["ScreenRecorderWire"]),
     ]
 )

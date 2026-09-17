@@ -1,10 +1,17 @@
 @preconcurrency import AVFoundation
 import Foundation
 import ScreenRecorderFrames
+import ScreenRecorderMedia
 
-let evidence = URL(
-    fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_FRAME_EVIDENCE"]
-        ?? NSTemporaryDirectory() + "screenrec-frame-tests")
+// Outputs are published only at new paths, so a run starts from an empty evidence directory. A
+// caller that supplies one supplies a fresh one.
+let evidence: URL
+if let supplied = ProcessInfo.processInfo.environment["SCREENREC_FRAME_EVIDENCE"] {
+    evidence = URL(fileURLWithPath: supplied)
+} else {
+    evidence = URL(fileURLWithPath: NSTemporaryDirectory() + "screenrec-frame-tests")
+    try? FileManager.default.removeItem(at: evidence)
+}
 try FileManager.default.createDirectory(at: evidence, withIntermediateDirectories: true)
 let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
@@ -22,7 +29,7 @@ precondition(
 print("PASS fixture presents \(stepsTruth.count) samples from \(stepsTruth.first!) to \(stepsTruth.last!)us")
 
 let source = try await FrameSource(url: stepsFixture)
-let whole = FrameInterval(startUs: 0, endUs: 3_000_000)
+let whole = TimeSpan(startUs: 0, endUs: 3_000_000)
 
 let nearest = try await source.decodeFrame(
     FrameRequest(
@@ -37,7 +44,7 @@ precondition(
 print("PASS nearest sample 140000us -> \(nearest.actualSourceUs)us showing frame 1")
 
 func decode(
-    _ named: String, atSourceUs: Int64, in kept: FrameInterval, from source: FrameSource,
+    _ named: String, atSourceUs: Int64, in kept: TimeSpan, from source: FrameSource,
     overlay: FrameOverlay? = nil, crop: FrameCrop? = nil,
     maxLongEdge: Int = FrameLimits.defaultLongEdge
 ) async throws -> DecodedFrame {
@@ -55,14 +62,14 @@ func ink(_ image: FixtureImage, x: Int, y: Int, size: Int = 3) -> Double {
         abs(sampled.red - 0.12), abs(sampled.green - 0.12), abs(sampled.blue - 0.12))
 }
 
-func failure(_ body: () async throws -> Void) async -> FrameFailure? {
+func failure(_ body: () async throws -> Void) async -> NativeFailure? {
     do {
         try await body()
         return nil
-    } catch let error as FrameFailure {
+    } catch let error as NativeFailure {
         return error
     } catch {
-        return FrameFailure("UNEXPECTED", "\(error)")
+        return NativeFailure("UNEXPECTED", "\(error)")
     }
 }
 
@@ -74,14 +81,14 @@ precondition(
 print("PASS tie at 150000us -> earlier frame 1 at 100000us")
 
 let endBound = try await decode(
-    "end-boundary", atSourceUs: 195_000, in: FrameInterval(startUs: 0, endUs: 200_000), from: source)
+    "end-boundary", atSourceUs: 195_000, in: TimeSpan(startUs: 0, endUs: 200_000), from: source)
 precondition(
     endBound.actualSourceUs == 100_000,
     "A half-open interval must exclude the sample at its end, got \(endBound)")
 print("PASS interval end 200000us excludes its own sample, held frame 1 at distance \(endBound.distanceUs)us")
 
 let startBound = try await decode(
-    "start-boundary", atSourceUs: 200_000, in: FrameInterval(startUs: 200_000, endUs: 400_000),
+    "start-boundary", atSourceUs: 200_000, in: TimeSpan(startUs: 200_000, endUs: 400_000),
     from: source)
 let startImage = try FixtureImage(contentsOf: URL(fileURLWithPath: startBound.file))
 precondition(
@@ -92,7 +99,7 @@ print("PASS interval start 200000us keeps its own sample, frame 2")
 
 let afterCut = try await decode(
     "cut-following-span", atSourceUs: 1_010_000,
-    in: FrameInterval(startUs: 1_005_000, endUs: 1_400_000), from: source)
+    in: TimeSpan(startUs: 1_005_000, endUs: 1_400_000), from: source)
 let afterCutImage = try FixtureImage(contentsOf: URL(fileURLWithPath: afterCut.file))
 precondition(
     afterCut.actualSourceUs == 1_100_000 && afterCutImage.statedFrameIndex() == 11,
@@ -101,7 +108,7 @@ print("PASS removed neighbour at 1000000us rejected for kept frame 11 at 1100000
 
 let beforeCut = try await decode(
     "cut-preceding-span", atSourceUs: 1_190_000,
-    in: FrameInterval(startUs: 1_000_000, endUs: 1_195_000), from: source)
+    in: TimeSpan(startUs: 1_000_000, endUs: 1_195_000), from: source)
 precondition(
     beforeCut.actualSourceUs == 1_100_000 && beforeCut.distanceUs == 90_000,
     "A removed frame past the interval end must lose to the kept frame inside it, got \(beforeCut)")
@@ -109,7 +116,7 @@ print("PASS removed neighbour at 1200000us rejected for kept frame at 1100000us"
 
 let empty = await failure {
     _ = try await decode(
-        "unavailable", atSourceUs: 1_050_000, in: FrameInterval(startUs: 1_010_000, endUs: 1_090_000),
+        "unavailable", atSourceUs: 1_050_000, in: TimeSpan(startUs: 1_010_000, endUs: 1_090_000),
         from: source)
 }
 precondition(
@@ -128,7 +135,7 @@ precondition(
 let sparse = try await FrameSource(url: sparseFixture)
 
 let heldSparse = try await decode(
-    "sparse-held", atSourceUs: 6_900_000, in: FrameInterval(startUs: 2_000_000, endUs: 8_000_000),
+    "sparse-held", atSourceUs: 6_900_000, in: TimeSpan(startUs: 2_000_000, endUs: 8_000_000),
     from: sparse)
 let sparseImage = try FixtureImage(contentsOf: URL(fileURLWithPath: heldSparse.file))
 precondition(
@@ -136,14 +143,14 @@ precondition(
         && sparseImage.statedFrameIndex() == 2,
     "Sparse media must report the actual sample and its distance, got \(heldSparse) showing \(sparseImage.statedFrameIndex())")
 let staleSparse = try await decode(
-    "sparse-distant", atSourceUs: 4_000_000, in: FrameInterval(startUs: 2_000_000, endUs: 6_000_000),
+    "sparse-distant", atSourceUs: 4_000_000, in: TimeSpan(startUs: 2_000_000, endUs: 6_000_000),
     from: sparse)
 precondition(
     staleSparse.actualSourceUs == 2_500_000 && staleSparse.distanceUs == 1_500_000,
     "A held sparse frame must report its real 1500000us distance, got \(staleSparse)")
 let sparseGap = await failure {
     _ = try await decode(
-        "sparse-gap", atSourceUs: 4_000_000, in: FrameInterval(startUs: 3_000_000, endUs: 6_000_000),
+        "sparse-gap", atSourceUs: 4_000_000, in: TimeSpan(startUs: 3_000_000, endUs: 6_000_000),
         from: sparse)
 }
 precondition(
@@ -209,7 +216,7 @@ precondition(
     rotated.width == 240 && rotated.height == 320,
     "A quarter-turn track must report oriented 240x320, got \(rotated.width)x\(rotated.height)")
 let rotatedFrame = try await decode(
-    "rotated", atSourceUs: 500_000, in: FrameInterval(startUs: 0, endUs: 1_200_000), from: rotated)
+    "rotated", atSourceUs: 500_000, in: TimeSpan(startUs: 0, endUs: 1_200_000), from: rotated)
 let rotatedImage = try FixtureImage(contentsOf: URL(fileURLWithPath: rotatedFrame.file))
 
 // Independent orientation oracle: AVAssetImageGenerator applies the same preferred transform.
@@ -253,12 +260,16 @@ print("PASS rotated source is oriented 240x320 with corners matching the image-g
 
 for (fixtureSource, interval, times) in [
     (source, whole, [Int64(140_000), 150_000, 195_000]),
-    (source, FrameInterval(startUs: 0, endUs: 200_000), [Int64(195_000), 250_000]),
-    (sparse, FrameInterval(startUs: 2_000_000, endUs: 6_000_000), [Int64(3_000_000), 4_000_000]),
+    (source, TimeSpan(startUs: 0, endUs: 200_000), [Int64(195_000), 250_000]),
+    (sparse, TimeSpan(startUs: 2_000_000, endUs: 6_000_000), [Int64(3_000_000), 4_000_000]),
 ] {
     let observed = try await fixtureSource.visualSamples(atSourceUs: times, kept: interval)
     for sample in observed.samples {
-        let expected = try await fixtureSource.selection(atSourceUs: sample.requestedSourceUs, in: interval)
+        let expected = try await fixtureSource.decodeFrame(
+            FrameRequest(
+                atSourceUs: sample.requestedSourceUs, kept: interval,
+                output: images.appendingPathComponent("selection-\(UUID().uuidString).png"),
+                maxLongEdge: 16))
         precondition(sample.actualSourceUs == expected.actualSourceUs && sample.distanceUs == expected.distanceUs,
             "Analysis must reuse exact frame selection, including held and restricted samples")
         precondition(Data(base64Encoded: sample.rgbBase64)?.count == sample.width * sample.height * 3,
@@ -270,7 +281,7 @@ for (fixtureSource, interval, times) in [
     }
 }
 let observedRotation = try await rotated.visualSamples(
-    atSourceUs: [500_000], kept: FrameInterval(startUs: 0, endUs: 1_200_000))
+    atSourceUs: [500_000], kept: TimeSpan(startUs: 0, endUs: 1_200_000))
 let rotatedSample = observedRotation.samples[0]
 let rotatedRGB = [UInt8](Data(base64Encoded: rotatedSample.rgbBase64)!)
 precondition(rotatedSample.width == 48 && rotatedSample.height == 64,
@@ -288,7 +299,7 @@ print("PASS clean RGB observations reuse selection, sparse holds and rotated top
 
 let croppedPastOrientation = await failure {
     _ = try await decode(
-        "invalid-rotated-crop", atSourceUs: 500_000, in: FrameInterval(startUs: 0, endUs: 1_200_000),
+        "invalid-rotated-crop", atSourceUs: 500_000, in: TimeSpan(startUs: 0, endUs: 1_200_000),
         from: rotated, crop: FrameCrop(x: 200, y: 0, width: 60, height: 60))
 }
 precondition(
@@ -655,12 +666,12 @@ let sourceBefore = try Data(contentsOf: stepsFixture)
 let rejected = await [
     "reversed interval": failure {
         _ = try await decode(
-            "invalid", atSourceUs: 500_000, in: FrameInterval(startUs: 900_000, endUs: 400_000),
+            "invalid", atSourceUs: 500_000, in: TimeSpan(startUs: 900_000, endUs: 400_000),
             from: source)
     },
     "empty interval": failure {
         _ = try await decode(
-            "invalid", atSourceUs: 500_000, in: FrameInterval(startUs: 500_000, endUs: 500_000),
+            "invalid", atSourceUs: 500_000, in: TimeSpan(startUs: 500_000, endUs: 500_000),
             from: source)
     },
     "negative time": failure {
@@ -668,7 +679,7 @@ let rejected = await [
     },
     "negative interval": failure {
         _ = try await decode(
-            "invalid", atSourceUs: 500_000, in: FrameInterval(startUs: -100, endUs: 400_000),
+            "invalid", atSourceUs: 500_000, in: TimeSpan(startUs: -100, endUs: 400_000),
             from: source)
     },
     "crop past the right edge": failure {
@@ -701,6 +712,13 @@ let rejected = await [
             "invalid", atSourceUs: 500_000, in: whole, from: source,
             overlay: FrameOverlay(
                 trail: [[CursorPoint(atSourceUs: 400_000, x: 320.5, y: 10)]], trailUs: 2_000_000))
+    },
+    // Output pixels are half-open, as the capture journals them and the core admits them: a
+    // coordinate equal to the width is already past the last column.
+    "pointer on the far edge of the source raster": failure {
+        _ = try await decode(
+            "invalid", atSourceUs: 500_000, in: whole, from: source,
+            overlay: FrameOverlay(pointer: CursorPoint(atSourceUs: 500_000, x: 320, y: 10)))
     },
     "trail point with a non-finite coordinate": failure {
         _ = try await decode(
@@ -813,11 +831,18 @@ precondition(
 print("PASS encoded size limit rejects \(overLimit!.message) and accepts \(withinLimit.bytes) bytes at 64 pixels")
 
 for (index, actualUs) in stepsTruth.enumerated() {
-    let selected = try await source.selection(atSourceUs: actualUs, in: whole)
+    func selection(atSourceUs requestedUs: Int64) async throws -> DecodedFrame {
+        try await source.decodeFrame(
+            FrameRequest(
+                atSourceUs: requestedUs, kept: whole,
+                output: images.appendingPathComponent("reach-\(UUID().uuidString).png"),
+                maxLongEdge: 16))
+    }
+    let selected = try await selection(atSourceUs: actualUs)
     precondition(
         selected.actualSourceUs == actualUs && selected.distanceUs == 0,
         "Requesting sample \(index) at \(actualUs)us must select itself, got \(selected)")
-    let nudged = try await source.selection(atSourceUs: actualUs + 40_000, in: whole)
+    let nudged = try await selection(atSourceUs: actualUs + 40_000)
     precondition(
         nudged.actualSourceUs == actualUs && nudged.distanceUs == 40_000,
         "Requesting \(actualUs + 40_000)us must still select sample \(index), got \(nudged)")
@@ -854,7 +879,7 @@ for request in 0..<20 {
     let start = Date()
     let frame = try await decode(
         "long-\(index)", atSourceUs: expectedUs + 30_000,
-        in: FrameInterval(startUs: 0, endUs: Int64(longFrames) * 100_000), from: longSource)
+        in: TimeSpan(startUs: 0, endUs: Int64(longFrames) * 100_000), from: longSource)
     randomAccessSeconds.append(Date().timeIntervalSince(start))
     let picture = try FixtureImage(contentsOf: URL(fileURLWithPath: frame.file))
     precondition(
@@ -904,7 +929,6 @@ precondition(
     "Decoded frame 7 must show the picture it was generated from, mean channel difference \(difference)")
 print(String(format: "PASS decoded frame 7 matches its generated reference, mean difference %.4f", difference))
 
-try await verifyPresentationLifetime(source: stepsFixture, parent: evidence)
+try await verifyPresentationPublicationRace(source: stepsFixture, parent: evidence)
 
-try await pointerCompositionCancellation(source: stepsFixture, parent: evidence)
 try await verifyDescriptorLifetime(source: stepsFixture, parent: evidence)

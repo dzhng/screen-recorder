@@ -1,9 +1,11 @@
 import Foundation
 import ScreenRecorderFrames
+import ScreenRecorderMedia
 
-/// Cancels actual native work after bytes reach staging, rather than before admission.
-func verifyPresentationLifetime(source: URL, parent: URL) async throws {
-    let directory = parent.appendingPathComponent("presentation-lifetime-\(UUID().uuidString)")
+/// A destination created by another owner while evidence is still being written must survive, and
+/// the evidence must neither replace it nor leave its private staging behind.
+func verifyPresentationPublicationRace(source: URL, parent: URL) async throws {
+    let directory = parent.appendingPathComponent("presentation-race-\(UUID().uuidString)")
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
     defer { try? FileManager.default.removeItem(at: directory) }
     let rows = (0..<10_000).map { index in
@@ -15,54 +17,37 @@ func verifyPresentationLifetime(source: URL, parent: URL) async throws {
     let plan = try JSONDecoder().decode(
         [VideoRenderSpan].self,
         from: JSONSerialization.data(withJSONObject: rows))
-    for cancel in [true, false] {
-        let output = directory.appendingPathComponent(cancel ? "canceled.jsonl" : "raced.jsonl")
-        let task = Task.detached {
-            try await PresentationEvidence.write(
-                source: source, plan: plan,
-                output: output, maxBytes: 256 * 1024 * 1024)
-        }
-        let deadline = ContinuousClock.now.advanced(by: .seconds(10))
-        while true {
-            let staging = try FileManager.default.contentsOfDirectory(
-                at: directory, includingPropertiesForKeys: nil
-            )
-            .first { $0.lastPathComponent.hasPrefix(".presentation-evidence-") }
-            if let staging,
-                let attributes = try? FileManager.default.attributesOfItem(
-                    atPath: staging.appendingPathComponent("evidence.jsonl").path),
-                let bytes = attributes[.size] as? Int, bytes > 1000
-            {
-                break
-            }
-            guard ContinuousClock.now < deadline else {
-                task.cancel()
-                _ = try? await task.value
-                preconditionFailure("Evidence did not make bounded forward progress")
-            }
-            try await Task.sleep(for: .milliseconds(2))
-        }
-        if cancel {
-            task.cancel()
-        } else {
-            try Data("unrelated destination".utf8).write(to: output, options: .withoutOverwriting)
-        }
-        do {
-            _ = try await task.value
-            preconditionFailure("Canceled/raced evidence must not publish")
-        } catch is CancellationError {
-            precondition(cancel)
-        } catch let error as FrameFailure {
-            precondition(!cancel && error.code == "INVALID_OUTPUT", "\(error)")
-        }
-        let remaining = try FileManager.default.contentsOfDirectory(atPath: directory.path)
-        precondition(!remaining.contains { $0.hasPrefix(".presentation-evidence-") })
-        if cancel {
-            precondition(!FileManager.default.fileExists(atPath: output.path))
-        } else {
-            let bytes = try Data(contentsOf: output)
-            precondition(bytes == Data("unrelated destination".utf8))
-        }
+    let output = directory.appendingPathComponent("raced.jsonl")
+    let task = Task.detached {
+        try await PresentationEvidence.write(
+            source: source, plan: plan, output: output, maxBytes: 256 * 1024 * 1024)
     }
-    print("PASS presentation evidence cancellation removes staging and publication preserves races")
+    let deadline = ContinuousClock.now.advanced(by: .seconds(10))
+    while true {
+        let staging = try FileManager.default.contentsOfDirectory(
+            at: directory, includingPropertiesForKeys: nil
+        )
+        .first { $0.lastPathComponent.hasPrefix(".screenrec-output-") }
+        if let staging,
+            let attributes = try? FileManager.default.attributesOfItem(
+                atPath: staging.appendingPathComponent("evidence.jsonl").path),
+            let bytes = attributes[.size] as? Int, bytes > 1000
+        {
+            break
+        }
+        precondition(ContinuousClock.now < deadline, "Evidence did not make bounded forward progress")
+        try await Task.sleep(for: .milliseconds(2))
+    }
+    try Data("unrelated destination".utf8).write(to: output, options: .withoutOverwriting)
+    do {
+        _ = try await task.value
+        preconditionFailure("Raced evidence must not publish")
+    } catch let error as NativeFailure {
+        precondition(error.code == "INVALID_OUTPUT", "\(error)")
+    }
+    let remaining = try FileManager.default.contentsOfDirectory(atPath: directory.path)
+    precondition(!remaining.contains { $0.hasPrefix(".screenrec-output-") })
+    let survivor = try Data(contentsOf: output)
+    precondition(survivor == Data("unrelated destination".utf8))
+    print("PASS presentation evidence never replaces a destination created while it was written")
 }
