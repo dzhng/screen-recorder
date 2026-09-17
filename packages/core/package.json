@@ -143,6 +143,10 @@
     "./derivative-inspection": {
       "types": "./dist/derivative-inspection.d.ts",
       "default": "./dist/derivative-inspection.js"
+    },
+    "./speech-models": {
+      "types": "./dist/speech-models.d.ts",
+      "default": "./dist/speech-models.js"
     }
   },
   "scripts": {
