@@ -34,6 +34,7 @@ import { SourceProcessing } from "@screenrec/core/processing";
 import { PreviewInspection } from "@screenrec/core/preview";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { TranscriptStore } from "@screenrec/core/transcript";
 import { Publication } from "../dist/publication.js";
 import { RecordingExports } from "../dist/exports.js";
 import { RecordingDeletion } from "../dist/deletion.js";
@@ -201,6 +202,7 @@ async function fixture(
     source: evidence,
     scenes: sceneEvidence,
     index: indexEvidence,
+    transcripts: new TranscriptStore(store, home),
     capture: { quiesce: async () => {} },
     delivery,
     cleanupReady: async () => {},

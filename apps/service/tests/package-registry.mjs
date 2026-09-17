@@ -267,6 +267,7 @@ test("same-provenance library deletion and package close revoke only their own d
     { SourceEvidenceStore },
     { SceneEvidenceStore },
     { ScreenshotIndexStore },
+    { TranscriptStore },
     { CaptureService },
     { RecordingDeletion },
     { ManagedFiles },
@@ -275,6 +276,7 @@ test("same-provenance library deletion and package close revoke only their own d
     import("../../../packages/core/dist/evidence.js"),
     import("../../../packages/core/dist/scene-evidence.js"),
     import("../../../packages/core/dist/screenshot-index.js"),
+    import("../../../packages/core/dist/transcript.js"),
     import("../dist/capture.js"),
     import("../dist/deletion.js"),
     import("../dist/managed-files.js"),
@@ -317,6 +319,7 @@ test("same-provenance library deletion and package close revoke only their own d
     source: new SourceEvidenceStore(f.store),
     scenes: new SceneEvidenceStore(f.store),
     index: new ScreenshotIndexStore(f.store, f.home),
+    transcripts: new TranscriptStore(f.store, f.home),
     cleanupReady: () => Promise.resolve(),
     files: new ManagedFiles(f.home, worker),
   });
