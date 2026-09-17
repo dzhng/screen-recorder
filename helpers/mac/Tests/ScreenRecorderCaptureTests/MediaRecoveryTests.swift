@@ -2,6 +2,7 @@
 import Foundation
 import ScreenRecorderCapture
 import ScreenRecorderMedia
+import ScreenRecorderWire
 
 private func track(_ role: String, of capture: RecoveredCapture) -> RecoveredTrack {
     guard let found = capture.tracks.first(where: { $0.role == role }) else {

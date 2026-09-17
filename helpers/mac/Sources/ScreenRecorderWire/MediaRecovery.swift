@@ -1,26 +1,27 @@
 @preconcurrency import AVFoundation
 import Foundation
+import ScreenRecorderCapture
 import ScreenRecorderMedia
 
-public struct RecoveredTrack: Codable, Sendable {
-    public let role: String
-    public let file: String
-    public let intervals: [TimeSpan]
-    public let decodedSamples: Int
-    public let decodeReachedEnd: Bool
-    public let acquisitionVerified: Bool
-    public let failure: CaptureFailure?
+package struct RecoveredTrack: Codable, Sendable {
+    package let role: String
+    package let file: String
+    package let intervals: [TimeSpan]
+    package let decodedSamples: Int
+    package let decodeReachedEnd: Bool
+    package let acquisitionVerified: Bool
+    package let failure: CaptureFailure?
 }
 
-public struct RecoveredCapture: Codable, Sendable {
-    public let durationUs: Int64
-    public let tracks: [RecoveredTrack]
-    public let journal: CaptureJournalSummary?
-    public let journalFailure: CaptureFailure?
+package struct RecoveredCapture: Codable, Sendable {
+    package let durationUs: Int64
+    package let tracks: [RecoveredTrack]
+    package let journal: CaptureJournalSummary?
+    package let journalFailure: CaptureFailure?
 }
 
-public enum MediaRecovery {
-    public static func inspect(directory: String) async -> RecoveredCapture {
+package enum MediaRecovery {
+    package static func inspect(directory: String) async -> RecoveredCapture {
         var journal: CaptureJournalSummary?
         var journalFailure: CaptureFailure?
         do { journal = try CaptureJournal.inspect(directory: directory) } catch {

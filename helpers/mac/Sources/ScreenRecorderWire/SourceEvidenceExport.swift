@@ -1,30 +1,31 @@
 import Darwin
 import Foundation
+import ScreenRecorderCapture
 import ScreenRecorderMedia
 
 /// Compact receipt for a caller-owned derivative. Timing arrays and raw records stay off the wire.
-public struct SourceEvidenceExport: Encodable {
-    public let file: String
-    public let journal = "capture.journal.jsonl"
-    public let header: CaptureJournalHeader?
-    public let originHostUs: Int64?
-    public let cursorSamples: Int
-    public let geometryRecords: Int
-    public let pauseEvents: Int
-    public let audioIntervals: Int
-    public let openPauseHostUs: Int64?
-    public let displaySpaces: Int
-    public let firstCursorSourceUs: Int64?
-    public let lastCursorSourceUs: Int64?
-    public let lastSequence: Int
-    public let incompleteTail: Bool
-    public let invalidAtSequence: Int?
-    public let finished: Bool
-    public let bytes: Int
+package struct SourceEvidenceExport: Encodable {
+    package let file: String
+    package let journal = "capture.journal.jsonl"
+    package let header: CaptureJournalHeader?
+    package let originHostUs: Int64?
+    package let cursorSamples: Int
+    package let geometryRecords: Int
+    package let pauseEvents: Int
+    package let audioIntervals: Int
+    package let openPauseHostUs: Int64?
+    package let displaySpaces: Int
+    package let firstCursorSourceUs: Int64?
+    package let lastCursorSourceUs: Int64?
+    package let lastSequence: Int
+    package let incompleteTail: Bool
+    package let invalidAtSequence: Int?
+    package let finished: Bool
+    package let bytes: Int
 
     /// The caller supplies a finalized/recovered source. A missing finished record remains visible
     /// because recovery may retain a trustworthy prefix after the capture process died.
-    public static func write(directory: String, output: String) throws -> Self {
+    package static func write(directory: String, output: String) throws -> Self {
         let source = URL(fileURLWithPath: directory).resolvingSymlinksInPath().standardizedFileURL
         let parent = URL(fileURLWithPath: output).standardizedFileURL.deletingLastPathComponent()
             .resolvingSymlinksInPath().standardizedFileURL

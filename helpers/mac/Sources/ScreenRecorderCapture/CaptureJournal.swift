@@ -229,7 +229,7 @@ public final class CaptureJournal {
             pause: pause, audioAcquired: audioAcquired)
     }
 
-    static func readEvidence(
+    package static func readEvidence(
         directory: String, maximumBytes: Int?, retainTiming: Bool,
         geometry: (JournalGeometry) throws -> Void,
         samples: ([CursorSample]) throws -> Void,
