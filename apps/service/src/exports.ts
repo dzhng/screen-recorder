@@ -636,6 +636,10 @@ export class RecordingExports {
       recordingId: intent.recordingId,
       snapshot: intent.snapshot,
       state: intent.receipt ? ("committed" as const) : state === "waiting" ? "queued" : state,
+      // The admitted destination lets a restarted client describe an unfinished export
+      // without keeping its own copy; output still names only a committed file.
+      destination: { directory: intent.destination.directory, leaf: intent.destination.leaf },
+      cleanupPending: !!intent.assembly || (!!intent.staging && !intent.stagingCleared),
       receipt: intent.receipt,
       output: intent.receipt ? join(intent.destination.directory, intent.destination.leaf) : null,
       jobId: job.jobId,

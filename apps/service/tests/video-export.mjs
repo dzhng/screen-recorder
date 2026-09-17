@@ -19,6 +19,7 @@ import {
   stat,
   rename,
   chmod,
+  realpath,
 } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
@@ -898,7 +899,14 @@ if (process.argv[2] === "crash-owner") {
         .exports.map((row) => [row.exportId, row.abandoning, row.cleanupPending]),
       [[exportId, true, true]],
     );
-    assert.equal(f.exports.status(exportId).abandoning, true);
+    const unfinished = f.exports.status(exportId);
+    assert.equal(unfinished.abandoning, true);
+    assert.equal(unfinished.cleanupPending, true);
+    assert.equal(unfinished.output, null, "an uncommitted export names no output file");
+    assert.deepEqual(unfinished.destination, {
+      directory: await realpath(f.output),
+      leaf: "occupied.mp4",
+    });
     assert.equal(f.exports.retainsSource(f.take.recordingId, generation), true);
     assert.equal(
       f.store.catalog
@@ -2190,6 +2198,7 @@ if (process.argv[2] === "crash-owner") {
         .exports.map((row) => [row.exportId, row.state, row.cleanupPending]),
       [[created.exportId, "committed", true]],
     );
+    assert.equal(committed.cleanupPending, true, "status and discovery agree on private cleanup");
     const original = await readFile(committed.output);
     const reservation = JSON.parse(
       f.store.catalog
@@ -2243,6 +2252,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal((await f.storage.usage(f.take.recordingId)).otherBytes, 0);
     assert.deepEqual(f.exports.list({ unfinishedOnly: true }).exports, []);
     assert.equal(f.exports.list({}).exports[0].cleanupPending, false);
+    assert.equal(f.exports.status(created.exportId).cleanupPending, false);
     assert.deepEqual(await readFile(join(moved, "historical.zip")), original);
     await rename(moved, f.output);
   });

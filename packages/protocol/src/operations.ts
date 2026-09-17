@@ -116,7 +116,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Read an export's pinned revision, job and historical commit receipt without opening the destination.",
+      "Read an export's pinned revision, admitted destination, job, private cleanup state and historical commit receipt without opening the destination. output names a file only once committed.",
     ),
   z
     .object({
