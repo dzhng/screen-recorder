@@ -1,7 +1,6 @@
 import { afterEach, expect, it } from "vitest";
 import { spawn } from "node:child_process";
 import {
-  chmod,
   lstat,
   mkdir,
   mkdtemp,
@@ -12,6 +11,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
 import { parakeetModel, SpeechModels } from "@screenrec/core/speech-models";
@@ -340,78 +340,17 @@ it("package root failure leaves the library available and returns an explicit pa
   ).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
 });
 
+/** Fake native media and speech; see the fixture for the narration and words it reports. */
+const speechWorker = fileURLToPath(new URL("../fixtures/speech-worker.mjs", import.meta.url));
 const narration = [
   { startUs: 0, endUs: 3_000_000 },
   { startUs: 4_000_000, endUs: 6_000_000 },
 ];
-const spoken = [
-  { text: "Open", startUs: 200_000, endUs: 500_000 },
-  { text: "the", startUs: 500_000, endUs: 700_000 },
-  { text: "Settings", startUs: 800_000, endUs: 1_400_000 },
-  { text: "panel.", startUs: 1_500_000, endUs: 2_000_000 },
-  { text: "Um,", startUs: 4_100_000, endUs: 4_300_000 },
-  { text: "press", startUs: 4_500_000, endUs: 5_000_000 },
-  { text: "record", startUs: 5_100_000, endUs: 5_800_000 },
-];
 
-/**
- * A native worker that answers source evidence and speech.transcribe the way the real one does: it
- * reports acquired narration, then writes one raw line per interval with words carrying source
- * ranges, and logs each transcription request.
- */
-async function fakeNativeWorker(home: string) {
-  const executable = join(home, "fake-native");
+async function startTranscribing(home: string) {
   const log = join(home, "transcribe-requests.jsonl");
-  await writeFile(
-    executable,
-    `#!${process.execPath}
-import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
-import { createHash } from "node:crypto";
-const narration = ${JSON.stringify(narration)};
-const spoken = ${JSON.stringify(spoken)};
-const engine = ${JSON.stringify(parakeetModel.engine)};
-let input = "";
-process.stdin.on("data", (bytes) => (input += bytes));
-process.stdin.on("end", () => {
-  const { operation, params } = JSON.parse(input);
-  const answer = (data) => process.stdout.write(JSON.stringify({ ok: true, data }) + "\\n");
-  if (operation === "media.sourceEvidence") {
-    const header = JSON.parse(readFileSync(params.directory + "/capture.journal.jsonl", "utf8").split("\\n")[0]).data;
-    const text = header.microphone
-      ? narration.map((data) => JSON.stringify({ event: "audioAcquired", data: { role: "narration", ...data } }) + "\\n").join("")
-      : "";
-    writeFileSync(params.output, text);
-    const count = header.microphone ? narration.length : 0;
-    return answer({ file: params.output, journal: "capture.journal.jsonl",
-      header: { sessionID: header.sessionID, microphone: header.microphone, systemAudio: false },
-      cursorSamples: 0, geometryRecords: 0, displaySpaces: 0, pauseEvents: 0, audioIntervals: count,
-      lastSequence: count, incompleteTail: false, finished: true, bytes: Buffer.byteLength(text) });
-  }
-  if (operation === "speech.transcribe") {
-    appendFileSync(${JSON.stringify(log)}, JSON.stringify(params) + "\\n");
-    const segments = [];
-    const text = params.track.available.map((source, ordinal) => {
-      const words = spoken
-        .filter((word) => word.startUs >= source.startUs && word.endUs <= source.endUs)
-        .map(({ text, ...range }) => ({ text, startSeconds: (range.startUs - source.startUs) / 1e6,
-          endSeconds: (range.endUs - source.startUs) / 1e6, confidence: 0.9, source: range }));
-      segments.push({ ordinal, source, state: "transcribed", wordCount: words.length });
-      return JSON.stringify({ ordinal, source, state: "transcribed", words }) + "\\n";
-    }).join("");
-    writeFileSync(params.output, text);
-    return answer({ output: { file: params.output, bytes: Buffer.byteLength(text),
-        sha256: createHash("sha256").update(text).digest("hex") },
-      engine: { ...engine, encoderPrecision: "int8", computeUnits: "cpuAndNeuralEngine" },
-      segments, wordCount: segments.reduce((total, segment) => total + segment.wordCount, 0),
-      details: { peakResidentBytes: 1 } });
-  }
-  process.stdout.write(JSON.stringify({ ok: false, error: { code: "UNSUPPORTED_FIXTURE",
-    message: operation, retryable: false, details: {} } }) + "\\n");
-});
-`,
-  );
-  await chmod(executable, 0o755);
-  return { executable, log };
+  const service = await start(home, { SCREENREC_NATIVE: speechWorker, SCREENREC_FIXTURE_LOG: log });
+  return { ...service, log };
 }
 
 /**
@@ -489,8 +428,7 @@ it("transcripts prepare, page, search, project cuts and retry through the servic
   cleanup.push(() => rm(home, { recursive: true, force: true }));
   const [narrated, silent] = await narratedTakes(home, [true, false]);
   await installedModel(home);
-  const native = await fakeNativeWorker(home);
-  const { call } = await start(home, { SCREENREC_NATIVE: native.executable });
+  const { call, log } = await startTranscribing(home);
 
   expect(await call("model.status")).toMatchObject({ ok: true, data: { state: "ready" } });
   expect(await call("model.prepare")).toMatchObject({ ok: true, data: { state: "ready" } });
@@ -599,7 +537,7 @@ it("transcripts prepare, page, search, project cuts and retry through the servic
     ok: true,
     data: { state: "ready", jobId: ready.jobId, published: ready.published },
   });
-  const requests = (await readFile(native.log, "utf8"))
+  const requests = (await readFile(log, "utf8"))
     .trim()
     .split("\n")
     .map((line) => JSON.parse(line));
@@ -623,8 +561,7 @@ it("an unprepared model starts no transcript and says how to proceed", async () 
   const home = await mkdtemp("/tmp/scr-transcript-unprepared-");
   cleanup.push(() => rm(home, { recursive: true, force: true }));
   const [recordingId] = await narratedTakes(home, [true]);
-  const native = await fakeNativeWorker(home);
-  const { call } = await start(home, { SCREENREC_NATIVE: native.executable });
+  const { call, log } = await startTranscribing(home);
   expect(await call("model.status")).toMatchObject({ ok: true, data: { state: "absent" } });
   const blocked = {
     state: "unavailable",
@@ -646,5 +583,5 @@ it("an unprepared model starts no transcript and says how to proceed", async () 
     ok: false,
     error: { code: "MODEL_NOT_PREPARED", retryable: true },
   });
-  await expect(lstat(native.log)).rejects.toMatchObject({ code: "ENOENT" });
+  await expect(lstat(log)).rejects.toMatchObject({ code: "ENOENT" });
 });
