@@ -1,0 +1,37 @@
+(node:80568) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ a finalized own-window take publishes pageable source evidence once across edits and relaunch (20529.546083ms)
+✔ generated source processing supports both spellings of an absolute temporary home (257.756458ms)
+✔ worker exports display-space observations and preserves source (34.657791ms)
+✔ receipt preserves the requested output locator across macOS temporary-directory aliases (35.461208ms)
+✔ samples preserve raw values and geometry ordering across batches (9.997875ms)
+✔ corrupt and incomplete tails retain only observed prefix with explicit markers (98.303042ms)
+✔ existing paths, links, source descendants and invalid requests never mutate source (72.071083ms)
+✔ large journal streams individual samples through the real worker with a small receipt (1366.034834ms)
+✔ budget and malformed-header failures publish nothing and clean staging (24.388292ms)
+✔ interleaved audio merges per role, preserves gaps and completed pauses (9.482667ms)
+✔ timing evidence flushes trusted audio at corrupt or unfinished pause tails (20.586208ms)
+✔ invalid timing record stops before emitting or clearing observed pause (42.085417ms)
+✔ many audio gaps stream with bounded worker memory and a constant-size receipt (1201.734959ms)
+ℹ 100,000 audio gaps: peak worker RSS 23265280 bytes
+✔ many deferred pauses stream with bounded worker memory and a constant-size receipt (1161.716916ms)
+ℹ 100,000 deferred pauses: peak worker RSS 22134784 bytes
+ℹ tests 14
+ℹ suites 0
+ℹ pass 13
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20948.001917
+
+✖ failing tests:
+
+test at apps/macos/tests/source-processing.test.mjs:14:1
+✖ a finalized own-window take publishes pageable source evidence once across edits and relaunch (20529.546083ms)
+  Error: Timed out after 20000ms.
+      at waitFor (file:///Users/david/dev/screen-recorder/apps/macos/tests/harness.mjs:115:35)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/apps/macos/tests/source-processing.test.mjs:45:3)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)

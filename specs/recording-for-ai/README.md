@@ -1,13 +1,9 @@
 # Recording for AI — personal release spec
 
 Status: spec complete; implementation partial. Last updated: 2026-09-17.
-Package registry/export integration and the remaining native capture, speech and
+Native export controls and the remaining native capture, speech and
 installed-workflow gates are still open. The handoff and slice checklist below
 separate verified internal behavior from full personal-release acceptance.
-
-Source processing now preserves the exact requested absolute output locator,
-including canonical `/private/tmp` homes; [verification](assets/source-processing/output-locators.md)
-retains strict receipt ownership.
 
 ## Next Agent Prompt
 
@@ -32,13 +28,19 @@ recording or permission is pending, but do not call that gate passed.
 
 Update this section and the owning slice before ending each implementation pass:
 completed work, exact next pickup, evidence paths, failures and delegated decisions.
-Current pickup: finish the native export workflow: persisted-export discovery,
-menu controls, and the native source-receipt path-alias fix.
+Current pickup: implement the native export controls, then expose persisted-export
+rediscovery in the native app after restart. The control layer has no merged code:
+keep one UI-owned active request, retain its UUID across a lost create reply, pin a
+revision before Save, and use the existing owner for retry, abandonment and status.
+For a resumed uncommitted export, expose its admitted destination from status rather
+than inventing UI-side persistence; consume unfinished `export.list` pages and then
+read selected `export.status` records.
 The [complete no-narration package](assets/package-assembly/public.md) now exports
 through CLI/MCP and survives relocation with public frame/audio inspection.
 Native controls must use the shared owner, preserve ambiguous request identities,
-and expose rediscovery of persisted exports after restart; export enumeration is
-still missing. [Raw cursor pages](slices/14c3c3-package-cursor.md),
+and expose rediscovery of persisted exports after restart. The shared
+[export enumeration](slices/14d4-export-discovery.md) backend is verified.
+[Raw cursor pages](slices/14c3c3-package-cursor.md),
 [arbitrary frames](slices/14c3c2a-package-frames.md),
 [audio](slices/14c3c2b-package-audio.md) and retained index reads are public.
 Acquired narration remains an explicit transcript prerequisite, never an implicit
@@ -47,9 +49,10 @@ now drains destination validation before reporting a stopped export absent.
 
 [Public timeline inspection](slices/14c3c4-timeline-inspection.md) is implemented for
 library and retained-package history with bounded, generation-scoped continuations.
-It does not imply transcript readiness. Native export verification also exposed
-a /private/tmp versus /tmp source-receipt alias mismatch; its owning native
-boundary is being fixed, without relaxing unrelated-file rejection.
+It does not imply transcript readiness. The native
+[source-receipt alias fix](assets/source-processing/output-locators.md) preserves
+requested locators without relaxing unrelated-file rejection. Generated processing
+passes for both temporary-home spellings; live capture remains a separate gate.
 
 Priority order: package/export execution, remaining native controls and physical
 capture/gesture verification, speech fidelity, then installed-workflow closeout.
@@ -194,6 +197,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [ ] [14d3 — Complete processed-package export](slices/14d3-processed-package.md) (public no-narration packages implemented; narrated completeness remains)
     - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md)
     - [x] [14d3b — Complete no-narration assembly](slices/14d3b-package-assembly.md) (public production, relocation and cleanup)
+  - [x] [14d4 — Persisted export discovery](slices/14d4-export-discovery.md) (CLI/MCP restart proof; native recovery UI remains)
 - [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
   - [x] [15a — Client discovery](slices/15a-client-discovery.md) (built-app launch; installed-copy gate remains)
   - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)

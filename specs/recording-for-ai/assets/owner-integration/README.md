@@ -1,6 +1,26 @@
 # Integrated package and export owners
 
-## Current timeline integration
+## Current discovery and source-receipt integration
+
+At `f5d6189`, a fresh bundle passes the actual CLI/MCP export discovery,
+restart and relocated produced-package frame/audio journey in 22.8 seconds
+([output](discovery-native.txt)). All type tasks and the focused core receipt tests
+pass. The [source-path run](source-locator-native.txt) passes the generated service
+case for both home spellings and all twelve actual-worker cases.
+
+That same run also attempted the existing own-window capture case. It timed out
+waiting for captured time to advance, before source processing. The host was
+reported locked by native UI automation; this is not a passing capture gate or a
+proven diagnosis of the timeout. The generated alias and worker checks do not
+substitute for that physical gate.
+
+The [discovery review](../export-discovery/review.md) and
+[receipt review](../source-processing/output-locators.md) retain independent reviews
+and negative controls. Integration preserves one export owner, strict source receipt
+ownership and the existing queue. Native controls/restart UI, speech fidelity and
+installed acceptance remain open.
+
+## Earlier timeline integration
 
 At `63e521a`, the merged library/package timeline route and the complete public
 package export workflow pass [two actual native journeys](timeline-native.txt).
@@ -11,8 +31,8 @@ owner before public frame/audio inspection. [327 core tests](timeline-core.txt),
 negative controls and source-agent service/CLI checks. Integration preserves export
 retention callbacks and the public raw cursor route.
 
-Native export controls, persisted-export discovery and the source-receipt alias fix
-are in progress. Transcript fidelity and installed acceptance remain open.
+At that checkpoint native export controls, persisted-export discovery and the
+source-receipt alias fix were still in progress.
 
 ## Earlier public complete-package integration
 
