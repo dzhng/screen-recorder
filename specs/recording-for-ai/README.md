@@ -30,10 +30,9 @@ Each slice's Status line is the one home for what it verified, its evidence and
 what remains open. Before ending a pass, update the owning Status lines and the
 checklist box, then replace the pickup below.
 
-Current pickup: [slice 15](slices/15-personal-release.md) personal install scripts
-(install the built app outside the checkout, CLI/MCP discovery of the installed copy,
-Node 24 prerequisite), which need no user recording. Everything else still open needs
-the user:
+Current pickup: no remaining pass is independent of the user.
+[Slice 15](slices/15-personal-release.md) personal install is implemented; install it
+with `bun run install:personal` when ready. Everything else still open needs the user:
 
 - **Speech engine selection ([04](slices/04-local-speech-gate.md)):** real narration
   and a decision, because no evaluated engine meets verbatim filler fidelity. This

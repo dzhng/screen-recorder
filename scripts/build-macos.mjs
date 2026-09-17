@@ -22,21 +22,18 @@ for (const [directory, executable] of [
   copyFileSync(join(bin, executable), join(macOS, executable));
 }
 
-// The bundled service runs from `/` with no node_modules in reach, so it ships as one
-// file with Node builtins left external.
+// The bundled service and CLI run outside the checkout with no node_modules in reach, so
+// each ships as one file with Node builtins left external.
 const service = join(app, "Contents/Resources/service");
-mkdirSync(service, { recursive: true });
-execFileSync(
-  "bun",
-  [
-    "build",
-    join(root, "apps/service/dist/main.js"),
-    "--target=node",
-    "--outfile",
-    join(service, "main.mjs"),
-  ],
-  { stdio: "inherit" },
-);
+for (const [entry, outfile] of [
+  ["apps/service/dist/main.js", join(service, "main.mjs")],
+  ["apps/cli/dist/main.js", join(app, "Contents/Resources/cli/main.mjs")],
+]) {
+  mkdirSync(dirname(outfile), { recursive: true });
+  execFileSync("bun", ["build", join(root, entry), "--target=node", "--outfile", outfile], {
+    stdio: "inherit",
+  });
+}
 
 // The app reads its control-channel limits from here rather than restating them in
 // Swift, so protocol stays their one owner. The interpreter is a personal-host

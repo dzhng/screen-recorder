@@ -1,7 +1,16 @@
 # 15 — Installed personal workflow and closeout
 
-Status: full installed journey not started; [client discovery](15a-client-discovery.md)
-has fixture proof. Dependencies: 00–14.
+Status: personal install is implemented. `bun run install:personal` installs the app
+and a `screenrec` launcher outside the checkout. `apps/macos/tests/personal-install.test.mjs`
+installs into scratch paths, then from `/` with a Finder environment:
+- CLI calls launch the installed copy, whose service runs from the installed bundle;
+- MCP lists tools and answers;
+- reinstalling over a running copy is refused;
+- a reinstall after quitting leaves no staging copy and a valid signature.
+
+[Client discovery](15a-client-discovery.md) has fixture proof. The recorded installed
+journey (real narrated capture, speech, agent edit and both exports) remains open
+and depends on 04 and physical capture. Dependencies: 00–14.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

@@ -21,6 +21,7 @@
     "lab:capture": "node scripts/native-capture-probe.mjs",
     "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
     "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
     "lab:index": "bun run --cwd packages/test-harness lab:index",
     "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
     "lab:storage": "bun run --cwd packages/test-harness lab:storage",

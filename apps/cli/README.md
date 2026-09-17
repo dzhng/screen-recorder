@@ -4,7 +4,15 @@ The adapters format the same service operations for JSON command-line calls and 
 stdio. Parameter schemas and help come from the protocol declaration; edits and
 catalog behavior stay in the service/core. An adapter never edits the database.
 
-After building, run `bun run screenrec --help` from the repository. The help lists
+After building, run `bun run screenrec --help` from the repository. For use outside
+the checkout, `bun run install:personal` builds, installs the app into
+`~/Applications` and writes a `screenrec` launcher into `~/.local/bin`. Pass
+`-- --app PATH --bin DIR` to choose other absolute locations. The launcher runs the
+CLI bundled inside the installed app under the Node 24 interpreter the build
+recorded. That interpreter is a host prerequisite, not a bundled runtime. The
+installer refuses to replace a running copy, and it prints the MCP command
+(`screenrec mcp`) for client configuration. A rebuilt ad-hoc signature can require
+granting screen and microphone access again. The help lists
 implemented operations and their JSON schemas without connecting to the app.
 `--params -` reads bounded JSON from stdin. Edit timestamps are integer microseconds
 in the named revision's playback coordinates, with half-open ranges.
