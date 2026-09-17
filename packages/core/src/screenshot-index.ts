@@ -459,6 +459,12 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
   }
 
   async remove(identity: ScreenshotIndexIdentity): Promise<void> {
+    if (
+      !this.store.catalog
+        .prepare(`SELECT 1 FROM screenshot_index_generations WHERE ${where}`)
+        .get(...key(identity))
+    )
+      return;
     const row = this.row(identity);
     this.store.catalog
       .prepare(`UPDATE screenshot_index_generations SET state='deleting' WHERE ${where}`)

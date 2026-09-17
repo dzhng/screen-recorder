@@ -209,6 +209,16 @@ test("incomplete coverage and missing retained files cannot become complete", as
   expect(() => f.index.page({ identity: f.identity })).toThrow("complete");
   await f.index.remove(f.identity);
 });
+test("removing a generation that begin refused succeeds without replacing the refusal", async () => {
+  const f = fixture();
+  const refused = {
+    ...f.identity,
+    sourceIdentity: { ...f.identity.sourceIdentity, sourceId: "x" },
+  };
+  expect(() => f.index.begin(refused)).toThrow("does not match source");
+  await expect(f.index.remove(refused)).resolves.toBeUndefined();
+  await expect(f.index.remove(refused)).resolves.toBeUndefined();
+});
 test("canceling final validation hides partial evidence and prevents late appends", async () => {
   const f = fixture();
   f.index.begin(f.identity);
