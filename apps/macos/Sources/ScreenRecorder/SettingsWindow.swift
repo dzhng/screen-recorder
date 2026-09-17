@@ -232,9 +232,8 @@ struct SettingsView: View {
             } label: {
                 Text("Microphone")
             }
-            Toggle(isOn: systemAudio) {
-                Text("Include All System Audio")
-                Text("Records everything the Mac plays, not a single app or tab.")
+            detailRow("Include All System Audio", "Records everything the Mac plays, not a single app or tab.") {
+                Toggle("", isOn: systemAudio).labelsHidden()
             }
         } header: {
             Text("Recording")
@@ -279,9 +278,8 @@ struct SettingsView: View {
     private var generalSection: some View {
         Section("General") {
             Toggle("Show this window when Screen Recorder starts", isOn: $model.showAtLaunch)
-            Toggle(isOn: openAtLogin) {
-                Text("Open at login")
-                Text(loginItemDescription)
+            detailRow("Open at login", loginItemDescription) {
+                Toggle("", isOn: openAtLogin).labelsHidden()
             }
             if let failure = model.loginFailure {
                 Text(failure).foregroundStyle(.red)
