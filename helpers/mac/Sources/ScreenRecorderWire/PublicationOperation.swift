@@ -24,7 +24,8 @@ enum PublicationOperation {
         NativeFailure(code, message, retryable: false)
     }
     private static func io(_ action: String) -> NativeFailure {
-        NativeFailure("PUBLICATION_IO", "\(action): \(String(cString: strerror(errno)))", retryable: true)
+        NativeFailure(
+            "PUBLICATION_IO", "\(action): \(String(cString: strerror(errno)))", retryable: true)
     }
     private static func info(_ fd: Int32, directory: Bool = false) throws -> stat {
         var value = stat()

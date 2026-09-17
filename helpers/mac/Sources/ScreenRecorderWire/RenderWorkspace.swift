@@ -5,7 +5,8 @@ import ScreenRecorderMedia
 enum RenderWorkspace {
     static func clear(_ params: [String: Any]) throws {
         guard Set(params.keys) == ["expectedDirectory"] else {
-            throw NativeFailure("INVALID_REQUEST", "Render cleanup requires its directory identity.", retryable: false)
+            throw NativeFailure(
+                "INVALID_REQUEST", "Render cleanup requires its directory identity.", retryable: false)
         }
         try InodeIdentity(params["expectedDirectory"]).check(3)
         try ManagedFiles.lockPrivateDirectory(3)

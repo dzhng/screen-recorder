@@ -131,6 +131,7 @@ enum PackageWorkspace {
     }
 
     private static func failure(_ action: String) -> NativeFailure {
-        NativeFailure("INVALID_STORAGE", "\(action): \(String(cString: strerror(errno)))", retryable: true)
+        NativeFailure(
+            "INVALID_STORAGE", "\(action): \(String(cString: strerror(errno)))", retryable: true)
     }
 }

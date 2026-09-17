@@ -34,7 +34,8 @@ public final class NewFile: @unchecked Sendable {
     /// Writes complete bytes as the file.
     public func write(_ data: Data) throws {
         let descriptor = open(url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)
-        guard descriptor >= 0 else { throw NativeFailure.decodeFailed("Cannot create output: \(Self.reason()).") }
+        guard descriptor >= 0 else { throw NativeFailure.decodeFailed(
+            "Cannot create output: \(Self.reason()).") }
         defer { close(descriptor) }
         try Self.write(data, to: descriptor)
     }
@@ -71,7 +72,8 @@ public final class NewFile: @unchecked Sendable {
                     descriptor, bytes.baseAddress!.advanced(by: offset), bytes.count - offset,
                     off_t(offset))
                 if count < 0 && errno == EINTR { continue }
-                guard count > 0 else { throw NativeFailure.decodeFailed("Cannot write output: \(reason()).") }
+                guard count > 0 else { throw NativeFailure.decodeFailed(
+                    "Cannot write output: \(reason()).") }
                 offset += count
             }
         }
@@ -107,7 +109,8 @@ public enum OutputFile: Sendable {
         for source in sources {
             var info = stat()
             if stat(source.path, &info) == 0, info.st_dev == output.st_dev, info.st_ino == output.st_ino {
-                throw NativeFailure("INVALID_OUTPUT", "Output handle names a source of this operation.")
+                throw NativeFailure(
+                    "INVALID_OUTPUT", "Output handle names a source of this operation.")
             }
         }
         self = .handle(handle)
@@ -132,7 +135,8 @@ public enum OutputFile: Sendable {
         switch self {
         case .handle(let handle):
             guard fsync(handle.descriptor) == 0 else {
-                throw NativeFailure.decodeFailed("Cannot finish output handle: \(NewFile.reason()).")
+                throw NativeFailure.decodeFailed(
+                    "Cannot finish output handle: \(NewFile.reason()).")
             }
             return Int(try handle.size)
         case .new(let file): return try file.publish()

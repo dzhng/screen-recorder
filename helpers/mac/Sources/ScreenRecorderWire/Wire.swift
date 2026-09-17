@@ -20,7 +20,8 @@ public enum NativeWire {
         func deletion(_ run: @escaping @Sendable ([String: Any]) throws -> Any) -> Operation {
             Operation(
                 run: run,
-                unexpected: { NativeFailure("DELETE_FAILED", $0.localizedDescription, retryable: true) })
+                unexpected: { NativeFailure(
+                    "DELETE_FAILED", $0.localizedDescription, retryable: true) })
         }
         var table: [String: Operation] = [
             "system.ping": Operation(
@@ -40,7 +41,8 @@ public enum NativeWire {
             "media.recover": media { params in
                 let request = try WireRequest.decode(RecoveryRequest.self, from: params)
                 guard !request.directory.isEmpty else {
-                    throw NativeFailure("INVALID_REQUEST", "media.recover requires a source directory.")
+                    throw NativeFailure(
+                        "INVALID_REQUEST", "media.recover requires a source directory.")
                 }
                 return try json(await MediaRecovery.inspect(directory: request.directory))
             },
@@ -51,7 +53,8 @@ public enum NativeWire {
                     return try json(
                         SourceEvidenceExport.write(directory: request.directory, output: request.output))
                 },
-                unexpected: { _ in NativeFailure("EVIDENCE_FAILED", "Cannot export source evidence.") }),
+                unexpected: { _ in NativeFailure(
+                    "EVIDENCE_FAILED", "Cannot export source evidence.") }),
             "storage.recordingDirectory": deletion { try ManagedFiles.recordingDirectory($0) },
             "storage.externalDirectory": deletion { try ManagedFiles.externalDirectory($0) },
             "storage.clearRenderWorkspace": deletion {
@@ -111,7 +114,8 @@ public enum NativeWire {
             }
         } else {
             response = failed(
-                id: id, NativeFailure("INVALID_REQUEST", "Expected id, operation, and object params."))
+                id: id, NativeFailure(
+                    "INVALID_REQUEST", "Expected id, operation, and object params."))
         }
         // Every response is composed only of JSON primitives.
         return try! JSONSerialization.data(withJSONObject: response, options: [.sortedKeys])

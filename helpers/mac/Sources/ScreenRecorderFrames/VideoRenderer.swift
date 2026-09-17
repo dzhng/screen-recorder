@@ -110,7 +110,8 @@ public enum VideoRenderer {
                             status == kCVReturnSuccess
                                 || status == kCVReturnWouldExceedAllocationThreshold
                         else {
-                            throw NativeFailure.decodeFailed("Cannot allocate bounded render buffer.")
+                            throw NativeFailure.decodeFailed(
+                                "Cannot allocate bounded render buffer.")
                         }
                     }
                     if destination == nil { try await Task.sleep(for: .milliseconds(1)) }
@@ -161,7 +162,8 @@ public enum VideoRenderer {
         }
         let actual = try await AVURLAsset(url: file).load(.duration)
         guard CMTimeCompare(actual, time(microseconds: through)) == 0 else {
-            throw NativeFailure.decodeFailed("Encoded video duration does not match the pinned plan.")
+            throw NativeFailure.decodeFailed(
+                "Encoded video duration does not match the pinned plan.")
         }
         return RenderedVideo(durationUs: through, width: width, height: height, frameCount: count)
     }

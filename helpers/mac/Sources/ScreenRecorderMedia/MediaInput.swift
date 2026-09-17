@@ -58,9 +58,11 @@ public final class MediaDescriptor: @unchecked Sendable {
         var info = stat()
         guard flags >= 0, fstat(original, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
             writable ? flags & O_ACCMODE != O_RDONLY : flags & O_ACCMODE != O_WRONLY
-        else { throw NativeFailure.decodeFailed("Media handle must be a regular file with the required access.") }
+        else { throw NativeFailure.decodeFailed(
+            "Media handle must be a regular file with the required access.") }
         let owned = fcntl(original, F_DUPFD_CLOEXEC, 0)
-        guard owned >= 0 else { throw NativeFailure.decodeFailed("Cannot retain inherited media handle.") }
+        guard owned >= 0 else { throw NativeFailure.decodeFailed(
+            "Cannot retain inherited media handle.") }
         descriptor = owned
     }
     deinit { close(descriptor) }
@@ -125,7 +127,8 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
             return true
         }
         guard pending.count < maximumRequests else {
-            let error = NativeFailure("LIMIT_EXCEEDED", "Media input exceeds its concurrent request budget.")
+            let error = NativeFailure(
+                "LIMIT_EXCEEDED", "Media input exceeds its concurrent request budget.")
             if failure == nil { failure = error }
             request.finishLoading(with: error)
             return true
@@ -172,7 +175,8 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
             let position = data.currentOffset
             guard !overflow, data.requestedOffset >= 0, data.requestedLength >= 0,
                 position >= data.requestedOffset, position <= end, try descriptor.size == length
-            else { throw NativeFailure.decodeFailed("Invalid media byte range or changed input length.") }
+            else { throw NativeFailure.decodeFailed(
+                "Invalid media byte range or changed input length.") }
             if position == end {
                 request.finishLoading()
                 pending.removeValue(forKey: key)
@@ -180,7 +184,8 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
             }
             let count = Int(min(Int64(chunkBytes), end - position))
             guard count <= maximumBytes - delivered else {
-                throw NativeFailure("LIMIT_EXCEEDED", "Media input exceeds its delivered-byte budget.")
+                throw NativeFailure(
+                    "LIMIT_EXCEEDED", "Media input exceeds its delivered-byte budget.")
             }
             try autoreleasepool {
                 var chunk = Data(count: count)

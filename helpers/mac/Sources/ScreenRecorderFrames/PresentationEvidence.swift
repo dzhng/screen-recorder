@@ -87,7 +87,8 @@ public enum PresentationEvidence {
                 let next = try autoreleasepool {
                     let selected = try presentation.selection(at: at, end: end)
                     guard selected.end > at else {
-                        throw NativeFailure("UNAVAILABLE", "Presentation evidence made no progress.")
+                        throw NativeFailure(
+                            "UNAVAILABLE", "Presentation evidence made no progress.")
                     }
                     let image = try selected.buffer.map {
                         try FrameImage(

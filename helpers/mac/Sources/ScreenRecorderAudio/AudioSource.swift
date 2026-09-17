@@ -32,7 +32,8 @@ struct SourceTrack {
             guard let description = try await track.load(.formatDescriptions).first,
                 let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
             else {
-                throw NativeFailure.decodeFailed("Source audio format is unreadable: \(source.path).")
+                throw NativeFailure.decodeFailed(
+                    "Source audio format is unreadable: \(source.path).")
             }
             audio = track
             stream = basic
@@ -42,7 +43,8 @@ struct SourceTrack {
             throw failure
         } catch {
             if let detail = input.failure { throw detail }
-            throw NativeFailure.decodeFailed("Cannot open \(source.path): \(error.localizedDescription)")
+            throw NativeFailure.decodeFailed(
+                "Cannot open \(source.path): \(error.localizedDescription)")
         }
         let sampleRate = Int(stream.mSampleRate.rounded())
         let channels = Int(stream.mChannelsPerFrame)
@@ -96,12 +98,13 @@ final class ConvertedAudioInterval {
             // the explicit map below places the channels; a remix matrix would restate the gains.
             let converter = AVAudioConverter(from: sourceFormat, to: excerptFormat)
         else {
-            throw NativeFailure.decodeFailed("Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz."
-            )
+            throw NativeFailure.decodeFailed(
+                "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz.")
         }
         let openedReader: AVAssetReader
         do { openedReader = try AVAssetReader(asset: source.asset) } catch {
-            throw NativeFailure.decodeFailed("Cannot read \(source.url.path): \(error.localizedDescription)")
+            throw NativeFailure.decodeFailed(
+                "Cannot read \(source.url.path): \(error.localizedDescription)")
         }
         // Read as long as the output frames this interval owns, rather than as the interval's own
         // microseconds: a converter answers N input frames with floor(N x rate ratio) frames, so a
@@ -134,7 +137,8 @@ final class ConvertedAudioInterval {
         // conversion memory as a 10 millisecond one.
         guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)
         else {
-            throw NativeFailure.decodeFailed("Cannot allocate a conversion buffer for \(source.url.lastPathComponent).")
+            throw NativeFailure.decodeFailed(
+                "Cannot allocate a conversion buffer for \(source.url.lastPathComponent).")
         }
 
         guard openedReader.startReading() else {
@@ -161,7 +165,8 @@ final class ConvertedAudioInterval {
                     if let detail = sourceInput.failure {
                         throw detail
                     }
-                    throw NativeFailure.decodeFailed("Audio interval ended before its quantized output boundary.")
+                    throw NativeFailure.decodeFailed(
+                        "Audio interval ended before its quantized output boundary.")
                 }
                 var failure: NSError?
                 let input = self.input
@@ -174,8 +179,8 @@ final class ConvertedAudioInterval {
                     if let detail = sourceInput.failure {
                         throw detail
                     }
-                    throw NativeFailure.decodeFailed("Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")"
-                    )
+                    throw NativeFailure.decodeFailed(
+                        "Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")")
                 }
                 exhausted = outcome == .endOfStream
                 offset = 0

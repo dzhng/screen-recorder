@@ -33,7 +33,8 @@ public actor FrameSource {
             // Sample cursors are the seek mechanism; without them selection would mean decoding forward
             // from zero for every request.
             guard try await video.load(.canProvideSampleCursors) else {
-                throw NativeFailure.decodeFailed("Video track cannot provide sample cursors: \(url.path).")
+                throw NativeFailure.decodeFailed(
+                    "Video track cannot provide sample cursors: \(url.path).")
             }
             selector = SampleSelector(track: video, segments: try await video.load(.segments))
             transform = try await video.load(.preferredTransform)
@@ -140,7 +141,8 @@ public actor FrameSource {
     private func decode(at sampleTime: CMTime, actualUs: Int64) throws -> CVPixelBuffer {
         let reader: AVAssetReader
         do { reader = try AVAssetReader(asset: asset) } catch {
-            throw NativeFailure.decodeFailed("Cannot read \(url.path): \(error.localizedDescription)")
+            throw NativeFailure.decodeFailed(
+                "Cannot read \(url.path): \(error.localizedDescription)")
         }
         // A one-second window is enough to reach the selected sample; the reader still starts from
         // the sync sample preceding it rather than from the beginning of the file.
@@ -166,7 +168,8 @@ public actor FrameSource {
             return buffer
         }
         if let failure = input.failure { throw failure }
-        throw NativeFailure.decodeFailed("Decoder did not produce the sample at \(actualUs) microseconds.")
+        throw NativeFailure.decodeFailed(
+            "Decoder did not produce the sample at \(actualUs) microseconds.")
     }
 
     private func validate(requestedUs: Int64, kept: TimeSpan) throws {

@@ -50,7 +50,8 @@ enum CursorOverlay {
             throw NativeFailure.decodeFailed("Overlay raster has no pixels.")
         }
         guard deliveredScale > 0 else {
-            throw NativeFailure.decodeFailed("Overlay raster has no scale to size its marks against.")
+            throw NativeFailure.decodeFailed(
+                "Overlay raster has no scale to size its marks against.")
         }
         guard overlay.pointer != nil || overlay.trail.contains(where: { !$0.isEmpty }) else {
             return nil

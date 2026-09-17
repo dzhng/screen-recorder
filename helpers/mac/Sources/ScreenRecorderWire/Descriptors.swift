@@ -18,7 +18,8 @@ struct InodeIdentity: Codable, Equatable {
         let dev = try fields.decode(String.self, forKey: .dev)
         let ino = try fields.decode(String.self, forKey: .ino)
         guard let device = Self.decimal(dev), let inode = Self.decimal(ino) else {
-            throw NativeFailure("INVALID_REQUEST", "Identities require decimal dev and ino strings.")
+            throw NativeFailure(
+                "INVALID_REQUEST", "Identities require decimal dev and ino strings.")
         }
         self.dev = String(device)
         self.ino = String(inode)
@@ -27,7 +28,8 @@ struct InodeIdentity: Codable, Equatable {
     /// An identity field of a request that is otherwise parsed by hand.
     init(_ value: Any?) throws {
         guard let fields = value as? [String: Any] else {
-            throw NativeFailure("INVALID_REQUEST", "Identities require decimal dev and ino strings.")
+            throw NativeFailure(
+                "INVALID_REQUEST", "Identities require decimal dev and ino strings.")
         }
         self = try WireRequest.decode(Self.self, from: fields)
     }

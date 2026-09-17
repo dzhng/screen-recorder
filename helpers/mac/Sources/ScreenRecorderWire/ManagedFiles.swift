@@ -12,10 +12,12 @@ enum ManagedFiles {
         for _ in 0..<256 {
             var here = stat()
             guard fstat(current, &here) == 0, here.st_mode & S_IFMT == S_IFDIR else {
-                throw NativeFailure("INVALID_STORAGE", "Destination must be a directory.", retryable: false)
+                throw NativeFailure(
+                    "INVALID_STORAGE", "Destination must be a directory.", retryable: false)
             }
             guard InodeIdentity(here) != ancestor else {
-                throw NativeFailure("INVALID_STORAGE", "Destination must be outside managed storage.", retryable: false)
+                throw NativeFailure(
+                    "INVALID_STORAGE", "Destination must be outside managed storage.", retryable: false)
             }
             let parent = openat(current, "..", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
             guard parent >= 0 else { throw Descriptors.failure("Inspect destination ancestry") }
@@ -25,7 +27,8 @@ enum ManagedFiles {
             close(current)
             current = parent
         }
-        throw NativeFailure("LIMIT_EXCEEDED", "Destination ancestry exceeds 256 directories.", retryable: false)
+        throw NativeFailure(
+            "LIMIT_EXCEEDED", "Destination ancestry exceeds 256 directories.", retryable: false)
     }
 
     static func externalDirectory(_ params: [String: Any]) throws -> [String: String] {
@@ -138,7 +141,8 @@ enum ManagedFiles {
         }
         guard (info.st_mode & S_IFMT) == S_IFDIR else {
             if requireDirectory {
-                throw NativeFailure("INVALID_STORAGE", "Recording root must be a real directory.", retryable: true)
+                throw NativeFailure(
+                    "INVALID_STORAGE", "Recording root must be a real directory.", retryable: true)
             }
             if unlinkat(parent, name, 0) != 0 && errno != ENOENT {
                 throw Descriptors.failure("Remove managed entry")
@@ -158,7 +162,8 @@ enum ManagedFiles {
         var opened = stat()
         guard fstat(fd, &opened) == 0 else { throw Descriptors.failure("Inspect opened directory") }
         guard opened.st_dev == info.st_dev, opened.st_ino == info.st_ino else {
-            throw NativeFailure("INVALID_STORAGE", "Recording directory changed while opening.", retryable: true)
+            throw NativeFailure(
+                "INVALID_STORAGE", "Recording directory changed while opening.", retryable: true)
         }
         try removeContents(fd, depth: depth)
         if unlinkat(parent, name, AT_REMOVEDIR) != 0 && errno != ENOENT {
