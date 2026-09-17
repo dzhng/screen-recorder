@@ -40,17 +40,6 @@ type AuthoredOutcome =
   | { state: "canceled" }
   | { state: "interrupted"; reason: string; sourceDurationUs: number | null };
 
-export class CaptureError extends Error {
-  constructor(
-    readonly code: string,
-    message: string,
-    readonly details: Record<string, unknown> = {},
-    readonly retryable = false,
-  ) {
-    super(message);
-  }
-}
-
 export function recordingDirectory(home: string, recordingId: string): string {
   return join(home, "recordings", recordingId);
 }
@@ -85,7 +74,7 @@ export class CaptureService {
    */
   private serialize<T>(run: () => Promise<T>): Promise<T> {
     const next = this.queue.then(() => {
-      if (this.stopping) throw new CaptureError("SERVICE_STOPPED", "Capture service is closing");
+      if (this.stopping) throw new CatalogError("SERVICE_STOPPED", "Capture service is closing");
       return run();
     });
     this.queue = next.catch(() => undefined);
@@ -163,7 +152,7 @@ export class CaptureService {
     if (recording.state !== "preparing") return recording;
     const settled = await this.abandon(recording);
     if (!isSettled(settled.state))
-      throw new CaptureError(
+      throw new CatalogError(
         "UNRESOLVED_START",
         "This take's start is still unproved; retry the same request",
         { recordingId: settled.recordingId, state: settled.state },
@@ -202,7 +191,7 @@ export class CaptureService {
     return this.serialize(async () => {
       const recording = this.store.deleting(recordingId);
       if (!recording)
-        throw new CaptureError("INVALID_STATE", "Recording deletion has not been requested");
+        throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
       if (isSettled(recording.state)) return;
       await this.endNativeCapture(recording);
       // A cancel response carries its pre-discard finalizing event. Check the device after that
@@ -216,7 +205,7 @@ export class CaptureService {
           (device.state === "recording" || device.state === "paused")
         )
       )
-        throw new CaptureError(
+        throw new CatalogError(
           "CAPTURE_NOT_QUIET",
           "Native capture has not proved this take stopped",
           { recordingId },
@@ -276,7 +265,7 @@ export class CaptureService {
     if (answer.ok) return this.apply(recording, answer.data);
     if (!unanswered(answer.error.code)) throw this.refused(recording, fromNative(answer));
     const failed = await this.abandon(recording);
-    throw new CaptureError(
+    throw new CatalogError(
       answer.error.code,
       answer.error.message,
       { recordingId: failed.recordingId, state: failed.state },
@@ -289,8 +278,8 @@ export class CaptureService {
    * whose preparation refused before native was asked, keeps its identity and that reason rather
    * than disappearing or waiting forever in preparing where nothing could ever resolve it.
    */
-  private refused(recording: Recording, error: unknown): CaptureError {
-    const refusal = error instanceof CaptureError || error instanceof CatalogError ? error : null;
+  private refused(recording: Recording, error: unknown): CatalogError {
+    const refusal = error instanceof CatalogError ? error : null;
     // An owner's own code when there is one; anything else is a failure this service cannot name.
     const code = refusal?.code ?? "INTERNAL_ERROR";
     const failed = this.author(recording, {
@@ -298,7 +287,7 @@ export class CaptureService {
       reason: code,
       sourceDurationUs: null,
     });
-    return new CaptureError(
+    return new CatalogError(
       code,
       (error as Error).message,
       { recordingId: failed.recordingId, state: failed.state },
@@ -341,7 +330,7 @@ export class CaptureService {
   ): Promise<Recording> {
     const recording = this.store.get(recordingId);
     if (isSettled(recording.state))
-      throw new CaptureError(
+      throw new CatalogError(
         "INVALID_STATE",
         `A ${recording.state} take cannot ${operation === "capture.pause" ? "pause" : "resume"}`,
         { state: recording.state },
@@ -354,7 +343,7 @@ export class CaptureService {
   private async discard(recordingId: string): Promise<Recording> {
     const recording = this.store.get(recordingId);
     if (isSettled(recording.state) && recording.state !== "canceled")
-      throw new CaptureError(
+      throw new CatalogError(
         "INVALID_STATE",
         "A finished take is removed through the library, not canceled",
         { state: recording.state },
@@ -409,7 +398,7 @@ export class CaptureService {
   private readReport(recording: Recording, data: unknown): CaptureReport {
     const report = captureReportSchema.parse(data);
     if (report.recordingId !== recording.recordingId || report.sourceId !== recording.sourceId)
-      throw new CaptureError("INVALID_STATE", "Native reported another take", {
+      throw new CatalogError("INVALID_STATE", "Native reported another take", {
         recordingId: recording.recordingId,
         reportedRecordingId: report.recordingId,
       });
@@ -480,8 +469,8 @@ function unanswered(code: string): boolean {
   return code === "TIMEOUT" || code === "SERVICE_STOPPED" || code === "INVALID_RESPONSE";
 }
 
-function fromNative(result: OperationResult & { ok: false }): CaptureError {
-  return new CaptureError(
+function fromNative(result: OperationResult & { ok: false }): CatalogError {
+  return new CatalogError(
     result.error.code,
     result.error.message,
     result.error.details,
@@ -493,7 +482,7 @@ function lifecycleEvent(report: CaptureReport): LifecycleEvent {
   const identity = { sourceId: report.sourceId, sequence: report.sequence };
   if (report.state === "complete") {
     if (typeof report.sourceDurationUs !== "number")
-      throw new CaptureError("INVALID_STATE", "A finalized take must report its source duration");
+      throw new CatalogError("INVALID_STATE", "A finalized take must report its source duration");
     return { ...identity, state: "complete", sourceDurationUs: report.sourceDurationUs };
   }
   if (report.state === "interrupted")
@@ -510,7 +499,7 @@ function lifecycleEvent(report: CaptureReport): LifecycleEvent {
 function readRecovery(data: unknown): { durationUs: number; captured: boolean } {
   const value = data as { durationUs?: unknown; journal?: { header?: unknown } | null };
   if (!value || !Number.isSafeInteger(value.durationUs) || (value.durationUs as number) < 0)
-    throw new CaptureError("MEDIA_WORKER_FAILED", "Recovery returned no usable source duration");
+    throw new CatalogError("MEDIA_WORKER_FAILED", "Recovery returned no usable source duration");
   return {
     durationUs: value.durationUs as number,
     captured: Boolean(value.journal?.header),

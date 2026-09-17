@@ -36,6 +36,7 @@ import {
   CONTROL_FRAME_BYTES,
   captureReportSchema,
   encodeJsonLine,
+  operationError,
   type OperationRequest,
   type OperationResult,
 } from "@screenrec/protocol";
@@ -452,15 +453,12 @@ async function main(): Promise<void> {
     if (request.operation === "capture.report") {
       const report = captureReportSchema.safeParse(request.params);
       if (!report.success)
-        return Promise.resolve({
-          ok: false,
-          error: {
-            code: "INVALID_PARAMS",
-            message: "Capture reports carry a take, a sequence and a reported state.",
-            retryable: false,
-            details: {},
-          },
-        });
+        return Promise.resolve(
+          operationError(
+            "INVALID_PARAMS",
+            "Capture reports carry a take, a sequence and a reported state.",
+          ),
+        );
       try {
         return Promise.resolve({ ok: true, data: capture.report(report.data) });
       } catch (error) {

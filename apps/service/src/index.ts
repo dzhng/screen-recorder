@@ -8,6 +8,7 @@ import {
   FrameError,
   JsonLineReader,
   encodeJsonLine,
+  operationError,
   parseRequest,
   resultSchema,
   type OperationRequest,
@@ -104,15 +105,9 @@ export async function listenLocal(options: {
           frame = encodeJsonLine(
             {
               id: request.id,
-              ok: false,
-              error: {
-                code: oversized ? "LIMIT_EXCEEDED" : "INTERNAL_ERROR",
-                message: oversized
-                  ? "Response exceeds the transport byte limit"
-                  : "Handler returned an invalid result",
-                retryable: false,
-                details: {},
-              },
+              ...(oversized
+                ? operationError("LIMIT_EXCEEDED", "Response exceeds the transport byte limit")
+                : operationError("INTERNAL_ERROR", "Handler returned an invalid result")),
             },
             RESPONSE_FRAME_BYTES,
           );
@@ -121,15 +116,13 @@ export async function listenLocal(options: {
         socket.end(frame);
       };
       if (inFlight >= maxInFlight) {
-        reply({
-          ok: false,
-          error: {
-            code: "LIMIT_EXCEEDED",
-            message: "Local service request capacity is full; retry after existing work finishes",
-            retryable: true,
-            details: {},
-          },
-        });
+        reply(
+          operationError(
+            "LIMIT_EXCEEDED",
+            "Local service request capacity is full; retry after existing work finishes",
+            true,
+          ),
+        );
         return;
       }
       inFlight += 1;
@@ -140,17 +133,7 @@ export async function listenLocal(options: {
           // Keep its slot until it settles so reconnects cannot bypass the admission bound.
           inFlight -= 1;
         })
-        .then(reply, () =>
-          reply({
-            ok: false,
-            error: {
-              code: "INTERNAL_ERROR",
-              message: "Service handler failed",
-              retryable: false,
-              details: {},
-            },
-          }),
-        );
+        .then(reply, () => reply(operationError("INTERNAL_ERROR", "Service handler failed")));
     });
   });
   let closePromise: Promise<void> | undefined;

@@ -19,6 +19,7 @@ import {
   REQUEST_FRAME_BYTES,
   parseRequest,
   encodeJsonLine,
+  operationError,
   type OperationRequest,
   type OperationResponse,
 } from "@screenrec/protocol";
@@ -46,7 +47,7 @@ function failure(
   message: string,
   retryable = false,
 ): Extract<OperationResponse, { ok: false }> {
-  return { id, ok: false, error: { code, message, retryable, details: {} } };
+  return { id, ...operationError(code, message, retryable) };
 }
 
 function capabilities() {

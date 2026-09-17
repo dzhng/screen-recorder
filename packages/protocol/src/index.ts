@@ -29,6 +29,17 @@ export const responseSchema = z.discriminatedUnion("ok", [
 ]);
 export type OperationResult = z.infer<typeof resultSchema>;
 export type OperationResponse = z.infer<typeof responseSchema>;
+export type OperationFailure = Extract<OperationResult, { ok: false }>;
+
+/** The one shape every peer refuses an operation with. */
+export function operationError(
+  code: string,
+  message: string,
+  retryable = false,
+  details: Record<string, unknown> = {},
+): OperationFailure {
+  return { ok: false, error: { code, message, retryable, details } };
+}
 
 // The app's inherited pipe carries many frames from one trusted peer, so an
 // unparsable request has no trustworthy correlation ID and answers with a null one

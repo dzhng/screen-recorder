@@ -261,7 +261,7 @@ it("reports the device while the take it is capturing awaits deletion", async ()
   const { recordingId } = started.data as { recordingId: string };
   expect(await service.call("recording.delete", { recordingId })).toMatchObject({
     ok: false,
-    error: { retryable: true },
+    error: { code: "CAPTURE_NOT_QUIET", retryable: true },
   });
   expect(await service.call("capture.status")).toMatchObject({
     ok: true,
