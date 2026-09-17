@@ -1,10 +1,9 @@
 # Recording for AI — personal release spec
 
 Status: spec complete; implementation partial. Last updated: 2026-09-17.
-Bootstrap build/conformance and actual-agent image access are verified. The pure
-timeline engine passes focused tests and independent review. Native capture,
-speech preparation and revision storage have work in progress; the personal
-release and its end-to-end acceptance gates are not complete.
+Package registry/export integration and the remaining native capture, speech and
+installed-workflow gates are still open. The handoff and slice checklist below
+separate verified internal behavior from full personal-release acceptance.
 
 ## Next Agent Prompt
 
@@ -48,7 +47,7 @@ Recent integration evidence:
 - [Retained package inspection](slices/14c2-retained-package-inspection.md) preserves
   admitted files and native workers through relocation, close and parent death.
   [Transient contexts](slices/14c3a-transient-context-jobs.md) share queue capacity
-  and release terminal metadata for continued requests. Registry/storage recovery,
+  and release terminal metadata for continued requests. Registry/storage recovery
   and public selectors remain. [Reusable outputs](slices/14c3b1-package-output-release.md)
   now return storage after reads drain; real ZIP/native repetition and merged public
   delivery/deletion checks pass.
