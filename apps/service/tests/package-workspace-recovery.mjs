@@ -1,6 +1,4 @@
-import { fork, execFileSync } from "node:child_process";
-import { once } from "node:events";
-import { fileURLToPath } from "node:url";
+import { withOrphanedPackageWorkspace } from "./fixtures/orphaned-package-workspace.mjs";
 import assert from "node:assert/strict";
 import {
   mkdtemp,
@@ -164,81 +162,40 @@ test(
   async (t) => {
     const f = await fixture(t);
     const unheld = await f.orphan();
-    const owner = fork(
-      fileURLToPath(new URL("./fixtures/package-workspace-owner.mjs", import.meta.url)),
-      [f.parent.directory],
-      {
-        stdio: ["ignore", "ignore", "inherit", "ipc"],
-        env: { ...process.env, SCREENREC_NATIVE: binary },
+    await withOrphanedPackageWorkspace(
+      f.parent.directory,
+      binary,
+      async ({ name, finishChild }) => {
+        await assert.rejects(recoverPackageWorkspaces(f.parent, worker), {
+          code: "RECOVERY_BUSY",
+          retryable: true,
+        });
+        assert.equal(await readFile(join(unheld.path, "data"), "utf8"), unheld.name);
+        assert.equal(
+          await readFile(join(f.parent.directory, name, "data"), "utf8"),
+          "held by inherited native descriptor",
+        );
+        await finishChild();
+        assert.deepEqual(await recoverPackageWorkspaces(f.parent, worker), { recovered: 2 });
+        assert.deepEqual(await readdir(f.parent.directory), []);
       },
     );
-    const ownerReaped = once(owner, "close");
-    let pid;
-    const killNative = () => {
-      try {
-        process.kill(pid, "SIGKILL");
-      } catch (error) {
-        if (error.code !== "ESRCH") throw error;
-      }
-    };
-    const waitGone = async () => {
-      const deadline = Date.now() + 3000;
-      while (true) {
-        try {
-          process.kill(pid, 0);
-        } catch (error) {
-          if (error.code === "ESRCH") return;
-          throw error;
-        }
-        assert.ok(Date.now() < deadline, "Native process must reach terminal state");
-        await new Promise((resolve) => setTimeout(resolve, 10));
-      }
-    };
-    try {
-      const [message] = await Promise.race([
-        once(owner, "message"),
-        ownerReaped.then(() => {
-          throw new Error("Fixture owner exited before reporting its native child");
-        }),
-      ]);
-      pid = message.pid;
-      assert.equal(
-        execFileSync("/bin/ps", ["-p", String(pid), "-o", "ppid=,command="], {
-          encoding: "utf8",
-        }).trim(),
-        `${owner.pid} ${binary}`,
-      );
-      const deadline = Date.now() + 3000;
-      while (
-        !execFileSync("/bin/ps", ["-p", String(pid), "-o", "state="], { encoding: "utf8" })
-          .trim()
-          .startsWith("T")
-      ) {
-        assert.ok(Date.now() < deadline, "Native child must stop");
-        await new Promise((resolve) => setTimeout(resolve, 10));
-      }
-      owner.kill("SIGKILL");
-      await ownerReaped;
-      await assert.rejects(recoverPackageWorkspaces(f.parent, worker), {
-        code: "RECOVERY_BUSY",
-        retryable: true,
-      });
-      assert.equal(await readFile(join(unheld.path, "data"), "utf8"), unheld.name);
-      assert.equal(
-        await readFile(join(f.parent.directory, message.name, "data"), "utf8"),
-        "held by inherited native descriptor",
-      );
-      process.kill(pid, "SIGCONT");
-      await waitGone();
-      assert.deepEqual(await recoverPackageWorkspaces(f.parent, worker), { recovered: 2 });
-      assert.deepEqual(await readdir(f.parent.directory), []);
-    } finally {
-      owner.kill("SIGKILL");
-      await ownerReaped;
-      if (pid) {
-        killNative();
-        await waitGone();
-      }
-    }
   },
 );
+test("orphan fixture reaps the stopped native child when consumer assertions fail", async (t) => {
+  const f = await fixture(t);
+  let nativePid;
+  await assert.rejects(
+    withOrphanedPackageWorkspace(f.parent.directory, binary, async ({ pid }) => {
+      nativePid = pid;
+      throw new Error("generated consumer failure");
+    }),
+    /generated consumer failure/,
+  );
+  assert.ok(nativePid);
+  assert.throws(
+    () => process.kill(nativePid, 0),
+    (error) => error.code === "ESRCH",
+  );
+  assert.deepEqual(await recoverPackageWorkspaces(f.parent, worker), { recovered: 1 });
+});
