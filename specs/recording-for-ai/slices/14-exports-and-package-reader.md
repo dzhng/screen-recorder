@@ -1,9 +1,9 @@
 # 14 — Two exports and relocated AI inspection
 
-Status: metadata, relocated inspection, bounded extraction, retained descriptors
-and transient queue contexts pass their internal gates. Package output release,
-delivery isolation and registry/storage recovery are next, alongside durable export
-intent. This plan does not close 08, 11c or 13.
+Status: metadata, relocated inspection, bounded extraction, retained descriptors,
+transient queue contexts, reusable outputs and isolated deliveries pass their internal
+gates. Registry/storage recovery is next, alongside durable export intent. This plan
+does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
 and [verification](../verification.md). No public contract changes are proposed:
@@ -53,9 +53,9 @@ libarchive and proves an internal descriptor-owned extraction transaction.
 Its bounded receipt validates container bytes and 14a metadata.
 [14c2](14c2-retained-package-inspection.md) proves retained descriptor/media access
 and parent-death lifetime. [14c3a](14c3a-transient-context-jobs.md) adds isolated
-capabilities to the shared queue. Reusable outputs and isolated delivery identities
-come next, then registry/storage reservation and startup reclamation, then public
-opening and selectors.
+capabilities to the shared queue. [14c3b1](14c3b1-package-output-release.md) now proves
+reusable outputs and isolated delivery identities. Registry/storage reservation and
+startup reclamation come next, then public opening and selectors.
 
 Core owns package parsing/read access; the existing service owns explicit handles.
 Each handle scopes immutable content plus its disposable derivatives, active native
