@@ -3,7 +3,8 @@
 Status: metadata, relocated inspection, bounded extraction, retained descriptors,
 transient queue contexts, reusable outputs and isolated deliveries pass their internal
 gates. Durable ready-preview video intent also passes its internal recovery/deletion
-checks. Registry/storage recovery and deferred export admission are next. This plan
+checks. Deferred queue admission is verified; registry/storage recovery and pinned
+export dependency consumers are next. This plan
 does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)
@@ -86,8 +87,9 @@ must be explicit and tested at their limits before adding public open/close.
 
 [The publication plan](14d-export-publication.md) has a verified internal
 external commit/recovery owner. [14d2a](14d2a-video-intent.md) now integrates durable
-ready-preview intent and actual recording deletion. Deferred admission, pinned source
-evidence retention, queue-admitted restart recovery, accounting and public wiring
+ready-preview intent and actual recording deletion. [Deferred admission](14d2b1-deferred-admission.md)
+uses the existing queue. Pinned source evidence retention, queue-admitted restart
+recovery, per-export abandonment, accounting and public wiring
 remain; the [scoped evidence](../assets/export-publication/video-intent.md) records
 the boundary.
 

@@ -72,8 +72,9 @@ atomicity is a precondition; do not add a cross-device copy-as-atomic fallback.
 
 [14d2a](14d2a-video-intent.md) now materializes the first internal ready-preview
 video consumer with a durable intent and actual queue/deletion/restart checks.
-14d2b retains waiting admission, queue-admitted uncertain recovery, service wiring
-and truthful pending-staging storage accounting before public exports.
+[14d2b1](14d2b1-deferred-admission.md) implements bounded waiting admission.
+Pinned dependency consumers, queue-admitted uncertain recovery, service wiring
+and truthful pending-staging storage accounting remain before public exports.
 
 Only after the commit receipt is proven, add the minimum durable intent under the
 existing catalog authority. It records the chosen export kind, revision/history
@@ -90,6 +91,20 @@ hash and validation finish. Existing deletion drains the real export executor an
 its readers. Keep external commit truth distinct from the queue's disposable
 artifact result so a late canceled return cannot erase a committed export receipt.
 Do not choose a table shape before the 14d1 recovery trace proves what must persist.
+
+### Required before public exposure: abandon one unfinished export
+
+Bounded durable intent admission must have an explicit release path. Failed or
+canceled exports can retain their exact inputs for retry, but filling that allowance
+must not force the user to delete a recording or an unrelated destination file.
+Add per-export abandonment through the existing intent owner: fence new attempts,
+cancel and drain the current worker, clean only its identity-validated private
+staging, then release source pins and intent metadata. Already published files and
+the recording remain untouched. Interrupted cleanup must retain ownership and be
+retryable; capacity is returned only after that cleanup is confirmed. Prove a full
+allowance of destination-collision failures can recover capacity by abandoning one
+intent while every external sentinel and source remains unchanged. This capability
+is a required integration pass, not part of the current pinned-consumer checkpoint.
 
 ## 14d3 — Shared publication consumers
 
