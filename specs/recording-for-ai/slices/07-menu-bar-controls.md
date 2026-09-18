@@ -24,7 +24,15 @@ Use stable app identity for permissions.
 
 ## Runnable checkpoint
 
-Run bun run lab:recording-controls. Record each source type, pause to prepare a browser state, resume, restart a take, cancel another, stop and inspect newest status. Exercise permission denial and source loss. Supply keyboard shortcuts through the same operations and confirm their active-state behavior.
+The machine half of this runs as checks: every capture operation through the real app and
+service, pause and resume, restart, cancel, and the newest take's status
+(`apps/macos/tests/capture-service.test.mjs`, `recording-controls.test.mjs`,
+`menu-updates.test.mjs`), permission states and source loss through the controls state
+(`apps/macos/tests/ScreenRecorderControlsTests/`), and the shortcuts going through the same
+operations the menu sends. The half that stays open is a person actually clicking this menu:
+computer-use could not reach a menu-bar item on this Mac, which the
+[integration record](../assets/recording-controls/integration.md) states rather than claims
+around.
 
 ## Acceptance
 

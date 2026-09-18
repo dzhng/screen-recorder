@@ -43,7 +43,15 @@ Implement core storage with SQLite, private socket transport in apps/service, an
 
 ## Runnable checkpoint
 
-Run bun run lab:service. Use real subprocesses and temporary SCREENREC_HOME: two simultaneous writes, lost-response retry, stale revision, repeated undo, capture-journal ingest replay, native start rejection/death before first sample, service death during capture, job kill/retry, edit while transcript job runs, and client startup with app absent.
+These scenarios run as checks rather than as one `lab:service` command, each in a real
+subprocess against a temporary `SCREENREC_HOME`: two simultaneous writes and one winning edit
+(`apps/service/src/operations.test.ts`), lost-response retry and stale revision
+(`apps/service/src/round-trip.test.ts`), capture-journal ingest replay, native start rejection,
+death before the first sample and service death during capture
+(`apps/macos/tests/capture-service.test.mjs`), job kill and retry
+(`packages/core/src/jobs.test.ts`), and client startup with the app absent
+(`packages/client/src/discovery.test.ts`). A command that re-drove the same code would be a
+second copy of them that nothing runs.
 
 ## Acceptance
 

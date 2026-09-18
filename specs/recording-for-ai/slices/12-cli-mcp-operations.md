@@ -22,7 +22,13 @@ Finish operation registry/adapters from contracts.md, including trim/cut/history
 
 ## Runnable checkpoint
 
-Run bun run lab:api. Exercise one set of scenarios through CLI subprocess and MCP transport against real service/storage. The actual client identifies an image-only token, reads target word ranges, submits multiple cuts, fetches edited images/transcript, rejects a stale cut and undoes. Test request replay and malformed/oversize inputs.
+One set of scenarios runs through a CLI subprocess and the MCP transport against a real
+service and real storage in `apps/cli/src/main.test.ts`, including request replay and malformed
+or oversize input, with both adapters asserted to advertise exactly the registry. The agent half —
+an actual client reading an image-only token, submitting cuts, fetching edited images and
+transcript, having a stale cut refused and undoing — is recorded as two journeys
+([CLI](../assets/agent-cli-journey/README.md), [MCP](../assets/agent-mcp-journey/README.md)) on
+generated media; the same journey over real narration needs an agent that is not this one.
 
 ## Acceptance
 

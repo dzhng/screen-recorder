@@ -20,11 +20,12 @@ Pin exact dependencies/lockfiles. No capture or model setup runs on installation
 
 ## Runnable checkpoint
 
-Create `bun run lab:bootstrap`: build and launch a minimal menu-bar fixture app,
-round-trip a typed native request/result, and run a tiny TS/native test from the
-root commands. Verify the active CommandLineTools can build the selected targets.
-A missing SDK/tool is reported precisely instead of downloading a full toolchain
-without evidence it is necessary.
+`bun run lab:bootstrap` round-trips typed native requests against the built worker and diffs
+every response. Launching the app is not part of it: that is what
+`apps/macos/tests/harness.mjs` does for every check that needs a running app, so a second launcher
+here would be a copy of it. `bun run build` now reports a missing Swift toolchain precisely —
+naming `xcode-select --install` — rather than failing with a spawn error from the first `swift`
+call, and it downloads nothing.
 
 ## Acceptance
 

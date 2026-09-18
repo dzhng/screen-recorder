@@ -20,7 +20,12 @@ Implement core source-span lookup and native AVFoundation decode. Return actual 
 
 ## Runnable checkpoint
 
-Run bun run lab:frames on numbered source frames with edits, sparse static media and pauses. Request start, near-end, exact cut boundaries, cropped/full-resolution frames, repeated frames and audio clips across cuts. Decode and compare known visible frame numbers.
+These requests run as checks over numbered frames, sparse static media and pauses:
+`apps/macos/tests/frame-inspection.test.mjs` (start, near-end, exact cut boundaries, crops,
+repeats, full resolution), `sparse-frame-inspection.test.mjs` (held frames across long gaps) and
+`audio-inspection.test.mjs` (clips across cuts), each decoding what came back and comparing the
+frame number visible in it. What no check supplies is a person's ears on those clips, which is
+this slice's own gate.
 
 ## Acceptance
 
