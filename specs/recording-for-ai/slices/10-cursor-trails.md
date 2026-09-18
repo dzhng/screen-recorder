@@ -26,7 +26,14 @@ First implement the shared clean-video scene-boundary analyzer in core and persi
 
 ## Runnable checkpoint
 
-Run bun run lab:trails with a static circle, wave over a button, scroll immediately after circling, cut join, pause and window resize. Render each from identical source frame across trail modes. Use known path samples and real captured gestures.
+`apps/macos/tests/trail-inspection.test.mjs` is this checkpoint: it renders the named situations
+— a held-frame gesture, a cut join, a historical revision, a window moved and a window resized,
+duplicate timestamps, missing geometry — from one source frame through the real app, service and
+native worker, and pins CLI and MCP to identical bytes. The
+[delivered images](../assets/public-trails/review.md) show the trail modes side by side. There is
+no separate `lab:trails`: a second entrypoint rendering the same situations from the same code
+would be a copy of this check that nothing runs. What it cannot supply is real captured gestures,
+which is this slice's own acceptance gate and needs a person at the Mac.
 
 ## Acceptance
 
