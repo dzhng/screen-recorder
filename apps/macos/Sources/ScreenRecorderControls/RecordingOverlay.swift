@@ -11,19 +11,24 @@ import Foundation
 public enum RecordingOverlay {
     /// What the floating controls say, or nil whenever they must not be on screen at all.
     public struct Presentation: Equatable, Sendable {
-        public init(elapsed: String, paused: Bool) {
+        public init(elapsed: String, paused: Bool, symbol: String) {
             self.elapsed = elapsed
             self.paused = paused
+            self.symbol = symbol
         }
         /// The take's own playback time, written the way the menu writes it.
         public let elapsed: String
         public let paused: Bool
+        /// The mark the status item already carries for this state. The two surfaces say the same
+        /// thing with the same shape, and a person who cannot tell the colours apart still can.
+        public let symbol: String
     }
 
     public static func presentation(for state: ControlsState) -> Presentation? {
         guard let device = state.device, device.state == .recording || device.state == .paused
         else { return nil }
         return Presentation(
-            elapsed: ElapsedTime.format(device.elapsedUs), paused: device.state == .paused)
+            elapsed: ElapsedTime.format(device.elapsedUs), paused: device.state == .paused,
+            symbol: StatusItemAppearance.symbolName(for: state))
     }
 }

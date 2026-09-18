@@ -98,7 +98,8 @@ final class RecordingOverlayPanel {
 
 @MainActor
 private final class RecordingOverlayModel: ObservableObject {
-    @Published var presentation = RecordingOverlay.Presentation(elapsed: "0:00", paused: false)
+    @Published var presentation = RecordingOverlay.Presentation(
+        elapsed: "0:00", paused: false, symbol: "record.circle.fill")
 }
 
 /// The controls themselves: a state dot, the take's playback time, and the three transport
@@ -111,11 +112,13 @@ private struct RecordingOverlayView: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            // Recording is red and paused is amber: a state a glance reads, not a dimmed dot that
-            // could just as well mean the controls are unavailable.
-            Circle()
-                .fill(paused ? Color.orange : Color.red)
-                .frame(width: 10, height: 10)
+            // The mark the menu bar already shows for this state, in the colour a recorder's
+            // running light has. Shape carries the state as well as colour does, so a person who
+            // reads no colour at all still sees which one this is.
+            Image(systemName: model.presentation.symbol)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(paused ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.red))
+                .frame(width: 15)
                 .accessibilityLabel(paused ? "Paused" : "Recording")
             // A clock that has stopped says so, rather than leaving the colour of one dot to
             // carry the whole difference between recording and paused.
@@ -133,13 +136,14 @@ private struct RecordingOverlayView: View {
                     paused ? "Resume Recording" : "Pause Recording", .pauseOrResume)
                 button("stop.fill", "Finish Recording", .startOrStop, tint: .red)
             }
+            Divider().frame(height: 22)
             button("trash.fill", "Cancel Take", .cancel)
         }
         // A button's tappable box reaches past the mark it draws, so the trailing edge needs less
         // room than the leading one for the two to look the same.
         .padding(.leading, 16)
-        .padding(.trailing, 8)
-        .padding(.vertical, 13)
+        .padding(.trailing, 2)
+        .padding(.vertical, 8)
         .background(.regularMaterial, in: Capsule())
         .overlay(Capsule().strokeBorder(.separator, lineWidth: 0.5))
     }

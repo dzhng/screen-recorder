@@ -114,8 +114,7 @@ private struct CountdownView: View {
         VStack(spacing: 4) {
             // Nothing here is recording yet, so nothing here wears the red a running take does.
             Text("Recording starts in")
-                .font(.system(size: 13))
-                .foregroundStyle(.secondary)
+                .font(.system(size: 13, weight: .medium))
             Text("\(model.remaining)")
                 .font(.system(size: 96, weight: .semibold, design: .rounded))
                 .monospacedDigit()
@@ -125,10 +124,10 @@ private struct CountdownView: View {
                 // A numeral this size carries more line than digit, and the room that leaves
                 // above and below is space the panel does not need.
                 .frame(height: 96)
-            // The one way out of the count has to be as readable as the count itself.
+            // Both lines are ordinary label colour: the one way out of the count has to be as
+            // readable as the count, and size and weight carry the order to read them in.
             Text("Press Esc to cancel")
                 .font(.system(size: 12))
-                .foregroundStyle(.secondary)
         }
         .padding(.horizontal, 36)
         .padding(.vertical, 22)

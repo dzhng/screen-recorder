@@ -19,14 +19,17 @@ func runRecordingOverlayTests() {
         preconditionFailure("A recording take has controls on screen")
     }
     precondition(
-        recording == RecordingOverlay.Presentation(elapsed: "1:05", paused: false),
-        "The controls read the take's own playback time, as the menu writes it: \(recording)")
+        recording == RecordingOverlay.Presentation(
+            elapsed: "1:05", paused: false, symbol: "record.circle.fill"),
+        "The controls read the take's own playback time and the menu bar's own mark: \(recording)")
 
     guard let paused = RecordingOverlay.presentation(for: live(.paused, elapsedUs: 65_000_000))
     else { preconditionFailure("A paused take keeps its controls, or it cannot be resumed") }
     precondition(
-        paused == RecordingOverlay.Presentation(elapsed: "1:05", paused: true),
-        "A pause holds the elapsed marker it stopped at and says it is paused: \(paused)")
+        paused == RecordingOverlay.Presentation(
+            elapsed: "1:05", paused: true, symbol: "pause.circle"),
+        "A pause holds the elapsed marker it stopped at, and says so with a mark of its own rather "
+            + "than a colour alone: \(paused)")
 
     for ending in [ControlsState.DeviceState.finalizing, .selecting, .idle] {
         precondition(

@@ -17,7 +17,7 @@ macOS 26.6.2, in both system appearances.
 [`apps/macos/tests/overlay-shots.mjs`](../../../../apps/macos/tests/overlay-shots.mjs) writes
 them. Each is the panel's own picture, drawn by the window it belongs to and written straight to
 a file through the controls fixture, at twice the size a point is on this screen: the controls
-are 296 by 64 points and the count 186 by 180. Nothing is photographed off the screen and
+are 306 by 54 points and the count 190 by 180. Nothing is photographed off the screen and
 nothing is brought forward — the run that produced these records this app's own fixture window,
 never activates the app, and orders every panel it opens in behind whatever the person is doing.
 The
@@ -29,9 +29,13 @@ and the panel's shadow is missing, where on screen both are there. What the pane
 shape, its spacing, its type and its controls — is exactly what a person sees.
 
 The count is a still surface on purpose: it takes no clicks, so that a person clicking during it
-clicks on whatever they are about to record, and Escape is the way out. Finishing a take and
-throwing one away are the two actions that must never be confused, so one is the recorder's red
-stop and the other a bin; recording is a red dot and paused an amber one.
+clicks on whatever they are about to record, and Escape is the way out — which is why that line
+is set in ordinary label colour rather than a grey a light screen swallows.
+
+Finishing a take and throwing one away are the two actions that must never be confused, so one is
+the recorder's red stop and the other a bin behind a rule of its own. Recording and paused differ
+in shape before they differ in colour: the controls carry the same mark the menu bar does for each
+state, and the clock goes quiet when the take does.
 
 These panels are never in a recording: the window server is told not to share them, and a take of
 a whole display also leaves out this application. The frame-level proof of that is
