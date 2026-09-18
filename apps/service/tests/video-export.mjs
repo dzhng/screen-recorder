@@ -251,9 +251,11 @@ async function fixture(
   if (admission) jobs.startAdmission((job) => exports.admit(job));
   if (warm) processing.prepare(take.recordingId);
   await jobs.idle();
-  if (warm) preview.request({ recordingId: take.recordingId });
+  // A video export consumes the full-resolution rendition, not the audition a person plays.
+  const rendition = "source";
+  if (warm) preview.request({ recordingId: take.recordingId, rendition });
   await jobs.idle();
-  const ready = warm ? preview.request({ recordingId: take.recordingId }) : null;
+  const ready = warm ? preview.request({ recordingId: take.recordingId, rendition }) : null;
   if (warm) assert.equal(ready.state, "ready");
   const delivery = new DerivativeDelivery();
   const deletion = new RecordingDeletion({
@@ -1363,7 +1365,11 @@ if (process.argv[2] === "crash-owner") {
         .preview,
     );
     assert.notEqual(selected.cacheId, f.ready.published.preview.cacheId);
-    const regenerated = f.preview.request({ recordingId: f.take.recordingId, revisionId: "r0" });
+    const regenerated = f.preview.request({
+      recordingId: f.take.recordingId,
+      revisionId: "r0",
+      rendition: "source",
+    });
     const bytes = await readFile(regenerated.published.preview.file);
     assert.deepEqual(await readFile(join(f.output, "evicted.mp4")), bytes);
     assert.equal(regenerated.published.preview.durationUs, 2000000);
@@ -1423,6 +1429,7 @@ if (process.argv[2] === "crash-owner") {
       recordingId: f.take.recordingId,
       revisionId: "r0",
       sourceEvidence: old.published.evidence,
+      rendition: "source",
     });
     assert.equal(regenerated.state, "ready");
     assert.equal(regenerated.published.preview.sourceEvidence.generation, generation);

@@ -7,14 +7,27 @@ covers abandoned staging and pointer preparation inside the existing attempt.
 [Public service delivery](../assets/preview-publication/public.md) is verified with
 generated cursor/cut/pause evidence, CLI/MCP parity and restart regeneration.
 The [native service/player lifetime](../assets/preview-publication/player.md#actual-bundled-service-integration)
-now passes with the actual bundled service. Physical menu interaction, player
-visual acceptance and adjacent-speech audition remain open.
+now passes with the actual bundled service. Preview now renders a
+bounded-resolution rendition of the pinned edit while the human video export
+renders the same edit at capture resolution; over the checked-in 134 s narrated
+take that took the preview job from 123 s (3120x1970, 49.7 MB) to 60 s
+(1600x1010, 28.6 MB). Physical menu interaction, player visual acceptance and
+adjacent-speech audition remain open.
 
 ## One owner and one verdict
 
 Can a completed movie remain tied to its requested edit through a concurrent edit,
 cache eviction and service restart? Use the existing JobQueue and DerivedCache.
 A preview is a disposable artifact, never another export type or timeline store.
+
+A preview exists to audition an edit, so it renders the bounded rendition named by
+the core's preview policy; the video export asks for the source rendition and gets
+its own pinned movie at the capture's resolution. The rendition belongs to the job
+identity, so the two never share one cached movie and an export never publishes the
+smaller one. Core refuses a receipt whose dimensions are larger than the bound it
+asked for, or odd where H.264 needs even. The bound buys back encoding only: the
+preview job's presentation-evidence pass still decodes the whole source, which is
+now most of what a preview costs.
 
 Core preview admission pins revision and source-evidence generation, waits on source
 processing outside the heavy lane, and creates one canonical job identity. Repeated

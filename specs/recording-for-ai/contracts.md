@@ -211,8 +211,13 @@ No transport-specific text parsing is required to decide whether to retry.
 | Package | open/close a relocated package for read-only use with the same inspection operations and explicit package handle. |
 
 `preview` is a temporary playable derivative of the requested edit, not another
-export product. Editing can be audited from images, transcript, and audio excerpts
-before preview rendering completes. Cut commands never run a semantic model.
+export product. It renders a bounded-resolution rendition of the pinned edit, so
+auditioning an edit costs a fraction of the take's own length; the human video
+export renders the same edit at the capture's resolution and is a separate pinned
+movie. A preview's receipt states the bound it was rendered under alongside the
+dimensions actually written. Editing can be audited from images, transcript, and
+audio excerpts before preview rendering completes. Cut commands never run a
+semantic model.
 
 Every list, page, batch, cursor range and audio excerpt is bounded; the
 [operation registry](../../packages/protocol/src/operations.ts) owns the exact
@@ -224,7 +229,9 @@ word IDs/ranges and share the pinned transcript generation. Pagination never loa
 all cursor samples to return one page.
 Images default to max1600-pixel long edge, with full captured resolution and crop
 available (max8192 long edge and 32 MiB encoded per image; report limit errors,
-never silently unreadable content). Each image uses a decoded source reference and
+never silently unreadable content). A preview movie takes the same 1600-pixel long
+edge, rounded down to the even dimensions H.264 requires, and the
+[preview policy](../../packages/core/src/preview.ts) owns that number. Each image uses a decoded source reference and
 metadata; local file paths are not substitutes for MCP pixels. Per-source pixel
 capture is capped to 4096 long edge at 30 fps SDR, preserving aspect ratio.
 Revisit a default only with measured fixture evidence and update this document.
