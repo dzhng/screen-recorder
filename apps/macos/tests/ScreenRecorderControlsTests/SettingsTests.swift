@@ -20,6 +20,21 @@ private func submenu(_ entries: [MenuEntry], startingWith prefix: String) -> [Me
     return row.submenu
 }
 
+func runStartPermissionTests() {
+    precondition(
+        PermissionKind.missing(fromStartFailure: "MICROPHONE_PERMISSION_REQUIRED") == .microphone,
+        "A start refused for the microphone asks for the microphone")
+    precondition(
+        PermissionKind.missing(fromStartFailure: "PERMISSION_REQUIRED") == .screen,
+        "A start refused for the screen asks for screen recording")
+    for code in ["SOURCE_UNAVAILABLE", "TIMEOUT", "CAPTURE_BUSY", ""] {
+        precondition(
+            PermissionKind.missing(fromStartFailure: code) == nil,
+            "\(code) names no missing access and must not ask for one")
+    }
+    print("PASS a refused start asks for the access it was missing")
+}
+
 func runPermissionRowTests() {
     let granted = RecordingMenu.entries(for: ready())
     precondition(

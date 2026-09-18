@@ -57,6 +57,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         })
     private var ticker: Timer?
     private var reading = false
+    private var menuIsOpen = false
     private var pendingRefresh = false
     private var pendingStorageRefresh = false
 
@@ -108,7 +109,10 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     /// The live menu, so a check can read exactly what a person would see.
     var visibleMenu: NSMenu { menu }
 
+    func menuDidClose(_ menu: NSMenu) { menuIsOpen = false }
+
     func menuWillOpen(_ menu: NSMenu) {
+        menuIsOpen = true
         refresh()
         if state.service == .ready { exports.discover() }
     }
@@ -209,7 +213,14 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                     .init(recordingState: (try? JSONDecoder().decode(StartedTake.self, from: data))?.state ?? "")
                 case .failure(let failure): .init(failureCode: failure.code)
                 }
-            if state.finishStart(request, answer) { start() }
+            if state.finishStart(request, answer) { return start() }
+            if case .failure(let failure) = result,
+                let missing = PermissionKind.missing(fromStartFailure: failure.code) {
+                // Pressing Start is the person asking to record, so this is when the app may ask
+                // macOS for what recording needs, and start once they allow it.
+                return requestForStart(missing)
+            }
+            if case .failure = result { showMenuIfClosed() }
         }
     }
 
@@ -303,6 +314,33 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 readStorage()
             }
         }
+    }
+
+    /// Asks for the access a start turned out to need, then starts the take once it is granted.
+    private func requestForStart(_ kind: PermissionKind) {
+        Task { @MainActor in
+            let granted = (try? await NativeCapture.requestPermission(kind == .screen ? "screen" : "microphone")) ?? false
+            if granted, kind == .microphone {
+                state.failure = nil
+                start()
+            } else {
+                // Screen recording is read once when a process starts, so a fresh grant reaches
+                // this app only after it runs again.
+                state.failure = granted
+                    ? "Screen recording was allowed. Quit and open Screen Recorder again to record."
+                    : "\(kind.name) access was not granted. Allow it in System Settings > Privacy & Security."
+                showMenuIfClosed()
+            }
+            refresh()
+        }
+    }
+
+    /// A start a person asked for through a shortcut fails with the menu closed, where its reason
+    /// would go unseen. Opening the menu puts that reason in front of them.
+    private func showMenuIfClosed() {
+        guard !menuIsOpen, let button = statusItem.button else { return }
+        render()
+        button.performClick(nil)
     }
 
     /// Permission is requested only here, by a person choosing to request it. Nothing on the way

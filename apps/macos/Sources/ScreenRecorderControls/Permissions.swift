@@ -36,6 +36,18 @@ extension ControlsState {
     }
 }
 
+extension PermissionKind {
+    /// The access a refused capture start was missing, when that is what refused it. Pressing
+    /// Start says a person wants to record, so the app may ask macOS for it then.
+    public static func missing(fromStartFailure code: String) -> PermissionKind? {
+        switch code {
+        case "MICROPHONE_PERMISSION_REQUIRED": .microphone
+        case "PERMISSION_REQUIRED": .screen
+        default: nil
+        }
+    }
+}
+
 /// One access a person grants this app. The menu and the Settings window describe each the same
 /// way, from the same state, so the two surfaces can never disagree about what is missing.
 public enum PermissionKind: CaseIterable, Sendable {
