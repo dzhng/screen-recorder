@@ -5,6 +5,7 @@ import { parseRevisionHistory, type TimelineRevision } from "@screenrec/core/tim
 import { archiveLimits } from "@screenrec/core/package-archive";
 import { FileSourceEvidence, readSourceMetadata } from "@screenrec/core/evidence-pages";
 import { fileSubdirectory } from "@screenrec/core/files";
+import type { ContextJob } from "@screenrec/core/jobs";
 import type { PackageRegistry } from "./package-registry.js";
 import type { RetainedPackage } from "./package-archive.js";
 export type PackageTarget = { packageHandle: string };
@@ -118,12 +119,56 @@ export class PackageMediaContext {
   sourcePath(role: "narration" | "system") {
     return this.registry.lookup(this.handle).files.path(`source/${role}.mov`);
   }
+  /**
+   * What this package is, rather than which admission is holding it open: the recording it was
+   * exported from and the archive's own copy of it. A derivative keyed by this cannot be confused
+   * with one of the recording still in this person's library.
+   */
+  /** Where this admission's own work may write a file, removed when the admission closes. */
+  renderPath(leaf: string) {
+    return this.registry.renderPath(this.handle, leaf);
+  }
+  identity() {
+    const { snapshot } = this.retained().manifest;
+    return `package:${snapshot.recordingId}:${snapshot.sourceId}:${snapshot.revisionId}`;
+  }
   retry(jobId: string) {
     this.registry.retry(this.handle, jobId);
   }
   openOutput(label: string) {
     return this.registry.openOutput(this.handle, label);
   }
+  /**
+   * A job this package's admission owns whose result is not a package output.
+   *
+   * A rendered preview is assembled by AVFoundation, which writes at a path rather than into a
+   * descriptor this context handed it, so the movie lands in the service's own derived cache the
+   * way a library preview does. What stays here is the work: it occupies this package's bounded
+   * job slot, it is canceled when the admission closes, and it is retried through the same
+   * registry as every other package job.
+   */
+  submitWork<T>(
+    artifact: "preview",
+    input: string,
+    work: (retained: RetainedPackage, signal: AbortSignal) => Promise<T>,
+  ) {
+    const { valueBytes } = this.reserveSlot(artifact, input);
+    const job = this.registry.submit(
+      this.handle,
+      { artifact, lane: "heavy", input },
+      async (retained, signal) => {
+        const result = await work(retained, signal);
+        if (Buffer.byteLength(JSON.stringify(result)) > valueBytes)
+          throw new CatalogError(
+            "LIMIT_EXCEEDED",
+            "Media metadata exceeds its queue publication limit",
+          );
+        return JSON.stringify(result);
+      },
+    );
+    return this.state<T>(job);
+  }
+
   submit<T>(
     artifact: "frame" | "audio",
     input: string,
@@ -133,41 +178,7 @@ export class PackageMediaContext {
       signal: AbortSignal,
     ) => Promise<T & { outputId: string }>,
   ) {
-    const { jobs, valueBytes } = this.registry.jobs(this.handle);
-    let previous = jobs.find((job) => job.artifact === artifact && job.input === input);
-    if (previous?.state === "ready" && previous.result) {
-      const result = JSON.parse(previous.result) as { outputId: string };
-      try {
-        this.registry.openOutput(this.handle, result.outputId).close();
-      } catch (error) {
-        if (!(error instanceof CatalogError) || error.code !== "NOT_FOUND") throw error;
-        this.registry.forget(this.handle, previous.jobId);
-        previous = undefined;
-      }
-    }
-    if (!previous) {
-      const current = this.registry.jobs(this.handle);
-      let room = current.jobs.length < current.capacity;
-      for (const job of room ? [] : current.jobs) {
-        if (!["frame", "audio"].includes(job.artifact) || ["queued", "running"].includes(job.state))
-          continue;
-        try {
-          this.registry.forget(this.handle, job.jobId);
-          room = true;
-          break;
-        } catch (error) {
-          if (!(error instanceof CatalogError) || error.code !== "PROCESSING_BUSY") throw error;
-        }
-      }
-      if (!room)
-        throw new CatalogError(
-          "LIMIT_EXCEEDED",
-          "Package job metadata is occupied by active work",
-          {},
-          true,
-        );
-    }
-
+    const { valueBytes } = this.reserveSlot(artifact, input);
     const job = this.registry.submit(
       this.handle,
       { artifact, lane: artifact === "audio" ? "heavy" : "frame", input },
@@ -200,6 +211,57 @@ export class PackageMediaContext {
         return JSON.stringify(result);
       },
     );
+    return this.state<T & { outputId: string }>(job);
+  }
+
+  /**
+   * Makes room for one more job of this kind, reusing the one that already answered this exact
+   * request when its output is still there. A ready job whose output has been released is
+   * forgotten rather than replayed, because its result names a file nobody can open any more.
+   */
+  private reserveSlot(artifact: "frame" | "audio" | "preview", input: string) {
+    const { jobs, valueBytes } = this.registry.jobs(this.handle);
+    let previous = jobs.find((job) => job.artifact === artifact && job.input === input);
+    if (previous?.state === "ready" && previous.result && artifact !== "preview") {
+      const result = JSON.parse(previous.result) as { outputId: string };
+      try {
+        this.registry.openOutput(this.handle, result.outputId).close();
+      } catch (error) {
+        if (!(error instanceof CatalogError) || error.code !== "NOT_FOUND") throw error;
+        this.registry.forget(this.handle, previous.jobId);
+        previous = undefined;
+      }
+    }
+    if (!previous) {
+      const current = this.registry.jobs(this.handle);
+      let room = current.jobs.length < current.capacity;
+      for (const job of room ? [] : current.jobs) {
+        if (
+          !["frame", "audio", "preview"].includes(job.artifact) ||
+          ["queued", "running"].includes(job.state)
+        )
+          continue;
+        try {
+          this.registry.forget(this.handle, job.jobId);
+          room = true;
+          break;
+        } catch (error) {
+          if (!(error instanceof CatalogError) || error.code !== "PROCESSING_BUSY") throw error;
+        }
+      }
+      if (!room)
+        throw new CatalogError(
+          "LIMIT_EXCEEDED",
+          "Package job metadata is occupied by active work",
+          {},
+          true,
+        );
+    }
+    return { valueBytes };
+  }
+
+  /** One job's state in the shape every derivative inspector answers with. */
+  private state<T>(job: ContextJob) {
     return {
       state:
         job.state === "running"
@@ -212,10 +274,7 @@ export class PackageMediaContext {
       jobId: job.jobId,
       published:
         job.state === "ready" && job.result
-          ? {
-              generation: job.generation,
-              value: JSON.parse(job.result) as T & { outputId: string },
-            }
+          ? { generation: job.generation, value: JSON.parse(job.result) as T }
           : null,
     };
   }

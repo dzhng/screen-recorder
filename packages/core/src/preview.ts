@@ -1,7 +1,13 @@
 import { join } from "node:path";
 import { CatalogError, type RevisionStore } from "./library.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
-import { DerivativeInspection, LibraryDerivatives } from "./derivative-inspection.js";
+import {
+  DerivativeInspection,
+  LibraryDerivatives,
+  type DerivativeBackend,
+  type DerivativeContext,
+  type DerivativeSubmission,
+} from "./derivative-inspection.js";
 import type { DerivedCache } from "./cache.js";
 import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
@@ -18,6 +24,12 @@ import { renderPlan, type RenderSpan, type TimelineRevision } from "./timeline.j
 export const previewPolicy = Object.freeze({ id: "movie-preview-v1", maxLongEdge: 1600 });
 export type PreviewRendition = "preview" | "source";
 export type PreviewInput = { recordingId: string; revisionId?: string | undefined };
+/** What any preview request carries, whichever media it names. */
+export type PreviewRequest = {
+  revisionId?: string | undefined;
+  sourceEvidence?: SourceEvidenceMetadata;
+  rendition?: PreviewRendition;
+};
 export type RenderedMovie = {
   file: string;
   mediaType: "video/mp4";
@@ -59,7 +71,7 @@ export type PreviewArtifact = RenderedMovie & {
   missingRoles: ReturnType<typeof planAudioTracks>["missingRoles"];
 };
 const artifact = "preview";
-type Options = {
+export type PreviewOptions = {
   policy: string;
   rendition: PreviewRendition;
   sourceEvidence: SourceEvidenceMetadata;
@@ -68,12 +80,88 @@ type Options = {
 const boundFor = (rendition: PreviewRendition) =>
   rendition === "preview" ? previewPolicy.maxLongEdge : null;
 
+/**
+ * What a preview is, wherever its media lives: one pinned rendition of one revision, admitted only
+ * once the source evidence it is aimed by is ready. A library preview renders this person's own
+ * recording; a package preview renders the copy inside an archive they were handed. Only where the
+ * work is submitted differs, which is the one thing a backend supplies.
+ */
+export abstract class PreviewInspectionBase<
+  Target extends object,
+  Artifact,
+> extends DerivativeInspection<Target, Target & PreviewRequest, "preview", Artifact> {
+  constructor(backend: DerivativeBackend<Target>) {
+    super(backend, "preview");
+  }
+
+  protected abstract submit(
+    context: DerivativeContext<Target>,
+    options: PreviewOptions,
+  ): DerivativeSubmission<Artifact>;
+
+  request(input: Target & PreviewRequest) {
+    const context = this.backend.resolve(input);
+    const source = input.sourceEvidence
+      ? {
+          state: "ready" as const,
+          reason: null,
+          retryable: false,
+          jobId: null,
+          evidence: input.sourceEvidence,
+        }
+      : this.backend.source(context);
+    return this.admit(context, source, (evidence) => {
+      if (evidence.recordingId !== context.recordingId || evidence.sourceId !== context.sourceId)
+        throw new CatalogError("INVALID_EVIDENCE", "Preview evidence belongs to another source");
+      return this.submit(context, {
+        policy: previewPolicy.id,
+        rendition: input.rendition ?? "preview",
+        sourceEvidence: evidence,
+      });
+    });
+  }
+}
+
+/**
+ * Whether a renderer answered with the movie that was asked for. A rendition that ignored its
+ * bound, or that came back as something other than the pinned edit, is refused rather than
+ * published: this is what stands between a native receipt and somebody's library.
+ */
+export function checkRenderedPreview(
+  movie: RenderedMovie,
+  expected: { file: string; durationUs: number; maxLongEdge: number | null },
+): void {
+  if (
+    movie.file !== expected.file ||
+    movie.mediaType !== "video/mp4" ||
+    movie.codec !== "h264" ||
+    movie.durationUs !== expected.durationUs ||
+    ![movie.width, movie.height, movie.frameCount, movie.bytes].every(
+      (value) => Number.isSafeInteger(value) && value > 0,
+    )
+  )
+    throw new CatalogError("INVALID_RESPONSE", "Renderer returned an unrelated preview");
+  // The movie's own dimensions are the receipt: a bounded rendition is whatever the source scaled
+  // down to, but it cannot be larger than what was asked for, nor an odd size H.264 cannot encode.
+  if (
+    expected.maxLongEdge !== null &&
+    (Math.max(movie.width, movie.height) > expected.maxLongEdge ||
+      movie.width % 2 !== 0 ||
+      movie.height % 2 !== 0)
+  )
+    throw new CatalogError(
+      "INVALID_RESPONSE",
+      `Preview is ${movie.width}x${movie.height}, not the rendition bounded to ${expected.maxLongEdge}`,
+    );
+}
+
+/** The long edge a rendition renders to, or null for the capture's own resolution. */
+export const previewBoundFor = boundFor;
+
 /** One pinned derivative under the existing job/cache authorities. The renderer owns
  * native execution and must leave its complete output in the reserved cache file. */
-export class PreviewInspection extends DerivativeInspection<
+export class PreviewInspection extends PreviewInspectionBase<
   { recordingId: string },
-  PreviewInput & { sourceEvidence?: SourceEvidenceMetadata; rendition?: PreviewRendition },
-  "preview",
   PreviewArtifact
 > {
   private readonly library: LibraryDerivatives;
@@ -87,49 +175,25 @@ export class PreviewInspection extends DerivativeInspection<
     private readonly render: PreviewRenderer,
   ) {
     const library = new LibraryDerivatives(store, jobs, cache, processing);
-    super(library, "preview");
+    super(library);
     this.library = library;
   }
 
   /** Exports pass the source evidence their intent already pinned, and the full rendition. */
-  request(
-    input: PreviewInput & {
-      sourceEvidence?: SourceEvidenceMetadata;
-      rendition?: PreviewRendition;
-    },
-  ) {
-    const context = this.backend.resolve(input);
-    const source = input.sourceEvidence
-      ? {
-          state: "ready",
-          reason: null,
-          retryable: false,
-          jobId: null,
-          evidence: input.sourceEvidence,
-        }
-      : this.backend.source(context);
-    return this.admit(context, source, (evidence) => {
-      if (evidence.recordingId !== context.recordingId || evidence.sourceId !== context.sourceId)
-        throw new CatalogError("INVALID_EVIDENCE", "Preview evidence belongs to another source");
-      const options: Options = {
-        policy: previewPolicy.id,
-        rendition: input.rendition ?? "preview",
-        sourceEvidence: evidence,
-      };
-      return this.library.submit<PreviewArtifact>(
-        {
-          recordingId: context.recordingId,
-          revisionId: context.revision.id,
-          artifact,
-          input: JSON.stringify(options),
-        },
-        "heavy",
-      );
-    });
+  protected submit(context: DerivativeContext<{ recordingId: string }>, options: PreviewOptions) {
+    return this.library.submit<PreviewArtifact>(
+      {
+        recordingId: context.recordingId,
+        revisionId: context.revision.id,
+        artifact,
+        input: JSON.stringify(options),
+      },
+      "heavy",
+    );
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
-    const options = JSON.parse(job.input) as Options;
+    const options = JSON.parse(job.input) as PreviewOptions;
     if (
       job.artifact !== artifact ||
       options.policy !== previewPolicy.id ||
@@ -167,29 +231,11 @@ export class PreviewInspection extends DerivativeInspection<
         signal,
       );
       signal.throwIfAborted();
-      if (
-        movie.file !== output.path ||
-        movie.mediaType !== "video/mp4" ||
-        movie.codec !== "h264" ||
-        movie.durationUs !== revision.durationUs ||
-        ![movie.width, movie.height, movie.frameCount, movie.bytes].every(
-          (value) => Number.isSafeInteger(value) && value > 0,
-        )
-      )
-        throw new CatalogError("INVALID_RESPONSE", "Renderer returned an unrelated preview");
-      // The movie's own dimensions are the receipt: a bounded rendition is whatever the source
-      // scaled down to, but it cannot be larger than what was asked for, nor an odd size H.264
-      // cannot encode. A renderer that ignored the bound is refused rather than published.
-      if (
-        maxLongEdge !== null &&
-        (Math.max(movie.width, movie.height) > maxLongEdge ||
-          movie.width % 2 !== 0 ||
-          movie.height % 2 !== 0)
-      )
-        throw new CatalogError(
-          "INVALID_RESPONSE",
-          `Preview is ${movie.width}x${movie.height}, not the rendition bounded to ${maxLongEdge}`,
-        );
+      checkRenderedPreview(movie, {
+        file: output.path,
+        durationUs: revision.durationUs,
+        maxLongEdge,
+      });
       const cached = await this.cache.publish(output.id);
       signal.throwIfAborted();
       if (cached.bytes !== movie.bytes)

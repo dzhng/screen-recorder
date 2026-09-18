@@ -118,10 +118,13 @@ export async function clearRenderWorkspace(
  * own presentation evidence, then the movie is rendered and copied to the preview's output, all
  * inside one locked attempt in the service's private render workspace.
  */
+/** What a preview's pointer schedule is read from: a library's evidence, or a package's own. */
+export type PreviewEvidence = Parameters<typeof writePointerSchedule>[0]["evidence"];
+
 export function previewRenderer(
   worker: MediaWorker,
   workspace: string,
-  evidence: Parameters<typeof writePointerSchedule>[0]["evidence"],
+  evidence: PreviewEvidence,
 ): PreviewRenderer {
   return async (request, signal) => {
     await mkdir(workspace, { recursive: true, mode: 0o700 });

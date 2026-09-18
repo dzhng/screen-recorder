@@ -4,7 +4,11 @@ Status: package admission, public index/frame/audio inspection, queued export
 recovery, raw cursor pages and public video export pass their scoped gates. Complete-package
 assembly now passes public no-narration export/relocation. Public timeline reads are also implemented;
 native export actions pass [controller and bundled-service checks](../assets/export-controls/README.md).
-Transcript integration and physical menu/audition acceptance remain. See the [integration evidence](../assets/owner-integration/README.md).
+A relocated package also renders and plays its own edit: `preview.get` takes a package handle,
+the movie is rendered beside the admission from the archive's own media and evidence, and it is
+read through the package's lease and removed with it
+(`apps/macos/tests/package-public-preview.mjs`, run after the library is gone). Physical
+menu/audition acceptance remains. See the [integration evidence](../assets/owner-integration/README.md).
 This does not close 08, 11c or 13.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md#portable-ai-package)

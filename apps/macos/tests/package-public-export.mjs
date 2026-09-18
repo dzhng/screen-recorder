@@ -4,6 +4,7 @@ import { readFile, rename, realpath } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { registerRelocationTest } from "./package-relocation.mjs";
 import { publicFrames } from "./package-public-frames.mjs";
+import { publicPreview } from "./package-public-preview.mjs";
 import { publicAudio } from "./package-public-audio.mjs";
 import {
   startPublicService,
@@ -138,9 +139,15 @@ registerRelocationTest({
       native,
       relocated,
     );
+    const preview = await publicPreview(
+      root,
+      join(dirname(output), "public-audio-inspection"),
+      native,
+      relocated,
+    );
     assert.equal(hash("sha256", await readFile(relocated)), before);
-    return { ...result, ...audio, publicPackageExport: true };
+    return { ...result, ...audio, ...preview, publicPackageExport: true };
   },
   evidenceScope:
-    "Actual CLI package export.create, concurrent edit, MCP commit, replay/retry, moved ZIP and public frame/audio inspection after original library removal; generated no-narration media",
+    "Actual CLI package export.create, concurrent edit, MCP commit, replay/retry, moved ZIP and public frame/audio/preview inspection after original library removal; generated no-narration media",
 });

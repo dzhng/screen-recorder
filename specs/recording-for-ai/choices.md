@@ -2588,35 +2588,24 @@ export controls. The choices below are the ones that change behavior or format.
 
 ## Two capabilities the contract names and this release does not have — 2026-09-19
 
-- **A relocated package cannot play a preview, and that is now a decision rather than an
-  oversight.**
-  - **Observed:** the contract's package row says a package answers "the same inspection
-    operations", and its inspection row lists a playable revision preview. `preview.get` and
-    `preview.retry` take a recording and nothing else, and the package inspector owns no renderer.
-    Everything else a package can be asked — arbitrary frames, audio, transcript pages, timeline,
-    raw cursor, the screenshot index — is implemented and checked after relocation.
-  - **Why it is not a wiring job, established by building it:** everything above the media seam
-    went in easily — a generic preview owner, a package inspector, protocol and routing, a
-    length-proportional charge against the package budget, and a check that opens a relocated
-    archive and asks it for a preview. It fails at one line. A package context creates each output
-    itself and hands the worker a descriptor, which is what keeps an archive from somewhere else
-    from naming a path on this Mac; `media.renderMovie` assembles a movie through AVFoundation,
-    which needs a real path it can stage beside and publish by link. Descriptors and AVAssetWriter
-    do not meet. Making them meet means the package context publishing file-backed outputs by
-    name inside its workspace — the boundary itself, not the code around it. The attempt was
-    reverted rather than left half-built.
-  - **And the budget says the same thing:** a package admission may hold 128 MiB of derivatives in
-    total, sized for frames and short clips. The bounded preview of a two-minute take is 28 MB and
-    a half-hour one would be several hundred, so previews would either fail on long takes or that
-    bound would have to move — and it bounds how much of this person's disk an archive from
-    somewhere else can occupy.
-  - **For the user:** either let a package context publish a named file inside its own workspace,
-    so a movie can be assembled there (and raise the 128 MiB budget, or charge previews by length
-    as the reverted attempt did), or drop the sentence from the contract. A third option is to
-    render package previews in the service's own workspace from the archive's already-extracted,
-    already-hash-verified media, which needs no native change but puts a package's derivative in
-    the library's cache and outside the admission's lifetime. Nothing else depends on the choice:
-    an agent reading a package already has every frame and every second of audio in it.
+- **A relocated package plays its own edit, rendered beside its admission.**
+  - **Observed:** the contract says a package answers the same inspection operations, and lists a
+    playable revision preview among them. It did not: `preview.get` took a recording and nothing
+    else.
+  - **Three routes were tried and rejected before the fourth.** A package output is a descriptor
+    the context hands the worker, and AVFoundation assembles a movie at a path — those do not
+    meet. The derived cache is keyed by a recording that a package need not have. Copying through
+    the archive seam would hand a package context a second workspace descriptor. Each of those
+    bends an invariant that is there on purpose.
+  - **Decision:** the movie is rendered beside the admission's own workspace, by a renderer built
+    over the package's own evidence, and read through the lease the package already owns. The work
+    occupies the package's job slot and stops when the package closes; the file goes with the
+    admission, and the parent is cleared at startup, so a service that dies mid-render leaves
+    nothing. No schema, no native change, no widened seam.
+  - **Consequence:** a package preview is the same bounded rendition a library preview is, pointer
+    overlay included, and costs disk only while the package is open. Two admissions of the same
+    archive render twice rather than sharing one movie, which is the price of tying it to the
+    admission instead of the cache.
 - **A collision with macOS itself is now detected; a collision with another application still
   cannot be.** The contract says a collision disables the binding and shows a settings override.
   `RegisterEventHotKey` returns success for a combination that is already spoken for — this

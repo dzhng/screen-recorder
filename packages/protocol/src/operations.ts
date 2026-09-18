@@ -323,16 +323,16 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("preview.get"),
-      params: recording.extend({ revisionId: id.optional() }).strict(),
+      params: inspection({ revisionId: id.optional() }),
     })
     .strict()
     .describe(
-      "Request a playable MP4 of the pinned edit with current pointer and acquired audio. Returns readiness until complete; pin the returned revision when polling. CLI writes a file; MCP returns a delivery token for artifact.read/close.",
+      "Request a playable MP4 of the pinned edit with current pointer and acquired audio, for a recording or a relocated package. Returns readiness until complete; pin the returned revision when polling. CLI writes a file; MCP returns a delivery token for artifact.read/close.",
     ),
   z
     .object({
       operation: z.literal("preview.retry"),
-      params: recording.extend({ revisionId: id.optional() }).strict(),
+      params: inspection({ revisionId: id.optional() }),
     })
     .strict()
     .describe(

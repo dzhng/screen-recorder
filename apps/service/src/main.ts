@@ -157,6 +157,7 @@ async function main(): Promise<void> {
       jobs,
       worker,
       delivery,
+      render: (packageEvidence) => previewRenderer(worker, renderWorkspace, packageEvidence),
     });
     void packages
       .prepare()

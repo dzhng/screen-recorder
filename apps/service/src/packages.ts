@@ -8,11 +8,14 @@ import {
 } from "./package-media.js";
 import { PackageTranscriptInspection } from "./package-transcript.js";
 import { PackageAudioInspection } from "./package-audio.js";
+import { PackagePreviewInspection } from "./package-preview.js";
 import { PackageFrameInspection } from "./package-frames.js";
 import { constants } from "node:fs";
 import { mkdir, lstat, realpath, open, type FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/library";
 import type { TimelineRevision } from "@screenrec/core/timeline";
+import type { PreviewRenderer } from "@screenrec/core/preview";
+import type { PreviewEvidence } from "./render.js";
 import { fileSubdirectory, O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { FileScreenshotIndex } from "@screenrec/core/index-pages";
 import { RetainedIndexRead } from "@screenrec/core/index-read";
@@ -43,6 +46,7 @@ export class PackageInspection {
       media?: PackageMediaContext;
       frames?: PackageFrameInspection;
       audio?: PackageAudioInspection;
+      preview?: PackagePreviewInspection;
       timeline?: PackageTimelineInspection;
       transcript?: PackageTranscriptInspection;
     }
@@ -53,6 +57,11 @@ export class PackageInspection {
       jobs: JobQueue;
       worker: MediaWorker;
       delivery: DerivativeDelivery;
+      /**
+       * Builds a renderer over a package's own evidence: the pointer schedule a preview composes
+       * is read from the archive's copy, never from a library this package may not even be in.
+       */
+      render?: (evidence: PreviewEvidence) => PreviewRenderer;
     },
   ) {}
 
@@ -240,6 +249,20 @@ export class PackageInspection {
   audio(packageHandle: string): PackageAudioInspection {
     const { view } = this.revisions(packageHandle);
     return (view.audio ??= new PackageAudioInspection(this.media(packageHandle)));
+  }
+  preview(packageHandle: string): PackagePreviewInspection {
+    const { view } = this.revisions(packageHandle);
+    const { render } = this.options;
+    if (!render)
+      throw new CatalogError(
+        "UNSUPPORTED_OPERATION",
+        "This service renders no previews, so a package cannot be previewed either",
+      );
+    const media = this.media(packageHandle);
+    return (view.preview ??= new PackagePreviewInspection(
+      media,
+      render(media.sourceData().reader),
+    ));
   }
   index(input: {
     packageHandle: string;

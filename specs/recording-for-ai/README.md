@@ -33,10 +33,12 @@ what remains open. Before ending a pass, update the owning Status lines and the
 checklist box, then replace the pickup below.
 
 Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
-2026-09-19 found exactly two things the contract names that the code does not do, both now
-[recorded as decisions](choices.md): a relocated package cannot play a preview, and a key
-combination another app owns is registered rather than reported. Everything else unticked is
-acceptance that needs a person, a second display, sound playing, or an agent that is not this one.
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
 
 [08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
 boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen

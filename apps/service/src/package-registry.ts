@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
-import type { FileHandle } from "node:fs/promises";
+import { rm, type FileHandle } from "node:fs/promises";
+import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/library";
 import {
   archiveLimits,
@@ -58,6 +59,8 @@ type Entry = Admission & {
   provisionFailure?: unknown;
   provisionStarted: boolean;
   closing?: Promise<void>;
+  /** Files this admission's own work left beside its workspace; they go when it does. */
+  renders: Set<string>;
 };
 const describe = (error: unknown) =>
   (error instanceof Error ? error.message : String(error)).slice(0, 4096);
@@ -174,6 +177,7 @@ export class PackageRegistry {
       throw error;
     }
     entry = {
+      renders: new Set<string>(),
       id: randomUUID(),
       state: "queued",
       packageHandle: null,
@@ -222,6 +226,18 @@ export class PackageRegistry {
     const job = this.options.jobs.submitContext(entry.context, request);
     if (!entry.requests.has(job.jobId)) entry.requests.set(job.jobId, execute);
     return job;
+  }
+  /**
+   * A path beside this admission's workspace for work that writes a file the archive seam cannot:
+   * a rendered movie is assembled by AVFoundation at a path, not into a descriptor. The file
+   * belongs to the admission and is removed with it, and the whole parent is cleared at startup,
+   * so a service that dies mid-render leaves nothing behind either.
+   */
+  renderPath(handle: string, leaf: string): string {
+    const entry = this.ready(handle);
+    const path = join(this.options.parent.directory, `${entry.id}-${leaf}`);
+    entry.renders.add(path);
+    return path;
   }
   jobs(handle: string): ReturnType<JobQueue["contextJobs"]> {
     return this.options.jobs.contextJobs(this.ready(handle).context);
@@ -336,6 +352,10 @@ export class PackageRegistry {
       entry.requests.clear();
       if (entry.packageHandle)
         this.options.delivery.revoke({ kind: "package", id: entry.packageHandle });
+      // Anything this admission rendered for itself is its own to take away: the leases over it
+      // were just revoked, so nothing is reading it.
+      for (const path of entry.renders) await rm(path, { force: true });
+      entry.renders.clear();
       await entry.retained?.close();
       if (entry.workspace) await entry.workspace.remove();
       else if (entry.provisionStarted)

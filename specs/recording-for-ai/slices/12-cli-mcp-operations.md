@@ -5,8 +5,8 @@ and the full actual-media journey remain open. A [Codex CLI journey](../assets/a
 now proves image-only token reading, cut/inspect, stale rejection and undo on
 generated silent media. An [MCP SDK-to-model journey](../assets/agent-mcp-journey/README.md)
 now proves the same flow with actual image blocks, including a disclosed glyph
-misreading corrected by reinspection. Transcript pages, search, speech model preparation and
-both exports are now public operations; an actual agent journey over real narration and
+misreading corrected by reinspection. Transcript pages, search, speech model preparation,
+both exports and a relocated package's own playable preview are now public operations; an actual agent journey over real narration and
 installed acceptance remain.
 Dependencies: 00b, 07, 08, 11.
 

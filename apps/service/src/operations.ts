@@ -260,16 +260,32 @@ export async function operate(
 
       case "preview.get":
       case "preview.retry": {
-        const status =
-          operation.operation === "preview.get"
-            ? preview.request(operation.params)
-            : preview.retry(operation.params);
+        const params = operation.params;
+        const method = operation.operation === "preview.get" ? "request" : "retry";
+        // A package renders its own media into the same cache, so both answer the same way; only
+        // whose lifetime holds the delivery open differs.
+        if ("packageHandle" in params) {
+          const inspector = packages.preview(params.packageHandle);
+          const status = inspector[method](params);
+          return {
+            ok: true,
+            data: {
+              ...status,
+              delivery: status.published
+                ? delivery.open({ kind: "package", id: params.packageHandle }, () =>
+                    inspector.openRead(status.published!.preview),
+                  )
+                : null,
+            },
+          };
+        }
+        const status = preview[method](params);
         return {
           ok: true,
           data: {
             ...status,
             delivery: status.published
-              ? delivery.open({ kind: "recording", id: operation.params.recordingId }, () =>
+              ? delivery.open({ kind: "recording", id: params.recordingId }, () =>
                   cache.acquire(status.published!.preview.cacheId),
                 )
               : null,
