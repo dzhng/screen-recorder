@@ -1,7 +1,10 @@
 # 07a — Settings window, permissions and launch at login
 
 Status: implemented (2026-09-18), except the login item, which needs this person's
-own installed copy. Parent: [07](07-menu-bar-controls.md).
+own installed copy. Parent: [07](07-menu-bar-controls.md). The
+[captures](../assets/settings-window/README.md) are written by
+`node apps/macos/tests/settings-shots.mjs` and were retaken on 2026-09-19, so they show the form
+as it stands rather than the row order of an earlier pass.
 
 The window, the consistent permission rows, the saved recording defaults, the
 renamed bundle and its icon are in place and checked. `SMAppService.mainApp`

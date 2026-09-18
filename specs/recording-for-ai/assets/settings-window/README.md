@@ -1,7 +1,7 @@
 # Settings window captures
 
 Captures of the real window from the built app (`dist/ScreenRecorder.app`) on macOS 26.6.2,
-each `screencapture -l <window>` of that window alone. The window is 560 points wide and as
+each the window's own drawing, written by `node apps/macos/tests/settings-shots.mjs`. The window is 560 points wide and as
 tall as the screen allows; its form scrolls when it cannot show everything at once.
 
 | Shot | Appearance | Permissions |
@@ -19,10 +19,10 @@ through `SCREENREC_FIXTURE_PERMISSIONS`, which replaces what the window displays
 else, because changing the system's own TCC record for a screenshot is not something a check
 may do. Every button in those shots still performs the real request or opens the real pane.
 
-Light appearance comes from `-NSRequiresAquaSystemAppearance YES` on a Mac whose system
-appearance is dark. The captures were brought forward through the accessibility API rather than
-by clicking, and the automated checks never activate the app at all: a launch with the controls
-fixture set orders the same window in behind everything.
+Light appearance is set on the running app rather than on this Mac, and the window is opened
+through the menu's own Settings action. Nothing is clicked and nothing is activated: a launch
+with the controls fixture set orders every window in behind whatever the person at the Mac is
+doing.
 
 In every capture the launch preference reads off, because the harness that launches the app
 for a check turns it off so no window can appear over someone's work. A person's own install
