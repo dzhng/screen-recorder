@@ -32,10 +32,11 @@ Each slice's Status line is the one home for what it verified, its evidence and
 what remains open. Before ending a pass, update the owning Status lines and the
 checklist box, then replace the pickup below.
 
-Current pickup: the remaining physical capture gates in
-[01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md), which a check can stage
-against this app's own fixture window without recording anything of the person's: display and
-region sources, A/V timing over a long take with pauses, and recovery audition.
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found exactly two things the contract names that the code does not do, both now
+[recorded as decisions](choices.md): a relocated package cannot play a preview, and a key
+combination another app owns is registered rather than reported. Everything else unticked is
+acceptance that needs a person, a second display, sound playing, or an agent that is not this one.
 
 [08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
 boundaries miss the 100 ms median target at 135 ms and are reported as missed, always outside the
@@ -49,13 +50,27 @@ Needing this person rather than a check:
   `~/Applications/Screen Recorder.app` and record what `SMAppService` answers
   ([07a](slices/07a-settings-window.md)); an ad-hoc build in `dist/` reports `notFound`.
 - **A second display:** which screen the countdown lands on ([07b](slices/07b-recording-overlays.md)).
-- **System audio:** a take with something playing, which a check must not make this Mac do
+- **System audio:** a take with something playing, which a check must not make this Mac do,
+  and with it the A/V timing measurement that needs both tracks against a known event
   ([01](slices/01-native-capture.md)).
+- **A region take:** proving where one landed means recording whatever is on the screen, and a
+  fixture launch is refused every source but its own window precisely so an automated run cannot
+  ([01](slices/01-native-capture.md), [03](slices/03-cursor-geometry.md)).
+- **The menu bar and the pointer:** clicking the status menu, dragging the floating controls, and
+  making the deliberate gestures the trail and index gates are about — computer-use reaches none
+  of them on this Mac ([07](slices/07-menu-bar-controls.md),
+  [10](slices/10-cursor-trails.md), [11](slices/11-screenshot-selection.md)).
+- **Ears:** an audio excerpt, a recovered tail (`bun run lab:recovery --microphone` writes the
+  clips), and a cut inside a rendered export
+  ([09](slices/09-frame-inspection.md), [02](slices/02-interruption-recovery.md),
+  [13](slices/13-edited-media.md)).
+- **An agent that is not this one:** the real-narration journey through CLI and MCP
+  ([12](slices/12-cli-mcp-operations.md)).
 
 The installed copy is a build older than the word-timing fix; `bun run install:personal` replaces
 it, and it refuses while the app is running.
 
-Priority order: the stageable capture gates, then whatever the person answers above.
+Priority order: the two recorded capability decisions, then whatever the person answers above.
 
 The original [verification gates](verification.md) remain requirements. Fixtures
 and unit checks do not close the full read → edit → inspect → export journey.
