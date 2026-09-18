@@ -227,7 +227,7 @@ that fails to load, so the worker runs it offline and a failure is only ever rep
 prints diagnostics to standard output, so the response channel is diverted while the engine runs.
 
 Words are grouped from the engine's tokens exactly as the evaluated FluidAudio CLI groups them, so
-the worker and that CLI can still be compared token for token. A word's *time*, though, is the
+the worker and that CLI can still be compared token for token. A word's _time_, though, is the
 extent of its tokens that carry speech, not the span the engine gives it: this model ends a
 sentence with a punctuation token of its own and places it where it decided the sentence was over,
 which on measured narration is up to a second after the last sound. The raw record keeps both, and

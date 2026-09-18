@@ -17,6 +17,7 @@
     "lab:client-image": "node packages/test-harness/dist/client-image.js",
     "lab:timeline": "node packages/test-harness/dist/timeline.js",
     "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
     "lab:workbench": "bun run --cwd apps/workbench dev",
     "lab:capture": "node scripts/native-capture-probe.mjs",
     "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
