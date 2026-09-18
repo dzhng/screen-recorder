@@ -389,13 +389,16 @@ struct SettingsView: View {
         case device(String)
     }
 
-    /// The catalog's inputs, plus a saved input the catalog does not list right now, so the picker
-    /// always shows what is actually selected.
+    /// The catalog's inputs, plus this person's own choice while it is unplugged — said to be
+    /// unplugged, so the picker never looks like it is recording through something that is not
+    /// there. Takes use the system default meanwhile, and the choice comes back with the device.
     private var inputs: [(id: String, name: String)] {
         var listed = model.state.sources.microphones.map { (id: $0.id, name: $0.name) }
-        if case .device(let id, let name) = model.state.selection.microphone,
-            !listed.contains(where: { $0.id == id }) {
-            listed.append((id: id, name: name))
+        for choice in [model.state.selection.microphone, model.state.selection.awaitedMicrophone] {
+            guard case .device(let id, let name)? = choice,
+                !listed.contains(where: { $0.id == id })
+            else { continue }
+            listed.append((id: id, name: "\(name) (not connected)"))
         }
         return listed
     }

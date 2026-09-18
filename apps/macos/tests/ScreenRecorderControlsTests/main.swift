@@ -1,5 +1,6 @@
 runElapsedFormatTests()
 runSelectionTests()
+runAwaitedMicrophoneTests()
 runStartRequestTests()
 runMenuStateTests()
 runRecentStorageTests()

@@ -156,9 +156,16 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             state.selection.microphone = .off
         case .selectMicrophone(nil):
             state.selection.microphone = .systemDefault
+            state.selection.awaitedMicrophone = nil
         case .selectMicrophone(.some(let id)):
             if let microphone = state.sources.microphones.first(where: { $0.id == id }) {
                 state.selection.microphone = .device(id: microphone.id, name: microphone.name)
+                state.selection.awaitedMicrophone = nil
+            } else if case .device(let awaited, _)? = state.selection.awaitedMicrophone,
+                awaited == id {
+                // Choosing the one that is unplugged again is asking to keep waiting for it, which
+                // is already what is happening; anything else here would discard their choice.
+                break
             }
         case .toggleSystemAudio:
             state.selection.systemAudio.toggle()

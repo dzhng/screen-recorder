@@ -97,8 +97,9 @@ public struct Preferences {
 }
 
 extension ControlsState.CaptureSelection {
-    /// The audio part of this selection, as a new take's defaults.
+    /// The audio part of this selection, as a new take's defaults. A microphone that is merely
+    /// unplugged is still what this person chose, so it is what is saved.
     public var recordingDefaults: RecordingDefaults {
-        RecordingDefaults(microphone: microphone, systemAudio: systemAudio)
+        RecordingDefaults(microphone: awaitedMicrophone ?? microphone, systemAudio: systemAudio)
     }
 }

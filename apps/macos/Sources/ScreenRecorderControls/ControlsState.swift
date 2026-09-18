@@ -175,6 +175,10 @@ public struct ControlsState: Equatable, Sendable {
         public var source: SelectedSource?
         public var microphone: MicrophoneChoice = .systemDefault
         public var systemAudio = false
+        /// The microphone this person chose, while it is unplugged. Takes use the system default
+        /// meanwhile, but the choice is theirs and is not thrown away — nor written over their
+        /// saved preference — by the machine they happen to be recording on today.
+        public var awaitedMicrophone: MicrophoneChoice?
     }
 
     public struct RecentTake: Equatable, Sendable {
@@ -438,7 +442,14 @@ extension ControlsState {
         }
         if case .device(let id, _) = selection.microphone,
             !sources.microphones.contains(where: { $0.id == id }) {
+            selection.awaitedMicrophone = selection.microphone
             selection.microphone = .systemDefault
+        }
+        // Plugged back in, it is theirs again without their having to choose it a second time.
+        if case .device(let id, _) = selection.awaitedMicrophone,
+            let back = sources.microphones.first(where: { $0.id == id }) {
+            selection.microphone = .device(id: back.id, name: back.name)
+            selection.awaitedMicrophone = nil
         }
         return failure
     }

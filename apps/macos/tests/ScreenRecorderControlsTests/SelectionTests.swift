@@ -28,6 +28,35 @@ func runElapsedFormatTests() {
     print("PASS elapsed playback time reads as a recorder's clock")
 }
 
+/// A microphone somebody chose is theirs whether or not it is plugged in today.
+func runAwaitedMicrophoneTests() {
+    var state = ready()
+    state.selection.microphone = .device(id: headset.id, name: headset.name)
+
+    state.observeSources(ControlsState.SourceCatalog(
+        displays: [display], windows: [window], microphones: [builtIn]))
+    precondition(
+        state.selection.microphone == .systemDefault,
+        "A take cannot be narrated through a microphone that is not there")
+    precondition(
+        state.selection.awaitedMicrophone == .device(id: headset.id, name: headset.name),
+        "The choice is remembered rather than thrown away")
+    precondition(
+        state.selection.recordingDefaults.microphone == .device(id: headset.id, name: headset.name),
+        "What is saved is what this person chose, not what today's Mac happens to have")
+    precondition(
+        RecordingMenu.microphoneTitle(for: state) == "system default, waiting for Studio Headset",
+        "The menu says which one it is waiting for, got \(RecordingMenu.microphoneTitle(for: state))")
+
+    state.observeSources(ControlsState.SourceCatalog(
+        displays: [display], windows: [window], microphones: [builtIn, headset]))
+    precondition(
+        state.selection.microphone == .device(id: headset.id, name: headset.name)
+            && state.selection.awaitedMicrophone == nil,
+        "Plugged back in, it is selected again without being chosen a second time")
+    print("PASS an unplugged microphone stays this person's choice")
+}
+
 func runSelectionTests() {
     var state = ControlsState()
     precondition(state.selection.start() == nil, "Nothing starts until a person chooses a source")

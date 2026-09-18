@@ -201,12 +201,17 @@ public enum RecordingMenu {
     }
 
     public static func microphoneTitle(for state: ControlsState) -> String {
+        // A chosen device that is unplugged says so, rather than reading as though this take will
+        // be narrated through it: the take uses the system default until it is back.
+        if case .device(_, let name)? = state.selection.awaitedMicrophone {
+            return "system default, waiting for \(name)"
+        }
         switch state.selection.microphone {
-        case .off: "off"
+        case .off: return "off"
         case .systemDefault:
-            state.sources.microphones.first(where: \.isDefault).map { "\($0.name) (default)" }
+            return state.sources.microphones.first(where: \.isDefault).map { "\($0.name) (default)" }
                 ?? "system default"
-        case .device(_, let name): name
+        case .device(_, let name): return name
         }
     }
 
