@@ -207,13 +207,14 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     /// A start a person asked for, from the menu, the floating controls or a key combination: the
     /// count runs first and nothing is asked of the service until it has run out, so an abandoned
-    /// count leaves no take behind. A start with nothing to record, or with the count turned off,
-    /// goes straight to the service, which is what says why it could not.
+    /// count leaves no take behind. A start with nothing to record, no service to record through,
+    /// or the count turned off goes straight to the service, which is what says why it could not:
+    /// counting three seconds down before saying no is three seconds nobody asked for.
     private func countThenStart() {
         guard !countdown.isCounting else { return }
-        guard state.selection.start() != nil, let counting = preferences.countdown else {
-            return start()
-        }
+        guard state.selection.start() != nil, state.service == .ready,
+            let counting = preferences.countdown
+        else { return start() }
         countdown.run(counting, on: NSScreen.recording(state.selection.source)) { [weak self] began in
             if began { self?.start() }
         }
