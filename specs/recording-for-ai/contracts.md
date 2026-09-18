@@ -154,8 +154,15 @@ boundaries are retained. Accumulate cursor displacement independently and retain
 the end of a motion burst (300 ms idle, or 2 seconds continuous motion), allowing
 gesture evidence even when background pixels match. Static scenes with identical
 cursor evidence collapse; coverage records still identify covered intervals.
-Scene thresholds are settled by slice 10's fixture verdict and selection thresholds
-by slice 11's; both use the same boundary producer. Do not label
+Both use the same boundary producer, and the thresholds those fixtures settled are named
+constants rather than numbers spread through the code: `scenePolicy` in
+[core scenes](../../packages/core/src/scenes.ts) (a 200 ms step, a channel difference of 24
+counting a pixel as changed, an 8x8 grid with 5% of a cell active, 30% of pixels for a broad
+change and 4% with half the cells for a spatial one) and `selectionPolicy` in
+[core selection](../../packages/core/src/selection.ts) (5 s coverage, 1 s ordinary spacing,
+300 ms idle, 2 s continuous motion). Each policy carries an identity that every stored artifact
+records, so evidence produced under one set of numbers is never read as though it came from
+another. Changing a threshold means changing that identity. Do not label
 heuristics as semantic gesture recognition. Visual evidence of circling is the goal.
 
 ## Operation surface
