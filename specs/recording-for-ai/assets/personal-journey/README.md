@@ -24,8 +24,13 @@ returned, words and acquisition gaps.
   own relocated media.
 - **Storage accounting** reported live totals, with more than a third of them regenerable cache.
 
+This run predates the [word timing fix](../speech/boundaries/README.md) of 2026-09-19, so the
+word spans in `transcript.json` still run through the silence after a sentence. The words, the
+search results and the cut are unaffected; the same take transcribed today reports tighter spans.
+
 ## What it does not show
 
-Word boundary accuracy and the audibility of a cut: both need a person to listen, and the run
-writes audio clips across each join for exactly that. The preview render in this run took about
+The audibility of a cut, which needs a person to listen: the run writes audio clips across each
+join for exactly that. Word boundary accuracy has since been
+[measured on this same take](../speech/boundaries/README.md). The preview render in this run took about
 as long as the take itself, which is the measurement behind the bounded preview rendition.
