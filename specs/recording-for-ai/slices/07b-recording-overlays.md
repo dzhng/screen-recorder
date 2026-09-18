@@ -1,7 +1,7 @@
 # 07b — Countdown and recording overlay
 
-Status: implemented (2026-09-18), except dragging and the second display, which need a person
-and a second screen. Parent: [07](07-menu-bar-controls.md).
+Status: implemented (2026-09-18); the second display is closed (2026-09-19) and dragging with a
+pointer still needs a person. Parent: [07](07-menu-bar-controls.md).
 
 The count, the floating controls, the preference and the capture exclusion are in place and
 checked. [Captures of both panels](../assets/recording-overlay/README.md) cover both appearances
@@ -20,9 +20,15 @@ capture including other recorders'. The frame-level check reads decoded frames o
 takes with the controls left in a different place each time, and neither place differs from the
 rest of the picture; with the panels shared, the same check sees them plainly.
 
+The count was measured on two displays on 2026-09-19 with a 5K screen attached:
+`apps/macos/tests/countdown-display.test.mjs` selects each display in turn, begins a start, and
+requires the count to appear on the display that start would record — display 1 for the built-in
+screen and display 5 for the external one — then abandons each count, which allocates no take. On
+a Mac showing one display the check says so and skips, because there is no question to answer
+there.
+
 Still open: nobody has dragged the controls with a pointer, so the saved position is only
-exercised through the preference a check writes; and the count has only been seen on a
-single-display Mac, so which display it lands on is unverified for a second screen.
+exercised through the preference a check writes.
 
 Recording from a menu-bar icon leaves a person guessing when capture began and hunting
 through a menu to stop it. Standard screen recorders count down before they start and
