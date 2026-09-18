@@ -281,10 +281,13 @@ export class RecordingExports {
         .run(JSON.stringify(intent.sourceEvidence), intent.exportId);
     }
     if (intent.kind === "processed-package") return this.admitPackage(intent);
+    // A human keeps the exported file, so it is rendered at the capture's own resolution;
+    // only the preview a person auditions the edit in is a bounded rendition.
     const ready = this.owners.preview.request({
       recordingId: intent.recordingId,
       revisionId: intent.snapshot.revisionId,
       sourceEvidence: intent.sourceEvidence,
+      rendition: "source",
     });
     if (ready.state !== "ready" || !ready.published) return this.dependency(ready);
     intent.preview = {

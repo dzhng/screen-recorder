@@ -13,9 +13,28 @@ struct FrameImage {
     let width: Int
     let height: Int
 
+    /// The pixel size a visible `width`x`height` is delivered at once its long edge is bounded
+    /// to `maxLongEdge`. `even` additionally snaps both edges down to the even dimensions H.264
+    /// requires, which costs at most one pixel of aspect ratio.
+    static func delivered(width: Int, height: Int, maxLongEdge: Int, even: Bool) -> (
+        width: Int, height: Int
+    ) {
+        let longEdge = max(width, height)
+        let scale = longEdge > maxLongEdge ? Double(maxLongEdge) / Double(longEdge) : 1
+        var delivered = (
+            width: max(1, Int((Double(width) * scale).rounded())),
+            height: max(1, Int((Double(height) * scale).rounded()))
+        )
+        if even {
+            delivered.width = max(2, delivered.width - delivered.width % 2)
+            delivered.height = max(2, delivered.height - delivered.height % 2)
+        }
+        return delivered
+    }
+
     init(
         buffer: CVPixelBuffer, transform: CGAffineTransform, overlay: FrameOverlay?,
-        agedFromUs: Int64, crop: FrameCrop?, maxLongEdge: Int
+        agedFromUs: Int64, crop: FrameCrop?, maxLongEdge: Int, evenDimensions: Bool = false
     ) throws {
         let decoded = CIImage(cvPixelBuffer: buffer)
         // A track's preferred transform is stated in display coordinates, where y grows downward;
@@ -59,15 +78,16 @@ struct FrameImage {
             oriented = oriented.cropped(to: visible).transformed(
                 by: CGAffineTransform(translationX: -visible.origin.x, y: -visible.origin.y))
         }
-        if longEdge > maxLongEdge {
-            width = max(1, Int((Double(sourceWidth) * deliveredScale).rounded()))
-            height = max(1, Int((Double(sourceHeight) * deliveredScale).rounded()))
+        let delivered = FrameImage.delivered(
+            width: sourceWidth, height: sourceHeight, maxLongEdge: maxLongEdge,
+            even: evenDimensions)
+        width = delivered.width
+        height = delivered.height
+        if width != sourceWidth || height != sourceHeight {
             image = oriented.transformed(
                 by: CGAffineTransform(
                     scaleX: CGFloat(width) / visible.width, y: CGFloat(height) / visible.height))
         } else {
-            width = sourceWidth
-            height = sourceHeight
             image = oriented
         }
     }

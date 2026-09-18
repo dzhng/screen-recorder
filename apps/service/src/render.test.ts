@@ -166,6 +166,23 @@ it("successful consumption and consumer failure both end their attempt lifetime"
   expect(await readdir(parent)).toEqual([]);
 });
 
+it("carries a rendition's bound to the native render and omits it at capture resolution", async () => {
+  const { parent, run } = await fixture();
+  const rendered: Record<string, unknown>[] = [];
+  const worker: MediaWorker = (operation, params, options) => {
+    if (operation === "media.renderMovie") rendered.push(params as Record<string, unknown>);
+    return run(operation, params, options);
+  };
+  const request = { source: "success", plan, tracks: [], attemptParent: parent };
+  const consume = async () => null;
+  const signal = new AbortController().signal;
+  await withRenderedMedia(worker, { ...request, maxLongEdge: 1600 }, signal, consume);
+  await withRenderedMedia(worker, request, signal, consume);
+  expect(rendered.map((params) => params.maxLongEdge)).toEqual([1600, undefined]);
+  // Absent, not null: the native default is "render every captured pixel".
+  expect(Object.keys(rendered[1]!)).not.toContain("maxLongEdge");
+});
+
 it("abort during consumption preserves consumer-owned effects while reclaiming the attempt", async () => {
   const { parent, run } = await fixture();
   const controller = new AbortController();

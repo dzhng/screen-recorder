@@ -8,6 +8,15 @@ import type { SourceProcessing } from "./processing.js";
 import { planAudioTracks, type AudioTrackPlan, type NativeAudio } from "./audio.js";
 import { renderPlan, type RenderSpan, type TimelineRevision } from "./timeline.js";
 
+/**
+ * A preview auditions an edit, so it is rendered as a bounded rendition rather than at the
+ * capture's own resolution: on a Retina screen that is about a quarter of the pixels, and
+ * encoding is what preview time is spent on. The same bound the public image contract uses,
+ * so one number describes "what this product shows you rather than gives you".
+ * The human video export asks for the `source` rendition and keeps every captured pixel.
+ */
+export const previewPolicy = Object.freeze({ id: "movie-preview-v1", maxLongEdge: 1600 });
+export type PreviewRendition = "preview" | "source";
 export type PreviewInput = { recordingId: string; revisionId?: string | undefined };
 export type RenderedMovie = {
   file: string;
@@ -34,10 +43,14 @@ export type PreviewRenderer = (
     plan: readonly RenderSpan[];
     tracks: readonly AudioTrackPlan[];
     output: string;
+    /** The rendition's long-edge bound, or null to render at the source's own resolution. */
+    maxLongEdge: number | null;
   },
   signal: AbortSignal,
 ) => Promise<RenderedMovie>;
 export type PreviewArtifact = RenderedMovie & {
+  /** What the movie was rendered under, so a client can tell a rendition from the capture. */
+  maxLongEdge: number | null;
   cacheId: string;
   recordingId: string;
   sourceId: string;
@@ -45,15 +58,21 @@ export type PreviewArtifact = RenderedMovie & {
   sourceEvidence: SourceEvidenceMetadata;
   missingRoles: ReturnType<typeof planAudioTracks>["missingRoles"];
 };
-const artifact = "preview",
-  policy = "movie-preview-v1";
-type Options = { policy: string; sourceEvidence: SourceEvidenceMetadata };
+const artifact = "preview";
+type Options = {
+  policy: string;
+  rendition: PreviewRendition;
+  sourceEvidence: SourceEvidenceMetadata;
+};
+/** The rendition is part of the job identity, so the two never share one cached movie. */
+const boundFor = (rendition: PreviewRendition) =>
+  rendition === "preview" ? previewPolicy.maxLongEdge : null;
 
 /** One pinned derivative under the existing job/cache authorities. The renderer owns
  * native execution and must leave its complete output in the reserved cache file. */
 export class PreviewInspection extends DerivativeInspection<
   { recordingId: string },
-  PreviewInput & { sourceEvidence?: SourceEvidenceMetadata },
+  PreviewInput & { sourceEvidence?: SourceEvidenceMetadata; rendition?: PreviewRendition },
   "preview",
   PreviewArtifact
 > {
@@ -72,8 +91,13 @@ export class PreviewInspection extends DerivativeInspection<
     this.library = library;
   }
 
-  /** Exports pass the source evidence their intent already pinned. */
-  request(input: PreviewInput & { sourceEvidence?: SourceEvidenceMetadata }) {
+  /** Exports pass the source evidence their intent already pinned, and the full rendition. */
+  request(
+    input: PreviewInput & {
+      sourceEvidence?: SourceEvidenceMetadata;
+      rendition?: PreviewRendition;
+    },
+  ) {
     const context = this.backend.resolve(input);
     const source = input.sourceEvidence
       ? {
@@ -87,7 +111,11 @@ export class PreviewInspection extends DerivativeInspection<
     return this.admit(context, source, (evidence) => {
       if (evidence.recordingId !== context.recordingId || evidence.sourceId !== context.sourceId)
         throw new CatalogError("INVALID_EVIDENCE", "Preview evidence belongs to another source");
-      const options: Options = { policy, sourceEvidence: evidence };
+      const options: Options = {
+        policy: previewPolicy.id,
+        rendition: input.rendition ?? "preview",
+        sourceEvidence: evidence,
+      };
       return this.library.submit<PreviewArtifact>(
         {
           recordingId: context.recordingId,
@@ -102,8 +130,13 @@ export class PreviewInspection extends DerivativeInspection<
 
   async execute({ job, signal }: JobExecution): Promise<string> {
     const options = JSON.parse(job.input) as Options;
-    if (job.artifact !== artifact || options.policy !== policy)
+    if (
+      job.artifact !== artifact ||
+      options.policy !== previewPolicy.id ||
+      !["preview", "source"].includes(options.rendition)
+    )
       throw new CatalogError("UNSUPPORTED_JOB", "Preview cannot execute this job");
+    const maxLongEdge = boundFor(options.rendition);
     const revision = this.store.revision(job.recordingId, job.revisionId);
     const sourceId = this.store.get(job.recordingId).sourceId;
     const directory = join(this.home, "recordings", job.recordingId, "source");
@@ -129,6 +162,7 @@ export class PreviewInspection extends DerivativeInspection<
           plan: renderPlan(revision),
           tracks,
           output: output.path,
+          maxLongEdge,
         },
         signal,
       );
@@ -143,12 +177,26 @@ export class PreviewInspection extends DerivativeInspection<
         )
       )
         throw new CatalogError("INVALID_RESPONSE", "Renderer returned an unrelated preview");
+      // The movie's own dimensions are the receipt: a bounded rendition is whatever the source
+      // scaled down to, but it cannot be larger than what was asked for, nor an odd size H.264
+      // cannot encode. A renderer that ignored the bound is refused rather than published.
+      if (
+        maxLongEdge !== null &&
+        (Math.max(movie.width, movie.height) > maxLongEdge ||
+          movie.width % 2 !== 0 ||
+          movie.height % 2 !== 0)
+      )
+        throw new CatalogError(
+          "INVALID_RESPONSE",
+          `Preview is ${movie.width}x${movie.height}, not the rendition bounded to ${maxLongEdge}`,
+        );
       const cached = await this.cache.publish(output.id);
       signal.throwIfAborted();
       if (cached.bytes !== movie.bytes)
         throw new CatalogError("INVALID_RESPONSE", "Preview byte count does not match its file");
       const result: PreviewArtifact = {
         ...movie,
+        maxLongEdge,
         cacheId: output.id,
         recordingId: job.recordingId,
         sourceId,

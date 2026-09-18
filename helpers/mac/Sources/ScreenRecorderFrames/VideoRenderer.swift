@@ -21,20 +21,29 @@ public struct RenderedVideo: Sendable {
 /// Unexplained gaps never inherit either the previous image or this appearance rule.
 public enum VideoRenderer {
     /// Writes an H.264 MP4 at `file`, a private path the caller owns and publishes.
+    /// `maxLongEdge` renders a smaller rendition of the same edit: the whole pipeline — pointer
+    /// composition, frame drawing and the encoder's pixel buffers — works at the scaled size, so
+    /// the pointer lands where it was measured. Without it nothing is scaled.
     public static func write(
         source: URL, plan: [VideoRenderSpan], into file: URL,
-        pointerSchedule: PointerScheduleReceipt? = nil
+        pointerSchedule: PointerScheduleReceipt? = nil, maxLongEdge: Int? = nil
     ) async throws
         -> RenderedVideo
     {
         let through = try PresentationSource.duration(of: plan)
         let presentation = try await PresentationSource(
             source: source.resolvingSymlinksInPath().standardizedFileURL, plan: plan)
-        let width = presentation.width
-        let height = presentation.height
+        // The pointer schedule is measured against the captured source, not the rendition.
         let pointers = try pointerSchedule.map {
-            try PointerSchedule($0, plan: plan, width: width, height: height)
+            try PointerSchedule(
+                $0, plan: plan, width: presentation.width, height: presentation.height)
         }
+        let bound = maxLongEdge ?? max(presentation.width, presentation.height)
+        let delivered = FrameImage.delivered(
+            width: presentation.width, height: presentation.height, maxLongEdge: bound,
+            even: maxLongEdge != nil)
+        let width = delivered.width
+        let height = delivered.height
         var clock = try presentation.movieClock(plan: plan)
         if let pointers { try clock.include(pointers.clock.timescale) }
         let writer = try AVAssetWriter(outputURL: file, fileType: .mp4)
@@ -84,7 +93,8 @@ public enum VideoRenderer {
                         try FrameImage(
                             buffer: buffer, transform: presentation.transform,
                             overlay: state.map { FrameOverlay(pointer: $0.0) },
-                            agedFromUs: 0, crop: nil, maxLongEdge: max(width, height)
+                            agedFromUs: 0, crop: nil, maxLongEdge: bound,
+                            evenDimensions: maxLongEdge != nil
                         ).image
                     }
                 } else {
