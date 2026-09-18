@@ -8,7 +8,7 @@
 // revision history a person can undo.
 import { execFileSync, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdirSync, mkdtempSync, renameSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, realpathSync, renameSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
@@ -44,6 +44,22 @@ function call(operation, params = {}, options = {}) {
 }
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** Media is prepared in the background: the first answer is readiness, not the file. */
+async function media(operation, params, file, budgetMs = 600_000) {
+  const deadline = Date.now() + budgetMs;
+  for (;;) {
+    const answer = call(operation, params, { args: ["--output", file] });
+    const items = answer.items ?? [answer];
+    if (items.every((item) => (item.data ?? item).state === "ready")) return answer;
+    const stopped = items.find((item) =>
+      ["failed", "unavailable"].includes((item.data ?? item).state),
+    );
+    if (stopped) throw new Error(`${operation} ${JSON.stringify(stopped)}`);
+    if (Date.now() > deadline) throw new Error(`${operation} never became ready`);
+    await wait(1000);
+  }
+}
 
 /** Polls one artifact's readiness, sampling the native worker's memory while it runs. */
 async function ready(recordingId, artifact, budgetMs = 900_000) {
@@ -131,37 +147,41 @@ const main = async () => {
     text: words.map((word) => word.text).join(" "),
   });
 
-  const index = await ready(recordingId, "index");
-  const selected = pages("index.get", {
-    recordingId,
-    revisionId: index.published.revisionId,
-    generation: index.published.generation,
-    limit: 200,
-  });
+  // The screenshot index reports its own readiness through index.get, not processing.status.
+  const index = await (async () => {
+    const deadline = Date.now() + 900_000;
+    for (;;) {
+      const answer = call("index.get", { recordingId, limit: 1 });
+      if (answer.page) return answer;
+      if (["failed", "unavailable"].includes(answer.state))
+        throw new Error(`index is ${answer.state}: ${answer.reason}`);
+      if (Date.now() > deadline) throw new Error("index did not become ready");
+      await wait(1000);
+    }
+  })();
+  // The index's own cursor carries its generation; the request names only the revision.
+  const selected = pages("index.get", { recordingId, revisionId: index.revisionId, limit: 200 });
   step("screenshot index", {
     selected: selected.length,
-    reasons: selected.flatMap((entry) => entry.reasons?.map((reason) => reason.kind) ?? []),
+    reasons: selected.flatMap(
+      (entry) => entry.candidate?.reasons?.map((reason) => reason.kind) ?? [],
+    ),
   });
   if (selected.length) {
-    const ordinals = selected.slice(0, 2).map((entry) => entry.ordinal);
-    call(
+    const ordinals = selected.slice(0, 2).map((entry) => entry.ordinal ?? entry.candidate.ordinal);
+    await media(
       "index.frames",
-      {
-        recordingId,
-        revisionId: index.published.revisionId,
-        generation: index.published.generation,
-        ordinals,
-      },
-      { args: ["--output", join(out, "index-frame")] },
+      { recordingId, revisionId: index.revisionId, generation: index.generation, ordinals },
+      join(out, "index-frame"),
     );
     step("index images", { ordinals, files: `${out}/index-frame*` });
   }
 
   // An agent asking for a moment the index never selected: halfway through the take.
-  call(
+  await media(
     "frame.batch",
     { recordingId, atUs: [Math.floor(recording.sourceDurationUs / 2)] },
-    { args: ["--output", join(out, "midpoint-frame")] },
+    join(out, "midpoint-frame"),
   );
   step("arbitrary frame", { atUs: Math.floor(recording.sourceDurationUs / 2) });
 
@@ -170,15 +190,20 @@ const main = async () => {
   step("phrase search", { phrase: values.phrase, entry: phrase ?? null });
 
   const clips = [];
-  const clip = (name, range) => {
+  const clip = async (name, range, revision) => {
     const padded = {
       startUs: Math.max(0, range.startUs - 1_500_000),
       endUs: Math.min(recording.sourceDurationUs, range.endUs + 1_500_000),
     };
-    call(
+    await media(
       "audio.get",
-      { recordingId, range: padded, track: "narration" },
-      { args: ["--output", join(out, name)] },
+      {
+        recordingId,
+        range: padded,
+        track: "narration",
+        ...(revision ? { revisionId: revision } : {}),
+      },
+      join(out, `${name}.wav`),
     );
     clips.push({ name, range: padded });
   };
@@ -186,7 +211,7 @@ const main = async () => {
   let revisionId = recording.currentRevisionId;
   const cuts = [];
   if (phrase) {
-    clip("before-phrase-cut", phrase.sourceRange);
+    await clip("before-phrase-cut", phrase.sourceRange, revisionId);
     const edited = call("edit.cut", {
       recordingId,
       requestId: randomUUID(),
@@ -223,9 +248,10 @@ const main = async () => {
     revisionId = edited.revision.id;
   }
 
+  // The same moments in the edited revision: what a person hears across each join.
   for (const [ordinal, cut] of cuts.entries()) {
     const at = cut.range ?? cut.ranges[0];
-    clip(`after-cut-${ordinal}`, { startUs: at.startUs, endUs: at.startUs + 1 });
+    await clip(`after-cut-${ordinal}`, { startUs: at.startUs, endUs: at.startUs + 1 }, revisionId);
   }
   step("audio clips", { clips: clips.map((item) => item.name) });
 
@@ -288,7 +314,8 @@ const main = async () => {
   }
 
   // Relocation: the package must answer from its own files, wherever it lands.
-  const moved = join(mkdtempSync("/tmp/screenrec-moved-"), "relocated.zip");
+  // Opening a package refuses symlinked path components, and /tmp is one.
+  const moved = join(realpathSync(mkdtempSync("/tmp/screenrec-moved-")), "relocated.zip");
   renameSync(exports["processed-package"].output, moved);
   const admission = call("package.open", { path: moved });
   const opened = await (async () => {
@@ -309,10 +336,10 @@ const main = async () => {
   });
   const libraryRows = pages("transcript.get", { recordingId, revisionId, limit: 1000 });
   const identical = JSON.stringify(packaged) === JSON.stringify(libraryRows);
-  call(
+  await media(
     "frame.batch",
     { packageHandle: opened.packageHandle, atUs: [Math.floor(recording.sourceDurationUs / 3)] },
-    { args: ["--output", join(out, "package-frame")] },
+    join(out, "package-frame"),
   );
   step("relocated package", {
     path: moved,
