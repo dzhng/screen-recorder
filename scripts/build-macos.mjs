@@ -2,8 +2,10 @@ import { execFileSync } from "node:child_process";
 import { copyFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { findIdentity } from "./signing-identity.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const signingIdentity = () => findIdentity() ?? "-";
 // The app runs its service under the interpreter recorded below and accepts only Node 24, so a
 // build under any other interpreter would ship a bundle that cannot start its service.
 if (process.versions.node.split(".")[0] !== "24") {
@@ -57,5 +59,7 @@ writeFileSync(
 copyFileSync(join(root, "apps/macos/Info.plist"), join(app, "Contents/Info.plist"));
 // Rendered by scripts/render-app-icon.swift and checked in, so a build needs no drawing step.
 copyFileSync(join(root, "apps/macos/AppIcon.icns"), join(app, "Contents/Resources/AppIcon.icns"));
-execFileSync("codesign", ["--force", "--sign", "-", app], { stdio: "inherit" });
+// macOS keys screen and microphone access to the signature it saw. Ad-hoc signatures change with
+// every build, so a local identity, when this Mac has one, keeps those grants across builds.
+execFileSync("codesign", ["--force", "--sign", signingIdentity(), app], { stdio: "inherit" });
 console.error(`Built ${app}`);

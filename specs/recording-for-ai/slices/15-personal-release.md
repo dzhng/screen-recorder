@@ -10,13 +10,15 @@ installs into scratch paths, then from `/` with a Finder environment:
 
 [Client discovery](15a-client-discovery.md) has fixture proof.
 
-**Open: a stable signing identity.** Each build signs ad hoc, so every reinstall
-changes the app's code signature and macOS discards the screen and microphone
-permissions granted to the previous copy. A person then re-grants after every
-install. Signing the personal copy with one self-signed certificate kept in the
-login keychain would let its permissions survive reinstalls; that certificate's
-creation, trust and renewal belong to this slice, not to a public distribution
-setup. The recorded installed
+**A stable signing identity keeps permissions across builds.** An ad-hoc signature
+changes with every build, and macOS keys screen and microphone access to the
+signature it saw, so each install used to ask for both again. `bun run signing-identity`
+creates one self-signed code-signing certificate in the login keychain, trusting it
+for code signing; that trust step is the one prompt a person answers. The build and
+the installer sign with it whenever it exists and fall back to ad hoc when it does
+not, so a checkout without the certificate still builds. The certificate is a
+credential and stays out of this repository. Its renewal, ten years out, is the
+person's own. The recorded installed
 journey (real narrated capture, speech, agent edit and both exports) remains open
 and depends on 04 and physical capture. Dependencies: 00–14.
 

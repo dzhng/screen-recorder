@@ -14,6 +14,7 @@ import { homedir } from "node:os";
 import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
+import { findIdentity } from "./signing-identity.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const { values } = parseArgs({
@@ -81,7 +82,7 @@ execFileSync("/usr/libexec/PlistBuddy", [
   `Set :CFBundleIdentifier ${personalIdentifier}`,
   join(staging, "Contents/Info.plist"),
 ]);
-execFileSync("codesign", ["--force", "--sign", "-", staging]);
+execFileSync("codesign", ["--force", "--sign", findIdentity() ?? "-", staging]);
 execFileSync("codesign", ["--verify", "--strict", staging]);
 const replacing = existsSync(app);
 if (replacing) renameSync(app, previous);

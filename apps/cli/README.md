@@ -13,8 +13,10 @@ recorded. That interpreter is a host prerequisite, not a bundled runtime. The
 installer refuses to replace a running copy, and it prints the MCP command
 (`screenrec mcp`) for client configuration. The installed copy is re-signed under its
 own bundle identifier, so its menu-bar item and permissions are separate from
-development builds. A reinstall can still require granting screen and microphone
-access again. The help lists
+development builds. Run `bun run signing-identity` once to create the local
+code-signing certificate; builds then keep one identity, and macOS keeps the screen
+and microphone access granted to it. Without that certificate a build signs ad hoc,
+and every install asks for those permissions again. The help lists
 implemented operations and their JSON schemas without connecting to the app.
 `--params -` reads bounded JSON from stdin. Edit timestamps are integer microseconds
 in the named revision's playback coordinates, with half-open ranges.
