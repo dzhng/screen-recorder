@@ -7,7 +7,7 @@ import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
-import { PreviewInspection, type PreviewRenderer } from "./preview.js";
+import { PreviewInspection, previewPolicy, type PreviewRenderer } from "./preview.js";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -306,4 +306,69 @@ test("source readiness is reported before admitting a heavy preview", async () =
   expect(admitted.dependency).toBeNull();
   await jobs.idle();
   expect(preview.request(input).published!.preview.durationUs).toBe(6_000_000);
+});
+
+// This Mac captures 3120x1970; a rendition the size of the capture is what made an audition
+// cost as long as the take itself.
+const capture = { width: 3120, height: 1970 };
+function renderAt(scaled: (bound: number | null) => { width: number; height: number }) {
+  const asked: (number | null)[] = [];
+  const render: PreviewRenderer = async (request) => {
+    asked.push(request.maxLongEdge);
+    await writeFile(request.output, "movie", { flag: "wx" });
+    return {
+      file: request.output,
+      mediaType: "video/mp4",
+      codec: "h264",
+      durationUs: request.revision.durationUs,
+      ...scaled(request.maxLongEdge),
+      frameCount: 1,
+      bytes: 5,
+    } as const;
+  };
+  return { asked, render };
+}
+const bounded = (bound: number | null) => {
+  if (bound === null) return capture;
+  const scale = Math.min(1, bound / Math.max(capture.width, capture.height));
+  const even = (edge: number) => Math.max(2, Math.round(edge * scale)) & ~1;
+  return { width: even(capture.width), height: even(capture.height) };
+};
+
+test("an audition is a bounded rendition and an export keeps the capture's own size", async () => {
+  const { asked, render } = renderAt(bounded);
+  const { preview, take, jobs } = await fixture(render);
+  const input = { recordingId: take.recordingId };
+  preview.request(input);
+  await jobs.idle();
+  const audition = preview.request(input).published!.preview;
+  expect(asked).toEqual([previewPolicy.maxLongEdge]);
+  expect(audition.maxLongEdge).toBe(previewPolicy.maxLongEdge);
+  expect([audition.width, audition.height]).toEqual([1600, 1010]);
+
+  // The export's full rendition is its own pinned movie, never the audition's smaller one.
+  const exported = { ...input, rendition: "source" } as const;
+  expect(preview.request(exported).published).toBeNull();
+  await jobs.idle();
+  const full = preview.request(exported).published!.preview;
+  expect(asked).toEqual([previewPolicy.maxLongEdge, null]);
+  expect(full.maxLongEdge).toBeNull();
+  expect([full.width, full.height]).toEqual([capture.width, capture.height]);
+  expect(full.cacheId).not.toBe(audition.cacheId);
+});
+
+test("a movie that disagrees with the bound it was rendered for is never published", async () => {
+  for (const [name, dimensions] of [
+    ["ignored the bound", capture],
+    ["odd short edge", { width: 1600, height: 1011 }],
+  ] as const) {
+    const { preview, take, jobs, cache } = await fixture(renderAt(() => dimensions).render);
+    const input = { recordingId: take.recordingId };
+    preview.request(input);
+    await jobs.idle();
+    const failed = preview.request(input);
+    expect(failed.state, name).toBe("failed");
+    expect(failed.reason, name).toContain(`${dimensions.width}x${dimensions.height}`);
+    expect(cache.bytes, name).toBe(0);
+  }
 });

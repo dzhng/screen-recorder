@@ -131,6 +131,7 @@ export function previewRenderer(
         source: request.source,
         plan: request.plan,
         tracks: request.tracks,
+        maxLongEdge: request.maxLongEdge,
         attemptParent: workspace,
         preparePointer: async (attempt, execute, signal) => {
           const response = await execute(
@@ -185,6 +186,8 @@ export async function withRenderedMedia<T>(
     source: string;
     plan: readonly RenderSpan[];
     tracks: readonly AudioTrackPlan[];
+    /** Bounds the rendition's long edge; absent or null renders at the capture's resolution. */
+    maxLongEdge?: number | null;
     /** Dedicated private workspace; keep its ancestry stable during path-based rendering. */
     attemptParent: string;
     /** Finish all preparation calls before returning; each inherits this workspace lock. */
@@ -221,6 +224,7 @@ export async function withRenderedMedia<T>(
             output: file,
             tracks: request.tracks,
             ...(pointerSchedule ? { pointerSchedule } : {}),
+            ...(request.maxLongEdge == null ? {} : { maxLongEdge: request.maxLongEdge }),
           },
           { signal, timeoutMs: renderDeadlineMs(request.plan, request.tracks.length > 0) },
         );
