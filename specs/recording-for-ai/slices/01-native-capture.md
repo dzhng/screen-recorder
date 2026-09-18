@@ -5,8 +5,19 @@ pause clock and observable source loss verified. [Checkpoint evidence](../assets
 records tests and limitations. Claude Opus final-frame backpressure fix is integrated and passes actual
 AVFoundation tests. Container-finalization stall recovery remains a parent lifecycle
 concern.
-Dependencies: 00. Display, region, microphone, system-audio and A/V timing gates
-remain open; this slice is not accepted as a whole.
+Dependencies: 00. Display capture is pinned by `apps/macos/tests/capture-exclusion.test.mjs`,
+which records the display twice and now also requires the picture to be that display at its own
+pixels. Microphone capture is shown by the [checked-in narrated take](../../../fixtures/narrated-workbench/README.md):
+306 words transcribed from a narration track this app recorded beside the video.
+
+Region and system audio stay open, and both need this person rather than a check. A region take
+records the screen rather than a window, so proving where it landed means recording whatever is
+there — and a fixture launch is refused every source but its own window precisely so an automated
+run can never do that. An attempt to allow a region inside that window was reverted: on this Mac
+the Dock's own window spans the whole screen and a floating helper sits above every corner, so
+"nothing is over our window" can never be established. System audio needs the Mac to be playing
+something, which a check must not make it do. A/V timing still needs both tracks against a known
+event. This slice is not accepted as a whole.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
 [verification](../verification.md) before implementation. Commands below are planned

@@ -153,6 +153,17 @@ test(
     // The take is the display scaled to the recorded picture, so a rectangle of screen points
     // becomes the same rectangle of frame pixels.
     const scale = frames[0].width / takes[0].display.width;
+    // That only holds while a display take is the whole display at its own pixels: the source
+    // this app offers and the picture it records have to be the same rectangle.
+    assert.ok(
+      Number.isInteger(scale) && scale >= 1,
+      `A display take must not rescale it, got ${scale}x`,
+    );
+    assert.equal(
+      frames[0].height,
+      takes[0].display.height * scale,
+      "A display take must keep the display's shape",
+    );
     const whole = { left: 0, top: 0, right: frames[0].width, bottom: frames[0].height };
     const between = difference(frames[0], frames[1], whole);
     for (const [index, take] of takes.entries()) {
