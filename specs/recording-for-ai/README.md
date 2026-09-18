@@ -72,6 +72,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [06j — Source timing evidence](slices/06j-source-timing.md)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
   - [ ] [07a — Settings window, permissions and launch at login](slices/07a-settings-window.md)
+  - [ ] [07b — Countdown and recording overlay](slices/07b-recording-overlays.md)
 - [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
   - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md)
