@@ -104,6 +104,37 @@ test(
 );
 
 test(
+  "the menu offers to cancel the count it is running, and does",
+  { timeout: 90_000 },
+  async () => {
+    const app = await launchWith();
+    await waitFor(async () => {
+      await app.send({ do: "open" });
+      return !(await app.rows()).some((row) => row.title === "Source: none chosen");
+    }, 20_000);
+    await app.choose("capture.startOrStop");
+    await app.instance.waitFor(/countdown \d+ seconds on display/);
+
+    // Escape is not the only way out: a person who reaches for the menu bar instead must find a
+    // row that says what pressing it will do, rather than Start doing nothing.
+    const counting = find(await app.rows(), "capture.startOrStop");
+    assert.equal(counting.title, "Cancel Countdown");
+    assert.equal(counting.enabled, true);
+    await app.choose("capture.startOrStop");
+    await app.instance.waitFor(/countdown abandoned/);
+    assert.deepEqual(takes(app.home), [], "An abandoned count allocates no take at all");
+    assert.equal(
+      find(await app.rows(), "capture.startOrStop").title,
+      "Start Recording",
+      "Once the count is gone the row offers to start again",
+    );
+
+    app.instance.kill("SIGTERM");
+    await app.instance.exited;
+  },
+);
+
+test(
   "with the countdown off a take starts at once and carries floating controls until it ends",
   { timeout: 90_000 },
   async () => {

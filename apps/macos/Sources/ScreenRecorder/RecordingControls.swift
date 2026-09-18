@@ -218,12 +218,19 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     /// or the count turned off goes straight to the service, which is what says why it could not:
     /// counting three seconds down before saying no is three seconds nobody asked for.
     private func countThenStart() {
-        guard !countdown.isCounting else { return }
+        // Asking to start while the count runs is asking to stop it: the menu says so, and this is
+        // the only way to abandon a count for somebody whose Escape key this app could not hold.
+        if countdown.isCounting { return countdown.abandon() }
         guard state.selection.start() != nil, state.service == .ready,
             let counting = preferences.countdown
         else { return start() }
+        state.counting = true
+        render()
         countdown.run(counting, on: NSScreen.recording(state.selection.source)) { [weak self] began in
-            if began { self?.start() }
+            guard let self else { return }
+            state.counting = false
+            render()
+            if began { start() }
         }
     }
 

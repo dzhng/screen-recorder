@@ -34,6 +34,10 @@ public struct ControlsState: Equatable, Sendable {
     public var deletions: [String: DeleteRequest] = [:]
     /// What the service is still preparing for the newest take, by artifact name.
     public var processing: TakeProcessing?
+    /// Whether this app is counting a take in before it starts. It belongs to the app rather than
+    /// the service — no take exists yet — but the menu has to say so, because while it counts the
+    /// only thing Start can mean is "never mind".
+    public var counting = false
     public var storage: StorageObservation?
     public var storageRefreshing = false
     public var storageFailure: String?

@@ -72,6 +72,9 @@ final class StartCountdown {
 
     /// Ends the count exactly once, however it ended, and gives Escape back to whoever else wants
     /// it before anything else happens.
+    /// Ends a running count without starting anything. Harmless when nothing is counting.
+    func abandon() { finish(began: false) }
+
     private func finish(began: Bool) {
         guard let answered = answer else { return }
         answer = nil

@@ -299,8 +299,9 @@ public enum RecordingMenu {
         let canStart = ready && state.selection.source != nil
         var rows = [
             MenuEntry(
-                .command(.startOrStop), live ? "Finish Recording" : "Start Recording",
-                enabled: live ? ready : canStart,
+                .command(.startOrStop),
+                state.counting ? "Cancel Countdown" : (live ? "Finish Recording" : "Start Recording"),
+                enabled: state.counting || (live ? ready : canStart),
                 shortcut: shortcuts.display(of: .startOrStop)),
             MenuEntry(
                 .command(.pauseOrResume), paused ? "Resume Recording" : "Pause Recording",
