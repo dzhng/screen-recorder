@@ -24,8 +24,10 @@ in the named revision's playback coordinates, with half-open ranges.
 Use a stable mutation `params.requestId` and the same arguments when retrying an
 uncertain write. `--id` identifies the transport request; it is separate from that
 durable mutation identity. Operation failures retain the structured error and exit
-nonzero; command-line usage errors go to stderr. MCP keeps stdout for protocol
-messages and marks operation failures with `isError`.
+nonzero. A usage error is written the same way an operation failure is — one JSON envelope on
+stdout — so a caller parses one stream whatever went wrong. MCP is the exception: it keeps stdout
+for protocol messages, writes anything else to stderr, and marks operation failures with
+`isError`.
 
 Without `--socket`, the [client](../../packages/client/src/discovery.ts) finds the
 service under `SCREENREC_HOME` (default `~/.screen-recorder`) and, when needed,

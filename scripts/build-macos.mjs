@@ -11,6 +11,16 @@ const signingIdentity = () => findIdentity() ?? "-";
 if (process.versions.node.split(".")[0] !== "24") {
   throw new Error(`Build the app under Node 24; this is Node ${process.version}.`);
 }
+// Swift builds this app's native half. Without a toolchain the first `swift build` fails with a
+// spawn error that says nothing about what to install, so this says it instead.
+try {
+  execFileSync("xcrun", ["--find", "swift"], { stdio: ["ignore", "ignore", "ignore"] });
+} catch {
+  throw new Error(
+    "No Swift toolchain: `xcrun --find swift` found nothing. Install the Command Line Tools " +
+      "(`xcode-select --install`), or point `xcode-select -p` at a developer directory that has them.",
+  );
+}
 const app = join(root, "dist/ScreenRecorder.app");
 const macOS = join(app, "Contents/MacOS");
 mkdirSync(macOS, { recursive: true });

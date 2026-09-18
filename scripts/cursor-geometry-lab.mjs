@@ -549,6 +549,21 @@ const report = {
     .filter((calibration) => calibration.predictedEligibility === "outside")
     .map((calibration) => ({ label: calibration.label, drawnPixels: calibration.changedPixels })),
 };
+// The slice's own bound: a recorded cursor lands within three output pixels of where it was.
+// Reading that off a report and nodding is not a gate, so this run is one.
+const toleratedErrorPx = 3;
+report.toleratedErrorPx = toleratedErrorPx;
+report.withinTolerance =
+  Number.isFinite(report.maxFiducialErrorPx) &&
+  report.maxFiducialErrorPx <= toleratedErrorPx &&
+  (!Number.isFinite(report.maxPointerErrorPx) || report.maxPointerErrorPx <= toleratedErrorPx);
 writeFileSync(join(output, "report.json"), JSON.stringify(report, null, 2));
 console.log(JSON.stringify(report, null, 2));
 console.error(`\nEvidence written to ${output}`);
+if (!report.withinTolerance) {
+  console.error(
+    `Placement is outside the ${toleratedErrorPx} pixel bound: fiducials ` +
+      `${report.maxFiducialErrorPx}, pointer ${report.maxPointerErrorPx}`,
+  );
+  process.exit(1);
+}
