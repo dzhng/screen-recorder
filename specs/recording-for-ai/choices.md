@@ -2595,22 +2595,28 @@ export controls. The choices below are the ones that change behavior or format.
     `preview.retry` take a recording and nothing else, and the package inspector owns no renderer.
     Everything else a package can be asked — arbitrary frames, audio, transcript pages, timeline,
     raw cursor, the screenshot index — is implemented and checked after relocation.
-  - **Why it is not a wiring job:** a package's native seam deliberately admits one call writing
-    one output, with the file made and handed to the worker by descriptor. A preview is three
-    calls with intermediate files between them — presentation evidence, a pointer schedule, then
-    the render — and an exclusively locked scratch directory to hold them. Giving a package
-    context that means widening a boundary whose whole purpose is to bound what an archive from
-    somewhere else can make this Mac's worker do.
+  - **Why it is not a wiring job, established by building it:** everything above the media seam
+    went in easily — a generic preview owner, a package inspector, protocol and routing, a
+    length-proportional charge against the package budget, and a check that opens a relocated
+    archive and asks it for a preview. It fails at one line. A package context creates each output
+    itself and hands the worker a descriptor, which is what keeps an archive from somewhere else
+    from naming a path on this Mac; `media.renderMovie` assembles a movie through AVFoundation,
+    which needs a real path it can stage beside and publish by link. Descriptors and AVAssetWriter
+    do not meet. Making them meet means the package context publishing file-backed outputs by
+    name inside its workspace — the boundary itself, not the code around it. The attempt was
+    reverted rather than left half-built.
   - **And the budget says the same thing:** a package admission may hold 128 MiB of derivatives in
     total, sized for frames and short clips. The bounded preview of a two-minute take is 28 MB and
     a half-hour one would be several hundred, so previews would either fail on long takes or that
     bound would have to move — and it bounds how much of this person's disk an archive from
     somewhere else can occupy.
-  - **For the user:** build it (a package render workspace or a movie-shaped output, a third job
-    kind, a larger derivative budget, and preview delivery through the package's lease), or drop
-    the sentence from the contract. Nothing else depends on it: an agent reading a package already
-    has every frame and every second of audio in it. A cheaper middle exists — a preview without
-    the cursor overlay is a single native call and would fit the seam, though not the budget.
+  - **For the user:** either let a package context publish a named file inside its own workspace,
+    so a movie can be assembled there (and raise the 128 MiB budget, or charge previews by length
+    as the reverted attempt did), or drop the sentence from the contract. A third option is to
+    render package previews in the service's own workspace from the archive's already-extracted,
+    already-hash-verified media, which needs no native change but puts a package's derivative in
+    the library's cache and outside the admission's lifetime. Nothing else depends on the choice:
+    an agent reading a package already has every frame and every second of audio in it.
 - **A collision with macOS itself is now detected; a collision with another application still
   cannot be.** The contract says a collision disables the binding and shows a settings override.
   `RegisterEventHotKey` returns success for a combination that is already spoken for — this
