@@ -22,6 +22,12 @@ final class PreviewController: NSObject, NSWindowDelegate {
     private var requestOperation = "preview.get"
     private var polling = false
 
+    /// Whether a check is driving this, in which case no window of this app's may take the screen.
+    /// `ControlsProbe` reads the same variable; this owner is built on its own by a check of its
+    /// own, so it cannot go through that type to ask.
+    static let observed = !(ProcessInfo.processInfo.environment["SCREENREC_FIXTURE_CONTROLS"] ?? "")
+        .isEmpty
+
     init(call: @escaping Call, failure: @escaping (String) -> Void) {
         self.call = call
         self.failure = failure
@@ -37,6 +43,10 @@ final class PreviewController: NSObject, NSWindowDelegate {
         window.isReleasedWhenClosed = false
         window.delegate = self
         window.title = "Preparing Preview — \(id)"
+        // Watching an earlier take back belongs to the person, not to the take they are recording
+        // now. The window server keeps an unshared window out of every capture, including one
+        // already running, which is the only thing that can cover a window opened mid-take.
+        window.sharingType = .none
         let view = AVPlayerView(frame: window.contentView!.bounds)
         view.autoresizingMask = [.width, .height]
         view.controlsStyle = .floating
@@ -59,8 +69,14 @@ final class PreviewController: NSObject, NSWindowDelegate {
         message = label
         retry = button
         window.center()
-        window.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
+        // Asking for a preview is a person asking to watch something, so this window comes
+        // forward — except under a check, which never takes the screen from whoever is at the Mac.
+        if Self.observed {
+            window.orderBack(nil)
+        } else {
+            window.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+        }
         tick()
     }
 

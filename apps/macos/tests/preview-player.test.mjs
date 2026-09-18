@@ -188,7 +188,13 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: rec
         ],
         { timeout: 40_000 },
       );
-      const output = execFileSync(binary, [movie], { encoding: "utf8", timeout: 45_000 });
+      // Ordered in behind everything, like every other launch a check drives: this probe opens
+      // real windows, and none of them may take the screen from whoever is at this Mac.
+      const output = execFileSync(binary, [movie], {
+        encoding: "utf8",
+        timeout: 45_000,
+        env: { ...process.env, SCREENREC_FIXTURE_CONTROLS: scratch },
+      });
       assert.match(output, /PASS extensionless native playback/);
       assert.equal(createHash("sha256").update(readFileSync(movie)).digest("hex"), sourceHash);
       console.log(output.trim());

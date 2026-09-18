@@ -263,6 +263,9 @@ final class ExportController {
         panel.nameFieldStringValue = suggestedName
         panel.allowedContentTypes = [kind == .video ? .mpeg4Movie : .zip]
         panel.canCreateDirectories = true
+        // Choosing where to save is this person's business, not the take's: a panel that opens
+        // while one is recording stays out of it, as this app's own panels do.
+        panel.sharingType = .none
         NSApp.activate(ignoringOtherApps: true)
         return await withCheckedContinuation { continuation in
             panel.begin { response in

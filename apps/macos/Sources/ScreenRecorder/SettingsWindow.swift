@@ -40,7 +40,9 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
         }
     }
 
-    var isVisible: Bool { window?.isVisible == true }
+    /// On screen where a person can see it. A window in the Dock is not, which is why opening
+    /// Settings again has to bring it back rather than treat it as already shown.
+    var isVisible: Bool { window?.isVisible == true && window?.isMiniaturized == false }
 
     /// An accessory app is never frontmost on its own, so a person opening the window activates it.
     /// A launch a check drives orders the same window in behind everything instead: taking the
@@ -53,6 +55,9 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
             return
         }
         NSApplication.shared.activate()
+        // A window put in the Dock earlier has to come out of it, or choosing Settings looks like
+        // a menu row that does nothing.
+        if window.isMiniaturized { window.deminiaturize(nil) }
         window.makeKeyAndOrderFront(nil)
     }
 
@@ -86,8 +91,13 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
         window.isReleasedWhenClosed = false
         window.contentView = content
         window.delegate = self
+        // Where it was left, if that is still somewhere this Mac can show it: a window saved on a
+        // display that has since been unplugged would otherwise open where nobody can reach it.
         if let frame = preferences.settingsFrame {
             window.setFrame(from: frame)
+            if !NSScreen.screens.contains(where: { $0.visibleFrame.intersects(window.frame) }) {
+                window.center()
+            }
         } else {
             window.center()
         }
@@ -97,14 +107,23 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
     }
 
     /// A menu-bar app shows no menu bar, but its key equivalents still route through the main
-    /// menu, and a window a person can see should close with ⌘W.
+    /// menu. A window a person can see should close with ⌘W and, since the status menu tells them
+    /// ⌘Q quits, ⌘Q has to quit while that window is the one they are looking at.
     private func installWindowMenu() {
         guard NSApplication.shared.mainMenu == nil else { return }
+        let application = NSMenu(title: "Screen Recorder")
+        application.addItem(
+            NSMenuItem(
+                title: "Quit Screen Recorder", action: #selector(NSApplication.terminate(_:)),
+                keyEquivalent: "q"))
+        let applicationItem = NSMenuItem()
+        applicationItem.submenu = application
         let window = NSMenu(title: "Window")
         window.addItem(NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w"))
         let item = NSMenuItem()
         item.submenu = window
         let main = NSMenu()
+        main.addItem(applicationItem)
         main.addItem(item)
         NSApplication.shared.mainMenu = main
     }
