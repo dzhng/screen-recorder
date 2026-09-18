@@ -43,17 +43,32 @@ const launched = [];
 // waited for before its scratch directory — and the media inside it — is removed.
 after(async () => {
   const surviving = [];
-  for (const instance of launched) surviving.push(...(await instance.reap()));
-  for (const directory of scratch) rmSync(directory, { recursive: true, force: true });
+  try {
+    for (const instance of launched) surviving.push(...(await instance.reap()));
+  } finally {
+    // A take of this person's own screen must go whether or not burying its app went smoothly.
+    removeScratch();
+  }
   if (surviving.length)
     throw new Error(`Processes this run owns are still alive: ${surviving.join(", ")}`);
 });
 
+function removeScratch() {
+  while (scratch.length) {
+    try {
+      rmSync(scratch.pop(), { recursive: true, force: true });
+    } catch {
+      // Whatever is left of this one, the rest still have to go.
+    }
+  }
+}
+
 /**
  * The same burial, for the ways a run ends without reaching that hook: an interrupt, a script
  * here that is not a test at all, a throw before its own cleanup. Whoever is at this Mac must
- * never be left with a recorder and its fixture window sitting on their screen, so this is
- * signals only — no awaiting, nothing that a dying process might not get to finish.
+ * never be left with a recorder and its fixture window sitting on their screen — or with a take
+ * of their own screen in a scratch directory — so this kills and deletes in the same breath,
+ * signals and synchronous removals only, nothing a dying process might not get to finish.
  */
 function buryLaunched() {
   for (const instance of launched) {
@@ -71,6 +86,7 @@ function buryLaunched() {
     }
   }
   launched.length = 0;
+  removeScratch();
 }
 process.on("exit", buryLaunched);
 for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
@@ -210,14 +226,38 @@ export async function waitFor(probe, timeoutMs, describe = () => "") {
   }
 }
 
-/** Only ever inspects and signals this test's own processes, found by exact parent PID. */
+/**
+ * Everything this launch is responsible for, found by following parent PIDs all the way down.
+ *
+ * The app owns a service and the service owns native media workers, so a launch's processes are
+ * not only its children: killing the app outright leaves the worker with nobody to stop it, and
+ * a worker decoding half an hour of video does not stop on its own.
+ */
 export function childProcessesOf(pid) {
   const listed = execFileSync("/bin/ps", ["-A", "-o", "pid=,ppid=,command="], { encoding: "utf8" });
-  return listed
+  const rows = listed
     .split("\n")
     .map((line) => line.trim().match(/^(\d+)\s+(\d+)\s+(.*)$/))
-    .filter((match) => match && Number(match[2]) === pid)
-    .map((match) => ({ pid: Number(match[1]), command: match[3] }));
+    .filter(Boolean)
+    .map((match) => ({ pid: Number(match[1]), parent: Number(match[2]), command: match[3] }));
+  const byParent = new Map();
+  for (const row of rows) {
+    const siblings = byParent.get(row.parent) ?? [];
+    siblings.push(row);
+    byParent.set(row.parent, siblings);
+  }
+  const found = [];
+  const seen = new Set([pid]);
+  const pending = [pid];
+  while (pending.length) {
+    for (const row of byParent.get(pending.pop()) ?? []) {
+      if (seen.has(row.pid)) continue;
+      seen.add(row.pid);
+      found.push({ pid: row.pid, command: row.command });
+      pending.push(row.pid);
+    }
+  }
+  return found;
 }
 
 /** The app bundle every process this harness owns runs out of, app and bundled service alike. */

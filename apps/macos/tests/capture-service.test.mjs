@@ -310,6 +310,38 @@ test("a service killed mid-capture leaves a take the next service reconciles fro
   assert.deepEqual(original.revision.spans, [{ startUs: 0, endUs: reconciled.sourceDurationUs }]);
 });
 
+test("a take killed as it stops is recovered from the media it had already written", async () => {
+  requireScreenPermission();
+  const home = temporary("/tmp/scr-capture-");
+  const { instance, source } = await fixtureApp(home);
+  const started = await succeeds(home, "capture.start", silent("stopping", source));
+  await delay(1_800);
+  // Stop and kill at the same moment: the take is somewhere between the order to finish and the
+  // finished media, which is the window a person hits by force quitting as they end a recording.
+  const stopping = call(home, "capture.stop", { recordingId: started.recordingId }).catch(
+    (error) => ({ ok: false, error }),
+  );
+  instance.kill("SIGKILL");
+  await instance.exited;
+  await stopping;
+
+  const relaunched = await fixtureApp(home);
+  await relaunched.instance.waitFor(/reconciliation complete/);
+  const reconciled = await succeeds(home, "recording.get", { recordingId: started.recordingId });
+  // Whichever side of the finish it died on, the take says what it is and keeps what it has: a
+  // complete take, or an interrupted one whose recovered prefix is its own duration.
+  assert.ok(
+    ["complete", "interrupted"].includes(reconciled.state),
+    `A stopped take must settle, got ${reconciled.state}`,
+  );
+  assert.ok(
+    reconciled.sourceDurationUs > 0,
+    "A take that had written media must not lose all of it to the kill",
+  );
+  const original = await succeeds(home, "revision.get", { recordingId: started.recordingId });
+  assert.deepEqual(original.revision.spans, [{ startUs: 0, endUs: reconciled.sourceDurationUs }]);
+});
+
 test("a take killed before any media is decodable stays terminal with no timeline", async () => {
   requireScreenPermission();
   const home = temporary("/tmp/scr-capture-");
