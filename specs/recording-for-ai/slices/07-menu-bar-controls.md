@@ -1,6 +1,9 @@
 # 07 — Usable menu-bar recording controls
 
-Status: partial implementation; native acceptance remains open. Dependencies: 03, 06; delete/storage controls additionally require 15b.
+Status: implemented; native acceptance remains open. A combination macOS itself holds is now
+refused before it is asked for and named in the menu (`SystemShortcuts`), which is the detectable
+half of the collision contract; another application's own registration cannot be detected through
+any public API, and that limit is [recorded](../choices.md). Dependencies: 03, 06; delete/storage controls additionally require 15b.
 
 See [integration notes](../assets/recording-controls/integration.md) for the tested
 boundary, unfinished verification, and next pickup.

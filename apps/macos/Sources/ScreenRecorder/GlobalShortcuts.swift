@@ -7,9 +7,11 @@ import ScreenRecorderControls
 
  A combination is only ever *asked for*. When the system refuses one — because something else
  already holds it — that binding is left off and named in the menu, so nothing is taken away from
- whatever the person already uses it for. Refusal is all this API reports: a combination another
- application holds without the system objecting cannot be detected here, so the menu states what
- this app holds rather than promising the key is free.
+ whatever the person already uses it for. A combination macOS itself has switched on is refused
+ here before it is asked for, because `RegisterEventHotKey` answers with success for one that is
+ already spoken for: see [system shortcuts](../ScreenRecorderControls/SystemShortcuts.swift).
+ Another application's own registration still cannot be detected, so the menu states what this app
+ holds rather than promising the key is free.
  */
 @MainActor
 final class GlobalShortcuts {
@@ -55,10 +57,24 @@ final class GlobalShortcuts {
         return { [weak self] in self?.release(identifier) }
     }
 
+    /// What macOS holds, read once: this list changes when a person changes a system shortcut,
+    /// which is a moment they are in System Settings rather than recording.
+    private lazy var systemHeld = SystemShortcuts.taken()
+
     /// Asks the system for one combination. Refusal is the answer here; nothing is taken.
     private func register(_ shortcut: Shortcut, _ perform: @escaping () -> Void) -> UInt32? {
         installHandler()
         guard let key = Self.keyCode(of: shortcut.key) else { return nil }
+        // Asking for one the system already has would be answered with success and then never
+        // deliver a keystroke, so it is refused here where the refusal can be said out loud.
+        if systemHeld.contains(
+            SystemShortcuts.Combination(
+                keyCode: key, control: shortcut.control, option: shortcut.option,
+                command: shortcut.command, shift: shortcut.shift))
+        {
+            diagnostic("shortcut \(shortcut.display) is held by macOS itself")
+            return nil
+        }
         let identifier = nextIdentifier
         nextIdentifier += 1
         var reference: EventHotKeyRef?

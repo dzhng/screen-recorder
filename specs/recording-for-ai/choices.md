@@ -2601,15 +2601,23 @@ export controls. The choices below are the ones that change behavior or format.
     the render — and an exclusively locked scratch directory to hold them. Giving a package
     context that means widening a boundary whose whole purpose is to bound what an archive from
     somewhere else can make this Mac's worker do.
-  - **For the user:** the choice is to build that (a package render workspace, a third job kind,
-    and preview delivery through the package's lease) or to drop the sentence from the contract.
-    Nothing else depends on it: an agent reading a package already has every frame and every
-    second of audio in it.
-- **A key combination another application already owns is registered, not reported.** The contract
-  says a collision disables the binding and shows a settings override. The override half exists;
-  the detection does not, because `RegisterEventHotKey` returns success for a combination another
-  app holds — this repository's own
-  [two-process matrix](assets/recording-controls/shortcut-collisions.md)
-  measured it. The app therefore says a shortcut is held while its keystrokes go elsewhere.
-  Registering exclusively would take the combination from the other application, which is worse.
-  Left as measured, with the shortcut file as the way out.
+  - **And the budget says the same thing:** a package admission may hold 128 MiB of derivatives in
+    total, sized for frames and short clips. The bounded preview of a two-minute take is 28 MB and
+    a half-hour one would be several hundred, so previews would either fail on long takes or that
+    bound would have to move — and it bounds how much of this person's disk an archive from
+    somewhere else can occupy.
+  - **For the user:** build it (a package render workspace or a movie-shaped output, a third job
+    kind, a larger derivative budget, and preview delivery through the package's lease), or drop
+    the sentence from the contract. Nothing else depends on it: an agent reading a package already
+    has every frame and every second of audio in it. A cheaper middle exists — a preview without
+    the cursor overlay is a single native call and would fit the seam, though not the budget.
+- **A collision with macOS itself is now detected; a collision with another application still
+  cannot be.** The contract says a collision disables the binding and shows a settings override.
+  `RegisterEventHotKey` returns success for a combination that is already spoken for — this
+  repository's own [two-process matrix](assets/recording-controls/shortcut-collisions.md) measured
+  that — so asking the system is not an answer. What macOS has taken for itself is knowable: its
+  enabled shortcuts live in one preference domain with their keys and modifiers, and a combination
+  in that set is now refused before it is asked for, which is the common case a person meets.
+  Another application's private registration remains undetectable by any public API, and
+  registering exclusively would take the combination away from it, which is worse than not having
+  it. The shortcut file stays the way out.
