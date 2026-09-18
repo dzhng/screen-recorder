@@ -49,6 +49,40 @@ after(async () => {
     throw new Error(`Processes this run owns are still alive: ${surviving.join(", ")}`);
 });
 
+/**
+ * The same burial, for the ways a run ends without reaching that hook: an interrupt, a script
+ * here that is not a test at all, a throw before its own cleanup. Whoever is at this Mac must
+ * never be left with a recorder and its fixture window sitting on their screen, so this is
+ * signals only — no awaiting, nothing that a dying process might not get to finish.
+ */
+function buryLaunched() {
+  for (const instance of launched) {
+    const owned = new Set(instance.owned);
+    if (instance.running) for (const { pid } of instance.children()) owned.add(pid);
+    instance.kill("SIGKILL");
+    for (const pid of owned) {
+      // A PID reused since this run recorded it belongs to somebody else by now.
+      if (!runsThisBuild(pid)) continue;
+      try {
+        process.kill(pid, "SIGKILL");
+      } catch {
+        // It exited between that check and this signal.
+      }
+    }
+  }
+  launched.length = 0;
+}
+process.on("exit", buryLaunched);
+for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
+  // Without a handler these end the process before `exit` runs, taking the apps' only burial with
+  // them. Re-raising keeps the exit status a killed process is supposed to have.
+  process.on(signal, () => {
+    buryLaunched();
+    process.removeAllListeners(signal);
+    process.kill(process.pid, signal);
+  });
+}
+
 export function temporary(prefix) {
   const directory = mkdtempSync(prefix);
   scratch.push(directory);
@@ -83,6 +117,7 @@ export function launch(home, environment = {}, args = []) {
   );
   const instance = {
     exited,
+    pid: child.pid,
     /** Every process this launch owns, including ones it has already outlived. */
     owned: [],
     get diagnostics() {
