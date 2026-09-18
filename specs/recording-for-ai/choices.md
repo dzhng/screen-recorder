@@ -2512,3 +2512,34 @@ export controls. The choices below are the ones that change behavior or format.
 - **The count happens before anything is allocated.** Escape during it abandons the start with no
   recording created, so a cancelled countdown leaves nothing behind.
 
+
+## Word timing on real narration — 2026-09-19
+
+- **A word's time is when it was spoken, not when the engine finished the sentence.**
+  - **Observed:** the engine ends a sentence with a punctuation token of its own, placed where it
+    decided the sentence was over — 630 ms after the last sound on a clip whose silence is
+    digitally exact. The CLI merge this repository ports verbatim puts that token in the preceding
+    word, so the word's span ran on through the silence, and a cut of that word took the silence
+    with it.
+  - **Decision:** a word now carries both times. The engine's own stay in the raw record, so it
+    still compares token for token with the evaluated CLI; the span every read and edit is aimed
+    by covers only the tokens that carry speech.
+  - **Consequence:** sentence-final words tightened from about a second late to about 100 ms on
+    the real take. Words with no punctuation are unchanged, because there was nothing to trim.
+- **The boundary target is reported as missed rather than relaxed or chased.**
+  - **Observed:** after that fix, hand-marked boundaries on this person's own narration give a
+    median error of 135 ms against a 100 ms target and a p95 of 590 ms. Every boundary sits
+    outside the speech — starts early by about 200 ms, ends late — so cuts keep their neighbours
+    whole, which is what the narrator heard when they auditioned one.
+  - **Decision:** ship this and record the miss. Tightening it further means an acoustic detector
+    deciding where speech is; on this narration, recorded while its narrator clicked and typed,
+    every threshold that separated those from speech moved the answer by more than the thing
+    being measured — and a detector that trims too far clips a word, the one failure a listener
+    notices.
+  - **For the user:** if cuts should hug the speech more tightly than this, that is the decision
+    to reverse, and it costs the risk of clipped word edges. Nothing else in the release depends
+    on it.
+- **The measurement is hand-marked, and the pictures are committed.** Boundaries are drawn as
+  spectrograms at a millisecond per pixel with a ruler, only where a real pause sits beside them,
+  and the marks are millisecond offsets read off those pictures. Inside connected speech there is
+  no boundary anybody can point at, so none is claimed.

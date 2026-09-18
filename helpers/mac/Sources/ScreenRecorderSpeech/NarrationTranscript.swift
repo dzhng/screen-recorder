@@ -54,10 +54,15 @@ public enum NarrationTranscript {
         let words: [RawWord]
     }
 
+    /// `startSeconds` and `endSeconds` are the engine's own, kept so this record can still be
+    /// compared token for token with the evaluated CLI. `source` is when the word was spoken,
+    /// which is what every later read and edit is aimed by.
     struct RawWord: Codable {
         let text: String
         let startSeconds: TimeInterval
         let endSeconds: TimeInterval
+        let spokenStartSeconds: TimeInterval
+        let spokenEndSeconds: TimeInterval
         let confidence: Float
         let source: TimeSpan
     }
@@ -97,8 +102,9 @@ public enum NarrationTranscript {
                 let words = WordTimingMerger.mergeTokensIntoWords(result.tokenTimings ?? []).map {
                     RawWord(
                         text: $0.word, startSeconds: $0.startTime, endSeconds: $0.endTime,
+                        spokenStartSeconds: $0.spokenStart, spokenEndSeconds: $0.spokenEnd,
                         confidence: $0.confidence,
-                        source: sourceSpan(from: $0.startTime, to: $0.endTime, in: interval))
+                        source: sourceSpan(from: $0.spokenStart, to: $0.spokenEnd, in: interval))
                 }
                 line = RawSegment(
                     ordinal: ordinal, source: interval, state: .transcribed, reason: nil,

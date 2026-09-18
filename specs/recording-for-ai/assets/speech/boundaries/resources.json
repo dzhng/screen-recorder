@@ -1,0 +1,21 @@
+{
+  "clipSeconds": 401.92,
+  "cold": {
+    "elapsedSeconds": 1.758381666,
+    "sampledBytes": 151928832,
+    "reportedPeakBytes": 154533888,
+    "words": 922,
+    "timesRealTime": 0.004374954383957006
+  },
+  "warm": {
+    "elapsedSeconds": 1.68360475,
+    "sampledBytes": 145014784,
+    "reportedPeakBytes": 147275776,
+    "words": 922,
+    "timesRealTime": 0.004188905130374203
+  },
+  "targets": {
+    "timesRealTime": 1,
+    "peakResidentBytes": 4294967296
+  }
+}

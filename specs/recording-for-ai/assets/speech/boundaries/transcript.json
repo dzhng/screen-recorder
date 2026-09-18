@@ -1,0 +1,8000 @@
+[
+ {
+  "type": "gap",
+  "sourceRange": {
+   "startUs": 0,
+   "endUs": 48675
+  },
+  "reason": "not_acquired",
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 0,
+     "endUs": 48675
+    },
+    "playback": {
+     "startUs": 0,
+     "endUs": 48675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w0",
+  "ordinal": 0,
+  "text": "Okay,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 1168675,
+   "endUs": 1488675
+  },
+  "confidence": 0.87890625,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 1168675,
+     "endUs": 1488675
+    },
+    "playback": {
+     "startUs": 1168675,
+     "endUs": 1488675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w1",
+  "ordinal": 1,
+  "text": "so",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 1648675,
+   "endUs": 1968675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 1648675,
+     "endUs": 1968675
+    },
+    "playback": {
+     "startUs": 1648675,
+     "endUs": 1968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w2",
+  "ordinal": 2,
+  "text": "this",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 1968675,
+   "endUs": 2208675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 1968675,
+     "endUs": 2208675
+    },
+    "playback": {
+     "startUs": 1968675,
+     "endUs": 2208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w3",
+  "ordinal": 3,
+  "text": "is",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 2208675,
+   "endUs": 2528675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 2208675,
+     "endUs": 2528675
+    },
+    "playback": {
+     "startUs": 2208675,
+     "endUs": 2528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w4",
+  "ordinal": 4,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 2528675,
+   "endUs": 2848675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 2528675,
+     "endUs": 2848675
+    },
+    "playback": {
+     "startUs": 2528675,
+     "endUs": 2848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w5",
+  "ordinal": 5,
+  "text": "recorder",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 3168675,
+   "endUs": 4368675
+  },
+  "confidence": 0.9695638,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 3168675,
+     "endUs": 4368675
+    },
+    "playback": {
+     "startUs": 3168675,
+     "endUs": 4368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w6",
+  "ordinal": 6,
+  "text": "workbench.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 4368675,
+   "endUs": 5648675
+  },
+  "confidence": 0.89853513,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 4368675,
+     "endUs": 5648675
+    },
+    "playback": {
+     "startUs": 4368675,
+     "endUs": 5648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w7",
+  "ordinal": 7,
+  "text": "First",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 6608675,
+   "endUs": 6928675
+  },
+  "confidence": 0.99780273,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 6608675,
+     "endUs": 6928675
+    },
+    "playback": {
+     "startUs": 6608675,
+     "endUs": 6928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w8",
+  "ordinal": 8,
+  "text": "I'm",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 7008675,
+   "endUs": 7328675
+  },
+  "confidence": 0.99625653,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 7008675,
+     "endUs": 7328675
+    },
+    "playback": {
+     "startUs": 7008675,
+     "endUs": 7328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w9",
+  "ordinal": 9,
+  "text": "going",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 7248675,
+   "endUs": 7328675
+  },
+  "confidence": 0.66503906,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 7248675,
+     "endUs": 7328675
+    },
+    "playback": {
+     "startUs": 7248675,
+     "endUs": 7328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w10",
+  "ordinal": 10,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 7328675,
+   "endUs": 7408675
+  },
+  "confidence": 0.99121094,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 7328675,
+     "endUs": 7408675
+    },
+    "playback": {
+     "startUs": 7328675,
+     "endUs": 7408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w11",
+  "ordinal": 11,
+  "text": "draw",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 7408675,
+   "endUs": 7648675
+  },
+  "confidence": 0.9996745,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 7408675,
+     "endUs": 7648675
+    },
+    "playback": {
+     "startUs": 7408675,
+     "endUs": 7648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w12",
+  "ordinal": 12,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 7648675,
+   "endUs": 7808675
+  },
+  "confidence": 0.9824219,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 7648675,
+     "endUs": 7808675
+    },
+    "playback": {
+     "startUs": 7648675,
+     "endUs": 7808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w13",
+  "ordinal": 13,
+  "text": "circle",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 7808675,
+   "endUs": 8448675
+  },
+  "confidence": 0.9998779,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 7808675,
+     "endUs": 8448675
+    },
+    "playback": {
+     "startUs": 7808675,
+     "endUs": 8448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w14",
+  "ordinal": 14,
+  "text": "around",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 8448675,
+   "endUs": 8768675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 8448675,
+     "endUs": 8768675
+    },
+    "playback": {
+     "startUs": 8448675,
+     "endUs": 8768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w15",
+  "ordinal": 15,
+  "text": "C3",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 8768675,
+   "endUs": 9408675
+  },
+  "confidence": 0.91967773,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 8768675,
+     "endUs": 9408675
+    },
+    "playback": {
+     "startUs": 8768675,
+     "endUs": 9408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w16",
+  "ordinal": 16,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 10368675,
+   "endUs": 10528675
+  },
+  "confidence": 0.9736328,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 10368675,
+     "endUs": 10528675
+    },
+    "playback": {
+     "startUs": 10368675,
+     "endUs": 10528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w17",
+  "ordinal": 17,
+  "text": "I'm",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 10528675,
+   "endUs": 10768675
+  },
+  "confidence": 0.9889323,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 10528675,
+     "endUs": 10768675
+    },
+    "playback": {
+     "startUs": 10528675,
+     "endUs": 10768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w18",
+  "ordinal": 18,
+  "text": "going",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 10688675,
+   "endUs": 10848675
+  },
+  "confidence": 0.9814453,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 10688675,
+     "endUs": 10848675
+    },
+    "playback": {
+     "startUs": 10688675,
+     "endUs": 10848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w19",
+  "ordinal": 19,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 10848675,
+   "endUs": 10928675
+  },
+  "confidence": 0.9975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 10848675,
+     "endUs": 10928675
+    },
+    "playback": {
+     "startUs": 10848675,
+     "endUs": 10928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w20",
+  "ordinal": 20,
+  "text": "draw",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 10928675,
+   "endUs": 11168675
+  },
+  "confidence": 0.9998372,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 10928675,
+     "endUs": 11168675
+    },
+    "playback": {
+     "startUs": 10928675,
+     "endUs": 11168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w21",
+  "ordinal": 21,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 11168675,
+   "endUs": 11328675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 11168675,
+     "endUs": 11328675
+    },
+    "playback": {
+     "startUs": 11168675,
+     "endUs": 11328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w22",
+  "ordinal": 22,
+  "text": "wave",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 11328675,
+   "endUs": 11808675
+  },
+  "confidence": 0.99487305,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 11328675,
+     "endUs": 11808675
+    },
+    "playback": {
+     "startUs": 11328675,
+     "endUs": 11808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w23",
+  "ordinal": 23,
+  "text": "between",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 11808675,
+   "endUs": 12128675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 11808675,
+     "endUs": 12128675
+    },
+    "playback": {
+     "startUs": 11808675,
+     "endUs": 12128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w24",
+  "ordinal": 24,
+  "text": "D9",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 12128675,
+   "endUs": 12608675
+  },
+  "confidence": 0.9489746,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 12128675,
+     "endUs": 12608675
+    },
+    "playback": {
+     "startUs": 12128675,
+     "endUs": 12608675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w25",
+  "ordinal": 25,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 13248675,
+   "endUs": 13568675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 13248675,
+     "endUs": 13568675
+    },
+    "playback": {
+     "startUs": 13248675,
+     "endUs": 13568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w26",
+  "ordinal": 26,
+  "text": "E2.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 13568675,
+   "endUs": 13968675
+  },
+  "confidence": 0.9773763,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 13568675,
+     "endUs": 13968675
+    },
+    "playback": {
+     "startUs": 13568675,
+     "endUs": 13968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w27",
+  "ordinal": 27,
+  "text": "Alright,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 15248675,
+   "endUs": 15648675
+  },
+  "confidence": 0.9765625,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 15248675,
+     "endUs": 15648675
+    },
+    "playback": {
+     "startUs": 15248675,
+     "endUs": 15648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w28",
+  "ordinal": 28,
+  "text": "so",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 15648675,
+   "endUs": 15808675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 15648675,
+     "endUs": 15808675
+    },
+    "playback": {
+     "startUs": 15648675,
+     "endUs": 15808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w29",
+  "ordinal": 29,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 15888675,
+   "endUs": 16128675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 15888675,
+     "endUs": 16128675
+    },
+    "playback": {
+     "startUs": 15888675,
+     "endUs": 16128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w30",
+  "ordinal": 30,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 16128675,
+   "endUs": 16448675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 16128675,
+     "endUs": 16448675
+    },
+    "playback": {
+     "startUs": 16128675,
+     "endUs": 16448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w31",
+  "ordinal": 31,
+  "text": "next",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 16448675,
+   "endUs": 16688675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 16448675,
+     "endUs": 16688675
+    },
+    "playback": {
+     "startUs": 16448675,
+     "endUs": 16688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w32",
+  "ordinal": 32,
+  "text": "one,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 16688675,
+   "endUs": 16848675
+  },
+  "confidence": 0.9375,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 16688675,
+     "endUs": 16848675
+    },
+    "playback": {
+     "startUs": 16688675,
+     "endUs": 16848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w33",
+  "ordinal": 33,
+  "text": "we're",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 19248675,
+   "endUs": 19568675
+  },
+  "confidence": 0.9983724,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 19248675,
+     "endUs": 19568675
+    },
+    "playback": {
+     "startUs": 19248675,
+     "endUs": 19568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w34",
+  "ordinal": 34,
+  "text": "going",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 19488675,
+   "endUs": 19648675
+  },
+  "confidence": 0.59277344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 19488675,
+     "endUs": 19648675
+    },
+    "playback": {
+     "startUs": 19488675,
+     "endUs": 19648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w35",
+  "ordinal": 35,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 19648675,
+   "endUs": 19728675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 19648675,
+     "endUs": 19728675
+    },
+    "playback": {
+     "startUs": 19648675,
+     "endUs": 19728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w36",
+  "ordinal": 36,
+  "text": "do",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 19728675,
+   "endUs": 19888675
+  },
+  "confidence": 0.9980469,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 19728675,
+     "endUs": 19888675
+    },
+    "playback": {
+     "startUs": 19728675,
+     "endUs": 19888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w37",
+  "ordinal": 37,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 19888675,
+   "endUs": 20128675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 19888675,
+     "endUs": 20128675
+    },
+    "playback": {
+     "startUs": 19888675,
+     "endUs": 20128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w38",
+  "ordinal": 38,
+  "text": "disappearing",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 20128675,
+   "endUs": 20928675
+  },
+  "confidence": 0.9886719,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 20128675,
+     "endUs": 20928675
+    },
+    "playback": {
+     "startUs": 20128675,
+     "endUs": 20928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w39",
+  "ordinal": 39,
+  "text": "submenu.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 20928675,
+   "endUs": 22048675
+  },
+  "confidence": 0.96669924,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 20928675,
+     "endUs": 22048675
+    },
+    "playback": {
+     "startUs": 20928675,
+     "endUs": 22048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w40",
+  "ordinal": 40,
+  "text": "So",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 22368675,
+   "endUs": 22528675
+  },
+  "confidence": 0.9868164,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 22368675,
+     "endUs": 22528675
+    },
+    "playback": {
+     "startUs": 22368675,
+     "endUs": 22528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w41",
+  "ordinal": 41,
+  "text": "let's",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 22608675,
+   "endUs": 22848675
+  },
+  "confidence": 0.9996745,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 22608675,
+     "endUs": 22848675
+    },
+    "playback": {
+     "startUs": 22608675,
+     "endUs": 22848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w42",
+  "ordinal": 42,
+  "text": "hover",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 22848675,
+   "endUs": 23168675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 22848675,
+     "endUs": 23168675
+    },
+    "playback": {
+     "startUs": 22848675,
+     "endUs": 23168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w43",
+  "ordinal": 43,
+  "text": "over",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 23168675,
+   "endUs": 23408675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 23168675,
+     "endUs": 23408675
+    },
+    "playback": {
+     "startUs": 23168675,
+     "endUs": 23408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w44",
+  "ordinal": 44,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 23408675,
+   "endUs": 23648675
+  },
+  "confidence": 0.9980469,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 23408675,
+     "endUs": 23648675
+    },
+    "playback": {
+     "startUs": 23408675,
+     "endUs": 23648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w45",
+  "ordinal": 45,
+  "text": "products",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 23648675,
+   "endUs": 24448675
+  },
+  "confidence": 0.9998372,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 23648675,
+     "endUs": 24448675
+    },
+    "playback": {
+     "startUs": 23648675,
+     "endUs": 24448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w46",
+  "ordinal": 46,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 24768675,
+   "endUs": 24928675
+  },
+  "confidence": 0.99658203,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 24768675,
+     "endUs": 24928675
+    },
+    "playback": {
+     "startUs": 24768675,
+     "endUs": 24928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w47",
+  "ordinal": 47,
+  "text": "move",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 25088675,
+   "endUs": 25328675
+  },
+  "confidence": 0.9992676,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 25088675,
+     "endUs": 25328675
+    },
+    "playback": {
+     "startUs": 25088675,
+     "endUs": 25328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w48",
+  "ordinal": 48,
+  "text": "down",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 25648675,
+   "endUs": 25888675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 25648675,
+     "endUs": 25888675
+    },
+    "playback": {
+     "startUs": 25648675,
+     "endUs": 25888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w49",
+  "ordinal": 49,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 25888675,
+   "endUs": 26048675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 25888675,
+     "endUs": 26048675
+    },
+    "playback": {
+     "startUs": 25888675,
+     "endUs": 26048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w50",
+  "ordinal": 50,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 26048675,
+   "endUs": 26128675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 26048675,
+     "endUs": 26128675
+    },
+    "playback": {
+     "startUs": 26048675,
+     "endUs": 26128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w51",
+  "ordinal": 51,
+  "text": "menu.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 26128675,
+   "endUs": 26448675
+  },
+  "confidence": 0.98999023,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 26128675,
+     "endUs": 26448675
+    },
+    "playback": {
+     "startUs": 26128675,
+     "endUs": 26448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w52",
+  "ordinal": 52,
+  "text": "There's",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 26688675,
+   "endUs": 26928675
+  },
+  "confidence": 0.9973958,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 26688675,
+     "endUs": 26928675
+    },
+    "playback": {
+     "startUs": 26688675,
+     "endUs": 26928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w53",
+  "ordinal": 53,
+  "text": "actually",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 26848675,
+   "endUs": 27008675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 26848675,
+     "endUs": 27008675
+    },
+    "playback": {
+     "startUs": 26848675,
+     "endUs": 27008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w54",
+  "ordinal": 54,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 27008675,
+   "endUs": 27168675
+  },
+  "confidence": 0.9975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 27008675,
+     "endUs": 27168675
+    },
+    "playback": {
+     "startUs": 27008675,
+     "endUs": 27168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w55",
+  "ordinal": 55,
+  "text": "bug",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 27168675,
+   "endUs": 27488675
+  },
+  "confidence": 0.9411621,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 27168675,
+     "endUs": 27488675
+    },
+    "playback": {
+     "startUs": 27168675,
+     "endUs": 27488675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w56",
+  "ordinal": 56,
+  "text": "here.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 27488675,
+   "endUs": 27648675
+  },
+  "confidence": 0.8000488,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 27488675,
+     "endUs": 27648675
+    },
+    "playback": {
+     "startUs": 27488675,
+     "endUs": 27648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w57",
+  "ordinal": 57,
+  "text": "Yeah,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 28688675,
+   "endUs": 28928675
+  },
+  "confidence": 0.9848633,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 28688675,
+     "endUs": 28928675
+    },
+    "playback": {
+     "startUs": 28688675,
+     "endUs": 28928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w58",
+  "ordinal": 58,
+  "text": "it",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 29008675,
+   "endUs": 29088675
+  },
+  "confidence": 0.96240234,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 29008675,
+     "endUs": 29088675
+    },
+    "playback": {
+     "startUs": 29008675,
+     "endUs": 29088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w59",
+  "ordinal": 59,
+  "text": "disappears",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 29088675,
+   "endUs": 29568675
+  },
+  "confidence": 0.99970704,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 29088675,
+     "endUs": 29568675
+    },
+    "playback": {
+     "startUs": 29088675,
+     "endUs": 29568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w60",
+  "ordinal": 60,
+  "text": "as",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 29568675,
+   "endUs": 29648675
+  },
+  "confidence": 0.42626953,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 29568675,
+     "endUs": 29648675
+    },
+    "playback": {
+     "startUs": 29568675,
+     "endUs": 29648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w61",
+  "ordinal": 61,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 29728675,
+   "endUs": 29808675
+  },
+  "confidence": 0.8261719,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 29728675,
+     "endUs": 29808675
+    },
+    "playback": {
+     "startUs": 29728675,
+     "endUs": 29808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w62",
+  "ordinal": 62,
+  "text": "pointer.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 29808675,
+   "endUs": 30368675
+  },
+  "confidence": 0.9468994,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 29808675,
+     "endUs": 30368675
+    },
+    "playback": {
+     "startUs": 29808675,
+     "endUs": 30368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w63",
+  "ordinal": 63,
+  "text": "Yeah,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 31248675,
+   "endUs": 31328675
+  },
+  "confidence": 0.84814453,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 31248675,
+     "endUs": 31328675
+    },
+    "playback": {
+     "startUs": 31248675,
+     "endUs": 31328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w64",
+  "ordinal": 64,
+  "text": "so",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 31408675,
+   "endUs": 31488675
+  },
+  "confidence": 0.9838867,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 31408675,
+     "endUs": 31488675
+    },
+    "playback": {
+     "startUs": 31408675,
+     "endUs": 31488675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w65",
+  "ordinal": 65,
+  "text": "that's",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 31488675,
+   "endUs": 31728675
+  },
+  "confidence": 0.99934894,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 31488675,
+     "endUs": 31728675
+    },
+    "playback": {
+     "startUs": 31488675,
+     "endUs": 31728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w66",
+  "ordinal": 66,
+  "text": "an",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 31648675,
+   "endUs": 31808675
+  },
+  "confidence": 0.54833984,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 31648675,
+     "endUs": 31808675
+    },
+    "playback": {
+     "startUs": 31648675,
+     "endUs": 31808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w67",
+  "ordinal": 67,
+  "text": "intentional",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 31808675,
+   "endUs": 32288675
+  },
+  "confidence": 0.9996745,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 31808675,
+     "endUs": 32288675
+    },
+    "playback": {
+     "startUs": 31808675,
+     "endUs": 32288675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w68",
+  "ordinal": 68,
+  "text": "fixture",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 32288675,
+   "endUs": 32848675
+  },
+  "confidence": 0.99975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 32288675,
+     "endUs": 32848675
+    },
+    "playback": {
+     "startUs": 32288675,
+     "endUs": 32848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w69",
+  "ordinal": 69,
+  "text": "bug.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 32848675,
+   "endUs": 33408675
+  },
+  "confidence": 0.98079425,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 32848675,
+     "endUs": 33408675
+    },
+    "playback": {
+     "startUs": 32848675,
+     "endUs": 33408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w70",
+  "ordinal": 70,
+  "text": "So",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 33728675,
+   "endUs": 33808675
+  },
+  "confidence": 0.9980469,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 33728675,
+     "endUs": 33808675
+    },
+    "playback": {
+     "startUs": 33728675,
+     "endUs": 33808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w71",
+  "ordinal": 71,
+  "text": "you",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 33888675,
+   "endUs": 34048675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 33888675,
+     "endUs": 34048675
+    },
+    "playback": {
+     "startUs": 33888675,
+     "endUs": 34048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w72",
+  "ordinal": 72,
+  "text": "can",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 34048675,
+   "endUs": 34208675
+  },
+  "confidence": 0.9765625,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 34048675,
+     "endUs": 34208675
+    },
+    "playback": {
+     "startUs": 34048675,
+     "endUs": 34208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w73",
+  "ordinal": 73,
+  "text": "see",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 34208675,
+   "endUs": 34448675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 34208675,
+     "endUs": 34448675
+    },
+    "playback": {
+     "startUs": 34208675,
+     "endUs": 34448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w74",
+  "ordinal": 74,
+  "text": "there's",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 34448675,
+   "endUs": 34688675
+  },
+  "confidence": 0.99886066,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 34448675,
+     "endUs": 34688675
+    },
+    "playback": {
+     "startUs": 34448675,
+     "endUs": 34688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w75",
+  "ordinal": 75,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 34608675,
+   "endUs": 34848675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 34608675,
+     "endUs": 34848675
+    },
+    "playback": {
+     "startUs": 34608675,
+     "endUs": 34848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w76",
+  "ordinal": 76,
+  "text": "bug",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 34848675,
+   "endUs": 35408675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 34848675,
+     "endUs": 35408675
+    },
+    "playback": {
+     "startUs": 34848675,
+     "endUs": 35408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w77",
+  "ordinal": 77,
+  "text": "here.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 35408675,
+   "endUs": 35728675
+  },
+  "confidence": 0.88427734,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 35408675,
+     "endUs": 35728675
+    },
+    "playback": {
+     "startUs": 35408675,
+     "endUs": 35728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w78",
+  "ordinal": 78,
+  "text": "Then",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 36048675,
+   "endUs": 36288675
+  },
+  "confidence": 0.9057617,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 36048675,
+     "endUs": 36288675
+    },
+    "playback": {
+     "startUs": 36048675,
+     "endUs": 36288675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w79",
+  "ordinal": 79,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 36288675,
+   "endUs": 36448675
+  },
+  "confidence": 0.9790039,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 36288675,
+     "endUs": 36448675
+    },
+    "playback": {
+     "startUs": 36288675,
+     "endUs": 36448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w80",
+  "ordinal": 80,
+  "text": "visual",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 36448675,
+   "endUs": 36848675
+  },
+  "confidence": 0.9894206,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 36448675,
+     "endUs": 36848675
+    },
+    "playback": {
+     "startUs": 36448675,
+     "endUs": 36848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w81",
+  "ordinal": 81,
+  "text": "token,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 36848675,
+   "endUs": 37248675
+  },
+  "confidence": 0.89953613,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 36848675,
+     "endUs": 37248675
+    },
+    "playback": {
+     "startUs": 36848675,
+     "endUs": 37248675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w82",
+  "ordinal": 82,
+  "text": "I",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 37328675,
+   "endUs": 37488675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 37328675,
+     "endUs": 37488675
+    },
+    "playback": {
+     "startUs": 37328675,
+     "endUs": 37488675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w83",
+  "ordinal": 83,
+  "text": "click",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 37488675,
+   "endUs": 37728675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 37488675,
+     "endUs": 37728675
+    },
+    "playback": {
+     "startUs": 37488675,
+     "endUs": 37728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w84",
+  "ordinal": 84,
+  "text": "change",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 37888675,
+   "endUs": 38208675
+  },
+  "confidence": 0.9794922,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 37888675,
+     "endUs": 38208675
+    },
+    "playback": {
+     "startUs": 37888675,
+     "endUs": 38208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w85",
+  "ordinal": 85,
+  "text": "token,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 38208675,
+   "endUs": 38688675
+  },
+  "confidence": 0.8892822,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 38208675,
+     "endUs": 38688675
+    },
+    "playback": {
+     "startUs": 38208675,
+     "endUs": 38688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w86",
+  "ordinal": 86,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 38768675,
+   "endUs": 38928675
+  },
+  "confidence": 0.9824219,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 38768675,
+     "endUs": 38928675
+    },
+    "playback": {
+     "startUs": 38768675,
+     "endUs": 38928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w87",
+  "ordinal": 87,
+  "text": "yep,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 39088675,
+   "endUs": 39328675
+  },
+  "confidence": 0.86344403,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 39088675,
+     "endUs": 39328675
+    },
+    "playback": {
+     "startUs": 39088675,
+     "endUs": 39328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w88",
+  "ordinal": 88,
+  "text": "it",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 39408675,
+   "endUs": 39568675
+  },
+  "confidence": 0.99609375,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 39408675,
+     "endUs": 39568675
+    },
+    "playback": {
+     "startUs": 39408675,
+     "endUs": 39568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w89",
+  "ordinal": 89,
+  "text": "changed",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 39568675,
+   "endUs": 39888675
+  },
+  "confidence": 0.99104816,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 39568675,
+     "endUs": 39888675
+    },
+    "playback": {
+     "startUs": 39568675,
+     "endUs": 39888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w90",
+  "ordinal": 90,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 39888675,
+   "endUs": 39968675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 39888675,
+     "endUs": 39968675
+    },
+    "playback": {
+     "startUs": 39888675,
+     "endUs": 39968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w91",
+  "ordinal": 91,
+  "text": "token.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 39968675,
+   "endUs": 40368675
+  },
+  "confidence": 0.8897705,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 39968675,
+     "endUs": 40368675
+    },
+    "playback": {
+     "startUs": 39968675,
+     "endUs": 40368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w92",
+  "ordinal": 92,
+  "text": "And",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 41808675,
+   "endUs": 42128675
+  },
+  "confidence": 0.91308594,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 41808675,
+     "endUs": 42128675
+    },
+    "playback": {
+     "startUs": 41808675,
+     "endUs": 42128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w93",
+  "ordinal": 93,
+  "text": "let",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 42848675,
+   "endUs": 43088675
+  },
+  "confidence": 0.92529297,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 42848675,
+     "endUs": 43088675
+    },
+    "playback": {
+     "startUs": 42848675,
+     "endUs": 43088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w94",
+  "ordinal": 94,
+  "text": "me",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 43088675,
+   "endUs": 43248675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 43088675,
+     "endUs": 43248675
+    },
+    "playback": {
+     "startUs": 43088675,
+     "endUs": 43248675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w95",
+  "ordinal": 95,
+  "text": "just",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 43248675,
+   "endUs": 43408675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 43248675,
+     "endUs": 43408675
+    },
+    "playback": {
+     "startUs": 43248675,
+     "endUs": 43408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w96",
+  "ordinal": 96,
+  "text": "go",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 43408675,
+   "endUs": 43648675
+  },
+  "confidence": 0.99853516,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 43408675,
+     "endUs": 43648675
+    },
+    "playback": {
+     "startUs": 43408675,
+     "endUs": 43648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w97",
+  "ordinal": 97,
+  "text": "skip",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 43648675,
+   "endUs": 44368675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 43648675,
+     "endUs": 44368675
+    },
+    "playback": {
+     "startUs": 43648675,
+     "endUs": 44368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w98",
+  "ordinal": 98,
+  "text": "down",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 44368675,
+   "endUs": 44688675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 44368675,
+     "endUs": 44688675
+    },
+    "playback": {
+     "startUs": 44368675,
+     "endUs": 44688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w99",
+  "ordinal": 99,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 44688675,
+   "endUs": 44928675
+  },
+  "confidence": 0.99853516,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 44688675,
+     "endUs": 44928675
+    },
+    "playback": {
+     "startUs": 44688675,
+     "endUs": 44928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w100",
+  "ordinal": 100,
+  "text": "six,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 45248675,
+   "endUs": 45648675
+  },
+  "confidence": 0.8694661,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 45248675,
+     "endUs": 45648675
+    },
+    "playback": {
+     "startUs": 45248675,
+     "endUs": 45648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w101",
+  "ordinal": 101,
+  "text": "scroll",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 45728675,
+   "endUs": 46128675
+  },
+  "confidence": 0.97526044,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 45728675,
+     "endUs": 46128675
+    },
+    "playback": {
+     "startUs": 45728675,
+     "endUs": 46128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w102",
+  "ordinal": 102,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 46128675,
+   "endUs": 46288675
+  },
+  "confidence": 0.89404297,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 46128675,
+     "endUs": 46288675
+    },
+    "playback": {
+     "startUs": 46128675,
+     "endUs": 46288675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w103",
+  "ordinal": 103,
+  "text": "narrate,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 46288675,
+   "endUs": 47168675
+  },
+  "confidence": 0.8750488,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 46288675,
+     "endUs": 47168675
+    },
+    "playback": {
+     "startUs": 46288675,
+     "endUs": 47168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w104",
+  "ordinal": 104,
+  "text": "with",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 47728675,
+   "endUs": 47888675
+  },
+  "confidence": 0.61865234,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 47728675,
+     "endUs": 47888675
+    },
+    "playback": {
+     "startUs": 47728675,
+     "endUs": 47888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w105",
+  "ordinal": 105,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 48048675,
+   "endUs": 48128675
+  },
+  "confidence": 0.89941406,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 48048675,
+     "endUs": 48128675
+    },
+    "playback": {
+     "startUs": 48048675,
+     "endUs": 48128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w106",
+  "ordinal": 106,
+  "text": "long",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 48128675,
+   "endUs": 48288675
+  },
+  "confidence": 0.99853516,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 48128675,
+     "endUs": 48288675
+    },
+    "playback": {
+     "startUs": 48128675,
+     "endUs": 48288675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w107",
+  "ordinal": 107,
+  "text": "page",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 48288675,
+   "endUs": 48528675
+  },
+  "confidence": 0.99853516,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 48288675,
+     "endUs": 48528675
+    },
+    "playback": {
+     "startUs": 48288675,
+     "endUs": 48528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w108",
+  "ordinal": 108,
+  "text": "with",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 48528675,
+   "endUs": 48688675
+  },
+  "confidence": 0.59033203,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 48528675,
+     "endUs": 48688675
+    },
+    "playback": {
+     "startUs": 48528675,
+     "endUs": 48688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w109",
+  "ordinal": 109,
+  "text": "clear",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 48688675,
+   "endUs": 49008675
+  },
+  "confidence": 0.99625653,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 48688675,
+     "endUs": 49008675
+    },
+    "playback": {
+     "startUs": 48688675,
+     "endUs": 49008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w110",
+  "ordinal": 110,
+  "text": "waypoints.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 49008675,
+   "endUs": 49968675
+  },
+  "confidence": 0.95011395,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 49008675,
+     "endUs": 49968675
+    },
+    "playback": {
+     "startUs": 49008675,
+     "endUs": 49968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w111",
+  "ordinal": 111,
+  "text": "So",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 50768675,
+   "endUs": 50928675
+  },
+  "confidence": 0.9765625,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 50768675,
+     "endUs": 50928675
+    },
+    "playback": {
+     "startUs": 50768675,
+     "endUs": 50928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w112",
+  "ordinal": 112,
+  "text": "let's",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 51008675,
+   "endUs": 51328675
+  },
+  "confidence": 0.99283856,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 51008675,
+     "endUs": 51328675
+    },
+    "playback": {
+     "startUs": 51008675,
+     "endUs": 51328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w113",
+  "ordinal": 113,
+  "text": "do",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 51328675,
+   "endUs": 51568675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 51328675,
+     "endUs": 51568675
+    },
+    "playback": {
+     "startUs": 51328675,
+     "endUs": 51568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w114",
+  "ordinal": 114,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 51568675,
+   "endUs": 51808675
+  },
+  "confidence": 0.9926758,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 51568675,
+     "endUs": 51808675
+    },
+    "playback": {
+     "startUs": 51568675,
+     "endUs": 51808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w115",
+  "ordinal": 115,
+  "text": "first",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 51968675,
+   "endUs": 52288675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 51968675,
+     "endUs": 52288675
+    },
+    "playback": {
+     "startUs": 51968675,
+     "endUs": 52288675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w116",
+  "ordinal": 116,
+  "text": "paragraph,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 52288675,
+   "endUs": 53088675
+  },
+  "confidence": 0.91084796,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 52288675,
+     "endUs": 53088675
+    },
+    "playback": {
+     "startUs": 52288675,
+     "endUs": 53088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w117",
+  "ordinal": 117,
+  "text": "uh",
+  "kind": "filler",
+  "sourceRange": {
+   "startUs": 54128675,
+   "endUs": 54448675
+  },
+  "confidence": 0.8364258,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 54128675,
+     "endUs": 54448675
+    },
+    "playback": {
+     "startUs": 54128675,
+     "endUs": 54448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w118",
+  "ordinal": 118,
+  "text": "this",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 55088675,
+   "endUs": 55408675
+  },
+  "confidence": 0.9448242,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 55088675,
+     "endUs": 55408675
+    },
+    "playback": {
+     "startUs": 55088675,
+     "endUs": 55408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w119",
+  "ordinal": 119,
+  "text": "page",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 55408675,
+   "endUs": 55728675
+  },
+  "confidence": 0.99975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 55408675,
+     "endUs": 55728675
+    },
+    "playback": {
+     "startUs": 55408675,
+     "endUs": 55728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w120",
+  "ordinal": 120,
+  "text": "is",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 55728675,
+   "endUs": 55888675
+  },
+  "confidence": 0.9975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 55728675,
+     "endUs": 55888675
+    },
+    "playback": {
+     "startUs": 55728675,
+     "endUs": 55888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w121",
+  "ordinal": 121,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 55888675,
+   "endUs": 56048675
+  },
+  "confidence": 0.88964844,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 55888675,
+     "endUs": 56048675
+    },
+    "playback": {
+     "startUs": 55888675,
+     "endUs": 56048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w122",
+  "ordinal": 122,
+  "text": "recording",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 56048675,
+   "endUs": 56448675
+  },
+  "confidence": 0.99820966,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 56048675,
+     "endUs": 56448675
+    },
+    "playback": {
+     "startUs": 56048675,
+     "endUs": 56448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w123",
+  "ordinal": 123,
+  "text": "fixture.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 56448675,
+   "endUs": 57408675
+  },
+  "confidence": 0.96181643,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 56448675,
+     "endUs": 57408675
+    },
+    "playback": {
+     "startUs": 56448675,
+     "endUs": 57408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w124",
+  "ordinal": 124,
+  "text": "Its",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 57728675,
+   "endUs": 58048675
+  },
+  "confidence": 0.8469238,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 57728675,
+     "endUs": 58048675
+    },
+    "playback": {
+     "startUs": 57728675,
+     "endUs": 58048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w125",
+  "ordinal": 125,
+  "text": "landmark",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 58208675,
+   "endUs": 58928675
+  },
+  "confidence": 0.9946289,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 58208675,
+     "endUs": 58928675
+    },
+    "playback": {
+     "startUs": 58208675,
+     "endUs": 58928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w126",
+  "ordinal": 126,
+  "text": "makes",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 58928675,
+   "endUs": 59088675
+  },
+  "confidence": 0.9992676,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 58928675,
+     "endUs": 59088675
+    },
+    "playback": {
+     "startUs": 58928675,
+     "endUs": 59088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w127",
+  "ordinal": 127,
+  "text": "it",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 59088675,
+   "endUs": 59248675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 59088675,
+     "endUs": 59248675
+    },
+    "playback": {
+     "startUs": 59088675,
+     "endUs": 59248675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w128",
+  "ordinal": 128,
+  "text": "possible",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 59248675,
+   "endUs": 59568675
+  },
+  "confidence": 0.9991862,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 59248675,
+     "endUs": 59568675
+    },
+    "playback": {
+     "startUs": 59248675,
+     "endUs": 59568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w129",
+  "ordinal": 129,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 59568675,
+   "endUs": 59648675
+  },
+  "confidence": 0.9926758,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 59568675,
+     "endUs": 59648675
+    },
+    "playback": {
+     "startUs": 59568675,
+     "endUs": 59648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w130",
+  "ordinal": 130,
+  "text": "describe",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 59648675,
+   "endUs": 60048675
+  },
+  "confidence": 0.9953613,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 59648675,
+     "endUs": 60048675
+    },
+    "playback": {
+     "startUs": 59648675,
+     "endUs": 60048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w131",
+  "ordinal": 131,
+  "text": "what",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 60048675,
+   "endUs": 60208675
+  },
+  "confidence": 0.8383789,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 60048675,
+     "endUs": 60208675
+    },
+    "playback": {
+     "startUs": 60048675,
+     "endUs": 60208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w132",
+  "ordinal": 132,
+  "text": "pointer",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 60288675,
+   "endUs": 60688675
+  },
+  "confidence": 0.98876953,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 60288675,
+     "endUs": 60688675
+    },
+    "playback": {
+     "startUs": 60288675,
+     "endUs": 60688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w133",
+  "ordinal": 133,
+  "text": "moved",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 60688675,
+   "endUs": 61008675
+  },
+  "confidence": 0.99365234,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 60688675,
+     "endUs": 61008675
+    },
+    "playback": {
+     "startUs": 60688675,
+     "endUs": 61008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w134",
+  "ordinal": 134,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 61008675,
+   "endUs": 61168675
+  },
+  "confidence": 0.93408203,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 61008675,
+     "endUs": 61168675
+    },
+    "playback": {
+     "startUs": 61008675,
+     "endUs": 61168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w135",
+  "ordinal": 135,
+  "text": "which",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 61168675,
+   "endUs": 61328675
+  },
+  "confidence": 0.9980469,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 61168675,
+     "endUs": 61328675
+    },
+    "playback": {
+     "startUs": 61168675,
+     "endUs": 61328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w136",
+  "ordinal": 136,
+  "text": "part",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 61328675,
+   "endUs": 61488675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 61328675,
+     "endUs": 61488675
+    },
+    "playback": {
+     "startUs": 61328675,
+     "endUs": 61488675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w137",
+  "ordinal": 137,
+  "text": "of",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 61488675,
+   "endUs": 61568675
+  },
+  "confidence": 0.9941406,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 61488675,
+     "endUs": 61568675
+    },
+    "playback": {
+     "startUs": 61488675,
+     "endUs": 61568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w138",
+  "ordinal": 138,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 61568675,
+   "endUs": 61648675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 61568675,
+     "endUs": 61648675
+    },
+    "playback": {
+     "startUs": 61568675,
+     "endUs": 61648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w139",
+  "ordinal": 139,
+  "text": "page",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 61648675,
+   "endUs": 61968675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 61648675,
+     "endUs": 61968675
+    },
+    "playback": {
+     "startUs": 61648675,
+     "endUs": 61968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w140",
+  "ordinal": 140,
+  "text": "was",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 61968675,
+   "endUs": 62128675
+  },
+  "confidence": 0.9975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 61968675,
+     "endUs": 62128675
+    },
+    "playback": {
+     "startUs": 61968675,
+     "endUs": 62128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w141",
+  "ordinal": 141,
+  "text": "visible.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 62128675,
+   "endUs": 62848675
+  },
+  "confidence": 0.99768066,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 62128675,
+     "endUs": 62848675
+    },
+    "playback": {
+     "startUs": 62128675,
+     "endUs": 62848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w142",
+  "ordinal": 142,
+  "text": "Scroll",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 63168675,
+   "endUs": 63648675
+  },
+  "confidence": 0.9963379,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 63168675,
+     "endUs": 63648675
+    },
+    "playback": {
+     "startUs": 63168675,
+     "endUs": 63648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w143",
+  "ordinal": 143,
+  "text": "slowly",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 63648675,
+   "endUs": 64048675
+  },
+  "confidence": 0.9996745,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 63648675,
+     "endUs": 64048675
+    },
+    "playback": {
+     "startUs": 63648675,
+     "endUs": 64048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w144",
+  "ordinal": 144,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 64048675,
+   "endUs": 64208675
+  },
+  "confidence": 0.9916992,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 64048675,
+     "endUs": 64208675
+    },
+    "playback": {
+     "startUs": 64048675,
+     "endUs": 64208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w145",
+  "ordinal": 145,
+  "text": "reach",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 64208675,
+   "endUs": 64528675
+  },
+  "confidence": 0.9785156,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 64208675,
+     "endUs": 64528675
+    },
+    "playback": {
+     "startUs": 64208675,
+     "endUs": 64528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w146",
+  "ordinal": 146,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 64768675,
+   "endUs": 65008675
+  },
+  "confidence": 0.9921875,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 64768675,
+     "endUs": 65008675
+    },
+    "playback": {
+     "startUs": 64768675,
+     "endUs": 65008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w147",
+  "ordinal": 147,
+  "text": "read",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 65008675,
+   "endUs": 65328675
+  },
+  "confidence": 0.9980469,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 65008675,
+     "endUs": 65328675
+    },
+    "playback": {
+     "startUs": 65008675,
+     "endUs": 65328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w148",
+  "ordinal": 148,
+  "text": "each",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 65328675,
+   "endUs": 65648675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 65328675,
+     "endUs": 65648675
+    },
+    "playback": {
+     "startUs": 65328675,
+     "endUs": 65648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w149",
+  "ordinal": 149,
+  "text": "section.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 65648675,
+   "endUs": 66128675
+  },
+  "confidence": 0.9251302,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 65648675,
+     "endUs": 66128675
+    },
+    "playback": {
+     "startUs": 65648675,
+     "endUs": 66128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w150",
+  "ordinal": 150,
+  "text": "And",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 67808675,
+   "endUs": 67968675
+  },
+  "confidence": 0.99121094,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 67808675,
+     "endUs": 67968675
+    },
+    "playback": {
+     "startUs": 67808675,
+     "endUs": 67968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w151",
+  "ordinal": 151,
+  "text": "then",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 67968675,
+   "endUs": 68128675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 67968675,
+     "endUs": 68128675
+    },
+    "playback": {
+     "startUs": 67968675,
+     "endUs": 68128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w152",
+  "ordinal": 152,
+  "text": "for",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 68128675,
+   "endUs": 68368675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 68128675,
+     "endUs": 68368675
+    },
+    "playback": {
+     "startUs": 68128675,
+     "endUs": 68368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w153",
+  "ordinal": 153,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 68368675,
+   "endUs": 68528675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 68368675,
+     "endUs": 68528675
+    },
+    "playback": {
+     "startUs": 68368675,
+     "endUs": 68528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w154",
+  "ordinal": 154,
+  "text": "second",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 68528675,
+   "endUs": 68928675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 68528675,
+     "endUs": 68928675
+    },
+    "playback": {
+     "startUs": 68528675,
+     "endUs": 68928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w155",
+  "ordinal": 155,
+  "text": "section,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 68928675,
+   "endUs": 69488675
+  },
+  "confidence": 0.98811847,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 68928675,
+     "endUs": 69488675
+    },
+    "playback": {
+     "startUs": 68928675,
+     "endUs": 69488675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w156",
+  "ordinal": 156,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 69808675,
+   "endUs": 69968675
+  },
+  "confidence": 0.8964844,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 69808675,
+     "endUs": 69968675
+    },
+    "playback": {
+     "startUs": 69808675,
+     "endUs": 69968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w157",
+  "ordinal": 157,
+  "text": "sentence",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 70048675,
+   "endUs": 70448675
+  },
+  "confidence": 0.9954427,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 70048675,
+     "endUs": 70448675
+    },
+    "playback": {
+     "startUs": 70048675,
+     "endUs": 70448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w158",
+  "ordinal": 158,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 70448675,
+   "endUs": 70608675
+  },
+  "confidence": 0.9941406,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 70448675,
+     "endUs": 70608675
+    },
+    "playback": {
+     "startUs": 70448675,
+     "endUs": 70608675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w159",
+  "ordinal": 159,
+  "text": "identify",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 70608675,
+   "endUs": 71648675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 70608675,
+     "endUs": 71648675
+    },
+    "playback": {
+     "startUs": 70608675,
+     "endUs": 71648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w160",
+  "ordinal": 160,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 72288675,
+   "endUs": 72608675
+  },
+  "confidence": 0.99853516,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 72288675,
+     "endUs": 72608675
+    },
+    "playback": {
+     "startUs": 72288675,
+     "endUs": 72608675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w161",
+  "ordinal": 161,
+  "text": "sample",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 72608675,
+   "endUs": 73008675
+  },
+  "confidence": 0.9991862,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 72608675,
+     "endUs": 73008675
+    },
+    "playback": {
+     "startUs": 72608675,
+     "endUs": 73008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w162",
+  "ordinal": 162,
+  "text": "offer",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 73088675,
+   "endUs": 73408675
+  },
+  "confidence": 0.70996094,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 73088675,
+     "endUs": 73408675
+    },
+    "playback": {
+     "startUs": 73088675,
+     "endUs": 73408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w163",
+  "ordinal": 163,
+  "text": "says",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 73488675,
+   "endUs": 73728675
+  },
+  "confidence": 0.99780273,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 73488675,
+     "endUs": 73728675
+    },
+    "playback": {
+     "startUs": 73488675,
+     "endUs": 73728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w164",
+  "ordinal": 164,
+  "text": "this",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 73808675,
+   "endUs": 73968675
+  },
+  "confidence": 0.9921875,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 73808675,
+     "endUs": 73968675
+    },
+    "playback": {
+     "startUs": 73808675,
+     "endUs": 73968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w165",
+  "ordinal": 165,
+  "text": "is",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 73968675,
+   "endUs": 74128675
+  },
+  "confidence": 0.99365234,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 73968675,
+     "endUs": 74128675
+    },
+    "playback": {
+     "startUs": 73968675,
+     "endUs": 74128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w166",
+  "ordinal": 166,
+  "text": "free.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 74128675,
+   "endUs": 74528675
+  },
+  "confidence": 0.9938151,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 74128675,
+     "endUs": 74528675
+    },
+    "playback": {
+     "startUs": 74128675,
+     "endUs": 74528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w167",
+  "ordinal": 167,
+  "text": "You",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 74768675,
+   "endUs": 74928675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 74768675,
+     "endUs": 74928675
+    },
+    "playback": {
+     "startUs": 74768675,
+     "endUs": 74928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w168",
+  "ordinal": 168,
+  "text": "can",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 74928675,
+   "endUs": 75168675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 74928675,
+     "endUs": 75168675
+    },
+    "playback": {
+     "startUs": 74928675,
+     "endUs": 75168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w169",
+  "ordinal": 169,
+  "text": "mention",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 75168675,
+   "endUs": 75568675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 75168675,
+     "endUs": 75568675
+    },
+    "playback": {
+     "startUs": 75168675,
+     "endUs": 75568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w170",
+  "ordinal": 170,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 75568675,
+   "endUs": 75808675
+  },
+  "confidence": 0.85009766,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 75568675,
+     "endUs": 75808675
+    },
+    "playback": {
+     "startUs": 75568675,
+     "endUs": 75808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w171",
+  "ordinal": 171,
+  "text": "sentence",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 75808675,
+   "endUs": 76288675
+  },
+  "confidence": 0.9972331,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 75808675,
+     "endUs": 76288675
+    },
+    "playback": {
+     "startUs": 75808675,
+     "endUs": 76288675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w172",
+  "ordinal": 172,
+  "text": "in",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 76288675,
+   "endUs": 76448675
+  },
+  "confidence": 0.9814453,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 76288675,
+     "endUs": 76448675
+    },
+    "playback": {
+     "startUs": 76288675,
+     "endUs": 76448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w173",
+  "ordinal": 173,
+  "text": "your",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 76448675,
+   "endUs": 76608675
+  },
+  "confidence": 0.9165039,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 76448675,
+     "endUs": 76608675
+    },
+    "playback": {
+     "startUs": 76448675,
+     "endUs": 76608675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w174",
+  "ordinal": 174,
+  "text": "narration",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 76608675,
+   "endUs": 77328675
+  },
+  "confidence": 0.99975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 76608675,
+     "endUs": 77328675
+    },
+    "playback": {
+     "startUs": 76608675,
+     "endUs": 77328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w175",
+  "ordinal": 175,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 77648675,
+   "endUs": 77968675
+  },
+  "confidence": 0.99072266,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 77648675,
+     "endUs": 77968675
+    },
+    "playback": {
+     "startUs": 77648675,
+     "endUs": 77968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w176",
+  "ordinal": 176,
+  "text": "ask",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 77968675,
+   "endUs": 78208675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 77968675,
+     "endUs": 78208675
+    },
+    "playback": {
+     "startUs": 77968675,
+     "endUs": 78208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w177",
+  "ordinal": 177,
+  "text": "an",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 78208675,
+   "endUs": 78368675
+  },
+  "confidence": 0.99072266,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 78208675,
+     "endUs": 78368675
+    },
+    "playback": {
+     "startUs": 78208675,
+     "endUs": 78368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w178",
+  "ordinal": 178,
+  "text": "external",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 78368675,
+   "endUs": 78688675
+  },
+  "confidence": 0.99975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 78368675,
+     "endUs": 78688675
+    },
+    "playback": {
+     "startUs": 78368675,
+     "endUs": 78688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w179",
+  "ordinal": 179,
+  "text": "agent",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 78688675,
+   "endUs": 79008675
+  },
+  "confidence": 0.99975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 78688675,
+     "endUs": 79008675
+    },
+    "playback": {
+     "startUs": 78688675,
+     "endUs": 79008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w180",
+  "ordinal": 180,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 79008675,
+   "endUs": 79088675
+  },
+  "confidence": 0.95654297,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 79008675,
+     "endUs": 79088675
+    },
+    "playback": {
+     "startUs": 79008675,
+     "endUs": 79088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w181",
+  "ordinal": 181,
+  "text": "find",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 79088675,
+   "endUs": 79168675
+  },
+  "confidence": 0.75341797,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 79088675,
+     "endUs": 79168675
+    },
+    "playback": {
+     "startUs": 79088675,
+     "endUs": 79168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w182",
+  "ordinal": 182,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 79488675,
+   "endUs": 79648675
+  },
+  "confidence": 0.93896484,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 79488675,
+     "endUs": 79648675
+    },
+    "playback": {
+     "startUs": 79488675,
+     "endUs": 79648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w183",
+  "ordinal": 183,
+  "text": "spoken",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 79648675,
+   "endUs": 80048675
+  },
+  "confidence": 0.99934894,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 79648675,
+     "endUs": 80048675
+    },
+    "playback": {
+     "startUs": 79648675,
+     "endUs": 80048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w184",
+  "ordinal": 184,
+  "text": "phrase",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 80048675,
+   "endUs": 80768675
+  },
+  "confidence": 0.9991862,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 80048675,
+     "endUs": 80768675
+    },
+    "playback": {
+     "startUs": 80048675,
+     "endUs": 80768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w185",
+  "ordinal": 185,
+  "text": "from",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 80768675,
+   "endUs": 81088675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 80768675,
+     "endUs": 81088675
+    },
+    "playback": {
+     "startUs": 80768675,
+     "endUs": 81088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w186",
+  "ordinal": 186,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 81088675,
+   "endUs": 81328675
+  },
+  "confidence": 0.9863281,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 81088675,
+     "endUs": 81328675
+    },
+    "playback": {
+     "startUs": 81088675,
+     "endUs": 81328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w187",
+  "ordinal": 187,
+  "text": "recorded",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 81328675,
+   "endUs": 81888675
+  },
+  "confidence": 0.99088544,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 81328675,
+     "endUs": 81888675
+    },
+    "playback": {
+     "startUs": 81328675,
+     "endUs": 81888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w188",
+  "ordinal": 188,
+  "text": "devi",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 81888675,
+   "endUs": 82208675
+  },
+  "confidence": 0.87093097,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 81888675,
+     "endUs": 82208675
+    },
+    "playback": {
+     "startUs": 81888675,
+     "endUs": 82208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w189",
+  "ordinal": 189,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 82448675,
+   "endUs": 82688675
+  },
+  "confidence": 0.99316406,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 82448675,
+     "endUs": 82688675
+    },
+    "playback": {
+     "startUs": 82448675,
+     "endUs": 82688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w190",
+  "ordinal": 190,
+  "text": "recorded",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 82688675,
+   "endUs": 83248675
+  },
+  "confidence": 0.9905599,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 82688675,
+     "endUs": 83248675
+    },
+    "playback": {
+     "startUs": 82688675,
+     "endUs": 83248675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w191",
+  "ordinal": 191,
+  "text": "evidence.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 83248675,
+   "endUs": 84128675
+  },
+  "confidence": 0.9213867,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 83248675,
+     "endUs": 84128675
+    },
+    "playback": {
+     "startUs": 83248675,
+     "endUs": 84128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w192",
+  "ordinal": 192,
+  "text": "Three",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 84928675,
+   "endUs": 85088675
+  },
+  "confidence": 0.76171875,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 84928675,
+     "endUs": 85088675
+    },
+    "playback": {
+     "startUs": 84928675,
+     "endUs": 85088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w193",
+  "ordinal": 193,
+  "text": "at",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 85328675,
+   "endUs": 85408675
+  },
+  "confidence": 0.8300781,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 85328675,
+     "endUs": 85408675
+    },
+    "playback": {
+     "startUs": 85328675,
+     "endUs": 85408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w194",
+  "ordinal": 194,
+  "text": "moment",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 85568675,
+   "endUs": 85888675
+  },
+  "confidence": 0.98372394,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 85568675,
+     "endUs": 85888675
+    },
+    "playback": {
+     "startUs": 85568675,
+     "endUs": 85888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w195",
+  "ordinal": 195,
+  "text": "pause,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 86048675,
+   "endUs": 86608675
+  },
+  "confidence": 0.9205322,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 86048675,
+     "endUs": 86608675
+    },
+    "playback": {
+     "startUs": 86048675,
+     "endUs": 86608675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w196",
+  "ordinal": 196,
+  "text": "stop",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 86928675,
+   "endUs": 87328675
+  },
+  "confidence": 0.9941406,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 86928675,
+     "endUs": 87328675
+    },
+    "playback": {
+     "startUs": 86928675,
+     "endUs": 87328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w197",
+  "ordinal": 197,
+  "text": "scrolling",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 87328675,
+   "endUs": 87888675
+  },
+  "confidence": 0.99890137,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 87328675,
+     "endUs": 87888675
+    },
+    "playback": {
+     "startUs": 87328675,
+     "endUs": 87888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w198",
+  "ordinal": 198,
+  "text": "here,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 87888675,
+   "endUs": 88208675
+  },
+  "confidence": 0.9580078,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 87888675,
+     "endUs": 88208675
+    },
+    "playback": {
+     "startUs": 87888675,
+     "endUs": 88208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w199",
+  "ordinal": 199,
+  "text": "point",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 88528675,
+   "endUs": 88848675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 88528675,
+     "endUs": 88848675
+    },
+    "playback": {
+     "startUs": 88528675,
+     "endUs": 88848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w200",
+  "ordinal": 200,
+  "text": "at",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 88848675,
+   "endUs": 88928675
+  },
+  "confidence": 0.99658203,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 88848675,
+     "endUs": 88928675
+    },
+    "playback": {
+     "startUs": 88848675,
+     "endUs": 88928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w201",
+  "ordinal": 201,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 88928675,
+   "endUs": 89088675
+  },
+  "confidence": 0.90527344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 88928675,
+     "endUs": 89088675
+    },
+    "playback": {
+     "startUs": 88928675,
+     "endUs": 89088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w202",
+  "ordinal": 202,
+  "text": "number",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 89088675,
+   "endUs": 89328675
+  },
+  "confidence": 0.9951172,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 89088675,
+     "endUs": 89328675
+    },
+    "playback": {
+     "startUs": 89088675,
+     "endUs": 89328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w203",
+  "ordinal": 203,
+  "text": "marker,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 89488675,
+   "endUs": 90128675
+  },
+  "confidence": 0.9888916,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 89488675,
+     "endUs": 90128675
+    },
+    "playback": {
+     "startUs": 89488675,
+     "endUs": 90128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w204",
+  "ordinal": 204,
+  "text": "move",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 90448675,
+   "endUs": 90768675
+  },
+  "confidence": 0.9992676,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 90448675,
+     "endUs": 90768675
+    },
+    "playback": {
+     "startUs": 90448675,
+     "endUs": 90768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w205",
+  "ordinal": 205,
+  "text": "away,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 90768675,
+   "endUs": 91008675
+  },
+  "confidence": 0.9868164,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 90768675,
+     "endUs": 91008675
+    },
+    "playback": {
+     "startUs": 90768675,
+     "endUs": 91008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w206",
+  "ordinal": 206,
+  "text": "return",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 91168675,
+   "endUs": 91568675
+  },
+  "confidence": 0.9998372,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 91168675,
+     "endUs": 91568675
+    },
+    "playback": {
+     "startUs": 91168675,
+     "endUs": 91568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w207",
+  "ordinal": 207,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 91568675,
+   "endUs": 91728675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 91568675,
+     "endUs": 91728675
+    },
+    "playback": {
+     "startUs": 91568675,
+     "endUs": 91728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w208",
+  "ordinal": 208,
+  "text": "it.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 91728675,
+   "endUs": 91888675
+  },
+  "confidence": 0.9057617,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 91728675,
+     "endUs": 91888675
+    },
+    "playback": {
+     "startUs": 91728675,
+     "endUs": 91888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w209",
+  "ordinal": 209,
+  "text": "Stationary",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 92288675,
+   "endUs": 92848675
+  },
+  "confidence": 0.99886066,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 92288675,
+     "endUs": 92848675
+    },
+    "playback": {
+     "startUs": 92288675,
+     "endUs": 92848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w210",
+  "ordinal": 210,
+  "text": "background",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 92848675,
+   "endUs": 93168675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 92848675,
+     "endUs": 93168675
+    },
+    "playback": {
+     "startUs": 92848675,
+     "endUs": 93168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w211",
+  "ordinal": 211,
+  "text": "with",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 93168675,
+   "endUs": 93328675
+  },
+  "confidence": 0.9707031,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 93168675,
+     "endUs": 93328675
+    },
+    "playback": {
+     "startUs": 93168675,
+     "endUs": 93328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w212",
+  "ordinal": 212,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 93328675,
+   "endUs": 93488675
+  },
+  "confidence": 0.8984375,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 93328675,
+     "endUs": 93488675
+    },
+    "playback": {
+     "startUs": 93328675,
+     "endUs": 93488675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w213",
+  "ordinal": 213,
+  "text": "active",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 93488675,
+   "endUs": 93808675
+  },
+  "confidence": 0.98999023,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 93488675,
+     "endUs": 93808675
+    },
+    "playback": {
+     "startUs": 93488675,
+     "endUs": 93808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w214",
+  "ordinal": 214,
+  "text": "pointer",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 93808675,
+   "endUs": 94208675
+  },
+  "confidence": 0.9978841,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 93808675,
+     "endUs": 94208675
+    },
+    "playback": {
+     "startUs": 93808675,
+     "endUs": 94208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w215",
+  "ordinal": 215,
+  "text": "helps",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 94208675,
+   "endUs": 94528675
+  },
+  "confidence": 0.97094727,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 94208675,
+     "endUs": 94528675
+    },
+    "playback": {
+     "startUs": 94208675,
+     "endUs": 94528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w216",
+  "ordinal": 216,
+  "text": "separate",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 94528675,
+   "endUs": 94768675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 94528675,
+     "endUs": 94768675
+    },
+    "playback": {
+     "startUs": 94528675,
+     "endUs": 94768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w217",
+  "ordinal": 217,
+  "text": "gesture",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 94848675,
+   "endUs": 95728675
+  },
+  "confidence": 0.99609375,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 94848675,
+     "endUs": 95728675
+    },
+    "playback": {
+     "startUs": 94848675,
+     "endUs": 95728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w218",
+  "ordinal": 218,
+  "text": "from",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 95728675,
+   "endUs": 96048675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 95728675,
+     "endUs": 96048675
+    },
+    "playback": {
+     "startUs": 95728675,
+     "endUs": 96048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w219",
+  "ordinal": 219,
+  "text": "scene",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 96208675,
+   "endUs": 96768675
+  },
+  "confidence": 0.99121094,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 96208675,
+     "endUs": 96768675
+    },
+    "playback": {
+     "startUs": 96208675,
+     "endUs": 96768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w220",
+  "ordinal": 220,
+  "text": "change.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 96768675,
+   "endUs": 97408675
+  },
+  "confidence": 0.98291016,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 96768675,
+     "endUs": 97408675
+    },
+    "playback": {
+     "startUs": 96768675,
+     "endUs": 97408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w221",
+  "ordinal": 221,
+  "text": "Okay,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 97728675,
+   "endUs": 98048675
+  },
+  "confidence": 0.9121094,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 97728675,
+     "endUs": 98048675
+    },
+    "playback": {
+     "startUs": 97728675,
+     "endUs": 98048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w222",
+  "ordinal": 222,
+  "text": "so",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 98288675,
+   "endUs": 98448675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 98288675,
+     "endUs": 98448675
+    },
+    "playback": {
+     "startUs": 98288675,
+     "endUs": 98448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w223",
+  "ordinal": 223,
+  "text": "let's",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 98608675,
+   "endUs": 98928675
+  },
+  "confidence": 0.97265625,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 98608675,
+     "endUs": 98928675
+    },
+    "playback": {
+     "startUs": 98608675,
+     "endUs": 98928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w224",
+  "ordinal": 224,
+  "text": "move",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 98928675,
+   "endUs": 99168675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 98928675,
+     "endUs": 99168675
+    },
+    "playback": {
+     "startUs": 98928675,
+     "endUs": 99168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w225",
+  "ordinal": 225,
+  "text": "away,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 99168675,
+   "endUs": 99408675
+  },
+  "confidence": 0.9713542,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 99168675,
+     "endUs": 99408675
+    },
+    "playback": {
+     "startUs": 99168675,
+     "endUs": 99408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w226",
+  "ordinal": 226,
+  "text": "return",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 99568675,
+   "endUs": 99968675
+  },
+  "confidence": 0.99869794,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 99568675,
+     "endUs": 99968675
+    },
+    "playback": {
+     "startUs": 99568675,
+     "endUs": 99968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w227",
+  "ordinal": 227,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 99968675,
+   "endUs": 100128675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 99968675,
+     "endUs": 100128675
+    },
+    "playback": {
+     "startUs": 99968675,
+     "endUs": 100128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w228",
+  "ordinal": 228,
+  "text": "it.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 100128675,
+   "endUs": 100208675
+  },
+  "confidence": 0.74316406,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 100128675,
+     "endUs": 100208675
+    },
+    "playback": {
+     "startUs": 100128675,
+     "endUs": 100208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w229",
+  "ordinal": 229,
+  "text": "Because",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 100448675,
+   "endUs": 100528675
+  },
+  "confidence": 0.5371094,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 100448675,
+     "endUs": 100528675
+    },
+    "playback": {
+     "startUs": 100448675,
+     "endUs": 100528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w230",
+  "ordinal": 230,
+  "text": "I'm",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 100688675,
+   "endUs": 100928675
+  },
+  "confidence": 0.9978841,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 100688675,
+     "endUs": 100928675
+    },
+    "playback": {
+     "startUs": 100688675,
+     "endUs": 100928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w231",
+  "ordinal": 231,
+  "text": "just",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 100848675,
+   "endUs": 101008675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 100848675,
+     "endUs": 101008675
+    },
+    "playback": {
+     "startUs": 100848675,
+     "endUs": 101008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w232",
+  "ordinal": 232,
+  "text": "doing",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 101008675,
+   "endUs": 101168675
+  },
+  "confidence": 0.9951172,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 101008675,
+     "endUs": 101168675
+    },
+    "playback": {
+     "startUs": 101008675,
+     "endUs": 101168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w233",
+  "ordinal": 233,
+  "text": "my",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 101168675,
+   "endUs": 101328675
+  },
+  "confidence": 0.9975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 101168675,
+     "endUs": 101328675
+    },
+    "playback": {
+     "startUs": 101168675,
+     "endUs": 101328675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w234",
+  "ordinal": 234,
+  "text": "pointer,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 101328675,
+   "endUs": 101648675
+  },
+  "confidence": 0.9505615,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 101328675,
+     "endUs": 101648675
+    },
+    "playback": {
+     "startUs": 101328675,
+     "endUs": 101648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w235",
+  "ordinal": 235,
+  "text": "moving",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 101808675,
+   "endUs": 102048675
+  },
+  "confidence": 0.9968262,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 101808675,
+     "endUs": 102048675
+    },
+    "playback": {
+     "startUs": 101808675,
+     "endUs": 102048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w236",
+  "ordinal": 236,
+  "text": "away.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 102208675,
+   "endUs": 102768675
+  },
+  "confidence": 0.8279622,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 102208675,
+     "endUs": 102768675
+    },
+    "playback": {
+     "startUs": 102208675,
+     "endUs": 102768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w237",
+  "ordinal": 237,
+  "text": "Return",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 103808675,
+   "endUs": 104288675
+  },
+  "confidence": 0.9793294,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 103808675,
+     "endUs": 104288675
+    },
+    "playback": {
+     "startUs": 103808675,
+     "endUs": 104288675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w238",
+  "ordinal": 238,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 104288675,
+   "endUs": 104528675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 104288675,
+     "endUs": 104528675
+    },
+    "playback": {
+     "startUs": 104288675,
+     "endUs": 104528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w239",
+  "ordinal": 239,
+  "text": "it.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 104528675,
+   "endUs": 104688675
+  },
+  "confidence": 0.9785156,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 104528675,
+     "endUs": 104688675
+    },
+    "playback": {
+     "startUs": 104528675,
+     "endUs": 104688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w240",
+  "ordinal": 240,
+  "text": "End",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 105568675,
+   "endUs": 105808675
+  },
+  "confidence": 0.63427734,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 105568675,
+     "endUs": 105808675
+    },
+    "playback": {
+     "startUs": 105568675,
+     "endUs": 105808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w241",
+  "ordinal": 241,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 105888675,
+   "endUs": 106048675
+  },
+  "confidence": 0.96875,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 105888675,
+     "endUs": 106048675
+    },
+    "playback": {
+     "startUs": 105888675,
+     "endUs": 106048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w242",
+  "ordinal": 242,
+  "text": "route.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 106048675,
+   "endUs": 106608675
+  },
+  "confidence": 0.96643066,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 106048675,
+     "endUs": 106608675
+    },
+    "playback": {
+     "startUs": 106048675,
+     "endUs": 106608675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w243",
+  "ordinal": 243,
+  "text": "You",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 106928675,
+   "endUs": 107088675
+  },
+  "confidence": 0.9658203,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 106928675,
+     "endUs": 107088675
+    },
+    "playback": {
+     "startUs": 106928675,
+     "endUs": 107088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w244",
+  "ordinal": 244,
+  "text": "have",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 107248675,
+   "endUs": 107408675
+  },
+  "confidence": 0.9448242,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 107248675,
+     "endUs": 107408675
+    },
+    "playback": {
+     "startUs": 107248675,
+     "endUs": 107408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w245",
+  "ordinal": 245,
+  "text": "reached",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 107408675,
+   "endUs": 107648675
+  },
+  "confidence": 0.9851888,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 107408675,
+     "endUs": 107648675
+    },
+    "playback": {
+     "startUs": 107408675,
+     "endUs": 107648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w246",
+  "ordinal": 246,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 107648675,
+   "endUs": 107808675
+  },
+  "confidence": 0.9560547,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 107648675,
+     "endUs": 107808675
+    },
+    "playback": {
+     "startUs": 107648675,
+     "endUs": 107808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w247",
+  "ordinal": 247,
+  "text": "final",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 107808675,
+   "endUs": 108128675
+  },
+  "confidence": 0.99975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 107808675,
+     "endUs": 108128675
+    },
+    "playback": {
+     "startUs": 107808675,
+     "endUs": 108128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w248",
+  "ordinal": 248,
+  "text": "waypoint.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 108128675,
+   "endUs": 108928675
+  },
+  "confidence": 0.9891602,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 108128675,
+     "endUs": 108928675
+    },
+    "playback": {
+     "startUs": 108128675,
+     "endUs": 108928675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w249",
+  "ordinal": 249,
+  "text": "Scroll",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 109248675,
+   "endUs": 109968675
+  },
+  "confidence": 0.9992676,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 109248675,
+     "endUs": 109968675
+    },
+    "playback": {
+     "startUs": 109248675,
+     "endUs": 109968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w250",
+  "ordinal": 250,
+  "text": "back",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 109968675,
+   "endUs": 110208675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 109968675,
+     "endUs": 110208675
+    },
+    "playback": {
+     "startUs": 109968675,
+     "endUs": 110208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w251",
+  "ordinal": 251,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 110208675,
+   "endUs": 110448675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 110208675,
+     "endUs": 110448675
+    },
+    "playback": {
+     "startUs": 110208675,
+     "endUs": 110448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w252",
+  "ordinal": 252,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 110448675,
+   "endUs": 110768675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 110448675,
+     "endUs": 110768675
+    },
+    "playback": {
+     "startUs": 110448675,
+     "endUs": 110768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w253",
+  "ordinal": 253,
+  "text": "reference",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 110768675,
+   "endUs": 111728675
+  },
+  "confidence": 0.9988281,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 110768675,
+     "endUs": 111728675
+    },
+    "playback": {
+     "startUs": 110768675,
+     "endUs": 111728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w254",
+  "ordinal": 254,
+  "text": "grid",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 111728675,
+   "endUs": 112128675
+  },
+  "confidence": 0.99975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 111728675,
+     "endUs": 112128675
+    },
+    "playback": {
+     "startUs": 111728675,
+     "endUs": 112128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w255",
+  "ordinal": 255,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 112128675,
+   "endUs": 112368675
+  },
+  "confidence": 0.9838867,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 112128675,
+     "endUs": 112368675
+    },
+    "playback": {
+     "startUs": 112128675,
+     "endUs": 112368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w256",
+  "ordinal": 256,
+  "text": "repeat",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 112368675,
+   "endUs": 112688675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 112368675,
+     "endUs": 112688675
+    },
+    "playback": {
+     "startUs": 112368675,
+     "endUs": 112688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w257",
+  "ordinal": 257,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 112688675,
+   "endUs": 112848675
+  },
+  "confidence": 0.9980469,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 112688675,
+     "endUs": 112848675
+    },
+    "playback": {
+     "startUs": 112688675,
+     "endUs": 112848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w258",
+  "ordinal": 258,
+  "text": "same",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 112848675,
+   "endUs": 113088675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 112848675,
+     "endUs": 113088675
+    },
+    "playback": {
+     "startUs": 112848675,
+     "endUs": 113088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w259",
+  "ordinal": 259,
+  "text": "route.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 113088675,
+   "endUs": 113888675
+  },
+  "confidence": 0.99816895,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 113088675,
+     "endUs": 113888675
+    },
+    "playback": {
+     "startUs": 113088675,
+     "endUs": 113888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w260",
+  "ordinal": 260,
+  "text": "The",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 114528675,
+   "endUs": 114768675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 114528675,
+     "endUs": 114768675
+    },
+    "playback": {
+     "startUs": 114528675,
+     "endUs": 114768675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w261",
+  "ordinal": 261,
+  "text": "top",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 114768675,
+   "endUs": 115168675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 114768675,
+     "endUs": 115168675
+    },
+    "playback": {
+     "startUs": 114768675,
+     "endUs": 115168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w262",
+  "ordinal": 262,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 115168675,
+   "endUs": 115408675
+  },
+  "confidence": 0.99902344,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 115168675,
+     "endUs": 115408675
+    },
+    "playback": {
+     "startUs": 115168675,
+     "endUs": 115408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w263",
+  "ordinal": 263,
+  "text": "bottom",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 115408675,
+   "endUs": 115808675
+  },
+  "confidence": 0.9996338,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 115408675,
+     "endUs": 115808675
+    },
+    "playback": {
+     "startUs": 115408675,
+     "endUs": 115808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w264",
+  "ordinal": 264,
+  "text": "landmarks",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 115808675,
+   "endUs": 116288675
+  },
+  "confidence": 0.984375,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 115808675,
+     "endUs": 116288675
+    },
+    "playback": {
+     "startUs": 115808675,
+     "endUs": 116288675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w265",
+  "ordinal": 265,
+  "text": "have",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 116288675,
+   "endUs": 116448675
+  },
+  "confidence": 0.99658203,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 116288675,
+     "endUs": 116448675
+    },
+    "playback": {
+     "startUs": 116288675,
+     "endUs": 116448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w266",
+  "ordinal": 266,
+  "text": "different",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 116448675,
+   "endUs": 116688675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 116448675,
+     "endUs": 116688675
+    },
+    "playback": {
+     "startUs": 116448675,
+     "endUs": 116688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w267",
+  "ordinal": 267,
+  "text": "labels",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 116688675,
+   "endUs": 117168675
+  },
+  "confidence": 0.9998779,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 116688675,
+     "endUs": 117168675
+    },
+    "playback": {
+     "startUs": 116688675,
+     "endUs": 117168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w268",
+  "ordinal": 268,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 117168675,
+   "endUs": 117248675
+  },
+  "confidence": 0.99853516,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 117168675,
+     "endUs": 117248675
+    },
+    "playback": {
+     "startUs": 117168675,
+     "endUs": 117248675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w269",
+  "ordinal": 269,
+  "text": "colors,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 117248675,
+   "endUs": 117648675
+  },
+  "confidence": 0.9180908,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 117248675,
+     "endUs": 117648675
+    },
+    "playback": {
+     "startUs": 117248675,
+     "endUs": 117648675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w270",
+  "ordinal": 270,
+  "text": "so",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 117648675,
+   "endUs": 117728675
+  },
+  "confidence": 0.6586914,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 117648675,
+     "endUs": 117728675
+    },
+    "playback": {
+     "startUs": 117648675,
+     "endUs": 117728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w271",
+  "ordinal": 271,
+  "text": "a",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 117808675,
+   "endUs": 117888675
+  },
+  "confidence": 0.546875,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 117808675,
+     "endUs": 117888675
+    },
+    "playback": {
+     "startUs": 117808675,
+     "endUs": 117888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w272",
+  "ordinal": 272,
+  "text": "flipped",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 117888675,
+   "endUs": 118208675
+  },
+  "confidence": 0.99780273,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 117888675,
+     "endUs": 118208675
+    },
+    "playback": {
+     "startUs": 117888675,
+     "endUs": 118208675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w273",
+  "ordinal": 273,
+  "text": "or",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 118208675,
+   "endUs": 118368675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 118208675,
+     "endUs": 118368675
+    },
+    "playback": {
+     "startUs": 118208675,
+     "endUs": 118368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w274",
+  "ordinal": 274,
+  "text": "misplaced",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 118368675,
+   "endUs": 119088675
+  },
+  "confidence": 0.99912107,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 118368675,
+     "endUs": 119088675
+    },
+    "playback": {
+     "startUs": 118368675,
+     "endUs": 119088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w275",
+  "ordinal": 275,
+  "text": "image",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 119088675,
+   "endUs": 119728675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 119088675,
+     "endUs": 119728675
+    },
+    "playback": {
+     "startUs": 119088675,
+     "endUs": 119728675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w276",
+  "ordinal": 276,
+  "text": "is",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 119728675,
+   "endUs": 120048675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 119728675,
+     "endUs": 120048675
+    },
+    "playback": {
+     "startUs": 119728675,
+     "endUs": 120048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w277",
+  "ordinal": 277,
+  "text": "easier",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 120928675,
+   "endUs": 121488675
+  },
+  "confidence": 0.9975586,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 120928675,
+     "endUs": 121488675
+    },
+    "playback": {
+     "startUs": 120928675,
+     "endUs": 121488675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w278",
+  "ordinal": 278,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 121488675,
+   "endUs": 121808675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 121488675,
+     "endUs": 121808675
+    },
+    "playback": {
+     "startUs": 121488675,
+     "endUs": 121808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w279",
+  "ordinal": 279,
+  "text": "spot.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 121808675,
+   "endUs": 122448675
+  },
+  "confidence": 0.9816081,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 121808675,
+     "endUs": 122448675
+    },
+    "playback": {
+     "startUs": 121808675,
+     "endUs": 122448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w280",
+  "ordinal": 280,
+  "text": "Okay,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 123088675,
+   "endUs": 123408675
+  },
+  "confidence": 0.9814453,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 123088675,
+     "endUs": 123408675
+    },
+    "playback": {
+     "startUs": 123088675,
+     "endUs": 123408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w281",
+  "ordinal": 281,
+  "text": "so",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 123728675,
+   "endUs": 123968675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 123728675,
+     "endUs": 123968675
+    },
+    "playback": {
+     "startUs": 123728675,
+     "endUs": 123968675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w282",
+  "ordinal": 282,
+  "text": "let's",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 124288675,
+   "endUs": 124688675
+  },
+  "confidence": 0.9946289,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 124288675,
+     "endUs": 124688675
+    },
+    "playback": {
+     "startUs": 124288675,
+     "endUs": 124688675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w283",
+  "ordinal": 283,
+  "text": "go",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 124608675,
+   "endUs": 124848675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 124608675,
+     "endUs": 124848675
+    },
+    "playback": {
+     "startUs": 124608675,
+     "endUs": 124848675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w284",
+  "ordinal": 284,
+  "text": "back",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 124848675,
+   "endUs": 125008675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 124848675,
+     "endUs": 125008675
+    },
+    "playback": {
+     "startUs": 124848675,
+     "endUs": 125008675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w285",
+  "ordinal": 285,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 125008675,
+   "endUs": 125088675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 125008675,
+     "endUs": 125088675
+    },
+    "playback": {
+     "startUs": 125008675,
+     "endUs": 125088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w286",
+  "ordinal": 286,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 125088675,
+   "endUs": 125168675
+  },
+  "confidence": 0.9316406,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 125088675,
+     "endUs": 125168675
+    },
+    "playback": {
+     "startUs": 125088675,
+     "endUs": 125168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w287",
+  "ordinal": 287,
+  "text": "reference",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 125168675,
+   "endUs": 125568675
+  },
+  "confidence": 0.9958984,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 125168675,
+     "endUs": 125568675
+    },
+    "playback": {
+     "startUs": 125168675,
+     "endUs": 125568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w288",
+  "ordinal": 288,
+  "text": "grid.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 125568675,
+   "endUs": 125808675
+  },
+  "confidence": 0.99625653,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 125568675,
+     "endUs": 125808675
+    },
+    "playback": {
+     "startUs": 125568675,
+     "endUs": 125808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w289",
+  "ordinal": 289,
+  "text": "I've",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 125888675,
+   "endUs": 126128675
+  },
+  "confidence": 0.7496745,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 125888675,
+     "endUs": 126128675
+    },
+    "playback": {
+     "startUs": 125888675,
+     "endUs": 126128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w290",
+  "ordinal": 290,
+  "text": "clicked",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 126128675,
+   "endUs": 126368675
+  },
+  "confidence": 0.99820966,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 126128675,
+     "endUs": 126368675
+    },
+    "playback": {
+     "startUs": 126128675,
+     "endUs": 126368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w291",
+  "ordinal": 291,
+  "text": "on",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 126368675,
+   "endUs": 126448675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 126368675,
+     "endUs": 126448675
+    },
+    "playback": {
+     "startUs": 126368675,
+     "endUs": 126448675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w292",
+  "ordinal": 292,
+  "text": "this",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 126448675,
+   "endUs": 126608675
+  },
+  "confidence": 0.98828125,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 126448675,
+     "endUs": 126608675
+    },
+    "playback": {
+     "startUs": 126448675,
+     "endUs": 126608675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w293",
+  "ordinal": 293,
+  "text": "button",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 126608675,
+   "endUs": 127088675
+  },
+  "confidence": 0.9790039,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 126608675,
+     "endUs": 127088675
+    },
+    "playback": {
+     "startUs": 126608675,
+     "endUs": 127088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w294",
+  "ordinal": 294,
+  "text": "here,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 127088675,
+   "endUs": 127168675
+  },
+  "confidence": 0.8581543,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 127088675,
+     "endUs": 127168675
+    },
+    "playback": {
+     "startUs": 127088675,
+     "endUs": 127168675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w295",
+  "ordinal": 295,
+  "text": "and",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 127248675,
+   "endUs": 127408675
+  },
+  "confidence": 0.99853516,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 127248675,
+     "endUs": 127408675
+    },
+    "playback": {
+     "startUs": 127248675,
+     "endUs": 127408675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w296",
+  "ordinal": 296,
+  "text": "now",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 127408675,
+   "endUs": 127568675
+  },
+  "confidence": 1,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 127408675,
+     "endUs": 127568675
+    },
+    "playback": {
+     "startUs": 127408675,
+     "endUs": 127568675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w297",
+  "ordinal": 297,
+  "text": "I'm",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 127568675,
+   "endUs": 127808675
+  },
+  "confidence": 0.9996745,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 127568675,
+     "endUs": 127808675
+    },
+    "playback": {
+     "startUs": 127568675,
+     "endUs": 127808675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w298",
+  "ordinal": 298,
+  "text": "back",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 127728675,
+   "endUs": 127888675
+  },
+  "confidence": 0.9970703,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 127728675,
+     "endUs": 127888675
+    },
+    "playback": {
+     "startUs": 127728675,
+     "endUs": 127888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w299",
+  "ordinal": 299,
+  "text": "to",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 127888675,
+   "endUs": 128048675
+  },
+  "confidence": 0.9746094,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 127888675,
+     "endUs": 128048675
+    },
+    "playback": {
+     "startUs": 127888675,
+     "endUs": 128048675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w300",
+  "ordinal": 300,
+  "text": "the",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 128048675,
+   "endUs": 128128675
+  },
+  "confidence": 0.8173828,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 128048675,
+     "endUs": 128128675
+    },
+    "playback": {
+     "startUs": 128048675,
+     "endUs": 128128675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w301",
+  "ordinal": 301,
+  "text": "reference",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 128128675,
+   "endUs": 128528675
+  },
+  "confidence": 0.9986328,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 128128675,
+     "endUs": 128528675
+    },
+    "playback": {
+     "startUs": 128128675,
+     "endUs": 128528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w302",
+  "ordinal": 302,
+  "text": "grid.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 128528675,
+   "endUs": 129088675
+  },
+  "confidence": 0.8577474,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 128528675,
+     "endUs": 129088675
+    },
+    "playback": {
+     "startUs": 128528675,
+     "endUs": 129088675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w303",
+  "ordinal": 303,
+  "text": "Okay,",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 129648675,
+   "endUs": 129888675
+  },
+  "confidence": 0.9802246,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 129648675,
+     "endUs": 129888675
+    },
+    "playback": {
+     "startUs": 129648675,
+     "endUs": 129888675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w304",
+  "ordinal": 304,
+  "text": "that's",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 129968675,
+   "endUs": 130368675
+  },
+  "confidence": 0.9998372,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 129968675,
+     "endUs": 130368675
+    },
+    "playback": {
+     "startUs": 129968675,
+     "endUs": 130368675
+    }
+   }
+  ]
+ },
+ {
+  "type": "word",
+  "id": "w305",
+  "ordinal": 305,
+  "text": "it.",
+  "kind": "speech",
+  "sourceRange": {
+   "startUs": 130368675,
+   "endUs": 130528675
+  },
+  "confidence": 0.9995117,
+  "segment": 0,
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 130368675,
+     "endUs": 130528675
+    },
+    "playback": {
+     "startUs": 130368675,
+     "endUs": 130528675
+    }
+   }
+  ]
+ },
+ {
+  "type": "gap",
+  "sourceRange": {
+   "startUs": 134022008,
+   "endUs": 134025574
+  },
+  "reason": "not_acquired",
+  "partial": false,
+  "fragments": [
+   {
+    "source": {
+     "startUs": 134022008,
+     "endUs": 134025574
+    },
+    "playback": {
+     "startUs": 134022008,
+     "endUs": 134025574
+    }
+   }
+  ]
+ }
+]

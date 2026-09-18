@@ -1,0 +1,172 @@
+{
+  "narration": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
+  "transcript": "specs/recording-for-ai/assets/speech/boundaries/transcript.json",
+  "usPerPixel": 1000,
+  "sheets": 8,
+  "perSheet": 2,
+  "phrases": 24,
+  "words": 306,
+  "boundaries": [
+    {
+      "sheet": 0,
+      "row": 0,
+      "id": "w0",
+      "text": "Okay,",
+      "side": "start",
+      "reportedUs": 1168675,
+      "phrase": 0,
+      "markedOffsetMs": 205
+    },
+    {
+      "sheet": 0,
+      "row": 1,
+      "id": "w6",
+      "text": "workbench.",
+      "side": "end",
+      "reportedUs": 5648675,
+      "phrase": 0,
+      "markedOffsetMs": -5
+    },
+    {
+      "sheet": 1,
+      "row": 0,
+      "id": "w25",
+      "text": "and",
+      "side": "start",
+      "reportedUs": 13248675,
+      "phrase": 3,
+      "markedOffsetMs": 225
+    },
+    {
+      "sheet": 1,
+      "row": 1,
+      "id": "w26",
+      "text": "E2.",
+      "side": "end",
+      "reportedUs": 13968675,
+      "phrase": 3,
+      "markedOffsetMs": 60
+    },
+    {
+      "sheet": 2,
+      "row": 0,
+      "id": "w57",
+      "text": "Yeah,",
+      "side": "start",
+      "reportedUs": 28688675,
+      "phrase": 6,
+      "markedOffsetMs": 210
+    },
+    {
+      "sheet": 2,
+      "row": 1,
+      "id": "w62",
+      "text": "pointer.",
+      "side": "end",
+      "reportedUs": 30368675,
+      "phrase": 6,
+      "markedOffsetMs": -105
+    },
+    {
+      "sheet": 3,
+      "row": 0,
+      "id": "w93",
+      "text": "let",
+      "side": "start",
+      "reportedUs": 42848675,
+      "phrase": 9,
+      "markedOffsetMs": 205
+    },
+    {
+      "sheet": 3,
+      "row": 1,
+      "id": "w103",
+      "text": "narrate,",
+      "side": "end",
+      "reportedUs": 47168675,
+      "phrase": 9,
+      "markedOffsetMs": -573
+    },
+    {
+      "sheet": 4,
+      "row": 0,
+      "id": "w117",
+      "text": "uh",
+      "side": "start",
+      "reportedUs": 54128675,
+      "phrase": 12,
+      "markedOffsetMs": 0
+    },
+    {
+      "sheet": 4,
+      "row": 1,
+      "id": "w117",
+      "text": "uh",
+      "side": "end",
+      "reportedUs": 54448675,
+      "phrase": 12,
+      "markedOffsetMs": 100
+    },
+    {
+      "sheet": 5,
+      "row": 0,
+      "id": "w160",
+      "text": "the",
+      "side": "start",
+      "reportedUs": 72288675,
+      "phrase": 15,
+      "markedOffsetMs": 135
+    },
+    {
+      "sheet": 5,
+      "row": 1,
+      "id": "w191",
+      "text": "evidence.",
+      "side": "end",
+      "reportedUs": 84128675,
+      "phrase": 15,
+      "markedOffsetMs": null
+    },
+    {
+      "sheet": 6,
+      "row": 0,
+      "id": "w237",
+      "text": "Return",
+      "side": "start",
+      "reportedUs": 103808675,
+      "phrase": 18,
+      "markedOffsetMs": 160
+    },
+    {
+      "sheet": 6,
+      "row": 1,
+      "id": "w239",
+      "text": "it.",
+      "side": "end",
+      "reportedUs": 104688675,
+      "phrase": 18,
+      "markedOffsetMs": -105
+    },
+    {
+      "sheet": 7,
+      "row": 0,
+      "id": "w277",
+      "text": "easier",
+      "side": "start",
+      "reportedUs": 120928675,
+      "phrase": 21,
+      "markedOffsetMs": -75
+    },
+    {
+      "sheet": 7,
+      "row": 1,
+      "id": "w279",
+      "text": "spot.",
+      "side": "end",
+      "reportedUs": 122448675,
+      "phrase": 21,
+      "markedOffsetMs": -590
+    }
+  ],
+  "markedBy": "read off the panels by eye, to the nearest ~25 ms; two ends were read from a 2400 ms redraw because the speech had stopped before the 900 ms panel began"
+}

@@ -73,11 +73,16 @@ These are deliberately chosen initial gates, not guarantees on arbitrary media:
   after the first committed checkpoint. A kill before any checkpoint may recover
   zero, which must be reported. No power-loss claim without corresponding testing.
 - Speech: on real narration, median word boundary error ≤100 ms/p95 ≤250 ms, and
-  audition phrase cuts for clipped neighboring words. Filler precision/recall is
+  audition phrase cuts for clipped neighboring words. **Measured 2026-09-19 and not met:**
+  median 135 ms, p95 590 ms, with every boundary outside the speech rather than inside it, so
+  cuts keep their neighbours whole. Kept as a reported miss rather than a relaxed target; the
+  [evidence](assets/speech/boundaries/README.md) says what remains and why tightening it would
+  have to guess. Filler precision/recall is
   reported with denominators but is not a gate (user decision 2026-09-17). Do not
   claim universal accuracy from this small acceptance set.
 - Speech resources: warm five-minute clip no slower than real time, peak process
-  RSS target ≤4 GiB on this host; prefer faster/lighter only among fidelity passers.
+  RSS target ≤4 GiB on this host — **met 2026-09-19**: 0.004x real time and 147 MB peak over
+  6 min 42 s of this person's own narration; prefer faster/lighter only among fidelity passers.
   If targets conflict, reslice and measure the alternative.
 - Long inspection: use a 30-minute fixture; page extraction doesn't load all images
   or decode entire video per request. Repeat the same frame and observe a cache

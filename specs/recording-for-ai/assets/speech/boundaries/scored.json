@@ -1,0 +1,27 @@
+{
+  "narration": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
+  "transcript": "specs/recording-for-ai/assets/speech/boundaries/transcript.json",
+  "marked": 15,
+  "drawn": 16,
+  "medianErrorMs": 135,
+  "p95ErrorMs": 590,
+  "worstErrorMs": 590,
+  "start": {
+    "n": 8,
+    "medianMs": 205,
+    "minMs": -75,
+    "maxMs": 225
+  },
+  "end": {
+    "n": 7,
+    "medianMs": -105,
+    "minMs": -590,
+    "maxMs": 100
+  },
+  "targets": {
+    "medianErrorMs": 100,
+    "p95ErrorMs": 250
+  },
+  "meetsMedian": false,
+  "meetsP95": false
+}

@@ -1,7 +1,11 @@
 # 08 — Durable local transcription and projections
 
-Status: P1–P5 are merged and verified; P6 (boundary timing and warm resources on real
-narration) needs the user.
+Status: implemented and measured (2026-09-19). P6 is closed on real narration with one target
+not met, reported rather than relaxed: word boundaries are late/early by a median of 135 ms
+against a 100 ms target, always bracketing the speech rather than clipping it, and warm resources
+pass with room to spare (0.004x real time, 147 MB peak against 4 GiB). Measuring it found and
+fixed a defect of this repository's own — a sentence's punctuation token carried the preceding
+word's end up to a second past the last sound. See the [boundary evidence](../assets/speech/boundaries/README.md).
 - **P1:** native `speech.transcribe` gives exact word parity with the pinned CLI on
   generated speech with network denied. See the
   [evidence](../assets/speech/native-transcribe.md).
@@ -12,6 +16,8 @@ narration) needs the user.
   the transcript processing artifact are public through CLI/MCP.
 - **P5:** narrated processed packages export with portable source and edited
   transcript pages and reopen with identical reads.
+- **P6:** [boundary timing and resources](../assets/speech/boundaries/README.md) on this person's
+  own narration, with the panels the marks were read from.
 
 `apps/macos/tests/transcript-service.test.mjs` runs the bundled service with the
 real prepared model (set `SCREENREC_SPEECH_MODELS`) on generated `say` narration
@@ -46,6 +52,11 @@ best-effort fillers), 06.
 - **Model assets live under `models/`** in a revision-keyed directory named as
   FluidAudio expects, staged and renamed in whole, and are never removed by
   recording deletion. `model.prepare` is the only operation that uses the network.
+- **A word's span is when it was spoken.** Tokens are grouped into words exactly as the evaluated
+  CLI groups them, and the engine's own word times are kept in the raw record, but the span every
+  read and edit is aimed by covers only the tokens that carry speech. The engine places a
+  sentence's closing punctuation wherever it decided the sentence ended — up to a second after the
+  last sound — and that must not become part of the word a cut removes.
 - **Words are verbatim with deterministic kinds.** Each word records text, source
   range, token-averaged confidence and a kind (`filler`, `vocalization`, `speech`)
   from a fixed rule over its emitted text. Raw engine output is retained as a hashed

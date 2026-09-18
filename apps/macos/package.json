@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node ../../scripts/build-macos.mjs",
-    "test": "swift run --package-path ../../helpers/mac ScreenRecorderCaptureTests && swift run --package-path ../../helpers/mac ScreenRecorderFrameTests && swift run --package-path ../../helpers/mac ScreenRecorderAudioTests && swift build --package-path ../../helpers/mac && swift run ScreenRecorderControlsTests && node --test ../../helpers/mac/Tests/*.test.mjs && node --test tests/*.test.mjs"
+    "test": "swift run --package-path ../../helpers/mac ScreenRecorderCaptureTests && swift run --package-path ../../helpers/mac ScreenRecorderFrameTests && swift run --package-path ../../helpers/mac ScreenRecorderAudioTests && swift run --package-path ../../helpers/mac ScreenRecorderSpeechTests && swift build --package-path ../../helpers/mac && swift run ScreenRecorderControlsTests && node --test ../../helpers/mac/Tests/*.test.mjs && node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@screenrec/service": "workspace:*"
