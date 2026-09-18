@@ -65,7 +65,7 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [01 — Native capture and separate audio](slices/01-native-capture.md)
 - [ ] [02 — Recover interrupted source media](slices/02-interruption-recovery.md)
 - [ ] [03 — Cursor positions in captured coordinates](slices/03-cursor-geometry.md)
-- [ ] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
+- [x] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
 - [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
 - [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
   - [x] [06a — Durable revision transactions](slices/06a-revision-store.md)

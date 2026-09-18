@@ -7,9 +7,12 @@ word-timed transcripts with best-effort fillers, and the removed gate is recorde
 [verification](../verification.md#performance-and-fidelity-targets). Parakeet is the
 only candidate that emitted most fillers (144 um/uh tokens where WhisperKit emitted
 none), keeps disfluent wording instead of rewriting it, and carries permissive
-licenses. WhisperKit is eliminated. Word boundary timing and warm resource use stay
-open until measured on real narration in [08](08-transcript-processing.md) and
-[15](15-personal-release.md). The history of the gate follows.
+licenses. WhisperKit is eliminated. Word boundary timing and warm resource use were
+[measured on this person's own narration](../assets/speech/boundaries/README.md) on 2026-09-19:
+resources pass with room to spare, boundary timing misses its target and is reported as missed,
+and the engine's own quirks the measurement exposed — a sentence's punctuation token placed up
+to a second after the last sound, several tokens sharing one frame — are handled where words are
+built rather than by reopening this choice. This gate is closed. The history of it follows.
 
 Earlier status: preparation/evaluation harness integrated; eight evaluator tests pass.
 Independent review found repeated-token alignment and raw-report filename defects;
