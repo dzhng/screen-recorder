@@ -1,9 +1,11 @@
 # Recording for AI — personal release spec
 
-Status: spec complete; implementation partial. Last updated: 2026-09-17.
-Native export controls and a whole-codebase review pass have landed. Speech engine
-selection, physical capture/menu acceptance and the installed workflow remain open. The handoff and slice checklist below
-separate verified internal behavior from full personal-release acceptance.
+Status: spec complete; implementation partial. Last updated: 2026-09-19.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
 
 ## Next Agent Prompt
 
@@ -30,24 +32,30 @@ Each slice's Status line is the one home for what it verified, its evidence and
 what remains open. Before ending a pass, update the owning Status lines and the
 checklist box, then replace the pickup below.
 
-Current pickup: no remaining pass is independent of the user. Transcription
-([08](slices/08-transcript-processing.md) P1–P5), narrated packages and personal
-install are implemented. Still needing the user:
+Current pickup: the remaining physical capture gates in
+[01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md), which a check can stage
+against this app's own fixture window without recording anything of the person's: display and
+region sources, A/V timing over a long take with pauses, and recovery audition.
 
-- **Real narration:** boundary timing and warm resources (08 P6), then the installed
-  journey in [15](slices/15-personal-release.md).
-- **Physical checks:** capture, gestures, menu interaction and edited-cut audition for
-  [01](slices/01-native-capture.md)–[03](slices/03-cursor-geometry.md),
-  [07](slices/07-menu-bar-controls.md) and [13](slices/13-edited-media.md).
-- **Login item:** turn Open at login on and off in the reinstalled
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, always outside the
+speech rather than inside it ([evidence](assets/speech/boundaries/README.md)). Measuring it fixed
+a real defect — a sentence's closing punctuation carried the preceding word's span up to a second
+past the last sound.
+
+Needing this person rather than a check:
+
+- **Login item:** turn Open at login on and off in the installed
   `~/Applications/Screen Recorder.app` and record what `SMAppService` answers
   ([07a](slices/07a-settings-window.md)); an ad-hoc build in `dist/` reports `notFound`.
+- **A second display:** which screen the countdown lands on ([07b](slices/07b-recording-overlays.md)).
+- **System audio:** a take with something playing, which a check must not make this Mac do
+  ([01](slices/01-native-capture.md)).
 
-Reinstall with `bun run install:personal` after quitting the running app, then run
-`screenrec model.prepare` once before recording narration.
+The installed copy is a build older than the word-timing fix; `bun run install:personal` replaces
+it, and it refuses while the app is running.
 
-Priority order: real-narration evidence and physical verification, then the installed
-journey closeout.
+Priority order: the stageable capture gates, then whatever the person answers above.
 
 The original [verification gates](verification.md) remain requirements. Fixtures
 and unit checks do not close the full read → edit → inspect → export journey.
@@ -73,7 +81,7 @@ and unit checks do not close the full read → edit → inspect → export journ
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
   - [ ] [07a — Settings window, permissions and launch at login](slices/07a-settings-window.md)
   - [ ] [07b — Countdown and recording overlay](slices/07b-recording-overlays.md)
-- [ ] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
+- [x] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
   - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md)
   - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md)
