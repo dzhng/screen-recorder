@@ -1,0 +1,167 @@
+{
+  "startedAt": "2026-09-18T08:50:40.651Z",
+  "finishedAt": "2026-09-18T08:53:19.406Z",
+  "steps": [
+    {
+      "name": "recording",
+      "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+      "state": "complete",
+      "sourceDurationUs": 134025574,
+      "currentRevisionId": "6e8614db-6ef8-4602-87e2-e97d9b5c480c"
+    },
+    {
+      "name": "source evidence",
+      "generation": 1,
+      "elapsedMs": 0
+    },
+    {
+      "name": "transcript",
+      "elapsedMs": 0,
+      "peakResidentBytes": 0,
+      "timesRealTime": 0,
+      "engine": {
+        "runtime": "FluidAudio",
+        "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+        "encoderPrecision": "int8"
+      }
+    },
+    {
+      "name": "transcript rows",
+      "words": 306,
+      "fillers": [
+        [
+          "w117",
+          "uh",
+          54128675
+        ]
+      ],
+      "gaps": [
+        {
+          "startUs": 0,
+          "endUs": 48675
+        },
+        {
+          "startUs": 134022008,
+          "endUs": 134025574
+        }
+      ],
+      "text": "Okay, so this is the recorder workbench. First I'm going to draw a circle around C3 and I'm going to draw a wave between D9 and E2. Alright, so to the next one, we're going to do the disappearing submenu. So let's hover over the products and move down to the menu. There's actually a bug here. Yeah, it disappears as a pointer. Yeah, so that's an intentional fixture bug. So you can see there's a bug\u2026"
+    },
+    {
+      "name": "screenshot index",
+      "selected": 156,
+      "reasons": {
+        "first": 1,
+        "cursor-motion": 95,
+        "button-down": 48,
+        "coverage": 11,
+        "last": 1
+      }
+    },
+    {
+      "name": "index images",
+      "ordinals": [
+        0,
+        1
+      ],
+      "files": "/private/tmp/claude-501/-Users-david-dev-screen-recorder/88ea7095-3acc-4259-bbbb-8db50d9c7865/scratchpad/journey/index-frame*"
+    },
+    {
+      "name": "arbitrary frame",
+      "atUs": 67012787
+    },
+    {
+      "name": "phrase search",
+      "phrase": "this is free",
+      "entry": {
+        "wordIds": [
+          "w164",
+          "w165",
+          "w166"
+        ],
+        "sourceRange": {
+          "startUs": 73808675,
+          "endUs": 74768675
+        },
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 73808675,
+              "endUs": 74768675
+            },
+            "playback": {
+              "startUs": 73808675,
+              "endUs": 74768675
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cut phrase",
+      "from": "6e8614db-6ef8-4602-87e2-e97d9b5c480c",
+      "to": "e6b8498b-5507-45ce-b9dc-725c49b99e2a"
+    },
+    {
+      "name": "stale edit refused",
+      "code": "STALE_REVISION"
+    },
+    {
+      "name": "cut fillers",
+      "count": 1,
+      "to": "9e543009-d9de-46d3-8881-394734e3f128"
+    },
+    {
+      "name": "audio clips",
+      "clips": [
+        "before-phrase-cut",
+        "after-cut-0",
+        "after-cut-1"
+      ]
+    },
+    {
+      "name": "undo",
+      "historyEntries": 9,
+      "now": "da898bc6-0804-495c-9350-74867f6d3271"
+    },
+    {
+      "name": "restore",
+      "now": "04e8e449-133a-4720-9b53-b890236f53f5"
+    },
+    {
+      "name": "preview",
+      "revisionId": "04e8e449-133a-4720-9b53-b890236f53f5",
+      "file": "/private/tmp/claude-501/-Users-david-dev-screen-recorder/88ea7095-3acc-4259-bbbb-8db50d9c7865/scratchpad/journey/preview.mp4",
+      "state": "ready"
+    },
+    {
+      "name": "export video",
+      "exportId": "4e3075be-7c92-4943-ad3e-c2505fc9812b",
+      "output": "/private/tmp/claude-501/-Users-david-dev-screen-recorder/88ea7095-3acc-4259-bbbb-8db50d9c7865/scratchpad/journey/demo.mp4"
+    },
+    {
+      "name": "export processed-package",
+      "exportId": "63d5283d-4ee8-4b14-ae9b-6f39346116e2",
+      "output": "/private/tmp/claude-501/-Users-david-dev-screen-recorder/88ea7095-3acc-4259-bbbb-8db50d9c7865/scratchpad/journey/demo.zip"
+    },
+    {
+      "name": "relocated package",
+      "path": "/private/tmp/screenrec-moved-eNWTDS/relocated.zip",
+      "transcriptMatchesLibrary": true,
+      "newFrameRequested": true
+    },
+    {
+      "name": "storage",
+      "recordingId": null,
+      "observedAt": "2026-09-18T08:53:19.403Z",
+      "measurement": "live",
+      "sourceBytes": 57718896,
+      "evidenceBytes": 155459612,
+      "cacheBytes": 170962284,
+      "otherBytes": 0,
+      "sharedBytes": 10526720,
+      "totalBytes": 394667512
+    }
+  ]
+}
