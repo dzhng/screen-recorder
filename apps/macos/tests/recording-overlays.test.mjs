@@ -80,7 +80,10 @@ test(
       /countdown 3 seconds on display .*escape abandons it/,
       "The count holds Escape while it is on screen",
     );
-    const counting = await waitFor(async () => (await app.window(countdownWindow))?.visible, 10_000);
+    const counting = await waitFor(
+      async () => (await app.window(countdownWindow))?.visible,
+      10_000,
+    );
     assert.equal(counting, true);
     assert.equal(await app.active(), false, "Counting down never activates this app");
 

@@ -14,8 +14,6 @@ import SwiftUI
 @MainActor
 final class StartCountdown {
     static let title = "Screen Recorder Countdown"
-    private static let side: CGFloat = 260
-
     private let shortcuts: GlobalShortcuts
     private let model = CountdownModel()
     private var panel: CountdownPanel?
@@ -36,14 +34,17 @@ final class StartCountdown {
         var counting = countdown
         model.remaining = counting.remaining
         answer = began
+        let content = NSHostingView(rootView: CountdownView(model: model))
+        content.sizingOptions = [.intrinsicContentSize]
+        // The count is as big as what it has to say, centred on the display it belongs to.
+        let size = content.fittingSize
         let frame = (screen ?? NSScreen.main ?? NSScreen.screens.first)?.frame
-            ?? NSRect(x: 0, y: 0, width: Self.side, height: Self.side)
+            ?? NSRect(origin: .zero, size: size)
         let panel = CountdownPanel(
             contentRect: NSRect(
-                x: frame.midX - Self.side / 2, y: frame.midY - Self.side / 2, width: Self.side,
-                height: Self.side), abandon: { [weak self] in self?.finish(began: false) })
-        let content = NSHostingView(rootView: CountdownView(model: model))
-        content.sizingOptions = []
+                x: frame.midX - size.width / 2, y: frame.midY - size.height / 2,
+                width: size.width, height: size.height),
+            abandon: { [weak self] in self?.finish(began: false) })
         panel.contentView = content
         self.panel = panel
         panel.present()
@@ -110,24 +111,30 @@ private struct CountdownView: View {
     @ObservedObject var model: CountdownModel
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 4) {
+            // Nothing here is recording yet, so nothing here wears the red a running take does.
             Text("Recording starts in")
-                .font(.system(size: 15, weight: .medium))
-                .foregroundStyle(.secondary)
-            Text("\(model.remaining)")
-                .font(.system(size: 108, weight: .semibold, design: .rounded))
-                .monospacedDigit()
-                .contentTransition(.numericText(countsDown: true))
-                .animation(.snappy, value: model.remaining)
-            Text("Press Esc to cancel")
                 .font(.system(size: 13))
                 .foregroundStyle(.secondary)
+            Text("\(model.remaining)")
+                .font(.system(size: 96, weight: .semibold, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(.primary)
+                .contentTransition(.numericText(countsDown: true))
+                .animation(.snappy, value: model.remaining)
+                // A numeral this size carries more line than digit, and the room that leaves
+                // above and below is space the panel does not need.
+                .frame(height: 96)
+            // The one way out of the count has to be as readable as the count itself.
+            Text("Press Esc to cancel")
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
         }
-        .padding(24)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .padding(.horizontal, 36)
+        .padding(.vertical, 22)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 28, style: .continuous)
+            RoundedRectangle(cornerRadius: 26, style: .continuous)
                 .strokeBorder(.separator, lineWidth: 0.5))
         .accessibilityLabel("Recording starts in \(model.remaining) seconds. Press Escape to cancel.")
     }

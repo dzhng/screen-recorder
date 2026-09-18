@@ -1,6 +1,24 @@
 # 07b — Countdown and recording overlay
 
-Status: planned (user request, 2026-09-18). Parent: [07](07-menu-bar-controls.md).
+Status: implemented (2026-09-18), except dragging and the second display, which need a person
+and a second screen. Parent: [07](07-menu-bar-controls.md).
+
+The count, the floating controls, the preference and the capture exclusion are in place and
+checked. [Captures of both panels](../assets/recording-overlay/README.md) cover both appearances
+and were reviewed by an unprimed critique.
+
+Two things this slice found are worth keeping in mind. A whole-display filter can only exclude
+applications the system currently lists as sharing something, and a menu-bar app showing nothing
+is not listed — so excluding this application by identity covers its Settings and preview windows
+but could never have covered panels that appear after a take has already started. Those panels
+are marked unshared instead, which the window server honours from the moment they open, for every
+capture including other recorders'. The frame-level check reads decoded frames of two display
+takes with the controls left in a different place each time, and neither place differs from the
+rest of the picture; with the panels shared, the same check sees them plainly.
+
+Still open: nobody has dragged the controls with a pointer, so the saved position is only
+exercised through the preference a check writes; and the count has only been seen on a
+single-display Mac, so which display it lands on is unverified for a second screen.
 
 Recording from a menu-bar icon leaves a person guessing when capture began and hunting
 through a menu to stop it. Standard screen recorders count down before they start and
@@ -31,11 +49,17 @@ UI preferences.
 
 ## Verification
 
-- **Controls tests** pin when each overlay is visible from state alone: hidden while idle,
-  visible while recording and paused, gone once a take finalizes or the service is lost.
-- **A capture check** records the display with both overlays on screen and inspects decoded
-  frames: no overlay pixels appear in the take.
-- **An app-level check** proves Escape during the countdown allocates no recording, and that a
-  countdown of zero starts immediately.
-- **Visual:** captures of the countdown and the overlay in both appearances, reviewed by an
-  unprimed critique.
+- **Controls tests** (`ScreenRecorderControlsTests`) pin when the floating controls are visible
+  from state alone — hidden while idle, visible while recording and paused, gone once a take
+  finalizes or the service is lost — what they read, the three, two, one the count spends, and
+  the preference read back through the preference owner on a fresh state.
+- **A capture check** (`apps/macos/tests/capture-exclusion.test.mjs`) records the display twice
+  with the floating controls left somewhere different each time, and reads decoded frames: where
+  the controls were, the two takes differ no more than the picture as a whole does.
+  `runCaptureExclusionTests` pins which applications a display filter leaves out.
+- **An app-level check** (`apps/macos/tests/recording-overlays.test.mjs`) proves Escape during
+  the countdown allocates no recording and leaves nothing on screen, that the count holds Escape
+  while it runs, that a start with the count off records immediately, and that the controls
+  appear while recording and paused and are gone once the take ends. It never activates the app.
+- **Visual:** [eight captures](../assets/recording-overlay/README.md) of the count and the
+  controls in both appearances, reviewed by an unprimed critique.

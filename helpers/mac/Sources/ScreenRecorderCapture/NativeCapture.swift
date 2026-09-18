@@ -256,8 +256,12 @@ public final class NativeCapture {
         }
     }
 
-    /// A whole display, minus this application's own windows, so the countdown and the recording
-    /// controls that produced the take never appear inside it.
+    /// A whole display, minus this application's own windows, so nothing this app is showing ends
+    /// up inside a take of the screen it is showing it on.
+    ///
+    /// Shareable content only names applications that have something on screen, so an app showing
+    /// nothing has nothing here to exclude; the panels a take floats over the screen keep
+    /// themselves out of every capture instead.
     private static func displayFilter(_ display: SCDisplay, in content: SCShareableContent)
         -> SCContentFilter
     {

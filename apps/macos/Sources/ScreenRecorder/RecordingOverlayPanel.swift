@@ -13,7 +13,6 @@ import SwiftUI
 @MainActor
 final class RecordingOverlayPanel {
     static let title = "Screen Recorder Controls"
-    private static let size = NSSize(width: 254, height: 56)
     /// How far above the bottom of the screen a take's controls first appear.
     private static let margin: CGFloat = 72
 
@@ -37,13 +36,17 @@ final class RecordingOverlayPanel {
 
     private func show() {
         guard panel == nil else { return }
-        let panel = OverlayPanel(
-            contentRect: NSRect(origin: startingOrigin(), size: Self.size), level: .floating,
-            title: Self.title)
-        panel.isMovableByWindowBackground = true
         let content = NSHostingView(
             rootView: RecordingOverlayView(model: model, perform: { [weak self] in self?.perform($0) }))
-        content.sizingOptions = []
+        // The row decides how wide the controls are, so the space around it is the padding it
+        // asked for rather than whatever is left over inside a fixed panel, and a take that runs
+        // past an hour widens the panel instead of crowding its own clock.
+        content.sizingOptions = [.intrinsicContentSize]
+        let size = content.fittingSize
+        let panel = OverlayPanel(
+            contentRect: NSRect(origin: startingOrigin(size), size: size), level: .floating,
+            title: Self.title)
+        panel.isMovableByWindowBackground = true
         panel.contentView = content
         // Where a person leaves the controls is where the next take finds them.
         moved = NotificationCenter.default.addObserver(
@@ -69,8 +72,7 @@ final class RecordingOverlayPanel {
 
     /// Where the controls were last left, if that is still somewhere a person can see, and the
     /// bottom of the screen they are working on otherwise.
-    private func startingOrigin() -> NSPoint {
-        let size = Self.size
+    private func startingOrigin(_ size: NSSize) -> NSPoint {
         if let saved = preferences.overlayOrigin,
             NSScreen.screens.contains(where: {
                 $0.visibleFrame.intersects(NSRect(origin: saved, size: size))
@@ -105,33 +107,50 @@ private struct RecordingOverlayView: View {
     @ObservedObject var model: RecordingOverlayModel
     let perform: (ControlsAction) -> Void
 
+    private var paused: Bool { model.presentation.paused }
+
     var body: some View {
         HStack(spacing: 10) {
+            // Recording is red and paused is amber: a state a glance reads, not a dimmed dot that
+            // could just as well mean the controls are unavailable.
             Circle()
-                .fill(model.presentation.paused ? Color.secondary : Color.red)
+                .fill(paused ? Color.orange : Color.red)
                 .frame(width: 10, height: 10)
-                .accessibilityLabel(model.presentation.paused ? "Paused" : "Recording")
+                .accessibilityLabel(paused ? "Paused" : "Recording")
+            // A clock that has stopped says so, rather than leaving the colour of one dot to
+            // carry the whole difference between recording and paused.
             Text(model.presentation.elapsed)
                 .font(.system(size: 15, weight: .medium))
                 .monospacedDigit()
-                .frame(minWidth: 46, alignment: .leading)
+                .foregroundStyle(paused ? AnyShapeStyle(.secondary) : AnyShapeStyle(.primary))
+                .frame(minWidth: 56, alignment: .leading)
             Divider().frame(height: 22)
-            button(
-                model.presentation.paused ? "play.fill" : "pause.fill",
-                model.presentation.paused ? "Resume Recording" : "Pause Recording", .pauseOrResume)
-            button("stop.fill", "Finish Recording", .startOrStop)
-            button("xmark", "Cancel Take", .cancel)
+            // Finishing keeps the take and canceling throws it away, so the two never sit together
+            // as a pair of grey squares: the stop is the recorder's red, the bin is a bin, and the
+            // gap between them says they are not the same kind of ending.
+            HStack(spacing: 2) {
+                button(paused ? "play.fill" : "pause.fill",
+                    paused ? "Resume Recording" : "Pause Recording", .pauseOrResume)
+                button("stop.fill", "Finish Recording", .startOrStop, tint: .red)
+            }
+            button("trash.fill", "Cancel Take", .cancel)
         }
-        .padding(.horizontal, 16)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        // A button's tappable box reaches past the mark it draws, so the trailing edge needs less
+        // room than the leading one for the two to look the same.
+        .padding(.leading, 16)
+        .padding(.trailing, 8)
+        .padding(.vertical, 13)
         .background(.regularMaterial, in: Capsule())
         .overlay(Capsule().strokeBorder(.separator, lineWidth: 0.5))
     }
 
-    private func button(_ symbol: String, _ name: String, _ action: ControlsAction) -> some View {
+    private func button(
+        _ symbol: String, _ name: String, _ action: ControlsAction, tint: Color? = nil
+    ) -> some View {
         Button { perform(action) } label: {
             Image(systemName: symbol)
                 .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(tint ?? .primary)
                 .frame(width: 30, height: 30)
                 .contentShape(Circle())
         }

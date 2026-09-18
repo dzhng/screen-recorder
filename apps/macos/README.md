@@ -49,6 +49,18 @@ the microphone and whether the machine's own sound is included — is saved in t
 app's defaults domain and is what the next launch starts from. A live take still
 owns its own selection while it runs.
 
+A take also has two panels of its own, because a recorder that says nothing leaves a person
+guessing when capture began and hunting through a menu to stop it. A start counts down on the
+display it is about to record and asks the service for nothing until the count has run out, so
+abandoning the count leaves no take behind — and the take never contains the count. While a take
+runs, a small panel carries its own elapsed time and the same pause, finish and cancel actions
+the menu sends. Neither is a second device state machine or a second clock: what they show, and
+whether they are on screen at all, is the one controls state. Both are non-activating panels, so
+using them leaves the person in whatever they were recording, and both keep themselves out of
+every capture: a recorder's own controls belong to the person recording, never to the recording.
+A take of a whole display leaves this application out on top of that, which covers the ordinary
+windows it may have open.
+
 Access this app does not have is stated the same way wherever it matters: what is
 not granted, the one action that asks for it, and then the choices that remain
 without it. Access is read from native capture in this process and requested only

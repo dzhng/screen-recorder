@@ -88,6 +88,26 @@ final class ControlsProbe {
             else { return ["ok": false, "error": "The menu has no row that does that."] }
             owner.performActionForItem(at: owner.index(of: item))
             return ["ok": true]
+        case "appearance":
+            // Looking at this app the way a person with the other system appearance would.
+            switch command["value"] as? String {
+            case "dark": NSApplication.shared.appearance = NSAppearance(named: .darkAqua)
+            case "light": NSApplication.shared.appearance = NSAppearance(named: .aqua)
+            default: NSApplication.shared.appearance = nil
+            }
+            return ["ok": true]
+        case "shot":
+            // The window draws its own picture, so a review copy needs no screen capture, no
+            // pointer and nothing brought to the front of somebody's work.
+            guard let title = command["window"] as? String, let path = command["path"] as? String,
+                let view = NSApplication.shared.windows.first(where: { $0.title == title })?.contentView,
+                let image = view.bitmapImageRepForCachingDisplay(in: view.bounds)
+            else { return ["ok": false, "error": "No window named that has a picture to write."] }
+            view.cacheDisplay(in: view.bounds, to: image)
+            guard let png = image.representation(using: .png, properties: [:]),
+                (try? png.write(to: URL(fileURLWithPath: path))) != nil
+            else { return ["ok": false, "error": "The window's picture could not be written."] }
+            return ["ok": true, "width": image.pixelsWide, "height": image.pixelsHigh]
         case "escape":
             guard let title = command["window"] as? String,
                 let window = NSApplication.shared.windows.first(where: { $0.title == title })

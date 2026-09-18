@@ -23,6 +23,11 @@ class OverlayPanel: NSPanel {
         backgroundColor = .clear
         hasShadow = true
         level = ControlsProbe.observed ? .normal : floating
+        // A recorder's own controls belong to the person recording, never to the recording. The
+        // window server keeps an unshared window out of every capture from the moment it opens,
+        // which is what a take needs: these panels appear after the take has already chosen what
+        // it records, so nothing a capture was set up with could have known about them.
+        sharingType = .none
         collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .ignoresCycle]
     }
 
