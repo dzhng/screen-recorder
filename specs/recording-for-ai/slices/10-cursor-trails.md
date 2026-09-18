@@ -14,8 +14,9 @@ Read [architecture](../architecture.md), [contracts](../contracts.md), and
 harness entrypoints to create in this slice, not existing executable claims.
 
 The [native ingestion seam](03-cursor-geometry.md#native-ingestion-evidence) supplies
-persistent source evidence and bounded cursor-range queries. Shared core scene comparison is integrated; public boundary production and
-trail selection remain unimplemented.
+persistent source evidence and bounded cursor-range queries. Shared core scene comparison, public boundary production and trail
+selection are all integrated: boundaries are persisted and published as the `scenes` artifact,
+and `planFrameTrail` selects the points a frame draws.
 
 ## Contract and API seam
 

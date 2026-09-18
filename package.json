@@ -20,6 +20,7 @@
     "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
     "lab:workbench": "bun run --cwd apps/workbench dev",
     "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
     "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
     "screenrec": "node apps/cli/dist/main.js",
     "install:personal": "bun run build && node scripts/install-personal.mjs",

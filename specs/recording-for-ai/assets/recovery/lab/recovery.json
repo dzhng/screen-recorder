@@ -1,0 +1,113 @@
+{
+  "at": "2026-09-18T21:23:41.867Z",
+  "microphone": false,
+  "runs": [
+    {
+      "moment": "before-first-fragment",
+      "expected": "nothing decodable yet, so the take must say so rather than claim a prefix",
+      "recordedForSeconds": 0.15,
+      "state": "interrupted",
+      "interruptionReason": "NO_RECOVERABLE_VIDEO",
+      "keptSeconds": null,
+      "lostSeconds": null,
+      "timeline": null,
+      "timelineUnavailable": "UNAVAILABLE",
+      "video": {
+        "exists": true,
+        "decodesWholly": false,
+        "error": "Command failed: ffprobe -v error -show_entries format=duration -of csv=p=0 /tmp/scr-recovery-ClGYIA/recordings/1cc8a22d-649e-4bc5-ae23-607e4e73a216/source/video.mov\n[mov,mp4,m4a,3gp,3g2,mj2 @ 0xa3cc38"
+      }
+    },
+    {
+      "moment": "while-writing",
+      "expected": "the fragments already written",
+      "recordedForSeconds": 2.5,
+      "state": "interrupted",
+      "interruptionReason": "CAPTURE_INTERRUPTED",
+      "keptSeconds": 1.016,
+      "lostSeconds": 1.484,
+      "timeline": [
+        [
+          0,
+          1.016
+        ]
+      ],
+      "timelineUnavailable": null,
+      "video": {
+        "exists": true,
+        "decodesWholly": true,
+        "durationSeconds": 1.016146
+      }
+    },
+    {
+      "moment": "after-several-fragments",
+      "expected": "everything but the last fragment",
+      "recordedForSeconds": 12,
+      "state": "interrupted",
+      "interruptionReason": "CAPTURE_INTERRUPTED",
+      "keptSeconds": 11.058,
+      "lostSeconds": 0.942,
+      "timeline": [
+        [
+          0,
+          11.058
+        ]
+      ],
+      "timelineUnavailable": null,
+      "video": {
+        "exists": true,
+        "decodesWholly": true,
+        "durationSeconds": 11.023471
+      }
+    },
+    {
+      "moment": "while-paused",
+      "expected": "the media up to the pause, with the pause in the journal",
+      "recordedForSeconds": 4,
+      "state": "interrupted",
+      "interruptionReason": "CAPTURE_INTERRUPTED",
+      "keptSeconds": 1.02,
+      "lostSeconds": 2.98,
+      "timeline": [
+        [
+          0,
+          1.02
+        ]
+      ],
+      "timelineUnavailable": null,
+      "video": {
+        "exists": true,
+        "decodesWholly": true,
+        "durationSeconds": 1.02005
+      }
+    },
+    {
+      "moment": "while-stopping",
+      "expected": "a finished take, or one recovered whole",
+      "recordedForSeconds": 4,
+      "state": "interrupted",
+      "interruptionReason": "CAPTURE_INTERRUPTED",
+      "keptSeconds": 1.021,
+      "lostSeconds": 2.979,
+      "timeline": [
+        [
+          0,
+          1.021
+        ]
+      ],
+      "timelineUnavailable": null,
+      "video": {
+        "exists": true,
+        "decodesWholly": true,
+        "durationSeconds": 1.020531
+      }
+    }
+  ],
+  "everyAdvertisedPrefixDecodes": true,
+  "worstLostSeconds": 2.98,
+  "lostEverything": [
+    "before-first-fragment"
+  ],
+  "targetLostSeconds": 5,
+  "meetsLossTarget": true
+}

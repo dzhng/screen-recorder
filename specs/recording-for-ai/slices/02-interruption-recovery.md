@@ -1,13 +1,23 @@
 # 02 — Recover interrupted source media
 
-Status: native recovery checkpoint integrated; full slice remains in progress.
+Status: implemented and measured (2026-09-19); audio audition remains, which needs a person.
 Dependencies: 01. Generated PCM fragmentation is verified; independent review produced
 timing/journal corrections now integrated and tested. See the
-[timing correction report](../assets/recovery/timing-review.md) for remaining limits. Service relaunch/reconciliation, stop-time kill, and audio audition
-remain open.
+[timing correction report](../assets/recovery/timing-review.md) for remaining limits.
+
+`bun run lab:recovery` ends a take the way a crash would at five different moments and reports
+what the next launch made of what was left ([report](../assets/recovery/lab/recovery.json)). On
+this Mac: a kill before the writer committed anything keeps nothing and says so
+(`NO_RECOVERABLE_VIDEO`, no timeline at all); every later moment keeps a prefix that decodes
+whole, and the worst loss is 2.98 s against a 5 s target — one fragment, which is what a take is
+in the middle of writing. Killing while a take is paused or while it is stopping is no different
+from killing it mid-write: the take settles as interrupted and keeps its committed fragments.
+Service relaunch and reconciliation are also pinned by
+`apps/macos/tests/capture-service.test.mjs`. What the lab cannot judge is whether a recovered
+tail ends where it claims to by ear; `--microphone` writes the clips for that.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
-[verification](../verification.md) before implementation. The `lab:recovery` entrypoint below remains planned. Existing native checks run
+[verification](../verification.md) before implementation. Existing native checks run
 through `apps/macos` tests and the worker `media.recover` operation.
 
 ## Contract and API seam
