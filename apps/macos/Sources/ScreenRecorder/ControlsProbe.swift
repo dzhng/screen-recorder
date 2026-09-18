@@ -89,6 +89,13 @@ final class ControlsProbe {
             else { return ["ok": false, "error": "The menu has no row that does that."] }
             owner.performActionForItem(at: owner.index(of: item))
             return ["ok": true]
+        case "overlay":
+            // A take reaching an hour takes an hour; the controls' layout at that clock does not.
+            guard let elapsed = command["elapsed"] as? String else {
+                return ["ok": false, "error": "An overlay command names the clock to show."]
+            }
+            controls.showOverlay(elapsed: elapsed)
+            return ["ok": true]
         case "appearance":
             // Looking at this app the way a person with the other system appearance would.
             switch command["value"] as? String {

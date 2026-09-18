@@ -32,6 +32,18 @@ final class RecordingOverlayPanel {
         guard let presentation else { return hide() }
         model.presentation = presentation
         show()
+        // A clock longer than the row reserved still widens it rather than wrapping it, once the
+        // row has laid itself out again on the next turn of the loop.
+        DispatchQueue.main.async { [weak self] in
+            MainActor.assumeIsolated {
+                guard let panel = self?.panel, let content = panel.contentView else { return }
+                content.layoutSubtreeIfNeeded()
+                let size = content.fittingSize
+                if size.width > panel.frame.size.width || size.height > panel.frame.size.height {
+                    panel.setContentSize(size)
+                }
+            }
+        }
     }
 
     private func show() {
@@ -126,7 +138,11 @@ private struct RecordingOverlayView: View {
                 .font(.system(size: 15, weight: .medium))
                 .monospacedDigit()
                 .foregroundStyle(paused ? AnyShapeStyle(.secondary) : AnyShapeStyle(.primary))
-                .frame(minWidth: 56, alignment: .leading)
+                // Room for an hours field from the start: a take that passes an hour must not
+                // make the row it sits in reflow around it.
+                .frame(minWidth: 78, alignment: .leading)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
             Divider().frame(height: 22)
             // Finishing keeps the take and canceling throws it away, so the two never sit together
             // as a pair of grey squares: the stop is the recorder's red, the bin is a bin, and the

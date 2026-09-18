@@ -109,6 +109,13 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         }
     }
 
+    /// Shows the floating controls at a clock a take would take hours to reach, so a check can
+    /// see how they are laid out then. Only the fixture observer reaches this.
+    func showOverlay(elapsed: String) {
+        guard ControlsProbe.observed else { return }
+        overlay.update(.init(elapsed: elapsed, paused: false, symbol: "record.circle.fill"))
+    }
+
     /// The live menu, so a check can read exactly what a person would see.
     var visibleMenu: NSMenu { menu }
 
