@@ -184,7 +184,10 @@ export function launch(home, environment = {}, args = []) {
 
 export async function launchReady(home, environment, args) {
   const instance = launch(home, environment, args);
-  const [, pid] = await instance.waitFor(/service ready pid=(\d+)/);
+  // Starting a service is a Node process launching on a Mac that may be running the rest of this
+  // suite at the same time. How long that takes is not what any check here is about, so the wait
+  // is generous: a tight one fails a check for being run beside its siblings.
+  const [, pid] = await instance.waitFor(/service ready pid=(\d+)/, 90_000);
   instance.owned.push(Number(pid));
   return { instance, servicePid: Number(pid) };
 }

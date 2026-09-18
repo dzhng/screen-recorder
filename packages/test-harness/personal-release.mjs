@@ -8,9 +8,9 @@
 // revision history a person can undo.
 import { execFileSync, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdirSync, mkdtempSync, realpathSync, renameSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, realpathSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { parseArgs } from "node:util";
 
 const { values } = parseArgs({
@@ -318,35 +318,50 @@ const main = async () => {
   const moved = join(realpathSync(mkdtempSync("/tmp/screenrec-moved-")), "relocated.zip");
   renameSync(exports["processed-package"].output, moved);
   const admission = call("package.open", { path: moved });
-  const opened = await (async () => {
-    const deadline = Date.now() + 300_000;
-    for (;;) {
-      const status = call("package.status", { admissionId: admission.id });
-      if (status.state === "ready") return status;
-      if (["failed", "cleanup_failed"].includes(status.state))
-        throw new Error(`package ${status.state}: ${JSON.stringify(status)}`);
-      if (Date.now() > deadline) throw new Error("package never opened");
-      await wait(500);
+  // Whatever happens from here, the service must not be left holding this package open with its
+  // extracted copy on disk: it is the person's own service, not one a run can walk away from.
+  const closeAdmission = () => {
+    try {
+      call("package.close", { admissionId: admission.id }, { allowFailure: true });
+    } catch {
+      // Already closed, or the service is gone with it.
     }
-  })();
-  const packaged = pages("transcript.get", {
-    packageHandle: opened.packageHandle,
-    revisionId,
-    limit: 1000,
-  });
-  const libraryRows = pages("transcript.get", { recordingId, revisionId, limit: 1000 });
-  const identical = JSON.stringify(packaged) === JSON.stringify(libraryRows);
-  await media(
-    "frame.batch",
-    { packageHandle: opened.packageHandle, atUs: [Math.floor(recording.sourceDurationUs / 3)] },
-    join(out, "package-frame"),
-  );
-  step("relocated package", {
-    path: moved,
-    transcriptMatchesLibrary: identical,
-    newFrameRequested: true,
-  });
-  call("package.close", { admissionId: admission.id });
+  };
+  process.once("exit", closeAdmission);
+  try {
+    const opened = await (async () => {
+      const deadline = Date.now() + 300_000;
+      for (;;) {
+        const status = call("package.status", { admissionId: admission.id });
+        if (status.state === "ready") return status;
+        if (["failed", "cleanup_failed"].includes(status.state))
+          throw new Error(`package ${status.state}: ${JSON.stringify(status)}`);
+        if (Date.now() > deadline) throw new Error("package never opened");
+        await wait(500);
+      }
+    })();
+    const packaged = pages("transcript.get", {
+      packageHandle: opened.packageHandle,
+      revisionId,
+      limit: 1000,
+    });
+    const libraryRows = pages("transcript.get", { recordingId, revisionId, limit: 1000 });
+    const identical = JSON.stringify(packaged) === JSON.stringify(libraryRows);
+    await media(
+      "frame.batch",
+      { packageHandle: opened.packageHandle, atUs: [Math.floor(recording.sourceDurationUs / 3)] },
+      join(out, "package-frame"),
+    );
+    step("relocated package", {
+      path: moved,
+      transcriptMatchesLibrary: identical,
+      newFrameRequested: true,
+    });
+  } finally {
+    closeAdmission();
+    process.removeListener("exit", closeAdmission);
+    rmSync(dirname(moved), { recursive: true, force: true });
+  }
 
   step("storage", call("storage.usage", {}));
   report.finishedAt = new Date().toISOString();

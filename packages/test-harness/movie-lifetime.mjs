@@ -77,6 +77,27 @@ async function orphanedWorker(request, preparation, nativeWorker) {
   owner.stderr.on("data", (x) => (errors += x));
   const closed = new Promise((resolve) => owner.once("close", resolve));
   let pid;
+  // A worker this lab stops must never be left stopped: a run that is interrupted between the
+  // SIGSTOP and its own cleanup would otherwise leave a native process frozen on this person's
+  // Mac, holding its workspace open, until they found and killed it themselves.
+  const release = () => {
+    if (!pid) return;
+    try {
+      process.kill(pid, "SIGCONT");
+      process.kill(pid, "SIGKILL");
+    } catch {
+      // It has already gone.
+    }
+    pid = undefined;
+  };
+  process.once("exit", release);
+  for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
+    process.once(signal, () => {
+      release();
+      process.removeAllListeners(signal);
+      process.kill(process.pid, signal);
+    });
+  }
   try {
     await until(async () => {
       assert.equal(owner.exitCode, null, errors);
@@ -147,10 +168,8 @@ async function orphanedWorker(request, preparation, nativeWorker) {
     };
   } finally {
     owner.kill("SIGKILL");
-    if (pid)
-      try {
-        process.kill(pid, "SIGKILL");
-      } catch {}
+    release();
+    process.removeListener("exit", release);
     await closed;
   }
 }

@@ -166,6 +166,17 @@ test(
     );
     const whole = { left: 0, top: 0, right: frames[0].width, bottom: frames[0].height };
     const between = difference(frames[0], frames[1], whole);
+    // This compares how much the picture changed where the controls were against how much it
+    // changed everywhere, so it only means something while the screen behind them is reasonably
+    // still. On a desktop with a video or a scrolling terminal on it, everything differs by more
+    // than a leaked overlay would, and the comparison would pass while proving nothing.
+    if (between > 8) {
+      t.skip(
+        `The screen was changing too much between takes to prove anything: ${between.toFixed(2)} ` +
+          "mean difference across the whole picture",
+      );
+      return;
+    }
     for (const [index, take] of takes.entries()) {
       const { x, y, width, height } = take.controls;
       const rect = {
