@@ -90,7 +90,10 @@ extendedKeyUsage = critical,codeSigning
       "-passout",
       `pass:${passphrase}`,
     ]);
-    // `-A` lets codesign use the key without asking for the keychain password on every build.
+    // `-T /usr/bin/codesign` is the whole access list this key gets: signing may use it without a
+    // password prompt, and nothing else on this Mac may use it at all. `-A`, which would let any
+    // program use it silently, is deliberately not passed — a local signing key is still a key in
+    // this person's login keychain.
     run("security", [
       "import",
       bundle,
@@ -100,20 +103,30 @@ extendedKeyUsage = critical,codeSigning
       passphrase,
       "-T",
       "/usr/bin/codesign",
-      "-A",
     ]);
     // Signing checks the certificate chain, so this Mac must trust its own root for code signing.
-    // This is the one step that asks the person for their password.
-    run("security", [
-      "add-trusted-cert",
-      "-r",
-      "trustRoot",
-      "-p",
-      "codeSign",
-      "-k",
-      keychain,
-      certificate,
-    ]);
+    // This is the one step that asks the person for their password. If it fails — or they cancel
+    // it — the half-made identity goes back out of their keychain, because an untrusted one is
+    // found by nothing and would only be imported again beside itself on the next run.
+    try {
+      run("security", [
+        "add-trusted-cert",
+        "-r",
+        "trustRoot",
+        "-p",
+        "codeSign",
+        "-k",
+        keychain,
+        certificate,
+      ]);
+    } catch (error) {
+      try {
+        run("security", ["delete-identity", "-c", identityName, keychain]);
+      } catch {
+        // Nothing was left behind to remove, or it is already gone.
+      }
+      throw error;
+    }
   } finally {
     rmSync(work, { recursive: true, force: true });
   }

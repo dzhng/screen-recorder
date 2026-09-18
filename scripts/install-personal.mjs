@@ -4,6 +4,7 @@ import { execFileSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
+  readdirSync,
   readFileSync,
   realpathSync,
   renameSync,
@@ -69,21 +70,42 @@ for (const bundle of replaced) {
     fail(`Quit Screen Recorder (${bundle}) before installing over it.`);
 }
 
+// What an install that did not finish left here. A copy set aside mid-swap is the app itself, so
+// it goes back rather than being thrown away; a half-built one is worth nothing and goes.
+const leftovers = (kind) =>
+  readdirSync(dirname(app))
+    .filter((name) => name.startsWith(`.Screen Recorder.app.${kind}-`))
+    .map((name) => join(dirname(app), name));
+for (const abandoned of leftovers("previous")) {
+  if (existsSync(app)) rmSync(abandoned, { recursive: true, force: true });
+  else {
+    renameSync(abandoned, app);
+    console.log(`Restored ${app} from an install that did not finish.`);
+  }
+}
+for (const abandoned of leftovers("installing"))
+  rmSync(abandoned, { recursive: true, force: true });
+
 // Stage beside the destination so the swap is a rename on one volume; the previous copy is
 // removed only after the new one is in place.
 const staging = join(dirname(app), `.Screen Recorder.app.installing-${process.pid}`);
 const previous = join(dirname(app), `.Screen Recorder.app.previous-${process.pid}`);
-rmSync(staging, { recursive: true, force: true });
-execFileSync("ditto", [built, staging]);
-// Development builds and their tests launch many short-lived copies under the build identity;
-// macOS can stop showing that identity's menu-bar item. The personal copy keeps its own.
-execFileSync("/usr/libexec/PlistBuddy", [
-  "-c",
-  `Set :CFBundleIdentifier ${personalIdentifier}`,
-  join(staging, "Contents/Info.plist"),
-]);
-execFileSync("codesign", ["--force", "--sign", findIdentity() ?? "-", staging]);
-execFileSync("codesign", ["--verify", "--strict", staging]);
+try {
+  execFileSync("ditto", [built, staging]);
+  // Development builds and their tests launch many short-lived copies under the build identity;
+  // macOS can stop showing that identity's menu-bar item. The personal copy keeps its own.
+  execFileSync("/usr/libexec/PlistBuddy", [
+    "-c",
+    `Set :CFBundleIdentifier ${personalIdentifier}`,
+    join(staging, "Contents/Info.plist"),
+  ]);
+  execFileSync("codesign", ["--force", "--sign", findIdentity() ?? "-", staging]);
+  execFileSync("codesign", ["--verify", "--strict", staging]);
+} catch (error) {
+  // Nothing was replaced yet, so the installed app is untouched and only this attempt goes.
+  rmSync(staging, { recursive: true, force: true });
+  throw error;
+}
 const replacing = existsSync(app);
 if (replacing) renameSync(app, previous);
 try {
