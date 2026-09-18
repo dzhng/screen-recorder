@@ -26,7 +26,8 @@
     "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
     "lab:storage": "bun run --cwd packages/test-harness lab:storage",
     "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
-    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports"
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
   },
   "devDependencies": {
     "@types/node": "24.13.4",
