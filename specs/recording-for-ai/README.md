@@ -39,10 +39,9 @@ combination another app owns is registered rather than reported. Everything else
 acceptance that needs a person, a second display, sound playing, or an agent that is not this one.
 
 [08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
-boundaries miss the 100 ms median target at 135 ms and are reported as missed, always outside the
-speech rather than inside it ([evidence](assets/speech/boundaries/README.md)). Measuring it fixed
-a real defect — a sentence's closing punctuation carried the preceding word's span up to a second
-past the last sound.
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
+outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
+it fixed three real defects, the worst of which let a cut of one word silently delete the next.
 
 Needing this person rather than a check:
 
