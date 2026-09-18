@@ -2555,3 +2555,33 @@ export controls. The choices below are the ones that change behavior or format.
   spectrograms at a millisecond per pixel with a ruler, only where a real pause sits beside them,
   and the marks are millisecond offsets read off those pictures. Inside connected speech there is
   no boundary anybody can point at, so none is claimed.
+
+## What a review of the finished surface changed — 2026-09-19
+
+- **A run that is interrupted deletes its scratch, not only its apps.** One check records the
+  whole display for two and a half seconds; a Ctrl-C used to leave that video of somebody's
+  desktop in `/tmp` with nothing to remove it. Killing and deleting now happen in the same exit
+  path, and a throw while burying an app no longer skips the deletion.
+- **A launch owns its whole process tree.** The app owns a service and the service owns native
+  media workers, so reaping direct children left a worker decoding half an hour of video while
+  the run reported that nothing survived.
+- **The local signing key is for signing.** It was imported with `-A`, which lets any program on
+  the Mac use it without asking; it is now imported for `codesign` alone. An identity whose trust
+  step fails is taken back out of the keychain rather than left untrusted to be imported again.
+  **This person's existing key was created under the old flag**: recreating it is one command and
+  their password, and nothing else depends on it.
+- **This app's windows stay out of the take.** A preview window or a save panel opened while
+  recording was captured into that recording; both are now unshared, as the floating controls
+  already were.
+- **What a person chose is not overwritten by what their Mac has today.** A selected microphone
+  that is unplugged is remembered rather than replaced: takes use the system default meanwhile,
+  the menu says which one it is waiting for, and the saved preference still names theirs.
+- **A count that is running can be cancelled from the menu.** The row said "Start Recording" and
+  did nothing while the three seconds ran; Escape was the only way out, and this app cannot
+  always hold Escape.
+- **Screen access says when it takes effect.** macOS answers that question once per launch, so a
+  person who granted it and came back to an unchanged row had no way to know quitting was what
+  was left.
+- **A check that cannot prove its point says so.** The exclusion check compares how much the
+  picture changed where the controls were against how much it changed everywhere; on a desktop
+  with a video playing, that comparison passes whatever happened, so it now skips instead.
