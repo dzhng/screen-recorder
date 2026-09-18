@@ -63,7 +63,7 @@ test(
     assert.equal(find(rows, "microphone.off").checked, true, "saved microphone choice");
     assert.equal(find(rows, "audio.system").checked, true, "saved system audio choice");
 
-    assert.equal((await send({ do: "settings" })).ok, true);
+    assert.equal((await send({ do: "choose", item: "app.settings" })).ok, true);
     const opened = await waitFor(async () => (await settings())?.visible && settings(), 20_000);
     assert.equal(opened.title, title);
     instance.kill("SIGTERM");

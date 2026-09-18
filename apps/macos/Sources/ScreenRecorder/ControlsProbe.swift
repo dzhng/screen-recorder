@@ -81,20 +81,28 @@ final class ControlsProbe {
             // sources, so a window that appeared since the last look is listed from here on.
             controls.menuWillOpen(controls.visibleMenu)
             return ["ok": true]
-        case "settings":
-            let menu = controls.visibleMenu
-            guard let index = menu.items.firstIndex(where: { StatusMenu.action(of: $0) == .openSettings })
-            else { return ["ok": false, "error": "The menu has no Settings… item."] }
-            menu.performActionForItem(at: index)
+        case "choose":
+            guard let named = command["item"] as? String,
+                let item = Self.item(named: named, in: controls.visibleMenu),
+                let owner = item.menu
+            else { return ["ok": false, "error": "The menu has no row that does that."] }
+            owner.performActionForItem(at: owner.index(of: item))
+            return ["ok": true]
+        case "escape":
+            guard let title = command["window"] as? String,
+                let window = NSApplication.shared.windows.first(where: { $0.title == title })
+            else { return ["ok": false, "error": "This app has no window named that."] }
+            window.cancelOperation(nil)
             return ["ok": true]
         default:
             return ["ok": false, "error": "Unknown probe command."]
         }
     }
 
-    /// This app's own titled windows, shown or hidden, by their AppKit identity.
+    /// This app's own named windows, shown or hidden, by their AppKit identity. A floating panel
+    /// carries no title bar but still says what it is, so the overlays are read the same way.
     private static func windows() -> [[String: Any]] {
-        NSApplication.shared.windows.filter { $0.styleMask.contains(.titled) }.map { window in
+        NSApplication.shared.windows.filter { !$0.title.isEmpty }.map { window in
             [
                 "title": window.title,
                 "number": window.windowNumber,
@@ -113,6 +121,18 @@ final class ControlsProbe {
         let staging = path + ".part"
         guard (try? data.write(to: URL(fileURLWithPath: staging))) != nil else { return }
         try? FileManager.default.moveItem(atPath: staging, toPath: path)
+    }
+
+    /// One row anywhere in the menu, by what it does, so a check chooses the row a person would
+    /// choose rather than reaching past the menu into the controls.
+    private static func item(named action: String, in menu: NSMenu) -> NSMenuItem? {
+        for item in menu.items {
+            if StatusMenu.action(of: item)?.id == action { return item }
+            if let submenu = item.submenu, let found = self.item(named: action, in: submenu) {
+                return found
+            }
+        }
+        return nil
     }
 
     private static func rows(of menu: NSMenu) -> [[String: Any]] {

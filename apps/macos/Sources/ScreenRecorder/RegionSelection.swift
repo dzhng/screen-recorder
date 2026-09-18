@@ -22,13 +22,11 @@ final class RegionSelection {
         guard !isChoosing else { return completion(nil) }
         let known = Dictionary(displays.map { ($0.id, $0.name) }, uniquingKeysWith: { first, _ in first })
         let screens = NSScreen.screens.compactMap { screen -> (NSScreen, ControlsState.Display)? in
-            guard let number = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber,
-                let name = known[Int(number.uint32Value)]
-            else { return nil }
+            guard let id = screen.captureDisplayID, let name = known[id] else { return nil }
             return (
                 screen,
                 ControlsState.Display(
-                    id: Int(number.uint32Value), name: name,
+                    id: id, name: name,
                     width: Int(screen.frame.width), height: Int(screen.frame.height))
             )
         }

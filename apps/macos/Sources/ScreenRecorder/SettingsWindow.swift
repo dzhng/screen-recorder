@@ -120,6 +120,9 @@ final class SettingsModel: ObservableObject {
     @Published var showAtLaunch: Bool {
         didSet { preferences.showSettingsAtLaunch = showAtLaunch }
     }
+    @Published var countdownBeforeRecording: Bool {
+        didSet { preferences.countdownBeforeRecording = countdownBeforeRecording }
+    }
     let perform: (ControlsAction) -> Void
     private let preferences: Preferences
 
@@ -130,6 +133,7 @@ final class SettingsModel: ObservableObject {
         self.preferences = preferences
         self.perform = perform
         showAtLaunch = preferences.showSettingsAtLaunch
+        countdownBeforeRecording = preferences.countdownBeforeRecording
     }
 
     func readLoginItem() {
@@ -233,8 +237,17 @@ struct SettingsView: View {
             } label: {
                 Text("Microphone")
             }
+            .disabled(live)
             detailRow("Include System Audio", "Records everything the Mac plays, not a single app or tab.") {
                 Toggle("", isOn: systemAudio).labelsHidden()
+            }
+            .disabled(live)
+            // A count belongs to the next take, so it stays editable while one is running.
+            detailRow(
+                "Count Down Before Recording",
+                "Shows three, two, one on the display being recorded. Escape abandons the start."
+            ) {
+                Toggle("", isOn: $model.countdownBeforeRecording).labelsHidden()
             }
         } header: {
             Text("Recording")
@@ -244,7 +257,6 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .disabled(live)
     }
 
     /// What the service is preparing for the newest take. A person who wants to watch processing

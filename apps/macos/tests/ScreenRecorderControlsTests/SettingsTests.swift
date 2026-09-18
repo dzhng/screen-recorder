@@ -119,6 +119,9 @@ func runPreferenceTests() {
 
     let first = launch()
     precondition(first.showSettingsAtLaunch, "Settings opens at launch until a person turns it off")
+    precondition(
+        first.countdown?.remaining == Countdown.defaultSeconds,
+        "A start counts down until a person turns that off")
     let fresh = ControlsState(recording: first.recording)
     precondition(
         fresh.selection.microphone == .systemDefault && !fresh.selection.systemAudio
@@ -130,9 +133,13 @@ func runPreferenceTests() {
     edited.selection.systemAudio = true
     first.recording = edited.selection.recordingDefaults
     first.showSettingsAtLaunch = false
+    first.countdownBeforeRecording = false
 
     let relaunched = launch()
     precondition(!relaunched.showSettingsAtLaunch, "Turning the window off survives a relaunch")
+    precondition(
+        relaunched.countdown == nil,
+        "Turning the countdown off survives a relaunch, and then a start records immediately")
     let restored = ControlsState(recording: relaunched.recording)
     precondition(
         restored.selection.microphone == .device(id: "mic-headset", name: "Studio Headset")

@@ -48,6 +48,9 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             self?.state.failure = message
             self?.render()
         })
+    private lazy var overlay = RecordingOverlayPanel(
+        preferences: preferences, perform: { [weak self] action in self?.perform(action) })
+    private lazy var countdown = StartCountdown(shortcuts: shortcuts)
     private lazy var settings = SettingsWindow(
         preferences: preferences,
         perform: { [weak self] action in self?.perform(action) },
@@ -153,7 +156,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         case .toggleSystemAudio:
             state.selection.systemAudio.toggle()
         case .startOrStop:
-            state.isLive ? capture("capture.stop", live()) : start()
+            state.isLive ? capture("capture.stop", live()) : countThenStart()
         case .pauseOrResume:
             capture(state.device?.state == .paused ? "capture.resume" : "capture.pause", live())
         case .cancel:
@@ -200,6 +203,20 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private func live() -> [String: Any]? {
         guard let recordingId = state.device?.recordingId else { return nil }
         return ["recordingId": recordingId]
+    }
+
+    /// A start a person asked for, from the menu, the floating controls or a key combination: the
+    /// count runs first and nothing is asked of the service until it has run out, so an abandoned
+    /// count leaves no take behind. A start with nothing to record, or with the count turned off,
+    /// goes straight to the service, which is what says why it could not.
+    private func countThenStart() {
+        guard !countdown.isCounting else { return }
+        guard state.selection.start() != nil, let counting = preferences.countdown else {
+            return start()
+        }
+        countdown.run(counting, on: NSScreen.recording(state.selection.source)) { [weak self] began in
+            if began { self?.start() }
+        }
     }
 
     private func start() {
@@ -525,6 +542,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 previous: renderedEntries)
         }
         renderedEntries = entries
+        overlay.update(RecordingOverlay.presentation(for: state))
         settings.update(state, shortcuts: shortcuts)
         showStatusItem()
         pace()

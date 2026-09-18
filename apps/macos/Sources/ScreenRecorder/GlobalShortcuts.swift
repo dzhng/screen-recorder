@@ -16,9 +16,9 @@ final class GlobalShortcuts {
     /// Where a person states combinations of their own when a suggested one is unavailable.
     static func overridePath(home: String) -> String { (home as NSString).appendingPathComponent("shortcuts.json") }
 
-    private var actions: [UInt32: ControlsAction] = [:]
+    private var handlers: [UInt32: () -> Void] = [:]
+    private var claimed: [UInt32: EventHotKeyRef] = [:]
     private var handler: EventHandlerRef?
-    private var perform: (ControlsAction) -> Void = { _ in }
     private var nextIdentifier: UInt32 = 1
 
     /// Claims what it can of the given bindings for this app's lifetime, and reports both sides of
@@ -27,34 +27,60 @@ final class GlobalShortcuts {
     func claim(
         _ bindings: [ControlsAction: Shortcut], perform: @escaping (ControlsAction) -> Void
     ) -> (held: Set<String>, unavailable: [String]) {
-        self.perform = perform
-        installHandler()
         var held: Set<String> = []
         var unavailable: [String] = []
         // One stable order, so a launch that cannot claim two combinations names them the same way
         // every time rather than in whatever order a dictionary happened to hold.
         for action in bindings.keys.sorted(by: { $0.id < $1.id }) {
-            guard let shortcut = bindings[action], let key = Self.keyCode(of: shortcut.key) else {
+            guard let shortcut = bindings[action], Self.keyCode(of: shortcut.key) != nil else {
                 continue
             }
-            let identifier = nextIdentifier
-            nextIdentifier += 1
-            var reference: EventHotKeyRef?
-            let status = RegisterEventHotKey(
-                key, Self.carbonModifiers(of: shortcut),
-                EventHotKeyID(signature: Self.signature, id: identifier),
-                GetApplicationEventTarget(), 0, &reference)
-            guard status == noErr, reference != nil else {
+            guard register(shortcut, { perform(action) }) != nil else {
                 unavailable.append(shortcut.display)
                 continue
             }
-            actions[identifier] = action
             held.insert(action.id)
         }
         return (held, unavailable)
     }
 
+    /**
+     Holds one combination for exactly as long as a piece of work needs it, and answers with the
+     way to give it back. Nothing may keep a key a person uses elsewhere for longer than the thing
+     that asked for it is on screen. Nil when the system would not give the combination up, so the
+     caller can say so rather than wait for a key that will never arrive.
+     */
+    func hold(_ shortcut: Shortcut, perform: @escaping () -> Void) -> (() -> Void)? {
+        guard let identifier = register(shortcut, perform) else { return nil }
+        return { [weak self] in self?.release(identifier) }
+    }
+
+    /// Asks the system for one combination. Refusal is the answer here; nothing is taken.
+    private func register(_ shortcut: Shortcut, _ perform: @escaping () -> Void) -> UInt32? {
+        installHandler()
+        guard let key = Self.keyCode(of: shortcut.key) else { return nil }
+        let identifier = nextIdentifier
+        nextIdentifier += 1
+        var reference: EventHotKeyRef?
+        let status = RegisterEventHotKey(
+            key, Self.carbonModifiers(of: shortcut),
+            EventHotKeyID(signature: Self.signature, id: identifier),
+            GetApplicationEventTarget(), 0, &reference)
+        guard status == noErr, let reference else { return nil }
+        claimed[identifier] = reference
+        handlers[identifier] = perform
+        return identifier
+    }
+
+    private func release(_ identifier: UInt32) {
+        if let reference = claimed.removeValue(forKey: identifier) {
+            UnregisterEventHotKey(reference)
+        }
+        handlers[identifier] = nil
+    }
+
     private func installHandler() {
+        guard handler == nil else { return }
         var pressed = EventTypeSpec(
             eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         InstallEventHandler(
@@ -73,10 +99,10 @@ final class GlobalShortcuts {
                 return MainActor.assumeIsolated {
                     let shortcuts = Unmanaged<GlobalShortcuts>.fromOpaque(context)
                         .takeUnretainedValue()
-                    guard let action = shortcuts.actions[identifier.id] else {
+                    guard let perform = shortcuts.handlers[identifier.id] else {
                         return OSStatus(eventNotHandledErr)
                     }
-                    shortcuts.perform(action)
+                    perform()
                     return noErr
                 }
             }, 1, &pressed, Unmanaged.passUnretained(self).toOpaque(), &handler)
@@ -104,6 +130,9 @@ final class GlobalShortcuts {
         "Z": kVK_ANSI_Z, "0": kVK_ANSI_0, "1": kVK_ANSI_1, "2": kVK_ANSI_2, "3": kVK_ANSI_3,
         "4": kVK_ANSI_4, "5": kVK_ANSI_5, "6": kVK_ANSI_6, "7": kVK_ANSI_7, "8": kVK_ANSI_8,
         "9": kVK_ANSI_9,
+        // The one key a countdown holds while it is on screen, so Escape abandons a start from
+        // wherever the person is working.
+        "ESCAPE": kVK_Escape,
     ]
 
     private static func keyCode(of key: String) -> UInt32? {

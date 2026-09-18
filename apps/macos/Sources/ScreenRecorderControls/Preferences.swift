@@ -25,6 +25,8 @@ public struct Preferences {
     private enum Key {
         static let showSettingsAtLaunch = "showSettingsAtLaunch"
         static let settingsFrame = "settingsFrame"
+        static let overlayOrigin = "overlayOrigin"
+        static let countdownBeforeRecording = "countdownBeforeRecording"
         static let microphone = "recording.microphone"
         static let microphoneDeviceId = "recording.microphoneDeviceId"
         static let microphoneDeviceName = "recording.microphoneDeviceName"
@@ -41,6 +43,24 @@ public struct Preferences {
     public var settingsFrame: String? {
         get { defaults.string(forKey: Key.settingsFrame) }
         nonmutating set { defaults.set(newValue, forKey: Key.settingsFrame) }
+    }
+
+    /// Where the floating recording controls were last left, in the screen points AppKit writes.
+    public var overlayOrigin: NSPoint? {
+        get { defaults.string(forKey: Key.overlayOrigin).map(NSPointFromString) }
+        nonmutating set { defaults.set(newValue.map(NSStringFromPoint), forKey: Key.overlayOrigin) }
+    }
+
+    /// Standard screen recorders count down before they start, so this app does too until a
+    /// person turns it off.
+    public var countdownBeforeRecording: Bool {
+        get { defaults.object(forKey: Key.countdownBeforeRecording) as? Bool ?? true }
+        nonmutating set { defaults.set(newValue, forKey: Key.countdownBeforeRecording) }
+    }
+
+    /// The count a start spends before capture begins: nothing once the preference is off.
+    public var countdown: Countdown? {
+        Countdown(seconds: countdownBeforeRecording ? Countdown.defaultSeconds : 0)
     }
 
     public var recording: RecordingDefaults {
