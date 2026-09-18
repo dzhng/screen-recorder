@@ -2491,3 +2491,24 @@ export controls. The choices below are the ones that change behavior or format.
   Xcode, and this Mac has the command line tools, so the icon is drawn with Core
   Graphics at the iconset sizes and packed by `iconutil`. macOS 26 may still frame a
   legacy icon in its own container; the glyph is designed to read inside one.
+
+## Preview speed and the overlays — 2026-09-18
+
+- **A preview is a bounded rendition; an export is the capture.**
+  - **Observed:** previewing a real 134-second take took 121 seconds, because every frame was
+    drawn and encoded at the capture's 3120×1970. The person asked why auditing an edit takes
+    that long.
+  - **Decision:** preview renders at a 1600-pixel long edge, halving each dimension on this Mac:
+    2× faster overall on the same take, 3.5× on the encode itself. The human video export keeps
+    the captured resolution.
+  - **Consequence:** the export no longer republishes the preview's file, so previewing and then
+    exporting renders twice. Most of what remains in a preview is the evidence pass that decodes
+    the whole source, which no bound touches; making that incremental is the next win.
+- **Overlay panels are hidden from every capture, not only ours.** A whole-display filter can
+  exclude applications macOS already lists as sharing something, and a menu-bar app showing
+  nothing is not listed, so the countdown and controls could never be excluded that way after a
+  take starts. They are marked unshared instead, which the window server honours from the moment
+  they open. The cost is that another recorder cannot film them either.
+- **The count happens before anything is allocated.** Escape during it abandons the start with no
+  recording created, so a cancelled countdown leaves nothing behind.
+
