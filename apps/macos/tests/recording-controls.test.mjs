@@ -30,10 +30,12 @@ async function controlledApp(home) {
   await instance.waitFor(/controls probe listening/);
   const send = controlsProbe(commands);
   const controls = { instance, windowId: Number(windowId), send };
-  await waitFor(
-    async () => Boolean(find((await send({ do: "snapshot" })).rows, `source.window.${windowId}`)),
-    20_000,
-  );
+  // Opening the menu is what re-reads the sources, so this is how a window that appeared after
+  // launch comes to be listed.
+  await waitFor(async () => {
+    await send({ do: "open" });
+    return Boolean(find((await send({ do: "snapshot" })).rows, `source.window.${windowId}`));
+  }, 20_000);
   return controls;
 }
 
@@ -91,5 +93,9 @@ test("external controls update the closed menu with actual source, audio and clo
   await waitFor(async () => (await snapshot()).rows[0].title.startsWith("Recording —"), 20_000);
   await waitFor(async () => seconds((await snapshot()).rows[0].title) > seconds(paused), 20_000);
   await succeeds(home, "capture.stop", { recordingId: started.recordingId });
-  await waitFor(async () => (await snapshot()).rows[0].title === "Idle", 20_000);
+  // An idle app states nothing about itself; it offers to start again.
+  await waitFor(
+    async () => find((await snapshot()).rows, "capture.startOrStop").title === "Start Recording",
+    20_000,
+  );
 });

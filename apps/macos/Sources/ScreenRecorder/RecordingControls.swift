@@ -514,8 +514,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private func render() {
         let shortcuts = ShortcutDefaults(bindings: bindings, registered: held)
         let entries = RecordingMenu.entries(for: state, exports: exports.state, shortcuts: shortcuts)
-        // Preserve the tracked menu and its open submenus when only the clock title changes.
-        if !renderedEntries.isEmpty && entries.dropFirst().elementsEqual(renderedEntries.dropFirst()) {
+        // Preserve the tracked menu and its open submenus when only the clock title changes. The
+        // first row is a status line only while something is happening, so what it says is the one
+        // thing this may take on trust: everything else about it, including a submenu it has when
+        // it is the source row instead, still has to match.
+        if Self.onlyTitleChanged(from: renderedEntries, to: entries) {
             menu.items.first?.title = entries[0].title
         } else {
             StatusMenu.apply(entries, to: menu, target: self, action: #selector(choose(_:)),
@@ -525,6 +528,15 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         settings.update(state, shortcuts: shortcuts)
         showStatusItem()
         pace()
+    }
+
+    /// Whether these rows say the same thing as the last ones apart from the very first title.
+    private static func onlyTitleChanged(from rendered: [MenuEntry], to entries: [MenuEntry]) -> Bool {
+        guard let first = entries.first, let last = rendered.first,
+            first.kind == last.kind, first.enabled == last.enabled, first.checked == last.checked,
+            first.shortcut == last.shortcut, first.submenu == last.submenu
+        else { return false }
+        return entries.dropFirst().elementsEqual(rendered.dropFirst())
     }
 
     private func showStatusItem() {

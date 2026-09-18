@@ -76,6 +76,11 @@ final class ControlsProbe {
             return ["ok": true, "rows": Self.rows(of: controls.visibleMenu)]
         case "windows":
             return ["ok": true, "windows": Self.windows(), "active": NSApplication.shared.isActive]
+        case "open":
+            // What a person does to look at the controls. Opening the menu is what re-reads the
+            // sources, so a window that appeared since the last look is listed from here on.
+            controls.menuWillOpen(controls.visibleMenu)
+            return ["ok": true]
         case "settings":
             let menu = controls.visibleMenu
             guard let index = menu.items.firstIndex(where: { StatusMenu.action(of: $0) == .openSettings })

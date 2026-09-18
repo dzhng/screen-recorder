@@ -8,6 +8,9 @@ func makeCaptureFixtureWindow(frame: NSRect? = nil, activate: Bool = true) -> NS
         styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
     window.isReleasedWhenClosed = false
     window.title = "Screen Recorder Capture Fixture"
+    // Whatever space is showing is where this window has to be: a capture lists only what is on
+    // screen, and a Mac sitting in somebody's full-screen app would otherwise have nothing to record.
+    window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
     window.contentView = CaptureFixtureView(frame: NSRect(origin: .zero, size: window.contentRect(forFrameRect: window.frame).size))
     if activate {
         window.makeKeyAndOrderFront(nil)
