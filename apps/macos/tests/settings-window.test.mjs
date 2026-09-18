@@ -59,7 +59,7 @@ test(
     assert.notEqual((await settings())?.visible, true, "no Settings window at launch");
 
     const item = find(rows, "app.settings");
-    assert.deepEqual([item.title, item.shortcut, item.enabled], ["Settings…", ",", true]);
+    assert.deepEqual([item.title, item.shortcut, item.enabled], ["Settings", ",", true]);
     assert.equal(find(rows, "microphone.off").checked, true, "saved microphone choice");
     assert.equal(find(rows, "audio.system").checked, true, "saved system audio choice");
 

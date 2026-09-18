@@ -95,7 +95,7 @@ func runSettingsActionTests() {
             preconditionFailure("The menu opens Settings")
         }
         precondition(
-            settings.title == "Settings…" && settings.shortcut == "⌘," && settings.enabled,
+            settings.title == "Settings" && settings.shortcut == "⌘," && settings.enabled,
             "Settings… is always reachable with the standard shortcut, even without a service")
         precondition(
             Shortcut(display: "⌘,") == Shortcut(command: true, key: ","),

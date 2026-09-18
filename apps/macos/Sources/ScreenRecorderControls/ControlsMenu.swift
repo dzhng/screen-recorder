@@ -108,9 +108,14 @@ public enum RecordingMenu {
     public static func entries(
         for state: ControlsState, exports: ExportsState = .init(), shortcuts: ShortcutDefaults = .init()
     ) -> [MenuEntry] {
-        var rows: [MenuEntry] = [MenuEntry(.status, statusTitle(for: state), enabled: false)]
+        // An idle app already says so through its status item; the menu opens on what a person
+        // can do instead of a line that reads "Idle".
+        var rows: [MenuEntry] = []
+        if let working = workingTitle(for: state) {
+            rows.append(MenuEntry(.status, working, enabled: false))
+        }
         for note in notes(for: state) { rows.append(MenuEntry(.status, note, enabled: false)) }
-        rows.append(.separator())
+        if !rows.isEmpty { rows.append(.separator()) }
         rows.append(
             MenuEntry(
                 .status, "Source: \(sourceTitle(for: state))", enabled: !state.isLive,
@@ -131,9 +136,17 @@ public enum RecordingMenu {
         rows.append(contentsOf: ExportMenu.entries(for: state, exports: exports))
         rows.append(contentsOf: storageEntries(for: state))
         rows.append(.separator())
-        rows.append(MenuEntry(.command(.openSettings), "Settings…", shortcut: "⌘,"))
+        rows.append(MenuEntry(.command(.openSettings), "Settings", shortcut: "⌘,"))
         rows.append(MenuEntry(.command(.quit), "Quit Screen Recorder", shortcut: "⌘Q"))
         return rows
+    }
+
+    /// What this app is doing, when it is doing something. Nil while it sits idle and ready.
+    static func workingTitle(for state: ControlsState) -> String? {
+        if case .unavailable = state.service { return statusTitle(for: state) }
+        if state.service == .starting { return statusTitle(for: state) }
+        if let device = state.device, device.state != .idle { return statusTitle(for: state) }
+        return state.processing?.summary.map { "Preparing the last take — \($0)" }
     }
 
     /// The one line that says what this app is doing right now. A running take's time comes from
@@ -286,7 +299,7 @@ public enum RecordingMenu {
         let canStart = ready && state.selection.source != nil
         var rows = [
             MenuEntry(
-                .command(.startOrStop), live ? "Stop Recording" : "Start Recording",
+                .command(.startOrStop), live ? "Finish Recording" : "Start Recording",
                 enabled: live ? ready : canStart,
                 shortcut: shortcuts.display(of: .startOrStop)),
             MenuEntry(
@@ -342,7 +355,11 @@ public enum RecordingMenu {
                     pending ? "Deleting…" : request == nil ? "Delete Recording" : "Retry Delete",
                     enabled: state.service == .ready && !pending),
             ])
-            let suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
+            var suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
+            if suffix.isEmpty, state.processing?.recordingId == take.recordingId,
+                let working = state.processing?.summary {
+                suffix = " — \(working)"
+            }
             return MenuEntry(.status, recentTitle(of: take) + suffix, submenu: details)
         }
     }

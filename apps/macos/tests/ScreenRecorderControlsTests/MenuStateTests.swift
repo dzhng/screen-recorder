@@ -33,7 +33,10 @@ private func recording(elapsedUs: Int64, paused: Bool = false) -> ControlsState 
 
 func runMenuStateTests() {
     let idle = RecordingMenu.entries(for: ready())
-    precondition(statusLines(idle).first == "Idle", "An idle app says so first")
+    precondition(
+        !statusLines(idle).contains { $0.hasPrefix("Idle") }
+            && idle.first?.title.hasPrefix("Source:") == true,
+        "An idle app opens on its selection, not on a line saying nothing happens")
     precondition(row(idle, "capture.startOrStop").title == "Start Recording", "Idle offers a start")
     precondition(row(idle, "capture.startOrStop").enabled, "A chosen source can be recorded")
     for control in ["capture.pauseOrResume", "capture.cancel", "capture.restart"] {
@@ -53,7 +56,39 @@ func runMenuStateTests() {
 
     let live = RecordingMenu.entries(for: recording(elapsedUs: 12_000_000))
     precondition(statusLines(live).first == "Recording — 0:12", "A running take shows its own clock")
-    precondition(row(live, "capture.startOrStop").title == "Stop Recording", "One control starts and stops")
+
+    // A take whose evidence is still being prepared says so, in both places a person looks.
+    var preparing = ready()
+    let take = ControlsState.RecentTake(
+        recordingId: "rec-5", createdAt: "2026-09-18T01:02:03Z", state: "complete",
+        sourceDurationUs: 9_000_000, interruptionReason: nil)
+    preparing.recent = [take]
+    preparing.processing = .init(
+        recordingId: "rec-5",
+        artifacts: [
+            .init(artifact: "source", state: "ready", reason: nil),
+            .init(artifact: "transcript", state: "processing", reason: nil),
+            .init(artifact: "index", state: "queued", reason: nil),
+        ])
+    let working = RecordingMenu.entries(for: preparing)
+    precondition(
+        statusLines(working).first == "Preparing the last take — transcribing, choosing screenshots",
+        "Processing is named for a person: \(statusLines(working))")
+    guard let preparedRow = working.first(where: { $0.title == "Recent Recordings" })?.submenu.first
+    else { preconditionFailure("The prepared take is listed") }
+    precondition(
+        preparedRow.title.hasSuffix("— transcribing, choosing screenshots"),
+        "The take itself says what is still being prepared: \(preparedRow.title)")
+    preparing.processing = .init(
+        recordingId: "rec-5",
+        artifacts: [.init(artifact: "transcript", state: "failed", reason: "model missing")])
+    precondition(
+        statusLines(RecordingMenu.entries(for: preparing)).first
+            == "Preparing the last take — transcript failed",
+        "A failed artifact stays visible")
+    precondition(
+        row(live, "capture.startOrStop").title == "Finish Recording",
+        "One control starts and finishes a take")
     precondition(row(live, "capture.pauseOrResume").title == "Pause Recording", "A running take can pause")
     precondition(
         row(live, "capture.cancel").enabled && row(live, "capture.restart").enabled,

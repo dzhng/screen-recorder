@@ -32,6 +32,8 @@ public struct ControlsState: Equatable, Sendable {
     public var recent: [RecentTake] = []
     /// Only requests made in this menu, retained while the catalog hides a pending deletion.
     public var deletions: [String: DeleteRequest] = [:]
+    /// What the service is still preparing for the newest take, by artifact name.
+    public var processing: TakeProcessing?
     public var storage: StorageObservation?
     public var storageRefreshing = false
     public var storageFailure: String?
@@ -193,6 +195,51 @@ public struct ControlsState: Equatable, Sendable {
         public let take: RecentTake
         public var failure: String?
         public var isPending: Bool { failure == nil }
+    }
+
+    /// One artifact's readiness for one take, as the service reports it.
+    public struct ArtifactProgress: Equatable, Sendable {
+        public init(artifact: String, state: String, reason: String?) {
+            self.artifact = artifact
+            self.state = state
+            self.reason = reason
+        }
+        public let artifact: String
+        public let state: String
+        public let reason: String?
+
+        /// How a person reads this artifact being worked on, or nil once nothing is pending.
+        public var activeTitle: String? {
+            guard ["queued", "processing"].contains(state) else { return nil }
+            return switch artifact {
+            case "transcript": "transcribing"
+            case "index": "choosing screenshots"
+            case "scenes": "reading the picture"
+            case "source": "reading the recording"
+            default: artifact
+            }
+        }
+    }
+
+    /// The newest take's artifacts, so the menu can say a recording is not finished being prepared.
+    public struct TakeProcessing: Equatable, Sendable {
+        public init(recordingId: String, artifacts: [ArtifactProgress]) {
+            self.recordingId = recordingId
+            self.artifacts = artifacts
+        }
+        public let recordingId: String
+        public let artifacts: [ArtifactProgress]
+
+        /// The work in progress, named for a person, or nil when everything is ready.
+        public var summary: String? {
+            let active = artifacts.compactMap(\.activeTitle)
+            if !active.isEmpty { return active.joined(separator: ", ") }
+            let failed = artifacts.filter { ["failed", "unavailable"].contains($0.state) }
+            guard let first = failed.first else { return nil }
+            return failed.count == 1
+                ? "\(first.artifact) \(first.state)"
+                : "\(failed.count) artifacts unavailable"
+        }
     }
 
     public struct StorageObservation: Equatable, Sendable, Decodable {

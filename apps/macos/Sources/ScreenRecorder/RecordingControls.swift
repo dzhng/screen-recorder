@@ -413,6 +413,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 || previous?.state != state.device?.state {
                 await readSources()
                 await readRecent()
+                await readProcessing()
             }
             reading = false
             render()
@@ -470,6 +471,33 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 recordingId: $0.recordingId, createdAt: $0.createdAt, state: $0.state,
                 sourceDurationUs: $0.sourceDurationUs, interruptionReason: $0.interruptionReason)
         }
+    }
+
+    /// What the service is still preparing for the newest take. Artifacts report themselves; the
+    /// screenshot index answers through its own read, so both are asked the same question here.
+    private func readProcessing() async {
+        guard let take = state.recent.first, take.state != "recording" else {
+            state.processing = nil
+            return
+        }
+        var artifacts: [ControlsState.ArtifactProgress] = []
+        for artifact in ["source", "scenes", "transcript"] {
+            guard
+                let answer = try? await service().call(
+                    "processing.status", ["recordingId": take.recordingId, "artifact": artifact],
+                    as: ProcessingAnswer.self)
+            else { continue }
+            artifacts.append(
+                .init(artifact: artifact, state: answer.state, reason: answer.reason))
+        }
+        if let index = try? await service().call(
+            "index.get", ["recordingId": take.recordingId, "limit": 1], as: ProcessingAnswer.self)
+        {
+            artifacts.append(
+                .init(artifact: "index", state: index.page == nil ? index.state : "ready",
+                    reason: index.reason))
+        }
+        state.processing = .init(recordingId: take.recordingId, artifacts: artifacts)
     }
 
     private static let noService = ServiceFailure(
@@ -583,6 +611,14 @@ private struct RecentAnswer: Decodable {
 
 private struct StartedTake: Decodable {
     let state: String
+}
+
+private struct ProcessingAnswer: Decodable {
+    let state: String
+    let reason: String?
+    /// Present once the screenshot index has something to read.
+    let page: EmptyPage?
+    struct EmptyPage: Decodable {}
 }
 
 private struct DeleteAnswer: Decodable {

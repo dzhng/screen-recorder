@@ -171,6 +171,7 @@ struct SettingsView: View {
                 }
             }
             recordingSection
+            activitySection
             shortcutsSection
             generalSection
         }
@@ -246,6 +247,42 @@ struct SettingsView: View {
         .disabled(live)
     }
 
+    /// What the service is preparing for the newest take. A person who wants to watch processing
+    /// can leave this window open instead of reopening the menu.
+    @ViewBuilder
+    private var activitySection: some View {
+        if let processing = model.state.processing, !processing.artifacts.isEmpty {
+            Section {
+                ForEach(processing.artifacts, id: \.artifact) { artifact in
+                    LabeledContent(Self.artifactNames[artifact.artifact] ?? artifact.artifact) {
+                        switch artifact.state {
+                        case "ready":
+                            Label("Ready", systemImage: "checkmark.circle.fill")
+                                .labelStyle(StatusLabelStyle(tint: .green))
+                        case "failed", "unavailable":
+                            Label(artifact.reason ?? artifact.state, systemImage: "exclamationmark.circle.fill")
+                                .labelStyle(StatusLabelStyle(tint: .orange))
+                        case "not_requested":
+                            Text("Not started").foregroundStyle(.secondary)
+                        default:
+                            Label(artifact.state, systemImage: "clock")
+                                .labelStyle(StatusLabelStyle(tint: .secondary))
+                        }
+                    }
+                }
+            } header: {
+                Text("Last Recording")
+            } footer: {
+                Text(processing.recordingId).font(.caption).foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    private static let artifactNames = [
+        "source": "Recording data", "scenes": "Picture analysis",
+        "transcript": "Narration transcript", "index": "Screenshots",
+    ]
+
     private var shortcutsSection: some View {
         Section {
             ForEach(Self.shortcutActions, id: \.0.id) { action, name in
@@ -296,7 +333,7 @@ struct SettingsView: View {
     }
 
     private static let shortcutActions: [(ControlsAction, String)] = [
-        (.startOrStop, "Start or Stop Recording"), (.pauseOrResume, "Pause or Resume Recording"),
+        (.startOrStop, "Start or Finish Recording"), (.pauseOrResume, "Pause or Resume Recording"),
         (.cancel, "Cancel Take"), (.restart, "Restart Take"),
     ]
 
