@@ -2585,3 +2585,31 @@ export controls. The choices below are the ones that change behavior or format.
 - **A check that cannot prove its point says so.** The exclusion check compares how much the
   picture changed where the controls were against how much it changed everywhere; on a desktop
   with a video playing, that comparison passes whatever happened, so it now skips instead.
+
+## Two capabilities the contract names and this release does not have — 2026-09-19
+
+- **A relocated package cannot play a preview, and that is now a decision rather than an
+  oversight.**
+  - **Observed:** the contract's package row says a package answers "the same inspection
+    operations", and its inspection row lists a playable revision preview. `preview.get` and
+    `preview.retry` take a recording and nothing else, and the package inspector owns no renderer.
+    Everything else a package can be asked — arbitrary frames, audio, transcript pages, timeline,
+    raw cursor, the screenshot index — is implemented and checked after relocation.
+  - **Why it is not a wiring job:** a package's native seam deliberately admits one call writing
+    one output, with the file made and handed to the worker by descriptor. A preview is three
+    calls with intermediate files between them — presentation evidence, a pointer schedule, then
+    the render — and an exclusively locked scratch directory to hold them. Giving a package
+    context that means widening a boundary whose whole purpose is to bound what an archive from
+    somewhere else can make this Mac's worker do.
+  - **For the user:** the choice is to build that (a package render workspace, a third job kind,
+    and preview delivery through the package's lease) or to drop the sentence from the contract.
+    Nothing else depends on it: an agent reading a package already has every frame and every
+    second of audio in it.
+- **A key combination another application already owns is registered, not reported.** The contract
+  says a collision disables the binding and shows a settings override. The override half exists;
+  the detection does not, because `RegisterEventHotKey` returns success for a combination another
+  app holds — this repository's own
+  [two-process matrix](assets/recording-controls/shortcut-collisions.md)
+  measured it. The app therefore says a shortcut is held while its keystrokes go elsewhere.
+  Registering exclusively would take the combination from the other application, which is worse.
+  Left as measured, with the shortcut file as the way out.
