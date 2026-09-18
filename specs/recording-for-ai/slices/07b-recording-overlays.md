@@ -5,7 +5,10 @@ and a second screen. Parent: [07](07-menu-bar-controls.md).
 
 The count, the floating controls, the preference and the capture exclusion are in place and
 checked. [Captures of both panels](../assets/recording-overlay/README.md) cover both appearances
-and were reviewed by an unprimed critique.
+and were reviewed by unprimed critiques, which moved four things: finishing a take and throwing
+one away no longer read as two grey squares, a paused take says so with more than the colour of a
+dot, the way out of the count is as readable as the count, and each panel is the size of what it
+has to say.
 
 Two things this slice found are worth keeping in mind. A whole-display filter can only exclude
 applications the system currently lists as sharing something, and a menu-bar app showing nothing

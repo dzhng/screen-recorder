@@ -16,10 +16,11 @@ macOS 26.6.2, in both system appearances.
 
 [`apps/macos/tests/overlay-shots.mjs`](../../../../apps/macos/tests/overlay-shots.mjs) writes
 them. Each is the panel's own picture, drawn by the window it belongs to and written straight to
-a file through the controls fixture, at twice the size a point is on this screen: the controls are 296
-by 64 points and the count 186 by 180. Nothing is photographed off the screen and nothing is
-brought forward — the run that produced these records this app's own fixture window, never
-activates the app, and orders every panel it opens in behind whatever the person is doing. The
+a file through the controls fixture, at twice the size a point is on this screen: the controls
+are 296 by 64 points and the count 186 by 180. Nothing is photographed off the screen and
+nothing is brought forward — the run that produced these records this app's own fixture window,
+never activates the app, and orders every panel it opens in behind whatever the person is doing.
+The
 system appearance of the Mac they were taken on is light; the dark pair is the same launch asked
 to show itself the other way.
 
