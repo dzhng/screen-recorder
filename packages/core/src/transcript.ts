@@ -346,7 +346,8 @@ export class TranscriptStore implements TranscriptRecords {
     let lines = 0,
       ordinal = 0,
       maxWordUs = 0,
-      previousStartUs = 0;
+      previousStartUs = 0,
+      previousEndUs = 0;
     const consume = async (bytes: Buffer) => {
       let value: unknown;
       try {
@@ -380,7 +381,12 @@ export class TranscriptStore implements TranscriptRecords {
           : source.startUs;
         const endUs = instant ? startUs + 1 : source.endUs;
         if (startUs < previousStartUs) invalid("Transcript words must be ordered by start");
+        // A word's span is what a cut removes and what an excerpt plays, so two words may not
+        // claim the same time: a word whose span covered the next one would take that word with
+        // it when it was cut, and the transcript would then say it was never spoken.
+        if (startUs < previousEndUs) invalid("Transcript words must not overlap");
         previousStartUs = startUs;
+        previousEndUs = endUs;
         maxWordUs = Math.max(maxWordUs, endUs - startUs);
         batch.push({
           ordinal: ordinal++,

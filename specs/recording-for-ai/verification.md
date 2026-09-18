@@ -74,8 +74,8 @@ These are deliberately chosen initial gates, not guarantees on arbitrary media:
   zero, which must be reported. No power-loss claim without corresponding testing.
 - Speech: on real narration, median word boundary error ≤100 ms/p95 ≤250 ms, and
   audition phrase cuts for clipped neighboring words. **Measured 2026-09-19 and not met:**
-  median 135 ms, p95 590 ms, with every boundary outside the speech rather than inside it, so
-  cuts keep their neighbours whole. Kept as a reported miss rather than a relaxed target; the
+  median 135 ms, p95 578 ms over 15 hand-marked boundaries, twelve of them outside the speech and
+  three inside it by 60–100 ms. Kept as a reported miss rather than a relaxed target; the
   [evidence](assets/speech/boundaries/README.md) says what remains and why tightening it would
   have to guess. Filler precision/recall is
   reported with denominators but is not a gate (user decision 2026-09-17). Do not

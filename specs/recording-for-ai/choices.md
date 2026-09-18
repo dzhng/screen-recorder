@@ -2528,9 +2528,11 @@ export controls. The choices below are the ones that change behavior or format.
     the real take. Words with no punctuation are unchanged, because there was nothing to trim.
 - **The boundary target is reported as missed rather than relaxed or chased.**
   - **Observed:** after that fix, hand-marked boundaries on this person's own narration give a
-    median error of 135 ms against a 100 ms target and a p95 of 590 ms. Every boundary sits
-    outside the speech — starts early by about 200 ms, ends late — so cuts keep their neighbours
-    whole, which is what the narrator heard when they auditioned one.
+    median error of 135 ms against a 100 ms target and a p95 of 578 ms. Twelve of the fifteen sit
+    outside the speech — starts early by about 180 ms, ends late — so a cut usually keeps its
+    neighbours whole, which is what the narrator heard when they auditioned one. Three sit inside
+    it by 60–100 ms, where a cut would clip a word, and two of those are endings the trim itself
+    moved.
   - **Decision:** ship this and record the miss. Tightening it further means an acoustic detector
     deciding where speech is; on this narration, recorded while its narrator clicked and typed,
     every threshold that separated those from speech moved the answer by more than the thing
@@ -2539,6 +2541,16 @@ export controls. The choices below are the ones that change behavior or format.
   - **For the user:** if cuts should hug the speech more tightly than this, that is the decision
     to reverse, and it costs the risk of clipped word edges. Nothing else in the release depends
     on it.
+- **A word may not run into the next one, and core refuses a transcript where one does.**
+  - **Observed:** the engine puts several tokens on one frame, so `I'm going` came back with the
+    first word's span containing the second whole. A span is what a cut removes, so cutting `I'm`
+    deleted `going` — from the media and from the transcript, with no partial word, no gap and no
+    other trace that it had ever been said.
+  - **Decision:** the worker clamps a word's span at the next word's start, and core rejects a raw
+    transcript whose words overlap instead of storing one.
+  - **Consequence:** a contraction's second word keeps only the time that is its own, which is
+    already how every other word is treated. A future engine that overlaps words fails
+    transcription loudly rather than quietly losing a word to a cut.
 - **The measurement is hand-marked, and the pictures are committed.** Boundaries are drawn as
   spectrograms at a millisecond per pixel with a ruler, only where a real pause sits beside them,
   and the marks are millisecond offsets read off those pictures. Inside connected speech there is

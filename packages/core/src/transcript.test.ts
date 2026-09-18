@@ -729,6 +729,17 @@ test("ingest refuses inconsistent native output and leaves no generation behind"
     ],
     [
       {
+        // A word whose span reaches into the next one would take that word with it when it was
+        // cut, and the transcript would then say it was never spoken.
+        corrupt: (lines) => {
+          const words = lines[0]!.words as RawWord[];
+          words[1]!.source.endUs = words[2]!.source.endUs;
+        },
+      },
+      "Transcript words must not overlap",
+    ],
+    [
+      {
         corrupt: (lines, receipt) => {
           lines[1]!.ordinal = 0;
           (receipt.segments as Line[])[1]!.ordinal = 0;

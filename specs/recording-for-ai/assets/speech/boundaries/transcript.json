@@ -236,7 +236,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 7008675,
-   "endUs": 7328675
+   "endUs": 7248675
   },
   "confidence": 0.99625653,
   "segment": 0,
@@ -245,11 +245,11 @@
    {
     "source": {
      "startUs": 7008675,
-     "endUs": 7328675
+     "endUs": 7248675
     },
     "playback": {
      "startUs": 7008675,
-     "endUs": 7328675
+     "endUs": 7248675
     }
    }
   ]
@@ -470,7 +470,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 10528675,
-   "endUs": 10768675
+   "endUs": 10688675
   },
   "confidence": 0.9889323,
   "segment": 0,
@@ -479,11 +479,11 @@
    {
     "source": {
      "startUs": 10528675,
-     "endUs": 10768675
+     "endUs": 10688675
     },
     "playback": {
      "startUs": 10528675,
-     "endUs": 10768675
+     "endUs": 10688675
     }
    }
   ]
@@ -886,7 +886,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 19248675,
-   "endUs": 19568675
+   "endUs": 19488675
   },
   "confidence": 0.9983724,
   "segment": 0,
@@ -895,11 +895,11 @@
    {
     "source": {
      "startUs": 19248675,
-     "endUs": 19568675
+     "endUs": 19488675
     },
     "playback": {
      "startUs": 19248675,
-     "endUs": 19568675
+     "endUs": 19488675
     }
    }
   ]
@@ -1380,7 +1380,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 26688675,
-   "endUs": 26928675
+   "endUs": 26848675
   },
   "confidence": 0.9973958,
   "segment": 0,
@@ -1389,11 +1389,11 @@
    {
     "source": {
      "startUs": 26688675,
-     "endUs": 26928675
+     "endUs": 26848675
     },
     "playback": {
      "startUs": 26688675,
-     "endUs": 26928675
+     "endUs": 26848675
     }
    }
   ]
@@ -1718,7 +1718,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 31488675,
-   "endUs": 31728675
+   "endUs": 31648675
   },
   "confidence": 0.99934894,
   "segment": 0,
@@ -1727,11 +1727,11 @@
    {
     "source": {
      "startUs": 31488675,
-     "endUs": 31728675
+     "endUs": 31648675
     },
     "playback": {
      "startUs": 31488675,
-     "endUs": 31728675
+     "endUs": 31648675
     }
    }
   ]
@@ -1952,7 +1952,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 34448675,
-   "endUs": 34688675
+   "endUs": 34608675
   },
   "confidence": 0.99886066,
   "segment": 0,
@@ -1961,11 +1961,11 @@
    {
     "source": {
      "startUs": 34448675,
-     "endUs": 34688675
+     "endUs": 34608675
     },
     "playback": {
      "startUs": 34448675,
-     "endUs": 34688675
+     "endUs": 34608675
     }
    }
   ]
@@ -6008,7 +6008,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 100688675,
-   "endUs": 100928675
+   "endUs": 100848675
   },
   "confidence": 0.9978841,
   "segment": 0,
@@ -6017,11 +6017,11 @@
    {
     "source": {
      "startUs": 100688675,
-     "endUs": 100928675
+     "endUs": 100848675
     },
     "playback": {
      "startUs": 100688675,
-     "endUs": 100928675
+     "endUs": 100848675
     }
    }
   ]
@@ -7360,7 +7360,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 124288675,
-   "endUs": 124688675
+   "endUs": 124608675
   },
   "confidence": 0.9946289,
   "segment": 0,
@@ -7369,11 +7369,11 @@
    {
     "source": {
      "startUs": 124288675,
-     "endUs": 124688675
+     "endUs": 124608675
     },
     "playback": {
      "startUs": 124288675,
-     "endUs": 124688675
+     "endUs": 124608675
     }
    }
   ]
@@ -7750,7 +7750,7 @@
   "kind": "speech",
   "sourceRange": {
    "startUs": 127568675,
-   "endUs": 127808675
+   "endUs": 127728675
   },
   "confidence": 0.9996745,
   "segment": 0,
@@ -7759,11 +7759,11 @@
    {
     "source": {
      "startUs": 127568675,
-     "endUs": 127808675
+     "endUs": 127728675
     },
     "playback": {
      "startUs": 127568675,
-     "endUs": 127808675
+     "endUs": 127728675
     }
    }
   ]

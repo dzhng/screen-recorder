@@ -4,19 +4,21 @@
   "marked": 15,
   "drawn": 16,
   "medianErrorMs": 135,
-  "p95ErrorMs": 590,
+  "p95ErrorMs": 578.1,
   "worstErrorMs": 590,
   "start": {
     "n": 8,
-    "medianMs": 205,
+    "medianMs": 182.5,
     "minMs": -75,
-    "maxMs": 225
+    "maxMs": 225,
+    "insideSpeech": 1
   },
   "end": {
     "n": 7,
     "medianMs": -105,
     "minMs": -590,
-    "maxMs": 100
+    "maxMs": 100,
+    "insideSpeech": 2
   },
   "targets": {
     "medianErrorMs": 100,

@@ -100,11 +100,31 @@ if (values.score) {
   const marked = marks.boundaries.filter((row) => typeof row.markedOffsetMs === "number");
   if (!marked.length) throw new Error(`no boundary in ${marksPath} has been marked yet`);
   const errors = marked.map((row) => Math.abs(row.markedOffsetMs)).sort((a, b) => a - b);
-  const at = (share) => errors[Math.min(errors.length - 1, Math.floor(errors.length * share))];
+  /**
+   * The value at a share of the way through a sorted sample, between the two it falls between.
+   * Picking the next value up instead would make a p95 of fifteen marks the largest of them, and
+   * report the worst case under the name of a distribution.
+   */
+  const quantile = (sorted, share) => {
+    const at = share * (sorted.length - 1);
+    const below = Math.floor(at);
+    const above = Math.ceil(at);
+    return sorted[below] + (sorted[above] - sorted[below]) * (at - below);
+  };
+  const round = (value) => Math.round(value * 10) / 10;
+  const at = (share) => round(quantile(errors, share));
   const side = (which) => {
     const only = marked.filter((row) => row.side === which).map((row) => row.markedOffsetMs);
     only.sort((a, b) => a - b);
-    return { n: only.length, medianMs: only[only.length >> 1], minMs: only[0], maxMs: only.at(-1) };
+    return {
+      n: only.length,
+      medianMs: round(quantile(only, 0.5)),
+      minMs: only[0],
+      maxMs: only.at(-1),
+      // How many of them fall inside the speech rather than outside it: a boundary outside leaves
+      // a cut's neighbours whole, and one inside clips a word.
+      insideSpeech: only.filter((value) => (which === "start" ? value < 0 : value > 0)).length,
+    };
   };
   const result = {
     narration: marks.narration,

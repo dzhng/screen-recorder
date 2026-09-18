@@ -68,6 +68,34 @@ check(
 check(abs(plain[0].confidence - 0.5) < 1e-6, "Confidence stays the token average")
 print("PASS a word of plain speech reports exactly the engine's own span")
 
+// The engine puts several tokens on one frame, so a contraction's first word can be reported as
+// covering the whole of the next one. A span is what a cut removes, so they must not overlap.
+let contraction = WordTimingMerger.mergeTokensIntoWords([
+    timing(" I", 7.008, 7.168),
+    timing("'", 7.168, 7.248),
+    timing("m", 7.248, 7.328),
+    timing(" going", 7.248, 7.328),
+])
+check(contraction.map(\.word) == ["I'm", "going"], "Got \(contraction.map(\.word))")
+check(
+    contraction[0].spokenEnd <= contraction[1].spokenStart,
+    "A word must end where the next begins at the latest, got "
+        + "\(contraction[0].spokenEnd) into \(contraction[1].spokenStart)")
+check(
+    contraction[0].spokenStart == 7.008 && contraction[1].spokenEnd == 7.328,
+    "Only the overlap moves: got \(contraction[0].spokenStart) and \(contraction[1].spokenEnd)")
+print("PASS a word never runs into the one after it")
+
+// A word's last token is not always its latest, for the same reason.
+let unordered = WordTimingMerger.mergeTokensIntoWords([
+    timing(" wo", 1.0, 1.4),
+    timing("rd", 1.2, 1.28),
+])
+check(
+    unordered[0].spokenEnd == 1.4 && unordered[0].endTime == 1.4,
+    "A word ends where its speech ends, got \(unordered[0].spokenEnd)")
+print("PASS a word ends at its latest token, not its last one")
+
 // Numbers are speech too; a year must not be read as punctuation.
 let number = WordTimingMerger.mergeTokensIntoWords([timing(" 2026", 3.0, 3.4)])
 check(

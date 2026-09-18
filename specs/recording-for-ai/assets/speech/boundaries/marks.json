@@ -2,6 +2,7 @@
   "narration": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
   "transcript": "specs/recording-for-ai/assets/speech/boundaries/transcript.json",
   "usPerPixel": 1000,
+  "windowMs": 900,
   "sheets": 8,
   "perSheet": 2,
   "phrases": 24,
@@ -167,6 +168,5 @@
       "phrase": 21,
       "markedOffsetMs": -590
     }
-  ],
-  "markedBy": "read off the panels by eye, to the nearest ~25 ms; two ends were read from a 2400 ms redraw because the speech had stopped before the 900 ms panel began"
+  ]
 }

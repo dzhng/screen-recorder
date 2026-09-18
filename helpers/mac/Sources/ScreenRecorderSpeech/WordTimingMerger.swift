@@ -75,15 +75,35 @@ public enum WordTimingMerger {
                     currentStartTime = timing.startTime
                 }
                 currentWord += token
-                currentEndTime = timing.endTime
+                currentEndTime = max(currentEndTime, timing.endTime)
                 if spoken(token) {
-                    currentSpoken = (currentSpoken?.start ?? timing.startTime, timing.endTime)
+                    // The last token of a word is not always its latest: this engine puts several
+                    // tokens on one frame, so a word ends where its speech ends, not where its
+                    // final piece happens to be timed.
+                    currentSpoken = (
+                        currentSpoken?.start ?? timing.startTime,
+                        max(currentSpoken?.end ?? timing.endTime, timing.endTime)
+                    )
                 }
                 currentConfidences.append(timing.confidence)
             }
         }
 
         flush()
+
+        // No word may run into the next one. The engine puts several tokens on one frame, so a
+        // contraction like "I'm going" can report a first word whose span contains the second
+        // whole — and a span is what a cut removes, so cutting the first word would take the
+        // second with it and the transcript would then say it was never spoken.
+        for index in wordTimings.indices.dropLast() {
+            let next = wordTimings[index + 1].spokenStart
+            let word = wordTimings[index]
+            guard word.spokenEnd > next else { continue }
+            wordTimings[index] = EngineWord(
+                word: word.word, startTime: word.startTime, endTime: word.endTime,
+                spokenStart: min(word.spokenStart, next), spokenEnd: max(word.spokenStart, next),
+                confidence: word.confidence)
+        }
 
         return wordTimings
     }
