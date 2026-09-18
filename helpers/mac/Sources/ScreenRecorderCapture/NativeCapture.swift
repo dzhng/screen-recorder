@@ -127,7 +127,7 @@ public final class NativeCapture {
             else {
                 throw CaptureFailure("SOURCE_UNAVAILABLE", "The selected display is unavailable.")
             }
-            filter = SCContentFilter(display: display, excludingWindows: [])
+            filter = Self.displayFilter(display, in: content)
             requestedSourceRect = CGDisplayBounds(display.displayID)
             if request.source.kind == "region" {
                 guard let region = request.source.region else {
@@ -254,6 +254,18 @@ public final class NativeCapture {
                 }
             }
         }
+    }
+
+    /// A whole display, minus this application's own windows, so the countdown and the recording
+    /// controls that produced the take never appear inside it.
+    private static func displayFilter(_ display: SCDisplay, in content: SCShareableContent)
+        -> SCContentFilter
+    {
+        let own = CaptureExclusion.ownApplications(
+            among: content.applications, bundleIdentifier: Bundle.main.bundleIdentifier,
+            identity: \.bundleIdentifier)
+        guard !own.isEmpty else { return SCContentFilter(display: display, excludingWindows: []) }
+        return SCContentFilter(display: display, excludingApplications: own, exceptingWindows: [])
     }
 
     /// Records one reported transition in the running take's journal. The caller reports what the
