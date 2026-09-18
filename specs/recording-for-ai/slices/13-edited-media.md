@@ -5,8 +5,12 @@ audio ([13b](13b-streaming-audio.md)), encoded movie assembly
 ([13c](13c-aac-movie-assembly.md)), pointer composition
 ([13d1](13d1-presentation-evidence.md)–[13d4](13d4-pointer-composition.md)) and
 public preview delivery ([13e](13e-preview-publication.md)) pass generated-media
-gates. Adjacent-speech audition, physical menu interaction and player visual
-acceptance remain open. Dependencies for full completion: 09, 12. Sub-slice
+gates. The narrator of a real take has
+[auditioned a cut](../assets/personal-journey/audition.md) an agent made from their transcript
+and found the join clean, which closes adjacent-speech audition for one cut on one recording.
+Preview plays a bounded rendition of the pinned edit while the human export keeps the captured
+resolution. A cut auditioned inside a rendered export, physical menu interaction and player
+visual acceptance remain open. Dependencies for full completion: 09, 12. Sub-slice
 checkpoints do not relax this parent's completion gates.
 
 Read [architecture](../architecture.md), [contracts](../contracts.md), and
