@@ -2,8 +2,9 @@ import AppKit
 import ScreenRecorderControls
 
 /// Menu and window observations for a launch that explicitly asked for them. It reads the menu
-/// rows and this app's windows, and can choose Settings… through that item's own menu action.
-/// Capture actions use the public service; actual UI interaction is verified separately.
+/// rows and this app's windows, chooses a row through that row's own menu action, and writes a
+/// window's own picture. Capture actions use the public service; actual UI interaction is
+/// verified separately.
 @MainActor
 final class ControlsProbe {
     static let variable = "SCREENREC_FIXTURE_CONTROLS"

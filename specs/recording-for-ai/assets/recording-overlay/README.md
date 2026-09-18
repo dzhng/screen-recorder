@@ -14,8 +14,9 @@ macOS 26.6.2, in both system appearances.
 | [dark-recording.png](dark-recording.png) | controls | dark, a take recording |
 | [dark-paused.png](dark-paused.png) | controls | dark, the same take paused |
 
-Each is the panel's own picture, drawn by the window it belongs to and written straight to a file
-through the controls fixture, at twice the size a point is on this screen: the controls are 296
+[`apps/macos/tests/overlay-shots.mjs`](../../../../apps/macos/tests/overlay-shots.mjs) writes
+them. Each is the panel's own picture, drawn by the window it belongs to and written straight to
+a file through the controls fixture, at twice the size a point is on this screen: the controls are 296
 by 64 points and the count 186 by 180. Nothing is photographed off the screen and nothing is
 brought forward — the run that produced these records this app's own fixture window, never
 activates the app, and orders every panel it opens in behind whatever the person is doing. The
