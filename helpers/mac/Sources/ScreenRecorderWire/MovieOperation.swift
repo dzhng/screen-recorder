@@ -12,6 +12,8 @@ enum MovieOperation {
         let plan: [VideoRenderSpan]
         let tracks: [AudioTrackPlan]
         let pointerSchedule: PointerScheduleReceipt?
+        /// Absent renders at the source's captured resolution; present bounds the rendition.
+        let maxLongEdge: Int?
     }
     struct Result: Encodable {
         let file: String
@@ -36,6 +38,13 @@ enum MovieOperation {
     static func execute(_ params: [String: Any]) async throws -> Result {
         let request = try WireRequest.decode(Request.self, from: params)
         try WireRequest.requireAbsolute(request.source)
+        if let bound = request.maxLongEdge {
+            guard bound > 0, bound <= FrameLimits.maximumLongEdge else {
+                throw NativeFailure(
+                    "INVALID_RANGE",
+                    "Long edge \(bound) is outside 1...\(FrameLimits.maximumLongEdge) pixels.")
+            }
+        }
         let output = try NewFile(at: request.output, assembledAs: "movie.mp4")
         defer { output.discard() }
         let audio =
@@ -50,7 +59,7 @@ enum MovieOperation {
         let video = muxed ? output.scratch(named: "video.mp4") : output.url
         let rendered = try await VideoRenderer.write(
             source: URL(fileURLWithPath: request.source), plan: request.plan, into: video,
-            pointerSchedule: request.pointerSchedule)
+            pointerSchedule: request.pointerSchedule, maxLongEdge: request.maxLongEdge)
         if let audio, muxed {
             try await MovieMux.write(
                 video: video, audio: audio, durationUs: rendered.durationUs, output: output.url)

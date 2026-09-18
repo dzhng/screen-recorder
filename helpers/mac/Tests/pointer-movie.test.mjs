@@ -78,7 +78,7 @@ const state = (value, timescale, pointer) => ({
   at: { value: String(value), timescale },
   pointer,
 });
-function movie(receipt, name, tracks = [], moviePlan = plan, video = source) {
+function movie(receipt, name, tracks = [], moviePlan = plan, video = source, extra = {}) {
   const output = join(dir, name + ".mp4");
   const reply = JSON.parse(
     run(
@@ -87,7 +87,14 @@ function movie(receipt, name, tracks = [], moviePlan = plan, video = source) {
       JSON.stringify({
         id: "test",
         operation: "media.renderMovie",
-        params: { source: video, output, plan: moviePlan, tracks, pointerSchedule: receipt },
+        params: {
+          source: video,
+          output,
+          plan: moviePlan,
+          tracks,
+          pointerSchedule: receipt,
+          ...extra,
+        },
       }) + "\n",
     ),
   );
@@ -381,4 +388,75 @@ test("proven empty presentation remains black even across a held pointer state",
       .subarray(frameBytes, 2 * frameBytes)
       .every((x) => x <= 2),
   );
+});
+
+// A bounded render is the same edit at fewer pixels. The pointer is measured in source pixels
+// and drawn into the scaled frame, so it must sit at the scaled position: the glyph keeps its
+// apparent size, so what moves by the scale is where it sits, not how big it is.
+test("a bounded render scales the movie and keeps the pointer on the same spot", () => {
+  const receipt = schedule("bounded", [state(0, 1, { atSourceUs: 0, x: 30, y: 40 })]);
+  const full = movie(receipt, "bounded-full");
+  const half = movie(receipt, "bounded-half", [], plan, source, { maxLongEdge: 160 });
+  assert.equal(full.reply.ok, true, JSON.stringify(full.reply));
+  assert.equal(half.reply.ok, true, JSON.stringify(half.reply));
+  assert.deepEqual([full.reply.data.width, full.reply.data.height], [320, 240]);
+  assert.deepEqual([half.reply.data.width, half.reply.data.height], [160, 120]);
+  const pointer = (name, output, width, height) => {
+    const raw = join(dir, name + ".rgb");
+    run("ffmpeg", [
+      "-v",
+      "error",
+      "-i",
+      output,
+      "-f",
+      "rawvideo",
+      "-pix_fmt",
+      "rgb24",
+      "-fps_mode",
+      "passthrough",
+      raw,
+    ]);
+    const bytes = readFileSync(raw);
+    const box = { left: width, top: height, right: -1, bottom: -1 };
+    for (let row = 0; row < height; row++)
+      for (let column = 0; column < width; column++)
+        if (bytes[(row * width + column) * 3] > 200) {
+          box.left = Math.min(box.left, column);
+          box.right = Math.max(box.right, column);
+          box.top = Math.min(box.top, row);
+          box.bottom = Math.max(box.bottom, row);
+        }
+    assert.ok(box.right >= 0, `${name} has no drawn pointer over its gray frame`);
+    return box;
+  };
+  const drawn = pointer("bounded-full", full.output, 320, 240);
+  const scaled = pointer("bounded-half", half.output, 160, 120);
+  // Both renders place the pointer's hotspot at source (30,40); the bounded one halves it.
+  const expected = {
+    left: drawn.left - 15,
+    right: drawn.right - 15,
+    top: drawn.top - 20,
+    bottom: drawn.bottom - 20,
+  };
+  for (const edge of ["left", "right", "top", "bottom"])
+    assert.ok(
+      Math.abs(scaled[edge] - expected[edge]) <= 1,
+      `Pointer ${edge} edge ${scaled[edge]} is not the scaled ${expected[edge]} (full ${JSON.stringify(drawn)})`,
+    );
+});
+
+test("a bound that would round to an odd edge writes the even size H.264 requires", () => {
+  const receipt = schedule("odd", [state(0, 1, null)]);
+  // 320x240 bounded to 100 scales the short edge to 75; encoding needs it even.
+  const { reply } = movie(receipt, "odd", [], plan, source, { maxLongEdge: 100 });
+  assert.equal(reply.ok, true, JSON.stringify(reply));
+  assert.deepEqual([reply.data.width, reply.data.height], [100, 74]);
+});
+
+test("a bound outside the image limit is refused before any render", () => {
+  const receipt = schedule("too-wide", [state(0, 1, null)]);
+  const { reply, output } = movie(receipt, "too-wide", [], plan, source, { maxLongEdge: 8193 });
+  assert.equal(reply.ok, false);
+  assert.equal(reply.error.code, "INVALID_RANGE");
+  assert.equal(existsSync(output), false);
 });
