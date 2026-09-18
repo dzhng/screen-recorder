@@ -204,7 +204,13 @@ struct SettingsView: View {
     @ViewBuilder
     private func permissionRow(_ kind: PermissionKind) -> some View {
         let access = model.state.permissions?.access(to: kind)
-        detailRow(kind.name, kind.purpose) {
+        // macOS tells an app whether it may record the screen once, when the app starts, so
+        // allowing it while this window is open cannot change what this row says. Saying so is
+        // the difference between a person quitting once and toggling a switch that never moves.
+        let detail = kind == .screen && access != .granted
+            ? "\(kind.purpose) Takes effect next time Screen Recorder opens."
+            : kind.purpose
+        detailRow(kind.name, detail) {
             switch access {
             case .granted?:
                 Label(kind.statusTitle(for: .granted), systemImage: "checkmark.circle.fill")
@@ -219,6 +225,9 @@ struct SettingsView: View {
                         model.perform(kind.action)
                     }
                 }
+                // A longer explanation on the left takes room from this row, and a button whose
+                // own words are cut off is worse than a line of text that wraps once more.
+                .fixedSize(horizontal: true, vertical: false)
             case nil:
                 Text("Checking…").foregroundStyle(.secondary)
             }
