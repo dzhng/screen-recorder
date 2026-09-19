@@ -59,3 +59,90 @@ for (const button of document.querySelectorAll("[data-tone]"))
       status.textContent = "Audio unavailable in this browser";
     }
   });
+
+/**
+ * A clapper: one instant that is both visible and audible, repeated, so a recording of this page
+ * can be checked for audio drifting away from picture. The click is scheduled on the audio clock
+ * and the flash is painted on the first frame at or after that same moment, so the two are emitted
+ * within one frame of each other. What a measurement reads from a take is not that offset — a
+ * browser's own output latency is in it — but whether the offset stays the same from the first
+ * clap to the last.
+ */
+const clapper = document.querySelector("#clapper");
+const bar = document.querySelector("#clap-bar");
+const clapCount = document.querySelector("#clap-count");
+const clapNext = document.querySelector("#clap-next");
+const clapEverySeconds = 15;
+let clapping;
+let claps = 0;
+
+function click(at) {
+  const oscillator = audio.createOscillator();
+  const gain = audio.createGain();
+  // Short and sharp: an onset a measurement can place to the millisecond, quiet enough to record
+  // beside a voice.
+  oscillator.frequency.value = 1_000;
+  gain.gain.setValueAtTime(0, at);
+  gain.gain.linearRampToValueAtTime(0.2, at + 0.002);
+  gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.06);
+  oscillator.connect(gain).connect(audio.destination);
+  oscillator.start(at);
+  oscillator.stop(at + 0.08);
+  oscillator.addEventListener("ended", () => {
+    oscillator.disconnect();
+    gain.disconnect();
+  });
+}
+
+clapper.addEventListener("click", async () => {
+  if (clapping) {
+    cancelAnimationFrame(clapping.frame);
+    clapping = undefined;
+    bar.classList.remove("lit");
+    clapper.textContent = "Start clapper";
+    clapper.setAttribute("aria-pressed", "false");
+    clapNext.textContent = "idle";
+    return;
+  }
+  try {
+    audio ??= new AudioContext();
+    await audio.resume();
+  } catch {
+    clapNext.textContent = "audio unavailable in this browser";
+    return;
+  }
+  clapper.textContent = "Stop clapper";
+  clapper.setAttribute("aria-pressed", "true");
+  // The first clap is a moment away, so a recording started now catches it whole.
+  let next = audio.currentTime + 3;
+  click(next);
+  let lit = 0;
+  const tick = () => {
+    const now = audio.currentTime;
+    if (lit && now >= lit) {
+      bar.classList.remove("lit");
+      lit = 0;
+    }
+    if (now >= next) {
+      bar.classList.add("lit");
+      lit = now + 0.1;
+      claps += 1;
+      clapCount.textContent = String(claps);
+      // A browser stops painting a hidden tab, so a page switched away from and back again is
+      // behind by however long it was away. The missed claps are skipped rather than fired off
+      // one per frame: a burst of clicks is neither a clapper nor pleasant to sit through.
+      while (now >= next) next += clapEverySeconds;
+      click(next);
+    }
+    clapNext.textContent = `next in ${Math.max(0, next - now).toFixed(0)}s`;
+    clapping.frame = requestAnimationFrame(tick);
+  };
+  clapping = { frame: requestAnimationFrame(tick) };
+});
+
+// Painting stops while a tab is hidden, so a clapper only claps while somebody can see it. Saying
+// so is the difference between a take with a gap in its claps and one whose page was never there.
+document.addEventListener("visibilitychange", () => {
+  if (!clapping) return;
+  clapNext.textContent = document.hidden ? "paused while this tab is hidden" : "counting again";
+});

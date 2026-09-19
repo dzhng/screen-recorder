@@ -94,6 +94,25 @@
           ><span id="audio-status" role="status">Silent</span>
         </div>
       </section>
+      <section class="card" aria-labelledby="sync-title">
+        <div class="heading">
+          <div>
+            <span class="step">07 / SYNC</span>
+            <h2 id="sync-title">Clapper for audio and picture</h2>
+          </div>
+          <button id="clapper" aria-pressed="false">Start clapper</button>
+        </div>
+        <p>
+          Every fifteen seconds this flashes the bar white and plays a short click at the same
+          moment, so a recording of this page carries an event that is both visible and audible.
+          Turn on system audio before recording; use headphones only if you also want the microphone
+          kept separate.
+        </p>
+        <div id="clap-bar" aria-hidden="true"></div>
+        <p class="footnote">
+          <span id="clap-count">0</span> claps · <span id="clap-next">idle</span>
+        </p>
+      </section>
       <section class="card reading" aria-labelledby="scroll-title">
         <span class="step">06 / SCROLL & NARRATE</span>
         <h2 id="scroll-title">A long page with clear waypoints</h2>

@@ -319,3 +319,17 @@ footer {
     padding-top: 28px;
   }
 }
+
+/* The clapper's bar: black until the instant of a clap, when it is white for a tenth of a second.
+   The change is the whole frame's worth of contrast, so finding it in a decoded take is reading
+   one number rather than looking for a shape. */
+#clap-bar {
+  height: 72px;
+  border-radius: 10px;
+  background: #050505;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: none;
+}
+#clap-bar.lit {
+  background: #ffffff;
+}
