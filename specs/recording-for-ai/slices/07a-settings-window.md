@@ -1,7 +1,16 @@
 # 07a — Settings window, permissions and launch at login
 
-Status: implemented (2026-09-18), except the login item, which needs this person's
-own installed copy. Parent: [07](07-menu-bar-controls.md). The
+Status: implemented (2026-09-18); the login item was exercised on this person's own installed
+copy on 2026-09-19 and this slice is closed. Parent: [07](07-menu-bar-controls.md).
+
+Open at login, turned on and off in `~/Applications/Screen Recorder.app`: registering reported
+`enabled` and macOS's own background-task record moved from `[disabled, allowed, notified]` to
+`[enabled, allowed, notified]`, a generation later. Unregistering reported `notRegistered` and the
+app disappeared from System Settings' Login Items, which is what the person sees and what this
+contract is about. `sfltool dumpbtm` still listed it as enabled minutes afterwards, so that dump
+is a record macOS prunes on its own schedule rather than the state to trust; `SMAppService`'s own
+status is what the window reads and what proved correct. An ad-hoc build in `dist/` still reports
+`notFound`, which is why this needed the installed copy. The
 [captures](../assets/settings-window/README.md) are written by
 `node apps/macos/tests/settings-shots.mjs` and were retaken on 2026-09-19, so they show the form
 as it stands rather than the row order of an earlier pass.

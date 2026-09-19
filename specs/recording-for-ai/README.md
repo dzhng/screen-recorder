@@ -47,10 +47,6 @@ it fixed three real defects, the worst of which let a cut of one word silently d
 
 Needing this person rather than a check:
 
-- **Login item:** turn Open at login on and off in the installed
-  `~/Applications/Screen Recorder.app` and record what `SMAppService` answers
-  ([07a](slices/07a-settings-window.md)); an ad-hoc build in `dist/` reports `notFound`.
-- **A second display:** which screen the countdown lands on ([07b](slices/07b-recording-overlays.md)).
 - **System audio:** a take with something playing, which a check must not make this Mac do,
   and with it the A/V timing measurement that needs both tracks against a known event
   ([01](slices/01-native-capture.md)).
@@ -95,7 +91,7 @@ and unit checks do not close the full read → edit → inspect → export journ
   - [x] [06i — Source processing integration](slices/06i-source-processing.md)
   - [x] [06j — Source timing evidence](slices/06j-source-timing.md)
 - [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
-  - [ ] [07a — Settings window, permissions and launch at login](slices/07a-settings-window.md)
+  - [x] [07a — Settings window, permissions and launch at login](slices/07a-settings-window.md)
   - [ ] [07b — Countdown and recording overlay](slices/07b-recording-overlays.md)
 - [x] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
 - [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
