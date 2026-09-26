@@ -8,6 +8,8 @@ import {
   linkSync,
   existsSync,
   readFileSync,
+  renameSync,
+  mkdirSync,
 } from "node:fs";
 import { execFileSync, spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
@@ -142,6 +144,32 @@ test("complete selected images and explicit coverage survive a catalog restart",
   expect(lease.read(buffer, 0)).toBe(png.length);
   expect(buffer).toEqual(png);
   lease.release();
+});
+test("retained images remain readable and removable after a device number changes", async () => {
+  const f = fixture();
+  f.index.begin(f.identity);
+  const image = add(f);
+  cover(f);
+  await f.index.finish(f.identity);
+  // Model a remount: the saved device differs, while paths, inodes and bytes survive.
+  f.catalog.catalog.exec(`
+    UPDATE screenshot_index_generations SET device=device+1;
+    UPDATE screenshot_index_entries SET device=device+1;
+  `);
+  f.catalog.close();
+  const reopened = new RevisionStore(f.path, f.providers);
+  stores.push(reopened);
+  const index = new ScreenshotIndexStore(reopened, f.home);
+  const lease = index.openRead(f.identity, 0);
+  try {
+    const bytes = Buffer.alloc(lease.bytes);
+    expect(lease.read(bytes, 0)).toBe(png.length);
+    expect(bytes).toEqual(png);
+  } finally {
+    lease.release();
+  }
+  await index.remove(f.identity);
+  expect(existsSync(image.frame.file)).toBe(false);
 });
 function cover(
   f: ReturnType<typeof fixture>,
@@ -278,25 +306,52 @@ test("retained evidence survives derived cache eviction and owner-directed recla
   expect(existsSync(stray)).toBe(false);
   expect(f.index.page({ identity: f.identity }).entries[0]?.frame.bytes).toBe(png.length);
 });
-test("replaced, symlinked and hard-linked image files never become retained reads", async () => {
+test.for([false, true])(
+  "replaced, symlinked and hard-linked images are refused (remounted: %s)",
+  async (remounted) => {
+    const f = fixture();
+    f.index.begin(f.identity);
+    const image = add(f);
+    cover(f);
+    await f.index.finish(f.identity);
+    if (remounted) {
+      f.catalog.catalog.exec(`
+      UPDATE screenshot_index_generations SET device=device+1;
+      UPDATE screenshot_index_entries SET device=device+1;
+    `);
+    }
+    const outside = join(f.home, "outside.png");
+    writeFileSync(outside, png);
+    unlinkSync(image.frame.file);
+    symlinkSync(outside, image.frame.file);
+    expect(() => f.index.openRead(f.identity, 0)).toThrow();
+    unlinkSync(image.frame.file);
+    linkSync(outside, image.frame.file);
+    expect(() => f.index.openRead(f.identity, 0)).toThrow("PNG");
+    unlinkSync(image.frame.file);
+    writeFileSync(image.frame.file, png);
+    expect(() => f.index.openRead(f.identity, 0)).toThrow("changed");
+    await f.index.remove(f.identity);
+    expect(existsSync(outside)).toBe(true);
+  },
+);
+test("a replaced generation directory is refused even after a device number changes", async () => {
   const f = fixture();
   f.index.begin(f.identity);
   const image = add(f);
   cover(f);
   await f.index.finish(f.identity);
-  const outside = join(f.home, "outside.png");
-  writeFileSync(outside, png);
-  unlinkSync(image.frame.file);
-  symlinkSync(outside, image.frame.file);
-  expect(() => f.index.openRead(f.identity, 0)).toThrow();
-  unlinkSync(image.frame.file);
-  linkSync(outside, image.frame.file);
-  expect(() => f.index.openRead(f.identity, 0)).toThrow("PNG");
-  unlinkSync(image.frame.file);
+  f.catalog.catalog.exec(`
+    UPDATE screenshot_index_generations SET device=device+1;
+    UPDATE screenshot_index_entries SET device=device+1;
+  `);
+  const directory = join(image.frame.file, "..");
+  renameSync(directory, directory + "-original");
+  mkdirSync(directory);
   writeFileSync(image.frame.file, png);
-  expect(() => f.index.openRead(f.identity, 0)).toThrow("changed");
-  await f.index.remove(f.identity);
-  expect(existsSync(outside)).toBe(true);
+  expect(() => f.index.openRead(f.identity, 0)).toThrow("directory changed");
+  await expect(f.index.remove(f.identity)).rejects.toThrow("directory changed");
+  expect(readFileSync(image.frame.file)).toEqual(png);
 });
 test("a substituted FIFO is rejected without blocking file validation", async () => {
   const f = fixture();

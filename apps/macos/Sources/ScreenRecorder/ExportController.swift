@@ -260,6 +260,9 @@ final class ExportController {
     static func savePanel(kind: ExportsState.Kind, suggestedName: String) async -> URL? {
         let panel = NSSavePanel()
         panel.title = kind == .video ? "Export Video" : "Export AI Package"
+        if kind == .package {
+            panel.directoryURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
+        }
         panel.nameFieldStringValue = suggestedName
         panel.allowedContentTypes = [kind == .video ? .mpeg4Movie : .zip]
         panel.canCreateDirectories = true

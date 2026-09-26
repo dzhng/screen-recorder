@@ -3,6 +3,14 @@
 Status: implemented (2026-09-18); the login item was exercised on this person's own installed
 copy on 2026-09-19 and this slice is closed. Parent: [07](07-menu-bar-controls.md).
 
+Settings exposes the app version under About. The build takes it from
+[the macOS package manifest](../../../apps/macos/package.json) and writes the bundle
+version that Settings reads, so installed builds need no checkout access. On
+2026-09-26, the build, bundle/manifest equality check and both Settings lifecycle
+checks passed. Independent light/dark screenshot review found the version row
+readable and aligned. Existing inactive toggle contrast was noted, and the captured
+viewport did not cover General; neither is a new version-row defect.
+
 Open at login, turned on and off in `~/Applications/Screen Recorder.app`: registering reported
 `enabled` and macOS's own background-task record moved from `[disabled, allowed, notified]` to
 `[enabled, allowed, notified]`, a generation later. Unregistering reported `notRegistered` and the
@@ -13,13 +21,12 @@ status is what the window reads and what proved correct. An ad-hoc build in `dis
 `notFound`, which is why this needed the installed copy. The
 [captures](../assets/settings-window/README.md) are written by
 `node apps/macos/tests/settings-shots.mjs` and were retaken on 2026-09-19, so they show the form
-as it stands rather than the row order of an earlier pass.
+before the About/version section was added.
 
 The window, the consistent permission rows, the saved recording defaults, the
 renamed bundle and its icon are in place and checked. `SMAppService.mainApp`
 reports `notFound` for an ad-hoc-signed build launched out of `dist/`, so the
-window states that honestly; registering and unregistering from the installed
-`~/Applications/Screen Recorder.app` remains for the person who owns that copy.
+window states that honestly; the installed-copy verification is recorded above.
 [Captures of the window](../assets/settings-window/README.md) cover both
 appearances with access granted, unanswered and denied.
 

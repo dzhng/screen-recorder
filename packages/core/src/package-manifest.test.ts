@@ -111,6 +111,22 @@ test("no-narration metadata validates with pinned historical revision and later 
   });
 });
 
+test("root reading documents are inventoried without becoming inspection evidence", () => {
+  const f = fixture();
+  for (const path of ["README.md", "transcript.txt"])
+    f.manifest.inventory.push({ path, role: "document", bytes: 12, sha256: "b".repeat(64) });
+  expect(
+    f
+      .validate()
+      .inventory.filter((entry) => entry.role === "document")
+      .map((entry) => entry.path),
+  ).toEqual(["README.md", "transcript.txt"]);
+  f.manifest.inventory.at(-1)!.path = "evidence/transcript.txt";
+  expect(f.validate).toThrow("Invalid package member path");
+  f.manifest.inventory.at(-1)!.path = "other.txt";
+  expect(f.validate).toThrow("Invalid package member path");
+});
+
 test("missing and processing dependencies stay outside a publishable plan; failures win over waiting", () => {
   const f = fixture(),
     snapshot = f.manifest.snapshot,

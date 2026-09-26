@@ -160,12 +160,14 @@ export function validateIndexEntry(
 /** Owns retained rows and PNGs; only the job queue can publish a finished generation. */
 export class ScreenshotIndexStore extends ScreenshotIndexReader {
   private readonly home: string;
+  private readonly device: number;
   constructor(
     private readonly store: RevisionStore,
     home: string,
   ) {
     super();
     this.home = realpathSync(home);
+    this.device = lstatSync(this.home).dev;
     store.catalog.exec(`CREATE TABLE IF NOT EXISTS screenshot_index_generations (
     recordingId TEXT NOT NULL,generation TEXT NOT NULL,identity TEXT NOT NULL,state TEXT NOT NULL,
     durationUs INTEGER NOT NULL,candidateCount INTEGER NOT NULL DEFAULT 0,coverageCount INTEGER NOT NULL DEFAULT 0,
@@ -200,7 +202,8 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
   private directory(identity: ScreenshotIndexIdentity, create = false): string {
     if (!/^[a-zA-Z0-9_-]+$/.test(identity.recordingId) || !identity.generation)
       invalid("Invalid index identity");
-    if (!lstatSync(this.home).isDirectory()) invalid("Retained index home must not be a link");
+    const home = lstatSync(this.home);
+    if (!home.isDirectory() || home.dev !== this.device) invalid("Retained index home changed");
     let path = this.home;
     for (const segment of [
       "recordings",
@@ -219,15 +222,26 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
       }
       const stat = lstatSync(path);
       if (!stat.isDirectory()) invalid("Retained index directory must not be a link");
+      if (stat.dev !== this.device) invalid("Retained index must stay on the library filesystem");
     }
     return path;
   }
   private checkedDirectory(identity: ScreenshotIndexIdentity, row: Generation): string {
     const path = this.directory(identity);
     const stat = lstatSync(path);
-    if (stat.dev !== row.device || stat.ino !== row.inode)
-      invalid("Retained index directory changed");
+    if (stat.ino !== row.inode) invalid("Retained index directory changed");
     return path;
+  }
+
+  private openImage(directory: string, row: Generation, entry: Entry) {
+    if (entry.device !== row.device) invalid("Retained image belongs to another filesystem");
+    // Device numbers can change across boots. Persisted numbers establish that the image
+    // and its generation shared a filesystem; current reads must stay on the library's.
+    return openRetainedImage(join(directory, `${entry.ordinal}.png`), JSON.parse(entry.frame), {
+      device: this.device,
+      inode: entry.inode,
+      modified: entry.modified,
+    });
   }
   begin(identity: ScreenshotIndexIdentity): void {
     const recording = this.store.get(identity.recordingId);
@@ -391,11 +405,7 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
         )
         .all(...key(identity), ordinal) as Entry[];
       for (const entry of entries) {
-        const file = openRetainedImage(
-          join(directory, `${entry.ordinal}.png`),
-          JSON.parse(entry.frame),
-          entry,
-        );
+        const file = this.openImage(directory, row, entry);
         file.file.close();
       }
       await setImmediate();
@@ -450,11 +460,7 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
     const row = this.row(identity, "complete");
     this.readEntry(identity, ordinal);
     const entry = this.entry(identity, ordinal);
-    const { file } = openRetainedImage(
-      join(this.checkedDirectory(identity, row), `${ordinal}.png`),
-      JSON.parse(entry.frame),
-      entry,
-    );
+    const { file } = this.openImage(this.checkedDirectory(identity, row), row, entry);
     return retainedFileRead(file, entry.bytes);
   }
 

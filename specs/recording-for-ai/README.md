@@ -1,6 +1,6 @@
 # Recording for AI — personal release spec
 
-Status: spec complete; implementation partial. Last updated: 2026-09-19.
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
 Everything the personal release needs is implemented and has run end to end on this person's own
 narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
 What remains is acceptance that needs either a person at the Mac or a physical condition a check
@@ -40,6 +40,15 @@ application's private hot-key registration — is [recorded](choices.md) with it
 Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
 agent that is not this one.
 
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
 [08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
 boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
 outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
@@ -64,8 +73,8 @@ Needing this person rather than a check:
 - **An agent that is not this one:** the real-narration journey through CLI and MCP
   ([12](slices/12-cli-mcp-operations.md)).
 
-The installed copy is a build older than the word-timing fix; `bun run install:personal` replaces
-it, and it refuses while the app is running.
+The installed copy was rebuilt and replaced on 2026-09-26. `bun run install:personal`
+replaces it on subsequent changes and refuses while the app is running.
 
 Priority order: the two recorded capability decisions, then whatever the person answers above.
 

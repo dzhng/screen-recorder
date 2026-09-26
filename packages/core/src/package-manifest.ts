@@ -206,7 +206,10 @@ export function planPackage(
   };
 }
 
+export const packageDocumentPaths = { guide: "README.md", transcript: "transcript.txt" } as const;
+
 const role = z.enum([
+  "document",
   "video",
   "narration",
   "system",
@@ -286,9 +289,10 @@ export function validateManifest(
     if (
       Buffer.byteLength(entry.path) > limits.pathBytes ||
       !/^[A-Za-z0-9_./-]+$/.test(entry.path) ||
-      components.length < 2 ||
       components.some((part) => !part || part === "." || part === "..") ||
-      components[0] !== expectedRoot(entry)
+      (entry.role === "document"
+        ? !Object.values(packageDocumentPaths).some((path) => path === entry.path)
+        : components.length < 2 || components[0] !== expectedRoot(entry))
     )
       invalid("Invalid package member path");
     const folded = entry.path.toLowerCase();
@@ -406,7 +410,8 @@ export function validateManifest(
       invalid("Edited transcript does not project the source transcript");
   }
   for (const entry of manifest.inventory) {
-    if (["video", "narration", "system", "journal"].includes(entry.role)) used.add(entry.path);
+    if (["video", "narration", "system", "journal", "document"].includes(entry.role))
+      used.add(entry.path);
     if (!used.has(entry.path)) invalid("Unreferenced package member");
   }
   return manifest;

@@ -48,6 +48,7 @@ import {
 import { archiveLimits } from "@screenrec/core/package-archive";
 import {
   validateManifest,
+  packageDocumentPaths,
   type PackageManifest,
   type PackageSnapshot,
 } from "@screenrec/core/package-manifest";
@@ -55,6 +56,7 @@ import { fileIdentity, O_NOFOLLOW_ANY, type FileIdentity } from "@screenrec/core
 import { nativeResult, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";
 import { writeArchive } from "./archive-write.js";
+import { writePackageGuide } from "./package-guide.js";
 
 export type PackageOwners = {
   scenes: SceneProcessing;
@@ -375,12 +377,14 @@ export async function assemblePackage(
     cursor = page.nextCursor;
   } while (cursor);
 
+  await writePackageGuide(input.directory, snapshot, transcript, owners.transcriptEvidence, signal);
   const names = new Map<string, Member["role"]>();
   const add = (path: string, role: Member["role"]) => {
     if (names.has(path) || names.size >= archiveLimits.entries - 1)
       invalid("Package inventory exceeds its bound or repeats a file");
     names.set(path, role);
   };
+  for (const path of Object.values(packageDocumentPaths)) add(path, "document");
   add("source/video.mov", "video");
   add("source/capture.journal.jsonl", "journal");
   if (system) add("source/system.mov", "system");

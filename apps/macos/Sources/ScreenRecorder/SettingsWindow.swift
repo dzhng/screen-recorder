@@ -188,6 +188,9 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            Section("About") {
+                LabeledContent("Version", value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Development")
+            }
             Section("Permissions") {
                 ForEach(PermissionKind.allCases, id: \.self) { kind in
                     permissionRow(kind)

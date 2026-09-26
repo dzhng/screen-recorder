@@ -4,11 +4,34 @@ Status: internal publication, pinned waiting consumers, private storage accounti
 abandonment, queued recovery and public video export are verified, as are complete
 no-narration packages ([14d3b](14d3b-package-assembly.md)) and persisted export
 discovery ([14d4](14d4-export-discovery.md)). [Native export controls](../assets/export-controls/README.md)
-pass controller and bundled-service checks. Narrated packages
-([14d3](14d3-processed-package.md)) and physical menu interaction remain.
+pass controller and bundled-service checks. Narrated packages also pass native and
+installed-app export checks ([14d3](14d3-processed-package.md)); physical menu
+interaction and the full personal-workflow acceptance gates remain.
 [Ownership evidence](../assets/export-publication/native-owner.md) defines the proven
 receipt, limits and remaining integration. Public video evidence is tracked in [the integration record](../assets/export-publication/public-video.md). Parent [14](14-exports-and-package-reader.md)
 retains the two-product scope and narrated-package prerequisites.
+
+AI package save dialogs default to the user's Downloads folder, as requested, while
+allowing another destination. The rebuilt app was installed on 2026-09-26; the save
+dialog itself has not been interactively verified.
+
+Retained screenshots belong to the library filesystem: inodes and image receipts
+remain pinned, while device numbers are checked against the current library mount.
+Saved device numbers establish image/generation membership, not identity across
+boots. Treating them as permanent rejected this person's unchanged index after the
+device number changed and made package export fail with no retry offered.
+
+Verification on 2026-09-26: the remount regression failed before the fix and passed
+after it; replaced directories, replaced images, symlinks and hard links remain
+refused. All 361 core and 106 service tests, the full build and type checks passed.
+Lint reported only two existing `no-unsafe-finally` warnings in the package workspace
+recovery harness. Shape/diff/docs review and an independent Codex review found no
+actionable regressions. The installed app exported the person's current revision
+`9a763988-7968-429f-89db-87c72635d04b` to the requested Downloads ZIP (102,858,264
+bytes), with a committed receipt and no cleanup pending; `unzip -t` passed. The old
+failed intent was abandoned after that success, and `export.list` with
+`unfinishedOnly` returned no entries. Next pickup: the physical save-dialog check
+and the remaining parent acceptance gates; this export failure is resolved.
 
 ## Existing authorities
 

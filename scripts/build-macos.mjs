@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { findIdentity } from "./signing-identity.mjs";
@@ -67,6 +67,12 @@ writeFileSync(
 );
 
 copyFileSync(join(root, "apps/macos/Info.plist"), join(app, "Contents/Info.plist"));
+const { version } = JSON.parse(readFileSync(join(root, "apps/macos/package.json"), "utf8"));
+execFileSync("/usr/libexec/PlistBuddy", [
+  "-c",
+  `Add :CFBundleShortVersionString string ${version}`,
+  join(app, "Contents/Info.plist"),
+]);
 // Rendered by scripts/render-app-icon.swift and checked in, so a build needs no drawing step.
 copyFileSync(join(root, "apps/macos/AppIcon.icns"), join(app, "Contents/Resources/AppIcon.icns"));
 // macOS keys screen and microphone access to the signature it saw. Ad-hoc signatures change with

@@ -270,6 +270,13 @@ word snapping or automatic changes to agent-specified boundaries.
 
 ## Portable AI package
 
+The package opens with `README.md` and `transcript.txt` at its root. The plain-text
+transcript contains original recognized speech, including speech cut from the pinned
+edit; it is not a summary. Missing narration or unrecognized speech is stated explicitly.
+The reading guide explains the deeper folders, source versus playback time, and how
+to inspect selectively. Both documents are checksummed inventory members, while
+structured evidence remains authoritative for timing and revision-aware inspection.
+
 Export a ZIP containing `manifest.json`, `source/`, `revisions/`, and `evidence/`.
 The manifest has schema version, recording ID, pinned export revision ID, source
 inventory (relative path, size, hash, track role, duration), capture metadata,

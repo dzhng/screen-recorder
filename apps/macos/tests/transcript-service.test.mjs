@@ -384,6 +384,22 @@ test(
       240_000,
       () => instance.diagnostics,
     );
+    const plainTranscript = run("unzip", ["-p", join(output, "narrated.zip"), "transcript.txt"]);
+    assert.deepEqual(
+      plainTranscript.trim().split(/\s+/),
+      words.flatMap((word) => word.text.split(/\s+/)),
+      "Root transcript preserves all original recognized words, including cut speech",
+    );
+    assert.ok(plainTranscript.endsWith("\n"));
+    const guide = run("unzip", ["-p", join(output, "narrated.zip"), "README.md"]);
+    const members = run("unzip", ["-Z1", join(output, "narrated.zip")])
+      .trim()
+      .split("\n");
+    for (const [, target] of guide.matchAll(/\]\(([^)]+)\)/g))
+      assert.ok(
+        members.some((name) => (target.endsWith("/") ? name.startsWith(target) : name === target)),
+        `Guide link resolves inside the package: ${target}`,
+      );
     const admitted = screenrec("package.open", { path: join(output, "narrated.zip") });
     const opened = await waitFor(
       () => {

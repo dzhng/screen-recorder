@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { randomUUID, hash } from "node:crypto";
 import { readFile, rename, realpath } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -61,6 +62,13 @@ async function exportThroughClients({ home, recordingId, revisionId }) {
     }, "Public complete-package export did not commit");
     assert.deepEqual(committed.snapshot, admitted.snapshot);
     produced = committed.output;
+    assert.equal(
+      execFileSync("unzip", ["-p", produced, "transcript.txt"], { encoding: "utf8" }),
+      "No microphone narration was acquired for this recording.\n",
+    );
+    const guide = execFileSync("unzip", ["-p", produced, "README.md"], { encoding: "utf8" });
+    assert.ok(guide.includes("[transcript.txt](transcript.txt)"));
+    assert.ok(!guide.includes("(evidence/source-transcript/pages.json)"));
     assert.equal(produced, await realpath(join(request.directory, request.leaf)));
     assert.equal(committed.receipt.sha256, hash("sha256", await readFile(produced)));
     const retry = publicCommand(service.socket, "export.retry", { exportId: request.exportId });
