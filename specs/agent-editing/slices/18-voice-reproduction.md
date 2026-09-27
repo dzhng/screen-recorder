@@ -40,3 +40,9 @@ Delegated: Candidate runner internals and justified model/runtime selection. No 
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
+
+
+Independent [local recognizer evidence](../assets/18-voice-lexical/README.md)
+now matches both generated requested texts and the supplied reference transcript.
+This closes only the ASR lexical cross-check; pronunciation, identity, delivery,
+protected joins and listening remain open. Missing required outputs fail the probe.

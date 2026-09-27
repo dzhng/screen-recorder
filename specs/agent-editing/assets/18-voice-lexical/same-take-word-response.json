@@ -1,0 +1,33 @@
+{
+  "data": {
+    "details": {
+      "peakResidentBytes": 537329664
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "output": {
+      "bytes": 769,
+      "file": "/tmp/screenrec-voice-lexical/same-take-word.jsonl",
+      "sha256": "c5648341723be08b12b74c60edcf029cc8b7e4f9f8120798f6335a3c83f7f3b2"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "source": {
+          "endUs": 880000,
+          "startUs": 0
+        },
+        "state": "transcribed",
+        "wordCount": 1
+      }
+    ],
+    "wordCount": 1
+  },
+  "id": "same-take-word",
+  "ok": true
+}

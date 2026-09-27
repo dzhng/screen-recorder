@@ -26,8 +26,8 @@ reviewed temporal mechanism, with general color handling under investigation;
 [12](slices/12-speech-evidence.md) reproduces the failing timing baseline;
 [13a](slices/13a-stretch-endpoints.md) has corrected numerical support evidence but
 needs protected-word/listening and short-duration policy acceptance; and
-[18](slices/18-voice-reproduction.md) runs offline but lacks verified words/identity
-and joins. Do not adopt numerical success as speech-quality proof. Camera
+[18](slices/18-voice-reproduction.md) runs offline with a passing independent ASR word check, but still needs identity,
+delivery and join acceptance. Do not adopt numerical success as speech-quality proof. Camera
 [20](slices/20-camera-reproduction.md) is still unstarted.
 
 Current evidence:
@@ -58,7 +58,8 @@ Current evidence:
 - [13a support](assets/13a-support-review/README.md): corrected whole-output
   measurements preserve candidate bytes; speech-quality acceptance remains open.
 - [18 voice](assets/18-voice/README.md): six offline generations, exact PCM splice
-  checks; requested text, identity, delivery and listening remain unverified.
+  checks; [ASR word agreement](assets/18-voice-lexical/README.md) passes; identity,
+  delivery and listening remain unverified.
 
 Keep old media intact and develop against isolated homes; the new library is
 fresh, with no history migration or compatibility engine. No model/runtime

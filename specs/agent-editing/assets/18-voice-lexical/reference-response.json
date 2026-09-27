@@ -1,0 +1,33 @@
+{
+  "data": {
+    "details": {
+      "peakResidentBytes": 102268928
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "output": {
+      "bytes": 2697,
+      "file": "/tmp/screenrec-voice-lexical/reference.jsonl",
+      "sha256": "e9a9e43c9ac8a600669e49b9a219da277877314a1865fffa2e75402cb7459dc4"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "source": {
+          "endUs": 5000000,
+          "startUs": 0
+        },
+        "state": "transcribed",
+        "wordCount": 7
+      }
+    ],
+    "wordCount": 7
+  },
+  "id": "reference",
+  "ok": true
+}
