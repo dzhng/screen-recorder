@@ -5,7 +5,7 @@ wrong,” then identified that the new voice sounds louder. Identity is therefor
 promising, while splice quality fails human review.
 
 These gain-only contexts isolate level from timing and delivery. The
-[reproduction script](../../../../../packages/test-harness/editing/voice/match-levels.py)
+[reproduction script](../../../../packages/test-harness/editing/voice/match-levels.py)
 matches generated RMS to the available original audio within two seconds on
 either side of the replaced interval. It excludes the original replaced slot,
 whose different words and duration make it a less useful local level reference.
