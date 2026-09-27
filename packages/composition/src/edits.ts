@@ -10,6 +10,7 @@ import { transformSelection } from "./transform.js";
 import { duplicateClips } from "./duplicate.js";
 import { rippleMove } from "./move.js";
 import { replaceClip } from "./replace.js";
+import { retimeClips } from "./retime.js";
 
 type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "syncGroup";
@@ -41,10 +42,18 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       clipId: reference,
       kind: z.enum(["audio", "video"]),
       media: placedClip.pick({ assetId: true, streamId: true, source: true }),
-      fit: z.enum(["exact", "trim", "stretch"]).default("exact"),
+      fit: z.enum(["exact", "trim", "stretch", "ripple"]).default("exact"),
+      ripple: z
+        .object({ trackIds: z.array(reference).min(1) })
+        .strict()
+        .optional(),
       pitch: z.enum(["preserve", "follow"]).optional(),
     })
-    .strict(),
+    .strict()
+    .refine(
+      (value) => (value.fit === "ripple") === (value.ripple !== undefined),
+      "Ripple replacement requires named tracks; other fits do not take ripple",
+    ),
   z
     .object({
       operation: z.literal("insert"),
@@ -263,6 +272,22 @@ export function applyBatch(
           );
           next = result.document;
           removedAttachments.push(...result.removedAttachments);
+          if (operation.fit === "ripple") {
+            if (operation.media.source.kind !== "range")
+              invalid("Ripple replacement needs a source range with a duration");
+            const source = operation.media.source.range;
+            const resized = retimeClips(
+              validateComposition(next, model.assets),
+              [resolve(operation.clipId, "clip")],
+              { durationUs: source.endUs - source.startUs, pitch: operation.pitch ?? "preserve" },
+              "selected",
+              operation.ripple!.trackIds.map((id) => resolve(id, "track")),
+              allocate,
+            );
+            next = resized.document;
+            for (const anchor of resized.touchedFixedAnchors)
+              touchedFixedAnchors.set(anchor.id, anchor);
+          }
           break;
         }
         case "insert": {
@@ -280,41 +305,19 @@ export function applyBatch(
           break;
         }
         case "retime": {
-          const transformed = transformSelection(
+          const result = retimeClips(
             model,
             clips(operation.clipIds),
             { durationUs: operation.durationUs, pitch: operation.pitch },
             operation.scope,
+            operation.ripple === "none"
+              ? "none"
+              : operation.ripple.trackIds.map((id) => resolve(id, "track")),
             allocate,
-            [],
           );
-          if (operation.ripple === "none") next = transformed.document;
-          else {
-            const result = rippleTimeline(
-              validateComposition(
-                { ...before, syncGroups: transformed.document.syncGroups },
-                model.assets,
-              ),
-              {
-                kind: "resize",
-                at: transformed.before.end,
-                delta: subtract(transformed.after.end, transformed.before.end),
-                targets: transformed.affected,
-              },
-              operation.ripple.trackIds.map((id) => resolve(id, "track")),
-            );
-            const selected = new Map(
-              transformed.document.clips
-                .filter((clip) => transformed.affected.has(clip.id))
-                .map((clip) => [clip.id, clip]),
-            );
-            next = {
-              ...result.document,
-              clips: result.document.clips.map((clip) => selected.get(clip.id) ?? clip),
-            };
-            for (const anchor of result.touchedFixedAnchors)
-              touchedFixedAnchors.set(anchor.id, anchor);
-          }
+          next = result.document;
+          for (const anchor of result.touchedFixedAnchors)
+            touchedFixedAnchors.set(anchor.id, anchor);
           break;
         }
         case "duplicate": {

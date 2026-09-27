@@ -425,3 +425,14 @@ an overlay first when it should survive. This avoids silently treating old
 content references as references into unrelated footage while keeping the
 replacement itself easy to address. Explicit trim starts at the supplied source
 start; choosing a different excerpt remains the agent's decision.
+
+### Ripple replacement follows the supplied media's natural duration — sound, high confidence
+
+Replacing two seconds of narration with one second using explicit ripple fit
+makes that occurrence one second long and shifts later audio on the named
+tracks. It leaves the linked video untouched and splits the old timing link;
+it does not silently speed up the video or inherit an old playback-rate change.
+The plan named ripple replacement without specifying its duration basis.
+Using the supplied selection's natural duration makes this fit distinct from
+stretch-to-target and preserves the requested audio/video independence. A held
+image has no natural duration, so it needs an explicit duration operation instead.

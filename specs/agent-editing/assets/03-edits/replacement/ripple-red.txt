@@ -1,0 +1,54 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/edits.test.ts (44 tests | 1 failed) 377ms
+   × ripple replacement adopts source duration and moves later audio without retiming video 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/edits.test.ts > ripple replacement adopts source duration and moves later audio without retiming video
+CompositionError: [
+  {
+    "code": "invalid_value",
+    "values": [
+      "exact",
+      "trim",
+      "stretch"
+    ],
+    "path": [
+      0,
+      "fit"
+    ],
+    "message": "Invalid option: expected one of \"exact\"|\"trim\"|\"stretch\""
+  },
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "ripple"
+    ],
+    "path": [
+      0
+    ],
+    "message": "Unrecognized key: \"ripple\""
+  }
+]
+ ❯ invalid src/edits.ts:156:9
+    154| };
+    155| function invalid(message: string, details: Record<string, unknown> = {…
+    156|   throw new CompositionError("INVALID_EDIT", message, details);
+       |         ^
+    157| }
+    158| function difference<T extends { id: string }>(
+ ❯ applyBatch src/edits.ts:204:24
+ ❯ src/edits.test.ts:2096:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 62 passed (63)
+   Start at  15:57:52
+   Duration  644ms (tests 55%, transform 28%, import 17%, worker 1%)
+
+error: script "test" exited with code 1

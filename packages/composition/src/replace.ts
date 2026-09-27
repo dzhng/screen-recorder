@@ -9,7 +9,7 @@ export function replaceClip(
   clipId: string,
   kind: "audio" | "video",
   media: Pick<Clip, "assetId" | "streamId" | "source">,
-  fit: "exact" | "trim" | "stretch",
+  fit: "exact" | "trim" | "stretch" | "ripple",
   pitch?: "preserve" | "follow",
 ) {
   const target = model.clips.find((value) => value.clip.id === clipId)!;

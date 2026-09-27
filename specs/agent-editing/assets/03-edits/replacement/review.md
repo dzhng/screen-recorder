@@ -18,6 +18,6 @@ and replacement now share the same source validator, applied before fitting.
 Follow-up review verified the fix, passed all 43 edit tests and type checking,
 and found no remaining actionable defects within this scope.
 
-Hold tails, explicit silence padding, ripple replacement and the full
-linked-replacement harness are unfinished. This checkpoint does not accept the
+The subsequent [ripple fit](ripple-review.md) has its own evidence. Hold tails,
+explicit silence padding and the full linked-replacement harness are unfinished. This checkpoint does not accept the
 whole structural-edit slice or expose a public managed-project editing route.

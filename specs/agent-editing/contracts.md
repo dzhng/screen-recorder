@@ -183,7 +183,11 @@ them to new content. Detach/reanchor beforehand to retain chosen attachments.
 Validate the whole supplied selection before applying a fitting policy. `trim`
 keeps its beginning and requires sufficient duration; agents select a different
 source start explicitly. `stretch` keeps the selected source range and authors
-pitch preservation for audio unless `follow` is requested.
+pitch preservation for audio unless `follow` is requested. `ripple` instead
+adopts the source range duration and requires explicit ripple tracks. It changes
+the addressed occurrence independently, splitting synchronization membership if
+its timing changes; untouched media is never implicitly stretched to follow.
+A held source has no natural duration and cannot choose this fit.
 
 Ordinary move/split/trim/remove/retime targets linked members by default. Explicit
 `scope: selected` permits independent edits; split and unlink affected intervals,

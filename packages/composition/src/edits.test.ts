@@ -2085,3 +2085,62 @@ test("replacement only trims or stretches when explicitly requested", () => {
     }).document.clips[1]!.pitch,
   ).toBe("follow");
 });
+
+test("ripple replacement adopts source duration and moves later audio without retiming video", () => {
+  const first = applyBatch(input, setup, context);
+  const later = {
+    ...first.document.clips[1]!,
+    id: "later-audio",
+    placement: { kind: "project", range: { startUs: 1800000, endUs: 3400000 } },
+  };
+  const document = { ...first.document, clips: [...first.document.clips, later] };
+  const assets = [
+    ...context.assets,
+    {
+      id: "replacement",
+      streams: [
+        {
+          id: "voice",
+          kind: "audio",
+          bounds: { startUs: 0, endUs: 3000000 },
+          available: [{ startUs: 0, endUs: 3000000 }],
+        },
+      ],
+    },
+  ];
+  for (const duration of [1000000, 2000000]) {
+    const operation = {
+      operation: "replace",
+      clipId: first.labels.audio,
+      kind: "audio",
+      media: {
+        assetId: "replacement",
+        streamId: "voice",
+        source: { kind: "range", range: { startUs: 0, endUs: duration } },
+      },
+      fit: "ripple",
+      ripple: { trackIds: [first.labels.sound] },
+    };
+    const result = applyBatch(document, [operation], { ...context, assets });
+    expect(result.document.clips[0]).toEqual(first.document.clips[0]);
+    expect(result.document.clips[1]!.placement).toEqual({
+      kind: "project",
+      range: { startUs: 200000, endUs: 200000 + duration },
+    });
+    expect(result.document.clips[2]!.placement).toEqual({
+      kind: "project",
+      range: { startUs: 200000 + duration, endUs: 1800000 + duration },
+    });
+    expect(result.document.syncGroups).toEqual([]);
+    expect(result.touchedFixedAnchors).toEqual([{ kind: "clip", id: first.labels.video }]);
+    expect(() =>
+      applyBatch(document, [{ ...operation, ripple: { trackIds: [first.labels.picture] } }], {
+        ...context,
+        assets,
+      }),
+    ).toThrow(CompositionError);
+    expect(() =>
+      applyBatch(document, [{ ...operation, ripple: undefined }], { ...context, assets }),
+    ).toThrow(CompositionError);
+  }
+});

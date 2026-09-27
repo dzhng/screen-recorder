@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication, retime, insertion and ripple move verified. Exact/trim/stretch replacement is verified; hold, silence padding, ripple replacement and the full harness remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication, retime, insertion and ripple move verified. Exact/trim/stretch and ripple replacement are verified; hold tails, silence padding and the full harness remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -50,7 +50,7 @@ move/retime retain existing attachment kinds. Detach and reanchor preserve the
 resolved interval. Pitch policy is authored metadata until native retiming lands.
 The [contracts](../contracts.md) own operation semantics and scope rules.
 
-[62 composition tests](../assets/03-edits/replacement/review.md), type checks and build
+[63 composition tests](../assets/03-edits/replacement/ripple-review.md), type checks and build
 pass. The suite includes linked offsets, held/content anchors, source gaps,
 selected subgroups, copy labels, fractional boundaries, no-ops and failed-batch
 immutability. Prior independent probes cover 1,326 retimed splits and 12,376
@@ -92,6 +92,10 @@ old descendants; identical source replacement preserves them. Source admission
 and bounds validate before explicit trim/stretch fitting. Independent review
 caught and verified the source-end validation regression.
 
-Next implement hold tails, silence padding and ripple replacement, then run the full
+Ripple replacement reuses the retime owner to adopt the source duration and
+shift later named roots; its [review](../assets/03-edits/replacement/ripple-review.md)
+verifies independent audio/video behavior.
+
+Next implement hold tails and silence padding, then run the full
 linked-replacement probe above. Public project storage and editing still depend
 on completion of this reducer slice. This slice is not accepted yet.
