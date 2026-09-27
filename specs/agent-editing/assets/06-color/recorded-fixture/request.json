@@ -1,0 +1,29 @@
+{
+  "width": 3120,
+  "height": 1970,
+  "fps": 20,
+  "range": {
+    "startUs": 0,
+    "endUs": 50000
+  },
+  "pictures": [
+    {
+      "id": "recorded-fixture",
+      "file": "/private/tmp/screenrec-render-oracle-fix/fixtures/narrated-workbench/video.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "output": "/tmp/screenrec-color-bitrate/recorded-fixture",
+  "colorPolicy": "native",
+  "savePreEncode": true,
+  "videoBitrate": 4000000
+}

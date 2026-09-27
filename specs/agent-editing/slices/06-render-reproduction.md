@@ -24,6 +24,12 @@ verdict. JS lint/format checks pass. No production executor, installed app, capt
 playback or listening acceptance was changed or exercised. Slice 07 must preserve
 these matched-input observations and keep the open production color policy explicit.
 
+The [native color follow-up](../../../packages/test-harness/editing/COLOR-REPRODUCTION.md)
+separates preservation of platform-decoded appearance from lossy encoding. Its
+frozen tagged, untagged, rotation and recorded-fixture evidence supports the native
+conversion path; intended untagged color and a production encoding-quality profile
+remain unaccepted. The unchanged whole-pixel gate still exposes encoding loss.
+
 ## Contract
 
 A frozen native reproduction proves that multi-source independent AV can be rendered without losing the existing presentation behavior.

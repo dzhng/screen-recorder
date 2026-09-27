@@ -17,6 +17,8 @@ struct Request: Codable {
     let width: Int; let height: Int; let fps: Int32; let range: Window
     let pictures: [Picture]; let audio: [Sound]; let output: String
     let colorPolicy: String
+    let videoBitrate: Int?
+    let savePreEncode: Bool?
 }
 func failure(_ message: String) -> NSError { NSError(domain: "RenderReproduction", code: 1, userInfo: [NSLocalizedDescriptionKey: message]) }
 let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
@@ -144,7 +146,7 @@ func audio(_ request: Request, writer: AVAssetWriter?, input: AVAssetWriterInput
 }
 func bounded(_ request: Request) async throws -> [String: Any] {
     let writer = try AVAssetWriter(outputURL: URL(fileURLWithPath: request.output + "/bounded.mov"), fileType: .mov)
-    let video = AVAssetWriterInput(mediaType: .video, outputSettings: [AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: request.width, AVVideoHeightKey: request.height, AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false, AVVideoAverageBitRateKey: 4_000_000]])
+    let video = AVAssetWriterInput(mediaType: .video, outputSettings: [AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: request.width, AVVideoHeightKey: request.height, AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false, AVVideoAverageBitRateKey: request.videoBitrate ?? 4_000_000]])
     video.mediaTimeScale = 1_000_000; writer.movieTimeScale = 1_000_000; writer.add(video)
     let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: video, sourcePixelBufferAttributes: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA, kCVPixelBufferWidthKey as String: request.width, kCVPixelBufferHeightKey as String: request.height, kCVPixelBufferIOSurfacePropertiesKey as String: [:]])
     let sound = AVAssetWriterInput(mediaType: .audio, outputSettings: [AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: 48000, AVNumberOfChannelsKey: 2, AVLinearPCMBitDepthKey: 16, AVLinearPCMIsFloatKey: false, AVLinearPCMIsBigEndianKey: false, AVLinearPCMIsNonInterleaved: false])
@@ -188,6 +190,9 @@ func bounded(_ request: Request) async throws -> [String: Any] {
         CVBufferSetAttachment(destination!, kCVImageBufferColorPrimariesKey, kCVImageBufferColorPrimaries_ITU_R_709_2, .shouldPropagate)
         CVBufferSetAttachment(destination!, kCVImageBufferTransferFunctionKey, kCVImageBufferTransferFunction_sRGB, .shouldPropagate)
         CVBufferSetAttachment(destination!, kCVImageBufferYCbCrMatrixKey, kCVImageBufferYCbCrMatrix_ITU_R_709_2, .shouldPropagate)
+        if request.savePreEncode == true && rows.isEmpty {
+            try png(CIImage(cvPixelBuffer: destination!), at: request.output + "/pre-encode.png")
+        }
         var format: CMVideoFormatDescription?, sample: CMSampleBuffer?
         var timing = CMSampleTimingInfo(duration: time(microseconds: visibleEnd - visibleStart), presentationTimeStamp: time(microseconds: visibleStart - request.range.startUs), decodeTimeStamp: .invalid)
         guard CMVideoFormatDescriptionCreateForImageBuffer(allocator: nil, imageBuffer: destination!, formatDescriptionOut: &format) == noErr,
@@ -263,6 +268,18 @@ func color(_ sourceFile: String, _ output: String) async throws {
     }
     static func run() async throws {
         let args = CommandLine.arguments
+        if args[1] == "reference" {
+            let source = try await Source(file: args[2], startUs: 0, endUs: 1)
+            let buffer = try source.select(.zero)!
+            let width = Int(args[4])!, height = Int(args[5])!
+            let policy = args.count > 6 ? args[6] : "native"
+            try png(image(buffer, transform: source.transform, width: width, height: height, policy: policy), at: args[3])
+            let transform = source.transform
+            let attachments = CVBufferCopyAttachments(buffer, .shouldPropagate).map { String(describing: $0) } ?? "none"
+            let report: [String: Any] = ["transform": [transform.a, transform.b, transform.c, transform.d, transform.tx, transform.ty], "attachments": attachments, "width": width, "height": height, "policy": policy]
+            print(String(data: try JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]), encoding: .utf8)!)
+            return
+        }
         if args[1] == "gap" { try await gap(args[2], args[3]); return }
         if args[1] == "color" { try await color(args[2], args[3]); return }
         let request = try JSONDecoder().decode(Request.self, from: Data(contentsOf: URL(fileURLWithPath: args[2])))
