@@ -1,0 +1,16 @@
+{
+  "kind": "planning-validation",
+  "date": "2026-09-27",
+  "specMarkdownFiles": 34,
+  "slices": 27,
+  "dependencyEdges": 59,
+  "checks": [
+    "local file links",
+    "required slice sections",
+    "acyclic dependencies",
+    "README checklist coverage",
+    "visual gate presence"
+  ],
+  "errors": [],
+  "runtimeGatesExecuted": false
+}

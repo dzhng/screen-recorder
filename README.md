@@ -18,8 +18,11 @@ macOS boundary. Run `bun install` before building. The [root manifest](package.j
 owns executable build and check commands. Use focused package checks during
 iteration; full release verification belongs at closeout.
 
-The [active spec](specs/recording-for-ai/README.md) owns current implementation
-status and verification evidence. Its [architecture](specs/recording-for-ai/architecture.md)
-explains ownership, while [contracts](specs/recording-for-ai/contracts.md) defines
-how timestamps, revisions and evidence stay aligned. Planned capabilities are not
-claimed as implemented until their named gates pass.
+The [agent editing spec](specs/agent-editing/README.md) owns the active expansion
+plan and next pickup. The [recording spec](specs/recording-for-ai/README.md) retains
+current implementation evidence and unfinished personal-release acceptance.
+Planned capabilities are not claimed as implemented until their named gates pass.
+
+The product-use [screenrec skill](skills/screenrec/SKILL.md) teaches external
+agents the available CLI workflow; repository development skills live separately
+under `.agents/skills`.

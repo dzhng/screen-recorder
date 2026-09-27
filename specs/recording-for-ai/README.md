@@ -9,6 +9,13 @@ from full personal-release acceptance.
 
 ## Next Agent Prompt
 
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with implementation pickup at its slice 00. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
 You are implementing the personal Mac release. Read this spec, its
 [contracts](contracts.md), [architecture](architecture.md), and
 [verification](verification.md), then resume from the current pickup below.
