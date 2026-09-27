@@ -80,6 +80,9 @@ public enum PresentationEvidence {
                 durationUs: duration, spanCount: plan.count))
         let context = CIContext(options: [.cacheIntermediates: false])
         var count = 0
+        // Cuts can revisit the same held sample. Keep only its rendered thumbnail;
+        // every span still writes its own exact timing and consumes the byte budget.
+        var thumbnail: (buffer: CVPixelBuffer, width: Int, height: Int, rgb: String)?
         for (spanIndex, span) in plan.enumerated() {
             var at = time(microseconds: span.source.startUs)
             let end = time(microseconds: span.source.endUs)
@@ -90,10 +93,17 @@ public enum PresentationEvidence {
                         throw NativeFailure(
                             "UNAVAILABLE", "Presentation evidence made no progress.")
                     }
-                    let image = try selected.buffer.map {
-                        try FrameImage(
-                            buffer: $0, transform: presentation.transform, overlay: nil,
-                            agedFromUs: 0, crop: nil, maxLongEdge: 64)
+                    if let buffer = selected.buffer {
+                        if thumbnail?.buffer !== buffer {
+                            let image = try FrameImage(
+                                buffer: buffer, transform: presentation.transform, overlay: nil,
+                                agedFromUs: 0, crop: nil, maxLongEdge: 64)
+                            thumbnail = (
+                                buffer, image.width, image.height,
+                                image.rgb(context: context).base64EncodedString())
+                        }
+                    } else {
+                        thumbnail = nil
                     }
                     try append(
                         PresentationRecord(
@@ -101,8 +111,8 @@ public enum PresentationEvidence {
                             end: PresentationTime(selected.end), empty: selected.buffer == nil,
                             sampleTime: selected.sampleTime.map(PresentationTime.init),
                             actualSourceUs: selected.sampleTime.map(microseconds),
-                            width: image?.width, height: image?.height,
-                            rgbBase64: image?.rgb(context: context).base64EncodedString()))
+                            width: thumbnail?.width, height: thumbnail?.height,
+                            rgbBase64: thumbnail?.rgb))
                     return selected.end
                 }
                 at = next

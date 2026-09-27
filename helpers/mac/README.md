@@ -209,7 +209,9 @@ Movie rendering executes a render plan without interpreting it. Retained source 
 and never touch, because adjacent retained spans are one span, and video and audio refuse the same
 malformed plan through one rule. Explicit empty edits render as the default player's opaque black;
 an unexplained gap never inherits the previous image. Presentation evidence walks the same
-sequential decode and publishes bounded JSONL records.
+sequential decode and publishes bounded JSONL records. Cuts that retain the same decoded sample
+reuse its thumbnail, while each interval retains its exact timing record. Thumbnail retention is
+bounded to the current sample and clears on empty edits.
 
 Audio reads only where the caller's acquisition evidence and the file's own occupied segments
 agree; everywhere else is reported unavailable and silent, because a container decodes padding for

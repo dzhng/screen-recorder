@@ -497,7 +497,9 @@ test("presentation evidence clips exact rational supports across cuts and empty 
       [3, 3.5, false],
     ],
   );
-  const black = supportRows(empty.output)[1];
+  const [beforeGap, black, afterGap] = supportRows(empty.output);
+  assert.notEqual(beforeGap.rgbBase64, afterGap.rgbBase64);
+  assert.equal(typeof afterGap.rgbBase64, "string");
   assert.equal(black.rgbBase64, undefined);
   assert.equal(black.sampleTime, undefined);
 });
@@ -532,6 +534,7 @@ test("presentation evidence refuses unsupported video tail and partial byte-budg
 
 test("presentation evidence memory stays bounded while streamed output grows", async () => {
   const peaks = [];
+  const thumbnails = new Map();
   for (const count of [100, 5000]) {
     const source = join(directory, "dense.mov"),
       output = join(directory, `stream-${count}.jsonl`);
@@ -569,6 +572,13 @@ test("presentation evidence memory stays bounded while streamed output grows", a
       if (ordinal >= 0) {
         assert.equal(row.spanIndex, ordinal);
         assert.equal(seconds(row.start), (ordinal * 20) / 1000000);
+        assert.equal(seconds(row.end), (ordinal * 20 + 1) / 1000000);
+        assert.equal(row.empty, false);
+        const sample = Math.floor((ordinal * 20 * 30) / 1000000);
+        assert.equal(seconds(row.sampleTime), sample / 30);
+        assert.equal(typeof row.rgbBase64, "string");
+        if (thumbnails.has(sample)) assert.equal(row.rgbBase64, thumbnails.get(sample));
+        else thumbnails.set(sample, row.rgbBase64);
       }
       ordinal++;
     }
@@ -579,6 +589,7 @@ test("presentation evidence memory stays bounded while streamed output grows", a
       peakResidentBytes: peak,
     });
   }
+  assert.equal(new Set(thumbnails.values()).size, 3, "each source frame has distinct pixels");
   // Retaining the ~46 MB large result would exceed this allowance; decoder/startup
   // variation gets 24 MB while the output grows fiftyfold.
   assert.ok(peaks[1] - peaks[0] < 24 * 1024 * 1024, JSON.stringify(peaks));
