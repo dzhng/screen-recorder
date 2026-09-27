@@ -7,6 +7,8 @@ description: Architecture rules for GPU rendering with TypeGPU/WebGPU — games,
 
 The stack is **TypeGPU on WebGPU**: typed schemas, bind group layouts and pipelines, with WGSL where it's clearer. Don't add a second rendering library.
 
+For 3D models and textures, use Blender if it's available. Prefer a Blender MCP server when one is installed; otherwise run headless (`blender -b --python script.py`). Keep the scripts in the repo, so every asset is reproducible from code rather than hand-edited.
+
 ## Architecture
 
 - **The renderer draws what it's handed.** The app builds plain frame inputs from its own state (a game observation, a query result, a document), and the renderer consumes them through one interface. It never reaches into app or domain state.
