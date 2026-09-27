@@ -1,6 +1,23 @@
 # 01 — Composition identity and time
 
-Status: not started. Dependencies: [00](./00-corpus.md).
+Status: implemented in an isolated composition pass, 2026-09-27; focused checks pass, independent integration review pending. Dependencies: [00](./00-corpus.md).
+
+The [pure package](../../../packages/composition/README.md) now owns strict
+authoring/asset schemas, immutable validation snapshots, exact nested placements,
+source availability and occurrence queries. Its 16 tests passed, including rational
+round-trip checks across 323 duration pairs, half-open boundaries, repeated/reordered
+sources, held/still content, unequal linked AV, gaps, cycles and overflow. Removing
+reverse-result ordering made its regression test fail with the wrong occurrence
+order; restoring it passed. The repeat-reorder corpus CLI probe passed against
+the hand-authored membership oracle. Package build, type checks, lint and formatting
+passed. No native execution, production adoption or persistence is claimed here.
+
+Verification: `bun run --cwd packages/composition build`,
+`bun run --cwd packages/composition check-types`,
+`bun run --cwd packages/composition test`, and the probe below. The package README
+records exact rational outputs, inverse microsecond-bin/held interval semantics,
+source metadata and error contracts. Root integration owns the workspace lock
+update and independent review before marking this slice complete.
 
 ## Contract
 

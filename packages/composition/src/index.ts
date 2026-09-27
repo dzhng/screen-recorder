@@ -1,0 +1,370 @@
+import {
+  assetSchema,
+  compositionSchema,
+  anchorSchema,
+  type Anchor,
+  type Asset,
+  type Clip,
+  type Composition,
+  type Range,
+  type Stream,
+} from "./schema.js";
+import {
+  add,
+  subtract,
+  multiply,
+  divide,
+  compare,
+  rational,
+  floor,
+  ceil,
+  type Rational,
+} from "./rational.js";
+export {
+  assetSchema,
+  streamSchema,
+  compositionSchema,
+  anchorSchema,
+  clipSchema,
+  rangeSchema,
+  fractionSchema,
+} from "./schema.js";
+export type { Anchor, Asset, Clip, Composition, Fraction, Range, Stream } from "./schema.js";
+export type { Rational } from "./rational.js";
+
+export class CompositionError extends Error {
+  constructor(
+    readonly code: "INVALID_COMPOSITION" | "INVALID_TIME" | "UNKNOWN_CLIP" | "UNKNOWN_SOURCE",
+    message: string,
+  ) {
+    super(message);
+    this.name = "CompositionError";
+  }
+}
+type Immutable<T> = T extends object ? { readonly [K in keyof T]: Immutable<T[K]> } : T;
+export type ExactRange = Readonly<{ start: Rational; end: Rational }>;
+export type ResolvedPlacement = Readonly<{ range: ExactRange; available: readonly ExactRange[] }>;
+type ResolvedClip = ResolvedPlacement & {
+  clip: Immutable<Clip>;
+  stream: Immutable<Stream>;
+  track: Immutable<Composition["tracks"][number]>;
+  rate: Rational | null;
+};
+export type ValidatedComposition = Readonly<{
+  document: Immutable<Composition>;
+  assets: readonly Immutable<Asset>[];
+  clips: readonly Immutable<ResolvedClip>[];
+  durationUs: number;
+}>;
+function freeze<T>(value: T): Immutable<T> {
+  if (value !== null && typeof value === "object") {
+    for (const child of Object.values(value)) freeze(child);
+    Object.freeze(value);
+  }
+  return value as Immutable<T>;
+}
+function invalid(message: string): never {
+  throw new CompositionError("INVALID_COMPOSITION", message);
+}
+const integer = (value: number) => rational(BigInt(value));
+const exact = (range: Range): ExactRange => ({
+  start: integer(range.startUs),
+  end: integer(range.endUs),
+});
+const length = (range: ExactRange) => subtract(range.end, range.start);
+const contains = (range: ExactRange, at: Rational) =>
+  compare(range.start, at) <= 0 && compare(at, range.end) < 0;
+function intersection(a: ExactRange, b: ExactRange): ExactRange | null {
+  const start = compare(a.start, b.start) < 0 ? b.start : a.start;
+  const end = compare(a.end, b.end) < 0 ? a.end : b.end;
+  return compare(start, end) < 0 ? { start, end } : null;
+}
+function intersectAll(a: readonly ExactRange[], b: readonly ExactRange[]): ExactRange[] {
+  const result: ExactRange[] = [];
+  let left = 0,
+    right = 0;
+  while (left < a.length && right < b.length) {
+    const x = a[left]!,
+      y = b[right]!;
+    const overlap = intersection(x, y);
+    if (overlap) result.push(overlap);
+    if (compare(x.end, y.end) <= 0) left++;
+    else right++;
+  }
+  return result;
+}
+function unique<T extends { id: string }>(values: readonly T[], kind: string): Map<string, T> {
+  const entries = new Map<string, T>();
+  for (const value of values) {
+    if (entries.has(value.id)) invalid(`Duplicate ${kind} ID: ${value.id}`);
+    entries.set(value.id, value);
+  }
+  return entries;
+}
+function sourceTime(clip: ResolvedClip, project: Rational): Rational {
+  if (clip.clip.source.kind === "hold") return integer(clip.clip.source.atUs);
+  return add(
+    integer(clip.clip.source.range.startUs),
+    multiply(subtract(project, clip.range.start), clip.rate!),
+  );
+}
+function projectTime(clip: ResolvedClip, source: Rational): Rational {
+  if (clip.clip.source.kind === "hold")
+    invalid(`Held clip has no invertible source clock: ${clip.clip.id}`);
+  return add(
+    clip.range.start,
+    divide(subtract(source, integer(clip.clip.source.range.startUs)), clip.rate!),
+  );
+}
+function placement(anchor: Anchor, resolved: ReadonlyMap<string, ResolvedClip>): ResolvedPlacement {
+  if (anchor.kind === "project") {
+    const range = exact(anchor.range);
+    return { range, available: [range] };
+  }
+  const parent = resolved.get(anchor.clipId);
+  if (!parent) invalid(`Unresolved anchor parent: ${anchor.clipId}`);
+  let range: ExactRange;
+  if (anchor.kind === "content") {
+    if (parent.clip.source.kind === "hold")
+      invalid(`Use a normalized clip anchor for held content: ${anchor.clipId}`);
+    const source = parent.clip.source.range;
+    if (anchor.sourceRange.startUs < source.startUs || anchor.sourceRange.endUs > source.endUs)
+      invalid(`Content anchor exceeds selected parent source: ${anchor.clipId}`);
+    range = {
+      start: projectTime(parent, integer(anchor.sourceRange.startUs)),
+      end: projectTime(parent, integer(anchor.sourceRange.endUs)),
+    };
+  } else {
+    range = {
+      start: add(
+        parent.range.start,
+        multiply(
+          length(parent.range),
+          rational(BigInt(anchor.start.numerator), BigInt(anchor.start.denominator)),
+        ),
+      ),
+      end: add(
+        parent.range.start,
+        multiply(
+          length(parent.range),
+          rational(BigInt(anchor.end.numerator), BigInt(anchor.end.denominator)),
+        ),
+      ),
+    };
+  }
+  return { range, available: intersectAll([range], parent.available) };
+}
+
+/** Snapshot admitted stream metadata and authoring data; no media or catalog access. */
+export function validateComposition(input: unknown, assetInput: unknown): ValidatedComposition {
+  const documentResult = compositionSchema.safeParse(input);
+  const assetResult = assetSchema.array().safeParse(assetInput);
+  if (!documentResult.success) invalid(documentResult.error.message);
+  if (!assetResult.success) invalid(assetResult.error.message);
+  const document = documentResult.data,
+    assets = assetResult.data;
+  const assetMap = unique(assets, "asset"),
+    tracks = unique(document.tracks, "track"),
+    clips = unique(document.clips, "clip");
+  const streams = new Map<string, Map<string, Stream>>();
+  for (const asset of assetMap.values()) {
+    streams.set(asset.id, unique(asset.streams, "stream"));
+    for (const stream of asset.streams)
+      if (stream.kind !== "image") {
+        let through = stream.bounds.startUs;
+        for (const range of stream.available) {
+          if (range.startUs < through || range.endUs > stream.bounds.endUs)
+            invalid(`Invalid source availability: ${asset.id}/${stream.id}`);
+          through = range.endUs;
+        }
+      }
+  }
+  const orders = new Set<number>();
+  for (const track of tracks.values())
+    if (track.kind === "video") {
+      if (orders.has(track.order)) invalid(`Duplicate video layer order: ${track.order}`);
+      orders.add(track.order);
+    }
+  const grouped = new Set<string>();
+  for (const group of unique(document.syncGroups, "sync group").values())
+    for (const id of group.clipIds) {
+      if (!clips.has(id)) invalid(`Unknown synchronized clip: ${id}`);
+      if (grouped.has(id)) invalid(`Clip belongs to multiple synchronization entries: ${id}`);
+      grouped.add(id);
+    }
+  const ready: Clip[] = [],
+    children = new Map<string, Clip[]>();
+  for (const clip of clips.values()) {
+    if (clip.placement.kind === "project") ready.push(clip);
+    else {
+      const parent = clip.placement.clipId;
+      if (!clips.has(parent)) invalid(`Unknown anchor parent: ${parent}`);
+      const dependents = children.get(parent) ?? [];
+      dependents.push(clip);
+      children.set(parent, dependents);
+    }
+  }
+  const resolved = new Map<string, ResolvedClip>();
+  for (let next = 0; next < ready.length; next++) {
+    const clip = ready[next]!;
+    const track = tracks.get(clip.trackId),
+      stream = streams.get(clip.assetId)?.get(clip.streamId);
+    if (!track) invalid(`Unknown track: ${clip.trackId}`);
+    if (!stream) invalid(`Unknown source: ${clip.assetId}/${clip.streamId}`);
+    if ((stream.kind === "audio" ? "audio" : "video") !== track.kind)
+      invalid(`Stream/track kind mismatch: ${clip.id}`);
+    if (clip.pitch !== undefined && stream.kind !== "audio")
+      invalid(`Pitch policy requires audio: ${clip.id}`);
+    if (clip.source.kind === "hold") {
+      if (stream.kind === "audio") invalid(`Audio cannot be held: ${clip.id}`);
+      if (
+        stream.kind === "image"
+          ? clip.source.atUs !== 0
+          : !contains(exact(stream.bounds), integer(clip.source.atUs))
+      )
+        invalid(`Hold exceeds source bounds: ${clip.id}`);
+    } else {
+      if (stream.kind === "image") invalid(`Still images require a hold source: ${clip.id}`);
+      if (
+        clip.source.range.startUs < stream.bounds.startUs ||
+        clip.source.range.endUs > stream.bounds.endUs
+      )
+        invalid(`Selected range exceeds source bounds: ${clip.id}`);
+    }
+    const anchor = placement(clip.placement, resolved);
+    const rate =
+      clip.source.kind === "hold"
+        ? null
+        : divide(
+            integer(clip.source.range.endUs - clip.source.range.startUs),
+            length(anchor.range),
+          );
+    const result: ResolvedClip = { ...anchor, clip, track, stream, rate };
+    let available: ExactRange[];
+    if (stream.kind === "image") available = [anchor.range];
+    else if (clip.source.kind === "hold") {
+      const at = integer(clip.source.atUs);
+      available = stream.available.some((range) => contains(exact(range), at))
+        ? [anchor.range]
+        : [];
+    } else {
+      const selected = exact(clip.source.range);
+      available = stream.available.flatMap((range) => {
+        const kept = intersection(exact(range), selected);
+        return kept
+          ? [{ start: projectTime(result, kept.start), end: projectTime(result, kept.end) }]
+          : [];
+      });
+    }
+    resolved.set(clip.id, { ...result, available: intersectAll(anchor.available, available) });
+    for (const child of children.get(clip.id) ?? []) ready.push(child);
+  }
+  if (resolved.size !== clips.size) invalid("Anchor dependency cycle");
+  const ordered = [...resolved.values()].sort(
+    (a, b) =>
+      compare(a.range.start, b.range.start) ||
+      a.track.order - b.track.order ||
+      (a.clip.id < b.clip.id ? -1 : a.clip.id > b.clip.id ? 1 : 0),
+  );
+  const last = new Map<string, ResolvedClip>();
+  let durationUs = 0;
+  for (const clip of ordered) {
+    const previous = last.get(clip.track.id);
+    if (previous && compare(previous.range.end, clip.range.start) > 0)
+      invalid(`Overlapping clips on track: ${clip.track.id}`);
+    last.set(clip.track.id, clip);
+    durationUs = Math.max(durationUs, ceil(clip.range.end));
+  }
+  return freeze({ document, assets, clips: ordered, durationUs });
+}
+
+/** Exact envelope plus source-available fragments; neither closes acquisition gaps. */
+export function resolvePlacement(
+  model: ValidatedComposition,
+  target: string | Anchor,
+): ResolvedPlacement {
+  if (typeof target === "string") {
+    const found = model.clips.find((value) => value.clip.id === target);
+    if (!found) throw new CompositionError("UNKNOWN_CLIP", `Unknown clip: ${target}`);
+    return { range: found.range, available: found.available };
+  }
+  const parsed = anchorSchema.safeParse(target);
+  if (!parsed.success) invalid(parsed.error.message);
+  return freeze(placement(parsed.data, new Map(model.clips.map((clip) => [clip.clip.id, clip]))));
+}
+function checkTime(atUs: number): Rational {
+  if (!Number.isSafeInteger(atUs) || atUs < 0)
+    throw new CompositionError("INVALID_TIME", "Expected nonnegative safe-integer microseconds");
+  return integer(atUs);
+}
+export type SourceOccurrence = Readonly<{
+  clipId: string;
+  assetId: string;
+  streamId: string;
+  trackId: string;
+  sourceUs: number;
+  available: boolean;
+}>;
+export function projectToSource(model: ValidatedComposition, atUs: number): SourceOccurrence[] {
+  const at = checkTime(atUs);
+  return model.clips
+    .filter((clip) => contains(clip.range, at))
+    .map((clip) => ({
+      clipId: clip.clip.id,
+      assetId: clip.clip.assetId,
+      streamId: clip.clip.streamId,
+      trackId: clip.clip.trackId,
+      sourceUs: floor(sourceTime(clip, at)),
+      available: clip.available.some((range) => contains(range, at)),
+    }));
+}
+export type ProjectOccurrence = Readonly<{
+  clipId: string;
+  trackId: string;
+  trackOrder: number;
+  project: ExactRange;
+  available: readonly ExactRange[];
+  firstProjectUs: number | null;
+}>;
+/** All occurrences of a source microsecond bin, including a held bin's entire interval. */
+export function sourceToProject(
+  model: ValidatedComposition,
+  query: { assetId: string; streamId: string; atUs: number },
+): ProjectOccurrence[] {
+  const at = checkTime(query.atUs);
+  const asset = model.assets.find((item) => item.id === query.assetId);
+  if (!asset?.streams.some((stream) => stream.id === query.streamId))
+    throw new CompositionError(
+      "UNKNOWN_SOURCE",
+      `Unknown source: ${query.assetId}/${query.streamId}`,
+    );
+  const occurrences = model.clips.flatMap((clip) => {
+    if (clip.clip.assetId !== query.assetId || clip.clip.streamId !== query.streamId) return [];
+    const source = clip.clip.source;
+    let project: ExactRange;
+    if (source.kind === "hold") {
+      if (source.atUs !== query.atUs) return [];
+      project = clip.range;
+    } else {
+      if (!contains(exact(source.range), at)) return [];
+      project = { start: projectTime(clip, at), end: projectTime(clip, integer(query.atUs + 1)) };
+    }
+    const first = ceil(project.start);
+    return [
+      {
+        clipId: clip.clip.id,
+        trackId: clip.clip.trackId,
+        trackOrder: clip.track.order,
+        project,
+        available: intersectAll([project], clip.available),
+        firstProjectUs: contains(project, integer(first)) ? first : null,
+      },
+    ];
+  });
+  return occurrences.sort(
+    (a, b) =>
+      compare(a.project.start, b.project.start) ||
+      a.trackOrder - b.trackOrder ||
+      (a.clipId < b.clipId ? -1 : a.clipId > b.clipId ? 1 : 0),
+  );
+}
