@@ -51,3 +51,19 @@ The reach: consumers must distinguish displayed held pixels from evidence that
 media was actually acquired. Existing native empty-gap references remain required.
 Verdict: sound because it avoids treating a convenient synthetic case as proof of
 a different media mechanism. Confidence: high.
+
+### Retain one thumbnail by decoded-buffer identity
+
+When: native baseline maintenance, `babc2f7`.
+
+The choice: when thousands of tiny cuts revisit the same held video frame, reuse
+its thumbnail. The cache holds a strong reference to that exact decoded buffer,
+so a different frame cannot accidentally reuse its identity. Empty intervals
+clear it. Every cut still emits its own timing row. The alternative was to redraw
+the same pixels thousands of times, or maintain a larger timestamp-keyed cache.
+The plan required bounded work but did not select this cache identity.
+
+The reach: memory includes at most one extra retained source buffer and one small
+thumbnail; timing and output budgets stay unchanged. Verdict: sound because the
+cache follows the existing decoder's actual held-frame lifetime without changing
+sample selection. Confidence: high.

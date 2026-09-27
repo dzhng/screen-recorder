@@ -1,0 +1,450 @@
+[
+  {
+    "name": "one-microsecond-spans",
+    "source": "dense",
+    "plan": [
+      {
+        "source": {
+          "startUs": 10000,
+          "endUs": 10001
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 1
+        }
+      },
+      {
+        "source": {
+          "startUs": 20000,
+          "endUs": 20001
+        },
+        "playback": {
+          "startUs": 1,
+          "endUs": 2
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 1977,
+      "codec": "h264",
+      "durationUs": 2,
+      "file": "one-microsecond-spans.cache",
+      "frameCount": 2,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 2,
+      "pts": [
+        0,
+        1
+      ],
+      "identities": [
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "name": "subframe",
+    "source": "dense",
+    "plan": [
+      {
+        "source": {
+          "startUs": 10000,
+          "endUs": 20000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 10000
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 1552,
+      "codec": "h264",
+      "durationUs": 10000,
+      "file": "subframe.cache",
+      "frameCount": 1,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 10000,
+      "pts": [
+        0
+      ],
+      "identities": [
+        0
+      ]
+    }
+  },
+  {
+    "name": "fractional-two-cuts",
+    "source": "dense",
+    "plan": [
+      {
+        "source": {
+          "startUs": 10001,
+          "endUs": 20002
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 10001
+        }
+      },
+      {
+        "source": {
+          "startUs": 43334,
+          "endUs": 53337
+        },
+        "playback": {
+          "startUs": 10001,
+          "endUs": 20004
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 2484,
+      "codec": "h264",
+      "durationUs": 20004,
+      "file": "fractional-two-cuts.cache",
+      "frameCount": 2,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 20004,
+      "pts": [
+        0,
+        10001
+      ],
+      "identities": [
+        0,
+        1
+      ]
+    }
+  },
+  {
+    "name": "two-middle-cuts",
+    "source": "dense",
+    "plan": [
+      {
+        "source": {
+          "startUs": 0,
+          "endUs": 40000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 40000
+        }
+      },
+      {
+        "source": {
+          "startUs": 70000,
+          "endUs": 120000
+        },
+        "playback": {
+          "startUs": 40000,
+          "endUs": 90000
+        }
+      },
+      {
+        "source": {
+          "startUs": 150000,
+          "endUs": 200000
+        },
+        "playback": {
+          "startUs": 90000,
+          "endUs": 140000
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 7524,
+      "codec": "h264",
+      "durationUs": 140000,
+      "file": "two-middle-cuts.cache",
+      "frameCount": 6,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 140000,
+      "pts": [
+        0,
+        33333,
+        40000,
+        70000,
+        90000,
+        106667
+      ],
+      "identities": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  },
+  {
+    "name": "original",
+    "source": "dense",
+    "plan": [
+      {
+        "source": {
+          "startUs": 0,
+          "endUs": 200000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 200000
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 7887,
+      "codec": "h264",
+      "durationUs": 200000,
+      "file": "original.cache",
+      "frameCount": 6,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 200000,
+      "pts": [
+        0,
+        33333,
+        66667,
+        100000,
+        133333,
+        166667
+      ],
+      "identities": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  },
+  {
+    "name": "sparse-held",
+    "source": "sparse",
+    "plan": [
+      {
+        "source": {
+          "startUs": 500000,
+          "endUs": 510000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 10000
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 1597,
+      "codec": "h264",
+      "durationUs": 10000,
+      "file": "sparse-held.cache",
+      "frameCount": 1,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 10000,
+      "pts": [
+        0
+      ],
+      "identities": [
+        0
+      ]
+    }
+  },
+  {
+    "name": "leading-empty",
+    "source": "leading",
+    "plan": [
+      {
+        "source": {
+          "startUs": 0,
+          "endUs": 3000000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 3000000
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 1640,
+      "codec": "h264",
+      "durationUs": 3000000,
+      "file": "leading-empty.cache",
+      "frameCount": 2,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 3000000,
+      "pts": [
+        0,
+        2000000
+      ],
+      "identities": [
+        "black",
+        1
+      ]
+    }
+  },
+  {
+    "name": "internal-empty",
+    "source": "internal",
+    "plan": [
+      {
+        "source": {
+          "startUs": 0,
+          "endUs": 4000000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 4000000
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 2748,
+      "codec": "h264",
+      "durationUs": 4000000,
+      "file": "internal-empty.cache",
+      "frameCount": 3,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 4000000,
+      "pts": [
+        0,
+        1000000,
+        3000000
+      ],
+      "identities": [
+        0,
+        "black",
+        1
+      ]
+    }
+  },
+  {
+    "name": "trailing-empty",
+    "source": "internal",
+    "plan": [
+      {
+        "source": {
+          "startUs": 500000,
+          "endUs": 2000000
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 1500000
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 1696,
+      "codec": "h264",
+      "durationUs": 1500000,
+      "file": "trailing-empty.cache",
+      "frameCount": 2,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 1500000,
+      "pts": [
+        0,
+        500000
+      ],
+      "identities": [
+        0,
+        "black"
+      ]
+    }
+  },
+  {
+    "name": "empty-only",
+    "source": "internal",
+    "plan": [
+      {
+        "source": {
+          "startUs": 1500000,
+          "endUs": 1510001
+        },
+        "playback": {
+          "startUs": 0,
+          "endUs": 10001
+        }
+      }
+    ],
+    "receipt": {
+      "bytes": 864,
+      "codec": "h264",
+      "durationUs": 10001,
+      "file": "empty-only.cache",
+      "frameCount": 1,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "width": 320
+    },
+    "decoded": {
+      "durationUs": 10001,
+      "pts": [
+        0
+      ],
+      "identities": [
+        "black"
+      ]
+    }
+  },
+  {
+    "name": "support-stream-100",
+    "receipt": {
+      "bytes": 944962,
+      "durationUs": 100,
+      "file": "stream-100.jsonl",
+      "records": 100,
+      "sourceHeight": 180,
+      "sourceWidth": 320,
+      "version": 1
+    },
+    "peakResidentBytes": 27787264
+  },
+  {
+    "name": "support-stream-5000",
+    "receipt": {
+      "bytes": 47324530,
+      "durationUs": 5000,
+      "file": "stream-5000.jsonl",
+      "records": 5000,
+      "sourceHeight": 180,
+      "sourceWidth": 320,
+      "version": 1
+    },
+    "peakResidentBytes": 39927808
+  }
+]

@@ -1,0 +1,13 @@
+✔ video output preserves the native source's sRGB presentation across decoders (1983.962292ms)
+✔ presentation evidence holds the displayed frame instead of nearest future still (2198.347833ms)
+✔ presentation evidence clips exact rational supports across cuts and empty edits (1215.9825ms)
+✔ presentation evidence refuses unsupported video tail and partial byte-budget output (1850.748958ms)
+✔ presentation evidence memory stays bounded while streamed output grows (3638.148ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16891.367708

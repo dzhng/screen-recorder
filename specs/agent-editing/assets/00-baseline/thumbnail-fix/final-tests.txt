@@ -1,0 +1,12 @@
+✔ presentation evidence holds the displayed frame instead of nearest future still (3013.182834ms)
+✔ presentation evidence clips exact rational supports across cuts and empty edits (2338.150583ms)
+✔ presentation evidence refuses unsupported video tail and partial byte-budget output (2990.702208ms)
+✔ presentation evidence memory stays bounded while streamed output grows (12265.975083ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25869.373042

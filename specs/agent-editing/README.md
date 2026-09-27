@@ -10,10 +10,11 @@ user intent.
 
 You are implementing the user's local agent-operated editor. Read
 [contracts](contracts.md), [architecture](architecture.md), [verification](verification.md)
-and [research](research.md). Finish the two inherited native performance failures
-recorded in the [baseline manifest](assets/00-baseline/manifest.json), preserving
-the existing gates. The audio decoder lifecycle and held-frame thumbnail fixes
-run in separate worktrees. In parallel, implement [01 — composition](slices/01-composition.md)
+and [research](research.md). Finish the inherited audio decoder performance failure recorded in the
+[baseline manifest](assets/00-baseline/manifest.json), preserving existing gates.
+The held-frame thumbnail fix is integrated at `babc2f7`; its
+[integration evidence](assets/00-baseline/thumbnail-fix/review.md) passes unchanged
+time and memory limits. The audio decoder fix remains in its isolated worktree. In parallel, implement [01 — composition](slices/01-composition.md)
 and [02 — assets](slices/02-assets.md) against the frozen corpus. Do not ask the
 user again about settled scope, creative policies, voice references or migration.
 

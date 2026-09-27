@@ -1,0 +1,45 @@
+{
+  "commit": "babc2f7",
+  "artifacts": [
+    {
+      "path": "final-tests.txt",
+      "bytes": 513,
+      "sha256": "cbbc609f3f4a9341da99c92f34ba9db4de9c74710c376d6fa4696c99c50e61c9"
+    },
+    {
+      "path": "integration-tests.txt",
+      "bytes": 604,
+      "sha256": "e59b998906a3b5a355c5fd9ec2691580caf65898fe65418a2efd8cb625f86bbe"
+    },
+    {
+      "path": "memory-100.txt",
+      "bytes": 777,
+      "sha256": "676915f44551fd08ae8ed4d7c86386ed204833f254452e5216cfcd37058573df"
+    },
+    {
+      "path": "memory-5000.txt",
+      "bytes": 777,
+      "sha256": "cfb6f23b17c326265cc4336564cdc5e69907db33136108f194033d7d67968cc2"
+    },
+    {
+      "path": "mutation-test.txt",
+      "bytes": 970,
+      "sha256": "05755f8915ee77c0b150980c7c91f3f1a399371633f7a40a5b3983ca9c6970fa"
+    },
+    {
+      "path": "report.json",
+      "bytes": 7915,
+      "sha256": "ee5a3188a5c2ae52ffa05a9db17452c22fc79040f41efc5fee9c86436b47cd3a"
+    },
+    {
+      "path": "review.md",
+      "bytes": 1053,
+      "sha256": "e5ebb70764fb093dadff3d60a1a131170c494ce79436baf81a1947206f21116f"
+    },
+    {
+      "path": "tests.txt",
+      "bytes": 1675,
+      "sha256": "58e11810e77e13442d9689ccf636f13524f30185cda18792aa7328b7ef936af4"
+    }
+  ]
+}
