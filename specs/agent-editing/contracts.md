@@ -166,7 +166,7 @@ final document change, including batches that undo their own intermediate work.
 | --- | --- |
 | Track / canvas | Add an explicit track, remove an empty track, reorder all video layers, or patch canvas dimensions/rate/background. Removing an occupied track requires explicit clip edits first. |
 | Place / overlap | Place a selected stream without moving other content; require a free interval or a different track. Importing AV and placing it are separate actions. |
-| Insert | Split at insertion time and shift content on an explicit set of tracks by the inserted duration. The command requires ripple scope; named convenience commands can choose a documented scope and show it. |
+| Insert | Open a gap by splitting at insertion time and shifting content on explicit tracks by the inserted duration. Place new media into that gap in the same atomic batch. The command requires ripple scope; named convenience commands can choose a documented scope and show it. |
 | Remove | Delete the addressed range/occurrences; `ripple: none` leaves a gap. Ripple requires explicit track IDs and collapses exactly the removed union. |
 | Move / reorder | Move named clip occurrences; require explicit destination and ripple behavior. Optional per-occurrence track destinations affect only the expanded selection. Do not infer that every use of the asset moves. |
 | Detach / reanchor | Detach freezes the selected occurrences at their exact resolved project intervals. Reanchor changes their dependency while preserving that interval; explicit move/retime owns timing changes. Descendants retain their attachment to the same occurrence. |

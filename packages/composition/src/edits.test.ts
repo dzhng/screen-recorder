@@ -1399,3 +1399,104 @@ test("retime propagates through held-parent attachments once and preserves gaps"
   ]);
   expect(projectToSource(model, 12).map((sample) => sample.sourceUs)).toEqual([6]);
 });
+
+test("insertion splits linked media and attachments then shifts named roots once", () => {
+  const first = applyBatch(
+    input,
+    [
+      ...setup,
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "overlay" },
+      {
+        operation: "place",
+        label: "child",
+        clip: {
+          assetId: "source",
+          streamId: "v",
+          trackId: { label: "overlay" },
+          source: { kind: "range", range: { startUs: 0, endUs: 500000 } },
+          placement: {
+            kind: "content",
+            clipId: { label: "video" },
+            sourceRange: { startUs: 500000, endUs: 1000000 },
+          },
+        },
+      },
+    ],
+    context,
+  );
+  const operation = {
+    operation: "insert",
+    atUs: 800000,
+    durationUs: 500000,
+    ripple: { trackIds: [first.labels.picture, first.labels.sound, first.labels.overlay] },
+  };
+  const result = applyBatch(first.document, [operation], { ...context, namespace: "insert" });
+  const before = validateComposition(first.document, context.assets),
+    after = validateComposition(result.document, context.assets);
+  expect(after.durationUs).toBe(2500000);
+  expect(projectToSource(after, 1000000)).toEqual([]);
+  for (const at of [0, 250000, 500000, 799999, 1300000, 1450000, 2499999]) {
+    const originalAt = at < 800000 ? at : at - 500000;
+    const values = (model: typeof before, time: number) =>
+      projectToSource(model, time).map(({ clipId, ...value }) => value);
+    expect(values(after, at)).toEqual(values(before, originalAt));
+  }
+  expect(result.document.syncGroups.map((group) => group.clipIds.length)).toEqual([2, 2]);
+  expect(result.clipLineage.map((entry) => entry.originalId)).toEqual(
+    first.document.clips.map((clip) => clip.id),
+  );
+  expect(() =>
+    applyBatch(first.document, [{ ...operation, ripple: { trackIds: [first.labels.picture] } }], {
+      ...context,
+      namespace: "insert",
+    }),
+  ).toThrow(/synchronization/);
+  expect(() =>
+    applyBatch(first.document, [{ ...operation, ripple: { trackIds: [first.labels.overlay] } }], {
+      ...context,
+      namespace: "insert",
+    }),
+  ).toThrow(/root track/);
+  expect(
+    applyBatch(first.document, [{ ...operation, atUs: 2000000 }], {
+      ...context,
+      namespace: "insert",
+    }).changed,
+  ).toBe(false);
+});
+
+test("insertion preserves every source sample across small retimed clips", () => {
+  for (let duration = 1; duration <= 8; duration++)
+    for (let source = 1; source <= 7; source++)
+      for (let atUs = 0; atUs < duration; atUs++)
+        for (let durationUs = 1; durationUs <= 3; durationUs++) {
+          const document = {
+            ...input,
+            tracks: [{ id: "track", kind: "video", order: 0 }],
+            clips: [
+              {
+                id: "clip",
+                assetId: "source",
+                streamId: "v",
+                trackId: "track",
+                source: { kind: "range", range: { startUs: 0, endUs: source } },
+                placement: { kind: "project", range: { startUs: 0, endUs: duration } },
+              },
+            ],
+          };
+          const result = applyBatch(
+            document,
+            [{ operation: "insert", atUs, durationUs, ripple: { trackIds: ["track"] } }],
+            context,
+          );
+          const model = validateComposition(result.document, context.assets);
+          expect(model.durationUs).toBe(duration + durationUs);
+          for (let at = 0; at < model.durationUs; at++) {
+            const expected =
+              at >= atUs && at < atUs + durationUs
+                ? []
+                : [Math.floor(((at < atUs ? at : at - durationUs) * source) / duration)];
+            expect(projectToSource(model, at).map((sample) => sample.sourceUs)).toEqual(expected);
+          }
+        }
+});

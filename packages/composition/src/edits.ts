@@ -5,7 +5,7 @@ import { validateComposition, type ValidatedComposition, type ExactRange } from 
 
 import { partitionClips } from "./partition.js";
 import { compare, fromTime, toTime } from "./rational.js";
-import { rippleRemoval } from "./ripple.js";
+import { rippleTimeline } from "./ripple.js";
 import { transformSelection } from "./transform.js";
 import { duplicateClips } from "./duplicate.js";
 
@@ -33,6 +33,14 @@ const placedClip = clipSchema.omit({ id: true }).extend({
   ]),
 });
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("insert"),
+      atUs: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+      durationUs: z.int().positive().max(Number.MAX_SAFE_INTEGER),
+      ripple: z.object({ trackIds: z.array(reference).min(1) }).strict(),
+    })
+    .strict(),
   z
     .object({
       operation: z.literal("retime"),
@@ -232,6 +240,36 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "insert": {
+          const tracks = operation.ripple.trackIds.map((id) => resolve(id, "track"));
+          const named = new Set(tracks);
+          const at = fromTime(operation.atUs);
+          const crossing = model.clips
+            .filter(
+              (value) =>
+                value.clip.placement.kind === "project" &&
+                named.has(value.clip.trackId) &&
+                compare(value.range.start, at) < 0 &&
+                compare(value.range.end, at) > 0,
+            )
+            .map((value) => value.clip.id);
+          const partitioned = partitionClips(
+            model,
+            crossing,
+            { kind: "split", atUs: operation.atUs, scope: "linked" },
+            allocate,
+          );
+          const result = rippleTimeline(
+            validateComposition(partitioned.document, model.assets),
+            { kind: "insert", atUs: operation.atUs, durationUs: operation.durationUs },
+            tracks,
+          );
+          next = result.document;
+          clipLineage.push(...partitioned.lineage);
+          for (const anchor of result.touchedFixedAnchors)
+            touchedFixedAnchors.set(anchor.id, anchor);
+          break;
+        }
         case "retime": {
           next = transformSelection(
             model,
@@ -363,9 +401,9 @@ export function applyBatch(
           );
           if (operation.ripple === "none") next = result.document;
           else {
-            const shifted = rippleRemoval(
+            const shifted = rippleTimeline(
               validateComposition(result.document, model.assets),
-              result.removalRanges,
+              { kind: "remove", ranges: result.removalRanges },
               operation.ripple.trackIds.map((id) => resolve(id, "track")),
             );
             next = shifted.document;

@@ -1,13 +1,20 @@
 import { CompositionError } from "./errors.js";
 import type { ExactRange, ValidatedComposition } from "./model.js";
-import { add, compare, rational, subtract, toTime, type Rational } from "./rational.js";
+import { add, compare, fromTime, rational, subtract, toTime, type Rational } from "./rational.js";
 
-/** Collapse explicit project windows only on named roots; anchors inherit one root displacement. */
-export function rippleRemoval(
+/** Open or collapse project time on named roots; attachments inherit one displacement. */
+export function rippleTimeline(
   model: ValidatedComposition,
-  ranges: readonly ExactRange[],
+  operation:
+    | { kind: "remove"; ranges: readonly ExactRange[] }
+    | { kind: "insert"; atUs: number; durationUs: number },
   trackIds: readonly string[],
 ) {
+  // A zero-width insertion boundary makes the same seek include roots beginning exactly there.
+  const ranges =
+    operation.kind === "remove"
+      ? operation.ranges
+      : [{ start: fromTime(operation.atUs), end: fromTime(operation.atUs) }];
   const tracks = new Set(trackIds);
   const knownTracks = new Set(model.document.tracks.map((track) => track.id));
   if (tracks.size !== trackIds.length || trackIds.some((id) => !knownTracks.has(id)))
@@ -46,7 +53,15 @@ export function rippleRemoval(
       })),
     });
   const prefix = [rational(0n)];
-  for (const range of ranges) prefix.push(add(prefix.at(-1)!, subtract(range.end, range.start)));
+  for (const range of ranges)
+    prefix.push(
+      add(
+        prefix.at(-1)!,
+        operation.kind === "insert"
+          ? fromTime(operation.durationUs)
+          : subtract(range.end, range.start),
+      ),
+    );
   const firstAfter = (at: Rational) => {
     let lo = 0,
       hi = ranges.length;
@@ -67,7 +82,9 @@ export function rippleRemoval(
       const index = firstAfter(value.range.start);
       if (index < ranges.length && compare(ranges[index]!.start, value.range.end) < 0)
         conflicts.push(value.clip.id);
-      else displacement = subtract(rational(0n), prefix[index]!);
+      else
+        displacement =
+          operation.kind === "insert" ? prefix[index]! : subtract(rational(0n), prefix[index]!);
     } else if (compare(value.range.end, ranges[0]!.start) > 0) {
       touchedFixedAnchors.push({ kind: "clip", id: value.clip.id });
     }
@@ -76,7 +93,9 @@ export function rippleRemoval(
   if (conflicts.length)
     throw new CompositionError(
       "INVALID_EDIT",
-      "Ripple intersects unremoved content; address those clips explicitly",
+      operation.kind === "remove"
+        ? "Ripple intersects unremoved content; address those clips explicitly"
+        : "Insertion intersects unsplit content",
       {
         clipIds: conflicts,
         trackIds: [...new Set(conflicts.map((id) => clips.get(id)!.clip.trackId))],

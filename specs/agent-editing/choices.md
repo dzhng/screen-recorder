@@ -362,3 +362,15 @@ Core Graphics space is interchangeable on this host. The plan required a
 verified SDR profile but delegated the conversion mechanism. This determines
 how a later native renderer must label its pixel buffers; it does not choose a
 universal compression bitrate or declare untagged source color intent.
+
+
+### Insertion opens time before placing media — sound, medium confidence
+
+To insert a new video, an agent opens the desired duration on explicit tracks
+with `insert`, then uses `place` for its video/audio streams in the same atomic
+batch. An invalid placement rolls the whole request back. The plan required
+splitting and shifting but did not prescribe whether insertion carried its own
+second placement schema. Reusing place supports video-only, audio-only or
+multi-layer inserts without duplicating placement rules or making users manage
+partially completed edits. A gap after the final clip alone does not extend the
+project; a placed clip establishes its content duration.

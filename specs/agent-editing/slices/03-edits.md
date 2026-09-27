@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication and non-ripple retime verified. Insertion, ripple move/retime and replacement remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication non-ripple retime and insertion verified. Ripple move/retime and replacement remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -50,11 +50,11 @@ move/retime retain existing attachment kinds. Detach and reanchor preserve the
 resolved interval. Pitch policy is authored metadata until native retiming lands.
 The [contracts](../contracts.md) own operation semantics and scope rules.
 
-[50 composition tests](../assets/03-edits/retime/tests.txt), type checks and build
+[52 composition tests](../assets/03-edits/insert/tests.txt), type checks and build
 pass. The suite includes linked offsets, held/content anchors, source gaps,
 selected subgroups, copy labels, fractional boundaries, no-ops and failed-batch
 immutability. Prior independent probes cover 1,326 retimed splits and 12,376
-source queries; removal and ripple each cover 595 small exact cases.
+source queries; removal and ripple each cover 595 small exact cases; insertion covers 756.
 
 Independent reviews identified and verified fixes for selected-member links,
 missing-ID ripple, retained subgroup links and an incorrect gap-test expectation.
@@ -64,6 +64,13 @@ Regression evidence is retained with [split](../assets/03-edits/split/tests.txt)
 [duplicate](../assets/03-edits/duplicate/tests.txt) and
 [retime](../assets/03-edits/retime/tests.txt).
 
-Next implement insertion, ripple move/retime and replacement, then run the full
+Insertion partitions linked clips and attachments at the boundary, then opens
+project time on named roots through the same ripple owner used by removal. Fixed
+project clips on unnamed tracks stay fixed and are reported. Child-only scopes
+and scopes breaking synchronization reject. A same-batch place fills the opened
+gap. Independent review and additional probes found no actionable defects;
+[red evidence](../assets/03-edits/insert/red.txt) predates the operation.
+
+Next implement ripple move/retime and replacement, then run the full
 linked-replacement probe above. Public project storage and editing still depend
 on completion of this reducer slice. This slice is not accepted yet.

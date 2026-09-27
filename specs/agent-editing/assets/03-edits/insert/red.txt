@@ -1,0 +1,59 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/edits.test.ts (32 tests | 1 failed) 147ms
+   × insertion splits linked media and attachments then shifts named roots once 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/edits.test.ts > insertion splits linked media and attachments then shifts named roots once
+CompositionError: [
+  {
+    "code": "invalid_union",
+    "errors": [],
+    "note": "No matching discriminator",
+    "discriminator": "operation",
+    "options": [
+      "retime",
+      "duplicate",
+      "detach",
+      "reanchor",
+      "move",
+      "trim",
+      "remove",
+      "split",
+      "track.add",
+      "track.remove",
+      "track.reorder",
+      "canvas.set",
+      "place",
+      "link",
+      "unlink"
+    ],
+    "path": [
+      0,
+      "operation"
+    ],
+    "message": "Invalid discriminator value. Expected 'retime' | 'duplicate' | 'detach' | 'reanchor' | 'move' | 'trim' | 'remove' | 'split' | 'track.add' | 'track.remove' | 'track.reorder' | 'canvas.set' | 'place' | 'link' | 'unlink'"
+  }
+]
+ ❯ invalid src/edits.ts:136:9
+    134| };
+    135| function invalid(message: string, details: Record<string, unknown> = {…
+    136|   throw new CompositionError("INVALID_EDIT", message, details);
+       |         ^
+    137| }
+    138| function difference<T extends { id: string }>(
+ ❯ applyBatch src/edits.ts:184:24
+ ❯ src/edits.test.ts:1409:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 50 passed (51)
+   Start at  15:02:31
+   Duration  298ms (tests 50%, transform 31%, import 18%, worker 1%)
+
+error: script "test" exited with code 1
