@@ -5,9 +5,10 @@ import { validateComposition, type ValidatedComposition, type ExactRange } from 
 
 import { partitionClips } from "./partition.js";
 import { compare, fromTime, subtract, toTime } from "./rational.js";
-import { rippleTimeline } from "./ripple.js";
+import { rippleTimeline, insertGap } from "./ripple.js";
 import { transformSelection } from "./transform.js";
 import { duplicateClips } from "./duplicate.js";
+import { rippleMove } from "./move.js";
 
 type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "syncGroup";
@@ -71,7 +72,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       clipIds: z.array(reference).min(1),
       atUs: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
       scope: z.enum(["linked", "selected"]).default("linked"),
-      ripple: z.literal("none"),
+      ripple,
       tracks: z.array(z.object({ clipId: reference, trackId: reference }).strict()).default([]),
     })
     .strict(),
@@ -241,31 +242,15 @@ export function applyBatch(
     try {
       switch (operation.operation) {
         case "insert": {
-          const tracks = operation.ripple.trackIds.map((id) => resolve(id, "track"));
-          const named = new Set(tracks);
-          const at = fromTime(operation.atUs);
-          const crossing = model.clips
-            .filter(
-              (value) =>
-                value.clip.placement.kind === "project" &&
-                named.has(value.clip.trackId) &&
-                compare(value.range.start, at) < 0 &&
-                compare(value.range.end, at) > 0,
-            )
-            .map((value) => value.clip.id);
-          const partitioned = partitionClips(
+          const result = insertGap(
             model,
-            crossing,
-            { kind: "split", atUs: operation.atUs, scope: "linked" },
+            operation.atUs,
+            fromTime(operation.durationUs),
+            operation.ripple.trackIds.map((id) => resolve(id, "track")),
             allocate,
           );
-          const result = rippleTimeline(
-            validateComposition(partitioned.document, model.assets),
-            { kind: "insert", atUs: operation.atUs, durationUs: operation.durationUs },
-            tracks,
-          );
           next = result.document;
-          clipLineage.push(...partitioned.lineage);
+          clipLineage.push(...result.lineage);
           for (const anchor of result.touchedFixedAnchors)
             touchedFixedAnchors.set(anchor.id, anchor);
           break;
@@ -379,7 +364,7 @@ export function applyBatch(
           break;
         }
         case "move": {
-          next = transformSelection(
+          const transformed = transformSelection(
             model,
             clips(operation.clipIds),
             { atUs: operation.atUs },
@@ -389,7 +374,21 @@ export function applyBatch(
               clipId: resolve(entry.clipId, "clip"),
               trackId: resolve(entry.trackId, "track"),
             })),
-          ).document;
+          );
+          if (operation.ripple === "none") next = transformed.document;
+          else {
+            const result = rippleMove(
+              model,
+              transformed,
+              operation.atUs,
+              operation.ripple.trackIds.map((id) => resolve(id, "track")),
+              allocate,
+            );
+            next = result.document;
+            clipLineage.push(...result.lineage);
+            for (const anchor of result.touchedFixedAnchors)
+              touchedFixedAnchors.set(anchor.id, anchor);
+          }
           break;
         }
         case "remove":

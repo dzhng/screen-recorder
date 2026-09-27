@@ -399,3 +399,16 @@ so the accepted ending cannot drift through regenerated room tone or a different
 mix. The amount is a reversible audition choice, not an automatic trim default;
 local transcription retains the complete phrase, while naturalness still needs
 listening judgment.
+
+### Ripple move names the final destination — sound, medium confidence
+
+When an agent moves a two-second clip from the start to ten seconds, `atUs`
+means that it starts at ten seconds in the finished timeline. The old occupied
+intervals close first in the timing calculation. The plan required an explicit
+destination but did not choose before-removal versus after-removal coordinates.
+Final coordinates make the result directly inspectable without the agent adding
+back the removed duration. Separated selected clips keep their internal spacing:
+only occupied old intervals close, and their whole envelope opens at the new
+location. A track-only change at the same time does not open or close time.
+Future convenience reorder commands must translate their chosen destination to
+this same rule. Agents can compose separate moves when they want different spacing.

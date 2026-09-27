@@ -1,5 +1,6 @@
 import { CompositionError } from "./errors.js";
-import type { ExactRange, ValidatedComposition } from "./model.js";
+import { validateComposition, type ExactRange, type ValidatedComposition } from "./model.js";
+import { partitionClips } from "./partition.js";
 import { add, compare, fromTime, rational, subtract, toTime, type Rational } from "./rational.js";
 
 /** Open or collapse project time on named roots; attachments inherit one displacement. */
@@ -7,17 +8,16 @@ export function rippleTimeline(
   model: ValidatedComposition,
   operation:
     | { kind: "remove"; ranges: readonly ExactRange[] }
-    | { kind: "insert"; atUs: number; durationUs: number }
+    | { kind: "move"; ranges: readonly ExactRange[]; at: Rational; duration: Rational }
+    | { kind: "insert"; at: Rational; duration: Rational }
     | { kind: "resize"; at: Rational; delta: Rational; targets: ReadonlySet<string> },
   trackIds: readonly string[],
 ) {
   // A point boundary includes roots beginning exactly at an insertion or resize edge.
   const ranges =
-    operation.kind === "remove"
+    operation.kind === "remove" || operation.kind === "move"
       ? operation.ranges
-      : operation.kind === "insert"
-        ? [{ start: fromTime(operation.atUs), end: fromTime(operation.atUs) }]
-        : [{ start: operation.at, end: operation.at }];
+      : [{ start: operation.at, end: operation.at }];
   const tracks = new Set(trackIds);
   const knownTracks = new Set(model.document.tracks.map((track) => track.id));
   if (tracks.size !== trackIds.length || trackIds.some((id) => !knownTracks.has(id)))
@@ -27,6 +27,10 @@ export function rippleTimeline(
       { trackIds },
     );
   if (!ranges.length) return { document: model.document, touchedFixedAnchors: [] };
+  const firstBoundary =
+    operation.kind === "move" && compare(operation.at, ranges[0]!.start) < 0
+      ? operation.at
+      : ranges[0]!.start;
   if (operation.kind === "resize" && operation.delta.numerator === 0n)
     return { document: model.document, touchedFixedAnchors: [] };
   const clips = new Map(model.clips.map((value) => [value.clip.id, value]));
@@ -46,26 +50,11 @@ export function rippleTimeline(
     (value) =>
       tracks.has(value.clip.trackId) &&
       value.clip.placement.kind !== "project" &&
-      compare(value.range.end, ranges[0]!.start) > 0 &&
+      compare(value.range.end, firstBoundary) > 0 &&
       !tracks.has(clips.get(roots.get(value.clip.id)!)!.clip.trackId),
   );
-  if (operation.kind === "resize") {
-    const required = new Set<string>();
-    for (const id of operation.targets) {
-      const root = roots.get(id)!;
-      if (!operation.targets.has(root))
-        throw new CompositionError(
-          "INVALID_EDIT",
-          "Ripple retime of an attachment requires its root; detach it first",
-          { clipId: id, rootClipId: root },
-        );
-      required.add(clips.get(root)!.clip.trackId);
-    }
-    if ([...required].some((id) => !tracks.has(id)))
-      throw new CompositionError("INVALID_EDIT", "Ripple scope excludes a retimed root track", {
-        requiredRootTrackIds: [...required],
-      });
-  }
+  if (operation.kind === "resize")
+    requireRippleTargets(model.document.clips, operation.targets, tracks);
   if (orphaned.length)
     throw new CompositionError("INVALID_EDIT", "Ripple of an attachment requires its root track", {
       attachments: orphaned.map((value) => ({
@@ -79,10 +68,10 @@ export function rippleTimeline(
     prefix.push(
       add(
         prefix.at(-1)!,
-        operation.kind === "remove"
+        operation.kind === "remove" || operation.kind === "move"
           ? subtract(range.end, range.start)
           : operation.kind === "insert"
-            ? fromTime(operation.durationUs)
+            ? operation.duration
             : operation.delta,
       ),
     );
@@ -112,8 +101,15 @@ export function rippleTimeline(
         conflicts.push(value.clip.id);
       else
         displacement =
-          operation.kind !== "remove" ? prefix[index]! : subtract(rational(0n), prefix[index]!);
-    } else if (compare(value.range.end, ranges[0]!.start) > 0) {
+          operation.kind === "insert" || operation.kind === "resize"
+            ? prefix[index]!
+            : subtract(rational(0n), prefix[index]!);
+      if (
+        operation.kind === "move" &&
+        compare(add(value.range.start, displacement), operation.at) >= 0
+      )
+        displacement = add(displacement, operation.duration);
+    } else if (compare(value.range.end, firstBoundary) > 0) {
       touchedFixedAnchors.push({ kind: "clip", id: value.clip.id });
     }
     displacements.set(value.clip.id, displacement);
@@ -121,7 +117,7 @@ export function rippleTimeline(
   if (conflicts.length)
     throw new CompositionError(
       "INVALID_EDIT",
-      operation.kind === "remove"
+      operation.kind === "remove" || operation.kind === "move"
         ? "Ripple intersects unremoved content; address those clips explicitly"
         : operation.kind === "insert"
           ? "Insertion intersects unsplit content"
@@ -162,4 +158,68 @@ export function rippleTimeline(
     }),
   };
   return { document, touchedFixedAnchors };
+}
+
+/** Retained target trees must own their roots and name every affected root track. */
+export function requireRippleTargets(
+  clips: ValidatedComposition["document"]["clips"],
+  targets: ReadonlySet<string>,
+  tracks: ReadonlySet<string>,
+) {
+  const required = new Set<string>();
+  for (const clip of clips) {
+    if (!targets.has(clip.id)) continue;
+    const anchor = clip.placement;
+    if (anchor.kind === "project") required.add(clip.trackId);
+    else if (!targets.has(anchor.clipId))
+      throw new CompositionError(
+        "INVALID_EDIT",
+        "Ripple of an attached selection requires its parent; detach it first",
+        { clipId: clip.id, parentClipId: anchor.clipId },
+      );
+  }
+  if ([...required].some((id) => !tracks.has(id)))
+    throw new CompositionError("INVALID_EDIT", "Ripple scope excludes a target root track", {
+      requiredRootTrackIds: [...required],
+    });
+}
+
+export function insertGap(
+  model: ValidatedComposition,
+  atUs: number,
+  duration: Rational,
+  tracks: readonly string[],
+  allocate: (kind: "clip" | "syncGroup") => string,
+) {
+  const at = fromTime(atUs);
+  const partitioned = splitRippleBoundary(model, at, new Set(tracks), allocate);
+  const result = rippleTimeline(
+    validateComposition(partitioned.document, model.assets),
+    { kind: "insert", at, duration },
+    tracks,
+  );
+  return { ...result, lineage: partitioned.lineage };
+}
+
+export function splitRippleBoundary(
+  model: ValidatedComposition,
+  at: Rational,
+  tracks: ReadonlySet<string>,
+  allocate: (kind: "clip" | "syncGroup") => string,
+) {
+  const crossing = model.clips
+    .filter(
+      (value) =>
+        value.clip.placement.kind === "project" &&
+        tracks.has(value.clip.trackId) &&
+        compare(value.range.start, at) < 0 &&
+        compare(value.range.end, at) > 0,
+    )
+    .map((value) => value.clip.id);
+  return partitionClips(
+    model,
+    crossing,
+    { kind: "split", atUs: toTime(at), scope: "linked" },
+    allocate,
+  );
 }

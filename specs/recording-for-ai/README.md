@@ -10,7 +10,7 @@ from full personal-release acceptance.
 ## Next Agent Prompt
 
 The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
-with implementation pickup at its slice 00. It defers the editing UI and replaces
+with the current implementation pickup in its live Next Agent Prompt. It defers the editing UI and replaces
 the editing model through explicit preservation gates. This recording spec remains
 the source of existing release evidence and unfinished acceptance; its status is
 not upgraded by the new plan. Follow the new plan for editing work. The instructions

@@ -1,0 +1,30 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/edits.test.ts (40 tests | 1 failed) 754ms
+   × ripple move checks synchronization on the combined displacement 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/edits.test.ts > ripple move checks synchronization on the combined displacement
+CompositionError: Ripple track scope would break synchronization
+ ❯ invalid src/edits.ts:145:9
+    143| };
+    144| function invalid(message: string, details: Record<string, unknown> = {…
+    145|   throw new CompositionError("INVALID_EDIT", message, details);
+       |         ^
+    146| }
+    147| function difference<T extends { id: string }>(
+ ❯ applyBatch src/edits.ts:563:9
+ ❯ src/edits.test.ts:1855:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 58 passed (59)
+   Start at  15:44:01
+   Duration  1.30s (tests 54%, transform 29%, import 17%, worker 1%)
+
+error: script "test" exited with code 1

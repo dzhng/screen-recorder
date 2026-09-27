@@ -1560,3 +1560,338 @@ test("ripple retime shifts following synchronized media for both growth and shri
     ),
   ).toThrow(CompositionError);
 });
+
+test("ripple move closes the old occurrence window and inserts at the final destination", () => {
+  const first = applyBatch(input, setup, context);
+  const following = first.document.clips.map((clip, i) => ({
+    ...clip,
+    id: `next${i}`,
+    placement: {
+      kind: "project" as const,
+      range: { startUs: i === 0 ? 2000000 : 2200000, endUs: i === 0 ? 4000000 : 3800000 },
+    },
+  }));
+  const document = {
+    ...first.document,
+    clips: [...first.document.clips, ...following],
+    syncGroups: [
+      ...first.document.syncGroups,
+      { id: "next-group", clipIds: following.map((clip) => clip.id) },
+    ],
+  };
+  const operation = {
+    operation: "move",
+    clipIds: [first.labels.video],
+    atUs: 2000000,
+    ripple: { trackIds: [first.labels.picture, first.labels.sound] },
+  };
+  const result = applyBatch(document, [operation], { ...context, namespace: "reorder" });
+  const byId = new Map(result.document.clips.map((clip) => [clip.id, clip]));
+  expect(byId.get(first.labels.video!)!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 2000000, endUs: 4000000 },
+  });
+  expect(byId.get(first.labels.audio!)!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 2200000, endUs: 3800000 },
+  });
+  expect(byId.get("next0")!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 0, endUs: 2000000 },
+  });
+  expect(byId.get("next1")!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 200000, endUs: 1800000 },
+  });
+  expect(result.createdIds).toEqual([]);
+  expect(result.removedAttachments).toEqual([]);
+  expect(result.document.syncGroups).toEqual(document.syncGroups);
+  const restored = applyBatch(result.document, [{ ...operation, atUs: 0 }], {
+    ...context,
+    namespace: "return",
+  });
+  expect(new Map(restored.document.clips.map((clip) => [clip.id, clip]))).toEqual(
+    new Map(document.clips.map((clip) => [clip.id, clip])),
+  );
+  expect(applyBatch(document, [{ ...operation, atUs: 0 }], context).changed).toBe(false);
+  expect(() =>
+    applyBatch(document, [{ ...operation, ripple: { trackIds: [first.labels.picture] } }], context),
+  ).toThrow(CompositionError);
+});
+
+test("ripple move splits destination media while preserving moved attachments and fixed roots", () => {
+  const first = applyBatch(input, setup, context);
+  const document = {
+    ...first.document,
+    tracks: [
+      ...first.document.tracks,
+      { id: "overlay-track", kind: "video", order: 1 },
+      { id: "fixed-track", kind: "video", order: 2 },
+    ],
+    clips: [
+      ...first.document.clips,
+      {
+        ...first.document.clips[0]!,
+        id: "following",
+        placement: { kind: "project", range: { startUs: 2000000, endUs: 4000000 } },
+      },
+      {
+        ...first.document.clips[0]!,
+        id: "overlay",
+        trackId: "overlay-track",
+        placement: {
+          kind: "content",
+          clipId: first.labels.video!,
+          sourceRange: { startUs: 500000, endUs: 1500000 },
+        },
+      },
+      {
+        ...first.document.clips[0]!,
+        id: "fixed",
+        trackId: "fixed-track",
+        placement: { kind: "project", range: { startUs: 1000000, endUs: 3000000 } },
+      },
+    ],
+  };
+  const before = structuredClone(document);
+  const operation = {
+    operation: "move",
+    clipIds: [first.labels.video],
+    atUs: 1000000,
+    ripple: { trackIds: [first.labels.picture, first.labels.sound, "overlay-track"] },
+  };
+  const result = applyBatch(document, [operation], context);
+  const model = validateComposition(result.document, context.assets);
+  const intervals = new Map(model.clips.map((value) => [value.clip.id, value.range]));
+  expect(intervals.get("overlay")).toEqual({
+    start: { numerator: 1500000n, denominator: 1n },
+    end: { numerator: 2500000n, denominator: 1n },
+  });
+  expect(result.document.clips.find((clip) => clip.id === "overlay")).toEqual(
+    document.clips.find((clip) => clip.id === "overlay"),
+  );
+  expect(result.document.clips.find((clip) => clip.id === "fixed")).toEqual(
+    document.clips.find((clip) => clip.id === "fixed"),
+  );
+  expect(result.touchedFixedAnchors).toEqual([{ kind: "clip", id: "fixed" }]);
+  const line = result.clipLineage.find((entry) => entry.originalId === "following");
+  expect(line).toBeDefined();
+  expect(
+    projectToSource(model, 500000).find((value) => value.clipId === "following")?.sourceUs,
+  ).toBe(500000);
+  expect(projectToSource(model, 3500000).find((value) => value.clipId !== "fixed")?.sourceUs).toBe(
+    1500000,
+  );
+  expect(result.removedAttachments).toEqual([]);
+  expect(document).toEqual(before);
+  expect(() =>
+    applyBatch(document, [{ ...operation, clipIds: ["overlay"], scope: "selected" }], context),
+  ).toThrow(CompositionError);
+});
+
+test("a ripple move between tracks at the same time keeps synchronization and other media", () => {
+  const first = applyBatch(input, setup, context);
+  const document = {
+    ...first.document,
+    tracks: [...first.document.tracks, { id: "destination", kind: "video", order: 1 }],
+  };
+  const result = applyBatch(
+    document,
+    [
+      {
+        operation: "move",
+        clipIds: [first.labels.video],
+        scope: "selected",
+        atUs: 0,
+        tracks: [{ clipId: first.labels.video, trackId: "destination" }],
+        ripple: { trackIds: [first.labels.picture, "destination"] },
+      },
+    ],
+    context,
+  );
+  expect(result.document.clips).toEqual(
+    document.clips.map((clip) =>
+      clip.id === first.labels.video ? { ...clip, trackId: "destination" } : clip,
+    ),
+  );
+  expect(result.document.syncGroups).toEqual(document.syncGroups);
+  expect(result.clipLineage).toEqual([]);
+});
+
+test("ripple move preserves fractional duration when opening a split destination", () => {
+  const document = {
+    ...input,
+    tracks: [{ id: "video", kind: "video", order: 0 }],
+    clips: [
+      {
+        id: "moving",
+        assetId: "source",
+        streamId: "v",
+        trackId: "video",
+        source: { kind: "range", range: { startUs: 0, endUs: 7 } },
+        placement: {
+          kind: "project",
+          range: { startUs: 0, endUs: { numerator: 7, denominator: 3 } },
+        },
+      },
+      {
+        id: "stationary",
+        assetId: "source",
+        streamId: "v",
+        trackId: "video",
+        source: { kind: "range", range: { startUs: 0, endUs: 7 } },
+        placement: {
+          kind: "project",
+          range: {
+            startUs: { numerator: 7, denominator: 3 },
+            endUs: { numerator: 14, denominator: 3 },
+          },
+        },
+      },
+    ],
+  };
+  const result = applyBatch(
+    document,
+    [{ operation: "move", clipIds: ["moving"], atUs: 1, ripple: { trackIds: ["video"] } }],
+    context,
+  );
+  const line = result.clipLineage.find((entry) => entry.originalId === "stationary")!;
+  expect(line.clipIds).toHaveLength(2);
+  const byId = new Map(result.document.clips.map((clip) => [clip.id, clip]));
+  expect(byId.get("moving")!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 1, endUs: { numerator: 10, denominator: 3 } },
+  });
+  expect(byId.get("stationary")!.source).toEqual({
+    kind: "range",
+    range: { startUs: 0, endUs: 3 },
+  });
+  expect(byId.get(line.clipIds[1]!)!.source).toEqual({
+    kind: "range",
+    range: { startUs: 3, endUs: 7 },
+  });
+  expect(byId.get(line.clipIds[1]!)!.placement).toEqual({
+    kind: "project",
+    range: { startUs: { numerator: 10, denominator: 3 }, endUs: { numerator: 14, denominator: 3 } },
+  });
+  expect(projectToSource(validateComposition(result.document, context.assets), 4)).toMatchObject([
+    { clipId: line.clipIds[1], sourceUs: 5 },
+  ]);
+});
+
+test("ripple move validates overlap after closure and insertion compose", () => {
+  const media = {
+    assetId: "source",
+    streamId: "v",
+    source: { kind: "range", range: { startUs: 0, endUs: 10 } },
+  };
+  const document = {
+    ...input,
+    tracks: [
+      { id: "main", kind: "video", order: 0 },
+      { id: "overlay", kind: "video", order: 1 },
+    ],
+    clips: [
+      {
+        ...media,
+        id: "moving",
+        trackId: "main",
+        placement: { kind: "project", range: { startUs: 10, endUs: 20 } },
+      },
+      {
+        ...media,
+        id: "later",
+        trackId: "main",
+        placement: { kind: "project", range: { startUs: 20, endUs: 30 } },
+      },
+      {
+        ...media,
+        id: "fixed",
+        trackId: "overlay",
+        placement: { kind: "project", range: { startUs: 10, endUs: 20 } },
+      },
+      {
+        ...media,
+        id: "child",
+        trackId: "overlay",
+        placement: { kind: "content", clipId: "later", sourceRange: { startUs: 0, endUs: 10 } },
+      },
+    ],
+  };
+  const result = applyBatch(
+    document,
+    [{ operation: "move", clipIds: ["moving"], atUs: 0, ripple: { trackIds: ["main"] } }],
+    context,
+  );
+  expect(result.document.clips).toEqual(
+    document.clips.map((clip) =>
+      clip.id === "moving"
+        ? { ...clip, placement: { kind: "project", range: { startUs: 0, endUs: 10 } } }
+        : clip,
+    ),
+  );
+  expect(result.touchedFixedAnchors).toEqual([{ kind: "clip", id: "fixed" }]);
+  expect(() =>
+    applyBatch(
+      document,
+      [{ operation: "move", clipIds: ["moving"], atUs: 30, ripple: { trackIds: ["main"] } }],
+      context,
+    ),
+  ).toThrow(CompositionError);
+});
+
+test("ripple move checks synchronization on the combined displacement", () => {
+  const media = {
+    assetId: "source",
+    streamId: "v",
+    source: { kind: "range", range: { startUs: 0, endUs: 10 } },
+  };
+  const document = {
+    ...input,
+    tracks: [
+      { id: "main", kind: "video", order: 0 },
+      { id: "overlay", kind: "video", order: 1 },
+    ],
+    clips: [
+      {
+        ...media,
+        id: "moving",
+        trackId: "main",
+        placement: { kind: "project", range: { startUs: 10, endUs: 20 } },
+      },
+      {
+        ...media,
+        id: "later",
+        trackId: "main",
+        placement: { kind: "project", range: { startUs: 20, endUs: 30 } },
+      },
+      {
+        ...media,
+        id: "fixed",
+        trackId: "overlay",
+        placement: { kind: "project", range: { startUs: 10, endUs: 20 } },
+      },
+    ],
+    syncGroups: [{ id: "pair", clipIds: ["later", "fixed"] }],
+  };
+  const result = applyBatch(
+    document,
+    [{ operation: "move", clipIds: ["moving"], atUs: 0, ripple: { trackIds: ["main"] } }],
+    context,
+  );
+  expect(result.document.syncGroups).toEqual(document.syncGroups);
+  expect(result.document.clips).toEqual(
+    document.clips.map((clip) =>
+      clip.id === "moving"
+        ? { ...clip, placement: { kind: "project", range: { startUs: 0, endUs: 10 } } }
+        : clip,
+    ),
+  );
+  expect(() =>
+    applyBatch(
+      document,
+      [{ operation: "move", clipIds: ["moving"], atUs: 30, ripple: { trackIds: ["main"] } }],
+      context,
+    ),
+  ).toThrow(CompositionError);
+});

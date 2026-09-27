@@ -198,6 +198,15 @@ than silently deleting it. The agent can include that content explicitly.
 An independent ripple targeting an attached child without its affected
 root is rejected with the anchor identity; explicitly detach/reanchor first.
 
+Ripple move closes the union of the selected occurrences' old intervals, then
+opens their whole selection envelope at `atUs` in the resulting timeline.
+The destination is therefore the final start time, after closure. Relative gaps
+inside a multi-clip selection travel with it. Both original and destination root
+tracks must be named. Moving only between tracks at the same time does not open
+or close time. Destination content crossing the insertion point splits using the
+ordinary linked partition rules; unaddressed content crossing the source removal
+windows rejects under the same removal rule above.
+
 Content anchors refer to one clip occurrence and its source range. They follow
 move and retime. Trims intersect the anchor with surviving source content. Splits
 partition attached effects/overlays/captions and preserve boundary curve values.

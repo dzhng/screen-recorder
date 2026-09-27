@@ -12,7 +12,7 @@ Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [research](research.md). Continue [03 — edits](slices/03-edits.md): exact splitting,
 attachment partitioning, removal/trim, explicit removal ripple, non-ripple move
 with track destinations, detach/reanchor, duplication, retime, batch labels and
-insertion pass. Next implement ripple move, then replacement. Preserve the accepted
+insertion and ripple move pass. Next implement replacement. Preserve the accepted
 [03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Durable projects
 [04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow the
 completed reducer; the first public editing checkpoint remains [09](slices/09-first-preview.md).
@@ -49,7 +49,8 @@ Current evidence:
   isolated service; installed production cutover remains pending.
 - [03a exact boundaries](assets/03a-boundaries/review.md): 19 composition tests
   and corpus probe pass; split preservation is falsified by a rounding mutation.
-- [03 edits](assets/03-edits/ripple-retime/tests.txt): 53 tests, 756 retimed insertion cases,
+- [03 edits](assets/03-edits/ripple-move/review.md): 59 tests, 900 retained move cases,
+  756 retimed insertion cases,
   595 retimed removal and
   ripple cases each, plus 1,326 exact split cases pass; independent reviews caught and verified the
   selected-member link fix.

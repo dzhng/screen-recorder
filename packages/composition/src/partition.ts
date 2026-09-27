@@ -15,7 +15,7 @@ import {
   toTime,
   toFraction,
 } from "./rational.js";
-import type { Clip } from "./schema.js";
+import type { Clip, TimeValue } from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
 type Piece = { clip: Readonly<Clip>; range: ExactRange };
@@ -39,7 +39,7 @@ export function partitionClips(
   model: ValidatedComposition,
   selected: readonly string[],
   operation: { scope: "linked" | "selected" } & (
-    | { kind: "split"; atUs: number }
+    | { kind: "split"; atUs: TimeValue }
     | { kind: "remove"; ranges?: readonly ExactRange[] }
   ),
   allocate: (kind: "clip" | "syncGroup") => string,

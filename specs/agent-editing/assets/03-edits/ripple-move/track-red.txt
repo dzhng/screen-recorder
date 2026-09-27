@@ -1,0 +1,38 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/edits.test.ts (37 tests | 1 failed) 2952ms
+   × a ripple move between tracks at the same time keeps synchronization and other media 53ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/edits.test.ts > a ripple move between tracks at the same time keeps synchronization and other media
+AssertionError: expected [] to deeply equal [ { …(2) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "clipIds": [
+-       "clip:transaction:1",
+-       "clip:transaction:3",
+-     ],
+-     "id": "syncGroup:transaction:4",
+-   },
+- ]
++ []
+
+ ❯ src/edits.test.ts:1619:38
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 55 passed (56)
+   Start at  15:35:55
+   Duration  4.37s (tests 65%, transform 20%, import 15%)
+
+error: script "test" exited with code 1

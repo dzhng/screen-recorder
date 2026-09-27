@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication retime and insertion verified. Ripple move and replacement remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication, retime, insertion and ripple move verified. Replacement remains open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -50,7 +50,7 @@ move/retime retain existing attachment kinds. Detach and reanchor preserve the
 resolved interval. Pitch policy is authored metadata until native retiming lands.
 The [contracts](../contracts.md) own operation semantics and scope rules.
 
-[53 composition tests](../assets/03-edits/ripple-retime/tests.txt), type checks and build
+[59 composition tests](../assets/03-edits/ripple-move/tests.txt), type checks and build
 pass. The suite includes linked offsets, held/content anchors, source gaps,
 selected subgroups, copy labels, fractional boundaries, no-ops and failed-batch
 immutability. Prior independent probes cover 1,326 retimed splits and 12,376
@@ -79,6 +79,13 @@ verified, including independent fractional-adjacency and failed-input probes.
 [Initial red evidence](../assets/03-edits/ripple-retime/red.txt) precedes support;
 independent review found no actionable defects.
 
-Next implement ripple move and replacement, then run the full
+[Ripple move](../assets/03-edits/ripple-move/review.md) combines closure and insertion
+before judging overlap or synchronization. It maps the destination back to the
+original timeline for exact splitting, then applies one displacement per root.
+Regression tests retain temporary-overlap and temporary-link failures; invalid
+final states still reject. Additional grids check integer and fractional source
+preservation. Normal model validation remains unchanged.
+
+Next implement replacement, then run the full
 linked-replacement probe above. Public project storage and editing still depend
 on completion of this reducer slice. This slice is not accepted yet.
