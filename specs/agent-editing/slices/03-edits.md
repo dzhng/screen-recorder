@@ -8,7 +8,7 @@ A deterministic batch performs structural edits, linked/independent changes and 
 
 ## Seam and ownership
 
-`applyBatch(document, operations, identityContext)` in composition returns the next document, normalized expansion, created IDs, split lineage, removed attachments and link changes, or one typed error. Implement the operations table in contracts.md.
+`applyBatch(document, operations, identityContext)` in composition returns the next document, normalized expansion, created IDs, clip lineage, removed attachments and link changes, or one typed error. Implement the operations table in contracts.md.
 
 ## Work and review surface
 
@@ -136,3 +136,20 @@ Restoring both edited implementation files to the previous checkpoint makes only
 the [two new behavioral tests fail](../assets/03-edits/anchors/red.txt). Independent
 Codex review found no actionable defects. Ripple move, insert, replace, retime
 and duplicate remain open.
+
+
+## Duplicate checkpoint
+
+Duplication gives selected occurrences and descendants new identities. Explicit
+linked scope also copies synchronized counterparts. Copied roots use the requested
+project destination; copied internal anchors point to copied parents. Sources,
+original occurrences and their synchronization groups remain unchanged. Optional
+track destinations and copy labels support overlay placement and later edits in
+the same batch. `clipLineage` now covers both partitions and copies; it reports
+origin relationships, not an instruction to delete the original.
+
+[48 tests](../assets/03-edits/duplicate/tests.txt), type checks and build pass;
+the [initial tests](../assets/03-edits/duplicate/red.txt) failed before the operation
+existed. Independent review found no actionable defects and additionally probed
+fractional destinations, group copies, rejected destinations and failed-batch
+immutability. Relocation shares one exact mapping owner with move.

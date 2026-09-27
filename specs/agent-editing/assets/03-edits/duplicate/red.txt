@@ -1,0 +1,99 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/edits.test.ts (29 tests | 2 failed) 161ms
+   × duplicate copies linked media and attachments with fresh identities and later batch labels 3ms
+   × duplicate selected scope copies only its dependency subtree and requires a free destination 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/edits.test.ts > duplicate copies linked media and attachments with fresh identities and later batch labels
+CompositionError: [
+  {
+    "code": "invalid_union",
+    "errors": [],
+    "note": "No matching discriminator",
+    "discriminator": "operation",
+    "options": [
+      "detach",
+      "reanchor",
+      "move",
+      "trim",
+      "remove",
+      "split",
+      "track.add",
+      "track.remove",
+      "track.reorder",
+      "canvas.set",
+      "place",
+      "link",
+      "unlink"
+    ],
+    "path": [
+      0,
+      "operation"
+    ],
+    "message": "Invalid discriminator value. Expected 'detach' | 'reanchor' | 'move' | 'trim' | 'remove' | 'split' | 'track.add' | 'track.remove' | 'track.reorder' | 'canvas.set' | 'place' | 'link' | 'unlink'"
+  }
+]
+ ❯ invalid src/edits.ts:113:9
+    111| };
+    112| function invalid(message: string, details: Record<string, unknown> = {…
+    113|   throw new CompositionError("INVALID_EDIT", message, details);
+       |         ^
+    114| }
+    115| function difference<T extends { id: string }>(
+ ❯ applyBatch src/edits.ts:161:24
+ ❯ src/edits.test.ts:1139:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/edits.test.ts > duplicate selected scope copies only its dependency subtree and requires a free destination
+CompositionError: [
+  {
+    "code": "invalid_union",
+    "errors": [],
+    "note": "No matching discriminator",
+    "discriminator": "operation",
+    "options": [
+      "detach",
+      "reanchor",
+      "move",
+      "trim",
+      "remove",
+      "split",
+      "track.add",
+      "track.remove",
+      "track.reorder",
+      "canvas.set",
+      "place",
+      "link",
+      "unlink"
+    ],
+    "path": [
+      0,
+      "operation"
+    ],
+    "message": "Invalid discriminator value. Expected 'detach' | 'reanchor' | 'move' | 'trim' | 'remove' | 'split' | 'track.add' | 'track.remove' | 'track.reorder' | 'canvas.set' | 'place' | 'link' | 'unlink'"
+  }
+]
+ ❯ invalid src/edits.ts:113:9
+    111| };
+    112| function invalid(message: string, details: Record<string, unknown> = {…
+    113|   throw new CompositionError("INVALID_EDIT", message, details);
+       |         ^
+    114| }
+    115| function difference<T extends { id: string }>(
+ ❯ applyBatch src/edits.ts:161:24
+ ❯ src/edits.test.ts:1158:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 46 passed (48)
+   Start at  14:50:53
+   Duration  345ms (tests 47%, transform 30%, import 22%, worker 1%)
+
+error: script "test" exited with code 1

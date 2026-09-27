@@ -189,7 +189,7 @@ test("linked split partitions unequal AV and attached media without changing sam
     { kind: "range", range: { startUs: 0, endUs: { numerator: 10, denominator: 3 } } },
     { kind: "range", range: { startUs: { numerator: 10, denominator: 3 }, endUs: 10 } },
   ]);
-  expect(result.splitLineage).toEqual(
+  expect(result.clipLineage).toEqual(
     expect.arrayContaining([
       { originalId: first.labels.overlay, clipIds: overlayParts.map((clip) => clip.id) },
     ]),
@@ -280,7 +280,7 @@ test("splitting a held parent rebases normalized attachments and preserves neste
       projectToSource(m, at).map(({ trackId, sourceUs }) => ({ trackId, sourceUs }));
     expect(samples(after)).toEqual(samples(before));
   }
-  expect(result.splitLineage.map((entry) => entry.originalId)).toEqual([
+  expect(result.clipLineage.map((entry) => entry.originalId)).toEqual([
     "parent",
     "child",
     "grandchild",
@@ -319,7 +319,7 @@ test("selected split unlinks its fragments while linked split preserves both AV 
   );
   expect(repeat.changed).toBe(false);
   expect(repeat.createdIds).toEqual([]);
-  expect(repeat.splitLineage).toEqual([]);
+  expect(repeat.clipLineage).toEqual([]);
 });
 
 test("selected members absent at a split keep their synchronization", () => {
@@ -343,7 +343,7 @@ test("selected members absent at a split keep their synchronization", () => {
     context,
   );
   expect(result.document.syncGroups).toEqual([{ id: "group", clipIds: ["a", "c"] }]);
-  expect(result.splitLineage).toEqual([
+  expect(result.clipLineage).toEqual([
     { originalId: "b", clipIds: ["b", result.createdIds[0]!.id] },
   ]);
 });
@@ -367,10 +367,10 @@ test("a batch can address new split children by labels without guessing identiti
     { ...context, namespace: "named-split" },
   );
   expect(result.labels.rightVideo).toBe(
-    result.splitLineage.find((entry) => entry.originalId === first.labels.video)!.clipIds[1],
+    result.clipLineage.find((entry) => entry.originalId === first.labels.video)!.clipIds[1],
   );
   expect(result.labels.rightAudio).toBe(
-    result.splitLineage.find((entry) => entry.originalId === first.labels.audio)!.clipIds[1],
+    result.clipLineage.find((entry) => entry.originalId === first.labels.audio)!.clipIds[1],
   );
   expect(result.document.syncGroups).toEqual([
     { id: first.labels.av, clipIds: [first.labels.video, first.labels.audio] },
@@ -799,7 +799,7 @@ test("ripple collapses the requested union including empty project time", () => 
     placement: { kind: "project", range: { startUs: 500000, endUs: 1500000 } },
   });
   expect(result.createdIds).toEqual([]);
-  expect(result.splitLineage).toEqual([]);
+  expect(result.clipLineage).toEqual([]);
 });
 
 test("removing an absent occurrence cannot ripple unrelated content", () => {
@@ -1123,6 +1123,120 @@ test("detach freezes exact placement and reanchor changes dependency without mov
             start: { numerator: 0, denominator: 1 },
             end: { numerator: 1, denominator: 1 },
           },
+        },
+      ],
+      context,
+    ),
+  ).toThrow(CompositionError);
+});
+
+test("duplicate copies linked media and attachments with fresh identities and later batch labels", () => {
+  const first = applyBatch(
+    input,
+    [
+      ...setup,
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "overlay" },
+      {
+        operation: "place",
+        label: "child",
+        clip: {
+          assetId: "source",
+          streamId: "v",
+          trackId: { label: "overlay" },
+          source: { kind: "hold", atUs: 0 },
+          placement: {
+            kind: "content",
+            clipId: { label: "video" },
+            sourceRange: { startUs: 500000, endUs: 1000000 },
+          },
+        },
+      },
+    ],
+    context,
+  );
+  const operations = [
+    {
+      operation: "duplicate",
+      clipIds: [first.labels.audio],
+      scope: "linked",
+      atUs: 3000000,
+      copyLabels: [
+        { clipId: first.labels.video, label: "newVideo" },
+        { clipId: first.labels.child, label: "newChild" },
+      ],
+    },
+  ];
+  const result = applyBatch(first.document, operations, { ...context, namespace: "copy" });
+  expect(applyBatch(first.document, operations, { ...context, namespace: "copy" })).toEqual(result);
+  expect(result.document.clips.slice(0, 3)).toEqual(first.document.clips);
+  const copies = result.document.clips.slice(3);
+  expect(copies.map((clip) => clip.source)).toEqual(
+    first.document.clips.map((clip) => clip.source),
+  );
+  expect(copies[0]!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 3000000, endUs: 5000000 },
+  });
+  expect(copies[1]!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 3200000, endUs: 4800000 },
+  });
+  expect(copies[2]!.placement).toEqual({
+    kind: "content",
+    clipId: copies[0]!.id,
+    sourceRange: { startUs: 500000, endUs: 1000000 },
+  });
+  expect(result.document.syncGroups[0]).toEqual(first.document.syncGroups[0]);
+  expect(result.document.syncGroups[1]!.clipIds).toEqual([copies[0]!.id, copies[1]!.id]);
+  expect(result.createdIds.map((entry) => entry.id)).toEqual([
+    ...copies.map((clip) => clip.id),
+    result.document.syncGroups[1]!.id,
+  ]);
+  expect(result.labels.newVideo).toBe(copies[0]!.id);
+  expect(result.labels.newChild).toBe(copies[2]!.id);
+  const removed = applyBatch(
+    first.document,
+    [...operations, { operation: "remove", clipIds: [{ label: "newVideo" }], ripple: "none" }],
+    { ...context, namespace: "copy" },
+  );
+  expect(removed.document).toEqual(first.document);
+  const childOnly = applyBatch(
+    first.document,
+    [{ operation: "duplicate", clipIds: [first.labels.child], atUs: 3000000 }],
+    { ...context, namespace: "childCopy" },
+  );
+  expect(childOnly.document.clips.slice(0, 3)).toEqual(first.document.clips);
+  expect(childOnly.document.clips[3]!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 3000000, endUs: 3500000 },
+  });
+});
+
+test("duplicate selected scope copies only its dependency subtree and requires a free destination", () => {
+  const first = applyBatch(input, setup, context);
+  const result = applyBatch(
+    first.document,
+    [{ operation: "duplicate", clipIds: [first.labels.video], atUs: 2000000 }],
+    { ...context, namespace: "copy" },
+  );
+  expect(result.document.clips.map((clip) => clip.streamId)).toEqual(["v", "a", "v"]);
+  expect(result.document.syncGroups).toEqual(first.document.syncGroups);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [{ operation: "duplicate", clipIds: [first.labels.video], atUs: 1000000 }],
+      context,
+    ),
+  ).toThrow(CompositionError);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [
+        {
+          operation: "duplicate",
+          clipIds: [first.labels.video],
+          atUs: 2000000,
+          copyLabels: [{ clipId: first.labels.audio, label: "absent" }],
         },
       ],
       context,

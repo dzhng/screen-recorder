@@ -337,3 +337,17 @@ but did not choose a conditioning mode. Voice similarity and room sound may
 trade off; both modes remain available as frozen evidence until listening
 selects a winner. No de-reverberation claim or production policy follows from
 the recognizer passing.
+
+
+### Copies own their destination — sound, medium confidence
+
+Copying an overlay alone to a later point creates an independent occurrence at
+that point. It does not remain trapped inside the original parent's interval.
+If the parent is copied too, the copied overlay follows that new parent instead.
+The plan required duplication of occurrences and attachments but did not define
+references to parents outside the copied set. This gives a copy a usable explicit
+destination without changing the original attachment; agents can reanchor the
+copy afterward when they want an external dependency. Duplicate defaults to the
+selected subtree; linked AV copying is explicit. Its origin map shares the
+`clipLineage` receipt with split/remove, which names relationships without
+implying that the original was deleted.

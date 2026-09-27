@@ -7,6 +7,7 @@ import { partitionClips } from "./partition.js";
 import { compare, fromTime, toTime } from "./rational.js";
 import { rippleRemoval } from "./ripple.js";
 import { moveClips } from "./move.js";
+import { duplicateClips } from "./duplicate.js";
 
 type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "syncGroup";
@@ -32,6 +33,18 @@ const placedClip = clipSchema.omit({ id: true }).extend({
   ]),
 });
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("duplicate"),
+      clipIds: z.array(reference).min(1),
+      atUs: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+      scope: z.enum(["linked", "selected"]).default("selected"),
+      tracks: z.array(z.object({ clipId: reference, trackId: reference }).strict()).default([]),
+      copyLabels: z
+        .array(z.object({ clipId: reference, label: z.string().min(1) }).strict())
+        .default([]),
+    })
+    .strict(),
   z.object({ operation: z.literal("detach"), clipIds: z.array(reference).min(1) }).strict(),
   z.object({ operation: z.literal("reanchor"), clipId: reference, placement }).strict(),
   z
@@ -104,7 +117,7 @@ export type EditBatchResult = {
   createdIds: { kind: EntityKind; id: string }[];
   labels: Record<string, string>;
   normalized: { operationIndex: number; changes: EditChange[] }[];
-  splitLineage: { originalId: string; clipIds: string[] }[];
+  clipLineage: { originalId: string; clipIds: string[] }[];
   removedAttachments: string[];
   touchedFixedAnchors: { kind: "clip"; id: string }[];
   linkChanges: Extract<EditChange, { kind: "syncGroup" }>[];
@@ -169,7 +182,7 @@ export function applyBatch(
   const createdIds: EditBatchResult["createdIds"] = [];
   const bindings = new Map<string, { kind: EntityKind; id: string }>();
   const normalized: EditBatchResult["normalized"] = [];
-  const splitLineage: EditBatchResult["splitLineage"] = [];
+  const clipLineage: EditBatchResult["clipLineage"] = [];
   const removedAttachments: string[] = [];
   const touchedFixedAnchors = new Map<string, { kind: "clip"; id: string }>();
   let ordinal = 0;
@@ -209,6 +222,31 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "duplicate": {
+          const result = duplicateClips(
+            model,
+            clips(operation.clipIds),
+            operation.atUs,
+            operation.scope,
+            operation.tracks.map((entry) => ({
+              clipId: resolve(entry.clipId, "clip"),
+              trackId: resolve(entry.trackId, "track"),
+            })),
+            allocate,
+          );
+          const copies = new Map(
+            result.lineage.map((entry) => [entry.originalId, entry.clipIds[0]!]),
+          );
+          for (const entry of operation.copyLabels) {
+            const originalId = resolve(entry.clipId, "clip");
+            const id = copies.get(originalId);
+            if (!id) invalid("Copy label target was not duplicated", { clipId: originalId });
+            bind(entry.label, "clip", id);
+          }
+          next = result.document;
+          clipLineage.push(...result.lineage);
+          break;
+        }
         case "reanchor": {
           const id = clips([operation.clipId])[0]!;
           const anchor = operation.placement;
@@ -313,7 +351,7 @@ export function applyBatch(
             for (const anchor of shifted.touchedFixedAnchors)
               touchedFixedAnchors.set(anchor.id, anchor);
           }
-          splitLineage.push(...result.lineage);
+          clipLineage.push(...result.lineage);
           removedAttachments.push(...result.removedAttachments);
           break;
         }
@@ -335,7 +373,7 @@ export function applyBatch(
             bind(entry.label, "clip", right);
           }
           next = result.document;
-          splitLineage.push(...result.lineage);
+          clipLineage.push(...result.lineage);
           break;
         }
         case "track.add": {
@@ -447,7 +485,7 @@ export function applyBatch(
     createdIds,
     labels: Object.fromEntries([...bindings].map(([name, value]) => [name, value.id])),
     normalized,
-    splitLineage,
+    clipLineage,
     removedAttachments,
     touchedFixedAnchors: [...touchedFixedAnchors.values()],
     linkChanges: normalized.flatMap((step) =>

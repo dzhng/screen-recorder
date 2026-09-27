@@ -14,6 +14,36 @@ export function moveClips(
   tracks: readonly { clipId: string; trackId: string }[],
 ) {
   const affected = clipGraph(model).expand(selected, scope === "linked");
+  const { clips, delta } = relocateClips(model, affected, atUs, tracks, false);
+  const syncGroups =
+    scope === "linked" || delta.numerator === 0n
+      ? model.document.syncGroups
+      : model.document.syncGroups.flatMap((group) => {
+          if (
+            group.clipIds.every((id) => affected.has(id)) ||
+            group.clipIds.every((id) => !affected.has(id))
+          )
+            return [group];
+          const stationary = group.clipIds.filter((id) => !affected.has(id));
+          const moving = group.clipIds.filter((id) => affected.has(id));
+          return [stationary, moving]
+            .filter((ids) => ids.length >= 2)
+            .map((clipIds, index) => ({
+              id: index === 0 ? group.id : allocate("syncGroup"),
+              clipIds,
+            }));
+        });
+  return { ...model.document, clips, syncGroups };
+}
+
+/** Shared exact relocation for existing occurrences and copies. */
+export function relocateClips(
+  model: ValidatedComposition,
+  affected: ReadonlySet<string>,
+  atUs: number,
+  tracks: readonly { clipId: string; trackId: string }[],
+  detachRoots: boolean,
+) {
   const destinations = new Map<string, string>();
   for (const entry of tracks) {
     if (!affected.has(entry.clipId) || destinations.has(entry.clipId))
@@ -36,13 +66,13 @@ export function moveClips(
       ? { ...originalClip, trackId: destinations.get(originalClip.id)! }
       : originalClip;
     if (!affected.has(clip.id)) return clip;
-    if (delta.numerator === 0n) return clip;
     const anchor = clip.placement;
+    if (delta.numerator === 0n && !detachRoots) return clip;
     if (anchor.kind !== "project" && affected.has(anchor.clipId)) return clip;
     const value = original.get(clip.id)!;
     const range = { start: add(value.range.start, delta), end: add(value.range.end, delta) };
     let placement: Clip["placement"];
-    if (anchor.kind === "project") {
+    if (anchor.kind === "project" || detachRoots) {
       placement = {
         kind: "project",
         range: { startUs: toTime(range.start), endUs: toTime(range.end) },
@@ -82,23 +112,5 @@ export function moveClips(
     }
     return { ...clip, placement };
   });
-  const syncGroups =
-    scope === "linked" || delta.numerator === 0n
-      ? model.document.syncGroups
-      : model.document.syncGroups.flatMap((group) => {
-          if (
-            group.clipIds.every((id) => affected.has(id)) ||
-            group.clipIds.every((id) => !affected.has(id))
-          )
-            return [group];
-          const stationary = group.clipIds.filter((id) => !affected.has(id));
-          const moving = group.clipIds.filter((id) => affected.has(id));
-          return [stationary, moving]
-            .filter((ids) => ids.length >= 2)
-            .map((clipIds, index) => ({
-              id: index === 0 ? group.id : allocate("syncGroup"),
-              clipIds,
-            }));
-        });
-  return { ...model.document, clips, syncGroups };
+  return { clips, delta };
 }
