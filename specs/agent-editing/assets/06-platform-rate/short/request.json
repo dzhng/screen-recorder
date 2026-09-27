@@ -1,0 +1,29 @@
+{
+  "width": 3120,
+  "height": 1970,
+  "fps": 20,
+  "range": {
+    "startUs": 0,
+    "endUs": 50000
+  },
+  "pictures": [
+    {
+      "id": "recorded-fixture-rec709",
+      "file": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/video.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "output": "/tmp/screenrec-platform-rate/short",
+  "colorPolicy": "native",
+  "savePreEncode": true,
+  "outputProfile": "rec709"
+}

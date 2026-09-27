@@ -1,0 +1,38 @@
+{
+  "firstFrame": {
+    "maxError": 60,
+    "fractionOver4": 0.0032433077356935226,
+    "patchesWithin4": 25,
+    "bytes": 90183,
+    "equalsExplicit40MbpsPixels": true
+  },
+  "threeSeconds": {
+    "bytes": 553938,
+    "execution": {
+      "audioFrames": 0,
+      "decodedPerOccurrence": {
+        "recorded-fixture-rec709": 87
+      },
+      "elapsedSeconds": 0.877054875,
+      "pixelPoolAllocationThreshold": 4,
+      "retainedSourceBuffersBound": 1
+    },
+    "frames": 60
+  },
+  "sourceSha256": "ef6233cc8156f1d3807eaf6fe2ab20d7d40a2169f9a7eee94189b1c18fd4a9c7",
+  "scope": "Scratch mechanism comparison; no general quality or performance acceptance. Uses AVFoundation platform-selected bitrate as the existing production VideoRenderer does.",
+  "files": {
+    "RenderReproduction.swift": "ef6233cc8156f1d3807eaf6fe2ab20d7d40a2169f9a7eee94189b1c18fd4a9c7",
+    "short/bounded.mov": "18ef9e3d272f49a8dd286a6b83089dc49bd0501021d47ef0f989056456f3b7c8",
+    "short/pre-encode.png": "df0f472621688860417712f4aeeebddc7d27000dc41987a5db6e9b6ac164ab2c",
+    "short/request.json": "fd24b12ce73630d367ff1b3b6def5528957771010f65ae8957b9040c4ac0dc85",
+    "short/resources.txt": "6e5f25f353d493aefc8f59fde01dfeedf8811de73cd09ccc70a76904b4b2bbd4",
+    "short/result.json": "1c63f3bd5b1342889fd8b68359df7357deeaf2baad2f6e0ab0bf51d33f8f9581",
+    "short/roundtrip.png": "436af87d46030ad15fb045e403d7ff1e5a4d6d739d7e3598d2475ef57a93c49c",
+    "three-seconds/bounded.mov": "45a2d7e0189a08bde83ac05bf2cc6dc8b8bd969414d994eb0099b64159f3a5ab",
+    "three-seconds/pre-encode.png": "df0f472621688860417712f4aeeebddc7d27000dc41987a5db6e9b6ac164ab2c",
+    "three-seconds/request.json": "217f27219931e4fc186eb5748415e51a81063230720f16f3d82728e617392c7c",
+    "three-seconds/resources.txt": "f4348532158204157e4aae9ba8af7703c237d931aff505f0d4424ce1dcb933e3",
+    "three-seconds/result.json": "a4b91cd337559104532620c6deb96d92716713ad32e9002a013e644a36baf645"
+  }
+}
