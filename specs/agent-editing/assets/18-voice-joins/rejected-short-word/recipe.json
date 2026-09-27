@@ -1,0 +1,36 @@
+{
+  "userFeedback": "Level-matched clips still have excessive silence before/after insertion and generated voice sounds more echoey.",
+  "method": "Conservative manually chosen generated-audio crops informed by ASR spoken boundaries; 5ms generated-only edge ramps; same gains as level audition. Original context remains sample-exact. No dereverberation or time stretching.",
+  "cases": [
+    {
+      "id": "word",
+      "keptGeneratedSeconds": [
+        0.12,
+        0.64
+      ],
+      "removedHeadSeconds": 0.12,
+      "removedTailSeconds": 0.24,
+      "gainDb": -4.519810154304541,
+      "fadeSeconds": 0.005,
+      "sourceSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "outputSha256": "ed480cf5ac5368d05cfe16381eb66e440d37db69e199b993b112b07bd808e8ef",
+      "originalContextExact": true,
+      "generatedDurationSeconds": 0.52
+    },
+    {
+      "id": "phrase",
+      "keptGeneratedSeconds": [
+        0,
+        2.8
+      ],
+      "removedHeadSeconds": 0,
+      "removedTailSeconds": 0.56,
+      "gainDb": -7.220801002958279,
+      "fadeSeconds": 0.005,
+      "sourceSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "outputSha256": "6e8c5f97587167d4726c966ad38d9eb086b0ebc069cc791e3c69620eae69349e",
+      "originalContextExact": true,
+      "generatedDurationSeconds": 2.8
+    }
+  ]
+}

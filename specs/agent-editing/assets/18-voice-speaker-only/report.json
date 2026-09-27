@@ -1,0 +1,29 @@
+{
+  "method": "Speaker-embedding-only candidate. Gain matches raw generated RMS to up to two seconds of surrounding original context, then explicit ASR-informed crop and 5ms generated-only ramps. No dereverberation. Acoustic quality and identity need listening.",
+  "cases": [
+    {
+      "id": "word",
+      "keptGeneratedSeconds": [
+        0.28,
+        0.88
+      ],
+      "gainDb": -5.802767876198472,
+      "fadeSeconds": 0.005,
+      "originalContextExact": true,
+      "outputSha256": "c81eb2e67c7143b6dba2fefde6a8bb569a44205c17f7192b82434b0900d8463d",
+      "rawSha256": "47486d77a21d4df14e084a15186c1f62638c686776e9106d5b1cf6c5bd7d0fb8"
+    },
+    {
+      "id": "phrase",
+      "keptGeneratedSeconds": [
+        0,
+        2.4
+      ],
+      "gainDb": -7.953994164996915,
+      "fadeSeconds": 0.005,
+      "originalContextExact": true,
+      "outputSha256": "eb9481eebd79d8a407eafb92dbbd6fb3710c2023222b24736b6a5794640d8779",
+      "rawSha256": "01a355e9f5663832dddb0868a9b88c56337a72474a4296422a94ece9c05c8332"
+    }
+  ]
+}

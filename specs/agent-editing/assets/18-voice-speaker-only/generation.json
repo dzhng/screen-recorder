@@ -1,0 +1,24 @@
+{
+  "mode": "speaker embedding only: ref_audio supplied, ref_text omitted",
+  "loadSeconds": 5.0793539169826545,
+  "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+  "runtimeCommit": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+  "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+  "seed": 18,
+  "runs": [
+    {
+      "id": "word",
+      "text": "paid",
+      "durationSeconds": 1.04,
+      "seconds": 0.9511686670011841,
+      "rawSha256": "47486d77a21d4df14e084a15186c1f62638c686776e9106d5b1cf6c5bd7d0fb8"
+    },
+    {
+      "id": "phrase",
+      "text": "This is available at no cost.",
+      "durationSeconds": 2.72,
+      "seconds": 1.8081585000036284,
+      "rawSha256": "01a355e9f5663832dddb0868a9b88c56337a72474a4296422a94ece9c05c8332"
+    }
+  ]
+}

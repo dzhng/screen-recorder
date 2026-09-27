@@ -318,3 +318,22 @@ agent does not have to round it into a command timestamp. The plan required
 explicit reanchoring but left its timing behavior unspecified. This separation
 keeps links and source samples unchanged during a dependency-only edit, while
 batches can still combine all three operations for a deliberate timing change.
+
+
+### Separate join timing from acoustic similarity — sound, medium confidence
+
+After level matching, the user still heard pauses and an echoey replacement.
+The join audition now crops only generated margins and fades only its edge
+samples; it preserves the surrounding original samples exactly. The crop is
+explicit, not an automatic silence detector: the first word crop changed the
+recognizer result from paid to page, demonstrating why quiet material cannot
+be discarded solely from an ASR timestamp. A longer ending restored word
+agreement. These are provisional listening candidates, not approved defaults.
+
+For the echo complaint, a second experiment uses the same local model and
+reference audio but conditions on its speaker representation alone, omitting
+the reference transcript/sequence. The plan permitted local runtime experiments
+but did not choose a conditioning mode. Voice similarity and room sound may
+trade off; both modes remain available as frozen evidence until listening
+selects a winner. No de-reverberation claim or production policy follows from
+the recognizer passing.

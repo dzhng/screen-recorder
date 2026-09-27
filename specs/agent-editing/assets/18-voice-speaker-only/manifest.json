@@ -1,0 +1,47 @@
+{
+  "config": {
+    "reference": {
+      "sourceRange": {
+        "startUs": 1000000,
+        "endUs": 6000000
+      },
+      "text": "Okay, so this is the recorder workbench.",
+      "textAuthority": "inherited ASR, not independently auditioned",
+      "evidence": "specs/recording-for-ai/assets/speech/boundaries/transcript.json"
+    },
+    "replacements": [
+      {
+        "id": "word",
+        "text": "paid",
+        "range": {
+          "startUs": 74128675,
+          "endUs": 74528675
+        },
+        "boundaryAuthority": "ASR-only; word boundary remains unverified"
+      },
+      {
+        "id": "phrase",
+        "text": "This is available at no cost.",
+        "range": {
+          "startUs": 73808675,
+          "endUs": 74768675
+        },
+        "boundaryAuthority": "historically auditioned phrase-removal range; new generation splice unverified"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "same-take-word",
+      "text": "paid",
+      "rawSha256": "baca353876f9f17861fea751606742358decd94008d1de845c34710c736a3a8c",
+      "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    },
+    {
+      "id": "same-take-phrase",
+      "text": "This is available at no cost.",
+      "rawSha256": "4c34aafd4ff5bf84e1bdd928c39ab71b91b683b0a0554f0bec9986917e918ce2",
+      "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+    }
+  ]
+}

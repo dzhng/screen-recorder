@@ -1,0 +1,82 @@
+{
+  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+  "nativeSha256": "175ceecb11e3dbb0283cbd6e748b8aa93e57d17750a820db6c038b367566f966",
+  "normalization": "Unicode letters/numbers and internal apostrophes, case folded; punctuation excluded",
+  "meaning": "ASR lexical agreement only. No acceptance of pronunciation, identity, delivery, intelligibility or joins.",
+  "cases": [
+    {
+      "id": "same-take-word",
+      "expected": "paid",
+      "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice-joins/same-take-word.wav",
+      "sha256": "fd04035dca47da51c457d6c7add5b9586928e3371e0075562b930171c5bd4679",
+      "generated": true,
+      "durationUs": 720000,
+      "recognized": "Paid.",
+      "expectedTokens": [
+        "paid"
+      ],
+      "recognizedTokens": [
+        "paid"
+      ],
+      "elapsedSeconds": 1.319783917,
+      "agreement": true
+    },
+    {
+      "id": "same-take-phrase",
+      "expected": "This is available at no cost.",
+      "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice-joins/same-take-phrase.wav",
+      "sha256": "0c5cd09d348f2065b39af57372463340dc7dfc89666ba4d67b4311d443fff99e",
+      "generated": true,
+      "durationUs": 2800000,
+      "recognized": "This is available at no cost.",
+      "expectedTokens": [
+        "this",
+        "is",
+        "available",
+        "at",
+        "no",
+        "cost"
+      ],
+      "recognizedTokens": [
+        "this",
+        "is",
+        "available",
+        "at",
+        "no",
+        "cost"
+      ],
+      "elapsedSeconds": 1.342699833,
+      "agreement": true
+    },
+    {
+      "id": "reference",
+      "expected": "Okay, so this is the recorder workbench.",
+      "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice-joins/reference.wav",
+      "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "generated": false,
+      "durationUs": 5000000,
+      "recognized": "Okay, so this is the recorder workbench.",
+      "expectedTokens": [
+        "okay",
+        "so",
+        "this",
+        "is",
+        "the",
+        "recorder",
+        "workbench"
+      ],
+      "recognizedTokens": [
+        "okay",
+        "so",
+        "this",
+        "is",
+        "the",
+        "recorder",
+        "workbench"
+      ],
+      "elapsedSeconds": 1.2723513749999997,
+      "agreement": true
+    }
+  ],
+  "generatedTextAgrees": true
+}

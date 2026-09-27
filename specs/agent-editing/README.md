@@ -62,8 +62,9 @@ Current evidence:
 - [18 voice](assets/18-voice/README.md): six offline generations, exact PCM splice
   checks; [ASR word agreement](assets/18-voice-lexical/README.md) passes; identity,
   user finds voice close but joins wrong and generated speech louder.
-  [Level-matched auditions](assets/18-voice-levels/README.md) preserve original
-  context exactly; adjusted join quality remains unverified.
+  [Tighter-join auditions](assets/18-voice-joins/README.md) and an alternative
+  conditioning mode address follow-up reports of excess pauses and echo;
+  original context remains exact, but acoustic quality remains unverified.
 
 Keep old media intact and develop against isolated homes; the new library is
 fresh, with no history migration or compatibility engine. No model/runtime
