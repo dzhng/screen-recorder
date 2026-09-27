@@ -1,3 +1,4 @@
+import { clipGraph } from "./clip-graph.js";
 import {
   sourceTime,
   intersection,
@@ -43,38 +44,7 @@ export function partitionClips(
   ),
   allocate: (kind: "clip" | "syncGroup") => string,
 ) {
-  const children = new Map<string, string[]>();
-  const groups = new Map<string, readonly string[]>();
-  for (const value of model.clips) {
-    const anchor = value.clip.placement;
-    if (anchor.kind !== "project") {
-      const siblings = children.get(anchor.clipId) ?? [];
-      siblings.push(value.clip.id);
-      children.set(anchor.clipId, siblings);
-    }
-  }
-  for (const group of model.document.syncGroups)
-    for (const id of group.clipIds) groups.set(id, group.clipIds);
-  const expand = (ids: Iterable<string>, linked: boolean) => {
-    const result = new Set(ids);
-    const expandedGroups = new Set<readonly string[]>();
-    const pending = [...result];
-    for (let index = 0; index < pending.length; index++) {
-      const id = pending[index]!;
-      const group = linked ? groups.get(id) : undefined;
-      const related = [...(children.get(id) ?? [])];
-      if (group && !expandedGroups.has(group)) {
-        expandedGroups.add(group);
-        for (const member of group) related.push(member);
-      }
-      for (const child of related)
-        if (!result.has(child)) {
-          result.add(child);
-          pending.push(child);
-        }
-    }
-    return result;
-  };
+  const { children, expand } = clipGraph(model);
   const affected = expand(selected, operation.scope === "linked");
   const original = new Map(model.clips.map((value) => [value.clip.id, value]));
   let removals: ExactRange[] = [];

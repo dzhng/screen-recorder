@@ -10,8 +10,9 @@ the [map](MAP.md) remains the record of user intent.
 Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [architecture](architecture.md), [verification](verification.md) and
 [research](research.md). Continue [03 — edits](slices/03-edits.md): exact splitting,
-attachment partitioning, removal/trim, explicit ripple and batch labels pass;
-implement move/insert/replace/retime/duplicate next. Preserve the accepted
+attachment partitioning, removal/trim, explicit removal ripple, non-ripple move
+and batch labels pass. Complete insertion/ripple move, track reassignment,
+explicit reanchoring, replace/retime/duplicate next. Preserve the accepted
 [03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Durable projects
 [04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow the
 completed reducer; the first public editing checkpoint remains [09](slices/09-first-preview.md).
@@ -60,7 +61,9 @@ Current evidence:
   measurements preserve candidate bytes; speech-quality acceptance remains open.
 - [18 voice](assets/18-voice/README.md): six offline generations, exact PCM splice
   checks; [ASR word agreement](assets/18-voice-lexical/README.md) passes; identity,
-  delivery and listening remain unverified.
+  user finds voice close but joins wrong and generated speech louder.
+  [Level-matched auditions](assets/18-voice-levels/README.md) preserve original
+  context exactly; adjusted join quality remains unverified.
 
 Keep old media intact and develop against isolated homes; the new library is
 fresh, with no history migration or compatibility engine. No model/runtime

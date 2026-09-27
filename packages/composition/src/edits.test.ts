@@ -861,3 +861,147 @@ test("retimed ripple preserves each surviving sample at its collapsed project po
           }
         }
 });
+
+test("move preserves linked offsets and selected move leaves the other stream in place", () => {
+  const first = applyBatch(input, setup, context);
+  const linked = applyBatch(
+    first.document,
+    [{ operation: "move", clipIds: [first.labels.audio], atUs: 3000000, ripple: "none" }],
+    { ...context, namespace: "move" },
+  );
+  expect(linked.document.clips.map((clip) => clip.placement)).toEqual([
+    { kind: "project", range: { startUs: 3000000, endUs: 5000000 } },
+    { kind: "project", range: { startUs: 3200000, endUs: 4800000 } },
+  ]);
+  expect(linked.document.clips.map((clip) => clip.source)).toEqual(
+    first.document.clips.map((clip) => clip.source),
+  );
+  expect(linked.document.syncGroups).toEqual(first.document.syncGroups);
+  const selected = applyBatch(
+    first.document,
+    [
+      {
+        operation: "move",
+        clipIds: [first.labels.audio],
+        atUs: 3000000,
+        scope: "selected",
+        ripple: "none",
+      },
+    ],
+    context,
+  );
+  expect(selected.document.clips[0]).toEqual(first.document.clips[0]);
+  expect(selected.document.clips[1]!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 3000000, endUs: 4600000 },
+  });
+  expect(selected.document.syncGroups).toEqual([]);
+});
+
+test("moving attached media preserves exact mapping and moves descendants only once", () => {
+  const document = {
+    ...input,
+    tracks: [
+      { id: "base", kind: "video", order: 0 },
+      { id: "overlay", kind: "video", order: 1 },
+      { id: "nested", kind: "video", order: 2 },
+    ],
+    clips: [
+      {
+        id: "parent",
+        assetId: "source",
+        streamId: "v",
+        trackId: "base",
+        source: { kind: "range", range: { startUs: 0, endUs: 20 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 12 } },
+      },
+      {
+        id: "child",
+        assetId: "source",
+        streamId: "v",
+        trackId: "overlay",
+        source: { kind: "range", range: { startUs: 0, endUs: 10 } },
+        placement: { kind: "content", clipId: "parent", sourceRange: { startUs: 5, endUs: 10 } },
+      },
+      {
+        id: "nested",
+        assetId: "source",
+        streamId: "v",
+        trackId: "nested",
+        source: { kind: "hold", atUs: 0 },
+        placement: {
+          kind: "clip",
+          clipId: "child",
+          start: { numerator: 0, denominator: 1 },
+          end: { numerator: 1, denominator: 1 },
+        },
+      },
+    ],
+  };
+  const before = validateComposition(document, context.assets);
+  const shifted = applyBatch(
+    document,
+    [{ operation: "move", clipIds: ["parent", "child"], atUs: 7, ripple: "none" }],
+    context,
+  );
+  const after = validateComposition(shifted.document, context.assets);
+  for (let at = 0; at < 12; at++)
+    expect(projectToSource(after, at + 7)).toEqual(projectToSource(before, at));
+  expect(shifted.document.clips.slice(1)).toEqual(before.document.clips.slice(1));
+  const child = applyBatch(
+    document,
+    [{ operation: "move", clipIds: ["child"], atUs: 4, ripple: "none" }],
+    context,
+  );
+  expect(child.document.clips[0]).toEqual(before.document.clips[0]);
+  expect(child.document.clips[1]!.placement).toEqual({
+    kind: "content",
+    clipId: "parent",
+    sourceRange: {
+      startUs: { numerator: 20, denominator: 3 },
+      endUs: { numerator: 35, denominator: 3 },
+    },
+  });
+  expect(child.document.clips[2]).toEqual(before.document.clips[2]);
+  expect(() =>
+    applyBatch(
+      document,
+      [{ operation: "move", clipIds: ["child"], atUs: 10, ripple: "none" }],
+      context,
+    ),
+  ).toThrow(/leaves its parent/);
+  expect(
+    applyBatch(
+      document,
+      [{ operation: "move", clipIds: ["child"], atUs: 3, scope: "selected", ripple: "none" }],
+      context,
+    ).changed,
+  ).toBe(false);
+});
+
+test("selected move retains synchronization inside moving and stationary subsets", () => {
+  const document = {
+    ...input,
+    tracks: [0, 1, 2, 3].map((order) => ({ id: `t${order}`, kind: "video", order })),
+    clips: [0, 1, 2, 3].map((i) => ({
+      id: `c${i}`,
+      assetId: "source",
+      streamId: "v",
+      trackId: `t${i}`,
+      source: { kind: "hold", atUs: 0 },
+      placement: { kind: "project", range: { startUs: i, endUs: 10 + i } },
+    })),
+    syncGroups: [{ id: "group", clipIds: ["c0", "c1", "c2", "c3"] }],
+  };
+  const result = applyBatch(
+    document,
+    [{ operation: "move", clipIds: ["c0", "c1"], atUs: 20, scope: "selected", ripple: "none" }],
+    context,
+  );
+  expect(result.document.syncGroups.map((group) => group.clipIds)).toEqual([
+    ["c2", "c3"],
+    ["c0", "c1"],
+  ]);
+  expect(result.document.syncGroups[0]!.id).toBe("group");
+  expect(result.createdIds).toEqual([{ kind: "syncGroup", id: result.document.syncGroups[1]!.id }]);
+});

@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; batch foundation, splitting, removal, trim and explicit ripple verified. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; batch foundation, splitting, removal, trim, explicit removal ripple and non-ripple move verified. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -102,3 +102,21 @@ selected occupied envelope union. An entirely absent selection is a no-op; its
 windows were suppressed. Final independent Codex review found no actionable
 defects; package type checks and build pass. Exact time serialization and domain
 errors have one shared owner for partitioning and displacement.
+
+
+## Move checkpoint
+
+A move places the earliest start of the expanded selection at `atUs` and applies
+one exact displacement. Descendants keep their anchors when their parent moves;
+a child moved alone updates its existing anchor within the parent interval.
+Source selection and duration remain unchanged. Selected moves retain links
+within both moving and stationary subsets; a zero displacement preserves links.
+The stationary subgroup keeps the original identity when both survive.
+
+[44 composition tests](../assets/03-edits/move/tests.txt), type checks and build
+pass. The [subset regression](../assets/03-edits/move/subset-red.txt) failed when
+moving members lost their mutual link. Independent Codex review found no
+actionable defects. The graph closure is shared with partitioning, avoiding two
+owners for attachment and link expansion. This checkpoint accepts only explicit
+`ripple: none`; insertion/ripple move, destination track changes and explicit
+reanchoring remain required, along with replace/retime/duplicate.

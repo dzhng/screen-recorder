@@ -285,3 +285,24 @@ The gap: the plan fixed explicit ripple scopes but left empty-time collapse and
 unaddressed crossing content implicit. The reach: the agent can express global
 ripple deletion by naming all affected content, or retain unrelated footage with
 an explicit narrower scope. The engine does not choose which extra footage to cut.
+
+
+### Move destination and retained subgroups — sound, medium confidence
+
+When moving linked audio that begins after its video, `atUs` places the earliest
+start of the expanded selection, so the audio keeps its delay. The plan required
+one shared displacement but did not name which start the destination describes.
+This makes multi-selection moves independent of argument order; future command
+help must explain that the expanded group, not the clicked member, lands there.
+For a selected move of two clips out of a four-clip link, both pairs retain their
+internal synchronization. The stationary pair keeps the old group identity and
+the moving pair receives a new one, so unedited members retain identity.
+
+### Gain-only voice audition — sound, medium confidence
+
+When generated speech sounds louder than the surrounding take, the audition
+matches its average signal energy to up to two seconds of original audio on
+each side. This changes only the generated samples, leaving raw generation and
+original context untouched. The plan did not specify a level estimator. Silence
+and delivery affect this simple measurement, so it is a reversible comparison,
+not the production loudness policy. Join acceptance still requires listening.

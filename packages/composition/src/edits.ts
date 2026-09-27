@@ -6,6 +6,7 @@ import { validateComposition, type ValidatedComposition, type ExactRange } from 
 import { partitionClips } from "./partition.js";
 import { compare, fromTime } from "./rational.js";
 import { rippleRemoval } from "./ripple.js";
+import { moveClips } from "./move.js";
 
 type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "syncGroup";
@@ -31,6 +32,15 @@ const placedClip = clipSchema.omit({ id: true }).extend({
   ]),
 });
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("move"),
+      clipIds: z.array(reference).min(1),
+      atUs: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+      scope: z.enum(["linked", "selected"]).default("linked"),
+      ripple: z.literal("none"),
+    })
+    .strict(),
   z
     .object({
       operation: z.literal("trim"),
@@ -196,6 +206,16 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "move": {
+          next = moveClips(
+            model,
+            clips(operation.clipIds),
+            operation.atUs,
+            operation.scope,
+            allocate,
+          );
+          break;
+        }
         case "remove":
         case "trim": {
           const ids =
