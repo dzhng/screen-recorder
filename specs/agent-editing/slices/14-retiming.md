@@ -1,6 +1,6 @@
 # 14 — Integrate independent and linked retiming
 
-Status: not started. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md).
+Status: not started. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [13](./13-stretch-reproduction.md), [13a](./13a-stretch-endpoints.md).
 
 ## Contract
 
@@ -8,7 +8,7 @@ Linked and independent audio/video retiming works through public editing and ren
 
 ## Seam and ownership
 
-Composition retime operations resolve durations/attachments; shared jobs prepare exact-identity stretched derivatives; native consumes independent plans. Adopt the frozen slice 13 recipe without a new audio timeline.
+Composition retime operations resolve durations/attachments; shared jobs prepare exact-identity stretched derivatives; native consumes independent plans. Adopt the frozen recipe accepted by slices 13 and 13a without a new audio timeline.
 
 ## Work and review surface
 
@@ -39,4 +39,3 @@ If the production path changes compensation or loses the quality winner, repair 
 Delegated: Derived-cache storage and scheduling within the shared job owner. Pitch default, synchronization and timing rules remain fixed.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
-

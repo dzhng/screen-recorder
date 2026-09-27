@@ -1,10 +1,15 @@
 {
-  "description": "Representative frozen artifacts; full raw matrix regenerates from pinned runner and immutable source.",
+  "description": "Representative frozen artifacts; full raw matrices regenerate from pinned runners and immutable source.",
   "files": [
     {
       "path": "README.md",
-      "bytes": 3854,
-      "sha256": "bf62f69746abdbece3297a0b97d597eacb2eefd845340fecbe98394616d6c8aa"
+      "bytes": 4455,
+      "sha256": "2ac59b2c4b27c0c6cef1fd63047c8e2af9ae0680a7441f64e9763fa92cec08f9"
+    },
+    {
+      "path": "endpoints.json",
+      "bytes": 38333,
+      "sha256": "2a2384fd58cdb42ee903e491805fb9e2561bb45b3af73e7871c82ebe9171ce10"
     },
     {
       "path": "join-waveforms.png",

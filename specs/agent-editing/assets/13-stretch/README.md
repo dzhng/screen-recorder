@@ -46,11 +46,20 @@ rushed-speech **candidate**, not a manually verified example. Speech-with-clicks
 uses real speech with disclosed synthetic click impulses. No synthetic speech
 stands in for the narrator.
 
-The next bounded experiment must distinguish algorithm delay from endpoint loss
-using leading/trailing context and known impulses, while keeping the selected
-source range and required output length explicit. Do not hide discarded speech
-with an arbitrary crop, pad, fade or source-range expansion. If an alignment or
-endpoint preparation seam is required, freeze it before slice 14 integration.
+The [endpoint follow-up](endpoints.json) compares zero, 20, 100 and 250 ms
+of leading/trailing digital silence plus a separately disclosed real-context
+experiment. At 1.25×, a nominal crop retained only 34.2% of the rendered
+edge-impulse energy without context and 44.6–45.7% with context. First and last
+peak offsets differ, so this is not evidence for one universal latency offset.
+These fractions describe rendered impulse energy, not original speech loss.
+At 1× all tested impulse energy remains inside the nominal interval.
+
+The real phrase's corresponding retained-energy fraction is much higher, but
+that cannot prove a consonant survives. Poisoning real neighboring context
+changed nearly every retained output sample at non-unit rates, while 1× stayed
+unchanged. Therefore processing excluded neighbors is not an invisible quality
+fix. The [endpoint gate](../../slices/13a-stretch-endpoints.md) now owns the
+unresolved treatment before slice 14. No compensation recipe is accepted.
 
 The signal plots are diagnostic and have not passed independent visual critique.
 Rows run input, 0.8×, 0.9×, 1×, 1.25×. Spectrum panels share the 300–600 Hz frequency

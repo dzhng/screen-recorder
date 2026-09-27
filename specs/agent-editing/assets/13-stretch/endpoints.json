@@ -1,0 +1,1390 @@
+{
+  "sourceCommit": "92e51ba8f9f38902e99cbc2ae678e7f5570f9d4b",
+  "runnerSha256": "b02b1751094d577cdab9adf536f68d5206306d03a834f8f4306fe0ff60658980",
+  "nativeSha256": "ce9bc393a6a52c27387bbee608a7b8562a00a940d416f0e9f0efc9630867ff88",
+  "description": "Probe endpoint support, not an accepted correction. Nominal boundaries use absolute padded-source frame/rate. No shifted crop or fitted correction applied.",
+  "sampleRate": 48000,
+  "selectedFrames": 72000,
+  "realPhraseFileRangeUs": [
+    73500000,
+    75000000
+  ],
+  "results": [
+    {
+      "case": "edge-impulses",
+      "speed": 0.8,
+      "contextSeconds": 0,
+      "context": "digital silence",
+      "inputSha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "nominalOutput": [
+        0,
+        90000
+      ],
+      "outputSha256": "ba59b3313d0e36972ba31cf88204a896c46a619492a768da511909339e6531cc",
+      "receipt": {
+        "frames": 99600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.014641,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.5570328404273266,
+        "peak": 0.22840149700641632
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0.01752486515779101,
+        "peak": 0.021317442879080772
+      },
+      "retainedEnergyFraction": 0.9694985116595958,
+      "peaks": [
+        {
+          "nominalFrame": 0,
+          "peakFrame": 0,
+          "offsetFrames": 0,
+          "peak": 0.22840149700641632
+        },
+        {
+          "nominalFrame": 89998.75,
+          "peakFrame": 89734,
+          "offsetFrames": -264.75,
+          "peak": 0.09708745777606964
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 0.8,
+      "contextSeconds": 0.02,
+      "context": "digital silence",
+      "inputSha256": "3963e4b011d937b11856d1a87aff0ecc627d320035f9a4c55f04f8274634ef8c",
+      "nominalOutput": [
+        1200,
+        91200
+      ],
+      "outputSha256": "b1397e7771c0fa8a86d873eaf53a3e008555aef4befc6be4c31095524ebf6cb9",
+      "receipt": {
+        "frames": 102000,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.019342875,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.46812422674116555,
+        "peak": 0.13353416323661804
+      },
+      "before": {
+        "sumSquares": 0.3962852419376078,
+        "peak": 0.17531906068325043
+      },
+      "after": {
+        "sumSquares": 0.020350783557137885,
+        "peak": 0.020898031070828438
+      },
+      "retainedEnergyFraction": 0.5290972617250262,
+      "peaks": [
+        {
+          "nominalFrame": 1200,
+          "peakFrame": 858,
+          "offsetFrames": -342,
+          "peak": 0.17531906068325043
+        },
+        {
+          "nominalFrame": 91198.75,
+          "peakFrame": 90818,
+          "offsetFrames": -380.75,
+          "peak": 0.13353416323661804
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 0.8,
+      "contextSeconds": 0.1,
+      "context": "digital silence",
+      "inputSha256": "3773a78e14899940cc11f43dafba695134faffc23309641bd26e1faaf2aa7eb2",
+      "nominalOutput": [
+        6000,
+        96000
+      ],
+      "outputSha256": "a504c631aadb0bf63b76b27ca9b80445083524e12e2bf493949136b9f1307251",
+      "receipt": {
+        "frames": 111600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.0382875,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.44271833380312386,
+        "peak": 0.10021968185901642
+      },
+      "before": {
+        "sumSquares": 0.36305523702574877,
+        "peak": 0.10427335649728775
+      },
+      "after": {
+        "sumSquares": 0.01760953921248265,
+        "peak": 0.022086437791585922
+      },
+      "retainedEnergyFraction": 0.5376820685341545,
+      "peaks": [
+        {
+          "nominalFrame": 6000,
+          "peakFrame": 5853,
+          "offsetFrames": -147,
+          "peak": 0.10427335649728775
+        },
+        {
+          "nominalFrame": 95998.75,
+          "peakFrame": 95762,
+          "offsetFrames": -236.75,
+          "peak": 0.10021968185901642
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 0.8,
+      "contextSeconds": 0.25,
+      "context": "digital silence",
+      "inputSha256": "2ca6ed032a76e5edb8b732eff3e2a63619e260353a7febb202f1cf58686b1c4d",
+      "nominalOutput": [
+        15000,
+        105000
+      ],
+      "outputSha256": "67afea5ad03dee0d366cae2e321f187b1676c776548ce9714e285cae87794ad6",
+      "receipt": {
+        "frames": 129600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.021881333,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.3646218312175412,
+        "peak": 0.1971280425786972
+      },
+      "before": {
+        "sumSquares": 0.3976664350402952,
+        "peak": 0.10216540098190308
+      },
+      "after": {
+        "sumSquares": 0.013206388088011596,
+        "peak": 0.015066991560161114
+      },
+      "retainedEnergyFraction": 0.47017968360479556,
+      "peaks": [
+        {
+          "nominalFrame": 15000,
+          "peakFrame": 14821,
+          "offsetFrames": -179,
+          "peak": 0.10216540098190308
+        },
+        {
+          "nominalFrame": 104998.75,
+          "peakFrame": 104707,
+          "offsetFrames": -291.75,
+          "peak": 0.1971280425786972
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 0.9,
+      "contextSeconds": 0,
+      "context": "digital silence",
+      "inputSha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "nominalOutput": [
+        0,
+        80000
+      ],
+      "outputSha256": "af0cd459818478623cd8a0d63a62bec3335746299c4fb72635709949322054b2",
+      "receipt": {
+        "frames": 89600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.01999325,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.6311998933504432,
+        "peak": 0.31891825795173645
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0.04767455597493506,
+        "peak": 0.054046981036663055
+      },
+      "retainedEnergyFraction": 0.9297741194674362,
+      "peaks": [
+        {
+          "nominalFrame": 0,
+          "peakFrame": 0,
+          "offsetFrames": 0,
+          "peak": 0.31891825795173645
+        },
+        {
+          "nominalFrame": 79998.88888888889,
+          "peakFrame": 79892,
+          "offsetFrames": -106.8888888888905,
+          "peak": 0.16285744309425354
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 0.9,
+      "contextSeconds": 0.02,
+      "context": "digital silence",
+      "inputSha256": "3963e4b011d937b11856d1a87aff0ecc627d320035f9a4c55f04f8274634ef8c",
+      "nominalOutput": [
+        1066,
+        81066
+      ],
+      "outputSha256": "ed86fc49af26f291d48560fc1de5be88c2aba41d63501df4c258caa4c09da722",
+      "receipt": {
+        "frames": 91733,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.021457333,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.45537677784442565,
+        "peak": 0.1926271915435791
+      },
+      "before": {
+        "sumSquares": 0.42583930303109807,
+        "peak": 0.46829754114151
+      },
+      "after": {
+        "sumSquares": 0.05442886729470223,
+        "peak": 0.053219642490148544
+      },
+      "retainedEnergyFraction": 0.48669827025194823,
+      "peaks": [
+        {
+          "nominalFrame": 1066,
+          "peakFrame": 909,
+          "offsetFrames": -157,
+          "peak": 0.46829754114151
+        },
+        {
+          "nominalFrame": 81065.55555555555,
+          "peakFrame": 80942,
+          "offsetFrames": -123.55555555554747,
+          "peak": 0.1926271915435791
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 0.9,
+      "contextSeconds": 0.1,
+      "context": "digital silence",
+      "inputSha256": "3773a78e14899940cc11f43dafba695134faffc23309641bd26e1faaf2aa7eb2",
+      "nominalOutput": [
+        5333,
+        85333
+      ],
+      "outputSha256": "d6558f812bd0191d29aedcbbdfdb8b81789e0531d3a4c85aec0effb512fc0250",
+      "receipt": {
+        "frames": 100266,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.018502333,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.4863064205262103,
+        "peak": 0.17801004648208618
+      },
+      "before": {
+        "sumSquares": 0.40050170926778045,
+        "peak": 0.1309724599123001
+      },
+      "after": {
+        "sumSquares": 0.022157984595967788,
+        "peak": 0.026344774290919304
+      },
+      "retainedEnergyFraction": 0.5350105057025041,
+      "peaks": [
+        {
+          "nominalFrame": 5333,
+          "peakFrame": 5210,
+          "offsetFrames": -123,
+          "peak": 0.1309724599123001
+        },
+        {
+          "nominalFrame": 85332.22222222222,
+          "peakFrame": 85212,
+          "offsetFrames": -120.22222222221899,
+          "peak": 0.17801004648208618
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 0.9,
+      "contextSeconds": 0.25,
+      "context": "digital silence",
+      "inputSha256": "2ca6ed032a76e5edb8b732eff3e2a63619e260353a7febb202f1cf58686b1c4d",
+      "nominalOutput": [
+        13333,
+        93333
+      ],
+      "outputSha256": "1be6e7647553690d880f80541cf00844191aeb2020f236b4879f845960b18adb",
+      "receipt": {
+        "frames": 116266,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.019836875,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.5229312034050987,
+        "peak": 0.20001782476902008
+      },
+      "before": {
+        "sumSquares": 0.3707926541741677,
+        "peak": 0.11930713057518005
+      },
+      "after": {
+        "sumSquares": 0.04351566975180817,
+        "peak": 0.04617013409733772
+      },
+      "retainedEnergyFraction": 0.5579483026011711,
+      "peaks": [
+        {
+          "nominalFrame": 13333,
+          "peakFrame": 13219,
+          "offsetFrames": -114,
+          "peak": 0.11930713057518005
+        },
+        {
+          "nominalFrame": 93332.22222222222,
+          "peakFrame": 93218,
+          "offsetFrames": -114.22222222221899,
+          "peak": 0.20001782476902008
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 1,
+      "contextSeconds": 0,
+      "context": "digital silence",
+      "inputSha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "nominalOutput": [
+        0,
+        72000
+      ],
+      "outputSha256": "0b06dd34a468d1dcb598bd427759bbe8f7223a95724f5fe40c4bb8638ad77429",
+      "receipt": {
+        "frames": 81600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.002970666,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.9244446521335306,
+        "peak": 0.8000000715255737
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "retainedEnergyFraction": 1,
+      "peaks": [
+        {
+          "nominalFrame": 0,
+          "peakFrame": 0,
+          "offsetFrames": 0,
+          "peak": 0.533333420753479
+        },
+        {
+          "nominalFrame": 71999,
+          "peakFrame": 71999,
+          "offsetFrames": 0,
+          "peak": 0.8000000715255737
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 1,
+      "contextSeconds": 0.02,
+      "context": "digital silence",
+      "inputSha256": "3963e4b011d937b11856d1a87aff0ecc627d320035f9a4c55f04f8274634ef8c",
+      "nominalOutput": [
+        960,
+        72960
+      ],
+      "outputSha256": "616dc9280a5eb0d9933a7aa2071c65f80d1436059de789823c2b77e3cd1e1601",
+      "receipt": {
+        "frames": 83520,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.004827041,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 1.2658190874862392,
+        "peak": 0.800000011920929
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "retainedEnergyFraction": 1,
+      "peaks": [
+        {
+          "nominalFrame": 960,
+          "peakFrame": 960,
+          "offsetFrames": 0,
+          "peak": 0.79108726978302
+        },
+        {
+          "nominalFrame": 72959,
+          "peakFrame": 72959,
+          "offsetFrames": 0,
+          "peak": 0.800000011920929
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 1,
+      "contextSeconds": 0.1,
+      "context": "digital silence",
+      "inputSha256": "3773a78e14899940cc11f43dafba695134faffc23309641bd26e1faaf2aa7eb2",
+      "nominalOutput": [
+        4800,
+        76800
+      ],
+      "outputSha256": "6cddd88d7ea2189a88685b3daaa8475dfa95be024cc768345d144db535e58078",
+      "receipt": {
+        "frames": 91200,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.0025745,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 1.2800002288818462,
+        "peak": 0.8000000715255737
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "retainedEnergyFraction": 1,
+      "peaks": [
+        {
+          "nominalFrame": 4800,
+          "peakFrame": 4800,
+          "offsetFrames": 0,
+          "peak": 0.8000000715255737
+        },
+        {
+          "nominalFrame": 76799,
+          "peakFrame": 76799,
+          "offsetFrames": 0,
+          "peak": 0.8000000715255737
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 1,
+      "contextSeconds": 0.25,
+      "context": "digital silence",
+      "inputSha256": "2ca6ed032a76e5edb8b732eff3e2a63619e260353a7febb202f1cf58686b1c4d",
+      "nominalOutput": [
+        12000,
+        84000
+      ],
+      "outputSha256": "a79c185270e3e321e45d5993f50b56b9e42c44778da2a20eb116b232f8200d08",
+      "receipt": {
+        "frames": 105600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.003015709,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 1.2800001335144096,
+        "peak": 0.8000000715255737
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "retainedEnergyFraction": 1,
+      "peaks": [
+        {
+          "nominalFrame": 12000,
+          "peakFrame": 12000,
+          "offsetFrames": 0,
+          "peak": 0.8000000715255737
+        },
+        {
+          "nominalFrame": 83999,
+          "peakFrame": 83999,
+          "offsetFrames": 0,
+          "peak": 0.800000011920929
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 1.25,
+      "contextSeconds": 0,
+      "context": "digital silence",
+      "inputSha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "nominalOutput": [
+        0,
+        57600
+      ],
+      "outputSha256": "65fa498590a8e7a6963069d02ece39f144695cd5ff6a081d5880df3ed4adf715",
+      "receipt": {
+        "frames": 67200,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.012788041,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.23376234139068555,
+        "peak": 0.42757126688957214
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0.4489754337990752,
+        "peak": 0.6068501472473145
+      },
+      "retainedEnergyFraction": 0.34238964048197446,
+      "peaks": [
+        {
+          "nominalFrame": 0,
+          "peakFrame": 0,
+          "offsetFrames": 0,
+          "peak": 0.42757126688957214
+        },
+        {
+          "nominalFrame": 57599.2,
+          "peakFrame": 57663,
+          "offsetFrames": 63.80000000000291,
+          "peak": 0.6068501472473145
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 1.25,
+      "contextSeconds": 0.02,
+      "context": "digital silence",
+      "inputSha256": "3963e4b011d937b11856d1a87aff0ecc627d320035f9a4c55f04f8274634ef8c",
+      "nominalOutput": [
+        768,
+        58368
+      ],
+      "outputSha256": "99add76c4a5a2e551cc4b9ee038fe6516181a3451df3252acda4006877bfaeb7",
+      "receipt": {
+        "frames": 68736,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.009789333,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.4493116313052389,
+        "peak": 0.40796464681625366
+      },
+      "before": {
+        "sumSquares": 0.0025221154236287277,
+        "peak": 0.008825751021504402
+      },
+      "after": {
+        "sumSquares": 0.5522745945495539,
+        "peak": 0.49283134937286377
+      },
+      "retainedEnergyFraction": 0.44747325844657176,
+      "peaks": [
+        {
+          "nominalFrame": 768,
+          "peakFrame": 833,
+          "offsetFrames": 65,
+          "peak": 0.40796464681625366
+        },
+        {
+          "nominalFrame": 58367.2,
+          "peakFrame": 58495,
+          "offsetFrames": 127.80000000000291,
+          "peak": 0.49283134937286377
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 1.25,
+      "contextSeconds": 0.1,
+      "context": "digital silence",
+      "inputSha256": "3773a78e14899940cc11f43dafba695134faffc23309641bd26e1faaf2aa7eb2",
+      "nominalOutput": [
+        3840,
+        61440
+      ],
+      "outputSha256": "ec6151c52a08a3ce9bf4001ad420a0b420c0564c38ffea1f0e16a21338d578fb",
+      "receipt": {
+        "frames": 74880,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.012266958,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.4457097108616848,
+        "peak": 0.521257221698761
+      },
+      "before": {
+        "sumSquares": 0.0021667668902994796,
+        "peak": 0.006806565914303064
+      },
+      "after": {
+        "sumSquares": 0.5522044975533801,
+        "peak": 0.7222281694412231
+      },
+      "retainedEnergyFraction": 0.4456736223040303,
+      "peaks": [
+        {
+          "nominalFrame": 3840,
+          "peakFrame": 3904,
+          "offsetFrames": 64,
+          "peak": 0.521257221698761
+        },
+        {
+          "nominalFrame": 61439.2,
+          "peakFrame": 61567,
+          "offsetFrames": 127.80000000000291,
+          "peak": 0.7222281694412231
+        }
+      ]
+    },
+    {
+      "case": "edge-impulses",
+      "speed": 1.25,
+      "contextSeconds": 0.25,
+      "context": "digital silence",
+      "inputSha256": "2ca6ed032a76e5edb8b732eff3e2a63619e260353a7febb202f1cf58686b1c4d",
+      "nominalOutput": [
+        9600,
+        67200
+      ],
+      "outputSha256": "96f2d556839439c3e543c6c641d0826cc0ecada6cf2d36f646c87c17607cf624",
+      "receipt": {
+        "frames": 86400,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.010190041,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 0.5087297105154379,
+        "peak": 0.45350372791290283
+      },
+      "before": {
+        "sumSquares": 0.0015249779660343246,
+        "peak": 0.006314086727797985
+      },
+      "after": {
+        "sumSquares": 0.603335680078677,
+        "peak": 0.42138105630874634
+      },
+      "retainedEnergyFraction": 0.45683738372594995,
+      "peaks": [
+        {
+          "nominalFrame": 9600,
+          "peakFrame": 9697,
+          "offsetFrames": 97,
+          "peak": 0.45350372791290283
+        },
+        {
+          "nominalFrame": 67199.2,
+          "peakFrame": 67360,
+          "offsetFrames": 160.8000000000029,
+          "peak": 0.42138105630874634
+        }
+      ]
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.8,
+      "contextSeconds": 0,
+      "context": "digital silence",
+      "inputSha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "nominalOutput": [
+        0,
+        90000
+      ],
+      "outputSha256": "3bc9fd6d0a7d4d8a7b73e23c7314a3a2c9a2f3f1ea9866d2a3095ea1d5885387",
+      "receipt": {
+        "frames": 99600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.016333708,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 6.038060058199209,
+        "peak": 0.05674971267580986
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0.00028936477991390713,
+        "peak": 0.0017318748869001865
+      },
+      "retainedEnergyFraction": 0.9999520788282307
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.8,
+      "contextSeconds": 0.02,
+      "context": "digital silence",
+      "inputSha256": "0e32bdb6ddba9248a5e22987403b09cdd4d446ed78c29a8e7a12a29db8dd1181",
+      "nominalOutput": [
+        1200,
+        91200
+      ],
+      "outputSha256": "28a3e495ddb5d3366a091d358a5511a85663c42f63bb66874d2aaec692f763b5",
+      "receipt": {
+        "frames": 102000,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.017906833,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 6.137815762187936,
+        "peak": 0.05435919016599655
+      },
+      "before": {
+        "sumSquares": 0.026263736147671097,
+        "peak": 0.021504072472453117
+      },
+      "after": {
+        "sumSquares": 0.00019374521855822365,
+        "peak": 0.0019144495017826557
+      },
+      "retainedEnergyFraction": 0.9957079317673164
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.8,
+      "contextSeconds": 0.1,
+      "context": "digital silence",
+      "inputSha256": "b18d021a2d0ae430e0909edf1801ac520fd60eb4f963022a60cdfd23b0c13a0a",
+      "nominalOutput": [
+        6000,
+        96000
+      ],
+      "outputSha256": "00f01196c93b3d6ea5b3bd8cbad98a2eff6f8121f77a5f9944d1884062ab1e2a",
+      "receipt": {
+        "frames": 111600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.018533542,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 6.15224729819723,
+        "peak": 0.057729776948690414
+      },
+      "before": {
+        "sumSquares": 0.029539971695559667,
+        "peak": 0.02614145167171955
+      },
+      "after": {
+        "sumSquares": 0.00016612313439750122,
+        "peak": 0.001469372888095677
+      },
+      "retainedEnergyFraction": 0.9951947074102074
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.8,
+      "contextSeconds": 0.25,
+      "context": "digital silence",
+      "inputSha256": "6d1bbc403944b9bb7faa31f3b694a4131d71bd421256fe9f6bde28dbe310abed",
+      "nominalOutput": [
+        15000,
+        105000
+      ],
+      "outputSha256": "00cbfc2f0bc6b605f25a359934ce7d63359dfb58a5eaf22dddc724d8f694bdff",
+      "receipt": {
+        "frames": 129600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.021837458,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 6.116455468908403,
+        "peak": 0.04934006556868553
+      },
+      "before": {
+        "sumSquares": 0.02862680904039344,
+        "peak": 0.029506729915738106
+      },
+      "after": {
+        "sumSquares": 0.0007139921493420112,
+        "peak": 0.0030669686384499073
+      },
+      "retainedEnergyFraction": 0.9952258747442587
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.8,
+      "contextSeconds": 0.1,
+      "context": "real neighboring audio; excluded-source leakage probe",
+      "nominalOutput": [
+        6000,
+        96000
+      ],
+      "cleanSha256": "d95478706e3d6398ec5a991f63189f91035986167053e1c8fc078b814cfba756",
+      "poisonSha256": "b11729750b4706b3dc8d6f43c8728401b743c921af55e1f4cbbf68fbc0243a0b",
+      "changedSelectedFrames": 89998,
+      "firstChangedSelectedFrame": 0,
+      "lastChangedSelectedFrame": 89999,
+      "peakDifference": 0.7272905850259122
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.9,
+      "contextSeconds": 0,
+      "context": "digital silence",
+      "inputSha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "nominalOutput": [
+        0,
+        80000
+      ],
+      "outputSha256": "263462308c4241acf0b5111477c054452f245a0b07bc04125ba8b9a80a977866",
+      "receipt": {
+        "frames": 89600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.013566291,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 5.46313966950084,
+        "peak": 0.06280794739723206
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0.0001236571091871785,
+        "peak": 0.0017078542150557041
+      },
+      "retainedEnergyFraction": 0.9999773657058459
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.9,
+      "contextSeconds": 0.02,
+      "context": "digital silence",
+      "inputSha256": "0e32bdb6ddba9248a5e22987403b09cdd4d446ed78c29a8e7a12a29db8dd1181",
+      "nominalOutput": [
+        1066,
+        81066
+      ],
+      "outputSha256": "946f2691603b6650aca8050d8c0882d98762ba839695d43bc92f46d438111eb5",
+      "receipt": {
+        "frames": 91733,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.013421791,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 5.550508763926918,
+        "peak": 0.05315818637609482
+      },
+      "before": {
+        "sumSquares": 0.010953226364067748,
+        "peak": 0.01833282597362995
+      },
+      "after": {
+        "sumSquares": 0.0013940538804596899,
+        "peak": 0.004017350729554892
+      },
+      "retainedEnergyFraction": 0.9977804062973291
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.9,
+      "contextSeconds": 0.1,
+      "context": "digital silence",
+      "inputSha256": "b18d021a2d0ae430e0909edf1801ac520fd60eb4f963022a60cdfd23b0c13a0a",
+      "nominalOutput": [
+        5333,
+        85333
+      ],
+      "outputSha256": "d5ed6a2a281431a20adc8fc2909e30f3a1075f7f56b9ac78e6173dde9e088a64",
+      "receipt": {
+        "frames": 100266,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.016317,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 5.552203165652457,
+        "peak": 0.052320826798677444
+      },
+      "before": {
+        "sumSquares": 0.008101189905413565,
+        "peak": 0.01163440104573965
+      },
+      "after": {
+        "sumSquares": 0.00015509578700538093,
+        "peak": 0.002360008656978607
+      },
+      "retainedEnergyFraction": 0.9985151792285023
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.9,
+      "contextSeconds": 0.25,
+      "context": "digital silence",
+      "inputSha256": "6d1bbc403944b9bb7faa31f3b694a4131d71bd421256fe9f6bde28dbe310abed",
+      "nominalOutput": [
+        13333,
+        93333
+      ],
+      "outputSha256": "7575aaed3af8b4478c295ddf1c551e4deca9f2c4585d3ced12f470778d437f5d",
+      "receipt": {
+        "frames": 116266,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.083466667,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 5.536592479369939,
+        "peak": 0.049062494188547134
+      },
+      "before": {
+        "sumSquares": 0.012337142035036832,
+        "peak": 0.014004403725266457
+      },
+      "after": {
+        "sumSquares": 0.0006587798470212834,
+        "peak": 0.002277530264109373
+      },
+      "retainedEnergyFraction": 0.9976582187826477
+    },
+    {
+      "case": "real-phrase",
+      "speed": 0.9,
+      "contextSeconds": 0.1,
+      "context": "real neighboring audio; excluded-source leakage probe",
+      "nominalOutput": [
+        5333,
+        85333
+      ],
+      "cleanSha256": "3b4aeb95d76eb08556064b032ef49b68c2db04263f7e0a4393265142729cea75",
+      "poisonSha256": "e399946d75c7afba0947293f1ecbe4d4d2c66faf198bbc2419eb9543949a7afd",
+      "changedSelectedFrames": 79999,
+      "firstChangedSelectedFrame": 0,
+      "lastChangedSelectedFrame": 79999,
+      "peakDifference": 1.541326695587486
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1,
+      "contextSeconds": 0,
+      "context": "digital silence",
+      "inputSha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "nominalOutput": [
+        0,
+        72000
+      ],
+      "outputSha256": "16112d7a2ff1aee967871069857ccc9404cfcda2e37c87544747d251869216fa",
+      "receipt": {
+        "frames": 81600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.002625834,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 5.127762430959289,
+        "peak": 0.07013861835002899
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "retainedEnergyFraction": 1
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1,
+      "contextSeconds": 0.02,
+      "context": "digital silence",
+      "inputSha256": "0e32bdb6ddba9248a5e22987403b09cdd4d446ed78c29a8e7a12a29db8dd1181",
+      "nominalOutput": [
+        960,
+        72960
+      ],
+      "outputSha256": "09ea1509aa0e05874a5cafa07e088a155fb771eddd2a7762fbbb69fb3cb6ee0d",
+      "receipt": {
+        "frames": 83520,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.002256042,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 5.180214575332869,
+        "peak": 0.07013949006795883
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "retainedEnergyFraction": 1
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1,
+      "contextSeconds": 0.1,
+      "context": "digital silence",
+      "inputSha256": "b18d021a2d0ae430e0909edf1801ac520fd60eb4f963022a60cdfd23b0c13a0a",
+      "nominalOutput": [
+        4800,
+        76800
+      ],
+      "outputSha256": "bbf758147486a7df19530973afb2fd2e955f0fa672d6975eaa4d2d49b14113d9",
+      "receipt": {
+        "frames": 91200,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.0038405,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 5.180667606431766,
+        "peak": 0.07013949006795883
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "retainedEnergyFraction": 1
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1,
+      "contextSeconds": 0.25,
+      "context": "digital silence",
+      "inputSha256": "6d1bbc403944b9bb7faa31f3b694a4131d71bd421256fe9f6bde28dbe310abed",
+      "nominalOutput": [
+        12000,
+        84000
+      ],
+      "outputSha256": "6a7667e20f2b4a9703b0180137955acac8cafe0d1fda0f6f16fe293dc9787b02",
+      "receipt": {
+        "frames": 105600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.003995334,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 5.180667602123325,
+        "peak": 0.07013949006795883
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "retainedEnergyFraction": 1
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1,
+      "contextSeconds": 0.1,
+      "context": "real neighboring audio; excluded-source leakage probe",
+      "nominalOutput": [
+        4800,
+        76800
+      ],
+      "cleanSha256": "55dd25cc38822bd37916afb943b95174dc32cec5872fdaea64563e8edef68264",
+      "poisonSha256": "e904e2914f3e2ddf43d7d12ae38f54f27e6880a70ab71cd718a544f473f146f2",
+      "changedSelectedFrames": 0,
+      "firstChangedSelectedFrame": null,
+      "lastChangedSelectedFrame": null,
+      "peakDifference": 0
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1.25,
+      "contextSeconds": 0,
+      "context": "digital silence",
+      "inputSha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "nominalOutput": [
+        0,
+        57600
+      ],
+      "outputSha256": "10038a3451cfac31f2caefbd85030361c8ed1e23a33fab4a29d2ba231c603e44",
+      "receipt": {
+        "frames": 67200,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.01544575,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 3.629450862521039,
+        "peak": 0.057112231850624084
+      },
+      "before": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "after": {
+        "sumSquares": 0.00033872430716363566,
+        "peak": 0.0021198829635977745
+      },
+      "retainedEnergyFraction": 0.9999066821095134
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1.25,
+      "contextSeconds": 0.02,
+      "context": "digital silence",
+      "inputSha256": "0e32bdb6ddba9248a5e22987403b09cdd4d446ed78c29a8e7a12a29db8dd1181",
+      "nominalOutput": [
+        768,
+        58368
+      ],
+      "outputSha256": "88288d45dbafdc26fd18d20a76367c5a473a887f106d98b406b06cc25738cd06",
+      "receipt": {
+        "frames": 68736,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.019007667,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 3.678763765222541,
+        "peak": 0.07324337214231491
+      },
+      "before": {
+        "sumSquares": 0.00008198313090898252,
+        "peak": 0.0014804918318986893
+      },
+      "after": {
+        "sumSquares": 0.0005347475860755298,
+        "peak": 0.003929144237190485
+      },
+      "retainedEnergyFraction": 0.9998323819138432
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1.25,
+      "contextSeconds": 0.1,
+      "context": "digital silence",
+      "inputSha256": "b18d021a2d0ae430e0909edf1801ac520fd60eb4f963022a60cdfd23b0c13a0a",
+      "nominalOutput": [
+        3840,
+        61440
+      ],
+      "outputSha256": "6f905dee6ddee12dffcd88969d885572f1efd9bee3a174acb3ffdae0dd60a52e",
+      "receipt": {
+        "frames": 74880,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.01309275,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 3.681112244528005,
+        "peak": 0.07433860749006271
+      },
+      "before": {
+        "sumSquares": 0.00005407122364003009,
+        "peak": 0.0009389413753524423
+      },
+      "after": {
+        "sumSquares": 0.0008224547815936781,
+        "peak": 0.0042113750241696835
+      },
+      "retainedEnergyFraction": 0.9997619422383269
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1.25,
+      "contextSeconds": 0.25,
+      "context": "digital silence",
+      "inputSha256": "6d1bbc403944b9bb7faa31f3b694a4131d71bd421256fe9f6bde28dbe310abed",
+      "nominalOutput": [
+        9600,
+        67200
+      ],
+      "outputSha256": "a2070b4790714207986bd1c452813df86678ce6928c6ce32dc7657a80f9375ac",
+      "receipt": {
+        "frames": 86400,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.021711125,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "inside": {
+        "sumSquares": 3.6796401573555304,
+        "peak": 0.06933778524398804
+      },
+      "before": {
+        "sumSquares": 0.000023567230590134792,
+        "peak": 0.0008174246759153903
+      },
+      "after": {
+        "sumSquares": 0.0009304318159666926,
+        "peak": 0.003428878728300333
+      },
+      "retainedEnergyFraction": 0.9997408029774482
+    },
+    {
+      "case": "real-phrase",
+      "speed": 1.25,
+      "contextSeconds": 0.1,
+      "context": "real neighboring audio; excluded-source leakage probe",
+      "nominalOutput": [
+        3840,
+        61440
+      ],
+      "cleanSha256": "2a35fb8b153c1bc637f2388d92e37044b8c1dcd5949b82042598715307ddcb81",
+      "poisonSha256": "6b141f0bcbea0030bd1a3ac615691b68bdca5450c4e3424f76818439e9b33de9",
+      "changedSelectedFrames": 57598,
+      "firstChangedSelectedFrame": 0,
+      "lastChangedSelectedFrame": 57599,
+      "peakDifference": 1.25348304444924
+    }
+  ]
+}
