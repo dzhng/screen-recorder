@@ -1,10 +1,18 @@
 # 00 — Freeze fixtures and preservation evidence
 
-Status: not started. Dependencies: none.
+Status: complete as a corpus and baseline-recording contract. Dependencies: none.
+Corpus commit `b1fc5fe` passes five deterministic/hash/decode checks and independent
+[code and visual review](../assets/00-baseline/review.md). The
+[baseline manifest](../assets/00-baseline/manifest.json) freezes rebuilt native
+identity, selected outputs and logs: core 39 pass; native 53 pass and two inherited
+performance timeouts. Separate maintenance owns those failures; no native-green
+claim is made. [Inherited speech labels](../assets/00-baseline/speech-labels.json)
+separate manual acoustic marks from ASR-only candidates. Complete independent
+filler/repetition annotation and listening acceptance remain slice 12 gates.
 
 ## Contract
 
-A fresh implementer can reproduce every input and distinguish existing verified behavior from pending acceptance. This is the next pickup; no production editor changes belong here.
+A fresh implementer can reproduce every input and distinguish existing verified behavior from pending acceptance. No production editor changes belong here.
 
 ## Seam and ownership
 
@@ -33,4 +41,3 @@ If a named existing harness differs from the map, locate its actual entry point 
 Delegated: Fixture colors, internal script layout and report formatting. No changes to the user's scope or acceptance meanings.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
-

@@ -1,0 +1,14 @@
+▶ corpus generation repeats bytes, exposes independent timing, and refuses tampered members
+  ✔ actual frame presentation and decoded markers match hand-specified source membership (467.381791ms)
+  ✔ independent audio preserves exact impulses, sample count and distinct tones (311.368875ms)
+  ✔ orientation, transparent pixels, odd geometry and absent streams survive encoding (752.588917ms)
+  ✔ timestamp gap is observable without claiming decoder hold is acquired content (199.813459ms)
+✔ corpus generation repeats bytes, exposes independent timing, and refuses tampered members (10946.537417ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11146.384625

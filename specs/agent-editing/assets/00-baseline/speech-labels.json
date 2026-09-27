@@ -1,0 +1,56 @@
+{
+  "schema": "speech-corpus-labels",
+  "source": "fixtures/narrated-workbench",
+  "timeDomain": "source",
+  "narrationFileOriginUs": 48675,
+  "annotationStatus": "partial-inherited-evidence",
+  "independentBoundaryToleranceUs": 25000,
+  "targets": [
+    {
+      "id": "filler-uh-54s",
+      "text": "uh",
+      "kind": "filler",
+      "sourceRange": { "startUs": 54128675, "endUs": 54548675 },
+      "fileRange": { "startUs": 54080000, "endUs": 54500000 },
+      "evidence": "specs/recording-for-ai/assets/speech/boundaries/marks.json",
+      "evidenceWords": ["w117"],
+      "boundaryAuthority": "inherited-manual-visual-marks",
+      "audition": "not-performed-for-this-cut"
+    },
+    {
+      "id": "repetition-candidate-second-return",
+      "text": "Return to it.",
+      "kind": "candidate-repetition",
+      "sourceRange": { "startUs": 103968675, "endUs": 104583675 },
+      "evidence": "specs/recording-for-ai/assets/speech/boundaries/marks.json",
+      "evidenceWords": ["w237", "w238", "w239"],
+      "boundaryAuthority": "inherited-manual-outer-boundaries",
+      "textAuthority": "asr",
+      "removalIntent": "unverified",
+      "audition": "not-performed-for-this-cut"
+    },
+    {
+      "id": "historically-auditioned-phrase",
+      "text": "this is free",
+      "kind": "explicit-phrase-removal",
+      "sourceRange": { "startUs": 73808675, "endUs": 74768675 },
+      "evidence": "specs/recording-for-ai/assets/personal-journey/journey.json",
+      "auditionEvidence": "specs/recording-for-ai/assets/personal-journey/audition.md",
+      "boundaryAuthority": "historical-asr-range-with-independent-audition",
+      "currentAsrEndUs": 74528675,
+      "audition": "historical-range-only-not-current-tighter-range"
+    }
+  ],
+  "unverifiedCandidates": [
+    { "id": "first-return", "words": ["w226", "w227", "w228"], "text": "return to it.", "sourceRange": { "startUs": 99568675, "endUs": 100208675 }, "authority": "asr-only" },
+    { "id": "filler-left-neighbor", "words": ["w116"], "text": "paragraph,", "sourceRange": { "startUs": 52288675, "endUs": 53088675 }, "authority": "asr-only", "proposedUse": "protect-neighbor" },
+    { "id": "filler-right-neighbor", "words": ["w118"], "text": "this", "sourceRange": { "startUs": 55088675, "endUs": 55408675 }, "authority": "asr-only", "proposedUse": "protect-neighbor" }
+  ],
+  "missing": [
+    "independent labels for all audible fillers including ASR omissions",
+    "independent repeated-word removal versus deliberate-emphasis labels",
+    "manual protected-neighbor ranges around filler and repetition cuts",
+    "independent auditions of filler and repetition joins"
+  ],
+  "qualityGateOwner": "slice-12-speech-evidence"
+}

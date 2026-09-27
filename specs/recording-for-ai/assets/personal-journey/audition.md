@@ -17,7 +17,9 @@ survived without a clipped syllable at the join.
 It establishes that one cut, derived from real narration, joins audibly cleanly, and that the
 five-millisecond ramps at a join do not swallow neighbouring speech.
 
-It does not measure word boundary error. The median and p95 targets in
-[verification](../../verification.md#performance-and-fidelity-targets) need boundaries a person
-has marked by hand on this narration, which nobody has produced; the engine's own timings cannot
-grade themselves. One listener, one cut and one take are also not a distribution.
+It does not measure word boundary error. That separate measurement is recorded in
+the [boundary evidence](../speech/boundaries/README.md), using independent visual
+marks rather than letting the engine's own timings grade themselves. One listener,
+one cut and one take are also not a distribution. The approval here applies to
+the exact historical cut in `journey.json`; it does not transfer automatically to
+different boundaries from a later transcription generation.

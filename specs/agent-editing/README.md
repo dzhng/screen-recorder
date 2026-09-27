@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation spec complete; implementation not started. Updated 2026-09-27.
+Status: implementation in progress; corpus frozen, baseline performance fixes underway. Updated 2026-09-27.
 The [product CLI skill](../../skills/screenrec/SKILL.md) exists for current capabilities;
 it is not evidence that the new editor exists. This plan supersedes the discovery
 map's research queue and kickoff prompt. The [map](MAP.md) remains the record of
@@ -10,12 +10,20 @@ user intent.
 
 You are implementing the user's local agent-operated editor. Read
 [contracts](contracts.md), [architecture](architecture.md), [verification](verification.md)
-and [research](research.md). Start at [00 — fixtures and preservation](slices/00-corpus.md).
-Produce its reproducible corpus and actual baseline evidence before changing
-production code. Do not ask the user again about scope, UI, creative policies,
-voice references or migration; those decisions are settled.
+and [research](research.md). Finish the two inherited native performance failures
+recorded in the [baseline manifest](assets/00-baseline/manifest.json), preserving
+the existing gates. The audio decoder lifecycle and held-frame thumbnail fixes
+run in separate worktrees. In parallel, implement [01 — composition](slices/01-composition.md)
+and [02 — assets](slices/02-assets.md) against the frozen corpus. Do not ask the
+user again about settled scope, creative policies, voice references or migration.
 
-After 00, run the dependency-ready research gates 06 (rendering), 12 (speech
+Evidence: corpus commit `b1fc5fe` passes five tests and independent code/visual
+review; core preservation passes 39 tests. The freshly built native baseline
+passes 53 of 55 tests; the two failures are timeouts, not accepted regressions.
+[00](slices/00-corpus.md) records the evidence boundary. Complete real speech
+annotation and listening acceptance remain in slice 12.
+
+Run the dependency-ready research gates 06 (rendering), 12 (speech
 inspection), 13 (stretch), 18 (voice) and 20 (camera clock), alongside the pure
 composition and asset work. Gate 06 also needs 01. Do not start dependent
 integration on assumed results. The first useful public checkpoint is
@@ -33,7 +41,7 @@ check only genuinely completed items below, and replace this pickup with the exa
 next dependency-ready work. Keep the product skill synchronized only with shipped,
 verified operations. Reslice newly discovered broad work before widening a patch.
 Run the repository's implementation/review skills at implementation time; this
-spec-writing pass has not run runtime acceptance.
+plan alone is not runtime acceptance.
 
 ## Outcome and boundaries
 
@@ -97,7 +105,7 @@ research blocks the first preview. Individual dependency lists are checked for c
 
 ## Global checklist
 
-- [ ] [00 — Freeze fixtures and preservation evidence](slices/00-corpus.md)
+- [x] [00 — Freeze fixtures and preservation evidence](slices/00-corpus.md)
 - [ ] [01 — Composition identity and time](slices/01-composition.md)
 - [ ] [02 — Immutable asset admission](slices/02-assets.md)
 - [ ] [03 — Structural edits and attachments](slices/03-edits.md)
@@ -141,6 +149,8 @@ research blocks the first preview. Individual dependency lists are checked for c
 - [Research](research.md) records primary sources and freezes accepted experiments
   before their adoption. Research failure leaves the feature incomplete and
   triggers its named alternative/reslice, not a passing mock.
+- [Implementation choices](choices.md) records decisions made in implementation
+  where the plan was silent.
 - [Planning decisions](decisions.md) records independent-draft synthesis,
   architectural choices and recursive splitting. It is disclosure, not another
   task list.
@@ -156,7 +166,8 @@ Planning validation consists of three independent whole-plan drafts (fewest-slic
 Codex, risk-first Claude, seam-quality Claude), primary-source research, ownership
 and contract review, a dependency/link/required-section audit, and scrollback
 reconciliation. No new rendering, voice quality, webcam or performance gate is
-claimed passed. The next pickup remains slice 00.
+claimed passed by planning validation. Implementation evidence lives in the
+current handoff and owning slices.
 
 The [planning validation report](assets/planning/validation.json) records 27 slices,
 59 dependency edges, valid local file links and no dependency cycles. It explicitly

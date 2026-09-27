@@ -1,0 +1,171 @@
+{
+  "kind": "preservation-baseline",
+  "sourceCommit": "ba5b2c6",
+  "date": "2026-09-27",
+  "nativeBuild": "debug",
+  "nativeSha256": "ed9efa3cb4592bb17ab2b29988265dc2dcb2a63b022f33f7205f30f2c3f0d1f2",
+  "builds": [
+    {
+      "command": "bun run --cwd packages/core build",
+      "exitCode": 0
+    },
+    {
+      "command": "swift build --package-path helpers/mac --product screenrec-native",
+      "exitCode": 0
+    }
+  ],
+  "checks": [
+    {
+      "command": "bun run --cwd packages/core test src/timeline.test.ts src/library.test.ts src/preview.test.ts",
+      "exitCode": 0,
+      "passed": 39,
+      "failed": 0
+    },
+    {
+      "command": "node --test --test-concurrency=1 helpers/mac/Tests/video-render.test.mjs helpers/mac/Tests/movie-render.test.mjs helpers/mac/Tests/audio.test.mjs helpers/mac/Tests/source-evidence.test.mjs helpers/mac/Tests/pointer-movie.test.mjs",
+      "exitCode": 1,
+      "passed": 53,
+      "failed": 2
+    },
+    {
+      "command": "node --test packages/test-harness/editing/fixtures.test.mjs",
+      "exitCode": 0,
+      "passed": 5,
+      "failed": 0
+    }
+  ],
+  "knownFailures": [
+    {
+      "test": "movie accepts 1001 retained/acquired spans while public excerpts retain their cap",
+      "observed": "60 second subprocess timeout",
+      "owner": "audio reader lifecycle performance maintenance"
+    },
+    {
+      "test": "presentation evidence memory stays bounded while streamed output grows",
+      "observed": "30 second subprocess timeout",
+      "owner": "presentation thumbnail reuse performance maintenance"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "reference/movie/report.json",
+      "bytes": 18618,
+      "sha256": "fd9429d6dce8d23c8de64c46a74aac714424525e66c1a3285774afd28791fc89"
+    },
+    {
+      "path": "reference/movie/original.mp4",
+      "bytes": 67222,
+      "sha256": "0cfe409d8af22504ceddbf997acbcf386b73909ca3c240a4993ece17eac2a7fd"
+    },
+    {
+      "path": "reference/movie/two-cuts.mp4",
+      "bytes": 47604,
+      "sha256": "0fc551ba92ca68e29b06dda7554722618f78b9e5b3405c721a1fae72852e334a"
+    },
+    {
+      "path": "reference/movie/fractional.mp4",
+      "bytes": 3946,
+      "sha256": "e64cea61fabc9ae2ce4101ded1e96deca829edb9e8b387a3b991f9172e8517b1"
+    },
+    {
+      "path": "reference/movie/two-cuts.ref.f32",
+      "bytes": 1942488,
+      "sha256": "7a7a6a51f02645445476c1c97fd1c7fc0135aeb74c2c7ea550612a243cecd08e"
+    },
+    {
+      "path": "reference/video/report.json",
+      "bytes": 7632,
+      "sha256": "73e4911b5ef5a61f0a69eea7f4341f2c17f2a50c6fbadfb53007c91ad799ca84"
+    },
+    {
+      "path": "reference/video/held.jsonl",
+      "bytes": 19009,
+      "sha256": "0730bf5497e44bc81db6ffc9cc1f8309836e84bcc3830fed663526cfdb83acb3"
+    },
+    {
+      "path": "reference/video/original.cache",
+      "bytes": 7887,
+      "sha256": "fc3f4162b833542b60bcb95d86ff8a4997af2e8038e3d36a8888ef706d521b4a"
+    },
+    {
+      "path": "reference/video/internal-empty.cache",
+      "bytes": 2748,
+      "sha256": "7713bae078d3bdb957dbb4ec32d9b72aef2886d933504cea0724a9f0c778c3d5"
+    },
+    {
+      "path": "reference/video/leading-empty.cache",
+      "bytes": 1640,
+      "sha256": "591ca023b4f831a55c0b0c4f9ef50351ba793a3f94966a1c320a686b481a1062"
+    },
+    {
+      "path": "reference/video/sparse-held.cache",
+      "bytes": 1597,
+      "sha256": "cab181f125400c19edc3b804ccd2c72761533e2b338ccc96b38903a8c72d422a"
+    },
+    {
+      "path": "reference/pointer/cuts.mp4",
+      "bytes": 1085,
+      "sha256": "1b94dcbe78406345decc4a1312e40b48ac0e8242bc0a6fa7287ba3c1c4a008f6"
+    },
+    {
+      "path": "reference/pointer/cuts.jsonl",
+      "bytes": 522,
+      "sha256": "ec6d99c432dfaba682ad6534ddf7fe546f5e8b399d54a2ced1802d9189477b7a"
+    },
+    {
+      "path": "reference/pointer/empty.mp4",
+      "bytes": 1244,
+      "sha256": "7c5c6c4de4799ac67a689fc1677513688a5d24848fbd0da732e6b0e3d8e9d965"
+    },
+    {
+      "path": "reference/pointer/empty.jsonl",
+      "bytes": 356,
+      "sha256": "6179348620222c45d32981eae5d8b82201dd2198274cb8295dd8e2b2c63b7a49"
+    },
+    {
+      "path": "reference/pointer/bounded-full.mp4",
+      "bytes": 1022,
+      "sha256": "4a85380a3dfb5af69d40a104e2227a9604747747673a830310c0a1d4c657d09c"
+    },
+    {
+      "path": "reference/pointer/bounded-half.mp4",
+      "bytes": 1046,
+      "sha256": "41f2bcb150faa9d0f145b25a28460b80fec4267feedc8d38e426f598eb33d6f7"
+    },
+    {
+      "path": "core-tests.txt",
+      "bytes": 974,
+      "sha256": "f39c22478f3ea60a41fd5df14e073d3a0501eb18b009314919043b506c9df3fa"
+    },
+    {
+      "path": "native-tests.txt",
+      "bytes": 10749,
+      "sha256": "9a73deee8d49b4c724b1b2c073914c1bd0daacbf75e0fff465b9e407c067bb34"
+    },
+    {
+      "path": "corpus-tests.txt",
+      "bytes": 727,
+      "sha256": "4d5ac4faed6a2aa53a56f5d6ca5cccfacc20fc4cf460e6d813edf27c1d2c1f7e"
+    },
+    {
+      "path": "speech-labels.json",
+      "bytes": 2690,
+      "sha256": "d6b4188e7a461a36e937e3018fb4e707233a986561c4fe02636fe88416c61faf"
+    },
+    {
+      "path": "visual-review.md",
+      "bytes": 856,
+      "sha256": "2861297be7213d7cb2cc7beaf37696b4c640437c4a13e313b502738e50bbe04d"
+    },
+    {
+      "path": "review.md",
+      "bytes": 1135,
+      "sha256": "1bcd15f1f4e3dbe0cc0f7d5ad1b346070abcffbe7b2bddd06f43863a207ffd71"
+    }
+  ],
+  "limits": [
+    "Debug build timing does not establish production release performance.",
+    "Selected outputs are preservation references; failed tests have not been declared passed.",
+    "Real speech annotation is partial; acoustic quality and webcam physical acceptance remain pending."
+  ]
+}

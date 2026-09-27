@@ -1,0 +1,164 @@
+✔ audio worker writes a concatenated excerpt and survives invalid requests (1281.401ms)
+✔ a thousand fractional spans keep the duration the plan asked for (100316.3575ms)
+✔ audio worker writes WAVE bytes to an opaque derivative path (536.015917ms)
+✔ audio decode failure permits explicit retry while invalid plans remain terminal (72.28175ms)
+✔ AAC source priming is removed before offset placement in streamed PCM (1352.21875ms)
+✔ midstream source failure leaves no completed WAVE or staging output (515.070584ms)
+✔ movie preserves original timing and PCM alignment (7039.529375ms)
+✔ movie preserves two-cuts timing and PCM alignment (11856.6985ms)
+✔ movie preserves fractional timing and PCM alignment (4364.305625ms)
+✔ tiny AAC has exact native endpoint but differs in FFmpeg decoding (4633.957125ms)
+✔ movie preserves subsample timing and PCM alignment (2191.959208ms)
+✔ movie preserves mono timing and PCM alignment (5181.279083ms)
+✔ movie preserves silent timing and PCM alignment (2187.085292ms)
+✔ changed excluded source samples cannot enter tiny or cut AAC output (6300.383958ms)
+✖ movie accepts 1001 retained/acquired spans while public excerpts retain their cap (60054.013167ms)
+✔ current pointer moves and clears over held pixels at exact fractional times (1191.900708ms)
+✔ fractional pointer transitions survive final AAC mux without rounding (1906.7585ms)
+✔ unsupported exact clock never publishes output or leaves staging (389.88525ms)
+✔ schedule hash and initial kept state are required before publication (1141.895792ms)
+✔ sub-microsecond pointer transitions remain distinct encoded samples (1234.503209ms)
+✔ kept starts reset the current pointer and map fractional source times exactly (1475.668667ms)
+✔ changing schedule bytes after preflight prevents movie publication (15013.18ms)
+✔ proven empty presentation remains black even across a held pointer state (2789.385375ms)
+✔ a bounded render scales the movie and keeps the pointer on the same spot (1759.753625ms)
+✔ a bound that would round to an odd edge writes the even size H.264 requires (794.720625ms)
+✔ a bound outside the image limit is refused before any render (36.19525ms)
+✔ worker exports display-space observations and preserves source (40.331875ms)
+✔ receipt preserves the requested output locator across macOS temporary-directory aliases (137.816875ms)
+✔ samples preserve raw values and geometry ordering across batches (38.721292ms)
+✔ corrupt and incomplete tails retain only observed prefix with explicit markers (594.282333ms)
+✔ existing paths, links, source descendants and invalid requests never mutate source (349.704458ms)
+✔ large journal streams individual samples through the real worker with a small receipt (3953.606708ms)
+✔ budget and malformed-header failures publish nothing and clean staging (115.051458ms)
+✔ interleaved audio merges per role, preserves gaps and completed pauses (41.784666ms)
+✔ timing evidence flushes trusted audio at corrupt or unfinished pause tails (87.095125ms)
+✔ invalid timing record stops before emitting or clearing observed pause (237.201792ms)
+✔ many audio gaps stream with bounded worker memory and a constant-size receipt (4005.34225ms)
+ℹ 100,000 audio gaps: peak worker RSS 24412160 bytes
+✔ many deferred pauses stream with bounded worker memory and a constant-size receipt (3891.949917ms)
+ℹ 100,000 deferred pauses: peak worker RSS 23166976 bytes
+✔ video worker preserves one-microsecond-spans pixels and exact plan duration (867.446583ms)
+✔ video worker preserves subframe pixels and exact plan duration (912.6855ms)
+✔ video worker preserves fractional-two-cuts pixels and exact plan duration (1032.707916ms)
+✔ video worker preserves two-middle-cuts pixels and exact plan duration (1100.892667ms)
+✔ video worker preserves original pixels and exact plan duration (1328.726167ms)
+✔ video worker preserves sparse-held pixels and exact plan duration (1245.937417ms)
+✔ video worker preserves leading-empty pixels and exact plan duration (1078.501709ms)
+✔ video worker preserves internal-empty pixels and exact plan duration (984.967ms)
+✔ video worker preserves trailing-empty pixels and exact plan duration (1221.28175ms)
+✔ video worker preserves empty-only pixels and exact plan duration (993.070625ms)
+✔ video worker refuses malformed plans and output aliases without source mutation (374.087708ms)
+✔ video publication preserves a destination created during rendering (5524.758ms)
+✔ video output preserves the native source's sRGB presentation across decoders (2252.398792ms)
+✔ presentation evidence holds the displayed frame instead of nearest future still (1297.0075ms)
+✔ presentation evidence clips exact rational supports across cuts and empty edits (1053.238875ms)
+✔ presentation evidence refuses unsupported video tail and partial byte-budget output (1144.776791ms)
+✖ presentation evidence memory stays bounded while streamed output grows (31084.59875ms)
+ℹ tests 55
+ℹ suites 0
+ℹ pass 53
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 308592.451333
+
+✖ failing tests:
+
+test at helpers/mac/Tests/movie-render.test.mjs:428:1
+✖ movie accepts 1001 retained/acquired spans while public excerpts retain their cap (60054.013167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: spawnSync /Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native ETIMEDOUT
+  +     at Object.spawnSync (node:internal/child_process:1119:20)
+  +     at spawnSync (node:child_process:911:24)
+  +     at run (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:27:13)
+  +     at request (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:38:21)
+  +     at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:438:17)
+  +     at Test.runInAsyncScope (node:async_hooks:228:14)
+  +     at Test.run (node:internal/test_runner/test:1118:25)
+  +     at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+  +     at Test.postRun (node:internal/test_runner/test:1247:19)
+  +     at Test.run (node:internal/test_runner/test:1175:12) {
+  +   code: 'ETIMEDOUT',
+  +   errno: -60,
+  +   path: '/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native',
+  +   spawnargs: [],
+  +   syscall: 'spawnSync /Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native'
+  + }
+  - undefined
+  
+      at run (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:33:10)
+      at request (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:38:21)
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:438:17)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: spawnSync /Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native ETIMEDOUT
+        at Object.spawnSync (node:internal/child_process:1119:20)
+        at spawnSync (node:child_process:911:24)
+        at run (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:27:13)
+        at request (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:38:21)
+        at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/movie-render.test.mjs:438:17)
+        at Test.runInAsyncScope (node:async_hooks:228:14)
+        at Test.run (node:internal/test_runner/test:1118:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+        at Test.postRun (node:internal/test_runner/test:1247:19)
+        at Test.run (node:internal/test_runner/test:1175:12),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at helpers/mac/Tests/video-render.test.mjs:533:1
+✖ presentation evidence memory stays bounded while streamed output grows (31084.59875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: spawnSync /usr/bin/time ETIMEDOUT
+  +     at Object.spawnSync (node:internal/child_process:1119:20)
+  +     at spawnSync (node:child_process:911:24)
+  +     at run (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/video-render.test.mjs:37:18)
+  +     at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/video-render.test.mjs:547:7)
+  +     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+  +     at async Test.run (node:internal/test_runner/test:1125:7)
+  +     at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+  +   code: 'ETIMEDOUT',
+  +   errno: -60,
+  +   path: '/usr/bin/time',
+  +   spawnargs: [
+  +     '-l',
+  +     '-o',
+  +     '/tmp/screenrec-agent-editing-baseline-ba5b2c6/video/memory-5000.txt',
+  +     '/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native'
+  +   ],
+  +   syscall: 'spawnSync /usr/bin/time'
+  + }
+  - undefined
+  
+      at run (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/video-render.test.mjs:43:10)
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/video-render.test.mjs:547:7)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: spawnSync /usr/bin/time ETIMEDOUT
+        at Object.spawnSync (node:internal/child_process:1119:20)
+        at spawnSync (node:child_process:911:24)
+        at run (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/video-render.test.mjs:37:18)
+        at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/video-render.test.mjs:547:7)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async Test.run (node:internal/test_runner/test:1125:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:787:7),
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
