@@ -2,6 +2,8 @@ import { z } from "zod";
 import { anchorSchema, clipSchema, compositionSchema, rangeSchema } from "./schema.js";
 import { CompositionError, validateComposition, type ValidatedComposition } from "./model.js";
 
+import { splitClips } from "./partition.js";
+
 type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "syncGroup";
 const reference = z.union([z.string().min(1), z.object({ label: z.string().min(1) }).strict()]);
@@ -22,6 +24,17 @@ const placedClip = clipSchema.omit({ id: true }).extend({
   ]),
 });
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("split"),
+      clipIds: z.array(reference).min(1),
+      atUs: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+      scope: z.enum(["linked", "selected"]).default("linked"),
+      rightLabels: z
+        .array(z.object({ clipId: reference, label: z.string().min(1) }).strict())
+        .default([]),
+    })
+    .strict(),
   z
     .object({
       operation: z.literal("track.add"),
@@ -112,6 +125,7 @@ export function applyBatch(
   const createdIds: EditBatchResult["createdIds"] = [];
   const bindings = new Map<string, { kind: EntityKind; id: string }>();
   const normalized: EditBatchResult["normalized"] = [];
+  const splitLineage: EditBatchResult["splitLineage"] = [];
   let ordinal = 0;
   const resolve = (value: z.infer<typeof reference>, kind: EntityKind): string => {
     if (typeof value === "string") return value;
@@ -154,6 +168,28 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "split": {
+          const result = splitClips(
+            model,
+            clips(operation.clipIds),
+            operation.atUs,
+            operation.scope,
+            allocate,
+          );
+          for (const entry of operation.rightLabels) {
+            const originalId = resolve(entry.clipId, "clip");
+            const right = result.lineage.find((item) => item.originalId === originalId)?.clipIds[1];
+            if (!right)
+              invalid("Label target did not split at the requested time", {
+                clipId: originalId,
+                atUs: operation.atUs,
+              });
+            bind(entry.label, "clip", right);
+          }
+          next = result.document;
+          splitLineage.push(...result.lineage);
+          break;
+        }
         case "track.add": {
           const id = allocate("track");
           bind(operation.label, "track", id);
@@ -263,7 +299,7 @@ export function applyBatch(
     createdIds,
     labels: Object.fromEntries([...bindings].map(([name, value]) => [name, value.id])),
     normalized,
-    splitLineage: [],
+    splitLineage,
     removedAttachments: [],
     linkChanges: normalized.flatMap((step) =>
       step.changes.filter(

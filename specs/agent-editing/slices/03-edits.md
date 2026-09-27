@@ -44,6 +44,26 @@ checks and the [corpus probe](../assets/03-edits/composition-probe.json) pass.
 Independent Codex review found no actionable correctness issues. A net-no-op
 regression first failed and now passes when a batch adds then removes a track.
 
-Split/trim, remove, move, insert, replace, retime, duplicate and attachment/ripple
-propagation remain unimplemented. Empty split/attachment receipt fields do not
-claim those capabilities. The full edits probe and public service remain open.
+The checkpoint establishes the shared batch contract; structural operation
+progress is tracked below. The full edits probe and public service remain open.
+
+## Split checkpoint
+
+Splits preserve exact source mapping for linked or selected clips, recursively
+partition attached media, and rebase normalized anchors on held parents. Left
+children retain identity; right children and surviving right synchronization
+groups receive deterministic identities. Optional right-child labels make these
+pieces addressable later in the same batch. Splitting at an existing boundary
+has no net change. Only actually split selected members lose synchronization.
+
+[29 composition tests](../assets/03-edits/split/tests.txt) and type checks pass.
+A [rounded-boundary mutation](../assets/03-edits/split/rounding-mutation.txt) fails.
+Both independent reviews found that an untouched selected member could lose its
+link; the [regression](../assets/03-edits/split/selected-members-red.txt) failed
+before filtering by actual partition results and now passes. Full slice acceptance
+still requires trim/remove/move/insert/replace/retime/duplicate and ripple.
+
+Final independent Codex review found no actionable defects after the selected-member
+fix and right-label support. A separate exhaustive probe checked 1,326 small
+retimed splits and all 12,376 integer project samples without a mapping change.
+Attachment traversal and linked-group expansion visit each edge/group once.

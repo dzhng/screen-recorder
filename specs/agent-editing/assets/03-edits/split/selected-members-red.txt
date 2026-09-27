@@ -1,0 +1,41 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+ ❯ packages/composition/src/edits.test.ts (9 tests | 1 failed | 8 skipped) 24ms
+   × selected members absent at a split keep their synchronization 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/edits.test.ts > selected members absent at a split keep their synchronization
+AssertionError: expected [] to deeply equal [ { id: 'group', …(1) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "clipIds": [
+-       "a",
+-       "c",
+-     ],
+-     "id": "group",
+-   },
+- ]
++ []
+
+ ❯ packages/composition/src/edits.test.ts:338:38
+    336|   };
+    337|   const result = applyBatch(document, [{ operation: "split", clipIds: …
+    338|   expect(result.document.syncGroups).toEqual([{ id: "group", clipIds: …
+       |                                      ^
+    339|   expect(result.splitLineage).toEqual([{ originalId: "b", clipIds: ["b…
+    340| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  13:25:52
+   Duration  542ms (transform 46%, import 46%, tests 7%, worker 2%)
+

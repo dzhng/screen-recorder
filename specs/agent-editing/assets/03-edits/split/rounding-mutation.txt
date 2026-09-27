@@ -1,0 +1,55 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+ ❯ packages/composition/src/edits.test.ts (8 tests | 1 failed | 7 skipped) 183ms
+   × linked split partitions unequal AV and attached media without changing sample mapping 174ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/edits.test.ts > linked split partitions unequal AV and attached media without changing sample mapping
+AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]
+
+- Expected
++ Received
+
+  [
+    {
+      "kind": "range",
+      "range": {
+-       "endUs": {
+-         "denominator": 3,
+-         "numerator": 10,
+-       },
++       "endUs": 3,
+        "startUs": 0,
+      },
+    },
+    {
+      "kind": "range",
+      "range": {
+        "endUs": 10,
+-       "startUs": {
+-         "denominator": 3,
+-         "numerator": 10,
+-       },
++       "startUs": 3,
+      },
+    },
+  ]
+
+ ❯ packages/composition/src/edits.test.ts:188:51
+    186|     (clip) => clip.trackId === first.labels.overlayTrack,
+    187|   );
+    188|   expect(overlayParts.map((clip) => clip.source)).toEqual([
+       |                                                   ^
+    189|     { kind: "range", range: { startUs: 0, endUs: { numerator: 10, deno…
+    190|     { kind: "range", range: { startUs: { numerator: 10, denominator: 3…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  13:24:13
+   Duration  801ms (transform 54%, tests 29%, import 16%, worker 1%)
+

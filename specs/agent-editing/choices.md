@@ -177,3 +177,20 @@ its changed entities, while the final changed flag compares the initial and fina
 documents. Adding and removing a track in one batch is therefore a net no-op.
 The reach: storage can replay requests without inventing fresh identities, and
 agents can inspect the same expansion that produced the resulting document.
+
+
+### Name split children by their original occurrence
+
+When: slice 03 splitting. Confidence: high. Verdict: sound.
+
+The choice: an agent splitting linked audio and video can name the right video
+and right audio in that operation, then independently edit those named pieces
+later in the same batch. Each label identifies an original occurrence and binds
+to its new right child. If that occurrence lies outside the cut and produces no
+right child, the batch fails explicitly instead of selecting unrelated footage.
+
+The gap: the plan required in-batch labels and split lineage but did not define
+how a multi-stream split exposes more than one new identity. The reach: callers
+can compose edits atomically without predicting IDs or sending intermediate
+requests. The left surviving clip and first surviving synchronization group keep
+their IDs; additional children/groups use the same batch identity allocator.

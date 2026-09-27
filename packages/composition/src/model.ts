@@ -97,7 +97,7 @@ function unique<T extends { id: string }>(values: readonly T[], kind: string): M
   }
   return entries;
 }
-function sourceTime(clip: ResolvedClip, project: Rational): Rational {
+export function sourceTime(clip: ResolvedClip, project: Rational): Rational {
   if (clip.clip.source.kind === "hold") return integer(clip.clip.source.atUs);
   return add(
     fromTime(clip.clip.source.range.startUs),

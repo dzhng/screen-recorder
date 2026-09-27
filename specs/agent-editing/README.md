@@ -18,7 +18,8 @@ probe's presentation-time mapping when integrating admission.
 
 Implement [03 — edits](slices/03-edits.md) on the accepted
 [03a exact-boundary model](slices/03a-exact-edit-boundaries.md). The reducer foundation
-passes 24 tests; next implement exact splitting with attachment and link preservation.
+and exact splitting pass 29 tests; next implement trim/remove with attachment
+and link preservation, then explicit ripple.
 Independent native work is
 [06 — native multi-source reproduction](slices/06-render-reproduction.md).
 The first public checkpoint remains [09](slices/09-first-preview.md).

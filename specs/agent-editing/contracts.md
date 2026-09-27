@@ -153,6 +153,9 @@ earlier operations in that batch. A multi-range removal interprets its ranges
 together against its own pre-operation state. The response returns created IDs,
 split lineage, removed attachments, changed sync groups and the normalized edits.
 Clients can bind IDs with operation-local labels rather than invent hidden IDs.
+A split can bind right-child labels for explicitly named original occurrences,
+including linked members; requesting a label for an occurrence that did not split
+is an error rather than a guessed neighboring clip.
 The transaction owner supplies a stable identity namespace; created IDs combine
 entity kind, that namespace and a batch-local ordinal. Normalized output records
 ordered per-operation entity replacements/deletions. `changed` describes the net
