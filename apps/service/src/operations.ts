@@ -138,6 +138,16 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "asset.import":
+      case "asset.get":
+      case "asset.list":
+      case "job.get":
+      case "job.retry":
+      case "job.cancel":
+        return operationError(
+          "NOT_READY",
+          "Project asset operations require the isolated project service until production cutover",
+        );
       case "export.create":
         return { ok: true, data: await exports.create(operation.params) };
       case "export.list":

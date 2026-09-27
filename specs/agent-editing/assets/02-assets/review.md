@@ -54,6 +54,8 @@ it was `/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-nati
 - `bun run --cwd apps/service test src/project-service.test.ts`
 - `node packages/test-harness/editing/assets.mjs --fixture imports`
 
-The last two commands require the shared job-target prerequisite and are not yet
-claimed passed here. Final service evidence will replace this limitation once
-public import, cancellation, process-death recovery and CLI/MCP checks run.
+All four gates pass: 12 core tests, 4 native tests, 4 service tests and the real CLI/MCP harness. The service tests cover probe retry, drained cancellation, frozen-source refusal, real SIGKILL recovery, and capacity rejection rolling back the import intent. The CLI/MCP harness exercises native admission, unsupported-codec job diagnostics, deduplication, external removal and restart replay. The installed recording service remains unchanged until the planned cutover.
+
+Import intent and job admission share one catalog transaction through the shared queue request factory. Preparing a new source only freezes its identity; rejected capacity leaves no intent. Replays resolve the durable receipt before touching the external path. Distinct source paths remain provenance even when their bytes deduplicate. Native response parsing tolerates additive fields. Asset lists project compact summaries in SQL; full segment metadata remains available through asset.get.
+
+Preservation checks passed before the final atomic-admission seam: 112 service tests and 21 CLI tests. Focused service/core checks were rerun after that seam; parent verification owns the shared queue suite. The separately open storage-scale timeout is not claimed resolved by this slice.

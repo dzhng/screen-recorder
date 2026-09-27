@@ -83,6 +83,48 @@ const transcriptPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields
 export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
+      operation: z.literal("asset.import"),
+      params: z.object({ requestId: id, path: z.string().min(1) }).strict(),
+    })
+    .strict()
+    .describe(
+      "Admit local media as an immutable asset through a durable job. Replay requestId to recover the same import; inspect job.get, retry failed work with job.retry and cancel with job.cancel.",
+    ),
+  z
+    .object({ operation: z.literal("asset.get"), params: z.object({ assetId: id }).strict() })
+    .strict()
+    .describe("Read immutable admitted stream metadata."),
+  z
+    .object({
+      operation: z.literal("asset.list"),
+      params: z
+        .object({
+          cursor: z.object({ afterSequence: time }).strict().optional(),
+          limit: z.int().min(1).max(1000).optional(),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe("Read a bounded page of admitted assets."),
+  z
+    .object({ operation: z.literal("job.get"), params: z.object({ jobId: id }).strict() })
+    .strict()
+    .describe(
+      "Read a preparation job's current attempt and published result without restarting it.",
+    ),
+  z
+    .object({ operation: z.literal("job.retry"), params: z.object({ jobId: id }).strict() })
+    .strict()
+    .describe("Explicitly retry a failed preparation job with its frozen inputs."),
+  z
+    .object({ operation: z.literal("job.cancel"), params: z.object({ jobId: id }).strict() })
+    .strict()
+    .describe(
+      "Cancel a preparation job; occupied resources drain before their execution capacity is reused.",
+    ),
+
+  z
+    .object({
       operation: z.literal("export.create"),
       params: recording
         .extend({

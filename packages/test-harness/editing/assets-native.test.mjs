@@ -172,6 +172,12 @@ test("an actual unsupported FFV1 stream is reported and never published", async 
     assert.equal(error.code, "UNSUPPORTED_MEDIA");
     assert.equal(error.details.streams[0].codec, "FFV1");
     assert.equal(error.details.streams[0].decodable, false);
+    assert.deepEqual(Object.keys(error.details.streams[0]).sort(), [
+      "codec",
+      "decodable",
+      "id",
+      "kind",
+    ]);
     return true;
   });
   assert.deepEqual(assets.list().assets, []);

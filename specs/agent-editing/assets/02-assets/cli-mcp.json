@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "observations": [
+    {
+      "assetId": "4d30d080685b32e98e6bc0897ec689dd7c7e67cff7bdc7a6ef3f20cd4b55ac3f",
+      "jobId": "4b994114-a884-4ddc-a866-67b9ea973b22",
+      "duplicateJobId": "4d3c28f6-3976-4de3-b437-328e0cd03c61",
+      "checks": [
+        "CLI import/get/list",
+        "real native probe",
+        "unsupported-codec job diagnostics",
+        "MCP parity",
+        "deduplication",
+        "removed external source",
+        "restart replay"
+      ]
+    }
+  ]
+}
