@@ -52,6 +52,13 @@ confirmed to make the test fail, then restored to green.
 Scope is the first frame of an existing captured fixture plus tagged/untagged
 synthetics and one 90° metadata rotation. It does not establish HDR/wide-gamut,
 other orientation/scaling cases, later scene behavior, intended untagged colors or
-physical-camera fidelity. Independent visual critique and physical/listening gates
-remain open. This is research harness code; no production executor or default was
+physical-camera fidelity. The [independent visual critique](../../../specs/agent-editing/assets/06-color/visual-review/README.md)
+confirms the conversion result and identifies encoding artifacts. Physical/listening
+gates remain open. This is research harness code; no production executor or default was
 changed, and no capture, playback or installed application was exercised.
+
+
+The [explicit Rec.709 follow-up](../../../specs/agent-editing/assets/06-rec709/README.md)
+uses matched RGB color-space attachments and writer metadata. The current runner
+includes both profile paths. Its first-frame conversion is verified; broader
+color and production encoding-quality policy remain separate open work.
