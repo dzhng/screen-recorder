@@ -12,7 +12,8 @@ Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [research](research.md). Continue [03 — edits](slices/03-edits.md): exact splitting,
 attachment partitioning, removal/trim, explicit removal ripple, non-ripple move
 with track destinations, detach/reanchor, duplication, non-ripple retime and
-batch labels pass. Complete insertion, ripple move/retime and replacement next. Preserve the accepted
+batch labels pass. Next implement insertion, then ripple move/retime and
+replacement. Preserve the accepted
 [03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Durable projects
 [04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow the
 completed reducer; the first public editing checkpoint remains [09](slices/09-first-preview.md).
@@ -23,7 +24,8 @@ together, and provenance is paginated separately from immutable metadata. Keep
 installed recording behavior isolated until the planned cutover.
 
 Research gates remain open: [06](slices/06-render-reproduction.md) has an independently
-reviewed temporal mechanism, with general color handling under investigation;
+reviewed temporal mechanism and tested Rec.709 conversion; general encoding
+quality and broader color coverage remain open;
 [12](slices/12-speech-evidence.md) reproduces the failing timing baseline;
 [13a](slices/13a-stretch-endpoints.md) has corrected numerical support evidence but
 needs protected-word/listening and short-duration policy acceptance; and
@@ -44,7 +46,8 @@ Current evidence:
 - [02 catalog](assets/02-catalog/review.md): shared connection extraction passes
   67 library/job tests and service type checking.
 - [02 native probe](assets/02-probe/review.md): seven worker checks pass, including
-  stream offsets and B-frame edit lists. Full asset admission is not complete.
+  stream offsets and B-frame edit lists. Asset admission is integrated in the
+  isolated service; installed production cutover remains pending.
 - [03a exact boundaries](assets/03a-boundaries/review.md): 19 composition tests
   and corpus probe pass; split preservation is falsified by a rounding mutation.
 - [03 edits](assets/03-edits/retime/tests.txt): 50 tests, 595 retimed removal and
@@ -54,20 +57,21 @@ Current evidence:
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
-  independent review accepts demonstrated timing, with color scope explicit.
+  independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
+  verifies profile conversion on the tested frames; encoding loss remains explicit.
 - [12 speech](assets/12-speech/README.md): 15 independent timing marks still fail
   the existing gate; full semantic labels remain incomplete.
 - [13a support](assets/13a-support-review/README.md): corrected whole-output
   measurements preserve candidate bytes; speech-quality acceptance remains open.
 - [18 voice](assets/18-voice/README.md): six offline generations, exact PCM splice
-  checks; [ASR word agreement](assets/18-voice-lexical/README.md) passes; identity,
+  checks; [ASR word agreement](assets/18-voice-lexical/README.md) passes. The
   user finds voice close but joins wrong and generated speech louder.
   [Tighter-join auditions](assets/18-voice-joins/README.md) and an alternative
   conditioning mode address follow-up reports of excess pauses and echo;
   original context remains exact, but acoustic quality remains unverified.
 
 Keep old media intact and develop against isolated homes; the new library is
-fresh, with no history migration or compatibility engine. No model/runtime
+fresh, with no history migration or compatibility engine. No voice model/runtime
 winner has been accepted. Complete speech labels and physical/listening acceptance
 remain explicit gates. Do not ask again about settled UI, creative policies,
 voice references or migration decisions.

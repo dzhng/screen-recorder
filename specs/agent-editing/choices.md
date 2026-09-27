@@ -351,3 +351,14 @@ copy afterward when they want an external dependency. Duplicate defaults to the
 selected subtree; linked AV copying is explicit. Its origin map shares the
 `clipLineage` receipt with split/remove, which names relationships without
 implying that the original was deleted.
+
+
+### Match native RGB and encoder color interpretation — sound, high confidence
+
+For the Rec.709 reproduction, RGB pixels carry the same color-space
+interpretation as the encoder's output tags. The RGB color space is derived
+from Core Video's Rec.709 metadata rather than assuming that a similarly named
+Core Graphics space is interchangeable on this host. The plan required a
+verified SDR profile but delegated the conversion mechanism. This determines
+how a later native renderer must label its pixel buffers; it does not choose a
+universal compression bitrate or declare untagged source color intent.

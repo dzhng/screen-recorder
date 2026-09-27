@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; batch foundation, splitting, removal, trim, explicit removal ripple and non-ripple move verified. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication and non-ripple retime verified. Insertion, ripple move/retime and replacement remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -34,141 +34,36 @@ Delegated: Reducer implementation and internal immutable collections; not defaul
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
-## Foundation checkpoint
+## Current implementation evidence
 
-The pure reducer owns deterministic batch labels and identities, validated
-per-operation expansion, and a net-change result. The model owns validation and
-exact mapping; the public package boundary exposes both without a dependency
-cycle. [24 tests](../assets/03-edits/foundation-tests.txt), package build/type
-checks and the [corpus probe](../assets/03-edits/composition-probe.json) pass.
-Independent Codex review found no actionable correctness issues. A net-no-op
-regression first failed and now passes when a batch adds then removes a track.
+The [pure reducer](../../../packages/composition/src/edits.ts) validates each
+operation before returning an immutable next document. Batch labels and supplied
+identity namespaces make expansion replayable. The receipt reports net change,
+created identities, clip lineage, link changes and removed/fixed attachments.
+`clipLineage` covers both partitioning and copying; it describes origin
+relationships without implying that the original was deleted.
 
-The checkpoint establishes the shared batch contract; structural operation
-progress is tracked below. The full edits probe and public service remain open.
+Partitioning shares one owner for split/remove/trim and attachment rebasing.
+Move, duplication and non-ripple retime share the exact project-time transform.
+Duplication gives copies new identities and preserves their internal dependencies;
+move/retime retain existing attachment kinds. Detach and reanchor preserve the
+resolved interval. Pitch policy is authored metadata until native retiming lands.
+The [contracts](../contracts.md) own operation semantics and scope rules.
 
-## Split checkpoint
+[50 composition tests](../assets/03-edits/retime/tests.txt), type checks and build
+pass. The suite includes linked offsets, held/content anchors, source gaps,
+selected subgroups, copy labels, fractional boundaries, no-ops and failed-batch
+immutability. Prior independent probes cover 1,326 retimed splits and 12,376
+source queries; removal and ripple each cover 595 small exact cases.
 
-Splits preserve exact source mapping for linked or selected clips, recursively
-partition attached media, and rebase normalized anchors on held parents. Left
-children retain identity; right children and surviving right synchronization
-groups receive deterministic identities. Optional right-child labels make these
-pieces addressable later in the same batch. Splitting at an existing boundary
-has no net change. Only actually split selected members lose synchronization.
+Independent reviews identified and verified fixes for selected-member links,
+missing-ID ripple, retained subgroup links and an incorrect gap-test expectation.
+Regression evidence is retained with [split](../assets/03-edits/split/tests.txt),
+[removal](../assets/03-edits/removal/tests.txt), [ripple](../assets/03-edits/ripple/tests.txt),
+[move](../assets/03-edits/move/tests.txt), [anchors](../assets/03-edits/anchors/tests.txt),
+[duplicate](../assets/03-edits/duplicate/tests.txt) and
+[retime](../assets/03-edits/retime/tests.txt).
 
-[29 composition tests](../assets/03-edits/split/tests.txt) and type checks pass.
-A [rounded-boundary mutation](../assets/03-edits/split/rounding-mutation.txt) fails.
-Both independent reviews found that an untouched selected member could lose its
-link; the [regression](../assets/03-edits/split/selected-members-red.txt) failed
-before filtering by actual partition results and now passes. Full slice acceptance
-still requires move/insert/replace/retime/duplicate and ripple.
-
-Final independent Codex review found no actionable defects after the selected-member
-fix and right-label support. A separate exhaustive probe checked 1,326 small
-retimed splits and all 12,376 integer project samples without a mapping change.
-Attachment traversal and linked-group expansion visit each edge/group once.
-
-
-## Removal and trim checkpoint
-
-[36 tests](../assets/03-edits/removal/tests.txt) verify range unions, full deletion,
-selected-only removal with untouched counterpart samples, attachment restriction
-and deletion, repeated deletion, and 595 small retimed range cases. Trimming
-expands into the two removed project windows around its kept interval; linked
-members outside those windows remain untouched. The same partition owner handles
-split, removal and trim, preserving original source mapping and left-survivor IDs.
-
-Requests and selected intervals are merged before intersection; the reducer does
-not materialize their Cartesian product. Batch identities remain occupied after
-deletion, preventing delete/add from reusing an occurrence identity; the
-[regression](../assets/03-edits/removal/identity-reuse-red.txt) failed before this
-fix. Independent review found no actionable defects in the removal/trim logic;
-type checks, build and the previous split grid pass. Move/insert/replace/retime/duplicate remain open.
-
-
-## Ripple checkpoint
-
-[41 composition tests](../assets/03-edits/ripple/tests.txt) pass, including 595
-retimed ripple cases. The named root tracks shift once; attached descendants
-inherit that displacement. Child-only scopes and unequal linked displacements
-reject with stable track information. Unaddressed content crossing a collapsed
-window rejects instead of being silently trimmed. Fixed project overlays remain
-unchanged and are listed for review.
-
-Explicit ranges collapse their union, including empty project time, provided at
-least one addressed occurrence exists. Whole-occurrence removal collapses the
-selected occupied envelope union. An entirely absent selection is a no-op; its
-[regression](../assets/03-edits/ripple/absent-target-red.txt) failed until ripple
-windows were suppressed. Final independent Codex review found no actionable
-defects; package type checks and build pass. Exact time serialization and domain
-errors have one shared owner for partitioning and displacement.
-
-
-## Move checkpoint
-
-A move places the earliest start of the expanded selection at `atUs` and applies
-one exact displacement. Descendants keep their anchors when their parent moves;
-a child moved alone updates its existing anchor within the parent interval.
-Source selection and duration remain unchanged. Selected moves retain links
-within both moving and stationary subsets; a zero displacement preserves links.
-The stationary subgroup keeps the original identity when both survive.
-
-[44 composition tests](../assets/03-edits/move/tests.txt), type checks and build
-pass. The [subset regression](../assets/03-edits/move/subset-red.txt) failed when
-moving members lost their mutual link. Independent Codex review found no
-actionable defects. The graph closure is shared with partitioning, avoiding two
-owners for attachment and link expansion. This checkpoint accepts only explicit
-`ripple: none`; insertion/ripple move, destination track changes and explicit
-reanchoring remain required, along with replace/retime/duplicate.
-
-
-## Anchor and destination checkpoint
-
-Detach stores the exact resolved project interval, including fractional boundaries,
-without changing source selection, links or descendants. Reanchor changes the
-dependency while requiring the same project interval; moving and retiming stay
-explicit operations. Move accepts named destination tracks only for its expanded
-selection, with normal model validation for stream kind and overlap. A track-only
-move does not unlink synchronized media.
-
-[46 tests](../assets/03-edits/anchors/tests.txt), type checking and build pass.
-Restoring both edited implementation files to the previous checkpoint makes only
-the [two new behavioral tests fail](../assets/03-edits/anchors/red.txt). Independent
-Codex review found no actionable defects. Ripple move, insert, replace, retime
-and duplicate remain open.
-
-
-## Duplicate checkpoint
-
-Duplication gives selected occurrences and descendants new identities. Explicit
-linked scope also copies synchronized counterparts. Copied roots use the requested
-project destination; copied internal anchors point to copied parents. Sources,
-original occurrences and their synchronization groups remain unchanged. Optional
-track destinations and copy labels support overlay placement and later edits in
-the same batch. `clipLineage` now covers both partitions and copies; it reports
-origin relationships, not an instruction to delete the original.
-
-[48 tests](../assets/03-edits/duplicate/tests.txt), type checks and build pass;
-the [initial tests](../assets/03-edits/duplicate/red.txt) failed before the operation
-existed. Independent review found no actionable defects and additionally probed
-fractional destinations, group copies, rejected destinations and failed-batch
-immutability. Relocation shares one exact mapping owner with move.
-
-
-## Retime checkpoint
-
-A requested duration scales the expanded selection's entire envelope about its
-earliest start. Linked offsets scale by the same exact ratio. Attached media
-follows once, including normalized anchors on held video. Moving an attachment
-alone stays within its parent; explicit detach supports an independent edit.
-Original source ranges and acquisition gaps remain intact. Audio receives the
-requested pitch policy, defaulting to preserve; native execution remains a
-separate pending gate. The shared transform owner serves move, copy and retime.
-
-[50 tests](../assets/03-edits/retime/tests.txt), type checks and build pass. The
-[initial request](../assets/03-edits/retime/red.txt) failed before retime existed.
-Independent review found one incorrect test expectation: inspection reports an
-unavailable occurrence inside a source gap rather than omitting it. That test
-now checks the exact occurrence and availability flag; no implementation defect
-was identified. This checkpoint accepts explicit `ripple: none`; ripple retime,
-ripple move, insertion and replacement remain open.
+Next implement insertion, ripple move/retime and replacement, then run the full
+linked-replacement probe above. Public project storage and editing still depend
+on completion of this reducer slice. This slice is not accepted yet.
