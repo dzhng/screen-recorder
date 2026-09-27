@@ -1,0 +1,24 @@
+{
+  "kind": "native-probe-checkpoint",
+  "checks": {
+    "passed": 7,
+    "failed": 0
+  },
+  "artifacts": [
+    {
+      "path": "edit-list-red.txt",
+      "bytes": 969,
+      "sha256": "143a6cd419f1100cb9ea4fdf5f607f4441eac9598dd59ffd00fc1a468e37f67a"
+    },
+    {
+      "path": "review.md",
+      "bytes": 1286,
+      "sha256": "5f41bcf3ff720b3a3ba6a253bedecc65a50b526646627faf099c0505f6fe21f5"
+    },
+    {
+      "path": "tests.txt",
+      "bytes": 713,
+      "sha256": "ea96b3601cc8a1698bbd3cca1acda95dc89956e1312a58074d7187ddb5db294d"
+    }
+  ]
+}

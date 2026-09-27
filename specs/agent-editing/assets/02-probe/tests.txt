@@ -1,0 +1,15 @@
+✔ probe preserves actual video timing and independent PCM metadata (838.044208ms)
+✔ probe reports orientation without baking it into source pixels (74.830042ms)
+✔ probe rejects unknown parameters and unreadable input (67.104208ms)
+✔ probe keeps variable packet timing distinct from acquisition availability (76.267166ms)
+✔ probe keeps still-image alpha and odd dimensions without inventing a duration (35.054416ms)
+✔ probe normalizes one shared asset clock while retaining stream offsets (205.871875ms)
+✔ probe maps B-frame edit lists and excludes stream-copy preroll (321.690292ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1709.290083

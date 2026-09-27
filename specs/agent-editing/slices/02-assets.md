@@ -1,6 +1,8 @@
 # 02 — Immutable asset admission
 
-Status: not started. Dependencies: [00](./00-corpus.md).
+Status: in progress. Native metadata checkpoint passes seven public-worker tests;
+[review and evidence](../assets/02-probe/review.md). Asset copy/catalog/registry,
+full format coverage and visual acceptance remain open. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

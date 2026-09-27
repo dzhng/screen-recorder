@@ -31,6 +31,7 @@ public enum NativeWire {
                     }
                     return ["platform": "macos"]
                 }, unexpected: { NativeFailure("INVALID_REQUEST", $0.localizedDescription) }),
+            "media.probe": media { try json(await ProbeOperation.execute($0)) },
             "media.frame": media { try json(await FrameOperation.execute($0)) },
             "media.visualSamples": media { try json(await FrameOperation.visualSamples($0)) },
             "media.presentationEvidence": media {

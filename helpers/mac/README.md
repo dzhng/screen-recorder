@@ -234,3 +234,10 @@ extent of its tokens that carry speech, not the span the engine gives it: this m
 sentence with a punctuation token of its own and places it where it decided the sentence was over,
 which on measured narration is up to a second after the last sound. The raw record keeps both, and
 everything downstream — cuts, excerpts, frame requests — is aimed by the spoken extent.
+
+Media probing describes original bytes without normalization. Stream bounds use
+one shared presentation origin and retain empty edits separately; compressed
+packet timestamps are not interchangeable with presented sample times. The probe
+uses the media target's existing edit-list mapping and keeps only timing summaries,
+not an in-memory timestamp for every frame. Decodability metadata remains a platform
+capability report; successful import/export needs its own actual decode checks.

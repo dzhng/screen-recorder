@@ -67,3 +67,19 @@ The reach: memory includes at most one extra retained source buffer and one smal
 thumbnail; timing and output budgets stay unchanged. Verdict: sound because the
 cache follows the existing decoder's actual held-frame lifetime without changing
 sample selection. Confidence: high.
+
+### Probe presentation timing without retaining every frame timestamp
+
+When: slice 02 native metadata checkpoint.
+
+The choice: when importing a long video, the probe walks its sample cursor and
+reports the presented sample count, first/last timestamp and duration range. It
+maps the file's edit list—the instructions selecting and repositioning encoded
+media—before counting. It does not return a potentially huge per-frame JSON list.
+The plan required actual timing metadata but did not choose its summary shape.
+
+The reach: metadata can identify variable timing and preserve stream offsets with
+bounded sample memory. Exact frame selection still reads the source through the
+native timing owner; a summary cannot replace source evidence. Verdict: sound
+because it preserves the shared presentation clock without making import responses
+grow with every frame. Confidence: high.
