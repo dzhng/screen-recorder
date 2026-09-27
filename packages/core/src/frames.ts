@@ -232,8 +232,12 @@ export class LibraryFrameInspection extends FrameInspection<
   protected submit(context: DerivativeContext<{ recordingId: string }>, options: FrameOptions) {
     return this.library.submit<FrameArtifact>(
       {
-        recordingId: context.recordingId,
-        revisionId: context.revision.id,
+        target: {
+          kind: "recording" as const,
+          recordingId: context.recordingId,
+          revisionId: context.revision.id,
+        },
+
         artifact,
         input: JSON.stringify(options),
       },
@@ -242,22 +246,24 @@ export class LibraryFrameInspection extends FrameInspection<
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
     const options = JSON.parse(job.input) as FrameOptions;
     if (job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Frame inspector cannot execute this job");
     validateFramePolicy(options);
-    const revision = this.store.revision(job.recordingId, job.revisionId);
+    const revision = this.store.revision(job.target.recordingId, job.target.revisionId);
     signal.throwIfAborted();
-    const sourceId = this.store.get(job.recordingId).sourceId;
-    const output = this.cache.reserve(job.recordingId);
+    const sourceId = this.store.get(job.target.recordingId).sourceId;
+    const output = this.cache.reserve(job.target.recordingId);
     return JSON.stringify(
       await renderFrame(
         options,
         {
-          recordingId: job.recordingId,
+          recordingId: job.target.recordingId,
           sourceId,
           revision,
-          source: join(this.home, "recordings", job.recordingId, "source", "video.mov"),
+          source: join(this.home, "recordings", job.target.recordingId, "source", "video.mov"),
           output: {
             file: output.path,
             publish: async (frame) => {

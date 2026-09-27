@@ -3,7 +3,7 @@ import { mkdtemp, rm, writeFile, mkdir, readFile, rename, access } from "node:fs
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
-import { JobQueue } from "./jobs.js";
+import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
@@ -44,6 +44,7 @@ async function fixture(
   let sourceCalls = 0;
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: (execution) =>
       execution.job.artifact === "audio" ? audio.execute(execution) : processing.execute(execution),

@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { cp, mkdir, mkdtemp, readFile, writeFile, realpath, rename, rm } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { RevisionStore } from "@screenrec/core/library";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { FileSceneEvidence } from "@screenrec/core/scene-pages";
@@ -44,6 +44,7 @@ async function seed(home, portable, context) {
   const retained = new FileSceneEvidence(join(portable, "scene-pages"), context.scenes);
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: async ({ job, signal }) => {
       const identity = {
@@ -88,8 +89,7 @@ async function seed(home, portable, context) {
       ["source-scenes", scenePolicy.id],
     ])
       jobs.submit({
-        recordingId: recording.recordingId,
-        revisionId: "r0",
+        target: { kind: "recording", recordingId: recording.recordingId, revisionId: "r0" },
         artifact,
         input,
         lane: "heavy",
@@ -100,8 +100,11 @@ async function seed(home, portable, context) {
       ["source-scenes", scenePolicy.id],
     ])
       assert.equal(
-        jobs.status({ recordingId: recording.recordingId, revisionId: "r0", artifact, input })
-          .state,
+        jobs.status({
+          target: { kind: "recording", recordingId: recording.recordingId, revisionId: "r0" },
+          artifact,
+          input,
+        }).state,
         "ready",
       );
   } finally {

@@ -9,7 +9,7 @@ import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { DerivedCache } from "@screenrec/core/cache";
 import type { VisualObservations } from "@screenrec/core/scenes";
@@ -127,6 +127,7 @@ async function main(): Promise<void> {
     delivery = new DerivativeDelivery();
     jobs = new JobQueue({
       store,
+      targets: recordingJobTargets(store),
       providers: { newId: randomUUID },
       execute: async (execution) => {
         if (execution.job.artifact === "export-recovery") return exports!.execute(execution);

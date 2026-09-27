@@ -329,7 +329,7 @@ test("a marked finished take neither starts replacement capture nor touches nati
 });
 
 test("proved native closure releases heavy work while deletion files and intent remain", async () => {
-  const { JobQueue } = await import("@screenrec/core/jobs");
+  const { JobQueue, recordingJobTargets } = await import("@screenrec/core/jobs");
   const home = await mkdtemp("/tmp/screenrec-capture-priority-delete-");
   const store = new RevisionStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
@@ -355,11 +355,12 @@ test("proved native closure releases heavy work while deletion files and intent 
   let finish!: (result: OperationResult) => void;
   const queue = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: async () => "other recording processed",
   });
   const job = queue.submit({
-    recordingId: other.recordingId,
+    target: { kind: "recording" as const, recordingId: other.recordingId },
     artifact: "source",
     input: "other",
     lane: "heavy",

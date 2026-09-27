@@ -20,7 +20,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { setTimeout } from "node:timers/promises";
 import { RevisionStore } from "../../../packages/core/dist/library.js";
-import { JobQueue } from "../../../packages/core/dist/jobs.js";
+import { JobQueue, recordingJobTargets } from "../../../packages/core/dist/jobs.js";
 import { archiveLimits } from "../../../packages/core/dist/package-archive.js";
 import { archiveContents } from "../../macos/tests/fixtures/archive-contents.mjs";
 import { PackageRegistry } from "../dist/package-registry.js";
@@ -44,6 +44,7 @@ async function fixture(t, options = {}) {
   });
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: async () => "library",
   });
@@ -383,7 +384,7 @@ test("startup remains blocked by a killed owner's actual native child while libr
         sourceDurationUs: 100,
       });
     const job = f.jobs.submit({
-      recordingId: recording.recordingId,
+      target: { kind: "recording", recordingId: recording.recordingId },
       artifact: "library",
       lane: "heavy",
       input: "{}",

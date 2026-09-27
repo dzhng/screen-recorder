@@ -4,7 +4,7 @@ import { join, basename, dirname } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
-import { JobQueue } from "./jobs.js";
+import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import {
   LibraryFrameInspection,
@@ -58,6 +58,7 @@ async function fixture(held?: () => Promise<void>, decodedOffset = 0) {
   const requests: Parameters<FrameDecoder>[0][] = [];
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     onCapacity: () => {
       if (controls.backfill) processing.resume();

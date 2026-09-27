@@ -168,13 +168,15 @@ test(
     let active;
     try {
       catalog.exec("PRAGMA busy_timeout=1000");
-      active = catalog.prepare("SELECT recordingId,artifact FROM jobs WHERE state='running'").all();
+      active = catalog
+        .prepare("SELECT targetKind,targetId,artifact FROM jobs WHERE state='running'")
+        .all();
     } finally {
       catalog.close();
     }
     assert.ok(active.length > 0);
     assert.ok(
-      active.every((job) => job.recordingId === take.recordingId),
+      active.every((job) => job.targetKind === "recording" && job.targetId === take.recordingId),
       JSON.stringify(active),
     );
     assert.ok(

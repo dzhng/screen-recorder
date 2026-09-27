@@ -8,7 +8,7 @@ import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { RevisionStore } from "@screenrec/core/library";
 import { DerivedCache } from "@screenrec/core/cache";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
@@ -50,6 +50,7 @@ async function fixture(home, input) {
     });
     jobs = new JobQueue({
       store,
+      targets: recordingJobTargets(store),
       providers: { newId: randomUUID },
       execute: async () => {
         throw new Error("Fixture seeding must not execute media");
@@ -174,7 +175,9 @@ test(
     let states;
     try {
       states = catalog.catalog
-        .prepare("SELECT artifact,state FROM jobs WHERE recordingId=? ORDER BY artifact")
+        .prepare(
+          "SELECT artifact,state FROM jobs WHERE targetKind='recording' AND targetId=? ORDER BY artifact",
+        )
         .all(take.recordingId)
         .map((row) => ({ ...row }));
       assert.deepEqual(states, [

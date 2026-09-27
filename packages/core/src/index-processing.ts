@@ -93,8 +93,12 @@ export class IndexProcessing {
       trailPolicy: trailPolicy.id,
     };
     const identity = {
-      recordingId: input.recordingId,
-      revisionId: revision.id,
+      target: {
+        kind: "recording" as const,
+        recordingId: input.recordingId,
+        revisionId: revision.id,
+      },
+
       artifact,
       input: JSON.stringify(options),
     };
@@ -179,7 +183,7 @@ export class IndexProcessing {
   published(input: IndexReference) {
     this.store.revision(input.recordingId, input.revisionId);
     const row = this.store.catalog
-      .prepare(`SELECT result FROM artifacts WHERE recordingId=? AND revisionId=? AND artifact=?
+      .prepare(`SELECT result FROM artifacts WHERE targetKind='recording' AND targetId=? AND revisionId=? AND artifact=?
         AND json_extract(result,'$.generation')=? LIMIT 1`)
       .get(input.recordingId, input.revisionId, artifact, input.generation) as
       | { result: string }
@@ -211,6 +215,8 @@ export class IndexProcessing {
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
     const input = JSON.parse(job.input) as IndexInput;
     if (
       job.artifact !== artifact ||
@@ -219,21 +225,21 @@ export class IndexProcessing {
       input.trailPolicy !== trailPolicy.id
     )
       throw new CatalogError("UNSUPPORTED_JOB", "Index processor cannot execute this job");
-    const revision = this.store.revision(job.recordingId, job.revisionId);
-    const sourceId = this.store.get(job.recordingId).sourceId;
+    const revision = this.store.revision(job.target.recordingId, job.target.revisionId);
+    const sourceId = this.store.get(job.target.recordingId).sourceId;
     const sourceIdentity = {
-      recordingId: job.recordingId,
+      recordingId: job.target.recordingId,
       sourceId,
       generation: input.source.generation,
     };
     const sceneIdentity = {
-      recordingId: job.recordingId,
+      recordingId: job.target.recordingId,
       sourceId,
       generation: input.scenes.generation,
       policy: input.scenes.policy,
     };
     const identity = {
-      recordingId: job.recordingId,
+      recordingId: job.target.recordingId,
       sourceId,
       revisionId: revision.id,
       generation: job.attemptId,
@@ -243,7 +249,7 @@ export class IndexProcessing {
       framePolicy: input.framePolicy,
       trailPolicy: input.trailPolicy,
     };
-    await this.cleanupRecording(job.recordingId, signal);
+    await this.cleanupRecording(job.target.recordingId, signal);
     const selection = {
       revision,
       sourceIdentity,
@@ -267,10 +273,10 @@ export class IndexProcessing {
           );
           const frame = await materializeFrame(
             {
-              recordingId: job.recordingId,
+              recordingId: job.target.recordingId,
               sourceId,
               revision,
-              source: join(this.home, "recordings", job.recordingId, "source", "video.mov"),
+              source: join(this.home, "recordings", job.target.recordingId, "source", "video.mov"),
               output: this.index.outputPath(identity, row.ordinal),
               atUs: row.requestedPlaybackUs,
               ...(selectionEndUs < row.kept.endUs ? { selectionEndUs } : {}),
@@ -301,8 +307,11 @@ export class IndexProcessing {
     return this.index.reclaim(
       recordingId,
       ({ generation }) =>
-        this.jobs.retainsAttempt(recordingId, artifact, generation) ||
-        !!this.retained?.(recordingId, generation),
+        this.jobs.retainsAttempt(
+          { kind: "recording", recordingId: recordingId },
+          artifact,
+          generation,
+        ) || !!this.retained?.(recordingId, generation),
       signal,
     );
   }

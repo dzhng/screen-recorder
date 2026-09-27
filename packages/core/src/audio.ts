@@ -331,8 +331,12 @@ export class LibraryAudioInspection extends AudioInspection<
   protected submit(context: DerivativeContext<{ recordingId: string }>, options: AudioOptions) {
     return this.library.submit<AudioArtifact>(
       {
-        recordingId: context.recordingId,
-        revisionId: context.revision.id,
+        target: {
+          kind: "recording" as const,
+          recordingId: context.recordingId,
+          revisionId: context.revision.id,
+        },
+
         artifact,
         input: JSON.stringify(options),
       },
@@ -340,16 +344,19 @@ export class LibraryAudioInspection extends AudioInspection<
     );
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
     if (job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Audio inspector cannot execute this job");
+    const target = job.target;
     const options = JSON.parse(job.input) as AudioOptions;
-    const revision = this.store.revision(job.recordingId, job.revisionId);
-    const sourceId = this.store.get(job.recordingId).sourceId;
-    const output = this.cache.reserve(job.recordingId);
+    const revision = this.store.revision(job.target.recordingId, job.target.revisionId);
+    const sourceId = this.store.get(job.target.recordingId).sourceId;
+    const output = this.cache.reserve(job.target.recordingId);
     const result = await renderAudio(
       options,
       {
-        recordingId: job.recordingId,
+        recordingId: job.target.recordingId,
         sourceId,
         revision,
         output: {
@@ -370,7 +377,7 @@ export class LibraryAudioInspection extends AudioInspection<
       },
       {
         evidence: this.evidence,
-        resolveSource: (role) => this.sourcePath(job.recordingId, role),
+        resolveSource: (role) => this.sourcePath(target.recordingId, role),
         decode: this.decode,
       },
       signal,

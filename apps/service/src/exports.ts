@@ -196,16 +196,24 @@ export class RecordingExports {
 
   private identity(intent: Intent) {
     return {
-      recordingId: intent.recordingId,
-      revisionId: intent.snapshot.revisionId,
+      target: {
+        kind: "recording" as const,
+        recordingId: intent.recordingId,
+        revisionId: intent.snapshot.revisionId,
+      },
+
       artifact,
       input: intent.exportId,
     };
   }
   private recoveryIdentity(intent: Intent, attemptId: string) {
     return {
-      recordingId: intent.recordingId,
-      revisionId: intent.snapshot.revisionId,
+      target: {
+        kind: "recording" as const,
+        recordingId: intent.recordingId,
+        revisionId: intent.snapshot.revisionId,
+      },
+
       artifact: recoveryArtifact,
       input: `${intent.exportId}/${attemptId}`,
     };
@@ -219,11 +227,11 @@ export class RecordingExports {
     try {
       const rows = this.owners.store.catalog
         .prepare(`SELECT i.exportId,j.attemptId FROM export_intents i
-        JOIN jobs j ON j.recordingId=i.recordingId AND j.artifact=? AND j.input=i.exportId
+        JOIN jobs j ON j.targetKind='recording' AND j.targetId=i.recordingId AND j.artifact=? AND j.input=i.exportId
         WHERE ${cleanupPendingSql} AND i.abandoning=0
         AND j.state IN ('failed','canceled','ready','unavailable')
         AND NOT EXISTS(SELECT 1 FROM recording_deletions d WHERE d.recordingId=i.recordingId)
-        AND NOT EXISTS(SELECT 1 FROM jobs r WHERE r.recordingId=j.recordingId AND r.revisionId=j.revisionId
+        AND NOT EXISTS(SELECT 1 FROM jobs r WHERE r.targetKind=j.targetKind AND r.targetId=j.targetId AND r.revisionId=j.revisionId
           AND r.artifact=? AND r.input=i.exportId || '/' || j.attemptId)
         ORDER BY i.exportId LIMIT 32`)
         .all(artifact, recoveryArtifact) as { exportId: string; attemptId: string }[];
@@ -260,9 +268,10 @@ export class RecordingExports {
     const intent = this.require(job.input);
     this.requireActive(intent);
     if (
+      job.target.kind !== "recording" ||
       job.artifact !== artifact ||
-      job.recordingId !== intent.recordingId ||
-      job.revisionId !== intent.snapshot.revisionId
+      job.target.recordingId !== intent.recordingId ||
+      job.target.revisionId !== intent.snapshot.revisionId
     )
       throw new CatalogError("INVALID_JOB", "Export job does not match its pinned intent");
     // A staged attempt may already have committed; reconcile before asking dependencies again.
@@ -601,7 +610,7 @@ export class RecordingExports {
       assembly IS NOT NULL AS assembly,staging IS NOT NULL AS staging,stagingCleared
       FROM export_intents WHERE exportId>? ${recordingId === null ? "" : "AND recordingId=?"}
       ${unfinishedOnly ? `AND ${unfinishedSql}` : ""} ORDER BY exportId LIMIT ?) selected
-      LEFT JOIN jobs j ON j.recordingId=selected.recordingId AND j.revisionId=selected.revisionId
+      LEFT JOIN jobs j ON j.targetKind='recording' AND j.targetId=selected.recordingId AND j.revisionId=selected.revisionId
       AND j.artifact=? AND j.input=selected.exportId ORDER BY selected.exportId`)
       .all(
         input.cursor?.afterExportId ?? "",
@@ -715,7 +724,7 @@ export class RecordingExports {
     if (!intent.receipt && jobId) this.owners.jobs.cancel(jobId);
     // Only runnable/active heavy jobs are returned: the shared queue bounds this set.
     const active = this.owners.store.catalog
-      .prepare(`SELECT jobId FROM jobs WHERE recordingId=?
+      .prepare(`SELECT jobId FROM jobs WHERE targetKind='recording' AND targetId=?
       AND revisionId=? AND artifact=? AND input>? AND input<? AND state IN ('queued','running')`)
       .all(
         intent.recordingId,
@@ -798,12 +807,17 @@ export class RecordingExports {
     intent.receipt = receipt;
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
     if (job.artifact === recoveryArtifact) return this.reconcile({ job, signal });
     if (job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Recording exporter cannot execute this job");
     const intent = this.require(job.input);
     this.requireActive(intent);
-    if (job.recordingId !== intent.recordingId || job.revisionId !== intent.snapshot.revisionId)
+    if (
+      job.target.recordingId !== intent.recordingId ||
+      job.target.revisionId !== intent.snapshot.revisionId
+    )
       throw new CatalogError("INVALID_JOB", "Export job does not match its pinned intent");
     if (intent.receipt) {
       await this.cleanupAssembly(intent);
@@ -881,7 +895,11 @@ export class RecordingExports {
     const exportId = job.input.slice(0, job.input.indexOf("/"));
     const intent = this.require(exportId);
     this.requireActive(intent);
-    if (job.recordingId !== intent.recordingId || job.revisionId !== intent.snapshot.revisionId)
+    if (
+      job.target.kind !== "recording" ||
+      job.target.recordingId !== intent.recordingId ||
+      job.target.revisionId !== intent.snapshot.revisionId
+    )
       throw new CatalogError("INVALID_JOB", "Recovery does not match the pinned export");
     signal.throwIfAborted();
     await this.cleanupAssembly(intent);
@@ -971,7 +989,7 @@ export class RecordingExports {
     if (jobId) await this.owners.jobs.drainJob(jobId);
     // The durable intent fence stops every recovery identity before any drain begins.
     const recoveryJobs = this.owners.store.catalog.prepare(`SELECT jobId,input FROM jobs
-      WHERE recordingId=? AND revisionId=? AND artifact=? AND input>? AND input<? ORDER BY input LIMIT 1`);
+      WHERE targetKind='recording' AND targetId=? AND revisionId=? AND artifact=? AND input>? AND input<? ORDER BY input LIMIT 1`);
     let after = `${exportId}/`;
     for (;;) {
       const recovery = recoveryJobs.get(

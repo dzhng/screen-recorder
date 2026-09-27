@@ -184,8 +184,12 @@ export class PreviewInspection extends PreviewInspectionBase<
   protected submit(context: DerivativeContext<{ recordingId: string }>, options: PreviewOptions) {
     return this.library.submit<PreviewArtifact>(
       {
-        recordingId: context.recordingId,
-        revisionId: context.revision.id,
+        target: {
+          kind: "recording" as const,
+          recordingId: context.recordingId,
+          revisionId: context.revision.id,
+        },
+
         artifact,
         input: JSON.stringify(options),
       },
@@ -194,6 +198,8 @@ export class PreviewInspection extends PreviewInspectionBase<
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
     const options = JSON.parse(job.input) as PreviewOptions;
     if (
       job.artifact !== artifact ||
@@ -202,12 +208,12 @@ export class PreviewInspection extends PreviewInspectionBase<
     )
       throw new CatalogError("UNSUPPORTED_JOB", "Preview cannot execute this job");
     const maxLongEdge = boundFor(options.rendition);
-    const revision = this.store.revision(job.recordingId, job.revisionId);
-    const sourceId = this.store.get(job.recordingId).sourceId;
-    const directory = join(this.home, "recordings", job.recordingId, "source");
+    const revision = this.store.revision(job.target.recordingId, job.target.revisionId);
+    const sourceId = this.store.get(job.target.recordingId).sourceId;
+    const directory = join(this.home, "recordings", job.target.recordingId, "source");
     const { tracks, missingRoles } = planAudioTracks(
       {
-        recordingId: job.recordingId,
+        recordingId: job.target.recordingId,
         sourceId,
         sourceEvidence: options.sourceEvidence,
         spans: revision.spans,
@@ -217,7 +223,7 @@ export class PreviewInspection extends PreviewInspectionBase<
       (role) => join(directory, `${role}.mov`),
     );
     signal.throwIfAborted();
-    const output = this.cache.reserve(job.recordingId);
+    const output = this.cache.reserve(job.target.recordingId);
     try {
       const movie = await this.render(
         {
@@ -245,7 +251,7 @@ export class PreviewInspection extends PreviewInspectionBase<
         ...movie,
         maxLongEdge,
         cacheId: output.id,
-        recordingId: job.recordingId,
+        recordingId: job.target.recordingId,
         sourceId,
         revisionId: revision.id,
         sourceEvidence: options.sourceEvidence,

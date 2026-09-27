@@ -53,7 +53,11 @@ export class TranscriptProcessing {
   }
 
   private identity(recordingId: string) {
-    return { recordingId, revisionId: "r0", artifact, input: this.input };
+    return {
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      artifact,
+      input: this.input,
+    };
   }
 
   /** Planning with no spans reads only the header and whether narration was ever acquired. */
@@ -220,23 +224,28 @@ export class TranscriptProcessing {
     return this.transcripts.reclaim(
       recordingId,
       (generation) =>
-        this.jobs.retainsAttempt(recordingId, artifact, generation) ||
-        !!this.retained?.(recordingId, generation),
+        this.jobs.retainsAttempt(
+          { kind: "recording", recordingId: recordingId },
+          artifact,
+          generation,
+        ) || !!this.retained?.(recordingId, generation),
       signal,
     );
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.artifact !== artifact || job.revisionId !== "r0" || job.input !== this.input)
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    if (job.artifact !== artifact || job.target.revisionId !== "r0" || job.input !== this.input)
       throw new CatalogError("UNSUPPORTED_JOB", "Transcript processor cannot execute this job");
-    const recording = this.store.get(job.recordingId);
+    const recording = this.store.get(job.target.recordingId);
     if (
       !isSettled(recording.state) ||
       recording.state === "canceled" ||
       recording.sourceDurationUs === null
     )
       throw new CatalogError("UNAVAILABLE", "no_usable_video");
-    const source = this.source.status(job.recordingId).published;
+    const source = this.source.status(job.target.recordingId).published;
     if (!source) throw new CatalogError("NOT_READY", "Source evidence is not published", {}, true);
     const track = this.narration(recording, source.evidence, [
       { startUs: 0, endUs: recording.sourceDurationUs },
@@ -244,10 +253,10 @@ export class TranscriptProcessing {
     if (!track?.available.length) throw new CatalogError("UNAVAILABLE", "no_narration");
     if (this.models.status().state !== "ready")
       throw new CatalogError("MODEL_NOT_PREPARED", "Speech models are not prepared", {}, true);
-    await this.cleanupRecording(job.recordingId, signal);
+    await this.cleanupRecording(job.target.recordingId, signal);
     signal.throwIfAborted();
     const identity = {
-      recordingId: job.recordingId,
+      recordingId: job.target.recordingId,
       sourceId: recording.sourceId,
       generation: job.attemptId,
     };

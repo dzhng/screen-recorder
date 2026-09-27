@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join, basename, dirname } from "node:path";
 import { RevisionStore } from "./library.js";
-import { JobQueue } from "./jobs.js";
+import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
@@ -32,6 +32,7 @@ async function fixture(beforeDecode?: (call: number) => Promise<void>, beforeSou
   let source: SourceProcessing, scenes: SceneProcessing, index: IndexProcessing;
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: () => `job-${++id}` },
     execute: (execution) => {
       if (execution.job.artifact === "source-evidence") return source.execute(execution);
@@ -228,8 +229,8 @@ test("canceled index holds its slot until decoding settles while foreground work
       "background frame slot",
     );
     const foreground = f.jobs.submit({
-      recordingId: second.recordingId,
-      revisionId: "r0",
+      target: { kind: "recording" as const, recordingId: second.recordingId, revisionId: "r0" },
+
       artifact: "foreground",
       lane: "frame",
       input: "visible request",
@@ -341,7 +342,9 @@ test("index references resolve only a published generation of the pinned recordi
   expect(f.index.published(ref)).toEqual(metadata);
   // A crash may leave complete files before queue publication; they are still private.
   f.store.catalog
-    .prepare("DELETE FROM artifacts WHERE recordingId=? AND artifact='screenshot-index'")
+    .prepare(
+      "DELETE FROM artifacts WHERE targetKind='recording' AND targetId=? AND artifact='screenshot-index'",
+    )
     .run(take.recordingId);
   expect(f.retained.page({ identity: metadata }).entries[0]!.candidate.requestedSourceUs).toBe(0);
   expect(() => f.index.published(ref)).toThrow("not published");

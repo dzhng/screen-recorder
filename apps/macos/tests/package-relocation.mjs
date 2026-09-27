@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import { setTimeout } from "node:timers/promises";
 import { RevisionStore } from "@screenrec/core/library";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
@@ -417,6 +417,7 @@ export function registerRelocationTest({
         let processing, scenes, indexing;
         jobs = new JobQueue({
           store,
+          targets: recordingJobTargets(store),
           providers: { newId: randomUUID },
           execute: (execution) =>
             ({

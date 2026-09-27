@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { join, dirname } from "node:path";
 import { rename, readFile } from "node:fs/promises";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { DerivedCache } from "@screenrec/core/cache";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
@@ -29,6 +29,7 @@ async function exportFromLibrary({ store, home, recordingId, revisionId }) {
   let exports, processing, scenes, index, preview;
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: (execution) => {
       if (["export-recording", "export-recovery"].includes(execution.job.artifact))

@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { JobQueue } from "./jobs.js";
+import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 
@@ -23,6 +23,7 @@ async function fixture(failFirst = false, beforeReceipt?: () => Promise<void>) {
   let calls = 0;
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: () => `job-${++id}` },
     execute: (job) =>
       job.job.artifact === "frame" ? Promise.resolve("foreground frame") : processing.execute(job),
@@ -337,7 +338,7 @@ test("background backfill leaves admission capacity for a foreground inspection"
   f.processing.resume();
   try {
     const job = f.jobs.submit({
-      recordingId: recordings[0]!.recordingId,
+      target: { kind: "recording" as const, recordingId: recordings[0]!.recordingId },
       artifact: "frame",
       input: "inspect",
       lane: "frame",

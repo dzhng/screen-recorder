@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { JobQueue } from "./jobs.js";
+import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
@@ -25,6 +25,7 @@ async function fixture(render: PreviewRenderer, prepare = true) {
   let preview!: PreviewInspection, processing!: SourceProcessing;
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: (execution) =>
       execution.job.artifact === "preview"
@@ -248,6 +249,7 @@ test("a reopened catalog retains a ready movie and discards an interrupted reser
   const evidence = new SourceEvidenceStore(store);
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: async () => {
       throw new Error("unexpected work on retained read");

@@ -1,7 +1,7 @@
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "@screenrec/core/library";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { scenePolicy } from "@screenrec/core/scenes";
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
@@ -129,6 +129,7 @@ export async function seedPublicRecording(home, snapshot) {
   });
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: async () => {
       throw new Error("Seeded canceled work must not execute");
@@ -139,8 +140,7 @@ export async function seedPublicRecording(home, snapshot) {
     ["source-scenes", scenePolicy.id, "frame"],
   ]) {
     const job = jobs.submit({
-      recordingId: take.recordingId,
-      revisionId: "r0",
+      target: { kind: "recording", recordingId: take.recordingId, revisionId: "r0" },
       artifact,
       input,
       lane,

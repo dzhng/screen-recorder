@@ -16,7 +16,7 @@ import { SourceProcessing } from "@screenrec/core/processing";
 import { constants } from "node:fs";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { journalRows } from "../../apps/macos/tests/fixtures/generated-capture.mjs";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import {
   createOriginalRevision,
   createRevision,
@@ -257,6 +257,7 @@ test(
       let processing, preview;
       jobs = new JobQueue({
         store,
+        targets: recordingJobTargets(store),
         providers: { newId: randomUUID },
         execute: (execution) =>
           execution.job.artifact === "preview"

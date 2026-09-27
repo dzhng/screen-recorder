@@ -109,8 +109,12 @@ export class SourceProcessing {
 
   private identity(recordingId: string) {
     return {
-      recordingId,
-      revisionId: this.store.revision(recordingId, "r0").id,
+      target: {
+        kind: "recording" as const,
+        recordingId: recordingId,
+        revisionId: this.store.revision(recordingId, "r0").id,
+      },
+
       artifact: sourceArtifact,
       input: sourcePolicy,
     };
@@ -151,7 +155,11 @@ export class SourceProcessing {
       signal.throwIfAborted();
       if (basename(generation) !== generation || [".", "..", ""].includes(generation)) return;
       if (
-        this.jobs.retainsAttempt(recordingId, sourceArtifact, generation) ||
+        this.jobs.retainsAttempt(
+          { kind: "recording", recordingId: recordingId },
+          sourceArtifact,
+          generation,
+        ) ||
         this.retained?.(recordingId, generation)
       )
         return;
@@ -184,24 +192,30 @@ export class SourceProcessing {
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.artifact !== sourceArtifact || job.input !== sourcePolicy || job.revisionId !== "r0")
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    if (
+      job.artifact !== sourceArtifact ||
+      job.input !== sourcePolicy ||
+      job.target.revisionId !== "r0"
+    )
       throw new CatalogError("UNSUPPORTED_JOB", "Source processor cannot execute this job");
-    const recording = this.store.get(job.recordingId);
+    const recording = this.store.get(job.target.recordingId);
     if (
       !isSettled(recording.state) ||
       recording.state === "canceled" ||
       recording.sourceDurationUs === null
     )
       throw new CatalogError("UNAVAILABLE", "The recording has no finalized source");
-    for (const id of [job.recordingId, job.attemptId])
+    for (const id of [job.target.recordingId, job.attemptId])
       if (basename(id) !== id || id === "." || id === "..")
         throw new CatalogError("INVALID_JOB", "Job identity is not a path component");
     await this.cleanupRecording(recording, signal);
-    const root = join(this.home, "recordings", job.recordingId);
+    const root = join(this.home, "recordings", job.target.recordingId);
     const outputDirectory = join(root, "evidence", "source", job.attemptId);
     const output = join(outputDirectory, "observations.jsonl");
     const identity = {
-      recordingId: job.recordingId,
+      recordingId: job.target.recordingId,
       sourceId: recording.sourceId,
       generation: job.attemptId,
     };

@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 import { setImmediate } from "node:timers/promises";
 import { RevisionStore } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
-import { JobQueue, type JobExecutor } from "@screenrec/core/jobs";
+import { JobQueue, type JobExecutor, recordingJobTargets } from "@screenrec/core/jobs";
 import { DerivedCache } from "@screenrec/core/cache";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
@@ -38,7 +38,12 @@ async function fixture(
   });
   const cache = new DerivedCache(store, home);
   await cache.reconcile();
-  const jobs = new JobQueue({ store, providers: { newId: randomUUID }, execute });
+  const jobs = new JobQueue({
+    store,
+    targets: recordingJobTargets(store),
+    providers: { newId: randomUUID },
+    execute,
+  });
   const capture = new CaptureService(
     store,
     home,
@@ -130,8 +135,8 @@ test("delete coalesces callers, revokes delivery immediately, and waits for a cl
     f.cache.acquire(file.id),
   );
   const request = {
-    recordingId: target.recordingId,
-    revisionId: "r0",
+    target: { kind: "recording" as const, recordingId: target.recordingId, revisionId: "r0" },
+
     lane: "frame" as const,
     artifact: "held",
     input: "fixture",
@@ -157,7 +162,11 @@ test("delete coalesces callers, revokes delivery immediately, and waits for a cl
     expect(signal.aborted).toBe(true);
     expect(deleted).toBe(false);
     expect(await readFile(target.video, "utf8")).toBe(target.sourceId);
-    const other = { ...request, recordingId: sibling.recordingId, artifact: "other" };
+    const other = {
+      ...request,
+      target: { ...request.target, recordingId: sibling.recordingId },
+      artifact: "other",
+    };
     f.jobs.submit(other);
     await expect.poll(() => f.jobs.status(other).published?.result).toBe("sibling result");
     finish.resolve("late result");
@@ -329,8 +338,8 @@ test("capture refusal still waits for a closing worker and preserves retryable i
     throw new CatalogError("INVALID_STATE", "Native closure not proven");
   };
   f.jobs.submit({
-    recordingId: target.recordingId,
-    revisionId: "r0",
+    target: { kind: "recording" as const, recordingId: target.recordingId, revisionId: "r0" },
+
     lane: "frame",
     artifact: "held",
     input: "fixture",

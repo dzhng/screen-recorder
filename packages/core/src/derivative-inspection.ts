@@ -1,5 +1,5 @@
 import type { RevisionStore } from "./library.js";
-import type { JobLane, JobQueue } from "./jobs.js";
+import type { Job, JobLane, JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import type { SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
@@ -141,7 +141,7 @@ export class LibraryDerivatives implements DerivativeBackend<{ recordingId: stri
 
   /** A published result whose cached file was evicted is regenerated rather than reported ready. */
   submit<Value extends { cacheId: string }>(
-    identity: { recordingId: string; revisionId: string; artifact: string; input: string },
+    identity: Pick<Job, "target" | "artifact" | "input">,
     lane: JobLane,
   ): DerivativeSubmission<Value> {
     this.jobs.submit({ ...identity, lane });

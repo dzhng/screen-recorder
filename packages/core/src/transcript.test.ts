@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promis
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
-import { JobQueue } from "./jobs.js";
+import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import { TranscriptStore, type SpeechTranscriber } from "./transcript.js";
@@ -72,6 +72,7 @@ async function fixture(options: Options = {}) {
   let transcript!: TranscriptProcessing;
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: (execution) =>
       execution.job.artifact === "transcript"

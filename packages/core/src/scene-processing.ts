@@ -18,7 +18,11 @@ export class SceneProcessing {
     private readonly retained?: (recordingId: string, generation: string) => boolean,
   ) {}
   private identity(recordingId: string) {
-    return { recordingId, revisionId: "r0", artifact, input: scenePolicy.id };
+    return {
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      artifact,
+      input: scenePolicy.id,
+    };
   }
   status(recordingId: string) {
     const recording = this.store.get(recordingId);
@@ -83,31 +87,41 @@ export class SceneProcessing {
     return this.evidence.reclaim(
       recordingId,
       (generation) =>
-        this.jobs.retainsAttempt(recordingId, artifact, generation) ||
-        !!this.retained?.(recordingId, generation),
+        this.jobs.retainsAttempt(
+          { kind: "recording", recordingId: recordingId },
+          artifact,
+          generation,
+        ) || !!this.retained?.(recordingId, generation),
       signal,
     );
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.artifact !== artifact || job.input !== scenePolicy.id || job.revisionId !== "r0")
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    if (job.artifact !== artifact || job.input !== scenePolicy.id || job.target.revisionId !== "r0")
       throw new CatalogError("UNSUPPORTED_JOB", "Scene processor cannot execute this job");
-    const recording = this.store.get(job.recordingId);
+    const recording = this.store.get(job.target.recordingId);
     if (
       !isSettled(recording.state) ||
       recording.state === "canceled" ||
       recording.sourceDurationUs === null
     )
       throw new CatalogError("UNAVAILABLE", "Scene analysis needs finalized video");
-    await this.cleanupRecording(job.recordingId, signal);
+    await this.cleanupRecording(job.target.recordingId, signal);
     const identity = {
-      recordingId: job.recordingId,
+      recordingId: job.target.recordingId,
       sourceId: recording.sourceId,
       generation: job.attemptId,
       policy: scenePolicy.id,
     };
     const kept = { startUs: 0, endUs: recording.sourceDurationUs };
-    const source = join(this.home, "recordings", job.recordingId, "source", "video.mov");
-    const analysis = new SourceSceneAnalysis(job.recordingId, source, kept.endUs, this.sample);
+    const source = join(this.home, "recordings", job.target.recordingId, "source", "video.mov");
+    const analysis = new SourceSceneAnalysis(
+      job.target.recordingId,
+      source,
+      kept.endUs,
+      this.sample,
+    );
     try {
       for (let startUs = 0; startUs < kept.endUs; startUs += scenePolicy.maximumRangeUs) {
         signal.throwIfAborted();

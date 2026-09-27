@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { JobQueue } from "./jobs.js";
+import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 import { SceneProcessing } from "./scene-processing.js";
 import type { VisualSampler } from "./scenes.js";
@@ -28,6 +28,7 @@ async function fixture(
   let processing: SceneProcessing;
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: () => `job-${++id}` },
     execute: (execution) => processing.execute(execution),
   });

@@ -27,7 +27,7 @@ import { once } from "node:events";
 import { fileURLToPath } from "node:url";
 import { RecordingStorage } from "@screenrec/core/storage";
 import { RevisionStore } from "@screenrec/core/library";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { DerivedCache } from "@screenrec/core/cache";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SourceProcessing } from "@screenrec/core/processing";
@@ -147,6 +147,7 @@ async function fixture(
   const worker = wrap(native);
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     onCapacity: () => {
       if (recoverOnCapacity) recoveryErrors.push(...exports.resumeRecovery());
@@ -1187,8 +1188,7 @@ if (process.argv[2] === "crash-owner") {
     assert.throws(() => f.jobs.job(status.jobId), { code: "NOT_FOUND" });
     assert.equal(
       f.jobs.status({
-        recordingId: f.take.recordingId,
-        revisionId: "r0",
+        target: { kind: "recording", recordingId: f.take.recordingId, revisionId: "r0" },
         artifact: "export-recording",
         input: exportId,
       }).published,
@@ -1219,8 +1219,7 @@ if (process.argv[2] === "crash-owner") {
     await f.exports.abandon(exportId);
     assert.equal(
       f.jobs.status({
-        recordingId: f.take.recordingId,
-        revisionId: "r0",
+        target: { kind: "recording", recordingId: f.take.recordingId, revisionId: "r0" },
         artifact: "export-recording",
         input: exportId,
       }).published,
@@ -1570,8 +1569,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(f.jobs.job(status.jobId).state, "canceled");
     assert.equal(
       f.jobs.status({
-        recordingId: f.take.recordingId,
-        revisionId: "r0",
+        target: { kind: "recording", recordingId: f.take.recordingId, revisionId: "r0" },
         artifact: "export-recording",
         input: exportId,
       }).published,

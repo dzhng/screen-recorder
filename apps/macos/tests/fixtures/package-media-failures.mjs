@@ -5,7 +5,7 @@ import { mkdtemp, readFile, readdir, realpath, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { RevisionStore } from "@screenrec/core/library";
-import { JobQueue } from "@screenrec/core/jobs";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { PackageInspection } from "../../../service/dist/packages.js";
 import { DerivativeDelivery } from "../../../service/dist/delivery.js";
 import { mediaWorker } from "../../../service/dist/worker.js";
@@ -22,6 +22,7 @@ export async function packageMediaFailures(archive, native, kind = "frame") {
   });
   const jobs = new JobQueue({
     store,
+    targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: async () => {
       throw new Error("No library work expected");

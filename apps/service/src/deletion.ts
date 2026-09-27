@@ -52,7 +52,7 @@ export class RecordingDeletion {
     try {
       // A refusal from one owner must not abandon another owner's still-running shutdown.
       const stopped = await Promise.allSettled([
-        jobs.drainRecording(recordingId),
+        jobs.drainOwner({ kind: "recording", recordingId: recordingId }),
         capture.quiesce(recordingId),
       ]);
       for (const result of stopped) if (result.status === "rejected") throw result.reason;
@@ -69,7 +69,7 @@ export class RecordingDeletion {
       // Native removed the transcript files with the recording root; only catalog rows remain.
       await transcripts.purgeRecording(recordingId, signal);
       signal.throwIfAborted();
-      await jobs.forgetRecording(recordingId);
+      await jobs.forgetOwner({ kind: "recording", recordingId: recordingId });
       signal.throwIfAborted();
       store.finishDeletion(recordingId);
       return { recordingId, deleted: true };
