@@ -150,7 +150,8 @@ adjacency. Each match identifies all contributing occurrences and generations.
 `edit.apply` processes operations in order against an isolated working document,
 then commits once. All operation coordinates refer to the document produced by
 earlier operations in that batch. A multi-range removal interprets its ranges
-together against its own pre-operation state. The response returns created IDs,
+together against its own pre-operation state and removes their union. Omitting
+ranges removes the addressed occurrences; removing an absent ID is a no-op. The response returns created IDs,
 split lineage, removed attachments, changed sync groups and the normalized edits.
 Clients can bind IDs with operation-local labels rather than invent hidden IDs.
 A split can bind right-child labels for explicitly named original occurrences,
@@ -169,7 +170,7 @@ final document change, including batches that undo their own intermediate work.
 | Remove | Delete the addressed range/occurrences; `ripple: none` leaves a gap. Ripple requires explicit track IDs and collapses exactly the removed union. |
 | Move / reorder | Move named clip occurrences; require explicit destination and ripple behavior. Do not infer that every use of the asset moves. |
 | Replace | Address explicit occurrences and media kinds. Preserve the target interval by default; reject duration mismatch. The agent can explicitly choose trim, hold (video), silence padding (audio), ripple or stretch. |
-| Split / trim | Retain source identity; create stable child occurrences and report lineage. The left surviving child keeps the original ID; other children get fresh IDs stored in the receipt. |
+| Split / trim | Trim names one occurrence and a kept interval in resolved project time; linked members lose only the two addressed end windows, not media outside that occurrence's original envelope. Retain source identity; create stable child occurrences and report lineage. The left surviving child keeps the original ID; other children get fresh IDs stored in the receipt. |
 | Retime | Change resolved project duration; linked scope changes linked members together. Audio uses the proven pitch-preserving stage unless explicitly `follow`. Ripple is still explicit. |
 | Duplicate | Duplicate the selected occurrence and its attachments with fresh IDs. Placing the same asset anew does not inherit another occurrence's effects. |
 | Link / unlink | Establish or remove synchronization groups explicitly. A clip belongs to at most one group. Imported AV placement creates linked members by default. |

@@ -1,0 +1,33 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+ ❯ packages/composition/src/edits.test.ts (16 tests | 1 failed | 15 skipped) 24ms
+   × fresh allocation cannot reuse an identity deleted earlier in the same batch 22ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/edits.test.ts > fresh allocation cannot reuse an identity deleted earlier in the same batch
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/composition/src/edits.test.ts:599:44
+    597|     { operation: "track.remove", trackId: "track:reused:0" },
+    598|     { operation: "track.add", track: { kind: "video", order: 0 } },
+    599|   ], { ...context, namespace: "reused" })).toThrow(/collides/);
+       |                                            ^
+    600| });
+    601|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 skipped (16)
+   Start at  13:53:36
+   Duration  532ms (transform 46%, import 45%, tests 7%, worker 2%)
+

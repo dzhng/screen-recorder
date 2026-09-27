@@ -1,0 +1,28 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+ ❯ packages/composition/src/edits.test.ts (14 tests | 1 failed | 13 skipped) 28ms
+   × whole linked removal leaves an editable empty project and repeated removal is a no-op 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/edits.test.ts > whole linked removal leaves an editable empty project and repeated removal is a no-op
+CompositionError: Unknown clip
+ ❯ invalid packages/composition/src/edits.ts:83:9
+     81| };
+     82| function invalid(message: string, details: Record<string, unknown> = {…
+     83|   throw new CompositionError("INVALID_EDIT", message, details);
+       |         ^
+     84| }
+     85| function difference<T extends { id: string }>(
+ ❯ applyBatch packages/composition/src/edits.ts:317:9
+ ❯ packages/composition/src/edits.test.ts:507:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 skipped (14)
+   Start at  13:48:50
+   Duration  492ms (transform 51%, import 38%, tests 9%, worker 2%)
+

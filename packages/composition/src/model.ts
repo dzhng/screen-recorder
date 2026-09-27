@@ -70,12 +70,12 @@ const exact = (range: Range | SelectionRange): ExactRange => ({
 const length = (range: ExactRange) => subtract(range.end, range.start);
 const contains = (range: ExactRange, at: Rational) =>
   compare(range.start, at) <= 0 && compare(at, range.end) < 0;
-function intersection(a: ExactRange, b: ExactRange): ExactRange | null {
+export function intersection(a: ExactRange, b: ExactRange): ExactRange | null {
   const start = compare(a.start, b.start) < 0 ? b.start : a.start;
   const end = compare(a.end, b.end) < 0 ? a.end : b.end;
   return compare(start, end) < 0 ? { start, end } : null;
 }
-function intersectAll(a: readonly ExactRange[], b: readonly ExactRange[]): ExactRange[] {
+export function intersectAll(a: readonly ExactRange[], b: readonly ExactRange[]): ExactRange[] {
   const result: ExactRange[] = [];
   let left = 0,
     right = 0;

@@ -1,8 +1,14 @@
 import { z } from "zod";
 import { anchorSchema, clipSchema, compositionSchema, rangeSchema } from "./schema.js";
-import { CompositionError, validateComposition, type ValidatedComposition } from "./model.js";
+import {
+  CompositionError,
+  validateComposition,
+  type ValidatedComposition,
+  type ExactRange,
+} from "./model.js";
 
-import { splitClips } from "./partition.js";
+import { partitionClips } from "./partition.js";
+import { compare, fromTime } from "./rational.js";
 
 type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "syncGroup";
@@ -24,6 +30,24 @@ const placedClip = clipSchema.omit({ id: true }).extend({
   ]),
 });
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("trim"),
+      clipId: reference,
+      range: rangeSchema,
+      scope: z.enum(["linked", "selected"]).default("linked"),
+      ripple: z.literal("none"),
+    })
+    .strict(),
+  z
+    .object({
+      operation: z.literal("remove"),
+      clipIds: z.array(reference).min(1),
+      ranges: z.array(rangeSchema).min(1).max(1000).optional(),
+      scope: z.enum(["linked", "selected"]).default("linked"),
+      ripple: z.literal("none"),
+    })
+    .strict(),
   z
     .object({
       operation: z.literal("split"),
@@ -122,10 +146,16 @@ export function applyBatch(
   if (!parsed.success) invalid(parsed.error.message);
   let model = validateComposition(input, identityContext.assets);
   const initial = model.document;
+  const identities = {
+    clip: new Set(initial.clips.map((value) => value.id)),
+    track: new Set(initial.tracks.map((value) => value.id)),
+    syncGroup: new Set(initial.syncGroups.map((value) => value.id)),
+  };
   const createdIds: EditBatchResult["createdIds"] = [];
   const bindings = new Map<string, { kind: EntityKind; id: string }>();
   const normalized: EditBatchResult["normalized"] = [];
   const splitLineage: EditBatchResult["splitLineage"] = [];
+  const removedAttachments: string[] = [];
   let ordinal = 0;
   const resolve = (value: z.infer<typeof reference>, kind: EntityKind): string => {
     if (typeof value === "string") return value;
@@ -144,22 +174,17 @@ export function applyBatch(
   };
   const allocate = (kind: EntityKind): string => {
     const id = `${kind}:${identityContext.namespace}:${ordinal++}`;
-    const existing =
-      kind === "clip"
-        ? model.document.clips
-        : kind === "track"
-          ? model.document.tracks
-          : model.document.syncGroups;
-    if (existing.some((value) => value.id === id))
+    if (identities[kind].has(id))
       invalid("Identity namespace collides with an existing entity", { kind, id });
+    identities[kind].add(id);
     createdIds.push({ kind, id });
     return id;
   };
-  const clips = (refs: z.infer<typeof reference>[]) => {
+  const clips = (refs: z.infer<typeof reference>[], allowMissing = false) => {
     const ids = refs.map((value) => resolve(value, "clip"));
     if (new Set(ids).size !== ids.length) invalid("Repeated clip reference");
     for (const id of ids)
-      if (!model.document.clips.some((clip) => clip.id === id))
+      if (!allowMissing && !model.document.clips.some((clip) => clip.id === id))
         invalid("Unknown clip", { clipId: id });
     return ids;
   };
@@ -168,12 +193,50 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "remove":
+        case "trim": {
+          const ids =
+            operation.operation === "remove"
+              ? clips(operation.clipIds, true)
+              : clips([operation.clipId]);
+          let ranges: ExactRange[] | undefined;
+          if (operation.operation === "remove") {
+            ranges = operation.ranges?.map((range) => ({
+              start: fromTime(range.startUs),
+              end: fromTime(range.endUs),
+            }));
+          } else {
+            const target = model.clips.find((value) => value.clip.id === ids[0])!.range;
+            const keep = {
+              start: fromTime(operation.range.startUs),
+              end: fromTime(operation.range.endUs),
+            };
+            if (compare(keep.start, target.start) < 0 || compare(keep.end, target.end) > 0)
+              invalid("Trim range must stay within the clip's resolved interval", {
+                clipId: ids[0],
+              });
+            ranges = [];
+            if (compare(target.start, keep.start) < 0)
+              ranges.push({ start: target.start, end: keep.start });
+            if (compare(keep.end, target.end) < 0)
+              ranges.push({ start: keep.end, end: target.end });
+          }
+          const result = partitionClips(
+            model,
+            ids,
+            { kind: "remove", scope: operation.scope, ...(ranges ? { ranges } : {}) },
+            allocate,
+          );
+          next = result.document;
+          splitLineage.push(...result.lineage);
+          removedAttachments.push(...result.removedAttachments);
+          break;
+        }
         case "split": {
-          const result = splitClips(
+          const result = partitionClips(
             model,
             clips(operation.clipIds),
-            operation.atUs,
-            operation.scope,
+            { kind: "split", atUs: operation.atUs, scope: operation.scope },
             allocate,
           );
           for (const entry of operation.rightLabels) {
@@ -300,7 +363,7 @@ export function applyBatch(
     labels: Object.fromEntries([...bindings].map(([name, value]) => [name, value.id])),
     normalized,
     splitLineage,
-    removedAttachments: [],
+    removedAttachments,
     linkChanges: normalized.flatMap((step) =>
       step.changes.filter(
         (change): change is Extract<EditChange, { kind: "syncGroup" }> =>

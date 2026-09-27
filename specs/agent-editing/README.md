@@ -10,8 +10,8 @@ the [map](MAP.md) remains the record of user intent.
 Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [architecture](architecture.md), [verification](verification.md) and
 [research](research.md). Continue [03 — edits](slices/03-edits.md): exact splitting,
-attachment partitioning and batch labels pass; implement trim/remove and explicit
-ripple next, then move/insert/replace/retime/duplicate. Preserve the accepted
+attachment partitioning, gap-preserving removal/trim and batch labels pass;
+implement explicit ripple next, then move/insert/replace/retime/duplicate. Preserve the accepted
 [03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Durable projects
 [04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow the
 completed reducer; the first public editing checkpoint remains [09](slices/09-first-preview.md).
@@ -46,8 +46,9 @@ Current evidence:
   stream offsets and B-frame edit lists. Full asset admission is not complete.
 - [03a exact boundaries](assets/03a-boundaries/review.md): 19 composition tests
   and corpus probe pass; split preservation is falsified by a rounding mutation.
-- [03 splits](assets/03-edits/split/tests.txt): 29 tests and 1,326 exact split cases
-  pass; independent reviews caught and verified the selected-member link fix.
+- [03 edits](assets/03-edits/removal/tests.txt): 36 tests, 595 retimed removal cases
+  and 1,326 exact split cases pass; independent reviews caught and verified the
+  selected-member link fix.
 - [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.

@@ -376,3 +376,272 @@ test("a batch can address new split children by labels without guessing identiti
     { id: first.labels.av, clipIds: [first.labels.video, first.labels.audio] },
   ]);
 });
+
+test("range removal cuts linked members without closing the gap", () => {
+  const first = applyBatch(input, setup, context);
+  const result = applyBatch(
+    first.document,
+    [
+      {
+        operation: "remove",
+        clipIds: [first.labels.video],
+        ranges: [
+          { startUs: 500000, endUs: 800000 },
+          { startUs: 700000, endUs: 1000000 },
+        ],
+        ripple: "none",
+      },
+    ],
+    { ...context, namespace: "remove" },
+  );
+  const picture = result.document.clips.filter((clip) => clip.trackId === first.labels.picture);
+  const sound = result.document.clips.filter((clip) => clip.trackId === first.labels.sound);
+  expect(picture.map((clip) => clip.source)).toEqual([
+    { kind: "range", range: { startUs: 0, endUs: 500000 } },
+    { kind: "range", range: { startUs: 1000000, endUs: 2000000 } },
+  ]);
+  expect(sound.map((clip) => clip.source)).toEqual([
+    { kind: "range", range: { startUs: 200000, endUs: 500000 } },
+    { kind: "range", range: { startUs: 1000000, endUs: 1800000 } },
+  ]);
+  const model = validateComposition(result.document, context.assets);
+  expect(projectToSource(model, 750000)).toEqual([]);
+  expect(projectToSource(model, 1000000).map((item) => item.sourceUs)).toEqual([1000000, 1000000]);
+  expect(result.document.syncGroups.map((group) => group.clipIds)).toEqual([
+    [picture[0]!.id, sound[0]!.id],
+    [picture[1]!.id, sound[1]!.id],
+  ]);
+});
+
+test("removal restricts attached source mappings and deletes attachments without surviving content", () => {
+  const first = applyBatch(
+    input,
+    [
+      ...setup,
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "overlays" },
+      {
+        operation: "place",
+        label: "survivor",
+        clip: {
+          assetId: "source",
+          streamId: "v",
+          trackId: { label: "overlays" },
+          source: { kind: "range", range: { startUs: 0, endUs: 10 } },
+          placement: {
+            kind: "content",
+            clipId: { label: "video" },
+            sourceRange: { startUs: 500000, endUs: 2000000 },
+          },
+        },
+      },
+      {
+        operation: "place",
+        label: "deleted",
+        clip: {
+          assetId: "source",
+          streamId: "v",
+          trackId: { label: "overlays" },
+          source: { kind: "hold", atUs: 0 },
+          placement: {
+            kind: "content",
+            clipId: { label: "video" },
+            sourceRange: { startUs: 0, endUs: 500000 },
+          },
+        },
+      },
+    ],
+    context,
+  );
+  const result = applyBatch(
+    first.document,
+    [
+      {
+        operation: "remove",
+        clipIds: [first.labels.video],
+        ranges: [{ startUs: 0, endUs: 1000000 }],
+        ripple: "none",
+      },
+    ],
+    { ...context, namespace: "remove" },
+  );
+  expect(result.removedAttachments).toEqual([first.labels.deleted]);
+  expect(result.document.clips.find((clip) => clip.id === first.labels.survivor)).toMatchObject({
+    source: { kind: "range", range: { startUs: { numerator: 10, denominator: 3 }, endUs: 10 } },
+    placement: {
+      kind: "content",
+      clipId: first.labels.video,
+      sourceRange: { startUs: 1000000, endUs: 2000000 },
+    },
+  });
+  expect(result.document.clips.find((clip) => clip.id === first.labels.video)?.source).toEqual({
+    kind: "range",
+    range: { startUs: 1000000, endUs: 2000000 },
+  });
+});
+
+test("selected removal preserves counterpart samples and unaffected links", () => {
+  const first = applyBatch(input, setup, context);
+  const result = applyBatch(
+    first.document,
+    [
+      {
+        operation: "remove",
+        clipIds: [first.labels.audio],
+        scope: "selected",
+        ranges: [{ startUs: 500000, endUs: 1000000 }],
+        ripple: "none",
+      },
+    ],
+    { ...context, namespace: "independent" },
+  );
+  const video = result.document.clips.filter((clip) => clip.trackId === first.labels.picture);
+  const audio = result.document.clips.filter((clip) => clip.trackId === first.labels.sound);
+  expect(result.document.syncGroups.map((group) => group.clipIds)).toEqual([
+    [video[0]!.id, audio[0]!.id],
+    [video[2]!.id, audio[1]!.id],
+  ]);
+  const model = validateComposition(result.document, context.assets);
+  expect(projectToSource(model, 750000)).toMatchObject([
+    { clipId: video[1]!.id, sourceUs: 750000 },
+  ]);
+  expect(projectToSource(model, 499999).map((item) => item.sourceUs)).toEqual([499999, 499999]);
+  expect(projectToSource(model, 1000000).map((item) => item.sourceUs)).toEqual([1000000, 1000000]);
+  const absent = applyBatch(
+    first.document,
+    [
+      {
+        operation: "remove",
+        clipIds: [first.labels.audio],
+        scope: "selected",
+        ranges: [{ startUs: 1800000, endUs: 2000000 }],
+        ripple: "none",
+      },
+    ],
+    context,
+  );
+  expect(absent.changed).toBe(false);
+  expect(absent.createdIds).toEqual([]);
+});
+
+test("whole linked removal leaves an editable empty project and repeated removal is a no-op", () => {
+  const first = applyBatch(input, setup, context);
+  const command = [{ operation: "remove", clipIds: [first.labels.video], ripple: "none" }];
+  const result = applyBatch(first.document, command, { ...context, namespace: "empty" });
+  expect(result.document.clips).toEqual([]);
+  expect(result.document.syncGroups).toEqual([]);
+  expect(result.document.tracks).toEqual(first.document.tracks);
+  expect(validateComposition(result.document, context.assets).durationUs).toBe(0);
+  expect(applyBatch(result.document, command, context).changed).toBe(false);
+});
+
+test("trim keeps the requested project interval and applies only its removed windows to linked members", () => {
+  const first = applyBatch(input, setup, context);
+  const shorterVideo = {
+    ...first.document,
+    clips: first.document.clips.map((clip) =>
+      clip.id === first.labels.video
+        ? {
+            ...clip,
+            source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+            placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+          }
+        : clip,
+    ),
+  };
+  const result = applyBatch(
+    shorterVideo,
+    [
+      {
+        operation: "trim",
+        clipId: first.labels.video,
+        range: { startUs: 400000, endUs: 800000 },
+        ripple: "none",
+      },
+    ],
+    { ...context, namespace: "trim" },
+  );
+  expect(result.document.clips.find((clip) => clip.id === first.labels.video)?.source).toEqual({
+    kind: "range",
+    range: { startUs: 400000, endUs: 800000 },
+  });
+  expect(
+    result.document.clips
+      .filter((clip) => clip.trackId === first.labels.sound)
+      .map((clip) => clip.source),
+  ).toEqual([
+    { kind: "range", range: { startUs: 400000, endUs: 800000 } },
+    { kind: "range", range: { startUs: 1000000, endUs: 1800000 } },
+  ]);
+  expect(result.document.syncGroups).toEqual([
+    { id: first.labels.av, clipIds: [first.labels.video, first.labels.audio] },
+  ]);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [
+        {
+          operation: "trim",
+          clipId: first.labels.video,
+          range: { startUs: 0, endUs: 3000000 },
+          ripple: "none",
+        },
+      ],
+      context,
+    ),
+  ).toThrow(/within the clip/);
+});
+
+test("fresh allocation cannot reuse an identity deleted earlier in the same batch", () => {
+  const document = { ...input, tracks: [{ id: "track:reused:0", kind: "video", order: 0 }] };
+  expect(() =>
+    applyBatch(
+      document,
+      [
+        { operation: "track.remove", trackId: "track:reused:0" },
+        { operation: "track.add", track: { kind: "video", order: 0 } },
+      ],
+      { ...context, namespace: "reused" },
+    ),
+  ).toThrow(/collides/);
+});
+
+test("every small retimed removal preserves all surviving project samples", () => {
+  for (let source = 1; source <= 5; source++)
+    for (let duration = 2; duration <= 8; duration++)
+      for (let startUs = 0; startUs < duration; startUs++)
+        for (let endUs = startUs + 1; endUs <= duration; endUs++) {
+          const document = {
+            ...input,
+            tracks: [{ id: "track", kind: "video", order: 0 }],
+            clips: [
+              {
+                id: "clip",
+                assetId: "source",
+                streamId: "v",
+                trackId: "track",
+                source: { kind: "range", range: { startUs: 0, endUs: source } },
+                placement: { kind: "project", range: { startUs: 0, endUs: duration } },
+              },
+            ],
+          };
+          const result = applyBatch(
+            document,
+            [
+              {
+                operation: "remove",
+                clipIds: ["clip"],
+                ranges: [{ startUs, endUs }],
+                ripple: "none",
+              },
+            ],
+            context,
+          );
+          const model = validateComposition(result.document, context.assets);
+          for (let at = 0; at < duration; at++) {
+            const samples = projectToSource(model, at).map((item) => item.sourceUs);
+            expect(samples).toEqual(
+              at >= startUs && at < endUs ? [] : [Math.floor((at * source) / duration)],
+            );
+          }
+        }
+});

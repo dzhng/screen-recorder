@@ -1,6 +1,8 @@
 import {
   CompositionError,
   sourceTime,
+  intersection,
+  intersectAll,
   type ValidatedComposition,
   type ExactRange,
 } from "./model.js";
@@ -26,22 +28,30 @@ function time(value: Rational): TimeValue {
   return result.denominator === 1 ? result.numerator : result;
 }
 const stored = (range: ExactRange) => ({ startUs: time(range.start), endUs: time(range.end) });
-function overlap(a: ExactRange, b: ExactRange): ExactRange | null {
-  const start = compare(a.start, b.start) > 0 ? a.start : b.start;
-  const end = compare(a.end, b.end) < 0 ? a.end : b.end;
-  return compare(start, end) < 0 ? { start, end } : null;
+function union(ranges: readonly ExactRange[]): ExactRange[] {
+  const result: ExactRange[] = [];
+  for (const range of [...ranges].sort((a, b) => compare(a.start, b.start))) {
+    const last = result.at(-1);
+    if (last && compare(range.start, last.end) <= 0)
+      result[result.length - 1] = {
+        start: last.start,
+        end: compare(last.end, range.end) > 0 ? last.end : range.end,
+      };
+    else result.push(range);
+  }
+  return result;
 }
 
 /** Restrict original affine mappings and rebase attachments onto their surviving parent pieces. */
-export function splitClips(
+export function partitionClips(
   model: ValidatedComposition,
   selected: readonly string[],
-  atUs: number,
-  scope: "linked" | "selected",
+  operation: { scope: "linked" | "selected" } & (
+    | { kind: "split"; atUs: number }
+    | { kind: "remove"; ranges?: readonly ExactRange[] }
+  ),
   allocate: (kind: "clip" | "syncGroup") => string,
 ) {
-  const at = fromTime(atUs);
-  const affected = new Set(selected);
   const children = new Map<string, string[]>();
   const groups = new Map<string, readonly string[]>();
   for (const value of model.clips) {
@@ -54,23 +64,63 @@ export function splitClips(
   }
   for (const group of model.document.syncGroups)
     for (const id of group.clipIds) groups.set(id, group.clipIds);
-  const expandedGroups = new Set<readonly string[]>();
-  const pending = [...affected];
-  for (let index = 0; index < pending.length; index++) {
-    const id = pending[index]!;
-    const group = scope === "linked" ? groups.get(id) : undefined;
-    const related = [...(children.get(id) ?? [])];
-    if (group && !expandedGroups.has(group)) {
-      expandedGroups.add(group);
-      for (const member of group) related.push(member);
-    }
-    for (const child of related)
-      if (!affected.has(child)) {
-        affected.add(child);
-        pending.push(child);
+  const expand = (ids: Iterable<string>, linked: boolean) => {
+    const result = new Set(ids);
+    const expandedGroups = new Set<readonly string[]>();
+    const pending = [...result];
+    for (let index = 0; index < pending.length; index++) {
+      const id = pending[index]!;
+      const group = linked ? groups.get(id) : undefined;
+      const related = [...(children.get(id) ?? [])];
+      if (group && !expandedGroups.has(group)) {
+        expandedGroups.add(group);
+        for (const member of group) related.push(member);
       }
-  }
+      for (const child of related)
+        if (!result.has(child)) {
+          result.add(child);
+          pending.push(child);
+        }
+    }
+    return result;
+  };
+  const affected = expand(selected, operation.scope === "linked");
   const original = new Map(model.clips.map((value) => [value.clip.id, value]));
+  let removals: ExactRange[] = [];
+  if (operation.kind === "remove") {
+    const selectedRanges = union(
+      model.clips.filter((value) => affected.has(value.clip.id)).map((value) => value.range),
+    );
+    removals = operation.ranges
+      ? intersectAll(selectedRanges, union(operation.ranges))
+      : selectedRanges;
+  }
+  const cuts =
+    operation.kind === "split"
+      ? [fromTime(operation.atUs)]
+      : removals.flatMap((range) => [range.start, range.end]);
+  // Removal partitions linked counterparts too, but only deletes the requested scope.
+  const partitioned = operation.kind === "remove" ? expand(affected, true) : affected;
+  const afterCut = (at: Rational) => {
+    let lo = 0,
+      hi = cuts.length;
+    while (lo < hi) {
+      const middle = (lo + hi) >>> 1;
+      if (compare(cuts[middle]!, at) <= 0) lo = middle + 1;
+      else hi = middle;
+    }
+    return lo;
+  };
+  const removed = (at: Rational) => {
+    let lo = 0,
+      hi = removals.length;
+    while (lo < hi) {
+      const middle = (lo + hi) >>> 1;
+      if (compare(removals[middle]!.end, at) <= 0) lo = middle + 1;
+      else hi = middle;
+    }
+    return lo < removals.length && compare(removals[lo]!.start, at) <= 0;
+  };
   const pieces = new Map<string, Piece[]>();
   const lineage: { originalId: string; clipIds: string[] }[] = [];
   // Parent-first traversal is iterative so deeply attached timelines do not consume the JS stack.
@@ -82,16 +132,20 @@ export function splitClips(
     const parents = anchor.kind === "project" ? [undefined] : pieces.get(anchor.clipId)!;
     const next: Piece[] = [];
     for (const parentPiece of parents) {
-      const span = parentPiece ? overlap(value.range, parentPiece.range) : value.range;
+      const span = parentPiece ? intersection(value.range, parentPiece.range) : value.range;
       if (!span) continue;
-      const ranges =
-        affected.has(value.clip.id) && compare(span.start, at) < 0 && compare(at, span.end) < 0
-          ? [
-              { start: span.start, end: at },
-              { start: at, end: span.end },
-            ]
-          : [span];
+      const ranges: ExactRange[] = [];
+      let start = span.start;
+      if (partitioned.has(value.clip.id)) {
+        for (let i = afterCut(start); i < cuts.length && compare(cuts[i]!, span.end) < 0; i++) {
+          ranges.push({ start, end: cuts[i]! });
+          start = cuts[i]!;
+        }
+      }
+      ranges.push({ start, end: span.end });
       for (const range of ranges) {
+        if (operation.kind === "remove" && affected.has(value.clip.id) && removed(range.start))
+          continue;
         const id = next.length === 0 ? value.clip.id : allocate("clip");
         const source =
           value.clip.source.kind === "hold"
@@ -135,24 +189,39 @@ export function splitClips(
       }
     }
     pieces.set(value.clip.id, next);
-    if (next.length > 1)
+    if (
+      next.length !== 1 ||
+      compare(next[0]!.range.start, value.range.start) !== 0 ||
+      compare(next[0]!.range.end, value.range.end) !== 0
+    )
       lineage.push({ originalId: value.clip.id, clipIds: next.map((piece) => piece.clip.id) });
     for (const child of children.get(value.clip.id) ?? []) ready.push(original.get(child)!);
   }
   const syncGroups = model.document.syncGroups.flatMap((group) => {
-    const changed = group.clipIds.some((id) => pieces.get(id)!.length > 1);
+    const changed = group.clipIds.some((id) => {
+      const kept = pieces.get(id)!;
+      return (
+        kept.length !== 1 ||
+        compare(kept[0]!.range.start, original.get(id)!.range.start) !== 0 ||
+        compare(kept[0]!.range.end, original.get(id)!.range.end) !== 0
+      );
+    });
     if (!changed) return [group];
-    if (scope === "selected") {
+    if (operation.kind === "split" && operation.scope === "selected") {
       const clipIds = group.clipIds.filter((id) => pieces.get(id)!.length === 1);
       return clipIds.length >= 2 ? [{ ...group, clipIds }] : [];
     }
-    const before: string[] = [],
-      after: string[] = [];
+    const intervals = new Map<number, string[]>();
     for (const id of group.clipIds)
       for (const piece of pieces.get(id)!) {
-        (compare(piece.range.end, at) <= 0 ? before : after).push(piece.clip.id);
+        const bucket = afterCut(piece.range.start);
+        const members = intervals.get(bucket) ?? [];
+        members.push(piece.clip.id);
+        intervals.set(bucket, members);
       }
-    return [before, after]
+    return [...intervals]
+      .sort(([a], [b]) => a - b)
+      .map(([, ids]) => ids)
       .filter((ids) => ids.length >= 2)
       .map((clipIds, index) => ({
         id: index === 0 ? group.id : allocate("syncGroup"),
@@ -168,5 +237,8 @@ export function splitClips(
       syncGroups,
     },
     lineage,
+    removedAttachments: model.document.clips
+      .filter((clip) => clip.placement.kind !== "project" && pieces.get(clip.id)!.length === 0)
+      .map((clip) => clip.id),
   };
 }

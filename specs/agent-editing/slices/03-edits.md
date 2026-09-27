@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; track/canvas, placement, linking and atomic batch foundation verified. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; batch foundation, splitting, gap-preserving removal and trim verified. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -61,9 +61,27 @@ A [rounded-boundary mutation](../assets/03-edits/split/rounding-mutation.txt) fa
 Both independent reviews found that an untouched selected member could lose its
 link; the [regression](../assets/03-edits/split/selected-members-red.txt) failed
 before filtering by actual partition results and now passes. Full slice acceptance
-still requires trim/remove/move/insert/replace/retime/duplicate and ripple.
+still requires move/insert/replace/retime/duplicate and ripple.
 
 Final independent Codex review found no actionable defects after the selected-member
 fix and right-label support. A separate exhaustive probe checked 1,326 small
 retimed splits and all 12,376 integer project samples without a mapping change.
 Attachment traversal and linked-group expansion visit each edge/group once.
+
+
+## Removal and trim checkpoint
+
+[36 tests](../assets/03-edits/removal/tests.txt) verify range unions, full deletion,
+selected-only removal with untouched counterpart samples, attachment restriction
+and deletion, repeated deletion, and 595 small retimed range cases. Trimming
+expands into the two removed project windows around its kept interval; linked
+members outside those windows remain untouched. The same partition owner handles
+split, removal and trim, preserving original source mapping and left-survivor IDs.
+
+Requests and selected intervals are merged before intersection; the reducer does
+not materialize their Cartesian product. Batch identities remain occupied after
+deletion, preventing delete/add from reusing an occurrence identity; the
+[regression](../assets/03-edits/removal/identity-reuse-red.txt) failed before this
+fix. Independent review found no actionable defects in the removal/trim logic;
+type checks, build and the previous split grid pass. Ripple is currently explicitly
+`none`; explicit ripple tracks and move/insert/replace/retime/duplicate remain open.

@@ -249,3 +249,22 @@ The gap: the reproduction needed concrete bounded texts, reference duration and
 join treatment. The reach: generation remains a candidate until words, voice and
 joins pass; seed, numerical speed and exact PCM preservation do not certify
 speech quality. The agent will choose any eventual trim, stretch or fade explicitly.
+
+
+### Trim removes addressed end windows rather than inventing a group envelope
+
+When: slice 03 removal/trim. Confidence: medium. Verdict: sound.
+
+The choice: trimming a one-second video to its middle portion also removes those
+same end windows from linked audio. If that audio extends beyond the video's
+original end, its extra tail remains. The agent can address that tail explicitly;
+trimming one occurrence does not silently redefine the whole synchronization
+group's duration. The gap: the plan defined linked project-range intersection but
+left the trim command's input shape open. The reach: trim uses one occurrence and
+a kept project interval, and expands through the same range-removal algebra.
+
+Removal accepts up to 1,000 ranges in one operation, matching the batch's existing
+bounded-work convention; overlapping ranges are merged before applying them.
+Larger edits must be expressed deliberately within the public operation limits,
+never silently divided into separate commits. This bound must appear with the
+shared edit schema when the public project API is added.
