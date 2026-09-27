@@ -1,0 +1,41 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:70227) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/jobs.test.ts (51 tests | 1 failed | 50 skipped) 71ms
+   × admission rolls back domain writes when capacity is exhausted 69ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/jobs.test.ts > admission rolls back domain writes when capacity is exhausted
+AssertionError: expected [ Array(2) ] to deeply equal [ { id: 'accepted' } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "id": "accepted",
+    },
++   {
++     "id": "broken",
++   },
+  ]
+
+ ❯ packages/core/src/jobs.test.ts:1980:74
+    1978|     }),
+    1979|   ).toThrow("owner refused");
+    1980|   expect(store.catalog.prepare("SELECT id FROM admission_owners").all(…
+       |                                                                          ^
+    1981|     { id: "accepted" },
+    1982|   ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 50 skipped (51)
+   Start at  13:18:22
+   Duration  817ms (transform 62%, import 26%, tests 12%, worker 1%)
+

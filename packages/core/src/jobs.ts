@@ -499,8 +499,9 @@ export class JobQueue {
    * Admits one job for a pinned target. An existing exact identity returns its current outcome, including failure. Resolve
    * current once at admission; historical requests pin their explicit revision. Only retry
    * creates another attempt, so repeated inspection cannot trigger automatic retry loops.
+   * A request factory runs on replay too: use idempotent same-catalog writes only.
    */
-  submit(request: JobRequest): Job {
+  submit(request: JobRequest | (() => JobRequest)): Job {
     return this.submitJob(request, false);
   }
 
@@ -508,10 +509,12 @@ export class JobQueue {
     return this.submitJob(request, true);
   }
 
-  private submitJob(request: JobRequest, deferred: boolean): Job {
+  private submitJob(input: JobRequest | (() => JobRequest), deferred: boolean): Job {
     let created = false;
     const jobId = this.store.transaction(() => {
       this.requireOpen();
+      // Domain ownership and queue admission commit together; execution starts after commit.
+      const request = typeof input === "function" ? input() : input;
       const target = this.targets.pin(request.target);
       const existing = this.existing({ ...request, target });
       if (existing) {

@@ -1,6 +1,6 @@
 # 02a — Shared durable preparation targets
 
-Status: in progress. Dependencies: [00](./00-corpus.md).
+Status: in progress; generic targets and transactional admission implemented, public controls under integration. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -49,3 +49,22 @@ synchronous public-import substitute, or silent change to retry/cancel semantics
 Delegated: private SQL indexes and module split. Target identity, frozen input,
 shared queue and lifecycle guarantees are fixed by the contracts. Record any
 public identity choice not settled there in the choices ledger.
+
+## Admission invariant
+
+Source inspection runs before admission and does not persist a new import. The
+queue accepts a synchronous request factory inside its existing catalog
+transaction, so the frozen import identity and job either commit together or
+both roll back. Execution begins only after commit. No filesystem work or nested
+queue submission belongs in that factory. Exact replay still returns the stored
+job before checking capacity.
+
+The core queue regression exercises successful domain persistence and rollback
+on a factory exception or full queue. Public import refusal/retry remains part
+of slice 02's service harness.
+
+Factories run on replay too and must resolve existing domain ownership
+idempotently using the same catalog. Independent review found no actionable
+defects; [74 queue/library checks](../assets/02a-jobs/admission-tests.txt) pass
+after rebuilding native Node subprocess imports. Moving the factory before the
+transaction [fails the rollback regression](../assets/02a-jobs/admission-mutation.txt).

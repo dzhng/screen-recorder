@@ -1953,3 +1953,52 @@ test("failure diagnostics remain bounded and cannot break settlement", async () 
     await f.queue.idle();
   }
 });
+
+test("admission rolls back domain writes when capacity is exhausted", async () => {
+  const { store, queue, started } = fixture();
+  store.catalog.exec("CREATE TABLE admission_owners (id TEXT PRIMARY KEY)");
+  const request = (importId: string) => ({
+    target: { kind: "import" as const, importId },
+    artifact: "asset.import",
+    lane: "heavy" as const,
+    input: "frozen",
+  });
+  const accepted = queue.submit(() => {
+    store.catalog.prepare("INSERT INTO admission_owners VALUES (?)").run("accepted");
+    return request("accepted");
+  });
+  const worker = await started(accepted.attemptId);
+  expect(store.catalog.prepare("SELECT id FROM admission_owners").all()).toEqual([
+    { id: "accepted" },
+  ]);
+  expect(() =>
+    queue.submit(() => {
+      store.catalog.prepare("INSERT INTO admission_owners VALUES (?)").run("broken");
+      throw new Error("owner refused");
+    }),
+  ).toThrow("owner refused");
+  expect(store.catalog.prepare("SELECT id FROM admission_owners").all()).toEqual([
+    { id: "accepted" },
+  ]);
+  store.allocate();
+  for (let i = 0; i < 32; i++) queue.submit(request(`pending-${i}`));
+  expect(
+    queue.submit(() => {
+      store.catalog.prepare("INSERT OR IGNORE INTO admission_owners VALUES (?)").run("accepted");
+      return request("accepted");
+    }).jobId,
+  ).toBe(accepted.jobId);
+  expect(() =>
+    queue.submit(() => {
+      store.catalog.prepare("INSERT INTO admission_owners VALUES (?)").run("refused");
+      return request("refused");
+    }),
+  ).toThrow(expect.objectContaining({ code: "LIMIT_EXCEEDED" }));
+  expect(store.catalog.prepare("SELECT id FROM admission_owners").all()).toEqual([
+    { id: "accepted" },
+  ]);
+  expect(store.catalog.prepare("SELECT targetId FROM jobs WHERE targetId='refused'").all()).toEqual(
+    [],
+  );
+  worker.finish("ready");
+});

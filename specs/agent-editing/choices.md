@@ -140,3 +140,21 @@ mapping under arbitrary retimed splits. The reach: the reducer, compiler and
 portable document readers inherit one exact representation; they must not coerce
 stored endpoints to numbers before the declared sampling boundary. This avoids
 adding a second speed or hidden original-mapping field to every edited clip.
+
+
+### Admit an import and its job in the same transaction
+
+When: slice 02a admission integration. Confidence: high. Verdict: sound.
+
+The choice: when an agent imports a file while the queue is full, neither a job
+nor a new frozen import record is saved. The queue runs a synchronous request
+factory inside its existing database transaction; that factory creates the import
+record and returns the job request. A capacity failure rolls both back. Source
+inspection happens beforehand, and media processing starts after commit.
+
+The gap: the plan required bounded admission and immutable retries but did not
+specify how the import owner joins queue admission. Saving imports first would
+leave unlimited rejected requests behind; a cleanup worker would add another
+lifecycle. The reach: future preparation owners can share this transaction, but
+must keep asynchronous file work outside it. Previously accepted request replay
+still uses its frozen identity without reopening the external source.
