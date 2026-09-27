@@ -1,0 +1,12 @@
+[
+  {
+    "case": "phrase-shorter-lead",
+    "sha256": "afe0f4dbcc28623ce0ca4331ced9d6bcaddd2d684d557f3e6aeb030747e2a23f",
+    "text": "This is available at no cost."
+  },
+  {
+    "case": "phrase-shorter-lead-context",
+    "sha256": "97e80d9879d38b9368322bd355e49c7d32487fbacb8ca95f666d1ad6baf07500",
+    "text": "The sample offer says this is available at no cost. You can mention the sentence here."
+  }
+]

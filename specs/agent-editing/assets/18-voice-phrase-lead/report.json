@@ -1,0 +1,16 @@
+{
+  "trimmedLeadMs": 120,
+  "transitionSamples": 120,
+  "rate": 24000,
+  "previousContextSha256": "0c7ecf33de2d3d6ac9b43a15400e5e65372ba94ea302f5f6999059caf0946574",
+  "previousWetInsertSha256": "a9c738c123c818a03f5ce9ee36f575aa1b6a5b36b381ec28a09cefc4fb533cab",
+  "outputSha256": "97e80d9879d38b9368322bd355e49c7d32487fbacb8ca95f666d1ad6baf07500",
+  "frames": 151920,
+  "prefixExact": true,
+  "entireSuffixAfterEntranceExact": true,
+  "suffixComparison": {
+    "newStartFrame": 53968,
+    "previousStartFrame": 56848
+  },
+  "method": "Remove 120ms from the existing wet phrase lead, rebuilding only the 5ms entrance. Retain every later sample exactly, including room tone, gain, exit crossfade and original suffix."
+}

@@ -1,6 +1,6 @@
 # 18 — Reproduce local reference speech
 
-Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode, still hears excess margins, and requests the original background hum. [Room-tone auditions](../assets/18-voice-roomtone/README.md) retain the closer mode with tighter cuts; acoustic/listening acceptance, visual review and managed origin retention remain open. Dependencies: [00](./00-corpus.md).
+Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode. With extracted background hum, the phrase ending sounds fine but its entrance remains too long. A [120ms shorter entrance](../assets/18-voice-phrase-lead/README.md) preserves the accepted ending sample-exact; acoustic/listening acceptance, visual review and managed origin retention remain open. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

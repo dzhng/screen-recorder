@@ -68,6 +68,8 @@ Current evidence:
   user finds voice close but joins wrong and generated speech louder.
   The alternative mode was rejected. [Room-tone auditions](assets/18-voice-roomtone/README.md)
   use the closer voice with tighter cuts and extracted background sound.
+  The user finds the phrase ending fine; a [shorter entrance](assets/18-voice-phrase-lead/README.md)
+  removes another 120ms while preserving that ending sample-exact.
   Context outside declared transitions stays exact; listening quality remains open.
 
 Keep old media intact and develop against isolated homes; the new library is

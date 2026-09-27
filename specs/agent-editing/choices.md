@@ -389,3 +389,13 @@ Keeping this bed separate makes its level and source auditable and reversible.
 The selected region is supported by its low stable energy and transcript gap,
 not yet by an independent listening judgment that it contains no speech. These
 are audition settings, not automatic defaults for all future recordings.
+
+### Shorten only the phrase entrance — sound, medium confidence
+
+The user accepted the phrase ending but still heard too much delay at its start.
+The next audition removes 120ms from the existing voice-plus-background audio
+and rebuilds just the entrance crossfade. It keeps every later sample unchanged,
+so the accepted ending cannot drift through regenerated room tone or a different
+mix. The amount is a reversible audition choice, not an automatic trim default;
+local transcription retains the complete phrase, while naturalness still needs
+listening judgment.
