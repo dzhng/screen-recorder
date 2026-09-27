@@ -1,0 +1,55 @@
+{
+  "description": "Representative frozen artifacts; full raw matrix regenerates from pinned runner and immutable source.",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3854,
+      "sha256": "bf62f69746abdbece3297a0b97d597eacb2eefd845340fecbe98394616d6c8aa"
+    },
+    {
+      "path": "join-waveforms.png",
+      "bytes": 9497,
+      "sha256": "a1fdd37c00195b57251226fc7a932a2c0103aacd1ab961063757ebdea676bdca"
+    },
+    {
+      "path": "local-phrase-0.8-context.wav",
+      "bytes": 648044,
+      "sha256": "2cb4e2e34fb0cd2b22237d663c7110496eb39b0d1fe8ccbd59cec42cec58d58e"
+    },
+    {
+      "path": "local-phrase-0.9-context.wav",
+      "bytes": 608044,
+      "sha256": "929b36f720b667ff1f117af8bd39ec0c9994b64d5b07857b02262b66a459bbc1"
+    },
+    {
+      "path": "local-phrase-1-context.wav",
+      "bytes": 576044,
+      "sha256": "e00d662fd1ec69d84c3c19166dbc9bd2bf1cf969b398d7f9e1ed3b52cffd920f"
+    },
+    {
+      "path": "local-phrase-1.25-context.wav",
+      "bytes": 518444,
+      "sha256": "bb7c1084c16acce52f8f363bbd58713c6d42d8bef112fb71c8d1ca84c4287bce"
+    },
+    {
+      "path": "local-phrase-input.wav",
+      "bytes": 576044,
+      "sha256": "576355b9324e0111b392229c427545b3e233f30c93bf88c9b529e6cade7edeee"
+    },
+    {
+      "path": "pitch-mutation.txt",
+      "bytes": 717,
+      "sha256": "d9be86d2f12e5cb3041213739d5c2326785d020969a70bc25dbbbc124e5eb0bb"
+    },
+    {
+      "path": "report.json",
+      "bytes": 38861,
+      "sha256": "482dc2320b00b29d3a5434e4ee276c69fd43a337e10fac4ec95f809570b32c76"
+    },
+    {
+      "path": "tone-spectrum.png",
+      "bytes": 108490,
+      "sha256": "0d95221a0dcfdd7696cfda3c8c1836e8cbc8216cb17e398752314840db0f97ca"
+    }
+  ]
+}

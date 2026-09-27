@@ -1,0 +1,1270 @@
+{
+  "status": "numerical reproduction only; speech/listening and visual review gates UNVERIFIED",
+  "sourceCommit": "babc2f735d208ff878768874428ff670a171c320",
+  "runnerSha256": "b9eeb8e429a9fb905816b935be7d47dcc1c10512b5e36ecbc446c423e463f274",
+  "nativeSha256": "ce9bc393a6a52c27387bbee608a7b8562a00a940d416f0e9f0efc9630867ff88",
+  "narration": {
+    "path": "fixtures/narrated-workbench/narration.mov",
+    "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "fileOriginUs": 48675
+  },
+  "environment": {
+    "os": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n",
+    "hardware": "Apple M5 Pro",
+    "swift": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0\n",
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "invocation": [
+    "/private/tmp/screenrec-editing-stretch/packages/test-harness/editing/stretch-reproduction.mjs",
+    "--case",
+    "all",
+    "--out",
+    "/tmp/screenrec-stretch-frozen"
+  ],
+  "sampleRate": 48000,
+  "channels": 1,
+  "recipe": "Clip source PCM before TimePitch; pitch=0, overlap=8, offline 4096-frame blocks. Render requested length plus 0.1s to observe tail, retain exactly floor(selectedFrames/speed). No inferred latency shift, fades, or hidden crossfades. Unit reports zero latency/tail; transient movement is measured separately.",
+  "distribution": "Native uses system AVFAudio. FFmpeg is a research comparator only, not a product dependency.",
+  "results": [
+    {
+      "case": "tone",
+      "speed": 0.8,
+      "authority": "synthetic 440 Hz",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "selectedSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "expectedFrames": 180000,
+      "native": {
+        "frames": 184800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.021094167,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20824064,
+      "retained": {
+        "rms": 0.141251292692132,
+        "peak": 0.20345452427864075
+      },
+      "discardedTail": {
+        "rms": 0.0011450201464492916,
+        "peak": 0.011697590351104736
+      },
+      "nativeSha256": "c792e1b9beb42c0f06e3392cb5ab9bd721775800a43ba1c9c86e05312c4e2dd2",
+      "pitchHz": 440.00003423647036,
+      "pitchErrorPercent": 0.000007781015987085027,
+      "ffmpeg": {
+        "frames": 179861,
+        "frameDifference": -139,
+        "sha256": "e79a3b3a9ccde8b8f63af6ddfa9ef2605b3ab3acaa72154a197d03b5382a4c0c",
+        "pitchHz": 440.0737326586023
+      }
+    },
+    {
+      "case": "tone",
+      "speed": 0.9,
+      "authority": "synthetic 440 Hz",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "selectedSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "expectedFrames": 160000,
+      "native": {
+        "frames": 164800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.015631458,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20774912,
+      "retained": {
+        "rms": 0.141308943942963,
+        "peak": 0.20099025964736938
+      },
+      "discardedTail": {
+        "rms": 0.001607358257379637,
+        "peak": 0.027137573808431625
+      },
+      "nativeSha256": "090731b1d480b6bd35831433ca1389ef14cc561f9b2cce29a18429593b8a4eaa",
+      "pitchHz": 440.0000011736551,
+      "pitchErrorPercent": 2.667398080191674e-7,
+      "ffmpeg": {
+        "frames": 160023,
+        "frameDifference": 23,
+        "sha256": "3f1d2534bc3248bb80b897edf0184494e27d61ddc0a5efa9bd533432b6455844",
+        "pitchHz": 440.0365466778398
+      }
+    },
+    {
+      "case": "tone",
+      "speed": 1,
+      "authority": "synthetic 440 Hz",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "selectedSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "expectedFrames": 144000,
+      "native": {
+        "frames": 148800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.007037792,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20643840,
+      "retained": {
+        "rms": 0.14131349000059726,
+        "peak": 0.20000001788139343
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "e8bea41d753290402ef8fd3ebd32633a16c93d3bc79c64e007b8c057845edb5a",
+      "pitchHz": 440.00000045841404,
+      "pitchErrorPercent": 1.0418501616982212e-7,
+      "ffmpeg": {
+        "frames": 144000,
+        "frameDifference": 0,
+        "sha256": "35044129b53b95162cdc64412925717cf5ef7b2c404adcb895fe63b784e7036e",
+        "pitchHz": 440.0000004586922
+      }
+    },
+    {
+      "case": "tone",
+      "speed": 1.25,
+      "authority": "synthetic 440 Hz",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "selectedSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "expectedFrames": 115200,
+      "native": {
+        "frames": 120000,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.017628083,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20578304,
+      "retained": {
+        "rms": 0.14128131870386634,
+        "peak": 0.20141983032226562
+      },
+      "discardedTail": {
+        "rms": 0.006971955006841829,
+        "peak": 0.08617129176855087
+      },
+      "nativeSha256": "6f426edf7d7818719df8ae606196bc759263cd880c7547b75445b547c6531202",
+      "pitchHz": 440.00016546806893,
+      "pitchErrorPercent": 0.000037606379299504056,
+      "ffmpeg": {
+        "frames": 115322,
+        "frameDifference": 122,
+        "sha256": "931338f0bb35387376cee7259b65c30a6bfb5ad458b5f819adc965bda55aa643",
+        "pitchHz": 439.9563694890755
+      }
+    },
+    {
+      "case": "impulses",
+      "speed": 0.8,
+      "authority": "synthetic isolated transients including both endpoints",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "selectedSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "expectedFrames": 180000,
+      "native": {
+        "frames": 184800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.073189917,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20807680,
+      "retained": {
+        "rms": 0.003487862727835356,
+        "peak": 0.17531906068325043
+      },
+      "discardedTail": {
+        "rms": 0.0003177585238022979,
+        "peak": 0.0032843220978975296
+      },
+      "nativeSha256": "da37f75a1cf59cb8b2e193bf240e9fd7dd332b668ebc70640ede1c78ccbbd4ad",
+      "impulses": [
+        {
+          "sourceSeconds": 0.02,
+          "expectedFrame": 1200,
+          "peakFrame": 858,
+          "errorFrames": -342,
+          "peak": 0.17531906068325043
+        },
+        {
+          "sourceSeconds": 0.25,
+          "expectedFrame": 15000,
+          "peakFrame": 14821,
+          "errorFrames": -179,
+          "peak": 0.1120760515332222
+        },
+        {
+          "sourceSeconds": 1,
+          "expectedFrame": 60000,
+          "peakFrame": 59805,
+          "errorFrames": -195,
+          "peak": 0.104681096971035
+        },
+        {
+          "sourceSeconds": 2,
+          "expectedFrame": 120000,
+          "peakFrame": 119774,
+          "errorFrames": -226,
+          "peak": 0.110199935734272
+        },
+        {
+          "sourceSeconds": 2.98,
+          "expectedFrame": 178800,
+          "peakFrame": 178474,
+          "errorFrames": -326,
+          "peak": 0.15035875141620636
+        }
+      ],
+      "ffmpeg": {
+        "frames": 179635,
+        "frameDifference": -365,
+        "sha256": "98b7deb353b458e16531fdfb8ade634026571eaa8f04b53a21017caa317898a0"
+      }
+    },
+    {
+      "case": "impulses",
+      "speed": 0.9,
+      "authority": "synthetic isolated transients including both endpoints",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "selectedSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "expectedFrames": 160000,
+      "native": {
+        "frames": 164800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.031954667,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20742144,
+      "retained": {
+        "rms": 0.003822291520933021,
+        "peak": 0.46829754114151
+      },
+      "discardedTail": {
+        "rms": 0.00030100999141721566,
+        "peak": 0.0036147786304354668
+      },
+      "nativeSha256": "9dd7753362b707da865dce656cfe3f7b39e2493d95b802e21a739ae458242c7a",
+      "impulses": [
+        {
+          "sourceSeconds": 0.02,
+          "expectedFrame": 1066.6666666666667,
+          "peakFrame": 909,
+          "errorFrames": -157.66666666666674,
+          "peak": 0.46829754114151
+        },
+        {
+          "sourceSeconds": 0.25,
+          "expectedFrame": 13333.333333333332,
+          "peakFrame": 13198,
+          "errorFrames": -135.33333333333212,
+          "peak": 0.11268967390060425
+        },
+        {
+          "sourceSeconds": 1,
+          "expectedFrame": 53333.33333333333,
+          "peakFrame": 53229,
+          "errorFrames": -104.33333333332848,
+          "peak": 0.11616021394729614
+        },
+        {
+          "sourceSeconds": 2,
+          "expectedFrame": 106666.66666666666,
+          "peakFrame": 106565,
+          "errorFrames": -101.66666666665697,
+          "peak": 0.13072045147418976
+        },
+        {
+          "sourceSeconds": 2.98,
+          "expectedFrame": 158933.33333333334,
+          "peakFrame": 158739,
+          "errorFrames": -194.33333333334303,
+          "peak": 0.13889214396476746
+        }
+      ],
+      "ffmpeg": {
+        "frames": 159411,
+        "frameDifference": -589,
+        "sha256": "07eb2d2bea2b693b6a84b8350045bdec7d27d035bf77fd0c82b5765253d8c405"
+      }
+    },
+    {
+      "case": "impulses",
+      "speed": 1,
+      "authority": "synthetic isolated transients including both endpoints",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "selectedSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "expectedFrames": 144000,
+      "native": {
+        "frames": 148800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.002879958,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20643840,
+      "retained": {
+        "rms": 0.0047035885645973505,
+        "peak": 0.8000000715255737
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "250f967080536ffa0e640313110cb2a02b032f5e5b5ee2ce72a815db3f959a56",
+      "impulses": [
+        {
+          "sourceSeconds": 0.02,
+          "expectedFrame": 960,
+          "peakFrame": 960,
+          "errorFrames": 0,
+          "peak": 0.79108726978302
+        },
+        {
+          "sourceSeconds": 0.25,
+          "expectedFrame": 12000,
+          "peakFrame": 12000,
+          "errorFrames": 0,
+          "peak": 0.8000000715255737
+        },
+        {
+          "sourceSeconds": 1,
+          "expectedFrame": 48000,
+          "peakFrame": 48000,
+          "errorFrames": 0,
+          "peak": 0.7999999523162842
+        },
+        {
+          "sourceSeconds": 2,
+          "expectedFrame": 96000,
+          "peakFrame": 96000,
+          "errorFrames": 0,
+          "peak": 0.8000000715255737
+        },
+        {
+          "sourceSeconds": 2.98,
+          "expectedFrame": 143040,
+          "peakFrame": 143040,
+          "errorFrames": 0,
+          "peak": 0.8000000715255737
+        }
+      ],
+      "ffmpeg": {
+        "frames": 143744,
+        "frameDifference": -256,
+        "sha256": "7a0c9880d4d2d5586387227ba9ee28b8fa2e62413220298e5023f998f66cdf5a"
+      }
+    },
+    {
+      "case": "impulses",
+      "speed": 1.25,
+      "authority": "synthetic isolated transients including both endpoints",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "selectedSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "expectedFrames": 115200,
+      "native": {
+        "frames": 120000,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.033941,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20529152,
+      "retained": {
+        "rms": 0.004669866751622583,
+        "peak": 0.6799073219299316
+      },
+      "discardedTail": {
+        "rms": 0.00013996601167221335,
+        "peak": 0.0008302646456286311
+      },
+      "nativeSha256": "e269419f4188853c627af23a06933e2d1f00b54509a7590076d569fdd773cd39",
+      "impulses": [
+        {
+          "sourceSeconds": 0.02,
+          "expectedFrame": 768,
+          "peakFrame": 833,
+          "errorFrames": 65,
+          "peak": 0.40796464681625366
+        },
+        {
+          "sourceSeconds": 0.25,
+          "expectedFrame": 9600,
+          "peakFrame": 9696,
+          "errorFrames": 96,
+          "peak": 0.6799073219299316
+        },
+        {
+          "sourceSeconds": 1,
+          "expectedFrame": 38400,
+          "peakFrame": 38527,
+          "errorFrames": 127,
+          "peak": 0.4177798628807068
+        },
+        {
+          "sourceSeconds": 2,
+          "expectedFrame": 76800,
+          "peakFrame": 76927,
+          "errorFrames": 127,
+          "peak": 0.41729849576950073
+        },
+        {
+          "sourceSeconds": 2.98,
+          "expectedFrame": 114432,
+          "peakFrame": 114496,
+          "errorFrames": 64,
+          "peak": 0.47418397665023804
+        }
+      ],
+      "ffmpeg": {
+        "frames": 114560,
+        "frameDifference": -640,
+        "sha256": "4cf4ae76e6b18c97163a848cf91c7fbb0cbaf3c24c15df5f31d1aa5a51091321"
+      }
+    },
+    {
+      "case": "silence",
+      "speed": 0.8,
+      "authority": "synthetic digital silence",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "selectedSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "expectedFrames": 180000,
+      "native": {
+        "frames": 184800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.106895209,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20824064,
+      "retained": {
+        "rms": 0,
+        "peak": 0
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "943696a366338cdf1765680dd633ef600abb4a015c7c6bd3d41cd7d585bc98c8",
+      "ffmpeg": {
+        "frames": 178611,
+        "frameDifference": -1389,
+        "sha256": "2f55c24352f11b7eae6967c3f5c9051442ad88c7edf7cb894827aff34f2d97d5"
+      }
+    },
+    {
+      "case": "silence",
+      "speed": 0.9,
+      "authority": "synthetic digital silence",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "selectedSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "expectedFrames": 160000,
+      "native": {
+        "frames": 164800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.115706042,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20709376,
+      "retained": {
+        "rms": 0,
+        "peak": 0
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "3d00ed86b663cd1b8ac82b105257cd109412f92dca442048532439f920a7f645",
+      "ffmpeg": {
+        "frames": 158848,
+        "frameDifference": -1152,
+        "sha256": "77896e685e7f6e661df31281c3d1a571a6f0e96a38032d7abe18b1d29ec5cb09"
+      }
+    },
+    {
+      "case": "silence",
+      "speed": 1,
+      "authority": "synthetic digital silence",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "selectedSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "expectedFrames": 144000,
+      "native": {
+        "frames": 148800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.070408833,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20660224,
+      "retained": {
+        "rms": 0,
+        "peak": 0
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "ffmpeg": {
+        "frames": 142976,
+        "frameDifference": -1024,
+        "sha256": "733f6692c7aba2be62606cf5ed7997763fabda6459b69b2dac7508a67d06e877"
+      }
+    },
+    {
+      "case": "silence",
+      "speed": 1.25,
+      "authority": "synthetic digital silence",
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "selectedSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "expectedFrames": 115200,
+      "native": {
+        "frames": 120000,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.121398875,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20561920,
+      "retained": {
+        "rms": 0,
+        "peak": 0
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "91d2d62a5700cbf9404e3c575c3b6fc19e1e31c24c6fcfc0a2cf70d41314b447",
+      "ffmpeg": {
+        "frames": 114560,
+        "frameDifference": -640,
+        "sha256": "86c945cfcba8ac4aed1a56442821e7c2ab870264177b4918cebca9bec0f4d597"
+      }
+    },
+    {
+      "case": "phrase",
+      "speed": 0.8,
+      "authority": "real narration; no new audition",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "selectedSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 180000,
+      "native": {
+        "frames": 184800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.058942083,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20774912,
+      "retained": {
+        "rms": 0.010143993189038211,
+        "peak": 0.06998433917760849
+      },
+      "discardedTail": {
+        "rms": 0.0002827037354303485,
+        "peak": 0.0026213673409074545
+      },
+      "nativeSha256": "2cd44226cd21eb01be7ffcbf3c0874bad80ef10c8e0efc6eba5023fe45537cc3",
+      "ffmpeg": {
+        "frames": 179477,
+        "frameDifference": -523,
+        "sha256": "b43f1b0268f981bf5d2ff9e60cddab48833ba445a5e8574d332382ad94a98d91"
+      }
+    },
+    {
+      "case": "phrase",
+      "speed": 0.9,
+      "authority": "real narration; no new audition",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "selectedSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 160000,
+      "native": {
+        "frames": 164800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.030020125,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20692992,
+      "retained": {
+        "rms": 0.010245907859137402,
+        "peak": 0.06311121582984924
+      },
+      "discardedTail": {
+        "rms": 0.00022218831792593458,
+        "peak": 0.0017014429904520512
+      },
+      "nativeSha256": "c8544c12609b315d71c82673ab43fe18d56d2a62e90a0cae93fd1e1d194062cd",
+      "ffmpeg": {
+        "frames": 159332,
+        "frameDifference": -668,
+        "sha256": "18a6d913e8bb313c8ab055d169ed2b2eb1e62f3bc2f289254c70724c112c1a35"
+      }
+    },
+    {
+      "case": "phrase",
+      "speed": 1,
+      "authority": "real narration; no new audition",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "selectedSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 144000,
+      "native": {
+        "frames": 148800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.003748167,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20627456,
+      "retained": {
+        "rms": 0.010515453715513129,
+        "peak": 0.08792243897914886
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "b25b6eafe997faa6f48acf9269f6874747a7d364bf2118412c840f354666c0e8",
+      "ffmpeg": {
+        "frames": 143980,
+        "frameDifference": -20,
+        "sha256": "34d0968a895c0e68c6a40a657c96cd75c7643a02496e57ccce41456c94d51477"
+      }
+    },
+    {
+      "case": "phrase",
+      "speed": 1.25,
+      "authority": "real narration; no new audition",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "selectedSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 115200,
+      "native": {
+        "frames": 120000,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.018633,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20529152,
+      "retained": {
+        "rms": 0.009805954134349692,
+        "peak": 0.07552409172058105
+      },
+      "discardedTail": {
+        "rms": 0.0003562867267052631,
+        "peak": 0.0032506664283573627
+      },
+      "nativeSha256": "b941ea95218ae3cab0d655e542a277a3c80c07fc6aae469dc39770f27f7ca102",
+      "ffmpeg": {
+        "frames": 115130,
+        "frameDifference": -70,
+        "sha256": "57ecdea6ad6c2f0831959c0a7c0d46b6c78625643fc36c729b3a4f8f87954397"
+      }
+    },
+    {
+      "case": "rushed-candidate",
+      "speed": 0.8,
+      "authority": "real narration; pace classification UNVERIFIED",
+      "fileRangeUs": [
+        99000000,
+        101000000
+      ],
+      "sourceFrames": [
+        0,
+        96000
+      ],
+      "inputSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "selectedSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "expectedFrames": 120000,
+      "native": {
+        "frames": 124800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.039785709,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20168704,
+      "retained": {
+        "rms": 0.01088389928751796,
+        "peak": 0.05267353355884552
+      },
+      "discardedTail": {
+        "rms": 0.0003845421884538938,
+        "peak": 0.003272953210398555
+      },
+      "nativeSha256": "520162f7dc0e5b805176c9ce1f3f036ce06c21b6618a322229d649d1fee10196",
+      "ffmpeg": {
+        "frames": 119299,
+        "frameDifference": -701,
+        "sha256": "e9591efc938b8d4b02e01985e9ac98c9cd5c7bfa4f3f66b59f9900519e347b83"
+      }
+    },
+    {
+      "case": "rushed-candidate",
+      "speed": 0.9,
+      "authority": "real narration; pace classification UNVERIFIED",
+      "fileRangeUs": [
+        99000000,
+        101000000
+      ],
+      "sourceFrames": [
+        0,
+        96000
+      ],
+      "inputSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "selectedSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "expectedFrames": 106666,
+      "native": {
+        "frames": 111466,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.035572541,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20185088,
+      "retained": {
+        "rms": 0.010877321856504776,
+        "peak": 0.04733209311962128
+      },
+      "discardedTail": {
+        "rms": 0.0006408368826284078,
+        "peak": 0.009870351292192936
+      },
+      "nativeSha256": "25c707932cc227a72c540bdb060d24956be777769fd2d6a469c752b80d816043",
+      "ffmpeg": {
+        "frames": 106346,
+        "frameDifference": -320,
+        "sha256": "f338362c890c6b6fe9adaf914e9948ff30ec5d0055a33f397fe1792d67df5a39"
+      }
+    },
+    {
+      "case": "rushed-candidate",
+      "speed": 1,
+      "authority": "real narration; pace classification UNVERIFIED",
+      "fileRangeUs": [
+        99000000,
+        101000000
+      ],
+      "sourceFrames": [
+        0,
+        96000
+      ],
+      "inputSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "selectedSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "expectedFrames": 96000,
+      "native": {
+        "frames": 100800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.0104245,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20021248,
+      "retained": {
+        "rms": 0.011170102501184252,
+        "peak": 0.06394108384847641
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "1fc9642328d5f883cbe0abfa6bb3604e02c4e4458bde1abe5fd3b8c1463344ec",
+      "ffmpeg": {
+        "frames": 96013,
+        "frameDifference": 13,
+        "sha256": "f3f619aade09ac021215efe71c239debe678a6c1df6be958b35b9cc34037698e"
+      }
+    },
+    {
+      "case": "rushed-candidate",
+      "speed": 1.25,
+      "authority": "real narration; pace classification UNVERIFIED",
+      "fileRangeUs": [
+        99000000,
+        101000000
+      ],
+      "sourceFrames": [
+        0,
+        96000
+      ],
+      "inputSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "selectedSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "expectedFrames": 76800,
+      "native": {
+        "frames": 81600,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.026246042,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 19972096,
+      "retained": {
+        "rms": 0.01037615260457862,
+        "peak": 0.049727823585271835
+      },
+      "discardedTail": {
+        "rms": 0.003442126240046982,
+        "peak": 0.029901165515184402
+      },
+      "nativeSha256": "e6aed38c3f55f8992f2e694fcca812ac472626a36aa31675cb7df32360404d13",
+      "ffmpeg": {
+        "frames": 77383,
+        "frameDifference": 583,
+        "sha256": "45782ee6f97938d8e0edc3aa5e2f03a403858159b1582ded9f1c32b6d1eab2a8"
+      }
+    },
+    {
+      "case": "speech-with-clicks",
+      "speed": 0.8,
+      "authority": "real narration plus synthetic clicks at 0.6s and 2.2s",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "selectedSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "expectedFrames": 180000,
+      "native": {
+        "frames": 184800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.056956583,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20824064,
+      "retained": {
+        "rms": 0.010368826287545966,
+        "peak": 0.13144993782043457
+      },
+      "discardedTail": {
+        "rms": 0.00030502106680156525,
+        "peak": 0.0022761826403439045
+      },
+      "nativeSha256": "6292e2cc989884341a35b393d984447b45225f7939600431ab30607b7a364198",
+      "ffmpeg": {
+        "frames": 179092,
+        "frameDifference": -908,
+        "sha256": "088112f0930c881a73ecca03d76d2e0525532ac21958093a3608050abbad6824"
+      }
+    },
+    {
+      "case": "speech-with-clicks",
+      "speed": 0.9,
+      "authority": "real narration plus synthetic clicks at 0.6s and 2.2s",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "selectedSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "expectedFrames": 160000,
+      "native": {
+        "frames": 164800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.044642667,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20692992,
+      "retained": {
+        "rms": 0.010509474277168576,
+        "peak": 0.24069447815418243
+      },
+      "discardedTail": {
+        "rms": 0.0002293716216590481,
+        "peak": 0.0015657703625038266
+      },
+      "nativeSha256": "b32d86a4752e893533005a169e88817b2388fd77049eaed3313134a540a3c60f",
+      "ffmpeg": {
+        "frames": 159335,
+        "frameDifference": -665,
+        "sha256": "aa355cecb873cd0ae3e1b549e26d96262472b8b70def7ac1fa721b253131b20d"
+      }
+    },
+    {
+      "case": "speech-with-clicks",
+      "speed": 1,
+      "authority": "real narration plus synthetic clicks at 0.6s and 2.2s",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "selectedSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "expectedFrames": 144000,
+      "native": {
+        "frames": 148800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.004150916,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20660224,
+      "retained": {
+        "rms": 0.010837949528970834,
+        "peak": 0.7241265773773193
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "f8e1c87113cdac314bfea5f53895bc11e40c6d0a015cf011595549558de0d161",
+      "ffmpeg": {
+        "frames": 143980,
+        "frameDifference": -20,
+        "sha256": "1e836a5d4821e692d045bd33f4cc9e0d4fd15adfc82018023cb4e15b24ec5cb8"
+      }
+    },
+    {
+      "case": "speech-with-clicks",
+      "speed": 1.25,
+      "authority": "real narration plus synthetic clicks at 0.6s and 2.2s",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "selectedSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "expectedFrames": 115200,
+      "native": {
+        "frames": 120000,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.047644875,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20545536,
+      "retained": {
+        "rms": 0.01015146305223825,
+        "peak": 0.5910565257072449
+      },
+      "discardedTail": {
+        "rms": 0.00029922112727617025,
+        "peak": 0.0026137984823435545
+      },
+      "nativeSha256": "1d2c1be7b5cab47daf103ce63bfe571001f2ed373476f96c16a114c1dabc3e4e",
+      "ffmpeg": {
+        "frames": 115125,
+        "frameDifference": -75,
+        "sha256": "dc689381846c5a563ff09930c69eb9bee8a44bb53fbed7b55a573c28bd8a02e1"
+      }
+    },
+    {
+      "case": "local-phrase",
+      "speed": 0.8,
+      "authority": "real narration; central 0.5–2s only, untouched neighbors; boundaries NOT auditioned",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        24000,
+        96000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "selectedSha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "expectedFrames": 90000,
+      "native": {
+        "frames": 94800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.092411666,
+        "speed": 0.800000011920929,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20135936,
+      "retained": {
+        "rms": 0.008190821460770185,
+        "peak": 0.05674971267580986
+      },
+      "discardedTail": {
+        "rms": 0.00024552867276293955,
+        "peak": 0.0017318748869001865
+      },
+      "nativeSha256": "669e15d20264e5bbe0e51f53f29e8d5785772db22ef5612cf1586bff157a9e97",
+      "neighbors": "bit-identical",
+      "excludedSourcePoison": "byte-identical native output",
+      "ffmpeg": {
+        "frames": 89193,
+        "frameDifference": -807,
+        "sha256": "1f4137aa4b869d753af543a1f7015ee78484ad53bf17fc13622d508a869ed3c0"
+      }
+    },
+    {
+      "case": "local-phrase",
+      "speed": 0.9,
+      "authority": "real narration; central 0.5–2s only, untouched neighbors; boundaries NOT auditioned",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        24000,
+        96000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "selectedSha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "expectedFrames": 80000,
+      "native": {
+        "frames": 84800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.008971708,
+        "speed": 0.8999999761581421,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20283392,
+      "retained": {
+        "rms": 0.008263730747595815,
+        "peak": 0.06280794739723206
+      },
+      "discardedTail": {
+        "rms": 0.00016050513308716596,
+        "peak": 0.0017078542150557041
+      },
+      "nativeSha256": "8c37c3f708091abbb52ea26e088b0018e1dbe0b32e4be0871376a1789f090f91",
+      "neighbors": "bit-identical",
+      "excludedSourcePoison": "byte-identical native output",
+      "ffmpeg": {
+        "frames": 79087,
+        "frameDifference": -913,
+        "sha256": "62607e399d46ccd079d7b6f20ec079cef90018473b7bcd61fd78dd3f0c3e839f"
+      }
+    },
+    {
+      "case": "local-phrase",
+      "speed": 1,
+      "authority": "real narration; central 0.5–2s only, untouched neighbors; boundaries NOT auditioned",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        24000,
+        96000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "selectedSha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "expectedFrames": 72000,
+      "native": {
+        "frames": 76800,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.00137925,
+        "speed": 1,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20365312,
+      "retained": {
+        "rms": 0.008439130444080857,
+        "peak": 0.07013861835002899
+      },
+      "discardedTail": {
+        "rms": 0,
+        "peak": 0
+      },
+      "nativeSha256": "f1a6529b678ff8a934934640e14e99d4de9cddca9da32ca15a1a05b0eaf0ce13",
+      "neighbors": "bit-identical",
+      "excludedSourcePoison": "byte-identical native output",
+      "ffmpeg": {
+        "frames": 71989,
+        "frameDifference": -11,
+        "sha256": "c9b571e99628bcddc634b59831e44d8d482e7c3f5fbf215f888ea2c0b3ea856c"
+      }
+    },
+    {
+      "case": "local-phrase",
+      "speed": 1.25,
+      "authority": "real narration; central 0.5–2s only, untouched neighbors; boundaries NOT auditioned",
+      "fileRangeUs": [
+        73000000,
+        76000000
+      ],
+      "sourceFrames": [
+        24000,
+        96000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "selectedSha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "expectedFrames": 57600,
+      "native": {
+        "frames": 62400,
+        "latencySeconds": 0,
+        "manualRendering": "offline",
+        "overlap": 8,
+        "renderSeconds": 0.012520334,
+        "speed": 1.25,
+        "tailSeconds": 0
+      },
+      "peakResidentBytes": 20234240,
+      "retained": {
+        "rms": 0.007937965715253867,
+        "peak": 0.057112231850624084
+      },
+      "discardedTail": {
+        "rms": 0.0002656455608370373,
+        "peak": 0.0021198829635977745
+      },
+      "nativeSha256": "5d190f7f23e547a9f8966cc46dcd0eef6d3d92acedb19e1b166575af33ca364c",
+      "neighbors": "bit-identical",
+      "excludedSourcePoison": "byte-identical native output",
+      "ffmpeg": {
+        "frames": 57616,
+        "frameDifference": 16,
+        "sha256": "dbb295aa085e6c08b41d60dfdb1b2e105807f830b85937c0db0d324593c1f150"
+      }
+    }
+  ]
+}

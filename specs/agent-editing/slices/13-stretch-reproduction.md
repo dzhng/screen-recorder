@@ -1,6 +1,11 @@
 # 13 — Reproduce pitch-preserving stretch
 
-Status: not started. Dependencies: [00](./00-corpus.md).
+Status: numerical reproduction implemented; quality gate NOT accepted. Dependencies: [00](./00-corpus.md).
+
+The [frozen experiment](../assets/13-stretch/README.md) establishes pitch, exact
+retained sample counts and excluded-source isolation. Native tail/endpoint
+handling and speech/listening acceptance remain open; slice 14 must not adopt
+the diagnostic crop. Independent visual critique is also pending.
 
 ## Contract
 
@@ -39,4 +44,3 @@ If the native method fails, test the named alternative. If only whole-phrase str
 Delegated: Candidate implementation and licensed-runtime selection based on evidence. The measured recipe is binding on slice 14.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
-
