@@ -1895,3 +1895,193 @@ test("ripple move checks synchronization on the combined displacement", () => {
     ),
   ).toThrow(CompositionError);
 });
+
+test("replace audio keeps its linked video and interval while changing only the addressed source", () => {
+  const first = applyBatch(input, setup, context);
+  const assets = [
+    ...context.assets,
+    {
+      id: "replacement",
+      streams: [
+        {
+          id: "voice",
+          kind: "audio",
+          bounds: { startUs: 0, endUs: 3000000 },
+          available: [{ startUs: 0, endUs: 3000000 }],
+        },
+      ],
+    },
+  ];
+  const operation = {
+    operation: "replace",
+    clipId: first.labels.audio,
+    kind: "audio",
+    media: {
+      assetId: "replacement",
+      streamId: "voice",
+      source: { kind: "range", range: { startUs: 0, endUs: 1600000 } },
+    },
+  };
+  const result = applyBatch(first.document, [operation], { ...context, assets });
+  expect(result.document.clips[0]).toEqual(first.document.clips[0]);
+  expect(result.document.clips[1]).toEqual({ ...first.document.clips[1], ...operation.media });
+  expect(result.document.syncGroups).toEqual(first.document.syncGroups);
+  expect(result.createdIds).toEqual([]);
+  expect(applyBatch(result.document, [operation], { ...context, assets }).changed).toBe(false);
+  expect(() =>
+    applyBatch(first.document, [{ ...operation, kind: "video" }], { ...context, assets }),
+  ).toThrow(CompositionError);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [
+        {
+          ...operation,
+          media: {
+            ...operation.media,
+            source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+          },
+        },
+      ],
+      { ...context, assets },
+    ),
+  ).toThrow(CompositionError);
+});
+
+test("replacement removes old content attachments without retargeting them or changing linked media", () => {
+  const first = applyBatch(input, setup, context);
+  const document = {
+    ...first.document,
+    tracks: [...first.document.tracks, { id: "overlay", kind: "video", order: 1 }],
+    clips: [
+      ...first.document.clips,
+      {
+        id: "child",
+        assetId: "source",
+        streamId: "v",
+        trackId: "overlay",
+        source: { kind: "hold", atUs: 0 },
+        placement: {
+          kind: "content",
+          clipId: first.labels.video!,
+          sourceRange: { startUs: 500000, endUs: 1000000 },
+        },
+      },
+    ],
+  };
+  const media = {
+    assetId: "replacement",
+    streamId: "v",
+    source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+  };
+  const assets = [...context.assets, { ...context.assets[0]!, id: "replacement" }];
+  const operation = { operation: "replace", clipId: first.labels.video, kind: "video", media };
+  const original = structuredClone(document);
+  const result = applyBatch(document, [operation], { ...context, assets });
+  expect(result.removedAttachments).toEqual(["child"]);
+  expect(result.document.clips).toEqual([
+    { ...first.document.clips[0], ...media },
+    first.document.clips[1],
+  ]);
+  expect(result.document.syncGroups).toEqual(first.document.syncGroups);
+  expect(
+    applyBatch(document, [{ ...operation, media: { ...media, assetId: "source" } }], {
+      ...context,
+      assets,
+    }).document,
+  ).toEqual(document);
+  expect(() =>
+    applyBatch(
+      document,
+      [
+        { operation: "canvas.set", canvas: { width: 320 } },
+        { ...operation, media: { ...media, assetId: "absent" } },
+      ],
+      { ...context, assets },
+    ),
+  ).toThrow(CompositionError);
+  expect(document).toEqual(original);
+});
+
+test("replacement only trims or stretches when explicitly requested", () => {
+  const first = applyBatch(input, setup, context);
+  const assets = [
+    ...context.assets,
+    {
+      id: "replacement",
+      streams: [
+        {
+          id: "voice",
+          kind: "audio",
+          bounds: { startUs: 0, endUs: 3000000 },
+          available: [{ startUs: 0, endUs: 3000000 }],
+        },
+      ],
+    },
+  ];
+  const operation = {
+    operation: "replace",
+    clipId: first.labels.audio,
+    kind: "audio",
+    media: {
+      assetId: "replacement",
+      streamId: "voice",
+      source: { kind: "range", range: { startUs: 500000, endUs: 2500000 } },
+    },
+  };
+  expect(() =>
+    applyBatch(
+      first.document,
+      [
+        {
+          ...operation,
+          fit: "trim",
+          media: {
+            ...operation.media,
+            source: { kind: "range", range: { startUs: 0, endUs: 9000000 } },
+          },
+        },
+      ],
+      { ...context, assets },
+    ),
+  ).toThrow(CompositionError);
+  const trimmed = applyBatch(first.document, [{ ...operation, fit: "trim" }], {
+    ...context,
+    assets,
+  });
+  expect(trimmed.document.clips[1]!.source).toEqual({
+    kind: "range",
+    range: { startUs: 500000, endUs: 2100000 },
+  });
+  const short = {
+    ...operation,
+    media: {
+      ...operation.media,
+      source: { kind: "range", range: { startUs: 500000, endUs: 1500000 } },
+    },
+  };
+  expect(() =>
+    applyBatch(first.document, [{ ...short, fit: "trim" }], { ...context, assets }),
+  ).toThrow(CompositionError);
+  const stretched = applyBatch(first.document, [{ ...short, fit: "stretch" }], {
+    ...context,
+    assets,
+  });
+  expect(stretched.document.clips[1]).toEqual({
+    ...first.document.clips[1],
+    ...short.media,
+    pitch: "preserve",
+  });
+  expect(
+    projectToSource(validateComposition(stretched.document, assets), 1000000).find(
+      (value) => value.clipId === first.labels.audio,
+    ),
+  ).toMatchObject({ sourceUs: 1000000 });
+  expect(stretched.document.clips[0]).toEqual(first.document.clips[0]);
+  expect(
+    applyBatch(first.document, [{ ...short, fit: "stretch", pitch: "follow" }], {
+      ...context,
+      assets,
+    }).document.clips[1]!.pitch,
+  ).toBe("follow");
+});

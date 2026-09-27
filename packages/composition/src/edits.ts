@@ -9,6 +9,7 @@ import { rippleTimeline, insertGap } from "./ripple.js";
 import { transformSelection } from "./transform.js";
 import { duplicateClips } from "./duplicate.js";
 import { rippleMove } from "./move.js";
+import { replaceClip } from "./replace.js";
 
 type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "syncGroup";
@@ -34,6 +35,16 @@ const placedClip = clipSchema.omit({ id: true }).extend({
   ]),
 });
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("replace"),
+      clipId: reference,
+      kind: z.enum(["audio", "video"]),
+      media: placedClip.pick({ assetId: true, streamId: true, source: true }),
+      fit: z.enum(["exact", "trim", "stretch"]).default("exact"),
+      pitch: z.enum(["preserve", "follow"]).optional(),
+    })
+    .strict(),
   z
     .object({
       operation: z.literal("insert"),
@@ -241,6 +252,19 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "replace": {
+          const result = replaceClip(
+            model,
+            clips([operation.clipId])[0]!,
+            operation.kind,
+            operation.media,
+            operation.fit,
+            operation.pitch,
+          );
+          next = result.document;
+          removedAttachments.push(...result.removedAttachments);
+          break;
+        }
         case "insert": {
           const result = insertGap(
             model,

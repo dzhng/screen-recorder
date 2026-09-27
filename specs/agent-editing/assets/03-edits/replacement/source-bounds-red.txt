@@ -1,0 +1,23 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/edits.test.ts (43 tests | 1 failed) 204ms
+   × replacement only trims or stretches when explicitly requested 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/edits.test.ts > replacement only trims or stretches when explicitly requested
+AssertionError: expected function to throw an error, but it didn't
+ ❯ src/edits.test.ts:2032:198
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 61 passed (62)
+   Start at  15:53:07
+   Duration  350ms (tests 57%, transform 28%, import 14%, worker 1%)
+
+error: script "test" exited with code 1

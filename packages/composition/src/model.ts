@@ -140,6 +140,29 @@ function placement(anchor: Anchor, resolved: ReadonlyMap<string, ResolvedClip>):
   return { range, available: intersectAll([range], parent.available) };
 }
 
+export function validateSourceSelection(
+  source: Clip["source"],
+  stream: Immutable<Stream>,
+  clipId: string,
+) {
+  if (source.kind === "hold") {
+    if (stream.kind === "audio") invalid(`Audio cannot be held: ${clipId}`);
+    if (
+      stream.kind === "image"
+        ? source.atUs !== 0
+        : !contains(exact(stream.bounds), integer(source.atUs))
+    )
+      invalid(`Hold exceeds source bounds: ${clipId}`);
+  } else {
+    if (stream.kind === "image") invalid(`Still images require a hold source: ${clipId}`);
+    if (
+      compare(fromTime(source.range.startUs), integer(stream.bounds.startUs)) < 0 ||
+      compare(fromTime(source.range.endUs), integer(stream.bounds.endUs)) > 0
+    )
+      invalid(`Selected range exceeds source bounds: ${clipId}`);
+  }
+}
+
 /** Snapshot admitted stream metadata and authoring data; no media or catalog access. */
 export function validateComposition(input: unknown, assetInput: unknown): ValidatedComposition {
   const documentResult = compositionSchema.safeParse(input);
@@ -200,22 +223,7 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
       invalid(`Stream/track kind mismatch: ${clip.id}`);
     if (clip.pitch !== undefined && stream.kind !== "audio")
       invalid(`Pitch policy requires audio: ${clip.id}`);
-    if (clip.source.kind === "hold") {
-      if (stream.kind === "audio") invalid(`Audio cannot be held: ${clip.id}`);
-      if (
-        stream.kind === "image"
-          ? clip.source.atUs !== 0
-          : !contains(exact(stream.bounds), integer(clip.source.atUs))
-      )
-        invalid(`Hold exceeds source bounds: ${clip.id}`);
-    } else {
-      if (stream.kind === "image") invalid(`Still images require a hold source: ${clip.id}`);
-      if (
-        compare(fromTime(clip.source.range.startUs), integer(stream.bounds.startUs)) < 0 ||
-        compare(fromTime(clip.source.range.endUs), integer(stream.bounds.endUs)) > 0
-      )
-        invalid(`Selected range exceeds source bounds: ${clip.id}`);
-    }
+    validateSourceSelection(clip.source, stream, clip.id);
     const anchor = placement(clip.placement, resolved);
     const rate =
       clip.source.kind === "hold"

@@ -412,3 +412,16 @@ only occupied old intervals close, and their whole envelope opens at the new
 location. A track-only change at the same time does not open or close time.
 Future convenience reorder commands must translate their chosen destination to
 this same rule. Agents can compose separate moves when they want different spacing.
+
+### Replacement retains the occurrence name but drops old content dependencies — sound, medium confidence
+
+Replacing one narration clip keeps that clip's ID, timing and link to its video,
+so later edits can keep addressing the same occurrence. The plan required explicit
+occurrence selection but did not say whether replacement allocated a new ID.
+Revision pinning distinguishes evidence about the old source from the new one.
+An actual source or selected-range change removes the old attached descendants;
+replacing with the identical selection leaves them intact. An agent can detach
+an overlay first when it should survive. This avoids silently treating old
+content references as references into unrelated footage while keeping the
+replacement itself easy to address. Explicit trim starts at the supplied source
+start; choosing a different excerpt remains the agent's decision.

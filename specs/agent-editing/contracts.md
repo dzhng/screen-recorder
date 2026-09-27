@@ -176,6 +176,15 @@ final document change, including batches that undo their own intermediate work.
 | Duplicate | Copy selected occurrences and their attachments with fresh IDs; `scope: linked` explicitly includes synchronized counterparts. Copied roots land at the requested project destination, while dependencies between copied clips are retained. Original occurrences and links remain unchanged. Placing the same asset anew does not inherit another occurrence's effects. |
 | Link / unlink | Establish or remove synchronization groups explicitly. A clip belongs to at most one group. Imported AV placement creates linked members by default. |
 
+Interval-preserving replacement retains the addressed occurrence ID and its
+synchronization membership. An identical source selection preserves attachments;
+a source identity or selection change removes its descendants instead of assigning
+them to new content. Detach/reanchor beforehand to retain chosen attachments.
+Validate the whole supplied selection before applying a fitting policy. `trim`
+keeps its beginning and requires sufficient duration; agents select a different
+source start explicitly. `stretch` keeps the selected source range and authors
+pitch preservation for audio unless `follow` is requested.
+
 Ordinary move/split/trim/remove/retime targets linked members by default. Explicit
 `scope: selected` permits independent edits; split and unlink affected intervals,
 leaving unaffected linked pieces synchronized. Before ripple, expand linked

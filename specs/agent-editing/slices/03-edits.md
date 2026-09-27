@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication, retime, insertion and ripple move verified. Replacement remains open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication, retime, insertion and ripple move verified. Exact/trim/stretch replacement is verified; hold, silence padding, ripple replacement and the full harness remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -50,7 +50,7 @@ move/retime retain existing attachment kinds. Detach and reanchor preserve the
 resolved interval. Pitch policy is authored metadata until native retiming lands.
 The [contracts](../contracts.md) own operation semantics and scope rules.
 
-[59 composition tests](../assets/03-edits/ripple-move/tests.txt), type checks and build
+[62 composition tests](../assets/03-edits/replacement/review.md), type checks and build
 pass. The suite includes linked offsets, held/content anchors, source gaps,
 selected subgroups, copy labels, fractional boundaries, no-ops and failed-batch
 immutability. Prior independent probes cover 1,326 retimed splits and 12,376
@@ -86,6 +86,12 @@ Regression tests retain temporary-overlap and temporary-link failures; invalid
 final states still reject. Additional grids check integer and fractional source
 preservation. Normal model validation remains unchanged.
 
-Next implement replacement, then run the full
+[Interval-preserving replacement](../assets/03-edits/replacement/review.md)
+retains the occurrence identity and unchanged linked media. Source changes remove
+old descendants; identical source replacement preserves them. Source admission
+and bounds validate before explicit trim/stretch fitting. Independent review
+caught and verified the source-end validation regression.
+
+Next implement hold tails, silence padding and ripple replacement, then run the full
 linked-replacement probe above. Public project storage and editing still depend
 on completion of this reducer slice. This slice is not accepted yet.
