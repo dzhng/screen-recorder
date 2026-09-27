@@ -1,0 +1,242 @@
+[
+  {
+    "label": "g1-a",
+    "source": "../synthetic-untagged/source-native.png",
+    "crop": [
+      60,
+      28,
+      40,
+      40
+    ],
+    "cropFile": "g1-a-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g1-b",
+    "source": "../synthetic-untagged/pre-encode.png",
+    "crop": [
+      60,
+      28,
+      40,
+      40
+    ],
+    "cropFile": "g1-b-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g1-c",
+    "source": "../synthetic-untagged/roundtrip-native.png",
+    "crop": [
+      60,
+      28,
+      40,
+      40
+    ],
+    "cropFile": "g1-c-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g1-d",
+    "source": "../synthetic-untagged/source-assume-srgb.png",
+    "crop": [
+      60,
+      28,
+      40,
+      40
+    ],
+    "cropFile": "g1-d-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g2-a",
+    "source": "../synthetic-declared/source-native.png",
+    "crop": [
+      60,
+      28,
+      40,
+      40
+    ],
+    "cropFile": "g2-a-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g2-b",
+    "source": "../synthetic-declared/pre-encode.png",
+    "crop": [
+      60,
+      28,
+      40,
+      40
+    ],
+    "cropFile": "g2-b-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g2-c",
+    "source": "../synthetic-declared/roundtrip-native.png",
+    "crop": [
+      60,
+      28,
+      40,
+      40
+    ],
+    "cropFile": "g2-c-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g2-d",
+    "source": "../synthetic-declared/source-assume-srgb.png",
+    "crop": [
+      60,
+      28,
+      40,
+      40
+    ],
+    "cropFile": "g2-d-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g3-a",
+    "source": "../rotation-declared/source-native.png",
+    "crop": [
+      28,
+      60,
+      40,
+      40
+    ],
+    "cropFile": "g3-a-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g3-b",
+    "source": "../rotation-declared/pre-encode.png",
+    "crop": [
+      28,
+      60,
+      40,
+      40
+    ],
+    "cropFile": "g3-b-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g3-c",
+    "source": "../rotation-declared/roundtrip-native.png",
+    "crop": [
+      28,
+      60,
+      40,
+      40
+    ],
+    "cropFile": "g3-c-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g3-d",
+    "source": "../rotation-declared/source-assume-srgb.png",
+    "crop": [
+      28,
+      60,
+      40,
+      40
+    ],
+    "cropFile": "g3-d-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g4-a",
+    "source": "../recorded-fixture/source-native.png",
+    "crop": [
+      520,
+      750,
+      250,
+      165
+    ],
+    "cropFile": "g4-a-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g4-b",
+    "source": "../recorded-fixture/pre-encode.png",
+    "crop": [
+      520,
+      750,
+      250,
+      165
+    ],
+    "cropFile": "g4-b-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g4-c",
+    "source": "../recorded-fixture/roundtrip-native.png",
+    "crop": [
+      520,
+      750,
+      250,
+      165
+    ],
+    "cropFile": "g4-c-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g4-d",
+    "source": "../recorded-fixture/source-assume-srgb.png",
+    "crop": [
+      520,
+      750,
+      250,
+      165
+    ],
+    "cropFile": "g4-d-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g5-a",
+    "source": "../recorded-fixture-40mbps/source-native.png",
+    "crop": [
+      520,
+      750,
+      250,
+      165
+    ],
+    "cropFile": "g5-a-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g5-b",
+    "source": "../recorded-fixture-40mbps/pre-encode.png",
+    "crop": [
+      520,
+      750,
+      250,
+      165
+    ],
+    "cropFile": "g5-b-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g5-c",
+    "source": "../recorded-fixture-40mbps/roundtrip-native.png",
+    "crop": [
+      520,
+      750,
+      250,
+      165
+    ],
+    "cropFile": "g5-c-crop.png",
+    "enlargement": "3x nearest neighbor"
+  },
+  {
+    "label": "g5-d",
+    "source": "../recorded-fixture-40mbps/source-assume-srgb.png",
+    "crop": [
+      520,
+      750,
+      250,
+      165
+    ],
+    "cropFile": "g5-d-crop.png",
+    "enlargement": "3x nearest neighbor"
+  }
+]

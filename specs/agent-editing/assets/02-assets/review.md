@@ -65,3 +65,8 @@ Preservation checks passed before the final atomic-admission seam: 112 service t
 Independent review reproduced an 8,499,232-byte asset.get response after 10,000 origins, exceeding the transport's 8 MiB frame limit. asset.get now returns only asset metadata. asset.origins owns bounded provenance inspection with a continuation cursor: default 250, maximum 1000, fetched by the existing compound primary key with LIMIT. No new table or history owner is introduced.
 
 Choice: the cursor is the last serialized provenance key, not an offset. Each traversal walks the existing lexical index. Origins appended before a cursor during concurrent imports require a fresh traversal to refresh history; this is stated in the shared operation description. Fixed history traverses without duplicates or omissions. The public regression seeds over 8 MiB of persisted provenance before startup, verifies metadata remains below 1 KiB, and compares all 10,001 returned values across pages of 37 against the complete expected history. Each page remains below 40,000 bytes. Real CLI/MCP checks traverse pages of one and compare the new operation across adapters.
+
+Source/owned orientation images were shown together in a background Preview window
+for over five minutes during the 2026-09-27 integration. No feedback arrived. The
+objective orientation verdict stands; only those documents were then closed.
+This checkpoint does not turn silence into color or listening acceptance.

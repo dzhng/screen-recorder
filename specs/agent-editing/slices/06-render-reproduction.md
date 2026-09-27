@@ -67,3 +67,8 @@ If the native composition mechanism loses source timing, test the bounded reader
 Delegated: Candidate probe implementation. Selection must follow the recorded gates and be frozen before slice 07.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
+
+The [independent full-set color critique](../assets/06-color/visual-review/README.md)
+confirms native conversion and finds visible low-bitrate encoding artifacts. All
+four frozen color/render oracle checks pass on the integrated tree; production
+Rec.709 rendition/profile acceptance remains open.
