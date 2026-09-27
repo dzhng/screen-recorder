@@ -1,0 +1,23 @@
+{
+  "method": "Match full-segment RMS to up to two seconds of original audio on each side, excluding the replaced interval. Constant gain on generated samples only; no fades or retiming. This is an audition, not a perceptual loudness or speech-quality gate.",
+  "cases": [
+    {
+      "id": "word",
+      "gainDb": -4.519810154304541,
+      "surroundingRmsDbfs": -39.22508417179085,
+      "generatedRmsDbfs": -34.7052740174863,
+      "sourceSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "outputSha256": "319ae7cf37f2f09eda0f7fc283e5d29583ab9021a7c19d7ea034bf1520dbbb26",
+      "checks": "Exact original prefix/suffix, exact gain-adjusted insert, unchanged sample count, finite PCM and matched RMS."
+    },
+    {
+      "id": "phrase",
+      "gainDb": -7.220801002958279,
+      "surroundingRmsDbfs": -38.947431991866296,
+      "generatedRmsDbfs": -31.726630988908013,
+      "sourceSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "outputSha256": "d35ae5ab6d5a4403587f075ece52337168776e12c6f8a2bc3e64607e1e3f57b5",
+      "checks": "Exact original prefix/suffix, exact gain-adjusted insert, unchanged sample count, finite PCM and matched RMS."
+    }
+  ]
+}

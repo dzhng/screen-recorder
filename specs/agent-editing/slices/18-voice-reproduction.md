@@ -1,6 +1,6 @@
 # 18 — Reproduce local reference speech
 
-Status: offline candidate reproduced; observed warm RTF/memory targets met. Listening, independent requested-text checks, visual review and managed origin retention remain unverified. [Frozen evidence](../assets/18-voice/README.md). Dependencies: [00](./00-corpus.md).
+Status: offline candidate reproduced; observed warm RTF/memory targets and independent ASR word agreement met. User finds voice close but joins wrong and replacement too loud. [Gain-only auditions](../assets/18-voice-levels/README.md) await listening; join acceptance, visual review and managed origin retention remain open. [Frozen evidence](../assets/18-voice/README.md). Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
