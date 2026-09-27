@@ -137,13 +137,15 @@ public final class AudioPCMStream {
             throw NativeFailure("INVALID_REQUEST", "Audio stream already consumed.")
         }
         consumed = true
+        let decoders = sources.map { AudioSourceReader(source: $0) }
         var indices = [Int](repeating: 0, count: sources.count)
-        var readers = [ConvertedAudioInterval?](repeating: nil, count: sources.count)
-        defer { readers.removeAll() }
+        var conversions = [ConvertedAudioInterval?](repeating: nil, count: sources.count)
+        defer { conversions.removeAll() }
         for span in layout.spans.indices {
             var position = layout.starts[span]
             let spanEnd = layout.starts[span + 1]
             while position < spanEnd {
+                try Task.checkCancellation()
                 let count = Int(min(Int64(Self.maximumBlockFrames), spanEnd - position))
                 let end = position + Int64(count)
                 var mixed = [Float](repeating: 0, count: count * format.channels)
@@ -151,23 +153,23 @@ public final class AudioPCMStream {
                     while indices[track] < intervals[track].count {
                         let interval = intervals[track][indices[track]]
                         if interval.end <= position {
-                            readers[track] = nil
+                            conversions[track] = nil
                             indices[track] += 1
                             continue
                         }
                         if interval.start >= end { break }
-                        if readers[track] == nil {
-                            readers[track] = try ConvertedAudioInterval(
-                                source: sources[track], interval: interval.source,
+                        if conversions[track] == nil {
+                            conversions[track] = try ConvertedAudioInterval(
+                                source: sources[track], decoder: decoders[track], interval: interval.source,
                                 outputRate: format.sampleRate, owed: interval.end - interval.start)
                         }
                         let begin = max(position, interval.start)
                         let finish = min(end, interval.end)
-                        try readers[track]!.mix(
+                        try conversions[track]!.mix(
                             into: &mixed, at: Int(begin - position), frames: Int(finish - begin),
                             gain: gain, channelMap: maps[track])
                         if interval.end <= end {
-                            readers[track] = nil
+                            conversions[track] = nil
                             indices[track] += 1
                         } else {
                             break

@@ -77,7 +77,6 @@ struct SourceTrack {
 
 final class ConvertedAudioInterval {
     private let sourceInput: MediaInput
-    private let reader: AVAssetReader
     private let converter: AVAudioConverter
     private let input: ConversionInput
     private let converted: AVAudioPCMBuffer
@@ -85,7 +84,10 @@ final class ConvertedAudioInterval {
     private var offset = 0
     private var exhausted = false
 
-    init(source: SourceTrack, interval: TimeSpan, outputRate: Int, owed: Int64) throws {
+    init(
+        source: SourceTrack, decoder: AudioSourceReader, interval: TimeSpan,
+        outputRate: Int, owed: Int64
+    ) throws {
         sourceInput = source.input
         guard
             let sourceFormat = AVAudioFormat(
@@ -101,58 +103,18 @@ final class ConvertedAudioInterval {
             throw NativeFailure.decodeFailed(
                 "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz.")
         }
-        let openedReader: AVAssetReader
-        do { openedReader = try AVAssetReader(asset: source.asset) } catch {
-            throw NativeFailure.decodeFailed(
-                "Cannot read \(source.url.path): \(error.localizedDescription)")
-        }
-        // Read as long as the output frames this interval owns, rather than as the interval's own
-        // microseconds: a converter answers N input frames with floor(N x rate ratio) frames, so a
-        // fractional interval whose last output frame the layout quantised up would otherwise be
-        // asked for a frame the input it was given cannot reach. That end sits at most one output
-        // frame past the requested boundary, which is the frame the layout already quantised to.
         let start = time(microseconds: interval.startUs - source.plan.sourceOffsetUs)
-        openedReader.timeRange = CMTimeRange(
-            start: start,
-            end: CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate))))
-        let output = AVAssetReaderTrackOutput(
-            track: source.track,
-            outputSettings: [
-                // Decoded at this file's own rate and channel count. Resampling inside the reader
-                // cannot be flushed, and the platform's remix matrix would silently change the
-                // contract's gains.
-                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
-                AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
-                AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
-                AVLinearPCMIsNonInterleaved: false,
-            ])
-        output.alwaysCopiesSampleData = false
-        guard openedReader.canAdd(output) else {
-            throw NativeFailure.decodeFailed("Cannot decode audio track of \(source.url.path).")
-        }
-        openedReader.add(output)
-
-        let openedInput = ConversionInput(reading: output, as: sourceFormat)
-        // One buffer, drained into the excerpt and refilled, so a 30 second interval costs the same
-        // conversion memory as a 10 millisecond one.
+        // Cumulative layout rounding owns the duration, including a last frame rounded up.
+        let end = CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate)))
+        try decoder.begin(at: start, end: end)
+        let openedInput = ConversionInput(reader: decoder)
         guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)
-        else {
-            throw NativeFailure.decodeFailed(
-                "Cannot allocate a conversion buffer for \(source.url.lastPathComponent).")
-        }
-
-        guard openedReader.startReading() else {
-            if let detail = sourceInput.failure { throw detail }
-            throw NativeFailure.decodeFailed("Cannot start audio reader.")
-        }
-        self.reader = openedReader
+        else { throw NativeFailure.decodeFailed("Cannot allocate audio conversion buffer.") }
         self.converter = converter
         self.input = openedInput
         self.converted = converted
         self.channels = source.channels
     }
-
-    deinit { reader.cancelReading() }
 
     func mix(
         into samples: inout [Float], at destination: Int, frames: Int,
@@ -173,7 +135,8 @@ final class ConvertedAudioInterval {
                 let outcome = converter.convert(to: converted, error: &failure) { _, status in
                     input.next(status)
                 }
-                guard !input.undecodable, outcome != .error, reader.status != .failed,
+                if let error = input.failure { throw error }
+                guard outcome != .error, !input.readerFailed,
                     converted.frameLength > 0
                 else {
                     if let detail = sourceInput.failure {
@@ -200,59 +163,136 @@ final class ConvertedAudioInterval {
     }
 }
 
-/// One reader's decoded frames, handed to a converter one buffer at a time. AVAudioConverter calls
-/// its input block synchronously from inside `convert`, so this state is only ever reached from the
-/// thread doing the conversion; it lives in an object because that block is declared sendable.
-private final class ConversionInput: @unchecked Sendable {
-    private let output: AVAssetReaderTrackOutput
+/// Decodes ordered intervals with one bounded sample buffer. Conversion remains interval-local:
+/// excluded samples can be decoded while skipping forward, but never enter a resampling filter.
+final class AudioSourceReader {
+    private let source: SourceTrack
+    private var reader: AVAssetReader?
+    private var output: AVAssetReaderTrackOutput?
+    private var pending: CMSampleBuffer?
     private let format: AVAudioFormat
-    /// The converter reads the supplied buffer during the call it was returned in, so each one is
-    /// held until the next replaces it.
-    private var supplied: AVAudioPCMBuffer?
-    private(set) var undecodable = false
+    private var position = CMTime.zero
+    private var end = CMTime.zero
+    var failed: Bool { reader?.status == .failed }
 
-    init(reading output: AVAssetReaderTrackOutput, as format: AVAudioFormat) {
-        self.output = output
-        self.format = format
+    init(source: SourceTrack) {
+        self.source = source
+        self.format = AVAudioFormat(
+            commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
+            channels: AVAudioChannelCount(source.channels), interleaved: true)!
     }
 
-    func next(_ status: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioPCMBuffer? {
-        let copied: AVAudioPCMBuffer? = autoreleasepool {
-            guard let sample = output.copyNextSampleBuffer() else { return nil }
-            guard let buffer = copy(of: sample) else {
-                undecodable = true
+    deinit { reader?.cancelReading() }
+
+    func begin(at start: CMTime, end: CMTime) throws {
+        // Seeking across a long hole must not decode the excluded recording. Nearby intervals
+        // amortize reader setup; at most one second of discarded audio is scanned per join.
+        if reader == nil || CMTimeGetSeconds(CMTimeSubtract(start, self.end)) > 1 {
+            reader?.cancelReading()
+            pending = nil
+            let opened: AVAssetReader
+            do { opened = try AVAssetReader(asset: source.asset) } catch {
+                if let detail = source.input.failure { throw detail }
+                throw NativeFailure.decodeFailed(
+                    "Cannot read \(source.url.path): \(error.localizedDescription)")
+            }
+            opened.timeRange = CMTimeRange(start: start, duration: .positiveInfinity)
+            let output = AVAssetReaderTrackOutput(track: source.track, outputSettings: [
+                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
+                AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
+                AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
+                AVLinearPCMIsNonInterleaved: false,
+            ])
+            output.alwaysCopiesSampleData = false
+            guard opened.canAdd(output) else {
+                throw NativeFailure.decodeFailed("Cannot decode audio track.")
+            }
+            opened.add(output)
+            guard opened.startReading() else {
+                if let detail = source.input.failure { throw detail }
+                throw NativeFailure.decodeFailed("Cannot start audio reader.")
+            }
+            self.reader = opened
+            self.output = output
+        }
+        self.position = start
+        self.end = end
+    }
+
+    func next() throws -> AVAudioPCMBuffer? {
+        guard position < end else { return nil }
+        while true {
+            try Task.checkCancellation()
+            if pending == nil { pending = output?.copyNextSampleBuffer() }
+            guard let sample = pending else {
+                if let detail = source.input.failure { throw detail }
+                if failed { throw NativeFailure.decodeFailed("Audio reader failed.") }
                 return nil
             }
+            let frames = CMSampleBufferGetNumSamples(sample)
+            let stamp = CMSampleBufferGetPresentationTimeStamp(sample)
+            func frame(_ time: CMTime, rounding: CMTimeRoundingMethod) -> Int {
+                Int(CMTimeConvertScale(
+                    CMTimeSubtract(time, stamp), timescale: CMTimeScale(source.sampleRate),
+                    method: rounding).value)
+            }
+            let first = max(0, frame(position, rounding: .roundHalfAwayFromZero))
+            // Keep the source frame intersecting the quantized end, as AVAssetReader's
+            // timeRange does. Rounding it down can leave a rate converter one frame short.
+            let last = min(frames, frame(end, rounding: .roundTowardPositiveInfinity))
+            if first >= frames {
+                pending = nil
+                continue
+            }
+            if last <= first { return nil }
+            var list = AudioBufferList()
+            var block: CMBlockBuffer?
+            guard frames > 0, frames <= 65_536,
+                CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
+                    sample, bufferListSizeNeededOut: nil, bufferListOut: &list,
+                    bufferListSize: MemoryLayout<AudioBufferList>.size, blockBufferAllocator: nil,
+                    blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block) == noErr,
+                let decoded = list.mBuffers.mData?.assumingMemoryBound(to: Float.self),
+                let buffer = AVAudioPCMBuffer(
+                    pcmFormat: format, frameCapacity: AVAudioFrameCount(last - first))
+            else { throw NativeFailure.decodeFailed("Cannot read decoded audio buffer.") }
+            buffer.frameLength = AVAudioFrameCount(last - first)
+            buffer.floatChannelData![0].update(
+                from: decoded + first * source.channels,
+                count: (last - first) * source.channels)
+            position = CMTimeAdd(
+                stamp, CMTime(value: Int64(last), timescale: CMTimeScale(source.sampleRate)))
+            // Keep this packet until the next request: cumulative output rounding can make
+            // successive intervals legitimately share a boundary source sample.
             return buffer
         }
-        // End of this interval's material, not a dry input: the converter is told the stream ended
-        // so that it flushes the output its filter still owes instead of waiting for more frames.
-        guard let buffer = copied else {
+    }
+}
+
+/// A fresh converter sees only one selected interval and an explicit end-of-stream flush.
+/// Its input callback runs synchronously inside convert; no other thread advances this reader.
+private final class ConversionInput: @unchecked Sendable {
+    private let reader: AudioSourceReader
+    private var supplied: AVAudioPCMBuffer?
+    private(set) var failure: Error?
+    var readerFailed: Bool { reader.failed }
+
+    init(reader: AudioSourceReader) { self.reader = reader }
+
+    func next(_ status: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioPCMBuffer? {
+        do {
+            let buffer = try autoreleasepool { try reader.next() }
+            guard let buffer else {
+                status.pointee = .endOfStream
+                return nil
+            }
+            supplied = buffer
+            status.pointee = .haveData
+            return buffer
+        } catch {
+            failure = error
             status.pointee = .endOfStream
             return nil
         }
-        supplied = buffer
-        status.pointee = .haveData
-        return buffer
-    }
-
-    /// Copies one decoded sample buffer into a PCM buffer the converter can read. The reader hands
-    /// back samples it does not copy, so they are taken while its block buffer is still retained.
-    private func copy(of sample: CMSampleBuffer) -> AVAudioPCMBuffer? {
-        var list = AudioBufferList()
-        var block: CMBlockBuffer?
-        let frames = CMSampleBufferGetNumSamples(sample)
-        guard frames > 0, frames <= 65_536,
-            CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
-                sample, bufferListSizeNeededOut: nil, bufferListOut: &list,
-                bufferListSize: MemoryLayout<AudioBufferList>.size, blockBufferAllocator: nil,
-                blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block) == noErr,
-            let decoded = list.mBuffers.mData?.assumingMemoryBound(to: Float.self),
-            let buffer = AVAudioPCMBuffer(
-                pcmFormat: format, frameCapacity: AVAudioFrameCount(frames))
-        else { return nil }
-        buffer.frameLength = AVAudioFrameCount(frames)
-        buffer.floatChannelData![0].update(from: decoded, count: frames * Int(format.channelCount))
-        return buffer
     }
 }

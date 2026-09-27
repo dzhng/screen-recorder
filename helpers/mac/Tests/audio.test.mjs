@@ -381,13 +381,24 @@ test("audio decode failure permits explicit retry while invalid plans remain ter
 test("AAC source priming is removed before offset placement in streamed PCM", () => {
   const directory = mkdtempSync(join(tmpdir(), "screenrec-audio-priming-"));
   try {
-    const pcm = join(directory, "source.mov"),
-      source = join(directory, "source.m4a");
-    tone(pcm, 1000, 2);
-    const encode = spawnSync("ffmpeg", ["-v", "error", "-i", pcm, "-c:a", "aac", source], {
-      encoding: "utf8",
-      timeout: 15000,
-    });
+    const source = join(directory, "source.m4a");
+    // A chirp distinguishes different retained times even when a misplaced cut skips whole
+    // cycles of a fixed-frequency tone.
+    const encode = spawnSync(
+      "ffmpeg",
+      [
+        "-v",
+        "error",
+        "-f",
+        "lavfi",
+        "-i",
+        "aevalsrc=0.2*sin(2*PI*(997*t+17*t*t)):s=48000:d=2",
+        "-c:a",
+        "aac",
+        source,
+      ],
+      { encoding: "utf8", timeout: 15000 },
+    );
     assert.equal(encode.status, 0, encode.stderr);
     const original = readFileSync(source),
       output = join(directory, "primed.wav");
@@ -432,6 +443,50 @@ test("AAC source priming is removed before offset placement in streamed PCM", ()
       `AAC PCM RMS disagreement ${Math.sqrt(squared / 96000)}`,
     );
     assert.deepEqual(receipt.data.tracks[0].unavailable, [{ startUs: 0, endUs: 125000 }]);
+    // Nearby cuts and a later seek must preserve the source clock after AAC priming.
+    // These source ranges include the plan's +125 ms placement offset.
+    const cuts = [
+      [125000, 225000],
+      [425000, 625000],
+      [1825000, 2025000],
+    ];
+    const cutOutput = join(directory, "primed-cuts.wav");
+    const cut = spawnSync(executable, [], {
+      input:
+        JSON.stringify({
+          id: "primed-cuts",
+          operation: "media.audio",
+          params: {
+            ...params,
+            output: cutOutput,
+            spans: cuts.map(([startUs, endUs]) => ({ startUs, endUs })),
+          },
+        }) + "\n",
+      encoding: "utf8",
+      timeout: 15000,
+    });
+    assert.equal(cut.status, 0, cut.stderr);
+    assert.equal(JSON.parse(cut.stdout).ok, true, cut.stdout);
+    const cutAudio = wave(readFileSync(cutOutput)).audio;
+    assert.equal(cutAudio.length, 24000 * 4);
+    let at = 0,
+      cutSquared = 0;
+    for (const [index, [start, end]] of cuts.entries()) {
+      const from = ((start - 125000) * 48000) / 1000000;
+      const count = ((end - start) * 48000) / 1000000;
+      for (let frame = 0; frame < count; frame++) {
+        let gain = 1;
+        if (index > 0 && frame < 240) gain = frame / 240;
+        if (index < cuts.length - 1 && count - 1 - frame < 240) gain = (count - 1 - frame) / 240;
+        const expected = decoded.stdout.readFloatLE((from + frame) * 4) * gain;
+        cutSquared += (cutAudio.readFloatLE((at + frame) * 4) - expected) ** 2;
+      }
+      at += count;
+    }
+    assert.ok(
+      Math.sqrt(cutSquared / at) < 1 / 32768,
+      `Cut AAC RMS disagreement ${Math.sqrt(cutSquared / at)}`,
+    );
     assert.deepEqual(readFileSync(source), original);
   } finally {
     rmSync(directory, { recursive: true, force: true });
