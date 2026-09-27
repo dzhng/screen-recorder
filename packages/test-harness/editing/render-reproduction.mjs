@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { mask, classify } from "./render-membership.mjs";
 import { createHash } from "node:crypto";
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -90,23 +91,6 @@ function pad(bytes, width, height, frame) {
     );
   }
   return output;
-}
-function mask(rgb) {
-  const output = new Uint8Array(160 * 128);
-  for (let i = 0; i < output.length; i++)
-    output[i] = Math.min(rgb[i * 3], rgb[i * 3 + 1], rgb[i * 3 + 2]) > 200 ? 1 : 0;
-  return output;
-}
-function classify(rgb, references) {
-  const actual = mask(rgb);
-  const distances = references
-    .map(({ id, mask }) => {
-      let differingPixels = 0;
-      for (let i = 0; i < mask.length; i++) differingPixels += actual[i] !== mask[i] ? 1 : 0;
-      return { id, differingPixels };
-    })
-    .sort((a, b) => a.differingPixels - b.differingPixels);
-  return { ...distances[0], runnerUp: distances[1] };
 }
 function inspectMovie(file, expected, startUs, endUs, references) {
   const metadata = probe(file);
@@ -607,6 +591,10 @@ try {
     sourceHashes: [
       { path: source, sha256: hash(await readFile(source)) },
       { path: timing, sha256: hash(await readFile(timing)) },
+      {
+        path: fileURLToPath(new URL("./render-membership.mjs", import.meta.url)),
+        sha256: hash(await readFile(new URL("./render-membership.mjs", import.meta.url))),
+      },
       {
         path: fileURLToPath(import.meta.url),
         sha256: hash(await readFile(fileURLToPath(import.meta.url))),

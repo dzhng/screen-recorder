@@ -12,7 +12,12 @@ The driver runs all timing cases belonging to the AV replacement experiment and
 then verifies the selected bounded mechanism. The [verifier](render-reproduction-verify.mjs)
 can check frozen evidence using `--out DIRECTORY` without rendering again.
 The [negative checks](render-reproduction.test.mjs) use disposable copies to prove
-that output corruption and a failed timing verdict are rejected.
+that output corruption and a failed timing verdict are rejected. The shared
+[frame-membership oracle](render-membership.mjs) uses the white counter glyphs
+for labeled frames, but accepts an empty black frame only when every RGB channel
+is zero, as in this frozen corpus. A colored frame without white text is not
+proof of an empty edit. The oracle regression checks that distinction separately;
+this does not establish a general photographic image classifier or color policy.
 
 The experiment selects a temporal mechanism, not a production renderer or a
 universal color policy. It supports an ordered single visible layer, integral
@@ -50,14 +55,14 @@ is still binding.
 
 ## Preservation map
 
-| Proven behavior | Frozen evidence | Production adoption gate |
-| --- | --- | --- |
-| Correct A–B–A occurrence, independent sound, holds and source subframe membership | Request, hand-specified counter sequences, decoded frame observations and local movies | Slice 07 compares matched compiled requests and every decoded counter; no reinterpretation of edits in the native worker. |
-| Preview frame phase and full held duration | Full/nonzero preview cases plus duration and boundary/interior checks | Compare preview against the full export's corresponding presentation intervals, including partial first/last frames. Extend to fractional stored endpoints without rounding them first. |
-| Empty edit differs from unavailable acquisition | Native empty-edit file, full/partial previews, explicit refusal case | Keep the source evidence distinction; never fill unknown acquisition with a fabricated hold or silence. |
-| Mono duplication, independent placements and gain before encoding | Exact 48 kHz stereo float PCM against original WAV samples; final PCM16 and impulse positions | Slice 08 compares requests, offsets, sample counts, gains and PCM before its chosen delivery encoder. AAC waveform differences are reported separately from sample selection. |
-| Declared fixture red landmark survives native conversion | Separately hashed tagged derivatives and unchanged four-level RGB gate | Respect actual declared source color metadata. Do not generalize the fixture assumption to untagged footage. |
-| Untagged behavior is observable, not silently corrected | Original corpus hash; raw/default/explicit color diagnostic images and metadata | Settle the general admission/render color policy explicitly; preserve existing captured-source behavior at production entry points. |
+| Proven behavior                                                                   | Frozen evidence                                                                               | Production adoption gate                                                                                                                                                                |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Correct A–B–A occurrence, independent sound, holds and source subframe membership | Request, hand-specified counter sequences, decoded frame observations and local movies        | Slice 07 compares matched compiled requests and every decoded counter; no reinterpretation of edits in the native worker.                                                               |
+| Preview frame phase and full held duration                                        | Full/nonzero preview cases plus duration and boundary/interior checks                         | Compare preview against the full export's corresponding presentation intervals, including partial first/last frames. Extend to fractional stored endpoints without rounding them first. |
+| Empty edit differs from unavailable acquisition                                   | Native empty-edit file, full/partial previews, explicit refusal case                          | Keep the source evidence distinction; never fill unknown acquisition with a fabricated hold or silence.                                                                                 |
+| Mono duplication, independent placements and gain before encoding                 | Exact 48 kHz stereo float PCM against original WAV samples; final PCM16 and impulse positions | Slice 08 compares requests, offsets, sample counts, gains and PCM before its chosen delivery encoder. AAC waveform differences are reported separately from sample selection.           |
+| Declared fixture red landmark survives native conversion                          | Separately hashed tagged derivatives and unchanged four-level RGB gate                        | Respect actual declared source color metadata. Do not generalize the fixture assumption to untagged footage.                                                                            |
+| Untagged behavior is observable, not silently corrected                           | Original corpus hash; raw/default/explicit color diagnostic images and metadata               | Settle the general admission/render color policy explicitly; preserve existing captured-source behavior at production entry points.                                                     |
 
 Resource figures describe these tiny native jobs, including startup, on the
 recorded host. They exclude verification decoding and compilation, and do not
