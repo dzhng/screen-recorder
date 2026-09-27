@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { fileAccess, type FileAccess } from "./files.js";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import {
   validateRecord,
   validateSourceReceipt,

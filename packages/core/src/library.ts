@@ -1,4 +1,4 @@
-import { DatabaseSync } from "node:sqlite";
+import { Catalog, CatalogError } from "./catalog.js";
 import {
   createOriginalRevision,
   createRevision,
@@ -44,22 +44,6 @@ const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = 
 };
 const recordingColumns =
   "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,sourceDurationUs,currentRevisionId";
-/**
- * The format of every table in the catalog, including those sibling owners create in it. A new table
- * needs no bump: every owner creates its tables idempotently. Changing an existing table's shape
- * does, because an older catalog would keep the old shape; such a catalog is refused, never migrated.
- */
-const catalogFormat = 1;
-export class CatalogError extends Error {
-  constructor(
-    readonly code: string,
-    message: string,
-    readonly details: Record<string, unknown> = {},
-    readonly retryable = false,
-  ) {
-    super(message);
-  }
-}
 export type EditRequest = { requestId: string; expectedRevisionId: string } & (
   | { operation: "cut"; ranges: readonly TimeRange[] }
   | { operation: "trim"; range: TimeRange }
@@ -104,33 +88,13 @@ export type HistoryCursor = Readonly<{
   afterOrdinal: number;
   throughOrdinal: number;
 }>;
-export class RevisionStore {
-  /**
-   * The one catalog database. Sibling core modules keep their own tables in this connection and
-   * write through {@link transaction}; nothing in this product opens a second database file.
-   */
-  readonly catalog: DatabaseSync;
+export class RevisionStore extends Catalog {
   constructor(
     path: string,
     private readonly providers: { now: () => string; newId: () => string },
     busyTimeoutMs = 1000,
   ) {
-    if (!Number.isSafeInteger(busyTimeoutMs) || busyTimeoutMs < 0 || busyTimeoutMs > 10000)
-      throw new RangeError("SQLite timeout must be 0–10000 milliseconds");
-    this.catalog = new DatabaseSync(path, { timeout: busyTimeoutMs });
-    const { user_version: format } = this.catalog.prepare("PRAGMA user_version").get() as {
-      user_version: number;
-    };
-    if (format === 0 && !this.catalog.prepare("SELECT 1 FROM sqlite_master LIMIT 1").get())
-      this.catalog.exec(`PRAGMA user_version=${catalogFormat}`);
-    else if (format !== catalogFormat) {
-      this.catalog.close();
-      throw new CatalogError(
-        "UNSUPPORTED_CATALOG",
-        "This catalog was written in another format; open a library created by this version.",
-        { format, supportedFormat: catalogFormat },
-      );
-    }
+    super(path, busyTimeoutMs);
     this.catalog.exec(`
    CREATE TABLE IF NOT EXISTS recordings (
     creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
@@ -153,25 +117,6 @@ export class RevisionStore {
     PRIMARY KEY(recordingId,position),FOREIGN KEY(recordingId,targetId) REFERENCES revisions(recordingId,id)
    ) STRICT;
   `);
-  }
-  close(): void {
-    if (this.catalog.isOpen) this.catalog.close();
-  }
-  /** One immediate transaction for writes that must land together, reporting a lock wait as retryable. */
-  transaction<T>(run: () => T): T {
-    let began = false;
-    try {
-      this.catalog.exec("BEGIN IMMEDIATE");
-      began = true;
-      const result = run();
-      this.catalog.exec("COMMIT");
-      return result;
-    } catch (error) {
-      if (began) this.catalog.exec("ROLLBACK");
-      if (error && typeof error === "object" && "errcode" in error && error.errcode === 5)
-        throw new CatalogError("STORAGE_BUSY", "Catalog is locked; retry the request", {}, true);
-      throw error;
-    }
   }
   /**
    * Reserves the recording and capture-source identity a native start needs, before it runs, and

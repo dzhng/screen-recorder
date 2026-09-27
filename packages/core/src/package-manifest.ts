@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { ArtifactState } from "./jobs.js";
 import { parseRevisionHistory } from "./timeline.js";
 

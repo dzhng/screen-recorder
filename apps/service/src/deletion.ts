@@ -1,4 +1,5 @@
-import { CatalogError, type RevisionStore } from "@screenrec/core/library";
+import { type RevisionStore } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import type { JobQueue } from "@screenrec/core/jobs";
 import type { DerivedCache } from "@screenrec/core/cache";
 import type { SourceEvidenceStore } from "@screenrec/core/evidence";

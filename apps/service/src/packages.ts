@@ -12,7 +12,7 @@ import { PackagePreviewInspection } from "./package-preview.js";
 import { PackageFrameInspection } from "./package-frames.js";
 import { constants } from "node:fs";
 import { mkdir, lstat, realpath, open, type FileHandle } from "node:fs/promises";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import type { TimelineRevision } from "@screenrec/core/timeline";
 import type { PreviewRenderer } from "@screenrec/core/preview";
 import type { PreviewEvidence } from "./render.js";

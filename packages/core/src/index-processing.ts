@@ -6,7 +6,8 @@ import {
 } from "./index-read.js";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { CatalogError, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";

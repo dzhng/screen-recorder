@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { constants } from "node:fs";
 import { open, type FileHandle } from "node:fs/promises";
 import { join } from "node:path";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 

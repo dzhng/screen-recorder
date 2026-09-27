@@ -2,7 +2,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { link, open, rm } from "node:fs/promises";
 import { dirname, isAbsolute, join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, SourceTrailRead } from "./evidence.js";
 import type { SourceEvidenceReader } from "./evidence-read.js";
 import { PresentationEvidence, type PresentationRecord } from "./presentation-evidence.js";

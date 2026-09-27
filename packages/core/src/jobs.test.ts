@@ -2,7 +2,8 @@ import { test, expect, afterEach } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { CatalogError, RevisionStore } from "./library.js";
+import { RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import {
   JobDependencyLost,
   JobQueue,

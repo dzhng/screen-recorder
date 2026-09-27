@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { dirname } from "node:path";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { parseRevisionHistory, type TimelineRevision } from "@screenrec/core/timeline";
 import { archiveLimits } from "@screenrec/core/package-archive";
 import { FileSourceEvidence, readSourceMetadata } from "@screenrec/core/evidence-pages";

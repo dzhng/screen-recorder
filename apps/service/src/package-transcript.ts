@@ -1,4 +1,4 @@
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { fileSubdirectory } from "@screenrec/core/files";
 import type { TimeRange } from "@screenrec/core/timeline";
 import { FileSourceEvidence } from "@screenrec/core/evidence-pages";

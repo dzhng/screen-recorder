@@ -6,7 +6,7 @@ import { fileAccess, type FileAccess } from "./files.js";
 import { mkdir, open } from "node:fs/promises";
 import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import {
   validateIndexEntry,
   type ScreenshotIndexIdentity,

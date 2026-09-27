@@ -1,4 +1,4 @@
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, SourceTrailRead } from "./evidence.js";
 import {
   PresentationEvidence,

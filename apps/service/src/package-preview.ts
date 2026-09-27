@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { planAudioTracks } from "@screenrec/core/audio";
 import type { DerivativeContext } from "@screenrec/core/derivative-inspection";
 import { retainedFileRead, O_NOFOLLOW_ANY } from "@screenrec/core/files";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import {
   PreviewInspectionBase,
   checkRenderedPreview,

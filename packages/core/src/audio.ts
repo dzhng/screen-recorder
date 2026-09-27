@@ -1,5 +1,6 @@
 import { isAbsolute, join } from "node:path";
-import { CatalogError, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import {
   DerivativeInspection,

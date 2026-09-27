@@ -1,7 +1,7 @@
 import { constants } from "node:fs";
 import { copyFile, lstat, mkdir, mkdtemp, open, realpath } from "node:fs/promises";
 import { join } from "node:path";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import type { AudioTrackPlan } from "@screenrec/core/audio";
 import type { PreviewRenderer, RenderedMovie } from "@screenrec/core/preview";
 import {

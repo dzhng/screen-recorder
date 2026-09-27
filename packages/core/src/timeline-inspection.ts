@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import {
   TimelineEventRead,
   timelineEventCursorSchema,

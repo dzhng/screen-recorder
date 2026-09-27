@@ -1,6 +1,7 @@
 import { createReadStream } from "node:fs";
 import { setImmediate } from "node:timers/promises";
-import { CatalogError, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { SourceEvidenceReader, type RecordQuery, type EvidenceIndex } from "./evidence-read.js";
 
 export type EvidenceIdentity = Readonly<{

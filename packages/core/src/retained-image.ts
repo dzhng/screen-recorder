@@ -1,6 +1,6 @@
 import { constants, fstatSync, openSync, readSync } from "node:fs";
 import { openedFile, type OpenedFile } from "./files.js";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { MaterializedFrame } from "./frame-materialization.js";
 function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);

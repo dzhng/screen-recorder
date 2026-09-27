@@ -2,7 +2,7 @@ import { join } from "node:path";
 import { constants, lstatSync, realpathSync, type BigIntStats } from "node:fs";
 import { open, realpath } from "node:fs/promises";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 

@@ -1,5 +1,5 @@
 import { constants, fstatSync, openSync } from "node:fs";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import {
   openedFile,
   type OpenedFile,

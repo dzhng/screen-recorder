@@ -14,7 +14,7 @@ import {
 import { mkdir, open, rename, rm, type FileHandle } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { O_NOFOLLOW_ANY } from "./files.js";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 
 export type SpeechModelFile = Readonly<{ path: string; bytes: number; sha256: string }>;
 /** The runtime and decoder evaluated with a model; native reports the same identity per transcript. */

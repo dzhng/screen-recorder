@@ -8,7 +8,7 @@ import {
   roundedMicroseconds as rounded,
 } from "./presentation-time.js";
 import { isAbsolute } from "node:path";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { renderPlan, type TimelineRevision } from "./timeline.js";
 
 const recordBytes = 65_536;

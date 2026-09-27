@@ -1,4 +1,4 @@
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, RawCursorSample } from "./evidence.js";
 import type { SceneEvidenceIdentity } from "./scene-evidence.js";
 import { scenePolicy } from "./scenes.js";

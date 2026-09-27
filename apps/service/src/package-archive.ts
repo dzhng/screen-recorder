@@ -1,7 +1,7 @@
 import type { FileHandle } from "node:fs/promises";
 import { fstatSync } from "node:fs";
 import { randomUUID } from "node:crypto";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import {
   archiveLimits,
   validateArchiveLimits,

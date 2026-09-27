@@ -15,7 +15,7 @@ import {
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import type { AddressInfo } from "node:net";
 import { join } from "node:path";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { parakeetModel, SpeechModels, type SpeechModelManifest } from "./speech-models.js";
 
 const cleanups: (() => Promise<unknown> | void)[] = [];

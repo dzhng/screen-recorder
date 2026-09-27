@@ -1,5 +1,5 @@
 import type { FileHandle } from "node:fs/promises";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { IdentifiedFiles, fileIdentity } from "@screenrec/core/files";
 import {
   archiveLimits,

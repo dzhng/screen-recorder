@@ -167,6 +167,10 @@
     "./transcript-processing": {
       "types": "./dist/transcript-processing.d.ts",
       "default": "./dist/transcript-processing.js"
+    },
+    "./catalog": {
+      "types": "./dist/catalog.d.ts",
+      "default": "./dist/catalog.js"
     }
   },
   "scripts": {

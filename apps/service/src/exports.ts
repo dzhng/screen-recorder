@@ -1,7 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { CatalogError, type RevisionStore } from "@screenrec/core/library";
+import { type RevisionStore } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import type { DerivedCache, DirectoryIdentity } from "@screenrec/core/cache";
 import {
   JobDependencyLost,

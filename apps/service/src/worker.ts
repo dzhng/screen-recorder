@@ -10,7 +10,7 @@ import {
   resultSchema,
   type OperationResult,
 } from "@screenrec/protocol";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import type { TimeRange } from "@screenrec/core/timeline";
 
 /**

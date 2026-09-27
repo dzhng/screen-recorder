@@ -1,12 +1,12 @@
 import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import {
-  CatalogError,
   isSettled,
   type LifecycleEvent,
   type Recording,
   type RevisionStore,
 } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import {
   NATIVE_SEQUENCE_LIMIT,
   captureDeviceSchema,

@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { CatalogError, isSettled, type RevisionStore } from "./library.js";
+import { isSettled, type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import { SourceSceneAnalysis, scenePolicy, type VisualSampler } from "./scenes.js";
 import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";

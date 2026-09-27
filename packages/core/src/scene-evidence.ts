@@ -1,5 +1,6 @@
 import { setImmediate } from "node:timers/promises";
-import { CatalogError, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { sceneSampleTimes, type SourceSceneAnalysis, type VisualComparison } from "./scenes.js";
 
 export type SceneEvidenceIdentity = {

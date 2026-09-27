@@ -1,5 +1,5 @@
 import { isDeepStrictEqual } from "node:util";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { planFrameTrail, type FrameOverlay } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
 import type { SourceEvidenceMetadata, SourceTrailRead } from "./evidence.js";

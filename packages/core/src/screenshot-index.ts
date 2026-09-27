@@ -11,7 +11,8 @@ import { lstatSync, mkdirSync, realpathSync, rmdirSync, unlinkSync } from "node:
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";
-import { CatalogError, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity } from "./evidence.js";
 import type { SceneEvidenceIdentity } from "./scene-evidence.js";
 import type { MaterializedFrame } from "./frame-materialization.js";

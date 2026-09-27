@@ -1,6 +1,6 @@
 import { readSync, closeSync, constants, fstatSync, openSync, type BigIntStats } from "node:fs";
 import { join } from "node:path";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 
 // Darwin sys/fcntl.h flags that Node does not export by name.
 /** Refuses a symlink in every path component, unlike O_NOFOLLOW which checks only the leaf. */

@@ -1,4 +1,5 @@
-import { CatalogError, type RevisionStore } from "@screenrec/core/library";
+import { type RevisionStore } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { TimelineInspection } from "@screenrec/core/timeline-inspection";
 import type { SourceProcessing } from "@screenrec/core/processing";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";

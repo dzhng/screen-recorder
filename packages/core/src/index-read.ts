@@ -1,5 +1,5 @@
 import { isDeepStrictEqual } from "node:util";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { ScreenshotIndexReader } from "./screenshot-index-read.js";
 import type {
   ScreenshotIndexIdentity,

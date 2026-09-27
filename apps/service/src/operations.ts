@@ -15,7 +15,8 @@ import type { SourceProcessing } from "@screenrec/core/processing";
 import type { SpeechModelStatus } from "@screenrec/core/speech-models";
 import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import { TimelineError } from "@screenrec/core/timeline";
-import { CatalogError, type RevisionStore } from "@screenrec/core/library";
+import { type RevisionStore } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import {
   operationError,
   operationNames,

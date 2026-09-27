@@ -3,7 +3,8 @@ import { trailPolicy } from "./trails.js";
 import { scenePolicy, type VisualSampler } from "./scenes.js";
 import type { SourceTrailRead } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
-import { CatalogError, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import {
   DerivativeInspection,

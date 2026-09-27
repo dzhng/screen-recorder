@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { validateManifest } from "./package-manifest.js";
 
 /** Limits apply to observed bytes and names, independently of ZIP header declarations. */

@@ -1,5 +1,6 @@
 import { join } from "node:path";
-import { CatalogError, isSettled, type Recording, type RevisionStore } from "./library.js";
+import { isSettled, type Recording, type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import { planAudioTracks } from "./audio.js";
 import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";

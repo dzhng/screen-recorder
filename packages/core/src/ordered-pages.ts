@@ -5,7 +5,7 @@ import { mkdir, rename, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { z } from "zod";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 
 const pageBytes = 1_048_576,
   metadataBytes = 4_194_304,

@@ -4,7 +4,7 @@ import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import { fileAccess, type FileAccess } from "./files.js";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { OrderedPages, writeOrderedPages, type OrderedPageCodec } from "./ordered-pages.js";
 import type { TimeRange, TimelineRevision } from "./timeline.js";
 import {

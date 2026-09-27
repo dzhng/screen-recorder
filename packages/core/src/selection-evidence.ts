@@ -1,5 +1,5 @@
 import { setImmediate } from "node:timers/promises";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { SourceSelectionRead } from "./evidence.js";
 import { sceneBoundaries, type SceneEvidenceRead } from "./scene-evidence.js";
 import type { SelectionEvent, SelectionInput } from "./selection.js";

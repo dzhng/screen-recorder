@@ -1,4 +1,4 @@
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceEvidenceReader } from "./evidence-read.js";
 import type { TimeRange } from "./timeline.js";

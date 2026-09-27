@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import type { RevisionStore } from "./library.js";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { DerivedCache } from "./cache.js";
 import {
   analyzeVisualSamples,

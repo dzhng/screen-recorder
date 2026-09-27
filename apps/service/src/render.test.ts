@@ -3,7 +3,7 @@ import { chmod, mkdtemp, mkdir, readdir, readFile, rm, symlink, writeFile } from
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { MAX_MEDIA_TIMEOUT_MS, mediaWorker, type MediaWorker } from "./worker.js";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { clearRenderWorkspace, renderDeadlineMs, withRenderedMedia } from "./render.js";
 
 const homes: string[] = [];

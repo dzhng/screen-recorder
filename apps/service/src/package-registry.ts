@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { rm, type FileHandle } from "node:fs/promises";
 import { join } from "node:path";
-import { CatalogError } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import {
   archiveLimits,
   validateArchiveLimits,

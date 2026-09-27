@@ -2,7 +2,8 @@ import { afterEach, expect, test } from "vitest";
 import { chmod, mkdtemp, rm, writeFile, mkdir, readFile } from "node:fs/promises";
 import { join, basename, dirname } from "node:path";
 import { randomUUID } from "node:crypto";
-import { CatalogError, RevisionStore } from "./library.js";
+import { RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import {

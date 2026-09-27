@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
-import { CatalogError, RevisionStore } from "@screenrec/core/library";
+import { RevisionStore } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { listenLocal } from "../dist/index.js";
 
 const [runtimeDirectory, database] = process.argv.slice(2);

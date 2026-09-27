@@ -1,5 +1,6 @@
 import { setImmediate } from "node:timers/promises";
-import { CatalogError, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 
 /** What an attempt occupies while it runs. Frame work is small and parallel; heavy work is not. */
 export type JobLane = "heavy" | "frame";

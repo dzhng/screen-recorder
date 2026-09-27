@@ -1,4 +1,4 @@
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import type { TimeRange } from "./timeline.js";
 
 /** Measured visual change, not recognition of a scene's meaning. */

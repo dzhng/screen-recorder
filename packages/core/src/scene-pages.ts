@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { FileAccess } from "./files.js";
 import { isDeepStrictEqual } from "node:util";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import {
   SceneEvidenceReader,
   normalizeSceneChunk,

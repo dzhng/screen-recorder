@@ -9,7 +9,7 @@ import {
   type SceneEvidenceRead,
 } from "./scene-evidence.js";
 import type { FileAccess } from "./files.js";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { OrderedPages, writeOrderedPages, type OrderedPageCodec } from "./ordered-pages.js";
 import {
   eventProjector,

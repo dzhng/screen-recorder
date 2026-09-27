@@ -13,7 +13,8 @@ import {
 } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { openedFile, retainedFileRead, type OpenedFile, type RetainedRead } from "./files.js";
-import { CatalogError, type RevisionStore } from "./library.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
 
 type Row = {
   id: string;

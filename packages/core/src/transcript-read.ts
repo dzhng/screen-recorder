@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CatalogError } from "./library.js";
+import { CatalogError } from "./catalog.js";
 import { comparePageKeys, type PageBound } from "./ordered-pages.js";
 import {
   projectSourceRanges,

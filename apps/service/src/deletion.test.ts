@@ -3,7 +3,8 @@ import { mkdtemp, mkdir, writeFile, readFile, rm, lstat, symlink } from "node:fs
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { setImmediate } from "node:timers/promises";
-import { CatalogError, RevisionStore } from "@screenrec/core/library";
+import { RevisionStore } from "@screenrec/core/library";
+import { CatalogError } from "@screenrec/core/catalog";
 import { JobQueue, type JobExecutor } from "@screenrec/core/jobs";
 import { DerivedCache } from "@screenrec/core/cache";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
