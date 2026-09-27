@@ -61,7 +61,7 @@ test("concurrent imports publish one stable identity and preserve provenance", a
   ]);
   expect(a).toEqual(b);
   expect(store.list().assets.map((asset) => asset.id)).toEqual([a.id]);
-  expect(store.origins(a.id)).toEqual([
+  expect(store.origins(a.id).origins).toEqual([
     { kind: "capture", source: "take-one" },
     { kind: "import" },
   ]);
@@ -189,7 +189,7 @@ test("failed publication rolls back the receipt and recovery removes the linked 
   await store.recover();
   const asset = await store.import(path, { kind: "import" }, probe);
   expect(await readFile(store.path(asset.id), "utf8")).toBe("transaction pixels");
-  expect(store.origins(asset.id)).toEqual([{ kind: "import" }]);
+  expect(store.origins(asset.id).origins).toEqual([{ kind: "import" }]);
 });
 
 test("a source modified during streamed copying cannot become a ready asset", async () => {
@@ -223,7 +223,7 @@ test("distinct frozen import paths deduplicate media while preserving both origi
   const a = await store.executeImport(first.importId, probe, new AbortController().signal);
   const b = await store.executeImport(second.importId, probe, new AbortController().signal);
   expect(b.id).toBe(a.id);
-  expect(store.origins(a.id)).toEqual([
+  expect(store.origins(a.id).origins).toEqual([
     { kind: "import", source: firstPath },
     { kind: "import", source: secondPath },
   ]);

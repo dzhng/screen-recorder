@@ -261,12 +261,34 @@ export class AssetStore {
         rows.length > limit ? { afterSequence: rows[limit - 1]!.sequence as number } : null,
     };
   }
-  origins(id: string): AssetProvenance[] {
+  origins(
+    id: string,
+    input: { afterProvenance?: string; limit?: number } = {},
+  ): {
+    origins: AssetProvenance[];
+    nextCursor: { afterProvenance: string } | null;
+  } {
     this.get(id);
-    return this.store.catalog
-      .prepare("SELECT provenance FROM asset_origins WHERE assetId=? ORDER BY provenance")
-      .all(id)
-      .map((row) => JSON.parse(row.provenance as string) as AssetProvenance);
+    const limit = input.limit ?? 250;
+    if (
+      !Number.isSafeInteger(limit) ||
+      limit < 1 ||
+      limit > 1000 ||
+      (input.afterProvenance !== undefined && typeof input.afterProvenance !== "string")
+    )
+      throw new CatalogError("INVALID_PARAMS", "Invalid provenance page bounds");
+    const rows = this.store.catalog
+      .prepare(
+        "SELECT provenance FROM asset_origins WHERE assetId=? AND provenance>? ORDER BY provenance LIMIT ?",
+      )
+      .all(id, input.afterProvenance ?? "", limit + 1);
+    return {
+      origins: rows
+        .slice(0, limit)
+        .map((row) => JSON.parse(row.provenance as string) as AssetProvenance),
+      nextCursor:
+        rows.length > limit ? { afterProvenance: rows[limit - 1]!.provenance as string } : null,
+    };
   }
   /** Call inside the revision/job transaction when references must commit with that owner. */
   retain(owner: AssetOwner, ids: readonly string[]): void {

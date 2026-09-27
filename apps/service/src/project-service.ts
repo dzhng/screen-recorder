@@ -108,12 +108,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
             return { ok: true, data: status(job.jobId) };
           }
           case "asset.get":
+            return { ok: true, data: assets.get(operation.params.assetId) };
+          case "asset.origins":
             return {
               ok: true,
-              data: {
-                ...assets.get(operation.params.assetId),
-                origins: assets.origins(operation.params.assetId),
-              },
+              data: assets.origins(operation.params.assetId, {
+                ...operation.params.cursor,
+                ...(operation.params.limit === undefined ? {} : { limit: operation.params.limit }),
+              }),
             };
           case "asset.list":
             return {

@@ -140,6 +140,7 @@ export async function operate(
     switch (operation.operation) {
       case "asset.import":
       case "asset.get":
+      case "asset.origins":
       case "asset.list":
       case "job.get":
       case "job.retry":

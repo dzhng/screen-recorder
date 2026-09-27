@@ -54,8 +54,14 @@ it was `/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-nati
 - `bun run --cwd apps/service test src/project-service.test.ts`
 - `node packages/test-harness/editing/assets.mjs --fixture imports`
 
-All four gates pass: 12 core tests, 4 native tests, 4 service tests and the real CLI/MCP harness. The service tests cover probe retry, drained cancellation, frozen-source refusal, real SIGKILL recovery, and capacity rejection rolling back the import intent. The CLI/MCP harness exercises native admission, unsupported-codec job diagnostics, deduplication, external removal and restart replay. The installed recording service remains unchanged until the planned cutover.
+All four gates pass: 12 core tests, 4 native tests, 5 service tests and the real CLI/MCP harness. The service tests cover probe retry, drained cancellation, frozen-source refusal, real SIGKILL recovery, and capacity rejection rolling back the import intent. The CLI/MCP harness exercises native admission, unsupported-codec job diagnostics, deduplication, external removal and restart replay. The installed recording service remains unchanged until the planned cutover.
 
 Import intent and job admission share one catalog transaction through the shared queue request factory. Preparing a new source only freezes its identity; rejected capacity leaves no intent. Replays resolve the durable receipt before touching the external path. Distinct source paths remain provenance even when their bytes deduplicate. Native response parsing tolerates additive fields. Asset lists project compact summaries in SQL; full segment metadata remains available through asset.get.
 
 Preservation checks passed before the final atomic-admission seam: 112 service tests and 21 CLI tests. Focused service/core checks were rerun after that seam; parent verification owns the shared queue suite. The separately open storage-scale timeout is not claimed resolved by this slice.
+
+## Bounded provenance follow-up
+
+Independent review reproduced an 8,499,232-byte asset.get response after 10,000 origins, exceeding the transport's 8 MiB frame limit. asset.get now returns only asset metadata. asset.origins owns bounded provenance inspection with a continuation cursor: default 250, maximum 1000, fetched by the existing compound primary key with LIMIT. No new table or history owner is introduced.
+
+Choice: the cursor is the last serialized provenance key, not an offset. Each traversal walks the existing lexical index. Origins appended before a cursor during concurrent imports require a fresh traversal to refresh history; this is stated in the shared operation description. Fixed history traverses without duplicates or omissions. The public regression seeds over 8 MiB of persisted provenance before startup, verifies metadata remains below 1 KiB, and compares all 10,001 returned values across pages of 37 against the complete expected history. Each page remains below 40,000 bytes. Real CLI/MCP checks traverse pages of one and compare the new operation across adapters.

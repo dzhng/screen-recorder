@@ -5,6 +5,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { afterEach, expect, test } from "vitest";
+import type { AssetStore } from "@screenrec/core/assets";
+import { Catalog } from "@screenrec/core/catalog";
 import { callLocal } from "@screenrec/client";
 import { startProjectService } from "./project-service.js";
 import type { MediaWorker } from "./worker.js";
@@ -230,5 +232,70 @@ test("queue capacity refusal leaves no frozen import receipt to poison a later a
   const ready = await f.job((response.data as { jobId: string }).jobId, "ready");
   expect(await readFile(f.service.assets.path(ready.result!.assetId), "utf8")).toBe(
     "new bytes after capacity refusal",
+  );
+});
+
+test("large provenance history cannot hide metadata and every origin remains pageable", async () => {
+  const f = await setup(async () => ({ ok: true, data: metadata }));
+  const accepted = await f.call("asset.import", { requestId: "history", path: f.path });
+  expect(accepted.ok).toBe(true);
+  if (!accepted.ok) return;
+  const ready = await f.job((accepted.data as { jobId: string }).jobId, "ready");
+  const assetId = ready.result!.assetId;
+  await f.service.close();
+  // Seed persisted history at scale while no service owns the catalog; public reads are the gate.
+  const catalog = new Catalog(join(f.home, "library", "catalog.sqlite"));
+  const expected = [{ kind: "import", source: f.path }];
+  try {
+    const insert = catalog.catalog.prepare("INSERT INTO asset_origins VALUES(?,?)");
+    catalog.transaction(() => {
+      for (let index = 0; index < 10_000; index++) {
+        const origin = {
+          kind: "import",
+          source:
+            "/" +
+            ("a".repeat(200) + "/").repeat(4) +
+            `source-${String(index).padStart(5, "0")}.png`,
+        };
+        expected.push(origin);
+        insert.run(assetId, JSON.stringify(origin));
+      }
+    });
+  } finally {
+    catalog.close();
+  }
+  expect(Buffer.byteLength(JSON.stringify(expected))).toBeGreaterThan(8 * 1024 * 1024);
+  const service = await startProjectService({
+    home: f.home,
+    worker: async () => ({ ok: true, data: metadata }),
+  });
+  cleanups.push(() => service.close());
+  const get = await callLocal(service.socketPath, {
+    id: "metadata",
+    operation: "asset.get",
+    params: { assetId },
+  });
+  expect(get).toMatchObject({ ok: true, data: { id: assetId, streams: metadata.streams } });
+  expect(Buffer.byteLength(JSON.stringify(get))).toBeLessThan(1024);
+  const observed: ReturnType<AssetStore["origins"]>["origins"] = [];
+  let cursor: ReturnType<AssetStore["origins"]>["nextCursor"] = null;
+  do {
+    const response = await callLocal(service.socketPath, {
+      id: "page",
+      operation: "asset.origins",
+      params: { assetId, limit: 37, ...(cursor ? { cursor } : {}) },
+    });
+    expect(response.ok).toBe(true);
+    if (!response.ok) throw new Error(JSON.stringify(response));
+    expect(Buffer.byteLength(JSON.stringify(response))).toBeLessThan(40_000);
+    const page = response.data as ReturnType<AssetStore["origins"]>;
+    expect(page.origins.length).toBeGreaterThan(0);
+    expect(page.origins.length).toBeLessThanOrEqual(37);
+    observed.push(...page.origins);
+    expect(observed.length).toBeLessThanOrEqual(expected.length);
+    cursor = page.nextCursor;
+  } while (cursor);
+  expect(observed.map((origin) => JSON.stringify(origin))).toEqual(
+    expected.map((origin) => JSON.stringify(origin)).sort(),
   );
 });

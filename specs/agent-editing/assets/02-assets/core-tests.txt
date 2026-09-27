@@ -2,11 +2,11 @@ $ vitest run --maxWorkers=4 src/assets.test.ts
 
  RUN  v5.0.0 /private/tmp/screenrec-editing-assets/packages/core
 
-(node:74027) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(node:83989) ExperimentalWarning: SQLite is an experimental feature and might change at any time
 (Use `node --trace-warnings ...` to show where the warning was created)
 
  Test Files  1 passed (1)
       Tests  12 passed (12)
-   Start at  13:22:25
-   Duration  1.32s (tests 74%, transform 15%, import 10%, worker 1%)
+   Start at  13:28:40
+   Duration  1.43s (tests 83%, transform 10%, import 6%)
 

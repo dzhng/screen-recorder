@@ -96,6 +96,21 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .describe("Read immutable admitted stream metadata."),
   z
     .object({
+      operation: z.literal("asset.origins"),
+      params: z
+        .object({
+          assetId: id,
+          cursor: z.object({ afterProvenance: z.string() }).strict().optional(),
+          limit: z.int().min(1).max(1000).optional(),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Read a bounded page of asset provenance. Follow nextCursor until null; concurrent imports can add origins before the cursor, so restart traversal to refresh history.",
+    ),
+  z
+    .object({
       operation: z.literal("asset.list"),
       params: z
         .object({

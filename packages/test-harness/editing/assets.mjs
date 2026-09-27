@@ -73,10 +73,18 @@ try {
     "kind",
   ]);
   const finalAsset = await call("asset.get", { assetId: asset.id });
-  assert.deepEqual(
-    finalAsset.origins.map((origin) => origin.source).sort(),
-    [path, duplicate].sort(),
-  );
+  const origins = [];
+  let cursor;
+  do {
+    const page = await call("asset.origins", {
+      assetId: asset.id,
+      limit: 1,
+      ...(cursor ? { cursor } : {}),
+    });
+    origins.push(...page.origins);
+    cursor = page.nextCursor;
+  } while (cursor);
+  assert.deepEqual(origins.map((origin) => origin.source).sort(), [path, duplicate].sort());
   const page = await call("asset.list", { limit: 1 });
   assert.deepEqual(
     page.assets.map((a) => a.id),
@@ -94,6 +102,14 @@ try {
   const viaMcp = await mcp.callTool({ name: "asset.get", arguments: { assetId: asset.id } });
   assert.equal(viaMcp.structuredContent.ok, true);
   assert.deepEqual(viaMcp.structuredContent.data, finalAsset);
+  const mcpOrigins = await mcp.callTool({
+    name: "asset.origins",
+    arguments: { assetId: asset.id, limit: 1 },
+  });
+  assert.deepEqual(
+    mcpOrigins.structuredContent.data,
+    await call("asset.origins", { assetId: asset.id, limit: 1 }),
+  );
   const mcpFailure = await mcp.callTool({ name: "job.get", arguments: { jobId: rejected.jobId } });
   assert.deepEqual(mcpFailure.structuredContent.data, failure);
   await mcp.close();
@@ -109,7 +125,7 @@ try {
     jobId: submitted.jobId,
     duplicateJobId: another.jobId,
     checks: [
-      "CLI import/get/list",
+      "CLI import/get/list/origins",
       "real native probe",
       "unsupported-codec job diagnostics",
       "MCP parity",

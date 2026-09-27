@@ -3,10 +3,10 @@
   "observations": [
     {
       "assetId": "4d30d080685b32e98e6bc0897ec689dd7c7e67cff7bdc7a6ef3f20cd4b55ac3f",
-      "jobId": "4b994114-a884-4ddc-a866-67b9ea973b22",
-      "duplicateJobId": "4d3c28f6-3976-4de3-b437-328e0cd03c61",
+      "jobId": "fa116773-7050-4254-b2a8-166d574e04f2",
+      "duplicateJobId": "6eccf72b-28fb-444d-b129-7a9496544fa7",
       "checks": [
-        "CLI import/get/list",
+        "CLI import/get/list/origins",
         "real native probe",
         "unsupported-codec job diagnostics",
         "MCP parity",
