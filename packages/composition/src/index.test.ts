@@ -327,3 +327,88 @@ describe("semantic validation rejects documents that could silently change meani
     );
   });
 });
+
+test("fractional source boundaries preserve a retimed split and inverse bins", () => {
+  const whole = validateComposition(document([clip("whole", 0, 6)]), [asset()]);
+  const boundary = { numerator: 10, denominator: 3 };
+  const split = validateComposition(
+    {
+      ...document(),
+      clips: [
+        {
+          ...clip("left", 0, 2),
+          source: { kind: "range", range: { startUs: 0, endUs: boundary } },
+        },
+        {
+          ...clip("right", 2, 6),
+          source: { kind: "range", range: { startUs: boundary, endUs: 10 } },
+        },
+      ],
+    },
+    [asset()],
+  );
+  for (let atUs = 0; atUs < 6; atUs++) {
+    expect(projectToSource(split, atUs).map(({ sourceUs }) => sourceUs)).toEqual(
+      projectToSource(whole, atUs).map(({ sourceUs }) => sourceUs),
+    );
+  }
+  const occurrences = sourceToProject(split, { assetId: "source", streamId: "video", atUs: 3 });
+  expect(occurrences.map(({ clipId, firstProjectUs }) => [clipId, firstProjectUs])).toEqual([
+    ["left", null],
+    ["right", 2],
+  ]);
+});
+
+test("fractional project bounds retain phase and reject noncanonical times", () => {
+  const selected = clip("fractional");
+  const input = {
+    ...document(),
+    clips: [
+      {
+        ...selected,
+        placement: {
+          kind: "project",
+          range: {
+            startUs: { numerator: 1, denominator: 3 },
+            endUs: { numerator: 11, denominator: 3 },
+          },
+        },
+      },
+    ],
+  };
+  const model = validateComposition(input, [asset()]);
+  expect(model.durationUs).toBe(4);
+  expect(projectToSource(model, 0)).toEqual([]);
+  expect(projectToSource(model, 1)).toMatchObject([{ sourceUs: 2 }]);
+  expect(
+    sourceToProject(model, { assetId: "source", streamId: "video", atUs: 2 })[0]?.firstProjectUs,
+  ).toBe(1);
+  input.clips[0]!.placement.range.startUs = { numerator: 1, denominator: 1 };
+  expect(() => validateComposition(input, [asset()])).toThrow("Use an integer");
+});
+
+test("malformed fractional endpoints always report typed invalid composition", () => {
+  for (const endUs of [
+    { numerator: 1, denominator: 0 },
+    { numerator: 1, denominator: -1 },
+    { numerator: 1.5, denominator: 2 },
+    { numerator: 1, denominator: Infinity },
+    { numerator: Number.MAX_SAFE_INTEGER + 1, denominator: 3 },
+  ]) {
+    const input = {
+      ...document(),
+      clips: [
+        {
+          ...clip("invalid"),
+          source: { kind: "range", range: { startUs: 0, endUs } },
+        },
+      ],
+    };
+    expect(() => validateComposition(input, [asset()])).toThrow(CompositionError);
+    try {
+      validateComposition(input, [asset()]);
+    } catch (error) {
+      expect(error).toMatchObject({ code: "INVALID_COMPOSITION" });
+    }
+  }
+});

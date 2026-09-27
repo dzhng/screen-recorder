@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 -t "fractional source boundaries"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/index.test.ts (18 tests | 1 failed | 17 skipped) 62ms
+   × fractional source boundaries preserve a retimed split and inverse bins 58ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/index.test.ts > fractional source boundaries preserve a retimed split and inverse bins
+AssertionError: expected [ 4 ] to deeply equal [ 5 ]
+
+- Expected
++ Received
+
+  [
+-   5,
++   4,
+  ]
+
+ ❯ src/index.test.ts:351:74
+    349|   );
+    350|   for (let atUs = 0; atUs < 6; atUs++) {
+    351|     expect(projectToSource(split, atUs).map(({ sourceUs }) => sourceUs…
+       |                                                                          ^
+    352|       projectToSource(whole, atUs).map(({ sourceUs }) => sourceUs),
+    353|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 skipped (18)
+   Start at  12:40:53
+   Duration  1.30s (import 47%, transform 44%, tests 8%, worker 1%)
+
+error: script "test" exited with code 1

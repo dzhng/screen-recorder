@@ -1,0 +1,36 @@
+{
+  "kind": "exact-boundary-checkpoint",
+  "testsPassed": 19,
+  "artifacts": [
+    {
+      "path": "initial-red.txt",
+      "bytes": 1516,
+      "sha256": "4c23364d257ce7c964a10feef11d48ec145a2b0c8332524579ea1f3eb9c586e2"
+    },
+    {
+      "path": "repeat-reorder.json",
+      "bytes": 3651,
+      "sha256": "baf2afab4331911ee72facc54dd31cc0331c2e3683decae430a8774f41162384"
+    },
+    {
+      "path": "review.md",
+      "bytes": 1266,
+      "sha256": "6d642e7662ad0255be45e58046e8e4fb88ad392e6720f4c118321316072ff6a6"
+    },
+    {
+      "path": "rounding-mutation.txt",
+      "bytes": 1170,
+      "sha256": "a81b92620000443ffab71f83f5488d882b6628c588d79439b4e025715368a206"
+    },
+    {
+      "path": "tests.txt",
+      "bytes": 244,
+      "sha256": "366be8ccd8e9bc690172ff238d7ad171ff290930be82986061374d8d70c016d1"
+    },
+    {
+      "path": "validation-red.txt",
+      "bytes": 1177,
+      "sha256": "70e2d5299b6c1b3702b5ab0eabdd694a1d61fd2c93c989d0298dd56e2c7d313d"
+    }
+  ]
+}

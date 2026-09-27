@@ -122,3 +122,21 @@ The reach: the one-second threshold trades decoder startup against bounded
 skipping; it does not alter samples admitted to the filter. Source reordering in
 future executors must start an appropriate reader rather than treating this ordered
 cursor as random access. Long-stream scale acceptance remains separately required.
+
+### Persist exact fractions when an edit creates a fractional boundary
+
+When: slice 03a. Confidence: medium. Verdict: sound.
+
+The choice: a clip selecting ten source microseconds plays over six project
+microseconds. Splitting it at project time two requires source time10/3. Rounding
+the stored split to3 changes a later query from source time5 to4. Stored clip and
+anchor endpoints therefore accept reduced fractional microseconds, while whole
+values remain numbers and requested command coordinates stay integers. Both
+fraction components must fit safe integers; unrepresentable results fail rather
+than round silently.
+
+The gap: the original integer-only document could not preserve its own affine
+mapping under arbitrary retimed splits. The reach: the reducer, compiler and
+portable document readers inherit one exact representation; they must not coerce
+stored endpoints to numbers before the declared sampling boundary. This avoids
+adding a second speed or hidden original-mapping field to every edited clip.

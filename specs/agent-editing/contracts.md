@@ -44,14 +44,16 @@ than accept documents that silently render without them.
 
 ```ts
 type Range = { startUs: number; endUs: number }; // safe integers, half-open
-type Fraction = { numerator: number; denominator: number }; // reduced, denominator > 0
+type Fraction = { numerator: number; denominator: number }; // reduced safe integers, denominator > 0
+type EditTime = number | Fraction; // whole microseconds as numbers; fractional denominator > 1
+type SelectionRange = { startUs: EditTime; endUs: EditTime }; // exact stored half-open bounds
 type Anchor =
-  | { kind: "project"; range: Range }
-  | { kind: "content"; clipId: string; sourceRange: Range }
+  | { kind: "project"; range: SelectionRange }
+  | { kind: "content"; clipId: string; sourceRange: SelectionRange }
   | { kind: "clip"; clipId: string; start: Fraction; end: Fraction };
 type Clip = {
   id: string; assetId: string; streamId: string; trackId: string;
-  source: { kind: "range"; range: Range } | { kind: "hold"; atUs: number };
+  source: { kind: "range"; range: SelectionRange } | { kind: "hold"; atUs: number };
   placement: Anchor;
   pitch?: "preserve" | "follow"; // audio; preserve by default
 };
@@ -96,8 +98,14 @@ their actual rate/layout and full-track source extraction can preserve them.
 
 ## One time model
 
-API time is integer microseconds. Use exact integer/rational intermediates to avoid
-overflow and repeated rounding. For a range clip, the ratio of selected source
+Command coordinates and admitted source timestamps are integer microseconds.
+Stored selection/placement endpoints also accept reduced fractions of a microsecond
+when an edit requires them. Whole values stay numbers; fractions require safe-integer
+components and denominator greater than one. Reject unrepresentable results rather
+than rounding. Use exact integer/rational intermediates to avoid overflow and drift.
+For example, splitting source [0,10) mapped to project [0,6) at project time 2
+requires a source boundary of 10/3; rounding it to 3 changes the right fragment
+from the original mapping. [03a](slices/03a-exact-edit-boundaries.md) owns this gate. For a range clip, the ratio of selected source
 duration to resolved project duration defines its playback rate; do not also store
 an independently mutable speed value. Source mapping is affine within a clip.
 Piecewise speed changes are splits plus retimes; holds are video/image-only.

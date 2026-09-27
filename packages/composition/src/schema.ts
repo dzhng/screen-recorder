@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { compare, fromTime } from "./rational.js";
 
 const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const positive = time.positive();
@@ -16,9 +17,27 @@ export const fractionSchema = z
     while (b) [a, b] = [b, a % b];
     return a === 1n;
   }, "Expected reduced fraction");
+/** Integer command times stay compact; edits retain exact sub-microsecond boundaries. */
+export const timeValueSchema = z.union([
+  time,
+  fractionSchema.refine((value) => value.denominator > 1, "Use an integer for whole microseconds"),
+]);
+export type TimeValue = z.infer<typeof timeValueSchema>;
+const selectionBoundsSchema = z
+  .object({ startUs: timeValueSchema, endUs: timeValueSchema })
+  .strict();
+export const selectionRangeSchema = selectionBoundsSchema.refine(
+  (value) => compare(fromTime(value.startUs), fromTime(value.endUs)) < 0,
+  {
+    message: "Expected positive half-open range",
+    // Zod may continue refinements after scalar constraint failures.
+    when: ({ value }) => selectionBoundsSchema.safeParse(value).success,
+  },
+);
+export type SelectionRange = z.infer<typeof selectionRangeSchema>;
 export const anchorSchema = z.discriminatedUnion("kind", [
-  z.object({ kind: z.literal("project"), range: rangeSchema }).strict(),
-  z.object({ kind: z.literal("content"), clipId: id, sourceRange: rangeSchema }).strict(),
+  z.object({ kind: z.literal("project"), range: selectionRangeSchema }).strict(),
+  z.object({ kind: z.literal("content"), clipId: id, sourceRange: selectionRangeSchema }).strict(),
   z
     .object({ kind: z.literal("clip"), clipId: id, start: fractionSchema, end: fractionSchema })
     .strict()
@@ -38,7 +57,7 @@ export const clipSchema = z
     streamId: id,
     trackId: id,
     source: z.discriminatedUnion("kind", [
-      z.object({ kind: z.literal("range"), range: rangeSchema }).strict(),
+      z.object({ kind: z.literal("range"), range: selectionRangeSchema }).strict(),
       z.object({ kind: z.literal("hold"), atUs: time }).strict(),
     ]),
     placement: anchorSchema,

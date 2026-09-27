@@ -6,7 +6,10 @@ It accepts admitted stream metadata; it never opens media or a catalog. The
 Rendering, edits and storage are separate consumers of this model.
 
 `validateComposition(document, assets)` creates a detached, deeply frozen snapshot.
-Asset stream bounds and availability use the shared asset clock, including any
+Stored clip and project/content-anchor ranges accept reduced fractional microseconds
+when an edit requires them; whole values remain numbers. This preserves the source
+mapping when a retimed clip is split. Command coordinates and admitted source
+metadata remain integer microseconds. Asset stream bounds and availability use the shared asset clock, including any
 leading stream offset. A still image has no invented duration and uses a hold at
 source time zero. Effects and captions are rejected until their typed capability
 slices land. Canvas background is explicit `#RRGGBBAA`.

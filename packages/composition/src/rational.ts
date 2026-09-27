@@ -1,3 +1,4 @@
+import type { TimeValue } from "./schema.js";
 export type Rational = Readonly<{ numerator: bigint; denominator: bigint }>;
 
 export function rational(numerator: bigint, denominator = 1n): Rational {
@@ -41,4 +42,10 @@ export function ceil(value: Rational): number {
     value.numerator / value.denominator +
       (value.numerator > 0n && value.numerator % value.denominator ? 1n : 0n),
   );
+}
+
+export function fromTime(value: TimeValue): Rational {
+  return typeof value === "number"
+    ? rational(BigInt(value))
+    : rational(BigInt(value.numerator), BigInt(value.denominator));
 }

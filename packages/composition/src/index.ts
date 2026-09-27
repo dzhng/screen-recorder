@@ -7,6 +7,7 @@ import {
   type Clip,
   type Composition,
   type Range,
+  type SelectionRange,
   type Stream,
 } from "./schema.js";
 import {
@@ -19,6 +20,7 @@ import {
   floor,
   ceil,
   type Rational,
+  fromTime,
 } from "./rational.js";
 export {
   assetSchema,
@@ -28,8 +30,20 @@ export {
   clipSchema,
   rangeSchema,
   fractionSchema,
+  timeValueSchema,
+  selectionRangeSchema,
 } from "./schema.js";
-export type { Anchor, Asset, Clip, Composition, Fraction, Range, Stream } from "./schema.js";
+export type {
+  Anchor,
+  Asset,
+  Clip,
+  Composition,
+  Fraction,
+  Range,
+  SelectionRange,
+  TimeValue,
+  Stream,
+} from "./schema.js";
 export type { Rational } from "./rational.js";
 
 export class CompositionError extends Error {
@@ -67,9 +81,9 @@ function invalid(message: string): never {
   throw new CompositionError("INVALID_COMPOSITION", message);
 }
 const integer = (value: number) => rational(BigInt(value));
-const exact = (range: Range): ExactRange => ({
-  start: integer(range.startUs),
-  end: integer(range.endUs),
+const exact = (range: Range | SelectionRange): ExactRange => ({
+  start: fromTime(range.startUs),
+  end: fromTime(range.endUs),
 });
 const length = (range: ExactRange) => subtract(range.end, range.start);
 const contains = (range: ExactRange, at: Rational) =>
@@ -104,7 +118,7 @@ function unique<T extends { id: string }>(values: readonly T[], kind: string): M
 function sourceTime(clip: ResolvedClip, project: Rational): Rational {
   if (clip.clip.source.kind === "hold") return integer(clip.clip.source.atUs);
   return add(
-    integer(clip.clip.source.range.startUs),
+    fromTime(clip.clip.source.range.startUs),
     multiply(subtract(project, clip.range.start), clip.rate!),
   );
 }
@@ -113,7 +127,7 @@ function projectTime(clip: ResolvedClip, source: Rational): Rational {
     invalid(`Held clip has no invertible source clock: ${clip.clip.id}`);
   return add(
     clip.range.start,
-    divide(subtract(source, integer(clip.clip.source.range.startUs)), clip.rate!),
+    divide(subtract(source, fromTime(clip.clip.source.range.startUs)), clip.rate!),
   );
 }
 function placement(anchor: Anchor, resolved: ReadonlyMap<string, ResolvedClip>): ResolvedPlacement {
@@ -128,11 +142,14 @@ function placement(anchor: Anchor, resolved: ReadonlyMap<string, ResolvedClip>):
     if (parent.clip.source.kind === "hold")
       invalid(`Use a normalized clip anchor for held content: ${anchor.clipId}`);
     const source = parent.clip.source.range;
-    if (anchor.sourceRange.startUs < source.startUs || anchor.sourceRange.endUs > source.endUs)
+    if (
+      compare(fromTime(anchor.sourceRange.startUs), fromTime(source.startUs)) < 0 ||
+      compare(fromTime(anchor.sourceRange.endUs), fromTime(source.endUs)) > 0
+    )
       invalid(`Content anchor exceeds selected parent source: ${anchor.clipId}`);
     range = {
-      start: projectTime(parent, integer(anchor.sourceRange.startUs)),
-      end: projectTime(parent, integer(anchor.sourceRange.endUs)),
+      start: projectTime(parent, fromTime(anchor.sourceRange.startUs)),
+      end: projectTime(parent, fromTime(anchor.sourceRange.endUs)),
     };
   } else {
     range = {
@@ -226,8 +243,8 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
     } else {
       if (stream.kind === "image") invalid(`Still images require a hold source: ${clip.id}`);
       if (
-        clip.source.range.startUs < stream.bounds.startUs ||
-        clip.source.range.endUs > stream.bounds.endUs
+        compare(fromTime(clip.source.range.startUs), integer(stream.bounds.startUs)) < 0 ||
+        compare(fromTime(clip.source.range.endUs), integer(stream.bounds.endUs)) > 0
       )
         invalid(`Selected range exceeds source bounds: ${clip.id}`);
     }
@@ -235,10 +252,7 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
     const rate =
       clip.source.kind === "hold"
         ? null
-        : divide(
-            integer(clip.source.range.endUs - clip.source.range.startUs),
-            length(anchor.range),
-          );
+        : divide(length(exact(clip.source.range)), length(anchor.range));
     const result: ResolvedClip = { ...anchor, clip, track, stream, rate };
     let available: ExactRange[];
     if (stream.kind === "image") available = [anchor.range];
@@ -346,8 +360,12 @@ export function sourceToProject(
       if (source.atUs !== query.atUs) return [];
       project = clip.range;
     } else {
-      if (!contains(exact(source.range), at)) return [];
-      project = { start: projectTime(clip, at), end: projectTime(clip, integer(query.atUs + 1)) };
+      const selected = intersection(exact(source.range), {
+        start: at,
+        end: rational(BigInt(query.atUs) + 1n),
+      });
+      if (!selected) return [];
+      project = { start: projectTime(clip, selected.start), end: projectTime(clip, selected.end) };
     }
     const first = ceil(project.start);
     return [

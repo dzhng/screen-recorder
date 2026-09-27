@@ -1,0 +1,170 @@
+{
+  "status": "passed",
+  "fixture": "repeat-reorder",
+  "durationUs": 2100000,
+  "memberships": [
+    {
+      "atUs": 499999,
+      "occurrences": [
+        {
+          "clipId": "a-first",
+          "assetId": "a",
+          "streamId": "video",
+          "trackId": "picture",
+          "sourceUs": 499999,
+          "available": true
+        },
+        {
+          "clipId": "independent-audio",
+          "assetId": "b",
+          "streamId": "audio",
+          "trackId": "sound",
+          "sourceUs": 499999,
+          "available": true
+        }
+      ]
+    },
+    {
+      "atUs": 500000,
+      "occurrences": [
+        {
+          "clipId": "independent-audio",
+          "assetId": "b",
+          "streamId": "audio",
+          "trackId": "sound",
+          "sourceUs": 500000,
+          "available": true
+        },
+        {
+          "clipId": "b-middle",
+          "assetId": "b",
+          "streamId": "video",
+          "trackId": "picture",
+          "sourceUs": 400000,
+          "available": true
+        }
+      ]
+    },
+    {
+      "atUs": 1099999,
+      "occurrences": [
+        {
+          "clipId": "independent-audio",
+          "assetId": "b",
+          "streamId": "audio",
+          "trackId": "sound",
+          "sourceUs": 1099999,
+          "available": true
+        },
+        {
+          "clipId": "b-middle",
+          "assetId": "b",
+          "streamId": "video",
+          "trackId": "picture",
+          "sourceUs": 999999,
+          "available": true
+        }
+      ]
+    },
+    {
+      "atUs": 1100000,
+      "occurrences": [
+        {
+          "clipId": "independent-audio",
+          "assetId": "b",
+          "streamId": "audio",
+          "trackId": "sound",
+          "sourceUs": 1100000,
+          "available": true
+        },
+        {
+          "clipId": "a-repeat",
+          "assetId": "a",
+          "streamId": "video",
+          "trackId": "picture",
+          "sourceUs": 1000000,
+          "available": true
+        }
+      ]
+    },
+    {
+      "atUs": 1599999,
+      "occurrences": [
+        {
+          "clipId": "independent-audio",
+          "assetId": "b",
+          "streamId": "audio",
+          "trackId": "sound",
+          "sourceUs": 1599999,
+          "available": true
+        },
+        {
+          "clipId": "a-repeat",
+          "assetId": "a",
+          "streamId": "video",
+          "trackId": "picture",
+          "sourceUs": 1499999,
+          "available": true
+        }
+      ]
+    }
+  ],
+  "reverse": [
+    {
+      "clipId": "a-first",
+      "trackId": "picture",
+      "trackOrder": 0,
+      "project": {
+        "start": {
+          "numerator": "250000",
+          "denominator": "1"
+        },
+        "end": {
+          "numerator": "250001",
+          "denominator": "1"
+        }
+      },
+      "available": [
+        {
+          "start": {
+            "numerator": "250000",
+            "denominator": "1"
+          },
+          "end": {
+            "numerator": "250001",
+            "denominator": "1"
+          }
+        }
+      ],
+      "firstProjectUs": 250000
+    },
+    {
+      "clipId": "a-again",
+      "trackId": "picture",
+      "trackOrder": 0,
+      "project": {
+        "start": {
+          "numerator": "1850000",
+          "denominator": "1"
+        },
+        "end": {
+          "numerator": "1850001",
+          "denominator": "1"
+        }
+      },
+      "available": [
+        {
+          "start": {
+            "numerator": "1850000",
+            "denominator": "1"
+          },
+          "end": {
+            "numerator": "1850001",
+            "denominator": "1"
+          }
+        }
+      ],
+      "firstProjectUs": 1850000
+    }
+  ]
+}

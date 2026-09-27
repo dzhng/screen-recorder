@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: not started. Dependencies: [01](./01-composition.md).
+Status: not started. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 

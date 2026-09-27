@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 -t "malformed fractional"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/index.test.ts (19 tests | 1 failed | 18 skipped) 42ms
+   × malformed fractional endpoints always report typed invalid composition 38ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/index.test.ts > malformed fractional endpoints always report typed invalid composition
+AssertionError: expected error to be instance of CompositionError
+
+- Expected:
+[Function CompositionError]
+
++ Received:
+RangeError {
+  "message": "Expected positive denominator",
+}
+
+ ❯ src/index.test.ts:407:57
+    405|       ],
+    406|     };
+    407|     expect(() => validateComposition(input, [asset()])).toThrow(Compos…
+       |                                                         ^
+    408|     try {
+    409|       validateComposition(input, [asset()]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 18 skipped (19)
+   Start at  12:46:58
+   Duration  1.01s (transform 54%, import 37%, tests 7%, worker 2%)
+
+error: script "test" exited with code 1

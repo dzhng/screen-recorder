@@ -15,7 +15,8 @@ shared jobId, with frozen-input retry/cancel semantics. Core asset and queue wor
 run in separate worktrees, sharing the extracted Catalog owner. Keep the native
 probe's presentation-time mapping when integrating admission.
 
-Next independent work is [03 — edits](slices/03-edits.md) and
+Implement [03 — edits](slices/03-edits.md) on the accepted
+[03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Independent native work is
 [06 — native multi-source reproduction](slices/06-render-reproduction.md).
 The first public checkpoint remains [09](slices/09-first-preview.md).
 Research [12](slices/12-speech-evidence.md), [18](slices/18-voice-reproduction.md)
@@ -38,6 +39,8 @@ Current evidence:
   67 library/job tests and service type checking.
 - [02 native probe](assets/02-probe/review.md): seven worker checks pass, including
   stream offsets and B-frame edit lists. Full asset admission is not complete.
+- [03a exact boundaries](assets/03a-boundaries/review.md): 19 composition tests
+  and corpus probe pass; split preservation is falsified by a rounding mutation.
 - [13 stretch](assets/13-stretch/README.md): pitch/count experiments pass; endpoint
   treatment, independent listening and visual acceptance remain open.
 
@@ -117,6 +120,7 @@ research blocks the first preview. Individual dependency lists are checked for c
 - [x] [01 — Composition identity and time](slices/01-composition.md)
 - [ ] [02a — Shared durable preparation targets](slices/02a-preparation-jobs.md)
 - [ ] [02 — Immutable asset admission](slices/02-assets.md)
+- [x] [03a — Preserve exact edit boundaries](slices/03a-exact-edit-boundaries.md)
 - [ ] [03 — Structural edits and attachments](slices/03-edits.md)
 - [ ] [04 — Durable projects and shared commands](slices/04-projects.md)
 - [ ] [05 — Compile bounded execution plans](slices/05-compiler.md)

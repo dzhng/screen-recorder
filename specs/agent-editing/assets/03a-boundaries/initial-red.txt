@@ -1,0 +1,55 @@
+$ vitest run --maxWorkers=4 -t "fractional source boundaries"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/index.test.ts (17 tests | 1 failed | 16 skipped) 133ms
+   × fractional source boundaries preserve a retimed split and inverse bins 117ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/index.test.ts > fractional source boundaries preserve a retimed split and inverse bins
+CompositionError: [
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "clips",
+      0,
+      "source",
+      "range",
+      "endUs"
+    ],
+    "message": "Invalid input: expected number, received object"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "clips",
+      1,
+      "source",
+      "range",
+      "startUs"
+    ],
+    "message": "Invalid input: expected number, received object"
+  }
+]
+ ❯ invalid src/index.ts:67:9
+     65| }
+     66| function invalid(message: string): never {
+     67|   throw new CompositionError("INVALID_COMPOSITION", message);
+       |         ^
+     68| }
+     69| const integer = (value: number) => rational(BigInt(value));
+ ❯ validateComposition src/index.ts:162:32
+ ❯ src/index.test.ts:334:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 skipped (17)
+   Start at  12:37:26
+   Duration  2.71s (transform 50%, import 42%, tests 7%, worker 2%)
+
+error: script "test" exited with code 1
