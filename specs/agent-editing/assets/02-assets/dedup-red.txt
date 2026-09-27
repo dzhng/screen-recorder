@@ -1,0 +1,47 @@
+$ vitest run --maxWorkers=4 src/assets.test.ts -t "concurrent imports"
+
+ RUN  v5.0.0 /private/tmp/screenrec-editing-assets/packages/core
+
+(node:30362) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/assets.test.ts (4 tests | 1 failed | 3 skipped) 1082ms
+   × concurrent imports publish one stable identity and preserve provenance 1077ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets.test.ts > concurrent imports publish one stable identity and preserve provenance
+AssertionError: expected { …(5) } to deeply equal { …(5) }
+
+- Expected
++ Received
+
+@@ -1,9 +1,9 @@
+  {
+    "bytes": 11,
+-   "createdAt": "2026-09-27T19:31:39.987Z",
+-   "id": "70ed7b5f-d9b4-45cd-b205-a66121e6f6a5",
++   "createdAt": "2026-09-27T19:31:39.863Z",
++   "id": "fcce9aa4-3510-481e-9c47-4d2ff4f66cfa",
+    "originUs": 0,
+    "streams": [
+      {
+        "codec": "public.png",
+        "decodable": true,
+
+ ❯ src/assets.test.ts:57:13
+     55|     store.import(external, { kind: "capture", source: "take-one" }, pr…
+     56|   ]);
+     57|   expect(a).toEqual(b);
+       |             ^
+     58|   expect(store.list().assets).toEqual([a]);
+     59|   expect(store.origins(a.id)).toEqual([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  12:31:32
+   Duration  7.89s (import 40%, transform 37%, tests 21%, worker 1%)
+
+error: script "test" exited with code 1

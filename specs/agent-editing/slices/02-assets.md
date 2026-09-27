@@ -1,6 +1,6 @@
 # 02 — Immutable asset admission
 
-Status: in progress. Native metadata checkpoint passes seven public-worker tests;
+Status: in progress. Core admission and native format/decode gates pass; public shared-job integration and process-death recovery remain. Dependencies: [00](./00-corpus.md). See [asset evidence](../assets/02-assets/review.md) and [native probe evidence](../assets/02-probe/review.md).
 [review and evidence](../assets/02-probe/review.md). Asset copy/catalog/registry,
 full format coverage and visual acceptance remain open. Dependencies: [00](./00-corpus.md), [02a](./02a-preparation-jobs.md).
 

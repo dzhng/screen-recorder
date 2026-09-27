@@ -1,0 +1,32 @@
+{
+  "width": 96,
+  "height": 160,
+  "byteIdentical": true,
+  "rgbaMeanAbsoluteError": 0,
+  "maximumChannelError": 0,
+  "changedChannelCount": 0,
+  "landmarks": {
+    "lowerLeft": [
+      246,
+      36,
+      0,
+      255
+    ],
+    "upperRight": [
+      64,
+      250,
+      88,
+      255
+    ]
+  },
+  "images": [
+    {
+      "name": "a",
+      "sha256": "43608371539111f476be0866e17c7d11caf59f392cceb26977a283bcec37b0bb"
+    },
+    {
+      "name": "b",
+      "sha256": "43608371539111f476be0866e17c7d11caf59f392cceb26977a283bcec37b0bb"
+    }
+  ]
+}
