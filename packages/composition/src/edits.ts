@@ -4,7 +4,7 @@ import { anchorSchema, clipSchema, compositionSchema, rangeSchema } from "./sche
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
 import { partitionClips } from "./partition.js";
-import { compare, fromTime, toTime } from "./rational.js";
+import { compare, fromTime, subtract, toTime } from "./rational.js";
 import { rippleTimeline } from "./ripple.js";
 import { transformSelection } from "./transform.js";
 import { duplicateClips } from "./duplicate.js";
@@ -48,7 +48,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       durationUs: z.int().positive().max(Number.MAX_SAFE_INTEGER),
       scope: z.enum(["linked", "selected"]).default("linked"),
       pitch: z.enum(["preserve", "follow"]).default("preserve"),
-      ripple: z.literal("none"),
+      ripple,
     })
     .strict(),
   z
@@ -271,7 +271,7 @@ export function applyBatch(
           break;
         }
         case "retime": {
-          next = transformSelection(
+          const transformed = transformSelection(
             model,
             clips(operation.clipIds),
             { durationUs: operation.durationUs, pitch: operation.pitch },
@@ -279,6 +279,33 @@ export function applyBatch(
             allocate,
             [],
           );
+          if (operation.ripple === "none") next = transformed.document;
+          else {
+            const result = rippleTimeline(
+              validateComposition(
+                { ...before, syncGroups: transformed.document.syncGroups },
+                model.assets,
+              ),
+              {
+                kind: "resize",
+                at: transformed.before.end,
+                delta: subtract(transformed.after.end, transformed.before.end),
+                targets: transformed.affected,
+              },
+              operation.ripple.trackIds.map((id) => resolve(id, "track")),
+            );
+            const selected = new Map(
+              transformed.document.clips
+                .filter((clip) => transformed.affected.has(clip.id))
+                .map((clip) => [clip.id, clip]),
+            );
+            next = {
+              ...result.document,
+              clips: result.document.clips.map((clip) => selected.get(clip.id) ?? clip),
+            };
+            for (const anchor of result.touchedFixedAnchors)
+              touchedFixedAnchors.set(anchor.id, anchor);
+          }
           break;
         }
         case "duplicate": {
@@ -362,7 +389,7 @@ export function applyBatch(
               clipId: resolve(entry.clipId, "clip"),
               trackId: resolve(entry.trackId, "track"),
             })),
-          );
+          ).document;
           break;
         }
         case "remove":

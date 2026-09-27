@@ -7,14 +7,17 @@ export function rippleTimeline(
   model: ValidatedComposition,
   operation:
     | { kind: "remove"; ranges: readonly ExactRange[] }
-    | { kind: "insert"; atUs: number; durationUs: number },
+    | { kind: "insert"; atUs: number; durationUs: number }
+    | { kind: "resize"; at: Rational; delta: Rational; targets: ReadonlySet<string> },
   trackIds: readonly string[],
 ) {
-  // A zero-width insertion boundary makes the same seek include roots beginning exactly there.
+  // A point boundary includes roots beginning exactly at an insertion or resize edge.
   const ranges =
     operation.kind === "remove"
       ? operation.ranges
-      : [{ start: fromTime(operation.atUs), end: fromTime(operation.atUs) }];
+      : operation.kind === "insert"
+        ? [{ start: fromTime(operation.atUs), end: fromTime(operation.atUs) }]
+        : [{ start: operation.at, end: operation.at }];
   const tracks = new Set(trackIds);
   const knownTracks = new Set(model.document.tracks.map((track) => track.id));
   if (tracks.size !== trackIds.length || trackIds.some((id) => !knownTracks.has(id)))
@@ -24,6 +27,8 @@ export function rippleTimeline(
       { trackIds },
     );
   if (!ranges.length) return { document: model.document, touchedFixedAnchors: [] };
+  if (operation.kind === "resize" && operation.delta.numerator === 0n)
+    return { document: model.document, touchedFixedAnchors: [] };
   const clips = new Map(model.clips.map((value) => [value.clip.id, value]));
   const roots = new Map<string, string>();
   for (const value of model.clips) {
@@ -44,6 +49,23 @@ export function rippleTimeline(
       compare(value.range.end, ranges[0]!.start) > 0 &&
       !tracks.has(clips.get(roots.get(value.clip.id)!)!.clip.trackId),
   );
+  if (operation.kind === "resize") {
+    const required = new Set<string>();
+    for (const id of operation.targets) {
+      const root = roots.get(id)!;
+      if (!operation.targets.has(root))
+        throw new CompositionError(
+          "INVALID_EDIT",
+          "Ripple retime of an attachment requires its root; detach it first",
+          { clipId: id, rootClipId: root },
+        );
+      required.add(clips.get(root)!.clip.trackId);
+    }
+    if ([...required].some((id) => !tracks.has(id)))
+      throw new CompositionError("INVALID_EDIT", "Ripple scope excludes a retimed root track", {
+        requiredRootTrackIds: [...required],
+      });
+  }
   if (orphaned.length)
     throw new CompositionError("INVALID_EDIT", "Ripple of an attachment requires its root track", {
       attachments: orphaned.map((value) => ({
@@ -57,9 +79,11 @@ export function rippleTimeline(
     prefix.push(
       add(
         prefix.at(-1)!,
-        operation.kind === "insert"
-          ? fromTime(operation.durationUs)
-          : subtract(range.end, range.start),
+        operation.kind === "remove"
+          ? subtract(range.end, range.start)
+          : operation.kind === "insert"
+            ? fromTime(operation.durationUs)
+            : operation.delta,
       ),
     );
   const firstAfter = (at: Rational) => {
@@ -77,6 +101,10 @@ export function rippleTimeline(
   const touchedFixedAnchors: { kind: "clip"; id: string }[] = [];
   for (const value of model.clips) {
     if (value.clip.placement.kind !== "project") continue;
+    if (operation.kind === "resize" && operation.targets.has(value.clip.id)) {
+      displacements.set(value.clip.id, rational(0n));
+      continue;
+    }
     let displacement = rational(0n);
     if (tracks.has(value.clip.trackId)) {
       const index = firstAfter(value.range.start);
@@ -84,7 +112,7 @@ export function rippleTimeline(
         conflicts.push(value.clip.id);
       else
         displacement =
-          operation.kind === "insert" ? prefix[index]! : subtract(rational(0n), prefix[index]!);
+          operation.kind !== "remove" ? prefix[index]! : subtract(rational(0n), prefix[index]!);
     } else if (compare(value.range.end, ranges[0]!.start) > 0) {
       touchedFixedAnchors.push({ kind: "clip", id: value.clip.id });
     }
@@ -95,7 +123,9 @@ export function rippleTimeline(
       "INVALID_EDIT",
       operation.kind === "remove"
         ? "Ripple intersects unremoved content; address those clips explicitly"
-        : "Insertion intersects unsplit content",
+        : operation.kind === "insert"
+          ? "Insertion intersects unsplit content"
+          : "Ripple intersects content crossing the retimed boundary",
       {
         clipIds: conflicts,
         trackIds: [...new Set(conflicts.map((id) => clips.get(id)!.clip.trackId))],

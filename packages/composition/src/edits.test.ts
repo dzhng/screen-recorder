@@ -1500,3 +1500,63 @@ test("insertion preserves every source sample across small retimed clips", () =>
           }
         }
 });
+
+test("ripple retime shifts following synchronized media for both growth and shrinkage", () => {
+  const first = applyBatch(input, setup, context);
+  const following = first.document.clips.map((clip, i) => ({
+    ...clip,
+    id: `next${i}`,
+    placement: {
+      kind: "project" as const,
+      range: { startUs: i === 0 ? 2000000 : 2200000, endUs: i === 0 ? 4000000 : 3800000 },
+    },
+  }));
+  const document = {
+    ...first.document,
+    clips: [...first.document.clips, ...following],
+    syncGroups: [
+      ...first.document.syncGroups,
+      { id: "next-group", clipIds: following.map((clip) => clip.id) },
+    ],
+  };
+  for (const durationUs of [1000000, 3000000]) {
+    const result = applyBatch(
+      document,
+      [
+        {
+          operation: "retime",
+          clipIds: [first.labels.video],
+          durationUs,
+          ripple: { trackIds: [first.labels.picture, first.labels.sound] },
+        },
+      ],
+      { ...context, namespace: "resize" },
+    );
+    expect(result.document.clips[2]!.placement).toEqual({
+      kind: "project",
+      range: { startUs: durationUs, endUs: durationUs + 2000000 },
+    });
+    expect(result.document.clips[3]!.placement).toEqual({
+      kind: "project",
+      range: { startUs: durationUs + 200000, endUs: durationUs + 1800000 },
+    });
+    expect(result.document.clips.slice(2).map((clip) => clip.source)).toEqual(
+      following.map((clip) => clip.source),
+    );
+    expect(result.document.syncGroups).toEqual(document.syncGroups);
+  }
+  expect(() =>
+    applyBatch(
+      first.document,
+      [
+        {
+          operation: "retime",
+          clipIds: [first.labels.video],
+          durationUs: 3000000,
+          ripple: { trackIds: [first.labels.picture] },
+        },
+      ],
+      context,
+    ),
+  ).toThrow(CompositionError);
+});

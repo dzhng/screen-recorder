@@ -24,7 +24,13 @@ export function transformSelection(
   tracks: readonly { clipId: string; trackId: string }[],
 ) {
   const affected = clipGraph(model).expand(selected, scope === "linked");
-  const { clips, changedTiming } = transformClips(model, affected, timing, tracks, false);
+  const { clips, changedTiming, before, after } = transformClips(
+    model,
+    affected,
+    timing,
+    tracks,
+    false,
+  );
   const syncGroups =
     scope === "linked" || !changedTiming
       ? model.document.syncGroups
@@ -43,7 +49,7 @@ export function transformSelection(
               clipIds,
             }));
         });
-  return { ...model.document, clips, syncGroups };
+  return { document: { ...model.document, clips, syncGroups }, affected, before, after };
 }
 
 /** Shared exact placement algebra for moves, retiming and copies. */
@@ -134,5 +140,10 @@ export function transformClips(
     }
     return { ...clip, placement };
   });
-  return { clips, changedTiming };
+  return {
+    clips,
+    changedTiming,
+    before: { start, end },
+    after: { start: destination, end: projectTime(end) },
+  };
 }

@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication non-ripple retime and insertion verified. Ripple move/retime and replacement remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication retime and insertion verified. Ripple move and replacement remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -44,13 +44,13 @@ created identities, clip lineage, link changes and removed/fixed attachments.
 relationships without implying that the original was deleted.
 
 Partitioning shares one owner for split/remove/trim and attachment rebasing.
-Move, duplication and non-ripple retime share the exact project-time transform.
+Move, duplication and retime share the exact project-time transform.
 Duplication gives copies new identities and preserves their internal dependencies;
 move/retime retain existing attachment kinds. Detach and reanchor preserve the
 resolved interval. Pitch policy is authored metadata until native retiming lands.
 The [contracts](../contracts.md) own operation semantics and scope rules.
 
-[52 composition tests](../assets/03-edits/insert/tests.txt), type checks and build
+[53 composition tests](../assets/03-edits/ripple-retime/tests.txt), type checks and build
 pass. The suite includes linked offsets, held/content anchors, source gaps,
 selected subgroups, copy labels, fractional boundaries, no-ops and failed-batch
 immutability. Prior independent probes cover 1,326 retimed splits and 12,376
@@ -71,6 +71,14 @@ and scopes breaking synchronization reject. A same-batch place fills the opened
 gap. Independent review and additional probes found no actionable defects;
 [red evidence](../assets/03-edits/insert/red.txt) predates the operation.
 
-Next implement ripple move/retime and replacement, then run the full
+Ripple retime shifts later roots by the duration change and excludes the
+already-transformed target roots from that shift. Target root tracks must be
+included explicitly. An attached target without its root must be detached first;
+unaddressed content crossing the old end rejects. Both growth and shrinkage are
+verified, including independent fractional-adjacency and failed-input probes.
+[Initial red evidence](../assets/03-edits/ripple-retime/red.txt) precedes support;
+independent review found no actionable defects.
+
+Next implement ripple move and replacement, then run the full
 linked-replacement probe above. Public project storage and editing still depend
 on completion of this reducer slice. This slice is not accepted yet.
