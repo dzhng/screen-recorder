@@ -15,7 +15,7 @@ import {
   toTime,
   toFraction,
 } from "./rational.js";
-import type { Clip, TimeValue } from "./schema.js";
+import { isMediaClip, type Clip, type TimeValue } from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
 type Piece = { clip: Readonly<Clip>; range: ExactRange };
@@ -108,16 +108,6 @@ export function partitionClips(
         if (operation.kind === "remove" && affected.has(value.clip.id) && removed(range.start))
           continue;
         const id = next.length === 0 ? value.clip.id : allocate("clip");
-        const source =
-          value.clip.source.kind === "hold"
-            ? value.clip.source
-            : {
-                kind: "range" as const,
-                range: stored({
-                  start: sourceTime(value, range.start),
-                  end: sourceTime(value, range.end),
-                }),
-              };
         const placement: Clip["placement"] =
           !parentPiece || !parent
             ? { kind: "project", range: stored(range) }
@@ -146,7 +136,21 @@ export function partitionClips(
                     ),
                   ),
                 };
-        next.push({ clip: { ...value.clip, id, source, placement }, range });
+        let clip: Clip;
+        if (isMediaClip(value.clip)) {
+          const source =
+            value.clip.source.kind === "hold"
+              ? value.clip.source
+              : {
+                  kind: "range" as const,
+                  range: stored({
+                    start: sourceTime(value, range.start),
+                    end: sourceTime(value, range.end),
+                  }),
+                };
+          clip = { ...value.clip, id, source, placement };
+        } else clip = { ...value.clip, id, placement };
+        next.push({ clip, range });
       }
     }
     pieces.set(value.clip.id, next);

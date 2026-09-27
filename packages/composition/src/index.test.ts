@@ -7,6 +7,7 @@ import {
   CompositionError,
   type Asset,
   type Clip,
+  type MediaClip,
   type Composition,
   type Rational,
 } from "./index.js";
@@ -22,7 +23,7 @@ function asset(id = "source", endUs = 20): Asset {
     ],
   };
 }
-function clip(id: string, startUs = 0, endUs = 10): Clip {
+function clip(id: string, startUs = 0, endUs = 10): MediaClip {
   return {
     id,
     assetId: "source",
@@ -411,4 +412,60 @@ test("malformed fractional endpoints always report typed invalid composition", (
       expect(error).toMatchObject({ code: "INVALID_COMPOSITION" });
     }
   }
+});
+
+test("authored silence stays distinct from acquisition gaps and accepts only normalized attachments", () => {
+  const source = asset();
+  source.streams[1] = {
+    id: "audio",
+    kind: "audio",
+    bounds: range(2, 20),
+    available: [range(2, 3), range(4, 20)],
+  };
+  const sound: MediaClip = {
+    ...clip("sound", 0, 4),
+    streamId: "audio",
+    trackId: "sound",
+    source: { kind: "range", range: range(2, 6) },
+  };
+  const silence: Clip = {
+    id: "silence",
+    trackId: "sound",
+    source: { kind: "silence" },
+    placement: { kind: "project", range: range(4, 8) },
+  };
+  const model = validateComposition(document([sound, silence]), [source]);
+  expect(projectToSource(model, 1)).toMatchObject([
+    { clipId: "sound", sourceUs: 3, available: false },
+  ]);
+  expect(projectToSource(model, 5)).toEqual([]);
+  expect(model.clips.find((value) => value.clip.id === "silence")!.available).toEqual([
+    { start: r(4n), end: r(8n) },
+  ]);
+  expect(
+    sourceToProject(model, { assetId: "source", streamId: "audio", atUs: 5 }).map(
+      (value) => value.clipId,
+    ),
+  ).toEqual(["sound"]);
+  expect(() =>
+    resolvePlacement(model, { kind: "content", clipId: "silence", sourceRange: range(0, 1) }),
+  ).toThrow("normalized clip anchor");
+  expect(
+    resolvePlacement(model, {
+      kind: "clip",
+      clipId: "silence",
+      start: { numerator: 1, denominator: 4 },
+      end: { numerator: 3, denominator: 4 },
+    }),
+  ).toEqual({ range: { start: r(5n), end: r(7n) }, available: [{ start: r(5n), end: r(7n) }] });
+  expect(() => validateComposition(document([{ ...silence, trackId: "picture" }]), [])).toThrow(
+    "Silence requires an audio track",
+  );
+  for (const invalid of [
+    { ...silence, assetId: "fake" },
+    { ...silence, pitch: "preserve" },
+  ])
+    expect(() => validateComposition({ ...document(), clips: [invalid] }, [])).toThrow(
+      CompositionError,
+    );
 });

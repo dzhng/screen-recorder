@@ -12,7 +12,7 @@ import {
   toFraction,
   toTime,
 } from "./rational.js";
-import type { Clip } from "./schema.js";
+import { isMediaClip, type Clip } from "./schema.js";
 
 /** Apply a shared project-time transform, retaining each attachment's anchor kind. */
 export function transformSelection(
@@ -92,7 +92,11 @@ export function transformClips(
       ? { ...originalClip, trackId: destinations.get(originalClip.id)! }
       : originalClip;
     if (!affected.has(clip.id)) return clip;
-    if (timing.pitch !== undefined && original.get(clip.id)!.stream.kind === "audio")
+    if (
+      timing.pitch !== undefined &&
+      isMediaClip(clip) &&
+      original.get(clip.id)!.track.kind === "audio"
+    )
       clip = { ...clip, pitch: timing.pitch };
     const anchor = clip.placement;
     if (!changedTiming && !detachRoots) return clip;

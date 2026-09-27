@@ -436,3 +436,16 @@ The plan named ripple replacement without specifying its duration basis.
 Using the supplied selection's natural duration makes this fit distinct from
 stretch-to-target and preserves the requested audio/video independence. A held
 image has no natural duration, so it needs an explicit duration operation instead.
+
+### Silence is an asset-free occurrence — sound, high confidence
+
+A final three-second silent interval needs to keep those three seconds in the
+project even when no later media establishes its end. It is therefore an explicit
+audio clip with placement and identity, without a fake WAV file, asset ID or source
+clock. The original model only described ranges and held media; explicit silence
+padding exposed this missing shape. Existing media documents keep their required
+asset/stream fields, and strict silence documents forbid them. Source queries
+omit silence, while composition inspection retains its authored interval; a
+missing recorded sample still reports its actual source with unavailable evidence.
+This preserves one affine source mapping per media clip and lets ordinary clip
+editing carry silence without a separate within-clip segment model.

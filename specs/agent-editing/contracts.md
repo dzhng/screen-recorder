@@ -51,11 +51,15 @@ type Anchor =
   | { kind: "project"; range: SelectionRange }
   | { kind: "content"; clipId: string; sourceRange: SelectionRange }
   | { kind: "clip"; clipId: string; start: Fraction; end: Fraction };
-type Clip = {
+type MediaClip = {
   id: string; assetId: string; streamId: string; trackId: string;
   source: { kind: "range"; range: SelectionRange } | { kind: "hold"; atUs: number };
   placement: Anchor;
   pitch?: "preserve" | "follow"; // audio; preserve by default
+};
+type Clip = MediaClip | {
+  id: string; trackId: string;
+  source: { kind: "silence" }; placement: Anchor;
 };
 type Curve = {
   keys: { at: number | Fraction; value: number;
@@ -83,6 +87,12 @@ range; an audio-only project can render against its explicit canvas background.
 Duration is the latest resolved clip/caption/project-effect end. A project gap
 renders the declared background and silence. Gaps in *acquisition* remain reported
 as unavailable source evidence; they must not become fictitious captured silence.
+Authored silence is an explicit audio-only occurrence with no asset, stream,
+source timestamp or pitch policy. It contributes duration and follows ordinary
+clip edits. Source-mapping queries omit it rather than inventing recorded audio;
+its identity and authored interval remain visible in the composition. Normalized
+clip anchors can follow it, while content anchors require an invertible source
+clock. It introduces no asset dependency or generated silence file.
 
 Tracks order visual layers from lower to higher integer `order`, unique per video
 track. Clips may not overlap within a track; use separate tracks for overlaps.

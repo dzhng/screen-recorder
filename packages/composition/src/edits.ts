@@ -1,6 +1,12 @@
 import { CompositionError } from "./errors.js";
 import { z } from "zod";
-import { anchorSchema, clipSchema, compositionSchema, rangeSchema } from "./schema.js";
+import {
+  anchorSchema,
+  mediaClipSchema,
+  silenceClipSchema,
+  compositionSchema,
+  rangeSchema,
+} from "./schema.js";
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
 import { partitionClips } from "./partition.js";
@@ -27,21 +33,25 @@ const placement = z.discriminatedUnion("kind", [
     .strict(),
   z.object({ ...anchorSchema.options[2].shape, clipId: reference }).strict(),
 ]);
-const placedClip = clipSchema.omit({ id: true }).extend({
+const placedMedia = mediaClipSchema.omit({ id: true }).extend({
   trackId: reference,
   placement,
   source: z.discriminatedUnion("kind", [
-    clipSchema.shape.source.options[0].extend({ range: rangeSchema }),
-    clipSchema.shape.source.options[1],
+    mediaClipSchema.shape.source.options[0].extend({ range: rangeSchema }),
+    mediaClipSchema.shape.source.options[1],
   ]),
 });
+const placedClip = z.union([
+  placedMedia,
+  silenceClipSchema.omit({ id: true }).extend({ trackId: reference, placement }),
+]);
 export const editOperationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("replace"),
       clipId: reference,
       kind: z.enum(["audio", "video"]),
-      media: placedClip.pick({ assetId: true, streamId: true, source: true }),
+      media: placedMedia.pick({ assetId: true, streamId: true, source: true }),
       fit: z.enum(["exact", "trim", "stretch", "ripple"]).default("exact"),
       ripple: z
         .object({ trackIds: z.array(reference).min(1) })

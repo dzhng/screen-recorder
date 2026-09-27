@@ -2,13 +2,13 @@ import { clipGraph } from "./clip-graph.js";
 import { CompositionError } from "./errors.js";
 import { validateSourceSelection, type ValidatedComposition } from "./model.js";
 import { add, compare, fromTime, subtract, toTime } from "./rational.js";
-import type { Clip } from "./schema.js";
+import { isMediaClip, type MediaClip } from "./schema.js";
 
 export function replaceClip(
   model: ValidatedComposition,
   clipId: string,
   kind: "audio" | "video",
-  media: Pick<Clip, "assetId" | "streamId" | "source">,
+  media: Pick<MediaClip, "assetId" | "streamId" | "source">,
   fit: "exact" | "trim" | "stretch" | "ripple",
   pitch?: "preserve" | "follow",
 ) {
@@ -60,6 +60,7 @@ export function replaceClip(
       : {}),
   };
   const changedSource =
+    !isMediaClip(target.clip) ||
     target.clip.assetId !== media.assetId ||
     target.clip.streamId !== media.streamId ||
     JSON.stringify(target.clip.source) !== JSON.stringify(source);

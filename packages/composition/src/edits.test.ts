@@ -1219,7 +1219,11 @@ test("duplicate selected scope copies only its dependency subtree and requires a
     [{ operation: "duplicate", clipIds: [first.labels.video], atUs: 2000000 }],
     { ...context, namespace: "copy" },
   );
-  expect(result.document.clips.map((clip) => clip.streamId)).toEqual(["v", "a", "v"]);
+  expect(result.document.clips).toMatchObject([
+    { streamId: "v" },
+    { streamId: "a" },
+    { streamId: "v" },
+  ]);
   expect(result.document.syncGroups).toEqual(first.document.syncGroups);
   expect(() =>
     applyBatch(
@@ -1258,8 +1262,8 @@ test("retime scales a linked envelope and keeps audio/video source selection and
   expect(result.document.clips.map((clip) => clip.source)).toEqual(
     first.document.clips.map((clip) => clip.source),
   );
-  expect(result.document.clips[0]!.pitch).toBeUndefined();
-  expect(result.document.clips[1]!.pitch).toBe("preserve");
+  expect(result.document.clips[0]).not.toHaveProperty("pitch");
+  expect(result.document.clips[1]).toMatchObject({ pitch: "preserve" });
   expect(result.document.syncGroups).toEqual(first.document.syncGroups);
   const model = validateComposition(result.document, context.assets);
   expect(projectToSource(model, 1500000).map((sample) => sample.sourceUs)).toEqual([
@@ -1291,7 +1295,7 @@ test("retime scales a linked envelope and keeps audio/video source selection and
     kind: "project",
     range: { startUs: 200000, endUs: 1000000 },
   });
-  expect(selected.document.clips[1]!.pitch).toBe("follow");
+  expect(selected.document.clips[1]).toMatchObject({ pitch: "follow" });
   expect(selected.document.syncGroups).toEqual([]);
 });
 
@@ -1332,7 +1336,7 @@ test("retime propagates through held-parent attachments once and preserves gaps"
     context,
   );
   expect(doubled.document.clips[1]!.placement).toEqual(document.clips[1]!.placement);
-  expect(doubled.document.clips[1]!.pitch).toBe("preserve");
+  expect(doubled.document.clips[1]).toMatchObject({ pitch: "preserve" });
   expect(
     projectToSource(validateComposition(doubled.document, context.assets), 9).map(
       (sample) => sample.sourceUs,
@@ -2082,8 +2086,8 @@ test("replacement only trims or stretches when explicitly requested", () => {
     applyBatch(first.document, [{ ...short, fit: "stretch", pitch: "follow" }], {
       ...context,
       assets,
-    }).document.clips[1]!.pitch,
-  ).toBe("follow");
+    }).document.clips[1],
+  ).toMatchObject({ pitch: "follow" });
 });
 
 test("ripple replacement adopts source duration and moves later audio without retiming video", () => {
@@ -2143,4 +2147,55 @@ test("ripple replacement adopts source duration and moves later audio without re
       applyBatch(document, [{ ...operation, ripple: undefined }], { ...context, assets }),
     ).toThrow(CompositionError);
   }
+});
+
+test("authored silence has duration and edit identity without inventing an asset or source clock", () => {
+  const first = applyBatch(
+    input,
+    [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "audio" },
+      {
+        operation: "place",
+        label: "silence",
+        clip: {
+          trackId: { label: "audio" },
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 0, endUs: 3000000 } },
+        },
+      },
+    ],
+    { ...context, assets: [] },
+  );
+  const model = validateComposition(first.document, []);
+  expect(model.durationUs).toBe(3000000);
+  expect(projectToSource(model, 1500000)).toEqual([]);
+  expect(first.document.clips[0]).toEqual({
+    id: first.labels.silence,
+    trackId: first.labels.audio,
+    source: { kind: "silence" },
+    placement: { kind: "project", range: { startUs: 0, endUs: 3000000 } },
+  });
+  const result = applyBatch(
+    first.document,
+    [
+      { operation: "split", clipIds: [first.labels.silence], atUs: 1000000 },
+      {
+        operation: "retime",
+        clipIds: [first.labels.silence],
+        durationUs: 1500000,
+        ripple: { trackIds: [first.labels.audio] },
+      },
+    ],
+    { ...context, assets: [], namespace: "silence-edit" },
+  );
+  expect(result.document.clips.map((clip) => clip.placement)).toEqual([
+    { kind: "project", range: { startUs: 0, endUs: 1500000 } },
+    { kind: "project", range: { startUs: 1500000, endUs: 3500000 } },
+  ]);
+  expect(result.document.clips.map((clip) => clip.source)).toEqual([
+    { kind: "silence" },
+    { kind: "silence" },
+  ]);
+  expect(validateComposition(result.document, []).durationUs).toBe(3500000);
+  expect(projectToSource(validateComposition(result.document, []), 2000000)).toEqual([]);
 });

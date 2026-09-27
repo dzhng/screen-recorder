@@ -50,20 +50,23 @@ export const anchorSchema = z.discriminatedUnion("kind", [
       "Expected ordered clip fractions within [0,1]",
     ),
 ]);
-export const clipSchema = z
+const clipFields = { id, trackId: id, placement: anchorSchema };
+export const mediaClipSchema = z
   .object({
-    id,
+    ...clipFields,
     assetId: id,
     streamId: id,
-    trackId: id,
     source: z.discriminatedUnion("kind", [
       z.object({ kind: z.literal("range"), range: selectionRangeSchema }).strict(),
       z.object({ kind: z.literal("hold"), atUs: time }).strict(),
     ]),
-    placement: anchorSchema,
     pitch: z.enum(["preserve", "follow"]).optional(),
   })
   .strict();
+export const silenceClipSchema = z
+  .object({ ...clipFields, source: z.object({ kind: z.literal("silence") }).strict() })
+  .strict();
+export const clipSchema = z.union([mediaClipSchema, silenceClipSchema]);
 export const streamSchema = z.discriminatedUnion("kind", [
   z.object({ id, kind: z.literal("image") }).strict(),
   z
@@ -105,7 +108,11 @@ export const compositionSchema = z
 export type Range = z.infer<typeof rangeSchema>;
 export type Fraction = z.infer<typeof fractionSchema>;
 export type Anchor = z.infer<typeof anchorSchema>;
+export type MediaClip = z.infer<typeof mediaClipSchema>;
 export type Clip = z.infer<typeof clipSchema>;
+export function isMediaClip(clip: Clip): clip is MediaClip {
+  return clip.source.kind !== "silence";
+}
 export type Stream = z.infer<typeof streamSchema>;
 export type Asset = z.infer<typeof assetSchema>;
 export type Composition = z.infer<typeof compositionSchema>;
