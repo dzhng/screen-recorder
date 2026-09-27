@@ -158,3 +158,22 @@ leave unlimited rejected requests behind; a cleanup worker would add another
 lifecycle. The reach: future preparation owners can share this transaction, but
 must keep asynchronous file work outside it. Previously accepted request replay
 still uses its frozen identity without reopening the external source.
+
+
+### Explicit track setup and inspectable deterministic batch results
+
+When: slice 03 reducer foundation. Confidence: medium. Verdict: sound.
+
+The choice: an agent first adds the tracks it needs, labels them inside the batch,
+then places streams on those tracks. Changing the canvas leaves clip timing
+intact. Removing a track containing clips asks for explicit clip edits first;
+removing an already absent track succeeds. This avoids silently deleting media
+when the agent only requested a layout change.
+
+The gap: the plan defined tracks and atomic edits but left track creation and the
+receipt format unspecified. The transaction owner supplies a stable namespace;
+entity kind and a batch ordinal produce repeatable IDs. Each operation returns
+its changed entities, while the final changed flag compares the initial and final
+documents. Adding and removing a track in one batch is therefore a net no-op.
+The reach: storage can replay requests without inventing fresh identities, and
+agents can inspect the same expansion that produced the resulting document.

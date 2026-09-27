@@ -11,12 +11,15 @@ Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [architecture](architecture.md), [verification](verification.md) and
 [research](research.md). Finish [02a — shared preparation jobs](slices/02a-preparation-jobs.md)
 and [02 — immutable assets](slices/02-assets.md) together: import must return the
-shared jobId, with frozen-input retry/cancel semantics. Core asset and queue work
-run in separate worktrees, sharing the extracted Catalog owner. Keep the native
+shared jobId, with frozen-input retry/cancel semantics. Core assets and generic jobs are integrated. Public asset admission and job
+controls are under verification; import ownership and queue admission now commit
+atomically, including rejection at full capacity. Keep the native
 probe's presentation-time mapping when integrating admission.
 
 Implement [03 — edits](slices/03-edits.md) on the accepted
-[03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Independent native work is
+[03a exact-boundary model](slices/03a-exact-edit-boundaries.md). The reducer foundation
+passes 24 tests; next implement exact splitting with attachment and link preservation.
+Independent native work is
 [06 — native multi-source reproduction](slices/06-render-reproduction.md).
 The first public checkpoint remains [09](slices/09-first-preview.md).
 Research [12](slices/12-speech-evidence.md), [18](slices/18-voice-reproduction.md)

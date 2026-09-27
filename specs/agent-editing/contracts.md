@@ -153,9 +153,14 @@ earlier operations in that batch. A multi-range removal interprets its ranges
 together against its own pre-operation state. The response returns created IDs,
 split lineage, removed attachments, changed sync groups and the normalized edits.
 Clients can bind IDs with operation-local labels rather than invent hidden IDs.
+The transaction owner supplies a stable identity namespace; created IDs combine
+entity kind, that namespace and a batch-local ordinal. Normalized output records
+ordered per-operation entity replacements/deletions. `changed` describes the net
+final document change, including batches that undo their own intermediate work.
 
 | Operation | Defined behavior |
 | --- | --- |
+| Track / canvas | Add an explicit track, remove an empty track, reorder all video layers, or patch canvas dimensions/rate/background. Removing an occupied track requires explicit clip edits first. |
 | Place / overlap | Place a selected stream without moving other content; require a free interval or a different track. Importing AV and placing it are separate actions. |
 | Insert | Split at insertion time and shift content on an explicit set of tracks by the inserted duration. The command requires ripple scope; named convenience commands can choose a documented scope and show it. |
 | Remove | Delete the addressed range/occurrences; `ripple: none` leaves a gap. Ripple requires explicit track IDs and collapses exactly the removed union. |
