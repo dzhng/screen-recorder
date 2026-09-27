@@ -1,6 +1,6 @@
 # 02a — Shared durable preparation targets
 
-Status: in progress; generic targets and transactional admission implemented, public controls under integration. Dependencies: [00](./00-corpus.md).
+Status: implemented and verified in the isolated service; production cutover remains later work. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -60,8 +60,8 @@ queue submission belongs in that factory. Exact replay still returns the stored
 job before checking capacity.
 
 The core queue regression exercises successful domain persistence and rollback
-on a factory exception or full queue. Public import refusal/retry remains part
-of slice 02's service harness.
+on a factory exception or full queue. Public import refusal/retry and actual process-death recovery pass in
+slice 02's service harness.
 
 Factories run on replay too and must resolve existing domain ownership
 idempotently using the same catalog. Independent review found no actionable

@@ -1,0 +1,20 @@
+(node:91121) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "setupMs": 1487.059916,
+  "reservationMs": 566.1053349999981,
+  "scanMs": 1530.3315830000001,
+  "reads": 10728,
+  "usage": {
+    "recordingId": "daa3e226-bb0f-4eb5-bf46-b90fd62f5963",
+    "observedAt": "2026-09-27T20:34:02.229Z",
+    "measurement": "live",
+    "sourceBytes": 0,
+    "evidenceBytes": 700,
+    "cacheBytes": 1050,
+    "otherBytes": 0,
+    "sharedBytes": 0,
+    "totalBytes": 1750
+  },
+  "totalMs": 3032.804459
+}

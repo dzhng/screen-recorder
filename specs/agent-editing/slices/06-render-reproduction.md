@@ -1,6 +1,6 @@
 # 06 — Reproduce native multi-source rendering
 
-Status: reproduction implemented and frozen, 2026-09-27; bounded temporal mechanism selected, independent visual/code review pending. General untagged-input color policy remains open. Dependencies: [00](./00-corpus.md), [01](./01-composition.md).
+Status: reproduction implemented and frozen, 2026-09-27; bounded temporal mechanism selected, independent visual/code review confirms the demonstrated temporal cases. General untagged-input color policy remains open. Dependencies: [00](./00-corpus.md), [01](./01-composition.md).
 
 The [frozen report](../assets/06-render/report.json) records nine cases, exact
 requests, source/code/output hashes, versions, decoded counters, PCM and resources.

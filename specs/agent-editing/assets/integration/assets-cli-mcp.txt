@@ -1,0 +1,21 @@
+(node:89095) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "passed": true,
+  "observations": [
+    {
+      "assetId": "4d30d080685b32e98e6bc0897ec689dd7c7e67cff7bdc7a6ef3f20cd4b55ac3f",
+      "jobId": "d562b7f2-4896-49fd-9985-eba3411d2253",
+      "duplicateJobId": "61ab0113-e51e-4d8c-a8e1-ad75b2c82d60",
+      "checks": [
+        "CLI import/get/list/origins",
+        "real native probe",
+        "unsupported-codec job diagnostics",
+        "MCP parity",
+        "deduplication",
+        "removed external source",
+        "restart replay"
+      ]
+    }
+  ]
+}

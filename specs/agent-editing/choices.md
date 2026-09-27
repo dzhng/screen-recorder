@@ -194,3 +194,58 @@ how a multi-stream split exposes more than one new identity. The reach: callers
 can compose edits atomically without predicting IDs or sending intermediate
 requests. The left surviving clip and first surviving synchronization group keep
 their IDs; additional children/groups use the same batch identity allocator.
+
+### Metadata stays readable regardless of import history
+
+When: asset admission integration. Confidence: high. Verdict: sound.
+
+The choice: importing the same bytes from many paths adds provenance to one
+asset. Reading its immutable metadata does not also load that entire history;
+asset.origins returns a bounded page and continuation cursor. Asset lists likewise
+return compact summaries, with full stream metadata available by identity.
+
+The gap: the plan required bounded inspection but left response boundaries and
+cursor shape open. Provenance uses the existing lexical database key, so a
+concurrent insertion before the cursor appears on a refreshed traversal. Fixed
+history traverses exactly once. The reach: agents must follow pagination to inspect
+all origins, while a large history cannot make ordinary metadata unreadable.
+
+### Keep a safe media extension without making it asset identity
+
+When: immutable asset admission. Confidence: medium. Verdict: sound.
+
+The choice: two files with identical bytes share one hash identity, while the
+managed file retains a bounded, safe original extension so native decoders can
+open it. The first admitted copy owns the stored filename. Native probing, rather
+than the extension, determines the actual streams. The gap: the plan did not
+specify physical names; extensionless managed movies failed AVFoundation decoding.
+The reach: original bytes remain unchanged, but extensionless or mislabeled input
+may still produce an explicit native decode error. This does not classify its
+codec as unsupported or introduce a second decoder into production.
+
+### Compare native render timing independently from color interpretation
+
+When: slice 06 reproduction. Confidence: medium. Verdict: sound.
+
+The choice: use the bounded reader/compositor/writer mechanism for the demonstrated
+preview, gap and tail timing cases. Keep untagged color interpretation separate:
+known synthetic colors get separately hashed tagged derivative fixtures, while
+original untagged files retain their own diagnostic results. The gap: native
+platform guesses can differ from the generator's intended profile. The reach:
+future rendering must preserve the winning timing mechanism and explicitly settle
+color conversion; passing a tagged fixture cannot authorize retagging arbitrary
+user footage or claim every AVFoundation composition configuration fails.
+
+### Preserve generated duration and expose the actual joins
+
+When: slice 18 research. Confidence: medium. Verdict: sound.
+
+The choice: generate one word and one phrase using a five-second local reference,
+then insert the complete generated PCM between untouched original samples. A
+longer generated phrase lengthens the result rather than being silently squeezed
+into its requested slot. Three path origins use identical reference bytes to
+isolate path handling, and are explicitly not evidence of managed project reuse.
+The gap: the reproduction needed concrete bounded texts, reference duration and
+join treatment. The reach: generation remains a candidate until words, voice and
+joins pass; seed, numerical speed and exact PCM preservation do not certify
+speech quality. The agent will choose any eventual trim, stretch or fade explicitly.

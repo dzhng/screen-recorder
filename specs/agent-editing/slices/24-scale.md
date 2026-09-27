@@ -2,7 +2,10 @@
 
 Status: not started. Carry the unresolved inherited 300-second audio streaming
 deadline from [baseline maintenance](../assets/00-baseline/audio-fix/review.md);
-neither baseline nor changed diagnostic establishes a pass. Dependencies: [23](./23-cutover.md).
+neither baseline nor changed diagnostic establishes a pass. The inherited storage
+inventory deadline also failed during concurrent build/native tests but passes
+unchanged in isolation; retain this load-sensitive case in final scale verification.
+See [integration evidence](../assets/integration/README.md). Dependencies: [23](./23-cutover.md).
 
 ## Contract
 

@@ -1,0 +1,14 @@
+(node:87950) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ owned imports decode after rename and preserve VFR and orientation (9113.100666ms)
+✔ baseline audio formats admit owned bytes and actually decode PCM (7441.465708ms)
+✔ PNG, JPEG, H264 MP4 and HEVC MP4 admit without replacing original bytes (5282.574375ms)
+✔ an actual unsupported FFV1 stream is reported and never published (610.054625ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22804.538875

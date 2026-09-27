@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; composition complete, asset/job integration underway. Updated 2026-09-27.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits underway. Updated 2026-09-27.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) remains the record of user intent.
@@ -9,25 +9,26 @@ the [map](MAP.md) remains the record of user intent.
 
 Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [architecture](architecture.md), [verification](verification.md) and
-[research](research.md). Finish [02a — shared preparation jobs](slices/02a-preparation-jobs.md)
-and [02 — immutable assets](slices/02-assets.md) together: import must return the
-shared jobId, with frozen-input retry/cancel semantics. Core assets and generic jobs are integrated. Public asset admission and job
-controls are under verification; import ownership and queue admission now commit
-atomically, including rejection at full capacity. Keep the native
-probe's presentation-time mapping when integrating admission.
+[research](research.md). Continue [03 — edits](slices/03-edits.md): exact splitting,
+attachment partitioning and batch labels pass; implement trim/remove and explicit
+ripple next, then move/insert/replace/retime/duplicate. Preserve the accepted
+[03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Durable projects
+[04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow the
+completed reducer; the first public editing checkpoint remains [09](slices/09-first-preview.md).
 
-Implement [03 — edits](slices/03-edits.md) on the accepted
-[03a exact-boundary model](slices/03a-exact-edit-boundaries.md). The reducer foundation
-and exact splitting pass 29 tests; next implement trim/remove with attachment
-and link preservation, then explicit ripple.
-Independent native work is
-[06 — native multi-source reproduction](slices/06-render-reproduction.md).
-The first public checkpoint remains [09](slices/09-first-preview.md).
-Research [12](slices/12-speech-evidence.md), [18](slices/18-voice-reproduction.md)
-and [20](slices/20-camera-reproduction.md) can proceed independently.
-Stretch [13](slices/13-stretch-reproduction.md) has frozen experiments but no
-accepted endpoint recipe; [13a](slices/13a-stretch-endpoints.md) must pass before
-[14](slices/14-retiming.md). Do not integrate an unaccepted recipe.
+Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
+are integrated in the isolated service. Import identity and job admission commit
+together, and provenance is paginated separately from immutable metadata. Keep
+installed recording behavior isolated until the planned cutover.
+
+Research gates remain open: [06](slices/06-render-reproduction.md) has an independently
+reviewed temporal mechanism, with general color handling under investigation;
+[12](slices/12-speech-evidence.md) reproduces the failing timing baseline;
+[13a](slices/13a-stretch-endpoints.md) has corrected numerical support evidence but
+needs protected-word/listening and short-duration policy acceptance; and
+[18](slices/18-voice-reproduction.md) runs offline but lacks verified words/identity
+and joins. Do not adopt numerical success as speech-quality proof. Camera
+[20](slices/20-camera-reproduction.md) is still unstarted.
 
 Current evidence:
 
@@ -45,8 +46,19 @@ Current evidence:
   stream offsets and B-frame edit lists. Full asset admission is not complete.
 - [03a exact boundaries](assets/03a-boundaries/review.md): 19 composition tests
   and corpus probe pass; split preservation is falsified by a rounding mutation.
-- [13 stretch](assets/13-stretch/README.md): pitch/count experiments pass; endpoint
-  treatment, independent listening and visual acceptance remain open.
+- [03 splits](assets/03-edits/split/tests.txt): 29 tests and 1,326 exact split cases
+  pass; independent reviews caught and verified the selected-member link fix.
+- [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
+  Broad preservation is 515/516 under concurrent work; the unchanged storage
+  suite passes 13/13 in isolation. The concurrent deadline remains recorded.
+- [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
+  independent review accepts demonstrated timing, with color scope explicit.
+- [12 speech](assets/12-speech/README.md): 15 independent timing marks still fail
+  the existing gate; full semantic labels remain incomplete.
+- [13a support](assets/13a-support-review/README.md): corrected whole-output
+  measurements preserve candidate bytes; speech-quality acceptance remains open.
+- [18 voice](assets/18-voice/README.md): six offline generations, exact PCM splice
+  checks; requested text, identity, delivery and listening remain unverified.
 
 Keep old media intact and develop against isolated homes; the new library is
 fresh, with no history migration or compatibility engine. No model/runtime
@@ -122,8 +134,8 @@ research blocks the first preview. Individual dependency lists are checked for c
 
 - [x] [00 — Freeze fixtures and preservation evidence](slices/00-corpus.md)
 - [x] [01 — Composition identity and time](slices/01-composition.md)
-- [ ] [02a — Shared durable preparation targets](slices/02a-preparation-jobs.md)
-- [ ] [02 — Immutable asset admission](slices/02-assets.md)
+- [x] [02a — Shared durable preparation targets](slices/02a-preparation-jobs.md)
+- [x] [02 — Immutable asset admission](slices/02-assets.md)
 - [x] [03a — Preserve exact edit boundaries](slices/03a-exact-edit-boundaries.md)
 - [ ] [03 — Structural edits and attachments](slices/03-edits.md)
 - [ ] [04 — Durable projects and shared commands](slices/04-projects.md)
