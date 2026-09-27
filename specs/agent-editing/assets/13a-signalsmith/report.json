@@ -1,0 +1,2685 @@
+{
+  "sourceCommit": "71e7aa9658a50a044ee23ccf0063005ad21a567f",
+  "runnerSha256": "1ddfd2fd597e0c88c726330fd0fa9368aba7a535829a206997b8b386cc1484fa",
+  "cppSha256": "edefb8f3aac5cea1fb6118b1bca0dd1475ac47b0252103bdca348d1cfb802bc0",
+  "referenceReportSha256": "482dc2320b00b29d3a5434e4ee276c69fd43a337e10fac4ec95f809570b32c76",
+  "dependency": {
+    "purpose": "Research-only frozen headers; not linked into the product",
+    "stretch": {
+      "url": "https://github.com/Signalsmith-Audio/signalsmith-stretch",
+      "commit": "a670068d9aeb64913331d5cc29337b19a457a7df",
+      "version": "1.3.2"
+    },
+    "linear": {
+      "url": "https://github.com/Signalsmith-Audio/linear",
+      "commit": "de55e6a50ffcf6f8f43f649692d94691c7025151",
+      "tag": "0.6.4"
+    },
+    "licenses": [
+      "LICENSE-stretch.txt",
+      "LICENSE-linear.txt"
+    ],
+    "backend": "Portable built-in FFT; no platform backend macro",
+    "files": [
+      {
+        "path": "signalsmith-stretch.h",
+        "sha256": "1188667959ac19dd40c0a6abbce694e44705615ec4f0e8db8af0f1cfb4c5dea7"
+      },
+      {
+        "path": "LICENSE-stretch.txt",
+        "sha256": "ee2ef82481ffb445ecdd4b3a4c1f82c0cddb2da8fe39d8e8dc384fffb3e7f06f"
+      },
+      {
+        "path": "LICENSE-linear.txt",
+        "sha256": "072b5e9eb5b22880bdf6256324654cf3ce53dba828edb911921121e1be09d9c3"
+      },
+      {
+        "path": "signalsmith-linear/stft.h",
+        "sha256": "7422ff5ddc2a017dc0587dcce99ce5ba30a2414bc2996081f6b00d56905d9b8c"
+      },
+      {
+        "path": "signalsmith-linear/fft.h",
+        "sha256": "fb55f69ac14cdbac66b9c76053069ff63bc36d18af20d8c028b9acc0aad6516a"
+      },
+      {
+        "path": "signalsmith-linear/linear.h",
+        "sha256": "9e777fe14653d496f5e0678fe4b9d8b01a0909bb2130bf4757a21ccad7292a02"
+      },
+      {
+        "path": "signalsmith-linear/platform/fft-linear.h",
+        "sha256": "7c2ed61df7895af7b1a37f1073f833abdc971953277ece58128c9c7b4ca6cef2"
+      }
+    ]
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "flags": [
+    "-std=c++17",
+    "-O2"
+  ],
+  "sampleRate": 48000,
+  "supportThresholdAmplitude": 1e-7,
+  "supportHalfWindowFrames": 2880,
+  "recipe": "Equal input/output frame counts copy selected PCM exactly. Otherwise presetDefault mono48k, fixed seed0, pitch factor1, exact(selected input, declared output count). Upstream outputSeek handles preroll; flush subtracts reversed residual tail to shape endpoints. No post-hoc crop, extra real source, added output zero padding or wrapper crossfade. Tail mode separately follows upstream seek/process/flush example for support diagnostics.",
+  "listening": "UNVERIFIED; endpoint impulse spread or attenuation is not missing-speech evidence",
+  "results": [
+    {
+      "case": "tone",
+      "speed": 0.8,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "expectedFrames": 180000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 180000,
+        "renderSeconds": 0.0466258,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3735552,
+      "sha256": "35d07d4a2b9408dd386ff37b845b66a7e9acd5a5918b78f2923b6d07f9435205",
+      "energy": {
+        "sumSquares": 3592.4718137872146,
+        "peak": 0.2051955610513687
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 185760,
+        "renderSeconds": 0.0490396,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 1.2247389114767242,
+        "peak": 0.057956572622060776
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.5117867894926016,
+        "peak": 0.10454420745372772
+      },
+      "pitchHz": 440.00007487447374,
+      "pitchErrorPercent": 0.000017016925846213837
+    },
+    {
+      "case": "tone",
+      "speed": 0.9,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "expectedFrames": 160000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 160000,
+        "renderSeconds": 0.0620376,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3637248,
+      "sha256": "1927cd32563116a5102cb643f716690001f71d756600c868d47afac020cb7332",
+      "energy": {
+        "sumSquares": 3199.332096881498,
+        "peak": 0.24689771234989166
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 165760,
+        "renderSeconds": 0.129149,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 14.826109865105616,
+        "peak": 0.1702803075313568
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.11402182542286887,
+        "peak": 0.04598734900355339
+      },
+      "pitchHz": 439.99994757819235,
+      "pitchErrorPercent": 0.000011914047193251065
+    },
+    {
+      "case": "tone",
+      "speed": 1,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "expectedFrames": 144000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 144000,
+        "renderSeconds": 0.000025125,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3555328,
+      "sha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "energy": {
+        "sumSquares": 2880.0000176690937,
+        "peak": 0.20000000298023224
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 149760,
+        "renderSeconds": 0.0445057,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 2.332541895688802,
+        "peak": 0.09036093205213547
+      },
+      "preRollEnergy": {
+        "sumSquares": 5.861700487765025e-13,
+        "peak": 5.12230968752192e-8
+      },
+      "pitchHz": 440.0000004584029,
+      "pitchErrorPercent": 1.0418248486132597e-7
+    },
+    {
+      "case": "tone",
+      "speed": 1.25,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "expectedFrames": 115200,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 115200,
+        "renderSeconds": 0.0407119,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3457024,
+      "sha256": "b616ee393c8bb39481456102536dd30df6dedc7d60ac62b07ca6a625540d610c",
+      "energy": {
+        "sumSquares": 2308.7736535925783,
+        "peak": 0.33407625555992126
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 120960,
+        "renderSeconds": 0.0437795,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 4.693872739087633,
+        "peak": 0.16056787967681885
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.5846049539976137,
+        "peak": 0.08453583717346191
+      },
+      "pitchHz": 439.9999858611829,
+      "pitchErrorPercent": 0.000003213367527621358
+    },
+    {
+      "case": "impulses",
+      "speed": 0.8,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "expectedFrames": 180000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 180000,
+        "renderSeconds": 0.0894015,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3751936,
+      "sha256": "42496c2dda33fdc879164365fc39e62e46f173fc302467b9f2f6f96966f30f9f",
+      "energy": {
+        "sumSquares": 3.851883592625317,
+        "peak": 0.8595116138458252
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 185760,
+        "renderSeconds": 0.0683978,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.10512861490453754,
+        "peak": 0.023532740771770477
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.000001759594727846949,
+        "peak": 0.00007547264249296859
+      },
+      "impulses": [
+        {
+          "exact": {
+            "nominal": 1200,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 4079,
+            "peak": 0.8595116138458252,
+            "peakFrame": 1197,
+            "offsetFrames": -3
+          },
+          "tail": {
+            "nominal": 1200,
+            "firstAbove1eMinus7": -1680,
+            "lastAbove1eMinus7": 4079,
+            "peak": 0.8595039248466492,
+            "peakFrame": 1197,
+            "offsetFrames": -3
+          }
+        },
+        {
+          "exact": {
+            "nominal": 15000,
+            "firstAbove1eMinus7": 12120,
+            "lastAbove1eMinus7": 17879,
+            "peak": 0.8389275670051575,
+            "peakFrame": 14986,
+            "offsetFrames": -14
+          },
+          "tail": {
+            "nominal": 15000,
+            "firstAbove1eMinus7": 12120,
+            "lastAbove1eMinus7": 17879,
+            "peak": 0.8389275670051575,
+            "peakFrame": 14986,
+            "offsetFrames": -14
+          }
+        },
+        {
+          "exact": {
+            "nominal": 60000,
+            "firstAbove1eMinus7": 57120,
+            "lastAbove1eMinus7": 62879,
+            "peak": 0.852381706237793,
+            "peakFrame": 59978,
+            "offsetFrames": -22
+          },
+          "tail": {
+            "nominal": 60000,
+            "firstAbove1eMinus7": 57120,
+            "lastAbove1eMinus7": 62879,
+            "peak": 0.852381706237793,
+            "peakFrame": 59978,
+            "offsetFrames": -22
+          }
+        },
+        {
+          "exact": {
+            "nominal": 120000,
+            "firstAbove1eMinus7": 117120,
+            "lastAbove1eMinus7": 122879,
+            "peak": 0.7289247512817383,
+            "peakFrame": 119988,
+            "offsetFrames": -12
+          },
+          "tail": {
+            "nominal": 120000,
+            "firstAbove1eMinus7": 117120,
+            "lastAbove1eMinus7": 122879,
+            "peak": 0.7289247512817383,
+            "peakFrame": 119988,
+            "offsetFrames": -12
+          }
+        },
+        {
+          "exact": {
+            "nominal": 178800,
+            "firstAbove1eMinus7": 175920,
+            "lastAbove1eMinus7": 179999,
+            "peak": 0.5905342102050781,
+            "peakFrame": 178792,
+            "offsetFrames": -8
+          },
+          "tail": {
+            "nominal": 178800,
+            "firstAbove1eMinus7": 175920,
+            "lastAbove1eMinus7": 181679,
+            "peak": 0.5904296040534973,
+            "peakFrame": 178792,
+            "offsetFrames": -8
+          }
+        }
+      ]
+    },
+    {
+      "case": "impulses",
+      "speed": 0.9,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "expectedFrames": 160000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 160000,
+        "renderSeconds": 0.0613165,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3702784,
+      "sha256": "a848a7a5970d94122b90e7cc1efe79d299a6a2096db0edcf5ad509423e5bab77",
+      "energy": {
+        "sumSquares": 3.505553825469245,
+        "peak": 0.8189468383789062
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 165760,
+        "renderSeconds": 0.0649817,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.13537073212727058,
+        "peak": 0.02883169613778591
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.000009961991617262986,
+        "peak": 0.0001206446613650769
+      },
+      "impulses": [
+        {
+          "exact": {
+            "nominal": 1066.6666666666667,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 3946,
+            "peak": 0.8189468383789062,
+            "peakFrame": 1063,
+            "offsetFrames": -3.6666666666667425
+          },
+          "tail": {
+            "nominal": 1066.6666666666667,
+            "firstAbove1eMinus7": -1814,
+            "lastAbove1eMinus7": 3946,
+            "peak": 0.8188921213150024,
+            "peakFrame": 1063,
+            "offsetFrames": -3.6666666666667425
+          }
+        },
+        {
+          "exact": {
+            "nominal": 13333.333333333332,
+            "firstAbove1eMinus7": 10453,
+            "lastAbove1eMinus7": 16213,
+            "peak": 0.6467539072036743,
+            "peakFrame": 13313,
+            "offsetFrames": -20.33333333333212
+          },
+          "tail": {
+            "nominal": 13333.333333333332,
+            "firstAbove1eMinus7": 10453,
+            "lastAbove1eMinus7": 16213,
+            "peak": 0.6467539072036743,
+            "peakFrame": 13313,
+            "offsetFrames": -20.33333333333212
+          }
+        },
+        {
+          "exact": {
+            "nominal": 53333.33333333333,
+            "firstAbove1eMinus7": 50453,
+            "lastAbove1eMinus7": 56213,
+            "peak": 0.729437530040741,
+            "peakFrame": 53323,
+            "offsetFrames": -10.333333333328483
+          },
+          "tail": {
+            "nominal": 53333.33333333333,
+            "firstAbove1eMinus7": 50453,
+            "lastAbove1eMinus7": 56213,
+            "peak": 0.729437530040741,
+            "peakFrame": 53323,
+            "offsetFrames": -10.333333333328483
+          }
+        },
+        {
+          "exact": {
+            "nominal": 106666.66666666666,
+            "firstAbove1eMinus7": 103786,
+            "lastAbove1eMinus7": 109546,
+            "peak": 0.7679768800735474,
+            "peakFrame": 106655,
+            "offsetFrames": -11.666666666656965
+          },
+          "tail": {
+            "nominal": 106666.66666666666,
+            "firstAbove1eMinus7": 103786,
+            "lastAbove1eMinus7": 109546,
+            "peak": 0.7679768800735474,
+            "peakFrame": 106655,
+            "offsetFrames": -11.666666666656965
+          }
+        },
+        {
+          "exact": {
+            "nominal": 158933.33333333334,
+            "firstAbove1eMinus7": 156053,
+            "lastAbove1eMinus7": 159999,
+            "peak": 0.5601235628128052,
+            "peakFrame": 158906,
+            "offsetFrames": -27.333333333343035
+          },
+          "tail": {
+            "nominal": 158933.33333333334,
+            "firstAbove1eMinus7": 156053,
+            "lastAbove1eMinus7": 161813,
+            "peak": 0.5555427670478821,
+            "peakFrame": 158906,
+            "offsetFrames": -27.333333333343035
+          }
+        }
+      ]
+    },
+    {
+      "case": "impulses",
+      "speed": 1,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "expectedFrames": 144000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 144000,
+        "renderSeconds": 0.000021666,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3538944,
+      "sha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "energy": {
+        "sumSquares": 3.2000000953674324,
+        "peak": 0.800000011920929
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 149760,
+        "renderSeconds": 0.0485986,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.10640568780611957,
+        "peak": 0.03019939363002777
+      },
+      "preRollEnergy": {
+        "sumSquares": 2.8256751213454278e-15,
+        "peak": 2.565132284360061e-8
+      },
+      "impulses": [
+        {
+          "exact": {
+            "nominal": 960,
+            "firstAbove1eMinus7": 960,
+            "lastAbove1eMinus7": 960,
+            "peak": 0.800000011920929,
+            "peakFrame": 960,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 960,
+            "firstAbove1eMinus7": 960,
+            "lastAbove1eMinus7": 960,
+            "peak": 0.7993959188461304,
+            "peakFrame": 960,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 12000,
+            "firstAbove1eMinus7": 12000,
+            "lastAbove1eMinus7": 12000,
+            "peak": 0.800000011920929,
+            "peakFrame": 12000,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 12000,
+            "firstAbove1eMinus7": 12000,
+            "lastAbove1eMinus7": 12000,
+            "peak": 0.800000011920929,
+            "peakFrame": 12000,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 48000,
+            "firstAbove1eMinus7": 48000,
+            "lastAbove1eMinus7": 48000,
+            "peak": 0.800000011920929,
+            "peakFrame": 48000,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 48000,
+            "firstAbove1eMinus7": 48000,
+            "lastAbove1eMinus7": 48000,
+            "peak": 0.800000011920929,
+            "peakFrame": 48000,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 96000,
+            "firstAbove1eMinus7": 96000,
+            "lastAbove1eMinus7": 96000,
+            "peak": 0.800000011920929,
+            "peakFrame": 96000,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 96000,
+            "firstAbove1eMinus7": 96000,
+            "lastAbove1eMinus7": 96000,
+            "peak": 0.800000011920929,
+            "peakFrame": 96000,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 143040,
+            "firstAbove1eMinus7": 143040,
+            "lastAbove1eMinus7": 143040,
+            "peak": 0.800000011920929,
+            "peakFrame": 143040,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 143040,
+            "firstAbove1eMinus7": 142560,
+            "lastAbove1eMinus7": 145919,
+            "peak": 0.7945991158485413,
+            "peakFrame": 143040,
+            "offsetFrames": 0
+          }
+        }
+      ]
+    },
+    {
+      "case": "impulses",
+      "speed": 1.25,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "expectedFrames": 115200,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 115200,
+        "renderSeconds": 0.0373891,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3522560,
+      "sha256": "c7a4e5157a533bacce0f9d547daa21e1ec98688001820b00dba9a5b1ad5023a1",
+      "energy": {
+        "sumSquares": 2.4891278527750678,
+        "peak": 0.7073419094085693
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 120960,
+        "renderSeconds": 0.0371346,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.10437064544510584,
+        "peak": 0.03128509595990181
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.0000017962868422323498,
+        "peak": 0.00007545917469542474
+      },
+      "impulses": [
+        {
+          "exact": {
+            "nominal": 768,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 3647,
+            "peak": 0.7073419094085693,
+            "peakFrame": 768,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 768,
+            "firstAbove1eMinus7": -2112,
+            "lastAbove1eMinus7": 3647,
+            "peak": 0.7073098421096802,
+            "peakFrame": 768,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 9600,
+            "firstAbove1eMinus7": 6720,
+            "lastAbove1eMinus7": 12479,
+            "peak": 0.6930344700813293,
+            "peakFrame": 9600,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 9600,
+            "firstAbove1eMinus7": 6720,
+            "lastAbove1eMinus7": 12479,
+            "peak": 0.6930344700813293,
+            "peakFrame": 9600,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 38400,
+            "firstAbove1eMinus7": 35520,
+            "lastAbove1eMinus7": 41279,
+            "peak": 0.6930344700813293,
+            "peakFrame": 38400,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 38400,
+            "firstAbove1eMinus7": 35520,
+            "lastAbove1eMinus7": 41279,
+            "peak": 0.6930344700813293,
+            "peakFrame": 38400,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 76800,
+            "firstAbove1eMinus7": 73920,
+            "lastAbove1eMinus7": 79679,
+            "peak": 0.5027890801429749,
+            "peakFrame": 76800,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 76800,
+            "firstAbove1eMinus7": 73920,
+            "lastAbove1eMinus7": 79679,
+            "peak": 0.5027890801429749,
+            "peakFrame": 76800,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 114432,
+            "firstAbove1eMinus7": 111552,
+            "lastAbove1eMinus7": 115199,
+            "peak": 0.3897935450077057,
+            "peakFrame": 114432,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 114432,
+            "firstAbove1eMinus7": 111552,
+            "lastAbove1eMinus7": 117311,
+            "peak": 0.3889782130718231,
+            "peakFrame": 114432,
+            "offsetFrames": 0
+          }
+        }
+      ]
+    },
+    {
+      "case": "silence",
+      "speed": 0.8,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "expectedFrames": 180000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 180000,
+        "renderSeconds": 0.0469371,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3751936,
+      "sha256": "943696a366338cdf1765680dd633ef600abb4a015c7c6bd3d41cd7d585bc98c8",
+      "energy": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 185760,
+        "renderSeconds": 0.0461956,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "preRollEnergy": {
+        "sumSquares": 0,
+        "peak": 0
+      }
+    },
+    {
+      "case": "silence",
+      "speed": 0.9,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "expectedFrames": 160000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 160000,
+        "renderSeconds": 0.040532,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3686400,
+      "sha256": "3d00ed86b663cd1b8ac82b105257cd109412f92dca442048532439f920a7f645",
+      "energy": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 165760,
+        "renderSeconds": 0.0595577,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "preRollEnergy": {
+        "sumSquares": 0,
+        "peak": 0
+      }
+    },
+    {
+      "case": "silence",
+      "speed": 1,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "expectedFrames": 144000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 144000,
+        "renderSeconds": 0.000026292,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3538944,
+      "sha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "energy": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 149760,
+        "renderSeconds": 0.0438113,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "preRollEnergy": {
+        "sumSquares": 0,
+        "peak": 0
+      }
+    },
+    {
+      "case": "silence",
+      "speed": 1.25,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "30fafbdc0facf210a26498db982f7ff8ad1e0b9a805816731c72e356a768c162",
+      "expectedFrames": 115200,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 115200,
+        "renderSeconds": 0.0294219,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3489792,
+      "sha256": "91d2d62a5700cbf9404e3c575c3b6fc19e1e31c24c6fcfc0a2cf70d41314b447",
+      "energy": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 120960,
+        "renderSeconds": 0.0311795,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0,
+        "peak": 0
+      },
+      "preRollEnergy": {
+        "sumSquares": 0,
+        "peak": 0
+      }
+    },
+    {
+      "case": "phrase",
+      "speed": 0.8,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 180000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 180000,
+        "renderSeconds": 0.048801,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3735552,
+      "sha256": "cacdd12ea5dc1692ff48d7478005c607ac38260a6d97e278da8553d7bbe42e4c",
+      "energy": {
+        "sumSquares": 18.049581866356146,
+        "peak": 0.07358064502477646
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 185760,
+        "renderSeconds": 0.0485049,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.02405901575723563,
+        "peak": 0.006953522562980652
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.0029913419336869886,
+        "peak": 0.011209864169359207
+      }
+    },
+    {
+      "case": "phrase",
+      "speed": 0.9,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 160000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 160000,
+        "renderSeconds": 0.0476167,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3653632,
+      "sha256": "1dfe95c57e6dbf3e79d7ad10ccce06f0e30c42065218266c0f44b01166554a0c",
+      "energy": {
+        "sumSquares": 16.86101813113181,
+        "peak": 0.07570242136716843
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 165760,
+        "renderSeconds": 0.051419,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.034471527116265235,
+        "peak": 0.009995046071708202
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.0009764676888526034,
+        "peak": 0.0044252704828977585
+      }
+    },
+    {
+      "case": "phrase",
+      "speed": 1,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 144000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 144000,
+        "renderSeconds": 0.00002525,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3571712,
+      "sha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "energy": {
+        "sumSquares": 15.962752654277958,
+        "peak": 0.08792244642972946
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 149760,
+        "renderSeconds": 0.0336709,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.014806939262604502,
+        "peak": 0.0062428731471300125
+      },
+      "preRollEnergy": {
+        "sumSquares": 4.487201278413464e-15,
+        "peak": 5.890067100722263e-9
+      }
+    },
+    {
+      "case": "phrase",
+      "speed": 1.25,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 115200,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 115200,
+        "renderSeconds": 0.0249473,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3489792,
+      "sha256": "b4768c8a082b6b496707b3a95d44a906fe9b7a510d09ab75508f3371d8989aec",
+      "energy": {
+        "sumSquares": 11.342796710988903,
+        "peak": 0.07613904029130936
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 120960,
+        "renderSeconds": 0.0242613,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.0149294777904739,
+        "peak": 0.006937060505151749
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.01505124191035678,
+        "peak": 0.017578473314642906
+      }
+    },
+    {
+      "case": "rushed-candidate",
+      "speed": 0.8,
+      "sourceFrames": [
+        0,
+        96000
+      ],
+      "inputSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "expectedFrames": 120000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 120000,
+        "renderSeconds": 0.0287502,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3276800,
+      "sha256": "041761cd787cd8b1663339eda850c73dcd01b77d1ee44068ea28bf2e2b4ce4b7",
+      "energy": {
+        "sumSquares": 13.795048719782601,
+        "peak": 0.054892007261514664
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 125760,
+        "renderSeconds": 0.0234887,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.06665047538072529,
+        "peak": 0.015168730169534683
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.00023218435812996378,
+        "peak": 0.0010497954208403826
+      }
+    },
+    {
+      "case": "rushed-candidate",
+      "speed": 0.9,
+      "sourceFrames": [
+        0,
+        96000
+      ],
+      "inputSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "expectedFrames": 106666,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 106666,
+        "renderSeconds": 0.019689,
+        "identityBypass": false,
+        "speed": 0.900006,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3260416,
+      "sha256": "8ea9b16e5c6c997c13ba57e0d92d21940c14966c62ab02d998593a32ffc18ba1",
+      "energy": {
+        "sumSquares": 12.832663548490093,
+        "peak": 0.054467566311359406
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 112426,
+        "renderSeconds": 0.0255572,
+        "identityBypass": false,
+        "speed": 0.900006,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.1048688369592381,
+        "peak": 0.0212025735527277
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.0000945484584578596,
+        "peak": 0.0010840498143807054
+      }
+    },
+    {
+      "case": "rushed-candidate",
+      "speed": 1,
+      "sourceFrames": [
+        0,
+        96000
+      ],
+      "inputSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "expectedFrames": 96000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 96000,
+        "renderSeconds": 0.00001425,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3145728,
+      "sha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "energy": {
+        "sumSquares": 11.98692809159217,
+        "peak": 0.06394107639789581
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 101760,
+        "renderSeconds": 0.0211309,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.047022343879242076,
+        "peak": 0.012124988250434399
+      },
+      "preRollEnergy": {
+        "sumSquares": 1.4911313031482214e-15,
+        "peak": 3.4706166829323593e-9
+      }
+    },
+    {
+      "case": "rushed-candidate",
+      "speed": 1.25,
+      "sourceFrames": [
+        0,
+        96000
+      ],
+      "inputSha256": "b58cd851c93032f7feaa94741b90e083ce932d08f229c0e844b34f90405f68fb",
+      "expectedFrames": 76800,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 76800,
+        "renderSeconds": 0.0169593,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3145728,
+      "sha256": "de83e4505e441904063937a5cfb2d8959bf33205aec7603ceb262d9825c4473a",
+      "energy": {
+        "sumSquares": 8.770709216418282,
+        "peak": 0.046925850212574005
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 82560,
+        "renderSeconds": 0.0271918,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.06818345512679314,
+        "peak": 0.019898101687431335
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.003087959391638951,
+        "peak": 0.006404191721230745
+      }
+    },
+    {
+      "case": "speech-with-clicks",
+      "speed": 0.8,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "expectedFrames": 180000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 180000,
+        "renderSeconds": 0.0470083,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3768320,
+      "sha256": "81577cadcb1c1d1a0582771da92d78e621ff1ee125929ea61f1d491a3f10674b",
+      "energy": {
+        "sumSquares": 19.229226582053293,
+        "peak": 0.608256995677948
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 185760,
+        "renderSeconds": 0.046066,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.023849280525340327,
+        "peak": 0.007174849510192871
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.0029913419336869886,
+        "peak": 0.011209864169359207
+      }
+    },
+    {
+      "case": "speech-with-clicks",
+      "speed": 0.9,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "expectedFrames": 160000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 160000,
+        "renderSeconds": 0.0370292,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3670016,
+      "sha256": "03f5cbe10c2d61141bcd08cf1df92f33715e117eb98780db0c11de1af43f3230",
+      "energy": {
+        "sumSquares": 17.9107014906499,
+        "peak": 0.5170825719833374
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 165760,
+        "renderSeconds": 0.0349507,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.033356945423253244,
+        "peak": 0.009893051348626614
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.0009764676888526034,
+        "peak": 0.0044252704828977585
+      }
+    },
+    {
+      "case": "speech-with-clicks",
+      "speed": 1,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "expectedFrames": 144000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 144000,
+        "renderSeconds": 0.000016584,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3538944,
+      "sha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "energy": {
+        "sumSquares": 16.95439182303327,
+        "peak": 0.7241265177726746
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 149760,
+        "renderSeconds": 0.0266517,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.01480693914873111,
+        "peak": 0.0062428731471300125
+      },
+      "preRollEnergy": {
+        "sumSquares": 4.487201278413464e-15,
+        "peak": 5.890067100722263e-9
+      }
+    },
+    {
+      "case": "speech-with-clicks",
+      "speed": 1.25,
+      "sourceFrames": [
+        0,
+        144000
+      ],
+      "inputSha256": "c6b1b99961d59aec8701718a9f8bb1742c782caff984f8411d110883fff38a8e",
+      "expectedFrames": 115200,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 115200,
+        "renderSeconds": 0.021669,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3489792,
+      "sha256": "08d1ca41ffc14006827d87db685aefcd9a01cb7d13df90c8881be0d147cf099c",
+      "energy": {
+        "sumSquares": 12.10194728972868,
+        "peak": 0.40522122383117676
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 120960,
+        "renderSeconds": 0.0241206,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.014396462179235573,
+        "peak": 0.006823852192610502
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.01505124191035678,
+        "peak": 0.017578473314642906
+      }
+    },
+    {
+      "case": "local-phrase",
+      "speed": 0.8,
+      "sourceFrames": [
+        24000,
+        96000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 90000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.0196683,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3096576,
+      "sha256": "df13f5fa3d4f6cbb008232cb23c7beca8cbb1ff12bf87077855b86b4926a089b",
+      "energy": {
+        "sumSquares": 5.914510914366841,
+        "peak": 0.049930911511182785
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 95760,
+        "renderSeconds": 0.0199889,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.015730657665514236,
+        "peak": 0.007447797805070877
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.0034595912080602194,
+        "peak": 0.0055888257920742035
+      },
+      "untouchedNeighbors": "bit-identical",
+      "excludedSourcePoison": "bit-identical selected output"
+    },
+    {
+      "case": "local-phrase",
+      "speed": 0.9,
+      "sourceFrames": [
+        24000,
+        96000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 80000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.0233987,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 3063808,
+      "sha256": "7a5043390101a8c5ecbcd42aca75841cdb0458076f3b6b15144992eaf6cce8a7",
+      "energy": {
+        "sumSquares": 5.524873309027928,
+        "peak": 0.058985933661460876
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 85760,
+        "renderSeconds": 0.0183333,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.012286616717386315,
+        "peak": 0.006212026812136173
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.0006205464387957318,
+        "peak": 0.0020439159125089645
+      },
+      "untouchedNeighbors": "bit-identical",
+      "excludedSourcePoison": "bit-identical selected output"
+    },
+    {
+      "case": "local-phrase",
+      "speed": 1,
+      "sourceFrames": [
+        24000,
+        96000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 72000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 0.000011291,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 2949120,
+      "sha256": "e757747dcacf64a20eeb879e034a8fe18bfd62512f15b3c9c3561519de5d87b0",
+      "energy": {
+        "sumSquares": 5.1806675991683075,
+        "peak": 0.07013949006795883
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 77760,
+        "renderSeconds": 0.0141949,
+        "identityBypass": false,
+        "speed": 1,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.006883743780817176,
+        "peak": 0.004129564389586449
+      },
+      "preRollEnergy": {
+        "sumSquares": 7.252629281456716e-15,
+        "peak": 6.996037082984685e-9
+      },
+      "untouchedNeighbors": "bit-identical",
+      "excludedSourcePoison": "bit-identical selected output"
+    },
+    {
+      "case": "local-phrase",
+      "speed": 1.25,
+      "sourceFrames": [
+        24000,
+        96000
+      ],
+      "inputSha256": "e5ac338ea2a1f68a708bc05f1db521e449a584b174d787588da43ac9f740f0f7",
+      "expectedFrames": 57600,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.0183677,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peakResidentBytes": 2998272,
+      "sha256": "a2e07bbac77ceb45e183d09e0feb701ac41b2cef21e5a30a731e37587be9cd16",
+      "energy": {
+        "sumSquares": 3.7986676867607754,
+        "peak": 0.06041139364242554
+      },
+      "tail": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63360,
+        "renderSeconds": 0.0255704,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "tail"
+      },
+      "tailEnergy": {
+        "sumSquares": 0.008243024075853643,
+        "peak": 0.004731085151433945
+      },
+      "preRollEnergy": {
+        "sumSquares": 0.016337834346412585,
+        "peak": 0.021138299256563187
+      },
+      "untouchedNeighbors": "bit-identical",
+      "excludedSourcePoison": "bit-identical selected output"
+    }
+  ],
+  "endpoints": [
+    {
+      "phase": 0,
+      "speed": 0.8,
+      "wanted": 90000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.0240729,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "sha256": "76c8782659414bc7d66570f0cf3b3af8299e071f258ae577e4d85cc92dded51c",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 0,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2879,
+            "peak": 0.8321861028671265,
+            "peakFrame": 0,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 0,
+            "firstAbove1eMinus7": -1440,
+            "lastAbove1eMinus7": 2879,
+            "peak": 0.8321384191513062,
+            "peakFrame": 0,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 89998.75,
+            "firstAbove1eMinus7": 87118,
+            "lastAbove1eMinus7": 89999,
+            "peak": 0.5963855981826782,
+            "peakFrame": 89982,
+            "offsetFrames": -16.75
+          },
+          "tail": {
+            "nominal": 89998.75,
+            "firstAbove1eMinus7": 87118,
+            "lastAbove1eMinus7": 92878,
+            "peak": 0.5162787437438965,
+            "peakFrame": 90716,
+            "offsetFrames": 717.25
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.6394273512719518,
+        "peak": 0.5162787437438965
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 0.9,
+      "wanted": 80000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.0195774,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "sha256": "ac8179db746b0160c5f3b1a31dd7d08c2bd0b442509ebe9b5bbd00aa573b1cfe",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 0,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2879,
+            "peak": 0.8081405162811279,
+            "peakFrame": 0,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 0,
+            "firstAbove1eMinus7": -1440,
+            "lastAbove1eMinus7": 2879,
+            "peak": 0.8081204295158386,
+            "peakFrame": 0,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 79998.88888888889,
+            "firstAbove1eMinus7": 77118,
+            "lastAbove1eMinus7": 79999,
+            "peak": 0.5991769433021545,
+            "peakFrame": 79990,
+            "offsetFrames": -8.888888888890506
+          },
+          "tail": {
+            "nominal": 79998.88888888889,
+            "firstAbove1eMinus7": 77118,
+            "lastAbove1eMinus7": 82878,
+            "peak": 0.4489227533340454,
+            "peakFrame": 80634,
+            "offsetFrames": 635.1111111111095
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.6675506494310227,
+        "peak": 0.4489227533340454
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 1,
+      "wanted": 72000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 0.000012416,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "sha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 0,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 0,
+            "peak": 0.800000011920929,
+            "peakFrame": 0,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 0,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 0,
+            "peak": 0.7842936515808105,
+            "peakFrame": 0,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 71999,
+            "firstAbove1eMinus7": 71999,
+            "lastAbove1eMinus7": 71999,
+            "peak": 0.800000011920929,
+            "peakFrame": 71999,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 71999,
+            "firstAbove1eMinus7": 70560,
+            "lastAbove1eMinus7": 74878,
+            "peak": 0.6679927706718445,
+            "peakFrame": 71999,
+            "offsetFrames": 0
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.4104450638440208,
+        "peak": 0.3860359489917755
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 1.25,
+      "wanted": 57600,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.0143899,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "sha256": "2c5157fa3b75756f248c40150469c408fa3022fe16c33bf3cf6f3b358fe00b8f",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 0,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2879,
+            "peak": 0.7287378907203674,
+            "peakFrame": 0,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 0,
+            "firstAbove1eMinus7": -1440,
+            "lastAbove1eMinus7": 2879,
+            "peak": 0.7287378907203674,
+            "peakFrame": 0,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 57599.2,
+            "firstAbove1eMinus7": 54719,
+            "lastAbove1eMinus7": 57599,
+            "peak": 0.15980324149131775,
+            "peakFrame": 57599,
+            "offsetFrames": -0.19999999999708962
+          },
+          "tail": {
+            "nominal": 57599.2,
+            "firstAbove1eMinus7": 54719,
+            "lastAbove1eMinus7": 60479,
+            "peak": 0.4643273651599884,
+            "peakFrame": 57599,
+            "offsetFrames": -0.19999999999708962
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.47400795515250954,
+        "peak": 0.30319273471832275
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 0.8,
+      "wanted": 90000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.0252203,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "sha256": "21a90cc92d63ebeeb8a52de52a1b2fcfe940d5e9a930cefdffe1d680a931ab59",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 1.25,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2881,
+            "peak": 0.8068628311157227,
+            "peakFrame": 1,
+            "offsetFrames": -0.25
+          },
+          "tail": {
+            "nominal": 1.25,
+            "firstAbove1eMinus7": -2879,
+            "lastAbove1eMinus7": 2881,
+            "peak": 0.7493591904640198,
+            "peakFrame": 1,
+            "offsetFrames": -0.25
+          }
+        },
+        {
+          "exact": {
+            "nominal": 89997.5,
+            "firstAbove1eMinus7": 87117,
+            "lastAbove1eMinus7": 89999,
+            "peak": 0.767035722732544,
+            "peakFrame": 89981,
+            "offsetFrames": -16.5
+          },
+          "tail": {
+            "nominal": 89997.5,
+            "firstAbove1eMinus7": 87117,
+            "lastAbove1eMinus7": 92877,
+            "peak": 0.5084618926048279,
+            "peakFrame": 90714,
+            "offsetFrames": 716.5
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.4821591106393585,
+        "peak": 0.5084618926048279
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 0.9,
+      "wanted": 80000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.0195006,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "sha256": "f8c8b8461bc1654765e6d68462b6f4322a3e4abb9106876d91ac6b2006bdf8e4",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 1.1111111111111112,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2881,
+            "peak": 0.8201324343681335,
+            "peakFrame": 1,
+            "offsetFrames": -0.11111111111111116
+          },
+          "tail": {
+            "nominal": 1.1111111111111112,
+            "firstAbove1eMinus7": -2879,
+            "lastAbove1eMinus7": 2881,
+            "peak": 0.791896402835846,
+            "peakFrame": 1,
+            "offsetFrames": -0.11111111111111116
+          }
+        },
+        {
+          "exact": {
+            "nominal": 79997.77777777778,
+            "firstAbove1eMinus7": 77117,
+            "lastAbove1eMinus7": 79999,
+            "peak": 0.621687114238739,
+            "peakFrame": 79989,
+            "offsetFrames": -8.777777777781012
+          },
+          "tail": {
+            "nominal": 79997.77777777778,
+            "firstAbove1eMinus7": 77117,
+            "lastAbove1eMinus7": 82877,
+            "peak": 0.42166897654533386,
+            "peakFrame": 80632,
+            "offsetFrames": 634.222222222219
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.4910730603484491,
+        "peak": 0.42166897654533386
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 1,
+      "wanted": 72000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 0.000013542,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "sha256": "49819fcd8cdb458b23242941492e9bcfd408266fd665dcbb4a2c1a46f546184c",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 1,
+            "firstAbove1eMinus7": 1,
+            "lastAbove1eMinus7": 1,
+            "peak": 0.800000011920929,
+            "peakFrame": 1,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 1,
+            "firstAbove1eMinus7": 1,
+            "lastAbove1eMinus7": 1,
+            "peak": 0.7843316793441772,
+            "peakFrame": 1,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 71998,
+            "firstAbove1eMinus7": 71998,
+            "lastAbove1eMinus7": 71998,
+            "peak": 0.800000011920929,
+            "peakFrame": 71998,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 71998,
+            "firstAbove1eMinus7": 70560,
+            "lastAbove1eMinus7": 74877,
+            "peak": 0.6624605059623718,
+            "peakFrame": 71998,
+            "offsetFrames": 0
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.21169268721210227,
+        "peak": 0.0921291783452034
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 1.25,
+      "wanted": 57600,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.0302861,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "sha256": "5bdc281e630a361fdc8a5488be3b4fbe411d884634e0c50d866290bfeadbd883",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 0.8,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2880,
+            "peak": 0.6330286860466003,
+            "peakFrame": 1,
+            "offsetFrames": 0.19999999999999996
+          },
+          "tail": {
+            "nominal": 0.8,
+            "firstAbove1eMinus7": -2880,
+            "lastAbove1eMinus7": 2880,
+            "peak": 0.6817342638969421,
+            "peakFrame": 1,
+            "offsetFrames": 0.19999999999999996
+          }
+        },
+        {
+          "exact": {
+            "nominal": 57598.4,
+            "firstAbove1eMinus7": 54718,
+            "lastAbove1eMinus7": 57599,
+            "peak": 0.5291075706481934,
+            "peakFrame": 57599,
+            "offsetFrames": 0.5999999999985448
+          },
+          "tail": {
+            "nominal": 57598.4,
+            "firstAbove1eMinus7": 54718,
+            "lastAbove1eMinus7": 60478,
+            "peak": 0.4534483850002289,
+            "peakFrame": 57599,
+            "offsetFrames": 0.5999999999985448
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.24842957232007948,
+        "peak": 0.10548481345176697
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 0.8,
+      "wanted": 90000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.0541637,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "sha256": "7d9a81c0e2bb794a4d4527c5704f24c6b03300317792ff9a222379c6d0b5e2df",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 21.25,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2901,
+            "peak": 0.7563315033912659,
+            "peakFrame": 21,
+            "offsetFrames": -0.25
+          },
+          "tail": {
+            "nominal": 21.25,
+            "firstAbove1eMinus7": -2859,
+            "lastAbove1eMinus7": 2901,
+            "peak": 0.752051055431366,
+            "peakFrame": 21,
+            "offsetFrames": -0.25
+          }
+        },
+        {
+          "exact": {
+            "nominal": 89977.5,
+            "firstAbove1eMinus7": 87097,
+            "lastAbove1eMinus7": 89999,
+            "peak": 0.6482948064804077,
+            "peakFrame": 89962,
+            "offsetFrames": -15.5
+          },
+          "tail": {
+            "nominal": 89977.5,
+            "firstAbove1eMinus7": 87097,
+            "lastAbove1eMinus7": 92857,
+            "peak": 0.42701423168182373,
+            "peakFrame": 90681,
+            "offsetFrames": 703.5
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.47415173913880226,
+        "peak": 0.42701423168182373
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 0.9,
+      "wanted": 80000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.0214232,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "sha256": "df33cd8ded7a85758db43397ee368a3032cae3f229ea2f195bd2dc013033ff4c",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 18.88888888888889,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2898,
+            "peak": 0.789693295955658,
+            "peakFrame": 19,
+            "offsetFrames": 0.11111111111111072
+          },
+          "tail": {
+            "nominal": 18.88888888888889,
+            "firstAbove1eMinus7": -2862,
+            "lastAbove1eMinus7": 2898,
+            "peak": 0.7920148968696594,
+            "peakFrame": 19,
+            "offsetFrames": 0.11111111111111072
+          }
+        },
+        {
+          "exact": {
+            "nominal": 79980,
+            "firstAbove1eMinus7": 77100,
+            "lastAbove1eMinus7": 79999,
+            "peak": 0.49924224615097046,
+            "peakFrame": 79970,
+            "offsetFrames": -10
+          },
+          "tail": {
+            "nominal": 79980,
+            "firstAbove1eMinus7": 77100,
+            "lastAbove1eMinus7": 82859,
+            "peak": 0.4845642149448395,
+            "peakFrame": 80599,
+            "offsetFrames": 619
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.47633989440960184,
+        "peak": 0.4845642149448395
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 1,
+      "wanted": 72000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 0.000012584,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "sha256": "0e2f794b5bf2166177069813a28eb362b560766a6739f54a43d0996518c302bb",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 17,
+            "firstAbove1eMinus7": 17,
+            "lastAbove1eMinus7": 17,
+            "peak": 0.800000011920929,
+            "peakFrame": 17,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 17,
+            "firstAbove1eMinus7": 17,
+            "lastAbove1eMinus7": 17,
+            "peak": 0.7849292159080505,
+            "peakFrame": 17,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 71982,
+            "firstAbove1eMinus7": 71982,
+            "lastAbove1eMinus7": 71982,
+            "peak": 0.800000011920929,
+            "peakFrame": 71982,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 71982,
+            "firstAbove1eMinus7": 70560,
+            "lastAbove1eMinus7": 74861,
+            "peak": 0.6739731431007385,
+            "peakFrame": 71982,
+            "offsetFrames": 0
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.19917753164285731,
+        "peak": 0.05454112961888313
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 1.25,
+      "wanted": 57600,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.0169362,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "sha256": "c5a92465ecf00871462bde8bb414c8dc97cc40adff725b0979e2cbc73a4cd457",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 13.6,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2893,
+            "peak": 0.5445922613143921,
+            "peakFrame": 14,
+            "offsetFrames": 0.40000000000000036
+          },
+          "tail": {
+            "nominal": 13.6,
+            "firstAbove1eMinus7": -2867,
+            "lastAbove1eMinus7": 2893,
+            "peak": 0.5523332357406616,
+            "peakFrame": 14,
+            "offsetFrames": 0.40000000000000036
+          }
+        },
+        {
+          "exact": {
+            "nominal": 57585.6,
+            "firstAbove1eMinus7": 54705,
+            "lastAbove1eMinus7": 57599,
+            "peak": 0.5681401491165161,
+            "peakFrame": 57586,
+            "offsetFrames": 0.4000000000014552
+          },
+          "tail": {
+            "nominal": 57585.6,
+            "firstAbove1eMinus7": 54705,
+            "lastAbove1eMinus7": 60465,
+            "peak": 0.5677932500839233,
+            "peakFrame": 57586,
+            "offsetFrames": 0.4000000000014552
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.19921781629775553,
+        "peak": 0.046790722757577896
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 0.8,
+      "wanted": 90000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 90000,
+        "renderSeconds": 0.033602,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "sha256": "da0df89208bf88bcf7b6aee391fe26e562a707d74fd0a65ac6b6d4af3ee9a732",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 171.25,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 3051,
+            "peak": 0.7768494486808777,
+            "peakFrame": 171,
+            "offsetFrames": -0.25
+          },
+          "tail": {
+            "nominal": 171.25,
+            "firstAbove1eMinus7": -2709,
+            "lastAbove1eMinus7": 3051,
+            "peak": 0.776369571685791,
+            "peakFrame": 171,
+            "offsetFrames": -0.25
+          }
+        },
+        {
+          "exact": {
+            "nominal": 89827.5,
+            "firstAbove1eMinus7": 86947,
+            "lastAbove1eMinus7": 89999,
+            "peak": 0.6094542145729065,
+            "peakFrame": 89815,
+            "offsetFrames": -12.5
+          },
+          "tail": {
+            "nominal": 89827.5,
+            "firstAbove1eMinus7": 86947,
+            "lastAbove1eMinus7": 92707,
+            "peak": 0.3432689607143402,
+            "peakFrame": 89815,
+            "offsetFrames": -12.5
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.4293756878967193,
+        "peak": 0.29718565940856934
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 0.9,
+      "wanted": 80000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 80000,
+        "renderSeconds": 0.0274783,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "sha256": "ee04d83792f7fb3d7a30da3b0b2a3926c059fe29091536e8ef4b7d64e5edd32c",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 152.22222222222223,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 3032,
+            "peak": 0.763249933719635,
+            "peakFrame": 152,
+            "offsetFrames": -0.22222222222222854
+          },
+          "tail": {
+            "nominal": 152.22222222222223,
+            "firstAbove1eMinus7": -2728,
+            "lastAbove1eMinus7": 3032,
+            "peak": 0.7627545595169067,
+            "peakFrame": 152,
+            "offsetFrames": -0.22222222222222854
+          }
+        },
+        {
+          "exact": {
+            "nominal": 79846.66666666667,
+            "firstAbove1eMinus7": 76966,
+            "lastAbove1eMinus7": 79999,
+            "peak": 0.7296023368835449,
+            "peakFrame": 79814,
+            "offsetFrames": -32.66666666667152
+          },
+          "tail": {
+            "nominal": 79846.66666666667,
+            "firstAbove1eMinus7": 76966,
+            "lastAbove1eMinus7": 82726,
+            "peak": 0.4503931999206543,
+            "peakFrame": 79814,
+            "offsetFrames": -32.66666666667152
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.44671322891183035,
+        "peak": 0.3682682514190674
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 1,
+      "wanted": 72000,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 72000,
+        "renderSeconds": 0.000010583,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "sha256": "31b74c0b8d86d2c5c45be735dee95dcb071df2577725d0d178ce2f34f11e9919",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 137,
+            "firstAbove1eMinus7": 137,
+            "lastAbove1eMinus7": 137,
+            "peak": 0.800000011920929,
+            "peakFrame": 137,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 137,
+            "firstAbove1eMinus7": 137,
+            "lastAbove1eMinus7": 137,
+            "peak": 0.7888639569282532,
+            "peakFrame": 137,
+            "offsetFrames": 0
+          }
+        },
+        {
+          "exact": {
+            "nominal": 71862,
+            "firstAbove1eMinus7": 71862,
+            "lastAbove1eMinus7": 71862,
+            "peak": 0.800000011920929,
+            "peakFrame": 71862,
+            "offsetFrames": 0
+          },
+          "tail": {
+            "nominal": 71862,
+            "firstAbove1eMinus7": 70560,
+            "lastAbove1eMinus7": 74741,
+            "peak": 0.7009766697883606,
+            "peakFrame": 71862,
+            "offsetFrames": 0
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.19072801865032582,
+        "peak": 0.05469533056020737
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 1.25,
+      "wanted": 57600,
+      "exact": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 57600,
+        "renderSeconds": 0.0270356,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "sha256": "d776656059864a4cdd1003e5e269c23252b3d4de55107177f54d96239e33f5f7",
+      "peaks": [
+        {
+          "exact": {
+            "nominal": 109.6,
+            "firstAbove1eMinus7": 0,
+            "lastAbove1eMinus7": 2989,
+            "peak": 0.556584358215332,
+            "peakFrame": 110,
+            "offsetFrames": 0.4000000000000057
+          },
+          "tail": {
+            "nominal": 109.6,
+            "firstAbove1eMinus7": -2771,
+            "lastAbove1eMinus7": 2989,
+            "peak": 0.557610809803009,
+            "peakFrame": 110,
+            "offsetFrames": 0.4000000000000057
+          }
+        },
+        {
+          "exact": {
+            "nominal": 57489.6,
+            "firstAbove1eMinus7": 54609,
+            "lastAbove1eMinus7": 57599,
+            "peak": 0.5757230520248413,
+            "peakFrame": 57490,
+            "offsetFrames": 0.4000000000014552
+          },
+          "tail": {
+            "nominal": 57489.6,
+            "firstAbove1eMinus7": 54609,
+            "lastAbove1eMinus7": 60369,
+            "peak": 0.5778875946998596,
+            "peakFrame": 57490,
+            "offsetFrames": 0.4000000000014552
+          }
+        }
+      ],
+      "tailEnergy": {
+        "sumSquares": 0.1885852242639121,
+        "peak": 0.03757086023688316
+      }
+    }
+  ],
+  "shortInput": "10ms input explicitly rejected, not returned as silent successful output"
+}

@@ -1,0 +1,50 @@
+{
+  "description": "Research artifacts, not acceptance. Full raw outputs regenerate from pinned code/reference inputs.",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 8783,
+      "sha256": "4fc7ee45d664fb59dc1fb83384279d20937b48ca387126f3da207d6751b84ec4"
+    },
+    {
+      "path": "identity-red.txt",
+      "bytes": 808,
+      "sha256": "7feb68da8fa39fea978121ee896dc1173c55c864df8b2177230442edf97c3537"
+    },
+    {
+      "path": "local-phrase-0.8-context.wav",
+      "bytes": 648044,
+      "sha256": "08481a7f85737236391da4d691a6f01025eed94c623aff73402de1ae14faf1bd"
+    },
+    {
+      "path": "local-phrase-0.9-context.wav",
+      "bytes": 608044,
+      "sha256": "5e3d026a10d255bfa25a165509a10ef4f8bd03aaa92da9d5f0bd488e96c9d94f"
+    },
+    {
+      "path": "local-phrase-1-context.wav",
+      "bytes": 576044,
+      "sha256": "576355b9324e0111b392229c427545b3e233f30c93bf88c9b529e6cade7edeee"
+    },
+    {
+      "path": "local-phrase-1.25-context.wav",
+      "bytes": 518444,
+      "sha256": "8afcb69149f9a4eba1c3f454f0d1696d9b5536db3561d8c4f7cc80df9ee8ebe2"
+    },
+    {
+      "path": "pitch-mutation.txt",
+      "bytes": 686,
+      "sha256": "19f8fc7bde22e1a449bc93be112025d4d983dc05fe99fc4df19ed6b21f088e2d"
+    },
+    {
+      "path": "report.json",
+      "bytes": 75694,
+      "sha256": "45781d518ed715b42da7612e44f17bdce5a7e75001892a1179f70388fab60d83"
+    },
+    {
+      "path": "short.json",
+      "bytes": 33677,
+      "sha256": "6bdc35f5409c5cc9f3897a2afccb923797dbe6e6f3fbd170c0e0ff85da466c2a"
+    }
+  ]
+}

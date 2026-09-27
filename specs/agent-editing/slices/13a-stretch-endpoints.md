@@ -1,7 +1,12 @@
 # 13a — Preserve selected speech at stretch endpoints
 
-Status: not started. Dependencies: [13](./13-stretch-reproduction.md).
-This gate must pass before [14](./14-retiming.md) integrates stretching.
+Status: Signalsmith numerical candidate reproduced; listening, protected-word joins, short-input treatment and independent visual review remain OPEN. Dependencies: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) integrates stretching.
+
+The [pinned Signalsmith experiment](../assets/13a-signalsmith/README.md) passes
+the measured count/pitch/source-isolation cases with explicit upstream endpoint
+handling and exact unit-rate bypass. A separately measured short-window candidate
+handles the tested 10 ms selections; some 5 ms cases remain unsupported. No
+automatic preset/minimum-duration policy or speech-quality gate is accepted.
 
 ## Contract and seam
 
