@@ -1,0 +1,21 @@
+{
+  "checks": [
+    {
+      "id": "filler-uh-54s",
+      "originalFrames": 302400,
+      "cutFrames": 282240,
+      "removedFrames": 20160,
+      "joinFrame": 126176,
+      "ignoredJoinRampFrames": 240
+    },
+    {
+      "id": "repetition-candidate-second-return",
+      "originalFrames": 456000,
+      "cutFrames": 426480,
+      "removedFrames": 29520,
+      "joinFrame": 310496,
+      "ignoredJoinRampFrames": 240
+    }
+  ],
+  "meaning": "Hashes and exact retained PCM outside5ms native ramps; no claim about protected words or listening."
+}

@@ -1,0 +1,32 @@
+{
+  "data": {
+    "bytes": 1710016,
+    "channels": 1,
+    "durationUs": 8885000,
+    "file": "/tmp/screenrec-speech-evidence/repetition-candidate-second-return-candidate-cut.wav",
+    "frames": 426480,
+    "mediaType": "audio/wav",
+    "sampleRate": 48000,
+    "spans": [
+      {
+        "endUs": 103968675,
+        "startUs": 97500000
+      },
+      {
+        "endUs": 107000000,
+        "startUs": 104583675
+      }
+    ],
+    "tracks": [
+      {
+        "channels": 1,
+        "gain": 1,
+        "role": "narration",
+        "sampleRate": 48000,
+        "unavailable": []
+      }
+    ]
+  },
+  "id": "repetition-candidate-second-return-candidate-cut",
+  "ok": true
+}

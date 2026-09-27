@@ -1,6 +1,6 @@
 # 12 — Validate speech cleanup evidence
 
-Status: not started. Dependencies: [00](./00-corpus.md).
+Status: current local baseline reproduced with frozen partial labels; timing still fails at 135 ms median / 578.1 ms p95. Full labels, independent joins and the alternate-engine comparison remain open. [Evidence](../assets/12-speech/README.md). Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

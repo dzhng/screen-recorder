@@ -1,0 +1,28 @@
+{
+  "data": {
+    "bytes": 1828096,
+    "channels": 1,
+    "durationUs": 9500000,
+    "file": "/tmp/screenrec-speech-evidence/repetition-candidate-second-return-original.wav",
+    "frames": 456000,
+    "mediaType": "audio/wav",
+    "sampleRate": 48000,
+    "spans": [
+      {
+        "endUs": 107000000,
+        "startUs": 97500000
+      }
+    ],
+    "tracks": [
+      {
+        "channels": 1,
+        "gain": 1,
+        "role": "narration",
+        "sampleRate": 48000,
+        "unavailable": []
+      }
+    ]
+  },
+  "id": "repetition-candidate-second-return-original",
+  "ok": true
+}

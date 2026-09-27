@@ -1,0 +1,11 @@
+✔ independent marks, not the candidate timing, own the error and clipping direction (1.352375ms)
+✔ missing or ambiguous matches keep the gate open instead of improving its scored subset (0.178125ms)
+✔ an unmarked edge is not fabricated from the transcript and a moved candidate worsens error (0.103792ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81.105042

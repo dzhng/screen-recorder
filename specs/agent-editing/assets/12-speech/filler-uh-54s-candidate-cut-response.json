@@ -1,0 +1,32 @@
+{
+  "data": {
+    "bytes": 1133056,
+    "channels": 1,
+    "durationUs": 5880000,
+    "file": "/tmp/screenrec-speech-evidence/filler-uh-54s-candidate-cut.wav",
+    "frames": 282240,
+    "mediaType": "audio/wav",
+    "sampleRate": 48000,
+    "spans": [
+      {
+        "endUs": 54128675,
+        "startUs": 51500000
+      },
+      {
+        "endUs": 57800000,
+        "startUs": 54548675
+      }
+    ],
+    "tracks": [
+      {
+        "channels": 1,
+        "gain": 1,
+        "role": "narration",
+        "sampleRate": 48000,
+        "unavailable": []
+      }
+    ]
+  },
+  "id": "filler-uh-54s-candidate-cut",
+  "ok": true
+}

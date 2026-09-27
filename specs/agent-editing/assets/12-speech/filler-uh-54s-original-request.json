@@ -1,0 +1,26 @@
+{
+  "id": "filler-uh-54s-original",
+  "operation": "media.audio",
+  "params": {
+    "tracks": [
+      {
+        "role": "narration",
+        "source": "/private/tmp/screenrec-editing-speech/fixtures/narrated-workbench/narration.mov",
+        "sourceOffsetUs": 0,
+        "available": [
+          {
+            "startUs": 48675,
+            "endUs": 134022008
+          }
+        ]
+      }
+    ],
+    "spans": [
+      {
+        "startUs": 51500000,
+        "endUs": 57800000
+      }
+    ],
+    "output": "/tmp/screenrec-speech-evidence/filler-uh-54s-original.wav"
+  }
+}

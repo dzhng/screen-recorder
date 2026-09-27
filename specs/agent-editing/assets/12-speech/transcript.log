@@ -1,0 +1,19 @@
+[13:24:21.574] [INFO] [FluidAudio.AsrModels] Loading ASR models from: /private/tmp/screenrec-speech-reproduction/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2
+[13:24:21.610] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[13:24:21.610] [INFO] [FluidAudio.DownloadUtils] Host environment: macOS Version 26.6.2 (Build 25G83), arch=arm64, chip=Apple M5 Pro, cores=18/18, mem=48 GB, rosetta=false
+[13:24:21.894] [INFO] [FluidAudio.DownloadUtils] Compiled model Preprocessor.mlmodelc in 327.04 ms :: macOS Version 26.6.2 (Build 25G83), arch=arm64, chip=Apple M5 Pro, cores=18/18, mem=48 GB, rosetta=false
+[13:24:21.895] [INFO] [FluidAudio.AsrModels] Loaded Preprocessor.mlmodelc with compute units: cpuOnly
+[13:24:21.895] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[13:25:04.998] [INFO] [FluidAudio.DownloadUtils] Compiled model Encoder.mlmodelc in 43107.26 ms :: macOS Version 26.6.2 (Build 25G83), arch=arm64, chip=Apple M5 Pro, cores=18/18, mem=48 GB, rosetta=false
+[13:25:04.998] [INFO] [FluidAudio.AsrModels] Loaded Encoder.mlmodelc with compute units: cpuAndNeuralEngine
+[13:25:04.998] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[13:25:05.129] [INFO] [FluidAudio.DownloadUtils] Compiled model Decoder.mlmodelc in 131.91 ms :: macOS Version 26.6.2 (Build 25G83), arch=arm64, chip=Apple M5 Pro, cores=18/18, mem=48 GB, rosetta=false
+[13:25:05.129] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[13:25:05.206] [INFO] [FluidAudio.DownloadUtils] Compiled model JointDecision.mlmodelc in 75.85 ms :: macOS Version 26.6.2 (Build 25G83), arch=arm64, chip=Apple M5 Pro, cores=18/18, mem=48 GB, rosetta=false
+[13:25:05.227] [INFO] [FluidAudio.AsrModels] Loaded JointDecision.mlmodelc
+[13:25:05.294] [INFO] [FluidAudio.AsrModels] Loaded vocabulary with 1031 tokens from /private/tmp/screenrec-speech-reproduction/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2/parakeet_vocab.json
+[13:25:05.294] [INFO] [FluidAudio.AsrModels] Successfully loaded all ASR models with optimized compute units
+[13:25:05.294] [INFO] [FluidAudio.ASR] Loading AsrManager with provided models
+[13:25:05.294] [INFO] [FluidAudio.ASR] AsrManager loaded successfully with provided models
+[13:25:05.294] [DEBUG] [FluidAudio.ChunkProcessor] ChunkProcessor using worker pool of size 4
+E5RT encountered an STL exception. msg = Failed to PropagateInputTensorShapes: std::runtime_error during type inference for ios17.slice_by_index: zero shape error.

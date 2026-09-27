@@ -1,0 +1,28 @@
+{
+  "data": {
+    "bytes": 1213696,
+    "channels": 1,
+    "durationUs": 6300000,
+    "file": "/tmp/screenrec-speech-evidence/filler-uh-54s-original.wav",
+    "frames": 302400,
+    "mediaType": "audio/wav",
+    "sampleRate": 48000,
+    "spans": [
+      {
+        "endUs": 57800000,
+        "startUs": 51500000
+      }
+    ],
+    "tracks": [
+      {
+        "channels": 1,
+        "gain": 1,
+        "role": "narration",
+        "sampleRate": 48000,
+        "unavailable": []
+      }
+    ]
+  },
+  "id": "filler-uh-54s-original",
+  "ok": true
+}

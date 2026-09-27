@@ -1,0 +1,14 @@
+[
+  {
+    "panel": 4,
+    "baselineSha256": "6e069ed2826558d2ed4a921f7fc82b4d696c69019087096c7fc37e51b2290a22",
+    "candidateSha256": "6e069ed2826558d2ed4a921f7fc82b4d696c69019087096c7fc37e51b2290a22",
+    "byteIdentical": true
+  },
+  {
+    "panel": 7,
+    "baselineSha256": "c0acc92a7553629bf257131c2d47b996cc38cb4db728f651463bfa74fe8816ba",
+    "candidateSha256": "c0acc92a7553629bf257131c2d47b996cc38cb4db728f651463bfa74fe8816ba",
+    "byteIdentical": true
+  }
+]

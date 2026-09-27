@@ -1,0 +1,33 @@
+{
+  "data": {
+    "details": {
+      "peakResidentBytes": 549502976
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "output": {
+      "bytes": 113728,
+      "file": "/tmp/screenrec-speech-evidence/raw.jsonl",
+      "sha256": "23fe8360079fd572e9c947f808d8bdbf9f655e1abfd1dabf932f0aa69d7d8d0f"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "source": {
+          "endUs": 134022008,
+          "startUs": 48675
+        },
+        "state": "transcribed",
+        "wordCount": 306
+      }
+    ],
+    "wordCount": 306
+  },
+  "id": "transcript",
+  "ok": true
+}
