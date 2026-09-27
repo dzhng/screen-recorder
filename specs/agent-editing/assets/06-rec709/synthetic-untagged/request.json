@@ -1,0 +1,30 @@
+{
+  "width": 160,
+  "height": 96,
+  "fps": 20,
+  "range": {
+    "startUs": 0,
+    "endUs": 50000
+  },
+  "pictures": [
+    {
+      "id": "synthetic-untagged",
+      "file": "/private/tmp/screenrec-render-oracle-fix/specs/agent-editing/assets/00-corpus/a.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "output": "/tmp/screenrec-color-rec709-final/synthetic-untagged",
+  "colorPolicy": "native",
+  "savePreEncode": true,
+  "outputProfile": "srgb",
+  "videoBitrate": 4000000
+}

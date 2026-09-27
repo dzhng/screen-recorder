@@ -13,12 +13,14 @@ struct Picture: Codable {
 struct Sound: Codable {
     let file: String; let source: Window; let atUs: Int64; let gain: Float
 }
+enum OutputProfile: String, Codable { case srgb; case rec709 }
 struct Request: Codable {
     let width: Int; let height: Int; let fps: Int32; let range: Window
     let pictures: [Picture]; let audio: [Sound]; let output: String
     let colorPolicy: String
     let videoBitrate: Int?
     let savePreEncode: Bool?
+    let outputProfile: OutputProfile?
 }
 func failure(_ message: String) -> NSError { NSError(domain: "RenderReproduction", code: 1, userInfo: [NSLocalizedDescriptionKey: message]) }
 let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
@@ -146,7 +148,16 @@ func audio(_ request: Request, writer: AVAssetWriter?, input: AVAssetWriterInput
 }
 func bounded(_ request: Request) async throws -> [String: Any] {
     let writer = try AVAssetWriter(outputURL: URL(fileURLWithPath: request.output + "/bounded.mov"), fileType: .mov)
-    let video = AVAssetWriterInput(mediaType: .video, outputSettings: [AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: request.width, AVVideoHeightKey: request.height, AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false, AVVideoAverageBitRateKey: request.videoBitrate ?? 4_000_000]])
+    let rec709 = request.outputProfile == .rec709
+    let outputSpace = rec709 ? CVImageBufferCreateColorSpaceFromAttachments([
+        kCVImageBufferColorPrimariesKey as String: kCVImageBufferColorPrimaries_ITU_R_709_2,
+        kCVImageBufferTransferFunctionKey as String: kCVImageBufferTransferFunction_ITU_R_709_2,
+        kCVImageBufferYCbCrMatrixKey as String: kCVImageBufferYCbCrMatrix_ITU_R_709_2,
+    ] as CFDictionary)!.takeRetainedValue() : srgb
+    let transfer = rec709 ? kCVImageBufferTransferFunction_ITU_R_709_2 : kCVImageBufferTransferFunction_sRGB
+    var settings: [String: Any] = [AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: request.width, AVVideoHeightKey: request.height, AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false, AVVideoAverageBitRateKey: request.videoBitrate ?? 4_000_000]]
+    if rec709 { settings[AVVideoColorPropertiesKey] = [AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_709_2, AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_709_2, AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_709_2] }
+    let video = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
     video.mediaTimeScale = 1_000_000; writer.movieTimeScale = 1_000_000; writer.add(video)
     let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: video, sourcePixelBufferAttributes: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA, kCVPixelBufferWidthKey as String: request.width, kCVPixelBufferHeightKey as String: request.height, kCVPixelBufferIOSurfacePropertiesKey as String: [:]])
     let sound = AVAssetWriterInput(mediaType: .audio, outputSettings: [AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: 48000, AVNumberOfChannelsKey: 2, AVLinearPCMBitDepthKey: 16, AVLinearPCMIsFloatKey: false, AVLinearPCMIsBigEndianKey: false, AVLinearPCMIsNonInterleaved: false])
@@ -186,9 +197,10 @@ func bounded(_ request: Request) async throws -> [String: Any] {
         var destination: CVPixelBuffer?
         guard let pool = adaptor.pixelBufferPool,
               CVPixelBufferPoolCreatePixelBufferWithAuxAttributes(nil, pool, [kCVPixelBufferPoolAllocationThresholdKey: 4] as CFDictionary, &destination) == kCVReturnSuccess else { throw failure("Bounded pixel allocation") }
-        context.render(frame, to: destination!, bounds: CGRect(x: 0, y: 0, width: request.width, height: request.height), colorSpace: srgb)
+        context.render(frame, to: destination!, bounds: CGRect(x: 0, y: 0, width: request.width, height: request.height), colorSpace: outputSpace)
+        if rec709 { CVBufferSetAttachment(destination!, kCVImageBufferCGColorSpaceKey, outputSpace, .shouldPropagate) }
         CVBufferSetAttachment(destination!, kCVImageBufferColorPrimariesKey, kCVImageBufferColorPrimaries_ITU_R_709_2, .shouldPropagate)
-        CVBufferSetAttachment(destination!, kCVImageBufferTransferFunctionKey, kCVImageBufferTransferFunction_sRGB, .shouldPropagate)
+        CVBufferSetAttachment(destination!, kCVImageBufferTransferFunctionKey, transfer, .shouldPropagate)
         CVBufferSetAttachment(destination!, kCVImageBufferYCbCrMatrixKey, kCVImageBufferYCbCrMatrix_ITU_R_709_2, .shouldPropagate)
         if request.savePreEncode == true && rows.isEmpty {
             try png(CIImage(cvPixelBuffer: destination!), at: request.output + "/pre-encode.png")

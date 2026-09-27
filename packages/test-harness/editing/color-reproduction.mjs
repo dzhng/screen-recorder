@@ -67,7 +67,7 @@ assert.equal(
   videoHash(join(frozen, "tagged-a.mov")),
   "Rotation derivative must preserve compressed pictures",
 );
-const cases = [
+const baseCases = [
   { name: "synthetic-untagged", file: join(corpus, "a.mov"), width: 160, height: 96 },
   { name: "synthetic-declared", file: join(frozen, "tagged-a.mov"), width: 160, height: 96 },
   { name: "rotation-declared", file: rotated, width: 96, height: 160 },
@@ -85,6 +85,7 @@ const cases = [
     videoBitrate: 40_000_000,
   },
 ];
+const cases = [...baseCases, ...baseCases.map((c) => ({ ...c, name: c.name + "-rec709", outputProfile: "rec709" }))];
 const report = {
   sourceCommit: run("git", ["-C", root, "rev-parse", "HEAD"]).toString().trim(),
   invocation: process.argv.slice(1),
@@ -100,7 +101,7 @@ const report = {
   reference:
     "Native source decode and native color interpretation, fit into the declared canvas at source time0. This preserves platform-decoded appearance, not an assertion about intended appearance of untagged media.",
   outputPolicy:
-    "Core Image renders into sRGB; BGRA pool tagged709 primaries/sRGB transfer/709 matrix, H2644Mbps baseline and explicit40Mbps comparison. Original source tags/bytes are never rewritten. Rotation fixture is a separately hashed metadata-only derivative of an already tagged synthetic input.",
+    "Compare original sRGB output against explicit Rec.709 output. Rec.709 derives the RGB color space from Core Video 709 attachments, tags the BGRA buffer with that CGColorSpace, and declares 709 primaries/transfer/matrix to the writer. Both use H264 at 4Mbps with a recorded-frame 40Mbps comparison. Original source tags/bytes are never rewritten. Rotation uses a separately hashed metadata-only derivative.",
   tolerance: 4,
   selectionPolicy:
     "Fixed5x5 normalized lattice at0.1,0.3,0.5,0.7,0.9 plus synthetic red/green landmarks; chosen before roundtrip. Report whole-frame differences as well, without dropping edge/text pixels.",
@@ -189,6 +190,7 @@ for (const c of cases) {
     output: directory,
     colorPolicy: "native",
     savePreEncode: true,
+    outputProfile: c.outputProfile ?? "srgb",
     videoBitrate: c.videoBitrate ?? 4_000_000,
   };
   const requestPath = join(directory, "request.json");
@@ -225,7 +227,7 @@ for (const c of cases) {
     roundtrip: compare(referenceBytes, pngRGB(roundtrip), points, c.width),
     explicitAssumptionDifference: compare(referenceBytes, pngRGB(assumed), points, c.width),
   };
-  if (c.name === "rotation-declared") {
+  if (c.name.startsWith("rotation-declared")) {
     const original = pngRGB(join(out, "synthetic-declared/source-native.png")),
       rotation = new Uint8Array(referenceBytes.length);
     // Independent90degree counterclockwise RGB mapping of the unrotated declared source.

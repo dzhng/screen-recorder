@@ -1,0 +1,30 @@
+{
+  "width": 96,
+  "height": 160,
+  "fps": 20,
+  "range": {
+    "startUs": 0,
+    "endUs": 50000
+  },
+  "pictures": [
+    {
+      "id": "rotation-declared",
+      "file": "/tmp/screenrec-color-rec709-final/rotation-only.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "output": "/tmp/screenrec-color-rec709-final/rotation-declared",
+  "colorPolicy": "native",
+  "savePreEncode": true,
+  "outputProfile": "srgb",
+  "videoBitrate": 4000000
+}

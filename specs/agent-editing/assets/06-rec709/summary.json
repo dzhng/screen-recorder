@@ -1,0 +1,122 @@
+[
+  {
+    "case": "synthetic-untagged",
+    "preEncodeMaximum": 0,
+    "roundtripMaximum": 22,
+    "roundtripFractionOver4": 0.011046006944444445,
+    "patchesPass": true,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "iec61966-2-1",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "synthetic-declared",
+    "preEncodeMaximum": 0,
+    "roundtripMaximum": 21,
+    "roundtripFractionOver4": 0.006966145833333334,
+    "patchesPass": true,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "iec61966-2-1",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "rotation-declared",
+    "preEncodeMaximum": 0,
+    "roundtripMaximum": 59,
+    "roundtripFractionOver4": 0.015169270833333333,
+    "patchesPass": true,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "iec61966-2-1",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "recorded-fixture",
+    "preEncodeMaximum": 1,
+    "roundtripMaximum": 89,
+    "roundtripFractionOver4": 0.09921173369777431,
+    "patchesPass": false,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "iec61966-2-1",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "recorded-fixture-40mbps",
+    "preEncodeMaximum": 1,
+    "roundtripMaximum": 56,
+    "roundtripFractionOver4": 0.01376258189075448,
+    "patchesPass": true,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "iec61966-2-1",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "synthetic-untagged-rec709",
+    "preEncodeMaximum": 1,
+    "roundtripMaximum": 29,
+    "roundtripFractionOver4": 0.009418402777777777,
+    "patchesPass": true,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "bt709",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "synthetic-declared-rec709",
+    "preEncodeMaximum": 1,
+    "roundtripMaximum": 26,
+    "roundtripFractionOver4": 0.003363715277777778,
+    "patchesPass": true,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "bt709",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "rotation-declared-rec709",
+    "preEncodeMaximum": 1,
+    "roundtripMaximum": 72,
+    "roundtripFractionOver4": 0.012738715277777778,
+    "patchesPass": true,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "bt709",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "recorded-fixture-rec709",
+    "preEncodeMaximum": 0,
+    "roundtripMaximum": 80,
+    "roundtripFractionOver4": 0.08377581456896177,
+    "patchesPass": false,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "bt709",
+      "color_space": "bt709"
+    }
+  },
+  {
+    "case": "recorded-fixture-40mbps-rec709",
+    "preEncodeMaximum": 0,
+    "roundtripMaximum": 60,
+    "roundtripFractionOver4": 0.0032433077356935226,
+    "patchesPass": true,
+    "tags": {
+      "color_primaries": "bt709",
+      "color_transfer": "bt709",
+      "color_space": "bt709"
+    }
+  }
+]

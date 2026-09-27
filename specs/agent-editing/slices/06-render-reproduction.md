@@ -72,3 +72,12 @@ The [independent full-set color critique](../assets/06-color/visual-review/READM
 confirms native conversion and finds visible low-bitrate encoding artifacts. All
 four frozen color/render oracle checks pass on the integrated tree; production
 Rec.709 rendition/profile acceptance remains open.
+
+### Explicit Rec.709 follow-up
+
+[Profile reproduction](../assets/06-rec709/README.md) verifies a matched native
+RGB color-space attachment and Rec.709 writer declaration on the frozen first
+frames. The sRGB controls remain unchanged. Independent code and complete visual
+reviews agree with the measured conversion pass and encoding-quality failures.
+General export bitrate/quality policy and broader color coverage remain open;
+no universal 40Mbps policy is inferred from one recorded frame.

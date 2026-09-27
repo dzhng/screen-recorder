@@ -1,0 +1,30 @@
+{
+  "width": 160,
+  "height": 96,
+  "fps": 20,
+  "range": {
+    "startUs": 0,
+    "endUs": 50000
+  },
+  "pictures": [
+    {
+      "id": "synthetic-declared-rec709",
+      "file": "/private/tmp/screenrec-render-oracle-fix/specs/agent-editing/assets/06-render/tagged-a.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 50000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "output": "/tmp/screenrec-color-rec709-final/synthetic-declared-rec709",
+  "colorPolicy": "native",
+  "savePreEncode": true,
+  "outputProfile": "rec709",
+  "videoBitrate": 4000000
+}

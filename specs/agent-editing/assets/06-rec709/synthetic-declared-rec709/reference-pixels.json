@@ -1,0 +1,262 @@
+{
+  "sourceHash": "c2610e5c9f02ccaeedb4a54ffee52782b51eca75c453ad69e743f93aac2fb771",
+  "sourceInfo": {
+    "attachments": "{\n    AlphaChannelIsOpaque = 1;\n    CGColorSpace = \"<CGColorSpace 0xba5074120> (kCGColorSpaceICCBased; kCGColorSpaceModelRGB; QuickTime 'nclc' Video (1,13,6))\";\n    CVFieldCount = 1;\n    CVImageBufferChromaLocationBottomField = Left;\n    CVImageBufferChromaLocationTopField = Left;\n    CVImageBufferColorPrimaries = \"ITU_R_709_2\";\n    CVImageBufferTransferFunction = \"IEC_sRGB\";\n    CVImageBufferYCbCrMatrix = \"ITU_R_601_4\";\n    HorizontalDisparityAdjustment = 0;\n    QTMovieTime =     {\n        TimeScale = 16384;\n        TimeValue = 0;\n    };\n}",
+    "height": 96,
+    "policy": "native",
+    "transform": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "width": 160
+  },
+  "points": [
+    {
+      "x": 16,
+      "y": 9,
+      "rgb": [
+        253,
+        0,
+        0
+      ]
+    },
+    {
+      "x": 48,
+      "y": 9,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 80,
+      "y": 9,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 112,
+      "y": 9,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 144,
+      "y": 9,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 16,
+      "y": 28,
+      "rgb": [
+        27,
+        42,
+        118
+      ]
+    },
+    {
+      "x": 48,
+      "y": 28,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 80,
+      "y": 28,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 112,
+      "y": 28,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 144,
+      "y": 28,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 16,
+      "y": 48,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 48,
+      "y": 48,
+      "rgb": [
+        33,
+        40,
+        114
+      ]
+    },
+    {
+      "x": 80,
+      "y": 48,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 112,
+      "y": 48,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 144,
+      "y": 48,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 16,
+      "y": 67,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 48,
+      "y": 67,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 80,
+      "y": 67,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 112,
+      "y": 67,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 144,
+      "y": 67,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 16,
+      "y": 86,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 48,
+      "y": 86,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 80,
+      "y": 86,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 112,
+      "y": 86,
+      "rgb": [
+        32,
+        40,
+        118
+      ]
+    },
+    {
+      "x": 144,
+      "y": 86,
+      "rgb": [
+        0,
+        255,
+        77
+      ]
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "rgb": [
+        253,
+        0,
+        0
+      ]
+    },
+    {
+      "x": 145,
+      "y": 85,
+      "rgb": [
+        0,
+        254,
+        79
+      ]
+    }
+  ]
+}
