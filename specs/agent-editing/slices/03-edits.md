@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication, retime, insertion and ripple move verified. Exact/trim/stretch and ripple replacement plus authored silence are verified; hold/silence expansion and the full harness remain open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication, retime, insertion and ripple move verified. All structural operations and fitting policies are verified in the reducer; the full linked-replacement harness remains open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -40,7 +40,7 @@ The [pure reducer](../../../packages/composition/src/edits.ts) validates each
 operation before returning an immutable next document. Batch labels and supplied
 identity namespaces make expansion replayable. The receipt reports net change,
 created identities, clip lineage, link changes and removed/fixed attachments.
-`clipLineage` covers both partitioning and copying; it describes origin
+`clipLineage` covers partitioning, copying and replacement expansion; it describes origin
 relationships without implying that the original was deleted.
 
 Partitioning shares one owner for split/remove/trim and attachment rebasing.
@@ -50,7 +50,7 @@ move/retime retain existing attachment kinds. Detach and reanchor preserve the
 resolved interval. Pitch policy is authored metadata until native retiming lands.
 The [contracts](../contracts.md) own operation semantics and scope rules.
 
-[65 composition tests](../assets/03-edits/silence/review.md), type checks and build
+[69 composition tests](../assets/03-edits/padding/review.md), type checks and build
 pass. The suite includes linked offsets, held/content anchors, source gaps,
 selected subgroups, copy labels, fractional boundaries, no-ops and failed-batch
 immutability. Prior independent probes cover 1,326 retimed splits and 12,376
@@ -101,6 +101,11 @@ occurrence with ordinary identity, placement and edit behavior. It preserves
 project duration without fabricating captured-source evidence. Independent review
 and the existing media corpus gate pass.
 
-Next implement hold/silence replacement expansion, then run the full
+[Padding expansion](../assets/03-edits/padding/review.md) preserves the target
+interval through linked media/tail pieces and shares exact placement construction
+with partitioning and transforms. Independent review verified the existing-group
+identity fix; 420 additional fits/retimes preserve their envelopes and source maps.
+
+Next run the full
 linked-replacement probe above. Public project storage and editing still depend
 on completion of this reducer slice. This slice is not accepted yet.

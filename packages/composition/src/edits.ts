@@ -52,7 +52,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       clipId: reference,
       kind: z.enum(["audio", "video"]),
       media: placedMedia.pick({ assetId: true, streamId: true, source: true }),
-      fit: z.enum(["exact", "trim", "stretch", "ripple"]).default("exact"),
+      fit: z.enum(["exact", "trim", "stretch", "ripple", "hold", "silence"]).default("exact"),
       ripple: z
         .object({ trackIds: z.array(reference).min(1) })
         .strict()
@@ -278,10 +278,12 @@ export function applyBatch(
             operation.kind,
             operation.media,
             operation.fit,
+            allocate,
             operation.pitch,
           );
           next = result.document;
           removedAttachments.push(...result.removedAttachments);
+          clipLineage.push(...result.lineage);
           if (operation.fit === "ripple") {
             if (operation.media.source.kind !== "range")
               invalid("Ripple replacement needs a source range with a duration");

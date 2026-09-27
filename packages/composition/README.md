@@ -1,9 +1,11 @@
-# Composition identity and time
+# Composition identity, time and edits
 
-This pure package owns authoring identity, placement and source/project mapping.
+This pure package owns authoring identity, placement, source/project mapping and
+atomic structural edits.
 It accepts admitted stream metadata; it never opens media or a catalog. The
 [public entry point](src/index.ts) exports the document schemas and timing API.
-Rendering, edits and storage are separate consumers of this model.
+Rendering and storage consume this model. The [reducer](src/edits.ts) applies
+ordered batches and reports their exact expansion without opening a catalog.
 
 `validateComposition(document, assets)` creates a detached, deeply frozen snapshot.
 Stored clip and project/content-anchor ranges accept reduced fractional microseconds
@@ -21,7 +23,13 @@ until sampling avoids drift when several attachments divide the same interval.
 A source gap does not shorten the envelope or become acquired silence. Anchored
 children inherit their parent's unavailable intervals.
 
-`projectToSource(model, atUs)` returns every active occurrence, including unavailable
+Authored silence is an audio occurrence without an asset or source clock. It
+contributes duration and participates in ordinary edits; source queries omit it.
+Normalized anchors can follow silence, while content anchors require a source
+clock. Explicit padding produces linked ordinary pieces and reports their lineage,
+so selected edits can address one piece and linked edits carry the full envelope.
+
+`projectToSource(model, atUs)` returns every active media occurrence, including unavailable
 ones with `available: false`. It floors source time only at this query boundary.
 `sourceToProject(model, {assetId, streamId, atUs})` returns every occurrence's exact
 project interval corresponding to that source microsecond bin. A held source bin

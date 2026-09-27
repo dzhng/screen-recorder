@@ -11,6 +11,8 @@ CLI and MCP share the same recording and editing contracts.
 - [CLI and MCP adapters](apps/cli/README.md): the same service operations for command-line and MCP clients.
 - [Native capture and media](helpers/mac/README.md): capture, recovery, cursor geometry and media workers.
 
+- [Composition and edits](packages/composition/README.md): owns pure timing, clip identity and atomic edit meaning.
+
 ## Development
 
 Bun installs and orchestrates; Node 24 runs TypeScript and Swift builds the native

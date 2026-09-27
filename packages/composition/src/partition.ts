@@ -1,20 +1,13 @@
 import { clipGraph } from "./clip-graph.js";
 import {
   sourceTime,
+  placementForRange,
   intersection,
   intersectAll,
   type ValidatedComposition,
   type ExactRange,
 } from "./model.js";
-import {
-  compare,
-  fromTime,
-  divide,
-  subtract,
-  type Rational,
-  toTime,
-  toFraction,
-} from "./rational.js";
+import { compare, fromTime, subtract, type Rational, toTime } from "./rational.js";
 import { isMediaClip, type Clip, type TimeValue } from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
@@ -108,34 +101,13 @@ export function partitionClips(
         if (operation.kind === "remove" && affected.has(value.clip.id) && removed(range.start))
           continue;
         const id = next.length === 0 ? value.clip.id : allocate("clip");
-        const placement: Clip["placement"] =
-          !parentPiece || !parent
-            ? { kind: "project", range: stored(range) }
-            : anchor.kind === "content"
-              ? {
-                  kind: "content",
-                  clipId: parentPiece.clip.id,
-                  sourceRange: stored({
-                    start: sourceTime(parent, range.start),
-                    end: sourceTime(parent, range.end),
-                  }),
-                }
-              : {
-                  kind: "clip",
-                  clipId: parentPiece.clip.id,
-                  start: toFraction(
-                    divide(
-                      subtract(range.start, parentPiece.range.start),
-                      subtract(parentPiece.range.end, parentPiece.range.start),
-                    ),
-                  ),
-                  end: toFraction(
-                    divide(
-                      subtract(range.end, parentPiece.range.start),
-                      subtract(parentPiece.range.end, parentPiece.range.start),
-                    ),
-                  ),
-                };
+        const placement = placementForRange(
+          value.clip,
+          range,
+          parentPiece && parent
+            ? { ...parent, clip: parentPiece.clip, range: parentPiece.range }
+            : undefined,
+        );
         let clip: Clip;
         if (isMediaClip(value.clip)) {
           const source =

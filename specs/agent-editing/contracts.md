@@ -187,7 +187,7 @@ final document change, including batches that undo their own intermediate work.
 | Link / unlink | Establish or remove synchronization groups explicitly. A clip belongs to at most one group. Imported AV placement creates linked members by default. |
 
 Interval-preserving replacement retains the addressed occurrence ID and its
-synchronization membership. An identical source selection preserves attachments;
+synchronization membership. Without expansion, an identical source selection preserves attachments;
 a source identity or selection change removes its descendants instead of assigning
 them to new content. Detach/reanchor beforehand to retain chosen attachments.
 Validate the whole supplied selection before applying a fitting policy. `trim`
@@ -198,6 +198,18 @@ adopts the source range duration and requires explicit ripple tracks. It changes
 the addressed occurrence independently, splitting synchronization membership if
 its timing changes; untouched media is never implicitly stretched to follow.
 A held source has no natural duration and cannot choose this fit.
+
+Explicit `hold` (video) and `silence` (audio) fits accept a range no longer than
+the target interval. A shorter selection becomes a native-duration media prefix
+plus an ordinary held-frame or asset-free silence tail. Their union preserves
+the target interval. The prefix retains the addressed ID; `clipLineage` returns
+both IDs. The tail joins the existing sync group, or creates a group with the
+prefix. Linked edits therefore carry the envelope, while selected scope edits
+only the specifically addressed pieces. Hold uses the last selected microsecond;
+source gaps remain unavailable rather than invented footage. Equal duration
+creates no tail. Expansion removes old attached descendants even when the same
+source selection is retained; detach/reanchor first to keep chosen attachments.
+These fits do not create a second within-clip timeline or automatic rate change.
 
 Ordinary move/split/trim/remove/retime targets linked members by default. Explicit
 `scope: selected` permits independent edits; split and unlink affected intervals,

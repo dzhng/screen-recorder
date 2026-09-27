@@ -449,3 +449,17 @@ omit silence, while composition inspection retains its authored interval; a
 missing recorded sample still reports its actual source with unavailable evidence.
 This preserves one affine source mapping per media clip and lets ordinary clip
 editing carry silence without a separate within-clip segment model.
+
+### Padding expands into ordinary linked pieces — sound, medium confidence
+
+If one second of replacement narration must occupy a two-second slot, silence
+fit creates a one-second media prefix plus a one-second asset-free silence tail.
+Video hold fit similarly adds a held-frame tail at the last selected microsecond.
+The prefix keeps the old occurrence ID; lineage names both pieces, and the tail
+joins the existing synchronization group or a new group with the prefix. Thus
+normal linked edits carry the complete replacement, while selected scope can
+change one piece. The plan named fitting policies without specifying this shape.
+Ordinary pieces preserve the one-source-clock-per-clip rule and reuse all edit
+primitives. Expansion removes old attached descendants, even with an unchanged
+source selection; detach first to preserve a chosen overlay. Exact/default,
+trim and stretch replacements keep their single-interval behavior.

@@ -23,6 +23,8 @@ import {
   ceil,
   type Rational,
   fromTime,
+  toTime,
+  toFraction,
 } from "./rational.js";
 import { CompositionError } from "./errors.js";
 type Immutable<T> = T extends object ? { readonly [K in keyof T]: Immutable<T[K]> } : T;
@@ -85,7 +87,8 @@ function unique<T extends { id: string }>(values: readonly T[], kind: string): M
   }
   return entries;
 }
-export function sourceTime(clip: ResolvedClip, project: Rational): Rational {
+type SourceClock = Pick<ResolvedClip, "clip" | "range" | "rate">;
+export function sourceTime(clip: SourceClock, project: Rational): Rational {
   if (clip.clip.source.kind === "hold") return integer(clip.clip.source.atUs);
   if (clip.clip.source.kind === "silence") invalid(`Silence has no source clock: ${clip.clip.id}`);
   return add(
@@ -93,7 +96,7 @@ export function sourceTime(clip: ResolvedClip, project: Rational): Rational {
     multiply(subtract(project, clip.range.start), clip.rate!),
   );
 }
-function projectTime(clip: ResolvedClip, source: Rational): Rational {
+function projectTime(clip: SourceClock, source: Rational): Rational {
   if (clip.clip.source.kind !== "range")
     invalid(`Clip has no invertible source clock: ${clip.clip.id}`);
   return add(
@@ -141,6 +144,39 @@ function placement(anchor: Anchor, resolved: ReadonlyMap<string, ResolvedClip>):
     };
   }
   return { range, available: intersectAll([range], parent.available) };
+}
+
+/** Restrict placement while retaining its project, source or normalized anchor domain. */
+export function placementForRange(
+  clip: Immutable<Clip>,
+  range: ExactRange,
+  parent?: SourceClock,
+): Anchor {
+  const anchor = clip.placement;
+  if (anchor.kind === "project")
+    return { kind: "project", range: { startUs: toTime(range.start), endUs: toTime(range.end) } };
+  if (!parent) invalid(`Unresolved anchor parent: ${anchor.clipId}`);
+  if (compare(range.start, parent.range.start) < 0 || compare(range.end, parent.range.end) > 0)
+    throw new CompositionError(
+      "INVALID_EDIT",
+      "Requested interval leaves its parent interval; detach or reanchor first",
+      { clipId: clip.id, parentClipId: parent.clip.id },
+    );
+  if (anchor.kind === "content")
+    return {
+      kind: "content",
+      clipId: parent.clip.id,
+      sourceRange: {
+        startUs: toTime(sourceTime(parent, range.start)),
+        endUs: toTime(sourceTime(parent, range.end)),
+      },
+    };
+  return {
+    kind: "clip",
+    clipId: parent.clip.id,
+    start: toFraction(divide(subtract(range.start, parent.range.start), length(parent.range))),
+    end: toFraction(divide(subtract(range.end, parent.range.start), length(parent.range))),
+  };
 }
 
 export function validateSourceSelection(

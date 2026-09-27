@@ -1,0 +1,43 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/edits.test.ts (49 tests | 1 failed) 735ms
+   × padding expansion drops old attachments unless explicitly detached first 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/edits.test.ts > padding expansion drops old attachments unless explicitly detached first
+AssertionError: expected [ { …(2) } ] to deeply equal [ { id: 'existing', …(1) } ]
+
+- Expected
++ Received
+
+@@ -2,8 +2,8 @@
+    {
+      "clipIds": [
+        "clip:transaction:1",
+        "clip:remove-old-anchor:0",
+      ],
+-     "id": "existing",
++     "id": "syncGroup:remove-old-anchor:1",
+    },
+  ]
+
+ ❯ src/edits.test.ts:2398:39
+    2396|   });
+    2397|   expect(removed.removedAttachments).toEqual(["child"]);
+    2398|   expect(removed.document.syncGroups).toEqual([{ id: "existing", clipI…
+       |                                       ^
+    2399|   expect(removed.createdIds.filter((entry) => entry.kind === "syncGrou…
+    2400|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 68 passed (69)
+   Start at  16:19:04
+   Duration  1.20s (tests 57%, transform 26%, import 17%, worker 1%)
+
+error: script "test" exited with code 1

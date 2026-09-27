@@ -2199,3 +2199,216 @@ test("authored silence has duration and edit identity without inventing an asset
   expect(validateComposition(result.document, []).durationUs).toBe(3500000);
   expect(projectToSource(validateComposition(result.document, []), 2000000)).toEqual([]);
 });
+
+test("explicit hold and silence fits expand into linked tails without stretching media", () => {
+  const first = applyBatch(input, setup, context);
+  for (const [label, kind, fit, streamId, startUs] of [
+    ["video", "video", "hold", "v", 0],
+    ["audio", "audio", "silence", "a", 200000],
+  ] as const) {
+    const id = first.labels[label]!;
+    const result = applyBatch(
+      first.document,
+      [
+        {
+          operation: "replace",
+          clipId: id,
+          kind,
+          fit,
+          media: {
+            assetId: "source",
+            streamId,
+            source: { kind: "range", range: { startUs, endUs: startUs + 1000000 } },
+          },
+        },
+      ],
+      { ...context, namespace: fit },
+    );
+    const tailId = result.clipLineage.find((entry) => entry.originalId === id)!.clipIds[1]!;
+    const prefix = result.document.clips.find((clip) => clip.id === id)!;
+    const tail = result.document.clips.find((clip) => clip.id === tailId)!;
+    expect(prefix.placement).toEqual({
+      kind: "project",
+      range: { startUs, endUs: startUs + 1000000 },
+    });
+    expect(tail.placement).toEqual({
+      kind: "project",
+      range: { startUs: startUs + 1000000, endUs: kind === "video" ? 2000000 : 1800000 },
+    });
+    expect(tail.source).toEqual(
+      kind === "video" ? { kind: "hold", atUs: 999999 } : { kind: "silence" },
+    );
+    if (kind === "audio") expect(tail).not.toHaveProperty("assetId");
+    expect(result.document.syncGroups).toEqual([
+      {
+        ...first.document.syncGroups[0],
+        clipIds: [...first.document.syncGroups[0]!.clipIds, tailId],
+      },
+    ]);
+    const untouched = kind === "video" ? first.labels.audio : first.labels.video;
+    expect(result.document.clips.find((clip) => clip.id === untouched)).toEqual(
+      first.document.clips.find((clip) => clip.id === untouched),
+    );
+    const moved = applyBatch(
+      result.document,
+      [{ operation: "move", clipIds: [id], atUs: 3000000, ripple: "none" }],
+      { ...context, namespace: "move-tail" },
+    );
+    expect(validateComposition(moved.document, context.assets).durationUs).toBe(5000000);
+    expect(moved.document.clips.find((clip) => clip.id === tailId)!.source).toEqual(tail.source);
+  }
+});
+
+test("silence padding retains a sole final occurrence's duration and reports its editable pieces", () => {
+  const first = applyBatch(input, setup, context);
+  const only = applyBatch(
+    first.document,
+    [
+      { operation: "remove", clipIds: [first.labels.video], scope: "selected", ripple: "none" },
+      { operation: "track.remove", trackId: first.labels.picture },
+    ],
+    context,
+  );
+  const operation = {
+    operation: "replace",
+    clipId: first.labels.audio,
+    kind: "audio",
+    fit: "silence",
+    media: {
+      assetId: "source",
+      streamId: "a",
+      source: { kind: "range", range: { startUs: 200000, endUs: 1200000 } },
+    },
+  };
+  const result = applyBatch(only.document, [operation], { ...context, namespace: "final-padding" });
+  const tailId = result.clipLineage[0]!.clipIds[1]!;
+  const model = validateComposition(result.document, context.assets);
+  expect(model.durationUs).toBe(1800000);
+  expect(projectToSource(model, 1500000)).toEqual([]);
+  expect(result.document.syncGroups).toEqual([
+    {
+      id: result.createdIds.find((entry) => entry.kind === "syncGroup")!.id,
+      clipIds: [first.labels.audio, tailId],
+    },
+  ]);
+  expect(applyBatch(result.document, [operation], context).changed).toBe(false);
+  const removed = applyBatch(
+    result.document,
+    [{ operation: "remove", clipIds: [first.labels.audio], ripple: "none" }],
+    context,
+  );
+  expect(removed.document.clips).toEqual([]);
+  const selected = applyBatch(
+    result.document,
+    [{ operation: "remove", clipIds: [first.labels.audio], scope: "selected", ripple: "none" }],
+    context,
+  );
+  expect(selected.document.clips).toEqual([
+    result.document.clips.find((clip) => clip.id === tailId),
+  ]);
+});
+
+test("padding preserves exact fractional placement without inventing an intermediate source cut", () => {
+  const endUs = { numerator: 6000000000000001, denominator: 3000000000000000 };
+  const document = {
+    ...input,
+    tracks: [{ id: "audio", kind: "audio", order: 0 }],
+    clips: [
+      {
+        id: "voice",
+        assetId: "source",
+        streamId: "a",
+        trackId: "audio",
+        source: { kind: "range", range: { startUs: 200000, endUs: 1800000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs } },
+      },
+    ],
+  };
+  const result = applyBatch(
+    document,
+    [
+      {
+        operation: "replace",
+        clipId: "voice",
+        kind: "audio",
+        fit: "silence",
+        media: {
+          assetId: "source",
+          streamId: "a",
+          source: { kind: "range", range: { startUs: 200000, endUs: 200001 } },
+        },
+      },
+    ],
+    context,
+  );
+  expect(result.document.clips.map((clip) => clip.placement)).toEqual([
+    { kind: "project", range: { startUs: 0, endUs: 1 } },
+    { kind: "project", range: { startUs: 1, endUs } },
+  ]);
+  expect(result.document.clips[0]!.source).toEqual({
+    kind: "range",
+    range: { startUs: 200000, endUs: 200001 },
+  });
+  expect(result.document.clips[1]!.source).toEqual({ kind: "silence" });
+});
+
+test("padding expansion drops old attachments unless explicitly detached first", () => {
+  const first = applyBatch(input, setup, context);
+  const document = {
+    ...first.document,
+    syncGroups: [{ id: "existing", clipIds: [first.labels.video!, "child"] }],
+    tracks: [...first.document.tracks, { id: "overlay", kind: "video", order: 1 }],
+    clips: [
+      {
+        ...first.document.clips[0]!,
+        placement: { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+      },
+      first.document.clips[1]!,
+      {
+        id: "child",
+        assetId: "source",
+        streamId: "v",
+        trackId: "overlay",
+        source: { kind: "hold", atUs: 0 },
+        placement: {
+          kind: "clip",
+          clipId: first.labels.video!,
+          start: { numerator: 0, denominator: 1 },
+          end: { numerator: 1, denominator: 1 },
+        },
+      },
+    ],
+  };
+  const replacement = {
+    operation: "replace",
+    clipId: first.labels.video,
+    kind: "video",
+    fit: "hold",
+    media: {
+      assetId: "source",
+      streamId: "v",
+      source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+    },
+  };
+  const removed = applyBatch(document, [replacement], {
+    ...context,
+    namespace: "remove-old-anchor",
+  });
+  expect(removed.removedAttachments).toEqual(["child"]);
+  expect(removed.document.syncGroups).toEqual([
+    { id: "existing", clipIds: [first.labels.video, removed.clipLineage[0]!.clipIds[1]] },
+  ]);
+  expect(removed.createdIds.filter((entry) => entry.kind === "syncGroup")).toEqual([]);
+
+  expect(removed.document.clips.some((clip) => clip.id === "child")).toBe(false);
+  const retained = applyBatch(
+    document,
+    [{ operation: "detach", clipIds: ["child"] }, replacement],
+    { ...context, namespace: "keep-old-overlay" },
+  );
+  expect(retained.removedAttachments).toEqual([]);
+  expect(retained.document.clips.find((clip) => clip.id === "child")!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 0, endUs: 4000000 },
+  });
+});

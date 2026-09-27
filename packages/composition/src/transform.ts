@@ -1,6 +1,6 @@
 import { clipGraph } from "./clip-graph.js";
 import { CompositionError } from "./errors.js";
-import { sourceTime, type ValidatedComposition } from "./model.js";
+import { placementForRange, type ValidatedComposition } from "./model.js";
 import {
   add,
   compare,
@@ -9,7 +9,6 @@ import {
   multiply,
   rational,
   subtract,
-  toFraction,
   toTime,
 } from "./rational.js";
 import { isMediaClip, type Clip } from "./schema.js";
@@ -111,36 +110,7 @@ export function transformClips(
       };
     } else {
       const parent = original.get(anchor.clipId)!;
-      if (compare(range.start, parent.range.start) < 0 || compare(range.end, parent.range.end) > 0)
-        throw new CompositionError(
-          "INVALID_EDIT",
-          "Transformed attachment leaves its parent interval; explicitly reanchor it first",
-          { clipId: clip.id, parentClipId: anchor.clipId },
-        );
-      placement =
-        anchor.kind === "content"
-          ? {
-              ...anchor,
-              sourceRange: {
-                startUs: toTime(sourceTime(parent, range.start)),
-                endUs: toTime(sourceTime(parent, range.end)),
-              },
-            }
-          : {
-              ...anchor,
-              start: toFraction(
-                divide(
-                  subtract(range.start, parent.range.start),
-                  subtract(parent.range.end, parent.range.start),
-                ),
-              ),
-              end: toFraction(
-                divide(
-                  subtract(range.end, parent.range.start),
-                  subtract(parent.range.end, parent.range.start),
-                ),
-              ),
-            };
+      placement = placementForRange(clip, range, parent);
     }
     return { ...clip, placement };
   });
