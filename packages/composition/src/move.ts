@@ -11,8 +11,19 @@ export function moveClips(
   atUs: number,
   scope: "linked" | "selected",
   allocate: (kind: "syncGroup") => string,
+  tracks: readonly { clipId: string; trackId: string }[],
 ) {
   const affected = clipGraph(model).expand(selected, scope === "linked");
+  const destinations = new Map<string, string>();
+  for (const entry of tracks) {
+    if (!affected.has(entry.clipId) || destinations.has(entry.clipId))
+      throw new CompositionError(
+        "INVALID_EDIT",
+        "Move track destinations must name affected clips without duplicates",
+        { clipId: entry.clipId },
+      );
+    destinations.set(entry.clipId, entry.trackId);
+  }
   const original = new Map(model.clips.map((value) => [value.clip.id, value]));
   const values = model.clips.filter((value) => affected.has(value.clip.id));
   const start = values.reduce(
@@ -20,9 +31,12 @@ export function moveClips(
     values[0]!.range.start,
   );
   const delta = subtract(fromTime(atUs), start);
-  if (delta.numerator === 0n) return model.document;
-  const clips = model.document.clips.map((clip) => {
+  const clips = model.document.clips.map((originalClip) => {
+    const clip = destinations.has(originalClip.id)
+      ? { ...originalClip, trackId: destinations.get(originalClip.id)! }
+      : originalClip;
     if (!affected.has(clip.id)) return clip;
+    if (delta.numerator === 0n) return clip;
     const anchor = clip.placement;
     if (anchor.kind !== "project" && affected.has(anchor.clipId)) return clip;
     const value = original.get(clip.id)!;
@@ -69,7 +83,7 @@ export function moveClips(
     return { ...clip, placement };
   });
   const syncGroups =
-    scope === "linked"
+    scope === "linked" || delta.numerator === 0n
       ? model.document.syncGroups
       : model.document.syncGroups.flatMap((group) => {
           if (

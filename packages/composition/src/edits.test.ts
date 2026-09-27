@@ -1005,3 +1005,127 @@ test("selected move retains synchronization inside moving and stationary subsets
   expect(result.document.syncGroups[0]!.id).toBe("group");
   expect(result.createdIds).toEqual([{ kind: "syncGroup", id: result.document.syncGroups[1]!.id }]);
 });
+
+test("move can change explicit destination tracks without changing link or source identity", () => {
+  const first = applyBatch(
+    input,
+    [...setup, { operation: "track.add", track: { kind: "video", order: 1 }, label: "upper" }],
+    context,
+  );
+  const operation = {
+    operation: "move",
+    clipIds: [first.labels.video],
+    atUs: 0,
+    ripple: "none",
+    scope: "selected",
+    tracks: [{ clipId: first.labels.video, trackId: first.labels.upper }],
+  };
+  const result = applyBatch(first.document, [operation], context);
+  expect(result.document.clips[0]).toEqual({
+    ...first.document.clips[0],
+    trackId: first.labels.upper,
+  });
+  expect(result.document.clips[1]).toEqual(first.document.clips[1]);
+  expect(result.document.syncGroups).toEqual(first.document.syncGroups);
+  expect(applyBatch(result.document, [operation], context).changed).toBe(false);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [{ ...operation, tracks: [{ clipId: first.labels.audio, trackId: first.labels.sound }] }],
+      context,
+    ),
+  ).toThrow(/affected clips/);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [{ ...operation, tracks: [operation.tracks[0], operation.tracks[0]] }],
+      context,
+    ),
+  ).toThrow(/duplicates/);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [{ ...operation, tracks: [{ clipId: first.labels.video, trackId: first.labels.sound }] }],
+      context,
+    ),
+  ).toThrow(CompositionError);
+});
+
+test("detach freezes exact placement and reanchor changes dependency without moving samples", () => {
+  const document = {
+    ...input,
+    tracks: [
+      { id: "base", kind: "video", order: 0 },
+      { id: "overlay", kind: "video", order: 1 },
+    ],
+    clips: [
+      {
+        id: "parent",
+        assetId: "source",
+        streamId: "v",
+        trackId: "base",
+        source: { kind: "range", range: { startUs: 0, endUs: 9 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 10 } },
+      },
+      {
+        id: "child",
+        assetId: "source",
+        streamId: "v",
+        trackId: "overlay",
+        source: { kind: "range", range: { startUs: 10, endUs: 20 } },
+        placement: { kind: "content", clipId: "parent", sourceRange: { startUs: 1, endUs: 4 } },
+      },
+    ],
+  };
+  const detached = applyBatch(document, [{ operation: "detach", clipIds: ["child"] }], context);
+  expect(detached.document.clips[1]!.placement).toEqual({
+    kind: "project",
+    range: { startUs: { numerator: 10, denominator: 9 }, endUs: { numerator: 40, denominator: 9 } },
+  });
+  expect(
+    applyBatch(detached.document, [{ operation: "detach", clipIds: ["child"] }], context).changed,
+  ).toBe(false);
+  const attached = applyBatch(
+    detached.document,
+    [{ operation: "reanchor", clipId: "child", placement: document.clips[1]!.placement }],
+    context,
+  );
+  expect(attached.document).toEqual(validateComposition(document, context.assets).document);
+  const moved = applyBatch(
+    detached.document,
+    [{ operation: "move", clipIds: ["parent"], atUs: 20, ripple: "none" }],
+    context,
+  );
+  expect(moved.document.clips[1]).toEqual(detached.document.clips[1]);
+  expect(() =>
+    applyBatch(
+      document,
+      [
+        {
+          operation: "reanchor",
+          clipId: "child",
+          placement: { kind: "content", clipId: "parent", sourceRange: { startUs: 2, endUs: 5 } },
+        },
+      ],
+      context,
+    ),
+  ).toThrow(/preserve the current project interval/);
+  expect(() =>
+    applyBatch(
+      document,
+      [
+        {
+          operation: "reanchor",
+          clipId: "parent",
+          placement: {
+            kind: "clip",
+            clipId: "child",
+            start: { numerator: 0, denominator: 1 },
+            end: { numerator: 1, denominator: 1 },
+          },
+        },
+      ],
+      context,
+    ),
+  ).toThrow(CompositionError);
+});

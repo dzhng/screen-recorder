@@ -306,3 +306,15 @@ each side. This changes only the generated samples, leaving raw generation and
 original context untouched. The plan did not specify a level estimator. Silence
 and delivery affect this simple measurement, so it is a reversible comparison,
 not the production loudness policy. Join acceptance still requires listening.
+
+
+### Change attachment without silently changing timing — sound, medium confidence
+
+If an overlay should follow another clip, `reanchor` changes what it follows
+only when the requested attachment resolves to its current start and end. The
+agent uses move or retime separately when timing should change. `detach` instead
+freezes that resolved position exactly, including fractional boundaries, so the
+agent does not have to round it into a command timestamp. The plan required
+explicit reanchoring but left its timing behavior unspecified. This separation
+keeps links and source samples unchanged during a dependency-only edit, while
+batches can still combine all three operations for a deliberate timing change.

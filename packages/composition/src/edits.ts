@@ -4,7 +4,7 @@ import { anchorSchema, clipSchema, compositionSchema, rangeSchema } from "./sche
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
 import { partitionClips } from "./partition.js";
-import { compare, fromTime } from "./rational.js";
+import { compare, fromTime, toTime } from "./rational.js";
 import { rippleRemoval } from "./ripple.js";
 import { moveClips } from "./move.js";
 
@@ -32,6 +32,8 @@ const placedClip = clipSchema.omit({ id: true }).extend({
   ]),
 });
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z.object({ operation: z.literal("detach"), clipIds: z.array(reference).min(1) }).strict(),
+  z.object({ operation: z.literal("reanchor"), clipId: reference, placement }).strict(),
   z
     .object({
       operation: z.literal("move"),
@@ -39,6 +41,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       atUs: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
       scope: z.enum(["linked", "selected"]).default("linked"),
       ripple: z.literal("none"),
+      tracks: z.array(z.object({ clipId: reference, trackId: reference }).strict()).default([]),
     })
     .strict(),
   z
@@ -206,6 +209,51 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "reanchor": {
+          const id = clips([operation.clipId])[0]!;
+          const anchor = operation.placement;
+          const resolvedAnchor =
+            anchor.kind === "project"
+              ? anchor
+              : { ...anchor, clipId: resolve(anchor.clipId, "clip") };
+          next = {
+            ...before,
+            clips: before.clips.map((clip) =>
+              clip.id === id ? { ...clip, placement: resolvedAnchor } : clip,
+            ),
+          };
+          const candidate = validateComposition(next, model.assets);
+          const oldRange = model.clips.find((value) => value.clip.id === id)!.range;
+          const newRange = candidate.clips.find((value) => value.clip.id === id)!.range;
+          if (
+            compare(oldRange.start, newRange.start) !== 0 ||
+            compare(oldRange.end, newRange.end) !== 0
+          )
+            invalid(
+              "Reanchor must preserve the current project interval; move or retime explicitly first",
+              { clipId: id },
+            );
+          break;
+        }
+        case "detach": {
+          const ids = new Set(clips(operation.clipIds));
+          const resolved = new Map(model.clips.map((value) => [value.clip.id, value.range]));
+          next = {
+            ...before,
+            clips: before.clips.map((clip) => {
+              if (!ids.has(clip.id) || clip.placement.kind === "project") return clip;
+              const range = resolved.get(clip.id)!;
+              return {
+                ...clip,
+                placement: {
+                  kind: "project" as const,
+                  range: { startUs: toTime(range.start), endUs: toTime(range.end) },
+                },
+              };
+            }),
+          };
+          break;
+        }
         case "move": {
           next = moveClips(
             model,
@@ -213,6 +261,10 @@ export function applyBatch(
             operation.atUs,
             operation.scope,
             allocate,
+            operation.tracks.map((entry) => ({
+              clipId: resolve(entry.clipId, "clip"),
+              trackId: resolve(entry.trackId, "track"),
+            })),
           );
           break;
         }

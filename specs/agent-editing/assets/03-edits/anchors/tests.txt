@@ -1,0 +1,10 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+
+ Test Files  2 passed (2)
+      Tests  46 passed (46)
+   Start at  14:40:08
+   Duration  1.06s (tests 55%, transform 31%, import 13%, worker 1%)
+

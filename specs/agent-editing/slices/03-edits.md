@@ -120,3 +120,19 @@ actionable defects. The graph closure is shared with partitioning, avoiding two
 owners for attachment and link expansion. This checkpoint accepts only explicit
 `ripple: none`; insertion/ripple move, destination track changes and explicit
 reanchoring remain required, along with replace/retime/duplicate.
+
+
+## Anchor and destination checkpoint
+
+Detach stores the exact resolved project interval, including fractional boundaries,
+without changing source selection, links or descendants. Reanchor changes the
+dependency while requiring the same project interval; moving and retiming stay
+explicit operations. Move accepts named destination tracks only for its expanded
+selection, with normal model validation for stream kind and overlap. A track-only
+move does not unlink synchronized media.
+
+[46 tests](../assets/03-edits/anchors/tests.txt), type checking and build pass.
+Restoring both edited implementation files to the previous checkpoint makes only
+the [two new behavioral tests fail](../assets/03-edits/anchors/red.txt). Independent
+Codex review found no actionable defects. Ripple move, insert, replace, retime
+and duplicate remain open.
