@@ -1,0 +1,14 @@
+[
+  {
+    "case": "original",
+    "text": "The sample offer says this is free. You can mention the sentence in"
+  },
+  {
+    "case": "word",
+    "text": "The sample offers as this paid. You can mention the sentence here."
+  },
+  {
+    "case": "phrase",
+    "text": "The sample offer says This is available at no cost. You can mention the sentence here."
+  }
+]

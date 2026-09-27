@@ -1,0 +1,64 @@
+{
+  "referenceTimelineRangeUs": [
+    66500000,
+    67400000
+  ],
+  "sourceOriginUs": 48675,
+  "roomToneRmsDbfs": -53.899634172623564,
+  "roomToneSha256": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d",
+  "method": "Original preferred voice mode, shorter explicit generated margins, same voice gain. Wet and dry variants differ only by extracted room tone. Room tone loops with 50ms overlaps, at its original RMS. Both use 5ms crossfades into adjacent original context; samples outside those transition windows are exact. No alternative voice model or de-reverberation.",
+  "cases": [
+    {
+      "id": "word",
+      "replacedTimelineRangeUs": [
+        74168675,
+        74688675
+      ],
+      "keptGeneratedSeconds": [
+        0.24,
+        0.84
+      ],
+      "voiceGainDb": -4.519810154304541,
+      "transitionSamples": 120,
+      "roomToneRmsDbfs": -53.89963417737939,
+      "outputs": {
+        "dry": {
+          "sha256": "921717aa50c7e40542d7b15ea089ead6402d248832181588d301f9662a335238",
+          "frames": 121680,
+          "outsideTransitionExact": true
+        },
+        "room": {
+          "sha256": "1e027babed08f14d81429c9384dac87aa13f382e7956683db2a06ae025115493",
+          "frames": 121680,
+          "outsideTransitionExact": true
+        }
+      }
+    },
+    {
+      "id": "phrase",
+      "replacedTimelineRangeUs": [
+        73748675,
+        74688675
+      ],
+      "keptGeneratedSeconds": [
+        0,
+        2.4
+      ],
+      "voiceGainDb": -7.220801002958279,
+      "transitionSamples": 120,
+      "roomToneRmsDbfs": -53.899634176107654,
+      "outputs": {
+        "dry": {
+          "sha256": "530de429bedccee69097c58a28c07f01689304851fe02f5ef71562dcad543606",
+          "frames": 154800,
+          "outsideTransitionExact": true
+        },
+        "room": {
+          "sha256": "0c7ecf33de2d3d6ac9b43a15400e5e65372ba94ea302f5f6999059caf0946574",
+          "frames": 154800,
+          "outsideTransitionExact": true
+        }
+      }
+    }
+  ]
+}

@@ -66,9 +66,9 @@ Current evidence:
 - [18 voice](assets/18-voice/README.md): six offline generations, exact PCM splice
   checks; [ASR word agreement](assets/18-voice-lexical/README.md) passes. The
   user finds voice close but joins wrong and generated speech louder.
-  [Tighter-join auditions](assets/18-voice-joins/README.md) and an alternative
-  conditioning mode address follow-up reports of excess pauses and echo;
-  original context remains exact, but acoustic quality remains unverified.
+  The alternative mode was rejected. [Room-tone auditions](assets/18-voice-roomtone/README.md)
+  use the closer voice with tighter cuts and extracted background sound.
+  Context outside declared transitions stays exact; listening quality remains open.
 
 Keep old media intact and develop against isolated homes; the new library is
 fresh, with no history migration or compatibility engine. No voice model/runtime

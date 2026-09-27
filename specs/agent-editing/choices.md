@@ -323,8 +323,9 @@ batches can still combine all three operations for a deliberate timing change.
 ### Separate join timing from acoustic similarity — sound, medium confidence
 
 After level matching, the user still heard pauses and an echoey replacement.
-The join audition now crops only generated margins and fades only its edge
-samples; it preserves the surrounding original samples exactly. The crop is
+The initial join audition cropped only generated margins and faded only its
+edge samples, preserving surrounding original samples exactly. The later
+room-tone audition declares short crossfades into original context explicitly. The crop is
 explicit, not an automatic silence detector: the first word crop changed the
 recognizer result from paid to page, demonstrating why quiet material cannot
 be discarded solely from an ASR timestamp. A longer ending restored word
@@ -334,8 +335,9 @@ For the echo complaint, a second experiment uses the same local model and
 reference audio but conditions on its speaker representation alone, omitting
 the reference transcript/sequence. The plan permitted local runtime experiments
 but did not choose a conditioning mode. Voice similarity and room sound may
-trade off; both modes remain available as frozen evidence until listening
-selects a winner. No de-reverberation claim or production policy follows from
+trade off. The user subsequently rejected speaker-only conditioning as much
+worse; it remains negative evidence, while the original mode stays the closer
+candidate. No de-reverberation claim or production policy follows from
 the recognizer passing.
 
 
@@ -374,3 +376,16 @@ second placement schema. Reusing place supports video-only, audio-only or
 multi-layer inserts without duplicating placement rules or making users manage
 partially completed edits. A gap after the final clip alone does not extend the
 project; a placed clip establishes its content duration.
+
+
+### Match the recorded background with a separate room-tone bed — sound, medium confidence
+
+To address the missing hum, the audition repeats a quiet interior of an original
+pause beneath the generated speech, preserving its recorded average level.
+Short overlaps join repeats; short declared crossfades join the replacement to
+the surrounding take. The user requested extraction and addition of the actual
+background, but left the region, level and transition method to implementation.
+Keeping this bed separate makes its level and source auditable and reversible.
+The selected region is supported by its low stable energy and transcript gap,
+not yet by an independent listening judgment that it contains no speech. These
+are audition settings, not automatic defaults for all future recordings.

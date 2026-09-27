@@ -1,0 +1,19 @@
+{
+  "source": "fixtures/narrated-workbench/narration.mov",
+  "timelineRangeUs": [
+    66200000,
+    67700000
+  ],
+  "sourceOriginUs": 48675,
+  "ffmpegFilter": "atrim=start=66.151325:end=67.651325,asetpts=PTS-STARTPTS",
+  "sampleRate": 24000,
+  "channels": 1,
+  "codec": "pcm_f32le",
+  "retainedPauseSeconds": [
+    0.3,
+    1.2
+  ],
+  "selectionEvidence": "ASR marks a 1.68-second pause; the retained interior has a stable low level around -54dBFS. Speech-free quality is not independently auditioned.",
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "pauseSha256": "00b967c105e8acb9bbcf867439cdaf4301bf2d906801d9d1dbb2529f32b79658"
+}

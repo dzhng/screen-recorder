@@ -1,6 +1,6 @@
 # 18 — Reproduce local reference speech
 
-Status: offline candidate reproduced; observed warm RTF/memory targets and independent ASR word agreement met. User finds voice close but joins wrong: louder speech, excessive margins and more echo. [Tighter joins](../assets/18-voice-joins/README.md) and an [alternative local conditioning mode](../assets/18-voice-speaker-only/README.md) pass lexical checks but await listening; join acceptance, visual review and managed origin retention remain open. [Frozen evidence](../assets/18-voice/README.md). Dependencies: [00](./00-corpus.md).
+Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode, still hears excess margins, and requests the original background hum. [Room-tone auditions](../assets/18-voice-roomtone/README.md) retain the closer mode with tighter cuts; acoustic/listening acceptance, visual review and managed origin retention remain open. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

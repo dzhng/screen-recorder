@@ -1,5 +1,8 @@
 # Speaker-only conditioning audition
 
+Status: rejected by the user as “way worse.” Retained as negative research
+evidence; this mode is not the selected candidate.
+
 The user described the reference-conditioned generation as more echoey than the
 original take. The pinned local runtime supports a second path: supplying
 reference audio without its transcript extracts a speaker representation without
