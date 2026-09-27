@@ -16,4 +16,6 @@ latency guarantee or complete decoded frame-membership verification.
 
 This is pending research evidence. It supports evaluating the existing platform
 policy before introducing a fixed bitrate, but broader quality, frame checks and
-independent review remain open. No production encoding setting changed.
+[independent audit follow-ups](review.md) remain open. The audit verifies the
+retained hashes, one-frame pixel equality and three-second decoded timing; it
+does not accept general encoding quality. No production encoding setting changed.
