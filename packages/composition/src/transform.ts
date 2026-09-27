@@ -1,22 +1,32 @@
 import { clipGraph } from "./clip-graph.js";
 import { CompositionError } from "./errors.js";
 import { sourceTime, type ValidatedComposition } from "./model.js";
-import { add, compare, divide, fromTime, subtract, toFraction, toTime } from "./rational.js";
+import {
+  add,
+  compare,
+  divide,
+  fromTime,
+  multiply,
+  rational,
+  subtract,
+  toFraction,
+  toTime,
+} from "./rational.js";
 import type { Clip } from "./schema.js";
 
-/** Translate an occurrence selection once, retaining each attachment's anchor kind. */
-export function moveClips(
+/** Apply a shared project-time transform, retaining each attachment's anchor kind. */
+export function transformSelection(
   model: ValidatedComposition,
   selected: readonly string[],
-  atUs: number,
+  timing: { atUs?: number; durationUs?: number; pitch?: "preserve" | "follow" },
   scope: "linked" | "selected",
   allocate: (kind: "syncGroup") => string,
   tracks: readonly { clipId: string; trackId: string }[],
 ) {
   const affected = clipGraph(model).expand(selected, scope === "linked");
-  const { clips, delta } = relocateClips(model, affected, atUs, tracks, false);
+  const { clips, changedTiming } = transformClips(model, affected, timing, tracks, false);
   const syncGroups =
-    scope === "linked" || delta.numerator === 0n
+    scope === "linked" || !changedTiming
       ? model.document.syncGroups
       : model.document.syncGroups.flatMap((group) => {
           if (
@@ -36,11 +46,11 @@ export function moveClips(
   return { ...model.document, clips, syncGroups };
 }
 
-/** Shared exact relocation for existing occurrences and copies. */
-export function relocateClips(
+/** Shared exact placement algebra for moves, retiming and copies. */
+export function transformClips(
   model: ValidatedComposition,
   affected: ReadonlySet<string>,
-  atUs: number,
+  timing: { atUs?: number; durationUs?: number; pitch?: "preserve" | "follow" },
   tracks: readonly { clipId: string; trackId: string }[],
   detachRoots: boolean,
 ) {
@@ -49,7 +59,7 @@ export function relocateClips(
     if (!affected.has(entry.clipId) || destinations.has(entry.clipId))
       throw new CompositionError(
         "INVALID_EDIT",
-        "Move track destinations must name affected clips without duplicates",
+        "Track destinations must name affected clips without duplicates",
         { clipId: entry.clipId },
       );
     destinations.set(entry.clipId, entry.trackId);
@@ -60,17 +70,29 @@ export function relocateClips(
     (at, value) => (compare(value.range.start, at) < 0 ? value.range.start : at),
     values[0]!.range.start,
   );
-  const delta = subtract(fromTime(atUs), start);
+  const end = values.reduce(
+    (at, value) => (compare(value.range.end, at) > 0 ? value.range.end : at),
+    values[0]!.range.end,
+  );
+  const destination = timing.atUs === undefined ? start : fromTime(timing.atUs);
+  const scale =
+    timing.durationUs === undefined
+      ? rational(1n)
+      : divide(fromTime(timing.durationUs), subtract(end, start));
+  const changedTiming = compare(destination, start) !== 0 || compare(scale, rational(1n)) !== 0;
+  const projectTime = (at: typeof start) => add(destination, multiply(subtract(at, start), scale));
   const clips = model.document.clips.map((originalClip) => {
-    const clip = destinations.has(originalClip.id)
+    let clip = destinations.has(originalClip.id)
       ? { ...originalClip, trackId: destinations.get(originalClip.id)! }
       : originalClip;
     if (!affected.has(clip.id)) return clip;
+    if (timing.pitch !== undefined && original.get(clip.id)!.stream.kind === "audio")
+      clip = { ...clip, pitch: timing.pitch };
     const anchor = clip.placement;
-    if (delta.numerator === 0n && !detachRoots) return clip;
+    if (!changedTiming && !detachRoots) return clip;
     if (anchor.kind !== "project" && affected.has(anchor.clipId)) return clip;
     const value = original.get(clip.id)!;
-    const range = { start: add(value.range.start, delta), end: add(value.range.end, delta) };
+    const range = { start: projectTime(value.range.start), end: projectTime(value.range.end) };
     let placement: Clip["placement"];
     if (anchor.kind === "project" || detachRoots) {
       placement = {
@@ -82,7 +104,7 @@ export function relocateClips(
       if (compare(range.start, parent.range.start) < 0 || compare(range.end, parent.range.end) > 0)
         throw new CompositionError(
           "INVALID_EDIT",
-          "Moved attachment leaves its parent interval; explicitly reanchor it first",
+          "Transformed attachment leaves its parent interval; explicitly reanchor it first",
           { clipId: clip.id, parentClipId: anchor.clipId },
         );
       placement =
@@ -112,5 +134,5 @@ export function relocateClips(
     }
     return { ...clip, placement };
   });
-  return { clips, delta };
+  return { clips, changedTiming };
 }

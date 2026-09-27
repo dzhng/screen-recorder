@@ -6,7 +6,7 @@ import { validateComposition, type ValidatedComposition, type ExactRange } from 
 import { partitionClips } from "./partition.js";
 import { compare, fromTime, toTime } from "./rational.js";
 import { rippleRemoval } from "./ripple.js";
-import { moveClips } from "./move.js";
+import { transformSelection } from "./transform.js";
 import { duplicateClips } from "./duplicate.js";
 
 type Document = ValidatedComposition["document"];
@@ -33,6 +33,16 @@ const placedClip = clipSchema.omit({ id: true }).extend({
   ]),
 });
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("retime"),
+      clipIds: z.array(reference).min(1),
+      durationUs: z.int().positive().max(Number.MAX_SAFE_INTEGER),
+      scope: z.enum(["linked", "selected"]).default("linked"),
+      pitch: z.enum(["preserve", "follow"]).default("preserve"),
+      ripple: z.literal("none"),
+    })
+    .strict(),
   z
     .object({
       operation: z.literal("duplicate"),
@@ -222,6 +232,17 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "retime": {
+          next = transformSelection(
+            model,
+            clips(operation.clipIds),
+            { durationUs: operation.durationUs, pitch: operation.pitch },
+            operation.scope,
+            allocate,
+            [],
+          );
+          break;
+        }
         case "duplicate": {
           const result = duplicateClips(
             model,
@@ -293,10 +314,10 @@ export function applyBatch(
           break;
         }
         case "move": {
-          next = moveClips(
+          next = transformSelection(
             model,
             clips(operation.clipIds),
-            operation.atUs,
+            { atUs: operation.atUs },
             operation.scope,
             allocate,
             operation.tracks.map((entry) => ({

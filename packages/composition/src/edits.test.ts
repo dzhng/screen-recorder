@@ -1243,3 +1243,159 @@ test("duplicate selected scope copies only its dependency subtree and requires a
     ),
   ).toThrow(CompositionError);
 });
+
+test("retime scales a linked envelope and keeps audio/video source selection and offsets exact", () => {
+  const first = applyBatch(input, setup, context);
+  const result = applyBatch(
+    first.document,
+    [{ operation: "retime", clipIds: [first.labels.audio], durationUs: 3000000, ripple: "none" }],
+    context,
+  );
+  expect(result.document.clips.map((clip) => clip.placement)).toEqual([
+    { kind: "project", range: { startUs: 0, endUs: 3000000 } },
+    { kind: "project", range: { startUs: 300000, endUs: 2700000 } },
+  ]);
+  expect(result.document.clips.map((clip) => clip.source)).toEqual(
+    first.document.clips.map((clip) => clip.source),
+  );
+  expect(result.document.clips[0]!.pitch).toBeUndefined();
+  expect(result.document.clips[1]!.pitch).toBe("preserve");
+  expect(result.document.syncGroups).toEqual(first.document.syncGroups);
+  const model = validateComposition(result.document, context.assets);
+  expect(projectToSource(model, 1500000).map((sample) => sample.sourceUs)).toEqual([
+    1000000, 1000000,
+  ]);
+  expect(
+    applyBatch(
+      result.document,
+      [{ operation: "retime", clipIds: [first.labels.audio], durationUs: 3000000, ripple: "none" }],
+      context,
+    ).changed,
+  ).toBe(false);
+  const selected = applyBatch(
+    first.document,
+    [
+      {
+        operation: "retime",
+        clipIds: [first.labels.audio],
+        durationUs: 800000,
+        scope: "selected",
+        pitch: "follow",
+        ripple: "none",
+      },
+    ],
+    context,
+  );
+  expect(selected.document.clips[0]).toEqual(first.document.clips[0]);
+  expect(selected.document.clips[1]!.placement).toEqual({
+    kind: "project",
+    range: { startUs: 200000, endUs: 1000000 },
+  });
+  expect(selected.document.clips[1]!.pitch).toBe("follow");
+  expect(selected.document.syncGroups).toEqual([]);
+});
+
+test("retime propagates through held-parent attachments once and preserves gaps", () => {
+  const document = {
+    ...input,
+    tracks: [
+      { id: "base", kind: "video", order: 0 },
+      { id: "voice", kind: "audio", order: 0 },
+    ],
+    clips: [
+      {
+        id: "parent",
+        assetId: "source",
+        streamId: "v",
+        trackId: "base",
+        source: { kind: "hold", atUs: 0 },
+        placement: { kind: "project", range: { startUs: 0, endUs: 9 } },
+      },
+      {
+        id: "child",
+        assetId: "source",
+        streamId: "a",
+        trackId: "voice",
+        source: { kind: "range", range: { startUs: 200000, endUs: 1800000 } },
+        placement: {
+          kind: "clip",
+          clipId: "parent",
+          start: { numerator: 1, denominator: 3 },
+          end: { numerator: 2, denominator: 3 },
+        },
+      },
+    ],
+  };
+  const doubled = applyBatch(
+    document,
+    [{ operation: "retime", clipIds: ["parent", "child"], durationUs: 18, ripple: "none" }],
+    context,
+  );
+  expect(doubled.document.clips[1]!.placement).toEqual(document.clips[1]!.placement);
+  expect(doubled.document.clips[1]!.pitch).toBe("preserve");
+  expect(
+    projectToSource(validateComposition(doubled.document, context.assets), 9).map(
+      (sample) => sample.sourceUs,
+    ),
+  ).toEqual([0, 1000000]);
+  const child = applyBatch(
+    document,
+    [{ operation: "retime", clipIds: ["child"], durationUs: 4, ripple: "none" }],
+    context,
+  );
+  expect(child.document.clips[0]).toEqual(
+    validateComposition(document, context.assets).document.clips[0],
+  );
+  expect(child.document.clips[1]!.placement).toEqual({
+    kind: "clip",
+    clipId: "parent",
+    start: { numerator: 1, denominator: 3 },
+    end: { numerator: 7, denominator: 9 },
+  });
+  expect(() =>
+    applyBatch(
+      document,
+      [{ operation: "retime", clipIds: ["child"], durationUs: 7, ripple: "none" }],
+      context,
+    ),
+  ).toThrow(/leaves its parent/);
+  const gapped = {
+    ...input,
+    tracks: [{ id: "base", kind: "video", order: 0 }],
+    clips: [{ ...document.clips[0], source: { kind: "range", range: { startUs: 0, endUs: 9 } } }],
+  };
+  const assets = [
+    {
+      id: "source",
+      streams: [
+        {
+          id: "v",
+          kind: "video",
+          bounds: { startUs: 0, endUs: 9 },
+          available: [
+            { startUs: 0, endUs: 3 },
+            { startUs: 6, endUs: 9 },
+          ],
+        },
+      ],
+    },
+  ];
+  const stretched = applyBatch(
+    gapped,
+    [{ operation: "retime", clipIds: ["parent"], durationUs: 18, ripple: "none" }],
+    { ...context, assets },
+  );
+  const model = validateComposition(stretched.document, assets);
+  expect(projectToSource(model, 5).map((sample) => sample.sourceUs)).toEqual([2]);
+  expect(projectToSource(model, 8)).toEqual([
+    {
+      clipId: "parent",
+      assetId: "source",
+      streamId: "v",
+      trackId: "base",
+      sourceUs: 4,
+      available: false,
+    },
+  ]);
+  expect(projectToSource(model, 12).map((sample) => sample.sourceUs)).toEqual([6]);
+});

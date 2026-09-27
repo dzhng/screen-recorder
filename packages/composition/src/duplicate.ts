@@ -1,6 +1,6 @@
 import { clipGraph } from "./clip-graph.js";
 import type { ValidatedComposition } from "./model.js";
-import { relocateClips } from "./move.js";
+import { transformClips } from "./transform.js";
 
 export function duplicateClips(
   model: ValidatedComposition,
@@ -16,7 +16,7 @@ export function duplicateClips(
       .filter((clip) => affected.has(clip.id))
       .map((clip) => [clip.id, allocate("clip")]),
   );
-  const copies = relocateClips(model, affected, atUs, tracks, true)
+  const copies = transformClips(model, affected, { atUs }, tracks, true)
     .clips.filter((clip) => affected.has(clip.id))
     .map((clip) => {
       const anchor = clip.placement;

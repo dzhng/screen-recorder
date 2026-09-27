@@ -153,3 +153,22 @@ the [initial tests](../assets/03-edits/duplicate/red.txt) failed before the oper
 existed. Independent review found no actionable defects and additionally probed
 fractional destinations, group copies, rejected destinations and failed-batch
 immutability. Relocation shares one exact mapping owner with move.
+
+
+## Retime checkpoint
+
+A requested duration scales the expanded selection's entire envelope about its
+earliest start. Linked offsets scale by the same exact ratio. Attached media
+follows once, including normalized anchors on held video. Moving an attachment
+alone stays within its parent; explicit detach supports an independent edit.
+Original source ranges and acquisition gaps remain intact. Audio receives the
+requested pitch policy, defaulting to preserve; native execution remains a
+separate pending gate. The shared transform owner serves move, copy and retime.
+
+[50 tests](../assets/03-edits/retime/tests.txt), type checks and build pass. The
+[initial request](../assets/03-edits/retime/red.txt) failed before retime existed.
+Independent review found one incorrect test expectation: inspection reports an
+unavailable occurrence inside a source gap rather than omitting it. That test
+now checks the exact occurrence and availability flag; no implementation defect
+was identified. This checkpoint accepts explicit `ripple: none`; ripple retime,
+ripple move, insertion and replacement remain open.
