@@ -1,0 +1,8 @@
+{
+  "status": 1,
+  "error": "Error Domain=RenderReproduction Code=1 \"UNAVAILABLE_ACQUISITION: unknown-content\" UserInfo={NSLocalizedDescription=UNAVAILABLE_ACQUISITION: unknown-content}",
+  "peakRSSBytes": 8060928,
+  "peakFootprintBytes": 2113944,
+  "expectedRefusalPassed": true,
+  "temporalPassed": true
+}

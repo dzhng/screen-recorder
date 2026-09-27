@@ -1,6 +1,28 @@
 # 06 — Reproduce native multi-source rendering
 
-Status: not started. Dependencies: [00](./00-corpus.md), [01](./01-composition.md).
+Status: reproduction implemented and frozen, 2026-09-27; bounded temporal mechanism selected, independent visual/code review pending. General untagged-input color policy remains open. Dependencies: [00](./00-corpus.md), [01](./01-composition.md).
+
+The [frozen report](../assets/06-render/report.json) records nine cases, exact
+requests, source/code/output hashes, versions, decoded counters, PCM and resources.
+The bounded reader/CI/writer passes every temporal/duration/refusal gate. Standard
+AVMutableComposition video export shifts the nonzero preview, holds a picture
+through an explicit empty edit, and truncates the subframe/VFR tail cases.
+Independent AVAudioMix output equals the WAV-derived float PCM oracle exactly;
+final PCM16 stays within one quantization step, and measured impulse offsets are
+zero. Worker peak RSS is recorded per case, not claimed as long-project evidence.
+
+The original corpus is unchanged. Separately hashed tagged derivatives declare
+the generator's known source color interpretation. Their red landmark survives
+within the unchanged four-level RGB tolerance. Original untagged raw BGRA,
+guessed native color metadata, default CI conversion and explicit sRGB diagnosis
+are recorded separately; no generic camera-footage color assumption is adopted.
+
+The [reproduction notes and preservation map](../../../packages/test-harness/editing/RENDER-REPRODUCTION.md)
+define the selected mechanism and adoption limits. The full driver and frozen
+verifier pass; the negative test rejects a corrupted movie and a failed temporal
+verdict. JS lint/format checks pass. No production executor, installed app, capture,
+playback or listening acceptance was changed or exercised. Slice 07 must preserve
+these matched-input observations and keep the open production color policy explicit.
 
 ## Contract
 
@@ -39,4 +61,3 @@ If the native composition mechanism loses source timing, test the bounded reader
 Delegated: Candidate probe implementation. Selection must follow the recorded gates and be frozen before slice 07.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
-

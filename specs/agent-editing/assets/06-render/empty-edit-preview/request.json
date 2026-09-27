@@ -1,0 +1,27 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "pictures": [
+    {
+      "id": "gapped",
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/empty-edit.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 1250000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 1250000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "range": {
+    "startUs": 375000,
+    "endUs": 1025000
+  },
+  "output": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/empty-edit-preview"
+}

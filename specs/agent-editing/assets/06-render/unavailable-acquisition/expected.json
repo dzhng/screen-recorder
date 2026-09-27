@@ -1,0 +1,8 @@
+{
+  "frameIDsOnFullProjectGrid": [],
+  "range": {
+    "startUs": 0,
+    "endUs": 2000000
+  },
+  "rejects": "UNAVAILABLE_ACQUISITION"
+}

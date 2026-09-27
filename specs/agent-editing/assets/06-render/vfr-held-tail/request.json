@@ -1,0 +1,27 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "pictures": [
+    {
+      "id": "vfr",
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/00-corpus/timestamp-gap.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "range": {
+    "startUs": 0,
+    "endUs": 2000000
+  },
+  "output": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/vfr-held-tail"
+}

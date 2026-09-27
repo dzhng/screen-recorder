@@ -1,0 +1,72 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "pictures": [
+    {
+      "id": "a-first",
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/tagged-a.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 500000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 500000
+      },
+      "holdUs": null
+    },
+    {
+      "id": "b-middle",
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/tagged-b.mov",
+      "source": {
+        "startUs": 400000,
+        "endUs": 1000000
+      },
+      "project": {
+        "startUs": 500000,
+        "endUs": 1100000
+      },
+      "holdUs": null
+    },
+    {
+      "id": "a-last",
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/tagged-a.mov",
+      "source": {
+        "startUs": 1000000,
+        "endUs": 1500000
+      },
+      "project": {
+        "startUs": 1100000,
+        "endUs": 1600000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [
+    {
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/00-corpus/a-audio.wav",
+      "source": {
+        "startUs": 0,
+        "endUs": 1600000
+      },
+      "atUs": 0,
+      "gain": 1
+    },
+    {
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/00-corpus/b-audio.wav",
+      "source": {
+        "startUs": 200000,
+        "endUs": 1200000
+      },
+      "atUs": 400000,
+      "gain": 0.5
+    }
+  ],
+  "range": {
+    "startUs": 375000,
+    "endUs": 1375000
+  },
+  "output": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/nonzero-preview"
+}

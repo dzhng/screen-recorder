@@ -1,0 +1,237 @@
+{
+  "status": 0,
+  "durationUs": 450000,
+  "elapsedSeconds": 1.705000292,
+  "peakRSSBytes": 36700160,
+  "peakFootprintBytes": 77578984,
+  "observations": [
+    {
+      "atUs": 0,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 50000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 100000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 150000,
+      "durationUs": 50000,
+      "id": "A2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 200000,
+      "durationUs": 50000,
+      "id": "A2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 250000,
+      "durationUs": 50000,
+      "id": "A2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 300000,
+      "durationUs": 50000,
+      "id": "A2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 350000,
+      "durationUs": 50000,
+      "id": "A2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 400000,
+      "durationUs": 50000,
+      "id": "A3",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A5",
+        "differingPixels": 28
+      }
+    }
+  ],
+  "wanted": [
+    {
+      "atUs": 0,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 49999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 50000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 99999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 100000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 149999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 150000,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 199999,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 200000,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 249999,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 250000,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 299999,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 300000,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 349999,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 350000,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 399999,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 400000,
+      "expected": "A3",
+      "actual": "A3",
+      "passed": true
+    },
+    {
+      "atUs": 449999,
+      "expected": "A3",
+      "actual": "A3",
+      "passed": true
+    },
+    {
+      "atUs": 450000,
+      "expected": "A3",
+      "actual": null,
+      "passed": false
+    },
+    {
+      "atUs": 499999,
+      "expected": "A3",
+      "actual": null,
+      "passed": false
+    }
+  ],
+  "membershipPassed": false,
+  "durationPassed": false,
+  "realTimeFactor": 3.410000584,
+  "outputSha256": "067d72d12b5628e273b5d1abeb194981816a58c62be0f7c07c4f8108050cca46",
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 160,
+      "height": 128,
+      "color_space": "bt709",
+      "color_transfer": "bt709",
+      "color_primaries": "bt709"
+    }
+  ],
+  "temporalPassed": false
+}

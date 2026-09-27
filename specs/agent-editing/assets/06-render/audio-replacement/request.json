@@ -1,0 +1,55 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "pictures": [
+    {
+      "id": "retained-video",
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/tagged-a.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 1600000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 1600000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [
+    {
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/00-corpus/a-audio.wav",
+      "source": {
+        "startUs": 0,
+        "endUs": 400000
+      },
+      "atUs": 0,
+      "gain": 1
+    },
+    {
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/00-corpus/b-audio.wav",
+      "source": {
+        "startUs": 600000,
+        "endUs": 1200000
+      },
+      "atUs": 400000,
+      "gain": 1
+    },
+    {
+      "file": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/00-corpus/a-audio.wav",
+      "source": {
+        "startUs": 1000000,
+        "endUs": 1600000
+      },
+      "atUs": 1000000,
+      "gain": 1
+    }
+  ],
+  "range": {
+    "startUs": 0,
+    "endUs": 1600000
+  },
+  "output": "/private/tmp/screenrec-editing-render-reproduction/specs/agent-editing/assets/06-render/audio-replacement"
+}

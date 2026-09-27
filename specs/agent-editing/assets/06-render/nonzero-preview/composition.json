@@ -1,0 +1,509 @@
+{
+  "status": 0,
+  "durationUs": 1000000,
+  "elapsedSeconds": 3.912067917,
+  "peakRSSBytes": 45957120,
+  "peakFootprintBytes": 81969896,
+  "observations": [
+    {
+      "atUs": 0,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 50000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 100000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 150000,
+      "durationUs": 50000,
+      "id": "B2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 200000,
+      "durationUs": 50000,
+      "id": "B2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 250000,
+      "durationUs": 50000,
+      "id": "B2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 300000,
+      "durationUs": 50000,
+      "id": "B2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B3",
+        "differingPixels": 32
+      }
+    },
+    {
+      "atUs": 350000,
+      "durationUs": 50000,
+      "id": "B3",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B9",
+        "differingPixels": 24
+      }
+    },
+    {
+      "atUs": 400000,
+      "durationUs": 50000,
+      "id": "B3",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B9",
+        "differingPixels": 24
+      }
+    },
+    {
+      "atUs": 450000,
+      "durationUs": 50000,
+      "id": "B3",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B9",
+        "differingPixels": 24
+      }
+    },
+    {
+      "atUs": 500000,
+      "durationUs": 50000,
+      "id": "B3",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B9",
+        "differingPixels": 24
+      }
+    },
+    {
+      "atUs": 550000,
+      "durationUs": 50000,
+      "id": "B4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B1",
+        "differingPixels": 72
+      }
+    },
+    {
+      "atUs": 600000,
+      "durationUs": 50000,
+      "id": "B4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B1",
+        "differingPixels": 72
+      }
+    },
+    {
+      "atUs": 650000,
+      "durationUs": 50000,
+      "id": "B4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B1",
+        "differingPixels": 72
+      }
+    },
+    {
+      "atUs": 700000,
+      "durationUs": 50000,
+      "id": "B4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "B1",
+        "differingPixels": 72
+      }
+    },
+    {
+      "atUs": 750000,
+      "durationUs": 50000,
+      "id": "A4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 72
+      }
+    },
+    {
+      "atUs": 800000,
+      "durationUs": 50000,
+      "id": "A4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 72
+      }
+    },
+    {
+      "atUs": 850000,
+      "durationUs": 50000,
+      "id": "A4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 72
+      }
+    },
+    {
+      "atUs": 900000,
+      "durationUs": 50000,
+      "id": "A4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 72
+      }
+    },
+    {
+      "atUs": 950000,
+      "durationUs": 50000,
+      "id": "A4",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 72
+      }
+    }
+  ],
+  "wanted": [
+    {
+      "atUs": 0,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 24999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 25000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 74999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 75000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 124999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 125000,
+      "expected": "B2",
+      "actual": "A1",
+      "passed": false
+    },
+    {
+      "atUs": 174999,
+      "expected": "B2",
+      "actual": "B2",
+      "passed": true
+    },
+    {
+      "atUs": 175000,
+      "expected": "B2",
+      "actual": "B2",
+      "passed": true
+    },
+    {
+      "atUs": 224999,
+      "expected": "B2",
+      "actual": "B2",
+      "passed": true
+    },
+    {
+      "atUs": 225000,
+      "expected": "B2",
+      "actual": "B2",
+      "passed": true
+    },
+    {
+      "atUs": 274999,
+      "expected": "B2",
+      "actual": "B2",
+      "passed": true
+    },
+    {
+      "atUs": 275000,
+      "expected": "B2",
+      "actual": "B2",
+      "passed": true
+    },
+    {
+      "atUs": 324999,
+      "expected": "B2",
+      "actual": "B2",
+      "passed": true
+    },
+    {
+      "atUs": 325000,
+      "expected": "B3",
+      "actual": "B2",
+      "passed": false
+    },
+    {
+      "atUs": 374999,
+      "expected": "B3",
+      "actual": "B3",
+      "passed": true
+    },
+    {
+      "atUs": 375000,
+      "expected": "B3",
+      "actual": "B3",
+      "passed": true
+    },
+    {
+      "atUs": 424999,
+      "expected": "B3",
+      "actual": "B3",
+      "passed": true
+    },
+    {
+      "atUs": 425000,
+      "expected": "B3",
+      "actual": "B3",
+      "passed": true
+    },
+    {
+      "atUs": 474999,
+      "expected": "B3",
+      "actual": "B3",
+      "passed": true
+    },
+    {
+      "atUs": 475000,
+      "expected": "B3",
+      "actual": "B3",
+      "passed": true
+    },
+    {
+      "atUs": 524999,
+      "expected": "B3",
+      "actual": "B3",
+      "passed": true
+    },
+    {
+      "atUs": 525000,
+      "expected": "B4",
+      "actual": "B3",
+      "passed": false
+    },
+    {
+      "atUs": 574999,
+      "expected": "B4",
+      "actual": "B4",
+      "passed": true
+    },
+    {
+      "atUs": 575000,
+      "expected": "B4",
+      "actual": "B4",
+      "passed": true
+    },
+    {
+      "atUs": 624999,
+      "expected": "B4",
+      "actual": "B4",
+      "passed": true
+    },
+    {
+      "atUs": 625000,
+      "expected": "B4",
+      "actual": "B4",
+      "passed": true
+    },
+    {
+      "atUs": 674999,
+      "expected": "B4",
+      "actual": "B4",
+      "passed": true
+    },
+    {
+      "atUs": 675000,
+      "expected": "B4",
+      "actual": "B4",
+      "passed": true
+    },
+    {
+      "atUs": 724999,
+      "expected": "B4",
+      "actual": "B4",
+      "passed": true
+    },
+    {
+      "atUs": 725000,
+      "expected": "A4",
+      "actual": "B4",
+      "passed": false
+    },
+    {
+      "atUs": 774999,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 775000,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 824999,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 825000,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 874999,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 875000,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 924999,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 925000,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 974999,
+      "expected": "A4",
+      "actual": "A4",
+      "passed": true
+    },
+    {
+      "atUs": 975000,
+      "expected": "A5",
+      "actual": "A4",
+      "passed": false
+    },
+    {
+      "atUs": 999999,
+      "expected": "A5",
+      "actual": "A4",
+      "passed": false
+    }
+  ],
+  "membershipPassed": false,
+  "durationPassed": true,
+  "realTimeFactor": 3.912067917,
+  "outputSha256": "3947b87467ab7c5b08b56cb186697d9d221f1ed100f67137c4a1e1f8592361cc",
+  "streams": [
+    {
+      "codec_name": "aac",
+      "codec_type": "audio",
+      "sample_rate": "48000",
+      "channels": 1
+    },
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 160,
+      "height": 128,
+      "color_space": "bt709",
+      "color_transfer": "bt709",
+      "color_primaries": "bt709"
+    }
+  ],
+  "audio": {
+    "frames": 48064,
+    "expectedFrames": 48000,
+    "paddingFrames": 64,
+    "maxError": 0.26919883489608765,
+    "rmse": 0.028232970422144114,
+    "passed": null
+  },
+  "impulses": [
+    {
+      "expectedSample": 3600,
+      "actualSample": 3600,
+      "amplitude": 0.3231760561466217,
+      "offsetUs": 0,
+      "passed": true
+    },
+    {
+      "expectedSample": 6000,
+      "actualSample": 6000,
+      "amplitude": 0.6463285088539124,
+      "offsetUs": 0,
+      "passed": true
+    }
+  ],
+  "temporalPassed": false
+}

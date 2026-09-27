@@ -1,0 +1,33 @@
+/private/tmp/screenrec-editing-render-reproduction/packages/test-harness/editing/RenderReproduction.swift:208:24: warning: 'AVMutableVideoCompositionInstruction' was deprecated in macOS 26.0: Use AVVideoCompositionInstruction.Configuration instead [#DeprecatedDeclaration]
+206 | func composition(_ request: Request) async throws -> [String: Any] {
+207 |     let (composition, mix) = try await audioComposition(request)
+208 |     var instructions: [AVMutableVideoCompositionInstruction] = []
+    |                        `- warning: 'AVMutableVideoCompositionInstruction' was deprecated in macOS 26.0: Use AVVideoCompositionInstruction.Configuration instead [#DeprecatedDeclaration]
+209 |     for picture in request.pictures {
+210 |         let asset = AVURLAsset(url: URL(fileURLWithPath: picture.file))
+
+/private/tmp/screenrec-editing-render-reproduction/packages/test-harness/editing/RenderReproduction.swift:221:21: warning: 'AVMutableVideoCompositionLayerInstruction' was deprecated in macOS 26.0: Use AVVideoCompositionLayerInstruction.Configuration instead [#DeprecatedDeclaration]
+219 |         let scale = min(CGFloat(request.width) / bounds.width, CGFloat(request.height) / bounds.height)
+220 |         let fit = transform.concatenating(CGAffineTransform(translationX: -bounds.minX, y: -bounds.minY)).concatenating(CGAffineTransform(scaleX: scale, y: scale)).concatenating(CGAffineTransform(translationX: (CGFloat(request.width) - bounds.width * scale) / 2, y: (CGFloat(request.height) - bounds.height * scale) / 2))
+221 |         let layer = AVMutableVideoCompositionLayerInstruction(assetTrack: target); layer.setTransform(fit, at: .zero)
+    |                     `- warning: 'AVMutableVideoCompositionLayerInstruction' was deprecated in macOS 26.0: Use AVVideoCompositionLayerInstruction.Configuration instead [#DeprecatedDeclaration]
+222 |         let instruction = AVMutableVideoCompositionInstruction(); instruction.timeRange = CMTimeRange(start: time(microseconds: picture.project.startUs), end: time(microseconds: picture.project.endUs)); instruction.layerInstructions = [layer]; instruction.backgroundColor = CGColor(gray: 0, alpha: 1); instructions.append(instruction)
+223 |     }
+
+/private/tmp/screenrec-editing-render-reproduction/packages/test-harness/editing/RenderReproduction.swift:222:27: warning: 'AVMutableVideoCompositionInstruction' was deprecated in macOS 26.0: Use AVVideoCompositionInstruction.Configuration instead [#DeprecatedDeclaration]
+220 |         let fit = transform.concatenating(CGAffineTransform(translationX: -bounds.minX, y: -bounds.minY)).concatenating(CGAffineTransform(scaleX: scale, y: scale)).concatenating(CGAffineTransform(translationX: (CGFloat(request.width) - bounds.width * scale) / 2, y: (CGFloat(request.height) - bounds.height * scale) / 2))
+221 |         let layer = AVMutableVideoCompositionLayerInstruction(assetTrack: target); layer.setTransform(fit, at: .zero)
+222 |         let instruction = AVMutableVideoCompositionInstruction(); instruction.timeRange = CMTimeRange(start: time(microseconds: picture.project.startUs), end: time(microseconds: picture.project.endUs)); instruction.layerInstructions = [layer]; instruction.backgroundColor = CGColor(gray: 0, alpha: 1); instructions.append(instruction)
+    |                           `- warning: 'AVMutableVideoCompositionInstruction' was deprecated in macOS 26.0: Use AVVideoCompositionInstruction.Configuration instead [#DeprecatedDeclaration]
+223 |     }
+224 |     let video = AVMutableVideoComposition(); video.renderSize = CGSize(width: request.width, height: request.height); video.frameDuration = CMTime(value: 1, timescale: request.fps); video.instructions = instructions
+
+/private/tmp/screenrec-editing-render-reproduction/packages/test-harness/editing/RenderReproduction.swift:224:17: warning: 'AVMutableVideoComposition' was deprecated in macOS 26.0: Use AVVideoComposition.Configuration instead [#DeprecatedDeclaration]
+222 |         let instruction = AVMutableVideoCompositionInstruction(); instruction.timeRange = CMTimeRange(start: time(microseconds: picture.project.startUs), end: time(microseconds: picture.project.endUs)); instruction.layerInstructions = [layer]; instruction.backgroundColor = CGColor(gray: 0, alpha: 1); instructions.append(instruction)
+223 |     }
+224 |     let video = AVMutableVideoComposition(); video.renderSize = CGSize(width: request.width, height: request.height); video.frameDuration = CMTime(value: 1, timescale: request.fps); video.instructions = instructions
+    |                 `- warning: 'AVMutableVideoComposition' was deprecated in macOS 26.0: Use AVVideoComposition.Configuration instead [#DeprecatedDeclaration]
+225 |     guard let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else { throw failure("Export creation") }
+226 |     exporter.videoComposition = video; exporter.audioMix = mix
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
