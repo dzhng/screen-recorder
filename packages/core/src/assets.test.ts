@@ -17,7 +17,11 @@ async function setup() {
   cleanups.push(async () => catalog.close());
   const store = new AssetStore(catalog, root);
   await store.recover();
-  return { root, catalog, store };
+  const admit = async (requestId: string, path: string) => {
+    const prepared = await store.prepareImport(requestId, path);
+    return catalog.transaction(() => store.admitImport(prepared));
+  };
+  return { root, catalog, store, admit };
 }
 const probe = async () => ({
   originUs: 0,
@@ -44,7 +48,7 @@ test("admission retains immutable bytes after an external rename and deduplicate
   expect(await readFile(store.path(first.id), "utf8")).toBe("original pixels");
   const second = await store.import(external + ".moved", { kind: "import" }, probe);
   expect(second).toEqual(first);
-  expect(store.list().assets).toEqual([first]);
+  expect(store.list().assets.map((asset) => asset.id)).toEqual([first.id]);
 });
 
 test("concurrent imports publish one stable identity and preserve provenance", async () => {
@@ -56,7 +60,7 @@ test("concurrent imports publish one stable identity and preserve provenance", a
     store.import(external, { kind: "capture", source: "take-one" }, probe),
   ]);
   expect(a).toEqual(b);
-  expect(store.list().assets).toEqual([a]);
+  expect(store.list().assets.map((asset) => asset.id)).toEqual([a.id]);
   expect(store.origins(a.id)).toEqual([
     { kind: "capture", source: "take-one" },
     { kind: "import" },
@@ -125,11 +129,11 @@ test("receiving project and retained revision references survive donor release a
 });
 
 test("an import receipt replays the admitted snapshot after restart and external deletion", async () => {
-  const { root, store } = await setup();
+  const { root, store, admit } = await setup();
   const external = join(root, "external.png");
   await writeFile(external, "snapshot pixels");
-  const intent = await store.prepareImport("request", external);
-  expect(await store.prepareImport("request", external)).toEqual(intent);
+  const intent = await admit("request", external);
+  expect(await admit("request", external)).toEqual(intent);
   await expect(store.prepareImport("request", external + ".other")).rejects.toThrowError(
     /another path/,
   );
@@ -148,16 +152,16 @@ test("an import receipt replays the admitted snapshot after restart and external
 });
 
 test("retry refuses changed source bytes instead of silently changing the frozen import", async () => {
-  const { root, store } = await setup();
+  const { root, store, admit } = await setup();
   const path = join(root, "source.png");
   await writeFile(path, "first bytes");
-  const intent = await store.prepareImport("first", path);
+  const intent = await admit("first", path);
   await writeFile(path, "replacement bytes");
   await expect(
     store.executeImport(intent.importId, probe, new AbortController().signal),
   ).rejects.toMatchObject({ code: "SOURCE_CHANGED" });
   expect(store.list().assets).toEqual([]);
-  const replacement = await store.prepareImport("new-input", path);
+  const replacement = await admit("new-input", path);
   const asset = await store.executeImport(
     replacement.importId,
     probe,
@@ -206,4 +210,89 @@ test("a source modified during streamed copying cannot become a ready asset", as
     watcher.close();
     await mutation;
   }
+});
+
+test("distinct frozen import paths deduplicate media while preserving both origins", async () => {
+  const { root, store, admit } = await setup();
+  const firstPath = join(root, "first.png"),
+    secondPath = join(root, "second.png");
+  await writeFile(firstPath, "shared pixels");
+  await writeFile(secondPath, "shared pixels");
+  const first = await admit("first", firstPath),
+    second = await admit("second", secondPath);
+  const a = await store.executeImport(first.importId, probe, new AbortController().signal);
+  const b = await store.executeImport(second.importId, probe, new AbortController().signal);
+  expect(b.id).toBe(a.id);
+  expect(store.origins(a.id)).toEqual([
+    { kind: "import", source: firstPath },
+    { kind: "import", source: secondPath },
+  ]);
+});
+
+test("additive native response fields do not prevent importing valid known media", async () => {
+  const { root, store } = await setup();
+  const path = join(root, "source.png");
+  await writeFile(path, "future metadata");
+  const asset = await store.import(path, { kind: "import" }, async () => {
+    const metadata = await probe();
+    return {
+      ...metadata,
+      id: "not-the-asset-identity",
+      future: { information: true },
+      streams: metadata.streams.map((stream) => ({ ...stream, futureTag: "additive" })),
+    };
+  });
+  expect(asset.id).toMatch(/^[a-f0-9]{64}$/);
+  expect(store.get(asset.id).streams).toEqual((await probe()).streams);
+});
+
+test("asset lists stay compact while get preserves large source timing metadata", async () => {
+  const { root, store } = await setup();
+  const path = join(root, "many-edits.mov");
+  await writeFile(path, "timed media");
+  const segments = Array.from({ length: 5000 }, (_, startUs) => ({
+    startUs,
+    endUs: startUs + 1,
+    empty: false,
+    mediaStartUs: startUs,
+    mediaDurationUs: 1,
+  }));
+  const asset = await store.import(path, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [
+      { id: "v", kind: "video", codec: "avc1", decodable: true, startUs: 0, endUs: 5000, segments },
+    ],
+  }));
+  expect(store.get(asset.id).streams[0]!.segments).toEqual(segments);
+  const page = store.list();
+  expect(JSON.stringify(page).length).toBeLessThan(512);
+  expect(page.assets).toEqual([
+    {
+      id: asset.id,
+      bytes: asset.bytes,
+      createdAt: asset.createdAt,
+      fileName: asset.fileName,
+      mediaKinds: ["video"],
+      streamCount: 1,
+    },
+  ]);
+});
+
+test("rejected admission rolls back the frozen intent with its caller transaction", async () => {
+  const { root, catalog, store, admit } = await setup();
+  const path = join(root, "source.png");
+  await writeFile(path, "first candidate");
+  const prepared = await store.prepareImport("capacity-refusal", path);
+  let rejectedId = "";
+  expect(() =>
+    catalog.transaction(() => {
+      rejectedId = store.admitImport(prepared).importId;
+      throw new Error("job capacity refused");
+    }),
+  ).toThrow("job capacity refused");
+  expect(() => store.intent(rejectedId)).toThrow("does not exist");
+  await writeFile(path, "new candidate after failed admission");
+  const accepted = await admit("capacity-refusal", path);
+  const asset = await store.executeImport(accepted.importId, probe, new AbortController().signal);
+  expect(await readFile(store.path(asset.id), "utf8")).toBe("new candidate after failed admission");
 });

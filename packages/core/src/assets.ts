@@ -9,54 +9,54 @@ import { isDeepStrictEqual } from "node:util";
 
 const integer = z.number().int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
 const positive = integer.positive();
-const segment = z
-  .object({
-    startUs: integer,
-    endUs: integer,
-    empty: z.boolean(),
-    mediaStartUs: integer.optional(),
-    mediaDurationUs: integer.nonnegative().optional(),
-  })
-  .strict();
-const stream = z
-  .object({
-    id: z.string().min(1),
-    kind: z.enum(["image", "video", "audio", "unsupported"]),
-    codec: z.string(),
-    decodable: z.boolean(),
-    startUs: integer.optional(),
-    endUs: integer.optional(),
-    segments: z.array(segment).max(100_000).optional(),
-    width: positive.optional(),
-    height: positive.optional(),
-    orientedWidth: positive.optional(),
-    orientedHeight: positive.optional(),
-    transform: z.array(z.number().finite()).length(6).optional(),
-    orientation: integer.min(1).max(8).optional(),
-    hasAlpha: z.boolean().optional(),
-    sampleRate: z.number().positive().finite().optional(),
-    channels: positive.optional(),
-    channelLayoutTag: integer.nonnegative().optional(),
-    colorPrimaries: z.string().optional(),
-    transferFunction: z.string().optional(),
-    ycbcrMatrix: z.string().optional(),
-    samples: z
-      .object({
-        count: integer.nonnegative(),
-        firstPtsUs: integer,
-        lastPtsUs: integer,
-        minDurationUs: integer.nonnegative(),
-        maxDurationUs: integer.nonnegative(),
-      })
-      .strict()
-      .optional(),
-  })
-  .strict();
-export const mediaProbeSchema = z
-  .object({ originUs: integer, streams: z.array(stream).min(1).max(256) })
-  .strict();
+const segment = z.object({
+  startUs: integer,
+  endUs: integer,
+  empty: z.boolean(),
+  mediaStartUs: integer.optional(),
+  mediaDurationUs: integer.nonnegative().optional(),
+});
+const stream = z.object({
+  id: z.string().min(1),
+  kind: z.enum(["image", "video", "audio", "unsupported"]),
+  codec: z.string(),
+  decodable: z.boolean(),
+  startUs: integer.optional(),
+  endUs: integer.optional(),
+  segments: z.array(segment).max(100_000).optional(),
+  width: positive.optional(),
+  height: positive.optional(),
+  orientedWidth: positive.optional(),
+  orientedHeight: positive.optional(),
+  transform: z.array(z.number().finite()).length(6).optional(),
+  orientation: integer.min(1).max(8).optional(),
+  hasAlpha: z.boolean().optional(),
+  sampleRate: z.number().positive().finite().optional(),
+  channels: positive.optional(),
+  channelLayoutTag: integer.nonnegative().optional(),
+  colorPrimaries: z.string().optional(),
+  transferFunction: z.string().optional(),
+  ycbcrMatrix: z.string().optional(),
+  samples: z
+    .object({
+      count: integer.nonnegative(),
+      firstPtsUs: integer,
+      lastPtsUs: integer,
+      minDurationUs: integer.nonnegative(),
+      maxDurationUs: integer.nonnegative(),
+    })
+    .optional(),
+});
+export const mediaProbeSchema = z.object({
+  originUs: integer,
+  streams: z.array(stream).min(1).max(256),
+});
 export type MediaProbe = z.infer<typeof mediaProbeSchema>;
 export type Asset = MediaProbe & { id: string; bytes: number; createdAt: string; fileName: string };
+export type AssetSummary = Pick<Asset, "id" | "bytes" | "createdAt" | "fileName"> & {
+  mediaKinds: MediaProbe["streams"][number]["kind"][];
+  streamCount: number;
+};
 export type AssetProvenance = { kind: "import" | "capture" | "generated"; source?: string };
 export type ImportIntent = {
   importId: string;
@@ -65,6 +65,7 @@ export type ImportIntent = {
   assetId: string | null;
   source: IdentifiedFile;
 };
+export type PreparedImport = Pick<ImportIntent, "requestId" | "path" | "source">;
 export type AssetOwner = { kind: "asset" | "project" | "revision" | "job" | "export"; id: string };
 export type AssetProbe = (path: string, signal: AbortSignal) => Promise<unknown>;
 const absent = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
@@ -126,23 +127,14 @@ export class AssetStore {
     }
   }
 
-  async prepareImport(requestId: string, path: string): Promise<ImportIntent> {
+  async prepareImport(requestId: string, path: string): Promise<PreparedImport> {
     if (!requestId || !isAbsolute(path))
       throw new CatalogError(
         "INVALID_PARAMS",
         "Import requires a request ID and absolute local path",
       );
-    const replay = () => {
-      const row = this.store.catalog
-        .prepare("SELECT importId,path FROM asset_imports WHERE requestId=?")
-        .get(requestId);
-      if (!row) return null;
-      if (row.path !== path)
-        throw new CatalogError("REQUEST_CONFLICT", "Import request ID already names another path");
-      return this.intent(row.importId as string);
-    };
-    const previous = replay();
-    if (previous) return previous;
+    const previous = this.importReplay(requestId, path);
+    if (previous) return { requestId, path, source: previous.source };
     const file = await open(path, constants.O_RDONLY | constants.O_NONBLOCK).catch((error) => {
       throw new CatalogError(
         absent(error) ? "NOT_FOUND" : "INVALID_PATH",
@@ -161,15 +153,27 @@ export class AssetStore {
     } finally {
       await file.close();
     }
-    return this.store.transaction(() => {
-      const existing = replay();
-      if (existing) return existing;
-      const importId = randomUUID();
-      this.store.catalog
-        .prepare("INSERT INTO asset_imports VALUES(?,?,?,NULL,?)")
-        .run(importId, requestId, path, JSON.stringify(source));
-      return this.intent(importId);
-    });
+    return { requestId, path, source };
+  }
+  /** Resolve the receipt inside the same transaction that admits its preparation job. */
+  admitImport(prepared: PreparedImport): ImportIntent {
+    const { requestId, path, source } = prepared;
+    const existing = this.importReplay(requestId, path);
+    if (existing) return existing;
+    const importId = randomUUID();
+    this.store.catalog
+      .prepare("INSERT INTO asset_imports VALUES(?,?,?,NULL,?)")
+      .run(importId, requestId, path, JSON.stringify(source));
+    return this.intent(importId);
+  }
+  private importReplay(requestId: string, path: string): ImportIntent | null {
+    const row = this.store.catalog
+      .prepare("SELECT importId,path FROM asset_imports WHERE requestId=?")
+      .get(requestId);
+    if (!row) return null;
+    if (row.path !== path)
+      throw new CatalogError("REQUEST_CONFLICT", "Import request ID already names another path");
+    return this.intent(row.importId as string);
   }
   intent(importId: string): ImportIntent {
     const row = this.store.catalog
@@ -198,7 +202,7 @@ export class AssetStore {
     }
     return this.import(
       intent.path,
-      { kind: "import" },
+      { kind: "import", source: intent.path },
       probe,
       signal,
       (asset) => {
@@ -220,7 +224,7 @@ export class AssetStore {
     return join(this.directory, this.get(id).fileName);
   }
   list(input: { afterSequence?: number; limit?: number } = {}): {
-    assets: Asset[];
+    assets: AssetSummary[];
     nextCursor: { afterSequence: number } | null;
   } {
     const limit = input.limit ?? 250,
@@ -234,10 +238,25 @@ export class AssetStore {
     )
       throw new CatalogError("INVALID_PARAMS", "Invalid asset page bounds");
     const rows = this.store.catalog
-      .prepare("SELECT sequence,metadata FROM assets WHERE sequence>? ORDER BY sequence LIMIT ?")
+      .prepare(`SELECT sequence,id,
+        json_extract(metadata,'$.bytes') AS bytes,
+        json_extract(metadata,'$.createdAt') AS createdAt,
+        json_extract(metadata,'$.fileName') AS fileName,
+        json_array_length(metadata,'$.streams') AS streamCount,
+        (SELECT json_group_array(kind) FROM (
+          SELECT DISTINCT json_extract(value,'$.kind') AS kind
+          FROM json_each(assets.metadata,'$.streams') ORDER BY kind
+        )) AS mediaKinds
+        FROM assets WHERE sequence>? ORDER BY sequence LIMIT ?`)
       .all(after, limit + 1);
     return {
-      assets: rows.slice(0, limit).map((row) => JSON.parse(row.metadata as string) as Asset),
+      assets: rows.slice(0, limit).map(
+        ({ sequence: _sequence, mediaKinds, ...row }) =>
+          ({
+            ...row,
+            mediaKinds: JSON.parse(mediaKinds as string),
+          }) as AssetSummary,
+      ),
       nextCursor:
         rows.length > limit ? { afterSequence: rows[limit - 1]!.sequence as number } : null,
     };
@@ -377,8 +396,15 @@ export class AssetStore {
       if (!metadata.streams.some((stream) => stream.kind !== "unsupported" && stream.decodable))
         throw new CatalogError(
           "UNSUPPORTED_MEDIA",
-          "Media contains no decodable audio, video or image stream",
-          { streams: metadata.streams },
+          `Media contains no decodable streams: ${metadata.streams.map((stream) => stream.codec).join(", ")}`,
+          {
+            streams: metadata.streams.map(({ id, kind, codec, decodable }) => ({
+              id,
+              kind,
+              codec,
+              decodable,
+            })),
+          },
         );
       const ids = new Set<string>();
       for (const item of metadata.streams) {
