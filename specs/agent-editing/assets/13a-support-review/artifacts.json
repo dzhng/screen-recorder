@@ -1,0 +1,45 @@
+{
+  "description": "Corrected numerical evidence only; original Signalsmith artifacts remain unchanged and listening gates remain open.",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4069,
+      "sha256": "f4218487df06a1ae72c1df0dba3819219945cfcaacf33f63558fb76821904d88"
+    },
+    {
+      "path": "measurements-green.txt",
+      "bytes": 534,
+      "sha256": "87b1f3ade715cda926eff2120f57b7347b80245247693901bdd684d16dcd057e"
+    },
+    {
+      "path": "octave-red.txt",
+      "bytes": 815,
+      "sha256": "6eaaf85d437b392479022db0ed07bb87199f1417ff0034ff323d745cd66c5837"
+    },
+    {
+      "path": "report.json",
+      "bytes": 108482,
+      "sha256": "0c721f245b1e1ff70cdd2eb409520185ed9c05b407a74b55f6c135342141dce7"
+    },
+    {
+      "path": "short.json",
+      "bytes": 38591,
+      "sha256": "eb45f4beb8a8a9bb8d1d37bffeb2e7eb56e2530186ba212282308c7fff243165"
+    },
+    {
+      "path": "support-window-red.txt",
+      "bytes": 3024,
+      "sha256": "a577dfaefe2d78f125844ec95c1bad7afc2713cbb117ad8f7e02124ca3d211c7"
+    },
+    {
+      "path": "unavailable-red.txt",
+      "bytes": 887,
+      "sha256": "29b38fcb0c2b9b5b353ab06d768c943da6aefef8b4793c64be31a8f460afe2da"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 1231,
+      "sha256": "baf54b8853e9d1defe5b28382a34a4534aadafee7120e6ccdcadf2be83b6f77f"
+    }
+  ]
+}

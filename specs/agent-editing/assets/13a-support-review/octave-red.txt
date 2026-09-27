@@ -1,0 +1,19 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: tone-10ms/0.8/block256: pitch error 98.78057124958988% must be <1%
+    at requirePitchAcceptance (file:///private/tmp/screenrec-stretch-evidence-review/packages/test-harness/editing/stretch-measurements.mjs:65:10)
+    at file:///private/tmp/screenrec-stretch-evidence-review/packages/test-harness/editing/stretch-short.mjs:122:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

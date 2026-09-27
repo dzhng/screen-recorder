@@ -1,0 +1,66 @@
+✖ support includes weak signal beyond a latency-sized neighborhood (5.399833ms)
+✖ support includes diagnostic pre-roll and tail in their declared coordinate system (2.428542ms)
+✔ short measured tone passes the unchanged less-than-one-percent gate (0.912292ms)
+✔ octave error cannot pass a pitch acceptance claim (1.61725ms)
+✔ an unavailable estimate is explicit and cannot pass pitch acceptance (0.664417ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 115.514625
+
+✖ failing tests:
+
+test at packages/test-harness/editing/stretch-measurements.test.mjs:11:1
+✖ support includes weak signal beyond a latency-sized neighborhood (5.399833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    {
+  +   aboveThresholdSamples: 1,
+  -   aboveThresholdSamples: 2,
+      firstAboveThreshold: 0,
+  +   lastAboveThreshold: 0,
+  -   lastAboveThreshold: 5595,
+      nominal: 0,
+      offsetFrames: 0,
+      peak: 0.800000011920929,
+      peakFrame: 0,
+      scannedRange: {
+
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-stretch-evidence-review/packages/test-harness/editing/stretch-measurements.test.mjs:15:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { nominal: 0, threshold: 1e-7, scannedRange: { startFrame: 0, endFrame: 9000 }, firstAboveThreshold: 0, lastAboveThreshold: 0, aboveThresholdSamples: 1, peak: 0.800000011920929, peakFrame: 0, offsetFrames: 0 },
+    expected: { nominal: 0, threshold: 1e-7, scannedRange: { startFrame: 0, endFrame: 9000 }, firstAboveThreshold: 0, lastAboveThreshold: 5595, aboveThresholdSamples: 2, peak: 0.800000011920929, peakFrame: 0, offsetFrames: 0 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at packages/test-harness/editing/stretch-measurements.test.mjs:27:1
+✖ support includes diagnostic pre-roll and tail in their declared coordinate system (2.428542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  -2080 !== 7119
+
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-stretch-evidence-review/packages/test-harness/editing/stretch-measurements.test.mjs:34:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -2080,
+    expected: 7119,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

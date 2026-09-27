@@ -1,0 +1,13 @@
+✔ support includes weak signal beyond a latency-sized neighborhood (4.853291ms)
+✔ support includes diagnostic pre-roll and tail in their declared coordinate system (1.928208ms)
+✔ short measured tone passes the unchanged less-than-one-percent gate (7.355083ms)
+✔ octave error cannot pass a pitch acceptance claim (3.016583ms)
+✔ an unavailable estimate is explicit and cannot pass pitch acceptance (1.543958ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 111.272792

@@ -1,0 +1,1301 @@
+{
+  "runnerSha256": "09263a19977703e26a76d8fc52936c298a1efd662e7568678777645b86ef2c8c",
+  "cppSha256": "edefb8f3aac5cea1fb6118b1bca0dd1475ac47b0252103bdca348d1cfb802bc0",
+  "measurementsSha256": "b297665ba3d1010f2c15d259ca487059f38a2a2ad05e79269d03edff626d44d0",
+  "sourceCommit": "f1d5836f5cab6150ffad65b2d3d4a747e1cccb73",
+  "hypothesis": "A fixed256sample analysis window can process10ms selected inputs without real neighboring context. Compare unchanged default preset; test long-tone regression before considering adoption.",
+  "configuration": "Portable FFT, fixedseed0, block256 interval64 versus default5760/1440; equal-count identity bypass",
+  "listening": "UNVERIFIED; short tones/impulses do not establish protected-word quality",
+  "results": [
+    {
+      "case": "tone-10ms",
+      "speed": 0.8,
+      "block": 0,
+      "inputSha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "wanted": 600,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe",
+      "pitch": {
+        "status": "not-rendered",
+        "reason": "Unsupported input duration"
+      }
+    },
+    {
+      "case": "tone-10ms",
+      "speed": 0.8,
+      "block": 256,
+      "inputSha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "wanted": 600,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 600,
+        "renderSeconds": 0.000145167,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.21346433460712433,
+      "rms": 0.1397200951026515,
+      "sha256": "14e910088be198bb4ab196f9caa5ec118766efd132555de3b9931dc6494de0a2",
+      "pitch": {
+        "expectedHz": 1000,
+        "crossingCount": 6,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 151,
+          "endFrame": 450
+        },
+        "status": "measured",
+        "hz": 999.8528378452047,
+        "errorPercent": 0.014716215479526618
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-10ms",
+      "speed": 0.9,
+      "block": 0,
+      "inputSha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "wanted": 533,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe",
+      "pitch": {
+        "status": "not-rendered",
+        "reason": "Unsupported input duration"
+      }
+    },
+    {
+      "case": "tone-10ms",
+      "speed": 0.9,
+      "block": 256,
+      "inputSha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "wanted": 533,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 533,
+        "renderSeconds": 0.00009425,
+        "identityBypass": false,
+        "speed": 0.900563,
+        "mode": "exact"
+      },
+      "peak": 0.236223042011261,
+      "rms": 0.1415170499475954,
+      "sha256": "8991dada18df490880d587ab056b72bf2ec90247c0c70377ad10ec7060369906",
+      "pitch": {
+        "expectedHz": 1000,
+        "crossingCount": 6,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 134,
+          "endFrame": 399
+        },
+        "status": "measured",
+        "hz": 1000.3013954480596,
+        "errorPercent": 0.0301395448059516
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-10ms",
+      "speed": 1,
+      "block": 0,
+      "inputSha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "wanted": 480,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 480,
+        "renderSeconds": 0.000026666,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.20000000298023224,
+      "rms": 0.14142135651914117,
+      "sha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "pitch": {
+        "expectedHz": 1000,
+        "crossingCount": 5,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 121,
+          "endFrame": 360
+        },
+        "status": "measured",
+        "hz": 1000,
+        "errorPercent": 0
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-10ms",
+      "speed": 1,
+      "block": 256,
+      "inputSha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "wanted": 480,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 480,
+        "renderSeconds": 4.17e-7,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.20000000298023224,
+      "rms": 0.14142135651914117,
+      "sha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "pitch": {
+        "expectedHz": 1000,
+        "crossingCount": 5,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 121,
+          "endFrame": 360
+        },
+        "status": "measured",
+        "hz": 1000,
+        "errorPercent": 0
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-10ms",
+      "speed": 1.25,
+      "block": 0,
+      "inputSha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "wanted": 384,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe",
+      "pitch": {
+        "status": "not-rendered",
+        "reason": "Unsupported input duration"
+      }
+    },
+    {
+      "case": "tone-10ms",
+      "speed": 1.25,
+      "block": 256,
+      "inputSha256": "2e34cadf7317f19c54fd91fb98a85cee032c9fe2646ed17d55f3cacfa09f6a4d",
+      "wanted": 384,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 384,
+        "renderSeconds": 0.000073625,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peak": 0.23233740031719208,
+      "rms": 0.14322434160208838,
+      "sha256": "086ee75666aa7200a1b8fa10afa4118f4ef6d852c7b64cdf3a3ab7e689a061b3",
+      "pitch": {
+        "expectedHz": 1000,
+        "crossingCount": 4,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 97,
+          "endFrame": 288
+        },
+        "status": "measured",
+        "hz": 1000.3411976058394,
+        "errorPercent": 0.034119760583939396
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-10ms",
+      "speed": 0.8,
+      "block": 0,
+      "inputSha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "wanted": 600,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "edge-10ms",
+      "speed": 0.8,
+      "block": 256,
+      "inputSha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "wanted": 600,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 600,
+        "renderSeconds": 0.000099584,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.8329364061355591,
+      "rms": 0.050409838797645073,
+      "sha256": "19928057b900c734ebfd8890056a52286d2a4810d2b372ef576c6ac679719fca",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-10ms",
+      "speed": 0.9,
+      "block": 0,
+      "inputSha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "wanted": 533,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "edge-10ms",
+      "speed": 0.9,
+      "block": 256,
+      "inputSha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "wanted": 533,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 533,
+        "renderSeconds": 0.000205125,
+        "identityBypass": false,
+        "speed": 0.900563,
+        "mode": "exact"
+      },
+      "peak": 0.90553879737854,
+      "rms": 0.05363042011847089,
+      "sha256": "1646f5a9dfb472da873ab99ec5658c11f6759cc37a885247920a59ddfff95792",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-10ms",
+      "speed": 1,
+      "block": 0,
+      "inputSha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "wanted": 480,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 480,
+        "renderSeconds": 5.42e-7,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.800000011920929,
+      "rms": 0.05163977871892488,
+      "sha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-10ms",
+      "speed": 1,
+      "block": 256,
+      "inputSha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "wanted": 480,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 480,
+        "renderSeconds": 1.67e-7,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.800000011920929,
+      "rms": 0.05163977871892488,
+      "sha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-10ms",
+      "speed": 1.25,
+      "block": 0,
+      "inputSha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "wanted": 384,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "edge-10ms",
+      "speed": 1.25,
+      "block": 256,
+      "inputSha256": "00cd3d7492837373d52f529b4029c24b90cdfcf148fdd461801e4cd79dfd9d8d",
+      "wanted": 384,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 384,
+        "renderSeconds": 0.000071208,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peak": 0.7287058234214783,
+      "rms": 0.048245457850667244,
+      "sha256": "4441793574da2cdefff817b3ee39c3ea166635ca3d3091702790844c49075636",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-5ms",
+      "speed": 0.8,
+      "block": 0,
+      "inputSha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "wanted": 300,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "edge-5ms",
+      "speed": 0.8,
+      "block": 256,
+      "inputSha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "wanted": 300,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 300,
+        "renderSeconds": 0.000062875,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.8329364061355591,
+      "rms": 0.06968271097116177,
+      "sha256": "f203b8dab1cce5c5768f5826c45c5bfd69ff19fa77cc4225f81f0b5dada963ad",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-5ms",
+      "speed": 0.9,
+      "block": 0,
+      "inputSha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "wanted": 266,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "edge-5ms",
+      "speed": 0.9,
+      "block": 256,
+      "inputSha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "wanted": 266,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "edge-5ms",
+      "speed": 1,
+      "block": 0,
+      "inputSha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "wanted": 240,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 240,
+        "renderSeconds": 4.2e-8,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.800000011920929,
+      "rms": 0.0730296754222491,
+      "sha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-5ms",
+      "speed": 1,
+      "block": 256,
+      "inputSha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "wanted": 240,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 240,
+        "renderSeconds": 4.1e-8,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.800000011920929,
+      "rms": 0.0730296754222491,
+      "sha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "edge-5ms",
+      "speed": 1.25,
+      "block": 0,
+      "inputSha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "wanted": 192,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "edge-5ms",
+      "speed": 1.25,
+      "block": 256,
+      "inputSha256": "bbaad74df0de42d3a074d64e69470c33511ae42443c03976e35cf0f6113324ba",
+      "wanted": 192,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "tone-100ms",
+      "speed": 0.8,
+      "block": 0,
+      "inputSha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "wanted": 6000,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe",
+      "pitch": {
+        "status": "not-rendered",
+        "reason": "Unsupported input duration"
+      }
+    },
+    {
+      "case": "tone-100ms",
+      "speed": 0.8,
+      "block": 256,
+      "inputSha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "wanted": 6000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 6000,
+        "renderSeconds": 0.00068475,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.20921185612678528,
+      "rms": 0.14121005370718834,
+      "sha256": "63a263ee10a785ce2d73039994541690ad461fa6eccc7de58adf9b37838c5d3c",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 28,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 1501,
+          "endFrame": 4500
+        },
+        "status": "measured",
+        "hz": 439.99989304615383,
+        "errorPercent": 0.00002430769231454022
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-100ms",
+      "speed": 0.9,
+      "block": 0,
+      "inputSha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "wanted": 5333,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe",
+      "pitch": {
+        "status": "not-rendered",
+        "reason": "Unsupported input duration"
+      }
+    },
+    {
+      "case": "tone-100ms",
+      "speed": 0.9,
+      "block": 256,
+      "inputSha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "wanted": 5333,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 5333,
+        "renderSeconds": 0.00189062,
+        "identityBypass": false,
+        "speed": 0.900056,
+        "mode": "exact"
+      },
+      "peak": 0.2105751782655716,
+      "rms": 0.14118182098131993,
+      "sha256": "3998a87c3393f3d054f4c36ef705e28dcd8485dc28898b9d9f55bc0dad912903",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 24,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 1334,
+          "endFrame": 3999
+        },
+        "status": "measured",
+        "hz": 439.9980078783977,
+        "errorPercent": 0.0004527549096189354
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-100ms",
+      "speed": 1,
+      "block": 0,
+      "inputSha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "wanted": 4800,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 4800,
+        "renderSeconds": 6.67e-7,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.20000000298023224,
+      "rms": 0.14142135667111316,
+      "sha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 21,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 1201,
+          "endFrame": 3600
+        },
+        "status": "measured",
+        "hz": 440.00001508145266,
+        "errorPercent": 0.000003427602868200097
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-100ms",
+      "speed": 1,
+      "block": 256,
+      "inputSha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "wanted": 4800,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 4800,
+        "renderSeconds": 6.25e-7,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.20000000298023224,
+      "rms": 0.14142135667111316,
+      "sha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 21,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 1201,
+          "endFrame": 3600
+        },
+        "status": "measured",
+        "hz": 440.00001508145266,
+        "errorPercent": 0.000003427602868200097
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-100ms",
+      "speed": 1.25,
+      "block": 0,
+      "inputSha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "wanted": 3840,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe",
+      "pitch": {
+        "status": "not-rendered",
+        "reason": "Unsupported input duration"
+      }
+    },
+    {
+      "case": "tone-100ms",
+      "speed": 1.25,
+      "block": 256,
+      "inputSha256": "786cf20e7eba2522cd55340f4e5ac1b4cc8139356296a7cd122e2efbe5603487",
+      "wanted": 3840,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 3840,
+        "renderSeconds": 0.000440209,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peak": 0.21619632840156555,
+      "rms": 0.14119991530095063,
+      "sha256": "17953c38f52b557effcc49ab5b7956cd8c3a0ced95c14747bff6557681648dba",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 18,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 961,
+          "endFrame": 2880
+        },
+        "status": "measured",
+        "hz": 439.9889592197924,
+        "errorPercent": 0.0025092682290006607
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "real-100ms",
+      "speed": 0.8,
+      "block": 0,
+      "inputSha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "wanted": 6000,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "real-100ms",
+      "speed": 0.8,
+      "block": 256,
+      "inputSha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "wanted": 6000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 6000,
+        "renderSeconds": 0.000697833,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.07692638039588928,
+      "rms": 0.015503486402471761,
+      "sha256": "fb106688b390462e2f462ddd52607a415353ee4184fab786b6b66c6a61fcd6e0",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "real-100ms",
+      "speed": 0.9,
+      "block": 0,
+      "inputSha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "wanted": 5333,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "real-100ms",
+      "speed": 0.9,
+      "block": 256,
+      "inputSha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "wanted": 5333,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 5333,
+        "renderSeconds": 0.000657125,
+        "identityBypass": false,
+        "speed": 0.900056,
+        "mode": "exact"
+      },
+      "peak": 0.0671306625008583,
+      "rms": 0.015799075239740213,
+      "sha256": "af3741f2279517b7a7db4bec3f81e80a5246d932d6010c723080ff20bb4f9e12",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "real-100ms",
+      "speed": 1,
+      "block": 0,
+      "inputSha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "wanted": 4800,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 4800,
+        "renderSeconds": 0.000001125,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.07013949006795883,
+      "rms": 0.016505484582784554,
+      "sha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "real-100ms",
+      "speed": 1,
+      "block": 256,
+      "inputSha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "wanted": 4800,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 4800,
+        "renderSeconds": 6.67e-7,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.07013949006795883,
+      "rms": 0.016505484582784554,
+      "sha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "real-100ms",
+      "speed": 1.25,
+      "block": 0,
+      "inputSha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "wanted": 3840,
+      "status": 1,
+      "reason": "Selected input too short for exact recipe"
+    },
+    {
+      "case": "real-100ms",
+      "speed": 1.25,
+      "block": 256,
+      "inputSha256": "3690cfe12fb74c9f57de3ceaef1933b16b83d862f05d9332c996f390e9477b9a",
+      "wanted": 3840,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 3840,
+        "renderSeconds": 0.0005715,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peak": 0.07135742157697678,
+      "rms": 0.015249924339041133,
+      "sha256": "5f87d181d148ba2b9ffb94bb15a8f486287444a375661b6100867227caf39449",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-3s",
+      "speed": 0.8,
+      "block": 0,
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "wanted": 180000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 180000,
+        "renderSeconds": 0.0258813,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.2051955610513687,
+      "rms": 0.14127341131034638,
+      "sha256": "35d07d4a2b9408dd386ff37b845b66a7e9acd5a5918b78f2923b6d07f9435205",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 825,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 45001,
+          "endFrame": 135000
+        },
+        "status": "measured",
+        "hz": 440.00007487447374,
+        "errorPercent": 0.000017016925846213837
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-3s",
+      "speed": 0.8,
+      "block": 256,
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "wanted": 180000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 180000,
+        "renderSeconds": 0.0265949,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.2098519504070282,
+      "rms": 0.14141097866381983,
+      "sha256": "821ca603f4e8da185b3f5faff28c5f6b83f93100fefa04397af3f85f910bcc11",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 825,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 45001,
+          "endFrame": 135000
+        },
+        "status": "measured",
+        "hz": 439.99900503400715,
+        "errorPercent": 0.0002261286347393643
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-3s",
+      "speed": 0.9,
+      "block": 0,
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "wanted": 160000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 160000,
+        "renderSeconds": 0.0254765,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peak": 0.24689771234989166,
+      "rms": 0.14140659675386208,
+      "sha256": "1927cd32563116a5102cb643f716690001f71d756600c868d47afac020cb7332",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 733,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 40001,
+          "endFrame": 120000
+        },
+        "status": "measured",
+        "hz": 439.99994757819235,
+        "errorPercent": 0.000011914047193251065
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-3s",
+      "speed": 0.9,
+      "block": 256,
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "wanted": 160000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 160000,
+        "renderSeconds": 0.0220419,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peak": 0.22617128491401672,
+      "rms": 0.14141542249552322,
+      "sha256": "86a7cfce5105adc067e8bc9ac213cec3cee498027d394922c56a6264c0da075c",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 733,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 40001,
+          "endFrame": 120000
+        },
+        "status": "measured",
+        "hz": 439.9993280708154,
+        "errorPercent": 0.00015271117831394676
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-3s",
+      "speed": 1,
+      "block": 0,
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "wanted": 144000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 144000,
+        "renderSeconds": 0.000014083,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.20000000298023224,
+      "rms": 0.14142135667112674,
+      "sha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 659,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 36001,
+          "endFrame": 108000
+        },
+        "status": "measured",
+        "hz": 440.0000004584029,
+        "errorPercent": 1.0418248486132597e-7
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-3s",
+      "speed": 1,
+      "block": 256,
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "wanted": 144000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 144000,
+        "renderSeconds": 0.000017125,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.20000000298023224,
+      "rms": 0.14142135667112674,
+      "sha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 659,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 36001,
+          "endFrame": 108000
+        },
+        "status": "measured",
+        "hz": 440.0000004584029,
+        "errorPercent": 1.0418248486132597e-7
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-3s",
+      "speed": 1.25,
+      "block": 0,
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "wanted": 115200,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 115200,
+        "renderSeconds": 0.0150724,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peak": 0.33407625555992126,
+      "rms": 0.14156778576079146,
+      "sha256": "b616ee393c8bb39481456102536dd30df6dedc7d60ac62b07ca6a625540d610c",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 528,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 28801,
+          "endFrame": 86400
+        },
+        "status": "measured",
+        "hz": 439.9999858611829,
+        "errorPercent": 0.000003213367527621358
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "tone-3s",
+      "speed": 1.25,
+      "block": 256,
+      "inputSha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "wanted": 115200,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 115200,
+        "renderSeconds": 0.0199142,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peak": 0.21032468974590302,
+      "rms": 0.14142351593644678,
+      "sha256": "090ece4120a8b3285756b41db9c72e573081bac662b5a3db85ae38f8ff40a86b",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 528,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 28801,
+          "endFrame": 86400
+        },
+        "status": "measured",
+        "hz": 440.00092298984913,
+        "errorPercent": 0.00020977042025638326
+      },
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "impulses-3s",
+      "speed": 0.8,
+      "block": 0,
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "wanted": 180000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 180000,
+        "renderSeconds": 0.0278768,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.8595116138458252,
+      "rms": 0.004625943502936766,
+      "sha256": "42496c2dda33fdc879164365fc39e62e46f173fc302467b9f2f6f96966f30f9f",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "impulses-3s",
+      "speed": 0.8,
+      "block": 256,
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "wanted": 180000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 180000,
+        "renderSeconds": 0.0206695,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "peak": 0.825802206993103,
+      "rms": 0.004619153861653617,
+      "sha256": "4d17484180e32796e6f184aca809ceafdce356d7b1a963259fd0fbceb11e06aa",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "impulses-3s",
+      "speed": 0.9,
+      "block": 0,
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "wanted": 160000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 160000,
+        "renderSeconds": 0.0215582,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peak": 0.8189468383789062,
+      "rms": 0.00468078106828153,
+      "sha256": "a848a7a5970d94122b90e7cc1efe79d299a6a2096db0edcf5ad509423e5bab77",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "impulses-3s",
+      "speed": 0.9,
+      "block": 256,
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "wanted": 160000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 160000,
+        "renderSeconds": 0.0211727,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      },
+      "peak": 0.681311845779419,
+      "rms": 0.004641552235755593,
+      "sha256": "bdb6243152d5abb368066c41638097f4085960bcdda23820750adbcf20f4b603",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "impulses-3s",
+      "speed": 1,
+      "block": 0,
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "wanted": 144000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 144000,
+        "renderSeconds": 0.000018166,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.800000011920929,
+      "rms": 0.004714045278155064,
+      "sha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "impulses-3s",
+      "speed": 1,
+      "block": 256,
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "wanted": 144000,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 144000,
+        "renderSeconds": 0.000013583,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "peak": 0.800000011920929,
+      "rms": 0.004714045278155064,
+      "sha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "impulses-3s",
+      "speed": 1.25,
+      "block": 0,
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "wanted": 115200,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 115200,
+        "renderSeconds": 0.0173344,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peak": 0.7073419094085693,
+      "rms": 0.0046483343910367165,
+      "sha256": "c7a4e5157a533bacce0f9d547daa21e1ec98688001820b00dba9a5b1ad5023a1",
+      "excludedPoison": "bit-identical"
+    },
+    {
+      "case": "impulses-3s",
+      "speed": 1.25,
+      "block": 256,
+      "inputSha256": "f10e98c39e2296ab1200324072ce498c52ae6221dd1d4c31651f379da338db96",
+      "wanted": 115200,
+      "status": 0,
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 115200,
+        "renderSeconds": 0.0141026,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "peak": 0.6364337801933289,
+      "rms": 0.004643208180169354,
+      "sha256": "b92e9791b8a4f003556af5dee8325a395907dcadf32b11880d89a570dc411e77",
+      "excludedPoison": "bit-identical"
+    }
+  ]
+}

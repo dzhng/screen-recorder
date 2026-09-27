@@ -8,6 +8,15 @@ handling and exact unit-rate bypass. A separately measured short-window candidat
 handles the tested 10 ms selections; some 5 ms cases remain unsupported. No
 automatic preset/minimum-duration policy or speech-quality gate is accepted.
 
+The [independent-review correction](../assets/13a-support-review/README.md)
+supersedes the original experiment's censored support windows. Full admitted
+output and isolated endpoint impulses are now measured; short-tone acceptance
+requires an available estimate below the unchanged 1% pitch-error limit.
+Corrected runs reproduce all original exact output hashes. Deliberate support,
+octave and silent-output mutations fail, then the restored measurement tests pass.
+Listening, protected-word joins, short-speech policy and visual acceptance remain
+open; the original frozen reports/media are retained as historical evidence.
+
 ## Contract and seam
 
 Prepare a selected PCM range into its exact declared output sample count without

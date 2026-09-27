@@ -4,6 +4,7 @@ import { spawnSync, execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { tonePitch, requirePitchAcceptance } from "./stretch-measurements.mjs";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const reference = resolve(process.argv[2]),
@@ -54,6 +55,7 @@ const cases = [
 const report = {
   runnerSha256: hash(readFileSync(fileURLToPath(import.meta.url))),
   cppSha256: hash(readFileSync(source)),
+  measurementsSha256: hash(readFileSync(new URL("./stretch-measurements.mjs", import.meta.url))),
   sourceCommit: execFileSync("git", ["-C", root, "rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
   hypothesis:
     "A fixed256sample analysis window can process10ms selected inputs without real neighboring context. Compare unchanged default preset; test long-tone regression before considering adoption.",
@@ -96,6 +98,8 @@ for (const [name, selected] of cases)
         assert.match(run.stderr, /too short/);
         assert.equal(existsSync(path), false);
         result.reason = run.stderr.trim();
+        if (name.startsWith("tone"))
+          result.pitch = { status: "not-rendered", reason: "Unsupported input duration" };
         report.results.push(result);
         continue;
       }
@@ -103,25 +107,19 @@ for (const [name, selected] of cases)
       const bytes = readFileSync(path);
       assert.equal(bytes.length, wanted * 4);
       let peak = 0,
-        sum = 0,
-        crossings = [];
+        sum = 0;
       for (let i = 0; i < wanted; i++) {
         let x = bytes.readFloatLE(i * 4);
         assert.ok(Number.isFinite(x));
         peak = Math.max(peak, Math.abs(x));
         sum += x * x;
-        if (i > Math.floor(wanted * 0.25) && i < Math.floor(wanted * 0.75)) {
-          let before = bytes.readFloatLE((i - 1) * 4);
-          if (before <= 0 && x > 0) crossings.push(i - 1 - before / (x - before));
-        }
       }
       result.peak = peak;
       result.rms = Math.sqrt(sum / wanted);
       result.sha256 = hash(bytes);
-      if (name.startsWith("tone") && crossings.length > 2) {
-        result.pitchHz = ((crossings.length - 1) * rate) / (crossings.at(-1) - crossings[0]);
-        const hz = name === "tone-10ms" ? 1000 : 440;
-        result.pitchErrorPercent = Math.abs(result.pitchHz / hz - 1) * 100;
+      if (name.startsWith("tone")) {
+        result.pitch = tonePitch(bytes, name === "tone-10ms" ? 1000 : 440);
+        requirePitchAcceptance(result.pitch, `${name}/${speed}/block${block}`);
       }
       if (wanted === n) assert.deepEqual(bytes, selected);
       const poisonPath = join(out, `${name}-${speed}-${block}-poison-output.f32`),

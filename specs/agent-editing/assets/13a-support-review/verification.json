@@ -1,0 +1,24 @@
+{
+  "originalArtifactsUnchanged": true,
+  "matchedOriginalMainOutputHashes": 28,
+  "matchedOriginalCombinedEndpointHashes": 16,
+  "newIsolatedEndpointMeasurements": 32,
+  "matchedOriginalShortStatusesAndSuccessfulOutputHashes": 56,
+  "successfulShortCases": 39,
+  "unsupportedShortCases": 17,
+  "mainMaximumPitchErrorPercent": 1.7016925846213837e-05,
+  "shortMaximumPitchErrorPercent": 0.034119760583939396,
+  "isolatedMaximumPeakOffsetFrames": 32.66666666667152,
+  "referenceInputProvenance": "Original slice13 synthetic Float32 recipes and frozen real-phrase input plus sample-exact original narration extraction; every reconstructed input hash matched the frozen reference report. No native reference algorithm rerun.",
+  "tests": {
+    "measurementTests": 5,
+    "mutations": [
+      "latency-sized support censoring rejected",
+      "octave-transposed short processor rejected",
+      "silent short processor rejected"
+    ]
+  },
+  "listening": "OPEN: independent listening and protected-word labels/joins were not performed",
+  "shortPolicy": "OPEN: fixed256-window numerical cases do not establish an automatic preset policy or general minimum duration",
+  "visual": "OPEN: no candidate endpoint-panel acceptance claimed"
+}

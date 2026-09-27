@@ -4,6 +4,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { signalSupport, tonePitch, requirePitchAcceptance } from "./stretch-measurements.mjs";
 
 // Matched-input comparison against the frozen native reproduction, not a new corpus.
 const root = fileURLToPath(new URL("../../../", import.meta.url));
@@ -49,16 +50,6 @@ function energy(b, first = 0, end = b.length / 4) {
   }
   return { sumSquares, peak };
 }
-function pitch(b) {
-  let crossings = [];
-  for (let i = Math.floor((b.length / 4) * 0.25) + 1; i < Math.floor((b.length / 4) * 0.75); i++) {
-    let a = b.readFloatLE((i - 1) * 4),
-      x = b.readFloatLE(i * 4);
-    if (a <= 0 && x > 0) crossings.push(i - 1 - a / (x - a));
-  }
-  assert.ok(crossings.length > 100);
-  return ((crossings.length - 1) * 48000) / (crossings.at(-1) - crossings[0]);
-}
 function render(input, start, end, wanted, id, mode = "exact") {
   const output = join(out, `${id}-${mode}.f32`),
     stats = join(out, `${id}-${mode}-resources.txt`);
@@ -83,35 +74,6 @@ function render(input, start, end, wanted, id, mode = "exact") {
   );
   return { bytes, metadata, peakResidentBytes };
 }
-function support(b, at, offset = 0) {
-  let first = null,
-    last = null,
-    peak = 0,
-    peakFrame = 0;
-  for (
-    let i = Math.max(0, Math.floor(at + offset) - 2880);
-    i < Math.min(b.length / 4, Math.ceil(at + offset) + 2880);
-    i++
-  ) {
-    let v = Math.abs(b.readFloatLE(i * 4));
-    if (v > 1e-7) {
-      first ??= i - offset;
-      last = i - offset;
-    }
-    if (v > peak) {
-      peak = v;
-      peakFrame = i - offset;
-    }
-  }
-  return {
-    nominal: at,
-    firstAbove1eMinus7: first,
-    lastAbove1eMinus7: last,
-    peak,
-    peakFrame,
-    offsetFrames: peakFrame - at,
-  };
-}
 const report = {
   sourceCommit: run("git", ["-C", root, "rev-parse", "HEAD"]).toString().trim(),
   runnerSha256: hash(readFileSync(fileURLToPath(import.meta.url))),
@@ -122,7 +84,9 @@ const report = {
   flags: ["-std=c++17", "-O2"],
   sampleRate: 48000,
   supportThresholdAmplitude: 1e-7,
-  supportHalfWindowFrames: 2880,
+  supportScope:
+    "Entire admitted exact/raw-tail output; isolated endpoint impulses avoid attributing combined support to one impulse",
+  measurementsSha256: hash(readFileSync(new URL("./stretch-measurements.mjs", import.meta.url))),
   recipe:
     "Equal input/output frame counts copy selected PCM exactly. Otherwise presetDefault mono48k, fixed seed0, pitch factor1, exact(selected input, declared output count). Upstream outputSeek handles preroll; flush subtracts reversed residual tail to shape endpoints. No post-hoc crop, extra real source, added output zero padding or wrapper crossfade. Tail mode separately follows upstream seek/process/flush example for support diagnostics.",
   listening: "UNVERIFIED; endpoint impulse spread or attenuation is not missing-speech evidence",
@@ -159,17 +123,16 @@ for (const base of baseline.results) {
     preRollEnergy: energy(tail.bytes, 0, tail.metadata.outputLatency),
   };
   if (base.case === "tone") {
-    result.pitchHz = pitch(exact.bytes);
-    result.pitchErrorPercent = Math.abs(result.pitchHz / 440 - 1) * 100;
-    assert.ok(result.pitchErrorPercent < 1);
+    result.pitch = tonePitch(exact.bytes, 440, 101);
+    requirePitchAcceptance(result.pitch, id);
   }
   if (base.case === "silence") assert.equal(result.energy.peak, 0);
   wav(join(out, `${id}.wav`), exact.bytes);
   if (base.case === "impulses")
-    result.impulses = [0.02, 0.25, 1, 2, 2.98].map((t) => ({
-      exact: support(exact.bytes, (t * 48000) / base.speed),
-      tail: support(tail.bytes, (t * 48000) / base.speed, tail.metadata.outputLatency),
-    }));
+    result.support = {
+      exact: signalSupport(exact.bytes),
+      tail: signalSupport(tail.bytes, { offset: tail.metadata.outputLatency }),
+    };
   if (base.case === "local-phrase") {
     const context = Buffer.concat([
       source.subarray(0, start * 4),
@@ -204,16 +167,43 @@ for (const phase of [0, 1, 17, 137])
       id = `endpoints-${phase}-${speed}`;
     const exact = render(path, 0, frames, wanted, id),
       tail = render(path, 0, frames, wanted, id, "tail");
+    const isolated = [];
+    for (const [side, sourceFrame] of [
+      ["leading", phase],
+      ["trailing", frames - 1 - phase],
+    ]) {
+      const selected = Buffer.alloc(frames * 4);
+      selected.writeFloatLE(0.8, sourceFrame * 4);
+      const isolatedPath = join(out, `endpoint-${phase}-${side}.f32`);
+      writeFileSync(isolatedPath, selected);
+      const alone = render(isolatedPath, 0, frames, wanted, `${id}-${side}`);
+      const raw = render(isolatedPath, 0, frames, wanted, `${id}-${side}`, "tail");
+      isolated.push({
+        side,
+        sourceFrame,
+        inputSha256: hash(selected),
+        exactSha256: hash(alone.bytes),
+        tailSha256: hash(raw.bytes),
+        exact: signalSupport(alone.bytes, { nominal: sourceFrame / speed }),
+        tail: signalSupport(raw.bytes, {
+          nominal: sourceFrame / speed,
+          offset: raw.metadata.outputLatency,
+        }),
+      });
+    }
     report.endpoints.push({
       phase,
       speed,
       wanted,
       exact: exact.metadata,
+      inputSha256: hash(input),
       sha256: hash(exact.bytes),
-      peaks: [phase / speed, (frames - 1 - phase) / speed].map((at) => ({
-        exact: support(exact.bytes, at),
-        tail: support(tail.bytes, at, tail.metadata.outputLatency),
-      })),
+      tailSha256: hash(tail.bytes),
+      combinedSupport: {
+        exact: signalSupport(exact.bytes),
+        tail: signalSupport(tail.bytes, { offset: tail.metadata.outputLatency }),
+      },
+      isolated,
       tailEnergy: energy(tail.bytes, wanted + tail.metadata.outputLatency),
     });
   }
