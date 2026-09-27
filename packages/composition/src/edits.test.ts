@@ -645,3 +645,219 @@ test("every small retimed removal preserves all surviving project samples", () =
           }
         }
 });
+
+test("explicit ripple shifts roots once and their attached overlays follow once", () => {
+  const first = applyBatch(
+    input,
+    [
+      ...setup,
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "overlayTrack" },
+      {
+        operation: "place",
+        label: "overlay",
+        clip: {
+          assetId: "source",
+          streamId: "v",
+          trackId: { label: "overlayTrack" },
+          source: { kind: "hold", atUs: 123 },
+          placement: {
+            kind: "content",
+            clipId: { label: "video" },
+            sourceRange: { startUs: 1000000, endUs: 2000000 },
+          },
+        },
+      },
+    ],
+    context,
+  );
+  const command = {
+    operation: "remove",
+    clipIds: [first.labels.video],
+    ranges: [{ startUs: 500000, endUs: 1000000 }],
+    ripple: { trackIds: [first.labels.picture, first.labels.sound, first.labels.overlayTrack] },
+  };
+  const result = applyBatch(first.document, [command], { ...context, namespace: "ripple" });
+  const model = validateComposition(result.document, context.assets);
+  expect(model.durationUs).toBe(1500000);
+  expect(
+    projectToSource(model, 500000).map(({ trackId, sourceUs }) => ({ trackId, sourceUs })),
+  ).toEqual([
+    { trackId: first.labels.picture, sourceUs: 1000000 },
+    { trackId: first.labels.sound, sourceUs: 1000000 },
+    { trackId: first.labels.overlayTrack, sourceUs: 123 },
+  ]);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [{ ...command, ripple: { trackIds: [first.labels.overlayTrack] } }],
+      { ...context, namespace: "child-ripple" },
+    ),
+  ).toThrow(/root/);
+  expect(() =>
+    applyBatch(first.document, [{ ...command, ripple: { trackIds: [first.labels.picture] } }], {
+      ...context,
+      namespace: "omitted-link",
+    }),
+  ).toThrow(/synchronization/);
+});
+
+test("ripple reports fixed project overlays and refuses unaddressed crossing content", () => {
+  const first = applyBatch(
+    input,
+    [
+      ...setup,
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "fixedTrack" },
+      {
+        operation: "place",
+        label: "fixed",
+        clip: {
+          assetId: "source",
+          streamId: "v",
+          trackId: { label: "fixedTrack" },
+          source: { kind: "hold", atUs: 7 },
+          placement: { kind: "project", range: { startUs: 600000, endUs: 1600000 } },
+        },
+      },
+    ],
+    context,
+  );
+  const command = {
+    operation: "remove",
+    clipIds: [first.labels.video],
+    ranges: [{ startUs: 500000, endUs: 1000000 }],
+    ripple: { trackIds: [first.labels.picture, first.labels.sound] },
+  };
+  const result = applyBatch(first.document, [command], { ...context, namespace: "fixed" });
+  expect(result.document.clips.find((clip) => clip.id === first.labels.fixed)).toEqual(
+    first.document.clips.find((clip) => clip.id === first.labels.fixed),
+  );
+  expect(result.touchedFixedAnchors).toEqual([{ kind: "clip", id: first.labels.fixed }]);
+  expect(() =>
+    applyBatch(
+      first.document,
+      [{ ...command, ripple: { trackIds: [...command.ripple.trackIds, first.labels.fixedTrack] } }],
+      { ...context, namespace: "crossing" },
+    ),
+  ).toThrow(/unremoved content/);
+  const explicit = applyBatch(
+    first.document,
+    [
+      {
+        ...command,
+        clipIds: [first.labels.video, first.labels.fixed],
+        ripple: { trackIds: [...command.ripple.trackIds, first.labels.fixedTrack] },
+      },
+    ],
+    { ...context, namespace: "explicit" },
+  );
+  expect(explicit.document.clips.find((clip) => clip.id === first.labels.fixed)?.placement).toEqual(
+    { kind: "project", range: { startUs: 500000, endUs: 1100000 } },
+  );
+});
+
+test("ripple collapses the requested union including empty project time", () => {
+  const document = {
+    ...input,
+    tracks: [{ id: "track", kind: "video", order: 0 }],
+    clips: [
+      {
+        id: "head",
+        assetId: "source",
+        streamId: "v",
+        trackId: "track",
+        source: { kind: "range", range: { startUs: 0, endUs: 500000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 500000 } },
+      },
+      {
+        id: "tail",
+        assetId: "source",
+        streamId: "v",
+        trackId: "track",
+        source: { kind: "range", range: { startUs: 1000000, endUs: 2000000 } },
+        placement: { kind: "project", range: { startUs: 1000000, endUs: 2000000 } },
+      },
+    ],
+  };
+  const result = applyBatch(
+    document,
+    [
+      {
+        operation: "remove",
+        clipIds: ["head"],
+        ranges: [
+          { startUs: 500000, endUs: 800000 },
+          { startUs: 700000, endUs: 1000000 },
+        ],
+        ripple: { trackIds: ["track"] },
+      },
+    ],
+    context,
+  );
+  expect(result.document.clips.find((clip) => clip.id === "head")).toEqual(document.clips[0]);
+  expect(result.document.clips.find((clip) => clip.id === "tail")).toMatchObject({
+    source: document.clips[1]!.source,
+    placement: { kind: "project", range: { startUs: 500000, endUs: 1500000 } },
+  });
+  expect(result.createdIds).toEqual([]);
+  expect(result.splitLineage).toEqual([]);
+});
+
+test("removing an absent occurrence cannot ripple unrelated content", () => {
+  const first = applyBatch(input, setup, context);
+  const result = applyBatch(
+    first.document,
+    [
+      {
+        operation: "remove",
+        clipIds: ["already-removed"],
+        ranges: [{ startUs: 0, endUs: 500000 }],
+        ripple: { trackIds: [first.labels.picture, first.labels.sound] },
+      },
+    ],
+    { ...context, namespace: "absent-ripple" },
+  );
+  expect(result.changed).toBe(false);
+  expect(result.document).toEqual(first.document);
+});
+
+test("retimed ripple preserves each surviving sample at its collapsed project position", () => {
+  for (let source = 1; source <= 5; source++)
+    for (let duration = 2; duration <= 8; duration++)
+      for (let startUs = 0; startUs < duration; startUs++)
+        for (let endUs = startUs + 1; endUs <= duration; endUs++) {
+          const document = {
+            ...input,
+            tracks: [{ id: "track", kind: "video", order: 0 }],
+            clips: [
+              {
+                id: "clip",
+                assetId: "source",
+                streamId: "v",
+                trackId: "track",
+                source: { kind: "range", range: { startUs: 0, endUs: source } },
+                placement: { kind: "project", range: { startUs: 0, endUs: duration } },
+              },
+            ],
+          };
+          const result = applyBatch(
+            document,
+            [
+              {
+                operation: "remove",
+                clipIds: ["clip"],
+                ranges: [{ startUs, endUs }],
+                ripple: { trackIds: ["track"] },
+              },
+            ],
+            context,
+          );
+          const model = validateComposition(result.document, context.assets);
+          expect(model.durationUs).toBe(duration - endUs + startUs);
+          for (let at = 0; at < model.durationUs; at++) {
+            const originalAt = at < startUs ? at : at + endUs - startUs;
+            expect(projectToSource(model, at).map((item) => item.sourceUs)).toEqual([
+              Math.floor((originalAt * source) / duration),
+            ]);
+          }
+        }
+});

@@ -189,7 +189,12 @@ expansion in the result.
 
 Ripple changes project-anchored root **clip** placements once, then resolves attached
 descendants once. Naming both parent and child tracks does not double-shift a
-child. An independent ripple targeting an attached child without its affected
+child. Explicit range removal collapses the requested range union, including
+empty time; whole-occurrence removal uses the selected envelope union. An entirely
+absent occurrence selection stays a no-op. If unaddressed root content on a named
+track crosses a collapsed window, reject with its clip/track identities rather
+than silently deleting it. The agent can include that content explicitly.
+An independent ripple targeting an attached child without its affected
 root is rejected with the anchor identity; explicitly detach/reanchor first.
 
 Content anchors refer to one clip occurrence and its source range. They follow
@@ -210,7 +215,10 @@ Ordinary source-following attachments use `kind: content`. Both forms belong to
 the same resolver; captions/keyframes cannot invent another anchor system.
 
 Project anchors stay at their explicit times unless the batch explicitly changes
-them. Report touched fixed anchors after ripple so the external agent can decide.
+them. `touchedFixedAnchors` lists unmoved project-root clips whose intervals overlap
+or follow the first ripple window, so the external agent can review them; it does
+not mean their positions changed. Captions/effects extend this receipt when their
+capability slices arrive.
 The engine does not choose B-roll, cover changed speech, remove ums, or decide
 what speaking pace is appropriate.
 

@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+
+ Test Files  2 passed (2)
+      Tests  41 passed (41)
+   Start at  14:20:26
+   Duration  712ms (tests 46%, transform 32%, import 22%, worker 1%)
+

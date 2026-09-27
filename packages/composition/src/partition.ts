@@ -1,33 +1,24 @@
 import {
-  CompositionError,
   sourceTime,
   intersection,
   intersectAll,
   type ValidatedComposition,
   type ExactRange,
 } from "./model.js";
-import { compare, fromTime, divide, subtract, type Rational } from "./rational.js";
-import type { Clip, Fraction, TimeValue } from "./schema.js";
+import {
+  compare,
+  fromTime,
+  divide,
+  subtract,
+  type Rational,
+  toTime,
+  toFraction,
+} from "./rational.js";
+import type { Clip } from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
 type Piece = { clip: Readonly<Clip>; range: ExactRange };
-function fraction(value: Rational): Fraction {
-  if (
-    value.numerator < 0n ||
-    value.numerator > BigInt(Number.MAX_SAFE_INTEGER) ||
-    value.denominator > BigInt(Number.MAX_SAFE_INTEGER)
-  )
-    throw new CompositionError(
-      "INVALID_EDIT",
-      "Exact edit boundary exceeds serializable precision",
-    );
-  return { numerator: Number(value.numerator), denominator: Number(value.denominator) };
-}
-function time(value: Rational): TimeValue {
-  const result = fraction(value);
-  return result.denominator === 1 ? result.numerator : result;
-}
-const stored = (range: ExactRange) => ({ startUs: time(range.start), endUs: time(range.end) });
+const stored = (range: ExactRange) => ({ startUs: toTime(range.start), endUs: toTime(range.end) });
 function union(ranges: readonly ExactRange[]): ExactRange[] {
   const result: ExactRange[] = [];
   for (const range of [...ranges].sort((a, b) => compare(a.start, b.start))) {
@@ -172,13 +163,13 @@ export function partitionClips(
               : {
                   kind: "clip",
                   clipId: parentPiece.clip.id,
-                  start: fraction(
+                  start: toFraction(
                     divide(
                       subtract(range.start, parentPiece.range.start),
                       subtract(parentPiece.range.end, parentPiece.range.start),
                     ),
                   ),
-                  end: fraction(
+                  end: toFraction(
                     divide(
                       subtract(range.end, parentPiece.range.start),
                       subtract(parentPiece.range.end, parentPiece.range.start),
@@ -237,6 +228,12 @@ export function partitionClips(
       syncGroups,
     },
     lineage,
+    removalRanges:
+      operation.kind === "remove" && selected.some((id) => original.has(id))
+        ? operation.ranges
+          ? union(operation.ranges)
+          : removals
+        : [],
     removedAttachments: model.document.clips
       .filter((clip) => clip.placement.kind !== "project" && pieces.get(clip.id)!.length === 0)
       .map((clip) => clip.id),

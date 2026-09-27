@@ -23,7 +23,6 @@ export type {
 export type { Rational } from "./rational.js";
 
 export {
-  CompositionError,
   validateComposition,
   resolvePlacement,
   projectToSource,
@@ -38,3 +37,5 @@ export type {
 } from "./model.js";
 export { applyBatch, editOperationSchema } from "./edits.js";
 export type { EditOperation, EditBatchResult, EditChange } from "./edits.js";
+
+export { CompositionError } from "./errors.js";

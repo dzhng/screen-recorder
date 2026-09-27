@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; batch foundation, splitting, gap-preserving removal and trim verified. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: in progress; batch foundation, splitting, removal, trim and explicit ripple verified. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -83,5 +83,22 @@ not materialize their Cartesian product. Batch identities remain occupied after
 deletion, preventing delete/add from reusing an occurrence identity; the
 [regression](../assets/03-edits/removal/identity-reuse-red.txt) failed before this
 fix. Independent review found no actionable defects in the removal/trim logic;
-type checks, build and the previous split grid pass. Ripple is currently explicitly
-`none`; explicit ripple tracks and move/insert/replace/retime/duplicate remain open.
+type checks, build and the previous split grid pass. Move/insert/replace/retime/duplicate remain open.
+
+
+## Ripple checkpoint
+
+[41 composition tests](../assets/03-edits/ripple/tests.txt) pass, including 595
+retimed ripple cases. The named root tracks shift once; attached descendants
+inherit that displacement. Child-only scopes and unequal linked displacements
+reject with stable track information. Unaddressed content crossing a collapsed
+window rejects instead of being silently trimmed. Fixed project overlays remain
+unchanged and are listed for review.
+
+Explicit ranges collapse their union, including empty project time, provided at
+least one addressed occurrence exists. Whole-occurrence removal collapses the
+selected occupied envelope union. An entirely absent selection is a no-op; its
+[regression](../assets/03-edits/ripple/absent-target-red.txt) failed until ripple
+windows were suppressed. Final independent Codex review found no actionable
+defects; package type checks and build pass. Exact time serialization and domain
+errors have one shared owner for partitioning and displacement.

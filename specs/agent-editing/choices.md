@@ -268,3 +268,20 @@ bounded-work convention; overlapping ranges are merged before applying them.
 Larger edits must be expressed deliberately within the public operation limits,
 never silently divided into separate commits. This bound must appear with the
 shared edit schema when the public project API is added.
+
+
+### Ripple closes named time windows without silently trimming other footage
+
+When: slice 03 ripple. Confidence: medium. Verdict: sound.
+
+The choice: removing a half-second gap can shift later clips on named tracks even
+though no picture occupied that gap. If a different clip crosses the same window,
+the operation asks the agent to include it explicitly instead of silently deleting
+part of it. An absent occurrence ID never becomes permission to shift unrelated
+footage. Attached overlays follow their root once; fixed project overlays remain
+in place and are reported for review.
+
+The gap: the plan fixed explicit ripple scopes but left empty-time collapse and
+unaddressed crossing content implicit. The reach: the agent can express global
+ripple deletion by naming all affected content, or retain unrelated footage with
+an explicit narrower scope. The engine does not choose which extra footage to cut.

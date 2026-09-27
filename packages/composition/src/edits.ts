@@ -1,19 +1,20 @@
+import { CompositionError } from "./errors.js";
 import { z } from "zod";
 import { anchorSchema, clipSchema, compositionSchema, rangeSchema } from "./schema.js";
-import {
-  CompositionError,
-  validateComposition,
-  type ValidatedComposition,
-  type ExactRange,
-} from "./model.js";
+import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
 import { partitionClips } from "./partition.js";
 import { compare, fromTime } from "./rational.js";
+import { rippleRemoval } from "./ripple.js";
 
 type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "syncGroup";
 const reference = z.union([z.string().min(1), z.object({ label: z.string().min(1) }).strict()]);
 const label = z.string().min(1).optional();
+const ripple = z.union([
+  z.literal("none"),
+  z.object({ trackIds: z.array(reference).min(1) }).strict(),
+]);
 const placement = z.discriminatedUnion("kind", [
   anchorSchema.options[0].safeExtend({ range: rangeSchema }),
   z
@@ -36,7 +37,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       clipId: reference,
       range: rangeSchema,
       scope: z.enum(["linked", "selected"]).default("linked"),
-      ripple: z.literal("none"),
+      ripple,
     })
     .strict(),
   z
@@ -45,7 +46,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       clipIds: z.array(reference).min(1),
       ranges: z.array(rangeSchema).min(1).max(1000).optional(),
       scope: z.enum(["linked", "selected"]).default("linked"),
-      ripple: z.literal("none"),
+      ripple,
     })
     .strict(),
   z
@@ -92,6 +93,7 @@ export type EditBatchResult = {
   normalized: { operationIndex: number; changes: EditChange[] }[];
   splitLineage: { originalId: string; clipIds: string[] }[];
   removedAttachments: string[];
+  touchedFixedAnchors: { kind: "clip"; id: string }[];
   linkChanges: Extract<EditChange, { kind: "syncGroup" }>[];
 };
 function invalid(message: string, details: Record<string, unknown> = {}): never {
@@ -156,6 +158,7 @@ export function applyBatch(
   const normalized: EditBatchResult["normalized"] = [];
   const splitLineage: EditBatchResult["splitLineage"] = [];
   const removedAttachments: string[] = [];
+  const touchedFixedAnchors = new Map<string, { kind: "clip"; id: string }>();
   let ordinal = 0;
   const resolve = (value: z.infer<typeof reference>, kind: EntityKind): string => {
     if (typeof value === "string") return value;
@@ -183,9 +186,9 @@ export function applyBatch(
   const clips = (refs: z.infer<typeof reference>[], allowMissing = false) => {
     const ids = refs.map((value) => resolve(value, "clip"));
     if (new Set(ids).size !== ids.length) invalid("Repeated clip reference");
+    const known = new Set(model.document.clips.map((clip) => clip.id));
     for (const id of ids)
-      if (!allowMissing && !model.document.clips.some((clip) => clip.id === id))
-        invalid("Unknown clip", { clipId: id });
+      if (!allowMissing && !known.has(id)) invalid("Unknown clip", { clipId: id });
     return ids;
   };
   for (const [operationIndex, operation] of parsed.data.entries()) {
@@ -227,7 +230,17 @@ export function applyBatch(
             { kind: "remove", scope: operation.scope, ...(ranges ? { ranges } : {}) },
             allocate,
           );
-          next = result.document;
+          if (operation.ripple === "none") next = result.document;
+          else {
+            const shifted = rippleRemoval(
+              validateComposition(result.document, model.assets),
+              result.removalRanges,
+              operation.ripple.trackIds.map((id) => resolve(id, "track")),
+            );
+            next = shifted.document;
+            for (const anchor of shifted.touchedFixedAnchors)
+              touchedFixedAnchors.set(anchor.id, anchor);
+          }
           splitLineage.push(...result.lineage);
           removedAttachments.push(...result.removedAttachments);
           break;
@@ -364,6 +377,7 @@ export function applyBatch(
     normalized,
     splitLineage,
     removedAttachments,
+    touchedFixedAnchors: [...touchedFixedAnchors.values()],
     linkChanges: normalized.flatMap((step) =>
       step.changes.filter(
         (change): change is Extract<EditChange, { kind: "syncGroup" }> =>

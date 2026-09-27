@@ -1,0 +1,28 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+ ❯ packages/composition/src/edits.test.ts (21 tests | 1 failed | 20 skipped) 40ms
+   × removing an absent occurrence cannot ripple unrelated content 37ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/edits.test.ts > removing an absent occurrence cannot ripple unrelated content
+CompositionError: Ripple intersects unremoved content; address those clips explicitly
+ ❯ invalid packages/composition/src/edits.ts:100:9
+     98| };
+     99| function invalid(message: string, details: Record<string, unknown> = {…
+    100|   throw new CompositionError("INVALID_EDIT", message, details);
+       |         ^
+    101| }
+    102| function difference<T extends { id: string }>(
+ ❯ applyBatch packages/composition/src/edits.ts:368:9
+ ❯ packages/composition/src/edits.test.ts:807:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 20 skipped (21)
+   Start at  14:07:27
+   Duration  705ms (transform 56%, import 34%, tests 9%, worker 1%)
+

@@ -22,21 +22,7 @@ import {
   type Rational,
   fromTime,
 } from "./rational.js";
-export class CompositionError extends Error {
-  constructor(
-    readonly code:
-      | "INVALID_COMPOSITION"
-      | "INVALID_TIME"
-      | "UNKNOWN_CLIP"
-      | "UNKNOWN_SOURCE"
-      | "INVALID_EDIT",
-    message: string,
-    readonly details: Record<string, unknown> = {},
-  ) {
-    super(message);
-    this.name = "CompositionError";
-  }
-}
+import { CompositionError } from "./errors.js";
 type Immutable<T> = T extends object ? { readonly [K in keyof T]: Immutable<T[K]> } : T;
 export type ExactRange = Readonly<{ start: Rational; end: Rational }>;
 export type ResolvedPlacement = Readonly<{ range: ExactRange; available: readonly ExactRange[] }>;
