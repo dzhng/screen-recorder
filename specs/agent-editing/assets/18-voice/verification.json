@@ -1,0 +1,11 @@
+{
+  "verified": [
+    "same-take-word",
+    "same-take-phrase",
+    "external-file-word",
+    "external-file-phrase",
+    "past-project-word",
+    "past-project-phrase"
+  ],
+  "assertions": "Output hashes; exact retained prefix/suffix; exact inserted PCM; count conservation; finite samples. No listening claim."
+}

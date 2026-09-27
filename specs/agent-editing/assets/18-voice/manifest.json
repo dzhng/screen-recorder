@@ -1,0 +1,269 @@
+{
+  "config": {
+    "runtimeCommit": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+    "model": "mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16",
+    "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+    "source": "fixtures/narrated-workbench/narration.mov",
+    "sourceOriginUs": 48675,
+    "reference": {
+      "sourceRange": {
+        "startUs": 1000000,
+        "endUs": 6000000
+      },
+      "text": "Okay, so this is the recorder workbench.",
+      "textAuthority": "inherited ASR, not independently auditioned",
+      "evidence": "specs/recording-for-ai/assets/speech/boundaries/transcript.json"
+    },
+    "origins": [
+      "same-take",
+      "external-file",
+      "past-project"
+    ],
+    "replacements": [
+      {
+        "id": "word",
+        "text": "paid",
+        "range": {
+          "startUs": 74128675,
+          "endUs": 74528675
+        },
+        "boundaryAuthority": "ASR-only; word boundary remains unverified"
+      },
+      {
+        "id": "phrase",
+        "text": "This is available at no cost.",
+        "range": {
+          "startUs": 73808675,
+          "endUs": 74768675
+        },
+        "boundaryAuthority": "historically auditioned phrase-removal range; new generation splice unverified"
+      }
+    ],
+    "generation": {
+      "temperature": 0.9,
+      "top_k": 50,
+      "top_p": 1.0,
+      "repetition_penalty": 1.05,
+      "max_tokens": 256,
+      "lang_code": "english",
+      "stream": false
+    },
+    "seed": 18,
+    "contextRange": {
+      "startUs": 71500000,
+      "endUs": 76500000
+    },
+    "splice": "direct concatenation, original duration removed; no trim, stretch, loudness adjustment or crossfade"
+  },
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "requestSha256": "58c164ae5cf079139f7ce653ec76fdbd540ab60c08910c2db5d2ea54eace4116",
+  "runnerSha256": "f5ab0381645fa9e7f2a2e3ad71aaa6bd6c4607fea1a68528fce4534df1b249bd",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]",
+  "device": {
+    "device_name": "Apple M5 Pro",
+    "max_recommended_working_set_size": 40200896512,
+    "memory_size": 51539607552,
+    "architecture": "applegpu_g17s",
+    "max_buffer_length": 30150672384,
+    "resource_limit": 499000
+  },
+  "dependencies": {
+    "shellingham": "1.5.4",
+    "numpy": "2.5.3",
+    "click": "8.5.0",
+    "packaging": "26.3",
+    "mlx": "0.32.2",
+    "Pygments": "2.21.0",
+    "sounddevice": "0.5.6",
+    "hf-xet": "1.6.0",
+    "rich": "15.0.0",
+    "tokenizers": "0.23.2",
+    "httpcore": "1.0.9",
+    "mlx-audio": "0.5.6",
+    "transformers": "5.17.0",
+    "safetensors": "0.8.0",
+    "miniaudio": "1.71",
+    "tqdm": "4.70.1",
+    "h11": "0.16.0",
+    "pycparser": "3.0",
+    "mdurl": "0.1.2",
+    "PyYAML": "6.0.3",
+    "fsspec": "2026.9.0",
+    "cffi": "2.1.1",
+    "certifi": "2026.7.22",
+    "markdown-it-py": "4.2.0",
+    "annotated-doc": "0.0.5",
+    "mlx-metal": "0.32.2",
+    "filelock": "4.0.4",
+    "httpx": "0.28.1",
+    "typing_extensions": "4.16.0",
+    "regex": "2026.9.10",
+    "typer": "0.27.2",
+    "anyio": "4.15.1",
+    "scipy": "1.18.1",
+    "huggingface_hub": "1.33.0",
+    "idna": "3.20"
+  },
+  "modelFiles": {
+    ".gitattributes": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+    "README.md": "d0c0b25c2cc544e864cafccee9d2447a04d1fba561060c0d88bd5c2bc1e5ea86",
+    "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+    "generation_config.json": "f1b90b4513f3b34c62851049e2492d7b4c5940daf1276f89c82b8ef04127f3aa",
+    "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+    "model.safetensors": "d7c7ed3e3464e3e59de0f955b3755891fa8319ff061c3f0307fe2e1343bc122d",
+    "model.safetensors.index.json": "e02433c97b2894586e8842af2b40381c5bb644bc1c6bf71a6a52a727efe92313",
+    "preprocessor_config.json": "efdde1022ea9d76928bf7a9cd53139138f5ba2e466e837f08f6105ab1af1c119",
+    "speech_tokenizer/config.json": "ee65bb901c876664ab8707c487157aa1a6ee57c65969b28fb5ec9dc211e68167",
+    "speech_tokenizer/configuration.json": "6bc26d64eb5024b4d1dab5a52371958b429256d6c9d59787f1f5294a54e0cebd",
+    "speech_tokenizer/model.safetensors": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258",
+    "speech_tokenizer/preprocessor_config.json": "fcb3805e597e786d4067706e602f6688524640f8d3396790e2e09b5942fcbdfb",
+    "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+  },
+  "network": "OS sandbox deny network plus Hugging Face/Transformers offline flags",
+  "originEvidence": "All origins are copies of the same selected actual narration. External-file path is real; past-project asset admission/deletion retention is simulated and NOT verified.",
+  "quality": {
+    "requestedWords": "unverified",
+    "identity": "unverified",
+    "delivery": "unverified",
+    "spliceListening": "unverified",
+    "visualReview": "unverified"
+  },
+  "runs": [
+    {
+      "id": "same-take-word",
+      "text": "paid",
+      "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "warm": false,
+      "generationSeconds": 25.544960917031858,
+      "coldLoadAndGenerationSeconds": 66.07846000004793,
+      "durationSeconds": 0.88,
+      "rtf": 29.028364678445293,
+      "mlxPeakBytes": 4688233397,
+      "processPeakRssBytes": 2353397760,
+      "rawSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "contextSha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640",
+      "joinsFrames": [
+        63088,
+        84208
+      ],
+      "targetDurationSeconds": 0.4,
+      "durationDeltaSeconds": 0.48,
+      "samplePeak": 0.1544979065656662,
+      "generationSamples": 21120
+    },
+    {
+      "id": "same-take-phrase",
+      "text": "This is available at no cost.",
+      "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "warm": true,
+      "generationSeconds": 6.407124582969118,
+      "coldLoadAndGenerationSeconds": null,
+      "durationSeconds": 3.36,
+      "rtf": 1.9068823163598565,
+      "mlxPeakBytes": 6417643957,
+      "processPeakRssBytes": 2353397760,
+      "rawSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "contextSha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4",
+      "joinsFrames": [
+        55408,
+        136048
+      ],
+      "targetDurationSeconds": 0.96,
+      "durationDeltaSeconds": 2.4,
+      "samplePeak": 0.19622181355953217,
+      "generationSamples": 80640
+    },
+    {
+      "id": "external-file-word",
+      "text": "paid",
+      "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "warm": true,
+      "generationSeconds": 1.695304249995388,
+      "coldLoadAndGenerationSeconds": null,
+      "durationSeconds": 0.88,
+      "rtf": 1.9264821022674865,
+      "mlxPeakBytes": 5986994781,
+      "processPeakRssBytes": 2353397760,
+      "rawSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "contextSha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640",
+      "joinsFrames": [
+        63088,
+        84208
+      ],
+      "targetDurationSeconds": 0.4,
+      "durationDeltaSeconds": 0.48,
+      "samplePeak": 0.1544979065656662,
+      "generationSamples": 21120
+    },
+    {
+      "id": "external-file-phrase",
+      "text": "This is available at no cost.",
+      "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "warm": true,
+      "generationSeconds": 4.437791790987831,
+      "coldLoadAndGenerationSeconds": null,
+      "durationSeconds": 3.36,
+      "rtf": 1.320771366365426,
+      "mlxPeakBytes": 6417641909,
+      "processPeakRssBytes": 2353397760,
+      "rawSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "contextSha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4",
+      "joinsFrames": [
+        55408,
+        136048
+      ],
+      "targetDurationSeconds": 0.96,
+      "durationDeltaSeconds": 2.4,
+      "samplePeak": 0.19622181355953217,
+      "generationSamples": 80640
+    },
+    {
+      "id": "past-project-word",
+      "text": "paid",
+      "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "warm": true,
+      "generationSeconds": 1.6021843329654075,
+      "coldLoadAndGenerationSeconds": null,
+      "durationSeconds": 0.88,
+      "rtf": 1.8206640147334177,
+      "mlxPeakBytes": 5986994781,
+      "processPeakRssBytes": 2353397760,
+      "rawSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "contextSha256": "8ed036f50331990e58ca020ac06c91ff89bf1381b13aba16a0ba0243e2fbc640",
+      "joinsFrames": [
+        63088,
+        84208
+      ],
+      "targetDurationSeconds": 0.4,
+      "durationDeltaSeconds": 0.48,
+      "samplePeak": 0.1544979065656662,
+      "generationSamples": 21120
+    },
+    {
+      "id": "past-project-phrase",
+      "text": "This is available at no cost.",
+      "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "warm": true,
+      "generationSeconds": 4.227301666978747,
+      "coldLoadAndGenerationSeconds": null,
+      "durationSeconds": 3.36,
+      "rtf": 1.258125496124627,
+      "mlxPeakBytes": 6417643957,
+      "processPeakRssBytes": 2353397760,
+      "rawSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "contextSha256": "3622350a1f9b50218007a92f357772fd720a58a3453a51877d8eecdfcc9b05e4",
+      "joinsFrames": [
+        55408,
+        136048
+      ],
+      "targetDurationSeconds": 0.96,
+      "durationDeltaSeconds": 2.4,
+      "samplePeak": 0.19622181355953217,
+      "generationSamples": 80640
+    }
+  ],
+  "preparationAndImportSeconds": 15.518377125030383,
+  "modelLoadSeconds": 40.53349908301607
+}

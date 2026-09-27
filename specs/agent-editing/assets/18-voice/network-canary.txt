@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/david/.local/share/uv/python/cpython-3.12.14-macos-aarch64-none/lib/python3.12/socket.py", line 865, in create_connection
+    raise exceptions[0]
+  File "/Users/david/.local/share/uv/python/cpython-3.12.14-macos-aarch64-none/lib/python3.12/socket.py", line 850, in create_connection
+    sock.connect(sa)
+PermissionError: [Errno 1] Operation not permitted

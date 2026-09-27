@@ -1,0 +1,11 @@
+{
+  "runtimeGitHead": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+  "runtimePythonSourceSha256": "61bd2a5c092054ba95e3058e8d625cef6a79f8a92d8fed80eb7303cc7383a95c",
+  "sourceState": "",
+  "python": "3.12.14",
+  "uv": "0.12.10",
+  "downloadCLI": "hf1.30.0",
+  "runtimePackage": "mlx-audio0.5.6",
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "modelVerification": "14 remote files verified by hf cache verify; local extras are download cache metadata"
+}

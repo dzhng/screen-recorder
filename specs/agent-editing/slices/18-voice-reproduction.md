@@ -1,6 +1,6 @@
 # 18 — Reproduce local reference speech
 
-Status: not started. Dependencies: [00](./00-corpus.md).
+Status: offline candidate reproduced; observed warm RTF/memory targets met. Listening, independent requested-text checks, visual review and managed origin retention remain unverified. [Frozen evidence](../assets/18-voice/README.md). Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

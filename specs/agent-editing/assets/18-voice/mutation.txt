@@ -1,0 +1,6 @@
+Changing one retained generation byte makes independent verification fail.
+Traceback (most recent call last):
+  File "/private/tmp/screenrec-editing-voice/packages/test-harness/editing/voice/verify.py", line 11, in <module>
+    assert sha(out/(r['id']+'.wav'))==r['rawSha256']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
