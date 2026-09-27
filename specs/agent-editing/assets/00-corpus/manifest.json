@@ -1,0 +1,394 @@
+{
+  "version": 1,
+  "invocation": "node packages/test-harness/editing/fixtures.mjs --out specs/agent-editing/assets/00-corpus",
+  "sourceCommit": "ba5b2c6b194544ace8c47b7e756393573fe678b2",
+  "generator": {
+    "path": "packages/test-harness/editing/fixtures.mjs",
+    "sha256": "1eb85b55827d1abbe4f049c82d5274ddfd85d53c502ed46deb90589f02431dd6"
+  },
+  "raster": {
+    "path": "apps/macos/tests/fixtures/generated-capture.mjs",
+    "sha256": "fc71b3a224153474ddf9240eeacdd1cce3be9f0dfe56c8a0c6a28462a44c717f"
+  },
+  "tools": {
+    "node": "v24.14.0",
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "determinism": "Media bytes repeat with these tool versions; cross-version encoder byte identity is not promised. Source commit records generation provenance, not the later commit containing these artifacts.",
+  "assets": [
+    {
+      "path": "a.mov",
+      "sha256": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+      "bytes": 196988,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "profile": "High",
+            "codec_type": "video",
+            "width": 160,
+            "height": 96,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "4/1",
+            "time_base": "1/16384",
+            "start_time": "0.000000",
+            "duration": "2.000000"
+          },
+          {
+            "index": 1,
+            "codec_name": "pcm_s16le",
+            "codec_type": "audio",
+            "sample_rate": "48000",
+            "channels": 1,
+            "r_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_time": "0.000000",
+            "duration": "2.000000"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "path": "a-audio.wav",
+      "sha256": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+      "bytes": 192044,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "pcm_s16le",
+            "codec_type": "audio",
+            "sample_rate": "48000",
+            "channels": 1,
+            "r_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "duration": "2.000000"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "path": "frames-a.png",
+      "sha256": "cc1c97530d1130442b4c4b13772663ab99439ff3e3669e93f9727db3d9818d70",
+      "bytes": 9228,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "png",
+            "codec_type": "video",
+            "width": 640,
+            "height": 192,
+            "pix_fmt": "rgb24",
+            "r_frame_rate": "25/1",
+            "time_base": "1/25"
+          }
+        ],
+        "format": {}
+      }
+    },
+    {
+      "path": "b.mov",
+      "sha256": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+      "bytes": 197873,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "profile": "High",
+            "codec_type": "video",
+            "width": 96,
+            "height": 128,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "5/1",
+            "time_base": "1/10240",
+            "start_time": "0.000000",
+            "duration": "2.000000"
+          },
+          {
+            "index": 1,
+            "codec_name": "pcm_s16le",
+            "codec_type": "audio",
+            "sample_rate": "48000",
+            "channels": 1,
+            "r_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_time": "0.000000",
+            "duration": "2.000000"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "path": "b-audio.wav",
+      "sha256": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0",
+      "bytes": 192044,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "pcm_s16le",
+            "codec_type": "audio",
+            "sample_rate": "48000",
+            "channels": 1,
+            "r_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "duration": "2.000000"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "path": "frames-b.png",
+      "sha256": "c6a6c34868e0813c58a76f530eb652b37b41c7638040024bc1cc3b32930015c0",
+      "bytes": 11237,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "png",
+            "codec_type": "video",
+            "width": 480,
+            "height": 256,
+            "pix_fmt": "rgb24",
+            "r_frame_rate": "25/1",
+            "time_base": "1/25"
+          }
+        ],
+        "format": {}
+      }
+    },
+    {
+      "path": "video-only.mov",
+      "sha256": "b56a096acd4faf9ab43691e29960eaa4631b3be3ea85fab85861447cbcfaedf7",
+      "bytes": 4419,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "profile": "High",
+            "codec_type": "video",
+            "width": 160,
+            "height": 96,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "4/1",
+            "time_base": "1/16384",
+            "start_time": "0.000000",
+            "duration": "2.000000"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "path": "orientation.mov",
+      "sha256": "4d30d080685b32e98e6bc0897ec689dd7c7e67cff7bdc7a6ef3f20cd4b55ac3f",
+      "bytes": 4419,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "profile": "High",
+            "codec_type": "video",
+            "width": 160,
+            "height": 96,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "4/1",
+            "time_base": "1/16384",
+            "start_time": "0.000000",
+            "duration": "2.000000",
+            "side_data_list": [
+              {
+                "rotation": 90
+              }
+            ]
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "path": "timestamp-gap.mov",
+      "sha256": "17f4bdba4ef98d4467cc0f5fa68994859dedd7ab69d75bd46aeb120bd89431a4",
+      "bytes": 3943,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "profile": "High",
+            "codec_type": "video",
+            "width": 160,
+            "height": 96,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "4/1",
+            "time_base": "1/16384",
+            "start_time": "0.000000",
+            "duration": "2.000000"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "path": "still-alpha.png",
+      "sha256": "570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78",
+      "bytes": 174,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "png",
+            "codec_type": "video",
+            "width": 47,
+            "height": 31,
+            "pix_fmt": "rgba",
+            "r_frame_rate": "25/1",
+            "time_base": "1/25"
+          }
+        ],
+        "format": {}
+      }
+    },
+    {
+      "path": "odd-canvas.png",
+      "sha256": "c3b731a2015ad98c048b4f544cc52b7127f9ee177529254c96b5945ac24b724d",
+      "bytes": 380,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "png",
+            "codec_type": "video",
+            "width": 161,
+            "height": 97,
+            "pix_fmt": "rgba",
+            "r_frame_rate": "25/1",
+            "time_base": "1/25"
+          }
+        ],
+        "format": {}
+      }
+    },
+    {
+      "path": "expected.json",
+      "sha256": "929a3b138bf6dbcece450167962a70f8d8823a165be2d05aecaab698be599f14",
+      "bytes": 3052
+    }
+  ],
+  "references": [
+    {
+      "path": "fixtures/narrated-workbench/recording.json",
+      "sha256": "3b997886cd4fe0e77f06be0f5d6a11755185892a783535b9df1066381f4dc97e",
+      "bytes": 213
+    },
+    {
+      "path": "fixtures/narrated-workbench/capture.journal.jsonl",
+      "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+      "bytes": 2574002
+    },
+    {
+      "path": "fixtures/narrated-workbench/narration.mov",
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+      "bytes": 25730774,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "pcm_f32le",
+            "codec_type": "audio",
+            "sample_rate": "48000",
+            "channels": 1,
+            "r_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_time": "0.048667",
+            "duration": "133.973333"
+          }
+        ],
+        "format": {
+          "duration": "133.973333"
+        }
+      }
+    },
+    {
+      "path": "fixtures/narrated-workbench/video.mov",
+      "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "bytes": 29414120,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "profile": "High",
+            "codec_type": "video",
+            "width": 3120,
+            "height": 1970,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "88/3",
+            "time_base": "1/1000000",
+            "start_time": "0.000000",
+            "duration": "134.025574"
+          }
+        ],
+        "format": {
+          "duration": "134.025574"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic media proves timing and geometry only, not speech or camera quality.",
+    "Real narration is referenced and hashed in place, never rewritten or copied into this compact corpus.",
+    "Timestamp gap needs its synthetic acquisition evidence; it does not claim an empty media edit list.",
+    "Preservation-suite results, human speech labels and independent visual critique are separate slice-00 evidence."
+  ]
+}
