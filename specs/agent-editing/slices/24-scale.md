@@ -1,6 +1,8 @@
 # 24 — Verify bounded work and long projects
 
-Status: not started. Dependencies: [23](./23-cutover.md).
+Status: not started. Carry the unresolved inherited 300-second audio streaming
+deadline from [baseline maintenance](../assets/00-baseline/audio-fix/review.md);
+neither baseline nor changed diagnostic establishes a pass. Dependencies: [23](./23-cutover.md).
 
 ## Contract
 

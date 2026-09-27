@@ -1,48 +1,55 @@
 # Agent-operated video editing
 
-Status: implementation in progress; corpus frozen, baseline performance fixes underway. Updated 2026-09-27.
-The [product CLI skill](../../skills/screenrec/SKILL.md) exists for current capabilities;
-it is not evidence that the new editor exists. This plan supersedes the discovery
-map's research queue and kickoff prompt. The [map](MAP.md) remains the record of
-user intent.
+Status: implementation in progress; composition complete, asset/job integration underway. Updated 2026-09-27.
+The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
+capabilities only. This plan supersedes the discovery map's operational queue;
+the [map](MAP.md) remains the record of user intent.
 
 ## Next Agent Prompt
 
-You are implementing the user's local agent-operated editor. Read
-[contracts](contracts.md), [architecture](architecture.md), [verification](verification.md)
-and [research](research.md). Finish the inherited audio decoder performance failure recorded in the
-[baseline manifest](assets/00-baseline/manifest.json), preserving existing gates.
-The held-frame thumbnail fix is integrated at `babc2f7`; its
-[integration evidence](assets/00-baseline/thumbnail-fix/review.md) passes unchanged
-time and memory limits. The audio decoder fix remains in its isolated worktree. In parallel, implement [01 — composition](slices/01-composition.md)
-and [02 — assets](slices/02-assets.md) against the frozen corpus. Do not ask the
-user again about settled scope, creative policies, voice references or migration.
+Implement the full local agent-operated editor. Read [contracts](contracts.md),
+[architecture](architecture.md), [verification](verification.md) and
+[research](research.md). Finish [02a — shared preparation jobs](slices/02a-preparation-jobs.md)
+and [02 — immutable assets](slices/02-assets.md) together: import must return the
+shared jobId, with frozen-input retry/cancel semantics. Core asset and queue work
+run in separate worktrees, sharing the extracted Catalog owner. Keep the native
+probe's presentation-time mapping when integrating admission.
 
-Evidence: corpus commit `b1fc5fe` passes five tests and independent code/visual
-review; core preservation passes 39 tests. The freshly built native baseline
-passes 53 of 55 tests; the two failures are timeouts, not accepted regressions.
-[00](slices/00-corpus.md) records the evidence boundary. Complete real speech
-annotation and listening acceptance remain in slice 12.
+Next independent work is [03 — edits](slices/03-edits.md) and
+[06 — native multi-source reproduction](slices/06-render-reproduction.md).
+The first public checkpoint remains [09](slices/09-first-preview.md).
+Research [12](slices/12-speech-evidence.md), [18](slices/18-voice-reproduction.md)
+and [20](slices/20-camera-reproduction.md) can proceed independently.
+Stretch [13](slices/13-stretch-reproduction.md) has frozen experiments but no
+accepted endpoint recipe; [13a](slices/13a-stretch-endpoints.md) must pass before
+[14](slices/14-retiming.md). Do not integrate an unaccepted recipe.
 
-Run the dependency-ready research gates 06 (rendering), 12 (speech
-inspection), 13 (stretch), 18 (voice) and 20 (camera clock), alongside the pure
-composition and asset work. Gate 06 also needs 01. Do not start dependent
-integration on assumed results. The first useful public checkpoint is
-[09 — two clips, independent AV replacement, undo, preview and export](slices/09-first-preview.md).
-A model download or missing physical camera evidence need not block that checkpoint.
+Current evidence:
 
-No model/runtime winner has been measured yet. Source word timing is known to
-miss the old target, and the previous release has physical/listening acceptance
-still open. These are explicit gates, not permission to lower scope. Use isolated
-harness homes and preserve old media. The new production library starts fresh;
-there is no history migration or compatibility engine.
+- [00 baseline](assets/00-baseline/manifest.json): corpus five checks, core 39;
+  native initial 53/55 with two performance timeouts retained as red evidence.
+  [Thumbnail](assets/00-baseline/thumbnail-fix/review.md) and
+  [audio](assets/00-baseline/audio-fix/review.md) fixes pass their affected gates
+  in the main worktree without changing thresholds. The separate 300-second
+  audio scale deadline remains open under [24](slices/24-scale.md).
+- [01 composition](assets/01-composition/review.md): build, type checks, 16 tests
+  and independent corpus probe pass. Commit `b1b08f3` owns the pure model.
+- [02 catalog](assets/02-catalog/review.md): shared connection extraction passes
+  67 library/job tests and service type checking.
+- [02 native probe](assets/02-probe/review.md): seven worker checks pass, including
+  stream offsets and B-frame edit lists. Full asset admission is not complete.
+- [13 stretch](assets/13-stretch/README.md): pitch/count experiments pass; endpoint
+  treatment, independent listening and visual acceptance remain open.
 
-For each pass, update the owning slice Status line with evidence and limitations,
-check only genuinely completed items below, and replace this pickup with the exact
-next dependency-ready work. Keep the product skill synchronized only with shipped,
-verified operations. Reslice newly discovered broad work before widening a patch.
-Run the repository's implementation/review skills at implementation time; this
-plan alone is not runtime acceptance.
+Keep old media intact and develop against isolated homes; the new library is
+fresh, with no history migration or compatibility engine. No model/runtime
+winner has been accepted. Complete speech labels and physical/listening acceptance
+remain explicit gates. Do not ask again about settled UI, creative policies,
+voice references or migration decisions.
+
+For each committed pass, update its slice evidence and this pickup, audit choices,
+and keep the product skill synchronized only with shipped public operations.
+Check only completed contracts below; the plan itself is not runtime proof.
 
 ## Outcome and boundaries
 
@@ -107,7 +114,8 @@ research blocks the first preview. Individual dependency lists are checked for c
 ## Global checklist
 
 - [x] [00 — Freeze fixtures and preservation evidence](slices/00-corpus.md)
-- [ ] [01 — Composition identity and time](slices/01-composition.md)
+- [x] [01 — Composition identity and time](slices/01-composition.md)
+- [ ] [02a — Shared durable preparation targets](slices/02a-preparation-jobs.md)
 - [ ] [02 — Immutable asset admission](slices/02-assets.md)
 - [ ] [03 — Structural edits and attachments](slices/03-edits.md)
 - [ ] [04 — Durable projects and shared commands](slices/04-projects.md)
@@ -121,6 +129,7 @@ research blocks the first preview. Individual dependency lists are checked for c
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [ ] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
+- [ ] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
 - [ ] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [ ] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
@@ -170,6 +179,7 @@ reconciliation. No new rendering, voice quality, webcam or performance gate is
 claimed passed by planning validation. Implementation evidence lives in the
 current handoff and owning slices.
 
-The [planning validation report](assets/planning/validation.json) records 27 slices,
-59 dependency edges, valid local file links and no dependency cycles. It explicitly
-distinguishes these document checks from runtime acceptance.
+The [original planning report](assets/planning/validation.json) freezes the original
+27-slice graph. The [maintenance validation](assets/planning/maintenance.json)
+checks the expanded graph and local links after implementation reslicing. These
+document checks are distinct from runtime acceptance.

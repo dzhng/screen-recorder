@@ -1,6 +1,7 @@
 # 13a — Preserve selected speech at stretch endpoints
 
-Status: not started. Dependency: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) integrates stretching.
+Status: not started. Dependencies: [13](./13-stretch-reproduction.md).
+This gate must pass before [14](./14-retiming.md) integrates stretching.
 
 ## Contract and seam
 

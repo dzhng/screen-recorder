@@ -1,0 +1,50 @@
+{
+  "commit": "0147c63",
+  "artifacts": [
+    {
+      "path": "evidence.txt",
+      "bytes": 2884,
+      "sha256": "f24024ae8573913c6b05a9bf3b322d2651d9e140c3ffe227980caf103eeb1f1d"
+    },
+    {
+      "path": "integration-movie-tests.txt",
+      "bytes": 309,
+      "sha256": "1313aa8074f43899e5f1886cbac064040dd58144dea55ad1ee96708c96bdc777"
+    },
+    {
+      "path": "integration-tests.txt",
+      "bytes": 646,
+      "sha256": "0b37c0a2891eaf76486cb1f232d75bf7d641927b6c03c71fa896a212c2fcde04"
+    },
+    {
+      "path": "isolated-movie-tests.txt",
+      "bytes": 308,
+      "sha256": "41205451888b143ad6c29ab2b90a99602d5ec5b3cff43686c4d808d3d614d1a9"
+    },
+    {
+      "path": "isolated-tests.txt",
+      "bytes": 652,
+      "sha256": "e4c697f175fa5c4e657ad02d2ed0bd2fcbb4189e3d8868be50a4d8230289af7c"
+    },
+    {
+      "path": "mutation.txt",
+      "bytes": 964,
+      "sha256": "3f9a73c1c201bf1d83beec094aee48b21f4f665dc38eff4f26d85ff83571c175"
+    },
+    {
+      "path": "red.txt",
+      "bytes": 974,
+      "sha256": "661257216f29d1c7cc12a65d36c429fc73f9349ad65c8d7475b2987a8ce26020"
+    },
+    {
+      "path": "review.md",
+      "bytes": 1142,
+      "sha256": "8ad80774c58cdfb38d4b11e6c6c43ecc7dd930c24deb57b638c11e8a203a9675"
+    },
+    {
+      "path": "swift-tests.txt",
+      "bytes": 1453,
+      "sha256": "1cf68284d675e9c497e6f406559d9d9b80d8071d35a24a2ad12f6392bc56e0b6"
+    }
+  ]
+}

@@ -65,6 +65,13 @@
         "@screenrec/protocol": "workspace:*",
       },
     },
+    "packages/composition": {
+      "name": "@screenrec/composition",
+      "version": "0.0.0",
+      "dependencies": {
+        "zod": "4.6.5",
+      },
+    },
     "packages/core": {
       "name": "@screenrec/core",
       "version": "0.0.0",
@@ -215,6 +222,8 @@
     "@screenrec/cli": ["@screenrec/cli@workspace:apps/cli"],
 
     "@screenrec/client": ["@screenrec/client@workspace:packages/client"],
+
+    "@screenrec/composition": ["@screenrec/composition@workspace:packages/composition"],
 
     "@screenrec/core": ["@screenrec/core@workspace:packages/core"],
 

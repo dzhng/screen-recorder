@@ -1,0 +1,30 @@
+✖ a thousand fractional spans keep the duration the plan asked for (120499.273167ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 120776.8245
+
+✖ failing tests:
+
+test at helpers/mac/Tests/audio.test.mjs:250:1
+✖ a thousand fractional spans keep the duration the plan asked for (120499.273167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  null !== 0
+  
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-editing-audio-reader/helpers/mac/Tests/audio.test.mjs:284:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

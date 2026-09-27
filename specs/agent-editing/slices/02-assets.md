@@ -2,7 +2,7 @@
 
 Status: in progress. Native metadata checkpoint passes seven public-worker tests;
 [review and evidence](../assets/02-probe/review.md). Asset copy/catalog/registry,
-full format coverage and visual acceptance remain open. Dependencies: [00](./00-corpus.md).
+full format coverage and visual acceptance remain open. Dependencies: [00](./00-corpus.md), [02a](./02a-preparation-jobs.md).
 
 ## Contract
 

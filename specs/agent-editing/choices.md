@@ -83,3 +83,42 @@ bounded sample memory. Exact frame selection still reads the source through the
 native timing owner; a summary cannot replace source evidence. Verdict: sound
 because it preserves the shared presentation clock without making import responses
 grow with every frame. Confidence: high.
+
+### Reverse lookup returns an interval rather than one guessed timestamp
+
+When: slice 01, `b1b08f3`. Confidence: medium. Verdict: sound.
+
+The choice: at slow playback, several project microseconds can point to the same
+source microsecond. A source-time query therefore returns the whole matching
+project interval and its first integer time, or null when fast playback skips that
+source microsecond altogether. A held frame returns the entire hold. The plan
+required all occurrences and exact rounding but did not specify inverse query
+shape. The reach: evidence projection can represent repetition and holds without
+losing occurrences; callers must not assume one source time has one project time.
+
+### Attached content inherits its parent's unavailable intervals
+
+When: slice 01, `b1b08f3`. Confidence: medium. Verdict: sound.
+
+The choice: an overlay attached to a particular occurrence of captured content
+retains its full placement envelope, but reports unavailable intervals wherever
+that parent content was not acquired. Independently placed project-time content
+remains independent. The plan required source gaps and content attachments but
+did not spell out their intersection. The reach: render/inspection consumers must
+honor that distinction; attaching content never invents acquired source material.
+
+### Decode nearby cuts once; reset the conversion filter at every cut
+
+When: baseline maintenance, `0147c63`. Confidence: medium. Verdict: sound.
+
+The choice: many tiny cuts share one source decoder, but each selected interval
+gets a fresh rate-conversion filter. This avoids thousands of expensive decoder
+starts while preventing excluded neighboring audio from influencing a cut through
+the filter. One decoded packet is retained; a gap exceeding one second restarts
+reading instead of decoding an arbitrarily long excluded span. The plan required
+bounded work and cut isolation but did not set this reuse boundary.
+
+The reach: the one-second threshold trades decoder startup against bounded
+skipping; it does not alter samples admitted to the filter. Source reordering in
+future executors must start an appropriate reader rather than treating this ordered
+cursor as random access. Long-stream scale acceptance remains separately required.

@@ -1,0 +1,10 @@
+✔ changed excluded source samples cannot enter tiny or cut AAC output (9583.273958ms)
+✔ movie accepts 1001 retained/acquired spans while public excerpts retain their cap (12395.989291ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25136.777917

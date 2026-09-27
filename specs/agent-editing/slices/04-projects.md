@@ -12,7 +12,7 @@ Core ProjectStore composes the pure reducer with the one catalog transaction own
 
 ## Work and review surface
 
-Use the fresh library layout in architecture.md. Commit document, replay receipt, dependency references and undo state together. Only ready assets enter a batch. Prepare jobs and files outside transactions; expose one shared job.get/retry/cancel contract for preparation jobs. Preserve replay-before-stale checks and new revision identities for undo/restore. Return created IDs and edit expansion.
+Use the fresh library layout in architecture.md. Commit document, replay receipt, dependency references and undo state together. Only ready assets enter a batch. Prepare jobs and files outside transactions; reuse the shared job.get/retry/cancel contract from [02a](./02a-preparation-jobs.md). Preserve replay-before-stale checks and new revision identities for undo/restore. Return created IDs and edit expansion.
 
 Create this planned probe in this slice:
 

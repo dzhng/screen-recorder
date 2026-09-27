@@ -1,0 +1,27 @@
+✖ AAC source priming is removed before offset placement in streamed PCM (1681.068584ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1833.795666
+
+✖ failing tests:
+
+test at helpers/mac/Tests/audio.test.mjs:381:1
+✖ AAC source priming is removed before offset placement in streamed PCM (1681.068584ms)
+  AssertionError [ERR_ASSERTION]: Cut AAC RMS disagreement 0.11500826063903255
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-editing-audio-reader/helpers/mac/Tests/audio.test.mjs:486:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
