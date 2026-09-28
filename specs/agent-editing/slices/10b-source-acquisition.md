@@ -1,6 +1,6 @@
 # 10b — Source acquisition and selected-stream transcripts
 
-Status: in progress. Capture adoption, durable project bindings and native prerequisites are integrated and verified. Asset transcript reads are integrated; the actual native public transcript and differing-mask journey pass; its true historical-head check is the last integration correction. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
+Status: verified. Public acquisition, selected-stream transcription, source paging/search/retry and differing-mask media gates pass; the final historical check advances the project head before restart. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
 
 ## Contract
 
@@ -111,49 +111,45 @@ requirements above are fixed. Update Status and the README pickup with evidence.
 
 ## Integrated evidence
 
-[Composition binding](../assets/10b-source-acquisition/composition.md) passes all
-114 composition tests in the main worktree, plus composition/core builds and
-composition/core/service type checks. Explicit contexts constrain projection and
-compiled support; omission and replacement follow the contract above. This is
-engine evidence only. Native video must accept compiled acquisition exclusions
-over physically occupied pictures, and durable context resolution must feed all
-project consumers before public journey acceptance.
-
-Native prerequisites are integrated: [selected-stream transcription](../assets/10b-native-selection/README.md)
-retains complete frozen PCM/raw-transcript parity on real speech;
-[masked native video](../assets/10b-source-acquisition/native-video/README.md)
-passes the occurrence, hold, boundary, refusal and resource gates. The combined
-main-worktree native worker builds. These isolated/native gates do not close
-public acquisition, project context retention or transcript reads.
+[Composition binding](../assets/10b-source-acquisition/composition.md) and
+[native masked video](../assets/10b-source-acquisition/native-video/README.md)
+verify independent per-occurrence support. [Native selected-stream preservation](../assets/10b-native-selection/README.md)
+retains exact raw/PCM parity and the existing real-narration timing failure; this
+slice does not improve ASR timing or establish listening quality.
 
 [Durable adoption integration](../assets/10b-acquisition-integration/README.md) and
-[actual CLI/MCP adoption](../assets/10b-source-acquisition/README.md) verify copied
-journal/media survival, cancel/crash/retry cleanup, context replacement/undo,
-historical preview and pinned export. The existing full preview/export journey
-also passes after fixing non-JSON replacement receipts. All 18 adoption runtime
-hashes match the main worktree. Broad timing failures and controlled reruns remain
-explicit in integration evidence; no performance gate was relaxed.
+[actual CLI/MCP adoption](../assets/10b-source-acquisition/README.md) prove copied
+journal/media survival, cancel/crash/retry cleanup, conflict/replay, replacement,
+undo, historical preview and pinned export. Their broader-run deadline failures
+and controlled passing reruns remain recorded; no performance threshold changed.
 
-Transcript ownership, selected asset planning and source reads/search/retry are
-integrated. Next complete the full public differing-mask/transcript fixture. Do not close this slice on adoption alone.
-The importer currently caps acquired intervals at 100,000 per bound stream; raw
-journal/evidence retains the existing native 256 MiB cap. Slice 24 must validate
-these limits and preparation/storage costs before release.
+[Transcript storage](../assets/10b-transcript-ownership/README.md),
+[asset preparation](../assets/10b-asset-transcript/README.md),
+[source reads](../assets/10b-source-transcript-read/README.md) and
+[public routing](../assets/10b-source-routing/README.md) share the existing owners.
+[Bounded seeking](../assets/10b-transcript-seek/README.md) aligns portable admission
+with ingestion so late windows use one predecessor and indexed forward reads.
 
-[Transcript ownership](../assets/10b-transcript-ownership/README.md) is integrated
-with explicit recording/asset owners and neutral source descriptors; Catalog7
-refuses earlier shapes. The [selected-source prerequisite](../assets/10b-source-selection/README.md)
-shares capture/physical support with composition. The [asset planner](../assets/10b-asset-transcript/README.md),
-[source reader](../assets/10b-source-transcript-read/README.md) and
-[service routing](../assets/10b-source-routing/README.md) are integrated. Actual
-native CLI/MCP and differing-mask preview acceptance is still in progress.
+The [actual native source journey](../assets/10b-source-transcript-journey/README.md)
+verifies both distinguishable audio streams, nonzero origin, physical empty edits,
+full raw/public word parity, missing-model no-download behavior, cancellation,
+retry, source cursor boundaries and restart. Synthetic A/B acquisition journals
+around identical speech bytes prove context identity, donor deletion and masks;
+they make no physical-capture claim. Public project authoring/preview and decoded
+PCM agree with exact compiled support and pure word partiality. The same frozen
+native executor's poison checks separately prove excluded samples cannot leak
+through resampling context; the evidence labels that direct-native boundary.
 
-The [product skill source-transcript check](../assets/10b-transcript-skill/README.md)
-uses a fresh agent against actual CLI/native inference. It verifies import, explicit
-stream selection, recognized words and source phrase search, with the fixture-path
-setup correction and listening limitation retained.
+The [final historical run](../assets/10b-source-transcript-journey/history/report.json)
+advances the public project head, restarts, confirms that newer head persisted,
+and reads the exact older document and byte-identical preview. Root integration
+matches all 15 recorded production/harness runtime hashes and independently checks
+the retained movie digest. [Fresh product-skill use](../assets/10b-transcript-skill/README.md)
+verifies imported speech inspection through the real CLI without implementation
+knowledge, with setup intervention and validator limitations explicitly recorded.
 
-[Public source inference and differing masks](../assets/10b-source-transcript-journey/README.md)
-are integrated with exact root runtime hash matches. Final root review requires
-advancing the project head before the new journey's old-revision restart check;
-the current report pins the then-current revision. This correction is in progress.
+Remaining enclosing-plan work is unchanged: public project occurrence queries
+belong to 10c, full PCM delivery to 11a, ASR cleanup/timing to 12/12b, and listening
+quality to its named gates. Acquisition retains a 100,000-interval per-stream cap
+and the native 256 MiB journal cap; slice 24 must validate preparation/storage cost
+and release limits. No installed-app cutover follows from this slice.

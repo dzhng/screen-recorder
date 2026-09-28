@@ -29,7 +29,10 @@ now verifies delivered pictures and both audio channels for independent replacem
 A–B–A insertion, music levels, all gain-stack scopes, insertion into a processed
 track, history, ranges and cancellation/crash recovery. [Public video exports](assets/09-first-export/README.md) also pass pinned replay,
 preview-byte parity, cancellation/recovery, abandonment and external-file preservation.
-Processors beyond constant gain and subjective listening remain pending. Rows below
+[Selected-source transcripts](assets/10b-source-transcript-journey/README.md)
+now pass actual native CLI/MCP stream selection, source paging/search, retry and
+restart, plus same-byte capture-mask preview audio. Project occurrence queries,
+processors beyond constant gain and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |

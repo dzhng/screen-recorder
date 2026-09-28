@@ -14,14 +14,16 @@ slice's acceptance gates remain the scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill describes
 available public operations only; the installed app has not switched engines.
 
-Finish the last [10b source acquisition](slices/10b-source-acquisition.md) audit:
-[the actual source journey](assets/10b-source-transcript-journey/README.md) now
-passes selected-stream native parity, cancellation/retry, donor deletion and
-same-byte A/B/physical preview masks. All recorded runtime hashes match main.
-Strengthen its restart check by advancing the project head before rereading the
-old revision; the initial check pinned the current revision, so true historical
-coverage is not yet established by that new harness. Existing adoption history
-coverage remains valid. Do not mark 10b complete until this correction lands.
+Continue [10c occurrence queries](slices/10c-occurrence-queries.md): one core
+query owner must merge source evidence in exact project order, preserve gaps and
+word partiality, and pin dependencies through bounded immutable cache checkpoints.
+The composition window/inverse/point prerequisite is integrated; project paging,
+track-local phrase search and event/cursor routes remain unimplemented on main.
+
+[10b source acquisition](slices/10b-source-acquisition.md) is verified. Its actual
+CLI/MCP/native journey covers selected-stream parity, cancellation/retry, donor
+deletion, differing masks over the same media, and genuine historical reads after
+advancing the project head and restarting. All recorded runtime hashes match main.
 
 The [bounded transcript seek](assets/10b-transcript-seek/README.md) correction is
 integrated: portable admission enforces the same nonoverlap invariant as ingestion,
@@ -30,8 +32,8 @@ The [10c exact window prerequisite](assets/10c-occurrence-window/README.md) is a
 integrated; core occurrence manifests/read/search remain unimplemented. Native
 source-window PCM work for 11a can proceed independently in an isolated build.
 
-After 10b, follow [10c occurrence queries](slices/10c-occurrence-queries.md),
-[10d direct frames](slices/10d-frame-inspection.md),
+Alongside 10c, continue the isolated native source-window PCM prerequisite for
+11a. Then follow [10d direct frames](slices/10d-frame-inspection.md),
 [11a PCM delivery](slices/11a-audio-delivery.md) and
 [11 acoustic artifacts](slices/11-audio-inspection.md).
 [The inspection plan](assets/10-inspection-plan/README.md) explains these seams.
@@ -51,7 +53,7 @@ Evidence boundaries to preserve:
   source journey separately verifies native inference and differing-mask media.
 - [10b transcript storage](assets/10b-transcript-ownership/README.md) preserves the
   306 retained native words and recording/package behavior; source planning and
-  public asset reads are integrated; the final historical journey correction remains open.
+  public asset reads and their actual native/historical journey are verified.
 - Risk gates remain open in 06 (broader encoding/color), 08 (audio conformance/scale),
   12/12b (speech labels/timing and cleanup), 12c/15a (denoise state/quality), 13a
   (stretch speech/listening), 18/19 (voice identity/delivery/joins), and 20/21
@@ -145,7 +147,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
-- [ ] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
+- [x] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
 - [ ] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
 - [ ] [10d — Direct frames and retained screenshot inspection](slices/10d-frame-inspection.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
