@@ -29,9 +29,10 @@ CLI/MCP and native execution: independent edits, processing, pinned preview/expo
 cancel/crash/recovery, abandonment and deletion. Fresh agents completed both
 preview and export using only the product skill and advertised schemas.
 
-Integrate the reviewed [10a exact range projection](slices/10a-source-range-projection.md)
-pass, then split [10 inspection](slices/10-project-evidence.md) at asset-stream
-acquisition and bounded occurrence reads. Current transcript owners assume
+[10a exact range projection](slices/10a-source-range-projection.md) is integrated;
+its engine checks and the complete public preview/export preservation journey pass.
+Split [10 inspection](slices/10-project-evidence.md) at asset-stream acquisition and
+bounded occurrence reads; three independent drafts are in progress. Current transcript owners assume
 recording roles; imports must not be represented by fake recording rows or invented
 narration roles. Preserve capture acquisition provenance separately from physical
 file occupancy. Source/model generation identity, partial words and all repeated
@@ -212,7 +213,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
-- [ ] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
+- [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)

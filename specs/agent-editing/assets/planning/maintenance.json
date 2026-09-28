@@ -1,7 +1,7 @@
 {
   "kind": "maintenance-validation",
   "date": "2026-09-27",
-  "specMarkdownFiles": 120,
+  "specMarkdownFiles": 121,
   "slices": 36,
   "dependencyEdges": 85,
   "checks": [

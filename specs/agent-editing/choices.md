@@ -795,3 +795,21 @@ trim and stretch replacements keep their single-interval behavior.
   very signal needed to end the request and could admit new work during shutdown.
   The existing export lifetime supplies this signal; no additional shutdown owner
   or timeout is introduced.
+
+
+## Exact source-range projection — 2026-09-27
+
+- **Sound; high confidence — A retained word belongs to one clip occurrence.**
+  Splitting through a word produces two partial results with complementary exact
+  ranges; their separate clip identities are not fused into a fictitious whole
+  word. An internal source or anchor gap also makes the result partial, even if
+  the outer endpoints survive. This fixes the completeness meaning left open by
+  the range API. Later phrase search can recognize declared contiguous whole-word
+  sequences but cannot silently upgrade partial words.
+- **Sound; high confidence — Empty retained coverage has no word occurrence.**
+  Querying a known clip for a wholly removed or unavailable source interval returns
+  no retained word (`null` for named lookup, omitted from all-occurrence lookup).
+  A surviving fragment returns partial evidence. The plan did not choose an empty
+  shape; this keeps absent audio from appearing as spoken words. Public inspection
+  must still report unavailable/acquisition ranges through its separate source
+  evidence, rather than treating missing words as proof of silence.

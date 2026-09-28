@@ -43,3 +43,15 @@ setup was corrected before behavioral evidence was gathered.
   delegated. A map owns named lookup; source-stream interval indexes and the render
   compiler share one selection primitive. All-occurrence lookup returns all
   matching occurrences and is not itself a bounded public pagination API.
+
+
+## Main-worktree integration
+
+The [integrated suite](integrated-composition-tests.txt) passes all 104 tests, and
+composition/core/service builds and type checks pass. The complete [actual public
+preview/export journey](integrated-public-journey.json) also passes after extracting
+the shared compiler interval index, including processing, replacement, publication
+faults, abandonment and deletion. All nineteen rendered images remain
+[byte-identical](integrated-visual-identity.json) to the independently reviewed
+preview evidence. This is preservation of that judged output, not new transcript
+or listening acceptance.
