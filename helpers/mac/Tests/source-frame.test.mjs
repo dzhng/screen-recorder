@@ -126,7 +126,10 @@ test("selected source pictures preserve explicit streams, physical sample clocks
     ]) {
       const failed = call(changes);
       assert.equal(failed.reply.ok, false);
-      assert.equal(failed.reply.error.code, "UNAVAILABLE");
+      assert.equal(
+        failed.reply.error.code,
+        changes.atUs === 450000 ? "SOURCE_PICTURE_UNAVAILABLE" : "UNAVAILABLE",
+      );
       assert.equal(existsSync(failed.params.output), false);
     }
     const late = call({ atUs: 950000, maxLongEdge: 32 });

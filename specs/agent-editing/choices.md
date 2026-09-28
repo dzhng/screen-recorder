@@ -1484,3 +1484,13 @@ The native plotting operation receives bounded waveform or spectral measurements
   nothing to open instead of retrying an impossible image forever. This defines
   source-index readiness; genuine recording indexes still require an image to
   satisfy their existing portable package contract.
+
+## Source selection observations
+
+- **Sound, high confidence — a failed image request is not a missing picture.**
+  A decoder can fail because of unsupported media or an internal error even where
+  a picture exists. Only the native reader's explicit empty-sample result becomes
+  a retained unavailable observation. Its exact requested point and source recipe
+  travel with the result, so deleting a temporary job cannot erase its meaning.
+  This constrains source index generation to preserve failed work as a failure
+  instead of silently treating it as a physical gap.

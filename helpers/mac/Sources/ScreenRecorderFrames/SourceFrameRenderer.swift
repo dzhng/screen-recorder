@@ -58,8 +58,11 @@ public enum SourceFrameRenderer {
             startUs: containerUs)
         try await VideoColorPolicy.requireSupportedColor(source.track)
         let selected = try source.selection(at: time(microseconds: containerUs), end: .positiveInfinity)
-        guard let buffer = selected.buffer, let stamp = selected.sampleTime else {
-            throw NativeFailure("UNAVAILABLE", "Requested source picture has no physical sample.")
+        guard let buffer = selected.buffer else {
+            throw NativeFailure("SOURCE_PICTURE_UNAVAILABLE", "Requested source picture has no physical sample.")
+        }
+        guard let stamp = selected.sampleTime else {
+            throw NativeFailure("INVALID_RESPONSE", "Decoded source picture has no physical clock.")
         }
         let (actualUs, clockOverflow) = microseconds(stamp).subtractingReportingOverflow(request.asset.originUs)
         guard !clockOverflow else { throw NativeFailure("INVALID_REQUEST", "Physical picture clock overflow.") }

@@ -9,7 +9,7 @@ import type { ProjectStore } from "./projects.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
 import type { AssetStore } from "./assets.js";
-import type { JobQueue, JobExecution, JobOwner } from "./jobs.js";
+import type { JobQueue, JobExecution, JobOwner, Job } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import { CatalogError } from "./catalog.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
@@ -117,6 +117,10 @@ const sourceReceiptSchema = projectReceiptSchema
     }),
   });
 export type SourceFrameInput = SourceSelection & { atUs: number; maxLongEdge?: number | undefined };
+export type SourceFrameUnavailable = z.infer<typeof sourceOptionsSchema> &
+  Pick<Job, "jobId" | "attemptId" | "reason"> & {
+    observation: { requestedSourceUs: number; status: "unavailable"; reason: "empty_edit" };
+  };
 export type MediaFrameInput = SourceFrameInput | ProjectFrameInput;
 export type SourceFrameRenderer = {
   implementationId: string;
@@ -164,7 +168,7 @@ export class MediaFrameInspection {
     return this.owners.project;
   }
 
-  private planSource(input: SourceFrameInput) {
+  sourcePlan(input: SourceFrameInput) {
     const source = selectSource(this.owners.assets, this.owners.acquisitions, {
       assetId: input.assetId,
       streamId: input.streamId,
@@ -197,7 +201,7 @@ export class MediaFrameInspection {
     return { source, options: parsed.data, asset, reason };
   }
   private requestSource(input: SourceFrameInput) {
-    const { options, reason } = this.planSource(input);
+    const { options, reason } = this.sourcePlan(input);
     const { assets, acquisitions, jobs, cache } = this.owners;
     const status = reason
       ? {
@@ -238,6 +242,35 @@ export class MediaFrameInspection {
         : null,
     };
   }
+  /** Snapshots only a native no-picture observation; ordinary failures never become missing pixels. */
+  sourceUnavailable(input: SourceFrameInput): SourceFrameUnavailable {
+    const { options } = this.sourcePlan(input);
+    const status = this.owners.jobs.status({
+      target: { kind: "asset", assetId: options.selection.assetId },
+      artifact: "frame",
+      input: JSON.stringify(options),
+    });
+    const job = status.jobId ? this.owners.jobs.job(status.jobId) : null;
+    if (
+      !job ||
+      job.state !== "unavailable" ||
+      job.errorCode !== "UNAVAILABLE" ||
+      job.errorDetails?.reason !== "empty_edit" ||
+      job.errorDetails?.requestedSourceUs !== options.atUs
+    )
+      throw new CatalogError(
+        "NOT_READY",
+        "No physical no-picture observation exists for this request",
+      );
+    return {
+      ...options,
+      jobId: job.jobId,
+      attemptId: job.attemptId,
+      reason: job.reason,
+      observation: { requestedSourceUs: options.atUs, status: "unavailable", reason: "empty_edit" },
+    };
+  }
+
   private async publish<T extends { file: string; bytes: number }>(
     owner: Extract<JobOwner, { kind: "asset" | "project" }>,
     signal: AbortSignal,
@@ -274,22 +307,31 @@ export class MediaFrameInspection {
       throw new CatalogError("UNSUPPORTED_JOB", "Picture job does not name a selected source");
     if (parsed.data.implementationId !== this.owners.sourceRenderer.implementationId)
       throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
-    const plan = this.planSource({ ...parsed.data.selection, ...parsed.data });
+    const plan = this.sourcePlan({ ...parsed.data.selection, ...parsed.data });
     if (plan.options.supportDigest !== parsed.data.supportDigest)
       throw new CatalogError("ARTIFACT_CHANGED", "Selected source support changed");
     if (plan.reason) throw new CatalogError("UNAVAILABLE", plan.reason);
     return this.publish({ kind: "asset", assetId: job.target.assetId }, signal, async (output) => {
       const parsedReceipt = sourceReceiptSchema.safeParse(
-        await this.owners.sourceRenderer.render(
-          {
-            asset: plan.asset,
-            available: plan.source.track.available,
-            atUs: plan.options.atUs,
-            maxLongEdge: plan.options.maxLongEdge,
-            output,
-          },
-          signal,
-        ),
+        await this.owners.sourceRenderer
+          .render(
+            {
+              asset: plan.asset,
+              available: plan.source.track.available,
+              atUs: plan.options.atUs,
+              maxLongEdge: plan.options.maxLongEdge,
+              output,
+            },
+            signal,
+          )
+          .catch((error: unknown) => {
+            if (error instanceof CatalogError && error.code === "SOURCE_PICTURE_UNAVAILABLE")
+              throw new CatalogError("UNAVAILABLE", error.message, {
+                reason: "empty_edit",
+                requestedSourceUs: plan.options.atUs,
+              });
+            throw error;
+          }),
       );
       if (!parsedReceipt.success)
         throw new CatalogError("INVALID_RESPONSE", "Malformed source picture receipt");

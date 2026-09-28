@@ -1,0 +1,43 @@
+{
+  "nativeSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "probeSupport": "Deliberately coarse full video interval; native decoding determines whether an observed point has an image",
+  "inputSha256": "5d8ce13b3ea195a410011a3bf48700d7e464fe45a176a1c3255d82ca1b979021",
+  "observations": [
+    {
+      "selection": {
+        "assetId": "5d8ce13b3ea195a410011a3bf48700d7e464fe45a176a1c3255d82ca1b979021",
+        "streamId": "track:1"
+      },
+      "atUs": 400000,
+      "maxLongEdge": 1600,
+      "supportDigest": "34d1c6f0a7686206be2c00957858a9e64300c555e74f05c6ae3ea2e227c4ca5d",
+      "implementationId": "native-source-picture-v2",
+      "jobId": "766da92b-6504-4588-9436-67b66630aac3",
+      "attemptId": "809f3b15-d9a3-44f1-bac8-64a4ba03897b",
+      "reason": "Requested source picture has no physical sample.",
+      "observation": {
+        "requestedSourceUs": 400000,
+        "status": "unavailable",
+        "reason": "empty_edit"
+      }
+    },
+    {
+      "selection": {
+        "assetId": "5d8ce13b3ea195a410011a3bf48700d7e464fe45a176a1c3255d82ca1b979021",
+        "streamId": "track:2"
+      },
+      "atUs": 400000,
+      "maxLongEdge": 1600,
+      "supportDigest": "34d1c6f0a7686206be2c00957858a9e64300c555e74f05c6ae3ea2e227c4ca5d",
+      "implementationId": "native-source-picture-v2",
+      "jobId": "deb41117-2b82-4a66-b559-f2be26db9b1b",
+      "attemptId": "3c20c2d0-8bce-4b3a-b445-4be1385dcb71",
+      "reason": "Requested source picture has no physical sample.",
+      "observation": {
+        "requestedSourceUs": 400000,
+        "status": "unavailable",
+        "reason": "empty_edit"
+      }
+    }
+  ]
+}

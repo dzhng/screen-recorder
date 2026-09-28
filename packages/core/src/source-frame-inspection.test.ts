@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { Catalog } from "./catalog.js";
+import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { JobQueue } from "./jobs.js";
@@ -273,3 +273,51 @@ test("raw still images are refused without inventing a timed source", async () =
   );
   expect(f.calls).toEqual([]);
 });
+
+test("only structured native no-picture outcomes become immutable unavailable observations", async () => {
+  const f = await fixture({
+    ...renderer,
+    async render() {
+      throw new CatalogError("SOURCE_PICTURE_UNAVAILABLE", "No physical sample");
+    },
+  });
+  expect(f.frames.sourcePlan(f.request).options.atUs).toBe(150000);
+  expect(f.calls).toHaveLength(0);
+  expect(() => f.frames.sourceUnavailable(f.request)).toThrow("No physical no-picture observation");
+  const pending = f.frames.request(f.request);
+  await f.jobs.idle();
+  expect(f.frames.request(f.request).state).toBe("unavailable");
+  const observation = f.frames.sourceUnavailable(f.request);
+  expect(observation).toMatchObject({
+    selection: {
+      assetId: f.asset.id,
+      streamId: "track:2",
+      acquisitionId: "mask",
+    },
+    atUs: 150000,
+    implementationId: renderer.implementationId,
+    observation: { requestedSourceUs: 150000, status: "unavailable", reason: "empty_edit" },
+  });
+  f.jobs.forgetJob(pending.jobId!);
+  expect(JSON.parse(JSON.stringify(observation))).toEqual(observation);
+  expect(() => f.frames.sourceUnavailable(f.request)).toThrow("No physical no-picture observation");
+  expect(f.calls).toHaveLength(1);
+});
+
+test.each(["UNAVAILABLE", "NATIVE_DECODE_FAILED", "UNSUPPORTED_MEDIA", "INVALID_RESPONSE"])(
+  "%s cannot be retained as a physical no-picture observation",
+  async (code) => {
+    const f = await fixture({
+      ...renderer,
+      async render() {
+        throw new CatalogError(code, "No physical sample");
+      },
+    });
+    f.frames.request(f.request);
+    await f.jobs.idle();
+    expect(() => f.frames.sourceUnavailable(f.request)).toThrow(
+      "No physical no-picture observation",
+    );
+    expect(f.calls).toHaveLength(1);
+  },
+);

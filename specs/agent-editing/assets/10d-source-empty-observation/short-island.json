@@ -1,0 +1,105 @@
+{
+  "support": "Explicit narrow selected-source support over actual generated media",
+  "available": [
+    {
+      "startUs": 50000,
+      "endUs": 100000
+    }
+  ],
+  "observations": {
+    "assetId": "island",
+    "decodedSamples": 0,
+    "originUs": 0,
+    "readerOpens": 1,
+    "samples": [
+      {
+        "continuousFromPrevious": false,
+        "reason": "outside_support",
+        "requestedSourceUs": 0,
+        "status": "unavailable"
+      },
+      {
+        "continuousFromPrevious": false,
+        "reason": "outside_support",
+        "requestedSourceUs": 200000,
+        "status": "unavailable"
+      },
+      {
+        "continuousFromPrevious": false,
+        "reason": "outside_support",
+        "requestedSourceUs": 400000,
+        "status": "unavailable"
+      },
+      {
+        "continuousFromPrevious": false,
+        "reason": "outside_support",
+        "requestedSourceUs": 600000,
+        "status": "unavailable"
+      },
+      {
+        "continuousFromPrevious": false,
+        "reason": "outside_support",
+        "requestedSourceUs": 800000,
+        "status": "unavailable"
+      },
+      {
+        "continuousFromPrevious": false,
+        "reason": "outside_support",
+        "requestedSourceUs": 999999,
+        "status": "unavailable"
+      }
+    ],
+    "sourceHeight": 48,
+    "sourceWidth": 64,
+    "streamId": "track:1"
+  },
+  "frames": [
+    {
+      "actualSourceUs": 0,
+      "assetId": "island",
+      "bytes": 3619,
+      "decodedSamples": 1,
+      "file": "/tmp/source-index-short-island-3uqcm5/50000.png",
+      "height": 48,
+      "mediaType": "image/png",
+      "readerOpens": 1,
+      "requestedSourceUs": 50000,
+      "sample": {
+        "endTimescale": 10240,
+        "endValue": "1024",
+        "originUs": 0,
+        "timescale": 1000,
+        "value": "0"
+      },
+      "sourceHeight": 48,
+      "sourceWidth": 64,
+      "streamId": "track:1",
+      "width": 64,
+      "sha256": "8cc6b787ee571f49d4f31f2b593f1b91b3779913a2e52ac54c0e18ed3403cae9"
+    },
+    {
+      "actualSourceUs": 0,
+      "assetId": "island",
+      "bytes": 3619,
+      "decodedSamples": 1,
+      "file": "/tmp/source-index-short-island-3uqcm5/99999.png",
+      "height": 48,
+      "mediaType": "image/png",
+      "readerOpens": 1,
+      "requestedSourceUs": 99999,
+      "sample": {
+        "endTimescale": 10240,
+        "endValue": "1024",
+        "originUs": 0,
+        "timescale": 1000,
+        "value": "0"
+      },
+      "sourceHeight": 48,
+      "sourceWidth": 64,
+      "streamId": "track:1",
+      "width": 64,
+      "sha256": "8cc6b787ee571f49d4f31f2b593f1b91b3779913a2e52ac54c0e18ed3403cae9"
+    }
+  ],
+  "nativeSha256": "d83c422c0ed5d869caba61f283ec5a534e7e7345a05100b623b4ad3d4cab19b2"
+}
