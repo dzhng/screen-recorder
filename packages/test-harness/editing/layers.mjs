@@ -46,6 +46,7 @@ const scenarioNames = new Set([
   "child-opacity",
   "rotated-crop",
   "output-transparent-margin",
+  "output-mirror",
 ]);
 let deliveryOrdinal = 0;
 async function delivered(params, name) {
@@ -346,7 +347,7 @@ try {
           sha256: hash(await readFile(picture.file)),
         });
       }
-      if (["presenter", "rotated-crop"].includes(scenario.name)) {
+      if (["presenter", "rotated-crop", "output-mirror"].includes(scenario.name)) {
         row.movies = [];
         for (const range of [
           { startUs: 0, endUs: 1000000 },

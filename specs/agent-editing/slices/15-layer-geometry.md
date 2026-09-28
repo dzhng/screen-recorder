@@ -265,3 +265,7 @@ whole-chain pointer and processed lifecycle media coverage. The named static
 public journey remains green. Reconcile final nonopaque movie handling against
 the explicit H.264 output contract; do not add an implicit matte or assume a new
 codec is required. Final geometry review remains open.
+
+[Opaque output-stage geometry](../assets/15-output-geometry/README.md) now passes
+direct pictures, full/range movies, export and unchanged narration on both
+canvases. Whole-chain pointer and processed lifecycle gaps remain open.

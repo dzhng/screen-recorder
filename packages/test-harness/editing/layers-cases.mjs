@@ -166,6 +166,13 @@ export function layerCases(canvas) {
       },
     },
     {
+      name: "output-mirror",
+      stacks: {
+        presenter: [layout],
+        output: [geometry("output-mirror", { scale: { x: -1, y: 1 } })],
+      },
+    },
+    {
       name: "output-transparent-margin",
       movie: "nonopaque",
       stacks: {

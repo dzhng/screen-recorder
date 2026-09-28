@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "wrongUnmirroredPictureRejected": true,
+  "wrongUnmirroredMovieLandmarksRejected": true,
+  "source": "/tmp/screenrec-layer-output-mirror/1-160x96-presenter-output-processed.png",
+  "expected": "/tmp/screenrec-layer-output-mirror/30-160x96-output-mirror-output-processed.png"
+}

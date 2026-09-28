@@ -19,6 +19,8 @@ Current pickup and priority:
 1. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
    skill use and [remaining delivered-media gaps](assets/15-acceptance-audit/README.md).
    Whole-chain pointer transforms and replacement/undo coverage are next.
+   [Opaque final-output geometry](assets/15-output-geometry/README.md) passes
+   still/full/range/export and unchanged-audio checks on both canvases.
    Static presenter/stack/edit behavior passes
    [public journeys](assets/15-layer-public/README.md),
    [fresh skill use](assets/15-layer-skill/README.md) and
@@ -86,6 +88,8 @@ Compact evidence ledger:
   retains full-support measurements and real-speech auditions. Root integration
   reproduces all 32 renders and nine retained WAVs exactly. Listening, independent
   protected-word labels and short-input quality remain open.
+  [Short-input alternatives](assets/13a-short-capability/README.md) improve one
+  tone gate but worsen endpoint response; no automatic fallback is adopted.
 
 Use isolated homes and frozen workers. Imported assets never fabricate recording
 rows or narration roles; preserve physical support and acquisition provenance.
