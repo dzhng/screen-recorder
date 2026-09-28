@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: public/native integration not started. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
+Status: opacity authoring/compiler and scoped native delivery verified; retained-index integration and independent visual review remain open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
 
 ## Contract
 
@@ -50,3 +50,48 @@ A macro that cannot be expressed as ordinary effects indicates missing primitive
 Delegated: Numerical solver and curve compilation optimizations within declared tolerances. Key domains and interpolation semantics are fixed.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
+
+
+## First delivered vertical: opacity timing
+
+The next pass adds opacity curves and optional step `window` through the existing
+processing stack lifecycle. `opacity` accepts a number or the contracted Curve.
+A clip without an explicit window uses normalized clip time; nonclip curves use
+project microseconds. Content and normalized windows must reference their own
+clip. Other processors continue to reject windows until their timing is supported.
+Opacity curves are validated over their complete cubic value extrema, not only
+keys, so an overshoot outside [0,1] is rejected rather than silently clamped.
+
+A step may retain `evaluationRange: {start: Fraction, end: Fraction}` for normalized
+clip timing. This records the portion of the original clip clock represented by
+the current clip. For example, after a halfway cut the two pieces retain [0,1/2]
+and [1/2,1], preserving their entire original curve and normalized activation
+window. Structural edits derive these fractions from the existing partitioner's
+exact original/retained ranges. No second placement resolver or source timeline is
+introduced. Get/set exposes the complete retained range. Whole-target constant
+steps do not acquire a redundant range.
+
+Content windows keep source coordinates and intersect the selected source range;
+project windows remain fixed. Duplicates remap clip-local references. Replacement
+preserves normalized/project settings, rejects old-source windows unless repaired
+or reset, and partitions normalized evaluation ranges over hold/silence padding.
+Pure split/trim must preserve both the original function and active subwindow.
+
+`createCompiler.processingBoundaries(tap)` exposes exact activation and key
+boundaries from the same curve programs that sample opacity. Retained-index
+consumers use this seam; they must not implement their own key/anchor math.
+Picture compilation resolves opacity at the existing global picture timestamp and
+emits the unchanged numeric opacity primitive. Native performs no authoring-curve
+interpretation, no new frame clock and no duration-sized sample arrays. Native
+integration must prove delivered frame/full-preview/range parity and update recipe
+identities before advertising this vertical as ready. Gain and animated geometry
+remain subsequent consumers; this pass does not close full slice 16.
+
+
+The [opacity evidence](../assets/16-opacity/README.md) retains exact public PNG
+controls/split preservation, scoped movie comparisons, static-layer preservation,
+failed attempts and reviews. Review's retained-index consumer finding is assigned
+to root integration: the new boundary method must feed tap-aware selection and
+advance its policy before this vertical is accepted publicly. The service/native
+projection is shared with direct worker harnesses; no authoring easing is sent
+for native reinterpretation.

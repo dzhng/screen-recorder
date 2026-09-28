@@ -52,6 +52,42 @@ export const anchorSchema = z.discriminatedUnion("kind", [
       "Expected ordered clip fractions within [0,1]",
     ),
 ]);
+const finite = z.number().finite();
+const handle = finite.min(0).max(1);
+const interpolation = z.union([
+  z.enum(["hold", "linear"]),
+  z.object({ cubic: z.tuple([handle, finite, handle, finite]).readonly() }).strict(),
+]);
+/** Authoring key times use exactly the anchor's domain; evaluation may be fractional. */
+export function scalarCurveSchema(domain: "project" | "content" | "clip") {
+  const at =
+    domain === "clip"
+      ? fractionSchema.refine(
+          (value) => value.numerator <= value.denominator,
+          "Expected clip fraction within [0,1]",
+        )
+      : z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+  const keys = z
+    .array(z.object({ at, value: finite, interpolation }).strict())
+    .min(1)
+    .readonly();
+  return z
+    .object({ keys })
+    .strict()
+    .refine(
+      (value) =>
+        value.keys.every(
+          (key, index) =>
+            index === 0 || compare(fromTime(value.keys[index - 1]!.at), fromTime(key.at)) < 0,
+        ),
+      {
+        message: "Expected strictly ordered curve keys",
+        when: ({ value }) => z.object({ keys }).safeParse(value).success,
+      },
+    );
+}
+export type ScalarCurve = z.infer<ReturnType<typeof scalarCurveSchema>>;
+
 const clipFields = { id, trackId: id, placement: anchorSchema };
 export const mediaClipSchema = z
   .object({
@@ -151,7 +187,16 @@ export const processorRegistry = {
     },
   },
   opacity: {
-    schema: z.object({ type: z.literal("opacity"), opacity: z.number().min(0).max(1) }).strict(),
+    schema: z
+      .object({
+        type: z.literal("opacity"),
+        opacity: z.union([
+          z.number().min(0).max(1),
+          scalarCurveSchema("project"),
+          scalarCurveSchema("clip"),
+        ]),
+      })
+      .strict(),
     targets: allProcessingTargets,
     mediaKind: "video" as const,
     units: { opacity: "linear alpha multiplier" },
@@ -167,6 +212,19 @@ export const processingStepSchema = z
   .object({
     id,
     enabled: z.boolean(),
+    window: anchorSchema.optional(),
+    evaluationRange: z
+      .object({ start: fractionSchema, end: fractionSchema })
+      .strict()
+      .refine(
+        ({ start, end }) =>
+          start.numerator <= start.denominator &&
+          end.numerator <= end.denominator &&
+          BigInt(start.numerator) * BigInt(end.denominator) <
+            BigInt(end.numerator) * BigInt(start.denominator),
+        "Expected ordered evaluation fractions within [0,1]",
+      )
+      .optional(),
     processor: z.discriminatedUnion("type", [
       processorRegistry.pointer.schema,
       processorRegistry.gain.schema,

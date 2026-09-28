@@ -1,3 +1,4 @@
+import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -112,7 +113,7 @@ for (const scenario of scenarios) {
       frame,
       canvas: request.canvas,
       profile: request.profile,
-      processing: request.processing,
+      processing: nativeProcessing(request.processing),
       assets: request.assets,
     };
     const response = call(native, "media.renderCompositionFrame", still);
@@ -172,7 +173,7 @@ const still = {
   canvas: base.canvas,
   assets: base.assets,
   profile: base.profile,
-  processing: base.processing,
+  processing: nativeProcessing(base.processing),
 };
 const negatives = [];
 for (const [name, change, code] of [
@@ -286,7 +287,7 @@ const fractional = call(native, "media.renderCompositionFrame", {
     },
   ],
   frame: [...fractionalWindow.frames()][0],
-  processing: fractionalWindow.manifest.processing,
+  processing: nativeProcessing(fractionalWindow.manifest.processing),
   output: join(out, "fractional.png"),
 });
 assert.equal(fractional.ok, true, JSON.stringify(fractional));

@@ -23,7 +23,6 @@ public struct CompositionProcessing: Codable, Sendable {
         public let type: String
         public let gain: Double?
         public let trailUs: Int64?
-        public let opacity: Double?
         public let crop: Rectangle?
         public let rect: Rectangle?
         public let fit: String?

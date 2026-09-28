@@ -85,6 +85,17 @@ export function replaceClip(
     target.clip.streamId !== media.streamId ||
     target.clip.acquisitionId !== media.acquisitionId ||
     JSON.stringify(target.clip.source) !== JSON.stringify(source);
+  if (changedSource || padding) {
+    const sourceSteps = model.document.processing
+      .filter((stack) => stack.target.kind === "clip" && stack.target.id === clipId)
+      .flatMap((stack) => stack.steps.filter((step) => step.window?.kind === "content"));
+    if (sourceSteps.length)
+      throw new CompositionError(
+        "INVALID_EDIT",
+        "Replacement requires repair or reset of source-domain processing",
+        { clipId, stepIds: sourceSteps.map((step) => step.id) },
+      );
+  }
   const removed =
     changedSource || padding ? clipGraph(model).expand([clipId], false) : new Set<string>();
   removed.delete(clipId);
@@ -154,7 +165,22 @@ export function replaceClip(
     document: {
       ...document,
       clips,
-      processing: remapClipProcessing(model.document, clips, lineage, allocate),
+      processing: remapClipProcessing(
+        model.document,
+        clips,
+        lineage,
+        allocate,
+        new Map([
+          [
+            clipId,
+            { original: target.range, retained: { start: target.range.start, end: padding.at } },
+          ],
+          [
+            tailId,
+            { original: target.range, retained: { start: padding.at, end: target.range.end } },
+          ],
+        ]),
+      ),
       syncGroups: syncGroups.filter((group) => group.clipIds.length >= 2),
     },
     removedAttachments: [...removed],

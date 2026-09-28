@@ -1,3 +1,4 @@
+import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, writeFileSync, readFileSync, rmSync, existsSync, readdirSync } from "node:fs";
@@ -163,7 +164,7 @@ try {
       range,
       canvas: document.canvas,
       profile: "h264-rec709",
-      processing: window.manifest.processing,
+      processing: nativeProcessing(window.manifest.processing),
       assets: bindings,
     };
     const audio = {
@@ -232,7 +233,7 @@ try {
     const standaloneAudio = call("media.mixCompositionAudio", {
       ...audio,
       output: join(scratch, `audio-${sequence}.wav`),
-      processing: base.processing,
+      processing: nativeProcessing(base.processing),
       assets: bindings,
     });
     const decode = (path) =>
@@ -317,7 +318,7 @@ try {
       range: cancelRange,
       canvas: empty.canvas,
       profile: "h264-rec709",
-      processing: cancelWindow.manifest.processing,
+      processing: nativeProcessing(cancelWindow.manifest.processing),
       assets: [],
       audio: { range: { start: 0, end: 4800000 }, clips: [] },
     }),

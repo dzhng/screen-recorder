@@ -1,3 +1,4 @@
+import { nativeProcessing } from "./native-processing.js";
 import { constants } from "node:fs";
 import { copyFile, mkdir, open } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -84,7 +85,7 @@ export function projectMovieRenderer(
   pointers?: PointerOwners,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v5",
+    implementationId: "native-composition-movie-v6",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -124,7 +125,7 @@ export function projectMovieRenderer(
               range: manifest.range,
               canvas: manifest.canvas,
               profile: "h264-rec709",
-              processing: manifest.processing,
+              processing: nativeProcessing(manifest.processing),
               assets: request.assets,
               audio: { range: manifest.sampleRange, clips: [...request.window.audio()] },
             },
@@ -169,7 +170,7 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
                 output: file,
                 range: window.manifest.sampleRange,
                 clips: [...window.audio()],
-                processing: window.manifest.processing,
+                processing: nativeProcessing(window.manifest.processing),
                 assets,
               },
               { signal, timeoutMs: renderWindowDeadlineMs(window.manifest.range) },
@@ -185,7 +186,7 @@ export function projectFrameRenderer(
   pointers?: PointerOwners,
 ): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v6",
+    implementationId: "native-composition-picture-v7",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
       const { window, assets, output, maxLongEdge } = request;
@@ -204,7 +205,7 @@ export function projectFrameRenderer(
                 frame: window.frames().next().value,
                 canvas: window.manifest.canvas,
                 profile: "h264-rec709",
-                processing: window.manifest.processing,
+                processing: nativeProcessing(window.manifest.processing),
                 assets,
                 maxLongEdge,
               },

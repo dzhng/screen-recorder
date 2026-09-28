@@ -1,3 +1,4 @@
+import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
@@ -136,7 +137,7 @@ async function compile(
       range,
       canvas: document.canvas,
       profile: "h264-rec709",
-      processing: compiled.manifest.processing,
+      processing: nativeProcessing(compiled.manifest.processing),
       assets: unique(bindings, (b) => b.assetId + b.streamId),
     },
   };

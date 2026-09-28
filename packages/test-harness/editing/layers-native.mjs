@@ -1,3 +1,4 @@
+import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -161,7 +162,7 @@ for (const [width, height] of [
         output,
         canvas,
         frame,
-        processing: window.manifest.processing,
+        processing: nativeProcessing(window.manifest.processing),
         assets: bindings,
         profile: "h264-rec709",
         maxLongEdge: Math.max(width, height),
@@ -236,7 +237,7 @@ for (const [width, height] of [
         output,
         canvas,
         frame: [...isolated.frames()][0],
-        processing: isolated.manifest.processing,
+        processing: nativeProcessing(isolated.manifest.processing),
         assets: bindings,
         profile: "h264-rec709",
         maxLongEdge: Math.max(width, height),
@@ -316,13 +317,13 @@ for (const [width, height] of [
           frames,
           range,
           canvas,
-          processing: window.manifest.processing,
+          processing: nativeProcessing(window.manifest.processing),
           assets: movieBindings,
           profile: "h264-rec709",
         };
         const mixed = call("media.mixCompositionAudio", {
           ...audio,
-          processing: base.processing,
+          processing: nativeProcessing(base.processing),
           assets: movieBindings,
           output: join(directory, `audio-${range.startUs}.wav`),
         });

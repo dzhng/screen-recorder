@@ -1,3 +1,4 @@
+import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -82,7 +83,7 @@ for (const [name, path, width, height, background, extent] of [
   const params = {
     canvas,
     frame: [...window.frames()][0],
-    processing: window.manifest.processing,
+    processing: nativeProcessing(window.manifest.processing),
     assets: [{ assetId: "source", streamId: stream.id, path, originUs: probe.originUs }],
     profile: "h264-rec709",
   };

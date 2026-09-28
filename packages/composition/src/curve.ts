@@ -1,53 +1,70 @@
-import { z } from "zod";
 import { CompositionError } from "./errors.js";
 import {
   resolvePlacement,
   sourceTime,
+  projectTime,
   type ValidatedComposition,
   type ExactRange,
 } from "./model.js";
-import { compare, divide, fromTime, subtract, type Rational } from "./rational.js";
+import {
+  compare,
+  divide,
+  fromTime,
+  subtract,
+  add,
+  multiply,
+  toFraction,
+  type Rational,
+} from "./rational.js";
 import {
   anchorSchema,
-  fractionSchema,
   selectionRangeSchema,
   timeValueSchema,
-  type Anchor,
   type TimeValue,
+  scalarCurveSchema,
+  type ScalarCurve,
+  type ProcessingStep,
 } from "./schema.js";
 
-const finite = z.number().finite();
-const handle = finite.min(0).max(1);
-const interpolation = z.union([
-  z.enum(["hold", "linear"]),
-  z.object({ cubic: z.tuple([handle, finite, handle, finite]) }).strict(),
-]);
-/** Authoring key times use exactly the anchor's domain; evaluation may be fractional. */
-export function scalarCurveSchema(domain: Anchor["kind"]) {
-  const at =
-    domain === "clip"
-      ? fractionSchema.refine(
-          (value) => value.numerator <= value.denominator,
-          "Expected clip fraction within [0,1]",
-        )
-      : z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
-  const keys = z.array(z.object({ at, value: finite, interpolation }).strict()).min(1);
-  return z
-    .object({ keys })
-    .strict()
-    .refine(
-      (value) =>
-        value.keys.every(
-          (key, index) =>
-            index === 0 || compare(fromTime(value.keys[index - 1]!.at), fromTime(key.at)) < 0,
-        ),
-      {
-        message: "Expected strictly ordered curve keys",
-        when: ({ value }) => z.object({ keys }).safeParse(value).success,
-      },
-    );
+/** Extrema in value space do not depend on the monotone time handles. */
+export function curveValuesWithin(curve: ScalarCurve, min: number, max: number): boolean {
+  if (curve.keys.some((key) => key.value < min || key.value > max)) return false;
+  for (let i = 0; i + 1 < curve.keys.length; i++) {
+    const left = curve.keys[i]!,
+      right = curve.keys[i + 1]!;
+    if (typeof left.interpolation === "string") continue;
+    const delta = right.value - left.value;
+    const p = [
+      left.value,
+      left.value + delta * left.interpolation.cubic[1],
+      left.value + delta * left.interpolation.cubic[3],
+      right.value,
+    ];
+    if (p.some((value) => !Number.isFinite(value))) return false;
+    const scale = Math.max(1, ...p.map(Math.abs));
+    const [p0, p1, p2, p3] = p.map((value) => value / scale) as [number, number, number, number];
+    const a = -p0 + 3 * p1 - 3 * p2 + p3,
+      b = 2 * (p0 - 2 * p1 + p2),
+      c = p1 - p0;
+    const disc = b * b - 4 * a * c;
+    const roots =
+      a === 0
+        ? b === 0
+          ? []
+          : [-c / b]
+        : disc < 0
+          ? []
+          : [(-b - Math.sqrt(disc)) / (2 * a), (-b + Math.sqrt(disc)) / (2 * a)];
+    for (const t of roots)
+      if (t > 0 && t < 1) {
+        const q = 1 - t;
+        const value =
+          q * q * q * p[0]! + 3 * q * q * t * p[1]! + 3 * q * t * t * p[2]! + t * t * t * p[3]!;
+        if (!Number.isFinite(value) || value < min || value > max) return false;
+      }
+  }
+  return true;
 }
-export type ScalarCurve = z.infer<ReturnType<typeof scalarCurveSchema>>;
 
 function ease(value: number, method: ScalarCurve["keys"][number]["interpolation"]): number {
   if (method === "hold") return 0;
@@ -71,6 +88,7 @@ function ease(value: number, method: ScalarCurve["keys"][number]["interpolation"
 export type CompiledScalarCurve = Readonly<{
   /** Active project fragments; unavailable-source gaps remain excluded. */
   available: readonly ExactRange[];
+  boundaries: readonly Rational[];
   sample(atUs: TimeValue): number | null;
   restrict(range: unknown): CompiledScalarCurve;
 }>;
@@ -80,26 +98,83 @@ export function compileScalarCurve(
   model: ValidatedComposition,
   input: unknown,
   anchorInput: unknown,
+  evaluationRange?: ProcessingStep["evaluationRange"],
 ): CompiledScalarCurve {
   const anchor = anchorSchema.parse(anchorInput);
   const curve = scalarCurveSchema(anchor.kind).parse(input);
-  const placement = resolvePlacement(model, anchor);
+  let effective = anchor;
+  let empty = false;
+  if (evaluationRange && anchor.kind === "clip") {
+    const start =
+      compare(fromTime(anchor.start), fromTime(evaluationRange.start)) > 0
+        ? anchor.start
+        : evaluationRange.start;
+    const end =
+      compare(fromTime(anchor.end), fromTime(evaluationRange.end)) < 0
+        ? anchor.end
+        : evaluationRange.end;
+    empty = compare(fromTime(start), fromTime(end)) >= 0;
+    if (!empty) {
+      const span = subtract(fromTime(evaluationRange.end), fromTime(evaluationRange.start));
+      effective = {
+        ...anchor,
+        start: toFraction(divide(subtract(fromTime(start), fromTime(evaluationRange.start)), span)),
+        end: toFraction(divide(subtract(fromTime(end), fromTime(evaluationRange.start)), span)),
+      };
+    }
+  }
+  const placement = resolvePlacement(
+    model,
+    empty && anchor.kind === "clip" ? anchor.clipId : effective,
+  );
   const parent =
     anchor.kind === "project"
       ? undefined
       : model.clips.find((value) => value.clip.id === anchor.clipId)!;
   const keys = curve.keys.map((key) => ({ ...key, at: fromTime(key.at) }));
-  const atDomain = (at: Rational) =>
-    anchor.kind === "project"
-      ? at
-      : anchor.kind === "content"
-        ? sourceTime(parent!, at)
-        : divide(
-            subtract(at, parent!.range.start),
-            subtract(parent!.range.end, parent!.range.start),
-          );
+  const clipDomain = (at: Rational) =>
+    divide(subtract(at, parent!.range.start), subtract(parent!.range.end, parent!.range.start));
+  const atDomain = (at: Rational) => {
+    if (anchor.kind === "project") return at;
+    if (anchor.kind === "content") return sourceTime(parent!, at);
+    const fraction = clipDomain(at);
+    return evaluationRange
+      ? add(
+          fromTime(evaluationRange.start),
+          multiply(
+            fraction,
+            subtract(fromTime(evaluationRange.end), fromTime(evaluationRange.start)),
+          ),
+        )
+      : fraction;
+  };
+  const atProject = (at: Rational) => {
+    if (anchor.kind === "project") return at;
+    if (anchor.kind === "content") return projectTime(parent!, at);
+    const fraction = evaluationRange
+      ? divide(
+          subtract(at, fromTime(evaluationRange.start)),
+          subtract(fromTime(evaluationRange.end), fromTime(evaluationRange.start)),
+        )
+      : at;
+    return add(
+      parent!.range.start,
+      multiply(fraction, subtract(parent!.range.end, parent!.range.start)),
+    );
+  };
   function window(available: readonly ExactRange[]): CompiledScalarCurve {
+    const points = [
+      ...available.flatMap((range) => [range.start, range.end]),
+      ...keys
+        .map((key) => atProject(key.at))
+        .filter((at) =>
+          available.some((range) => compare(at, range.start) >= 0 && compare(at, range.end) <= 0),
+        ),
+    ].sort(compare);
     return Object.freeze({
+      boundaries: Object.freeze(
+        points.filter((at, index) => index === 0 || compare(at, points[index - 1]!) !== 0),
+      ),
       available: Object.freeze(available.map((range) => Object.freeze({ ...range }))),
       sample(atUs: TimeValue) {
         const at = fromTime(timeValueSchema.parse(atUs));
@@ -142,5 +217,5 @@ export function compileScalarCurve(
       },
     });
   }
-  return window(placement.available);
+  return window(empty ? [] : placement.available);
 }

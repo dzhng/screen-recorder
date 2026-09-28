@@ -2038,3 +2038,29 @@ existing lifetime owner.
   easing owner in workers.
 - **Verdict:** Sound, high confidence. Pure restrictions preserve every original
   sample exactly without approximating cubic control handles.
+
+
+## Opacity temporal processing vertical — slice 16
+
+- **Choice:** Retain the portion of the original normalized clip clock explicitly
+  on the processing step. After a halfway split, one child reports [0,1/2] and the
+  other [1/2,1]; the same original keys and activation window continue to mean the
+  same motion. Repeated trims restrict that retained interval again, using the
+  existing partitioner's exact ranges. The plan required original-function
+  preservation but did not choose its persisted representation.
+  **Verdict:** sound, medium confidence. `evaluationRange` is visible through
+  get/set and follows normalized clip timing; it is not another source timeline.
+- **Choice:** Reject an opacity curve whose actual cubic extrema leave [0,1],
+  rather than clipping it silently or forbidding every overshooting easing handle.
+  For example, a small fade around 0.5 can safely use a y handle outside [0,1].
+  The plan fixes opacity's physical bounds but did not choose how curved overshoot
+  should be validated. **Verdict:** sound, high confidence; valid motion remains
+  expressible and invalid alpha never reaches native execution.
+- **Choice:** Keep authoring windows and opacity values out of native metadata.
+  The compiler has already emitted each picture's numeric opacity, so sending
+  the original curve would ask the worker to carry a second unused description.
+  One shared service-boundary projection is used by delivery and direct native
+  harnesses; strict unknown-field rejection remains intact. The plan left this
+  transport narrowing implicit. **Verdict:** sound, high confidence. Native still
+  receives the routing, step identities and executable gain/pointer parameters
+  it needs; no native authoring evaluator or silent dry fallback is added.

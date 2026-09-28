@@ -32,6 +32,13 @@ const processingTarget = z.union([
   processingTargetSchema.options[1],
 ]);
 const authoredStep = processingStepSchema.extend({
+  window: z
+    .discriminatedUnion("kind", [
+      anchorSchema.options[0],
+      z.object({ ...anchorSchema.options[1].shape, clipId: reference }).strict(),
+      z.object({ ...anchorSchema.options[2].shape, clipId: reference }).strict(),
+    ])
+    .optional(),
   id: reference.optional(),
   enabled: z.boolean().default(true),
   label,
@@ -357,7 +364,20 @@ export function applyBatch(
             if (used.has(id)) invalid("Repeated processing step ID", { stepId: id });
             used.add(id);
             bind(step.label, "processingStep", id);
-            return { id, enabled: step.enabled, processor: step.processor };
+            return {
+              id,
+              enabled: step.enabled,
+              processor: step.processor,
+              ...(step.window
+                ? {
+                    window:
+                      step.window.kind === "project"
+                        ? step.window
+                        : { ...step.window, clipId: resolve(step.window.clipId, "clip") },
+                  }
+                : {}),
+              ...(step.evaluationRange ? { evaluationRange: step.evaluationRange } : {}),
+            };
           });
           const key = processingKey(target);
           const processing = before.processing.filter(

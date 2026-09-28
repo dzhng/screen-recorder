@@ -1,3 +1,4 @@
+import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
 import {
@@ -168,7 +169,7 @@ try {
         end: Math.floor((range.endUs * 48000) / 1000000),
       },
       clips: [...window.audio()],
-      processing: window.manifest.processing,
+      processing: nativeProcessing(window.manifest.processing),
       assets: sources.map((source) => source.binding),
     };
     const result = call("media.mixCompositionAudio", params, expectedError);

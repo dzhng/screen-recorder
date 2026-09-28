@@ -1,6 +1,13 @@
+import { curveValuesWithin } from "./curve.js";
+import { compare, fromTime, add, subtract, multiply, divide, toFraction } from "./rational.js";
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
-import { processorRegistry, processingTargetSchema, type ProcessingTarget } from "./schema.js";
+import {
+  processorRegistry,
+  processingTargetSchema,
+  scalarCurveSchema,
+  type ProcessingTarget,
+} from "./schema.js";
 import type { ValidatedComposition } from "./model.js";
 type Document = ValidatedComposition["document"];
 export const processingKey = (target: ProcessingTarget) =>
@@ -40,6 +47,34 @@ export function validateProcessing(document: Document) {
       if (stepIds.has(step.id)) invalid("Duplicate processing step ID", { stepId: step.id });
       stepIds.add(step.id);
       const definition = processorRegistry[step.processor.type];
+      if ((step.window || step.evaluationRange) && step.processor.type !== "opacity")
+        invalid("Temporal processing is not supported for this processor", {
+          target,
+          stepId: step.id,
+        });
+      if (step.window && step.window.kind !== "project") {
+        if (target.kind !== "clip" || step.window.clipId !== target.id)
+          invalid("Processing windows must use their own clip or project time", {
+            target,
+            stepId: step.id,
+          });
+        if (step.window.kind === "content" && clips.get(target.id)!.source.kind !== "range")
+          invalid("Content processing window requires a selected source range", {
+            target,
+            stepId: step.id,
+          });
+      }
+      const domain = step.window?.kind ?? (target.kind === "clip" ? "clip" : "project");
+      if (step.evaluationRange && (target.kind !== "clip" || domain !== "clip"))
+        invalid("Evaluation range requires normalized clip timing", { target, stepId: step.id });
+      if (step.processor.type === "opacity" && typeof step.processor.opacity !== "number") {
+        const parsed = scalarCurveSchema(domain).safeParse(step.processor.opacity);
+        if (!parsed.success || !curveValuesWithin(parsed.data, 0, 1))
+          invalid("Opacity curve must match its clock and stay within [0,1]", {
+            target,
+            stepId: step.id,
+          });
+      }
       if (!definition.targets.some((scope) => scope === target.kind))
         invalid("Processor is incompatible with target scope", { target, stepId: step.id });
       if (
@@ -78,29 +113,69 @@ export function processingCapabilities(implementations: ProcessorImplementations
   }));
 }
 
-/** Copies target-owned configuration while source-attached media has its own lifetime. */
+/** Copies configuration and restricts its original normalized clock over retained pieces. */
 export function remapClipProcessing(
   document: Document,
   clips: Document["clips"],
   lineage: readonly { originalId: string; clipIds: readonly string[] }[],
   allocate: (kind: "processingStep", copiedFrom?: string) => string,
+  restrictions: ReadonlyMap<
+    string,
+    { original: import("./model.js").ExactRange; retained: import("./model.js").ExactRange }
+  > = new Map(),
 ): Document["processing"] {
   const live = new Set(clips.map((clip) => clip.id));
   const descendants = new Map(lineage.map((entry) => [entry.originalId, entry.clipIds]));
   return document.processing.flatMap((stack) => {
     if (stack.target.kind !== "clip") return [stack];
     const originalId = stack.target.id;
-    const retained = live.has(originalId) ? [stack] : [];
-    for (const id of descendants.get(originalId) ?? []) {
-      if (id === originalId) continue;
-      retained.push({
-        target: { kind: "clip", id },
-        steps: stack.steps.map((step) => ({
+    const ids = [
+      ...new Set([
+        ...(live.has(originalId) ? [originalId] : []),
+        ...(descendants.get(originalId) ?? []),
+      ]),
+    ];
+    return ids.map((id) => ({
+      target: { kind: "clip" as const, id },
+      steps: stack.steps.map((step) => {
+        let evaluationRange = step.evaluationRange;
+        const restricted = restrictions.get(id);
+        const normalized = !step.window || step.window.kind === "clip";
+        if (
+          restricted &&
+          (compare(restricted.original.start, restricted.retained.start) !== 0 ||
+            compare(restricted.original.end, restricted.retained.end) !== 0) &&
+          normalized &&
+          (step.window ||
+            (step.processor.type === "opacity" && typeof step.processor.opacity !== "number"))
+        ) {
+          const prior = evaluationRange ?? {
+            start: { numerator: 0, denominator: 1 },
+            end: { numerator: 1, denominator: 1 },
+          };
+          const span = subtract(restricted.original.end, restricted.original.start);
+          const length = subtract(fromTime(prior.end), fromTime(prior.start));
+          const at = (time: typeof span) =>
+            toFraction(
+              add(
+                fromTime(prior.start),
+                multiply(divide(subtract(time, restricted.original.start), span), length),
+              ),
+            );
+          evaluationRange = {
+            start: at(restricted.retained.start),
+            end: at(restricted.retained.end),
+          };
+        }
+        return {
           ...step,
-          id: allocate("processingStep", step.id),
-        })),
-      });
-    }
-    return retained;
+          id: id === originalId ? step.id : allocate("processingStep", step.id),
+          ...(step.window && step.window.kind !== "project"
+            ? { window: { ...step.window, clipId: id } }
+            : {}),
+          ...(evaluationRange ? { evaluationRange } : {}),
+        };
+      }),
+    }));
   });
 }

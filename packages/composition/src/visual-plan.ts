@@ -1,3 +1,4 @@
+import { temporalProcessing } from "./temporal-processing.js";
 import { compileGeometry } from "./geometry.js";
 import type { ValidatedComposition } from "./model.js";
 import type { ProcessingInstruction } from "./processing-plan.js";
@@ -6,10 +7,13 @@ import type { VisualOperation } from "./pointer.js";
 import { CompositionError } from "./errors.js";
 
 /** Flattening domains are fixed by target ownership, never inferred from child bounds. */
-export function visualPlanner(model: ValidatedComposition) {
+export function visualPlanner(
+  model: ValidatedComposition,
+  temporal: ReturnType<typeof temporalProcessing>,
+) {
   const clips = new Map(model.clips.map((clip) => [clip.clip.id, clip]));
   const canvas = model.document.canvas;
-  return (plan: ProcessingInstruction[]): CompiledFrame["visual"] =>
+  return (plan: ProcessingInstruction[], atUs: number): CompiledFrame["visual"] =>
     plan
       .filter((node) => node.mediaKind !== "audio")
       .map((node) => {
@@ -46,8 +50,10 @@ export function visualPlanner(model: ValidatedComposition) {
               trailUs: step.processor.trailUs,
               geometryPrefix: [...geometryPrefix],
             });
-          else if (step.processor.type === "opacity")
-            operations.push({ kind: "opacity", opacity: step.processor.opacity });
+          else if (step.processor.type === "opacity") {
+            const opacity = temporal.opacity(step, node.target, atUs);
+            if (opacity !== null) operations.push({ kind: "opacity", opacity });
+          }
         }
         if (sourceSpace)
           operations.push(...compileGeometry(domain, canvas, { type: "geometry" }, pixelBounds));

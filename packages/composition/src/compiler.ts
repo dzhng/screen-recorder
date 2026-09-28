@@ -1,3 +1,4 @@
+import { temporalProcessing } from "./temporal-processing.js";
 import { compileScalarCurve } from "./curve.js";
 import { visualPlanner } from "./visual-plan.js";
 import { intervalIndex } from "./interval-index.js";
@@ -176,6 +177,7 @@ function compileSchedules(
               tap,
               "video",
             ),
+            atUs,
           ),
         };
         index = clock.indexAt(nextTimestamp);
@@ -186,11 +188,12 @@ function compileSchedules(
 
 /** Build once per validated immutable revision, then request lazy globally phased schedules. */
 export function createCompiler(model: ValidatedComposition, revisionId: string) {
+  const temporal = temporalProcessing(model);
   if (typeof revisionId !== "string" || revisionId.length === 0)
     throw new CompositionError("INVALID_COMPOSITION", "Expected a revision identity");
   const query = intervalIndex(model.clips, (clip) => clip.range, renderOrder);
   const processing = processingPlanner(model);
-  const visual = visualPlanner(model);
+  const visual = visualPlanner(model, temporal);
   const clock = frameClock(model.document.canvas.fps);
   const contexts = audioContexts(model);
   function contributors(range: Range, sampleRate = 48000) {
@@ -265,6 +268,12 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
   return {
     ...compileSchedules(visual, processing, undefined, clock, query, contexts),
     curve: (curve: unknown, anchor: unknown) => compileScalarCurve(model, curve, anchor),
+    processingBoundaries(
+      input: unknown = { target: { kind: "output" }, point: { kind: "processed" } },
+    ) {
+      const tap = processingTapSchema.parse(input);
+      return temporal.boundaries(processing(model.clips, tap, "video")).map(toTime);
+    },
     /** Neighbors of an exact boundary in the existing integer-microsecond picture clock. */
     frameBoundary(at: TimeValue) {
       const parsed = timeValueSchema.safeParse(at);

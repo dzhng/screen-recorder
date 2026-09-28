@@ -1,3 +1,4 @@
+import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import { pointerCases } from "./pointer-cases.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
@@ -278,7 +279,7 @@ try {
       frame,
       canvas,
       profile: "h264-rec709",
-      processing: window.manifest.processing,
+      processing: nativeProcessing(window.manifest.processing),
       assets: [
         {
           assetId: selection.assetId,
@@ -531,7 +532,7 @@ try {
       range,
       canvas,
       profile: "h264-rec709",
-      processing: window.manifest.processing,
+      processing: nativeProcessing(window.manifest.processing),
       assets: requests.get("identity").assets,
       pointers,
     });
@@ -696,7 +697,7 @@ try {
     range: { startUs: 0, endUs: 2000000 },
     canvas,
     profile: "h264-rec709",
-    processing: holdWindow.manifest.processing,
+    processing: nativeProcessing(holdWindow.manifest.processing),
     assets: requests.get("identity").assets,
     pointers: holdPointers,
   });
@@ -723,7 +724,7 @@ try {
     range: { startUs: 0, endUs: 2000000 },
     canvas,
     profile: "h264-rec709",
-    processing: holdWindow.manifest.processing,
+    processing: nativeProcessing(holdWindow.manifest.processing),
     assets: requests.get("identity").assets,
     pointers: {
       file: heldMismatchFile,
@@ -812,7 +813,7 @@ try {
     ...requests.get("identity"),
     output: join(out, "inactive.png"),
     frame: inactiveWindow.frames().next().value,
-    processing: inactiveWindow.manifest.processing,
+    processing: nativeProcessing(inactiveWindow.manifest.processing),
     pointers: inactivePointers,
   });
   assert.deepEqual(inactive.pictures, []);

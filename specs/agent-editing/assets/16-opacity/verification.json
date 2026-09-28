@@ -1,0 +1,62 @@
+{
+  "scope": "Opacity authoring/compiler/native delivery vertical; retained-index hookup and full16 remain open",
+  "reports": {
+    "delivered": "84ba045134ecf4a81447b2886b617096f6a43e7c7ade987cda00c1cef72b521a",
+    "decode-failure": "b485253fbffbe24ac9cda0d02be0a6d4236a4776ce0b761be7eb0914f361296b",
+    "strict-wire-failure": "90ce3c3ca12b39e0824488732a62b87a509ce00df19fb34f497ec498450be4d4",
+    "harness-restore-failure": "07f1c8036fe60ab932355f295186ef080f7159411e7d1560e26031b4f4f4f82b",
+    "static-layers": "7bd0776a37614c56a905e1b34d515045f7a5abf45cca38ba945a1427991032be"
+  },
+  "artifacts": {
+    "details.png": "82e0c10cd192d067201e979af884b478008faee01eed42a3019a73c2bfbf2230",
+    "comparison.png": "c1e94192ca2849de897cd1dfa14f62a9b48506bf109fb02bb05211e98206ab8a",
+    "constant-7.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "curve-5.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "curve-4.png": "bed51c5936131cab8eb5ca353e2f8f323783c0c407d09b85888025fed02b1209",
+    "constant-6.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "constant-4.png": "bed51c5936131cab8eb5ca353e2f8f323783c0c407d09b85888025fed02b1209",
+    "curve-6.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "curve-7.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "constant-5.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "constant-1.png": "1498b09a24f059a7c0bbc988c18a675be48cfc99bcbcb6d3356d48cbdff58386",
+    "curve-3.png": "0cadad560729716dcc83b6ac244a59522af9599db7b31fd7072704162b22edcb",
+    "curve-2.png": "a436db7bc60ae7791d2fd1ae08998bb8b53a9ded51da98e414358697be769f03",
+    "constant-0.png": "33a159538fd51e2d27294a70e69654ae5b2bd5460532cace1e3a5d4530689cd9",
+    "constant-2.png": "a436db7bc60ae7791d2fd1ae08998bb8b53a9ded51da98e414358697be769f03",
+    "curve-0.png": "33a159538fd51e2d27294a70e69654ae5b2bd5460532cace1e3a5d4530689cd9",
+    "curve-1.png": "1498b09a24f059a7c0bbc988c18a675be48cfc99bcbcb6d3356d48cbdff58386",
+    "constant-3.png": "0cadad560729716dcc83b6ac244a59522af9599db7b31fd7072704162b22edcb",
+    "split-7.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "split-6.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "split-4.png": "bed51c5936131cab8eb5ca353e2f8f323783c0c407d09b85888025fed02b1209",
+    "split-5.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "split-1.png": "1498b09a24f059a7c0bbc988c18a675be48cfc99bcbcb6d3356d48cbdff58386",
+    "split-0.png": "33a159538fd51e2d27294a70e69654ae5b2bd5460532cace1e3a5d4530689cd9",
+    "split-2.png": "a436db7bc60ae7791d2fd1ae08998bb8b53a9ded51da98e414358697be769f03",
+    "split-3.png": "0cadad560729716dcc83b6ac244a59522af9599db7b31fd7072704162b22edcb",
+    "full.mp4": "783fd3441b7889d76cb319fcbd6ea893fab0d1a38fbb3366258a9efb42a4bf85",
+    "range.mp4": "ef074833b0bce8c87334a14f4d705b0ddc29b8ad47eed5c70343ae0dce726f5c",
+    "export.mp4": "783fd3441b7889d76cb319fcbd6ea893fab0d1a38fbb3366258a9efb42a4bf85"
+  },
+  "logs": {
+    "composition": "1330ab94dc51791662f0f5a158d528b662df4b94b7ef3baf3fbe16530c959f30",
+    "types": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a",
+    "build": "e05c814d81bac8f987cd2fde35f84973b0945af187160b86aeaf83b43c00212b",
+    "native-build": "2d1a4aae13163d9eab5756e765d4a2d006b839c47e211d0843a2db2318f2b0f8",
+    "mutation": "c06a9890777d818ed5e1a8d7dd715be526f367b5c6f2ae01fdd3de577e8b57b2",
+    "review-initial": "d3c8bd91bc00ba76cf4d1d3e4228ddd9e1b21d7838d0903aa8888725ba2b6ac9",
+    "review-composition": "0ae67517d2a8a3977cf7858c196c86a3c182c8e10828315693e2fd6c75c9d104",
+    "review-wire": "c48fca6a8072aa88c3e619333b862b6541bac9fafdd0b15e5510db30717043a1",
+    "layers": "516a2ab7b6d9e1280cc10300732e15cfdab1187e9072bb81026fd44f5fadb286"
+  },
+  "staticPreservation": {
+    "comparedPngs": 122,
+    "allBytesEqual": true,
+    "baseline": "/tmp/screenrec-project-image-layers-integrated"
+  },
+  "remaining": [
+    "root-owned tap-aware retained-index boundaries/policy integration (review P2)",
+    "independent unprimed visual review",
+    "gain/geometry curves, transitions, full16 live journeys and dependent acceptance"
+  ]
+}

@@ -174,7 +174,23 @@ export function partitionClips(
       ...model.document,
       clips,
       syncGroups,
-      processing: remapClipProcessing(model.document, clips, lineage, allocate),
+      processing: remapClipProcessing(
+        model.document,
+        clips,
+        lineage,
+        allocate,
+        new Map(
+          [...pieces].flatMap(([id, values]) =>
+            values.map(
+              (value) =>
+                [
+                  value.clip.id,
+                  { original: original.get(id)!.range, retained: value.range },
+                ] as const,
+            ),
+          ),
+        ),
+      ),
     },
     lineage,
     removalRanges:
