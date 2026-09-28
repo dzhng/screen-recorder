@@ -308,6 +308,37 @@ try {
     Math.floor(compressedRange.endUs * 48000 / 1000000) * 2);
   assert.deepEqual(compressedWindow, compressedExpected);
   evidence.checks.push("AAC mono and MP3 stereo mix matches selected-source decode and fractional range");
+  evidence.compressedEndpoints = [];
+  for (const value of compressed) {
+    const endUs = value.source.asset.streams[0].bounds.endUs;
+    const endDocument = { ...empty,
+      tracks: [{ id: "endpoint", kind: "audio", order: 0 }],
+      clips: [clip("endpoint", value.source, "endpoint", 0, endUs)],
+    };
+    const full = render(endDocument, { startUs: 0, endUs });
+    assert.equal(full.result.frames, Math.floor(endUs * 48000 / 1000000));
+    assert.equal(full.samples.length, full.result.frames * 2);
+    const range = { startUs: endUs - 20003, endUs };
+    const tail = render(endDocument, range);
+    const expected = full.samples.slice(Math.floor(range.startUs * 48000 / 1000000) * 2);
+    assert.equal(tail.samples.length, expected.length);
+    assert.equal(tail.result.frames, expected.length / 2);
+    assert.deepEqual(tail.result.unavailable, [{ clipId: "endpoint", ranges: [] }]);
+    let maximumError = 0, sumSquaredError = 0;
+    for (let i = 0; i < expected.length; i++) {
+      const error = Math.abs(tail.samples[i] - expected[i]);
+      maximumError = Math.max(maximumError, error);
+      sumSquaredError += error * error;
+    }
+    const rmsError = Math.sqrt(sumSquaredError / expected.length);
+    // Only AAC has the independently established one-PCM16-step seek allowance.
+    const limit = value.source.binding.assetId === "voice-aac" ? 1 / 32768 : 0;
+    assert.ok(limit ? maximumError < limit && rmsError < limit : maximumError === 0,
+      `${value.source.binding.assetId} tail maximum=${maximumError} rms=${rmsError}`);
+    evidence.compressedEndpoints.push({ asset: value.source.binding.assetId, endUs,
+      fullFrames: full.result.frames, tailFrames: tail.result.frames, maximumError, rmsError });
+  }
+  evidence.checks.push("compressed native endpoints retain exact counts and declared full/tail seek parity");
   const withSilence = structuredClone(document);
   withSilence.tracks.push({ id: "silent-track", kind: "audio", order: 2 });
   withSilence.clips.push({

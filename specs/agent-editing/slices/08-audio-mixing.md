@@ -57,3 +57,7 @@ Other codec/segment combinations and listening remain open.
 [AAC/MP3 overlap](../assets/08-compressed-mix/README.md) matches selected-source
 decode and the tested fractional full/range slice. Encoded endpoints, other rate
 combinations, physical segments and real-narration listening remain open.
+
+[Compressed endpoint evidence](../assets/08-compressed-endpoints/README.md) verifies
+exact full/tail counts and final samples for the tested48kHz AAC/MP3 files.
+Physical segment-origin composition and listening are still open.
