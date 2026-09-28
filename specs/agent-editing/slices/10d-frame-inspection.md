@@ -234,4 +234,6 @@ Public picture receipts omit renderer-private visual instructions. Native
 publication still compares the complete compiled graph before projecting timing,
 layers and physical-source observations; retained admission checks that same public
 projection. The project-picture recipe advances for this artifact-shape change.
-Actual CLI/MCP delivery and a fresh agent repeat remain integration gates.
+[Actual CLI/MCP delivery and fresh reinspection](../assets/10d-project-index-domain/integrated.json)
+confirm the public receipt boundary with unchanged images. This does not close
+project-index queue or public producer acceptance.

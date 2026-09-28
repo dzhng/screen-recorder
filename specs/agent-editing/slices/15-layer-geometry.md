@@ -115,7 +115,7 @@ control. The added full-domain crop holdout exposed that reference's incorrect
 transparent-edge model. Preserve these attempts as research evidence, not slice
 acceptance. The destination-coverage variant passed the expanded matrix and fresh
 visual review; current commands and evidence live in the linked checkpoint.
-Public preview/export and pointer gates remain open.
+The public checkpoint below verifies static preview/export; pointer gates remain open.
 
 The compiler/native checkpoint also bounds aggregate encoded-source area,
 materialized canvas area and live coverage-mask bytes before allocation. Inactive
