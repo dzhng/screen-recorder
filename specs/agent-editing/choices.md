@@ -1494,3 +1494,14 @@ The native plotting operation receives bounded waveform or spectral measurements
   travel with the result, so deleting a temporary job cannot erase its meaning.
   This constrains source index generation to preserve failed work as a failure
   instead of silently treating it as a physical gap.
+
+
+## Learned denoise baseline — 2026-09-28
+
+- **Sound, medium confidence — measure the unchanged example before fixing its block handling.**
+  RNNoise's demonstration program shortens a clip because it skips its first
+  output block and never flushes the final one. Keep that behavior visible in
+  the baseline, then evaluate any exact-length wrapper as a separate candidate.
+  The plan names a learned comparison but leaves its first adapter unspecified.
+  This separates a library's noise reduction from whether a wrapper preserves
+  the user's selected duration; it selects no production processor.

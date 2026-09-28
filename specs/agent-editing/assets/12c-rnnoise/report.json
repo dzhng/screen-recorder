@@ -1,0 +1,117 @@
+{
+  "productionAdoption": false,
+  "listening": "not performed",
+  "runs": [
+    {
+      "name": "speech",
+      "sourceSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+      "decode": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-i",
+        "specs/agent-editing/assets/18-voice/context.wav",
+        "-map",
+        "0:a:0",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-c:a",
+        "pcm_s16le",
+        "-f",
+        "s16le",
+        "-n",
+        "/tmp/screenrec-rnnoise-baseline/speech-input.s16"
+      ],
+      "command": [
+        "/usr/bin/time",
+        "-l",
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-demo",
+        "/tmp/screenrec-rnnoise-baseline/speech-input.s16",
+        "/tmp/screenrec-rnnoise-baseline/speech-output.s16"
+      ],
+      "inputSha256": "5449755414fe295dd6abae3190e3e358bb237bcbad26bf1b9928c15be806ef4b",
+      "outputSha256": "8aec8e5c280e0bf859a1e2b5994267d7b24936ea7eebcac930a54a3752c1eae8",
+      "before": {
+        "frames": 240000,
+        "peak": 0.08795166015625,
+        "rms": 0.010273802297745787,
+        "fullScaleSamples": 0
+      },
+      "after": {
+        "frames": 239520,
+        "peak": 0.079864501953125,
+        "rms": 0.006992343050813218,
+        "fullScaleSamples": 0
+      },
+      "secondsIncludingSandboxStartup": 0.4440409170347266,
+      "peakResidentBytes": 5144576,
+      "countPreserved": false,
+      "rmsChangeDb": -3.34216954310621
+    },
+    {
+      "name": "room-tone",
+      "sourceSha256": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d",
+      "decode": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-i",
+        "specs/agent-editing/assets/18-voice-roomtone/room-tone.wav",
+        "-map",
+        "0:a:0",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-c:a",
+        "pcm_s16le",
+        "-f",
+        "s16le",
+        "-n",
+        "/tmp/screenrec-rnnoise-baseline/room-tone-input.s16"
+      ],
+      "command": [
+        "/usr/bin/time",
+        "-l",
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-demo",
+        "/tmp/screenrec-rnnoise-baseline/room-tone-input.s16",
+        "/tmp/screenrec-rnnoise-baseline/room-tone-output.s16"
+      ],
+      "inputSha256": "c42ae8bb9035ce0599379681b2ea36ff19ccb1e5e9cc7f799089cf7eb3a35948",
+      "outputSha256": "3894c09cb8952984f798b6cb81ae9a41c27d3511e2af76f411179bb3ae7b5553",
+      "before": {
+        "frames": 43200,
+        "peak": 0.0072021484375,
+        "rms": 0.002018481071365742,
+        "fullScaleSamples": 0
+      },
+      "after": {
+        "frames": 42720,
+        "peak": 0.0010986328125,
+        "rms": 5.576552102958998e-05,
+        "fullScaleSamples": 0
+      },
+      "secondsIncludingSandboxStartup": 0.01621916698059067,
+      "peakResidentBytes": 5144576,
+      "countPreserved": false,
+      "rmsChangeDb": -31.17317833667173
+    }
+  ],
+  "revision": "70f1d256acd4b34a572f999a05c87bf00b67730d",
+  "demoSha256": "d7143aedcdfdf7152557e71d2e3ea9d806bd7125706a47b52060b262eb4ac020",
+  "runnerSha256": "6d6de555984bf141172ad5b7870a7634f80d1ffc23aa4cc5ed92791ea12eff96",
+  "ffmpegSha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c",
+  "modelDataSha256": "d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5",
+  "modelHeaderSha256": "09ff880bddd0fc74a2ae0e5ec6c8d65714031b08d0c3f672493acd9e189c5855",
+  "elapsedSeconds": 0.571553457994014
+}

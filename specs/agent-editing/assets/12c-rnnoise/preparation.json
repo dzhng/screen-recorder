@@ -1,0 +1,41 @@
+{
+  "sourceRevision": "70f1d256acd4b34a572f999a05c87bf00b67730d",
+  "modelArchiveSha256": "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37",
+  "sourceFiles": {
+    "src/denoise.c": "f12ac3cc97d798cdfd7c7bd4366a08a72c5516c382056c891b61a61cb17eb031",
+    "src/rnn.c": "c40bbe40082448005873fe970d8963870ab2c9993b7c38d6939ca48f4f31a7bd",
+    "src/pitch.c": "cfe6f5ffb4b5f5967ce2e64f22cc978c1f8196eecdb2fa532d4dd1ff56f6ca58",
+    "src/kiss_fft.c": "2a9f9ee0d961ec6516864477640d78aedbf1c3ecbe1680727b4b93d486c09679",
+    "src/celt_lpc.c": "58eca412376dfd954f4940709df521cf1d2cbee1b7ca2b166bd0bffbda2c5b8d",
+    "src/nnet.c": "3a2c1dc09ad7e9dfe3cf32cfb94694935dc462488da8f513d1f308db39f7c087",
+    "src/nnet_default.c": "1402eb611b7fcc1fe7fa18639f0395e0af47a783ef87450318411483516e9011",
+    "src/parse_lpcnet_weights.c": "d523113abe3c387b5481d8aa75d61b22f5e6cbcf54110f68cf901204d443de12",
+    "src/rnnoise_data.c": "d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5",
+    "src/rnnoise_tables.c": "f81353479c6f8912755a4cf5838590c36ba2c523a4a438e4f949743fb4945623",
+    "examples/rnnoise_demo.c": "644064fcf3c1762e4d2e6341d59dc2db2e0cea4ba5d42e62767411e387014c98"
+  },
+  "compile": [
+    "clang",
+    "-O2",
+    "-DRNNOISE_BUILD",
+    "-DDISABLE_DEBUG_FLOAT",
+    "-Iinclude",
+    "-Isrc",
+    "src/denoise.c",
+    "src/rnn.c",
+    "src/pitch.c",
+    "src/kiss_fft.c",
+    "src/celt_lpc.c",
+    "src/nnet.c",
+    "src/nnet_default.c",
+    "src/parse_lpcnet_weights.c",
+    "src/rnnoise_data.c",
+    "src/rnnoise_tables.c",
+    "examples/rnnoise_demo.c",
+    "-o",
+    "/tmp/screenrec-rnnoise-demo"
+  ],
+  "adaptation": "Direct C compile from upstream Makefile.am source list; default no-debug-float define from configure.ac; no Autotools tools installed; no code change",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "codeLicense": "BSD-3-Clause in pinned COPYING; no model/product distribution approved by this experiment"
+}
