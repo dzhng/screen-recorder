@@ -214,3 +214,26 @@ shared legacy/project event-reset owner and explicit trails at repeated, held an
 backward selected instants. The next vertical pass is bounded attempt-local overlay
 stream preparation with retained source/cache lifetimes and shared native prefix
 replay; no execution binding is enabled by the sampler prerequisite.
+
+## Public pointer preparation admission
+
+Adopt prepared histories through the existing deferred-job admission owner before
+starting a heavy preview or project-index producer. A frame child must not wait
+for heavy history preparation while its index parent holds the heavy lane.
+Preview, direct-frame and retained-index admission therefore resolve their
+participating enabled pointer dependencies before render execution; dry or
+inactive windows must not manufacture a dependency on absent observations.
+
+Reuse the queue's waiting/dependency transitions and bounded lost-prerequisite
+readmission. Completed cached pictures or movies remain readable without
+recreating history. Cache loss re-enters admission, and a repeatedly disappearing
+prerequisite fails explicitly rather than retrying forever. Dependency failure,
+explicit retry, cancellation, deletion and restart need actual public journeys.
+The service's existing admission dispatcher should route these owners alongside
+exports; do not create a second queue or polling worker.
+
+The renderer receives the existing validated composition model in process for
+immutable clip/acquisition authority. Public execution manifests do not gain
+capture fields merely for service wiring. Attempt-local prepared pointer streams
+remain separate from the original compiler graph and are validated before native
+replay. This is the next integration plan, not a claim that execution is enabled.
