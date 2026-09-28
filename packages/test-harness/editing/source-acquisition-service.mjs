@@ -1,9 +1,12 @@
+import { copyFile, mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
 
 // Barriers hold real native replies; they never manufacture media, metadata or receipts.
 const native = mediaWorker();
 let armed;
+let speechOrdinal = 0;
 process.on("message", (message) => {
   if (message?.type === "barrier.arm") {
     if (armed) throw new Error("A native barrier is already armed");
@@ -13,6 +16,14 @@ process.on("message", (message) => {
 });
 const worker = async (operation, params, options) => {
   const result = await native(operation, params, options);
+  if (process.argv[3] && operation === "speech.transcribe" && result.ok) {
+    const directory = process.argv[3];
+    await mkdir(directory, { recursive: true });
+    const prefix = join(directory, `speech-${speechOrdinal++}`);
+    await writeFile(`${prefix}-request.json`, JSON.stringify(params, null, 2));
+    await writeFile(`${prefix}-response.json`, JSON.stringify(result, null, 2));
+    await copyFile(params.output, `${prefix}.jsonl`);
+  }
   if (armed?.operation === operation && --armed.remaining === 0) {
     const fault = armed;
     armed = undefined;

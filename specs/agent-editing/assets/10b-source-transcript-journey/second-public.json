@@ -1,0 +1,599 @@
+{
+  "first": {
+    "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d",
+    "streamId": "track:2",
+    "state": "ready",
+    "generation": "4731567f-d825-4ce6-9b06-f36c2fa73301",
+    "page": {
+      "transcript": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d"
+        },
+        "sourceId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d",
+        "generation": "4731567f-d825-4ce6-9b06-f36c2fa73301",
+        "source": {
+          "kind": "asset",
+          "streamId": "track:2",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "durationUs": 12500000
+        },
+        "engine": {
+          "runtime": "FluidAudio",
+          "runtimeVersion": "0.15.7",
+          "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+          "decoder": "parakeet-tdt-batch",
+          "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+          "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+          "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+          "encoderPrecision": "int8",
+          "computeUnits": "cpuAndNeuralEngine",
+          "policy": "transcript-v1",
+          "kindPolicy": "word-kind-v1"
+        },
+        "track": {
+          "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-source-hB8JI3/library/assets/0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d.mov",
+          "streamId": "track:2",
+          "sourceOffsetUs": -250000
+        },
+        "segmentCount": 2,
+        "wordCount": 28,
+        "gapCount": 1,
+        "maxWordUs": 1440000,
+        "raw": {
+          "bytes": 10803,
+          "sha256": "c9d1002453c150ea6f3bb323b78f6090c2f18e958b15ffdc172521dcc4f5629c"
+        }
+      },
+      "rows": [
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "So",
+          "kind": "speech",
+          "confidence": 0.99609375,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 560000,
+            "endUs": 800000
+          },
+          "partial": false
+        }
+      ],
+      "nextCursor": {
+        "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d",
+        "streamId": "track:2",
+        "acquisitionId": null,
+        "generation": "4731567f-d825-4ce6-9b06-f36c2fa73301",
+        "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+        "range": null,
+        "afterSourceUs": 560000,
+        "afterOrdinal": 0
+      }
+    }
+  },
+  "rows": [
+    {
+      "type": "word",
+      "id": "w0",
+      "ordinal": 0,
+      "text": "So",
+      "kind": "speech",
+      "confidence": 0.99609375,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 560000,
+        "endUs": 800000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w1",
+      "ordinal": 1,
+      "text": "let's",
+      "kind": "speech",
+      "confidence": 0.99869794,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 880000,
+        "endUs": 1200000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w2",
+      "ordinal": 2,
+      "text": "do",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1200000,
+        "endUs": 1520000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w3",
+      "ordinal": 3,
+      "text": "the",
+      "kind": "speech",
+      "confidence": 0.99902344,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1520000,
+        "endUs": 1680000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w4",
+      "ordinal": 4,
+      "text": "first",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1920000,
+        "endUs": 2240000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w5",
+      "ordinal": 5,
+      "text": "paragraph.",
+      "kind": "speech",
+      "confidence": 0.9810384,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 2240000,
+        "endUs": 3680000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w6",
+      "ordinal": 6,
+      "text": "This",
+      "kind": "speech",
+      "confidence": 0.9995117,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 4960000,
+        "endUs": 5200000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w7",
+      "ordinal": 7,
+      "text": "page",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 5200000,
+        "endUs": 5520000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w8",
+      "ordinal": 8,
+      "text": "is.",
+      "kind": "speech",
+      "confidence": 0.77075195,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 5520000,
+        "endUs": 5760000
+      },
+      "partial": false
+    },
+    {
+      "type": "gap",
+      "reason": "not_acquired",
+      "sourceRange": {
+        "startUs": 6000000,
+        "endUs": 6500000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w9",
+      "ordinal": 9,
+      "text": "Recording",
+      "kind": "speech",
+      "confidence": 0.95644534,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 6500000,
+        "endUs": 6820000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w10",
+      "ordinal": 10,
+      "text": "fixture.",
+      "kind": "speech",
+      "confidence": 0.90957034,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 6900000,
+        "endUs": 7860000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w11",
+      "ordinal": 11,
+      "text": "Its",
+      "kind": "speech",
+      "confidence": 0.98583984,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 8180000,
+        "endUs": 8500000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w12",
+      "ordinal": 12,
+      "text": "landmark",
+      "kind": "speech",
+      "confidence": 0.9998779,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 8500000,
+        "endUs": 9300000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w13",
+      "ordinal": 13,
+      "text": "makes",
+      "kind": "speech",
+      "confidence": 0.9975586,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 9300000,
+        "endUs": 9460000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w14",
+      "ordinal": 14,
+      "text": "it",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 9460000,
+        "endUs": 9620000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w15",
+      "ordinal": 15,
+      "text": "possible",
+      "kind": "speech",
+      "confidence": 0.99902344,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 9620000,
+        "endUs": 9940000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w16",
+      "ordinal": 16,
+      "text": "to",
+      "kind": "speech",
+      "confidence": 0.9980469,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 9940000,
+        "endUs": 10020000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w17",
+      "ordinal": 17,
+      "text": "describe",
+      "kind": "speech",
+      "confidence": 0.9987793,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 10020000,
+        "endUs": 10420000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w18",
+      "ordinal": 18,
+      "text": "what",
+      "kind": "speech",
+      "confidence": 0.9482422,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 10420000,
+        "endUs": 10660000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w19",
+      "ordinal": 19,
+      "text": "pointer",
+      "kind": "speech",
+      "confidence": 0.9892578,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 10660000,
+        "endUs": 10900000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w20",
+      "ordinal": 20,
+      "text": "moved",
+      "kind": "speech",
+      "confidence": 0.99658203,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 11060000,
+        "endUs": 11300000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w21",
+      "ordinal": 21,
+      "text": "and",
+      "kind": "speech",
+      "confidence": 0.92626953,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 11380000,
+        "endUs": 11540000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w22",
+      "ordinal": 22,
+      "text": "which",
+      "kind": "speech",
+      "confidence": 0.99853516,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 11540000,
+        "endUs": 11700000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w23",
+      "ordinal": 23,
+      "text": "part",
+      "kind": "speech",
+      "confidence": 0.9980469,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 11700000,
+        "endUs": 11780000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w24",
+      "ordinal": 24,
+      "text": "of",
+      "kind": "speech",
+      "confidence": 0.9790039,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 11780000,
+        "endUs": 11860000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w25",
+      "ordinal": 25,
+      "text": "the",
+      "kind": "speech",
+      "confidence": 0.9975586,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 11860000,
+        "endUs": 11940000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w26",
+      "ordinal": 26,
+      "text": "page",
+      "kind": "speech",
+      "confidence": 0.99902344,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 11940000,
+        "endUs": 12180000
+      },
+      "partial": false
+    },
+    {
+      "type": "word",
+      "id": "w27",
+      "ordinal": 27,
+      "text": "was.",
+      "kind": "speech",
+      "confidence": 0.86206055,
+      "segment": 1,
+      "sourceRange": {
+        "startUs": 12180000,
+        "endUs": 12260000
+      },
+      "partial": false
+    }
+  ],
+  "search": {
+    "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d",
+    "streamId": "track:2",
+    "state": "ready",
+    "generation": "4731567f-d825-4ce6-9b06-f36c2fa73301",
+    "page": {
+      "transcript": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d"
+        },
+        "sourceId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d",
+        "generation": "4731567f-d825-4ce6-9b06-f36c2fa73301",
+        "source": {
+          "kind": "asset",
+          "streamId": "track:2",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "durationUs": 12500000
+        },
+        "engine": {
+          "runtime": "FluidAudio",
+          "runtimeVersion": "0.15.7",
+          "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+          "decoder": "parakeet-tdt-batch",
+          "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+          "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+          "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+          "encoderPrecision": "int8",
+          "computeUnits": "cpuAndNeuralEngine",
+          "policy": "transcript-v1",
+          "kindPolicy": "word-kind-v1"
+        },
+        "track": {
+          "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-source-hB8JI3/library/assets/0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d.mov",
+          "streamId": "track:2",
+          "sourceOffsetUs": -250000
+        },
+        "segmentCount": 2,
+        "wordCount": 28,
+        "gapCount": 1,
+        "maxWordUs": 1440000,
+        "raw": {
+          "bytes": 10803,
+          "sha256": "c9d1002453c150ea6f3bb323b78f6090c2f18e958b15ffdc172521dcc4f5629c"
+        }
+      },
+      "entries": [
+        {
+          "wordIds": [
+            "w0",
+            "w1"
+          ],
+          "sourceRange": {
+            "startUs": 560000,
+            "endUs": 1200000
+          }
+        }
+      ],
+      "nextCursor": {
+        "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d",
+        "streamId": "track:2",
+        "acquisitionId": null,
+        "generation": "4731567f-d825-4ce6-9b06-f36c2fa73301",
+        "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+        "text": "So let's",
+        "afterSourceUs": 560000,
+        "afterOrdinal": 0
+      }
+    }
+  },
+  "gapSearch": {
+    "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d",
+    "streamId": "track:2",
+    "state": "ready",
+    "generation": "4731567f-d825-4ce6-9b06-f36c2fa73301",
+    "page": {
+      "transcript": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d"
+        },
+        "sourceId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d",
+        "generation": "4731567f-d825-4ce6-9b06-f36c2fa73301",
+        "source": {
+          "kind": "asset",
+          "streamId": "track:2",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "durationUs": 12500000
+        },
+        "engine": {
+          "runtime": "FluidAudio",
+          "runtimeVersion": "0.15.7",
+          "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+          "decoder": "parakeet-tdt-batch",
+          "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+          "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+          "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+          "encoderPrecision": "int8",
+          "computeUnits": "cpuAndNeuralEngine",
+          "policy": "transcript-v1",
+          "kindPolicy": "word-kind-v1"
+        },
+        "track": {
+          "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-source-hB8JI3/library/assets/0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d.mov",
+          "streamId": "track:2",
+          "sourceOffsetUs": -250000
+        },
+        "segmentCount": 2,
+        "wordCount": 28,
+        "gapCount": 1,
+        "maxWordUs": 1440000,
+        "raw": {
+          "bytes": 10803,
+          "sha256": "c9d1002453c150ea6f3bb323b78f6090c2f18e958b15ffdc172521dcc4f5629c"
+        }
+      },
+      "entries": [],
+      "nextCursor": null
+    }
+  }
+}

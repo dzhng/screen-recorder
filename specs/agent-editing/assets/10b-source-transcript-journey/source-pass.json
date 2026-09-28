@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checks": {
+    "noImplicitDownload": true,
+    "acquisitions": {
+      "syntheticJournals": true,
+      "physicalCaptureClaim": false,
+      "sameBytesDifferentMasks": true,
+      "donorDeleted": true,
+      "maskedWordsMatchFrozenInference": true,
+      "physicalEqualsFullContext": true,
+      "canceledAfterNativeSuccess": true,
+      "retryPublished": true
+    }
+  }
+}

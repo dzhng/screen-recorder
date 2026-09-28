@@ -1,0 +1,433 @@
+{
+  "projectId": "0d2e14ed-5381-4710-b49a-099cdc9e7dce",
+  "revisionId": "638d6013-b825-454d-92a6-26ed45837642",
+  "word": {
+    "type": "word",
+    "id": "w2",
+    "ordinal": 2,
+    "text": "this",
+    "kind": "speech",
+    "confidence": 0.9995117,
+    "segment": 0,
+    "sourceRange": {
+      "startUs": 1920000,
+      "endUs": 2240000
+    },
+    "partial": false
+  },
+  "projections": [
+    {
+      "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:1",
+      "assetId": "31840a8f6c1ea48fb9956a321e9816b08a9e972a4c7d625b20cdfd77cb352997",
+      "streamId": "track:1",
+      "trackId": "track:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:0",
+      "trackOrder": 0,
+      "source": {
+        "start": {
+          "numerator": "1920000",
+          "denominator": "1"
+        },
+        "end": {
+          "numerator": "2240000",
+          "denominator": "1"
+        }
+      },
+      "completeness": "partial",
+      "fragments": [
+        {
+          "source": {
+            "start": {
+              "numerator": "1920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "2000000",
+              "denominator": "1"
+            }
+          },
+          "project": {
+            "start": {
+              "numerator": "1920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "2000000",
+              "denominator": "1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:2",
+      "assetId": "31840a8f6c1ea48fb9956a321e9816b08a9e972a4c7d625b20cdfd77cb352997",
+      "streamId": "track:1",
+      "trackId": "track:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:0",
+      "trackOrder": 0,
+      "source": {
+        "start": {
+          "numerator": "1920000",
+          "denominator": "1"
+        },
+        "end": {
+          "numerator": "2240000",
+          "denominator": "1"
+        }
+      },
+      "completeness": "whole",
+      "fragments": [
+        {
+          "source": {
+            "start": {
+              "numerator": "1920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "2240000",
+              "denominator": "1"
+            }
+          },
+          "project": {
+            "start": {
+              "numerator": "14920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "15240000",
+              "denominator": "1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:3",
+      "assetId": "31840a8f6c1ea48fb9956a321e9816b08a9e972a4c7d625b20cdfd77cb352997",
+      "streamId": "track:1",
+      "trackId": "track:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:0",
+      "trackOrder": 0,
+      "source": {
+        "start": {
+          "numerator": "1920000",
+          "denominator": "1"
+        },
+        "end": {
+          "numerator": "2240000",
+          "denominator": "1"
+        }
+      },
+      "completeness": "whole",
+      "fragments": [
+        {
+          "source": {
+            "start": {
+              "numerator": "1920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "2240000",
+              "denominator": "1"
+            }
+          },
+          "project": {
+            "start": {
+              "numerator": "27920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "28240000",
+              "denominator": "1"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "compiled": [
+    {
+      "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:1",
+      "trackId": "track:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:0",
+      "sampleRange": {
+        "start": 0,
+        "end": 600000
+      },
+      "placement": {
+        "startUs": 0,
+        "endUs": 12500000
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "31840a8f6c1ea48fb9956a321e9816b08a9e972a4c7d625b20cdfd77cb352997",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 12500000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 96000
+          }
+        },
+        {
+          "source": {
+            "startUs": 3000000,
+            "endUs": 6000000
+          },
+          "sampleRange": {
+            "start": 144000,
+            "end": 288000
+          }
+        },
+        {
+          "source": {
+            "startUs": 6500000,
+            "endUs": 12000000
+          },
+          "sampleRange": {
+            "start": 312000,
+            "end": 576000
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 0,
+          "end": 96000
+        },
+        {
+          "start": 144000,
+          "end": 288000
+        },
+        {
+          "start": 312000,
+          "end": 576000
+        }
+      ]
+    },
+    {
+      "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:2",
+      "trackId": "track:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:0",
+      "sampleRange": {
+        "start": 624000,
+        "end": 1224000
+      },
+      "placement": {
+        "startUs": 13000000,
+        "endUs": 25500000
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "31840a8f6c1ea48fb9956a321e9816b08a9e972a4c7d625b20cdfd77cb352997",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 12500000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "sampleRange": {
+            "start": 624000,
+            "end": 912000
+          }
+        },
+        {
+          "source": {
+            "startUs": 6500000,
+            "endUs": 12500000
+          },
+          "sampleRange": {
+            "start": 936000,
+            "end": 1224000
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 624000,
+          "end": 912000
+        },
+        {
+          "start": 936000,
+          "end": 1224000
+        }
+      ]
+    },
+    {
+      "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:3",
+      "trackId": "track:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:0",
+      "sampleRange": {
+        "start": 1248000,
+        "end": 1848000
+      },
+      "placement": {
+        "startUs": 26000000,
+        "endUs": 38500000
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "31840a8f6c1ea48fb9956a321e9816b08a9e972a4c7d625b20cdfd77cb352997",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 12500000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "sampleRange": {
+            "start": 1248000,
+            "end": 1536000
+          }
+        },
+        {
+          "source": {
+            "startUs": 6500000,
+            "endUs": 12500000
+          },
+          "sampleRange": {
+            "start": 1560000,
+            "end": 1848000
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 1248000,
+          "end": 1536000
+        },
+        {
+          "start": 1560000,
+          "end": 1848000
+        }
+      ]
+    }
+  ],
+  "preview": {
+    "projectId": "0d2e14ed-5381-4710-b49a-099cdc9e7dce",
+    "revisionId": "638d6013-b825-454d-92a6-26ed45837642",
+    "range": {
+      "startUs": 0,
+      "endUs": 38500000
+    },
+    "state": "ready",
+    "reason": null,
+    "retryable": false,
+    "jobId": "a64f42f0-1170-4af6-84ea-158040df2396",
+    "published": {
+      "generation": 1,
+      "preview": {
+        "audio": {
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "frames": 1848000,
+          "maximumBlockFrames": 8192,
+          "peak": 0.2365003377199173,
+          "peakResidentBytes": 48611328,
+          "sampleRate": 48000,
+          "unavailable": [
+            {
+              "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:1",
+              "ranges": [
+                {
+                  "end": 144000,
+                  "start": 96000
+                },
+                {
+                  "end": 312000,
+                  "start": 288000
+                },
+                {
+                  "end": 600000,
+                  "start": 576000
+                }
+              ]
+            },
+            {
+              "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:2",
+              "ranges": [
+                {
+                  "end": 936000,
+                  "start": 912000
+                }
+              ]
+            },
+            {
+              "clipId": "clip:a9484ad9c5fa9d75142be0ba9b0431c44585d700ed950884272ba3bf519c39c5:3",
+              "ranges": [
+                {
+                  "end": 1560000,
+                  "start": 1536000
+                }
+              ]
+            }
+          ]
+        },
+        "bytes": 646822,
+        "codec": "h264",
+        "durationUs": 38500000,
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-source-hB8JI3/library/cache/derived/e23b63d9-74f0-4039-881d-a6473efa85e1.cache",
+        "frameCount": 39,
+        "height": 32,
+        "mediaType": "video/mp4",
+        "width": 32,
+        "range": {
+          "startUs": 0,
+          "endUs": 38500000
+        },
+        "profile": "h264-rec709",
+        "implementationId": "native-composition-movie-v1",
+        "projectId": "0d2e14ed-5381-4710-b49a-099cdc9e7dce",
+        "revisionId": "638d6013-b825-454d-92a6-26ed45837642",
+        "cacheId": "e23b63d9-74f0-4039-881d-a6473efa85e1"
+      }
+    },
+    "delivery": {
+      "token": "6e8f3393-0b71-4e1a-8775-b74c6452967f",
+      "bytes": 646822,
+      "expiresAt": 1790576113504
+    },
+    "output": "/tmp/source-transcript-live-7/different-contexts.mp4"
+  },
+  "movieSha256": "5c8f899f4adcf8e9c2d0f23e85efc73797a6811b2a6c2a0529ddb1327f1b2536",
+  "retainedRms": [
+    0.017187441949022633,
+    0.01719858129774636,
+    0.01719381889256128
+  ],
+  "holeRms": [
+    0,
+    0.01659505026536947,
+    0.016587203577259523
+  ],
+  "physicalHoleRms": [
+    0,
+    0,
+    0
+  ],
+  "evidenceBoundary": "Live CLI/MCP project authoring and native delivered movie PCM; projection/compiler inspected through existing pure engine, not a public occurrence-query endpoint"
+}

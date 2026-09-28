@@ -1,0 +1,161 @@
+Diagnostic excerpt; full scratch sample SHA256 8173dd9634c3a77bdad68dea776f248e14542bb4a2203a9632dd1b4d4bab1eee
+Analysis of sampling screenrec-source-transcript-native (pid 83751) every 1 millisecond
+Process:         screenrec-source-transcript-native [83751]
+Path:            /private/tmp/screenrec-source-transcript-native
+Load Address:    0x102370000
+Identifier:      screenrec-source-transcript-native
+Version:         0
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  node [83488]
+Target Type:     live task
+
+Date/Time:       2026-09-27 23:00:02.617 -0700
+Launch Time:     2026-09-27 22:58:48.768 -0700
+OS Version:      macOS 26.6.2 (25G83)
+Report Version:  7
+Analysis Tool:   /usr/bin/sample
+
+Physical footprint:         65.2M
+Physical footprint (peak):  72.9M
+Idle exit:                  untracked
+----
+
+Call graph:
+    653 Thread_25262063   DispatchQueue_1: com.apple.main-thread  (serial)
+    + 653 start  (in dyld) + 6992  [0x184a704e4]
+    +   653 ScreenRecorderNative_main  (in screenrec-source-transcript-native) + 132  [0x102c177b8]  main.swift:0
+    +     653 swift_task_asyncMainDrainQueue  (in libswift_Concurrency.dylib) + 92  [0x28a5572d8]
+    +       653 swift_task_asyncMainDrainQueueImpl  (in libswift_Concurrency.dylib) + 140  [0x28a5ac334]
+    +         653 protocol witness for RunLoopExecutor.run() in conformance DispatchMainExecutor  (in libswift_Concurrency.dylib) + 40  [0x28a5abd08]
+    +           653 CFMainExecutor.run()  (in libswift_Concurrency.dylib) + 48  [0x28a5abb04]
+    +             653 CFRunLoopRun  (in CoreFoundation) + 64  [0x184f6db24]
+    +               653 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x184fca264]
+    +                 653 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x184ef79f4]
+    +                   653 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x184ef9108]
+    +                     653 mach_msg  (in libsystem_kernel.dylib) + 24  [0x184df7fc0]
+    +                       653 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x184e009c0]
+    +                         653 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x184e0a5a4]
+    +                           653 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x184df7c34]
+    653 Thread_25262230: caulk::deferred_logger
+    + 653 thread_start  (in libsystem_pthread.dylib) + 8  [0x184e36c1c]
+    +   653 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x184e3bc58]
+    +     653 caulk::thread_proxy<std::tuple<caulk::thread::attributes, void (caulk::concurrent::details::worker_thread::*)(), std::tuple<caulk::concurrent::details::worker_thread*>>>(void*)  (in caulk) + 96  [0x19178b94c]
+    +       653 caulk::concurrent::details::worker_thread::run()  (in caulk) + 32  [0x19178bcac]
+    +         653 caulk::semaphore::timed_wait(double)  (in caulk) + 224  [0x19178be00]
+    +           653 semaphore_wait_trap  (in libsystem_kernel.dylib) + 8  [0x184df7bb0]
+    653 Thread_25262231: caulk.messenger.shared:high
+    + 653 thread_start  (in libsystem_pthread.dylib) + 8  [0x184e36c1c]
+    +   653 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x184e3bc58]
+    +     653 caulk::thread_proxy<std::tuple<caulk::thread::attributes, void (caulk::concurrent::details::worker_thread::*)(), std::tuple<caulk::concurrent::details::worker_thread*>>>(void*)  (in caulk) + 96  [0x19178b94c]
+    +       653 caulk::concurrent::details::worker_thread::run()  (in caulk) + 32  [0x19178bcac]
+    +         653 caulk::semaphore::timed_wait(double)  (in caulk) + 224  [0x19178be00]
+    +           653 semaphore_wait_trap  (in libsystem_kernel.dylib) + 8  [0x184df7bb0]
+    653 Thread_25262233: caulk.messenger.shared:17
+    + 653 thread_start  (in libsystem_pthread.dylib) + 8  [0x184e36c1c]
+    +   653 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x184e3bc58]
+    +     653 caulk::thread_proxy<std::tuple<caulk::thread::attributes, void (caulk::concurrent::details::worker_thread::*)(), std::tuple<caulk::concurrent::details::worker_thread*>>>(void*)  (in caulk) + 96  [0x19178b94c]
+    +       653 caulk::concurrent::details::worker_thread::run()  (in caulk) + 32  [0x19178bcac]
+    +         653 caulk::semaphore::timed_wait(double)  (in caulk) + 224  [0x19178be00]
+    +           653 semaphore_wait_trap  (in libsystem_kernel.dylib) + 8  [0x184df7bb0]
+    631 Thread_25262286
+    + 629 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x184e36c10]
+    + ! 629 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x184e37f0c]
+    + !   629 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x184df99f0]
+    + 2 start_wqthread  (in libsystem_pthread.dylib) + 0  [0x184e36c08]
+    398 Thread_25262217   DispatchQueue_365: com.apple.anef.p5  (serial)
+    + 398 completeTaskWithClosure(swift::AsyncContext*, swift::SwiftError*)  (in libswift_Concurrency.dylib) + 1  [0x28a557ec5]
+    +   398 partial apply for thunk for @escaping @convention(thin) @async () -> ()  (in screenrec-source-transcript-native) + 1  [0x102c17d6d]  /<compiler-generated>:0
+    +     398 thunk for @escaping @convention(thin) @async () -> ()  (in screenrec-source-transcript-native) + 1  [0x102c17c51]  /<compiler-generated>:0
+    +       398 async_MainTQ0_  (in screenrec-source-transcript-native) + 1  [0x102c178d1]  /<compiler-generated>:0
+    +         398 static NativeWire.respond(to:)  (in screenrec-source-transcript-native) + 1  [0x102cc5ead]  Wire.swift:109
+    +           398 closure #15 in closure #1 in variable initialization expression of static NativeWire.operations  (in screenrec-source-transcript-native) + 1  [0x102cc3c3d]  Wire.swift:63
+    +             398 static SpeechOperation.transcribe(_:)  (in screenrec-source-transcript-native) + 1  [0x102cbedad]  SpeechOperation.swift:23
+    +               398 static SpeechOperation.divertingStandardOutput<A>(_:)  (in screenrec-source-transcript-native) + 1  [0x102cbf7ed]  SpeechOperation.swift:49
+    +                 398 partial apply for closure #1 in static SpeechOperation.transcribe(_:)  (in screenrec-source-transcript-native) + 1  [0x102cbf4fd]  /<compiler-generated>:0
+    +                   398 closure #1 in static SpeechOperation.transcribe(_:)  (in screenrec-source-transcript-native) + 1  [0x102cbf1ed]  SpeechOperation.swift:24
+    +                     398 static SourceTranscript.write(models:track:output:)  (in screenrec-source-transcript-native) + 1  [0x102c271ed]  SourceTranscript.swift:97
+    +                       398 static ParakeetEngine.load(_:)  (in screenrec-source-transcript-native) + 1  [0x102c1a799]  ParakeetEngine.swift:56
+    +                         398 static AsrModels.load(from:configuration:version:encoderPrecision:encoderComputeUnits:progressHandler:)  (in screenrec-source-transcript-native) + 1  [0x1023ab131]  AsrModels.swift:250
+    +                           398 static ModelHub.loadModels(_:modelNames:directory:computeUnits:variant:config:progressHandler:)  (in screenrec-source-transcript-native) + 1  [0x1025ff71d]  ModelHub.swift:96
+    +                             398 static ModelHub.loadModelsOnce(_:modelNames:directory:computeUnits:variant:config:progressHandler:)  (in screenrec-source-transcript-native) + 3484  [0x102601868]  ModelHub.swift:368
+    +                               398 @nonobjc MLModel.__allocating_init(contentsOf:configuration:)  (in screenrec-source-transcript-native) + 172  [0x1023b0500]  /<compiler-generated>:0
+    +                                 398 +[MLModel modelWithContentsOfURL:configuration:error:]  (in CoreML) + 176  [0x1902acdc8]
+    +                                   398 -[MLModelAsset modelWithConfiguration:error:]  (in CoreML) + 124  [0x1902258e0]
+    +                                     398 -[MLModelAssetModelVendor modelWithConfiguration:error:]  (in CoreML) + 168  [0x190309488]
+    +                                       398 -[MLModelAssetResourceFactory modelWithConfiguration:error:]  (in CoreML) + 284  [0x1902f2f94]
+    +                                         398 _dispatch_lane_barrier_sync_invoke_and_complete  (in libdispatch.dylib) + 56  [0x184c8f360]
+    +                                           398 _dispatch_client_callout  (in libdispatch.dylib) + 16  [0x184c994b0]
+    +                                             398 __60-[MLModelAssetResourceFactory modelWithConfiguration:error:]_block_invoke  (in CoreML) + 80  [0x1902f30d4]
+    +                                               398 -[MLModelAssetResourceFactoryOnDiskImpl modelWithConfiguration:error:]  (in CoreML) + 128  [0x19019096c]
+    +                                                 398 +[MLLoader loadModelFromAssetAtURL:configuration:error:]  (in CoreML) + 108  [0x19024af8c]
+    +                                                   398 +[MLLoader _loadModelFromAssetAtURL:configuration:loaderEvent:error:]  (in CoreML) + 236  [0x19024ad60]
+    +                                                     398 +[MLLoader _loadModelFromArchive:configuration:loaderEvent:useUpdatableModelLoaders:error:]  (in CoreML) + 504  [0x190248600]
+    +                                                       398 +[MLLoader _loadWithModelLoaderFromArchive:configuration:loaderEvent:useUpdatableModelLoaders:error:]  (in CoreML) + 456  [0x190248180]
+    +                                                         398 +[MLLoader _loadModelFromArchive:configuration:modelVersion:compilerVersion:loaderEvent:useUpdatableModelLoaders:loadingClasses:error:]  (in CoreML) + 556  [0x190247654]
+    +                                                           377 +[MLLoader _loadModelWithClass:fromArchive:modelVersionInfo:compilerVersionInfo:configuration:error:]  (in CoreML) + 440  [0x19024993c]
+    +                                                           ! 377 +[MLE5Engine loadModelFromCompiledArchive:modelVersionInfo:compilerVersionInfo:configuration:error:]  (in CoreML) + 368  [0x1902a9c30]
+    +                                                           !   377 -[MLE5Engine initWithContainer:configuration:error:]  (in CoreML) + 232  [0x1902a9310]
+    +                                                           !     377 -[MLE5ProgramLibrary prepareAndReturnError:]  (in CoreML) + 224  [0x190337ddc]
+    +                                                           !       377 _dispatch_lane_barrier_sync_invoke_and_complete  (in libdispatch.dylib) + 56  [0x184c8f360]
+    +                                                           !         377 _dispatch_client_callout  (in libdispatch.dylib) + 16  [0x184c994b0]
+    +                                                           !           377 __44-[MLE5ProgramLibrary prepareAndReturnError:]_block_invoke  (in CoreML) + 60  [0x190337eb0]
+    +                                                           !             377 -[MLE5ProgramLibrary _programLibraryHandleWithForceRespecialization:error:]  (in CoreML) + 100  [0x190337f58]
+    +                                                           !               377 -[MLE5ProgramLibraryOnDeviceAOTCompilationImpl createProgramLibraryHandleWithRespecialization:error:]  (in CoreML) + 4684  [0x190170854]
+    +                                                           !                 377 e5rt_e5_compiler_compile_from_ir_program  (in Espresso) + 132  [0x1a22fa938]
+    +                                                           !                   377 E5RT::ExceptionSafeExecute(std::function<e5rt_error_code_t ()>)  (in Espresso) + 52  [0x1a22ee4b0]
+    +                                                           !                     377 ???  (in Espresso)  load address 0x1a2253000 + 0x9748  [0x1a225c748]
+    +                                                           !                       377 E5RT::E5CompilerImpl::Compile<MIL::IRProgram>(MIL::IRProgram const&, E5RT::E5CompilerOptions const&)  (in Espresso) + 1744  [0x1a2316004]
+    +                                                           !                         377 E5RT::E5CompilerImpl::CompileInternal(std::basic_string<char> const&, E5RT::E5CompilerOptions const&, MIL::IRProgram const*)  (in Espresso) + 700  [0x1a2314efc]
+    +                                                           !                           377 E5RT::OnDeviceAOTCompilerInterface::Compile(std::basic_string<char> const&, std::basic_string<char> const&, E5RT::E5CompilerOptions const&, MIL::IRProgram const*)  (in Espresso) + 476  [0x1a2389dc8]
+    +                                                           !                             377 Espresso::AOT::E5AOTCompilerBackend::Run()  (in Espresso) + 88  [0x1a253c458]
+    +                                                           !                               377 Espresso::AOT::AbstractMILCompiler::Run()  (in Espresso) + 712  [0x1a257f5c4]
+    +                                                           !                                 377 Espresso::AOT::MILCompilerForE5::Run(MIL::IRProgram const&, std::vector<std::basic_string<char>> const&)  (in Espresso) + 5092  [0x1a245b2cc]
+    +                                                           !                                   377 Espresso::AOT::E5BackendToE5RTLoweringPass::Run(MIL::IRProgram const&, std::vector<std::basic_string<char>> const&) const  (in Espresso) + 14220  [0x1a257b270]
+    +                                                           !                                     377 Espresso::AOT::E5BackendToE5RTLoweringPass::RunCompilerBackend(Espresso::AOT::BackendIdentifier, MIL::IRProgram const&, std::vector<std::basic_string<char>> const&, std::basic_string<char> const&) const  (in Espresso) + 396  [0x1a256d854]
+    +                                                           !                                       377 Espresso::AOT::MILCompilerForANE::Run(MIL::IRProgram const&, std::vector<std::basic_string<char>> const&)  (in Espresso) + 5692  [0x1a25811c8]
+    +                                                           !                                         377 Espresso::AOT::MILCompilerForANE::CompileUsingANEF(std::basic_string<char> const&, std::basic_string<char> const&) const  (in Espresso) + 1476  [0x1a2582cdc]
+    +                                                           !                                           377 -[_ANEClient compileModel:options:qos:error:]  (in AppleNeuralEngine) + 812  [0x1a43619a4]
+    +                                                           !                                             377 _dispatch_lane_barrier_sync_invoke_and_complete  (in libdispatch.dylib) + 56  [0x184c8f360]
+    +                                                           !                                               377 _dispatch_client_callout  (in libdispatch.dylib) + 16  [0x184c994b0]
+    +                                                           !                                                 377 __45-[_ANEClient compileModel:options:qos:error:]_block_invoke  (in AppleNeuralEngine) + 344  [0x1a4361dc8]
+    +                                                           !                                                   377 -[_ANEDaemonConnection compileModel:sandboxExtension:options:qos:withReply:]  (in AppleNeuralEngine) + 328  [0x1a433fce4]
+    +                                                           !                                                     377 _CF_forwarding_prep_0  (in CoreFoundation) + 96  [0x184ed78e0]
+    +                                                           !                                                       377 ___forwarding___  (in CoreFoundation) + 1072  [0x184ed7dd0]
+    +                                                           !                                                         377 -[NSXPCConnection _sendInvocation:orArguments:count:methodSignature:selector:withProxy:]  (in Foundation) + 2108  [0x186705644]
+    +                                                           !                                                           377 __NSXPCCONNECTION_IS_WAITING_FOR_A_SYNCHRONOUS_REPLY__  (in Foundation) + 16  [0x18670760c]
+    +                                                           !                                                             377 xpc_connection_send_message_with_reply_sync  (in libxpc.dylib) + 284  [0x184b13eb0]
+    +                                                           !                                                               377 dispatch_mach_send_with_result_and_wait_for_reply  (in libdispatch.dylib) + 60  [0x184c9b004]
+    +                                                           !                                                                 377 _dispatch_mach_send_and_wait_for_reply  (in libdispatch.dylib) + 548  [0x184c9ac64]
+    +                                                           !                                                                   377 mach_msg  (in libsystem_kernel.dylib) + 24  [0x184df7fc0]
+    +                                                           !                                                                     377 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x184e009c0]
+    +                                                           !                                                                       377 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x184e0a5a4]
+    +                                                           !                                                                         377 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x184df7c34]
+    +                                                           21 +[MLLoader _loadModelWithClass:fromArchive:modelVersionInfo:compilerVersionInfo:configuration:error:]  (in CoreML) + 588  [0x1902499d0]
+    +                                                             21 -[MLDelegateModel initWithEngine:error:]  (in CoreML) + 324  [0x19027f398]
+    +                                                               21 prepareEngine(id<MLModeling>, long, NSError* __autoreleasing*)  (in CoreML) + 132  [0x19027ec3c]
+    +                                                                 21 -[MLE5Engine prepareWithConcurrencyHint:error:]  (in CoreML) + 60  [0x1902a91e4]
+    +                                                                   21 -[MLE5StaticShapeExecutionStreamOperationPool prepareWithInitialPoolSize:error:]  (in CoreML) + 224  [0x19017436c]
+    +                                                                     21 _dispatch_lane_barrier_sync_invoke_and_complete  (in libdispatch.dylib) + 56  [0x184c8f360]
+    +                                                                       21 _dispatch_client_callout  (in libdispatch.dylib) + 16  [0x184c994b0]
+    +                                                                         21 __80-[MLE5StaticShapeExecutionStreamOperationPool prepareWithInitialPoolSize:error:]_block_invoke  (in CoreML) + 172  [0x1901744b0]
+    +                                                                           21 -[MLE5ExecutionStreamOperation preloadAndReturnError:]  (in CoreML) + 60  [0x190318128]
+    +                                                                             21 -[MLE5ExecutionStreamOperation _createOperationWithRetryCount:error:]  (in CoreML) + 188  [0x190315ff4]
+    +                                                                               21 -[MLE5ProgramLibrary createOperationForFunctionName:forceRespecialization:hasRangeShapeInputs:error:]  (in CoreML) + 276  [0x190336ebc]
+    +                                                                                 21 _dispatch_lane_barrier_sync_invoke_and_complete  (in libdispatch.dylib) + 56  [0x184c8f360]
+    +                                                                                   21 _dispatch_client_callout  (in libdispatch.dylib) + 16  [0x184c994b0]
+    +                                                                                     21 __101-[MLE5ProgramLibrary createOperationForFunctionName:forceRespecialization:hasRangeShapeInputs:error:]_block_invoke  (in CoreML) + 1784  [0x190337668]
+    +                                                                                       21 e5rt_execution_stream_operation_create_precompiled_compute_operation_with_options  (in Espresso) + 80  [0x1a22ef2f4]
+    +                                                                                         21 E5RT::ExceptionSafeExecute(std::function<e5rt_error_code_t ()>)  (in Espresso) + 52  [0x1a22ee4b0]
+    +                                                                                           21 ???  (in Espresso)  load address 0x1a2253000 + 0x41d0  [0x1a22571d0]
+    +                                                                                             21 E5RT::ExecutionStreamOperation::CreatePreCompiledComputeOp(E5RT::PrecompiledComputeOpCreateOptions const&)  (in Espresso) + 32  [0x1a236cd98]
+    +                                                                                               21 E5RT::Ops::PreCompiledComputeOperation::CreatePreCompiledComputeOp(E5RT::PrecompiledComputeOpCreateOptions const&)  (in Espresso) + 1592  [0x1a2351ccc]
+    +                                                                                                 21 E5RT::Ops::PreCompiledComputeOperation::CreatePreCompiledComputeOp(E5RT::PrecompiledComputeOpCreateOptions const&, std::unordered_map<std::basic_string<char>, std::shared_ptr<E5RT::IOPort>>&&, std::unordered_map<std::basic_string<char>, std::shared_ptr<E5RT::IOPort>>&&, std::unordered_map<std::basic_string<char>, std::shared_ptr<E5RT::IOPort>>&&)  (in Espresso) + 516  [0x1a2352298]
+    +                                                                                                   21 E5RT::Ops::PreCompiledComputeOperation::PrepareOpForEncode()  (in Espresso) + 400  [0x1a235107c]
+    +                                                                                                     21 E5RT::Ops::PreCompiledComputeOperation::Impl::PrepareOpForEncode()  (in Espresso) + 552  [0x1a234c0c8]
+    +                                                                                                       21 dispatch_apply  (in libdispatch.dylib) + 96  [0x184c93ac8]
+    +                                                                                                         21 _dispatch_apply_with_attr_f  (in libdispatch.dylib) + 1312  [0x184c93944]
+    +                                                                                                           21 _dispatch_apply_invoke_and_wait  (in libdispatch.dylib) + 364  [0x184c94844]
+    +                                                                                                             21 _dispatch_once_callout  (in libdispatch.dylib) + 32  [0x184c82630]
+    +                                                                                                               21 _dispatch_client_callout  (in libdispatch.dylib) + 16  [0x184c994b0]
+    +                                                                                                                 21 _dispatch_apply_invoke3  (in libdispatch.dylib) + 336  [0x184c941a4]

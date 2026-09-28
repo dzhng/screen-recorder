@@ -1,0 +1,20 @@
+{
+  "jobId": "259b01b7-866b-4ac1-887f-947a577d549c",
+  "attemptId": "9dacbdf7-18b3-4d1d-bbbe-127e2d8cfef2",
+  "artifact": "asset.import",
+  "lane": "heavy",
+  "input": "{\"path\":\"/tmp/source-transcript-live-7/multi.mov\",\"bytes\":4609714,\"identity\":{\"device\":\"16777229\",\"inode\":\"316163612\",\"modifiedNs\":\"1790575993278952012\",\"changedNs\":\"1790575993278952012\"}}",
+  "state": "ready",
+  "reason": null,
+  "retryable": false,
+  "generation": 1,
+  "errorCode": null,
+  "errorDetails": null,
+  "target": {
+    "kind": "import",
+    "importId": "fa15bb8f-bbe0-44a8-a708-9c32e24d9de9"
+  },
+  "result": {
+    "assetId": "0bdab2045269745c1002090e593252e0ddae92acaede7b070e43eff7699f102d"
+  }
+}
