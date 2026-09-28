@@ -1,0 +1,11 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--1AB21518FC5DEDBE.txt
+[3/7] Compiling ScreenRecorderCompositionAudioTests main.swift
+[4/7] Emitting module ScreenRecorderCompositionAudioTests
+[4/7] Write Objects.LinkFileList
+[5/7] Linking ScreenRecorderCompositionAudioTests
+[6/7] Applying ScreenRecorderCompositionAudioTests
+Build of product 'ScreenRecorderCompositionAudioTests' complete! (3.79s)
+PASS composition stream rebases window samples, awaits bounded blocks, rejects second consumption and propagates sink cancellation without a report

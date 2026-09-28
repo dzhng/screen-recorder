@@ -10,6 +10,17 @@ public struct CompositionAudioPlan: Codable, Sendable {
     public let processing: [CompositionProcessing]
     public let assets: [CompositionAsset]
 
+    public init(
+        output: String, range: Samples, clips: [Clip], processing: [CompositionProcessing],
+        assets: [CompositionAsset]
+    ) {
+        self.output = output
+        self.range = range
+        self.clips = clips
+        self.processing = processing
+        self.assets = assets
+    }
+
     public struct Samples: Codable, Sendable, Equatable {
         public let start: Int64
         public let end: Int64

@@ -261,3 +261,11 @@ packet timestamps are not interchangeable with presented sample times. The probe
 uses the media target's existing edit-list mapping and keeps only timing summaries,
 not an in-memory timestamp for every frame. Decodability metadata remains a platform
 capability report; successful import/export needs its own actual decode checks.
+
+Composition movie assembly binds both compiler planes once. The existing H.264
+renderer feeds the existing mux, and the bounded composition PCM source feeds
+AAC directly; WAVE export consumes the same source. Window sample positions are
+rebased only at this consumption boundary. Exact movie and edit-list clocks remain
+authoritative when external tools report AAC duration rounded to native samples.
+See [native assembly evidence](../../specs/agent-editing/assets/09-assembly/README.md)
+for verified behavior and remaining public integration gates.

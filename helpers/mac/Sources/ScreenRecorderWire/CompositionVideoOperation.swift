@@ -15,7 +15,7 @@ enum CompositionVideoOperation {
     private static func invalid(_ message: String) -> NativeFailure {
         NativeFailure("INVALID_REQUEST", message)
     }
-    private final class FrameRecords {
+    final class FrameRecords {
         let file: FileHandle
         var buffer = Data(), offset = 0
         init(_ path: String) throws {

@@ -2,14 +2,12 @@
 import Foundation
 import ScreenRecorderMedia
 
-public struct CompositionAudioResult: Codable, Sendable {
-    public let file: String
+public struct CompositionAudioReport: Codable, Sendable {
     public let sampleRate: Int
     public let channels: Int
     public let frames: Int64
     public let peak: Double
     public let clippedSamples: Int64
-    public let bytes: Int
     public let maximumBlockFrames: Int
     public let peakResidentBytes: Int64
     public let decoderContext: DecoderContext
@@ -26,13 +24,26 @@ public struct CompositionAudioResult: Codable, Sendable {
     }
 }
 
+public struct CompositionAudioResult: Encodable, Sendable {
+    public let file: String
+    public let bytes: Int
+    let report: CompositionAudioReport
+    public func encode(to encoder: Encoder) throws {
+        try report.encode(to: encoder)
+        var container = encoder.container(keyedBy: Keys.self)
+        try container.encode(file, forKey: .file)
+        try container.encode(bytes, forKey: .bytes)
+    }
+    private enum Keys: String, CodingKey { case file, bytes }
+}
+
 public enum CompositionAudio {
-    private typealias Plan = CompositionAudioPlan
+    fileprivate typealias Plan = CompositionAudioPlan
     private static let rate = 48_000
     private static func invalid(_ message: String) -> NativeFailure {
         NativeFailure("INVALID_REQUEST", message)
     }
-    private struct Context {
+    fileprivate struct Context {
         let sourceStart: Int64
         let sourceEnd: Int64
         let project: Plan.Samples
@@ -83,7 +94,7 @@ public enum CompositionAudio {
         }
         return result
     }
-    private final class Input {
+    fileprivate final class Input {
         let source: SourceTrack
         let contexts: [Context]
         let intervals: [Plan.Samples]
@@ -172,7 +183,7 @@ public enum CompositionAudio {
         }
     }
 
-    public static func write(_ plan: CompositionAudioPlan) async throws -> CompositionAudioResult {
+    public static func open(_ plan: CompositionAudioPlan) async throws -> Stream {
         guard plan.range.valid, plan.clips.count <= 256, !plan.processing.isEmpty,
             plan.processing.count <= 10_000, plan.assets.count <= 256,
             plan.clips.reduce(0, { $0 + $1.available.count + $1.context.count }) <= 20_000
@@ -234,7 +245,7 @@ public enum CompositionAudio {
         }
         var inputs: [String: Input] = [:]
         var opened: [[String]: SourceTrack] = [:]
-        var missing: [CompositionAudioResult.Missing] = []
+        var missing: [CompositionAudioReport.Missing] = []
         for clip in plan.clips {
             try Task.checkCancellation()
             guard clip.sampleRange.valid, clip.sampleRange.start >= plan.range.start,
@@ -326,76 +337,116 @@ public enum CompositionAudio {
             inputs[clip.clipId] = Input(
                 source: source, contexts: contexts, intervals: readable)
         }
+        return Stream(range: plan.range, nodes: nodes, inputs: inputs, missing: missing)
+    }
+
+    /// Prepares one bounded PCM source; neither the consumer nor a preview window owns its phase.
+    public final class Stream: AudioPCMSource {
+        public let format = AudioPCMFormat(sampleRate: rate, channels: 2, layout: .stereo)
+        public private(set) var report: CompositionAudioReport?
+        private let range: Plan.Samples
+        private let nodes: [CompositionProcessing]
+        private let inputs: [String: Input]
+        private let missing: [CompositionAudioReport.Missing]
+        private var consumed = false
+
+        fileprivate init(
+            range: Plan.Samples, nodes: [CompositionProcessing], inputs: [String: Input],
+            missing: [CompositionAudioReport.Missing]
+        ) {
+            self.range = range
+            self.nodes = nodes
+            self.inputs = inputs
+            self.missing = missing
+        }
+        public func consume(_ sink: (AudioPCMBlock) async throws -> Void) async throws {
+            guard !consumed else { throw invalid("Composition PCM can only be consumed once.") }
+            consumed = true
+            let audioTargets = Set(nodes.map(\.target))
+            // Processing buffers total at most eight MiB, independently of project duration or depth.
+            let blockFrames = max(1, min(8192, 1_048_576 / nodes.count))
+            var peak: Float = 0
+            var clipped: Int64 = 0
+            do {
+                var position = range.start
+                while position < range.end {
+                    try Task.checkCancellation()
+                    let count = Int(min(Int64(blockFrames), range.end - position))
+                    var buffers: [CompositionProcessing.Target: [Float]] = [:]
+                    for node in nodes {
+                        try Task.checkCancellation()
+                        var samples: [Float]
+                        if node.target.kind == "clip", let id = node.target.id {
+                            guard let input = inputs[id], input.intervals.last?.end ?? 0 > position,
+                                input.intervals.first?.start ?? Int64.max < position + Int64(count)
+                            else { continue }
+                            samples = [Float](repeating: 0, count: count * 2)
+                            try input.mix(into: &samples, position: position, count: count)
+                        } else {
+                            var combined: [Float]?
+                            for child in node.inputs where audioTargets.contains(child) {
+                                guard let input = buffers.removeValue(forKey: child) else {
+                                    continue
+                                }
+                                if combined == nil {
+                                    combined = input
+                                } else {
+                                    for index in input.indices { combined![index] += input[index] }
+                                }
+                            }
+                            guard let value = combined else { continue }
+                            samples = value
+                        }
+                        for step in node.steps where step.enabled {
+                            let gain = Float(step.processor.gain)
+                            for index in samples.indices { samples[index] *= gain }
+                        }
+                        buffers[node.target] = samples
+                    }
+                    let samples =
+                        buffers[nodes.last!.target] ?? [Float](repeating: 0, count: count * 2)
+                    var sampleIndex = 0
+                    while sampleIndex < samples.count {
+                        let sample = samples[sampleIndex]
+                        guard sample.isFinite else {
+                            throw NativeFailure(
+                                "INVALID_AUDIO", "Processing produced nonfinite PCM.")
+                        }
+                        peak = max(peak, abs(sample))
+                        if abs(sample) > 1 { clipped += 1 }
+                        sampleIndex += 1
+                    }
+                    try await sink(
+                        AudioPCMBlock(
+                            startFrame: position - range.start, frameCount: count, samples: samples)
+                    )
+                    position += Int64(count)
+                }
+            }
+            try Task.checkCancellation()
+            report = CompositionAudioReport(
+                sampleRate: rate, channels: 2,
+                frames: range.end - range.start, peak: Double(peak), clippedSamples: clipped,
+                maximumBlockFrames: blockFrames,
+                peakResidentBytes: ProcessResources.peakResidentBytes(),
+                decoderContext: .init(
+                    policy: "bounded-current-retained-run", sampleRate: rate,
+                    maximumPrerollFrames: inputs.values.map(\.maximumPreroll).max() ?? 0,
+                    maximumTailFrames: inputs.values.map(\.maximumTail).max() ?? 0),
+                unavailable: missing)
+        }
+    }
+
+    public static func write(_ plan: CompositionAudioPlan) async throws -> CompositionAudioResult {
+        let stream = try await open(plan)
         let writer = try AudioWaveWriter(
             sampleRate: rate, channels: 2,
             output: URL(fileURLWithPath: plan.output),
             sources: plan.assets.map { URL(fileURLWithPath: $0.path) })
         defer { writer.discard() }
-        // Processing buffers total at most eight MiB, independently of project duration or depth.
-        let blockFrames = max(1, min(8192, 1_048_576 / nodes.count))
-        var peak: Float = 0
-        var clipped: Int64 = 0
-        do {
-            var position = plan.range.start
-            while position < plan.range.end {
-                try Task.checkCancellation()
-                let count = Int(min(Int64(blockFrames), plan.range.end - position))
-                var buffers: [CompositionProcessing.Target: [Float]] = [:]
-                for node in nodes {
-                    try Task.checkCancellation()
-                    var samples: [Float]
-                    if node.target.kind == "clip", let id = node.target.id {
-                        guard let input = inputs[id], input.intervals.last?.end ?? 0 > position,
-                            input.intervals.first?.start ?? Int64.max < position + Int64(count)
-                        else { continue }
-                        samples = [Float](repeating: 0, count: count * 2)
-                        try input.mix(into: &samples, position: position, count: count)
-                    } else {
-                        var combined: [Float]?
-                        for child in node.inputs where audioTargets.contains(child) {
-                            guard let input = buffers.removeValue(forKey: child) else { continue }
-                            if combined == nil {
-                                combined = input
-                            } else {
-                                for index in input.indices { combined![index] += input[index] }
-                            }
-                        }
-                        guard let value = combined else { continue }
-                        samples = value
-                    }
-                    for step in node.steps where step.enabled {
-                        let gain = Float(step.processor.gain)
-                        for index in samples.indices { samples[index] *= gain }
-                    }
-                    buffers[node.target] = samples
-                }
-                let samples = buffers[nodes.last!.target] ?? [Float](repeating: 0, count: count * 2)
-                var sampleIndex = 0
-                while sampleIndex < samples.count {
-                    let sample = samples[sampleIndex]
-                    guard sample.isFinite else {
-                        throw NativeFailure("INVALID_AUDIO", "Processing produced nonfinite PCM.")
-                    }
-                    peak = max(peak, abs(sample))
-                    if abs(sample) > 1 { clipped += 1 }
-                    sampleIndex += 1
-                }
-                try writer.write(
-                    AudioPCMBlock(startFrame: position, frameCount: count, samples: samples))
-                position += Int64(count)
-            }
-        }
+        try await stream.consume { try writer.write($0) }
         try Task.checkCancellation()
         let bytes = try writer.finish()
-        return CompositionAudioResult(
-            file: plan.output, sampleRate: rate, channels: 2,
-            frames: plan.range.end - plan.range.start, peak: Double(peak), clippedSamples: clipped,
-            bytes: bytes, maximumBlockFrames: blockFrames,
-            peakResidentBytes: ProcessResources.peakResidentBytes(),
-            decoderContext: .init(
-                policy: "bounded-current-retained-run", sampleRate: rate,
-                maximumPrerollFrames: inputs.values.map(\.maximumPreroll).max() ?? 0,
-                maximumTailFrames: inputs.values.map(\.maximumTail).max() ?? 0),
-            unavailable: missing)
+        return CompositionAudioResult(file: plan.output, bytes: bytes, report: stream.report!)
     }
 }

@@ -35,11 +35,16 @@ public enum CompositionVideoRenderer {
     public struct Request: Codable {
         public let output: String
         public let frames: String
-        let range: TimeSpan
+        public let range: TimeSpan
         let canvas: Canvas
         let profile: String
-        let processing: [CompositionProcessing]
+        public let processing: [CompositionProcessing]
         public let assets: [CompositionAsset]
+        public func replacingOutput(_ path: String) -> Self {
+            Self(
+                output: path, frames: frames, range: range, canvas: canvas, profile: profile,
+                processing: processing, assets: assets)
+        }
     }
     private enum RasterKey: Equatable {
         case background
@@ -49,10 +54,10 @@ public enum CompositionVideoRenderer {
         let file: String
         let mediaType = "video/mp4"
         let profile = "h264-rec709"
-        let durationUs: Int64
-        let width: Int
-        let height: Int
-        let frames: Int
+        public let durationUs: Int64
+        public let width: Int
+        public let height: Int
+        public let frames: Int
         let rasterizedFrames: Int
         let decodedSamples: Int
         let readerOpens: Int

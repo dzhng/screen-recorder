@@ -2,13 +2,15 @@ import Foundation
 import ScreenRecorderWire
 
 let requestFile = CommandLine.arguments[1]
+let operation =
+    CommandLine.arguments.count > 2 ? CommandLine.arguments[2] : "media.renderCompositionVideo"
 let request = try String(contentsOfFile: requestFile, encoding: .utf8)
 let params = try JSONSerialization.jsonObject(with: Data(request.utf8)) as! [String: Any]
 let output = params["output"] as! String
 let directory = URL(fileURLWithPath: output).deletingLastPathComponent()
 let line = String(
     data: try JSONSerialization.data(withJSONObject: [
-        "id": "cancel", "operation": "media.renderCompositionVideo", "params": params,
+        "id": "cancel", "operation": operation, "params": params,
     ]), encoding: .utf8)!
 let work = Task { await NativeWire.respond(to: line) }
 let deadline = ContinuousClock.now.advanced(by: .seconds(10))
