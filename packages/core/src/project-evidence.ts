@@ -24,9 +24,14 @@ import type { DerivedCache } from "./cache.js";
 import type { RetainedRead } from "./files.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
 import { TranscriptProcessing } from "./transcript-processing.js";
-import { SourceTranscriptRead, type SourceTranscriptRow } from "./transcript-read.js";
+import {
+  SourceTranscriptRead,
+  transcriptSearchTerms,
+  type SourceTranscriptRow,
+} from "./transcript-read.js";
 import type { TranscriptMetadata, TranscriptRecords } from "./transcript.js";
 import type { SourceSelection } from "./source-selection.js";
+import { foldWord } from "./word-kind.js";
 
 const artifact = "project.evidence";
 const policy = "project-transcript-v1";
@@ -49,8 +54,10 @@ export type ProjectEvidenceInput = {
   limit?: number | undefined;
   cursor?: unknown;
 };
+type QueryInput = ProjectEvidenceInput & { text?: string | undefined };
 type Query = {
-  domain: "transcript";
+  domain: "transcript" | "transcript.search";
+  text?: string;
   projectId: string;
   revisionId: string;
   range: { startUs: number; endUs: number };
@@ -94,6 +101,14 @@ export type ProjectTranscriptRow = {
   | Omit<Extract<SourceTranscriptRow, { type: "gap" }>, "sourceRange" | "partial">
 );
 
+type ProjectTranscriptWord = Extract<ProjectTranscriptRow, { type: "word" }>;
+export type ProjectTranscriptMatch = {
+  trackId: string;
+  trackRank: number;
+  words: ProjectTranscriptWord[];
+  projectRange: SelectionRange;
+};
+type MatchCandidate = { key: Key; entry: ProjectTranscriptMatch };
 type Candidate = { key: Key; row: ProjectTranscriptRow };
 type TrackState = {
   clip: number;
@@ -103,6 +118,8 @@ type TrackState = {
   pending: Candidate | null;
   head: Candidate | null;
   headKind: "source" | "gap" | null;
+  suffix: { key: Key; row: ProjectTranscriptWord }[];
+  match: MatchCandidate | null;
 };
 type Checkpoint = {
   manifestId: string;
@@ -133,7 +150,17 @@ function compareKey(a: Key, b: Key) {
   );
 }
 function initialTrack(): TrackState {
-  return { clip: 0, gap: 0, cursor: null, done: false, pending: null, head: null, headKind: null };
+  return {
+    clip: 0,
+    gap: 0,
+    cursor: null,
+    done: false,
+    pending: null,
+    head: null,
+    headKind: null,
+    suffix: [],
+    match: null,
+  };
 }
 
 /** Immutable query manifests and resumable merge checkpoints share the project's disposable cache. */
@@ -159,7 +186,7 @@ export class ProjectEvidenceInspection {
     }
   >();
 
-  private plan(input: ProjectEvidenceInput, allowEmpty = false) {
+  private plan(input: QueryInput, allowEmpty = false) {
     const project = this.options.projects.get(input.projectId);
     const revisionId = input.revisionId ?? project.currentRevisionId;
     const key = JSON.stringify([input.projectId, revisionId]);
@@ -203,8 +230,10 @@ export class ProjectEvidenceInspection {
     const occurrences = empty ? [] : projection.window({ range: parsed.data, trackIds });
     if (occurrences.length > 10000)
       throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 10000 occurrences");
+    if (input.text !== undefined) transcriptSearchTerms(input.text);
     const query: Query = {
-      domain: "transcript",
+      domain: input.text === undefined ? "transcript" : "transcript.search",
+      ...(input.text === undefined ? {} : { text: input.text }),
       projectId: input.projectId,
       revisionId,
       range: parsed.data,
@@ -251,7 +280,7 @@ export class ProjectEvidenceInspection {
       reason,
     }));
   }
-  request(input: ProjectEvidenceInput) {
+  request(input: QueryInput) {
     const plan = this.plan(input),
       dependencies = this.dependencies(plan.occurrences, true);
     const pending = dependencies.filter(
@@ -279,7 +308,7 @@ export class ProjectEvidenceInspection {
     );
     return { ...plan.query, ...status, dependencies };
   }
-  retry(input: ProjectEvidenceInput) {
+  retry(input: QueryInput) {
     const status = this.request(input);
     if (!status.jobId)
       throw new CatalogError(
@@ -371,6 +400,21 @@ export class ProjectEvidenceInspection {
   }
 
   async get(input: ProjectEvidenceInput) {
+    const result = await this.read(input);
+    return {
+      ...result,
+      page: result.page && { rows: result.page.rows, nextCursor: result.page.nextCursor },
+    };
+  }
+  async search(input: ProjectEvidenceInput & { text: string }) {
+    transcriptSearchTerms(input.text);
+    const result = await this.read(input);
+    return {
+      ...result,
+      page: result.page && { entries: result.page.entries, nextCursor: result.page.nextCursor },
+    };
+  }
+  private async read(input: QueryInput) {
     const parsed = input.cursor === undefined ? null : cursorSchema.safeParse(input.cursor);
     if (parsed && !parsed.success)
       throw new CatalogError("INVALID_PARAMS", "Invalid project evidence cursor");
@@ -381,9 +425,10 @@ export class ProjectEvidenceInspection {
         (input.revisionId !== undefined && input.revisionId !== cursor.revisionId))
     )
       throw changed();
+    const maximum = input.text === undefined ? 1000 : 500;
     const limit = input.limit ?? 250;
-    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 1000)
-      throw new CatalogError("INVALID_PARAMS", "Limit must be 1 to 1000");
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > maximum)
+      throw new CatalogError("INVALID_PARAMS", `Limit must be 1 to ${maximum}`);
     const leases: RetainedRead[] = [];
     let created: string | null = null;
     try {
@@ -428,7 +473,7 @@ export class ProjectEvidenceInspection {
           } satisfies Checkpoint);
       if (state.manifestId !== manifestId || state.queryDigest !== manifest.queryDigest)
         throw changed();
-      const rows = this.merge(manifest, plan, state, limit);
+      const merged = this.merge(manifest, plan, state, limit);
       const more =
         state.initialized < state.tracks.length ||
         state.pendingTrack !== null ||
@@ -450,7 +495,7 @@ export class ProjectEvidenceInspection {
         revisionId: manifest.query.revisionId,
         state: "ready",
         dependencies: manifest.dependencies,
-        page: { rows, nextCursor },
+        page: { ...merged, nextCursor },
       };
     } catch (error) {
       if (created) this.options.cache.remove(created);
@@ -575,6 +620,9 @@ export class ProjectEvidenceInspection {
           return true;
         }
         if (budget-- <= 0) return false;
+        const nextClip = clips[track.clip + 1];
+        if (nextClip && compare(clip.project.end, occurrences.get(nextClip)!.project.start) !== 0)
+          track.suffix = [];
         track.clip++;
         track.gap = 0;
         track.cursor = null;
@@ -585,10 +633,56 @@ export class ProjectEvidenceInspection {
       track.headKind = null;
       return true;
     };
-    const less = (a: number, b: number) =>
-      compareKey(state.tracks[a]!.head!.key, state.tracks[b]!.head!.key) < 0;
+    const terms =
+      manifest.query.text === undefined ? null : transcriptSearchTerms(manifest.query.text);
+    const consume = (track: TrackState) => {
+      if (track.headKind === "gap") track.gap++;
+      else track.pending = null;
+      track.head = null;
+      track.headKind = null;
+    };
+    const fillNext = (index: number): boolean => {
+      if (!terms) return fill(index);
+      const track = state.tracks[index]!;
+      for (;;) {
+        if (budget <= 0) return false;
+        if (!fill(index)) return false;
+        const head = track.head;
+        if (!head) return true;
+        budget--;
+        consume(track);
+        if (head.row.type !== "word" || head.row.partial) {
+          track.suffix = [];
+          continue;
+        }
+        track.suffix.push({ key: head.key, row: head.row });
+        if (track.suffix.length > terms.length) track.suffix.shift();
+        if (
+          track.suffix.length !== terms.length ||
+          track.suffix.some((value, i) => foldWord(value.row.text) !== terms[i])
+        )
+          continue;
+        const words = track.suffix.map(({ row }) => row);
+        track.match = {
+          key: track.suffix[0]!.key,
+          entry: {
+            trackId: head.row.trackId,
+            trackRank: head.row.trackRank,
+            words,
+            projectRange: {
+              startUs: words[0]!.fragments[0]!.project.startUs,
+              endUs: words.at(-1)!.fragments.at(-1)!.project.endUs,
+            },
+          },
+        };
+        return true;
+      }
+    };
+    const key = (index: number) =>
+      terms ? state.tracks[index]!.match?.key : state.tracks[index]!.head?.key;
+    const less = (a: number, b: number) => compareKey(key(a)!, key(b)!) < 0;
     const push = (index: number) => {
-      if (!state.tracks[index]!.head) return;
+      if (!key(index)) return;
       state.heap.push(index);
       let at = state.heap.length - 1;
       while (at > 0) {
@@ -618,9 +712,10 @@ export class ProjectEvidenceInspection {
       return result;
     };
     const rows: ProjectTranscriptRow[] = [];
-    while (rows.length < limit) {
+    const entries: ProjectTranscriptMatch[] = [];
+    while (rows.length + entries.length < limit) {
       if (state.pendingTrack !== null) {
-        if (!fill(state.pendingTrack)) break;
+        if (!fillNext(state.pendingTrack)) break;
         push(state.pendingTrack);
         state.pendingTrack = null;
       }
@@ -628,13 +723,10 @@ export class ProjectEvidenceInspection {
       if (
         next &&
         (!state.heap.length ||
-          compare(
-            fromTime(next.lowerBound),
-            fromTime(state.tracks[state.heap[0]!]!.head!.key.projectStartUs),
-          ) <= 0)
+          compare(fromTime(next.lowerBound), fromTime(key(state.heap[0]!)!.projectStartUs)) <= 0)
       ) {
         const index = state.initialized;
-        if (!fill(index)) break;
+        if (!fillNext(index)) break;
         push(index);
         state.initialized++;
         continue;
@@ -642,17 +734,19 @@ export class ProjectEvidenceInspection {
       if (!state.heap.length) break;
       const index = pop(),
         track = state.tracks[index]!,
-        head = track.head!;
-      if (state.last && compareKey(head.key, state.last) <= 0)
+        currentKey = key(index)!;
+      if (state.last && compareKey(currentKey, state.last) <= 0)
         throw new CatalogError("INVALID_EVIDENCE", "Project evidence order did not advance");
-      rows.push(head.row);
-      state.last = head.key;
-      if (track.headKind === "gap") track.gap++;
-      else track.pending = null;
-      track.head = null;
-      track.headKind = null;
+      if (terms) {
+        entries.push(track.match!.entry);
+        track.match = null;
+      } else {
+        rows.push(track.head!.row);
+        consume(track);
+      }
+      state.last = currentKey;
       state.pendingTrack = index;
     }
-    return rows;
+    return { rows, entries };
   }
 }

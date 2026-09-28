@@ -1,0 +1,43 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "phrase search merges"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:75433) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (18 tests | 1 failed | 17 skipped) 81ms
+   × phrase search merges by first word across tracks and contiguous cuts 80ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > phrase search merges by first word across tracks and contiguous cuts
+AssertionError: expected [ { startUs: 1500, endUs: 1900 } ] to deeply equal [ { startUs: 1000, endUs: 5000 } ]
+
+- Expected
++ Received
+
+  [
+    {
+-     "endUs": 5000,
+-     "startUs": 1000,
++     "endUs": 1900,
++     "startUs": 1500,
+    },
+  ]
+
+ ❯ src/project-evidence.test.ts:706:66
+    704|   await f.ready(query);
+    705|   const first = await f.evidence.search({ ...query, limit: 1 });
+    706|   expect(first.page?.entries.map((entry) => entry.projectRange)).toEqu…
+       |                                                                  ^
+    707|     { startUs: 1000, endUs: 5000 },
+    708|   ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 skipped (18)
+   Start at  00:04:34
+   Duration  507ms (transform 60%, import 20%, tests 19%)
+
+error: script "test" exited with code 1

@@ -98,3 +98,10 @@ rebuilds only the query manifest; source preparation failures retain explicit
 source retries. Retry accepts query selectors, not paging cursors or limits.
 The [public paging journey](../assets/10c-public-paging/README.md) and independent
 full-result oracle are integrated, including exact current-runtime hash agreement. Phrase search and event/cursor reads remain open.
+## Core phrase checkpoint
+
+[Track-local phrase evidence](../assets/10c-project-phrases/README.md) extends the
+same manifest/checkpoint owner with bounded per-track suffixes and exact first-word
+match ordering. Clean cuts preserve adjacency; gaps and partial words interrupt it.
+Raw search text pins continuation and optional retry text selects that manifest.
+Public search journeys and project event/cursor inspection remain open.

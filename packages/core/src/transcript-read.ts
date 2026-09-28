@@ -201,7 +201,7 @@ export class TranscriptRead {
   /** Literal, case-folded match over consecutive source words; a word removed by the revision never matches. */
   search(input: { text: string; cursor?: unknown; limit?: number | undefined }) {
     const count = limit(input.limit, 100, 500);
-    const terms = searchTerms(input.text);
+    const terms = transcriptSearchTerms(input.text);
     const cursor = this.continuation(
       input.cursor === undefined ? undefined : parse(searchCursorSchema, input.cursor),
     );
@@ -514,7 +514,7 @@ export class SourceTranscriptRead {
 
   search(input: { text: string; cursor?: unknown; limit?: number | undefined }) {
     const count = limit(input.limit, 100, 500);
-    const terms = searchTerms(input.text);
+    const terms = transcriptSearchTerms(input.text);
     const cursor = this.continuation(
       input.cursor === undefined ? undefined : parse(sourceSearchCursor, input.cursor),
     );
@@ -549,7 +549,7 @@ export class SourceTranscriptRead {
   }
 }
 
-function searchTerms(text: string) {
+export function transcriptSearchTerms(text: string) {
   if (typeof text !== "string" || text.length < 1 || text.length > 200)
     throw new CatalogError("INVALID_PARAMS", "Search text must be 1 to 200 characters");
   const terms = text.split(/\s+/).map(foldWord).filter(Boolean);

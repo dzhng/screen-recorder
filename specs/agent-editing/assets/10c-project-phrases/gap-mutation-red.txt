@@ -1,0 +1,112 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "phrase boundaries reject"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:75728) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (18 tests | 1 failed | 17 skipped) 99ms
+   × phrase boundaries reject authored gaps, partial words, and cross-track combinations 98ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > phrase boundaries reject authored gaps, partial words, and cross-track combinations
+AssertionError: expected [ { …(4) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "projectRange": {
++       "endUs": 401,
++       "startUs": 0,
++     },
++     "trackId": "track:4a4affbb582678b7ea9d3019a471cd3a3f18569cae6032ae37370d0244c81d88:0",
++     "trackRank": 0,
++     "words": [
++       {
++         "assetId": "31fafb48f6785d7e0335d90c86fcca15be0db32acd44fa509534ca25002072a6",
++         "clipId": "clip:4a4affbb582678b7ea9d3019a471cd3a3f18569cae6032ae37370d0244c81d88:5",
++         "confidence": 0.9,
++         "fragments": [
++           {
++             "project": {
++               "endUs": 100,
++               "startUs": 0,
++             },
++             "source": {
++               "endUs": 200,
++               "startUs": 100,
++             },
++           },
++         ],
++         "generation": "880e8fd6-5037-4a86-b67a-86e97f0d107b",
++         "id": "w0",
++         "kind": "speech",
++         "ordinal": 0,
++         "partial": false,
++         "segment": 0,
++         "sourceRange": {
++           "endUs": 200,
++           "startUs": 100,
++         },
++         "streamId": "speech",
++         "text": "one",
++         "trackId": "track:4a4affbb582678b7ea9d3019a471cd3a3f18569cae6032ae37370d0244c81d88:0",
++         "trackRank": 0,
++         "type": "word",
++       },
++       {
++         "assetId": "31fafb48f6785d7e0335d90c86fcca15be0db32acd44fa509534ca25002072a6",
++         "clipId": "clip:4a4affbb582678b7ea9d3019a471cd3a3f18569cae6032ae37370d0244c81d88:6",
++         "confidence": 0.9,
++         "fragments": [
++           {
++             "project": {
++               "endUs": 401,
++               "startUs": 301,
++             },
++             "source": {
++               "endUs": 500,
++               "startUs": 400,
++             },
++           },
++         ],
++         "generation": "880e8fd6-5037-4a86-b67a-86e97f0d107b",
++         "id": "w1",
++         "kind": "speech",
++         "ordinal": 1,
++         "partial": false,
++         "segment": 0,
++         "sourceRange": {
++           "endUs": 500,
++           "startUs": 400,
++         },
++         "streamId": "speech",
++         "text": "two",
++         "trackId": "track:4a4affbb582678b7ea9d3019a471cd3a3f18569cae6032ae37370d0244c81d88:0",
++         "trackRank": 0,
++         "type": "word",
++       },
++     ],
++   },
++ ]
+
+ ❯ src/project-evidence.test.ts:753:69
+    751|     clip(f.asset.id, "n3", "native-gap", 1300, 1900, 400, 1000),
+    752|   ]);
+    753|   expect(await matches(f, { ...input, text: "one two", limit: 1 })).to…
+       |                                                                     ^
+    754| });
+    755|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 skipped (18)
+   Start at  00:04:42
+   Duration  526ms (transform 57%, tests 22%, import 21%, worker 1%)
+
+error: script "test" exited with code 1

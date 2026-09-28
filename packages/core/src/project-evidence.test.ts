@@ -425,6 +425,7 @@ test("ancestor acquisition gaps remain explicit and original words stay partial 
     "not_acquired",
     "three",
   ]);
+  expect(await matches(f, { ...input, text: "one two", limit: 1 })).toEqual([]);
   expect(rows[1]).toMatchObject({
     partial: true,
     fragments: [
@@ -688,4 +689,145 @@ test("a cold execution owner rebuilds once and a cached context never revives a 
   await expect(
     restarted.get({ ...input, cursor: third.nextCursor, limit: 1 }),
   ).rejects.toMatchObject({ code: "NOT_FOUND" });
+});
+
+test("phrase search merges by first word across tracks and contiguous cuts", async () => {
+  const f = await fixture();
+  const input = f.create([
+    track("slow"),
+    track("fast", 1),
+    clip(f.asset.id, "slow-clip", "slow", 0, 10000),
+    clip(f.asset.id, "first", "fast", 1500, 1800, 100, 400),
+    clip(f.asset.id, "second", "fast", 1800, 2400, 400, 1000),
+  ]);
+  const query = { ...input, text: "ONE two" };
+  await f.ready(query);
+  const first = await f.evidence.search({ ...query, limit: 1 });
+  expect(first.page?.entries.map((entry) => entry.projectRange)).toEqual([
+    { startUs: 1000, endUs: 5000 },
+  ]);
+  const second = await f.evidence.search({ ...query, limit: 20, cursor: first.page!.nextCursor });
+  expect(second.page?.entries.map((entry) => entry.projectRange)).toEqual([
+    { startUs: 1500, endUs: 1900 },
+  ]);
+  expect(new Set(second.page!.entries[0]!.words.map((word) => word.clipId)).size).toBe(2);
+});
+
+async function matches(
+  f: Awaited<ReturnType<typeof fixture>>,
+  input: ProjectEvidenceInput & { text: string },
+) {
+  await f.ready(input);
+  const entries = [];
+  let cursor: unknown;
+  for (let n = 0; n < 2000; n++) {
+    const result = await f.evidence.search({
+      ...input,
+      ...(cursor === undefined ? {} : { cursor }),
+    });
+    if (!result.page) throw new Error("Not ready");
+    entries.push(...result.page.entries);
+    if (!result.page.nextCursor) return entries;
+    cursor = result.page.nextCursor;
+  }
+  throw new Error("Search failed to advance");
+}
+
+test("phrase boundaries reject authored gaps, partial words, and cross-track combinations", async () => {
+  const f = await fixture();
+  const input = f.create([
+    track("gap"),
+    track("partial", 1),
+    track("one", 2),
+    track("two", 3),
+    track("native-gap", 4),
+    clip(f.asset.id, "g1", "gap", 0, 300, 100, 400),
+    clip(f.asset.id, "g2", "gap", 301, 901, 400, 1000),
+    clip(f.asset.id, "p1", "partial", 0, 350, 150, 500),
+    clip(f.asset.id, "a", "one", 0, 300, 100, 400),
+    clip(f.asset.id, "b", "two", 300, 900, 400, 1000),
+    clip(f.asset.id, "n1", "native-gap", 0, 300, 100, 400),
+    clip(f.asset.id, "n2", "native-gap", 300, 1300, 0, 1000, "short"),
+    clip(f.asset.id, "n3", "native-gap", 1300, 1900, 400, 1000),
+  ]);
+  expect(await matches(f, { ...input, text: "one two", limit: 1 })).toEqual([]);
+});
+
+test("phrase checkpoints pin raw query and domain while allowing page-size changes", async () => {
+  const f = await fixture();
+  const input = f.create([
+    track("speech"),
+    clip(f.asset.id, "a", "speech", 0, 1000),
+    clip(f.asset.id, "b", "speech", 1000, 2000),
+  ]);
+  const query = { ...input, text: "one two" };
+  await f.ready(query);
+  const first = await f.evidence.search({ ...query, limit: 1 });
+  expect(first.page?.entries[0]?.projectRange).toEqual({ startUs: 100, endUs: 500 });
+  const cursor = first.page!.nextCursor;
+  await expect(f.evidence.search({ ...query, text: "ONE TWO", cursor })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+  await expect(f.evidence.get({ ...input, cursor })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+  const second = await f.evidence.search({ ...query, limit: 500, cursor });
+  expect(second.page?.entries.map((e) => e.projectRange)).toEqual([{ startUs: 1100, endUs: 1500 }]);
+  f.cache.remove(cursor!.checkpointId);
+  await expect(f.evidence.search({ ...query, cursor })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+});
+
+test("phrase initialization and limit-one resumes have bounded near-linear source reads", async () => {
+  const f = await fixture();
+  const operations: EditOperation[] = [];
+  for (let i = 0; i < 70; i++)
+    operations.push(track(`t${i}`, i), clip(f.asset.id, `c${i}`, `t${i}`, 0, 1000));
+  const input = { ...f.create(operations), text: "one two", limit: 1 };
+  await f.ready(input);
+  f.reads.length = 0;
+  const first = await f.evidence.search(input);
+  expect(first.page).toMatchObject({ entries: [] });
+  expect(first.page!.nextCursor).not.toBeNull();
+  expect(f.reads.reduce((sum, read) => sum + read.rows, 0)).toBeLessThan(600);
+  const all = [];
+  let cursor = first.page!.nextCursor;
+  while (cursor) {
+    const before = f.reads.length;
+    const page = (await f.evidence.search({ ...input, cursor })).page!;
+    expect(f.reads.slice(before).reduce((sum, read) => sum + read.rows, 0)).toBeLessThan(600);
+    all.push(...page.entries);
+    cursor = page.nextCursor;
+  }
+  expect(all.map((entry) => [entry.trackRank, entry.projectRange])).toEqual(
+    Array.from({ length: 70 }, (_, rank) => [rank, { startUs: 100, endUs: 500 }]),
+  );
+  expect(f.reads.reduce((sum, read) => sum + read.rows, 0)).toBeLessThan(70 * 20);
+});
+
+test("phrase matches preserve rational timing and reject replaced source generations", async () => {
+  const f = await fixture();
+  const input = f.create([
+    track("voice"),
+    clip(f.asset.id, "first", "voice", 0, 1001),
+    clip(f.asset.id, "again", "voice", 1001, 2001),
+  ]);
+  const query = { ...input, text: "two three", limit: 1 };
+  await f.ready(query);
+  const first = await f.evidence.search(query);
+  expect(first.page!.entries[0]!.projectRange).toEqual({
+    startUs: { numerator: 2002, denominator: 5 },
+    endUs: { numerator: 9009, denominator: 10 },
+  });
+  expect(first.page!.entries[0]!.words.map((word) => [word.ordinal, word.sourceRange])).toEqual([
+    [1, { startUs: 400, endUs: 500 }],
+    [2, { startUs: 800, endUs: 900 }],
+  ]);
+  const source = f.transcripts.sourceStatus({ assetId: f.asset.id, streamId: "speech" });
+  f.jobs.regenerate(source.jobId!, f.jobs.job(source.jobId!).generation);
+  await f.jobs.idle();
+  await expect(
+    f.evidence.search({ ...query, cursor: first.page!.nextCursor }),
+  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
 });
