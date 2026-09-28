@@ -4,7 +4,7 @@ import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderMedia
 
-/// One readable interval of the narration track and what became of it. Time outside every segment
+/// One readable interval of the selected source and what became of it. Time outside every segment
 /// was never acquired, so it has no segment rather than a silent one.
 public struct SpeechSegment: Codable, Sendable, Equatable {
     public enum State: String, Codable, Sendable { case transcribed, skipped }
@@ -34,10 +34,10 @@ public struct SpeechTranscript: Codable, Sendable, Equatable {
     public let details: SpeechResources
 }
 
-/// Acquired narration transcribed into a raw engine record. Each readable interval is read, mixed
+/// Selected source audio transcribed into a raw engine record. Each readable interval is read, mixed
 /// down and resampled on its own and transcribed with a fresh decoder, so neither an unacquired gap
 /// nor the neighbouring interval can shape its words, and every word maps back into its interval.
-public enum NarrationTranscript {
+public enum SourceTranscript {
     /// The longest interval transcribed in one piece; its samples are held in memory together.
     public static let maximumIntervalUs: Int64 = 2 * 60 * 60 * 1_000_000
 
@@ -67,12 +67,9 @@ public enum NarrationTranscript {
         let source: TimeSpan
     }
 
-    public static func write(models: SpeechModelFiles, track: AudioTrackPlan, output: String)
+    public static func write(models: SpeechModelFiles, track: AudioSourceSelection, output: String)
         async throws -> SpeechTranscript
     {
-        guard track.role == .narration else {
-            throw NativeFailure("INVALID_REQUEST", "Only the narration track is transcribed.")
-        }
         try ParakeetEngine.checkList(models)
         try models.verify()
         let destination = try NewFile(at: output, assembledAs: "raw.jsonl")
@@ -82,7 +79,7 @@ public enum NarrationTranscript {
         if let long = intervals.first(where: { $0.endUs - $0.startUs > maximumIntervalUs }) {
             throw NativeFailure(
                 "LIMIT_EXCEEDED",
-                "Narration interval [\(long.startUs),\(long.endUs)) is longer than \(maximumIntervalUs) microseconds.")
+                "Source interval [\(long.startUs),\(long.endUs)) is longer than \(maximumIntervalUs) microseconds.")
         }
 
         let encoder = JSONEncoder()
@@ -135,13 +132,13 @@ public enum NarrationTranscript {
 
     /// One interval as 16 kHz mono, read through the shared audio owner. Channels are averaged; the
     /// interval lies inside readable time, so the stream must report nothing unavailable.
-    private static func monoSamples(of track: AudioTrackPlan, in interval: TimeSpan) async throws
+    private static func monoSamples(of track: AudioSourceSelection, in interval: TimeSpan) async throws
         -> [Float]
     {
         let stream = try await AudioPCMStream.open(
-            tracks: [track], spans: [interval], sampleRate: ParakeetEngine.sampleRate)
+            source: track, spans: [interval], sampleRate: ParakeetEngine.sampleRate)
         guard stream.reports.allSatisfy({ $0.unavailable.isEmpty }) else {
-            throw NativeFailure.decodeFailed("Narration media changed while it was being read.")
+            throw NativeFailure.decodeFailed("Source media changed while it was being read.")
         }
         let channels = stream.format.channels
         var samples: [Float] = []

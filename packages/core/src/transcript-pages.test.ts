@@ -87,7 +87,6 @@ async function fixture() {
     request: {
       models: { directory: join(home, "models"), files: [] },
       track: {
-        role: "narration",
         source: join(home, "narration.mov"),
         sourceOffsetUs: 0,
         available: narration,

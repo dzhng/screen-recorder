@@ -1,0 +1,51 @@
+{
+  "data": {
+    "details": {
+      "peakResidentBytes": 108429312
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "output": {
+      "bytes": 9054,
+      "file": "/tmp/selected-source-transcription-final/first-acquired-selected.jsonl",
+      "sha256": "87de3965e7b174f5c6826973bb1e2d09e9039c06f8a41f51b293ee786a14bcc6"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "source": {
+          "endUs": 2000000,
+          "startUs": 0
+        },
+        "state": "transcribed",
+        "wordCount": 5
+      },
+      {
+        "ordinal": 1,
+        "source": {
+          "endUs": 6000000,
+          "startUs": 3000000
+        },
+        "state": "transcribed",
+        "wordCount": 2
+      },
+      {
+        "ordinal": 2,
+        "source": {
+          "endUs": 12000000,
+          "startUs": 6500000
+        },
+        "state": "transcribed",
+        "wordCount": 15
+      }
+    ],
+    "wordCount": 22
+  },
+  "id": "first-acquired-selected",
+  "ok": true
+}

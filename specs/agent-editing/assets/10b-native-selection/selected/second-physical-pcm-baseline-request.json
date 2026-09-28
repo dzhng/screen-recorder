@@ -1,0 +1,25 @@
+{
+  "operation": "media.audio",
+  "params": {
+    "tracks": [
+      {
+        "role": "narration",
+        "source": "/tmp/selected-source-transcription-final/second.mov",
+        "sourceOffsetUs": -250000,
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 12500000
+          }
+        ]
+      }
+    ],
+    "spans": [
+      {
+        "startUs": 0,
+        "endUs": 12500000
+      }
+    ],
+    "output": "/tmp/selected-source-transcription-final/second-physical-baseline.wav"
+  }
+}

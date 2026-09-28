@@ -1,0 +1,81 @@
+{
+  "data": {
+    "originUs": 250000,
+    "streams": [
+      {
+        "channels": 1,
+        "codec": "lpcm",
+        "decodable": true,
+        "endUs": 12500000,
+        "id": "track:1",
+        "kind": "audio",
+        "sampleRate": 48000,
+        "segments": [
+          {
+            "empty": true,
+            "endUs": 0,
+            "startUs": -250000
+          },
+          {
+            "empty": false,
+            "endUs": 6000000,
+            "mediaDurationUs": 6000000,
+            "mediaStartUs": 0,
+            "startUs": 0
+          },
+          {
+            "empty": true,
+            "endUs": 6500000,
+            "startUs": 6000000
+          },
+          {
+            "empty": false,
+            "endUs": 12500000,
+            "mediaDurationUs": 6000000,
+            "mediaStartUs": 6000000,
+            "startUs": 6500000
+          }
+        ],
+        "startUs": 0
+      },
+      {
+        "channels": 1,
+        "codec": "lpcm",
+        "decodable": true,
+        "endUs": 12500000,
+        "id": "track:2",
+        "kind": "audio",
+        "sampleRate": 48000,
+        "segments": [
+          {
+            "empty": true,
+            "endUs": 0,
+            "startUs": -250000
+          },
+          {
+            "empty": false,
+            "endUs": 6000000,
+            "mediaDurationUs": 6000000,
+            "mediaStartUs": 0,
+            "startUs": 0
+          },
+          {
+            "empty": true,
+            "endUs": 6500000,
+            "startUs": 6000000
+          },
+          {
+            "empty": false,
+            "endUs": 12500000,
+            "mediaDurationUs": 6000000,
+            "mediaStartUs": 6000000,
+            "startUs": 6500000
+          }
+        ],
+        "startUs": 0
+      }
+    ]
+  },
+  "id": "probe",
+  "ok": true
+}

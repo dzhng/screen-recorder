@@ -248,7 +248,6 @@ test("narration becomes one published generation read as interleaved words and g
   });
   expect(f.requests).toHaveLength(1);
   expect(f.requests[0]!.track).toEqual({
-    role: "narration",
     source: join(f.home, "recordings", recordingId, "source", "narration.mov"),
     sourceOffsetUs: 0,
     available: acquired,

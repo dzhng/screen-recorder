@@ -1,0 +1,42 @@
+{
+  "data": {
+    "details": {
+      "peakResidentBytes": 107839488
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "output": {
+      "bytes": 9366,
+      "file": "/tmp/selected-source-transcription-final/first-physical-baseline.jsonl",
+      "sha256": "d176f8e8f61fe122349248d6bc265cf8c5eb17e4a3d79f046cc9436fddf9f1e2"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "source": {
+          "endUs": 6000000,
+          "startUs": 0
+        },
+        "state": "transcribed",
+        "wordCount": 7
+      },
+      {
+        "ordinal": 1,
+        "source": {
+          "endUs": 12500000,
+          "startUs": 6500000
+        },
+        "state": "transcribed",
+        "wordCount": 18
+      }
+    ],
+    "wordCount": 25
+  },
+  "id": "first-physical-baseline",
+  "ok": true
+}

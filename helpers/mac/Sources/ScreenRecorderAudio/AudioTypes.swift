@@ -9,17 +9,24 @@ public enum AudioRole: String, Codable, Sendable, CaseIterable {
     case system
 }
 
-/// `sourceOffsetUs` is the recording source time at which this file's own time zero sits. Tracks
-/// that started after the video are positive; a track carrying material from before recording
-/// source zero is negative.
-///
-/// `available` is the caller's validated acquisition evidence: the recording source intervals this
-/// track was actually capturing over, ascending and non-touching, and possibly starting before
-/// recording source zero. It is required, because a container cannot supply it — a decoder happily
-/// returns padding or codec priming for a range nothing was acquired over, and relabelling that as
-/// recorded silence would pass a hole off as evidence of a quiet microphone. The excerpt reads only
-/// where this list and the file's own occupied segments agree; an empty list means nothing was
-/// acquired and every requested span is reported unavailable.
+/// `sourceOffsetUs` maps file time zero into the caller's source clock; subtracting
+/// the file origin yields normalized asset time. `available` is support in that
+/// same clock, intersected with occupied container segments before decoding.
+/// An omitted stream ID is valid only for a file with exactly one audio stream.
+public struct AudioSourceSelection: Codable, Sendable, Equatable {
+    public let source: String
+    public let streamId: String?
+    public let sourceOffsetUs: Int64
+    public let available: [TimeSpan]
+    public init(source: String, streamId: String? = nil, sourceOffsetUs: Int64, available: [TimeSpan]) {
+        self.source = source
+        self.streamId = streamId
+        self.sourceOffsetUs = sourceOffsetUs
+        self.available = available
+    }
+}
+
+/// Capture roles belong to the recording mix plan, independently of source selection.
 public struct AudioTrackPlan: Codable, Sendable, Equatable {
     public let role: AudioRole
     public let source: String
@@ -30,6 +37,12 @@ public struct AudioTrackPlan: Codable, Sendable, Equatable {
         self.source = source
         self.sourceOffsetUs = sourceOffsetUs
         self.available = available
+    }
+}
+
+extension AudioTrackPlan {
+    var selection: AudioSourceSelection {
+        AudioSourceSelection(source: source, sourceOffsetUs: sourceOffsetUs, available: available)
     }
 }
 
@@ -64,12 +77,23 @@ public enum AudioLimits {
 /// track holds no media for — outside the caller's acquired intervals, or inside them but with no
 /// occupied segment in the file. Those regions are silent in the output and must never be read as
 /// recorded silence.
+public struct AudioSourceReport: Sendable {
+    public let gain: Double
+    public let sampleRate: Int
+    public let channels: Int
+    public let unavailable: [TimeSpan]
+}
+
 public struct AudioTrackReport: Codable, Sendable, Equatable {
     public let role: AudioRole
     public let gain: Double
     public let sampleRate: Int
     public let channels: Int
     public let unavailable: [TimeSpan]
+    public init(role: AudioRole, source: AudioSourceReport) {
+        self.init(role: role, gain: source.gain, sampleRate: source.sampleRate,
+            channels: source.channels, unavailable: source.unavailable)
+    }
     public init(
         role: AudioRole, gain: Double, sampleRate: Int, channels: Int, unavailable: [TimeSpan]
     ) {

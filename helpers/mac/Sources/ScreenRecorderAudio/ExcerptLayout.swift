@@ -62,6 +62,10 @@ enum ExcerptValidation {
         maximumAvailableIntervals: Int = AudioLimits.maximumAvailableIntervals
     ) throws {
         try check(tracks: tracks, maximumAvailableIntervals: maximumAvailableIntervals)
+        try check(spans: spans, maximumDurationUs: maximumDurationUs, maximumSpans: maximumSpans)
+    }
+
+    static func check(spans: [TimeSpan], maximumDurationUs: Int64, maximumSpans: Int) throws {
         guard !spans.isEmpty else {
             throw NativeFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
         }
@@ -94,31 +98,22 @@ enum ExcerptValidation {
                 "INVALID_REQUEST", "Each track role may appear once in an excerpt plan.")
         }
         for track in tracks {
-            guard track.source.hasPrefix("/") else {
-                throw NativeFailure(
-                    "INVALID_REQUEST", "Audio source paths must be absolute, got \(track.source).")
-            }
-            // Compared against each bound in turn: negating the most negative offset would trap
-            // before this guard could reject it.
-            guard track.sourceOffsetUs >= -TimeSpan.maximumMicroseconds,
-                track.sourceOffsetUs <= TimeSpan.maximumMicroseconds
-            else {
-                throw NativeFailure(
-                    "INVALID_RANGE",
-                    "Source offset \(track.sourceOffsetUs) is not a safe microsecond value.")
-            }
-            try checkAvailability(of: track, maximumIntervals: maximumAvailableIntervals)
+            try check(source: track.selection, maximumIntervals: maximumAvailableIntervals)
         }
     }
 
-    /// A track's acquired intervals are the caller's recovery evidence, so they are held to the
-    /// same shape as the retained spans: ascending, non-touching, and safe microseconds. They may
-    /// start before recording source zero, because a track may hold material from before it.
-    private static func checkAvailability(of track: AudioTrackPlan, maximumIntervals: Int) throws {
+    static func check(source track: AudioSourceSelection, maximumIntervals: Int) throws {
+        guard track.source.hasPrefix("/"), !track.source.contains("\0") else {
+            throw NativeFailure("INVALID_REQUEST", "Audio source paths must be absolute and contain no NUL.")
+        }
+        guard track.sourceOffsetUs >= -TimeSpan.maximumMicroseconds,
+            track.sourceOffsetUs <= TimeSpan.maximumMicroseconds else {
+            throw NativeFailure("INVALID_RANGE", "Source offset is not a safe microsecond value.")
+        }
         guard track.available.count <= maximumIntervals else {
             throw NativeFailure(
                 "LIMIT_EXCEEDED",
-                "Track \(track.role.rawValue) lists \(track.available.count) available intervals, over the \(maximumIntervals) interval limit."
+                "Source lists \(track.available.count) available intervals, over the \(maximumIntervals) interval limit."
             )
         }
         var previous: TimeSpan?
@@ -128,13 +123,13 @@ enum ExcerptValidation {
             else {
                 throw NativeFailure(
                     "INVALID_RANGE",
-                    "Available interval [\(interval.startUs),\(interval.endUs)) of \(track.role.rawValue) is not a valid half-open range."
+                    "Available interval [\(interval.startUs),\(interval.endUs)) is not a valid half-open range."
                 )
             }
             if let previous, interval.startUs <= previous.endUs {
                 throw NativeFailure(
                     "INVALID_RANGE",
-                    "Available interval [\(interval.startUs),\(interval.endUs)) of \(track.role.rawValue) is not strictly after [\(previous.startUs),\(previous.endUs))."
+                    "Available interval [\(interval.startUs),\(interval.endUs)) is not strictly after [\(previous.startUs),\(previous.endUs))."
                 )
             }
             previous = interval

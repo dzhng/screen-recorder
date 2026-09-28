@@ -1,0 +1,42 @@
+{
+  "data": {
+    "details": {
+      "peakResidentBytes": 105054208
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "output": {
+      "bytes": 9366,
+      "file": "/tmp/selected-source-transcription-final/first-physical-unique.jsonl",
+      "sha256": "be5676df3580f2624cb90294a8f028c2fd9998970a0b58fd69a58803b51baa13"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "source": {
+          "endUs": 6000000,
+          "startUs": 0
+        },
+        "state": "transcribed",
+        "wordCount": 7
+      },
+      {
+        "ordinal": 1,
+        "source": {
+          "endUs": 12500000,
+          "startUs": 6500000
+        },
+        "state": "transcribed",
+        "wordCount": 18
+      }
+    ],
+    "wordCount": 25
+  },
+  "id": "first-physical-unique",
+  "ok": true
+}

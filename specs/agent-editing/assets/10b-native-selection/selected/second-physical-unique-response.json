@@ -1,0 +1,42 @@
+{
+  "data": {
+    "details": {
+      "peakResidentBytes": 103792640
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "output": {
+      "bytes": 10802,
+      "file": "/tmp/selected-source-transcription-final/second-physical-unique.jsonl",
+      "sha256": "09881684c4d89e98ac143dcb99368ddc6f58be6b472d27b29073dff1fd832410"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "source": {
+          "endUs": 6000000,
+          "startUs": 0
+        },
+        "state": "transcribed",
+        "wordCount": 9
+      },
+      {
+        "ordinal": 1,
+        "source": {
+          "endUs": 12500000,
+          "startUs": 6500000
+        },
+        "state": "transcribed",
+        "wordCount": 19
+      }
+    ],
+    "wordCount": 28
+  },
+  "id": "second-physical-unique",
+  "ok": true
+}

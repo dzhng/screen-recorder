@@ -1,0 +1,16 @@
+✔ malformed, relative and unsafe requests are refused before models are read (445.483125ms)
+✔ absent model files are unavailable and changed ones invalid, before any load (112.006375ms)
+✔ verified models still refuse an occupied output and report unreadable narration (28.429791ms)
+✔ only readable narration becomes segments, and a fragment too short is skipped unread by the engine (273.338334ms)
+✔ a verified model that cannot load fails retryably and is left exactly as it was (188.808417ms)
+✔ selected audio streams stay distinct and an omitted ambiguous selection is refused (179.38175ms)
+✔ the native process answers every shared conformance line in order (399.738666ms)
+✔ a changed directory identity reports the same final failure through every operation family (34.013708ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1267.864542

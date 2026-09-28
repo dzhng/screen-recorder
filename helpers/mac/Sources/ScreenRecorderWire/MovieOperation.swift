@@ -77,7 +77,7 @@ enum MovieOperation {
                 Audio(
                     codec: $0.frames > 0 ? "aac" : nil, frames: $0.frames,
                     sampleRate: $0.format.sampleRate, channels: $0.format.channels,
-                    tracks: $0.reports)
+                    tracks: zip(request.tracks, $0.reports).map { AudioTrackReport(role: $0.role, source: $1) })
             }, bytes: bytes)
     }
 }

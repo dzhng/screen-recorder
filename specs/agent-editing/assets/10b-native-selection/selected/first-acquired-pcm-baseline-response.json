@@ -1,0 +1,37 @@
+{
+  "data": {
+    "bytes": 2116096,
+    "channels": 1,
+    "durationUs": 11000000,
+    "file": "/tmp/selected-source-transcription-final/first-acquired-baseline.wav",
+    "frames": 528000,
+    "mediaType": "audio/wav",
+    "sampleRate": 48000,
+    "spans": [
+      {
+        "endUs": 2000000,
+        "startUs": 0
+      },
+      {
+        "endUs": 12000000,
+        "startUs": 3000000
+      }
+    ],
+    "tracks": [
+      {
+        "channels": 1,
+        "gain": 1,
+        "role": "narration",
+        "sampleRate": 48000,
+        "unavailable": [
+          {
+            "endUs": 6500000,
+            "startUs": 6000000
+          }
+        ]
+      }
+    ]
+  },
+  "id": "first-acquired-pcm-baseline",
+  "ok": true
+}

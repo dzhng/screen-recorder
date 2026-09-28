@@ -262,7 +262,15 @@ export class TranscriptProcessing {
     };
     const output = await this.transcripts.reserve(identity);
     try {
-      const request = { models: this.models.nativeRequest(), track, output };
+      const request = {
+        models: this.models.nativeRequest(),
+        track: {
+          source: track.source,
+          sourceOffsetUs: track.sourceOffsetUs,
+          available: track.available,
+        },
+        output,
+      };
       const receipt = await this.transcribe(request, signal);
       signal.throwIfAborted();
       const metadata = await this.transcripts.ingest({

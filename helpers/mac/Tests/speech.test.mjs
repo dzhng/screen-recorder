@@ -50,7 +50,6 @@ function fixture(t) {
   const params = {
     models: { directory, files },
     track: {
-      role: "narration",
       source: join(home, "source", "narration.mov"),
       sourceOffsetUs: 0,
       available: [{ startUs: 0, endUs: 1000000 }],
@@ -123,6 +122,8 @@ test("malformed, relative and unsafe requests are refused before models are read
     { ...params, track: { ...track, available: [{ startUs: 0, endUs: 1000, extra: true }] } },
     { models, track },
     { ...params, track: { ...track, role: "system" } },
+    { ...params, track: { ...track, role: "narration" } },
+    { ...params, track: { ...track, role: null } },
     { ...params, models: { ...models, directory: "models/parakeet-tdt-0.6b-v2" } },
     { ...params, track: { ...track, source: "narration.mov" } },
     { ...params, output: "raw.jsonl" },
@@ -286,4 +287,66 @@ test("a verified model that cannot load fails retryably and is left exactly as i
   assert.deepEqual(snapshot(directory), before);
   assert.deepEqual(readdirSync(attempt), []);
   assert.deepEqual(readdirSync(join(home, "models")), ["parakeet-tdt-0.6b-v2"]);
+});
+
+test("selected audio streams stay distinct and an omitted ambiguous selection is refused", (t) => {
+  const { home, params } = fixture(t);
+  const source = join(home, "two-streams.mov");
+  const made = spawnSync(
+    "ffmpeg",
+    [
+      "-v",
+      "error",
+      "-f",
+      "lavfi",
+      "-i",
+      "sine=frequency=440:sample_rate=48000:duration=0.1",
+      "-f",
+      "lavfi",
+      "-i",
+      "sine=frequency=880:sample_rate=44100:duration=0.15",
+      "-map",
+      "0:a",
+      "-map",
+      "1:a",
+      "-c:a",
+      "pcm_s16le",
+      source,
+    ],
+    { encoding: "utf8", timeout: 15000 },
+  );
+  assert.equal(made.status, 0, made.stderr);
+  const selected = (streamId, name) => ({
+    ...params,
+    track: { ...params.track, source, ...(streamId ? { streamId } : {}) },
+    output: join(home, `${name}.jsonl`),
+  });
+  const [first, second, ambiguous, absent] = transcribe(
+    selected("track:1", "first"),
+    selected("track:2", "second"),
+    selected(undefined, "ambiguous"),
+    selected("track:99", "absent"),
+  );
+  for (const [reply, endUs, samples] of [
+    [first, 100000, 1600],
+    [second, 150000, 2400],
+  ]) {
+    assert.equal(reply.ok, true, JSON.stringify(reply));
+    assert.deepEqual(reply.data.segments, [
+      {
+        ordinal: 0,
+        source: { startUs: 0, endUs },
+        state: "skipped",
+        reason: "too_short",
+        wordCount: 0,
+      },
+    ]);
+    assert.equal(JSON.parse(readFileSync(reply.data.output.file, "utf8")).samples, samples);
+  }
+  assert.equal(ambiguous.ok, false, JSON.stringify(ambiguous));
+  assert.equal(ambiguous.error.code, "INVALID_REQUEST");
+  assert.equal(absent.ok, false, JSON.stringify(absent));
+  assert.equal(absent.error.code, "NATIVE_DECODE_FAILED");
+  assert.equal(existsSync(join(home, "ambiguous.jsonl")), false);
+  assert.equal(existsSync(join(home, "absent.jsonl")), false);
 });

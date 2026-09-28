@@ -1,0 +1,1 @@
+{"source":{"source":"/tmp/selected-source-transcription-final/multi.mov","streamId":"track:1","sourceOffsetUs":-250000,"available":[{"startUs":0,"endUs":2000000},{"startUs":3000000,"endUs":12000000}]},"spans":[{"startUs":0,"endUs":2000000},{"startUs":3000000,"endUs":12000000}],"output":"/tmp/selected-source-transcription-final/first-acquired-selected.wav"}

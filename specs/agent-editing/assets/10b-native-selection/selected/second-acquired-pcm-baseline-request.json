@@ -1,0 +1,33 @@
+{
+  "operation": "media.audio",
+  "params": {
+    "tracks": [
+      {
+        "role": "narration",
+        "source": "/tmp/selected-source-transcription-final/second.mov",
+        "sourceOffsetUs": -250000,
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          {
+            "startUs": 3000000,
+            "endUs": 12000000
+          }
+        ]
+      }
+    ],
+    "spans": [
+      {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      {
+        "startUs": 3000000,
+        "endUs": 12000000
+      }
+    ],
+    "output": "/tmp/selected-source-transcription-final/second-acquired-baseline.wav"
+  }
+}

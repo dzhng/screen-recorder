@@ -55,7 +55,6 @@ for (let i = 1; i < samples.length; i++)
   if (samples[i].data.startUs - samples[i - 1].data.endUs > 2000)
     throw new Error("Fixture has an acquisition gap; continuous narration probe is not applicable");
 const track = {
-  role: "narration",
   source,
   sourceOffsetUs: 0,
   available: [{ startUs: samples[0].data.startUs, endUs: samples.at(-1).data.endUs }],
@@ -125,7 +124,11 @@ for (const [id, window] of [
     ],
   ]) {
     const name = id + "-" + variant;
-    invoke(name, "media.audio", { tracks: [track], spans, output: join(output, name + ".wav") });
+    invoke(name, "media.audio", {
+      tracks: [{ role: "narration", ...track }],
+      spans,
+      output: join(output, name + ".wav"),
+    });
     clips.push({
       id: name,
       file: name + ".wav",

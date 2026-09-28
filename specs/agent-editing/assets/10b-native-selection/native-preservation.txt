@@ -1,0 +1,30 @@
+✔ audio worker writes a concatenated excerpt and survives invalid requests (1627.918833ms)
+✔ a thousand fractional spans keep the duration the plan asked for (1365.042625ms)
+✔ audio worker writes WAVE bytes to an opaque derivative path (466.182833ms)
+✔ audio decode failure permits explicit retry while invalid plans remain terminal (42.817083ms)
+✔ AAC source priming is removed before offset placement in streamed PCM (1057.559791ms)
+✔ midstream source failure leaves no completed WAVE or staging output (653.163708ms)
+✔ movie preserves original timing and PCM alignment (4434.521916ms)
+✔ movie preserves two-cuts timing and PCM alignment (8600.935ms)
+✔ movie preserves fractional timing and PCM alignment (2503.323125ms)
+✔ tiny AAC has exact native endpoint but differs in FFmpeg decoding (2166.748375ms)
+✔ movie preserves subsample timing and PCM alignment (1207.836584ms)
+✔ movie preserves mono timing and PCM alignment (2044.67275ms)
+✔ movie preserves silent timing and PCM alignment (1164.027417ms)
+✔ changed excluded source samples cannot enter tiny or cut AAC output (3497.753ms)
+✔ movie accepts 1001 retained/acquired spans while public excerpts retain their cap (1364.251042ms)
+✔ two-cuts resampling endpoint excludes neighboring native frames and refuses truncated decode (1435.475208ms)
+✔ malformed, relative and unsafe requests are refused before models are read (1153.0415ms)
+✔ absent model files are unavailable and changed ones invalid, before any load (354.550708ms)
+✔ verified models still refuse an occupied output and report unreadable narration (87.223458ms)
+✔ only readable narration becomes segments, and a fragment too short is skipped unread by the engine (588.276875ms)
+✔ a verified model that cannot load fails retryably and is left exactly as it was (767.862208ms)
+✔ selected audio streams stay distinct and an omitted ambiguous selection is refused (670.93775ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31687.662959

@@ -106,10 +106,23 @@ func writePlanReference(_ path: String) async throws {
     let report: [String: Any] = [
         "frames": stream.frames, "sampleRate": stream.format.sampleRate,
         "channels": stream.format.channels, "bytes": bytes,
-        "tracks": try JSONSerialization.jsonObject(with: JSONEncoder().encode(stream.reports)),
+        "tracks": try JSONSerialization.jsonObject(with: JSONEncoder().encode(zip(plan.tracks, stream.reports).map { AudioTrackReport(role: $0.role, source: $1) })),
     ]
     print(
         String(
             data: try JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]),
             encoding: .utf8)!)
+}
+
+/// Selected-source PCM uses the production stream and WAVE sink without a recording role.
+func writeSelectedReference(_ path: String) async throws {
+    struct Plan: Decodable {
+        let source: AudioSourceSelection
+        let spans: [TimeSpan]
+        let output: String
+    }
+    let plan = try JSONDecoder().decode(Plan.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
+    let stream = try await AudioPCMStream.open(source: plan.source, spans: plan.spans)
+    let bytes = try await AudioWave.write(stream, to: URL(fileURLWithPath: plan.output))
+    print("Selected source PCM: \(stream.frames) frames, \(bytes) bytes")
 }

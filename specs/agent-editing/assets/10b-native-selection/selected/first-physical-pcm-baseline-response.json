@@ -1,0 +1,33 @@
+{
+  "data": {
+    "bytes": 2404096,
+    "channels": 1,
+    "durationUs": 12500000,
+    "file": "/tmp/selected-source-transcription-final/first-physical-baseline.wav",
+    "frames": 600000,
+    "mediaType": "audio/wav",
+    "sampleRate": 48000,
+    "spans": [
+      {
+        "endUs": 12500000,
+        "startUs": 0
+      }
+    ],
+    "tracks": [
+      {
+        "channels": 1,
+        "gain": 1,
+        "role": "narration",
+        "sampleRate": 48000,
+        "unavailable": [
+          {
+            "endUs": 6500000,
+            "startUs": 6000000
+          }
+        ]
+      }
+    ]
+  },
+  "id": "first-physical-pcm-baseline",
+  "ok": true
+}

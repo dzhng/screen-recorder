@@ -148,7 +148,6 @@ for (const [index, wav] of pcm.entries()) {
   cursor += length + (gaps[index] ?? 0) * 1_000_000;
 }
 const track = {
-  role: "narration",
   source: narration,
   sourceOffsetUs: offsetUs,
   available: [{ startUs: offsetUs, endUs: cursor }],
@@ -214,7 +213,11 @@ const normalize = (text) =>
 const parity = [];
 for (const line of lines.filter((line) => line.state === "transcribed")) {
   const wav = join(out, `interval-${line.ordinal}.wav`);
-  worker("media.audio", { output: wav, spans: [line.source], tracks: [track] });
+  worker("media.audio", {
+    output: wav,
+    spans: [line.source],
+    tracks: [{ role: "narration", ...track }],
+  });
   const report = join(out, `cli-${line.ordinal}.json`);
   run(offline[0], [
     ...offline.slice(1),

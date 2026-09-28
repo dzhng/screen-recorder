@@ -80,7 +80,6 @@ for (const sample of cases) {
     params: {
       models: modelRequest,
       track: {
-        role: "narration",
         source: sample.source,
         sourceOffsetUs: 0,
         available: [{ startUs: 0, endUs: durationUs }],

@@ -14,6 +14,11 @@ if let supplied = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_EVIDENCE"
 }
 try FileManager.default.createDirectory(at: evidence, withIntermediateDirectories: true)
 
+if let plan = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_SELECTED_PLAN"] {
+    try await writeSelectedReference(plan)
+    exit(0)
+}
+
 if let plan = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_REFERENCE_PLAN"] {
     try await writePlanReference(plan)
     exit(0)

@@ -1,0 +1,1152 @@
+{
+  "scope": "Local baseline reproduction and incomplete label packet, not cleanup acceptance",
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "nativeSha256": "27594172bb88257b2b2c124d88b5165f9054f7c472cda9d629b9ede070c87edb",
+  "nativePath": "/tmp/screenrec-selected-stream-transcription/helpers/mac/.build/debug/screenrec-native",
+  "harnessSha256": "5d3cadae34e9cffd372063a3195becacb30dda0f002c4fb6ffaec3ef2ba7e16b",
+  "models": {
+    "pins": {
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7",
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "decoder": "parakeet-tdt-batch",
+      "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+    },
+    "digest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+    "files": [
+      {
+        "path": "Decoder.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "46de1a6fe2e49d19a2125bc91acf020df7f2aea84ba821532aade8427a440b05"
+      },
+      {
+        "path": "Decoder.mlmodelc/coremldata.bin",
+        "bytes": 554,
+        "sha256": "d200ca07694a347f6d02a3886a062ae839831e094e443222f2e48a14945966a8"
+      },
+      {
+        "path": "Decoder.mlmodelc/metadata.json",
+        "bytes": 3427,
+        "sha256": "90a279b822496316458febc0ce761ab05954fadd9d66aa97bea077a35fc8f2b2"
+      },
+      {
+        "path": "Decoder.mlmodelc/model.mil",
+        "bytes": 13106,
+        "sha256": "7b95a5a6b672c652000348a67b6d4d92bb8e176b978c6666fe73c28a4d7ec579"
+      },
+      {
+        "path": "Decoder.mlmodelc/weights/weight.bin",
+        "bytes": 14429952,
+        "sha256": "27d26890221d82322c1092fd99d7b40578e435d5cf4b83c887c42603caf97aba"
+      },
+      {
+        "path": "Encoder.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "42e638870d73f26b332918a3496ce36793fbb413a81cbd3d16ba01328637a105"
+      },
+      {
+        "path": "Encoder.mlmodelc/coremldata.bin",
+        "bytes": 485,
+        "sha256": "4def7aa848599ad0e17a8b9a982edcdbf33cf92e1f4b798de32e2ca0bc74b030"
+      },
+      {
+        "path": "Encoder.mlmodelc/metadata.json",
+        "bytes": 2926,
+        "sha256": "58222fbc48c13c49d9715567803cd50cb9c23e4360462e0f8ffcea59a2c73c63"
+      },
+      {
+        "path": "Encoder.mlmodelc/model.mil",
+        "bytes": 959769,
+        "sha256": "ed7b19156ca29fa7dfd6891deb9fda4b0e8893f68597c985d135736546a43808"
+      },
+      {
+        "path": "Encoder.mlmodelc/weights/weight.bin",
+        "bytes": 445187200,
+        "sha256": "4adc7ad44f9d05e1bffeb2b06d3bb02861a5c7602dff63a6b494aed3bf8a6c3e"
+      },
+      {
+        "path": "JointDecision.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "f1183ba213bb94a918c8d2cad19ab045320618f97f6ca662245b3936d7b090f7"
+      },
+      {
+        "path": "JointDecision.mlmodelc/coremldata.bin",
+        "bytes": 534,
+        "sha256": "e2c6752f1c8cf2d3f6f26ec93195c9bfa759ad59edf9f806696a138154f96f11"
+      },
+      {
+        "path": "JointDecision.mlmodelc/metadata.json",
+        "bytes": 2936,
+        "sha256": "ba8d309417b9acd4a175fdb15687de6a941db2f5b06666a60e7cf3cc8e2d3c3c"
+      },
+      {
+        "path": "JointDecision.mlmodelc/model.mil",
+        "bytes": 9722,
+        "sha256": "93bf82042235127cb81ab537dcae47a1c2e7e242ce4ffdaf772981b45eedc4f0"
+      },
+      {
+        "path": "JointDecision.mlmodelc/weights/weight.bin",
+        "bytes": 3453388,
+        "sha256": "ca22a65903a05e64137677da608077578a8606090a598abf4875fa6199aaa19d"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "03ab3c1327a054c54c07a40325db967ec574f2c91dcc8192bfa44aa561bcf2d8"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/coremldata.bin",
+        "bytes": 494,
+        "sha256": "d88ea1fc349459c9e100d6a96688c5b29a1f0d865f544be103001724b986b6d6"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/metadata.json",
+        "bytes": 2974,
+        "sha256": "fb16c581ff5e1b962e7cb2181ed892cd32f9f84c12b6e80ff3e089f28e35bcbb"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/model.mil",
+        "bytes": 27166,
+        "sha256": "3e06d16fd061294c8a75be68c43a3b1ed1f593d4a9c35249e9cdbccadc59721e"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/weights/weight.bin",
+        "bytes": 298880,
+        "sha256": "a5f7df6c7f47147ae9486fe18cc7792f9a44d093ec3c6a11e91ef2dc363c48dc"
+      },
+      {
+        "path": "README.md",
+        "bytes": 1665,
+        "sha256": "491eac9a160dc7b0f7ce1210dea4fff6df0222124e93ea83ae2cd72827b4ce02"
+      },
+      {
+        "path": "parakeet_vocab.json",
+        "bytes": 18762,
+        "sha256": "57019fe3c745772ca83a1b048a4bb951cd51329504ea33d4d83316b96e279a97"
+      }
+    ]
+  },
+  "network": "OS sandbox deny network for all native calls",
+  "inheritedTiming": {
+    "marked": 15,
+    "matched": 15,
+    "unmarked": 1,
+    "medianErrorMs": 135,
+    "p95ErrorMs": 578.1,
+    "worstErrorMs": 590,
+    "meetsTiming": false,
+    "interpretation": "Only inherited visually marked edges; not a complete word/filler evaluation.",
+    "boundaries": [
+      {
+        "sheet": 0,
+        "row": 0,
+        "id": "w0",
+        "text": "Okay,",
+        "side": "start",
+        "reportedUs": 1168675,
+        "phrase": 0,
+        "markedOffsetMs": 205,
+        "referenceUs": 1373675,
+        "candidateUs": 1168675,
+        "state": "matched",
+        "errorMs": -205,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 0,
+        "row": 1,
+        "id": "w6",
+        "text": "workbench.",
+        "side": "end",
+        "reportedUs": 5648675,
+        "phrase": 0,
+        "markedOffsetMs": -5,
+        "referenceUs": 5643675,
+        "candidateUs": 5648675,
+        "state": "matched",
+        "errorMs": 5,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 1,
+        "row": 0,
+        "id": "w25",
+        "text": "and",
+        "side": "start",
+        "reportedUs": 13248675,
+        "phrase": 3,
+        "markedOffsetMs": 225,
+        "referenceUs": 13473675,
+        "candidateUs": 13248675,
+        "state": "matched",
+        "errorMs": -225,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 1,
+        "row": 1,
+        "id": "w26",
+        "text": "E2.",
+        "side": "end",
+        "reportedUs": 13968675,
+        "phrase": 3,
+        "markedOffsetMs": 60,
+        "referenceUs": 14028675,
+        "candidateUs": 13968675,
+        "state": "matched",
+        "errorMs": -60,
+        "insideSpeech": true
+      },
+      {
+        "sheet": 2,
+        "row": 0,
+        "id": "w57",
+        "text": "Yeah,",
+        "side": "start",
+        "reportedUs": 28688675,
+        "phrase": 6,
+        "markedOffsetMs": 210,
+        "referenceUs": 28898675,
+        "candidateUs": 28688675,
+        "state": "matched",
+        "errorMs": -210,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 2,
+        "row": 1,
+        "id": "w62",
+        "text": "pointer.",
+        "side": "end",
+        "reportedUs": 30368675,
+        "phrase": 6,
+        "markedOffsetMs": -105,
+        "referenceUs": 30263675,
+        "candidateUs": 30368675,
+        "state": "matched",
+        "errorMs": 105,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 3,
+        "row": 0,
+        "id": "w93",
+        "text": "let",
+        "side": "start",
+        "reportedUs": 42848675,
+        "phrase": 9,
+        "markedOffsetMs": 205,
+        "referenceUs": 43053675,
+        "candidateUs": 42848675,
+        "state": "matched",
+        "errorMs": -205,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 3,
+        "row": 1,
+        "id": "w103",
+        "text": "narrate,",
+        "side": "end",
+        "reportedUs": 47168675,
+        "phrase": 9,
+        "markedOffsetMs": -573,
+        "referenceUs": 46595675,
+        "candidateUs": 47168675,
+        "state": "matched",
+        "errorMs": 573,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 4,
+        "row": 0,
+        "id": "w117",
+        "text": "uh",
+        "side": "start",
+        "reportedUs": 54128675,
+        "phrase": 12,
+        "markedOffsetMs": 0,
+        "referenceUs": 54128675,
+        "candidateUs": 54128675,
+        "state": "matched",
+        "errorMs": 0,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 4,
+        "row": 1,
+        "id": "w117",
+        "text": "uh",
+        "side": "end",
+        "reportedUs": 54448675,
+        "phrase": 12,
+        "markedOffsetMs": 100,
+        "referenceUs": 54548675,
+        "candidateUs": 54448675,
+        "state": "matched",
+        "errorMs": -100,
+        "insideSpeech": true
+      },
+      {
+        "sheet": 5,
+        "row": 0,
+        "id": "w160",
+        "text": "the",
+        "side": "start",
+        "reportedUs": 72288675,
+        "phrase": 15,
+        "markedOffsetMs": 135,
+        "referenceUs": 72423675,
+        "candidateUs": 72288675,
+        "state": "matched",
+        "errorMs": -135,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 6,
+        "row": 0,
+        "id": "w237",
+        "text": "Return",
+        "side": "start",
+        "reportedUs": 103808675,
+        "phrase": 18,
+        "markedOffsetMs": 160,
+        "referenceUs": 103968675,
+        "candidateUs": 103808675,
+        "state": "matched",
+        "errorMs": -160,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 6,
+        "row": 1,
+        "id": "w239",
+        "text": "it.",
+        "side": "end",
+        "reportedUs": 104688675,
+        "phrase": 18,
+        "markedOffsetMs": -105,
+        "referenceUs": 104583675,
+        "candidateUs": 104688675,
+        "state": "matched",
+        "errorMs": 105,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 7,
+        "row": 0,
+        "id": "w277",
+        "text": "easier",
+        "side": "start",
+        "reportedUs": 120928675,
+        "phrase": 21,
+        "markedOffsetMs": -75,
+        "referenceUs": 120853675,
+        "candidateUs": 120928675,
+        "state": "matched",
+        "errorMs": 75,
+        "insideSpeech": true
+      },
+      {
+        "sheet": 7,
+        "row": 1,
+        "id": "w279",
+        "text": "spot.",
+        "side": "end",
+        "reportedUs": 122448675,
+        "phrase": 21,
+        "markedOffsetMs": -590,
+        "referenceUs": 121858675,
+        "candidateUs": 122448675,
+        "state": "matched",
+        "errorMs": 590,
+        "insideSpeech": false
+      }
+    ]
+  },
+  "currentTiming": {
+    "marked": 15,
+    "matched": 15,
+    "unmarked": 1,
+    "medianErrorMs": 135,
+    "p95ErrorMs": 578.1,
+    "worstErrorMs": 590,
+    "meetsTiming": false,
+    "interpretation": "Only inherited visually marked edges; not a complete word/filler evaluation.",
+    "boundaries": [
+      {
+        "sheet": 0,
+        "row": 0,
+        "id": "w0",
+        "text": "Okay,",
+        "side": "start",
+        "reportedUs": 1168675,
+        "phrase": 0,
+        "markedOffsetMs": 205,
+        "referenceUs": 1373675,
+        "candidateUs": 1168675,
+        "state": "matched",
+        "errorMs": -205,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 0,
+        "row": 1,
+        "id": "w6",
+        "text": "workbench.",
+        "side": "end",
+        "reportedUs": 5648675,
+        "phrase": 0,
+        "markedOffsetMs": -5,
+        "referenceUs": 5643675,
+        "candidateUs": 5648675,
+        "state": "matched",
+        "errorMs": 5,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 1,
+        "row": 0,
+        "id": "w25",
+        "text": "and",
+        "side": "start",
+        "reportedUs": 13248675,
+        "phrase": 3,
+        "markedOffsetMs": 225,
+        "referenceUs": 13473675,
+        "candidateUs": 13248675,
+        "state": "matched",
+        "errorMs": -225,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 1,
+        "row": 1,
+        "id": "w26",
+        "text": "E2.",
+        "side": "end",
+        "reportedUs": 13968675,
+        "phrase": 3,
+        "markedOffsetMs": 60,
+        "referenceUs": 14028675,
+        "candidateUs": 13968675,
+        "state": "matched",
+        "errorMs": -60,
+        "insideSpeech": true
+      },
+      {
+        "sheet": 2,
+        "row": 0,
+        "id": "w57",
+        "text": "Yeah,",
+        "side": "start",
+        "reportedUs": 28688675,
+        "phrase": 6,
+        "markedOffsetMs": 210,
+        "referenceUs": 28898675,
+        "candidateUs": 28688675,
+        "state": "matched",
+        "errorMs": -210,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 2,
+        "row": 1,
+        "id": "w62",
+        "text": "pointer.",
+        "side": "end",
+        "reportedUs": 30368675,
+        "phrase": 6,
+        "markedOffsetMs": -105,
+        "referenceUs": 30263675,
+        "candidateUs": 30368675,
+        "state": "matched",
+        "errorMs": 105,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 3,
+        "row": 0,
+        "id": "w93",
+        "text": "let",
+        "side": "start",
+        "reportedUs": 42848675,
+        "phrase": 9,
+        "markedOffsetMs": 205,
+        "referenceUs": 43053675,
+        "candidateUs": 42848675,
+        "state": "matched",
+        "errorMs": -205,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 3,
+        "row": 1,
+        "id": "w103",
+        "text": "narrate,",
+        "side": "end",
+        "reportedUs": 47168675,
+        "phrase": 9,
+        "markedOffsetMs": -573,
+        "referenceUs": 46595675,
+        "candidateUs": 47168675,
+        "state": "matched",
+        "errorMs": 573,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 4,
+        "row": 0,
+        "id": "w117",
+        "text": "uh",
+        "side": "start",
+        "reportedUs": 54128675,
+        "phrase": 12,
+        "markedOffsetMs": 0,
+        "referenceUs": 54128675,
+        "candidateUs": 54128675,
+        "state": "matched",
+        "errorMs": 0,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 4,
+        "row": 1,
+        "id": "w117",
+        "text": "uh",
+        "side": "end",
+        "reportedUs": 54448675,
+        "phrase": 12,
+        "markedOffsetMs": 100,
+        "referenceUs": 54548675,
+        "candidateUs": 54448675,
+        "state": "matched",
+        "errorMs": -100,
+        "insideSpeech": true
+      },
+      {
+        "sheet": 5,
+        "row": 0,
+        "id": "w160",
+        "text": "the",
+        "side": "start",
+        "reportedUs": 72288675,
+        "phrase": 15,
+        "markedOffsetMs": 135,
+        "referenceUs": 72423675,
+        "candidateUs": 72288675,
+        "state": "matched",
+        "errorMs": -135,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 6,
+        "row": 0,
+        "id": "w237",
+        "text": "Return",
+        "side": "start",
+        "reportedUs": 103808675,
+        "phrase": 18,
+        "markedOffsetMs": 160,
+        "referenceUs": 103968675,
+        "candidateUs": 103808675,
+        "state": "matched",
+        "errorMs": -160,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 6,
+        "row": 1,
+        "id": "w239",
+        "text": "it.",
+        "side": "end",
+        "reportedUs": 104688675,
+        "phrase": 18,
+        "markedOffsetMs": -105,
+        "referenceUs": 104583675,
+        "candidateUs": 104688675,
+        "state": "matched",
+        "errorMs": 105,
+        "insideSpeech": false
+      },
+      {
+        "sheet": 7,
+        "row": 0,
+        "id": "w277",
+        "text": "easier",
+        "side": "start",
+        "reportedUs": 120928675,
+        "phrase": 21,
+        "markedOffsetMs": -75,
+        "referenceUs": 120853675,
+        "candidateUs": 120928675,
+        "state": "matched",
+        "errorMs": 75,
+        "insideSpeech": true
+      },
+      {
+        "sheet": 7,
+        "row": 1,
+        "id": "w279",
+        "text": "spot.",
+        "side": "end",
+        "reportedUs": 122448675,
+        "phrase": 21,
+        "markedOffsetMs": -590,
+        "referenceUs": 121858675,
+        "candidateUs": 122448675,
+        "state": "matched",
+        "errorMs": 590,
+        "insideSpeech": false
+      }
+    ]
+  },
+  "wordCount": 306,
+  "identicalToInheritedWordTimings": true,
+  "observedFillers": [
+    {
+      "id": "w117",
+      "type": "word",
+      "text": "uh",
+      "sourceRange": {
+        "endUs": 54448675,
+        "startUs": 54128675
+      },
+      "partial": false
+    }
+  ],
+  "fillerPrecision": null,
+  "fillerRecall": null,
+  "reason": "Complete independent audible target inventory and false-positive review do not exist.",
+  "repetition": {
+    "candidate": {
+      "id": "repetition-candidate-second-return",
+      "text": "Return to it.",
+      "kind": "candidate-repetition",
+      "sourceRange": {
+        "startUs": 103968675,
+        "endUs": 104583675
+      },
+      "evidence": "specs/recording-for-ai/assets/speech/boundaries/marks.json",
+      "evidenceWords": [
+        "w237",
+        "w238",
+        "w239"
+      ],
+      "boundaryAuthority": "inherited-manual-outer-boundaries",
+      "textAuthority": "asr",
+      "removalIntent": "unverified",
+      "audition": "not-performed-for-this-cut"
+    },
+    "observed": [
+      {
+        "id": "w222",
+        "type": "word",
+        "text": "so",
+        "sourceRange": {
+          "endUs": 98448675,
+          "startUs": 98288675
+        },
+        "partial": false
+      },
+      {
+        "id": "w223",
+        "type": "word",
+        "text": "let's",
+        "sourceRange": {
+          "endUs": 98928675,
+          "startUs": 98608675
+        },
+        "partial": false
+      },
+      {
+        "id": "w224",
+        "type": "word",
+        "text": "move",
+        "sourceRange": {
+          "endUs": 99168675,
+          "startUs": 98928675
+        },
+        "partial": false
+      },
+      {
+        "id": "w225",
+        "type": "word",
+        "text": "away,",
+        "sourceRange": {
+          "endUs": 99408675,
+          "startUs": 99168675
+        },
+        "partial": false
+      },
+      {
+        "id": "w226",
+        "type": "word",
+        "text": "return",
+        "sourceRange": {
+          "endUs": 99968675,
+          "startUs": 99568675
+        },
+        "partial": false
+      },
+      {
+        "id": "w227",
+        "type": "word",
+        "text": "to",
+        "sourceRange": {
+          "endUs": 100128675,
+          "startUs": 99968675
+        },
+        "partial": false
+      },
+      {
+        "id": "w228",
+        "type": "word",
+        "text": "it.",
+        "sourceRange": {
+          "endUs": 100208675,
+          "startUs": 100128675
+        },
+        "partial": false
+      },
+      {
+        "id": "w229",
+        "type": "word",
+        "text": "Because",
+        "sourceRange": {
+          "endUs": 100528675,
+          "startUs": 100448675
+        },
+        "partial": false
+      },
+      {
+        "id": "w230",
+        "type": "word",
+        "text": "I'm",
+        "sourceRange": {
+          "endUs": 100848675,
+          "startUs": 100688675
+        },
+        "partial": false
+      },
+      {
+        "id": "w231",
+        "type": "word",
+        "text": "just",
+        "sourceRange": {
+          "endUs": 101008675,
+          "startUs": 100848675
+        },
+        "partial": false
+      },
+      {
+        "id": "w232",
+        "type": "word",
+        "text": "doing",
+        "sourceRange": {
+          "endUs": 101168675,
+          "startUs": 101008675
+        },
+        "partial": false
+      },
+      {
+        "id": "w233",
+        "type": "word",
+        "text": "my",
+        "sourceRange": {
+          "endUs": 101328675,
+          "startUs": 101168675
+        },
+        "partial": false
+      },
+      {
+        "id": "w234",
+        "type": "word",
+        "text": "pointer,",
+        "sourceRange": {
+          "endUs": 101648675,
+          "startUs": 101328675
+        },
+        "partial": false
+      },
+      {
+        "id": "w235",
+        "type": "word",
+        "text": "moving",
+        "sourceRange": {
+          "endUs": 102048675,
+          "startUs": 101808675
+        },
+        "partial": false
+      },
+      {
+        "id": "w236",
+        "type": "word",
+        "text": "away.",
+        "sourceRange": {
+          "endUs": 102768675,
+          "startUs": 102208675
+        },
+        "partial": false
+      },
+      {
+        "id": "w237",
+        "type": "word",
+        "text": "Return",
+        "sourceRange": {
+          "endUs": 104288675,
+          "startUs": 103808675
+        },
+        "partial": false
+      },
+      {
+        "id": "w238",
+        "type": "word",
+        "text": "to",
+        "sourceRange": {
+          "endUs": 104528675,
+          "startUs": 104288675
+        },
+        "partial": false
+      },
+      {
+        "id": "w239",
+        "type": "word",
+        "text": "it.",
+        "sourceRange": {
+          "endUs": 104688675,
+          "startUs": 104528675
+        },
+        "partial": false
+      }
+    ],
+    "removalIntent": "unverified"
+  },
+  "pacing": {
+    "authority": "ASR word placements only; cannot establish desired pacing or pause removal intent"
+  },
+  "cleanupAcceptance": "incomplete",
+  "listening": "not performed",
+  "independentVisualReview": "not performed",
+  "calls": [
+    {
+      "id": "transcript",
+      "elapsedSeconds": 2.879285875,
+      "response": {
+        "data": {
+          "details": {
+            "peakResidentBytes": 150913024
+          },
+          "engine": {
+            "computeUnits": "cpuAndNeuralEngine",
+            "decoder": "parakeet-tdt-batch",
+            "encoderPrecision": "int8",
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7"
+          },
+          "output": {
+            "bytes": 113727,
+            "file": "/tmp/selected-source-full-narration-final/raw.jsonl",
+            "sha256": "45fe0ca38f0abcbf333a5b755e78d6cf10e77149ce62fb7e8e5dab37ebcc1edd"
+          },
+          "segments": [
+            {
+              "ordinal": 0,
+              "source": {
+                "endUs": 134022008,
+                "startUs": 48675
+              },
+              "state": "transcribed",
+              "wordCount": 306
+            }
+          ],
+          "wordCount": 306
+        },
+        "id": "transcript",
+        "ok": true
+      }
+    },
+    {
+      "id": "filler-uh-54s-original",
+      "elapsedSeconds": 0.27376395800000003,
+      "response": {
+        "data": {
+          "bytes": 1213696,
+          "channels": 1,
+          "durationUs": 6300000,
+          "file": "/tmp/selected-source-full-narration-final/filler-uh-54s-original.wav",
+          "frames": 302400,
+          "mediaType": "audio/wav",
+          "sampleRate": 48000,
+          "spans": [
+            {
+              "endUs": 57800000,
+              "startUs": 51500000
+            }
+          ],
+          "tracks": [
+            {
+              "channels": 1,
+              "gain": 1,
+              "role": "narration",
+              "sampleRate": 48000,
+              "unavailable": []
+            }
+          ]
+        },
+        "id": "filler-uh-54s-original",
+        "ok": true
+      }
+    },
+    {
+      "id": "filler-uh-54s-candidate-cut",
+      "elapsedSeconds": 0.2585569999999998,
+      "response": {
+        "data": {
+          "bytes": 1133056,
+          "channels": 1,
+          "durationUs": 5880000,
+          "file": "/tmp/selected-source-full-narration-final/filler-uh-54s-candidate-cut.wav",
+          "frames": 282240,
+          "mediaType": "audio/wav",
+          "sampleRate": 48000,
+          "spans": [
+            {
+              "endUs": 54128675,
+              "startUs": 51500000
+            },
+            {
+              "endUs": 57800000,
+              "startUs": 54548675
+            }
+          ],
+          "tracks": [
+            {
+              "channels": 1,
+              "gain": 1,
+              "role": "narration",
+              "sampleRate": 48000,
+              "unavailable": []
+            }
+          ]
+        },
+        "id": "filler-uh-54s-candidate-cut",
+        "ok": true
+      }
+    },
+    {
+      "id": "repetition-candidate-second-return-original",
+      "elapsedSeconds": 0.3119712910000003,
+      "response": {
+        "data": {
+          "bytes": 1828096,
+          "channels": 1,
+          "durationUs": 9500000,
+          "file": "/tmp/selected-source-full-narration-final/repetition-candidate-second-return-original.wav",
+          "frames": 456000,
+          "mediaType": "audio/wav",
+          "sampleRate": 48000,
+          "spans": [
+            {
+              "endUs": 107000000,
+              "startUs": 97500000
+            }
+          ],
+          "tracks": [
+            {
+              "channels": 1,
+              "gain": 1,
+              "role": "narration",
+              "sampleRate": 48000,
+              "unavailable": []
+            }
+          ]
+        },
+        "id": "repetition-candidate-second-return-original",
+        "ok": true
+      }
+    },
+    {
+      "id": "repetition-candidate-second-return-candidate-cut",
+      "elapsedSeconds": 0.29130575,
+      "response": {
+        "data": {
+          "bytes": 1710016,
+          "channels": 1,
+          "durationUs": 8885000,
+          "file": "/tmp/selected-source-full-narration-final/repetition-candidate-second-return-candidate-cut.wav",
+          "frames": 426480,
+          "mediaType": "audio/wav",
+          "sampleRate": 48000,
+          "spans": [
+            {
+              "endUs": 103968675,
+              "startUs": 97500000
+            },
+            {
+              "endUs": 107000000,
+              "startUs": 104583675
+            }
+          ],
+          "tracks": [
+            {
+              "channels": 1,
+              "gain": 1,
+              "role": "narration",
+              "sampleRate": 48000,
+              "unavailable": []
+            }
+          ]
+        },
+        "id": "repetition-candidate-second-return-candidate-cut",
+        "ok": true
+      }
+    }
+  ],
+  "clips": [
+    {
+      "id": "filler-uh-54s-original",
+      "file": "filler-uh-54s-original.wav",
+      "sha256": "5e5155c6339e2154efa1aa3e4bad98e5b4e1f5f1e6384d7bd3a5739f8e36e00a",
+      "spans": [
+        {
+          "startUs": 51500000,
+          "endUs": 57800000
+        }
+      ],
+      "targetProvenance": {
+        "id": "filler-uh-54s",
+        "text": "uh",
+        "kind": "filler",
+        "sourceRange": {
+          "startUs": 54128675,
+          "endUs": 54548675
+        },
+        "fileRange": {
+          "startUs": 54080000,
+          "endUs": 54500000
+        },
+        "evidence": "specs/recording-for-ai/assets/speech/boundaries/marks.json",
+        "evidenceWords": [
+          "w117"
+        ],
+        "boundaryAuthority": "inherited-manual-visual-marks",
+        "audition": "not-performed-for-this-cut"
+      },
+      "acceptance": "Listening and protected-word verification open; this demonstrates the requested span operation only."
+    },
+    {
+      "id": "filler-uh-54s-candidate-cut",
+      "file": "filler-uh-54s-candidate-cut.wav",
+      "sha256": "1b811ef915d53f0fc38fda0a2ef95019cd478e6be0ef493b347b265368214647",
+      "spans": [
+        {
+          "startUs": 51500000,
+          "endUs": 54128675
+        },
+        {
+          "startUs": 54548675,
+          "endUs": 57800000
+        }
+      ],
+      "targetProvenance": {
+        "id": "filler-uh-54s",
+        "text": "uh",
+        "kind": "filler",
+        "sourceRange": {
+          "startUs": 54128675,
+          "endUs": 54548675
+        },
+        "fileRange": {
+          "startUs": 54080000,
+          "endUs": 54500000
+        },
+        "evidence": "specs/recording-for-ai/assets/speech/boundaries/marks.json",
+        "evidenceWords": [
+          "w117"
+        ],
+        "boundaryAuthority": "inherited-manual-visual-marks",
+        "audition": "not-performed-for-this-cut"
+      },
+      "acceptance": "Listening and protected-word verification open; this demonstrates the requested span operation only."
+    },
+    {
+      "id": "repetition-candidate-second-return-original",
+      "file": "repetition-candidate-second-return-original.wav",
+      "sha256": "906a8cd3ea58a8edeadd436d2a8432c542a12981dfbb15881a423a64b9ad032b",
+      "spans": [
+        {
+          "startUs": 97500000,
+          "endUs": 107000000
+        }
+      ],
+      "targetProvenance": {
+        "id": "repetition-candidate-second-return",
+        "text": "Return to it.",
+        "kind": "candidate-repetition",
+        "sourceRange": {
+          "startUs": 103968675,
+          "endUs": 104583675
+        },
+        "evidence": "specs/recording-for-ai/assets/speech/boundaries/marks.json",
+        "evidenceWords": [
+          "w237",
+          "w238",
+          "w239"
+        ],
+        "boundaryAuthority": "inherited-manual-outer-boundaries",
+        "textAuthority": "asr",
+        "removalIntent": "unverified",
+        "audition": "not-performed-for-this-cut"
+      },
+      "acceptance": "Listening and protected-word verification open; this demonstrates the requested span operation only."
+    },
+    {
+      "id": "repetition-candidate-second-return-candidate-cut",
+      "file": "repetition-candidate-second-return-candidate-cut.wav",
+      "sha256": "f1741a16f7fe826aca9df1c730d4aae7ab83951737528d118f426a417d168b21",
+      "spans": [
+        {
+          "startUs": 97500000,
+          "endUs": 103968675
+        },
+        {
+          "startUs": 104583675,
+          "endUs": 107000000
+        }
+      ],
+      "targetProvenance": {
+        "id": "repetition-candidate-second-return",
+        "text": "Return to it.",
+        "kind": "candidate-repetition",
+        "sourceRange": {
+          "startUs": 103968675,
+          "endUs": 104583675
+        },
+        "evidence": "specs/recording-for-ai/assets/speech/boundaries/marks.json",
+        "evidenceWords": [
+          "w237",
+          "w238",
+          "w239"
+        ],
+        "boundaryAuthority": "inherited-manual-outer-boundaries",
+        "textAuthority": "asr",
+        "removalIntent": "unverified",
+        "audition": "not-performed-for-this-cut"
+      },
+      "acceptance": "Listening and protected-word verification open; this demonstrates the requested span operation only."
+    }
+  ],
+  "missing": [
+    "independent labels for all audible fillers including ASR omissions",
+    "independent repeated-word removal versus deliberate-emphasis labels",
+    "manual protected-neighbor ranges around filler and repetition cuts",
+    "independent auditions of filler and repetition joins"
+  ],
+  "baselineFiles": {
+    "marks": "23e893cae933ca9c9a0947b40cd09c26143c7de845cad57ecfe333e2582e96ad",
+    "transcript": "f17e3bb721c24637a6c0e650511d2853f0c42497d903c6ca953d0bb3a80aaa00",
+    "labels": "d6b4188e7a461a36e937e3018fb4e707233a986561c4fe02636fe88416c61faf"
+  }
+}

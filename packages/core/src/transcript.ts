@@ -6,7 +6,6 @@ import { setImmediate } from "node:timers/promises";
 import { z } from "zod";
 import { type RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
-import type { AudioTrackPlan } from "./audio.js";
 import type { PageQuery } from "./ordered-pages.js";
 import type { SpeechEnginePins, SpeechModelRequest } from "./speech-models.js";
 import type { TimeRange } from "./timeline.js";
@@ -17,7 +16,12 @@ export const transcriptPolicy = "transcript-v1";
 /** What the native `speech.transcribe` operation receives. */
 export type SpeechTranscriptionRequest = {
   models: SpeechModelRequest;
-  track: AudioTrackPlan;
+  track: {
+    source: string;
+    streamId?: string;
+    sourceOffsetUs: number;
+    available: TimeRange[];
+  };
   output: string;
 };
 /** What the native operation answers after publishing `output`; parsed tolerantly of added fields. */

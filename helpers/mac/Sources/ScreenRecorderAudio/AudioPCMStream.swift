@@ -32,7 +32,7 @@ public final class AudioPCMStream: AudioPCMSource {
     public let format: AudioPCMFormat
     public let frames: Int64
     public let durationUs: Int64
-    public let reports: [AudioTrackReport]
+    public let reports: [AudioSourceReport]
     public let sourceURLs: [URL]
     private let sources: [SourceTrack]
     private let maps: [[Int]]
@@ -61,21 +61,31 @@ public final class AudioPCMStream: AudioPCMSource {
         }
         var opened: [SourceTrack] = []
         for track in tracks {
-            opened.append(try await SourceTrack.open(plan: track))
+            opened.append(try await SourceTrack.open(selection: track.selection))
         }
-        return try AudioPCMStream(sources: opened, roles: tracks.map(\.role), spans: spans, sampleRate: sampleRate)
+        return try AudioPCMStream(sources: opened, spans: spans, sampleRate: sampleRate)
     }
 
-    /// Where one planned track can be read, in recording source time: its acquisition evidence
-    /// intersected with the file's own occupied segments. A consumer that must never hear
-    /// unavailable time as silence opens one stream per interval rather than one across a gap.
-    public static func readableIntervals(of track: AudioTrackPlan) async throws -> [TimeSpan] {
-        try ExcerptValidation.check(
-            tracks: [track], maximumAvailableIntervals: AudioLimits.maximumRetainedAvailableIntervals)
-        return try await SourceTrack.open(plan: track).available
+    /// A selected immutable source uses the same interval layout/conversion as recording mixes.
+    public static func open(source: AudioSourceSelection, spans: [TimeSpan], sampleRate: Int? = nil)
+        async throws -> AudioPCMStream {
+        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        try ExcerptValidation.check(spans: spans, maximumDurationUs: TimeSpan.maximumMicroseconds,
+            maximumSpans: AudioLimits.maximumRetainedSpans)
+        if let sampleRate, !(1...AudioLimits.maximumSampleRate).contains(sampleRate) {
+            throw NativeFailure("INVALID_REQUEST", "Output rate is out of bounds.")
+        }
+        return try await AudioPCMStream(sources: [SourceTrack.open(selection: source)],
+            spans: spans, sampleRate: sampleRate)
     }
 
-    private init(sources: [SourceTrack], roles: [AudioRole], spans: [TimeSpan], sampleRate: Int?) throws {
+    /// Physical occupancy intersected with the caller's selected acquisition support.
+    public static func readableIntervals(of source: AudioSourceSelection) async throws -> [TimeSpan] {
+        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        return try await SourceTrack.open(selection: source).available
+    }
+
+    private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?) throws {
         let sampleRate = sampleRate ?? sources.map(\.sampleRate).max()!
         let channels = sources.map(\.channels).max()!
         guard channels <= 2 else {
@@ -92,8 +102,8 @@ public final class AudioPCMStream: AudioPCMSource {
         let layout = ExcerptLayout(spans: spans, sampleRate: sampleRate)
         let gain: Float = sources.count == 1 ? 1 : 0.5
         var intervals: [[Interval]] = []
-        var reports: [AudioTrackReport] = []
-        for (trackIndex, track) in sources.enumerated() {
+        var reports: [AudioSourceReport] = []
+        for track in sources {
             var readableIntervals: [Interval] = []
             var unavailable: [TimeSpan] = []
             var availableIndex = 0
@@ -122,8 +132,8 @@ public final class AudioPCMStream: AudioPCMSource {
             }
             intervals.append(readableIntervals)
             reports.append(
-                AudioTrackReport(
-                    role: roles[trackIndex], gain: Double(gain), sampleRate: track.sampleRate,
+                AudioSourceReport(
+                    gain: Double(gain), sampleRate: track.sampleRate,
                     channels: track.channels, unavailable: unavailable))
         }
         self.format = AudioPCMFormat(

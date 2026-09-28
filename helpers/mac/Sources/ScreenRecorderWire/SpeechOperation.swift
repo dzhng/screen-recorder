@@ -4,20 +4,24 @@ import ScreenRecorderAudio
 import ScreenRecorderMedia
 import ScreenRecorderSpeech
 
-/// The core plans the narration track and resolves the pinned model files and the attempt's output
+/// The core selects the source stream and resolves the pinned model files and the attempt's output
 /// path before calling this worker. Everything the request names is checked before a model loads.
 enum SpeechOperation {
     private struct Request: Codable {
         let models: SpeechModelFiles
-        let track: AudioTrackPlan
+        let track: AudioSourceSelection
         let output: String
     }
 
     static func transcribe(_ params: [String: Any]) async throws -> SpeechTranscript {
+        // A role is not a source selector, including an explicitly null role.
+        guard (params["track"] as? [String: Any])?["role"] == nil else {
+            throw NativeFailure("INVALID_REQUEST", "Speech source selection does not accept a role.")
+        }
         let request = try WireRequest.decode(Request.self, from: params)
         try WireRequest.requireAbsolute(request.models.directory, request.track.source, request.output)
         return try await divertingStandardOutput {
-            try await NarrationTranscript.write(
+            try await SourceTranscript.write(
                 models: request.models, track: request.track, output: request.output)
         }
     }

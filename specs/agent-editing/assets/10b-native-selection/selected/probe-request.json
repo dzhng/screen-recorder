@@ -1,0 +1,6 @@
+{
+  "operation": "media.probe",
+  "params": {
+    "path": "/tmp/selected-source-transcription-final/multi.mov"
+  }
+}

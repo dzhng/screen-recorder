@@ -1,0 +1,42 @@
+{
+  "data": {
+    "details": {
+      "peakResidentBytes": 106020864
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "output": {
+      "bytes": 10805,
+      "file": "/tmp/selected-source-transcription-final/second-physical-baseline.jsonl",
+      "sha256": "bd3f41b48e2b6fb261e9443e6f010744d2202bdff8d18e02d3680acb1b4d1586"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "source": {
+          "endUs": 6000000,
+          "startUs": 0
+        },
+        "state": "transcribed",
+        "wordCount": 9
+      },
+      {
+        "ordinal": 1,
+        "source": {
+          "endUs": 12500000,
+          "startUs": 6500000
+        },
+        "state": "transcribed",
+        "wordCount": 19
+      }
+    ],
+    "wordCount": 28
+  },
+  "id": "second-physical-baseline",
+  "ok": true
+}

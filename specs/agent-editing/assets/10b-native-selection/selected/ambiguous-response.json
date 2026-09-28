@@ -1,0 +1,10 @@
+{
+  "error": {
+    "code": "INVALID_REQUEST",
+    "details": {},
+    "message": "An omitted stream ID requires exactly one audio stream.",
+    "retryable": false
+  },
+  "id": "ambiguous",
+  "ok": false
+}

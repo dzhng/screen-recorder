@@ -14,10 +14,9 @@ struct SourceTrack {
     let channels: Int
     let available: [TimeSpan]
 
-    static func open(plan: AudioTrackPlan) async throws -> SourceTrack {
-        try await open(
-            source: plan.source, streamId: nil,
-            sourceOffsetUs: plan.sourceOffsetUs, available: plan.available)
+    static func open(selection: AudioSourceSelection) async throws -> SourceTrack {
+        try await open(source: selection.source, streamId: selection.streamId,
+            sourceOffsetUs: selection.sourceOffsetUs, available: selection.available)
     }
 
     static func open(
@@ -35,6 +34,9 @@ struct SourceTrack {
         let segments: [SourceSegment]
         do {
             let tracks = try await asset.loadTracks(withMediaType: .audio)
+            guard streamId != nil || tracks.count == 1 else {
+                throw NativeFailure("INVALID_REQUEST", "An omitted stream ID requires exactly one audio stream.")
+            }
             guard
                 let track = tracks.first(where: {
                     streamId == nil || streamId == "track:\($0.trackID)"
