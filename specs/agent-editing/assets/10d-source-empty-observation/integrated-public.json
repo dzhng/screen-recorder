@@ -1,0 +1,891 @@
+{
+  "passed": true,
+  "checks": {
+    "boundedDelivery": true,
+    "explicitTracksAndPhysicalGap": true,
+    "retainedAcquisition": {
+      "id": "13577995-0156-4416-95f5-cfe26b917611",
+      "donorDeleted": true,
+      "restarted": true,
+      "supportBasis": "physical",
+      "customVideoMaskAdmission": false
+    },
+    "mixedBatchCliAndMcp": true,
+    "cancelRetry": true
+  },
+  "frames": [
+    {
+      "name": "track1",
+      "selection": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1"
+      },
+      "sha256": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-pKsliW/library/cache/derived/4ebcd3bc-8517-4556-888d-09e0a6689862.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "bytes": 405,
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v2",
+        "cacheId": "4ebcd3bc-8517-4556-888d-09e0a6689862"
+      }
+    },
+    {
+      "name": "track2",
+      "selection": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:2"
+      },
+      "sha256": "f5559a2028199be2f55af6dab8a0910f891c16bd1617909331383640f16f3dda",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-pKsliW/library/cache/derived/b6162463-ba67-4f1e-bc14-61e80f161227.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "bytes": 415,
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:2",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v2",
+        "cacheId": "b6162463-ba67-4f1e-bc14-61e80f161227"
+      }
+    },
+    {
+      "name": "acquired",
+      "selection": {
+        "assetId": "976955723e417c2d170d825081bbf4c2a348191799d87b7071cf6aea37072e32",
+        "streamId": "track:1",
+        "acquisitionId": "13577995-0156-4416-95f5-cfe26b917611"
+      },
+      "sha256": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-pKsliW/library/cache/derived/96435a45-2af0-4051-994c-2196eae556f9.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "bytes": 405,
+        "assetId": "976955723e417c2d170d825081bbf4c2a348191799d87b7071cf6aea37072e32",
+        "streamId": "track:1",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "acquisitionId": "13577995-0156-4416-95f5-cfe26b917611",
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v2",
+        "cacheId": "96435a45-2af0-4051-994c-2196eae556f9"
+      }
+    }
+  ],
+  "batches": [
+    {
+      "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+      "streamId": "track:2",
+      "items": [
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 150000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v2",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "eb0033fe-c421-46bb-876d-626a50022a3a",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-pKsliW/library/cache/derived/b6162463-ba67-4f1e-bc14-61e80f161227.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 415,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 150000,
+                "actualSourceUs": 100000,
+                "sample": {
+                  "value": "13824",
+                  "timescale": 10240,
+                  "endValue": "14848",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 150000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v2",
+                "cacheId": "b6162463-ba67-4f1e-bc14-61e80f161227"
+              }
+            },
+            "delivery": {
+              "token": "88bf1dd0-f95f-4062-ab4f-0ec0a5ac40d2",
+              "bytes": 415,
+              "expiresAt": 1790599358982
+            },
+            "output": "/tmp/screenrec-source-empty-public/batch/01.png"
+          },
+          "atUs": 150000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 450000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v2",
+            "state": "unavailable",
+            "reason": "physical_gap",
+            "retryable": false,
+            "jobId": null,
+            "published": null,
+            "delivery": null
+          },
+          "atUs": 450000
+        },
+        {
+          "ok": false,
+          "error": {
+            "code": "INVALID_RANGE",
+            "message": "Picture time must lie within the source duration",
+            "retryable": false,
+            "details": {}
+          },
+          "atUs": 1000000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 950000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v2",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "1840d48a-649c-4bc0-b9c3-1da8240b1ecf",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-pKsliW/library/cache/derived/9d8b1535-b25b-42af-8407-f0325ec9d48f.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 415,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 950000,
+                "actualSourceUs": 900000,
+                "sample": {
+                  "value": "22016",
+                  "timescale": 10240,
+                  "endValue": "23040",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 950000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v2",
+                "cacheId": "9d8b1535-b25b-42af-8407-f0325ec9d48f"
+              }
+            },
+            "delivery": {
+              "token": "9a1f8068-e4ce-467e-9588-8b58ef665e03",
+              "bytes": 415,
+              "expiresAt": 1790599358983
+            },
+            "output": "/tmp/screenrec-source-empty-public/batch/04.png"
+          },
+          "atUs": 950000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 150000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v2",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "eb0033fe-c421-46bb-876d-626a50022a3a",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-pKsliW/library/cache/derived/b6162463-ba67-4f1e-bc14-61e80f161227.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 415,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 150000,
+                "actualSourceUs": 100000,
+                "sample": {
+                  "value": "13824",
+                  "timescale": 10240,
+                  "endValue": "14848",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 150000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v2",
+                "cacheId": "b6162463-ba67-4f1e-bc14-61e80f161227"
+              }
+            },
+            "delivery": {
+              "token": "bcba5945-a1e7-44a8-890d-05fe67e860d4",
+              "bytes": 415,
+              "expiresAt": 1790599358984
+            },
+            "output": "/tmp/screenrec-source-empty-public/batch/05.png"
+          },
+          "atUs": 150000
+        }
+      ]
+    }
+  ],
+  "imageProfiles": [
+    {
+      "file": "/tmp/screenrec-source-empty-public/track1-cli.png",
+      "opaque": true,
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "height": 48
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "width": 64,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/track2-cli.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "width": 64
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "width": 64,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "opaque": true
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/bounded-cli.png",
+      "height": 24,
+      "opaque": true,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 32,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "sourceProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/frame-5.png",
+      "height": 24,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "width": 32
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/acquired-cli.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "height": 48
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 64,
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/retained-cli.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "height": 48
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/batch/01.png",
+      "width": 64,
+      "height": 48,
+      "opaque": true,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 64
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/batch/04.png",
+      "width": 64,
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "height": 48,
+      "width": 64,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/batch/05.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 64,
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "width": 64,
+      "opaque": true
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/retried-cli.png",
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB"
+    }
+  ],
+  "pictureComparisons": [
+    {
+      "file": "/tmp/screenrec-source-empty-public/track1-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/track2-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/bounded-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/frame-5.png",
+      "kind": "reviewed native bounded picture",
+      "width": 32,
+      "height": 24,
+      "rgbaSha256": "59ae7687330b6026f7af4f2327303eb743170a4e1e0e3713f10c9052092f799e",
+      "referenceRgbaSha256": "59ae7687330b6026f7af4f2327303eb743170a4e1e0e3713f10c9052092f799e"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/acquired-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/retained-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/batch/01.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/batch/04.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/batch/05.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/screenrec-source-empty-public/retried-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    }
+  ],
+  "originals": [
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/source.mov",
+      "sha256": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/first.mov",
+      "sha256": "b52fe7b878b9a206f59276f9093fb6e6cbde458997b0f51bd3b58f9e7b5dab10"
+    }
+  ],
+  "traceRuns": [
+    {
+      "entry": {
+        "operation": "asset.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "unavailable"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": false,
+        "error": {
+          "code": "INVALID_PARAMS",
+          "message": "Acquisition does not bind the selected asset and stream",
+          "retryable": false,
+          "details": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:1",
+            "acquisitionId": "13577995-0156-4416-95f5-cfe26b917611"
+          }
+        }
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.batch",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 3
+    },
+    {
+      "entry": {
+        "operation": "frame.batch",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.cancel",
+        "transport": "mcp",
+        "ok": true,
+        "state": "canceled"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "canceled"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "not_requested"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.retry",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "frame.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "model.status",
+        "transport": "cli",
+        "ok": true,
+        "state": "absent"
+      },
+      "count": 1
+    }
+  ],
+  "originalReportSha256": "2683899098cfb13332ef8803559dce6ba26aedbf73801e1e66aead1591c95f81"
+}

@@ -33,3 +33,15 @@ Independent review found no actionable correctness issues and reran 14 core
 source-frame tests. Shape review keeps normalization and snapshot authority in the
 existing frame owner; it introduces no cache, scheduler or native success schema.
 Native execution evidence above was gathered separately by the implementer.
+
+
+The integrated service now pins `native-source-picture-v2`, so an older generic
+unavailable attempt cannot stand in for a typed no-picture observation. The actual
+source-frame CLI/MCP journey passes on the new frozen worker, preserving its
+existing delivered-image, source-clock, gap, cancellation/retry and owned-media
+checks (`integrated-public.json`). All 22 focused source/project/index tests pass
+(`integrated-core.txt`). This does not make source-index selection public yet.
+
+The combined integration review found no actionable defects and reran 19 targeted
+source-frame/index tests. The separate 22-test and actual public native results
+above retain their own verification scope.

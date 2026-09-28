@@ -311,7 +311,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       project: { projects, renderer: projectFrameRenderer(worker, workspace) },
       sourceRenderer: {
-        implementationId: "native-source-picture-v1",
+        implementationId: "native-source-picture-v2",
         render: async (request, signal) =>
           withRenderedFile(
             worker,
