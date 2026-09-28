@@ -20,8 +20,9 @@ video are integrated. The actual CLI/MCP adoption/recovery/preview/export journe
 passes; a fresh agent also exported synchronized capture media through the product
 skill. Shared transcript storage now accepts real recording or asset owners, and
 source selection uses composition's same physical/acquisition intersection.
-Next integrate asset transcript preparation and bounded source reads/search/retry,
-then run the differing-context hole/partial-word journey. Do not close 10b on its
+Asset transcript preparation and source reads/search/retry are integrated with
+passing focused service gates. Run the real selected-stream transcript and
+differing-context hole/partial-word journey, currently in progress. Do not close 10b on its
 storage or native prerequisites alone.
 
 After 10b, follow [10c occurrence queries](slices/10c-occurrence-queries.md),
@@ -40,9 +41,12 @@ Evidence boundaries to preserve:
 - [10b integration evidence](assets/10b-acquisition-integration/README.md) records
   405 passing core checks followed by broad-run deadlines and controlled passing
   reruns. Do not restate this as one green final broad invocation. Scale remains 24.
+- [10b source routing](assets/10b-source-routing/README.md) records focused public
+  readiness, source/recording preservation and model shutdown checks. Native public
+  inference and differing-mask media remain separate acceptance.
 - [10b transcript storage](assets/10b-transcript-ownership/README.md) preserves the
   306 retained native words and recording/package behavior; source planning and
-  public asset transcript reads remain the current work.
+  public asset reads are integrated; full native journey acceptance remains open.
 - Risk gates remain open in 06 (broader encoding/color), 08 (audio conformance/scale),
   12/12b (speech labels/timing and cleanup), 12c/15a (denoise state/quality), 13a
   (stretch speech/listening), 18/19 (voice identity/delivery/joins), and 20/21

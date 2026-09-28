@@ -311,7 +311,7 @@ test("abort by every caller stops the download and leaves no model", async () =>
   controller.abort(new Error("stopped"));
 
   await expect(preparing).rejects.toThrow("stopped");
-  await vi.waitFor(() => expect(speech.status()).toEqual({ state: "absent" }));
+  expect(speech.status()).toEqual({ state: "absent" });
   await expect(stat(revision)).rejects.toMatchObject({ code: "ENOENT" });
   expect(await staged()).toEqual([]);
 });

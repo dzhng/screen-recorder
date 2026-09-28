@@ -1,5 +1,6 @@
 import {
   compositionSchema,
+  mediaClipSchema,
   editOperationSchema,
   processingTargetSchema,
 } from "@screenrec/composition";
@@ -21,6 +22,19 @@ const packageTarget = z.object({ packageHandle: id }).strict();
 const inspection = <T extends z.ZodRawShape>(shape: T) =>
   z.union([recording.extend(shape).strict(), packageTarget.extend(shape).strict()]);
 const edit = recording.extend({ requestId: id, expectedRevisionId: id });
+const sourceSelection = mediaClipSchema.pick({
+  assetId: true,
+  streamId: true,
+  acquisitionId: true,
+});
+const sourceTranscriptReference = {
+  assetId: id,
+  streamId: id,
+  acquisitionId: id.nullable(),
+  generation: id,
+  supportDigest: id,
+  afterSourceUs: time,
+};
 const project = z.object({ projectId: id }).strict();
 const projectEdit = project.extend({ requestId: id, expectedRevisionId: id });
 const exportDestination = {
@@ -433,34 +447,68 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("transcript.get"),
-      params: transcriptPage(
-        {
-          revisionId: id.optional(),
-          range: range.optional(),
-          limit: z.int().min(1).max(1000).default(250),
-        },
-        { ...transcriptPosition, afterOrdinal: time.nullable(), range: range.nullable() },
-      ),
+      params: z.union([
+        ...transcriptPage(
+          {
+            revisionId: id.optional(),
+            range: range.optional(),
+            limit: z.int().min(1).max(1000).default(250),
+          },
+          { ...transcriptPosition, afterOrdinal: time.nullable(), range: range.nullable() },
+        ).options,
+        sourceSelection
+          .extend({
+            range: range.optional(),
+            limit: z.int().min(1).max(1000).default(250),
+            cursor: z
+              .object({
+                ...sourceTranscriptReference,
+                afterOrdinal: time.nullable(),
+                range: range.nullable(),
+              })
+              .strict()
+              .optional(),
+          })
+          .strict(),
+      ]),
     })
     .strict()
     .describe(
-      "Request the narration transcript of a recording or open package, projected through a revision. Returns readiness until complete, then source-ordered word and acquisition-gap rows, optionally only those retained in a playback range. Words keep verbatim text, kind, source range and a per-generation ID; words a cut intersects are partial with retained fragments. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to keep the same revision, generation and range.",
+      "Request a selected asset-stream source transcript, or the narration transcript of a recording/open package projected through a revision. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Returns readiness until complete, then source-ordered word and acquisition-gap rows. Asset ranges select source windows and mark intersected rows partial while preserving their full source range. Recording/package ranges select playback windows and include retained fragments. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range, plus revision for recording/package reads.",
     ),
   z
     .object({
       operation: z.literal("transcript.search"),
-      params: transcriptPage(
-        {
-          revisionId: id.optional(),
-          text: z.string().min(1).max(200),
-          limit: z.int().min(1).max(500).default(100),
-        },
-        { ...transcriptPosition, afterOrdinal: time, text: z.string() },
-      ),
+      params: z.union([
+        ...transcriptPage(
+          {
+            revisionId: id.optional(),
+            text: z.string().min(1).max(200),
+            limit: z.int().min(1).max(500).default(100),
+          },
+          { ...transcriptPosition, afterOrdinal: time, text: z.string() },
+        ).options,
+        sourceSelection
+          .extend({
+            text: z.string().min(1).max(200),
+            limit: z.int().min(1).max(500).default(100),
+            cursor: z
+              .object({ ...sourceTranscriptReference, afterOrdinal: time, text: z.string() })
+              .strict()
+              .optional(),
+          })
+          .strict(),
+      ]),
     })
     .strict()
     .describe(
-      "Search the ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Entries carry word IDs, source range and retained fragments; words cut from the revision never match. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
+      "Search a selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Source entries carry word IDs and source range; phrases cannot cross transcript segments. Recording/package entries also carry retained fragments; words cut from the revision never match. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
+    ),
+  z
+    .object({ operation: z.literal("transcript.retry"), params: sourceSelection })
+    .strict()
+    .describe(
+      "Explicitly prepare or retry the selected asset-stream transcript without downloading models. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
     ),
   z
     .object({ operation: z.literal("model.status"), params: z.object({}).strict() })

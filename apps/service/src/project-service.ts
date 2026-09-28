@@ -1,3 +1,7 @@
+import { SpeechModels } from "@screenrec/core/speech-models";
+import { TranscriptStore, type SpeechTranscriptionReceipt } from "@screenrec/core/transcript";
+import { TranscriptProcessing, assetTranscriptOwner } from "@screenrec/core/transcript-processing";
+import { SourceTranscriptRead } from "@screenrec/core/transcript-read";
 import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisitions";
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { MediaExports } from "./exports.js";
@@ -27,7 +31,7 @@ import {
   type LocalListener,
 } from "./index.js";
 import { claimStartup } from "./startup.js";
-import { mediaWorker, nativeResult, type MediaWorker } from "./worker.js";
+import { mediaWorker, nativeResult, transcriptionDeadlineMs, type MediaWorker } from "./worker.js";
 import { operationFailure } from "./operations.js";
 
 /** Isolated development entry; production capture switches to these owners at cutover. */
@@ -42,6 +46,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
   let deletion: ProjectDeletion | undefined;
   let exports: MediaExports | undefined;
   const delivery = new DerivativeDelivery();
+  const modelLifetime = new AbortController();
+  let modelPreparation: Promise<void> | undefined;
   try {
     catalog = new Catalog(join(library, "catalog.sqlite"));
     const assets = new AssetStore(catalog, library);
@@ -61,6 +67,12 @@ export async function startProjectService(options: { home: string; worker?: Medi
     );
     const projects = new ProjectStore(catalog, assets, acquisitions);
     const worker = options.worker ?? mediaWorker();
+    const models = new SpeechModels(library);
+    const transcriptStore = new TranscriptStore(
+      catalog,
+      library,
+      assetTranscriptOwner(assets, acquisitions),
+    );
     const files = new ManagedFiles(library, worker);
     const cache = new DerivedCache(catalog, library, (owner) => {
       if (owner.kind === "project") projects.get(owner.projectId);
@@ -74,12 +86,18 @@ export async function startProjectService(options: { home: string; worker?: Medi
       pin(target) {
         if (target.kind === "import") assets.intent(target.importId);
         else if (target.kind === "acquisition") acquisitions.intent(target.acquisitionId);
+        else if (target.kind === "asset") assets.get(target.assetId);
         else if (target.kind === "project") projects.revision(target.projectId, target.revisionId);
         else throw new CatalogError("NOT_READY", "Unsupported project service job target");
         return target;
       },
       isAvailable(target) {
-        if (target.kind !== "import" && target.kind !== "project" && target.kind !== "acquisition")
+        if (
+          target.kind !== "import" &&
+          target.kind !== "project" &&
+          target.kind !== "acquisition" &&
+          target.kind !== "asset"
+        )
           return false;
         try {
           targets.pin(target);
@@ -94,6 +112,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     };
     await acquisitionImports.recover(new AbortController().signal);
     let preview: ProjectPreviewInspection;
+    let transcripts: TranscriptProcessing;
     const queue = new JobQueue({
       store: catalog,
       targets,
@@ -102,6 +121,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.artifact === "transcript") return transcripts.execute({ job, signal });
         if (job.artifact === "export-media" || job.artifact === "export-recovery")
           return exports!.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "preview")
@@ -135,6 +155,19 @@ export async function startProjectService(options: { home: string; worker?: Medi
       },
     });
     jobs = queue;
+    transcripts = new TranscriptProcessing({
+      jobs: queue,
+      transcripts: transcriptStore,
+      models,
+      asset: { assets, acquisitions },
+      transcribe: async (request, signal) =>
+        nativeResult(
+          await worker("speech.transcribe", request, {
+            signal,
+            timeoutMs: transcriptionDeadlineMs(request.track.available),
+          }),
+        ) as SpeechTranscriptionReceipt,
+    });
     preview = new ProjectPreviewInspection(
       projects,
       assets,
@@ -152,6 +185,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     });
     exports = mediaExports;
     queue.startAdmission((job) => mediaExports.admit(job));
+    await transcripts.cleanup(modelLifetime.signal);
     const projectDeletion = new ProjectDeletion(
       projects,
       queue,
@@ -182,6 +216,53 @@ export async function startProjectService(options: { home: string; worker?: Medi
       const operation = parsed.data;
       try {
         switch (operation.operation) {
+          case "model.status":
+            return { ok: true, data: models.status() };
+          case "model.prepare": {
+            const state = models.status();
+            if (state.state !== "ready" && state.state !== "preparing") {
+              modelPreparation = models.prepare(modelLifetime.signal).catch((error) => {
+                if (!modelLifetime.signal.aborted) console.error(error);
+              });
+            }
+            return { ok: true, data: models.status() };
+          }
+          case "transcript.retry":
+            return { ok: true, data: transcripts.retrySource(operation.params) };
+          case "transcript.get":
+          case "transcript.search": {
+            const params = operation.params;
+            if (!("assetId" in params))
+              return operationError("NOT_READY", "This service reads selected asset transcripts");
+            const selection = {
+              assetId: params.assetId,
+              streamId: params.streamId,
+              ...(params.acquisitionId === undefined
+                ? {}
+                : { acquisitionId: params.acquisitionId }),
+            };
+            const current = transcripts.publishedSource(selection);
+            if (!current.published) {
+              if (params.cursor)
+                throw new CatalogError(
+                  "ARTIFACT_CHANGED",
+                  "Transcript generation is no longer published",
+                );
+              return { ok: true, data: { ...current, page: null } };
+            }
+            const metadata = current.published.transcript;
+            const read = new SourceTranscriptRead(transcriptStore, metadata);
+            const page = "text" in params ? read.search(params) : read.page(params);
+            return {
+              ok: true,
+              data: {
+                ...selection,
+                state: "ready",
+                generation: metadata.generation,
+                page: { transcript: metadata, ...page },
+              },
+            };
+          }
           case "project.create":
             return {
               ok: true,
@@ -389,6 +470,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         if (!closed)
           closed = (async () => {
             closing = true;
+            modelLifetime.abort();
             // Destination admission uses the export lifetime, not the socket's interest signal.
             const exportsClosed = mediaExports.close();
             await listener!.close();
@@ -397,6 +479,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             await projectDeletion.close();
             await exportsClosed;
             await queue.close();
+            await modelPreparation;
             catalog!.close();
             ownership.release();
           })();
@@ -404,6 +487,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
       },
     };
   } catch (error) {
+    modelLifetime.abort();
+    await modelPreparation;
     await listener?.close();
     delivery.dispose();
     await deletion?.close();

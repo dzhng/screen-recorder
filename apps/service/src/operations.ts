@@ -146,6 +146,7 @@ export async function operate(
       case "edit.apply":
       case "processing.get":
       case "processing.capabilities":
+      case "transcript.retry":
       case "acquisition.import":
       case "acquisition.get":
       case "asset.import":
@@ -379,6 +380,11 @@ export async function operate(
         return { ok: true, data: owner[method](operation.params.recordingId) };
       }
       case "transcript.get":
+        if ("assetId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Asset transcripts require the project service until cutover",
+          );
         return {
           ok: true,
           data:
@@ -387,6 +393,11 @@ export async function operate(
               : transcripts.get(operation.params),
         };
       case "transcript.search":
+        if ("assetId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Asset transcripts require the project service until cutover",
+          );
         return {
           ok: true,
           data:

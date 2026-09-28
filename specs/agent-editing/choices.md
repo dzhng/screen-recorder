@@ -907,3 +907,28 @@ trim and stretch replacements keep their single-interval behavior.
   identifiers with the digest alone. This determines the compact preparation-input
   shape without storing large interval arrays in job keys; raw evidence remains
   separately pinned and immutable.
+
+
+## Selected source transcript integration — 2026-09-27
+
+- **Sound; medium confidence — Source phrase searches stop at transcript segments.**
+  A capture gap can leave two recognized words adjacent in stored row order even
+  though they were never spoken continuously. Searching the source will not join
+  words across inference segments. The plan requires acquisition-gap separation
+  but leaves the exact search boundary representation open. Segment identity is
+  already retained by the single ingester; edited cross-clip phrases remain the
+  separate project query contract, where playback continuity is explicitly known.
+- **Sound; high confidence — Job dependencies commit with the actual job identity.**
+  Preparing imported speech must retain both its media and selected capture context.
+  Queue admission now provides a synchronous callback after assigning the real job
+  ID, inside the same catalog transaction, including repeated admission. If saving
+  a reference fails, the job and its references roll back together. The plan required
+  the shared lifetime ledger without choosing this transaction seam; inventing a
+  second dependency identity would make cleanup unable to follow the real job.
+- **Sound; high confidence — The final canceled model caller waits for cleanup.**
+  When service shutdown cancels the only model download, its preparation promise
+  now settles after temporary-file cleanup. Otherwise a caller awaiting shutdown
+  could release library ownership while the old downloader still writes there.
+  A caller leaving a download that another caller still needs returns promptly.
+  The plan did not specify cancellation settlement timing; this makes awaiting the
+  owner meaningful without introducing another shutdown owner or polling loop.

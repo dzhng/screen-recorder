@@ -1,17 +1,15 @@
 import { createHash } from "node:crypto";
-import { z } from "zod";
-import { sourceAvailability } from "@screenrec/composition";
+import type { z } from "zod";
+import { mediaClipSchema, sourceAvailability } from "@screenrec/composition";
 import { compositionAsset, type AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
 
-export const sourceSelectionSchema = z
-  .object({
-    assetId: z.string().min(1),
-    streamId: z.string().min(1),
-    acquisitionId: z.string().min(1).optional(),
-  })
-  .strict();
+export const sourceSelectionSchema = mediaClipSchema.pick({
+  assetId: true,
+  streamId: true,
+  acquisitionId: true,
+});
 export type SourceSelection = z.infer<typeof sourceSelectionSchema>;
 
 /** Resolve immutable source inputs without inventing a recording or a project timeline. */

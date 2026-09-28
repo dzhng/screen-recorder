@@ -1,0 +1,10 @@
+Independent Codex review of the root uncommitted service/protocol/model-lifetime pass.
+Session: 01a0e697-f5c5-7823-98d4-c4b1c2e9eb39
+Terminal exit: 0
+Finding P2: expanded transcript selector union breaks existing CLI advertised-schema test.
+Reproduced on root: help lists registry schemas fails with nested anyOf producing undefined.
+Resolution: flatten the existing recording/package options into the selected-source union;
+update assertions to the explicitly expanded contract. All11 CLI/MCP tests pass.
+Reviewer types passed; sandbox socket refusals were verification limitations.
+Root service14, protocol17, transcript/acquisition38 and model14 focused tests passed separately.
+No broad release, ASR-quality or listening acceptance claimed.

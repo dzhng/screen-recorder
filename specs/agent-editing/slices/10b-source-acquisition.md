@@ -1,6 +1,6 @@
 # 10b — Source acquisition and selected-stream transcripts
 
-Status: in progress. Capture adoption, durable project bindings and native prerequisites are integrated and verified. Asset transcript reads and the differing-mask speech journey remain open. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
+Status: in progress. Capture adoption, durable project bindings and native prerequisites are integrated and verified. Asset transcript reads are integrated; the actual native public transcript and differing-mask journey remain open. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
 
 ## Contract
 
@@ -134,9 +134,8 @@ also passes after fixing non-JSON replacement receipts. All 18 adoption runtime
 hashes match the main worktree. Broad timing failures and controlled reruns remain
 explicit in integration evidence; no performance gate was relaxed.
 
-Next: generalize the existing TranscriptStore to actual recording/asset ownership,
-then add selected asset planning, bounded source reads/search/retry and the full
-public differing-mask/transcript fixture. Do not close this slice on adoption alone.
+Transcript ownership, selected asset planning and source reads/search/retry are
+integrated. Next complete the full public differing-mask/transcript fixture. Do not close this slice on adoption alone.
 The importer currently caps acquired intervals at 100,000 per bound stream; raw
 journal/evidence retains the existing native 256 MiB cap. Slice 24 must validate
 these limits and preparation/storage costs before release.
@@ -144,6 +143,7 @@ these limits and preparation/storage costs before release.
 [Transcript ownership](../assets/10b-transcript-ownership/README.md) is integrated
 with explicit recording/asset owners and neutral source descriptors; Catalog7
 refuses earlier shapes. The [selected-source prerequisite](../assets/10b-source-selection/README.md)
-shares capture/physical support with composition. Next implement asset processing
-and bounded source transcript reads through CLI/MCP; these storage tests are not
-that public acceptance.
+shares capture/physical support with composition. The [asset planner](../assets/10b-asset-transcript/README.md),
+[source reader](../assets/10b-source-transcript-read/README.md) and
+[service routing](../assets/10b-source-routing/README.md) are integrated. Actual
+native CLI/MCP and differing-mask preview acceptance is still in progress.

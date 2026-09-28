@@ -430,3 +430,51 @@ test("shutdown aborts an in-flight export destination admission before draining 
     catalog.close();
   }
 });
+
+test("selected-source transcript reads report unprepared models without downloading or inventing a recording", async () => {
+  const requests: string[] = [];
+  const f = await setup(async (operation) => {
+    requests.push(operation);
+    return {
+      ok: true,
+      data: {
+        originUs: 48675,
+        streams: [
+          {
+            id: "track:1",
+            kind: "audio",
+            codec: "pcm",
+            decodable: true,
+            startUs: 0,
+            endUs: 1000000,
+            segments: [{ startUs: 0, endUs: 1000000, empty: false }],
+          },
+        ],
+      },
+    };
+  });
+  const imported = await f.call("asset.import", { requestId: "speech", path: f.path });
+  expect(imported.ok).toBe(true);
+  if (!imported.ok) return;
+  const ready = await f.job((imported.data as { jobId: string }).jobId, "ready");
+  const selection = { assetId: ready.result!.assetId, streamId: "track:1" };
+  expect(await f.call("model.status", {})).toMatchObject({ ok: true, data: { state: "absent" } });
+  expect(await f.call("transcript.get", selection)).toMatchObject({
+    ok: true,
+    data: { ...selection, reason: "model_not_prepared", page: null },
+  });
+  expect(await f.call("transcript.search", { ...selection, text: "hello" })).toMatchObject({
+    ok: true,
+    data: { reason: "model_not_prepared", page: null },
+  });
+  expect(await f.call("transcript.retry", selection)).toMatchObject({
+    ok: false,
+    error: { code: "MODEL_NOT_PREPARED" },
+  });
+  expect(await f.call("transcript.get", { ...selection, acquisitionId: "missing" })).toMatchObject({
+    ok: false,
+    error: { code: "NOT_FOUND" },
+  });
+  expect(await f.call("model.status", {})).toMatchObject({ ok: true, data: { state: "absent" } });
+  expect(requests.filter((operation) => operation === "speech.transcribe")).toEqual([]);
+});

@@ -287,9 +287,15 @@ export class SpeechModels {
     flight.participants += 1;
     return new Promise<void>((resolve, reject) => {
       const abort = () => {
-        reject(signal.reason);
         flight.participants -= 1;
-        if (flight.participants === 0) flight.controller.abort(signal.reason);
+        if (flight.participants === 0) {
+          flight.controller.abort(signal.reason);
+          // The final caller owns shutdown: do not release its lifetime before staging cleanup.
+          void flight.done.then(
+            () => reject(signal.reason),
+            () => reject(signal.reason),
+          );
+        } else reject(signal.reason);
       };
       signal.addEventListener("abort", abort, { once: true });
       flight.done.finally(() => signal.removeEventListener("abort", abort)).then(resolve, reject);
