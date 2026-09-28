@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "data": {
+    "bytes": 388096,
+    "channels": 2,
+    "decodedFrames": 48002,
+    "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-extraction-P1Jv7z/library/render/render-e08IQ0/audio.wav",
+    "frames": 48000,
+    "layout": "stereo",
+    "mediaType": "audio/wav",
+    "range": {
+      "endUs": 1000000,
+      "startUs": 0
+    },
+    "sampleRange": {
+      "end": 48000,
+      "start": 0
+    },
+    "sampleRate": 48000,
+    "unavailable": [
+      {
+        "endUs": 600000,
+        "startUs": 400000
+      }
+    ]
+  }
+}

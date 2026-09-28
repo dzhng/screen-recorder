@@ -7,6 +7,7 @@ import { mediaWorker } from "../../../apps/service/dist/worker.js";
 const native = mediaWorker();
 let armed;
 let speechOrdinal = 0;
+let audioOrdinal = 0;
 process.on("message", (message) => {
   if (message?.type === "barrier.arm") {
     if (armed) throw new Error("A native barrier is already armed");
@@ -16,6 +17,13 @@ process.on("message", (message) => {
 });
 const worker = async (operation, params, options) => {
   const result = await native(operation, params, options);
+  if (process.argv[3] && operation === "media.sourceAudio") {
+    const directory = process.argv[3];
+    await mkdir(directory, { recursive: true });
+    const prefix = join(directory, `audio-${audioOrdinal++}`);
+    await writeFile(`${prefix}-request.json`, JSON.stringify(params, null, 2));
+    await writeFile(`${prefix}-response.json`, JSON.stringify(result, null, 2));
+  }
   if (process.argv[3] && operation === "speech.transcribe" && result.ok) {
     const directory = process.argv[3];
     await mkdir(directory, { recursive: true });

@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "data": {
+    "bytes": 12288,
+    "channels": 2,
+    "decodedFrames": 3072,
+    "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-extraction-P1Jv7z/library/render/render-HRPxSC/audio.wav",
+    "frames": 1024,
+    "layout": "stereo",
+    "mediaType": "audio/wav",
+    "range": {
+      "endUs": 3000000000,
+      "startUs": 2999978667
+    },
+    "sampleRange": {
+      "end": 144000000,
+      "start": 143998976
+    },
+    "sampleRate": 48000,
+    "unavailable": []
+  }
+}

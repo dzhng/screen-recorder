@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "data": {
+    "bytes": 153848,
+    "channels": 2,
+    "decodedFrames": 18722,
+    "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-extraction-41osde/library/render/render-DVgxT8/audio.wav",
+    "frames": 18719,
+    "layout": "stereo",
+    "mediaType": "audio/wav",
+    "range": {
+      "endUs": 999981,
+      "startUs": 610013
+    },
+    "sampleRange": {
+      "end": 47999,
+      "start": 29280
+    },
+    "sampleRate": 48000,
+    "unavailable": []
+  }
+}

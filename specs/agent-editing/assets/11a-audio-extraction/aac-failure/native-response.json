@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "error": {
+    "code": "NATIVE_DECODE_FAILED",
+    "message": "Audio conversion made no progress: short decoded coverage",
+    "retryable": true,
+    "details": {}
+  }
+}

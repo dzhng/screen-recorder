@@ -1,0 +1,16 @@
+[
+  {
+    "sourceRate": 44100,
+    "outputRate": 16000,
+    "bytes": 80888,
+    "sha256": "1d1c3d180c9ec44e3c2b3914f76678e8c2cebfe8ccd2a0a67dea6fd8296a5a53",
+    "equal": true
+  },
+  {
+    "sourceRate": 48000,
+    "outputRate": 16000,
+    "bytes": 80888,
+    "sha256": "adfe104817d9bef6167bc96a19ceb9ce52ecb63b0f8d65f8f661c33441a48e4d",
+    "equal": true
+  }
+]

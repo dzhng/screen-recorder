@@ -35,7 +35,7 @@ rejection for retiming and processors not yet implemented; do not fake stretched
 or denoised audio. Stateful preparation contracts join the same seam when ready.
 
 ```sh
-node packages/test-harness/editing/audio-extraction.mjs --fixture selected-streams
+node packages/test-harness/editing/audio-extraction.mjs --out /tmp/audio-extraction-evidence
 ```
 
 ## Acceptance
@@ -44,6 +44,15 @@ Actual CLI/MCP WAV delivery checks stream selection, capture-context exclusion,
 source offsets/gaps, both channels, full/range sample parity, all nested processing
 taps and bypass, original hashes, cancellation/retry and full-extraction memory.
 Known impulses and excluded-source poison must obey the existing sample boundaries.
+PCM and lossless full/range output is byte exact. AAC comparison preserves exact
+sample counts, clocks, channels, and endpoint frames, while requiring both RMS and
+maximum absolute error below one 16-bit quantization step (1/32768). This codec-only
+contract corrects a pre-existing assumption: the frozen prior decoder itself emits
+slightly different floats for full versus seeked AAC reads, including packet-aligned
+seeks. It does not permit padding, dropped samples, normalization, or relaxed timing.
+The [source extraction evidence](../assets/11a-audio-extraction/README.md) separates
+that numerical finding from the missing-packet regression.
+
 Current constant gain executes; future retime/denoise conformance stays open until
 those processors are verified. Existing raw audio and movie gates remain green.
 

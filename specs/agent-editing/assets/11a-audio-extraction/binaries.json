@@ -1,0 +1,18 @@
+{
+  "baseline": {
+    "path": "/tmp/screenrec-source-window-native-final",
+    "sha256": "063e8f04e690140dcd85fb92be5b067363a042d288550c058f99a3db1562b677"
+  },
+  "candidate": {
+    "path": "/tmp/screenrec-audio-packet-final",
+    "sha256": "16b5c9715953b46da887e0525a0428dfa4e18c56ad115aa86b8c1593faaa0509"
+  },
+  "noRecovery": {
+    "path": "/tmp/screenrec-audio-no-recovery",
+    "sha256": "cff43e18ba9315a5e576f5317946ebf97e16f36599aec0963659835eba2d0107"
+  },
+  "fixture": {
+    "path": "/tmp/screenrec-audio-journey-fixture",
+    "sha256": "8fdff4307a44909400ae0d4427897a4c3185688827bbfb828a47af602a186a39"
+  }
+}

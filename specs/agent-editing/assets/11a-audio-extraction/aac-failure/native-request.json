@@ -1,0 +1,18 @@
+{
+  "source": {
+    "source": "/tmp/public-aac-zrVQJ5/library/assets/1f24e380d9496e9e1cf834873d3aa976fc9ab17a577b7c0d185ea9461de9f42b.m4a",
+    "streamId": "track:1",
+    "sourceOffsetUs": 0,
+    "available": [
+      {
+        "startUs": 0,
+        "endUs": 3000000000
+      }
+    ]
+  },
+  "range": {
+    "startUs": 0,
+    "endUs": 3000000000
+  },
+  "output": "/private/tmp/public-aac-zrVQJ5/library/cache/derived/aba9d37c-f23f-436c-b766-b95b2ab1b9e5.cache"
+}

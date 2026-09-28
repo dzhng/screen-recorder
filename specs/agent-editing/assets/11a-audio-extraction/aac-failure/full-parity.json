@@ -1,0 +1,12 @@
+[
+  {
+    "file": "/tmp/audio-extraction-diagnostics/long.wav",
+    "bytes": 1152004096,
+    "sha256": "55d68882927452f6faa05b823c9c0609b6b32830ed3ca7032f51515a811363e7"
+  },
+  {
+    "file": "/tmp/audio-extraction-diagnostics/duration-full.cache",
+    "bytes": 1152004096,
+    "sha256": "55d68882927452f6faa05b823c9c0609b6b32830ed3ca7032f51515a811363e7"
+  }
+]

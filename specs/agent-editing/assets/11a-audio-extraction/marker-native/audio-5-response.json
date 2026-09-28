@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "data": {
+    "bytes": 39360,
+    "channels": 1,
+    "decodedFrames": 16384,
+    "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-extraction-41osde/library/render/render-NC49uJ/audio.wav",
+    "frames": 8816,
+    "layout": "mono",
+    "mediaType": "audio/wav",
+    "range": {
+      "endUs": 199991,
+      "startUs": 71
+    },
+    "sampleRange": {
+      "end": 8819,
+      "start": 3
+    },
+    "sampleRate": 44100,
+    "unavailable": []
+  }
+}

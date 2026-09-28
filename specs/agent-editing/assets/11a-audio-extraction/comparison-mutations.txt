@@ -1,0 +1,1 @@
+PASS actual decoded marker: dropping one float sample, shifting one float sample, and interior error 2/32768 each rejected by production journey comparison.

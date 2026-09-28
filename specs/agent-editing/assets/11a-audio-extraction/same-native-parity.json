@@ -1,0 +1,11 @@
+{
+  "samples": 192000,
+  "frames": 96000,
+  "fullSha": "fb445d0e0fc9e51e5ed84ca29f23c1c70a2d587004b0636dfc24930919766fad",
+  "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+  "rms": 1.561333245823693e-8,
+  "maximum": 2.2351741790771484e-7,
+  "different": 46338,
+  "firstFrame": 47924,
+  "lastFrame": 86734
+}

@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "data": {
+    "bytes": 20480,
+    "channels": 2,
+    "decodedFrames": 4096,
+    "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-extraction-41osde/library/render/render-56ZrrT/audio.wav",
+    "frames": 2048,
+    "layout": "stereo",
+    "mediaType": "audio/wav",
+    "range": {
+      "endUs": 3000000000,
+      "startUs": 2999957334
+    },
+    "sampleRange": {
+      "end": 144000000,
+      "start": 143997952
+    },
+    "sampleRate": 48000,
+    "unavailable": []
+  }
+}

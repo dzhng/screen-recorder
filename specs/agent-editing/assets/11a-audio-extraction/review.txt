@@ -1,0 +1,2527 @@
+2026-09-28T08:17:29.137777Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T08:17:29.138045Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /private/tmp/screenrec-source-audio-inspection
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e717-260f-7981-901d-455353c1f91c
+--------
+user
+current changes
+exec
+/bin/zsh -lc 'pwd; git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md; find .. -name AGENTS.override.md -o -name AGENTS.md' in /private/tmp/screenrec-source-audio-inspection
+exec
+/bin/zsh -lc 'git diff --stat; git diff -- helpers/mac/Sources packages/test-harness/editing/source-acquisition-service.mjs; find helpers packages specs -name AGENTS.md -o -name AGENTS.override.md; cat .agents/skills/write-tests/SKILL.md' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+ .../Sources/ScreenRecorderAudio/AudioSource.swift  |  94 ++++++++++++------
+ .../ScreenRecorderAudio/CompositionAudio.swift     |   4 +-
+ helpers/mac/Tests/source-audio.test.mjs            | 108 ++++++++++++++++++++-
+ .../editing/source-acquisition-service.mjs         |   8 ++
+ specs/agent-editing/slices/11a-audio-delivery.md   |   9 ++
+ specs/agent-editing/slices/24-scale.md             |   9 ++
+ 6 files changed, 201 insertions(+), 31 deletions(-)
+diff --git a/helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift b/helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift
+index 5ee1d02..2e3d1e4 100644
+--- a/helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift
++++ b/helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift
+@@ -11,6 +11,7 @@ struct SourceTrack {
+     let asset: AVURLAsset
+     let track: AVAssetTrack
+     let sampleRate: Int
++    let packetFrames: Int
+     let channels: Int
+     let available: [TimeSpan]
+ 
+@@ -66,6 +67,9 @@ struct SourceTrack {
+         }
+         let sampleRate = Int(stream.mSampleRate.rounded())
+         let channels = Int(stream.mChannelsPerFrame)
++        guard (1...32_768).contains(stream.mFramesPerPacket) else {
++            throw NativeFailure("UNSUPPORTED_FORMAT", "Audio decoding requires a fixed packet size of at most 32768 native frames.")
++        }
+         guard (1...AudioLimits.maximumSampleRate).contains(sampleRate),
+             (1...AudioLimits.maximumChannels).contains(channels)
+         else {
+@@ -84,7 +88,7 @@ struct SourceTrack {
+         }
+         return SourceTrack(
+             sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
+-            track: audio, sampleRate: sampleRate, channels: channels,
++            track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,
+             // Physical occupancy is not acquisition evidence. Recording callers supply acquired
+             // intervals here; composition execution additionally intersects its retained domains.
+             available: TimeSpan.intersection(available, occupied))
+@@ -259,6 +263,9 @@ final class AudioSourceReader {
+     private let format: AVAudioFormat
+     private var position = CMTime.zero
+     private var end = CMTime.zero
++    private var intervalStart = CMTime.zero
++    private var reopened = false
++    private var requireContinuation = false
+     private(set) var decodedFrames: Int64 = 0
+     var failed: Bool { reader?.status == .failed }
+     var reachedSelectionEnd: Bool { position >= end }
+@@ -276,37 +283,50 @@ final class AudioSourceReader {
+         // Seeking across a long hole must not decode the excluded recording. Nearby intervals
+         // amortize reader setup; at most one second of discarded audio is scanned per join.
+         if reader == nil || CMTimeGetSeconds(CMTimeSubtract(start, self.end)) > 1 {
+-            reader?.cancelReading()
+-            pending = nil
+-            let opened: AVAssetReader
+-            do { opened = try AVAssetReader(asset: source.asset) } catch {
+-                if let detail = source.input.failure { throw detail }
+-                throw NativeFailure.decodeFailed(
+-                    "Cannot read \(source.url.path): \(error.localizedDescription)")
+-            }
+-            opened.timeRange = CMTimeRange(start: start, duration: .positiveInfinity)
+-            let output = AVAssetReaderTrackOutput(
+-                track: source.track,
+-                outputSettings: [
+-                    AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
+-                    AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
+-                    AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
+-                    AVLinearPCMIsNonInterleaved: false,
+-                ])
+-            output.alwaysCopiesSampleData = false
+-            guard opened.canAdd(output) else {
+-                throw NativeFailure.decodeFailed("Cannot decode audio track.")
+-            }
+-            opened.add(output)
+-            guard opened.startReading() else {
+-                if let detail = source.input.failure { throw detail }
+-                throw NativeFailure.decodeFailed("Cannot start audio reader.")
+-            }
+-            self.reader = opened
+-            self.output = output
++            try open(at: start)
+         }
+         self.position = start
+         self.end = end
++        intervalStart = start
++        reopened = false
++        requireContinuation = false
++    }
++
++    private func open(at start: CMTime) throws {
++        reader?.cancelReading()
++        pending = nil
++        let opened: AVAssetReader
++        do { opened = try AVAssetReader(asset: source.asset) } catch {
++            if let detail = source.input.failure { throw detail }
++            throw NativeFailure.decodeFailed(
++                "Cannot read \(source.url.path): \(error.localizedDescription)")
++        }
++        // Seeking inside the last compressed packet can refuse or omit its PCM. Two packet
++        // widths include the preceding packet even when start lies inside a packet. next()
++        // discards this bounded context before any selected samples reach the converter.
++        let context = CMTime(value: Int64(source.packetFrames) * 2,
++            timescale: CMTimeScale(source.sampleRate))
++        let decodeStart = max(.zero, CMTimeSubtract(start, context))
++        opened.timeRange = CMTimeRange(start: decodeStart, duration: .positiveInfinity)
++        let output = AVAssetReaderTrackOutput(
++            track: source.track,
++            outputSettings: [
++                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
++                AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
++                AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
++                AVLinearPCMIsNonInterleaved: false,
++            ])
++        output.alwaysCopiesSampleData = false
++        guard opened.canAdd(output) else {
++            throw NativeFailure.decodeFailed("Cannot decode audio track.")
++        }
++        opened.add(output)
++        guard opened.startReading() else {
++            if let detail = source.input.failure { throw detail }
++            throw NativeFailure.decodeFailed("Cannot start audio reader.")
++        }
++        self.reader = opened
++        self.output = output
+     }
+ 
+     func next() throws -> AVAudioPCMBuffer? {
+@@ -320,6 +340,14 @@ final class AudioSourceReader {
+             guard let sample = pending else {
+                 if let detail = source.input.failure { throw detail }
+                 if failed { throw NativeFailure.decodeFailed("Audio reader failed.") }
++                // A completed AAC reader can stop before its declared end while a seek still
++                // returns the real tail. Retry only once, at the exact next sample, never padding.
++                if reader?.status == .completed, !reopened, position > intervalStart, position < end {
++                    reopened = true
++                    requireContinuation = true
++                    try open(at: position)
++                    continue
++                }
+                 return nil
+             }
+             let frames = CMSampleBufferGetNumSamples(sample)
+@@ -340,6 +368,14 @@ final class AudioSourceReader {
+                 continue
+             }
+             if last <= first { return nil }
++            if requireContinuation {
++                let resumed = CMTimeAdd(stamp,
++                    CMTime(value: Int64(first), timescale: CMTimeScale(source.sampleRate)))
++                guard resumed == position else {
++                    throw NativeFailure.decodeFailed("Recovered audio skipped an unread source interval.")
++                }
++                requireContinuation = false
++            }
+             var list = AudioBufferList()
+             var block: CMBlockBuffer?
+             guard frames > 0, frames <= 65_536,
+diff --git a/helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift b/helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift
+index 28e40f7..58fc419 100644
+--- a/helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift
++++ b/helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift
+@@ -11,6 +11,8 @@ public struct CompositionAudioReport: Codable, Sendable {
+     public let maximumBlockFrames: Int
+     public let peakResidentBytes: Int64
+     public let decoderContext: DecoderContext
++    /// Selected PCM admitted to the rate converter, measured in output-rate frames.
++    /// Codec packet lookbehind is discarded by AudioSourceReader before this context.
+     public struct DecoderContext: Codable, Sendable {
+         let policy: String
+         let sampleRate: Int
+@@ -137,7 +139,7 @@ public enum CompositionAudio {
+                     let segmentOutputStart = contextRange.project.start
+                     let segmentOutputEnd = contextRange.project.end
+                     // Phase is fixed by the compiler's retained run, not a preview window or
+-                    // clip identity. Decoder input never crosses this selected/available run.
++                    // clip identity. Converter input never crosses this selected/available run.
+                     let context: Int64 = source.sampleRate == rate ? 0 : 1024
+                     let periods = max(0, (desired - segmentOutputStart - context) / outputPeriod)
+                     let startSample = segmentStart + periods * inputPeriod
+diff --git a/packages/test-harness/editing/source-acquisition-service.mjs b/packages/test-harness/editing/source-acquisition-service.mjs
+index e13468a..0833677 100644
+--- a/packages/test-harness/editing/source-acquisition-service.mjs
++++ b/packages/test-harness/editing/source-acquisition-service.mjs
+@@ -7,6 +7,7 @@ import { mediaWorker } from "../../../apps/service/dist/worker.js";
+ const native = mediaWorker();
+ let armed;
+ let speechOrdinal = 0;
++let audioOrdinal = 0;
+ process.on("message", (message) => {
+   if (message?.type === "barrier.arm") {
+     if (armed) throw new Error("A native barrier is already armed");
+@@ -16,6 +17,13 @@ process.on("message", (message) => {
+ });
+ const worker = async (operation, params, options) => {
+   const result = await native(operation, params, options);
++  if (process.argv[3] && operation === "media.sourceAudio") {
++    const directory = process.argv[3];
++    await mkdir(directory, { recursive: true });
++    const prefix = join(directory, `audio-${audioOrdinal++}`);
++    await writeFile(`${prefix}-request.json`, JSON.stringify(params, null, 2));
++    await writeFile(`${prefix}-response.json`, JSON.stringify(result, null, 2));
++  }
+   if (process.argv[3] && operation === "speech.transcribe" && result.ok) {
+     const directory = process.argv[3];
+     await mkdir(directory, { recursive: true });
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T08:17:50.739965Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e717-260f-7981-901d-455353c1f91c turn_id=01a0e717-26d9-7c63-b5d7-4fbdc6cf8e6c item_id="exec-a3cb8126-6f2b-46c6-ae77-13c5de3feb17"
+exec
+/bin/zsh -lc 'cat packages/test-harness/editing/audio-extraction*.swift; cat packages/test-harness/editing/audio-extraction.mjs' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+@preconcurrency import AVFoundation
+import Foundation
+
+// Independent AVFoundation reader: count the whole source, retain only its final two seconds.
+// No ScreenRecorderAudio code or generated output is used as the expected PCM.
+@main struct AudioExtractionReference {
+    static func main() async throws {
+        let asset = AVURLAsset(url: URL(fileURLWithPath: CommandLine.arguments[1]))
+        let track = try await asset.loadTracks(withMediaType: .audio)[0]
+        let range = try await track.load(.timeRange)
+        let expected = CMTimeConvertScale(range.duration, timescale: 48000,
+            method: .roundTowardZero).value
+        let tailStart = expected - 96000
+        let reader = try AVAssetReader(asset: asset)
+        let output = AVAssetReaderTrackOutput(track: track, outputSettings: [
+            AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: 48000,
+            AVNumberOfChannelsKey: 2, AVLinearPCMBitDepthKey: 32,
+            AVLinearPCMIsFloatKey: true, AVLinearPCMIsNonInterleaved: false,
+        ])
+        reader.add(output)
+        precondition(reader.startReading())
+        let destination = CommandLine.arguments[2]
+        precondition(FileManager.default.createFile(atPath: destination, contents: nil))
+        let file = try FileHandle(forWritingTo: URL(fileURLWithPath: destination))
+        defer { try? file.close() }
+        var frames: Int64 = 0
+        var tailFrames: Int64 = 0
+        while let sample = autoreleasepool(invoking: { output.copyNextSampleBuffer() }) {
+            let count = CMSampleBufferGetNumSamples(sample)
+            if count == 0 { continue }
+            let stamp = CMTimeConvertScale(CMSampleBufferGetPresentationTimeStamp(sample),
+                timescale: 48000, method: .roundTowardZero).value
+            precondition(stamp == frames, "Independent source decode is not contiguous")
+            var list = AudioBufferList()
+            var block: CMBlockBuffer?
+            precondition(CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sample,
+                bufferListSizeNeededOut: nil, bufferListOut: &list,
+                bufferListSize: MemoryLayout<AudioBufferList>.size, blockBufferAllocator: nil,
+                blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block) == noErr)
+            let skip = Int(min(Int64(count), max(0, tailStart - frames)))
+            if skip < count {
+                try file.write(contentsOf: Data(bytes: list.mBuffers.mData!.advanced(by: skip * 8),
+                    count: (count - skip) * 8))
+                tailFrames += Int64(count - skip)
+            }
+            frames += Int64(count)
+        }
+        precondition(reader.status == .completed && frames == expected && tailFrames == 96000)
+        print("{\"frames\":\(frames),\"tailStartFrame\":\(tailStart),\"tailFrames\":\(tailFrames)}")
+    }
+}
+@preconcurrency import AVFoundation
+import Foundation
+
+// Acquisition members require exactly one audio stream. Preserve the source edit list and clock.
+@main struct AudioExtractionSelection {
+    static func main() async throws {
+        let asset = AVURLAsset(url: URL(fileURLWithPath: CommandLine.arguments[1]))
+        let duration = try await asset.load(.duration)
+        let composition = AVMutableComposition()
+        try await composition.insertTimeRange(
+            CMTimeRange(start: .zero, duration: duration), of: asset, at: .zero)
+        let tracks = try await composition.loadTracks(withMediaType: .audio)
+        for track in tracks.dropFirst() { composition.removeTrack(track) }
+        let export = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!
+        try await export.export(to: URL(fileURLWithPath: CommandLine.arguments[2]), as: .mov)
+    }
+}
+import assert from "node:assert/strict";
+import { createReadStream } from "node:fs";
+import { createHash } from "node:crypto";
+import { copyFile, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { basename, join, resolve } from "node:path";
+import { parseArgs } from "node:util";
+import { acquisitionDonor, JourneyService, poll, root, run } from "./source-evidence-fixture.mjs";
+
+const { values } = parseArgs({
+  options: {
+    out: { type: "string" },
+    codec: { type: "string", default: "aac" },
+    signal: { type: "string", default: "marker" },
+  },
+});
+assert.ok(["aac", "alac"].includes(values.codec));
+assert.ok(["marker", "silence"].includes(values.signal));
+assert.ok(process.env.SCREENREC_NATIVE, "Freeze SCREENREC_NATIVE before this journey");
+assert.ok(process.env.SCREENREC_SOURCE_AUDIO_FIXTURE, "Freeze the real native fixture generator");
+const out = values.out
+  ? resolve(values.out)
+  : await mkdtemp(join(tmpdir(), "audio-extraction-evidence-"));
+await mkdir(out, { recursive: true });
+const home = await mkdtemp(join(tmpdir(), "audio-extraction-"));
+const media = join(home, "fixtures");
+await mkdir(media);
+const report = {
+  passed: false,
+  trace: [],
+  checks: {},
+  memory: { samples: 0, nativePeakRssBytes: 0, treePeakRssBytes: 0 },
+};
+const service = new JourneyService(home, report, join(out, "native"));
+const call = service.call.bind(service);
+const digest = async (path) => {
+  const hash = createHash("sha256");
+  for await (const block of createReadStream(path)) hash.update(block);
+  return hash.digest("hex");
+};
+const originals = new Map();
+let monitor;
+let sampling;
+let monitoringError;
+let deliveryPid;
+function sameBytes(actual, expected) {
+  assert.ok(actual.equals(expected), "Delivered PCM bytes differ from the independent reference");
+}
+// Lossless PCM is byte exact. AAC's seek-dependent float output also occurs in the
+// frozen prior decoder; admit less than one 16-bit quantization step, never a shift.
+function comparePcm(actual, expected, codec) {
+  assert.equal(actual.length, expected.length, "PCM sample count changed");
+  if (codec !== "aac") {
+    sameBytes(actual, expected);
+    return { rms: 0, maximum: 0 };
+  }
+  sameBytes(actual.subarray(0, 8), expected.subarray(0, 8));
+  sameBytes(actual.subarray(-8), expected.subarray(-8));
+  let squared = 0,
+    maximum = 0;
+  for (let at = 0; at < actual.length; at += 4) {
+    const error = actual.readFloatLE(at) - expected.readFloatLE(at);
+    assert.ok(Number.isFinite(error));
+    squared += error * error;
+    maximum = Math.max(maximum, Math.abs(error));
+  }
+  const rms = Math.sqrt(squared / (actual.length / 4));
+  assert.ok(rms < 1 / 32768 && maximum < 1 / 32768, "AAC numerical conformance exceeded");
+  return { rms, maximum };
+}
+function wave(bytes) {
+  assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
+  assert.equal(bytes.toString("ascii", 8, 12), "WAVE");
+  let format;
+  for (let at = 12; at + 8 <= bytes.length;) {
+    const tag = bytes.toString("ascii", at, at + 4),
+      size = bytes.readUInt32LE(at + 4);
+    at += 8;
+    if (tag === "fmt ")
+      format = { channels: bytes.readUInt16LE(at + 2), rate: bytes.readUInt32LE(at + 4) };
+    if (tag === "data")
+      return { ...format, data: bytes.subarray(at, at + size), dataOffset: at, dataBytes: size };
+    at += size + (size % 2);
+  }
+  throw new Error("Missing WAVE data");
+}
+let outputOrdinal = 0;
+async function ready(params, transport = "cli") {
+  const output = join(home, `delivered-${outputOrdinal++}.wav`);
+  return poll(
+    () => call("audio.get", params, { transport, ...(transport === "cli" ? { output } : {}) }),
+    (v) => v.state === "ready",
+    "source audio",
+  );
+}
+async function delivered(status) {
+  assert.ok(
+    status.delivery.bytes < 4 * 1024 ** 2,
+    "Only small fixtures may be assembled in memory",
+  );
+  const bytes = await readFile(status.output);
+  assert.equal(bytes.length, status.delivery.bytes);
+  await rm(status.output);
+  return bytes;
+}
+async function imported(path, name) {
+  originals.set(path, await digest(path));
+  const pending = await call("asset.import", { requestId: name, path });
+  await poll(
+    () => call("job.get", { jobId: pending.jobId }),
+    (v) => v.state === "ready",
+    "import",
+  );
+  return call("asset.get", { assetId: originals.get(path) });
+}
+async function context(path, name) {
+  const donor = join(home, name);
+  const selected = join(media, `${name}.mov`);
+  await run(join(home, "select-track"), [path, selected], { timeout: 30000 });
+  originals.set(selected, await digest(selected));
+  // Journal ranges use the container clock; the imported source origin is 1.25 seconds.
+  await acquisitionDonor(donor, selected, [
+    { startUs: 1250013, endUs: 1450000 },
+    { startUs: 1550000, endUs: 2249987 },
+  ]);
+  const pending = await call("acquisition.import", { requestId: name, path: donor });
+  const job = await poll(
+    () => call("job.get", { jobId: pending.jobId }),
+    (v) => v.state === "ready",
+    "acquisition",
+  );
+  const acquired = await call("acquisition.get", { acquisitionId: job.target.acquisitionId });
+  const binding = acquired.bindings.find((v) => v.sourceRoles.includes("narration"));
+  assert.ok(binding);
+  return { assetId: binding.assetId, streamId: binding.streamId, acquisitionId: acquired.id };
+}
+async function sampleMemory() {
+  if (!service.child?.pid) return;
+  const { stdout } = await run("ps", ["-axo", "pid=,ppid=,rss=,comm="]);
+  const rows = stdout
+    .trim()
+    .split("\n")
+    .map((line) => {
+      const [, pid, parent, rss, command] = line.match(/^\s*(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/);
+      return { pid: Number(pid), parent: Number(parent), rss: Number(rss) * 1024, command };
+    });
+  const pids = new Set([service.child.pid, ...(deliveryPid ? [deliveryPid] : [])]);
+  for (let previous = -1; previous !== pids.size;) {
+    previous = pids.size;
+    for (const row of rows) if (pids.has(row.parent)) pids.add(row.pid);
+  }
+  const selected = rows.filter((r) => pids.has(r.pid));
+  report.memory.samples++;
+  report.memory.treePeakRssBytes = Math.max(
+    report.memory.treePeakRssBytes,
+    selected.reduce((n, r) => n + r.rss, 0),
+  );
+  for (const row of selected)
+    if (row.command.includes("screenrec"))
+      report.memory.nativePeakRssBytes = Math.max(report.memory.nativePeakRssBytes, row.rss);
+}
+try {
+  report.nativeSha256 = await digest(process.env.SCREENREC_NATIVE);
+  report.fixtureSha256 = await digest(process.env.SCREENREC_SOURCE_AUDIO_FIXTURE);
+  await run(process.env.SCREENREC_SOURCE_AUDIO_FIXTURE, [], {
+    env: { ...process.env, SCREENREC_SOURCE_AUDIO_EVIDENCE: media },
+    timeout: 120000,
+  });
+  await run(
+    "swiftc",
+    [
+      "-parse-as-library",
+      join(root, "packages/test-harness/editing/audio-extraction-selection.swift"),
+      "-o",
+      join(home, "select-track"),
+    ],
+    { timeout: 120000 },
+  );
+  await run(
+    "swiftc",
+    [
+      "-parse-as-library",
+      join(root, "packages/test-harness/editing/audio-extraction-reference.swift"),
+      "-o",
+      join(home, "reference"),
+    ],
+    { timeout: 120000 },
+  );
+  await service.start();
+  assert.deepEqual(await call("model.status", {}), { state: "absent" });
+  for (const rate of [44100, 48000]) {
+    const path = join(media, `selected-${rate}.mov`);
+    const asset = await imported(path, `selected-${rate}`);
+    assert.equal(asset.originUs, 1250000);
+    const streams = asset.streams.filter((s) => s.kind === "audio");
+    assert.deepEqual(
+      streams.map((s) => s.channels),
+      [2, 1],
+    );
+    for (const stream of streams) {
+      const selection = { assetId: asset.id, streamId: stream.id };
+      const full = await ready(selection);
+      const fullBytes = await delivered(full);
+      const mcp = await service.mcp.callTool({ name: "audio.get", arguments: selection });
+      assert.equal(mcp.structuredContent.ok, true);
+      assert.equal(mcp.structuredContent.data.published.generation, full.published.generation);
+      const content = mcp.content.find((item) => item.type === "audio");
+      assert.ok(content);
+      sameBytes(Buffer.from(content.data, "base64"), fullBytes);
+      const pcm = wave(fullBytes);
+      assert.equal(pcm.rate, rate);
+      assert.equal(pcm.channels, stream.channels);
+      assert.deepEqual(full.published.audio.unavailable, [{ startUs: 400000, endUs: 600000 }]);
+      assert.equal(pcm.data.length, rate * stream.channels * 4);
+      for (let frame = 0; frame < rate; frame++)
+        for (let channel = 0; channel < stream.channels; channel++) {
+          const actual = pcm.data.readFloatLE((frame * stream.channels + channel) * 4);
+          const expected =
+            frame >= rate * 0.4 && frame < rate * 0.6
+              ? 0
+              : Math.fround((((frame * (channel + 3)) % 101) - 50) / 100);
+          assert.equal(
+            actual,
+            expected,
+            `independent signal oracle ${rate}/${stream.id}/${frame}/${channel}`,
+          );
+        }
+      for (const range of [
+        { startUs: 71, endUs: 199991 },
+        { startUs: 399997, endUs: 600013 },
+        { startUs: 610013, endUs: 999981 },
+      ]) {
+        const part = await ready({ ...selection, range });
+        const first = Math.floor((range.startUs * rate) / 1e6),
+          last = Math.floor((range.endUs * rate) / 1e6);
+        assert.deepEqual(part.published.audio.sampleRange, { start: first, end: last });
+        sameBytes(
+          wave(await delivered(part)).data,
+          pcm.data.subarray(first * stream.channels * 4, last * stream.channels * 4),
+        );
+      }
+      const target = join(home, `${rate}-${stream.id.replace(":", "-")}.wav`);
+      await call("audio.get", selection, { output: target });
+      sameBytes(await readFile(target), fullBytes);
+    }
+    const masked = await context(path, `mask-${rate}`);
+    const full = await ready({ ...masked, range: { startUs: 0, endUs: 1000000 } });
+    const bytes = await delivered(full);
+    sameBytes(wave(bytes).data, wave(await readFile(join(media, `full-${rate}.wav`))).data);
+    assert.deepEqual(full.published.audio.unavailable, [
+      { startUs: 0, endUs: 13 },
+      { startUs: 200000, endUs: 300000 },
+      { startUs: 400000, endUs: 600000 },
+      { startUs: 999987, endUs: 1000000 },
+    ]);
+    const poisonPath = join(media, `poison-selected-${rate}.mov`);
+    originals.set(poisonPath, await digest(poisonPath));
+    const poisoned = await context(poisonPath, `poison-mask-${rate}`);
+    sameBytes(
+      wave(await delivered(await ready({ ...poisoned, range: { startUs: 0, endUs: 1000000 } })))
+        .data,
+      wave(bytes).data,
+    );
+    const cancelInput = { ...masked, range: { startUs: 10, endUs: 900000 } };
+    const hit = await service.arm("media.sourceAudio");
+    const pending = await call("audio.get", cancelInput);
+    await hit();
+    await call("job.cancel", { jobId: pending.jobId }, { transport: "mcp" });
+    const canceledJob = await poll(
+      () => call("job.get", { jobId: pending.jobId }),
+      (v) => v.state === "canceled",
+      "cancel",
+    );
+    const canceled = await call("audio.get", cancelInput);
+    assert.equal(canceled.reason, "canceled");
+    assert.equal(canceled.published, null);
+    assert.equal(canceled.delivery, null);
+    assert.equal((await call("audio.get", cancelInput)).jobId, pending.jobId);
+    await call("audio.retry", cancelInput, { transport: "mcp" });
+    const retried = await ready(cancelInput);
+    assert.ok(retried.published.generation > canceledJob.generation);
+    const first = Math.floor((10 * rate) / 1e6),
+      last = Math.floor((900000 * rate) / 1e6);
+    sameBytes(wave(await delivered(retried)).data, wave(bytes).data.subarray(first * 8, last * 8));
+  }
+  report.checks.selectionGapsParityPoisonCancelRetry = true;
+  const long = join(media, "long-marker.m4a");
+  await run(
+    "ffmpeg",
+    [
+      "-v",
+      "error",
+      "-nostdin",
+      "-f",
+      "lavfi",
+      "-i",
+      values.signal === "silence"
+        ? "anullsrc=r=48000:cl=stereo"
+        : "aevalsrc='if(gte(t,2998),0.25*sin(2*PI*440*t),0)|if(gte(t,2998),0.125*sin(2*PI*660*t),0)':s=48000",
+      "-t",
+      "3000",
+      "-c:a",
+      values.codec,
+      ...(values.codec === "aac" ? ["-b:a", "32k"] : []),
+      long,
+    ],
+    { timeout: 180000 },
+  );
+  await copyFile(long, join(out, "source.m4a"));
+  const referencePath = join(home, "reference-tail.pcm");
+  const reference = JSON.parse(
+    (await run(join(home, "reference"), [long, referencePath], { timeout: 180000 })).stdout,
+  );
+  assert.equal(reference.frames, 144000000);
+  const referenceTail = await readFile(referencePath);
+  assert.equal(referenceTail.length, 96000 * 8);
+  const energy = [0, 0];
+  for (let frame = 0; frame < 96000; frame++)
+    for (let channel = 0; channel < 2; channel++)
+      energy[channel] += referenceTail.readFloatLE((frame * 2 + channel) * 4) ** 2;
+  const rms = energy.map((value) => Math.sqrt(value / 96000));
+  if (values.signal === "silence") assert.deepEqual(rms, [0, 0]);
+  else
+    assert.ok(
+      rms[0] > 0.1 && rms[0] < 0.3 && rms[1] > 0.04 && rms[1] < 0.15,
+      "Independent AAC tail must contain distinguishable nonzero channels",
+    );
+  const asset = await imported(long, "long-marker");
+  const selection = {
+    assetId: asset.id,
+    streamId: asset.streams.find((s) => s.kind === "audio").id,
+  };
+  monitor = setInterval(() => {
+    if (!sampling)
+      sampling = sampleMemory()
+        .catch((error) => {
+          monitoringError = error;
+        })
+        .finally(() => {
+          sampling = undefined;
+        });
+  }, 100);
+  const started = performance.now();
+  const large = await ready(selection, "mcp");
+  const extractionMs = performance.now() - started;
+  const duplicate = await service.mcp.callTool({ name: "audio.get", arguments: selection });
+  assert.equal(duplicate.structuredContent.ok, true);
+  assert.ok(!duplicate.content.some((item) => item.type === "audio"));
+  assert.equal(duplicate.structuredContent.data.published.generation, large.published.generation);
+  await call("artifact.close", { token: duplicate.structuredContent.data.delivery.token });
+  const audio = large.published.audio;
+  assert.ok(large.delivery.bytes > 1024 ** 3);
+  assert.equal(audio.sampleRate, 48000);
+  assert.equal(audio.channels, 2);
+  assert.equal(audio.frames, 3000 * 48000);
+  const { token, bytes } = large.delivery;
+  const first = await call(
+    "artifact.read",
+    { token, offset: 0, maxBytes: 8192 },
+    { transport: "mcp" },
+  );
+  const header = wave(Buffer.from(first.data, "base64"));
+  assert.equal(header.dataBytes, audio.frames * 8);
+  const chunks = [];
+  for (let at = 0; at < referenceTail.length;) {
+    const offset = header.dataOffset + reference.tailStartFrame * 8 + at;
+    const tail = await call(
+      "artifact.read",
+      { token, offset, maxBytes: Math.min(65536, referenceTail.length - at) },
+      { transport: "mcp" },
+    );
+    const block = Buffer.from(tail.data, "base64");
+    assert.equal(tail.offset, offset);
+    assert.equal(tail.nextOffset, offset + block.length);
+    assert.ok(block.length > 0 && block.length <= 65536);
+    chunks.push(block);
+    at += block.length;
+    assert.equal(tail.eof, at === referenceTail.length);
+  }
+  const nativeTail = Buffer.concat(chunks);
+  assert.equal(nativeTail.length, referenceTail.length);
+  const referenceComparison = comparePcm(nativeTail, referenceTail, values.codec);
+  const late = await ready({ ...selection, range: { startUs: 2998000000, endUs: 3000000000 } });
+  assert.equal(late.published.audio.frames, 96000);
+  assert.deepEqual(late.published.audio.sampleRange, { start: 143904000, end: 144000000 });
+  assert.equal(late.published.audio.sampleRate, 48000);
+  assert.equal(late.published.audio.channels, 2);
+  const lateWave = wave(await delivered(late));
+  assert.equal(lateWave.channels, 2);
+  assert.equal(lateWave.rate, 48000);
+  const rangeComparison = comparePcm(lateWave.data, nativeTail, values.codec);
+  // Actual decoded markers prove the codec gate still rejects lost, shifted, or corrupted samples.
+  assert.throws(() => comparePcm(nativeTail.subarray(4), nativeTail, values.codec));
+  const corrupted = Buffer.from(nativeTail);
+  const middle = Math.floor(corrupted.length / 8) * 4;
+  corrupted.writeFloatLE(corrupted.readFloatLE(middle) + 2 / 32768, middle);
+  assert.throws(() => comparePcm(corrupted, nativeTail, values.codec));
+  if (values.signal === "marker") {
+    const shifted = Buffer.concat([nativeTail.subarray(4), nativeTail.subarray(-4)]);
+    assert.throws(() => comparePcm(shifted, nativeTail, values.codec));
+  }
+  for (const frames of [1, 2, 1024, 2048, 2049]) {
+    const startUs = Number((BigInt(144000000 - frames) * 1000000n + 47999n) / 48000n);
+    const terminal = await ready({ ...selection, range: { startUs, endUs: 3000000000 } });
+    assert.equal(terminal.published.audio.frames, frames);
+    assert.ok(terminal.published.audio.decodedFrames <= 8192);
+    comparePcm(
+      wave(await delivered(terminal)).data,
+      nativeTail.subarray(nativeTail.length - frames * 8),
+      values.codec,
+    );
+  }
+  await call("artifact.close", { token }, { transport: "mcp" });
+  const destination = join(home, "large-delivered.wav");
+  const transferStarted = performance.now();
+  const transfer = run(
+    process.execPath,
+    [
+      join(root, "apps/cli/dist/main.js"),
+      "audio.get",
+      "--socket",
+      service.socketPath,
+      "--params",
+      JSON.stringify(selection),
+      "--output",
+      destination,
+    ],
+    { timeout: 180000, maxBuffer: 1024 * 1024 },
+  );
+  deliveryPid = transfer.child?.pid;
+  const transferred = JSON.parse((await transfer).stdout);
+  const transferMs = performance.now() - transferStarted;
+  assert.equal(transferred.ok, true, JSON.stringify(transferred));
+  assert.equal((await stat(destination)).size, bytes);
+  const outputSha256 = await digest(destination);
+  assert.equal(outputSha256, await digest(audio.file));
+  clearInterval(monitor);
+  await sampling;
+  await rm(destination);
+  assert.equal(monitoringError, undefined);
+  assert.ok(report.memory.samples > 2);
+  assert.ok(
+    report.memory.nativePeakRssBytes > 0 && report.memory.nativePeakRssBytes < 256 * 1024 ** 2,
+    "Native extraction must not retain the full PCM output",
+  );
+  assert.ok(
+    report.memory.treePeakRssBytes < 512 * 1024 ** 2,
+    "Service extraction must remain bounded",
+  );
+  report.large = {
+    codec: values.codec,
+    signal: values.signal,
+    outputSha256,
+    decodedFrames: audio.decodedFrames,
+    referenceComparison,
+    rangeComparison,
+    assetId: asset.id,
+    streamId: selection.streamId,
+    extractionMs,
+    transferMs,
+    inputBytes: (await stat(long)).size,
+    outputBytes: bytes,
+    frames: audio.frames,
+    elapsedMs: performance.now() - started,
+    mcpReadBytes: 8192 + referenceTail.length,
+    markerRms: rms,
+    referenceTailSha256: await digest(referencePath),
+    cliStreamedBytes: bytes,
+  };
+  assert.deepEqual(await call("model.status", {}), { state: "absent" });
+  for (const [path, before] of originals) assert.equal(await digest(path), before);
+  report.originals = [...originals].map(([path, sha256]) => ({ name: basename(path), sha256 }));
+  report.checks.originalsUnchangedNoModelDownload = true;
+  report.passed = true;
+} catch (error) {
+  report.error = { message: error.message, stack: error.stack };
+  process.exitCode = 1;
+} finally {
+  clearInterval(monitor);
+  await sampling;
+  try {
+    await service.stop();
+  } catch (error) {
+    report.shutdownError = error.message;
+    report.passed = false;
+    process.exitCode = 1;
+  }
+  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
+  await writeFile(join(out, "service.log"), service.logs.join(""));
+  await rm(home, { recursive: true, force: true });
+}
+console.log(
+  JSON.stringify({
+    passed: report.passed,
+    out,
+    error: report.error,
+    large: report.large,
+    memory: report.memory,
+  }),
+);
+
+2026-09-28T08:18:00.532506Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e717-260f-7981-901d-455353c1f91c turn_id=01a0e717-26d9-7c63-b5d7-4fbdc6cf8e6c item_id="exec-5b52447b-c106-499a-bc53-802d14f57cad"
+2026-09-28T08:18:00.583957Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e717-260f-7981-901d-455353c1f91c turn_id=01a0e717-26d9-7c63-b5d7-4fbdc6cf8e6c item_id="exec-70273034-0739-4c2a-b0a5-08c159cc65f9"
+ succeeded in 24465ms:
+../screenrec-project-preview/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/AGENTS.md
+../screenrec-video-execution/AGENTS.md
+../screenrec-video-execution/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-transcript-seek/AGENTS.md
+../screenrec-processing-routing/AGENTS.md
+../screenrec-editing-baseline-fixes/AGENTS.md
+../worldarena-viewer/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-project-deletion/AGENTS.md
+../screenrec-editing-fixtures/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-extraction/AGENTS.md
+../screenrec-acquisition-journey/AGENTS.md
+../screenrec-acquisition-journey/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-acquisition-journey/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-exports/AGENTS.md
+../screenrec-project-exports/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-exports/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../duet-agent-model-refresh-inline-red/AGENTS.md
+../screenrec-editing-speech/AGENTS.md
+../duet-agent-model-refresh-release/AGENTS.md
+../screenrec-evidence-owners/AGENTS.md
+../screenrec-render-oracle-fix/AGENTS.md
+../screenrec-editing-audio-reader/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-consumers/AGENTS.md
+../screenrec-project-evidence-journey/AGENTS.md
+../screenrec-compiled-picture-build/checkouts/FluidAudio/AGENTS.md
+../screenrec-editing-render-reproduction/AGENTS.md
+../claude-501/-Users-david-dev-battlegame/0a556383-ccc8-4760-8b46-2e8d260b1265/scratchpad/pmndrs-math/AGENTS.md
+../screenrec-composition-compiler/AGENTS.md
+../screenrec-composition-compiler/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../agent-refresh-baseline-src/AGENTS.md
+../screenrec-editing-jobs/AGENTS.md
+../screenrec-source-audio-inspection/AGENTS.md
+../screenrec-selected-stream-transcription/AGENTS.md
+../screenrec-selected-stream-transcription/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-evidence-paging/AGENTS.md
+../screenrec-editing-composition/AGENTS.md
+../screenrec-import-mutation/AGENTS.md
+../screenrec-asset-transcript-processing/AGENTS.md
+../screenrec-stretch-evidence-review/AGENTS.md
+../duet-agent-model-refresh-final-selections/AGENTS.md
+../worldarena-capture/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-window-pcm/AGENTS.md
+../screenrec-source-window-pcm/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-occurrence-window-selection/AGENTS.md
+../screenrec-audio-execution/AGENTS.md
+../screenrec-audio-execution/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-editing-voice/AGENTS.md
+../screenrec-transcript-ownership/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-visuals/AGENTS.md
+../screenrec-editing-assets/AGENTS.md
+../screenrec-editing-assets/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-editing-assets/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../duet-agent-model-refresh-artifact29/AGENTS.md
+../screenrec-source-transcript-reads/AGENTS.md
+../duet-agent-model-refresh/AGENTS.md
+../duet-agent-model-refresh-overlap/AGENTS.md
+../worldarena-voting/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-range-projection/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/AGENTS.md
+../worldarena-runner/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-transcript-journey/AGENTS.md
+../screenrec-editing-stretch/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/AGENTS.md
+
+exec
+/bin/zsh -lc 'git diff -- helpers/mac/Tests/source-audio.test.mjs specs; cat helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift; cat specs/recording-for-ai/README.md' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+diff --git a/helpers/mac/Tests/source-audio.test.mjs b/helpers/mac/Tests/source-audio.test.mjs
+index f79d151..94bd99a 100644
+--- a/helpers/mac/Tests/source-audio.test.mjs
++++ b/helpers/mac/Tests/source-audio.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from "node:assert/strict";
+ import { spawnSync } from "node:child_process";
+-import { mkdtempSync, readFileSync, rmSync, readdirSync } from "node:fs";
++import { mkdtempSync, readFileSync, rmSync, readdirSync, truncateSync, existsSync } from "node:fs";
+ import { tmpdir } from "node:os";
+ import { join } from "node:path";
+ import { fileURLToPath } from "node:url";
+@@ -59,3 +59,109 @@ test("source WAV wire delivery retains native fixture samples and refuses ambigu
+     rmSync(directory, { recursive: true, force: true });
+   }
+ });
++
++test("AAC terminal windows decode bounded real packet context and truncated sources fail cleanly", () => {
++  const directory = mkdtempSync(join(tmpdir(), "source-audio-tail-"));
++  const execute = (source, range, output) => {
++    const result = spawnSync(native, [], {
++      input:
++        JSON.stringify({
++          id: "tail",
++          operation: "media.sourceAudio",
++          params: {
++            source: { source, sourceOffsetUs: 0, available: [{ startUs: 0, endUs: 32000000 }] },
++            range,
++            output,
++          },
++        }) + "\n",
++      encoding: "utf8",
++      timeout: 15000,
++    });
++    assert.equal(result.status, 0, result.stderr || String(result.error));
++    return JSON.parse(result.stdout);
++  };
++  try {
++    const source = join(directory, "silence.m4a");
++    const encode = spawnSync(
++      "ffmpeg",
++      [
++        "-v",
++        "error",
++        "-nostdin",
++        "-f",
++        "lavfi",
++        "-i",
++        "anullsrc=r=48000:cl=stereo",
++        "-t",
++        "32",
++        "-c:a",
++        "aac",
++        "-b:a",
++        "32k",
++        source,
++      ],
++      { encoding: "utf8", timeout: 15000 },
++    );
++    assert.equal(encode.status, 0, encode.stderr);
++    const original = readFileSync(source);
++    for (const wanted of [1, 2, 1024, 2048, 2049]) {
++      const first = 32 * 48000 - wanted;
++      const range = {
++        startUs: Number((BigInt(first) * 1000000n + 47999n) / 48000n),
++        endUs: 32000000,
++      };
++      const output = join(directory, `tail-${wanted}.wav`);
++      const result = execute(source, range, output);
++      assert.equal(result.ok, true, JSON.stringify(result));
++      assert.equal(result.data.frames, wanted);
++      assert.deepEqual(result.data.sampleRange, { start: first, end: 32 * 48000 });
++      assert.ok(
++        result.data.decodedFrames <= 8192,
++        "Terminal query must not decode the source prefix",
++      );
++      const bytes = readFileSync(output);
++      let pcm;
++      for (let at = 12; at + 8 <= bytes.length;) {
++        const size = bytes.readUInt32LE(at + 4);
++        if (bytes.toString("ascii", at, at + 4) === "data") {
++          pcm = bytes.subarray(at + 8, at + 8 + size);
++          break;
++        }
++        at += 8 + size + (size % 2);
++      }
++      assert.equal(pcm?.length, wanted * 8);
++      assert.ok(pcm.every((value) => value === 0));
++    }
++    assert.ok(original.equals(readFileSync(source)));
++    const broken = join(directory, "truncated.mov"),
++      output = join(directory, "incomplete.wav");
++    const make = spawnSync(
++      "ffmpeg",
++      [
++        "-v",
++        "error",
++        "-nostdin",
++        "-f",
++        "lavfi",
++        "-i",
++        "sine=frequency=1000:sample_rate=48000:duration=2",
++        "-c:a",
++        "pcm_f32le",
++        "-movflags",
++        "faststart",
++        broken,
++      ],
++      { encoding: "utf8", timeout: 15000 },
++    );
++    assert.equal(make.status, 0, make.stderr);
++    truncateSync(broken, readFileSync(broken).length - 5000);
++    const before = readFileSync(broken);
++    const refused = execute(broken, { startUs: 0, endUs: 2000000 }, output);
++    assert.equal(refused.error.code, "NATIVE_DECODE_FAILED");
++    assert.equal(existsSync(output), false);
++    assert.ok(!readdirSync(directory).some((name) => name.startsWith(".screenrec-output-")));
++    assert.ok(before.equals(readFileSync(broken)));
++  } finally {
++    rmSync(directory, { recursive: true, force: true });
++  }
++});
+diff --git a/specs/agent-editing/slices/11a-audio-delivery.md b/specs/agent-editing/slices/11a-audio-delivery.md
+index 0ec62e8..bc0d9ad 100644
+--- a/specs/agent-editing/slices/11a-audio-delivery.md
++++ b/specs/agent-editing/slices/11a-audio-delivery.md
+@@ -44,6 +44,15 @@ Actual CLI/MCP WAV delivery checks stream selection, capture-context exclusion,
+ source offsets/gaps, both channels, full/range sample parity, all nested processing
+ taps and bypass, original hashes, cancellation/retry and full-extraction memory.
+ Known impulses and excluded-source poison must obey the existing sample boundaries.
++PCM and lossless full/range output is byte exact. AAC comparison preserves exact
++sample counts, clocks, channels, and endpoint frames, while requiring both RMS and
++maximum absolute error below one 16-bit quantization step (1/32768). This codec-only
++contract corrects a pre-existing assumption: the frozen prior decoder itself emits
++slightly different floats for full versus seeked AAC reads, including packet-aligned
++seeks. It does not permit padding, dropped samples, normalization, or relaxed timing.
++The [source extraction evidence](../assets/11a-audio-extraction/README.md) separates
++that numerical finding from the missing-packet regression.
++
+ Current constant gain executes; future retime/denoise conformance stays open until
+ those processors are verified. Existing raw audio and movie gates remain green.
+ 
+diff --git a/specs/agent-editing/slices/24-scale.md b/specs/agent-editing/slices/24-scale.md
+index 647d125..c8feecc 100644
+--- a/specs/agent-editing/slices/24-scale.md
++++ b/specs/agent-editing/slices/24-scale.md
+@@ -46,3 +46,12 @@ Delegated: Instrumentation/report format and optimization choices that preserve
+ 
+ User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
+ 
++
++## Selected-source codec context
++
++Audio decoding currently requires a declared fixed packet size of 1–32768 native
++frames, allowing at most two packets of lookbehind (65536 frames). Context is
++discarded before selected PCM reaches conversion or mixing; actual decoded-frame
++counts include it. Unknown/variable packet sizes refuse explicitly. Broader format
++support and this provisional packet bound remain scale/format acceptance work.
++See [source extraction evidence](../assets/11a-audio-extraction/README.md).
+@preconcurrency import AVFoundation
+import Foundation
+import ScreenRecorderMedia
+
+/// One source stream, opened once. Caller-supplied source-clock support is intersected with
+/// occupied container segments; the offset maps between those two clocks.
+struct SourceTrack {
+    let sourceOffsetUs: Int64
+    let url: URL
+    let input: MediaInput
+    let asset: AVURLAsset
+    let track: AVAssetTrack
+    let sampleRate: Int
+    let packetFrames: Int
+    let channels: Int
+    let available: [TimeSpan]
+
+    static func open(selection: AudioSourceSelection, strictWindowFormat: Bool = false) async throws -> SourceTrack {
+        try await open(source: selection.source, streamId: selection.streamId,
+            sourceOffsetUs: selection.sourceOffsetUs, available: selection.available, strictWindowFormat: strictWindowFormat)
+    }
+
+    static func open(
+        source path: String, streamId: String?, sourceOffsetUs: Int64,
+        available: [TimeSpan], strictWindowFormat: Bool = false
+    ) async throws -> SourceTrack {
+        let source = URL(fileURLWithPath: path)
+        guard FileManager.default.fileExists(atPath: source.path) else {
+            throw NativeFailure.decodeFailed("No source media at \(source.path).")
+        }
+        let input = try MediaInput(url: source)
+        let asset = input.asset
+        let audio: AVAssetTrack
+        let stream: AudioStreamBasicDescription
+        let segments: [SourceSegment]
+        do {
+            let tracks = try await asset.loadTracks(withMediaType: .audio)
+            guard streamId != nil || tracks.count == 1 else {
+                throw NativeFailure("INVALID_REQUEST", "An omitted stream ID requires exactly one audio stream.")
+            }
+            guard
+                let track = tracks.first(where: {
+                    streamId == nil || streamId == "track:\($0.trackID)"
+                })
+            else {
+                throw NativeFailure.decodeFailed(
+                    "Source has no matching audio track: \(source.path).")
+            }
+            let descriptions = try await track.load(.formatDescriptions)
+            if strictWindowFormat { try Self.validateWindowFormats(descriptions) }
+            guard let description = descriptions.first,
+                let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
+            else {
+                throw NativeFailure.decodeFailed(
+                    "Source audio format is unreadable: \(source.path).")
+            }
+            audio = track
+            stream = basic
+            segments = SourceSegment.occupied(of: try await track.load(.segments))
+        } catch let failure as NativeFailure {
+            if let detail = input.failure { throw detail }
+            throw failure
+        } catch {
+            if let detail = input.failure { throw detail }
+            throw NativeFailure.decodeFailed(
+                "Cannot open \(source.path): \(error.localizedDescription)")
+        }
+        let sampleRate = Int(stream.mSampleRate.rounded())
+        let channels = Int(stream.mChannelsPerFrame)
+        guard (1...32_768).contains(stream.mFramesPerPacket) else {
+            throw NativeFailure("UNSUPPORTED_FORMAT", "Audio decoding requires a fixed packet size of at most 32768 native frames.")
+        }
+        guard (1...AudioLimits.maximumSampleRate).contains(sampleRate),
+            (1...AudioLimits.maximumChannels).contains(channels)
+        else {
+            throw NativeFailure(
+                "LIMIT_EXCEEDED",
+                "Source \(source.lastPathComponent) reports \(sampleRate) Hz and \(channels) channels, outside the excerpt bounds."
+            )
+        }
+        // Empty edits hold no sample. AVFoundation would read them back as silence, which is
+        // indistinguishable from recorded quiet, so absence is decided from the container's own
+        // occupied segments rather than from the samples it is willing to produce.
+        let occupied = segments.map {
+            TimeSpan(
+                startUs: microseconds($0.asset.start) + sourceOffsetUs,
+                endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + sourceOffsetUs)
+        }
+        return SourceTrack(
+            sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
+            track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,
+            // Physical occupancy is not acquisition evidence. Recording callers supply acquired
+            // intervals here; composition execution additionally intersects its retained domains.
+            available: TimeSpan.intersection(available, occupied))
+    }
+
+    private static func validateWindowFormats(_ descriptions: [CMAudioFormatDescription]) throws {
+        var signature: [Double]?
+        for description in descriptions {
+            guard let value = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee,
+                value.mSampleRate.isFinite, value.mSampleRate.rounded() == value.mSampleRate,
+                (1...Double(AudioLimits.maximumSampleRate)).contains(value.mSampleRate),
+                value.mChannelsPerFrame == 1 || value.mChannelsPerFrame == 2
+            else { throw NativeFailure("UNSUPPORTED_FORMAT", "Source windows require an integral native rate and mono or stereo audio.") }
+            let current = [value.mSampleRate, Double(value.mChannelsPerFrame)]
+            guard signature == nil || signature == current else {
+                throw NativeFailure("UNSUPPORTED_FORMAT", "Source format changes within the stream.")
+            }
+            signature = current
+            guard let layout = CMAudioFormatDescriptionGetChannelLayout(description, sizeOut: nil) else { continue }
+            let tag = layout.pointee.mChannelLayoutTag
+            let channels = value.mChannelsPerFrame
+            var conventional = tag == (channels == 1 ? kAudioChannelLayoutTag_Mono : kAudioChannelLayoutTag_Stereo)
+            if tag == kAudioChannelLayoutTag_UseChannelBitmap {
+                conventional = layout.pointee.mChannelBitmap == (channels == 1 ? AudioChannelBitmap.bit_Center : AudioChannelBitmap.bit_Left.union(.bit_Right))
+            } else if tag == kAudioChannelLayoutTag_UseChannelDescriptions, layout.pointee.mNumberChannelDescriptions == channels {
+                let pointer = UnsafeRawPointer(layout).advanced(by: MemoryLayout<AudioChannelLayout>.offset(of: \.mChannelDescriptions)!).assumingMemoryBound(to: AudioChannelDescription.self)
+                conventional = channels == 1
+                    ? [kAudioChannelLabel_Mono, kAudioChannelLabel_Center].contains(pointer[0].mChannelLabel)
+                    : pointer[0].mChannelLabel == kAudioChannelLabel_Left && pointer[1].mChannelLabel == kAudioChannelLabel_Right
+            }
+            guard conventional else { throw NativeFailure("UNSUPPORTED_FORMAT", "Source channel layout is not conventional mono or stereo.") }
+        }
+    }
+
+}
+
+final class ConvertedAudioInterval {
+    private let sourceInput: MediaInput
+    private let converter: AVAudioConverter
+    private let input: ConversionInput
+    private let converted: AVAudioPCMBuffer
+    private let channels: Int
+    private var offset = 0
+    private var exhausted = false
+    private var paddingFrames: Int
+
+    convenience init(
+        source: SourceTrack, decoder: AudioSourceReader, interval: TimeSpan,
+        outputRate: Int, owed: Int64
+    ) throws {
+        try self.init(
+            source: source, decoder: decoder,
+            start: time(microseconds: interval.startUs - source.sourceOffsetUs),
+            outputRate: outputRate, owed: owed)
+    }
+
+    init(
+        source: SourceTrack, decoder: AudioSourceReader, start: CMTime,
+        outputRate: Int, owed: Int64, end limit: CMTime? = nil
+    ) throws {
+        sourceInput = source.input
+        guard
+            let sourceFormat = AVAudioFormat(
+                commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
+                channels: AVAudioChannelCount(source.channels), interleaved: true),
+            let excerptFormat = AVAudioFormat(
+                commonFormat: .pcmFormatFloat32, sampleRate: Double(outputRate),
+                channels: AVAudioChannelCount(source.channels), interleaved: true),
+            // Both sides carry this file's own channel count, so the converter changes rate only and
+            // the explicit map below places the channels; a remix matrix would restate the gains.
+            let converter = AVAudioConverter(from: sourceFormat, to: excerptFormat)
+        else {
+            throw NativeFailure.decodeFailed(
+                "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz."
+            )
+        }
+        // Cumulative layout rounding owns the duration, including a last frame rounded up.
+        let requestedEnd = CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate)))
+        let end = limit.map { min($0, requestedEnd) } ?? requestedEnd
+        let first = CMTimeConvertScale(
+            start, timescale: CMTimeScale(source.sampleRate),
+            method: .roundHalfAwayFromZero
+        ).value
+        let last = CMTimeConvertScale(
+            end, timescale: CMTimeScale(source.sampleRate),
+            method: .roundTowardPositiveInfinity
+        ).value
+        // Native selection and cumulative output use different integer clocks. Only their
+        // arithmetic shortfall may be zero-extended, and only after the reader reaches end.
+        let covered = Int128(max(0, last - first)) * Int128(outputRate) / Int128(source.sampleRate)
+        paddingFrames = Int(max(0, Int128(owed) - covered))
+        try decoder.begin(at: start, end: end)
+        let openedInput = ConversionInput(reader: decoder)
+        guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)
+        else { throw NativeFailure.decodeFailed("Cannot allocate audio conversion buffer.") }
+        self.converter = converter
+        self.input = openedInput
+        self.converted = converted
+        self.channels = source.channels
+    }
+
+    func mix(
+        into samples: inout [Float], at destination: Int, frames: Int,
+        gain: Float, channelMap: [Int]
+    ) throws {
+        var written = 0
+        while written < frames {
+            if offset == Int(converted.frameLength) {
+                if exhausted, frames - written <= paddingFrames, input.reachedSelectionEnd {
+                    paddingFrames -= frames - written
+                    return
+                }
+                guard !exhausted else {
+                    if let detail = sourceInput.failure {
+                        throw detail
+                    }
+                    throw NativeFailure.decodeFailed(
+                        "Audio interval ended before its quantized output boundary.")
+                }
+                var failure: NSError?
+                let input = self.input
+                let outcome = converter.convert(to: converted, error: &failure) { _, status in
+                    input.next(status)
+                }
+                if let error = input.failure { throw error }
+                if outcome == .endOfStream, converted.frameLength == 0,
+                    frames - written <= paddingFrames, input.reachedSelectionEnd
+                {
+                    paddingFrames -= frames - written
+                    exhausted = true
+                    return
+                }
+                guard outcome != .error, !input.readerFailed,
+                    converted.frameLength > 0
+                else {
+                    if let detail = sourceInput.failure {
+                        throw detail
+                    }
+                    throw NativeFailure.decodeFailed(
+                        "Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")"
+                    )
+                }
+                exhausted = outcome == .endOfStream
+                offset = 0
+            }
+            let count = min(frames - written, Int(converted.frameLength) - offset)
+            let decoded = converted.floatChannelData![0]
+            samples.withUnsafeMutableBufferPointer { output in
+                for channel in channelMap.indices {
+                    let sourceChannel = channelMap[channel]
+                    var frame = 0
+                    while frame < count {
+                        output[(destination + written + frame) * channelMap.count + channel] +=
+                            gain * decoded[(offset + frame) * channels + sourceChannel]
+                        frame += 1
+                    }
+                }
+            }
+            offset += count
+            written += count
+        }
+    }
+}
+
+/// Decodes ordered intervals with one bounded sample buffer. Conversion remains interval-local:
+/// excluded samples can be decoded while skipping forward, but never enter a resampling filter.
+final class AudioSourceReader {
+    private let source: SourceTrack
+    private var reader: AVAssetReader?
+    private var output: AVAssetReaderTrackOutput?
+    private var pending: CMSampleBuffer?
+    private let format: AVAudioFormat
+    private var position = CMTime.zero
+    private var end = CMTime.zero
+    private var intervalStart = CMTime.zero
+    private var reopened = false
+    private var requireContinuation = false
+    private(set) var decodedFrames: Int64 = 0
+    var failed: Bool { reader?.status == .failed }
+    var reachedSelectionEnd: Bool { position >= end }
+
+    init(source: SourceTrack) {
+        self.source = source
+        self.format = AVAudioFormat(
+            commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
+            channels: AVAudioChannelCount(source.channels), interleaved: true)!
+    }
+
+    deinit { reader?.cancelReading() }
+
+    func begin(at start: CMTime, end: CMTime) throws {
+        // Seeking across a long hole must not decode the excluded recording. Nearby intervals
+        // amortize reader setup; at most one second of discarded audio is scanned per join.
+        if reader == nil || CMTimeGetSeconds(CMTimeSubtract(start, self.end)) > 1 {
+            try open(at: start)
+        }
+        self.position = start
+        self.end = end
+        intervalStart = start
+        reopened = false
+        requireContinuation = false
+    }
+
+    private func open(at start: CMTime) throws {
+        reader?.cancelReading()
+        pending = nil
+        let opened: AVAssetReader
+        do { opened = try AVAssetReader(asset: source.asset) } catch {
+            if let detail = source.input.failure { throw detail }
+            throw NativeFailure.decodeFailed(
+                "Cannot read \(source.url.path): \(error.localizedDescription)")
+        }
+        // Seeking inside the last compressed packet can refuse or omit its PCM. Two packet
+        // widths include the preceding packet even when start lies inside a packet. next()
+        // discards this bounded context before any selected samples reach the converter.
+        let context = CMTime(value: Int64(source.packetFrames) * 2,
+            timescale: CMTimeScale(source.sampleRate))
+        let decodeStart = max(.zero, CMTimeSubtract(start, context))
+        opened.timeRange = CMTimeRange(start: decodeStart, duration: .positiveInfinity)
+        let output = AVAssetReaderTrackOutput(
+            track: source.track,
+            outputSettings: [
+                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
+                AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
+                AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
+                AVLinearPCMIsNonInterleaved: false,
+            ])
+        output.alwaysCopiesSampleData = false
+        guard opened.canAdd(output) else {
+            throw NativeFailure.decodeFailed("Cannot decode audio track.")
+        }
+        opened.add(output)
+        guard opened.startReading() else {
+            if let detail = source.input.failure { throw detail }
+            throw NativeFailure.decodeFailed("Cannot start audio reader.")
+        }
+        self.reader = opened
+        self.output = output
+    }
+
+    func next() throws -> AVAudioPCMBuffer? {
+        guard position < end else { return nil }
+        while true {
+            try Task.checkCancellation()
+            if pending == nil {
+                pending = output?.copyNextSampleBuffer()
+                if let pending { decodedFrames += Int64(CMSampleBufferGetNumSamples(pending)) }
+            }
+            guard let sample = pending else {
+                if let detail = source.input.failure { throw detail }
+                if failed { throw NativeFailure.decodeFailed("Audio reader failed.") }
+                // A completed AAC reader can stop before its declared end while a seek still
+                // returns the real tail. Retry only once, at the exact next sample, never padding.
+                if reader?.status == .completed, !reopened, position > intervalStart, position < end {
+                    reopened = true
+                    requireContinuation = true
+                    try open(at: position)
+                    continue
+                }
+                return nil
+            }
+            let frames = CMSampleBufferGetNumSamples(sample)
+            let stamp = CMSampleBufferGetPresentationTimeStamp(sample)
+            func frame(_ time: CMTime, rounding: CMTimeRoundingMethod) -> Int {
+                Int(
+                    CMTimeConvertScale(
+                        CMTimeSubtract(time, stamp), timescale: CMTimeScale(source.sampleRate),
+                        method: rounding
+                    ).value)
+            }
+            let first = max(0, frame(position, rounding: .roundHalfAwayFromZero))
+            // Keep the source frame intersecting the quantized end, as AVAssetReader's
+            // timeRange does. Rounding it down can leave a rate converter one frame short.
+            let last = min(frames, frame(end, rounding: .roundTowardPositiveInfinity))
+            if first >= frames {
+                pending = nil
+                continue
+            }
+            if last <= first { return nil }
+            if requireContinuation {
+                let resumed = CMTimeAdd(stamp,
+                    CMTime(value: Int64(first), timescale: CMTimeScale(source.sampleRate)))
+                guard resumed == position else {
+                    throw NativeFailure.decodeFailed("Recovered audio skipped an unread source interval.")
+                }
+                requireContinuation = false
+            }
+            var list = AudioBufferList()
+            var block: CMBlockBuffer?
+            guard frames > 0, frames <= 65_536,
+                CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
+                    sample, bufferListSizeNeededOut: nil, bufferListOut: &list,
+                    bufferListSize: MemoryLayout<AudioBufferList>.size, blockBufferAllocator: nil,
+                    blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block) == noErr,
+                let decoded = list.mBuffers.mData?.assumingMemoryBound(to: Float.self),
+                let buffer = AVAudioPCMBuffer(
+                    pcmFormat: format, frameCapacity: AVAudioFrameCount(last - first))
+            else { throw NativeFailure.decodeFailed("Cannot read decoded audio buffer.") }
+            buffer.frameLength = AVAudioFrameCount(last - first)
+            buffer.floatChannelData![0].update(
+                from: decoded + first * source.channels,
+                count: (last - first) * source.channels)
+            position = CMTimeAdd(
+                stamp, CMTime(value: Int64(last), timescale: CMTimeScale(source.sampleRate)))
+            // Keep this packet until the next request: cumulative output rounding can make
+            // successive intervals legitimately share a boundary source sample.
+            return buffer
+        }
+    }
+}
+
+/// A fresh converter sees only one selected interval and an explicit end-of-stream flush.
+/// Its input callback runs synchronously inside convert; no other thread advances this reader.
+private final class ConversionInput: @unchecked Sendable {
+    private let reader: AudioSourceReader
+    private var supplied: AVAudioPCMBuffer?
+    private(set) var failure: Error?
+    var readerFailed: Bool { reader.failed }
+    var reachedSelectionEnd: Bool { reader.reachedSelectionEnd }
+
+    init(reader: AudioSourceReader) { self.reader = reader }
+
+    func next(_ status: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioPCMBuffer? {
+        do {
+            let buffer = try autoreleasepool { try reader.next() }
+            guard let buffer else {
+                status.pointee = .endOfStream
+                return nil
+            }
+            supplied = buffer
+            status.pointee = .haveData
+            return buffer
+        } catch {
+            failure = error
+            status.pointee = .endOfStream
+            return nil
+        }
+    }
+}
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
+outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
+it fixed three real defects, the worst of which let a cut of one word silently delete the next.
+
+Needing this person rather than a check:
+
+- **System audio:** a take with something playing, which a check must not make this Mac do,
+  and with it the A/V timing measurement that needs both tracks against a known event
+  ([01](slices/01-native-capture.md)).
+- **A region take:** proving where one landed means recording whatever is on the screen, and a
+  fixture launch is refused every source but its own window precisely so an automated run cannot
+  ([01](slices/01-native-capture.md), [03](slices/03-cursor-geometry.md)).
+- **The menu bar and the pointer:** clicking the status menu, dragging the floating controls, and
+  making the deliberate gestures the trail and index gates are about — computer-use reaches none
+  of them on this Mac ([07](slices/07-menu-bar-controls.md),
+  [10](slices/10-cursor-trails.md), [11](slices/11-screenshot-selection.md)).
+- **Ears:** an audio excerpt, a recovered tail (`bun run lab:recovery --microphone` writes the
+  clips), and a cut inside a rendered export
+  ([09](slices/09-frame-inspection.md), [02](slices/02-interruption-recovery.md),
+  [13](slices/13-edited-media.md)).
+- **An agent that is not this one:** the real-narration journey through CLI and MCP
+  ([12](slices/12-cli-mcp-operations.md)).
+
+The installed copy was rebuilt and replaced on 2026-09-26. `bun run install:personal`
+replaces it on subsequent changes and refuses while the app is running.
+
+Priority order: the two recorded capability decisions, then whatever the person answers above.
+
+The original [verification gates](verification.md) remain requirements. Fixtures
+and unit checks do not close the full read → edit → inspect → export journey.
+
+- [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
+- [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)
+- [ ] [01 — Native capture and separate audio](slices/01-native-capture.md)
+- [ ] [02 — Recover interrupted source media](slices/02-interruption-recovery.md)
+- [ ] [03 — Cursor positions in captured coordinates](slices/03-cursor-geometry.md)
+- [x] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
+- [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
+- [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
+  - [x] [06a — Durable revision transactions](slices/06a-revision-store.md)
+  - [x] [06b — Bounded local transport](slices/06b-local-transport.md)
+  - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md)
+  - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md)
+  - [x] [06e — Library operations through the service](slices/06e-library-operations.md)
+  - [x] [06f — Native capture service control](slices/06f-capture-service.md)
+  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md)
+  - [x] [06h — Normalized cursor evidence index](slices/06h-evidence-index.md)
+  - [x] [06i — Source processing integration](slices/06i-source-processing.md)
+  - [x] [06j — Source timing evidence](slices/06j-source-timing.md)
+- [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
+  - [x] [07a — Settings window, permissions and launch at login](slices/07a-settings-window.md)
+  - [ ] [07b — Countdown and recording overlay](slices/07b-recording-overlays.md)
+- [x] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
+- [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
+  - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md)
+  - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md)
+  - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md)
+  - [ ] [09d — Revision-bound public frame inspection](slices/09d-public-frames.md)
+  - [x] [09e — Revision-bound audio inspection](slices/09e-public-audio.md)
+- [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
+  - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md)
+  - [ ] [10b — Shared clean visual observations](slices/10b-visual-observations.md)
+  - [ ] [10c — Requested-time trail planning](slices/10c-trail-timing.md)
+  - [x] [10d — Indexed trail evidence](slices/10d-trail-evidence.md)
+  - [ ] [10e — Default public trail frames](slices/10e-public-trails.md)
+  - [x] [10f — Durable shared scene evidence](slices/10f-durable-scenes.md)
+- [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
+  - [x] [11a — Incremental selection ledger](slices/11a-selection-ledger.md)
+  - [x] [11b — Shared frame materialization](slices/11b-shared-frame-materialization.md)
+  - [ ] [11c — Retained index and public delivery](slices/11c-retained-index.md)
+- [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
+  - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md)
+- [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
+  - [x] [13a — Native render timing feasibility](slices/13a-native-render-timing.md)
+  - [x] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md)
+  - [x] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md)
+  - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md)
+  - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md)
+  - [x] [13d3 — Sequential pointer schedule](slices/13d3-pointer-schedule.md)
+  - [x] [13d4 — Native pointer composition](slices/13d4-pointer-composition.md)
+  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md)
+- [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
+  - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
+  - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)
+    - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md)
+    - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md)
+    - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md)
+  - [x] [14c1 — Bounded archive extraction](slices/14c1-bounded-archive-extraction.md)
+  - [x] [14c2 — Retained archive inspection](slices/14c2-retained-package-inspection.md)
+  - [x] [14c3a — Transient package job contexts](slices/14c3a-transient-context-jobs.md)
+  - [x] [14c3b1 — Reusable outputs and isolated delivery](slices/14c3b1-package-output-release.md)
+  - [x] [14c3b2 — Admitted inputs and workspace cleanup](slices/14c3b2-package-workspace-primitives.md)
+  - [x] [14c3b3 — Internal package registry](slices/14c3b3-package-registry.md)
+  - [x] [14c3c1 — Public package admission and retained index](slices/14c3c1-public-package-index.md)
+  - [x] [14c3c2 — Arbitrary package frame and audio](slices/14c3c2-package-frame-audio.md)
+    - [x] [14c3c2a — Public arbitrary package frames](slices/14c3c2a-package-frames.md)
+    - [x] [14c3c2b — Public package audio](slices/14c3c2b-package-audio.md)
+  - [x] [14c3c3 — Public package raw cursor](slices/14c3c3-package-cursor.md)
+  - [x] [14c3c4 — Public timeline inspection](slices/14c3c4-timeline-inspection.md)
+  - [ ] [14d — Pinned export intent and atomic publication](slices/14d-export-publication.md)
+    - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md)
+    - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md)
+    - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md)
+    - [x] [14d2b3 — Per-export abandonment](slices/14d2b3-export-abandonment.md)
+    - [x] [14d2b4 — Queued publication recovery](slices/14d2b4-queued-recovery.md)
+    - [x] [14d3 — Complete processed-package export](slices/14d3-processed-package.md)
+      - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md)
+      - [x] [14d3b — Complete no-narration assembly](slices/14d3b-package-assembly.md)
+    - [x] [14d4 — Persisted export discovery](slices/14d4-export-discovery.md)
+- [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
+  - [x] [15a — Client discovery](slices/15a-client-discovery.md)
+  - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)
+
+## Outcome
+
+Record a narrated website demonstration on localhost, then tell an external coding
+agent to inspect the latest recording. It reads word-timed narration and a screenshot
+index, requests images/audio at useful moments, and uses cursor trails to understand
+what was pointed at. It can trim or cut specified ranges, undo, and inspect or export
+the edited result.
+
+“Cut out the part where I said this is free” and “cut out the ums” are external-agent
+workflows over evidence and explicit edit operations. Filler removal is best-effort:
+the transcript reports a filler only when the engine emitted one. The app contains local speech
+recognition but no assistant, semantic editing model, rewriting or summarization.
+The original recording and non-destructive history remain intact.
+
+## Settled scope
+
+- macOS menu-bar app; display/window/region capture, microphone narration and optional
+  separately captured system/browser audio. All system audio is the initial filter;
+  source selection does not imply browser-tab sound isolation.
+- Start, stop, cancel, pause/resume and restart through native controls/shortcuts
+  and machine operations. Pauses omit media time but add explicit elapsed-pause markers.
+- Local English transcription with word timestamps; fillers and repetitions appear
+  when the engine emits them, without a capture guarantee.
+- Clean source media plus raw cursor history; default two-second fading trail on
+  inspection images, reset at pause/cut/scene/geometry boundaries; optional clean frames.
+- Visual-change/coverage/cursor-aware screenshot index; arbitrary frame, crop,
+  transcript, timeline, cursor and audio inspection.
+- Latest discovers the newest take immediately, even before artifacts are ready.
+  Separate readiness/failure/retry states let the caller wait and request again.
+- Full CLI/MCP trim, batch cut, history, undo and restore. Revision-bound writes
+  reject stale edits. Current/historical reads and exports pin a revision.
+- Exactly two exports: playable human video, and the complete processed AI package
+  including original media, source data, edits and current evidence. Package reader
+  supports new frame requests after relocation.
+- Preserve partial recordings honestly after interruption. Keep data until manually
+  deleted; expose storage usage. Optimize short pointers and 2–5 minute walkthroughs,
+  with bounded paged access to longer recordings.
+- Personal host first. No drawings, webcam, editing timeline GUI, live AI streaming,
+  cloud transcription, remote MCP, hosted sharing, accounts, public updater,
+  speculative platform support, or general video effects in this release.
+
+## Architecture in one view
+
+```mermaid
+flowchart LR
+  User[Native menu-bar controls] --> App[Swift app / capture]
+  App <-->|private control channel| Service[App-managed Node service]
+  CLI[CLI] -->|local socket| Service
+  MCP[MCP stdio adapter] -->|local socket| Service
+  Service --> Core[Shared core: library / timeline / jobs / evidence]
+  Core --> DB[(Local catalog and immutable sources)]
+  Core -->|resolved media plans| Workers[Bounded Swift media / speech workers]
+  Workers --> DB
+  Core --> Package[Portable package reader and writer]
+  Future[Future editing UI] -. CLI JSON .-> CLI
+```
+
+[Architecture](architecture.md) names every owner, process lifetime and package.
+[Contracts](contracts.md) specifies units, schema fields, operations, partial words,
+pause/cut events, limits, request replay, audio mix and export semantics.
+[Research](research.md) records actual SDK/reference evidence and the three-draft synthesis.
+
+## Review surfaces
+
+Each slice file states its dependencies; this table names what a top-level gate shows.
+
+| Slice | Review surface |
+| --- | --- |
+| [00 Workspace and native harness](slices/00-workspace.md) | Local .app launch and protocol round trip |
+| [00b Real-agent image access](slices/00b-client-image-probe.md) | Actual agent MCP/CLI image read |
+| [01 Native capture and separate audio](slices/01-native-capture.md) | Three capture sources + isolated audio playback |
+| [02 Recover interrupted source media](slices/02-interruption-recovery.md) | Killed writer, decoded recovered prefix |
+| [03 Cursor positions in captured coordinates](slices/03-cursor-geometry.md) | Asymmetric grid and cursor error |
+| [04 Select a local speech engine](slices/04-local-speech-gate.md) | Emitted-token diagnostic and selected runtime |
+| [05 Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md) | Expected source spans and revision examples |
+| [06 Single-writer library and app-managed service](slices/06-service-and-jobs.md) | Real-process state/race/restart cases |
+| [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | Native controls and recording state shots |
+| [08 Durable local transcription and projections](slices/08-transcript-processing.md) | Word-timed transcript and retry |
+| [09 Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md) | Timestamped clean frames/audio |
+| [10 Readable cursor trails on requested frames](slices/10-cursor-trails.md) | Circle/wave and boundary trail shots |
+| [11 Useful bounded screenshot index](slices/11-screenshot-selection.md) | Contact sheet with selection reasons |
+| [12 Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md) | CLI/MCP parity and actual agent edit calls |
+| [13 Playable edited media and audio joins](slices/13-edited-media.md) | Audition/inspect actual edited media |
+| [14 Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md) | Two exports; moved package, new frame |
+| [15 Installed personal workflow and closeout](slices/15-personal-release.md) | Installed localhost journey and closeout |
+
+Slices 00b, 01, 04 and 05 can progress independently after bootstrap; pending
+client login in 00b does not block the other probes. Recovery follows
+capture; geometry is judged separately. Image transport is proved early using a
+fixture; the full AI edit journey waits for actual edit operations and media output.
+No slice may declare a downstream contract complete using an upstream failed probe.
+
+## Risk decisions before mechanical work
+
+1. **Speech engine:** Parakeet and Whisper were compared through real local runtimes,
+   with Apple and a verbatim model as bounded alternatives. None met the filler gate.
+   The user chose best-effort fillers, and Parakeet ships. Boundary timing and
+   resources stay measured on real narration.
+2. **Recoverable media:** try native fragmented files before custom segmented
+   storage. Slice 02 chooses from observed interruption behavior.
+3. **Cursor geometry:** native metadata owns coordinate transforms. Slice 03 must
+   prove moved-window and region behavior; later overlays cannot mask a bad transform.
+4. **Scene/index policy:** deterministic heuristics with measured fixture outcomes.
+   Slice 11 can tune thresholds, but cannot suppress cursor-only emphasis.
+5. **Actual consumer:** prior Claude CLI evidence remains recorded, but the user
+   requested no further Claude use. Complete later consumer gates with an available
+   non-Claude agent through the same public operations.
+6. **Fresh formats:** plan version 1 without migration/backward-compatibility machinery.
+   Existing user recording data from another app was not requested for import.
+7. **Package semantics:** preserve originals and edit history, label source/edited
+   coordinates, export a pinned revision, and reopen with the same inspector.
+
+The named engine, recovery, geometry, app/service lifecycle and actual-client checks
+are explicit feasibility gates that may require technical reslicing. They never
+authorize silently changing product scope. Other user-visible defaults are specified
+in contracts, not left as guesses.
+
+## Review and quality gates
+
+Use [verification](verification.md) throughout. Every visual slice explicitly runs
+unprimed screenshot-critique last; comparisons against references/prior frames use
+compare-screenshots first. Native controls, geometry, trail styling, and frame
+selection have separate review surfaces. Human visual checkpoints are non-blocking
+for reversible choices; missing capture permission or actual narration is not
+inferred from silence.
+
+Use narrow tests during iteration and the broad local gate once at final closeout.
+Substantive implementation receives code-review and a codex second opinion under
+their skills. The spec itself has undergone independent draft synthesis, recursive
+fog splitting, ownership review and link/contract review; these do not replace
+future implementation testing.
+
+## Spec maintenance and handoff
+
+The [map](MAP.md) preserves user decisions and discovery evidence; its old OPEN
+checklist and kickoff prompt are superseded by this spec. Keep it as rationale, not
+a competing task list. A new discovery updates the relevant contract/slice and this
+handoff; record changed user-visible choices in the [implementation choices ledger](choices.md).
+No file may carry instructions to implement an abandoned architecture.
+
+Implementation-only discretion: internal algorithms/names and reversible styling
+within a slice's explicit acceptance tests. Undeclared new capability, incompatible
+format, second owner, or altered product scope is a spec gap to resolve, not
+permission for an implementer to guess.
+
+When all gates ship, use close-spec to turn the plan into durable rationale. Future
+work stays in the existing placeholders:
+[tester release](../tester-release/README.md),
+[public release](../public-release/README.md),
+[editing UI](../editing-ui/README.md).
+
+2026-09-28T08:18:04.921240Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e717-260f-7981-901d-455353c1f91c turn_id=01a0e717-26d9-7c63-b5d7-4fbdc6cf8e6c item_id="exec-3dd688c8-6b87-4ad8-9ddc-091ce649ae31"
+exec
+/bin/zsh -lc "sed -n '330,450p' helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift; cat specs/agent-editing/assets/11a-audio-extraction/README.md; find specs/agent-editing/assets/11a-audio-extraction -type f; cat helpers/mac/Tests/source-audio.test.mjs | head -65; cat packages/test-harness/editing/source-evidence-fixture.mjs | head -120" in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+    }
+
+    func next() throws -> AVAudioPCMBuffer? {
+        guard position < end else { return nil }
+        while true {
+            try Task.checkCancellation()
+            if pending == nil {
+                pending = output?.copyNextSampleBuffer()
+                if let pending { decodedFrames += Int64(CMSampleBufferGetNumSamples(pending)) }
+            }
+            guard let sample = pending else {
+                if let detail = source.input.failure { throw detail }
+                if failed { throw NativeFailure.decodeFailed("Audio reader failed.") }
+                // A completed AAC reader can stop before its declared end while a seek still
+                // returns the real tail. Retry only once, at the exact next sample, never padding.
+                if reader?.status == .completed, !reopened, position > intervalStart, position < end {
+                    reopened = true
+                    requireContinuation = true
+                    try open(at: position)
+                    continue
+                }
+                return nil
+            }
+            let frames = CMSampleBufferGetNumSamples(sample)
+            let stamp = CMSampleBufferGetPresentationTimeStamp(sample)
+            func frame(_ time: CMTime, rounding: CMTimeRoundingMethod) -> Int {
+                Int(
+                    CMTimeConvertScale(
+                        CMTimeSubtract(time, stamp), timescale: CMTimeScale(source.sampleRate),
+                        method: rounding
+                    ).value)
+            }
+            let first = max(0, frame(position, rounding: .roundHalfAwayFromZero))
+            // Keep the source frame intersecting the quantized end, as AVAssetReader's
+            // timeRange does. Rounding it down can leave a rate converter one frame short.
+            let last = min(frames, frame(end, rounding: .roundTowardPositiveInfinity))
+            if first >= frames {
+                pending = nil
+                continue
+            }
+            if last <= first { return nil }
+            if requireContinuation {
+                let resumed = CMTimeAdd(stamp,
+                    CMTime(value: Int64(first), timescale: CMTimeScale(source.sampleRate)))
+                guard resumed == position else {
+                    throw NativeFailure.decodeFailed("Recovered audio skipped an unread source interval.")
+                }
+                requireContinuation = false
+            }
+            var list = AudioBufferList()
+            var block: CMBlockBuffer?
+            guard frames > 0, frames <= 65_536,
+                CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
+                    sample, bufferListSizeNeededOut: nil, bufferListOut: &list,
+                    bufferListSize: MemoryLayout<AudioBufferList>.size, blockBufferAllocator: nil,
+                    blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block) == noErr,
+                let decoded = list.mBuffers.mData?.assumingMemoryBound(to: Float.self),
+                let buffer = AVAudioPCMBuffer(
+                    pcmFormat: format, frameCapacity: AVAudioFrameCount(last - first))
+            else { throw NativeFailure.decodeFailed("Cannot read decoded audio buffer.") }
+            buffer.frameLength = AVAudioFrameCount(last - first)
+            buffer.floatChannelData![0].update(
+                from: decoded + first * source.channels,
+                count: (last - first) * source.channels)
+            position = CMTimeAdd(
+                stamp, CMTime(value: Int64(last), timescale: CMTimeScale(source.sampleRate)))
+            // Keep this packet until the next request: cumulative output rounding can make
+            // successive intervals legitimately share a boundary source sample.
+            return buffer
+        }
+    }
+}
+
+/// A fresh converter sees only one selected interval and an explicit end-of-stream flush.
+/// Its input callback runs synchronously inside convert; no other thread advances this reader.
+private final class ConversionInput: @unchecked Sendable {
+    private let reader: AudioSourceReader
+    private var supplied: AVAudioPCMBuffer?
+    private(set) var failure: Error?
+    var readerFailed: Bool { reader.failed }
+    var reachedSelectionEnd: Bool { reader.reachedSelectionEnd }
+
+    init(reader: AudioSourceReader) { self.reader = reader }
+
+    func next(_ status: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioPCMBuffer? {
+        do {
+            let buffer = try autoreleasepool { try reader.next() }
+            guard let buffer else {
+                status.pointee = .endOfStream
+                return nil
+            }
+            supplied = buffer
+            status.pointee = .haveData
+            return buffer
+        } catch {
+            failure = error
+            status.pointee = .endOfStream
+            return nil
+        }
+    }
+}
+# Selected-source WAV delivery evidence
+
+The public journey in [audio-extraction.mjs](../../../../packages/test-harness/editing/audio-extraction.mjs)
+uses actual native extraction, CLI file delivery, and MCP artifact reads in a scratch
+home. Its independent reference reader counts decoded samples and retains only a
+bounded tail. No model download, inference, capture, or playback is involved.
+
+## Missing AAC tail
+
+A 50-minute AAC source advertised 144,000,000 frames but the completed native reader
+supplied 143,998,976. A fresh exact-tail seek also failed inside the final packet.
+The fast 32-second terminal-window regression reproduces that failure with the
+frozen prior binary (`tail-red.txt`); the candidate passes (`tail-green.txt`).
+
+The shared source reader now starts with two declared packet widths of decoder
+context, discarded before conversion, and may reopen once at the exact next unread
+sample after a completed reader stops early. It requires forward progress and exact
+continuation, does not pad or change support, and refuses a repeated shortage.
+`no-recovery-red.json` removes only recovery while retaining packet context: the
+long silent source again fails short coverage and leaves no partial WAV. Truncated
+input and excluded-poison fixtures remain rejected/excluded.
+
+Full silent output consumes 144,002,048 decoded frames for 144,000,000 output
+frames: only the bounded recovery context is additional work. Terminal queries
+consume at most 8192 frames; they do not decode the source prefix. Packet size must
+be fixed and declared, from 1 through 32768 frames. Broader formats remain open.
+
+## Separate AAC numerical contract
+
+`old-native-parity.json` proves the frozen prior binary itself emits different AAC
+floats for full and range decoding of identical source bytes. `packet-alignment.json`
+keeps that mismatch across packet-aligned seeks with zero, one, two, and four extra
+packets. New and prior successful range output is byte identical. The measurements
+support seek-dependent floating output; they do not establish a platform-internal cause.
+
+The approved AAC-only comparison requires exact frames, sample clocks, rate/channels,
+and first/last stereo frames, with both RMS and maximum error below 1/32768. PCM and
+ALAC remain byte exact. No samples are normalized. `comparison-mutations.txt` proves
+one-sample drop, shift, and an excessive interior amplitude error still fail.
+`strict-aac-red.json` retains the original overly broad byte-comparison failure.
+This contract correction is separate from evidence for the missing-packet fix.
+
+## Verification boundaries
+
+`marker-report.json` and `silence-report.json` record real 1,152,004,096-byte WAV extraction and complete CLI
+streaming, bounded MCP header/tail reads, selected streams/channels, fractional ranges,
+physical and acquisition holes, offsets, poison, cancellation/retry, and unchanged
+original hashes. The final marker run used root's locked WAV-staging runtime.
+RSS is periodically sampled process RSS, not a universal peak or full slice-24 claim.
+The cache size/RIFF limit and large delivery lease behavior remain shared owners.
+
+`wire-packet-final.txt` passes native wire/source/speech boundary tests;
+`composition-packet-final.json` preserves the existing mix/selection/poison gates.
+`asr-pcm-parity.json` compares actual 16 kHz PCM input bytes before/after for 44.1/48 kHz
+sources and selected spans. It does not claim fresh ASR inference. Frozen binary
+hashes are in `binaries.json`. Compact tails, input files, requests, and reports are
+retained; verified multi-GiB diagnostic outputs were deleted after hashing.
+
+The duration-readiness hypothesis did not fix the silent-source public failure and
+was removed. Earlier ALAC and AAC runs are supplemental, with their distinct binary
+provenance; they are not substituted for final AAC regression evidence. Project taps
+are verified by their separate owner and are not claimed by this source journey.
+specs/agent-editing/assets/11a-audio-extraction/strict-aac-red.json
+specs/agent-editing/assets/11a-audio-extraction/asr-pcm-parity.json
+specs/agent-editing/assets/11a-audio-extraction/final-range-tail.pcm
+specs/agent-editing/assets/11a-audio-extraction/composition-packet-final.json
+specs/agent-editing/assets/11a-audio-extraction/packet-alignment.json
+specs/agent-editing/assets/11a-audio-extraction/final-marker-full.wav.json
+specs/agent-editing/assets/11a-audio-extraction/silence-report.json
+specs/agent-editing/assets/11a-audio-extraction/negative/report.json
+specs/agent-editing/assets/11a-audio-extraction/negative/service.log
+specs/agent-editing/assets/11a-audio-extraction/marker-report.json
+specs/agent-editing/assets/11a-audio-extraction/choices.md
+specs/agent-editing/assets/11a-audio-extraction/comparison-mutations.txt
+specs/agent-editing/assets/11a-audio-extraction/no-recovery-red.json
+specs/agent-editing/assets/11a-audio-extraction/alac-service.log
+specs/agent-editing/assets/11a-audio-extraction/old-native-parity.json
+specs/agent-editing/assets/11a-audio-extraction/tail-red.txt
+specs/agent-editing/assets/11a-audio-extraction/tail-green.txt
+specs/agent-editing/assets/11a-audio-extraction/README.md
+specs/agent-editing/assets/11a-audio-extraction/binaries.json
+specs/agent-editing/assets/11a-audio-extraction/same-native-parity.json
+specs/agent-editing/assets/11a-audio-extraction/marker.m4a
+specs/agent-editing/assets/11a-audio-extraction/alac-report.json
+specs/agent-editing/assets/11a-audio-extraction/marker-service.log
+specs/agent-editing/assets/11a-audio-extraction/final-full-tail.pcm
+specs/agent-editing/assets/11a-audio-extraction/marker-baseline-tail.pcm
+specs/agent-editing/assets/11a-audio-extraction/marker-mutation.wav.json
+specs/agent-editing/assets/11a-audio-extraction/wire-packet-final.txt
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/direct-single.json
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/direct-native.txt
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/report.json
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/full-parity.json
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/reader-coverage.txt
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/service.log
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/native-request.json
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/native-response.json
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/diagnostic.log
+specs/agent-editing/assets/11a-audio-extraction/aac-failure/source.m4a
+specs/agent-editing/assets/11a-audio-extraction/silence-service.log
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync, readdirSync, truncateSync, existsSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { test } from "node:test";
+
+const native =
+  process.env.SCREENREC_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+const fixture =
+  process.env.SCREENREC_SOURCE_AUDIO_FIXTURE ??
+  fileURLToPath(new URL("../.build/debug/ScreenRecorderSourceAudioTests", import.meta.url));
+test("source WAV wire delivery retains native fixture samples and refuses ambiguous selection", () => {
+  const directory = mkdtempSync(join(tmpdir(), "source-audio-wire-"));
+  try {
+    const proof = spawnSync(fixture, [], {
+      env: { ...process.env, SCREENREC_SOURCE_AUDIO_EVIDENCE: directory },
+      encoding: "utf8",
+      timeout: 120000,
+    });
+    assert.equal(proof.status, 0, proof.stdout + proof.stderr);
+    for (const rate of [44100, 48000]) {
+      const params = JSON.parse(readFileSync(join(directory, `request-${rate}.json`), "utf8"));
+      const execute = (value) => {
+        const result = spawnSync(native, [], {
+          input:
+            JSON.stringify({ id: "source", operation: "media.sourceAudio", params: value }) + "\n",
+          encoding: "utf8",
+          timeout: 30000,
+        });
+        assert.equal(result.status, 0, result.stderr);
+        return JSON.parse(result.stdout);
+      };
+      const reply = execute(params);
+      assert.equal(reply.ok, true, JSON.stringify(reply));
+      assert.equal(reply.data.sampleRate, rate);
+      assert.equal(reply.data.channels, 2);
+      assert.equal(reply.data.layout, "stereo");
+      assert.equal(reply.data.frames, rate);
+      assert.deepEqual(reply.data.sampleRange, { start: 0, end: rate });
+      assert.deepEqual(
+        readFileSync(params.output),
+        readFileSync(join(directory, `full-${rate}.wav`)),
+      );
+      assert.equal(execute(params).error.code, "INVALID_OUTPUT");
+      const ambiguous = structuredClone(params);
+      delete ambiguous.source.streamId;
+      ambiguous.output = join(directory, `ambiguous-${rate}.wav`);
+      assert.equal(execute(ambiguous).error.code, "INVALID_REQUEST");
+      assert.equal(execute({ ...params, unexpected: true }).error.code, "INVALID_REQUEST");
+    }
+    assert.deepEqual(
+      readdirSync(directory).filter((name) => name.startsWith(".screenrec-output-")),
+      [],
+    );
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("AAC terminal windows decode bounded real packet context and truncated sources fail cleanly", () => {
+  const directory = mkdtempSync(join(tmpdir(), "source-audio-tail-"));
+  const execute = (source, range, output) => {
+import assert from "node:assert/strict";
+import { execFile, fork } from "node:child_process";
+import { createHash, randomUUID } from "node:crypto";
+import { once } from "node:events";
+import { constants } from "node:fs";
+import { copyFile, lstat, mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
+import { promisify } from "node:util";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { cliReply } from "./first-preview-transport.mjs";
+
+export const run = promisify(execFile);
+export const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+export const root = new URL("../../../", import.meta.url).pathname;
+export async function poll(read, done, label) {
+  const deadline = performance.now() + 180000;
+  for (;;) {
+    const value = await read();
+    if (done(value)) return value;
+    assert.ok(!["failed", "canceled"].includes(value.state), `${label}: ${JSON.stringify(value)}`);
+    assert.ok(performance.now() < deadline, `${label}: deadline`);
+    await delay(100);
+  }
+}
+
+/** Copies already prepared, hash-pinned files. No network fetch or preparation operation. */
+export async function copyModels(home, request) {
+  const { parakeetModel: manifest, SpeechModels } =
+    await import("../../../packages/core/dist/speech-models.js");
+  assert.deepEqual(request.files, manifest.files);
+  const models = new SpeechModels(join(home, "library"));
+  const target = join(home, "library/models", manifest.name, manifest.revision);
+  const receipt = { modelDigest: models.modelDigest, files: {} };
+  for (const file of manifest.files) {
+    const source = join(request.directory, file.path);
+    const destination = join(target, manifest.folderName, file.path);
+    assert.ok((await lstat(source)).isFile());
+    await mkdir(dirname(destination), { recursive: true });
+    await copyFile(source, destination, constants.COPYFILE_FICLONE);
+    const bytes = await readFile(destination);
+    assert.equal(bytes.length, file.bytes);
+    assert.equal(hash(bytes), file.sha256);
+    const stat = await lstat(destination, { bigint: true });
+    receipt.files[file.path] = { modifiedNs: String(stat.mtimeNs), inode: String(stat.ino) };
+  }
+  await writeFile(join(target, "receipt.json"), JSON.stringify(receipt));
+  assert.deepEqual(models.status(), { state: "ready" });
+  return { modelDigest: models.modelDigest, files: manifest.files };
+}
+
+/** Public transports around a scratch project service; barriers hold only real native replies. */
+export class JourneyService {
+  constructor(home, report, evidence) {
+    this.home = home;
+    this.evidence = evidence;
+    this.report = report;
+    this.logs = [];
+    this.barriers = new Map();
+  }
+  async start() {
+    this.child = fork(
+      new URL("./source-acquisition-service.mjs", import.meta.url),
+      [this.home, ...(this.evidence ? [this.evidence] : [])],
+      {
+        stdio: ["ignore", "pipe", "pipe", "ipc"],
+      },
+    );
+    this.child.stdout.on("data", (b) => this.logs.push(b.toString()));
+    this.child.stderr.on("data", (b) => this.logs.push(b.toString()));
+    this.child.on("message", (m) => {
+      if (m.type) this.barriers.set(`${m.id}/${m.type}`, m);
+    });
+    const [ready] = await Promise.race([
+      once(this.child, "message"),
+      once(this.child, "exit").then(([code]) => {
+        throw new Error(`Service exited ${code}: ${this.logs.join("")}`);
+      }),
+      delay(30000, undefined, { ref: false }).then(() => {
+        throw new Error("Service startup deadline");
+      }),
+    ]);
+    assert.equal(ready.error, undefined, JSON.stringify(ready));
+    this.socketPath = ready.socketPath;
+    this.mcp = new Client({ name: "source-transcript-journey", version: "1" });
+    await this.mcp.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [join(root, "apps/cli/dist/main.js"), "mcp", "--socket", this.socketPath],
+        stderr: "pipe",
+      }),
+    );
+  }
+  async call(operation, params, { transport = "cli", error = false, output } = {}) {
+    const response =
+      transport === "mcp"
+        ? (await this.mcp.callTool({ name: operation, arguments: params })).structuredContent
+        : await cliReply([
+            join(root, "apps/cli/dist/main.js"),
+            operation,
+            "--socket",
+            this.socketPath,
+            "--params",
+            JSON.stringify(params),
+            ...(output ? ["--output", output] : []),
+          ]);
+    assert.equal(response?.ok, !error, `${operation}: ${JSON.stringify(response)}`);
+    this.report.trace.push({
+      operation,
+      transport,
+      ok: response.ok,
+      state: response.data?.state,
+      error: response.error,
+    });
+    return response.ok ? response.data : response.error;
+  }
+  async arm(operation) {
+    const id = randomUUID();
+    this.child.send({ type: "barrier.arm", id, operation, remaining: 1 });
+
+2026-09-28T08:18:14.753277Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e717-260f-7981-901d-455353c1f91c turn_id=01a0e717-26d9-7c63-b5d7-4fbdc6cf8e6c item_id="exec-21008540-b144-4a70-bd33-314f3d354c36"
+exec
+/bin/zsh -lc 'ls helpers/mac/.build/debug/screenrec-native; node --test helpers/mac/Tests/source-audio.test.mjs; git diff --check; cat specs/agent-editing/assets/11a-audio-extraction/choices.md; ls -a /private/tmp/AGENTS* /private/AGENTS* 2>/dev/null' in /private/tmp/screenrec-source-audio-inspection
+2026-09-28T08:18:22.339437Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e717-260f-7981-901d-455353c1f91c turn_id=01a0e717-26d9-7c63-b5d7-4fbdc6cf8e6c item_id="exec-8265e483-00f6-4914-af56-30a2536d5190"
+ exited 1 in 213ms:
+✖ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (4.081125ms)
+✖ AAC terminal windows decode bounded real packet context and truncated sources fail cleanly (142.6105ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 220.539917
+
+✖ failing tests:
+
+test at helpers/mac/Tests/source-audio.test.mjs:15:1
+✖ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (4.081125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  null !== 0
+  
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-source-audio-inspection/helpers/mac/Tests/source-audio.test.mjs:23:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at helpers/mac/Tests/source-audio.test.mjs:63:1
+✖ AAC terminal windows decode bounded real packet context and truncated sources fail cleanly (142.6105ms)
+  AssertionError [ERR_ASSERTION]: Error: spawnSync /private/tmp/screenrec-source-audio-inspection/helpers/mac/.build/debug/screenrec-native ENOENT
+  
+  null !== 0
+  
+      at execute (file:///private/tmp/screenrec-source-audio-inspection/helpers/mac/Tests/source-audio.test.mjs:80:12)
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-source-audio-inspection/helpers/mac/Tests/source-audio.test.mjs:114:22)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+# Decisions reviewed in this pass
+
+- Keep decoder continuation in the shared source reader, so source windows,
+  recording spans, and composition have one packet/EOF policy. Reopen at most once
+  after actual progress, preserve the exact next sample, and fail on another shortage.
+- Use two declared packet widths of bounded decoder context. One packet can still
+  begin inside the terminal packet; context never becomes selected converter input.
+  Unknown or oversized packet metadata refuses explicitly pending format acceptance.
+- Correct AAC-only byte equality to strict clocks/counts/endpoints plus RMS and max
+  below one 16-bit quantization step. Prior-binary and packet-aligned negative controls
+  show this is pre-existing seek-dependent float output. Preserve exact PCM/ALAC and
+  unchanged successful old/new range bytes; do not normalize or quantize output.
+- Keep full WAV delivery in existing cache/job/artifact owners. The journey measures
+  actual large native extraction and full streamed delivery; it adds no runtime store.
+- Retain compact provenance and compressed references. Sampled RSS is scoped evidence,
+  not proof of every long-media or codec combination. No fresh model inference claim.
+zsh:1: no matches found: /private/tmp/AGENTS*
+
+codex
+No actionable regressions were identified in the staged, unstaged, or untracked changes. Runtime verification was limited because the required native test binaries were not built in this checkout.
+No actionable regressions were identified in the staged, unstaged, or untracked changes. Runtime verification was limited because the required native test binaries were not built in this checkout.

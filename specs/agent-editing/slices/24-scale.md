@@ -46,3 +46,12 @@ Delegated: Instrumentation/report format and optimization choices that preserve 
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
+
+## Selected-source codec context
+
+Audio decoding currently requires a declared fixed packet size of 1–32768 native
+frames, allowing at most two packets of lookbehind (65536 frames). Context is
+discarded before selected PCM reaches conversion or mixing; actual decoded-frame
+counts include it. Unknown/variable packet sizes refuse explicitly. Broader format
+support and this provisional packet bound remain scale/format acceptance work.
+See [source extraction evidence](../assets/11a-audio-extraction/README.md).

@@ -11,6 +11,7 @@ struct SourceTrack {
     let asset: AVURLAsset
     let track: AVAssetTrack
     let sampleRate: Int
+    let packetFrames: Int
     let channels: Int
     let available: [TimeSpan]
 
@@ -66,6 +67,9 @@ struct SourceTrack {
         }
         let sampleRate = Int(stream.mSampleRate.rounded())
         let channels = Int(stream.mChannelsPerFrame)
+        guard (1...32_768).contains(stream.mFramesPerPacket) else {
+            throw NativeFailure("UNSUPPORTED_FORMAT", "Audio decoding requires a fixed packet size of at most 32768 native frames.")
+        }
         guard (1...AudioLimits.maximumSampleRate).contains(sampleRate),
             (1...AudioLimits.maximumChannels).contains(channels)
         else {
@@ -84,7 +88,7 @@ struct SourceTrack {
         }
         return SourceTrack(
             sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
-            track: audio, sampleRate: sampleRate, channels: channels,
+            track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,
             // Physical occupancy is not acquisition evidence. Recording callers supply acquired
             // intervals here; composition execution additionally intersects its retained domains.
             available: TimeSpan.intersection(available, occupied))
@@ -259,6 +263,9 @@ final class AudioSourceReader {
     private let format: AVAudioFormat
     private var position = CMTime.zero
     private var end = CMTime.zero
+    private var intervalStart = CMTime.zero
+    private var reopened = false
+    private var requireContinuation = false
     private(set) var decodedFrames: Int64 = 0
     var failed: Bool { reader?.status == .failed }
     var reachedSelectionEnd: Bool { position >= end }
@@ -276,37 +283,50 @@ final class AudioSourceReader {
         // Seeking across a long hole must not decode the excluded recording. Nearby intervals
         // amortize reader setup; at most one second of discarded audio is scanned per join.
         if reader == nil || CMTimeGetSeconds(CMTimeSubtract(start, self.end)) > 1 {
-            reader?.cancelReading()
-            pending = nil
-            let opened: AVAssetReader
-            do { opened = try AVAssetReader(asset: source.asset) } catch {
-                if let detail = source.input.failure { throw detail }
-                throw NativeFailure.decodeFailed(
-                    "Cannot read \(source.url.path): \(error.localizedDescription)")
-            }
-            opened.timeRange = CMTimeRange(start: start, duration: .positiveInfinity)
-            let output = AVAssetReaderTrackOutput(
-                track: source.track,
-                outputSettings: [
-                    AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
-                    AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
-                    AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
-                    AVLinearPCMIsNonInterleaved: false,
-                ])
-            output.alwaysCopiesSampleData = false
-            guard opened.canAdd(output) else {
-                throw NativeFailure.decodeFailed("Cannot decode audio track.")
-            }
-            opened.add(output)
-            guard opened.startReading() else {
-                if let detail = source.input.failure { throw detail }
-                throw NativeFailure.decodeFailed("Cannot start audio reader.")
-            }
-            self.reader = opened
-            self.output = output
+            try open(at: start)
         }
         self.position = start
         self.end = end
+        intervalStart = start
+        reopened = false
+        requireContinuation = false
+    }
+
+    private func open(at start: CMTime) throws {
+        reader?.cancelReading()
+        pending = nil
+        let opened: AVAssetReader
+        do { opened = try AVAssetReader(asset: source.asset) } catch {
+            if let detail = source.input.failure { throw detail }
+            throw NativeFailure.decodeFailed(
+                "Cannot read \(source.url.path): \(error.localizedDescription)")
+        }
+        // Seeking inside the last compressed packet can refuse or omit its PCM. Two packet
+        // widths include the preceding packet even when start lies inside a packet. next()
+        // discards this bounded context before any selected samples reach the converter.
+        let context = CMTime(value: Int64(source.packetFrames) * 2,
+            timescale: CMTimeScale(source.sampleRate))
+        let decodeStart = max(.zero, CMTimeSubtract(start, context))
+        opened.timeRange = CMTimeRange(start: decodeStart, duration: .positiveInfinity)
+        let output = AVAssetReaderTrackOutput(
+            track: source.track,
+            outputSettings: [
+                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
+                AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
+                AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
+                AVLinearPCMIsNonInterleaved: false,
+            ])
+        output.alwaysCopiesSampleData = false
+        guard opened.canAdd(output) else {
+            throw NativeFailure.decodeFailed("Cannot decode audio track.")
+        }
+        opened.add(output)
+        guard opened.startReading() else {
+            if let detail = source.input.failure { throw detail }
+            throw NativeFailure.decodeFailed("Cannot start audio reader.")
+        }
+        self.reader = opened
+        self.output = output
     }
 
     func next() throws -> AVAudioPCMBuffer? {
@@ -320,6 +340,14 @@ final class AudioSourceReader {
             guard let sample = pending else {
                 if let detail = source.input.failure { throw detail }
                 if failed { throw NativeFailure.decodeFailed("Audio reader failed.") }
+                // A completed AAC reader can stop before its declared end while a seek still
+                // returns the real tail. Retry only once, at the exact next sample, never padding.
+                if reader?.status == .completed, !reopened, position > intervalStart, position < end {
+                    reopened = true
+                    requireContinuation = true
+                    try open(at: position)
+                    continue
+                }
                 return nil
             }
             let frames = CMSampleBufferGetNumSamples(sample)
@@ -340,6 +368,14 @@ final class AudioSourceReader {
                 continue
             }
             if last <= first { return nil }
+            if requireContinuation {
+                let resumed = CMTimeAdd(stamp,
+                    CMTime(value: Int64(first), timescale: CMTimeScale(source.sampleRate)))
+                guard resumed == position else {
+                    throw NativeFailure.decodeFailed("Recovered audio skipped an unread source interval.")
+                }
+                requireContinuation = false
+            }
             var list = AudioBufferList()
             var block: CMBlockBuffer?
             guard frames > 0, frames <= 65_536,

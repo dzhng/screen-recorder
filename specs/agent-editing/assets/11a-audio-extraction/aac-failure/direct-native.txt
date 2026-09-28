@@ -1,0 +1,2 @@
+{"error":{"code":"INVALID_REQUEST","details":{},"message":"Invalid parameters: The data couldn’t be read because it is missing.","retryable":false},"id":"aac-long-probe","ok":false}
+{"data":{"bytes":1152004096,"channels":2,"decodedFrames":144000000,"file":"\/tmp\/audio-extraction-diagnostics\/long.wav","frames":144000000,"layout":"stereo","mediaType":"audio\/wav","range":{"endUs":3000000000,"startUs":0},"sampleRange":{"end":144000000,"start":0},"sampleRate":48000,"unavailable":[]},"id":"aac-long","ok":true}

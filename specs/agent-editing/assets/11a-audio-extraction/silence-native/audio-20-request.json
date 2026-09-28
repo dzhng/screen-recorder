@@ -1,0 +1,26 @@
+{
+  "source": {
+    "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-extraction-P1Jv7z/library/assets/60c3cea9491144a045c30b50fccede81110fd5b77cb84d91c51a8b4078466cfa.mov",
+    "streamId": "track:1",
+    "sourceOffsetUs": -1250000,
+    "available": [
+      {
+        "startUs": 13,
+        "endUs": 200000
+      },
+      {
+        "startUs": 300000,
+        "endUs": 400000
+      },
+      {
+        "startUs": 600000,
+        "endUs": 999987
+      }
+    ]
+  },
+  "range": {
+    "startUs": 0,
+    "endUs": 1000000
+  },
+  "output": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-extraction-P1Jv7z/library/render/render-f8eXFN/audio.wav"
+}

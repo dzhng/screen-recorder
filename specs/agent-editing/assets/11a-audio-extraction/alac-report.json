@@ -1,0 +1,735 @@
+{
+  "passed": true,
+  "checks": {
+    "selectionGapsParityPoisonCancelRetry": true,
+    "originalsUnchangedNoModelDownload": true
+  },
+  "memory": {
+    "samples": 1171,
+    "nativePeakRssBytes": 28491776,
+    "treePeakRssBytes": 507707392
+  },
+  "nativeSha256": "063e8f04e690140dcd85fb92be5b067363a042d288550c058f99a3db1562b677",
+  "fixtureSha256": "8fdff4307a44909400ae0d4427897a4c3185688827bbfb828a47af602a186a39",
+  "large": {
+    "inputBytes": 1266407,
+    "outputBytes": 1152004096,
+    "frames": 144000000,
+    "elapsedMs": 203632.035708,
+    "boundedDeliveredBytes": 73728
+  },
+  "originalReportSha256": "bd296c2ca755ba518914b84aef37178db95a49258c6b6206378f2eab3ff26661",
+  "traceRunLength": [
+    {
+      "entry": {
+        "operation": "model.status",
+        "transport": "cli",
+        "ok": true,
+        "state": "absent"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 2
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 2
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.cancel",
+        "transport": "mcp",
+        "ok": true,
+        "state": "canceled"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "canceled"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_requested"
+      },
+      "repeats": 2
+    },
+    {
+      "entry": {
+        "operation": "audio.retry",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 2
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 2
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.cancel",
+        "transport": "mcp",
+        "ok": true,
+        "state": "canceled"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "canceled"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_requested"
+      },
+      "repeats": 2
+    },
+    {
+      "entry": {
+        "operation": "audio.retry",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "processing"
+      },
+      "repeats": 1246
+    },
+    {
+      "entry": {
+        "operation": "audio.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "artifact.read",
+        "transport": "mcp",
+        "ok": true
+      },
+      "repeats": 2
+    },
+    {
+      "entry": {
+        "operation": "artifact.close",
+        "transport": "mcp",
+        "ok": true
+      },
+      "repeats": 1
+    },
+    {
+      "entry": {
+        "operation": "model.status",
+        "transport": "cli",
+        "ok": true,
+        "state": "absent"
+      },
+      "repeats": 1
+    }
+  ]
+}

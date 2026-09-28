@@ -1,0 +1,32 @@
+✔ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (4878.53925ms)
+✔ AAC terminal windows decode bounded real packet context and truncated sources fail cleanly (895.861875ms)
+✔ worker exports display-space observations and preserves source (49.797833ms)
+✔ receipt preserves the requested output locator across macOS temporary-directory aliases (122.462458ms)
+✔ samples preserve raw values and geometry ordering across batches (31.05475ms)
+✔ corrupt and incomplete tails retain only observed prefix with explicit markers (394.217292ms)
+✔ existing paths, links, source descendants and invalid requests never mutate source (299.377541ms)
+✔ large journal streams individual samples through the real worker with a small receipt (2355.278333ms)
+✔ budget and malformed-header failures publish nothing and clean staging (85.977209ms)
+✔ interleaved audio merges per role, preserves gaps and completed pauses (31.680958ms)
+✔ timing evidence flushes trusted audio at corrupt or unfinished pause tails (59.582291ms)
+✔ invalid timing record stops before emitting or clearing observed pause (142.84425ms)
+✔ many audio gaps stream with bounded worker memory and a constant-size receipt (2010.813792ms)
+ℹ 100,000 audio gaps: peak worker RSS 24707072 bytes
+✔ many deferred pauses stream with bounded worker memory and a constant-size receipt (1625.314625ms)
+ℹ 100,000 deferred pauses: peak worker RSS 23478272 bytes
+✔ malformed, relative and unsafe requests are refused before models are read (56.706041ms)
+✔ absent model files are unavailable and changed ones invalid, before any load (200.196167ms)
+✔ verified models still refuse an occupied output and report unreadable narration (46.463084ms)
+✔ only readable narration becomes segments, and a fragment too short is skipped unread by the engine (270.472916ms)
+✔ a verified model that cannot load fails retryably and is left exactly as it was (229.402959ms)
+✔ selected audio streams stay distinct and an omitted ambiguous selection is refused (222.633334ms)
+✔ the native process answers every shared conformance line in order (47.79925ms)
+✔ a changed directory identity reports the same final failure through every operation family (96.59275ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7267.011834

@@ -1,0 +1,26 @@
+{
+  "packages/composition": {
+    "files": 48,
+    "sha256PathAndContent": "36981eac841e1495564aee05c089e06e04790788f0a7d0d8274d7738eee83448"
+  },
+  "packages/core": {
+    "files": 120,
+    "sha256PathAndContent": "f0f22fb36cbcebefe8bb09a1435d92943245cfe0ecda6351edfa9077d173f310"
+  },
+  "packages/protocol": {
+    "files": 10,
+    "sha256PathAndContent": "82dc42fb8da9082f15c7f82ce1bde38c30b0f8748d9528281a5c9342bb4df0b2"
+  },
+  "packages/client": {
+    "files": 6,
+    "sha256PathAndContent": "50a3c671bc90df4d91eb4f6a9e042afb68a018f8690712d3e1e42d607cba1db1"
+  },
+  "apps/service": {
+    "files": 62,
+    "sha256PathAndContent": "dad0da3ef512c0e2bc12ef42d0da41dd4f60d28f340970c43de0f6ca23499625"
+  },
+  "apps/cli": {
+    "files": 4,
+    "sha256PathAndContent": "99584186e38fb854279774380e103e0234b4f3d884e39c2221efee7dec232b1f"
+  }
+}

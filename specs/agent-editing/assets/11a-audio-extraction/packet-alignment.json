@@ -1,0 +1,74 @@
+[
+  {
+    "binary": "old",
+    "startSample": 143903744,
+    "backPackets": 0,
+    "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "oldFullEqual": false,
+    "rms": 1.3245433599820015e-08,
+    "max": 2.2351741790771484e-07
+  },
+  {
+    "binary": "old",
+    "startSample": 143902720,
+    "backPackets": 1,
+    "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "oldFullEqual": false,
+    "rms": 1.3245433599820015e-08,
+    "max": 2.2351741790771484e-07
+  },
+  {
+    "binary": "old",
+    "startSample": 143901696,
+    "backPackets": 2,
+    "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "oldFullEqual": false,
+    "rms": 1.3245433599820015e-08,
+    "max": 2.2351741790771484e-07
+  },
+  {
+    "binary": "old",
+    "startSample": 143899648,
+    "backPackets": 4,
+    "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "oldFullEqual": false,
+    "rms": 1.3245433599820015e-08,
+    "max": 2.2351741790771484e-07
+  },
+  {
+    "binary": "candidate",
+    "startSample": 143903744,
+    "backPackets": 0,
+    "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "oldFullEqual": false,
+    "rms": 1.3245433599820015e-08,
+    "max": 2.2351741790771484e-07
+  },
+  {
+    "binary": "candidate",
+    "startSample": 143902720,
+    "backPackets": 1,
+    "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "oldFullEqual": false,
+    "rms": 1.3245433599820015e-08,
+    "max": 2.2351741790771484e-07
+  },
+  {
+    "binary": "candidate",
+    "startSample": 143901696,
+    "backPackets": 2,
+    "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "oldFullEqual": false,
+    "rms": 1.3245433599820015e-08,
+    "max": 2.2351741790771484e-07
+  },
+  {
+    "binary": "candidate",
+    "startSample": 143899648,
+    "backPackets": 4,
+    "rangeSha": "c5bc99d15c73a7a6f3e056909352b92dbfe7ae4cbd6c7e2cb1681fb91968e25a",
+    "oldFullEqual": false,
+    "rms": 1.3245433599820015e-08,
+    "max": 2.2351741790771484e-07
+  }
+]

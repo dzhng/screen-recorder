@@ -1,0 +1,7 @@
+range CMTimeRange(start: __C.CMTime(value: 0, timescale: 1, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0), duration: __C.CMTime(value: 3000000, timescale: 1000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0))
+segment CMTimeMapping(source: __C.CMTimeRange(start: __C.CMTime(value: 1024, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0), duration: __C.CMTime(value: 3000000, timescale: 1000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0)), target: __C.CMTimeRange(start: __C.CMTime(value: 0, timescale: 1000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0), duration: __C.CMTime(value: 3000000, timescale: 1000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0)))
+buffer 0 8192 CMTime(value: 0, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0) CMTime(value: 8192, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0)
+buffer 1 8192 CMTime(value: 8192, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0) CMTime(value: 8192, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0)
+buffer 2 8192 CMTime(value: 16384, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0) CMTime(value: 8192, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0)
+buffer 18062 2048 CMTime(value: 143997952, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0) CMTime(value: 2048, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0)
+total 144000000 count 18063 end CMTime(value: 144000000, timescale: 48000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0) status 2 error nil

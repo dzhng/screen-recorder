@@ -11,6 +11,8 @@ public struct CompositionAudioReport: Codable, Sendable {
     public let maximumBlockFrames: Int
     public let peakResidentBytes: Int64
     public let decoderContext: DecoderContext
+    /// Selected PCM admitted to the rate converter, measured in output-rate frames.
+    /// Codec packet lookbehind is discarded by AudioSourceReader before this context.
     public struct DecoderContext: Codable, Sendable {
         let policy: String
         let sampleRate: Int
@@ -137,7 +139,7 @@ public enum CompositionAudio {
                     let segmentOutputStart = contextRange.project.start
                     let segmentOutputEnd = contextRange.project.end
                     // Phase is fixed by the compiler's retained run, not a preview window or
-                    // clip identity. Decoder input never crosses this selected/available run.
+                    // clip identity. Converter input never crosses this selected/available run.
                     let context: Int64 = source.sampleRate == rate ? 0 : 1024
                     let periods = max(0, (desired - segmentOutputStart - context) / outputPeriod)
                     let startSample = segmentStart + periods * inputPeriod

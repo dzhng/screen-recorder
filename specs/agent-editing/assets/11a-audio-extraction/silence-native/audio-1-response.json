@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "data": {
+    "bytes": 74624,
+    "channels": 2,
+    "decodedFrames": 16384,
+    "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-extraction-P1Jv7z/library/render/render-2jkgTl/audio.wav",
+    "frames": 8816,
+    "layout": "stereo",
+    "mediaType": "audio/wav",
+    "range": {
+      "endUs": 199991,
+      "startUs": 71
+    },
+    "sampleRange": {
+      "end": 8819,
+      "start": 3
+    },
+    "sampleRate": 44100,
+    "unavailable": []
+  }
+}
