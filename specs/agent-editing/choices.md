@@ -649,3 +649,15 @@ trim and stretch replacements keep their single-interval behavior.
   These are derived execution inputs, not authored continuity groups or persistent IDs.
   Native execution may pad synthetically outside a domain, but may not feed real
   neighboring samples into the filter. Post-resampling gain changes do not split a run.
+
+## Project derivative retirement — 2026-09-27
+
+- **Sound; high confidence — A held derivative keeps deletion retryable.**
+  If an agent is reading a cached preview when its project is deleted, the project
+  immediately refuses new reads and edits. Cleanup preserves the project's media
+  references until the existing read is released and cache removal succeeds.
+  A retry or startup recovery completes the same deletion; no polling janitor or
+  second lifetime journal is added. The plan required owner coordination but left
+  the busy-read response unspecified. This reuses the cache's existing lease refusal
+  and project tombstone, keeping later preview/export delivery responsible for
+  revoking its own reads before final retirement.

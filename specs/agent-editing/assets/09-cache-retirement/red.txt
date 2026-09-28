@@ -1,0 +1,44 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/service
+
+(node:70379) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-deletion.test.ts (1 test | 1 failed) 1083ms
+   × deletion drains canceled executors before releasing shared media; interruption resumes 1078ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-deletion.test.ts > deletion drains canceled executors before releasing shared media; interruption resumes
+AssertionError: expected [] to deeply equal [ ObjectContaining{…} ]
+
+- Expected
++ Received
+
+- [
+-   ObjectContaining {
+-     "code": "DELETE_FAILED",
+-     "retryable": true,
+-   },
+- ]
++ []
+
+ ❯ src/project-deletion.test.ts:159:24
+    157|       const failures: unknown[] = [];
+    158|       await resumed.resume((error) => failures.push(error));
+    159|       expect(failures).toEqual([
+       |                        ^
+    160|         expect.objectContaining({ code: "DELETE_FAILED", retryable: tr…
+    161|       ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  19:19:48
+   Duration  6.29s (transform 73%, tests 19%, import 8%)
+
+  Transform  transforming modules took 4.19s · 73% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

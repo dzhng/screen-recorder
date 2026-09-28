@@ -1,6 +1,6 @@
 # 09 — First public preview and export
 
-Status: not started. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
+Status: lifecycle prerequisite integrated: [shared-cache retirement](../assets/09-cache-retirement/README.md). Public rendering remains unimplemented. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
 
 ## Contract
 

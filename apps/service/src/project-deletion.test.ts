@@ -1,8 +1,9 @@
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, unlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { expect, test } from "vitest";
+import { DerivedCache } from "@screenrec/core/cache";
 import { Catalog } from "@screenrec/core/catalog";
 import { AssetStore } from "@screenrec/core/assets";
 import { ProjectStore } from "@screenrec/core/projects";
@@ -53,7 +54,19 @@ test("deletion drains canceled executors before releasing shared media; interrup
       return "late-result";
     },
   });
-  const deletion = new ProjectDeletion(projects, queue);
+  const cache = new DerivedCache(catalog, home, (owner) => {
+    if (owner.kind !== "project") throw new Error("Expected project cache owner");
+    projects.get(owner.projectId);
+  });
+  await cache.reconcile();
+  // Native filesystem deletion is the external seam; catalog, leases and lifetime are real.
+  const files = {
+    async removeCacheFiles(ids: string[]) {
+      for (const id of ids) await unlink(join(home, "cache", "derived", `${id}.cache`));
+    },
+  };
+  const deletion = new ProjectDeletion(projects, queue, cache, files);
+  let releaseRead: (() => void) | undefined;
   try {
     await assets.recover();
     const path = join(home, "source.wav");
@@ -109,6 +122,14 @@ test("deletion drains canceled executors before releasing shared media; interrup
       projectId: one.project.projectId,
       revisionId: first.revision.id,
     };
+    const cached = cache.reserve(target);
+    await writeFile(cached.path, "cached first project");
+    await cache.publish(cached.id);
+    const sibling = cache.reserve({ kind: "project", projectId: two.project.projectId });
+    await writeFile(sibling.path, "cached second project");
+    await cache.publish(sibling.id);
+    const read = cache.acquire(cached.id)!;
+    releaseRead = () => read.release();
     const job = queue.submit({ target, artifact: "fixture", lane: "heavy", input: "input" });
     await started.promise;
     const removing = deletion.delete(target.projectId);
@@ -131,11 +152,28 @@ test("deletion drains canceled executors before releasing shared media; interrup
     await failed;
     await closing;
     expect(projects.deletionsPage().projectIds).toEqual([target.projectId]);
-    const resumed = new ProjectDeletion(projects, queue);
+    const resumed = new ProjectDeletion(projects, queue, cache, files);
     try {
       const failures: unknown[] = [];
       await resumed.resume((error) => failures.push(error));
+      expect(failures).toEqual([
+        expect.objectContaining({ code: "DELETE_FAILED", retryable: true }),
+      ]);
+      expect(projects.deletionsPage().projectIds).toEqual([target.projectId]);
+      expect(assets.references(asset.id).map((ref) => ref.id).sort()).toEqual(
+        [first.revision.id, second.revision.id].sort(),
+      );
+      expect(await readFile(cached.path, "utf8")).toBe("cached first project");
+      expect(() => cache.acquire(cached.id)).toThrow(/does not exist/);
+      releaseRead();
+      releaseRead = undefined;
+      failures.length = 0;
+      await resumed.resume((error) => failures.push(error));
       expect(failures).toEqual([]);
+      expect([...cache.usageFiles(target)]).toEqual([]);
+      await expect(readFile(cached.path)).rejects.toMatchObject({ code: "ENOENT" });
+      expect(await readFile(sibling.path, "utf8")).toBe("cached second project");
+      expect(await readFile(assets.path(asset.id), "utf8")).toBe("retained source bytes");
       expect(projects.deletionsPage().projectIds).toEqual([]);
       expect(assets.references(asset.id)).toEqual([{ kind: "revision", id: second.revision.id }]);
       expect(assets.get(asset.id)).toEqual(asset);
@@ -149,6 +187,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
       await resumed.close();
     }
   } finally {
+    releaseRead?.();
     exit.resolve();
     await deletion.close();
     await queue.close();

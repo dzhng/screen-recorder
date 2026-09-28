@@ -1,3 +1,5 @@
+import { DerivedCache } from "@screenrec/core/cache";
+import { ManagedFiles } from "./managed-files.js";
 import { ProjectDeletion } from "./project-deletion.js";
 import { ProjectStore } from "@screenrec/core/projects";
 import { processingCapabilities } from "@screenrec/composition";
@@ -38,6 +40,13 @@ export async function startProjectService(options: { home: string; worker?: Medi
     await assets.recover();
     const projects = new ProjectStore(catalog, assets);
     const worker = options.worker ?? mediaWorker();
+    const files = new ManagedFiles(library, worker);
+    const cache = new DerivedCache(catalog, library, (owner) => {
+      if (owner.kind === "project") projects.get(owner.projectId);
+      else if (owner.kind === "asset") assets.get(owner.assetId);
+      else throw new CatalogError("NOT_FOUND", "Unsupported derived-file owner");
+    });
+    await cache.reconcile();
     const targets: JobTargets = {
       pin(target) {
         if (target.kind !== "import")
@@ -76,7 +85,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       },
     });
     jobs = queue;
-    const projectDeletion = new ProjectDeletion(projects, queue);
+    const projectDeletion = new ProjectDeletion(projects, queue, cache, files);
     deletion = projectDeletion;
     await projectDeletion.resume((error) => console.error(error));
     const status = (jobId: string) => {

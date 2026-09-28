@@ -1,0 +1,245 @@
+(node:72094) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "liveStateJourney": true,
+  "liveMediaJourney": false,
+  "checks": [
+    "CLI/MCP idempotent deletion",
+    "deleted read/edit fences",
+    "historical reference retirement",
+    "original asset retained",
+    "restart replay cannot recreate project",
+    "absent deletion succeeds"
+  ],
+  "trace": [
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "create",
+        "canvas": {
+          "width": 160,
+          "height": 96,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "asset",
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/a-audio.wav"
+      },
+      "ok": true
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "d92e1a0e-e797-4795-a9e6-d361ca724458"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "3a910651-be20-49b3-875d-547b190dfdec",
+        "requestId": "place",
+        "expectedRevisionId": "cd69206b-114d-43a3-9801-167b1b3a362d",
+        "operations": [
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "audio",
+              "order": 0
+            },
+            "label": "voice"
+          },
+          {
+            "operation": "place",
+            "clip": {
+              "trackId": {
+                "label": "voice"
+              },
+              "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "transport": "mcp",
+      "operation": "project.delete",
+      "ok": true
+    },
+    {
+      "operation": "project.delete",
+      "params": {
+        "projectId": "3a910651-be20-49b3-875d-547b190dfdec"
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "3a910651-be20-49b3-875d-547b190dfdec"
+      },
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "3a910651-be20-49b3-875d-547b190dfdec"
+        }
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "3a910651-be20-49b3-875d-547b190dfdec",
+        "requestId": "place",
+        "expectedRevisionId": "cd69206b-114d-43a3-9801-167b1b3a362d",
+        "operations": [
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "audio",
+              "order": 0
+            },
+            "label": "voice"
+          },
+          {
+            "operation": "place",
+            "clip": {
+              "trackId": {
+                "label": "voice"
+              },
+              "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "3a910651-be20-49b3-875d-547b190dfdec"
+        }
+      }
+    },
+    {
+      "operation": "revision.get",
+      "params": {
+        "projectId": "3a910651-be20-49b3-875d-547b190dfdec",
+        "revisionId": "b0946fe0-aa59-4d13-991e-66f77251ee6d"
+      },
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "3a910651-be20-49b3-875d-547b190dfdec"
+        }
+      }
+    },
+    {
+      "operation": "project.list",
+      "params": {},
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.delete",
+      "params": {
+        "projectId": "3a910651-be20-49b3-875d-547b190dfdec"
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "create",
+        "canvas": {
+          "width": 160,
+          "height": 96,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.list",
+      "params": {},
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.delete",
+      "params": {
+        "projectId": "absent"
+      },
+      "ok": true
+    }
+  ]
+}

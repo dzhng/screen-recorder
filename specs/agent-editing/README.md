@@ -21,7 +21,7 @@ Next integrate [07 video](slices/07-video-execution.md) and
 [08 audio](slices/08-audio-mixing.md) from their isolated implementation worktrees
 after review and decoded-media verification. [08a derived-file ownership](slices/08a-derived-cache.md)
 is verified at its owner seam, with broad-test deadline failures retained under 24.
-Project previews must reuse this cache. Audio resampling still needs its
+Project previews must reuse this cache; [project retirement](assets/09-cache-retirement/README.md) now purges it before releasing revision dependencies. Audio resampling still needs its
 bounded-context and fractional-phase gates settled; video is checking production
 parity, cancellation and resource bounds. Then wire the first public rendered
 editing checkpoint [09](slices/09-first-preview.md). State journeys do not close it.
