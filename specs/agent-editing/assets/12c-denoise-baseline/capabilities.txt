@@ -1,0 +1,86 @@
+Filter afftdn
+  Denoise audio samples using FFT.
+    slice threading supported
+    Inputs:
+       #0: default (audio)
+    Outputs:
+       #0: default (audio)
+afftdn AVOptions:
+   noise_reduction   <float>      ..F.A....T. set the noise reduction (from 0.01 to 97) (default 12)
+   nr                <float>      ..F.A....T. set the noise reduction (from 0.01 to 97) (default 12)
+   noise_floor       <float>      ..F.A....T. set the noise floor (from -80 to -20) (default -50)
+   nf                <float>      ..F.A....T. set the noise floor (from -80 to -20) (default -50)
+   noise_type        <int>        ..F.A...... set the noise type (from 0 to 3) (default white)
+     white           0            ..F.A...... white noise
+     w               0            ..F.A...... white noise
+     vinyl           1            ..F.A...... vinyl noise
+     v               1            ..F.A...... vinyl noise
+     shellac         2            ..F.A...... shellac noise
+     s               2            ..F.A...... shellac noise
+     custom          3            ..F.A...... custom noise
+     c               3            ..F.A...... custom noise
+   nt                <int>        ..F.A...... set the noise type (from 0 to 3) (default white)
+     white           0            ..F.A...... white noise
+     w               0            ..F.A...... white noise
+     vinyl           1            ..F.A...... vinyl noise
+     v               1            ..F.A...... vinyl noise
+     shellac         2            ..F.A...... shellac noise
+     s               2            ..F.A...... shellac noise
+     custom          3            ..F.A...... custom noise
+     c               3            ..F.A...... custom noise
+   band_noise        <string>     ..F.A...... set the custom bands noise
+   bn                <string>     ..F.A...... set the custom bands noise
+   residual_floor    <float>      ..F.A....T. set the residual floor (from -80 to -20) (default -38)
+   rf                <float>      ..F.A....T. set the residual floor (from -80 to -20) (default -38)
+   track_noise       <boolean>    ..F.A....T. track noise (default false)
+   tn                <boolean>    ..F.A....T. track noise (default false)
+   track_residual    <boolean>    ..F.A....T. track residual (default false)
+   tr                <boolean>    ..F.A....T. track residual (default false)
+   output_mode       <int>        ..F.A....T. set output mode (from 0 to 2) (default output)
+     input           0            ..F.A....T. input
+     i               0            ..F.A....T. input
+     output          1            ..F.A....T. output
+     o               1            ..F.A....T. output
+     noise           2            ..F.A....T. noise
+     n               2            ..F.A....T. noise
+   om                <int>        ..F.A....T. set output mode (from 0 to 2) (default output)
+     input           0            ..F.A....T. input
+     i               0            ..F.A....T. input
+     output          1            ..F.A....T. output
+     o               1            ..F.A....T. output
+     noise           2            ..F.A....T. noise
+     n               2            ..F.A....T. noise
+   adaptivity        <float>      ..F.A....T. set adaptivity factor (from 0 to 1) (default 0.5)
+   ad                <float>      ..F.A....T. set adaptivity factor (from 0 to 1) (default 0.5)
+   floor_offset      <float>      ..F.A....T. set noise floor offset factor (from -2 to 2) (default 1)
+   fo                <float>      ..F.A....T. set noise floor offset factor (from -2 to 2) (default 1)
+   noise_link        <int>        ..F.A....T. set the noise floor link (from 0 to 3) (default min)
+     none            0            ..F.A....T. none
+     min             1            ..F.A....T. min
+     max             2            ..F.A....T. max
+     average         3            ..F.A....T. average
+   nl                <int>        ..F.A....T. set the noise floor link (from 0 to 3) (default min)
+     none            0            ..F.A....T. none
+     min             1            ..F.A....T. min
+     max             2            ..F.A....T. max
+     average         3            ..F.A....T. average
+   band_multiplier   <float>      ..F.A...... set band multiplier (from 0.2 to 5) (default 1.25)
+   bm                <float>      ..F.A...... set band multiplier (from 0.2 to 5) (default 1.25)
+   sample_noise      <int>        ..F.A....T. set sample noise mode (from 0 to 2) (default none)
+     none            0            ..F.A....T. none
+     start           1            ..F.A....T. start
+     begin           1            ..F.A....T. start
+     stop            2            ..F.A....T. stop
+     end             2            ..F.A....T. stop
+   sn                <int>        ..F.A....T. set sample noise mode (from 0 to 2) (default none)
+     none            0            ..F.A....T. none
+     start           1            ..F.A....T. start
+     begin           1            ..F.A....T. start
+     stop            2            ..F.A....T. stop
+     end             2            ..F.A....T. stop
+   gain_smooth       <int>        ..F.A....T. set gain smooth radius (from 0 to 50) (default 0)
+   gs                <int>        ..F.A....T. set gain smooth radius (from 0 to 50) (default 0)
+
+This filter has support for timeline through the 'enable' option.
+
+Exiting with exit code 0

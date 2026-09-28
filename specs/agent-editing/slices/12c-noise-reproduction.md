@@ -1,6 +1,6 @@
 # 12c — Reproduce local noise reduction
 
-Status: not started. Dependencies: [00](./00-corpus.md).
+Status: initial conventional baseline runs; [mechanism evidence](../assets/12c-denoise-baseline/README.md) preserves counts but does not establish quality/state/timing acceptance. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

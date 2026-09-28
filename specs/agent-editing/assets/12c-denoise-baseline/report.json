@@ -1,0 +1,126 @@
+{
+  "source": {
+    "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
+    "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+  },
+  "recipe": "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+  "runs": [
+    {
+      "id": "reference",
+      "input": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+      "inputSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+      "output": "/tmp/screenrec-denoise-recon/reference-afftdn.wav",
+      "outputSha256": "d129266284ae18a2b49da64d41a4c259a6586b28ff5797ffb0b75a92278b2029",
+      "command": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-hide_banner",
+        "-y",
+        "-i",
+        "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "-map",
+        "0:a:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "/tmp/screenrec-denoise-recon/reference-afftdn.wav"
+      ],
+      "elapsedSeconds": 0.057908707996830344,
+      "sampleRate": "24000",
+      "channels": 1,
+      "before": {
+        "samples": 120000,
+        "rmsDbfs": -32.93206817431976,
+        "peak": 0.23657125234603882,
+        "clippedSamples": 0
+      },
+      "after": {
+        "samples": 120000,
+        "rmsDbfs": -33.02372941721439,
+        "peak": 0.23707836866378784,
+        "clippedSamples": 0
+      },
+      "levelDeltaDb": -0.09166124289463085,
+      "note": "Unaligned raw levels; no latency compensation or speech-distortion claim."
+    },
+    {
+      "id": "context",
+      "input": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice/context.wav",
+      "inputSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+      "output": "/tmp/screenrec-denoise-recon/context-afftdn.wav",
+      "outputSha256": "fcee11dd8bd953f90a9ac30fb6c04d462b7bc9776ad2f96c38e389fab4361ef5",
+      "command": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-hide_banner",
+        "-y",
+        "-i",
+        "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice/context.wav",
+        "-map",
+        "0:a:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "/tmp/screenrec-denoise-recon/context-afftdn.wav"
+      ],
+      "elapsedSeconds": 0.03233508300036192,
+      "sampleRate": "24000",
+      "channels": 1,
+      "before": {
+        "samples": 120000,
+        "rmsDbfs": -39.76474099978879,
+        "peak": 0.08745469897985458,
+        "clippedSamples": 0
+      },
+      "after": {
+        "samples": 120000,
+        "rmsDbfs": -39.90679537860098,
+        "peak": 0.08369695395231247,
+        "clippedSamples": 0
+      },
+      "levelDeltaDb": -0.1420543788121904,
+      "note": "Unaligned raw levels; no latency compensation or speech-distortion claim."
+    },
+    {
+      "id": "room-tone",
+      "input": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice-roomtone/room-tone.wav",
+      "inputSha256": "9f76c780b0c9edff70408898c0916f50ae53f21f3f4e02d2fdd5c24ab124c16d",
+      "output": "/tmp/screenrec-denoise-recon/room-tone-afftdn.wav",
+      "outputSha256": "903b9330209543da50829a5c063a6cd3973f6ae9888f7ed599b8a32392cd3e2c",
+      "command": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-hide_banner",
+        "-y",
+        "-i",
+        "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice-roomtone/room-tone.wav",
+        "-map",
+        "0:a:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "/tmp/screenrec-denoise-recon/room-tone-afftdn.wav"
+      ],
+      "elapsedSeconds": 0.023293124977499247,
+      "sampleRate": "24000",
+      "channels": 1,
+      "before": {
+        "samples": 21600,
+        "rmsDbfs": -53.899634172623564,
+        "peak": 0.00719299353659153,
+        "clippedSamples": 0
+      },
+      "after": {
+        "samples": 21600,
+        "rmsDbfs": -55.40922175551749,
+        "peak": 0.005504687782377005,
+        "clippedSamples": 0
+      },
+      "levelDeltaDb": -1.5095875828939285,
+      "note": "Unaligned raw levels; no latency compensation or speech-distortion claim."
+    }
+  ]
+}
