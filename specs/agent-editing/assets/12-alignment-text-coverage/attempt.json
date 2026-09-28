@@ -1,0 +1,28 @@
+{
+  "verdict": "Diagnostic support for local missing-text absorption; global timing and memory fail, no production adoption",
+  "attempts": 1,
+  "repairs": 0,
+  "exitCode": 0,
+  "controlReused": true,
+  "onlyChangedInferenceInput": "supplied transcript text",
+  "unchangedIdentityFields": [
+    "audioSha256",
+    "runnerSha256",
+    "modelFiles",
+    "runtime",
+    "settings"
+  ],
+  "candidateResultSha256": "7714e0d9f51e1a44c5d2e4141838e76f203efd530672e8edfd8070f579fd47c2",
+  "contractSha256": "b0c28ee33cf7311a0dc786fa18eaad874f0cfb6ea962723bd794bee10be47e01",
+  "wallSeconds": 6.1,
+  "loadSeconds": 0.8715804159874097,
+  "alignSeconds": 1.3244670000276528,
+  "peakResidentBytes": 6065897472,
+  "osPeakMemoryFootprintBytes": 7270123512,
+  "timingPass": false,
+  "memoryPass": false,
+  "listening": "not performed",
+  "fullFillerInventory": "unknown",
+  "protectedWordLabels": "unknown",
+  "scope": "One supplied-text condition on one development recording. Added filler remains a hypothesis; unmarked onset shifts cannot be judged for accuracy."
+}

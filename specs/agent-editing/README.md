@@ -70,6 +70,8 @@ Compact evidence ledger:
   [11 acoustic inspection](slices/11-audio-inspection.md) still needs retiming conformance.
 - [Verbatim speech](assets/12-verbatim/README.md) and
   [forced alignment](assets/12-alignment/README.md) fail their timing/memory gates.
+  The [text-only diagnostic](assets/12-alignment-text-coverage/README.md) fixes one
+  onset but still fails p95/memory; independent workbench evidence and listening remain open.
   [Conventional denoise](assets/12c-denoise-timing/README.md) and
   [learned denoise](assets/12c-rnnoise-timing/README.md) have measured compensation
   and state sensitivity. Both reject independent resets for a pure split;

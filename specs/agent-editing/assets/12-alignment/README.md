@@ -73,6 +73,10 @@ its name now reflects the common candidate shape. All four existing tests remain
 active, including the source-origin mutation control, missing/ambiguous failure
 checks and a deliberate timing shift. No matching policy or threshold changed.
 
+The subsequent [text-coverage diagnostic](../12-alignment-text-coverage/README.md)
+changes only one supplied word and preserves the complete comparison. It supports
+a local explanation for Return but does not pass the global gates.
+
 ## Next discriminating experiment
 
 The shared early `workbench` end across different engines and Qwen's early second

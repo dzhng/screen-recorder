@@ -1,0 +1,122 @@
+{
+  "marked": 15,
+  "matched": 15,
+  "unmarked": 1,
+  "medianErrorMs": 25,
+  "p95ErrorMs": 303,
+  "worstErrorMs": 555,
+  "meetsTiming": false,
+  "interpretation": "Only inherited visually marked edges; not a complete word/filler evaluation.",
+  "boundaries": [
+    {
+      "id": "w0",
+      "side": "start",
+      "state": "matched",
+      "errorMs": 195,
+      "insideSpeech": true
+    },
+    {
+      "id": "w6",
+      "side": "end",
+      "state": "matched",
+      "errorMs": -555,
+      "insideSpeech": true
+    },
+    {
+      "id": "w25",
+      "side": "start",
+      "state": "matched",
+      "errorMs": 15,
+      "insideSpeech": true
+    },
+    {
+      "id": "w26",
+      "side": "end",
+      "state": "matched",
+      "errorMs": 20,
+      "insideSpeech": false
+    },
+    {
+      "id": "w57",
+      "side": "start",
+      "state": "matched",
+      "errorMs": -50,
+      "insideSpeech": false
+    },
+    {
+      "id": "w62",
+      "side": "end",
+      "state": "matched",
+      "errorMs": 25,
+      "insideSpeech": false
+    },
+    {
+      "id": "w93",
+      "side": "start",
+      "state": "matched",
+      "errorMs": 35,
+      "insideSpeech": true
+    },
+    {
+      "id": "w103",
+      "side": "end",
+      "state": "matched",
+      "errorMs": 93,
+      "insideSpeech": false
+    },
+    {
+      "id": "w117",
+      "side": "start",
+      "state": "matched",
+      "errorMs": 0,
+      "insideSpeech": false
+    },
+    {
+      "id": "w117",
+      "side": "end",
+      "state": "matched",
+      "errorMs": -20,
+      "insideSpeech": true
+    },
+    {
+      "id": "w160",
+      "side": "start",
+      "state": "matched",
+      "errorMs": 25,
+      "insideSpeech": true
+    },
+    {
+      "id": "w237",
+      "side": "start",
+      "state": "matched",
+      "errorMs": 0,
+      "insideSpeech": false
+    },
+    {
+      "id": "w239",
+      "side": "end",
+      "state": "matched",
+      "errorMs": 25,
+      "insideSpeech": false
+    },
+    {
+      "id": "w277",
+      "side": "start",
+      "state": "matched",
+      "errorMs": 155,
+      "insideSpeech": true
+    },
+    {
+      "id": "w279",
+      "side": "end",
+      "state": "matched",
+      "errorMs": -50,
+      "insideSpeech": true
+    }
+  ],
+  "wordCount": 307,
+  "fullFillerPrecision": null,
+  "fullFillerRecall": null,
+  "editorialRepetitionIntent": "unverified",
+  "listening": "not performed"
+}

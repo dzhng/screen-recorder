@@ -1667,3 +1667,17 @@ unaffected capture-journal and audio identities alone.
   Omit a side if this choice leaves its occurrence's supported interval; authored
   boundaries still select surrounding output. This avoids attributing a neighboring
   clip to a source observation without claiming raw-source/composite equality.
+## Supplied-text coverage diagnosis — 2026-09-28
+
+- **Sound, high confidence — retain the full comparison, including unknown effects.**
+  Adding the candidate filler before Return was an explicitly delegated diagnostic,
+  not a correction to independent labels. The comparator preserves all 306 original
+  words and both edges, exposing two additional unmarked onset shifts. Their
+  accuracy remains unknown rather than being silently accepted as harmless.
+  Existing scoring owns timing gates; the new helper only enforces correspondence
+  and displays changes. No second matcher or production inference policy is added.
+- **Sound, high confidence — keep local hypothesis support separate from adoption.**
+  Return's error becomes zero against the frozen mark, but p95 and memory still
+  fail. Workbench requires wider independent evidence and listening, not label
+  movement based on model agreement. The one-condition development trial therefore
+  updates the diagnosis while leaving slices 12 and 12b open.

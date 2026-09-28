@@ -1,0 +1,16 @@
+{
+  "shape": "Comparison only; shared scorer retains matching and timing ownership. No production changes.",
+  "independentReview": "codex review, read-only, default configured model/effort",
+  "finding": "P2: reproduction commands scored frozen evidence rather than fresh inference output",
+  "resolution": "Scorer now reads rerun result and writes rerun score; comparator accepts separate output directory while retaining frozen contract/input identities.",
+  "verification": [
+    "Four shared scorer tests pass",
+    "Frozen score and all-word comparison reproduce",
+    "Same-count word swap refuses corrupted correspondence",
+    "Separate-output-directory 80 ms timestamp mutation is reflected in comparison",
+    "Local documentation links resolve",
+    "git diff --check passes"
+  ],
+  "limitations": "No listening or new visual acceptance; p95 and memory remain failing.",
+  "verdict": "Resolved; diagnostic evidence ready, slice acceptance remains open"
+}

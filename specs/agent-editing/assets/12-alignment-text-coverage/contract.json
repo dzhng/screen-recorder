@@ -1,0 +1,42 @@
+{
+  "hypothesis": "The supplied baseline omits a candidate filler before w237, causing the aligner to assign the earlier acoustic region to Return.",
+  "prediction": "Only adding the candidate filler moves Return toward its unchanged independent onset without losing original words; inspect all boundaries and context rather than choosing one favorable word.",
+  "falsification": "Return does not improve, the inserted filler is misplaced, original words disappear/change, or collateral boundaries regress.",
+  "control": "../12-alignment/result.json",
+  "controlSha256": "f6b116aae4dbd6fb308280415a6ec583283bf093bab536d8a2ebf1ee3c35ea80",
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "audio": "/tmp/screenrec-speech-verbatim-input.wav",
+  "audioSha256": "f73deb0d323d65d937953973bbe75523b3fe7642035ec68bf10be77321ace853",
+  "baselineTranscriptSha256": "7792ed28400e645a75a1f607a023c02e1a40fb546fd3fdf48865d2eabd84b005",
+  "candidateTranscriptSha256": "031715f66987102e328286a1218c0e0e2b4eae5667336d942ebe5c456ec9b5c2",
+  "insertion": {
+    "beforeWordId": "w237",
+    "word": "uh",
+    "authority": "Candidate hypothesis from frozen alternative output, not an independent audible label"
+  },
+  "marksSha256": "23e893cae933ca9c9a0947b40cd09c26143c7de845cad57ecfe333e2582e96ad",
+  "labelsSha256": "d6b4188e7a461a36e937e3018fb4e707233a986561c4fe02636fe88416c61faf",
+  "runnerSha256": "ad50ae030bf6296901f60f6c2b666faba07f8bf6c2c76cd486f75b6363fd866d",
+  "modelRevision": "c07281df297b9905d24a508279258cccf987a064",
+  "modelFilesHashVerified": true,
+  "settings": {
+    "device": "mps",
+    "dtype": "float32",
+    "language": "English"
+  },
+  "mutableFactor": "supplied text only; same full-recording context",
+  "requiredOriginalWords": 306,
+  "requiredMatchedEdges": 15,
+  "unmarkedEdges": 1,
+  "medianMaxMs": 100,
+  "p95MaxMs": 250,
+  "peakRSSMaxBytes": 4294967296,
+  "deadlineSeconds": 900,
+  "repairAllowance": 1,
+  "controlRerun": false,
+  "promotion": "None: diagnostic text-coverage experiment; independent labels/listening and full cleanup remain open",
+  "queuedHypotheses": [
+    "This text omission explains Return onset absorption.",
+    "Workbench remains a distinct unresolved word-boundary/annotation problem requiring wider independent evidence."
+  ]
+}

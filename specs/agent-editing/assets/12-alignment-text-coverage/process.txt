@@ -1,0 +1,22 @@
+Loading weights:   0%|          | 0/708 [00:00<?, ?it/s]
+Loading weights:  89%|████████▉ | 629/708 [00:00<00:00, 6277.88it/s]
+Loading weights: 100%|██████████| 708/708 [00:00<00:00, 6208.41it/s]
+{"state": "complete", "words": 307, "loadSeconds": 0.8715804159874097, "alignSeconds": 1.3244670000276528}
+        6.10 real         2.91 user         2.24 sys
+          6065897472  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              438784  page reclaims
+               12171  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                6196  voluntary context switches
+               18304  involuntary context switches
+         46528853998  instructions retired
+         22647038820  cycles elapsed
+          7270123512  peak memory footprint

@@ -1,0 +1,3066 @@
+[
+  {
+    "id": "w0",
+    "type": "word",
+    "text": "Okay,",
+    "sourceRange": {
+      "endUs": 1488675,
+      "startUs": 1168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w1",
+    "type": "word",
+    "text": "so",
+    "sourceRange": {
+      "endUs": 1968675,
+      "startUs": 1648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w2",
+    "type": "word",
+    "text": "this",
+    "sourceRange": {
+      "endUs": 2208675,
+      "startUs": 1968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w3",
+    "type": "word",
+    "text": "is",
+    "sourceRange": {
+      "endUs": 2528675,
+      "startUs": 2208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w4",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 2848675,
+      "startUs": 2528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w5",
+    "type": "word",
+    "text": "recorder",
+    "sourceRange": {
+      "endUs": 4368675,
+      "startUs": 3168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w6",
+    "type": "word",
+    "text": "workbench.",
+    "sourceRange": {
+      "endUs": 5648675,
+      "startUs": 4368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w7",
+    "type": "word",
+    "text": "First",
+    "sourceRange": {
+      "endUs": 6928675,
+      "startUs": 6608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w8",
+    "type": "word",
+    "text": "I'm",
+    "sourceRange": {
+      "endUs": 7248675,
+      "startUs": 7008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w9",
+    "type": "word",
+    "text": "going",
+    "sourceRange": {
+      "endUs": 7328675,
+      "startUs": 7248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w10",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 7408675,
+      "startUs": 7328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w11",
+    "type": "word",
+    "text": "draw",
+    "sourceRange": {
+      "endUs": 7648675,
+      "startUs": 7408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w12",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 7808675,
+      "startUs": 7648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w13",
+    "type": "word",
+    "text": "circle",
+    "sourceRange": {
+      "endUs": 8448675,
+      "startUs": 7808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w14",
+    "type": "word",
+    "text": "around",
+    "sourceRange": {
+      "endUs": 8768675,
+      "startUs": 8448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w15",
+    "type": "word",
+    "text": "C3",
+    "sourceRange": {
+      "endUs": 9408675,
+      "startUs": 8768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w16",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 10528675,
+      "startUs": 10368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w17",
+    "type": "word",
+    "text": "I'm",
+    "sourceRange": {
+      "endUs": 10688675,
+      "startUs": 10528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w18",
+    "type": "word",
+    "text": "going",
+    "sourceRange": {
+      "endUs": 10848675,
+      "startUs": 10688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w19",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 10928675,
+      "startUs": 10848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w20",
+    "type": "word",
+    "text": "draw",
+    "sourceRange": {
+      "endUs": 11168675,
+      "startUs": 10928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w21",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 11328675,
+      "startUs": 11168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w22",
+    "type": "word",
+    "text": "wave",
+    "sourceRange": {
+      "endUs": 11808675,
+      "startUs": 11328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w23",
+    "type": "word",
+    "text": "between",
+    "sourceRange": {
+      "endUs": 12128675,
+      "startUs": 11808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w24",
+    "type": "word",
+    "text": "D9",
+    "sourceRange": {
+      "endUs": 12608675,
+      "startUs": 12128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w25",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 13568675,
+      "startUs": 13248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w26",
+    "type": "word",
+    "text": "E2.",
+    "sourceRange": {
+      "endUs": 13968675,
+      "startUs": 13568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w27",
+    "type": "word",
+    "text": "Alright,",
+    "sourceRange": {
+      "endUs": 15648675,
+      "startUs": 15248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w28",
+    "type": "word",
+    "text": "so",
+    "sourceRange": {
+      "endUs": 15808675,
+      "startUs": 15648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w29",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 16128675,
+      "startUs": 15888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w30",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 16448675,
+      "startUs": 16128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w31",
+    "type": "word",
+    "text": "next",
+    "sourceRange": {
+      "endUs": 16688675,
+      "startUs": 16448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w32",
+    "type": "word",
+    "text": "one,",
+    "sourceRange": {
+      "endUs": 16848675,
+      "startUs": 16688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w33",
+    "type": "word",
+    "text": "we're",
+    "sourceRange": {
+      "endUs": 19488675,
+      "startUs": 19248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w34",
+    "type": "word",
+    "text": "going",
+    "sourceRange": {
+      "endUs": 19648675,
+      "startUs": 19488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w35",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 19728675,
+      "startUs": 19648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w36",
+    "type": "word",
+    "text": "do",
+    "sourceRange": {
+      "endUs": 19888675,
+      "startUs": 19728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w37",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 20128675,
+      "startUs": 19888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w38",
+    "type": "word",
+    "text": "disappearing",
+    "sourceRange": {
+      "endUs": 20928675,
+      "startUs": 20128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w39",
+    "type": "word",
+    "text": "submenu.",
+    "sourceRange": {
+      "endUs": 22048675,
+      "startUs": 20928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w40",
+    "type": "word",
+    "text": "So",
+    "sourceRange": {
+      "endUs": 22528675,
+      "startUs": 22368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w41",
+    "type": "word",
+    "text": "let's",
+    "sourceRange": {
+      "endUs": 22848675,
+      "startUs": 22608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w42",
+    "type": "word",
+    "text": "hover",
+    "sourceRange": {
+      "endUs": 23168675,
+      "startUs": 22848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w43",
+    "type": "word",
+    "text": "over",
+    "sourceRange": {
+      "endUs": 23408675,
+      "startUs": 23168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w44",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 23648675,
+      "startUs": 23408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w45",
+    "type": "word",
+    "text": "products",
+    "sourceRange": {
+      "endUs": 24448675,
+      "startUs": 23648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w46",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 24928675,
+      "startUs": 24768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w47",
+    "type": "word",
+    "text": "move",
+    "sourceRange": {
+      "endUs": 25328675,
+      "startUs": 25088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w48",
+    "type": "word",
+    "text": "down",
+    "sourceRange": {
+      "endUs": 25888675,
+      "startUs": 25648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w49",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 26048675,
+      "startUs": 25888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w50",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 26128675,
+      "startUs": 26048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w51",
+    "type": "word",
+    "text": "menu.",
+    "sourceRange": {
+      "endUs": 26448675,
+      "startUs": 26128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w52",
+    "type": "word",
+    "text": "There's",
+    "sourceRange": {
+      "endUs": 26848675,
+      "startUs": 26688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w53",
+    "type": "word",
+    "text": "actually",
+    "sourceRange": {
+      "endUs": 27008675,
+      "startUs": 26848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w54",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 27168675,
+      "startUs": 27008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w55",
+    "type": "word",
+    "text": "bug",
+    "sourceRange": {
+      "endUs": 27488675,
+      "startUs": 27168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w56",
+    "type": "word",
+    "text": "here.",
+    "sourceRange": {
+      "endUs": 27648675,
+      "startUs": 27488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w57",
+    "type": "word",
+    "text": "Yeah,",
+    "sourceRange": {
+      "endUs": 28928675,
+      "startUs": 28688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w58",
+    "type": "word",
+    "text": "it",
+    "sourceRange": {
+      "endUs": 29088675,
+      "startUs": 29008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w59",
+    "type": "word",
+    "text": "disappears",
+    "sourceRange": {
+      "endUs": 29568675,
+      "startUs": 29088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w60",
+    "type": "word",
+    "text": "as",
+    "sourceRange": {
+      "endUs": 29648675,
+      "startUs": 29568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w61",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 29808675,
+      "startUs": 29728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w62",
+    "type": "word",
+    "text": "pointer.",
+    "sourceRange": {
+      "endUs": 30368675,
+      "startUs": 29808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w63",
+    "type": "word",
+    "text": "Yeah,",
+    "sourceRange": {
+      "endUs": 31328675,
+      "startUs": 31248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w64",
+    "type": "word",
+    "text": "so",
+    "sourceRange": {
+      "endUs": 31488675,
+      "startUs": 31408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w65",
+    "type": "word",
+    "text": "that's",
+    "sourceRange": {
+      "endUs": 31648675,
+      "startUs": 31488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w66",
+    "type": "word",
+    "text": "an",
+    "sourceRange": {
+      "endUs": 31808675,
+      "startUs": 31648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w67",
+    "type": "word",
+    "text": "intentional",
+    "sourceRange": {
+      "endUs": 32288675,
+      "startUs": 31808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w68",
+    "type": "word",
+    "text": "fixture",
+    "sourceRange": {
+      "endUs": 32848675,
+      "startUs": 32288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w69",
+    "type": "word",
+    "text": "bug.",
+    "sourceRange": {
+      "endUs": 33408675,
+      "startUs": 32848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w70",
+    "type": "word",
+    "text": "So",
+    "sourceRange": {
+      "endUs": 33808675,
+      "startUs": 33728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w71",
+    "type": "word",
+    "text": "you",
+    "sourceRange": {
+      "endUs": 34048675,
+      "startUs": 33888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w72",
+    "type": "word",
+    "text": "can",
+    "sourceRange": {
+      "endUs": 34208675,
+      "startUs": 34048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w73",
+    "type": "word",
+    "text": "see",
+    "sourceRange": {
+      "endUs": 34448675,
+      "startUs": 34208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w74",
+    "type": "word",
+    "text": "there's",
+    "sourceRange": {
+      "endUs": 34608675,
+      "startUs": 34448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w75",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 34848675,
+      "startUs": 34608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w76",
+    "type": "word",
+    "text": "bug",
+    "sourceRange": {
+      "endUs": 35408675,
+      "startUs": 34848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w77",
+    "type": "word",
+    "text": "here.",
+    "sourceRange": {
+      "endUs": 35728675,
+      "startUs": 35408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w78",
+    "type": "word",
+    "text": "Then",
+    "sourceRange": {
+      "endUs": 36288675,
+      "startUs": 36048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w79",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 36448675,
+      "startUs": 36288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w80",
+    "type": "word",
+    "text": "visual",
+    "sourceRange": {
+      "endUs": 36848675,
+      "startUs": 36448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w81",
+    "type": "word",
+    "text": "token,",
+    "sourceRange": {
+      "endUs": 37248675,
+      "startUs": 36848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w82",
+    "type": "word",
+    "text": "I",
+    "sourceRange": {
+      "endUs": 37488675,
+      "startUs": 37328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w83",
+    "type": "word",
+    "text": "click",
+    "sourceRange": {
+      "endUs": 37728675,
+      "startUs": 37488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w84",
+    "type": "word",
+    "text": "change",
+    "sourceRange": {
+      "endUs": 38208675,
+      "startUs": 37888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w85",
+    "type": "word",
+    "text": "token,",
+    "sourceRange": {
+      "endUs": 38688675,
+      "startUs": 38208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w86",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 38928675,
+      "startUs": 38768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w87",
+    "type": "word",
+    "text": "yep,",
+    "sourceRange": {
+      "endUs": 39328675,
+      "startUs": 39088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w88",
+    "type": "word",
+    "text": "it",
+    "sourceRange": {
+      "endUs": 39568675,
+      "startUs": 39408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w89",
+    "type": "word",
+    "text": "changed",
+    "sourceRange": {
+      "endUs": 39888675,
+      "startUs": 39568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w90",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 39968675,
+      "startUs": 39888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w91",
+    "type": "word",
+    "text": "token.",
+    "sourceRange": {
+      "endUs": 40368675,
+      "startUs": 39968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w92",
+    "type": "word",
+    "text": "And",
+    "sourceRange": {
+      "endUs": 42128675,
+      "startUs": 41808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w93",
+    "type": "word",
+    "text": "let",
+    "sourceRange": {
+      "endUs": 43088675,
+      "startUs": 42848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w94",
+    "type": "word",
+    "text": "me",
+    "sourceRange": {
+      "endUs": 43248675,
+      "startUs": 43088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w95",
+    "type": "word",
+    "text": "just",
+    "sourceRange": {
+      "endUs": 43408675,
+      "startUs": 43248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w96",
+    "type": "word",
+    "text": "go",
+    "sourceRange": {
+      "endUs": 43648675,
+      "startUs": 43408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w97",
+    "type": "word",
+    "text": "skip",
+    "sourceRange": {
+      "endUs": 44368675,
+      "startUs": 43648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w98",
+    "type": "word",
+    "text": "down",
+    "sourceRange": {
+      "endUs": 44688675,
+      "startUs": 44368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w99",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 44928675,
+      "startUs": 44688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w100",
+    "type": "word",
+    "text": "six,",
+    "sourceRange": {
+      "endUs": 45648675,
+      "startUs": 45248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w101",
+    "type": "word",
+    "text": "scroll",
+    "sourceRange": {
+      "endUs": 46128675,
+      "startUs": 45728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w102",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 46288675,
+      "startUs": 46128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w103",
+    "type": "word",
+    "text": "narrate,",
+    "sourceRange": {
+      "endUs": 47168675,
+      "startUs": 46288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w104",
+    "type": "word",
+    "text": "with",
+    "sourceRange": {
+      "endUs": 47888675,
+      "startUs": 47728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w105",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 48128675,
+      "startUs": 48048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w106",
+    "type": "word",
+    "text": "long",
+    "sourceRange": {
+      "endUs": 48288675,
+      "startUs": 48128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w107",
+    "type": "word",
+    "text": "page",
+    "sourceRange": {
+      "endUs": 48528675,
+      "startUs": 48288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w108",
+    "type": "word",
+    "text": "with",
+    "sourceRange": {
+      "endUs": 48688675,
+      "startUs": 48528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w109",
+    "type": "word",
+    "text": "clear",
+    "sourceRange": {
+      "endUs": 49008675,
+      "startUs": 48688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w110",
+    "type": "word",
+    "text": "waypoints.",
+    "sourceRange": {
+      "endUs": 49968675,
+      "startUs": 49008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w111",
+    "type": "word",
+    "text": "So",
+    "sourceRange": {
+      "endUs": 50928675,
+      "startUs": 50768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w112",
+    "type": "word",
+    "text": "let's",
+    "sourceRange": {
+      "endUs": 51328675,
+      "startUs": 51008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w113",
+    "type": "word",
+    "text": "do",
+    "sourceRange": {
+      "endUs": 51568675,
+      "startUs": 51328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w114",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 51808675,
+      "startUs": 51568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w115",
+    "type": "word",
+    "text": "first",
+    "sourceRange": {
+      "endUs": 52288675,
+      "startUs": 51968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w116",
+    "type": "word",
+    "text": "paragraph,",
+    "sourceRange": {
+      "endUs": 53088675,
+      "startUs": 52288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w117",
+    "type": "word",
+    "text": "uh",
+    "sourceRange": {
+      "endUs": 54448675,
+      "startUs": 54128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w118",
+    "type": "word",
+    "text": "this",
+    "sourceRange": {
+      "endUs": 55408675,
+      "startUs": 55088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w119",
+    "type": "word",
+    "text": "page",
+    "sourceRange": {
+      "endUs": 55728675,
+      "startUs": 55408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w120",
+    "type": "word",
+    "text": "is",
+    "sourceRange": {
+      "endUs": 55888675,
+      "startUs": 55728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w121",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 56048675,
+      "startUs": 55888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w122",
+    "type": "word",
+    "text": "recording",
+    "sourceRange": {
+      "endUs": 56448675,
+      "startUs": 56048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w123",
+    "type": "word",
+    "text": "fixture.",
+    "sourceRange": {
+      "endUs": 57408675,
+      "startUs": 56448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w124",
+    "type": "word",
+    "text": "Its",
+    "sourceRange": {
+      "endUs": 58048675,
+      "startUs": 57728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w125",
+    "type": "word",
+    "text": "landmark",
+    "sourceRange": {
+      "endUs": 58928675,
+      "startUs": 58208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w126",
+    "type": "word",
+    "text": "makes",
+    "sourceRange": {
+      "endUs": 59088675,
+      "startUs": 58928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w127",
+    "type": "word",
+    "text": "it",
+    "sourceRange": {
+      "endUs": 59248675,
+      "startUs": 59088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w128",
+    "type": "word",
+    "text": "possible",
+    "sourceRange": {
+      "endUs": 59568675,
+      "startUs": 59248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w129",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 59648675,
+      "startUs": 59568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w130",
+    "type": "word",
+    "text": "describe",
+    "sourceRange": {
+      "endUs": 60048675,
+      "startUs": 59648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w131",
+    "type": "word",
+    "text": "what",
+    "sourceRange": {
+      "endUs": 60208675,
+      "startUs": 60048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w132",
+    "type": "word",
+    "text": "pointer",
+    "sourceRange": {
+      "endUs": 60688675,
+      "startUs": 60288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w133",
+    "type": "word",
+    "text": "moved",
+    "sourceRange": {
+      "endUs": 61008675,
+      "startUs": 60688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w134",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 61168675,
+      "startUs": 61008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w135",
+    "type": "word",
+    "text": "which",
+    "sourceRange": {
+      "endUs": 61328675,
+      "startUs": 61168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w136",
+    "type": "word",
+    "text": "part",
+    "sourceRange": {
+      "endUs": 61488675,
+      "startUs": 61328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w137",
+    "type": "word",
+    "text": "of",
+    "sourceRange": {
+      "endUs": 61568675,
+      "startUs": 61488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w138",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 61648675,
+      "startUs": 61568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w139",
+    "type": "word",
+    "text": "page",
+    "sourceRange": {
+      "endUs": 61968675,
+      "startUs": 61648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w140",
+    "type": "word",
+    "text": "was",
+    "sourceRange": {
+      "endUs": 62128675,
+      "startUs": 61968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w141",
+    "type": "word",
+    "text": "visible.",
+    "sourceRange": {
+      "endUs": 62848675,
+      "startUs": 62128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w142",
+    "type": "word",
+    "text": "Scroll",
+    "sourceRange": {
+      "endUs": 63648675,
+      "startUs": 63168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w143",
+    "type": "word",
+    "text": "slowly",
+    "sourceRange": {
+      "endUs": 64048675,
+      "startUs": 63648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w144",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 64208675,
+      "startUs": 64048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w145",
+    "type": "word",
+    "text": "reach",
+    "sourceRange": {
+      "endUs": 64528675,
+      "startUs": 64208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w146",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 65008675,
+      "startUs": 64768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w147",
+    "type": "word",
+    "text": "read",
+    "sourceRange": {
+      "endUs": 65328675,
+      "startUs": 65008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w148",
+    "type": "word",
+    "text": "each",
+    "sourceRange": {
+      "endUs": 65648675,
+      "startUs": 65328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w149",
+    "type": "word",
+    "text": "section.",
+    "sourceRange": {
+      "endUs": 66128675,
+      "startUs": 65648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w150",
+    "type": "word",
+    "text": "And",
+    "sourceRange": {
+      "endUs": 67968675,
+      "startUs": 67808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w151",
+    "type": "word",
+    "text": "then",
+    "sourceRange": {
+      "endUs": 68128675,
+      "startUs": 67968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w152",
+    "type": "word",
+    "text": "for",
+    "sourceRange": {
+      "endUs": 68368675,
+      "startUs": 68128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w153",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 68528675,
+      "startUs": 68368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w154",
+    "type": "word",
+    "text": "second",
+    "sourceRange": {
+      "endUs": 68928675,
+      "startUs": 68528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w155",
+    "type": "word",
+    "text": "section,",
+    "sourceRange": {
+      "endUs": 69488675,
+      "startUs": 68928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w156",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 69968675,
+      "startUs": 69808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w157",
+    "type": "word",
+    "text": "sentence",
+    "sourceRange": {
+      "endUs": 70448675,
+      "startUs": 70048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w158",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 70608675,
+      "startUs": 70448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w159",
+    "type": "word",
+    "text": "identify",
+    "sourceRange": {
+      "endUs": 71648675,
+      "startUs": 70608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w160",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 72608675,
+      "startUs": 72288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w161",
+    "type": "word",
+    "text": "sample",
+    "sourceRange": {
+      "endUs": 73008675,
+      "startUs": 72608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w162",
+    "type": "word",
+    "text": "offer",
+    "sourceRange": {
+      "endUs": 73408675,
+      "startUs": 73088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w163",
+    "type": "word",
+    "text": "says",
+    "sourceRange": {
+      "endUs": 73728675,
+      "startUs": 73488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w164",
+    "type": "word",
+    "text": "this",
+    "sourceRange": {
+      "endUs": 73968675,
+      "startUs": 73808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w165",
+    "type": "word",
+    "text": "is",
+    "sourceRange": {
+      "endUs": 74128675,
+      "startUs": 73968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w166",
+    "type": "word",
+    "text": "free.",
+    "sourceRange": {
+      "endUs": 74528675,
+      "startUs": 74128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w167",
+    "type": "word",
+    "text": "You",
+    "sourceRange": {
+      "endUs": 74928675,
+      "startUs": 74768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w168",
+    "type": "word",
+    "text": "can",
+    "sourceRange": {
+      "endUs": 75168675,
+      "startUs": 74928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w169",
+    "type": "word",
+    "text": "mention",
+    "sourceRange": {
+      "endUs": 75568675,
+      "startUs": 75168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w170",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 75808675,
+      "startUs": 75568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w171",
+    "type": "word",
+    "text": "sentence",
+    "sourceRange": {
+      "endUs": 76288675,
+      "startUs": 75808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w172",
+    "type": "word",
+    "text": "in",
+    "sourceRange": {
+      "endUs": 76448675,
+      "startUs": 76288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w173",
+    "type": "word",
+    "text": "your",
+    "sourceRange": {
+      "endUs": 76608675,
+      "startUs": 76448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w174",
+    "type": "word",
+    "text": "narration",
+    "sourceRange": {
+      "endUs": 77328675,
+      "startUs": 76608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w175",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 77968675,
+      "startUs": 77648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w176",
+    "type": "word",
+    "text": "ask",
+    "sourceRange": {
+      "endUs": 78208675,
+      "startUs": 77968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w177",
+    "type": "word",
+    "text": "an",
+    "sourceRange": {
+      "endUs": 78368675,
+      "startUs": 78208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w178",
+    "type": "word",
+    "text": "external",
+    "sourceRange": {
+      "endUs": 78688675,
+      "startUs": 78368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w179",
+    "type": "word",
+    "text": "agent",
+    "sourceRange": {
+      "endUs": 79008675,
+      "startUs": 78688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w180",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 79088675,
+      "startUs": 79008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w181",
+    "type": "word",
+    "text": "find",
+    "sourceRange": {
+      "endUs": 79168675,
+      "startUs": 79088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w182",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 79648675,
+      "startUs": 79488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w183",
+    "type": "word",
+    "text": "spoken",
+    "sourceRange": {
+      "endUs": 80048675,
+      "startUs": 79648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w184",
+    "type": "word",
+    "text": "phrase",
+    "sourceRange": {
+      "endUs": 80768675,
+      "startUs": 80048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w185",
+    "type": "word",
+    "text": "from",
+    "sourceRange": {
+      "endUs": 81088675,
+      "startUs": 80768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w186",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 81328675,
+      "startUs": 81088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w187",
+    "type": "word",
+    "text": "recorded",
+    "sourceRange": {
+      "endUs": 81888675,
+      "startUs": 81328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w188",
+    "type": "word",
+    "text": "devi",
+    "sourceRange": {
+      "endUs": 82208675,
+      "startUs": 81888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w189",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 82688675,
+      "startUs": 82448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w190",
+    "type": "word",
+    "text": "recorded",
+    "sourceRange": {
+      "endUs": 83248675,
+      "startUs": 82688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w191",
+    "type": "word",
+    "text": "evidence.",
+    "sourceRange": {
+      "endUs": 84128675,
+      "startUs": 83248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w192",
+    "type": "word",
+    "text": "Three",
+    "sourceRange": {
+      "endUs": 85088675,
+      "startUs": 84928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w193",
+    "type": "word",
+    "text": "at",
+    "sourceRange": {
+      "endUs": 85408675,
+      "startUs": 85328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w194",
+    "type": "word",
+    "text": "moment",
+    "sourceRange": {
+      "endUs": 85888675,
+      "startUs": 85568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w195",
+    "type": "word",
+    "text": "pause,",
+    "sourceRange": {
+      "endUs": 86608675,
+      "startUs": 86048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w196",
+    "type": "word",
+    "text": "stop",
+    "sourceRange": {
+      "endUs": 87328675,
+      "startUs": 86928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w197",
+    "type": "word",
+    "text": "scrolling",
+    "sourceRange": {
+      "endUs": 87888675,
+      "startUs": 87328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w198",
+    "type": "word",
+    "text": "here,",
+    "sourceRange": {
+      "endUs": 88208675,
+      "startUs": 87888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w199",
+    "type": "word",
+    "text": "point",
+    "sourceRange": {
+      "endUs": 88848675,
+      "startUs": 88528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w200",
+    "type": "word",
+    "text": "at",
+    "sourceRange": {
+      "endUs": 88928675,
+      "startUs": 88848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w201",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 89088675,
+      "startUs": 88928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w202",
+    "type": "word",
+    "text": "number",
+    "sourceRange": {
+      "endUs": 89328675,
+      "startUs": 89088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w203",
+    "type": "word",
+    "text": "marker,",
+    "sourceRange": {
+      "endUs": 90128675,
+      "startUs": 89488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w204",
+    "type": "word",
+    "text": "move",
+    "sourceRange": {
+      "endUs": 90768675,
+      "startUs": 90448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w205",
+    "type": "word",
+    "text": "away,",
+    "sourceRange": {
+      "endUs": 91008675,
+      "startUs": 90768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w206",
+    "type": "word",
+    "text": "return",
+    "sourceRange": {
+      "endUs": 91568675,
+      "startUs": 91168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w207",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 91728675,
+      "startUs": 91568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w208",
+    "type": "word",
+    "text": "it.",
+    "sourceRange": {
+      "endUs": 91888675,
+      "startUs": 91728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w209",
+    "type": "word",
+    "text": "Stationary",
+    "sourceRange": {
+      "endUs": 92848675,
+      "startUs": 92288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w210",
+    "type": "word",
+    "text": "background",
+    "sourceRange": {
+      "endUs": 93168675,
+      "startUs": 92848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w211",
+    "type": "word",
+    "text": "with",
+    "sourceRange": {
+      "endUs": 93328675,
+      "startUs": 93168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w212",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 93488675,
+      "startUs": 93328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w213",
+    "type": "word",
+    "text": "active",
+    "sourceRange": {
+      "endUs": 93808675,
+      "startUs": 93488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w214",
+    "type": "word",
+    "text": "pointer",
+    "sourceRange": {
+      "endUs": 94208675,
+      "startUs": 93808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w215",
+    "type": "word",
+    "text": "helps",
+    "sourceRange": {
+      "endUs": 94528675,
+      "startUs": 94208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w216",
+    "type": "word",
+    "text": "separate",
+    "sourceRange": {
+      "endUs": 94768675,
+      "startUs": 94528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w217",
+    "type": "word",
+    "text": "gesture",
+    "sourceRange": {
+      "endUs": 95728675,
+      "startUs": 94848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w218",
+    "type": "word",
+    "text": "from",
+    "sourceRange": {
+      "endUs": 96048675,
+      "startUs": 95728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w219",
+    "type": "word",
+    "text": "scene",
+    "sourceRange": {
+      "endUs": 96768675,
+      "startUs": 96208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w220",
+    "type": "word",
+    "text": "change.",
+    "sourceRange": {
+      "endUs": 97408675,
+      "startUs": 96768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w221",
+    "type": "word",
+    "text": "Okay,",
+    "sourceRange": {
+      "endUs": 98048675,
+      "startUs": 97728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w222",
+    "type": "word",
+    "text": "so",
+    "sourceRange": {
+      "endUs": 98448675,
+      "startUs": 98288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w223",
+    "type": "word",
+    "text": "let's",
+    "sourceRange": {
+      "endUs": 98928675,
+      "startUs": 98608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w224",
+    "type": "word",
+    "text": "move",
+    "sourceRange": {
+      "endUs": 99168675,
+      "startUs": 98928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w225",
+    "type": "word",
+    "text": "away,",
+    "sourceRange": {
+      "endUs": 99408675,
+      "startUs": 99168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w226",
+    "type": "word",
+    "text": "return",
+    "sourceRange": {
+      "endUs": 99968675,
+      "startUs": 99568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w227",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 100128675,
+      "startUs": 99968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w228",
+    "type": "word",
+    "text": "it.",
+    "sourceRange": {
+      "endUs": 100208675,
+      "startUs": 100128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w229",
+    "type": "word",
+    "text": "Because",
+    "sourceRange": {
+      "endUs": 100528675,
+      "startUs": 100448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w230",
+    "type": "word",
+    "text": "I'm",
+    "sourceRange": {
+      "endUs": 100848675,
+      "startUs": 100688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w231",
+    "type": "word",
+    "text": "just",
+    "sourceRange": {
+      "endUs": 101008675,
+      "startUs": 100848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w232",
+    "type": "word",
+    "text": "doing",
+    "sourceRange": {
+      "endUs": 101168675,
+      "startUs": 101008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w233",
+    "type": "word",
+    "text": "my",
+    "sourceRange": {
+      "endUs": 101328675,
+      "startUs": 101168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w234",
+    "type": "word",
+    "text": "pointer,",
+    "sourceRange": {
+      "endUs": 101648675,
+      "startUs": 101328675
+    },
+    "partial": false
+  },
+  {
+    "id": "w235",
+    "type": "word",
+    "text": "moving",
+    "sourceRange": {
+      "endUs": 102048675,
+      "startUs": 101808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w236",
+    "type": "word",
+    "text": "away.",
+    "sourceRange": {
+      "endUs": 102768675,
+      "startUs": 102208675
+    },
+    "partial": false
+  },
+  {
+    "type": "word",
+    "text": "uh"
+  },
+  {
+    "id": "w237",
+    "type": "word",
+    "text": "Return",
+    "sourceRange": {
+      "endUs": 104288675,
+      "startUs": 103808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w238",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 104528675,
+      "startUs": 104288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w239",
+    "type": "word",
+    "text": "it.",
+    "sourceRange": {
+      "endUs": 104688675,
+      "startUs": 104528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w240",
+    "type": "word",
+    "text": "End",
+    "sourceRange": {
+      "endUs": 105808675,
+      "startUs": 105568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w241",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 106048675,
+      "startUs": 105888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w242",
+    "type": "word",
+    "text": "route.",
+    "sourceRange": {
+      "endUs": 106608675,
+      "startUs": 106048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w243",
+    "type": "word",
+    "text": "You",
+    "sourceRange": {
+      "endUs": 107088675,
+      "startUs": 106928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w244",
+    "type": "word",
+    "text": "have",
+    "sourceRange": {
+      "endUs": 107408675,
+      "startUs": 107248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w245",
+    "type": "word",
+    "text": "reached",
+    "sourceRange": {
+      "endUs": 107648675,
+      "startUs": 107408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w246",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 107808675,
+      "startUs": 107648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w247",
+    "type": "word",
+    "text": "final",
+    "sourceRange": {
+      "endUs": 108128675,
+      "startUs": 107808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w248",
+    "type": "word",
+    "text": "waypoint.",
+    "sourceRange": {
+      "endUs": 108928675,
+      "startUs": 108128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w249",
+    "type": "word",
+    "text": "Scroll",
+    "sourceRange": {
+      "endUs": 109968675,
+      "startUs": 109248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w250",
+    "type": "word",
+    "text": "back",
+    "sourceRange": {
+      "endUs": 110208675,
+      "startUs": 109968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w251",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 110448675,
+      "startUs": 110208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w252",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 110768675,
+      "startUs": 110448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w253",
+    "type": "word",
+    "text": "reference",
+    "sourceRange": {
+      "endUs": 111728675,
+      "startUs": 110768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w254",
+    "type": "word",
+    "text": "grid",
+    "sourceRange": {
+      "endUs": 112128675,
+      "startUs": 111728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w255",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 112368675,
+      "startUs": 112128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w256",
+    "type": "word",
+    "text": "repeat",
+    "sourceRange": {
+      "endUs": 112688675,
+      "startUs": 112368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w257",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 112848675,
+      "startUs": 112688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w258",
+    "type": "word",
+    "text": "same",
+    "sourceRange": {
+      "endUs": 113088675,
+      "startUs": 112848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w259",
+    "type": "word",
+    "text": "route.",
+    "sourceRange": {
+      "endUs": 113888675,
+      "startUs": 113088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w260",
+    "type": "word",
+    "text": "The",
+    "sourceRange": {
+      "endUs": 114768675,
+      "startUs": 114528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w261",
+    "type": "word",
+    "text": "top",
+    "sourceRange": {
+      "endUs": 115168675,
+      "startUs": 114768675
+    },
+    "partial": false
+  },
+  {
+    "id": "w262",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 115408675,
+      "startUs": 115168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w263",
+    "type": "word",
+    "text": "bottom",
+    "sourceRange": {
+      "endUs": 115808675,
+      "startUs": 115408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w264",
+    "type": "word",
+    "text": "landmarks",
+    "sourceRange": {
+      "endUs": 116288675,
+      "startUs": 115808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w265",
+    "type": "word",
+    "text": "have",
+    "sourceRange": {
+      "endUs": 116448675,
+      "startUs": 116288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w266",
+    "type": "word",
+    "text": "different",
+    "sourceRange": {
+      "endUs": 116688675,
+      "startUs": 116448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w267",
+    "type": "word",
+    "text": "labels",
+    "sourceRange": {
+      "endUs": 117168675,
+      "startUs": 116688675
+    },
+    "partial": false
+  },
+  {
+    "id": "w268",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 117248675,
+      "startUs": 117168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w269",
+    "type": "word",
+    "text": "colors,",
+    "sourceRange": {
+      "endUs": 117648675,
+      "startUs": 117248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w270",
+    "type": "word",
+    "text": "so",
+    "sourceRange": {
+      "endUs": 117728675,
+      "startUs": 117648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w271",
+    "type": "word",
+    "text": "a",
+    "sourceRange": {
+      "endUs": 117888675,
+      "startUs": 117808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w272",
+    "type": "word",
+    "text": "flipped",
+    "sourceRange": {
+      "endUs": 118208675,
+      "startUs": 117888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w273",
+    "type": "word",
+    "text": "or",
+    "sourceRange": {
+      "endUs": 118368675,
+      "startUs": 118208675
+    },
+    "partial": false
+  },
+  {
+    "id": "w274",
+    "type": "word",
+    "text": "misplaced",
+    "sourceRange": {
+      "endUs": 119088675,
+      "startUs": 118368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w275",
+    "type": "word",
+    "text": "image",
+    "sourceRange": {
+      "endUs": 119728675,
+      "startUs": 119088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w276",
+    "type": "word",
+    "text": "is",
+    "sourceRange": {
+      "endUs": 120048675,
+      "startUs": 119728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w277",
+    "type": "word",
+    "text": "easier",
+    "sourceRange": {
+      "endUs": 121488675,
+      "startUs": 120928675
+    },
+    "partial": false
+  },
+  {
+    "id": "w278",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 121808675,
+      "startUs": 121488675
+    },
+    "partial": false
+  },
+  {
+    "id": "w279",
+    "type": "word",
+    "text": "spot.",
+    "sourceRange": {
+      "endUs": 122448675,
+      "startUs": 121808675
+    },
+    "partial": false
+  },
+  {
+    "id": "w280",
+    "type": "word",
+    "text": "Okay,",
+    "sourceRange": {
+      "endUs": 123408675,
+      "startUs": 123088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w281",
+    "type": "word",
+    "text": "so",
+    "sourceRange": {
+      "endUs": 123968675,
+      "startUs": 123728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w282",
+    "type": "word",
+    "text": "let's",
+    "sourceRange": {
+      "endUs": 124608675,
+      "startUs": 124288675
+    },
+    "partial": false
+  },
+  {
+    "id": "w283",
+    "type": "word",
+    "text": "go",
+    "sourceRange": {
+      "endUs": 124848675,
+      "startUs": 124608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w284",
+    "type": "word",
+    "text": "back",
+    "sourceRange": {
+      "endUs": 125008675,
+      "startUs": 124848675
+    },
+    "partial": false
+  },
+  {
+    "id": "w285",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 125088675,
+      "startUs": 125008675
+    },
+    "partial": false
+  },
+  {
+    "id": "w286",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 125168675,
+      "startUs": 125088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w287",
+    "type": "word",
+    "text": "reference",
+    "sourceRange": {
+      "endUs": 125568675,
+      "startUs": 125168675
+    },
+    "partial": false
+  },
+  {
+    "id": "w288",
+    "type": "word",
+    "text": "grid.",
+    "sourceRange": {
+      "endUs": 125808675,
+      "startUs": 125568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w289",
+    "type": "word",
+    "text": "I've",
+    "sourceRange": {
+      "endUs": 126128675,
+      "startUs": 125888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w290",
+    "type": "word",
+    "text": "clicked",
+    "sourceRange": {
+      "endUs": 126368675,
+      "startUs": 126128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w291",
+    "type": "word",
+    "text": "on",
+    "sourceRange": {
+      "endUs": 126448675,
+      "startUs": 126368675
+    },
+    "partial": false
+  },
+  {
+    "id": "w292",
+    "type": "word",
+    "text": "this",
+    "sourceRange": {
+      "endUs": 126608675,
+      "startUs": 126448675
+    },
+    "partial": false
+  },
+  {
+    "id": "w293",
+    "type": "word",
+    "text": "button",
+    "sourceRange": {
+      "endUs": 127088675,
+      "startUs": 126608675
+    },
+    "partial": false
+  },
+  {
+    "id": "w294",
+    "type": "word",
+    "text": "here,",
+    "sourceRange": {
+      "endUs": 127168675,
+      "startUs": 127088675
+    },
+    "partial": false
+  },
+  {
+    "id": "w295",
+    "type": "word",
+    "text": "and",
+    "sourceRange": {
+      "endUs": 127408675,
+      "startUs": 127248675
+    },
+    "partial": false
+  },
+  {
+    "id": "w296",
+    "type": "word",
+    "text": "now",
+    "sourceRange": {
+      "endUs": 127568675,
+      "startUs": 127408675
+    },
+    "partial": false
+  },
+  {
+    "id": "w297",
+    "type": "word",
+    "text": "I'm",
+    "sourceRange": {
+      "endUs": 127728675,
+      "startUs": 127568675
+    },
+    "partial": false
+  },
+  {
+    "id": "w298",
+    "type": "word",
+    "text": "back",
+    "sourceRange": {
+      "endUs": 127888675,
+      "startUs": 127728675
+    },
+    "partial": false
+  },
+  {
+    "id": "w299",
+    "type": "word",
+    "text": "to",
+    "sourceRange": {
+      "endUs": 128048675,
+      "startUs": 127888675
+    },
+    "partial": false
+  },
+  {
+    "id": "w300",
+    "type": "word",
+    "text": "the",
+    "sourceRange": {
+      "endUs": 128128675,
+      "startUs": 128048675
+    },
+    "partial": false
+  },
+  {
+    "id": "w301",
+    "type": "word",
+    "text": "reference",
+    "sourceRange": {
+      "endUs": 128528675,
+      "startUs": 128128675
+    },
+    "partial": false
+  },
+  {
+    "id": "w302",
+    "type": "word",
+    "text": "grid.",
+    "sourceRange": {
+      "endUs": 129088675,
+      "startUs": 128528675
+    },
+    "partial": false
+  },
+  {
+    "id": "w303",
+    "type": "word",
+    "text": "Okay,",
+    "sourceRange": {
+      "endUs": 129888675,
+      "startUs": 129648675
+    },
+    "partial": false
+  },
+  {
+    "id": "w304",
+    "type": "word",
+    "text": "that's",
+    "sourceRange": {
+      "endUs": 130368675,
+      "startUs": 129968675
+    },
+    "partial": false
+  },
+  {
+    "id": "w305",
+    "type": "word",
+    "text": "it.",
+    "sourceRange": {
+      "endUs": 130528675,
+      "startUs": 130368675
+    },
+    "partial": false
+  }
+]

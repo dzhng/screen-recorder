@@ -1,0 +1,5650 @@
+{
+  "inputCondition": {
+    "beforeWordId": "w237",
+    "word": "uh",
+    "authority": "Candidate hypothesis from frozen alternative output, not an independent audible label"
+  },
+  "completeOriginalWordSequence": true,
+  "originalWordCount": 306,
+  "insertedWord": {
+    "text": "uh",
+    "sourceRange": {
+      "startUs": 103408675,
+      "endUs": 103728675
+    },
+    "authority": "supplied hypothesis; not independently labeled"
+  },
+  "changedWords": [
+    {
+      "id": "w237",
+      "text": "Return",
+      "control": {
+        "startUs": 103408675,
+        "endUs": 104208675
+      },
+      "candidate": {
+        "startUs": 103968675,
+        "endUs": 104208675
+      },
+      "deltaMs": {
+        "start": 560,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w237",
+          "side": "start",
+          "controlErrorMs": -560,
+          "candidateErrorMs": 0
+        }
+      ]
+    },
+    {
+      "id": "w249",
+      "text": "Scroll",
+      "control": {
+        "startUs": 109328675,
+        "endUs": 109648675
+      },
+      "candidate": {
+        "startUs": 109248675,
+        "endUs": 109648675
+      },
+      "deltaMs": {
+        "start": -80,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w280",
+      "text": "Okay,",
+      "control": {
+        "startUs": 123248675,
+        "endUs": 123408675
+      },
+      "candidate": {
+        "startUs": 123088675,
+        "endUs": 123408675
+      },
+      "deltaMs": {
+        "start": -160,
+        "end": 0
+      },
+      "independentEdges": []
+    }
+  ],
+  "unchangedWordCount": 303,
+  "markedEdges": [
+    {
+      "id": "w0",
+      "side": "start",
+      "controlErrorMs": 195,
+      "candidateErrorMs": 195
+    },
+    {
+      "id": "w6",
+      "side": "end",
+      "controlErrorMs": -555,
+      "candidateErrorMs": -555
+    },
+    {
+      "id": "w25",
+      "side": "start",
+      "controlErrorMs": 15,
+      "candidateErrorMs": 15
+    },
+    {
+      "id": "w26",
+      "side": "end",
+      "controlErrorMs": 20,
+      "candidateErrorMs": 20
+    },
+    {
+      "id": "w57",
+      "side": "start",
+      "controlErrorMs": -50,
+      "candidateErrorMs": -50
+    },
+    {
+      "id": "w62",
+      "side": "end",
+      "controlErrorMs": 25,
+      "candidateErrorMs": 25
+    },
+    {
+      "id": "w93",
+      "side": "start",
+      "controlErrorMs": 35,
+      "candidateErrorMs": 35
+    },
+    {
+      "id": "w103",
+      "side": "end",
+      "controlErrorMs": 93,
+      "candidateErrorMs": 93
+    },
+    {
+      "id": "w117",
+      "side": "start",
+      "controlErrorMs": 0,
+      "candidateErrorMs": 0
+    },
+    {
+      "id": "w117",
+      "side": "end",
+      "controlErrorMs": -20,
+      "candidateErrorMs": -20
+    },
+    {
+      "id": "w160",
+      "side": "start",
+      "controlErrorMs": 25,
+      "candidateErrorMs": 25
+    },
+    {
+      "id": "w237",
+      "side": "start",
+      "controlErrorMs": -560,
+      "candidateErrorMs": 0
+    },
+    {
+      "id": "w239",
+      "side": "end",
+      "controlErrorMs": 25,
+      "candidateErrorMs": 25
+    },
+    {
+      "id": "w277",
+      "side": "start",
+      "controlErrorMs": 155,
+      "candidateErrorMs": 155
+    },
+    {
+      "id": "w279",
+      "side": "end",
+      "controlErrorMs": -50,
+      "candidateErrorMs": -50
+    }
+  ],
+  "context": {
+    "authority": "ASR-proposed neighbors; independent protected-word labels remain unavailable",
+    "words": [
+      {
+        "id": "w234",
+        "text": "pointer,",
+        "control": {
+          "startUs": 101248675,
+          "endUs": 101648675
+        },
+        "candidate": {
+          "startUs": 101248675,
+          "endUs": 101648675
+        },
+        "deltaMs": {
+          "start": 0,
+          "end": 0
+        },
+        "independentEdges": []
+      },
+      {
+        "id": "w235",
+        "text": "moving",
+        "control": {
+          "startUs": 101728675,
+          "endUs": 101968675
+        },
+        "candidate": {
+          "startUs": 101728675,
+          "endUs": 101968675
+        },
+        "deltaMs": {
+          "start": 0,
+          "end": 0
+        },
+        "independentEdges": []
+      },
+      {
+        "id": "w236",
+        "text": "away.",
+        "control": {
+          "startUs": 102048675,
+          "endUs": 102368675
+        },
+        "candidate": {
+          "startUs": 102048675,
+          "endUs": 102368675
+        },
+        "deltaMs": {
+          "start": 0,
+          "end": 0
+        },
+        "independentEdges": []
+      },
+      {
+        "id": "w237",
+        "text": "Return",
+        "control": {
+          "startUs": 103408675,
+          "endUs": 104208675
+        },
+        "candidate": {
+          "startUs": 103968675,
+          "endUs": 104208675
+        },
+        "deltaMs": {
+          "start": 560,
+          "end": 0
+        },
+        "independentEdges": [
+          {
+            "id": "w237",
+            "side": "start",
+            "controlErrorMs": -560,
+            "candidateErrorMs": 0
+          }
+        ]
+      },
+      {
+        "id": "w238",
+        "text": "to",
+        "control": {
+          "startUs": 104288675,
+          "endUs": 104448675
+        },
+        "candidate": {
+          "startUs": 104288675,
+          "endUs": 104448675
+        },
+        "deltaMs": {
+          "start": 0,
+          "end": 0
+        },
+        "independentEdges": []
+      },
+      {
+        "id": "w239",
+        "text": "it.",
+        "control": {
+          "startUs": 104448675,
+          "endUs": 104608675
+        },
+        "candidate": {
+          "startUs": 104448675,
+          "endUs": 104608675
+        },
+        "deltaMs": {
+          "start": 0,
+          "end": 0
+        },
+        "independentEdges": [
+          {
+            "id": "w239",
+            "side": "end",
+            "controlErrorMs": 25,
+            "candidateErrorMs": 25
+          }
+        ]
+      },
+      {
+        "id": "w240",
+        "text": "End",
+        "control": {
+          "startUs": 105648675,
+          "endUs": 105808675
+        },
+        "candidate": {
+          "startUs": 105648675,
+          "endUs": 105808675
+        },
+        "deltaMs": {
+          "start": 0,
+          "end": 0
+        },
+        "independentEdges": []
+      },
+      {
+        "id": "w241",
+        "text": "the",
+        "control": {
+          "startUs": 105808675,
+          "endUs": 105968675
+        },
+        "candidate": {
+          "startUs": 105808675,
+          "endUs": 105968675
+        },
+        "deltaMs": {
+          "start": 0,
+          "end": 0
+        },
+        "independentEdges": []
+      },
+      {
+        "id": "w242",
+        "text": "route.",
+        "control": {
+          "startUs": 105968675,
+          "endUs": 106368675
+        },
+        "candidate": {
+          "startUs": 105968675,
+          "endUs": 106368675
+        },
+        "deltaMs": {
+          "start": 0,
+          "end": 0
+        },
+        "independentEdges": []
+      }
+    ]
+  },
+  "fullComparison": [
+    {
+      "id": "w0",
+      "text": "Okay,",
+      "control": {
+        "startUs": 1568675,
+        "endUs": 1728675
+      },
+      "candidate": {
+        "startUs": 1568675,
+        "endUs": 1728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w0",
+          "side": "start",
+          "controlErrorMs": 195,
+          "candidateErrorMs": 195
+        }
+      ]
+    },
+    {
+      "id": "w1",
+      "text": "so",
+      "control": {
+        "startUs": 1728675,
+        "endUs": 1888675
+      },
+      "candidate": {
+        "startUs": 1728675,
+        "endUs": 1888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w2",
+      "text": "this",
+      "control": {
+        "startUs": 1888675,
+        "endUs": 2128675
+      },
+      "candidate": {
+        "startUs": 1888675,
+        "endUs": 2128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w3",
+      "text": "is",
+      "control": {
+        "startUs": 2128675,
+        "endUs": 2288675
+      },
+      "candidate": {
+        "startUs": 2128675,
+        "endUs": 2288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w4",
+      "text": "the",
+      "control": {
+        "startUs": 2288675,
+        "endUs": 2608675
+      },
+      "candidate": {
+        "startUs": 2288675,
+        "endUs": 2608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w5",
+      "text": "recorder",
+      "control": {
+        "startUs": 3408675,
+        "endUs": 4208675
+      },
+      "candidate": {
+        "startUs": 3408675,
+        "endUs": 4208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w6",
+      "text": "workbench.",
+      "control": {
+        "startUs": 4528675,
+        "endUs": 5088675
+      },
+      "candidate": {
+        "startUs": 4528675,
+        "endUs": 5088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w6",
+          "side": "end",
+          "controlErrorMs": -555,
+          "candidateErrorMs": -555
+        }
+      ]
+    },
+    {
+      "id": "w7",
+      "text": "First",
+      "control": {
+        "startUs": 6848675,
+        "endUs": 7168675
+      },
+      "candidate": {
+        "startUs": 6848675,
+        "endUs": 7168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w8",
+      "text": "I'm",
+      "control": {
+        "startUs": 7168675,
+        "endUs": 7248675
+      },
+      "candidate": {
+        "startUs": 7168675,
+        "endUs": 7248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w9",
+      "text": "going",
+      "control": {
+        "startUs": 7248675,
+        "endUs": 7408675
+      },
+      "candidate": {
+        "startUs": 7248675,
+        "endUs": 7408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w10",
+      "text": "to",
+      "control": {
+        "startUs": 7408675,
+        "endUs": 7728675
+      },
+      "candidate": {
+        "startUs": 7408675,
+        "endUs": 7728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w11",
+      "text": "draw",
+      "control": {
+        "startUs": 7728675,
+        "endUs": 7728675
+      },
+      "candidate": {
+        "startUs": 7728675,
+        "endUs": 7728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w12",
+      "text": "a",
+      "control": {
+        "startUs": 7728675,
+        "endUs": 7728675
+      },
+      "candidate": {
+        "startUs": 7728675,
+        "endUs": 7728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w13",
+      "text": "circle",
+      "control": {
+        "startUs": 7728675,
+        "endUs": 8368675
+      },
+      "candidate": {
+        "startUs": 7728675,
+        "endUs": 8368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w14",
+      "text": "around",
+      "control": {
+        "startUs": 8448675,
+        "endUs": 8688675
+      },
+      "candidate": {
+        "startUs": 8448675,
+        "endUs": 8688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w15",
+      "text": "C3",
+      "control": {
+        "startUs": 8768675,
+        "endUs": 9568675
+      },
+      "candidate": {
+        "startUs": 8768675,
+        "endUs": 9568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w16",
+      "text": "and",
+      "control": {
+        "startUs": 10608675,
+        "endUs": 10608675
+      },
+      "candidate": {
+        "startUs": 10608675,
+        "endUs": 10608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w17",
+      "text": "I'm",
+      "control": {
+        "startUs": 10608675,
+        "endUs": 10688675
+      },
+      "candidate": {
+        "startUs": 10608675,
+        "endUs": 10688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w18",
+      "text": "going",
+      "control": {
+        "startUs": 10768675,
+        "endUs": 10848675
+      },
+      "candidate": {
+        "startUs": 10768675,
+        "endUs": 10848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w19",
+      "text": "to",
+      "control": {
+        "startUs": 10848675,
+        "endUs": 10928675
+      },
+      "candidate": {
+        "startUs": 10848675,
+        "endUs": 10928675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w20",
+      "text": "draw",
+      "control": {
+        "startUs": 10928675,
+        "endUs": 11248675
+      },
+      "candidate": {
+        "startUs": 10928675,
+        "endUs": 11248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w21",
+      "text": "a",
+      "control": {
+        "startUs": 11248675,
+        "endUs": 11328675
+      },
+      "candidate": {
+        "startUs": 11248675,
+        "endUs": 11328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w22",
+      "text": "wave",
+      "control": {
+        "startUs": 11328675,
+        "endUs": 11728675
+      },
+      "candidate": {
+        "startUs": 11328675,
+        "endUs": 11728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w23",
+      "text": "between",
+      "control": {
+        "startUs": 11728675,
+        "endUs": 12048675
+      },
+      "candidate": {
+        "startUs": 11728675,
+        "endUs": 12048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w24",
+      "text": "D9",
+      "control": {
+        "startUs": 12208675,
+        "endUs": 12528675
+      },
+      "candidate": {
+        "startUs": 12208675,
+        "endUs": 12528675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w25",
+      "text": "and",
+      "control": {
+        "startUs": 13488675,
+        "endUs": 13568675
+      },
+      "candidate": {
+        "startUs": 13488675,
+        "endUs": 13568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w25",
+          "side": "start",
+          "controlErrorMs": 15,
+          "candidateErrorMs": 15
+        }
+      ]
+    },
+    {
+      "id": "w26",
+      "text": "E2.",
+      "control": {
+        "startUs": 13648675,
+        "endUs": 14048675
+      },
+      "candidate": {
+        "startUs": 13648675,
+        "endUs": 14048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w26",
+          "side": "end",
+          "controlErrorMs": 20,
+          "candidateErrorMs": 20
+        }
+      ]
+    },
+    {
+      "id": "w27",
+      "text": "Alright,",
+      "control": {
+        "startUs": 15408675,
+        "endUs": 15568675
+      },
+      "candidate": {
+        "startUs": 15408675,
+        "endUs": 15568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w28",
+      "text": "so",
+      "control": {
+        "startUs": 15648675,
+        "endUs": 15808675
+      },
+      "candidate": {
+        "startUs": 15648675,
+        "endUs": 15808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w29",
+      "text": "to",
+      "control": {
+        "startUs": 15968675,
+        "endUs": 16048675
+      },
+      "candidate": {
+        "startUs": 15968675,
+        "endUs": 16048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w30",
+      "text": "the",
+      "control": {
+        "startUs": 16048675,
+        "endUs": 16128675
+      },
+      "candidate": {
+        "startUs": 16048675,
+        "endUs": 16128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w31",
+      "text": "next",
+      "control": {
+        "startUs": 16128675,
+        "endUs": 16528675
+      },
+      "candidate": {
+        "startUs": 16128675,
+        "endUs": 16528675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w32",
+      "text": "one,",
+      "control": {
+        "startUs": 16528675,
+        "endUs": 16848675
+      },
+      "candidate": {
+        "startUs": 16528675,
+        "endUs": 16848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w33",
+      "text": "we're",
+      "control": {
+        "startUs": 17488675,
+        "endUs": 17648675
+      },
+      "candidate": {
+        "startUs": 17488675,
+        "endUs": 17648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w34",
+      "text": "going",
+      "control": {
+        "startUs": 17648675,
+        "endUs": 17728675
+      },
+      "candidate": {
+        "startUs": 17648675,
+        "endUs": 17728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w35",
+      "text": "to",
+      "control": {
+        "startUs": 17728675,
+        "endUs": 17808675
+      },
+      "candidate": {
+        "startUs": 17728675,
+        "endUs": 17808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w36",
+      "text": "do",
+      "control": {
+        "startUs": 17888675,
+        "endUs": 18048675
+      },
+      "candidate": {
+        "startUs": 17888675,
+        "endUs": 18048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w37",
+      "text": "the",
+      "control": {
+        "startUs": 18128675,
+        "endUs": 18528675
+      },
+      "candidate": {
+        "startUs": 18128675,
+        "endUs": 18528675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w38",
+      "text": "disappearing",
+      "control": {
+        "startUs": 20208675,
+        "endUs": 20848675
+      },
+      "candidate": {
+        "startUs": 20208675,
+        "endUs": 20848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w39",
+      "text": "submenu.",
+      "control": {
+        "startUs": 20848675,
+        "endUs": 21408675
+      },
+      "candidate": {
+        "startUs": 20848675,
+        "endUs": 21408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w40",
+      "text": "So",
+      "control": {
+        "startUs": 22448675,
+        "endUs": 22608675
+      },
+      "candidate": {
+        "startUs": 22448675,
+        "endUs": 22608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w41",
+      "text": "let's",
+      "control": {
+        "startUs": 22608675,
+        "endUs": 22768675
+      },
+      "candidate": {
+        "startUs": 22608675,
+        "endUs": 22768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w42",
+      "text": "hover",
+      "control": {
+        "startUs": 22768675,
+        "endUs": 23088675
+      },
+      "candidate": {
+        "startUs": 22768675,
+        "endUs": 23088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w43",
+      "text": "over",
+      "control": {
+        "startUs": 23088675,
+        "endUs": 23328675
+      },
+      "candidate": {
+        "startUs": 23088675,
+        "endUs": 23328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w44",
+      "text": "the",
+      "control": {
+        "startUs": 23328675,
+        "endUs": 23408675
+      },
+      "candidate": {
+        "startUs": 23328675,
+        "endUs": 23408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w45",
+      "text": "products",
+      "control": {
+        "startUs": 23568675,
+        "endUs": 24208675
+      },
+      "candidate": {
+        "startUs": 23568675,
+        "endUs": 24208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w46",
+      "text": "and",
+      "control": {
+        "startUs": 24928675,
+        "endUs": 25008675
+      },
+      "candidate": {
+        "startUs": 24928675,
+        "endUs": 25008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w47",
+      "text": "move",
+      "control": {
+        "startUs": 25088675,
+        "endUs": 25248675
+      },
+      "candidate": {
+        "startUs": 25088675,
+        "endUs": 25248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w48",
+      "text": "down",
+      "control": {
+        "startUs": 25328675,
+        "endUs": 25888675
+      },
+      "candidate": {
+        "startUs": 25328675,
+        "endUs": 25888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w49",
+      "text": "to",
+      "control": {
+        "startUs": 25968675,
+        "endUs": 26048675
+      },
+      "candidate": {
+        "startUs": 25968675,
+        "endUs": 26048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w50",
+      "text": "the",
+      "control": {
+        "startUs": 26048675,
+        "endUs": 26048675
+      },
+      "candidate": {
+        "startUs": 26048675,
+        "endUs": 26048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w51",
+      "text": "menu.",
+      "control": {
+        "startUs": 26048675,
+        "endUs": 26448675
+      },
+      "candidate": {
+        "startUs": 26048675,
+        "endUs": 26448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w52",
+      "text": "There's",
+      "control": {
+        "startUs": 26608675,
+        "endUs": 26768675
+      },
+      "candidate": {
+        "startUs": 26608675,
+        "endUs": 26768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w53",
+      "text": "actually",
+      "control": {
+        "startUs": 26768675,
+        "endUs": 27088675
+      },
+      "candidate": {
+        "startUs": 26768675,
+        "endUs": 27088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w54",
+      "text": "a",
+      "control": {
+        "startUs": 27088675,
+        "endUs": 27088675
+      },
+      "candidate": {
+        "startUs": 27088675,
+        "endUs": 27088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w55",
+      "text": "bug",
+      "control": {
+        "startUs": 27088675,
+        "endUs": 27328675
+      },
+      "candidate": {
+        "startUs": 27088675,
+        "endUs": 27328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w56",
+      "text": "here.",
+      "control": {
+        "startUs": 27328675,
+        "endUs": 27568675
+      },
+      "candidate": {
+        "startUs": 27328675,
+        "endUs": 27568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w57",
+      "text": "Yeah,",
+      "control": {
+        "startUs": 28848675,
+        "endUs": 29088675
+      },
+      "candidate": {
+        "startUs": 28848675,
+        "endUs": 29088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w57",
+          "side": "start",
+          "controlErrorMs": -50,
+          "candidateErrorMs": -50
+        }
+      ]
+    },
+    {
+      "id": "w58",
+      "text": "it",
+      "control": {
+        "startUs": 29088675,
+        "endUs": 29088675
+      },
+      "candidate": {
+        "startUs": 29088675,
+        "endUs": 29088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w59",
+      "text": "disappears",
+      "control": {
+        "startUs": 29088675,
+        "endUs": 29648675
+      },
+      "candidate": {
+        "startUs": 29088675,
+        "endUs": 29648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w60",
+      "text": "as",
+      "control": {
+        "startUs": 29648675,
+        "endUs": 29648675
+      },
+      "candidate": {
+        "startUs": 29648675,
+        "endUs": 29648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w61",
+      "text": "a",
+      "control": {
+        "startUs": 29648675,
+        "endUs": 29728675
+      },
+      "candidate": {
+        "startUs": 29648675,
+        "endUs": 29728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w62",
+      "text": "pointer.",
+      "control": {
+        "startUs": 29728675,
+        "endUs": 30288675
+      },
+      "candidate": {
+        "startUs": 29728675,
+        "endUs": 30288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w62",
+          "side": "end",
+          "controlErrorMs": 25,
+          "candidateErrorMs": 25
+        }
+      ]
+    },
+    {
+      "id": "w63",
+      "text": "Yeah,",
+      "control": {
+        "startUs": 31168675,
+        "endUs": 31328675
+      },
+      "candidate": {
+        "startUs": 31168675,
+        "endUs": 31328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w64",
+      "text": "so",
+      "control": {
+        "startUs": 31328675,
+        "endUs": 31568675
+      },
+      "candidate": {
+        "startUs": 31328675,
+        "endUs": 31568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w65",
+      "text": "that's",
+      "control": {
+        "startUs": 31568675,
+        "endUs": 31648675
+      },
+      "candidate": {
+        "startUs": 31568675,
+        "endUs": 31648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w66",
+      "text": "an",
+      "control": {
+        "startUs": 31648675,
+        "endUs": 31728675
+      },
+      "candidate": {
+        "startUs": 31648675,
+        "endUs": 31728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w67",
+      "text": "intentional",
+      "control": {
+        "startUs": 31728675,
+        "endUs": 32288675
+      },
+      "candidate": {
+        "startUs": 31728675,
+        "endUs": 32288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w68",
+      "text": "fixture",
+      "control": {
+        "startUs": 32288675,
+        "endUs": 32608675
+      },
+      "candidate": {
+        "startUs": 32288675,
+        "endUs": 32608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w69",
+      "text": "bug.",
+      "control": {
+        "startUs": 32688675,
+        "endUs": 33008675
+      },
+      "candidate": {
+        "startUs": 32688675,
+        "endUs": 33008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w70",
+      "text": "So",
+      "control": {
+        "startUs": 33808675,
+        "endUs": 33968675
+      },
+      "candidate": {
+        "startUs": 33808675,
+        "endUs": 33968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w71",
+      "text": "you",
+      "control": {
+        "startUs": 33968675,
+        "endUs": 34048675
+      },
+      "candidate": {
+        "startUs": 33968675,
+        "endUs": 34048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w72",
+      "text": "can",
+      "control": {
+        "startUs": 34048675,
+        "endUs": 34128675
+      },
+      "candidate": {
+        "startUs": 34048675,
+        "endUs": 34128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w73",
+      "text": "see",
+      "control": {
+        "startUs": 34128675,
+        "endUs": 34368675
+      },
+      "candidate": {
+        "startUs": 34128675,
+        "endUs": 34368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w74",
+      "text": "there's",
+      "control": {
+        "startUs": 34368675,
+        "endUs": 34608675
+      },
+      "candidate": {
+        "startUs": 34368675,
+        "endUs": 34608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w75",
+      "text": "a",
+      "control": {
+        "startUs": 34608675,
+        "endUs": 34768675
+      },
+      "candidate": {
+        "startUs": 34608675,
+        "endUs": 34768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w76",
+      "text": "bug",
+      "control": {
+        "startUs": 34848675,
+        "endUs": 35008675
+      },
+      "candidate": {
+        "startUs": 34848675,
+        "endUs": 35008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w77",
+      "text": "here.",
+      "control": {
+        "startUs": 35088675,
+        "endUs": 35328675
+      },
+      "candidate": {
+        "startUs": 35088675,
+        "endUs": 35328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w78",
+      "text": "Then",
+      "control": {
+        "startUs": 36208675,
+        "endUs": 36288675
+      },
+      "candidate": {
+        "startUs": 36208675,
+        "endUs": 36288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w79",
+      "text": "the",
+      "control": {
+        "startUs": 36288675,
+        "endUs": 36448675
+      },
+      "candidate": {
+        "startUs": 36288675,
+        "endUs": 36448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w80",
+      "text": "visual",
+      "control": {
+        "startUs": 36448675,
+        "endUs": 36768675
+      },
+      "candidate": {
+        "startUs": 36448675,
+        "endUs": 36768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w81",
+      "text": "token,",
+      "control": {
+        "startUs": 36768675,
+        "endUs": 37328675
+      },
+      "candidate": {
+        "startUs": 36768675,
+        "endUs": 37328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w82",
+      "text": "I",
+      "control": {
+        "startUs": 37328675,
+        "endUs": 37488675
+      },
+      "candidate": {
+        "startUs": 37328675,
+        "endUs": 37488675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w83",
+      "text": "click",
+      "control": {
+        "startUs": 37568675,
+        "endUs": 37808675
+      },
+      "candidate": {
+        "startUs": 37568675,
+        "endUs": 37808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w84",
+      "text": "change",
+      "control": {
+        "startUs": 37808675,
+        "endUs": 38128675
+      },
+      "candidate": {
+        "startUs": 37808675,
+        "endUs": 38128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w85",
+      "text": "token,",
+      "control": {
+        "startUs": 38128675,
+        "endUs": 38448675
+      },
+      "candidate": {
+        "startUs": 38128675,
+        "endUs": 38448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w86",
+      "text": "and",
+      "control": {
+        "startUs": 38448675,
+        "endUs": 38848675
+      },
+      "candidate": {
+        "startUs": 38448675,
+        "endUs": 38848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w87",
+      "text": "yep,",
+      "control": {
+        "startUs": 39248675,
+        "endUs": 39408675
+      },
+      "candidate": {
+        "startUs": 39248675,
+        "endUs": 39408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w88",
+      "text": "it",
+      "control": {
+        "startUs": 39408675,
+        "endUs": 39568675
+      },
+      "candidate": {
+        "startUs": 39408675,
+        "endUs": 39568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w89",
+      "text": "changed",
+      "control": {
+        "startUs": 39568675,
+        "endUs": 39808675
+      },
+      "candidate": {
+        "startUs": 39568675,
+        "endUs": 39808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w90",
+      "text": "the",
+      "control": {
+        "startUs": 39808675,
+        "endUs": 39888675
+      },
+      "candidate": {
+        "startUs": 39808675,
+        "endUs": 39888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w91",
+      "text": "token.",
+      "control": {
+        "startUs": 39888675,
+        "endUs": 40288675
+      },
+      "candidate": {
+        "startUs": 39888675,
+        "endUs": 40288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w92",
+      "text": "And",
+      "control": {
+        "startUs": 41648675,
+        "endUs": 42208675
+      },
+      "candidate": {
+        "startUs": 41648675,
+        "endUs": 42208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w93",
+      "text": "let",
+      "control": {
+        "startUs": 43088675,
+        "endUs": 43168675
+      },
+      "candidate": {
+        "startUs": 43088675,
+        "endUs": 43168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w93",
+          "side": "start",
+          "controlErrorMs": 35,
+          "candidateErrorMs": 35
+        }
+      ]
+    },
+    {
+      "id": "w94",
+      "text": "me",
+      "control": {
+        "startUs": 43168675,
+        "endUs": 43248675
+      },
+      "candidate": {
+        "startUs": 43168675,
+        "endUs": 43248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w95",
+      "text": "just",
+      "control": {
+        "startUs": 43248675,
+        "endUs": 43408675
+      },
+      "candidate": {
+        "startUs": 43248675,
+        "endUs": 43408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w96",
+      "text": "go",
+      "control": {
+        "startUs": 43408675,
+        "endUs": 43648675
+      },
+      "candidate": {
+        "startUs": 43408675,
+        "endUs": 43648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w97",
+      "text": "skip",
+      "control": {
+        "startUs": 43648675,
+        "endUs": 43968675
+      },
+      "candidate": {
+        "startUs": 43648675,
+        "endUs": 43968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w98",
+      "text": "down",
+      "control": {
+        "startUs": 44048675,
+        "endUs": 44288675
+      },
+      "candidate": {
+        "startUs": 44048675,
+        "endUs": 44288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w99",
+      "text": "to",
+      "control": {
+        "startUs": 44448675,
+        "endUs": 44848675
+      },
+      "candidate": {
+        "startUs": 44448675,
+        "endUs": 44848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w100",
+      "text": "six,",
+      "control": {
+        "startUs": 45248675,
+        "endUs": 45808675
+      },
+      "candidate": {
+        "startUs": 45248675,
+        "endUs": 45808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w101",
+      "text": "scroll",
+      "control": {
+        "startUs": 45808675,
+        "endUs": 46128675
+      },
+      "candidate": {
+        "startUs": 45808675,
+        "endUs": 46128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w102",
+      "text": "and",
+      "control": {
+        "startUs": 46128675,
+        "endUs": 46128675
+      },
+      "candidate": {
+        "startUs": 46128675,
+        "endUs": 46128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w103",
+      "text": "narrate,",
+      "control": {
+        "startUs": 46128675,
+        "endUs": 46688675
+      },
+      "candidate": {
+        "startUs": 46128675,
+        "endUs": 46688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w103",
+          "side": "end",
+          "controlErrorMs": 93,
+          "candidateErrorMs": 93
+        }
+      ]
+    },
+    {
+      "id": "w104",
+      "text": "with",
+      "control": {
+        "startUs": 47888675,
+        "endUs": 48048675
+      },
+      "candidate": {
+        "startUs": 47888675,
+        "endUs": 48048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w105",
+      "text": "a",
+      "control": {
+        "startUs": 48048675,
+        "endUs": 48128675
+      },
+      "candidate": {
+        "startUs": 48048675,
+        "endUs": 48128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w106",
+      "text": "long",
+      "control": {
+        "startUs": 48128675,
+        "endUs": 48288675
+      },
+      "candidate": {
+        "startUs": 48128675,
+        "endUs": 48288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w107",
+      "text": "page",
+      "control": {
+        "startUs": 48288675,
+        "endUs": 48528675
+      },
+      "candidate": {
+        "startUs": 48288675,
+        "endUs": 48528675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w108",
+      "text": "with",
+      "control": {
+        "startUs": 48528675,
+        "endUs": 48688675
+      },
+      "candidate": {
+        "startUs": 48528675,
+        "endUs": 48688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w109",
+      "text": "clear",
+      "control": {
+        "startUs": 48688675,
+        "endUs": 48848675
+      },
+      "candidate": {
+        "startUs": 48688675,
+        "endUs": 48848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w110",
+      "text": "waypoints.",
+      "control": {
+        "startUs": 48848675,
+        "endUs": 49648675
+      },
+      "candidate": {
+        "startUs": 48848675,
+        "endUs": 49648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w111",
+      "text": "So",
+      "control": {
+        "startUs": 50848675,
+        "endUs": 51008675
+      },
+      "candidate": {
+        "startUs": 50848675,
+        "endUs": 51008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w112",
+      "text": "let's",
+      "control": {
+        "startUs": 51008675,
+        "endUs": 51168675
+      },
+      "candidate": {
+        "startUs": 51008675,
+        "endUs": 51168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w113",
+      "text": "do",
+      "control": {
+        "startUs": 51168675,
+        "endUs": 51328675
+      },
+      "candidate": {
+        "startUs": 51168675,
+        "endUs": 51328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w114",
+      "text": "the",
+      "control": {
+        "startUs": 51328675,
+        "endUs": 51568675
+      },
+      "candidate": {
+        "startUs": 51328675,
+        "endUs": 51568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w115",
+      "text": "first",
+      "control": {
+        "startUs": 52048675,
+        "endUs": 52368675
+      },
+      "candidate": {
+        "startUs": 52048675,
+        "endUs": 52368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w116",
+      "text": "paragraph,",
+      "control": {
+        "startUs": 52368675,
+        "endUs": 52928675
+      },
+      "candidate": {
+        "startUs": 52368675,
+        "endUs": 52928675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w117",
+      "text": "uh",
+      "control": {
+        "startUs": 54128675,
+        "endUs": 54528675
+      },
+      "candidate": {
+        "startUs": 54128675,
+        "endUs": 54528675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w117",
+          "side": "start",
+          "controlErrorMs": 0,
+          "candidateErrorMs": 0
+        },
+        {
+          "id": "w117",
+          "side": "end",
+          "controlErrorMs": -20,
+          "candidateErrorMs": -20
+        }
+      ]
+    },
+    {
+      "id": "w118",
+      "text": "this",
+      "control": {
+        "startUs": 55248675,
+        "endUs": 55408675
+      },
+      "candidate": {
+        "startUs": 55248675,
+        "endUs": 55408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w119",
+      "text": "page",
+      "control": {
+        "startUs": 55408675,
+        "endUs": 55808675
+      },
+      "candidate": {
+        "startUs": 55408675,
+        "endUs": 55808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w120",
+      "text": "is",
+      "control": {
+        "startUs": 55808675,
+        "endUs": 55968675
+      },
+      "candidate": {
+        "startUs": 55808675,
+        "endUs": 55968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w121",
+      "text": "a",
+      "control": {
+        "startUs": 55968675,
+        "endUs": 56048675
+      },
+      "candidate": {
+        "startUs": 55968675,
+        "endUs": 56048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w122",
+      "text": "recording",
+      "control": {
+        "startUs": 56048675,
+        "endUs": 56368675
+      },
+      "candidate": {
+        "startUs": 56048675,
+        "endUs": 56368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w123",
+      "text": "fixture.",
+      "control": {
+        "startUs": 56368675,
+        "endUs": 56928675
+      },
+      "candidate": {
+        "startUs": 56368675,
+        "endUs": 56928675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w124",
+      "text": "Its",
+      "control": {
+        "startUs": 57728675,
+        "endUs": 58208675
+      },
+      "candidate": {
+        "startUs": 57728675,
+        "endUs": 58208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w125",
+      "text": "landmark",
+      "control": {
+        "startUs": 58288675,
+        "endUs": 58768675
+      },
+      "candidate": {
+        "startUs": 58288675,
+        "endUs": 58768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w126",
+      "text": "makes",
+      "control": {
+        "startUs": 58848675,
+        "endUs": 59088675
+      },
+      "candidate": {
+        "startUs": 58848675,
+        "endUs": 59088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w127",
+      "text": "it",
+      "control": {
+        "startUs": 59088675,
+        "endUs": 59168675
+      },
+      "candidate": {
+        "startUs": 59088675,
+        "endUs": 59168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w128",
+      "text": "possible",
+      "control": {
+        "startUs": 59248675,
+        "endUs": 59568675
+      },
+      "candidate": {
+        "startUs": 59248675,
+        "endUs": 59568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w129",
+      "text": "to",
+      "control": {
+        "startUs": 59568675,
+        "endUs": 59568675
+      },
+      "candidate": {
+        "startUs": 59568675,
+        "endUs": 59568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w130",
+      "text": "describe",
+      "control": {
+        "startUs": 59568675,
+        "endUs": 60048675
+      },
+      "candidate": {
+        "startUs": 59568675,
+        "endUs": 60048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w131",
+      "text": "what",
+      "control": {
+        "startUs": 60048675,
+        "endUs": 60208675
+      },
+      "candidate": {
+        "startUs": 60048675,
+        "endUs": 60208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w132",
+      "text": "pointer",
+      "control": {
+        "startUs": 60288675,
+        "endUs": 60608675
+      },
+      "candidate": {
+        "startUs": 60288675,
+        "endUs": 60608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w133",
+      "text": "moved",
+      "control": {
+        "startUs": 60608675,
+        "endUs": 60928675
+      },
+      "candidate": {
+        "startUs": 60608675,
+        "endUs": 60928675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w134",
+      "text": "and",
+      "control": {
+        "startUs": 60928675,
+        "endUs": 61088675
+      },
+      "candidate": {
+        "startUs": 60928675,
+        "endUs": 61088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w135",
+      "text": "which",
+      "control": {
+        "startUs": 61088675,
+        "endUs": 61248675
+      },
+      "candidate": {
+        "startUs": 61088675,
+        "endUs": 61248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w136",
+      "text": "part",
+      "control": {
+        "startUs": 61328675,
+        "endUs": 61488675
+      },
+      "candidate": {
+        "startUs": 61328675,
+        "endUs": 61488675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w137",
+      "text": "of",
+      "control": {
+        "startUs": 61488675,
+        "endUs": 61568675
+      },
+      "candidate": {
+        "startUs": 61488675,
+        "endUs": 61568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w138",
+      "text": "the",
+      "control": {
+        "startUs": 61568675,
+        "endUs": 61568675
+      },
+      "candidate": {
+        "startUs": 61568675,
+        "endUs": 61568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w139",
+      "text": "page",
+      "control": {
+        "startUs": 61568675,
+        "endUs": 61888675
+      },
+      "candidate": {
+        "startUs": 61568675,
+        "endUs": 61888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w140",
+      "text": "was",
+      "control": {
+        "startUs": 61888675,
+        "endUs": 62048675
+      },
+      "candidate": {
+        "startUs": 61888675,
+        "endUs": 62048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w141",
+      "text": "visible.",
+      "control": {
+        "startUs": 62048675,
+        "endUs": 62528675
+      },
+      "candidate": {
+        "startUs": 62048675,
+        "endUs": 62528675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w142",
+      "text": "Scroll",
+      "control": {
+        "startUs": 63408675,
+        "endUs": 63888675
+      },
+      "candidate": {
+        "startUs": 63408675,
+        "endUs": 63888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w143",
+      "text": "slowly",
+      "control": {
+        "startUs": 63888675,
+        "endUs": 63968675
+      },
+      "candidate": {
+        "startUs": 63888675,
+        "endUs": 63968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w144",
+      "text": "to",
+      "control": {
+        "startUs": 64048675,
+        "endUs": 64128675
+      },
+      "candidate": {
+        "startUs": 64048675,
+        "endUs": 64128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w145",
+      "text": "reach",
+      "control": {
+        "startUs": 64128675,
+        "endUs": 64448675
+      },
+      "candidate": {
+        "startUs": 64128675,
+        "endUs": 64448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w146",
+      "text": "to",
+      "control": {
+        "startUs": 64848675,
+        "endUs": 64928675
+      },
+      "candidate": {
+        "startUs": 64848675,
+        "endUs": 64928675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w147",
+      "text": "read",
+      "control": {
+        "startUs": 65008675,
+        "endUs": 65248675
+      },
+      "candidate": {
+        "startUs": 65008675,
+        "endUs": 65248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w148",
+      "text": "each",
+      "control": {
+        "startUs": 65248675,
+        "endUs": 65568675
+      },
+      "candidate": {
+        "startUs": 65248675,
+        "endUs": 65568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w149",
+      "text": "section.",
+      "control": {
+        "startUs": 65648675,
+        "endUs": 66128675
+      },
+      "candidate": {
+        "startUs": 65648675,
+        "endUs": 66128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w150",
+      "text": "And",
+      "control": {
+        "startUs": 67648675,
+        "endUs": 67888675
+      },
+      "candidate": {
+        "startUs": 67648675,
+        "endUs": 67888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w151",
+      "text": "then",
+      "control": {
+        "startUs": 67888675,
+        "endUs": 68048675
+      },
+      "candidate": {
+        "startUs": 67888675,
+        "endUs": 68048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w152",
+      "text": "for",
+      "control": {
+        "startUs": 68128675,
+        "endUs": 68368675
+      },
+      "candidate": {
+        "startUs": 68128675,
+        "endUs": 68368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w153",
+      "text": "the",
+      "control": {
+        "startUs": 68368675,
+        "endUs": 68448675
+      },
+      "candidate": {
+        "startUs": 68368675,
+        "endUs": 68448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w154",
+      "text": "second",
+      "control": {
+        "startUs": 68448675,
+        "endUs": 68768675
+      },
+      "candidate": {
+        "startUs": 68448675,
+        "endUs": 68768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w155",
+      "text": "section,",
+      "control": {
+        "startUs": 68768675,
+        "endUs": 69248675
+      },
+      "candidate": {
+        "startUs": 68768675,
+        "endUs": 69248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w156",
+      "text": "a",
+      "control": {
+        "startUs": 69968675,
+        "endUs": 70048675
+      },
+      "candidate": {
+        "startUs": 69968675,
+        "endUs": 70048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w157",
+      "text": "sentence",
+      "control": {
+        "startUs": 70048675,
+        "endUs": 70448675
+      },
+      "candidate": {
+        "startUs": 70048675,
+        "endUs": 70448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w158",
+      "text": "to",
+      "control": {
+        "startUs": 70448675,
+        "endUs": 70528675
+      },
+      "candidate": {
+        "startUs": 70448675,
+        "endUs": 70528675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w159",
+      "text": "identify",
+      "control": {
+        "startUs": 70528675,
+        "endUs": 71088675
+      },
+      "candidate": {
+        "startUs": 70528675,
+        "endUs": 71088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w160",
+      "text": "the",
+      "control": {
+        "startUs": 72448675,
+        "endUs": 72608675
+      },
+      "candidate": {
+        "startUs": 72448675,
+        "endUs": 72608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w160",
+          "side": "start",
+          "controlErrorMs": 25,
+          "candidateErrorMs": 25
+        }
+      ]
+    },
+    {
+      "id": "w161",
+      "text": "sample",
+      "control": {
+        "startUs": 72608675,
+        "endUs": 73008675
+      },
+      "candidate": {
+        "startUs": 72608675,
+        "endUs": 73008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w162",
+      "text": "offer",
+      "control": {
+        "startUs": 73088675,
+        "endUs": 73408675
+      },
+      "candidate": {
+        "startUs": 73088675,
+        "endUs": 73408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w163",
+      "text": "says",
+      "control": {
+        "startUs": 73408675,
+        "endUs": 73808675
+      },
+      "candidate": {
+        "startUs": 73408675,
+        "endUs": 73808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w164",
+      "text": "this",
+      "control": {
+        "startUs": 73808675,
+        "endUs": 73968675
+      },
+      "candidate": {
+        "startUs": 73808675,
+        "endUs": 73968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w165",
+      "text": "is",
+      "control": {
+        "startUs": 73968675,
+        "endUs": 74128675
+      },
+      "candidate": {
+        "startUs": 73968675,
+        "endUs": 74128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w166",
+      "text": "free.",
+      "control": {
+        "startUs": 74128675,
+        "endUs": 74448675
+      },
+      "candidate": {
+        "startUs": 74128675,
+        "endUs": 74448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w167",
+      "text": "You",
+      "control": {
+        "startUs": 74768675,
+        "endUs": 74928675
+      },
+      "candidate": {
+        "startUs": 74768675,
+        "endUs": 74928675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w168",
+      "text": "can",
+      "control": {
+        "startUs": 74928675,
+        "endUs": 75088675
+      },
+      "candidate": {
+        "startUs": 74928675,
+        "endUs": 75088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w169",
+      "text": "mention",
+      "control": {
+        "startUs": 75168675,
+        "endUs": 75488675
+      },
+      "candidate": {
+        "startUs": 75168675,
+        "endUs": 75488675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w170",
+      "text": "the",
+      "control": {
+        "startUs": 75488675,
+        "endUs": 75648675
+      },
+      "candidate": {
+        "startUs": 75488675,
+        "endUs": 75648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w171",
+      "text": "sentence",
+      "control": {
+        "startUs": 75728675,
+        "endUs": 76288675
+      },
+      "candidate": {
+        "startUs": 75728675,
+        "endUs": 76288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w172",
+      "text": "in",
+      "control": {
+        "startUs": 76288675,
+        "endUs": 76448675
+      },
+      "candidate": {
+        "startUs": 76288675,
+        "endUs": 76448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w173",
+      "text": "your",
+      "control": {
+        "startUs": 76528675,
+        "endUs": 76608675
+      },
+      "candidate": {
+        "startUs": 76528675,
+        "endUs": 76608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w174",
+      "text": "narration",
+      "control": {
+        "startUs": 76688675,
+        "endUs": 77088675
+      },
+      "candidate": {
+        "startUs": 76688675,
+        "endUs": 77088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w175",
+      "text": "and",
+      "control": {
+        "startUs": 77728675,
+        "endUs": 77888675
+      },
+      "candidate": {
+        "startUs": 77728675,
+        "endUs": 77888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w176",
+      "text": "ask",
+      "control": {
+        "startUs": 77888675,
+        "endUs": 78208675
+      },
+      "candidate": {
+        "startUs": 77888675,
+        "endUs": 78208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w177",
+      "text": "an",
+      "control": {
+        "startUs": 78208675,
+        "endUs": 78288675
+      },
+      "candidate": {
+        "startUs": 78208675,
+        "endUs": 78288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w178",
+      "text": "external",
+      "control": {
+        "startUs": 78288675,
+        "endUs": 78768675
+      },
+      "candidate": {
+        "startUs": 78288675,
+        "endUs": 78768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w179",
+      "text": "agent",
+      "control": {
+        "startUs": 78768675,
+        "endUs": 79168675
+      },
+      "candidate": {
+        "startUs": 78768675,
+        "endUs": 79168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w180",
+      "text": "to",
+      "control": {
+        "startUs": 79168675,
+        "endUs": 79248675
+      },
+      "candidate": {
+        "startUs": 79168675,
+        "endUs": 79248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w181",
+      "text": "find",
+      "control": {
+        "startUs": 79328675,
+        "endUs": 79488675
+      },
+      "candidate": {
+        "startUs": 79328675,
+        "endUs": 79488675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w182",
+      "text": "the",
+      "control": {
+        "startUs": 79488675,
+        "endUs": 79568675
+      },
+      "candidate": {
+        "startUs": 79488675,
+        "endUs": 79568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w183",
+      "text": "spoken",
+      "control": {
+        "startUs": 79568675,
+        "endUs": 79968675
+      },
+      "candidate": {
+        "startUs": 79568675,
+        "endUs": 79968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w184",
+      "text": "phrase",
+      "control": {
+        "startUs": 80048675,
+        "endUs": 80368675
+      },
+      "candidate": {
+        "startUs": 80048675,
+        "endUs": 80368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w185",
+      "text": "from",
+      "control": {
+        "startUs": 80368675,
+        "endUs": 80848675
+      },
+      "candidate": {
+        "startUs": 80368675,
+        "endUs": 80848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w186",
+      "text": "the",
+      "control": {
+        "startUs": 81248675,
+        "endUs": 81408675
+      },
+      "candidate": {
+        "startUs": 81248675,
+        "endUs": 81408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w187",
+      "text": "recorded",
+      "control": {
+        "startUs": 81408675,
+        "endUs": 81888675
+      },
+      "candidate": {
+        "startUs": 81408675,
+        "endUs": 81888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w188",
+      "text": "devi",
+      "control": {
+        "startUs": 81888675,
+        "endUs": 82208675
+      },
+      "candidate": {
+        "startUs": 81888675,
+        "endUs": 82208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w189",
+      "text": "the",
+      "control": {
+        "startUs": 82528675,
+        "endUs": 82608675
+      },
+      "candidate": {
+        "startUs": 82528675,
+        "endUs": 82608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w190",
+      "text": "recorded",
+      "control": {
+        "startUs": 82928675,
+        "endUs": 83168675
+      },
+      "candidate": {
+        "startUs": 82928675,
+        "endUs": 83168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w191",
+      "text": "evidence.",
+      "control": {
+        "startUs": 83168675,
+        "endUs": 83728675
+      },
+      "candidate": {
+        "startUs": 83168675,
+        "endUs": 83728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w192",
+      "text": "Three",
+      "control": {
+        "startUs": 84928675,
+        "endUs": 85328675
+      },
+      "candidate": {
+        "startUs": 84928675,
+        "endUs": 85328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w193",
+      "text": "at",
+      "control": {
+        "startUs": 85408675,
+        "endUs": 85488675
+      },
+      "candidate": {
+        "startUs": 85408675,
+        "endUs": 85488675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w194",
+      "text": "moment",
+      "control": {
+        "startUs": 85568675,
+        "endUs": 85888675
+      },
+      "candidate": {
+        "startUs": 85568675,
+        "endUs": 85888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w195",
+      "text": "pause,",
+      "control": {
+        "startUs": 85968675,
+        "endUs": 86448675
+      },
+      "candidate": {
+        "startUs": 85968675,
+        "endUs": 86448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w196",
+      "text": "stop",
+      "control": {
+        "startUs": 87008675,
+        "endUs": 87248675
+      },
+      "candidate": {
+        "startUs": 87008675,
+        "endUs": 87248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w197",
+      "text": "scrolling",
+      "control": {
+        "startUs": 87248675,
+        "endUs": 87648675
+      },
+      "candidate": {
+        "startUs": 87248675,
+        "endUs": 87648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w198",
+      "text": "here,",
+      "control": {
+        "startUs": 87648675,
+        "endUs": 87968675
+      },
+      "candidate": {
+        "startUs": 87648675,
+        "endUs": 87968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w199",
+      "text": "point",
+      "control": {
+        "startUs": 88608675,
+        "endUs": 88848675
+      },
+      "candidate": {
+        "startUs": 88608675,
+        "endUs": 88848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w200",
+      "text": "at",
+      "control": {
+        "startUs": 88848675,
+        "endUs": 89008675
+      },
+      "candidate": {
+        "startUs": 88848675,
+        "endUs": 89008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w201",
+      "text": "the",
+      "control": {
+        "startUs": 89008675,
+        "endUs": 89008675
+      },
+      "candidate": {
+        "startUs": 89008675,
+        "endUs": 89008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w202",
+      "text": "number",
+      "control": {
+        "startUs": 89008675,
+        "endUs": 89408675
+      },
+      "candidate": {
+        "startUs": 89008675,
+        "endUs": 89408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w203",
+      "text": "marker,",
+      "control": {
+        "startUs": 89408675,
+        "endUs": 89968675
+      },
+      "candidate": {
+        "startUs": 89408675,
+        "endUs": 89968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w204",
+      "text": "move",
+      "control": {
+        "startUs": 90528675,
+        "endUs": 90688675
+      },
+      "candidate": {
+        "startUs": 90528675,
+        "endUs": 90688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w205",
+      "text": "away,",
+      "control": {
+        "startUs": 90688675,
+        "endUs": 91168675
+      },
+      "candidate": {
+        "startUs": 90688675,
+        "endUs": 91168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w206",
+      "text": "return",
+      "control": {
+        "startUs": 91168675,
+        "endUs": 91488675
+      },
+      "candidate": {
+        "startUs": 91168675,
+        "endUs": 91488675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w207",
+      "text": "to",
+      "control": {
+        "startUs": 91568675,
+        "endUs": 91728675
+      },
+      "candidate": {
+        "startUs": 91568675,
+        "endUs": 91728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w208",
+      "text": "it.",
+      "control": {
+        "startUs": 91728675,
+        "endUs": 91888675
+      },
+      "candidate": {
+        "startUs": 91728675,
+        "endUs": 91888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w209",
+      "text": "Stationary",
+      "control": {
+        "startUs": 92288675,
+        "endUs": 92768675
+      },
+      "candidate": {
+        "startUs": 92288675,
+        "endUs": 92768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w210",
+      "text": "background",
+      "control": {
+        "startUs": 92848675,
+        "endUs": 93248675
+      },
+      "candidate": {
+        "startUs": 92848675,
+        "endUs": 93248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w211",
+      "text": "with",
+      "control": {
+        "startUs": 93248675,
+        "endUs": 93328675
+      },
+      "candidate": {
+        "startUs": 93248675,
+        "endUs": 93328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w212",
+      "text": "the",
+      "control": {
+        "startUs": 93328675,
+        "endUs": 93408675
+      },
+      "candidate": {
+        "startUs": 93328675,
+        "endUs": 93408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w213",
+      "text": "active",
+      "control": {
+        "startUs": 93408675,
+        "endUs": 93728675
+      },
+      "candidate": {
+        "startUs": 93408675,
+        "endUs": 93728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w214",
+      "text": "pointer",
+      "control": {
+        "startUs": 93728675,
+        "endUs": 94128675
+      },
+      "candidate": {
+        "startUs": 93728675,
+        "endUs": 94128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w215",
+      "text": "helps",
+      "control": {
+        "startUs": 94128675,
+        "endUs": 94448675
+      },
+      "candidate": {
+        "startUs": 94128675,
+        "endUs": 94448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w216",
+      "text": "separate",
+      "control": {
+        "startUs": 94448675,
+        "endUs": 94768675
+      },
+      "candidate": {
+        "startUs": 94448675,
+        "endUs": 94768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w217",
+      "text": "gesture",
+      "control": {
+        "startUs": 94768675,
+        "endUs": 95328675
+      },
+      "candidate": {
+        "startUs": 94768675,
+        "endUs": 95328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w218",
+      "text": "from",
+      "control": {
+        "startUs": 95408675,
+        "endUs": 95728675
+      },
+      "candidate": {
+        "startUs": 95408675,
+        "endUs": 95728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w219",
+      "text": "scene",
+      "control": {
+        "startUs": 96288675,
+        "endUs": 96608675
+      },
+      "candidate": {
+        "startUs": 96288675,
+        "endUs": 96608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w220",
+      "text": "change.",
+      "control": {
+        "startUs": 96608675,
+        "endUs": 97088675
+      },
+      "candidate": {
+        "startUs": 96608675,
+        "endUs": 97088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w221",
+      "text": "Okay,",
+      "control": {
+        "startUs": 97888675,
+        "endUs": 97968675
+      },
+      "candidate": {
+        "startUs": 97888675,
+        "endUs": 97968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w222",
+      "text": "so",
+      "control": {
+        "startUs": 98128675,
+        "endUs": 98288675
+      },
+      "candidate": {
+        "startUs": 98128675,
+        "endUs": 98288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w223",
+      "text": "let's",
+      "control": {
+        "startUs": 98768675,
+        "endUs": 98848675
+      },
+      "candidate": {
+        "startUs": 98768675,
+        "endUs": 98848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w224",
+      "text": "move",
+      "control": {
+        "startUs": 98928675,
+        "endUs": 99008675
+      },
+      "candidate": {
+        "startUs": 98928675,
+        "endUs": 99008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w225",
+      "text": "away,",
+      "control": {
+        "startUs": 99088675,
+        "endUs": 99568675
+      },
+      "candidate": {
+        "startUs": 99088675,
+        "endUs": 99568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w226",
+      "text": "return",
+      "control": {
+        "startUs": 99648675,
+        "endUs": 99888675
+      },
+      "candidate": {
+        "startUs": 99648675,
+        "endUs": 99888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w227",
+      "text": "to",
+      "control": {
+        "startUs": 100048675,
+        "endUs": 100208675
+      },
+      "candidate": {
+        "startUs": 100048675,
+        "endUs": 100208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w228",
+      "text": "it.",
+      "control": {
+        "startUs": 100208675,
+        "endUs": 100288675
+      },
+      "candidate": {
+        "startUs": 100208675,
+        "endUs": 100288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w229",
+      "text": "Because",
+      "control": {
+        "startUs": 100528675,
+        "endUs": 100688675
+      },
+      "candidate": {
+        "startUs": 100528675,
+        "endUs": 100688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w230",
+      "text": "I'm",
+      "control": {
+        "startUs": 100688675,
+        "endUs": 100768675
+      },
+      "candidate": {
+        "startUs": 100688675,
+        "endUs": 100768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w231",
+      "text": "just",
+      "control": {
+        "startUs": 100768675,
+        "endUs": 101008675
+      },
+      "candidate": {
+        "startUs": 100768675,
+        "endUs": 101008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w232",
+      "text": "doing",
+      "control": {
+        "startUs": 101008675,
+        "endUs": 101088675
+      },
+      "candidate": {
+        "startUs": 101008675,
+        "endUs": 101088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w233",
+      "text": "my",
+      "control": {
+        "startUs": 101168675,
+        "endUs": 101248675
+      },
+      "candidate": {
+        "startUs": 101168675,
+        "endUs": 101248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w234",
+      "text": "pointer,",
+      "control": {
+        "startUs": 101248675,
+        "endUs": 101648675
+      },
+      "candidate": {
+        "startUs": 101248675,
+        "endUs": 101648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w235",
+      "text": "moving",
+      "control": {
+        "startUs": 101728675,
+        "endUs": 101968675
+      },
+      "candidate": {
+        "startUs": 101728675,
+        "endUs": 101968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w236",
+      "text": "away.",
+      "control": {
+        "startUs": 102048675,
+        "endUs": 102368675
+      },
+      "candidate": {
+        "startUs": 102048675,
+        "endUs": 102368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w237",
+      "text": "Return",
+      "control": {
+        "startUs": 103408675,
+        "endUs": 104208675
+      },
+      "candidate": {
+        "startUs": 103968675,
+        "endUs": 104208675
+      },
+      "deltaMs": {
+        "start": 560,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w237",
+          "side": "start",
+          "controlErrorMs": -560,
+          "candidateErrorMs": 0
+        }
+      ]
+    },
+    {
+      "id": "w238",
+      "text": "to",
+      "control": {
+        "startUs": 104288675,
+        "endUs": 104448675
+      },
+      "candidate": {
+        "startUs": 104288675,
+        "endUs": 104448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w239",
+      "text": "it.",
+      "control": {
+        "startUs": 104448675,
+        "endUs": 104608675
+      },
+      "candidate": {
+        "startUs": 104448675,
+        "endUs": 104608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w239",
+          "side": "end",
+          "controlErrorMs": 25,
+          "candidateErrorMs": 25
+        }
+      ]
+    },
+    {
+      "id": "w240",
+      "text": "End",
+      "control": {
+        "startUs": 105648675,
+        "endUs": 105808675
+      },
+      "candidate": {
+        "startUs": 105648675,
+        "endUs": 105808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w241",
+      "text": "the",
+      "control": {
+        "startUs": 105808675,
+        "endUs": 105968675
+      },
+      "candidate": {
+        "startUs": 105808675,
+        "endUs": 105968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w242",
+      "text": "route.",
+      "control": {
+        "startUs": 105968675,
+        "endUs": 106368675
+      },
+      "candidate": {
+        "startUs": 105968675,
+        "endUs": 106368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w243",
+      "text": "You",
+      "control": {
+        "startUs": 107088675,
+        "endUs": 107168675
+      },
+      "candidate": {
+        "startUs": 107088675,
+        "endUs": 107168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w244",
+      "text": "have",
+      "control": {
+        "startUs": 107168675,
+        "endUs": 107328675
+      },
+      "candidate": {
+        "startUs": 107168675,
+        "endUs": 107328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w245",
+      "text": "reached",
+      "control": {
+        "startUs": 107328675,
+        "endUs": 107648675
+      },
+      "candidate": {
+        "startUs": 107328675,
+        "endUs": 107648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w246",
+      "text": "the",
+      "control": {
+        "startUs": 107648675,
+        "endUs": 107648675
+      },
+      "candidate": {
+        "startUs": 107648675,
+        "endUs": 107648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w247",
+      "text": "final",
+      "control": {
+        "startUs": 107728675,
+        "endUs": 108048675
+      },
+      "candidate": {
+        "startUs": 107728675,
+        "endUs": 108048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w248",
+      "text": "waypoint.",
+      "control": {
+        "startUs": 108048675,
+        "endUs": 108688675
+      },
+      "candidate": {
+        "startUs": 108048675,
+        "endUs": 108688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w249",
+      "text": "Scroll",
+      "control": {
+        "startUs": 109328675,
+        "endUs": 109648675
+      },
+      "candidate": {
+        "startUs": 109248675,
+        "endUs": 109648675
+      },
+      "deltaMs": {
+        "start": -80,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w250",
+      "text": "back",
+      "control": {
+        "startUs": 109648675,
+        "endUs": 110048675
+      },
+      "candidate": {
+        "startUs": 109648675,
+        "endUs": 110048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w251",
+      "text": "to",
+      "control": {
+        "startUs": 110368675,
+        "endUs": 110368675
+      },
+      "candidate": {
+        "startUs": 110368675,
+        "endUs": 110368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w252",
+      "text": "the",
+      "control": {
+        "startUs": 110368675,
+        "endUs": 110608675
+      },
+      "candidate": {
+        "startUs": 110368675,
+        "endUs": 110608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w253",
+      "text": "reference",
+      "control": {
+        "startUs": 110848675,
+        "endUs": 111648675
+      },
+      "candidate": {
+        "startUs": 110848675,
+        "endUs": 111648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w254",
+      "text": "grid",
+      "control": {
+        "startUs": 111808675,
+        "endUs": 112128675
+      },
+      "candidate": {
+        "startUs": 111808675,
+        "endUs": 112128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w255",
+      "text": "to",
+      "control": {
+        "startUs": 112208675,
+        "endUs": 112208675
+      },
+      "candidate": {
+        "startUs": 112208675,
+        "endUs": 112208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w256",
+      "text": "repeat",
+      "control": {
+        "startUs": 112448675,
+        "endUs": 112608675
+      },
+      "candidate": {
+        "startUs": 112448675,
+        "endUs": 112608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w257",
+      "text": "the",
+      "control": {
+        "startUs": 112608675,
+        "endUs": 112688675
+      },
+      "candidate": {
+        "startUs": 112608675,
+        "endUs": 112688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w258",
+      "text": "same",
+      "control": {
+        "startUs": 112688675,
+        "endUs": 113008675
+      },
+      "candidate": {
+        "startUs": 112688675,
+        "endUs": 113008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w259",
+      "text": "route.",
+      "control": {
+        "startUs": 113008675,
+        "endUs": 113328675
+      },
+      "candidate": {
+        "startUs": 113008675,
+        "endUs": 113328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w260",
+      "text": "The",
+      "control": {
+        "startUs": 114608675,
+        "endUs": 114688675
+      },
+      "candidate": {
+        "startUs": 114608675,
+        "endUs": 114688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w261",
+      "text": "top",
+      "control": {
+        "startUs": 114768675,
+        "endUs": 115088675
+      },
+      "candidate": {
+        "startUs": 114768675,
+        "endUs": 115088675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w262",
+      "text": "and",
+      "control": {
+        "startUs": 115328675,
+        "endUs": 115488675
+      },
+      "candidate": {
+        "startUs": 115328675,
+        "endUs": 115488675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w263",
+      "text": "bottom",
+      "control": {
+        "startUs": 115488675,
+        "endUs": 115728675
+      },
+      "candidate": {
+        "startUs": 115488675,
+        "endUs": 115728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w264",
+      "text": "landmarks",
+      "control": {
+        "startUs": 115728675,
+        "endUs": 116208675
+      },
+      "candidate": {
+        "startUs": 115728675,
+        "endUs": 116208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w265",
+      "text": "have",
+      "control": {
+        "startUs": 116288675,
+        "endUs": 116368675
+      },
+      "candidate": {
+        "startUs": 116288675,
+        "endUs": 116368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w266",
+      "text": "different",
+      "control": {
+        "startUs": 116368675,
+        "endUs": 116688675
+      },
+      "candidate": {
+        "startUs": 116368675,
+        "endUs": 116688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w267",
+      "text": "labels",
+      "control": {
+        "startUs": 116688675,
+        "endUs": 117168675
+      },
+      "candidate": {
+        "startUs": 116688675,
+        "endUs": 117168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w268",
+      "text": "and",
+      "control": {
+        "startUs": 117168675,
+        "endUs": 117248675
+      },
+      "candidate": {
+        "startUs": 117168675,
+        "endUs": 117248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w269",
+      "text": "colors,",
+      "control": {
+        "startUs": 117328675,
+        "endUs": 117728675
+      },
+      "candidate": {
+        "startUs": 117328675,
+        "endUs": 117728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w270",
+      "text": "so",
+      "control": {
+        "startUs": 117728675,
+        "endUs": 117808675
+      },
+      "candidate": {
+        "startUs": 117728675,
+        "endUs": 117808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w271",
+      "text": "a",
+      "control": {
+        "startUs": 117808675,
+        "endUs": 118128675
+      },
+      "candidate": {
+        "startUs": 117808675,
+        "endUs": 118128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w272",
+      "text": "flipped",
+      "control": {
+        "startUs": 118128675,
+        "endUs": 118128675
+      },
+      "candidate": {
+        "startUs": 118128675,
+        "endUs": 118128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w273",
+      "text": "or",
+      "control": {
+        "startUs": 118128675,
+        "endUs": 118288675
+      },
+      "candidate": {
+        "startUs": 118128675,
+        "endUs": 118288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w274",
+      "text": "misplaced",
+      "control": {
+        "startUs": 118288675,
+        "endUs": 118848675
+      },
+      "candidate": {
+        "startUs": 118288675,
+        "endUs": 118848675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w275",
+      "text": "image",
+      "control": {
+        "startUs": 118848675,
+        "endUs": 119248675
+      },
+      "candidate": {
+        "startUs": 118848675,
+        "endUs": 119248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w276",
+      "text": "is",
+      "control": {
+        "startUs": 119328675,
+        "endUs": 119888675
+      },
+      "candidate": {
+        "startUs": 119328675,
+        "endUs": 119888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w277",
+      "text": "easier",
+      "control": {
+        "startUs": 121008675,
+        "endUs": 121328675
+      },
+      "candidate": {
+        "startUs": 121008675,
+        "endUs": 121328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w277",
+          "side": "start",
+          "controlErrorMs": 155,
+          "candidateErrorMs": 155
+        }
+      ]
+    },
+    {
+      "id": "w278",
+      "text": "to",
+      "control": {
+        "startUs": 121328675,
+        "endUs": 121408675
+      },
+      "candidate": {
+        "startUs": 121328675,
+        "endUs": 121408675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w279",
+      "text": "spot.",
+      "control": {
+        "startUs": 121408675,
+        "endUs": 121808675
+      },
+      "candidate": {
+        "startUs": 121408675,
+        "endUs": 121808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": [
+        {
+          "id": "w279",
+          "side": "end",
+          "controlErrorMs": -50,
+          "candidateErrorMs": -50
+        }
+      ]
+    },
+    {
+      "id": "w280",
+      "text": "Okay,",
+      "control": {
+        "startUs": 123248675,
+        "endUs": 123408675
+      },
+      "candidate": {
+        "startUs": 123088675,
+        "endUs": 123408675
+      },
+      "deltaMs": {
+        "start": -160,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w281",
+      "text": "so",
+      "control": {
+        "startUs": 123488675,
+        "endUs": 123968675
+      },
+      "candidate": {
+        "startUs": 123488675,
+        "endUs": 123968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w282",
+      "text": "let's",
+      "control": {
+        "startUs": 124448675,
+        "endUs": 124608675
+      },
+      "candidate": {
+        "startUs": 124448675,
+        "endUs": 124608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w283",
+      "text": "go",
+      "control": {
+        "startUs": 124608675,
+        "endUs": 124768675
+      },
+      "candidate": {
+        "startUs": 124608675,
+        "endUs": 124768675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w284",
+      "text": "back",
+      "control": {
+        "startUs": 124848675,
+        "endUs": 125008675
+      },
+      "candidate": {
+        "startUs": 124848675,
+        "endUs": 125008675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w285",
+      "text": "to",
+      "control": {
+        "startUs": 125088675,
+        "endUs": 125168675
+      },
+      "candidate": {
+        "startUs": 125088675,
+        "endUs": 125168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w286",
+      "text": "the",
+      "control": {
+        "startUs": 125168675,
+        "endUs": 125168675
+      },
+      "candidate": {
+        "startUs": 125168675,
+        "endUs": 125168675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w287",
+      "text": "reference",
+      "control": {
+        "startUs": 125248675,
+        "endUs": 125568675
+      },
+      "candidate": {
+        "startUs": 125248675,
+        "endUs": 125568675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w288",
+      "text": "grid.",
+      "control": {
+        "startUs": 125568675,
+        "endUs": 125808675
+      },
+      "candidate": {
+        "startUs": 125568675,
+        "endUs": 125808675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w289",
+      "text": "I've",
+      "control": {
+        "startUs": 125808675,
+        "endUs": 125968675
+      },
+      "candidate": {
+        "startUs": 125808675,
+        "endUs": 125968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w290",
+      "text": "clicked",
+      "control": {
+        "startUs": 126128675,
+        "endUs": 126288675
+      },
+      "candidate": {
+        "startUs": 126128675,
+        "endUs": 126288675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w291",
+      "text": "on",
+      "control": {
+        "startUs": 126288675,
+        "endUs": 126448675
+      },
+      "candidate": {
+        "startUs": 126288675,
+        "endUs": 126448675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w292",
+      "text": "this",
+      "control": {
+        "startUs": 126448675,
+        "endUs": 126608675
+      },
+      "candidate": {
+        "startUs": 126448675,
+        "endUs": 126608675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w293",
+      "text": "button",
+      "control": {
+        "startUs": 126608675,
+        "endUs": 126928675
+      },
+      "candidate": {
+        "startUs": 126608675,
+        "endUs": 126928675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w294",
+      "text": "here,",
+      "control": {
+        "startUs": 127008675,
+        "endUs": 127248675
+      },
+      "candidate": {
+        "startUs": 127008675,
+        "endUs": 127248675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w295",
+      "text": "and",
+      "control": {
+        "startUs": 127248675,
+        "endUs": 127328675
+      },
+      "candidate": {
+        "startUs": 127248675,
+        "endUs": 127328675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w296",
+      "text": "now",
+      "control": {
+        "startUs": 127408675,
+        "endUs": 127648675
+      },
+      "candidate": {
+        "startUs": 127408675,
+        "endUs": 127648675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w297",
+      "text": "I'm",
+      "control": {
+        "startUs": 127648675,
+        "endUs": 127728675
+      },
+      "candidate": {
+        "startUs": 127648675,
+        "endUs": 127728675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w298",
+      "text": "back",
+      "control": {
+        "startUs": 127728675,
+        "endUs": 127968675
+      },
+      "candidate": {
+        "startUs": 127728675,
+        "endUs": 127968675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w299",
+      "text": "to",
+      "control": {
+        "startUs": 127968675,
+        "endUs": 128048675
+      },
+      "candidate": {
+        "startUs": 127968675,
+        "endUs": 128048675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w300",
+      "text": "the",
+      "control": {
+        "startUs": 128048675,
+        "endUs": 128128675
+      },
+      "candidate": {
+        "startUs": 128048675,
+        "endUs": 128128675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w301",
+      "text": "reference",
+      "control": {
+        "startUs": 128128675,
+        "endUs": 128368675
+      },
+      "candidate": {
+        "startUs": 128128675,
+        "endUs": 128368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w302",
+      "text": "grid.",
+      "control": {
+        "startUs": 128368675,
+        "endUs": 128688675
+      },
+      "candidate": {
+        "startUs": 128368675,
+        "endUs": 128688675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w303",
+      "text": "Okay,",
+      "control": {
+        "startUs": 129648675,
+        "endUs": 129888675
+      },
+      "candidate": {
+        "startUs": 129648675,
+        "endUs": 129888675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w304",
+      "text": "that's",
+      "control": {
+        "startUs": 130048675,
+        "endUs": 130208675
+      },
+      "candidate": {
+        "startUs": 130048675,
+        "endUs": 130208675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    },
+    {
+      "id": "w305",
+      "text": "it.",
+      "control": {
+        "startUs": 130208675,
+        "endUs": 130368675
+      },
+      "candidate": {
+        "startUs": 130208675,
+        "endUs": 130368675
+      },
+      "deltaMs": {
+        "start": 0,
+        "end": 0
+      },
+      "independentEdges": []
+    }
+  ]
+}
