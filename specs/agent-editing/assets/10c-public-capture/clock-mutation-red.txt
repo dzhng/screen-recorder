@@ -1,0 +1,299 @@
+(node:66652) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    {
+      captureAtUs: 250000,
+      kind: 'cursor',
+      observation: {
+...
+      },
++     sourceAtUs: 250000,
+-     sourceAtUs: 0,
+      sourceSequence: 2
+    },
+    {
+      captureAtUs: 300001,
+      kind: 'cursor',
+...
+      },
++     sourceAtUs: 300001,
+-     sourceAtUs: 50001,
+      sourceSequence: 3
+    },
+    {
+      captureAtUs: 550001,
+      kind: 'cursor',
+...
+      },
++     sourceAtUs: 550001,
+-     sourceAtUs: 300001,
+      sourceSequence: 4
+    },
+    {
++     captureAtUs: 1500000,
++     kind: 'cursor',
++     observation: {
++       buttons: 0,
++       eligibility: 'inside',
++       geometryEpoch: 1,
++       globalX: 104,
++       globalY: 204,
++       sourceUs: 1500000,
++       x: 14,
++       y: 24
++     },
++     sourceAtUs: 1500000,
++     sourceSequence: 6
++   },
++   {
+      captureAtUs: 1750000,
+      kind: 'cursor',
+      observation: {
+        buttons: 1,
+        eligibility: 'inside',
+...
+      },
++     sourceAtUs: 1750000,
+-     sourceAtUs: 1500000,
+      sourceSequence: 7
+    },
+    {
+      captureAtUs: 2000000,
+      kind: 'cursor',
+...
+      },
++     sourceAtUs: 2000000,
+-     sourceAtUs: 1750000,
+      sourceSequence: 8
+    },
+-   {
+-     captureAtUs: 2749999,
+-     kind: 'cursor',
+-     observation: {
+-       buttons: 1,
+-       eligibility: 'inside',
+-       geometryEpoch: 1,
+-       globalX: 107,
+-       globalY: 207,
+-       sourceUs: 2749999,
+-       x: 17,
+-       y: 27
+-     },
+-     sourceAtUs: 2499999,
+-     sourceSequence: 9
+-   }
+  ]
+
+    at file:///private/tmp/screenrec-project-evidence-paging/packages/test-harness/editing/capture-evidence.mjs:164:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      kind: 'cursor',
+      sourceAtUs: 250000,
+      captureAtUs: 250000,
+      sourceSequence: 2,
+      observation: {
+        buttons: 0,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 100,
+        globalY: 200,
+        sourceUs: 250000,
+        x: 10,
+        y: 20
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 300001,
+      captureAtUs: 300001,
+      sourceSequence: 3,
+      observation: {
+        buttons: 1,
+        eligibility: 'outside',
+        geometryEpoch: 1,
+        globalX: 101,
+        globalY: 201,
+        sourceUs: 300001,
+        x: 11,
+        y: 21
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 550001,
+      captureAtUs: 550001,
+      sourceSequence: 4,
+      observation: {
+        buttons: 0,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 102,
+        globalY: 202,
+        sourceUs: 550001,
+        x: 12,
+        y: 22
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 1500000,
+      captureAtUs: 1500000,
+      sourceSequence: 6,
+      observation: {
+        buttons: 0,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 104,
+        globalY: 204,
+        sourceUs: 1500000,
+        x: 14,
+        y: 24
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 1750000,
+      captureAtUs: 1750000,
+      sourceSequence: 7,
+      observation: {
+        buttons: 1,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 105,
+        globalY: 205,
+        sourceUs: 1750000,
+        x: 15,
+        y: 25
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 2000000,
+      captureAtUs: 2000000,
+      sourceSequence: 8,
+      observation: {
+        buttons: 0,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 106,
+        globalY: 206,
+        sourceUs: 2000000,
+        x: 16,
+        y: 26
+      }
+    }
+  ],
+  expected: [
+    {
+      kind: 'cursor',
+      sourceAtUs: 0,
+      captureAtUs: 250000,
+      sourceSequence: 2,
+      observation: {
+        buttons: 0,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 100,
+        globalY: 200,
+        sourceUs: 250000,
+        x: 10,
+        y: 20
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 50001,
+      captureAtUs: 300001,
+      sourceSequence: 3,
+      observation: {
+        buttons: 1,
+        eligibility: 'outside',
+        geometryEpoch: 1,
+        globalX: 101,
+        globalY: 201,
+        sourceUs: 300001,
+        x: 11,
+        y: 21
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 300001,
+      captureAtUs: 550001,
+      sourceSequence: 4,
+      observation: {
+        buttons: 0,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 102,
+        globalY: 202,
+        sourceUs: 550001,
+        x: 12,
+        y: 22
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 1500000,
+      captureAtUs: 1750000,
+      sourceSequence: 7,
+      observation: {
+        buttons: 1,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 105,
+        globalY: 205,
+        sourceUs: 1750000,
+        x: 15,
+        y: 25
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 1750000,
+      captureAtUs: 2000000,
+      sourceSequence: 8,
+      observation: {
+        buttons: 0,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 106,
+        globalY: 206,
+        sourceUs: 2000000,
+        x: 16,
+        y: 26
+      }
+    },
+    {
+      kind: 'cursor',
+      sourceAtUs: 2499999,
+      captureAtUs: 2749999,
+      sourceSequence: 9,
+      observation: {
+        buttons: 1,
+        eligibility: 'inside',
+        geometryEpoch: 1,
+        globalX: 107,
+        globalY: 207,
+        sourceUs: 2749999,
+        x: 17,
+        y: 27
+      }
+    }
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0
