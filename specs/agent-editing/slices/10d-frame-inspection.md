@@ -98,3 +98,13 @@ asset/stream/context identity from actual recording/package views while retainin
 the canonical chunk and generation owners. Sampling, source scene preparation,
 retained screenshot selection/index generalization and projected scene events
 remain open; a completed store generation alone does not establish readiness.
+
+## Selected-source public delivery checkpoint
+
+[Public source-frame evidence](../assets/10d-source-frame-public/README.md) now
+covers actual CLI/MCP PNG delivery, mixed batches, retained acquisition authority,
+physical gaps and cancellation/retry. Exact color-managed pixels preserve the
+reviewed native reference set. Public custom video-mask admission is not covered:
+the existing acquisition importer exposes physical video support, while narrower
+mask verification remains native/core only. Raw still images and retained source
+index generalization remain open.

@@ -1,0 +1,9 @@
+✔ selected source pictures preserve explicit streams, physical sample clocks and excluded support (4267.66475ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4360.317542

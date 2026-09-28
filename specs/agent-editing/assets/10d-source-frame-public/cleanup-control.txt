@@ -1,0 +1,15 @@
+node:internal/fs/promises:637
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/tmp/source-frame-public-cleanup-control/report.json'
+    at async open (node:internal/fs/promises:637:25)
+    at async writeFile (node:internal/fs/promises:1239:14)
+    at async file:///private/tmp/source-frame-public-cleanup.mjs:335:5 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/tmp/source-frame-public-cleanup-control/report.json'
+}
+
+Node.js v24.14.0

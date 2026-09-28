@@ -1,0 +1,31 @@
+{
+  "passed": false,
+  "checks": {},
+  "frames": [],
+  "batches": [],
+  "imageProfiles": [
+    {
+      "file": "/tmp/source-frame-dimensions-control/track1-cli.png",
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "width": 64,
+      "opaque": true
+    },
+    {
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "height": 48,
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true
+    }
+  ],
+  "error": {
+    "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n+   48,\n    64,\n-   48\n  ]\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n+   48,\n    64,\n-   48\n  ]\n\n    at comparePicture (file:///private/tmp/source-frame-dimensions-control.mjs:49:10)\n    at async deliveredPair (file:///private/tmp/source-frame-dimensions-control.mjs:121:3)\n    at async file:///private/tmp/source-frame-dimensions-control.mjs:162:3"
+  },
+  "originalReportSha256": "76d130df531abfed3a7f0681a4f05b7a10c775d92a1751dda55a9d1cb5ea01b5"
+}

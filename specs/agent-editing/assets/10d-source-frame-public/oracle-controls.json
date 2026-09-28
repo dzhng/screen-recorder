@@ -1,0 +1,28 @@
+{
+  "reference": {
+    "opaque": true,
+    "height": 48,
+    "width": 64,
+    "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+    "sourceProfile": "kCGColorSpaceSRGB",
+    "outputProfile": "kCGColorSpaceSRGB"
+  },
+  "wrong-profile": {
+    "width": 64,
+    "opaque": true,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "height": 48,
+    "sourceProfile": "kCGColorSpaceLinearSRGB",
+    "sourceProfileSHA256": "42d1e258eddfda5492ad878a0077e1365c9662cfe90789c9663333f24bf3c3ff",
+    "oldRgbOnlyOracleWouldPass": true
+  },
+  "transparent": {
+    "sourceProfile": "kCGColorSpaceSRGB",
+    "width": 64,
+    "height": 48,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+    "opaque": false,
+    "oldRgbOnlyOracleWouldPass": false
+  }
+}

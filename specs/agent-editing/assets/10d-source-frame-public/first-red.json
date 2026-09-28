@@ -1,0 +1,39 @@
+{
+  "passed": false,
+  "checks": {},
+  "frames": [],
+  "batches": [],
+  "error": {
+    "message": "frame.get: {\"ok\":false,\"error\":{\"code\":\"INTERNAL_ERROR\",\"message\":\"Handler returned an invalid result\",\"retryable\":false,\"details\":{}},\"id\":\"d4fa7b56-54ed-4efb-8fb4-2e837e94e4e8\"}\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: frame.get: {\"ok\":false,\"error\":{\"code\":\"INTERNAL_ERROR\",\"message\":\"Handler returned an invalid result\",\"retryable\":false,\"details\":{}},\"id\":\"d4fa7b56-54ed-4efb-8fb4-2e837e94e4e8\"}\n\nfalse !== true\n\n    at JourneyService.call (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-evidence-fixture.mjs:110:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async poll (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-evidence-fixture.mjs:20:19)\n    at async deliveredPair (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:94:3)\n    at async file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:141:3"
+  },
+  "traceRuns": [
+    {
+      "entry": {
+        "operation": "asset.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    }
+  ],
+  "originalReportSha256": "34d3a18ed9a2b3cd600c689e1c3e30b244c152c2d96a111dc50d7aad15aaef09"
+}

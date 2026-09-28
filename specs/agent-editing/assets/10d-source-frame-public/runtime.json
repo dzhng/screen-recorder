@@ -1,0 +1,9 @@
+{
+  "packages/composition": "36981eac841e1495564aee05c089e06e04790788f0a7d0d8274d7738eee83448",
+  "packages/core": "48d1ed43b9c5a02820a5a19955b68a697929d3326e2473c930feb8fe8b9a4bd8",
+  "packages/protocol": "9d0186b9f3532fe9757d186ddee4b1026737f3ae797e5bfa3c20ea393dd9b464",
+  "packages/client": "50a3c671bc90df4d91eb4f6a9e042afb68a018f8690712d3e1e42d607cba1db1",
+  "apps/service": "3ca2d34bab5863abac4084435e3c69bcc2863f592e73f78c2b1a941fca42537b",
+  "apps/cli": "eb344585c893ac9dd70c6f0c878531e51d256f8cc13e833848bd4305d6405b3d",
+  "native": "e9da7a3ad9fcea28d95f7bdfa7b61a7fec505a246e08f3f624d8f1e17cb8b1ec"
+}

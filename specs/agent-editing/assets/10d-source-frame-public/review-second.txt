@@ -1,0 +1,20 @@
+Full local review log SHA256: 4edfa9e4b71cd6c90c3aff68ecec731562e701ba2a9953376c6e2ae421de35a9
+
+The retained report hash, reconstructed trace, and delivered-image RGBA hashes verified against existing runtime artifacts. However, two assertion gaps allow incorrect framing or MCP batch provenance to pass; no native build or frozen-binary changes were performed.
+
+Full review comments:
+
+- [P2] Compare image dimensions alongside decoded pixels — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:45-50
+  The oracle discards dimensions before comparing buffers. A PNG with the same flattened RGBA bytes but different width/height passes despite displaying different framing; the byte-length check only validates each image against itself. Return dimensions with the pixels and compare them against the reference, including agreement with published dimensions. This closes a false-positive path in the claimed visual-preservation gate ([test guidance](.agents/skills/write-tests/SKILL.md#L30-L34)).
+
+- [P2] Assert MCP batch ordering and per-item provenance — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:304-310
+  The MCP batch checks image bytes but never checks returned times or sample provenance. The retained evidence shows identical pixels for all three successful batch entries, so swapping the 150000 and 950000 results—or returning the earlier sample metadata for both—still passes. Assert MCP item ordering and call `provenance` for each successful item, as the CLI branch does; also assert the gap and range-error outcomes rather than only absent delivery fields. These are observable response values required by the local [test guidance](.agents/skills/write-tests/SKILL.md#L30-L34).
+The retained report hash, reconstructed trace, and delivered-image RGBA hashes verified against existing runtime artifacts. However, two assertion gaps allow incorrect framing or MCP batch provenance to pass; no native build or frozen-binary changes were performed.
+
+Full review comments:
+
+- [P2] Compare image dimensions alongside decoded pixels — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:45-50
+  The oracle discards dimensions before comparing buffers. A PNG with the same flattened RGBA bytes but different width/height passes despite displaying different framing; the byte-length check only validates each image against itself. Return dimensions with the pixels and compare them against the reference, including agreement with published dimensions. This closes a false-positive path in the claimed visual-preservation gate ([test guidance](.agents/skills/write-tests/SKILL.md#L30-L34)).
+
+- [P2] Assert MCP batch ordering and per-item provenance — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:304-310
+  The MCP batch checks image bytes but never checks returned times or sample provenance. The retained evidence shows identical pixels for all three successful batch entries, so swapping the 150000 and 950000 results—or returning the earlier sample metadata for both—still passes. Assert MCP item ordering and call `provenance` for each successful item, as the CLI branch does; also assert the gap and range-error outcomes rather than only absent delivery fields. These are observable response values required by the local [test guidance](.agents/skills/write-tests/SKILL.md#L30-L34).

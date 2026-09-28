@@ -1,0 +1,26 @@
+Full local review log SHA256: c8c14530bfcbf4defdf6785b41b153c1bbeeddfe039af906a66c25d5187a96cd
+
+The journey has false-positive gaps in image validation and a failure-path cleanup defect. Syntax checking passed; full runtime execution was intentionally deferred because no frozen runtime was supplied, and missing production routes were not treated as defects.
+
+Full review comments:
+
+- [P2] Compare color-managed images rather than untagged RGB bytes — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:25-30
+  FFmpeg's `rgb24` extraction does not apply the PNG's embedded ICC profile, so identical channel bytes tagged with an incorrect profile pass this oracle even though a color-managed client displays different colors. It also discards alpha. Validate the output profile and opacity, or decode both images through an independent color-managed renderer before comparing them.
+
+- [P2] Assert that unavailable MCP replies contain no images — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:122-127
+  For the MCP gap request, `service.call` discards `reply.content` and returns only structured data. Consequently, a reply containing the expected `unavailable` metadata plus an erroneous image passes these assertions. The cancellation check has the same blind spot, and the batch check inspects only successful image slots. Inspect the complete MCP replies and assert that unavailable/canceled items produce no image content or content index, including the mixed batch.
+
+- [P2] Guarantee scratch cleanup when evidence writes fail — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:289-291
+  If either evidence write fails—for example, because the output filesystem fills up or the requested directory disappears—execution skips `rm(home)`, leaving the scratch library, donor files, and compiled fixture behind. Put evidence publication inside a nested `try` with scratch removal in its `finally`, so cleanup remains unconditional as required by [write-tests](.agents/skills/write-tests/SKILL.md#L115-L116).
+The journey has false-positive gaps in image validation and a failure-path cleanup defect. Syntax checking passed; full runtime execution was intentionally deferred because no frozen runtime was supplied, and missing production routes were not treated as defects.
+
+Full review comments:
+
+- [P2] Compare color-managed images rather than untagged RGB bytes — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:25-30
+  FFmpeg's `rgb24` extraction does not apply the PNG's embedded ICC profile, so identical channel bytes tagged with an incorrect profile pass this oracle even though a color-managed client displays different colors. It also discards alpha. Validate the output profile and opacity, or decode both images through an independent color-managed renderer before comparing them.
+
+- [P2] Assert that unavailable MCP replies contain no images — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:122-127
+  For the MCP gap request, `service.call` discards `reply.content` and returns only structured data. Consequently, a reply containing the expected `unavailable` metadata plus an erroneous image passes these assertions. The cancellation check has the same blind spot, and the batch check inspects only successful image slots. Inspect the complete MCP replies and assert that unavailable/canceled items produce no image content or content index, including the mixed batch.
+
+- [P2] Guarantee scratch cleanup when evidence writes fail — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:289-291
+  If either evidence write fails—for example, because the output filesystem fills up or the requested directory disappears—execution skips `rm(home)`, leaving the scratch library, donor files, and compiled fixture behind. Put evidence publication inside a nested `try` with scratch removal in its `finally`, so cleanup remains unconditional as required by [write-tests](.agents/skills/write-tests/SKILL.md#L115-L116).
