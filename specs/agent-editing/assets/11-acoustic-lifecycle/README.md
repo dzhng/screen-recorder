@@ -44,7 +44,8 @@ image/file-boundary tests and all 20 render-lifetime tests with a frozen worker.
 The existing complete WAV/waveform-JSON public journey also passes. Independent
 review is clean after the context-warning fix; reviewer sandbox limitations do not
 replace these unrestricted runs. Final legend pixels and fresh visual review are
-retained here. Fresh image-based skill use is a separate remaining gate.
+retained here. [Fresh image-based skill use](../11-acoustic-skill/README.md) separately verifies
+agent navigation and numerical interpretation; it does not establish listening.
 
 This does not establish speech boundaries, editorial cleanup, denoise/retiming
 quality, natural joins or listening. Stretch-dependent artifact conformance must

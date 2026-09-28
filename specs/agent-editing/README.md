@@ -33,8 +33,8 @@ measurements, all nested taps, automatic overview, history and dependency retry.
 [Blind waveform skill use](assets/11-waveform-skill/README.md) also passes.
 [Labeled native images](assets/11-acoustic-raster/README.md) pass visual review.
 [Public acoustic lifecycle](assets/11-acoustic-lifecycle/README.md) passes masked FFT
-context, cache eviction, explicit retry, history and restart. Finish fresh image-based
-skill use and track retiming-dependent conformance before closing 11. PCM analysis is independent of event queries.
+context, cache eviction, explicit retry, history and restart. [Fresh image-based skill use](assets/11-acoustic-skill/README.md) also passes.
+Track retiming-dependent conformance before closing 11. PCM analysis is independent of event queries.
 
 [11a PCM delivery](slices/11a-audio-delivery.md) is verified, including actual
 [source WAVs](assets/11a-audio-extraction/README.md) and

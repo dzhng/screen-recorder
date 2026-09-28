@@ -1,6 +1,6 @@
 # 11 — Audio, waveforms and spectrograms
 
-Status: cached waveform JSON jobs and [actual public CLI/MCP delivery](../assets/11-waveform-public/README.md) are verified. [Public acoustic images and spectral lifecycle](../assets/11-acoustic-lifecycle/README.md) are verified; fresh image-based skill use and future retimed conformance remain. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
+Status: cached waveform JSON jobs and [actual public CLI/MCP delivery](../assets/11-waveform-public/README.md) are verified. [Public acoustic images and spectral lifecycle](../assets/11-acoustic-lifecycle/README.md) are verified; [fresh image-based skill use](../assets/11-acoustic-skill/README.md) also passes; future retimed conformance remains. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
 
 Dependencies: [11a](./11a-audio-delivery.md).
 

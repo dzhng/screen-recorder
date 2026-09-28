@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "model": "gpt-6-luna",
+  "context": "fork:none",
+  "skillSha256": "a827a997f6608a7fd81b9e7cdf45c5228c8271b14b92cabb252de1e9b2a27bc3",
+  "checks": {
+    "sourceIntervalSamples": [
+      38400,
+      38592
+    ],
+    "projectIntervalsUs": [
+      [
+        800000,
+        804000
+      ],
+      [
+        2800000,
+        2804000
+      ]
+    ],
+    "toneHzActual": [
+      750,
+      3000
+    ],
+    "toneHzEstimated": [
+      800,
+      3070
+    ],
+    "maximumToneErrorHz": 100,
+    "dryPeaks": [
+      0.32,
+      1.5
+    ],
+    "processedPeaks": [
+      0.16,
+      0.75
+    ],
+    "headUnchanged": true,
+    "onlyReadAndDiscoveryCommands": true,
+    "listeningClaimed": false,
+    "scratchServiceStoppedAndHomeRemoved": true
+  },
+  "runtimeSha256": {
+    "native": "540153b361ff661c945295c844dd95f19f2a1296d5d900ba39ef6fb00185c316",
+    "service": "288671c31ca281ddd0c7f2eef58c9dfcee310dd93f7415085b9670e7a9cddd21",
+    "cli": "df406b06b9b1a248a04e4a8d3ad2feff351c2709a5550c397dc9ba8fa7d3c8ce"
+  },
+  "artifactSha256": {
+    "results/source-spectrogram.png": "7af0be0d125a6280f65c3507332d8a4e8b163e5074847e0ea0bcbe1869a4e70d",
+    "results/track-processed.json": "42958136bb2f56ec95736f6c06d4e939fa22dab78d9929ede9121f9f4b320870",
+    "results/transient-waveform.json": "93e4ed0e8717cde6e7201e9fb44b708f260f88839e6fb3de0124bf4d1411b244",
+    "results/source-waveform.png": "cdb6f5252da4a2bf8d35f3cfae57988ce35f12711e11ee216d2b07eabc295cc0",
+    "results/processed-waveform.json": "68e748e8023ac1118daf0b9dcb1dc64ec07de54cb4fa14dbdf8afaf6a2940e96",
+    "results/source-waveform-fine.json": "4f2ccbe9dd1b47475c1b683c797998ea7080ce2ef3f166dccf0be224dbb87212",
+    "results/source-spectrogram-fine.png": "d48f768ccc4884ec2cc177cb31522b638ed6a29ad59c58da7feae5f579d39fc8",
+    "results/dry-waveform.json": "458f1653aeefbabb654bc567490131484aa46391f43b951d0f1edefe18fdbd46",
+    "results/track-dry.json": "d21f38081dbbdb9d08307c895ea236946a4ada7f581cea43ddb30bb4b7a96e86"
+  }
+}

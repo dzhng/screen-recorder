@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform measurements, inspect selected-source or edited-project pictures, or inspect captured cursor and timeline evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, inspect selected-source or edited-project pictures, or inspect captured cursor and timeline evidence.
 ---
 
 # Screenrec
@@ -105,8 +105,14 @@ automatic overview, then narrow the range and set bucketFrames for short sounds.
 Preserve its sampleRate and absolute sampleRange; a ranged excerpt does not reset
 the clock to zero. Compare channels separately and account for partial edge
 buckets and unavailable support. Min/max/RMS can locate energy changes but cannot
-prove silence, speech boundaries or a natural join. Pin the project revision while
-polling; an explicit waveform retry also retries its audio prerequisite.
+prove silence, speech boundaries or a natural join. For a visual view, request
+format:image and open the delivered PNG. Use spectrogram.get on a short window to
+inspect frequency content; narrow the range or adjust the advertised resolution
+when a limit refuses the request. Read each channel's axes and scale before comparing
+images. Incomplete FFT warnings can reflect missing audio outside the displayed
+range; inspect the returned context as well as the visible support. Pin the project
+revision while polling. Explicit acoustic retry recovers its prerequisites;
+ordinary reads do not restart canceled or failed work.
 
 For picture inspection, choose a raw source stream or a pinned project before
 requesting frames. Source requests use asset/stream identity, optional acquisition,
