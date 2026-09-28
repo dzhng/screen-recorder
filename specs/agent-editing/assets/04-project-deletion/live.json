@@ -1,0 +1,243 @@
+{
+  "liveStateJourney": true,
+  "liveMediaJourney": false,
+  "checks": [
+    "CLI/MCP idempotent deletion",
+    "deleted read/edit fences",
+    "historical reference retirement",
+    "original asset retained",
+    "restart replay cannot recreate project",
+    "absent deletion succeeds"
+  ],
+  "trace": [
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "create",
+        "canvas": {
+          "width": 160,
+          "height": 96,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "asset",
+        "path": "/private/tmp/screenrec-project-deletion/specs/agent-editing/assets/00-corpus/a-audio.wav"
+      },
+      "ok": true
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "4a7c897c-c8cd-45f7-8794-a6bb77b3a9a4"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba",
+        "requestId": "place",
+        "expectedRevisionId": "6199ff44-b795-4e3e-875c-1369a073c734",
+        "operations": [
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "audio",
+              "order": 0
+            },
+            "label": "voice"
+          },
+          {
+            "operation": "place",
+            "clip": {
+              "trackId": {
+                "label": "voice"
+              },
+              "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "transport": "mcp",
+      "operation": "project.delete",
+      "ok": true
+    },
+    {
+      "operation": "project.delete",
+      "params": {
+        "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba"
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba"
+      },
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba"
+        }
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba",
+        "requestId": "place",
+        "expectedRevisionId": "6199ff44-b795-4e3e-875c-1369a073c734",
+        "operations": [
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "audio",
+              "order": 0
+            },
+            "label": "voice"
+          },
+          {
+            "operation": "place",
+            "clip": {
+              "trackId": {
+                "label": "voice"
+              },
+              "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba"
+        }
+      }
+    },
+    {
+      "operation": "revision.get",
+      "params": {
+        "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba",
+        "revisionId": "42794eb3-2f55-4c42-b0a0-2b4fcb576317"
+      },
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba"
+        }
+      }
+    },
+    {
+      "operation": "project.list",
+      "params": {},
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.delete",
+      "params": {
+        "projectId": "c92344a2-9e03-40c3-970a-fb89d36808ba"
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "create",
+        "canvas": {
+          "width": 160,
+          "height": 96,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.list",
+      "params": {},
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.delete",
+      "params": {
+        "projectId": "absent"
+      },
+      "ok": true
+    }
+  ]
+}

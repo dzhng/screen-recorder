@@ -212,3 +212,55 @@ test("independent catalog writers reject a stale head and keep project paginatio
     }),
   ).toThrow(/cursor/);
 });
+
+test("deletion fences reads and replayed edits, survives restart, and retains creation identity", async () => {
+  const { home, path, catalog, store } = await setup();
+  const created = store.create({ requestId: "delete-me", canvas });
+  const id = created.project.projectId;
+  const request = { requestId: "noop", expectedRevisionId: created.revision.id, operations: [] };
+  store.apply(id, request);
+  expect(store.markDeleting(id)).toBe(true);
+  expect(store.list().projects).toEqual([]);
+  expect(() => store.get(id)).toThrow(/does not exist/);
+  expect(() => store.apply(id, request)).toThrow(/does not exist/);
+  catalog.close();
+  const reopenedCatalog = new Catalog(path);
+  cleanup.push(async () => reopenedCatalog.close());
+  const reopened = new ProjectStore(reopenedCatalog, new AssetStore(reopenedCatalog, home));
+  expect(reopened.deletionsPage().projectIds).toEqual([id]);
+  expect(reopened.isDeleting(id)).toBe(true);
+  expect(reopened.finishDeletionPage(id)).toBe(true);
+  expect(reopened.deletionsPage().projectIds).toEqual([]);
+  expect(reopened.create({ requestId: "delete-me", canvas })).toEqual(created);
+  expect(reopened.list().projects).toEqual([]);
+  expect(reopened.markDeleting(id)).toBe(false);
+  expect(reopened.markDeleting("absent")).toBe(false);
+});
+
+test("large deleted histories retire in restartable pages without losing the tombstone", async () => {
+  const { store, catalog } = await setup();
+  const created = store.create({ requestId: "paged", canvas });
+  let head = created.revision.id;
+  for (let i = 0; i < 1500; i++) {
+    head = store.apply(created.project.projectId, {
+      requestId: `edit-${i}`,
+      expectedRevisionId: head,
+      operations: [{ operation: "canvas.set", canvas: { width: 200 + i } }],
+    }).revision.id;
+  }
+  const id = created.project.projectId;
+  store.markDeleting(id);
+  let complete = false;
+  while (!complete) {
+    const before = Number(catalog.catalog.prepare("SELECT total_changes() AS count").get()!.count);
+    complete = store.finishDeletionPage(id);
+    const after = Number(catalog.catalog.prepare("SELECT total_changes() AS count").get()!.count);
+    // Empty-media histories must not retire thousands of rows in one blocking transaction.
+    expect(after - before).toBeLessThanOrEqual(1024);
+    if (!complete) expect(store.deletionsPage().projectIds).toEqual([id]);
+  }
+  expect(store.deletionsPage().projectIds).toEqual([]);
+  expect(store.isDeleting(id)).toBe(true);
+  expect(store.create({ requestId: "paged", canvas })).toEqual(created);
+  expect(store.list().projects).toEqual([]);
+});

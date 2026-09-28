@@ -1,0 +1,21 @@
+(node:97184) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"ok":true,"data":{"projectId":"f457f606-ed0b-42b2-8d74-28c0c984735a","title":"Untitled","createdAt":"2026-09-28T01:27:01.835Z","currentRevisionId":"f443edd5-2fbd-4016-9fa4-fcbb263fb724"},"id":"b6923939-dd95-43e7-a10e-094aa67eb0e5"}
+
+true !== false
+
+    at call (file:///private/tmp/screenrec-project-deletion/packages/test-harness/editing/project-deletion.mjs:39:10)
+    at async file:///private/tmp/screenrec-project-deletion/packages/test-harness/editing/project-deletion.mjs:108:17 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

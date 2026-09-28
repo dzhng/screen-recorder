@@ -1,3 +1,4 @@
+import { ProjectDeletion } from "./project-deletion.js";
 import { ProjectStore } from "@screenrec/core/projects";
 import { processingCapabilities } from "@screenrec/composition";
 import { randomUUID } from "node:crypto";
@@ -30,6 +31,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
   let catalog: Catalog | undefined;
   let jobs: JobQueue | undefined;
   let listener: LocalListener | undefined;
+  let deletion: ProjectDeletion | undefined;
   try {
     catalog = new Catalog(join(library, "catalog.sqlite"));
     const assets = new AssetStore(catalog, library);
@@ -53,7 +55,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
           throw error;
         }
       },
-      isDeleting: () => false,
+      isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
       isCapturing: () => false,
     };
     const queue = new JobQueue({
@@ -74,6 +76,9 @@ export async function startProjectService(options: { home: string; worker?: Medi
       },
     });
     jobs = queue;
+    const projectDeletion = new ProjectDeletion(projects, queue);
+    deletion = projectDeletion;
+    await projectDeletion.resume((error) => console.error(error));
     const status = (jobId: string) => {
       const job = queue.job(jobId);
       const publication = queue.status(job).published;
@@ -102,6 +107,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
                 ...(operation.params.title === undefined ? {} : { title: operation.params.title }),
               }),
             };
+          case "project.delete":
+            return { ok: true, data: await projectDeletion.delete(operation.params.projectId) };
           case "project.get":
             return { ok: true, data: projects.get(operation.params.projectId) };
           case "project.list":
@@ -232,6 +239,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             closing = true;
             await listener!.close();
             await Promise.allSettled(pending);
+            await projectDeletion.close();
             await queue.close();
             catalog!.close();
             ownership.release();
@@ -241,6 +249,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     };
   } catch (error) {
     await listener?.close();
+    await deletion?.close();
     await jobs?.close();
     catalog?.close();
     ownership.release();

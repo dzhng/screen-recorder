@@ -354,6 +354,15 @@ request replay before stale state. Reused ID with changed args is a conflict;
 failed edits do not publish partial state. Prepared unused assets are not partial
 edits and can be reclaimed explicitly when no job/revision retains them.
 
+Project deletion is idempotent by project ID, including an absent project. A durable
+marker immediately hides the project and fences reads and edits, including old
+edit retries. Creation retry still returns its original receipt but never recreates
+a deleted project. The service drains project jobs before retiring historical
+revision references. Originals remain assets; deletion does not reclaim them.
+Retained project and request identities prevent retry resurrection. Startup resumes
+unfinished retirement. As preview/export readers land, their owners must join the
+same drain boundary before revisions can be retired.
+
 Undo and restore append new revisions, never mutate historical identities.
 In-flight reads/jobs/exports pin a revision and dependencies across later edits.
 Cancellation drains worker resources before releasing leases. Jobs expose progress,

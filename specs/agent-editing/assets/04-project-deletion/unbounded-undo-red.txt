@@ -1,0 +1,30 @@
+$ vitest run --maxWorkers=4 src/projects.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-deletion/packages/core
+
+(node:1771) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/projects.test.ts (6 tests | 1 failed) 1573ms
+   × large deleted histories retire in restartable pages without losing the tombstone 1435ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/projects.test.ts > large deleted histories retire in restartable pages without losing the tombstone
+AssertionError: expected 1721 to be less than or equal to 1024
+ ❯ src/projects.test.ts:259:28
+    257|     const after = Number(catalog.catalog.prepare("SELECT total_changes…
+    258|     // Empty-media histories must not retire thousands of rows in one …
+    259|     expect(after - before).toBeLessThanOrEqual(1024);
+       |                            ^
+    260|     if (!complete) expect(store.deletionsPage().projectIds).toEqual([i…
+    261|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  18:30:28
+   Duration  2.58s (tests 69%, transform 21%, import 10%, worker 1%)
+
+error: script "test" exited with code 1

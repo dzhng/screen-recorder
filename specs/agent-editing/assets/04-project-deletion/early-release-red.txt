@@ -1,0 +1,39 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-deletion/apps/service
+
+ ❯ src/project-deletion.test.ts (1 test | 1 failed) 124ms
+   × deletion drains canceled executors before releasing shared media; interruption resumes 123ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  18:26:31
+   Duration  1.20s (transform 67%, import 19%, tests 13%, worker 1%)
+
+$ vitest run src/project-deletion.test.ts
+(node:96456) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-deletion.test.ts > deletion drains canceled executors before releasing shared media; interruption resumes
+AssertionError: expected [ Array(1) ] to deeply equal [ …(2) ]
+
+- Expected
++ Received
+
+  [
+-   "deea55d2-d5df-43f4-8529-3fcefc1859ba",
+    "e08de7ca-4ca9-4e24-85c4-8e91fb0ae5ce",
+  ]
+
+ ❯ src/project-deletion.test.ts:122:7
+    120|         .map((r) => r.id)
+    121|         .sort(),
+    122|     ).toEqual([first.revision.id, second.revision.id].sort());
+       |       ^
+    123|     expect(() => projects.get(target.projectId)).toThrow(/does not exi…
+    124|     expect(() => queue.retry(job.jobId)).toThrow();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+error: script "test" exited with code 1

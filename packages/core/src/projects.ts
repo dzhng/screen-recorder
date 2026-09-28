@@ -164,6 +164,64 @@ export class ProjectStore {
         rows.length > limit ? { afterSequence: rows[limit - 1]!.sequence as number } : null,
     };
   }
+  /** The marker fences all readers and new work before asynchronous owners drain. */
+  markDeleting(projectId: string): boolean {
+    return this.store.transaction(() => {
+      this.store.catalog
+        .prepare("UPDATE projects SET deletedAt=COALESCE(deletedAt,?) WHERE projectId=?")
+        .run(new Date().toISOString(), projectId);
+      return Boolean(
+        this.store.catalog
+          .prepare("SELECT 1 FROM project_revisions WHERE projectId=? LIMIT 1")
+          .get(projectId),
+      );
+    });
+  }
+  isDeleting(projectId: string): boolean {
+    return Boolean(
+      this.store.catalog
+        .prepare("SELECT 1 FROM projects WHERE projectId=? AND deletedAt IS NOT NULL")
+        .get(projectId),
+    );
+  }
+  deletionsPage(afterId = "") {
+    const rows = this.store.catalog
+      .prepare(`SELECT projectId FROM projects WHERE deletedAt IS NOT NULL AND projectId>?
+      AND EXISTS(SELECT 1 FROM project_revisions WHERE project_revisions.projectId=projects.projectId)
+      ORDER BY projectId LIMIT 256`)
+      .all(afterId);
+    const projectIds = rows.map((row) => row.projectId as string);
+    return { projectIds, nextAfterId: rows.length === 256 ? projectIds.at(-1)! : null };
+  }
+  /** Only the deletion coordinator calls this, after every asynchronous owner has drained. */
+  finishDeletionPage(projectId: string): boolean {
+    return this.store.transaction(() => {
+      if (!this.isDeleting(projectId))
+        throw new CatalogError("INVALID_STATE", "Project deletion has not been requested");
+      // Keep revisions as the recovery marker until undo retirement has also finished.
+      this.store.catalog
+        .prepare(`DELETE FROM project_undo WHERE rowid IN
+        (SELECT rowid FROM project_undo WHERE projectId=? LIMIT 256)`)
+        .run(projectId);
+      if (
+        this.store.catalog
+          .prepare("SELECT 1 FROM project_undo WHERE projectId=? LIMIT 1")
+          .get(projectId)
+      )
+        return false;
+      const rows = this.store.catalog
+        .prepare("SELECT id FROM project_revisions WHERE projectId=? LIMIT 256")
+        .all(projectId);
+      for (const row of rows) {
+        this.assets.release({ kind: "revision", id: row.id as string });
+        this.store.catalog.prepare("DELETE FROM project_revisions WHERE id=?").run(row.id!);
+      }
+      const complete = !this.store.catalog
+        .prepare("SELECT 1 FROM project_revisions WHERE projectId=? LIMIT 1")
+        .get(projectId);
+      return complete;
+    });
+  }
   revision(projectId: string, revisionId?: string): ProjectRevision {
     const project = this.get(projectId);
     const row = this.store.catalog
@@ -270,6 +328,7 @@ export class ProjectStore {
   private mutate<T>(projectId: string, requestId: string, args: unknown, run: () => T): T {
     const key = canonical(args);
     return this.store.transaction(() => {
+      this.get(projectId);
       const replay = this.store.catalog
         .prepare("SELECT arguments,result FROM project_requests WHERE projectId=? AND requestId=?")
         .get(projectId, requestId);

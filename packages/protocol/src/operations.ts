@@ -104,6 +104,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Create an empty managed project with an explicit canvas; replay requestId to recover the same project.",
     ),
   z
+    .object({ operation: z.literal("project.delete"), params: project })
+    .strict()
+    .describe(
+      "Delete a project and drain its work while preserving original assets. Repeating deletion succeeds; creation retries never recreate it.",
+    ),
+  z
     .object({ operation: z.literal("project.get"), params: project })
     .strict()
     .describe("Read project metadata and its current revision identity."),
@@ -694,6 +700,7 @@ const waits: Partial<Record<OperationName, number>> = {
   "package.open": drain,
   "package.close": drain,
   "recording.delete": drain,
+  "project.delete": drain,
   "storage.usage": drain,
 };
 

@@ -1,0 +1,30 @@
+$ vitest run --maxWorkers=4 src/projects.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-deletion/packages/core
+
+(node:87691) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/projects.test.ts (5 tests | 1 failed) 257ms
+   × deletion fences reads and replayed edits, survives restart, and retains creation identity 33ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/projects.test.ts > deletion fences reads and replayed edits, survives restart, and retains creation identity
+TypeError: store.markDeleting is not a function
+ ❯ src/projects.test.ts:222:16
+    220|   const request = { requestId: "noop", expectedRevisionId: created.rev…
+    221|   store.apply(id, request);
+    222|   expect(store.markDeleting(id)).toBe(true);
+       |                ^
+    223|   expect(store.list().projects).toEqual([]);
+    224|   expect(() => store.get(id)).toThrow(/does not exist/);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  18:22:06
+   Duration  1.10s (transform 46%, tests 29%, import 24%, worker 1%)
+
+error: script "test" exited with code 1

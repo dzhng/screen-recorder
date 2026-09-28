@@ -1,3 +1,4 @@
+import { ProjectStore } from "@screenrec/core/projects";
 import { mkdtemp, writeFile, rm, readdir, readFile } from "node:fs/promises";
 import { fork } from "node:child_process";
 import { once } from "node:events";
@@ -5,7 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { afterEach, expect, test } from "vitest";
-import type { AssetStore } from "@screenrec/core/assets";
+import { AssetStore } from "@screenrec/core/assets";
 import { Catalog } from "@screenrec/core/catalog";
 import { callLocal } from "@screenrec/client";
 import { startProjectService } from "./project-service.js";
@@ -298,4 +299,45 @@ test("large provenance history cannot hide metadata and every origin remains pag
   expect(observed.map((origin) => JSON.stringify(origin))).toEqual(
     expected.map((origin) => JSON.stringify(origin)).sort(),
   );
+});
+
+test("startup resumes a committed project deletion marker before serving requests", async () => {
+  const f = await setup(async () => ({ ok: true, data: metadata }));
+  const creation = {
+    requestId: "resume",
+    canvas: {
+      width: 160,
+      height: 96,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  };
+  const created = await f.call("project.create", creation);
+  expect(created.ok).toBe(true);
+  if (!created.ok) return;
+  const { project } = created.data as { project: { projectId: string } };
+  await f.service.close();
+  const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
+  const projects = new ProjectStore(catalog, new AssetStore(catalog, join(f.home, "library")));
+  expect(projects.markDeleting(project.projectId)).toBe(true);
+  catalog.close();
+  const restarted = await startProjectService({ home: f.home });
+  cleanups.push(() => restarted.close());
+  expect(
+    await callLocal(restarted.socketPath, {
+      id: "get",
+      operation: "project.get",
+      params: { projectId: project.projectId },
+    }),
+  ).toMatchObject({ ok: false, error: { code: "NOT_FOUND" } });
+  await restarted.close();
+  const check = new Catalog(join(f.home, "library/catalog.sqlite"));
+  try {
+    const store = new ProjectStore(check, new AssetStore(check, join(f.home, "library")));
+    expect(store.deletionsPage().projectIds).toEqual([]);
+    expect(store.create(creation)).toEqual(created.data);
+    expect(store.list().projects).toEqual([]);
+  } finally {
+    check.close();
+  }
 });

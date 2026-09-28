@@ -108,3 +108,10 @@ Assets/jobs/revisions/exports retain dependencies explicitly. Deletion checks
 actual references and active leases; derived-cache eviction never destroys
 original or generated media. No new periodic janitor without a demonstrated
 lifecycle requirement; reuse startup recovery and explicit storage cleanup.
+
+Project deletion is coordinated by the service over existing resource owners. Core
+owns the durable fence and releases revision dependencies in bounded transactions
+only after the coordinator drains jobs. Retained revision rows are the unfinished
+retirement journal; the project tombstone and replay identities survive completion.
+New project lifetime owners must join this coordinator before dependency retirement;
+no second job queue or periodic cleanup loop is needed.
