@@ -81,3 +81,7 @@ protected-phoneme, retimed/combined-input or production integration acceptance.
 [Brief transient controls](../assets/12c-transient-noise/README.md) extend the
 stationary comparison with fixed bursts. Noise-only attenuation differs across
 these cohorts; mixed-speech error still cannot establish protected speech quality.
+
+[Channel-relation controls](../assets/12c-channel-relations/README.md) measure
+identical, inverted and half-level channels without adopting independent stereo
+processing. The small measured balance change is not an audible acceptance verdict.

@@ -1,0 +1,9 @@
+{
+  "integratedCommit": "3af9301f",
+  "retainedFilesVerified": 33,
+  "rootEndpointReportSha256": "6b3149588e2751bf212053ba1d60d3f5f2fa58c1b0f57d434a9763aef40f29a1",
+  "rootJoinReportSha256": "28d9189ba5db1899529a755ed3615bebf424c47c6f172662e0a34210560740ec",
+  "speechRenders": 32,
+  "retainedAuditionWavsExact": 9,
+  "listening": "pending optional user feedback; not accepted"
+}

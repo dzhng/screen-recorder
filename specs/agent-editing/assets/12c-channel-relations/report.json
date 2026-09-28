@@ -1,0 +1,75 @@
+{
+  "planSha256": "561de56473fb22566083f90e871db668fe01c6d88724acbb8a8891621d34f7a4",
+  "baselineInputSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+  "baselineOutputSha256": "64323229c2b4d4b8412cff23972920e216c029a777c59e567ebf5e24a222d4c2",
+  "processorSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "cases": [
+    {
+      "name": "identical",
+      "inputGain": 1.0,
+      "inputSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+      "outputSha256": "64323229c2b4d4b8412cff23972920e216c029a777c59e567ebf5e24a222d4c2",
+      "frames": 240000,
+      "clippedSamples": 0,
+      "differentSamplesFromProportionalOutput": 0,
+      "maximumAbsoluteProportionalError": 0.0,
+      "rmsProportionalError": 0.0,
+      "outputRmsRatio": 1.0,
+      "relativeBalanceChangeDb": 0.0,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-api",
+        "/tmp/screenrec-denoise-channel-study/identical-input.f32",
+        "/tmp/screenrec-denoise-channel-study/identical-raw.f32",
+        "2"
+      ]
+    },
+    {
+      "name": "inverted",
+      "inputGain": -1.0,
+      "inputSha256": "2387cc0da4f78f9a6e14f5004d6a4feed4374fcf8aaa0503a9b39048f1d7fb18",
+      "outputSha256": "cb4bcc9f6a5cd59a010399fefb4db61705c00f921ba13a509331905e18afd59c",
+      "frames": 240000,
+      "clippedSamples": 0,
+      "differentSamplesFromProportionalOutput": 0,
+      "maximumAbsoluteProportionalError": 0.0,
+      "rmsProportionalError": 0.0,
+      "outputRmsRatio": 1.0,
+      "relativeBalanceChangeDb": 0.0,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-api",
+        "/tmp/screenrec-denoise-channel-study/inverted-input.f32",
+        "/tmp/screenrec-denoise-channel-study/inverted-raw.f32",
+        "2"
+      ]
+    },
+    {
+      "name": "half",
+      "inputGain": 0.5,
+      "inputSha256": "192ccadb7308c76034230d877e9ec0c5634afafd5e5286a027ed623324dda5a3",
+      "outputSha256": "0776eaf157acd79c90377fc2ea75565385c8bf59b33faa3c74c916e92dd71835",
+      "frames": 240000,
+      "clippedSamples": 0,
+      "differentSamplesFromProportionalOutput": 240000,
+      "maximumAbsoluteProportionalError": 0.0005114860832691193,
+      "rmsProportionalError": 5.83251568033529e-05,
+      "outputRmsRatio": 0.4984737816072302,
+      "relativeBalanceChangeDb": -0.026553676404755505,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-api",
+        "/tmp/screenrec-denoise-channel-study/half-input.f32",
+        "/tmp/screenrec-denoise-channel-study/half-raw.f32",
+        "2"
+      ]
+    }
+  ],
+  "elapsedSeconds": 1.4152798340073787
+}

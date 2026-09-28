@@ -16,12 +16,7 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. [10d picture/index](slices/10d-frame-inspection.md) and the
-   [10 occurrence-inspection umbrella](slices/10-project-evidence.md) are accepted.
-   [Completion evidence](assets/10d-joint-preservation/completion.md) reconciles
-   their full scope, combined renderer bindings and current native preservation.
-   Continue with the remaining priorities below; do not reopen these as unbuilt.
-2. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
+1. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
    skill use and remaining geometry acceptance. Static presenter/stack/edit behavior passes
    [public journeys](assets/15-layer-public/README.md),
    [fresh skill use](assets/15-layer-skill/README.md) and
@@ -32,7 +27,7 @@ Current pickup and priority:
    journeys, preserving cache-ready reads and explicit retries.
    [Combined worker checks](assets/15-pointer-integration/README.md) retain scoped
    geometry and non-pointer preservation; full color/profile acceptance stays open.
-3. Advance the unresolved media risks before adopting processors: speech
+2. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue
    other dependency-ready slices; these priorities do not remove later scope.
@@ -80,6 +75,13 @@ Compact evidence ledger:
   attenuation/reference-distortion tradeoff. [Clean-reference and level controls](assets/12c-clean-reference/README.md)
   extend it. The user prefers the learned audition; carry RNNoise forward while
   protected phonemes, joins and broader listening remain open.
+  [Transient noise](assets/12c-transient-noise/README.md) and
+  [channel relations](assets/12c-channel-relations/README.md) extend measured
+  coverage without selecting a stereo policy.
+- [Stretch endpoint and guarded-join evidence](assets/13a-endpoint-verification/README.md)
+  retains full-support measurements and real-speech auditions. Root integration
+  reproduces all 32 renders and nine retained WAVs exactly. Listening, independent
+  protected-word labels and short-input quality remain open.
 
 Use isolated homes and frozen workers. Imported assets never fabricate recording
 rows or narration roles; preserve physical support and acquisition provenance.

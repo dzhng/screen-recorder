@@ -1975,3 +1975,20 @@ existing lifetime owner.
   pointer steps. Production passes the validated composition in process; public
   manifests gain no capture metadata. Joint image/pointer recipe identities prevent
   reuse of incompatible disposable receipts; the image pass owns Catalog13.
+
+## Guarded stretch research inputs
+
+- **Sound, medium confidence — make phrase guards part of the selected input.**
+  The existing visual phrase marks have about 25 ms uncertainty. The audition
+  includes an explicitly selected 25 ms on either side before stretching, then
+  leaves the outer 250 ms untouched. This allows a useful join comparison without
+  secretly feeding excluded neighboring speech into the processor. The original
+  plan did not choose audition margins. These are research selections, not an
+  automatic editor policy; independent complete-word labels still need proof.
+- **Sound, high confidence — separate a whole utterance from labeled word spans.**
+  The clean reference has a transcript but no sample-exact first/last-word times.
+  Processing its whole file provides a listening control for MISTER and GOSPEL,
+  while claiming precise protected-word spans would invent evidence. The plan
+  permits independent clean controls without prescribing this clip. Future
+  endpoint acceptance must retain this distinction; file boundaries are not
+  automatically word boundaries.
