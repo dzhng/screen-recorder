@@ -1,6 +1,6 @@
 # 15 — Layers, crop and pointer geometry
 
-Status: compiler/native geometry, [public static layer delivery](../assets/15-layer-public/README.md), [processed edit delivery](../assets/15-layer-edits/README.md) and [moving-source edit delivery](../assets/15-layer-edit-motion/README.md) verified for their named scopes; [native evidence](../assets/15-layer-geometry/README.md). Pointer adoption and wider visual/profile acceptance remain open. Dependencies: [09](./09-first-preview.md).
+Status: compiler/native geometry, [public static layer delivery](../assets/15-layer-public/README.md), [processed edit delivery](../assets/15-layer-edits/README.md) and [moving-source edit delivery](../assets/15-layer-edit-motion/README.md) verified for their named scopes; [native evidence](../assets/15-layer-geometry/README.md). [Public pointer alpha geometry](../assets/15-pointer-alpha/README.md) passes its numerical gates with fresh visual review pending. Pointer adoption and wider visual/profile acceptance remain open. Dependencies: [09](./09-first-preview.md).
 
 ## Contract
 
@@ -284,6 +284,14 @@ whole-chain public cohort, its disproven flattened-source reference, per-stage
 localization and matched writer/decoder controls. The invalid oracle is archived,
 not installed as a default acceptance test. Bitrate and ProRes4:4:4 probes fail the
 original intact-pointer delivery criterion; an ICC-normalized uncompressed RGB
-control passes. No production profile is promoted. Next use a branch-preserving
-or independently validated alpha/support reference, while keeping slice06
-encoded color/coverage acceptance separate and open.
+control passes. No production profile is promoted. The alpha/support checkpoint below tests
+geometry independently, while slice06 encoded color/coverage acceptance remains
+separate and open.
+
+## Pointer alpha geometry checkpoint
+
+[Branch-preserving public alpha evidence](../assets/15-pointer-alpha/README.md)
+measures the complete pointer support through two canvases and all fit modes,
+successive clip geometry, track, nested groups and output rotation. It retains
+one-pixel shift and missing-pointer controls. Fresh visual acceptance is pending;
+the strict encoded color/profile gates remain open and unchanged.

@@ -1,0 +1,1202 @@
+[
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-0-clip-fit.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-0-clip-fit-crop.png",
+    "bbox": [
+      28,
+      44,
+      92,
+      81
+    ],
+    "retainedFile": "../images/256x160-contain-0-clip-fit.png",
+    "retainedCrop": "256x160-contain-0-clip-fit-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-0-clip-second.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-0-clip-second-crop.png",
+    "bbox": [
+      33,
+      47,
+      95,
+      82
+    ],
+    "retainedFile": "../images/256x160-contain-0-clip-second.png",
+    "retainedCrop": "256x160-contain-0-clip-second-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-0-inner.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-0-inner-crop.png",
+    "bbox": [
+      158,
+      77,
+      218,
+      111
+    ],
+    "retainedFile": "../images/256x160-contain-0-inner.png",
+    "retainedCrop": "256x160-contain-0-inner-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-0-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-0-outer-crop.png",
+    "bbox": [
+      38,
+      49,
+      98,
+      83
+    ],
+    "retainedFile": "../images/256x160-contain-0-outer.png",
+    "retainedCrop": "256x160-contain-0-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-0-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-0-output-dry-crop.png",
+    "bbox": [
+      39,
+      49,
+      97,
+      82
+    ],
+    "retainedFile": "../images/256x160-contain-0-output-dry.png",
+    "retainedCrop": "256x160-contain-0-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-0-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-0-output-turn-crop.png",
+    "bbox": [
+      159,
+      78,
+      217,
+      111
+    ],
+    "retainedFile": "../images/256x160-contain-0-output-turn.png",
+    "retainedCrop": "256x160-contain-0-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-0-track.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-0-track-crop.png",
+    "bbox": [
+      161,
+      78,
+      223,
+      113
+    ],
+    "retainedFile": "../images/256x160-contain-0-track.png",
+    "retainedCrop": "256x160-contain-0-track-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-1-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-1-outer-crop.png",
+    "bbox": [
+      38,
+      49,
+      116,
+      86
+    ],
+    "retainedFile": "../images/256x160-contain-1-outer.png",
+    "retainedCrop": "256x160-contain-1-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-1-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-1-output-dry-crop.png",
+    "bbox": [
+      39,
+      49,
+      115,
+      85
+    ],
+    "retainedFile": "../images/256x160-contain-1-output-dry.png",
+    "retainedCrop": "256x160-contain-1-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-1-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-1-output-turn-crop.png",
+    "bbox": [
+      141,
+      75,
+      217,
+      111
+    ],
+    "retainedFile": "../images/256x160-contain-1-output-turn.png",
+    "retainedCrop": "256x160-contain-1-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-2-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-2-outer-crop.png",
+    "bbox": [
+      56,
+      52,
+      116,
+      86
+    ],
+    "retainedFile": "../images/256x160-contain-2-outer.png",
+    "retainedCrop": "256x160-contain-2-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-2-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-2-output-dry-crop.png",
+    "bbox": [
+      57,
+      53,
+      115,
+      85
+    ],
+    "retainedFile": "../images/256x160-contain-2-output-dry.png",
+    "retainedCrop": "256x160-contain-2-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-2-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-2-output-turn-crop.png",
+    "bbox": [
+      141,
+      75,
+      199,
+      107
+    ],
+    "retainedFile": "../images/256x160-contain-2-output-turn.png",
+    "retainedCrop": "256x160-contain-2-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-3-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-3-outer-crop.png",
+    "bbox": [
+      56,
+      52,
+      133,
+      89
+    ],
+    "retainedFile": "../images/256x160-contain-3-outer.png",
+    "retainedCrop": "256x160-contain-3-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-3-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-3-output-dry-crop.png",
+    "bbox": [
+      57,
+      53,
+      132,
+      88
+    ],
+    "retainedFile": "../images/256x160-contain-3-output-dry.png",
+    "retainedCrop": "256x160-contain-3-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-contain-3-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-contain-3-output-turn-crop.png",
+    "bbox": [
+      124,
+      72,
+      199,
+      107
+    ],
+    "retainedFile": "../images/256x160-contain-3-output-turn.png",
+    "retainedCrop": "256x160-contain-3-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-0-clip-fit.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-0-clip-fit-crop.png",
+    "bbox": [
+      18,
+      39,
+      88,
+      81
+    ],
+    "retainedFile": "../images/256x160-cover-0-clip-fit.png",
+    "retainedCrop": "256x160-cover-0-clip-fit-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-0-clip-second.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-0-clip-second-crop.png",
+    "bbox": [
+      24,
+      42,
+      91,
+      82
+    ],
+    "retainedFile": "../images/256x160-cover-0-clip-second.png",
+    "retainedCrop": "256x160-cover-0-clip-second-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-0-inner.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-0-inner-crop.png",
+    "bbox": [
+      162,
+      77,
+      226,
+      115
+    ],
+    "retainedFile": "../images/256x160-cover-0-inner.png",
+    "retainedCrop": "256x160-cover-0-inner-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-0-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-0-outer-crop.png",
+    "bbox": [
+      30,
+      45,
+      94,
+      83
+    ],
+    "retainedFile": "../images/256x160-cover-0-outer.png",
+    "retainedCrop": "256x160-cover-0-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-0-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-0-output-dry-crop.png",
+    "bbox": [
+      30,
+      46,
+      92,
+      82
+    ],
+    "retainedFile": "../images/256x160-cover-0-output-dry.png",
+    "retainedCrop": "256x160-cover-0-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-0-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-0-output-turn-crop.png",
+    "bbox": [
+      164,
+      78,
+      226,
+      114
+    ],
+    "retainedFile": "../images/256x160-cover-0-output-turn.png",
+    "retainedCrop": "256x160-cover-0-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-0-track.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-0-track-crop.png",
+    "bbox": [
+      165,
+      78,
+      232,
+      118
+    ],
+    "retainedFile": "../images/256x160-cover-0-track.png",
+    "retainedCrop": "256x160-cover-0-track-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-1-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-1-outer-crop.png",
+    "bbox": [
+      30,
+      45,
+      115,
+      86
+    ],
+    "retainedFile": "../images/256x160-cover-1-outer.png",
+    "retainedCrop": "256x160-cover-1-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-1-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-1-output-dry-crop.png",
+    "bbox": [
+      30,
+      46,
+      113,
+      85
+    ],
+    "retainedFile": "../images/256x160-cover-1-output-dry.png",
+    "retainedCrop": "256x160-cover-1-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-1-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-1-output-turn-crop.png",
+    "bbox": [
+      143,
+      75,
+      226,
+      114
+    ],
+    "retainedFile": "../images/256x160-cover-1-output-turn.png",
+    "retainedCrop": "256x160-cover-1-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-2-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-2-outer-crop.png",
+    "bbox": [
+      47,
+      49,
+      115,
+      86
+    ],
+    "retainedFile": "../images/256x160-cover-2-outer.png",
+    "retainedCrop": "256x160-cover-2-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-2-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-2-output-dry-crop.png",
+    "bbox": [
+      48,
+      49,
+      113,
+      85
+    ],
+    "retainedFile": "../images/256x160-cover-2-output-dry.png",
+    "retainedCrop": "256x160-cover-2-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-2-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-2-output-turn-crop.png",
+    "bbox": [
+      143,
+      75,
+      208,
+      111
+    ],
+    "retainedFile": "../images/256x160-cover-2-output-turn.png",
+    "retainedCrop": "256x160-cover-2-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-3-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-3-outer-crop.png",
+    "bbox": [
+      48,
+      49,
+      134,
+      90
+    ],
+    "retainedFile": "../images/256x160-cover-3-outer.png",
+    "retainedCrop": "256x160-cover-3-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-3-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-3-output-dry-crop.png",
+    "bbox": [
+      48,
+      49,
+      132,
+      89
+    ],
+    "retainedFile": "../images/256x160-cover-3-output-dry.png",
+    "retainedCrop": "256x160-cover-3-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-cover-3-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-cover-3-output-turn-crop.png",
+    "bbox": [
+      124,
+      71,
+      208,
+      111
+    ],
+    "retainedFile": "../images/256x160-cover-3-output-turn.png",
+    "retainedCrop": "256x160-cover-3-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-0-clip-fit.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-0-clip-fit-crop.png",
+    "bbox": [
+      28,
+      39,
+      92,
+      81
+    ],
+    "retainedFile": "../images/256x160-stretch-0-clip-fit.png",
+    "retainedCrop": "256x160-stretch-0-clip-fit-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-0-clip-second.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-0-clip-second-crop.png",
+    "bbox": [
+      33,
+      42,
+      95,
+      82
+    ],
+    "retainedFile": "../images/256x160-stretch-0-clip-second.png",
+    "retainedCrop": "256x160-stretch-0-clip-second-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-0-inner.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-0-inner-crop.png",
+    "bbox": [
+      158,
+      77,
+      218,
+      115
+    ],
+    "retainedFile": "../images/256x160-stretch-0-inner.png",
+    "retainedCrop": "256x160-stretch-0-inner-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-0-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-0-outer-crop.png",
+    "bbox": [
+      38,
+      45,
+      98,
+      83
+    ],
+    "retainedFile": "../images/256x160-stretch-0-outer.png",
+    "retainedCrop": "256x160-stretch-0-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-0-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-0-output-dry-crop.png",
+    "bbox": [
+      39,
+      46,
+      97,
+      82
+    ],
+    "retainedFile": "../images/256x160-stretch-0-output-dry.png",
+    "retainedCrop": "256x160-stretch-0-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-0-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-0-output-turn-crop.png",
+    "bbox": [
+      159,
+      78,
+      217,
+      114
+    ],
+    "retainedFile": "../images/256x160-stretch-0-output-turn.png",
+    "retainedCrop": "256x160-stretch-0-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-0-track.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-0-track-crop.png",
+    "bbox": [
+      161,
+      78,
+      223,
+      118
+    ],
+    "retainedFile": "../images/256x160-stretch-0-track.png",
+    "retainedCrop": "256x160-stretch-0-track-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-1-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-1-outer-crop.png",
+    "bbox": [
+      38,
+      45,
+      116,
+      86
+    ],
+    "retainedFile": "../images/256x160-stretch-1-outer.png",
+    "retainedCrop": "256x160-stretch-1-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-1-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-1-output-dry-crop.png",
+    "bbox": [
+      39,
+      46,
+      115,
+      85
+    ],
+    "retainedFile": "../images/256x160-stretch-1-output-dry.png",
+    "retainedCrop": "256x160-stretch-1-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-1-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-1-output-turn-crop.png",
+    "bbox": [
+      141,
+      75,
+      217,
+      114
+    ],
+    "retainedFile": "../images/256x160-stretch-1-output-turn.png",
+    "retainedCrop": "256x160-stretch-1-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-2-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-2-outer-crop.png",
+    "bbox": [
+      56,
+      49,
+      116,
+      86
+    ],
+    "retainedFile": "../images/256x160-stretch-2-outer.png",
+    "retainedCrop": "256x160-stretch-2-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-2-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-2-output-dry-crop.png",
+    "bbox": [
+      57,
+      49,
+      115,
+      85
+    ],
+    "retainedFile": "../images/256x160-stretch-2-output-dry.png",
+    "retainedCrop": "256x160-stretch-2-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-2-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-2-output-turn-crop.png",
+    "bbox": [
+      141,
+      75,
+      199,
+      111
+    ],
+    "retainedFile": "../images/256x160-stretch-2-output-turn.png",
+    "retainedCrop": "256x160-stretch-2-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-3-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-3-outer-crop.png",
+    "bbox": [
+      56,
+      49,
+      133,
+      90
+    ],
+    "retainedFile": "../images/256x160-stretch-3-outer.png",
+    "retainedCrop": "256x160-stretch-3-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-3-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-3-output-dry-crop.png",
+    "bbox": [
+      57,
+      49,
+      132,
+      89
+    ],
+    "retainedFile": "../images/256x160-stretch-3-output-dry.png",
+    "retainedCrop": "256x160-stretch-3-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/256x160-stretch-3-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/256x160-stretch-3-output-turn-crop.png",
+    "bbox": [
+      124,
+      71,
+      199,
+      111
+    ],
+    "retainedFile": "../images/256x160-stretch-3-output-turn.png",
+    "retainedCrop": "256x160-stretch-3-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-0-clip-fit.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-0-clip-fit-crop.png",
+    "bbox": [
+      28,
+      44,
+      92,
+      81
+    ],
+    "retainedFile": "../images/320x240-contain-0-clip-fit.png",
+    "retainedCrop": "320x240-contain-0-clip-fit-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-0-clip-second.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-0-clip-second-crop.png",
+    "bbox": [
+      34,
+      48,
+      96,
+      84
+    ],
+    "retainedFile": "../images/320x240-contain-0-clip-second.png",
+    "retainedCrop": "320x240-contain-0-clip-second-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-0-inner.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-0-inner-crop.png",
+    "bbox": [
+      220,
+      153,
+      280,
+      188
+    ],
+    "retainedFile": "../images/320x240-contain-0-inner.png",
+    "retainedCrop": "320x240-contain-0-inner-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-0-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-0-outer-crop.png",
+    "bbox": [
+      40,
+      52,
+      100,
+      87
+    ],
+    "retainedFile": "../images/320x240-contain-0-outer.png",
+    "retainedCrop": "320x240-contain-0-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-0-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-0-output-dry-crop.png",
+    "bbox": [
+      40,
+      53,
+      99,
+      86
+    ],
+    "retainedFile": "../images/320x240-contain-0-output-dry.png",
+    "retainedCrop": "320x240-contain-0-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-0-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-0-output-turn-crop.png",
+    "bbox": [
+      221,
+      154,
+      280,
+      187
+    ],
+    "retainedFile": "../images/320x240-contain-0-output-turn.png",
+    "retainedCrop": "320x240-contain-0-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-0-track.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-0-track-crop.png",
+    "bbox": [
+      224,
+      156,
+      286,
+      192
+    ],
+    "retainedFile": "../images/320x240-contain-0-track.png",
+    "retainedCrop": "320x240-contain-0-track-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-1-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-1-outer-crop.png",
+    "bbox": [
+      40,
+      52,
+      118,
+      91
+    ],
+    "retainedFile": "../images/320x240-contain-1-outer.png",
+    "retainedCrop": "320x240-contain-1-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-1-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-1-output-dry-crop.png",
+    "bbox": [
+      40,
+      53,
+      117,
+      90
+    ],
+    "retainedFile": "../images/320x240-contain-1-output-dry.png",
+    "retainedCrop": "320x240-contain-1-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-1-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-1-output-turn-crop.png",
+    "bbox": [
+      203,
+      150,
+      280,
+      187
+    ],
+    "retainedFile": "../images/320x240-contain-1-output-turn.png",
+    "retainedCrop": "320x240-contain-1-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-2-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-2-outer-crop.png",
+    "bbox": [
+      58,
+      56,
+      118,
+      91
+    ],
+    "retainedFile": "../images/320x240-contain-2-outer.png",
+    "retainedCrop": "320x240-contain-2-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-2-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-2-output-dry-crop.png",
+    "bbox": [
+      59,
+      57,
+      117,
+      90
+    ],
+    "retainedFile": "../images/320x240-contain-2-output-dry.png",
+    "retainedCrop": "320x240-contain-2-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-2-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-2-output-turn-crop.png",
+    "bbox": [
+      203,
+      150,
+      261,
+      183
+    ],
+    "retainedFile": "../images/320x240-contain-2-output-turn.png",
+    "retainedCrop": "320x240-contain-2-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-3-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-3-outer-crop.png",
+    "bbox": [
+      58,
+      56,
+      136,
+      95
+    ],
+    "retainedFile": "../images/320x240-contain-3-outer.png",
+    "retainedCrop": "320x240-contain-3-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-3-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-3-output-dry-crop.png",
+    "bbox": [
+      59,
+      57,
+      135,
+      94
+    ],
+    "retainedFile": "../images/320x240-contain-3-output-dry.png",
+    "retainedCrop": "320x240-contain-3-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-contain-3-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-contain-3-output-turn-crop.png",
+    "bbox": [
+      185,
+      146,
+      261,
+      183
+    ],
+    "retainedFile": "../images/320x240-contain-3-output-turn.png",
+    "retainedCrop": "320x240-contain-3-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-0-clip-fit.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-0-clip-fit-crop.png",
+    "bbox": [
+      18,
+      39,
+      88,
+      81
+    ],
+    "retainedFile": "../images/320x240-cover-0-clip-fit.png",
+    "retainedCrop": "320x240-cover-0-clip-fit-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-0-clip-second.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-0-clip-second-crop.png",
+    "bbox": [
+      24,
+      44,
+      92,
+      84
+    ],
+    "retainedFile": "../images/320x240-cover-0-clip-second.png",
+    "retainedCrop": "320x240-cover-0-clip-second-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-0-inner.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-0-inner-crop.png",
+    "bbox": [
+      224,
+      153,
+      290,
+      192
+    ],
+    "retainedFile": "../images/320x240-cover-0-inner.png",
+    "retainedCrop": "320x240-cover-0-inner-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-0-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-0-outer-crop.png",
+    "bbox": [
+      30,
+      48,
+      96,
+      87
+    ],
+    "retainedFile": "../images/320x240-cover-0-outer.png",
+    "retainedCrop": "320x240-cover-0-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-0-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-0-output-dry-crop.png",
+    "bbox": [
+      30,
+      49,
+      94,
+      86
+    ],
+    "retainedFile": "../images/320x240-cover-0-output-dry.png",
+    "retainedCrop": "320x240-cover-0-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-0-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-0-output-turn-crop.png",
+    "bbox": [
+      226,
+      154,
+      290,
+      191
+    ],
+    "retainedFile": "../images/320x240-cover-0-output-turn.png",
+    "retainedCrop": "320x240-cover-0-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-0-track.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-0-track-crop.png",
+    "bbox": [
+      228,
+      156,
+      296,
+      196
+    ],
+    "retainedFile": "../images/320x240-cover-0-track.png",
+    "retainedCrop": "320x240-cover-0-track-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-1-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-1-outer-crop.png",
+    "bbox": [
+      30,
+      48,
+      117,
+      91
+    ],
+    "retainedFile": "../images/320x240-cover-1-outer.png",
+    "retainedCrop": "320x240-cover-1-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-1-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-1-output-dry-crop.png",
+    "bbox": [
+      30,
+      49,
+      115,
+      90
+    ],
+    "retainedFile": "../images/320x240-cover-1-output-dry.png",
+    "retainedCrop": "320x240-cover-1-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-1-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-1-output-turn-crop.png",
+    "bbox": [
+      205,
+      150,
+      290,
+      191
+    ],
+    "retainedFile": "../images/320x240-cover-1-output-turn.png",
+    "retainedCrop": "320x240-cover-1-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-2-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-2-outer-crop.png",
+    "bbox": [
+      48,
+      52,
+      117,
+      91
+    ],
+    "retainedFile": "../images/320x240-cover-2-outer.png",
+    "retainedCrop": "320x240-cover-2-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-2-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-2-output-dry-crop.png",
+    "bbox": [
+      49,
+      53,
+      115,
+      90
+    ],
+    "retainedFile": "../images/320x240-cover-2-output-dry.png",
+    "retainedCrop": "320x240-cover-2-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-2-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-2-output-turn-crop.png",
+    "bbox": [
+      205,
+      150,
+      271,
+      187
+    ],
+    "retainedFile": "../images/320x240-cover-2-output-turn.png",
+    "retainedCrop": "320x240-cover-2-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-3-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-3-outer-crop.png",
+    "bbox": [
+      48,
+      52,
+      137,
+      96
+    ],
+    "retainedFile": "../images/320x240-cover-3-outer.png",
+    "retainedCrop": "320x240-cover-3-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-3-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-3-output-dry-crop.png",
+    "bbox": [
+      49,
+      53,
+      136,
+      94
+    ],
+    "retainedFile": "../images/320x240-cover-3-output-dry.png",
+    "retainedCrop": "320x240-cover-3-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-cover-3-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-cover-3-output-turn-crop.png",
+    "bbox": [
+      184,
+      146,
+      271,
+      187
+    ],
+    "retainedFile": "../images/320x240-cover-3-output-turn.png",
+    "retainedCrop": "320x240-cover-3-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-0-clip-fit.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-0-clip-fit-crop.png",
+    "bbox": [
+      28,
+      39,
+      92,
+      81
+    ],
+    "retainedFile": "../images/320x240-stretch-0-clip-fit.png",
+    "retainedCrop": "320x240-stretch-0-clip-fit-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-0-clip-second.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-0-clip-second-crop.png",
+    "bbox": [
+      34,
+      44,
+      96,
+      84
+    ],
+    "retainedFile": "../images/320x240-stretch-0-clip-second.png",
+    "retainedCrop": "320x240-stretch-0-clip-second-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-0-inner.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-0-inner-crop.png",
+    "bbox": [
+      220,
+      153,
+      280,
+      192
+    ],
+    "retainedFile": "../images/320x240-stretch-0-inner.png",
+    "retainedCrop": "320x240-stretch-0-inner-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-0-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-0-outer-crop.png",
+    "bbox": [
+      40,
+      48,
+      100,
+      87
+    ],
+    "retainedFile": "../images/320x240-stretch-0-outer.png",
+    "retainedCrop": "320x240-stretch-0-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-0-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-0-output-dry-crop.png",
+    "bbox": [
+      40,
+      49,
+      99,
+      86
+    ],
+    "retainedFile": "../images/320x240-stretch-0-output-dry.png",
+    "retainedCrop": "320x240-stretch-0-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-0-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-0-output-turn-crop.png",
+    "bbox": [
+      221,
+      154,
+      280,
+      191
+    ],
+    "retainedFile": "../images/320x240-stretch-0-output-turn.png",
+    "retainedCrop": "320x240-stretch-0-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-0-track.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-0-track-crop.png",
+    "bbox": [
+      224,
+      156,
+      286,
+      196
+    ],
+    "retainedFile": "../images/320x240-stretch-0-track.png",
+    "retainedCrop": "320x240-stretch-0-track-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-1-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-1-outer-crop.png",
+    "bbox": [
+      40,
+      48,
+      118,
+      91
+    ],
+    "retainedFile": "../images/320x240-stretch-1-outer.png",
+    "retainedCrop": "320x240-stretch-1-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-1-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-1-output-dry-crop.png",
+    "bbox": [
+      40,
+      49,
+      117,
+      90
+    ],
+    "retainedFile": "../images/320x240-stretch-1-output-dry.png",
+    "retainedCrop": "320x240-stretch-1-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-1-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-1-output-turn-crop.png",
+    "bbox": [
+      203,
+      150,
+      280,
+      191
+    ],
+    "retainedFile": "../images/320x240-stretch-1-output-turn.png",
+    "retainedCrop": "320x240-stretch-1-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-2-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-2-outer-crop.png",
+    "bbox": [
+      58,
+      52,
+      118,
+      91
+    ],
+    "retainedFile": "../images/320x240-stretch-2-outer.png",
+    "retainedCrop": "320x240-stretch-2-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-2-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-2-output-dry-crop.png",
+    "bbox": [
+      59,
+      53,
+      117,
+      90
+    ],
+    "retainedFile": "../images/320x240-stretch-2-output-dry.png",
+    "retainedCrop": "320x240-stretch-2-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-2-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-2-output-turn-crop.png",
+    "bbox": [
+      203,
+      150,
+      261,
+      187
+    ],
+    "retainedFile": "../images/320x240-stretch-2-output-turn.png",
+    "retainedCrop": "320x240-stretch-2-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-3-outer.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-3-outer-crop.png",
+    "bbox": [
+      58,
+      52,
+      136,
+      96
+    ],
+    "retainedFile": "../images/320x240-stretch-3-outer.png",
+    "retainedCrop": "320x240-stretch-3-outer-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-3-output-dry.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-3-output-dry-crop.png",
+    "bbox": [
+      59,
+      53,
+      135,
+      95
+    ],
+    "retainedFile": "../images/320x240-stretch-3-output-dry.png",
+    "retainedCrop": "320x240-stretch-3-output-dry-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/320x240-stretch-3-output-turn.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/320x240-stretch-3-output-turn-crop.png",
+    "bbox": [
+      185,
+      145,
+      261,
+      187
+    ],
+    "retainedFile": "../images/320x240-stretch-3-output-turn.png",
+    "retainedCrop": "320x240-stretch-3-output-turn-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/source-alpha-0.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/source-alpha-0-crop.png",
+    "bbox": [
+      36,
+      44,
+      100,
+      81
+    ],
+    "retainedFile": "../images/source-alpha-0.png",
+    "retainedCrop": "source-alpha-0-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/source-alpha-1.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/source-alpha-1-crop.png",
+    "bbox": [
+      36,
+      44,
+      120,
+      85
+    ],
+    "retainedFile": "../images/source-alpha-1.png",
+    "retainedCrop": "source-alpha-1-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/source-alpha-2.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/source-alpha-2-crop.png",
+    "bbox": [
+      56,
+      48,
+      120,
+      85
+    ],
+    "retainedFile": "../images/source-alpha-2.png",
+    "retainedCrop": "source-alpha-2-crop.png"
+  },
+  {
+    "file": "/tmp/screenrec-pointer-alpha-cohort3/source-alpha-3.png",
+    "crop": "/tmp/screenrec-pointer-alpha-review/source-alpha-3-crop.png",
+    "bbox": [
+      56,
+      48,
+      140,
+      89
+    ],
+    "retainedFile": "../images/source-alpha-3.png",
+    "retainedCrop": "source-alpha-3-crop.png"
+  }
+]
