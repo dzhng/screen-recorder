@@ -1,0 +1,54 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-import-mutation
+
+(node:88671) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/assets.test.ts (12 tests | 1 failed | 11 skipped) 40ms
+   × a source modified during streamed copying cannot become a ready asset 39ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/assets.test.ts > a source modified during streamed copying cannot become a ready asset
+AssertionError: promise resolved "{ …(6) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "bytes": 15,
++   "createdAt": "2026-09-28T04:31:30.573Z",
++   "fileName": "f9c437f3f62b5a95fc4dccff9f4fa8cd2b367ce5796a2296fd904a716c14fdbe.png",
++   "id": "f9c437f3f62b5a95fc4dccff9f4fa8cd2b367ce5796a2296fd904a716c14fdbe",
++   "originUs": 0,
++   "streams": [
++     {
++       "codec": "public.png",
++       "decodable": true,
++       "height": 1,
++       "id": "image:0",
++       "kind": "image",
++       "orientation": 1,
++       "orientedHeight": 1,
++       "orientedWidth": 2,
++       "width": 2,
++     },
++   ],
+  }
+
+ ❯ packages/core/src/assets.test.ts:218:64
+    216|     });
+    217|   try {
+    218|     await expect(store.import(path, { kind: "import" }, probe)).reject…
+       |                                                                ^
+    219|       code: "SOURCE_CHANGED",
+    220|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 skipped (12)
+   Start at  21:31:30
+   Duration  285ms (import 39%, transform 36%, tests 23%, worker 2%)

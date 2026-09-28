@@ -1,8 +1,7 @@
-import { mkdtemp, writeFile, rename, readFile, rm } from "node:fs/promises";
-import { watch } from "node:fs";
+import { mkdtemp, writeFile, rename, readFile, rm, open, type FileHandle } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 import { Catalog } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 
@@ -195,20 +194,32 @@ test("failed publication rolls back the receipt and recovery removes the linked 
 test("a source modified during streamed copying cannot become a ready asset", async () => {
   const { root, store } = await setup();
   const path = join(root, "changing.png");
-  await writeFile(path, Buffer.alloc(32 * 1024 * 1024, 65));
-  let mutation: Promise<void> | undefined;
-  const watcher = watch(join(root, "staging", "assets"), () => {
-    if (!mutation) mutation = writeFile(path, Buffer.alloc(32 * 1024 * 1024, 66));
-  });
+  await writeFile(path, "original pixels");
+  const source = await open(path, "r+");
+  const before = await source.stat();
+  const read = source.read;
+  let mutated = false;
+  // Hold the first real read's completion until a real same-size source write
+  // finishes. This places mutation inside copying without scheduling a watcher.
+  const reading = vi
+    .spyOn(Object.getPrototypeOf(source), "read")
+    .mockImplementationOnce(async function (this: FileHandle, ...args: unknown[]) {
+      const result = await Reflect.apply(read, this, args);
+      await source.write(Buffer.from("changed!"), 0, 8, 0);
+      // Filesystem timestamp granularity must not decide whether the mutation is seen.
+      await source.utimes(before.atime, new Date(before.mtimeMs + 1000));
+      mutated = true;
+      return result;
+    });
   try {
     await expect(store.import(path, { kind: "import" }, probe)).rejects.toMatchObject({
       code: "SOURCE_CHANGED",
     });
-    await mutation;
+    expect(mutated).toBe(true);
     expect(store.list().assets).toEqual([]);
   } finally {
-    watcher.close();
-    await mutation;
+    reading.mockRestore();
+    await source.close();
   }
 });
 
