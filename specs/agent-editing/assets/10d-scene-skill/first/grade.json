@@ -1,0 +1,27 @@
+{
+  "passed": false,
+  "model": "gpt-6-luna",
+  "reasoningEffort": "medium",
+  "context": "fresh, fork none; only skill, CLI launcher, task and input IDs",
+  "recovery": "correctly diagnosed and explicitly retried canceled scene prerequisite",
+  "captureProvenance": "correctly unavailable without acquisition",
+  "projectCuts": "correctly unsupported",
+  "failure": "Queried project through source duration 2500000us and claimed completeness; missed second retimed occurrence and remaining gaps",
+  "expectedProjectSceneUs": [
+    400000,
+    800000,
+    1800000,
+    2200000,
+    3600000,
+    4200000,
+    5700000,
+    6300000
+  ],
+  "reportedProjectSceneUs": [
+    400000,
+    800000,
+    1800000,
+    2200000
+  ],
+  "skillSha256": "3d314fc9b3e4b91fb06825edc741e44c9c9792012b3ce4c91523482828460aac"
+}

@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "model": "gpt-6-luna",
+  "reasoningEffort": "medium",
+  "context": "fresh fork none; no prior failure or expected values supplied; same task wording",
+  "hashes": {
+    "skills/screenrec/SKILL.md": "64707025b447a9085903bee08908b58c84c7a075e958a72dd49f3334d49ab4fb",
+    "/tmp/screenrec-scene-skill-runtime/cli.mjs": "f080e8fba1ca7c97efac9d335d5ac136875fe8db3fa95aa36fff121e95cab3b4",
+    "/tmp/screenrec-scene-skill-runtime/project-service.mjs": "f67c29daf687db679b2556013622bacae10e7bb5fa1ea560df0926002330ccc2",
+    "/tmp/screenrec-acoustic-legend-native": "540153b361ff661c945295c844dd95f19f2a1296d5d900ba39ef6fb00185c316"
+  },
+  "sourceSceneUs": [
+    400000,
+    800000,
+    1800000,
+    2200000
+  ],
+  "projectSceneUs": [
+    400000,
+    800000,
+    1800000,
+    2200000,
+    3600000,
+    4200000,
+    5700000,
+    6300000
+  ],
+  "sourceGap": [
+    1000000,
+    1500000
+  ],
+  "projectSupportGaps": [
+    [
+      1000000,
+      1500000
+    ],
+    [
+      4500000,
+      5250000
+    ]
+  ],
+  "emptyProjectGap": [
+    2500000,
+    3000000
+  ],
+  "checks": {
+    "explicitCanceledPrerequisiteRetry": true,
+    "wholeProjectQuery": true,
+    "allOccurrences": true,
+    "physicalAndPlacementGapsDistinguished": true,
+    "captureUnknownWithoutAcquisition": true,
+    "projectCutsUnsupported": true,
+    "unchangedProjectHead": true,
+    "onlyInspectionAndDerivedRecoveryCommands": true
+  },
+  "wordingLimit": "One final-answer sentence loosely calls the two projected missing intervals media-stream gaps. The preceding source/project ranges and mapping are exact and distinguish the single source gap, two projected gaps and placement gap. Original agent text is retained unchanged.",
+  "validator": "quick_validate.py unavailable: ModuleNotFoundError yaml. Manual frontmatter name/description, trigger, stale-rule and diff-whitespace checks passed."
+}

@@ -129,9 +129,7 @@ sample identity; an inspection size bound does not author a crop or aspect ratio
 For timeline inspection, use advertised `timeline.events` reads. Video scene changes
 need a selected asset/stream, not capture metadata; add acquisition only to apply
 its support. Source ranges use source time, while project reads use the pinned
-revision and identify repeated/retimed occurrences. For whole-project inspection,
-omit the range or derive it from the inspected revision, never from source duration.
-A partial query cannot establish every occurrence or gap. Preserve exact physical sample
+revision and identify repeated/retimed occurrences. Preserve exact physical sample
 clocks, projected times and first-page coverage. Follow every returned cursor,
 including empty pages. A scene change is measured source evidence, not an authored
 project cut; unsupported categories remain unknown. Initial reads may prepare
