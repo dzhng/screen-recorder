@@ -2290,3 +2290,21 @@ existing lifetime owner.
   package owner learns this resource, export reports unsupported prepared retention
   instead of producing a package that silently loses it. Native constant gain and
   unit-rate verification do not make RNNoise or stretch executable.
+
+## Ordered native gain delivery
+
+- **Sound; high confidence — keep editable settings separate from execution.**
+  An agent inspecting a fade still receives its keys and original clip clock.
+  Rendering lowers those settings into numerical instructions through the same
+  compiler that owns picture timing. The numerical program is not saved as a
+  second editable representation or sent back as replacement authoring settings.
+- **Sound; high confidence — retain the constant path and explicit stack order.**
+  Ordinary constant volume changes use the same Float32 loop. Animated gain is
+  evaluated once for each stereo frame at that exact step in the stack, including
+  after children are mixed at a parent. No hidden normalization or automatic
+  ducking changes the agent's requested levels.
+- **Sound; high confidence — retain the unready stretch boundary.**
+  Moving, cutting and trimming a unit-rate audio clip now preserves delivered
+  gain envelopes. A duration-changing edit still needs the unaccepted stretch
+  executor, so its existing not-ready result remains. Pure timing checks support
+  later integration; they are not evidence that stretched speech is deliverable.

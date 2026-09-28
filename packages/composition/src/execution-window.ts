@@ -1,3 +1,4 @@
+import type { CompiledProcessingInstruction } from "./temporal-processing.js";
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
 import { audioContextSchema, type CompiledAudio, type CompiledFrame } from "./compiled-records.js";
@@ -116,6 +117,7 @@ export function executionWindow(
     frames(range: z.infer<typeof rangeSchema>): Generator<CompiledFrame>;
     audio(range: z.infer<typeof rangeSchema>, sampleRate: number): Generator<CompiledAudio>;
   },
+  compileProcessing: () => CompiledProcessingInstruction[],
   component?: "audio" | "video",
 ) {
   const mediaKind = component ?? processing.at(-1)!.mediaKind;
@@ -183,6 +185,7 @@ export function executionWindow(
   });
   return {
     manifest,
+    processing: compileProcessing,
     *frames(): Generator<CompiledFrame> {
       if (mediaKind === "audio") return;
       yield* schedules.frames(request.range);

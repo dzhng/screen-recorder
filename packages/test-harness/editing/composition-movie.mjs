@@ -164,7 +164,7 @@ try {
       range,
       canvas: document.canvas,
       profile: "h264-rec709",
-      processing: nativeProcessing(window.manifest.processing),
+      processing: nativeProcessing(window.processing()),
       assets: bindings,
     };
     const audio = {
@@ -318,7 +318,7 @@ try {
       range: cancelRange,
       canvas: empty.canvas,
       profile: "h264-rec709",
-      processing: nativeProcessing(cancelWindow.manifest.processing),
+      processing: nativeProcessing(cancelWindow.processing()),
       assets: [],
       audio: { range: { start: 0, end: 4800000 }, clips: [] },
     }),

@@ -89,3 +89,31 @@ public struct ScalarSampleProgram: Codable, Sendable {
         return piece.kernel.evaluate(phase)
     }
 }
+
+public enum SampleScalar: Codable, Sendable {
+    case constant(Double)
+    case program(ScalarSampleProgram)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(Double.self) { self = .constant(value) }
+        else { self = .program(try container.decode(ScalarSampleProgram.self)) }
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .constant(let value): try container.encode(value)
+        case .program(let program): try container.encode(program)
+        }
+    }
+    public var constant: Double? {
+        if case .constant(let value) = self { return value }
+        return nil
+    }
+    public func sample(_ frame: Int64) -> Double {
+        switch self {
+        case .constant(let value): return value
+        case .program(let program): return program.sample(frame)
+        }
+    }
+}

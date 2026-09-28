@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Gain, transitions, convenience commands and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
+Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Unit-rate gain has scoped public PCM/edit evidence; delivered retime+gain, transitions, convenience commands and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
 
 ## Contract
 
@@ -85,7 +85,7 @@ emits the unchanged numeric opacity primitive. Native performs no authoring-curv
 interpretation, no new frame clock and no duration-sized sample arrays. Native
 integration must prove delivered frame/full-preview/range parity and update recipe
 identities before advertising this vertical as ready. Geometry consumers below
-share this timing owner; gain remains unfinished.
+share this timing owner; gain uses the numerical execution seam below.
 
 
 The [opacity evidence](../assets/16-opacity/README.md) retains exact public PNG
@@ -93,8 +93,8 @@ controls/split preservation, scoped movie comparisons, static-layer preservation
 failed attempts and reviews. [Retained-index integration](../assets/16-opacity-index/README.md)
 now proves tap-aware boundary selection, direct/retained PNG equality and fresh
 visual review. The service/native projection is shared with direct worker harnesses;
-no authoring easing is sent for native reinterpretation. Gain, transitions and
-full-slice journeys stay open.
+no authoring easing is sent for native reinterpretation. Gain has its own delivery
+gate below; transitions and full-slice journeys stay open.
 
 ## Animated zoom vertical
 
@@ -114,7 +114,7 @@ primitives carry execution. The shared native-boundary projection and recipe IDs
 advance together. This pass's public `keyframes.mjs --case moved-split-zoom` journey
 must prove actual zoom, exact static controls, movement, split/trim, window activation
 and full/range preview/export correspondence. Position and rotation use the same
-owner below; gain and convenience commands remain unfinished.
+owner below; gain has its own delivery gate below and convenience commands remain open.
 
 
 The [zoom evidence](../assets/16-zoom/README.md) retains 39 exact public PNG checks,
@@ -164,3 +164,42 @@ extrema normalization rejects subnormal interior-zero sizes; final public
 confirmation preserves every reviewed picture and verifies seven curve refusals.
 Gain, transitions and convenience commands remain open; this is not whole-slice16
 acceptance.
+
+
+## Ordered gain delivery
+
+Gain accepts the same number-or-Curve shape and step activation window as the visual
+parameters. A gain curve must remain nonnegative and within native Float32 gain
+bounds across its full value function, including cubic interior extrema. There is
+no automatic normalization, ducking, clipping or smoothing of authored hold jumps.
+
+The inspection manifest retains authored settings. The execution window lowers
+audio steps through the same temporal owner into numeric scalar programs and
+half-open sample activation spans. Activation floors exact endpoints using the
+existing PCM clock; key selection uses ceil. The first active sample can precede
+a fractional cut, so its value phase still comes from the original curve rather
+than clamping to that cut. The [canonical program](16b-scalar-program.md) owns
+numerical execution and its finite-domain contract.
+
+Native evaluates one gain per global PCM frame, applies it equally to both channels
+at the existing ordered clip/track/group/output stack position, and uses dry gain
+one outside activation. Whole-target constant gain retains its existing Float32
+loop. Native has no author anchors, handles or interpolation labels to reinterpret.
+
+The live gain journey must verify linear/cubic/hold envelopes, exact sample counts
+and channel layouts, every target scope, bypass and taps, fractional activation,
+full/range equality, move/split/trim preservation, whole-curve refusal and movie
+preview/export wiring. Compare an independent analytic envelope and source PCM,
+not merely another render through the same compiler. Measure actual mixer cost and
+preserve the constant baseline. Retimed phase is checked through the edit reducer;
+delivered retime+gain PCM remains a dependency of slice14 and must retain its
+current NOT_READY result until stretching is accepted. This does not close
+transitions, convenience commands or the full-slice journey gate.
+
+
+The [gain evidence](../assets/16-gain/README.md) retains actual debug/release native
+PCM journeys, independent envelopes, deliberate wrong-phase failure, constant-path
+preservation and bounded mixer-cost measurements. The final release journey also
+checks movement to a fractional sample boundary. Independent code review is clean.
+The broad core runs encountered wall-clock timeouts; each remaining affected case
+passed unchanged in isolation, with those separate results retained explicitly.

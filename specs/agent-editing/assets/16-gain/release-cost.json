@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "note": "Five-second stereo jobs using the same release worker; startup and file IO included. Host contention made timings variable. Older worker supplies PCM preservation, not a controlled performance baseline.",
+  "programBytes": 1319,
+  "constantPcmSha256": "5b0e2ffa269e72f30b621eaed81d2f05a37a678e2cd5c1c3d7d9333f8ae37b75",
+  "workerSha256": "b77f44a74b6c649b5267e515a9ee609ffaa44e54235db8f3ba3d4403b80fa8f8",
+  "baselineWorkerSha256": "2946c6e499e717b040e5bd05875a3f56b01852c2f9f0e2ed7c61e6c6335a17b7",
+  "trials": [
+    {
+      "trial": 0,
+      "name": "baseline-constant",
+      "wallMs": 3057.7689579999997,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 31227904
+    },
+    {
+      "trial": 0,
+      "name": "constant",
+      "wallMs": 2171.302040999999,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 30277632
+    },
+    {
+      "trial": 0,
+      "name": "cubic",
+      "wallMs": 2394.930625000001,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 29343744
+    },
+    {
+      "trial": 1,
+      "name": "baseline-constant",
+      "wallMs": 3659.9412079999984,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 29720576
+    },
+    {
+      "trial": 1,
+      "name": "constant",
+      "wallMs": 1138.2497079999994,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 30752768
+    },
+    {
+      "trial": 1,
+      "name": "cubic",
+      "wallMs": 4764.682083,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 28557312
+    },
+    {
+      "trial": 2,
+      "name": "baseline-constant",
+      "wallMs": 1730.346708000001,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 31145984
+    },
+    {
+      "trial": 2,
+      "name": "constant",
+      "wallMs": 1820.8468749999993,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 29573120
+    },
+    {
+      "trial": 2,
+      "name": "cubic",
+      "wallMs": 1391.8457500000004,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 29229056
+    }
+  ]
+}

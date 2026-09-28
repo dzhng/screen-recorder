@@ -39,6 +39,7 @@ function targetKind(kinds: ReturnType<typeof targetKinds>, target: ProcessingTar
 export function processingScalars(
   processor: ProcessingStep["processor"],
 ): Record<string, number | ScalarCurve> {
+  if (processor.type === "gain") return { gain: processor.gain };
   if (processor.type === "opacity") return { opacity: processor.opacity };
   if (processor.type === "geometry")
     return {
@@ -81,7 +82,7 @@ export function validateProcessing(document: Document) {
       const definition = processorRegistry[step.processor.type];
       if (
         (step.window || step.evaluationRange) &&
-        !["opacity", "geometry"].includes(step.processor.type)
+        !["opacity", "geometry", "gain"].includes(step.processor.type)
       )
         invalid("Temporal processing is not supported for this processor", {
           target,
@@ -106,11 +107,13 @@ export function validateProcessing(document: Document) {
         if (typeof value !== "number") {
           const parsed = scalarCurveSchema(domain).safeParse(value);
           const bounds =
-            step.processor.type === "opacity" || slot === "pivot.x" || slot === "pivot.y"
-              ? [0, 1]
-              : ["rect.width", "rect.height", "crop.width", "crop.height"].includes(slot)
-                ? [Number.MIN_VALUE, Number.MAX_VALUE]
-                : [-Number.MAX_VALUE, Number.MAX_VALUE];
+            step.processor.type === "gain"
+              ? [0, 3.4028234663852886e38]
+              : step.processor.type === "opacity" || slot === "pivot.x" || slot === "pivot.y"
+                ? [0, 1]
+                : ["rect.width", "rect.height", "crop.width", "crop.height"].includes(slot)
+                  ? [Number.MIN_VALUE, Number.MAX_VALUE]
+                  : [-Number.MAX_VALUE, Number.MAX_VALUE];
           if (!parsed.success || !curveValuesWithin(parsed.data, bounds[0]!, bounds[1]!))
             invalid("Processing curve must match its clock and remain within parameter bounds", {
               target,

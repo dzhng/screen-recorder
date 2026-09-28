@@ -218,7 +218,16 @@ export const processorRegistry = {
     units: { opacity: "linear alpha multiplier" },
   },
   gain: {
-    schema: z.object({ type: z.literal("gain"), gain: z.number().finite().nonnegative() }).strict(),
+    schema: z
+      .object({
+        type: z.literal("gain"),
+        gain: z.union([
+          z.number().finite().nonnegative(),
+          scalarCurveSchema("project"),
+          scalarCurveSchema("clip"),
+        ]),
+      })
+      .strict(),
     targets: allProcessingTargets,
     mediaKind: "audio" as const,
     units: { gain: "linear multiplier" },

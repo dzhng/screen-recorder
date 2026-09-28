@@ -69,7 +69,7 @@ data.append(c.flush())
     frame: window.frames().next().value,
     canvas: document.canvas,
     profile: "h264-rec709",
-    processing: nativeProcessing(window.manifest.processing),
+    processing: nativeProcessing(window.processing()),
     assets: assets.map((asset) => ({
       assetId: asset.id,
       streamId: "image:0",
@@ -124,7 +124,7 @@ data.append(c.flush())
   report.repeated = invoke({
     ...params,
     frame: repeatedWindow.frames().next().value,
-    processing: nativeProcessing(repeatedWindow.manifest.processing),
+    processing: nativeProcessing(repeatedWindow.processing()),
   });
   report.passed &&= report.repeated.reply.ok === true;
   assert.equal(report.repeated.reply.ok, true, JSON.stringify(report.repeated));

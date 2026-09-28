@@ -83,7 +83,7 @@ for (const [name, path, width, height, background, extent] of [
   const params = {
     canvas,
     frame: [...window.frames()][0],
-    processing: nativeProcessing(window.manifest.processing),
+    processing: nativeProcessing(window.processing()),
     assets: [{ assetId: "source", streamId: stream.id, path, originUs: probe.originUs }],
     profile: "h264-rec709",
   };

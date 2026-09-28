@@ -53,7 +53,7 @@ for (const rate of [44100, 48000]) {
     const window = createCompiler(model, 'segments').window({ range, rendition: { sampleRate: 48000, channels: 2 }, tap: { target: { kind: 'output' }, point: { kind: 'processed' } } });
     const result = native('media.mixCompositionAudio', {
       output: join(outputDirectory, `${rate}-${sequence}.wav`), range: window.manifest.sampleRange,
-      clips: [...window.audio()], processing: nativeProcessing(window.manifest.processing),
+      clips: [...window.audio()], processing: nativeProcessing(window.processing()),
       assets: [{ assetId: asset.id, streamId: source.streamId, path, originUs: -source.sourceOffsetUs }],
     });
     const bytes = pcm(result.file);

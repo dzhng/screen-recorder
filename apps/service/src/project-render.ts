@@ -85,7 +85,7 @@ export function projectMovieRenderer(
   pointers?: PointerOwners,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v10",
+    implementationId: "native-composition-movie-v11",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -125,7 +125,7 @@ export function projectMovieRenderer(
               range: manifest.range,
               canvas: manifest.canvas,
               profile: "h264-rec709",
-              processing: nativeProcessing(manifest.processing),
+              processing: nativeProcessing(request.window.processing()),
               assets: request.assets,
               audio: { range: manifest.sampleRange, clips: [...request.window.audio()] },
             },
@@ -156,7 +156,7 @@ export function projectMovieRenderer(
 
 export function projectAudioRenderer(worker: MediaWorker, workspace: string): ProjectAudioRenderer {
   return {
-    implementationId: "native-composition-audio-v2",
+    implementationId: "native-composition-audio-v3",
     render: async ({ window, assets, output }, signal) =>
       withRenderedFile(
         worker,
@@ -170,7 +170,7 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
                 output: file,
                 range: window.manifest.sampleRange,
                 clips: [...window.audio()],
-                processing: nativeProcessing(window.manifest.processing),
+                processing: nativeProcessing(window.processing()),
                 assets,
               },
               { signal, timeoutMs: renderWindowDeadlineMs(window.manifest.range) },
@@ -205,7 +205,7 @@ export function projectFrameRenderer(
                 frame: window.frames().next().value,
                 canvas: window.manifest.canvas,
                 profile: "h264-rec709",
-                processing: nativeProcessing(window.manifest.processing),
+                processing: nativeProcessing(window.processing()),
                 assets,
                 maxLongEdge,
               },

@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "note": "Five-second stereo native jobs including startup and file IO. Constant-versus-cubic cost uses the same debug worker; older worker supplies PCM preservation only.",
+  "programBytes": 1319,
+  "constantPcmSha256": "5b0e2ffa269e72f30b621eaed81d2f05a37a678e2cd5c1c3d7d9333f8ae37b75",
+  "workerSha256": "b35c34541596f3190a09aeabc7fc93e19c5f42f5576957a93b370430be16210d",
+  "baselineWorkerSha256": "2946c6e499e717b040e5bd05875a3f56b01852c2f9f0e2ed7c61e6c6335a17b7",
+  "trials": [
+    {
+      "trial": 0,
+      "name": "baseline-constant",
+      "wallMs": 958.1830420000001,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 30785536
+    },
+    {
+      "trial": 0,
+      "name": "constant",
+      "wallMs": 743.94775,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 30720000
+    },
+    {
+      "trial": 0,
+      "name": "cubic",
+      "wallMs": 5984.672124999999,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 31047680
+    },
+    {
+      "trial": 1,
+      "name": "baseline-constant",
+      "wallMs": 787.1737499999999,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 31293440
+    },
+    {
+      "trial": 1,
+      "name": "constant",
+      "wallMs": 474.9421660000007,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 31358976
+    },
+    {
+      "trial": 1,
+      "name": "cubic",
+      "wallMs": 2651.061208000001,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 31719424
+    },
+    {
+      "trial": 2,
+      "name": "baseline-constant",
+      "wallMs": 220.6944169999988,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 31064064
+    },
+    {
+      "trial": 2,
+      "name": "constant",
+      "wallMs": 238.2861670000002,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 32735232
+    },
+    {
+      "trial": 2,
+      "name": "cubic",
+      "wallMs": 4685.537582999999,
+      "frames": 240000,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 31096832
+    }
+  ]
+}

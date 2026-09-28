@@ -1,3 +1,5 @@
+import { sampleAt } from "./sample-clock.js";
+import type { SampleScalarProgram } from "./scalar-program.js";
 import { compileScalarCurve, type CompiledScalarCurve } from "./curve.js";
 import { compare, fromTime, toTime, type Rational } from "./rational.js";
 import { processingScalars } from "./processing.js";
@@ -6,7 +8,21 @@ import type { ValidatedComposition, ExactRange } from "./model.js";
 import type { ProcessingInstruction } from "./processing-plan.js";
 import type { Anchor, ProcessingStep, ProcessingTarget, ScalarCurve } from "./schema.js";
 
-/** Timing is compiled once per step; picture workers receive only resolved scalar/matrix instructions. */
+export type CompiledProcessingInstruction = Omit<ProcessingInstruction, "steps"> & {
+  steps: readonly {
+    id: string;
+    enabled: boolean;
+    processor:
+      | Exclude<ProcessingStep["processor"], { type: "gain" }>
+      | {
+          type: "gain";
+          gain: number | SampleScalarProgram;
+          active?: readonly { start: number; end: number }[];
+        };
+  }[];
+};
+
+/** Share anchored scalar clocks between picture sampling and audio-program lowering. */
 export function temporalProcessing(model: ValidatedComposition) {
   const clips = new Map(model.clips.map((value) => [value.clip.id, value]));
   const programs = new Map<string, Map<string, CompiledScalarCurve | null>>();
@@ -90,6 +106,39 @@ export function temporalProcessing(model: ValidatedComposition) {
       : (program(step, target, slot, value)?.sample(at) ?? null);
   }
   return {
+    audio(
+      plan: readonly ProcessingInstruction[],
+      sampleRate: number,
+    ): CompiledProcessingInstruction[] {
+      return plan.map(({ steps, ...node }) => ({
+        ...node,
+        steps: steps.map((step) => {
+          const { id, enabled, processor } = step;
+          if (processor.type !== "gain") return { id, enabled, processor };
+          if (typeof processor.gain === "number" && !step.window)
+            return { id, enabled, processor: { type: "gain" as const, gain: processor.gain } };
+          const compiled = program(step, node.target, "gain", processor.gain);
+          const active = (compiled?.available ?? [])
+            .map(({ start, end }) => ({
+              start: sampleAt(start, sampleRate),
+              end: sampleAt(end, sampleRate),
+            }))
+            .filter(({ start, end }) => start < end);
+          return {
+            id,
+            enabled,
+            processor: {
+              type: "gain" as const,
+              gain:
+                typeof processor.gain === "number"
+                  ? processor.gain
+                  : (compiled?.samples(sampleRate) ?? 1),
+              active,
+            },
+          };
+        }),
+      }));
+    },
     opacity(step: ProcessingStep, target: ProcessingTarget, at: number) {
       return step.processor.type === "opacity"
         ? scalar(step, target, "opacity", step.processor.opacity, at)

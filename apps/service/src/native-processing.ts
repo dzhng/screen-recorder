@@ -1,7 +1,7 @@
-import type { ProcessingInstruction } from "@screenrec/composition";
+import type { CompiledProcessingInstruction } from "@screenrec/composition";
 
 /** Visual parameters and activation are already resolved in picture instructions, not native metadata. */
-export function nativeProcessing(plan: readonly ProcessingInstruction[]) {
+export function nativeProcessing(plan: readonly CompiledProcessingInstruction[]) {
   return plan.map(({ steps, ...node }) => ({
     ...node,
     steps: steps.map(({ id, enabled, processor }) => ({

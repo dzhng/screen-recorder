@@ -21,7 +21,12 @@ public struct CompositionProcessing: Codable, Sendable {
     }
     public struct Processor: Codable, Sendable {
         public let type: String
-        public let gain: Double?
+        public let gain: SampleScalar?
+        public let active: [SampleSpan]?
+        public struct SampleSpan: Codable, Sendable {
+            public let start: Int64
+            public let end: Int64
+        }
         public let trailUs: Int64?
         public let crop: Rectangle?
         public let rect: Rectangle?

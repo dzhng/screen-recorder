@@ -279,7 +279,7 @@ try {
       frame,
       canvas,
       profile: "h264-rec709",
-      processing: nativeProcessing(window.manifest.processing),
+      processing: nativeProcessing(window.processing()),
       assets: [
         {
           assetId: selection.assetId,
@@ -532,7 +532,7 @@ try {
       range,
       canvas,
       profile: "h264-rec709",
-      processing: nativeProcessing(window.manifest.processing),
+      processing: nativeProcessing(window.processing()),
       assets: requests.get("identity").assets,
       pointers,
     });
@@ -697,7 +697,7 @@ try {
     range: { startUs: 0, endUs: 2000000 },
     canvas,
     profile: "h264-rec709",
-    processing: nativeProcessing(holdWindow.manifest.processing),
+    processing: nativeProcessing(holdWindow.processing()),
     assets: requests.get("identity").assets,
     pointers: holdPointers,
   });
@@ -724,7 +724,7 @@ try {
     range: { startUs: 0, endUs: 2000000 },
     canvas,
     profile: "h264-rec709",
-    processing: nativeProcessing(holdWindow.manifest.processing),
+    processing: nativeProcessing(holdWindow.processing()),
     assets: requests.get("identity").assets,
     pointers: {
       file: heldMismatchFile,
@@ -813,7 +813,7 @@ try {
     ...requests.get("identity"),
     output: join(out, "inactive.png"),
     frame: inactiveWindow.frames().next().value,
-    processing: nativeProcessing(inactiveWindow.manifest.processing),
+    processing: nativeProcessing(inactiveWindow.processing()),
     pointers: inactivePointers,
   });
   assert.deepEqual(inactive.pictures, []);

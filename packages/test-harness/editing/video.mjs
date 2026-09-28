@@ -137,7 +137,7 @@ async function compile(
       range,
       canvas: document.canvas,
       profile: "h264-rec709",
-      processing: nativeProcessing(compiled.manifest.processing),
+      processing: nativeProcessing(compiled.processing()),
       assets: unique(bindings, (b) => b.assetId + b.streamId),
     },
   };

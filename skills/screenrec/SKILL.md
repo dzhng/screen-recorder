@@ -94,6 +94,13 @@ not an inherited override. Authored settings with execution unavailable are not
 processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
 
+For animated processors, use the supported number-or-curve fields in the existing
+stack. Clip curves default to normalized clip time; parent curves use project
+microseconds. Preserve returned `window` and `evaluationRange` when changing an
+existing step. Structural edits retain its original clock, so re-read the edited
+settings instead of rebuilding the curve from a preview range. For gain changes,
+compare bounded dry/after-step/processed WAVs before judging level or joins.
+
 For visual layout, change the canvas for the output aspect ratio and place overlapping
 footage on separately ordered video tracks. Place imported PNG/JPEG images with
 `source: { kind: "hold", atUs: 0 }` and a project placement duration; that zero

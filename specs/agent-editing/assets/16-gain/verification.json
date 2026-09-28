@@ -1,0 +1,60 @@
+{
+  "scope": "Unit-rate ordered gain delivery; stretched-gain PCM, transitions and conveniences remain open",
+  "compositionTests": 193,
+  "publicChecks": 17,
+  "pcmFramesCompared": 659201,
+  "cubicMaximumPcmError": 0,
+  "movie": {
+    "previewExportByteIdentity": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "quality": "PCM envelope verified separately; AAC quality not judged from this synthetic fixture"
+  },
+  "pending": [
+    "Delivered retime+gain PCM remains dependent on the unbound stretch executor in slice14"
+  ],
+  "core": {
+    "broadRun": "20 timeouts plus timeout cleanup error during native compilation",
+    "lowConcurrencyRun": "647 passed,4 timeouts,1 pre-existing skip; storage cancellation reported after timeout",
+    "isolatedTimeoutControls": "All4 affected cases passed unchanged; no timeout thresholds changed"
+  },
+  "reviews": {
+    "code": "Clean independent Codex review;193composition tests and service type check run; native journeys inspected, not rerun",
+    "skill": "Fresh blind consumer queued with parent when an agent slot becomes available"
+  },
+  "nativeWorkerSha256": "b77f44a74b6c649b5267e515a9ee609ffaa44e54235db8f3ba3d4403b80fa8f8",
+  "maximumNativeBlockFrames": 8192,
+  "nativeReleaseMedianMs": {
+    "constant": 1820.8468749999993,
+    "cubic": 2394.930625000001
+  },
+  "newEncodedQualityClaim": false,
+  "artifacts": {
+    "README.md": "4f27c11226e5ecc4dec426ff51003c7336a51278370f6c6b2ba983513f29e009",
+    "after-curve.wav": "1aef9ab455e6012de1bd6fdcc4e51188c13e702dbe4a666d05df060a083c2c6c",
+    "composition.log.gz": "a84903423757442cf414cfc2c1a245ebdb2c507b8be1a4938bb58991d7bfbf57",
+    "constant-taps.json.gz": "528be6566d06255344c4790dd6144ee6727d5d047368aba6e91d938dd14f0aab",
+    "core-contention-failure.log.gz": "cb2a5a546f4de12c1fd527ceadf21b9a29cd5e9d3941a82f6e59bd0390642edd",
+    "core-low-concurrency.log.gz": "5f36536ba972027bf6977593fc8183540a1fce9bab70060902986212f055bcae",
+    "core-timeout-controls.log.gz": "3eb48fb878df8ee35e03017ef08b15afa25147a319731c7944ad17838475aeaf",
+    "debug-cost.json": "b7ee03291d962461f36953f4913f080743de2520902b43c0eaee02662829853d",
+    "fractional-window.wav": "aba0104c40183cb974edc08fec429a0f96529a7fdcd5aa32d6faf0946ac17665",
+    "gain.mp4": "155afc029a4c1a793a8d0966d4de1fdb95ec20712fbfb2bb1b23568880ebbf93",
+    "hold-key-ownership.wav": "ab9b06e8a7eb0574f1876f5667a14a1578b1541c4037d9bcec265950ba0f5240",
+    "mix-regression.json.gz": "6b88ce37ca1b74071fa1875ccf6b0cda4f7a8d3766c55ad97da5b6b5e0659f7a",
+    "old-worker-red.log.gz": "a99a697684e0719177e7347b0cd4e2a6a8b68d586bf8c5f349aa8c18acbfb498",
+    "public-debug.json.gz": "b07ab6fc1132078dbe9e6b1677ca2965b9c5e81ce53baa168104dbf81d5482b2",
+    "public-release.json.gz": "dbac8e596a4bba850342226cd31b3cd9d71f4546f08c0de3a6792f242f1e928a",
+    "release-build.log.gz": "21de0d9df107c865049da96409233f6786bbee9583ac4d078e5bbdbdc9daada9",
+    "release-cost.json": "c879c96e96553de2a78fd3fdecd8cf3dbaa69b049d3cfafab1adddddf015c842",
+    "review.log.gz": "f7c4d6911fdeb5ba51ac93997048192697f5f77791733cdc969d67e194dd4bea",
+    "source.wav": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4",
+    "wrong-phase-red.log.gz": "ccbe86f994d5a3d23521455d6baf4b0d5a19ea913e0afb822743356357fd824b"
+  },
+  "productionDiff": {
+    "addedExcludingComments": 175,
+    "deletedExcludingComments": 20,
+    "commentsAdded": 1,
+    "commentsDeleted": 1
+  }
+}

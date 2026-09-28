@@ -287,7 +287,7 @@ const fractional = call(native, "media.renderCompositionFrame", {
     },
   ],
   frame: [...fractionalWindow.frames()][0],
-  processing: nativeProcessing(fractionalWindow.manifest.processing),
+  processing: nativeProcessing(fractionalWindow.processing()),
   output: join(out, "fractional.png"),
 });
 assert.equal(fractional.ok, true, JSON.stringify(fractional));

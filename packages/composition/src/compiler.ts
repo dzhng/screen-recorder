@@ -262,6 +262,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         intervalIndex(inputs, (clip) => clip.range, renderOrder),
         contexts,
       ),
+      () => temporal.audio(plan, request.rendition.sampleRate),
       component,
     );
   }

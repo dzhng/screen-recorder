@@ -231,9 +231,23 @@ public enum CompositionAudio {
                     continue
                 }
                 guard !step.id.isEmpty, stepIds.insert(step.id).inserted,
-                    step.processor.type == "gain", let gain = step.processor.gain, gain.isFinite,
-                    gain >= 0, gain <= Double(Float.greatestFiniteMagnitude)
-                else { throw invalid("Only finite nonnegative float gain is supported.") }
+                    step.processor.type == "gain", let gain = step.processor.gain
+                else { throw invalid("Only gain processing is supported.") }
+                switch gain {
+                case .constant(let value):
+                    guard value.isFinite, value >= 0, value <= Double(Float.greatestFiniteMagnitude)
+                    else { throw invalid("Only finite nonnegative float gain is supported.") }
+                case .program(let program): try program.validate()
+                }
+                if let active = step.processor.active {
+                    var end: Int64 = 0
+                    for span in active {
+                        guard span.start >= end, span.end > span.start,
+                            span.end <= TimeSpan.maximumMicroseconds
+                        else { throw invalid("Invalid gain activation spans.") }
+                        end = span.end
+                    }
+                }
             }
         }
         guard used.count == nodes.count - 1,
@@ -399,8 +413,7 @@ public enum CompositionAudio {
                             samples = value
                         }
                         for step in node.steps where step.enabled && step.processor.type == "gain" {
-                            let gain = Float(step.processor.gain!)
-                            for index in samples.indices { samples[index] *= gain }
+                            try applyGain(step.processor, to: &samples, position: position)
                         }
                         buffers[node.target] = samples
                     }

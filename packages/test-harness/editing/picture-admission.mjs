@@ -72,7 +72,7 @@ for (const point of [{ kind: "dry" }, { kind: "processed" }]) {
   const response = call("media.renderCompositionFrame", {
     canvas,
     frame,
-    processing: nativeProcessing(window.manifest.processing),
+    processing: nativeProcessing(window.processing()),
     assets: [],
     profile: "h264-rec709",
     output,
@@ -207,7 +207,7 @@ function sourceFrame(count, disabledPointer = false, range = { startUs: 0, endUs
   return {
     canvas,
     frame: [...window.frames()][0],
-    processing: nativeProcessing(window.manifest.processing),
+    processing: nativeProcessing(window.processing()),
     assets: [
       { assetId: "large", streamId: stream.id, path: source, originUs: probe.data.originUs },
     ],

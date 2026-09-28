@@ -169,7 +169,7 @@ try {
         end: Math.floor((range.endUs * 48000) / 1000000),
       },
       clips: [...window.audio()],
-      processing: nativeProcessing(window.manifest.processing),
+      processing: nativeProcessing(window.processing()),
       assets: sources.map((source) => source.binding),
     };
     const result = call("media.mixCompositionAudio", params, expectedError);
