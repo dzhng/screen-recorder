@@ -28,7 +28,11 @@ import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SpeechModels } from "@screenrec/core/speech-models";
-import { TranscriptStore, type SpeechTranscriptionReceipt } from "@screenrec/core/transcript";
+import {
+  TranscriptStore,
+  recordingTranscriptOwner,
+  type SpeechTranscriptionReceipt,
+} from "@screenrec/core/transcript";
 import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import { operate, operationFailure } from "./operations.js";
 import { join } from "node:path";
@@ -181,7 +185,7 @@ async function main(): Promise<void> {
       (recordingId, generation) => exports!.retainsSource(recordingId, generation),
     );
     models = new SpeechModels(home);
-    transcriptStore = new TranscriptStore(store, home);
+    transcriptStore = new TranscriptStore(store, home, recordingTranscriptOwner(store));
     transcripts = new TranscriptProcessing(
       store,
       jobs,

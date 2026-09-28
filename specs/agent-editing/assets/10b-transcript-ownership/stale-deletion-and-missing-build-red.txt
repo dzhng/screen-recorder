@@ -1,0 +1,75 @@
+$ vitest run src/deletion.test.ts src/package-guide.test.ts src/operations.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-transcript-ownership/apps/service
+
+(node:59048) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:59047) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:59049) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/operations.test.ts (6 tests | 6 failed) 663ms
+   × serves the actual catalog and persists trim/cut/undo/restore with replay across relaunch 110ms
+   × rejects malformed edits, preserves domain errors, and gives concurrent edits one winner 84ms
+   × pages discoverable recordings over the real transport and resumes after service relaunch 81ms
+   × package root failure leaves the library available and returns an explicit package error 102ms
+   × transcripts prepare, page, search, project cuts and retry through the service 175ms
+   × an unprepared model starts no transcript and says how to proceed 110ms
+ ❯ src/deletion.test.ts (8 tests | 1 failed) 727ms
+   × delete removes transcript generations and raw files but never prepared speech models 68ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/deletion.test.ts > delete removes transcript generations and raw files but never prepared speech models
+Error: table transcript_generations has no column named recordingId
+ ❯ src/deletion.test.ts:202:8
+    200|     await writeFile(join(generation, "raw.jsonl"), "{}\n");
+    201|     f.store.catalog
+    202|       .prepare(
+       |        ^
+    203|         "INSERT INTO transcript_generations(recordingId,sourceId,gener…
+    204|       )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/operations.test.ts > serves the actual catalog and persists trim/cut/undo/restore with replay across relaunch
+ FAIL  src/operations.test.ts > rejects malformed edits, preserves domain errors, and gives concurrent edits one winner
+ FAIL  src/operations.test.ts > pages discoverable recordings over the real transport and resumes after service relaunch
+ FAIL  src/operations.test.ts > package root failure leaves the library available and returns an explicit package error
+ FAIL  src/operations.test.ts > transcripts prepare, page, search, project cuts and retry through the service
+ FAIL  src/operations.test.ts > an unprepared model starts no transcript and says how to proceed
+Error: Service exited: node:internal/modules/cjs/loader:1459
+  throw err;
+  ^
+
+Error: Cannot find module '/private/tmp/screenrec-transcript-ownership/apps/service/dist/main.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1456:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1066:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1071:22)
+    at Module._load (node:internal/modules/cjs/loader:1242:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v24.14.0
+
+ ❯ ChildProcess.<anonymous> src/operations.test.ts:109:14
+    107|     child.once("exit", () => {
+    108|       clearTimeout(timer);
+    109|       reject(new Error(`Service exited: ${diagnostics}`));
+       |              ^
+    110|     });
+    111|     const stream = new JsonLineStream(CONTROL_FRAME_BYTES);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  7 failed | 10 passed (17)
+   Start at  22:42:06
+   Duration  1.80s (tests 40%, transform 40%, import 19%)
+
+error: script "test" exited with code 1

@@ -2,8 +2,9 @@ import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { packageDocumentPaths, type PackageSnapshot } from "@screenrec/core/package-manifest";
+import { recordingTranscriptIdentity } from "@screenrec/core/transcript";
 import type {
-  TranscriptMetadata,
+  RecordingTranscriptMetadata,
   TranscriptRecords,
   TranscriptRecordQuery,
 } from "@screenrec/core/transcript";
@@ -13,7 +14,7 @@ export async function writePackageGuide(
   directory: string,
   snapshot: PackageSnapshot,
   transcript: Pick<
-    TranscriptMetadata,
+    RecordingTranscriptMetadata,
     "recordingId" | "sourceId" | "generation" | "wordCount"
   > | null,
   records: Pick<TranscriptRecords, "wordRecords">,
@@ -28,7 +29,10 @@ export async function writePackageGuide(
     let segment: number | undefined;
     for (;;) {
       signal.throwIfAborted();
-      const words = records.wordRecords(transcript, { ...(lower ? { lower } : {}), limit: 256 });
+      const words = records.wordRecords(recordingTranscriptIdentity(transcript), {
+        ...(lower ? { lower } : {}),
+        limit: 256,
+      });
       let chunk = "";
       for (const word of words) {
         chunk += (segment === undefined ? "" : segment === word.segment ? " " : "\n\n") + word.text;

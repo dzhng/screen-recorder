@@ -268,7 +268,7 @@ test("same-provenance library deletion and package close revoke only their own d
     { SourceEvidenceStore, recordingEvidenceOwner },
     { SceneEvidenceStore },
     { ScreenshotIndexStore },
-    { TranscriptStore },
+    { TranscriptStore, recordingTranscriptOwner },
     { CaptureService },
     { RecordingDeletion },
     { ManagedFiles },
@@ -320,7 +320,7 @@ test("same-provenance library deletion and package close revoke only their own d
     source: new SourceEvidenceStore(f.store, recordingEvidenceOwner(f.store)),
     scenes: new SceneEvidenceStore(f.store),
     index: new ScreenshotIndexStore(f.store, f.home),
-    transcripts: new TranscriptStore(f.store, f.home),
+    transcripts: new TranscriptStore(f.store, f.home, recordingTranscriptOwner(f.store)),
     cleanupReady: () => Promise.resolve(),
     files: new ManagedFiles(f.home, worker),
   });

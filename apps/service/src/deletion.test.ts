@@ -10,7 +10,7 @@ import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { recordingEvidenceOwner, SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
-import { TranscriptStore } from "@screenrec/core/transcript";
+import { TranscriptStore, recordingTranscriptOwner } from "@screenrec/core/transcript";
 import { CaptureService } from "./capture.js";
 import { DerivativeDelivery } from "./delivery.js";
 import { RecordingDeletion } from "./deletion.js";
@@ -64,7 +64,7 @@ async function fixture(
     source: new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
     scenes: new SceneEvidenceStore(store),
     index: new ScreenshotIndexStore(store, home),
-    transcripts: new TranscriptStore(store, home),
+    transcripts: new TranscriptStore(store, home, recordingTranscriptOwner(store)),
     cleanupReady: () => ready,
     // Coordinator tests model native receipts. The native suite owns race/containment proof.
     files: {
@@ -191,7 +191,7 @@ test("delete removes transcript generations and raw files but never prepared spe
   const transcriptRows = (recordingId: string) =>
     f.store.catalog
       .prepare(
-        "SELECT (SELECT COUNT(*) FROM transcript_generations WHERE recordingId=?)+(SELECT COUNT(*) FROM transcript_words WHERE recordingId=?) AS n",
+        "SELECT (SELECT COUNT(*) FROM transcript_generations WHERE ownerKind='recording' AND ownerId=?)+(SELECT COUNT(*) FROM transcript_words WHERE ownerKind='recording' AND ownerId=?) AS n",
       )
       .get(recordingId, recordingId);
   for (const take of [target, sibling]) {
@@ -200,11 +200,13 @@ test("delete removes transcript generations and raw files but never prepared spe
     await writeFile(join(generation, "raw.jsonl"), "{}\n");
     f.store.catalog
       .prepare(
-        "INSERT INTO transcript_generations(recordingId,sourceId,generation,sourceGeneration,engine,narration,segmentCount,state) VALUES(?,?,'attempt','source','{}','{}',1,'complete')",
+        "INSERT INTO transcript_generations(ownerKind,ownerId,sourceId,generation,source,engine,track,segmentCount,state) VALUES('recording',?,?,'attempt','{}','{}','{}',1,'complete')",
       )
       .run(take.recordingId, take.sourceId);
     f.store.catalog
-      .prepare("INSERT INTO transcript_words VALUES(?,'attempt',0,0,1000,0,'hello','speech',0.9,0)")
+      .prepare(
+        "INSERT INTO transcript_words VALUES('recording',?,'attempt',0,0,1000,0,'hello','speech',0.9,0)",
+      )
       .run(take.recordingId);
   }
   const model = join(f.home, "models", "parakeet", "revision", "parakeet-tdt-0.6b-v2");

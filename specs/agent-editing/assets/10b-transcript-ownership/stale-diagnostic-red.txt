@@ -1,0 +1,47 @@
+$ vitest run --maxWorkers=4 src/transcript-ownership.test.ts src/transcript.test.ts src/transcript-pages.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-transcript-ownership/packages/core
+
+(node:49487) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:49488) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:49489) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/transcript.test.ts (13 tests | 1 failed) 2676ms
+   × ingest refuses inconsistent native output and leaves no generation behind 639ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/transcript.test.ts > ingest refuses inconsistent native output and leaves no generation behind
+AssertionError: Transcription segment does not lie in an acquired narration interval: expected { …(9) } to match object { state: 'failed', …(3) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "published": null,
+-   "reason": "Transcription segment does not lie in an acquired narration interval",
++   "reason": "Transcription segment does not lie in an acquired source interval",
+    "retryable": true,
+    "state": "failed",
+  }
+
+ ❯ src/transcript.test.ts:781:54
+    779|     const f = await fixture(options);
+    780|     const recordingId = await transcribed(f);
+    781|     expect(f.transcript.status(recordingId), reason).toMatchObject({
+       |                                                      ^
+    782|       state: "failed",
+    783|       reason,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 21 passed (22)
+   Start at  22:41:04
+   Duration  4.22s (tests 69%, transform 19%, import 12%)
+
+error: script "test" exited with code 1

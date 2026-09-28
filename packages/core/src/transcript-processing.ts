@@ -9,8 +9,9 @@ import type { TimeRange } from "./timeline.js";
 import type { SpeechModels } from "./speech-models.js";
 import {
   transcriptPolicy,
+  recordingTranscript,
   type SpeechTranscriber,
-  type TranscriptMetadata,
+  type RecordingTranscriptMetadata,
   type TranscriptStore,
 } from "./transcript.js";
 import { TranscriptRead, transcriptContinuation } from "./transcript-read.js";
@@ -120,7 +121,7 @@ export class TranscriptProcessing {
       published: status.published
         ? {
             generation: status.published.generation,
-            transcript: JSON.parse(status.published.result) as TranscriptMetadata,
+            transcript: JSON.parse(status.published.result) as RecordingTranscriptMetadata,
           }
         : null,
       dependencies: [],
@@ -222,7 +223,7 @@ export class TranscriptProcessing {
 
   private cleanupRecording(recordingId: string, signal: AbortSignal) {
     return this.transcripts.reclaim(
-      recordingId,
+      { kind: "recording", recordingId },
       (generation) =>
         this.jobs.retainsAttempt(
           { kind: "recording", recordingId: recordingId },
@@ -256,7 +257,7 @@ export class TranscriptProcessing {
     await this.cleanupRecording(job.target.recordingId, signal);
     signal.throwIfAborted();
     const identity = {
-      recordingId: job.target.recordingId,
+      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
       sourceId: recording.sourceId,
       generation: job.attemptId,
     };
@@ -275,14 +276,18 @@ export class TranscriptProcessing {
       signal.throwIfAborted();
       const metadata = await this.transcripts.ingest({
         identity,
-        sourceGeneration: source.evidence.generation,
+        source: {
+          kind: "recording",
+          sourceGeneration: source.evidence.generation,
+          durationUs: recording.sourceDurationUs,
+        },
         request,
         receipt,
         pins: { ...this.models.pins, modelDigest: this.models.modelDigest },
         signal,
       });
       signal.throwIfAborted();
-      return JSON.stringify(metadata);
+      return JSON.stringify(recordingTranscript(metadata));
     } catch (error) {
       await this.transcripts.remove(identity);
       throw error;

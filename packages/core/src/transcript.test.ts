@@ -7,7 +7,7 @@ import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
-import { TranscriptStore, type SpeechTranscriber } from "./transcript.js";
+import { TranscriptStore, recordingTranscriptOwner, type SpeechTranscriber } from "./transcript.js";
 import { TranscriptProcessing, type TranscriptionModels } from "./transcript-processing.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -67,7 +67,7 @@ async function fixture(options: Options = {}) {
     newId: randomUUID,
   });
   const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
-  const transcripts = new TranscriptStore(store, home);
+  const transcripts = new TranscriptStore(store, home, recordingTranscriptOwner(store));
   let source!: SourceProcessing;
   let transcript!: TranscriptProcessing;
   const jobs = new JobQueue({
@@ -771,7 +771,7 @@ test("ingest refuses inconsistent native output and leaves no generation behind"
           (receipt.segments as Line[])[0]!.source = { startUs: 0, endUs: 4_000_000 };
         },
       },
-      "Transcription segment does not lie in an acquired narration interval",
+      "Transcription segment does not lie in an acquired source interval",
     ],
     [{ tamperHash: true }, "Raw transcript does not match its receipt"],
   ];
@@ -812,7 +812,7 @@ test("cleanup reclaims abandoned generations but keeps published and retained on
     if (generation !== "abandoned-file")
       f.store.catalog
         .prepare(
-          "INSERT INTO transcript_generations(recordingId,sourceId,generation,sourceGeneration,engine,narration,segmentCount,state) VALUES(?,?,?,?,?,?,0,'ingesting')",
+          "INSERT INTO transcript_generations(ownerKind,ownerId,sourceId,generation,source,engine,track,segmentCount,state) VALUES('recording',?,?,?,?,?,?,0,'ingesting')",
         )
         .run(recordingId, "source", generation, "source", "{}", "{}");
   }
@@ -829,7 +829,7 @@ test("cleanup reclaims abandoned generations but keeps published and retained on
   );
 
   f.store.markDeleting(recordingId);
-  await f.transcripts.purgeRecording(recordingId, new AbortController().signal);
+  await f.transcripts.purge({ kind: "recording", recordingId }, new AbortController().signal);
   expect(await readdir(parent)).toEqual([]);
   expect(
     f.store.catalog

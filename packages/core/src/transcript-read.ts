@@ -10,10 +10,11 @@ import {
   type TimeRange,
   type TimelineRevision,
 } from "./timeline.js";
+import { recordingTranscriptIdentity } from "./transcript.js";
 import type {
   GapReason,
   TranscriptGapRecord,
-  TranscriptMetadata,
+  RecordingTranscriptMetadata,
   TranscriptRecords,
   TranscriptWordRecord,
 } from "./transcript.js";
@@ -100,7 +101,7 @@ export function transcriptContinuation(value: unknown) {
 export class TranscriptRead {
   constructor(
     private readonly records: TranscriptRecords,
-    private readonly metadata: TranscriptMetadata,
+    private readonly metadata: RecordingTranscriptMetadata,
     private readonly revision: TimelineRevision,
   ) {}
 
@@ -222,7 +223,7 @@ export class TranscriptRead {
       : null;
     let lower = resume && comparePageKeys(resume.key, window.key) > 0 ? resume : window;
     for (;;) {
-      const words = this.records.wordRecords(this.metadata, {
+      const words = this.records.wordRecords(recordingTranscriptIdentity(this.metadata), {
         lower,
         upper: { key: [span.endUs, 0], inclusive: false },
         limit: batch,
@@ -236,7 +237,7 @@ export class TranscriptRead {
 
   /** Gaps are disjoint, so only the one starting at or before the span can already cover it. */
   private *spanGaps(span: TimeRange, after: { sourceUs: number } | null) {
-    const prior = this.records.gapRecords(this.metadata, {
+    const prior = this.records.gapRecords(recordingTranscriptIdentity(this.metadata), {
       upper: { key: [span.startUs], inclusive: true },
       reverse: true,
       limit: 1,
@@ -248,7 +249,7 @@ export class TranscriptRead {
       inclusive: false,
     };
     for (;;) {
-      const gaps = this.records.gapRecords(this.metadata, {
+      const gaps = this.records.gapRecords(recordingTranscriptIdentity(this.metadata), {
         lower,
         upper: { key: [span.endUs], inclusive: false },
         limit: batch,
@@ -279,7 +280,7 @@ export class TranscriptRead {
     let last: TranscriptWordRecord | null = null;
     for (;;) {
       // Fetch enough lookahead that a phrase starting in this batch is complete.
-      const words = this.records.wordRecords(this.metadata, {
+      const words = this.records.wordRecords(recordingTranscriptIdentity(this.metadata), {
         ...(lower ? { lower } : {}),
         limit: batch + terms.length - 1,
       });

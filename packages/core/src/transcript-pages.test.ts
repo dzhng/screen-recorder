@@ -3,7 +3,12 @@ import { createHash, randomUUID } from "node:crypto";
 import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { TranscriptStore } from "./transcript.js";
+import {
+  TranscriptStore,
+  recordingTranscript,
+  recordingTranscriptIdentity,
+  recordingTranscriptOwner,
+} from "./transcript.js";
 import { TranscriptRead } from "./transcript-read.js";
 import {
   FileTranscript,
@@ -50,9 +55,9 @@ async function fixture() {
     reason: "fixture",
     sourceDurationUs: 10_000_000,
   });
-  const transcripts = new TranscriptStore(store, home);
+  const transcripts = new TranscriptStore(store, home, recordingTranscriptOwner(store));
   const identity = { recordingId, sourceId, generation: "attempt" };
-  const output = await transcripts.reserve(identity);
+  const output = await transcripts.reserve(recordingTranscriptIdentity(identity));
   const lines = narration.map((interval, ordinal) => {
     const skipped = interval.endUs - interval.startUs < 200_000;
     const words = skipped
@@ -81,37 +86,39 @@ async function fixture() {
     encoderPrecision: "float16",
     computeUnits: "cpuAndNeuralEngine",
   };
-  const metadata = await transcripts.ingest({
-    identity,
-    sourceGeneration: "source-1",
-    request: {
-      models: { directory: join(home, "models"), files: [] },
-      track: {
-        source: join(home, "narration.mov"),
-        sourceOffsetUs: 0,
-        available: narration,
+  const metadata = recordingTranscript(
+    await transcripts.ingest({
+      identity: recordingTranscriptIdentity(identity),
+      source: { kind: "recording", sourceGeneration: "source-1", durationUs: 10000000 },
+      request: {
+        models: { directory: join(home, "models"), files: [] },
+        track: {
+          source: join(home, "narration.mov"),
+          sourceOffsetUs: 0,
+          available: narration,
+        },
+        output,
       },
-      output,
-    },
-    receipt: {
-      output: {
-        file: output,
-        bytes: Buffer.byteLength(raw),
-        sha256: createHash("sha256").update(raw).digest("hex"),
+      receipt: {
+        output: {
+          file: output,
+          bytes: Buffer.byteLength(raw),
+          sha256: createHash("sha256").update(raw).digest("hex"),
+        },
+        engine,
+        segments: lines.map(({ words, ...line }) => ({ ...line, wordCount: words.length })),
+        wordCount: script.length,
       },
-      engine,
-      segments: lines.map(({ words, ...line }) => ({ ...line, wordCount: words.length })),
-      wordCount: script.length,
-    },
-    pins: {
-      ...engine,
-      runtimeRevision: "revision",
-      model: "model",
-      modelRevision: "model-revision",
-      modelDigest: "a".repeat(64),
-    },
-    signal: new AbortController().signal,
-  });
+      pins: {
+        ...engine,
+        runtimeRevision: "revision",
+        model: "model",
+        modelRevision: "model-revision",
+        modelDigest: "a".repeat(64),
+      },
+      signal: new AbortController().signal,
+    }),
+  );
   // Cut through "Hello" and all of "world." so the pinned revision holds partial and removed words.
   const revision = store.edit(recordingId, {
     operation: "cut",

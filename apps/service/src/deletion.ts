@@ -72,7 +72,7 @@ export class RecordingDeletion {
       await files.removeRecordingDirectory(recordingId, signal);
       await index.forgetRecording(recordingId, signal);
       // Native removed the transcript files with the recording root; only catalog rows remain.
-      await transcripts.purgeRecording(recordingId, signal);
+      await transcripts.purge({ kind: "recording", recordingId }, signal);
       signal.throwIfAborted();
       await jobs.forgetOwner({ kind: "recording", recordingId: recordingId });
       signal.throwIfAborted();

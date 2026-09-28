@@ -34,7 +34,7 @@ import {
 import { readOrderedPageManifest } from "@screenrec/core/ordered-pages";
 import {
   transcriptPolicy,
-  type TranscriptMetadata,
+  type RecordingTranscriptMetadata,
   type TranscriptStore,
 } from "@screenrec/core/transcript";
 import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
@@ -72,7 +72,7 @@ export type PackageEvidence = {
   scenes: SceneEvidenceMetadata | null;
   index: ScreenshotIndexMetadata | null;
   /** Selected only when the pinned source acquired narration. */
-  transcript: TranscriptMetadata | null;
+  transcript: RecordingTranscriptMetadata | null;
 };
 export type AssemblyReservation = {
   parent: DirectoryIdentity;
@@ -115,7 +115,7 @@ export async function assemblePackage(
     source: SourceEvidenceMetadata;
     scenes: SceneEvidenceMetadata;
     index: ScreenshotIndexMetadata;
-    transcript: TranscriptMetadata | null;
+    transcript: RecordingTranscriptMetadata | null;
   },
   owners: PackageOwners & { store: RevisionStore; worker: MediaWorker },
   parent: Workspace,

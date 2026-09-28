@@ -1,0 +1,49 @@
+$ vitest run src/deletion.test.ts src/package-guide.test.ts src/operations.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-transcript-ownership/apps/service
+
+(node:60520) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:60521) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:60522) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/operations.test.ts (6 tests | 1 failed) 7471ms
+   × transcripts prepare, page, search, project cuts and retry through the service 1705ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/operations.test.ts > transcripts prepare, page, search, project cuts and retry through the service
+AssertionError: expected { models: { …(2) }, …(2) } to match object { …(2) }
+(3 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -11,8 +11,7 @@
+        {
+          "endUs": 6000000,
+          "startUs": 4000000,
+        },
+      ],
+-     "role": "narration",
+    },
+  }
+
+ ❯ src/operations.test.ts:545:23
+    543|     .map((line) => JSON.parse(line));
+    544|   expect(requests).toHaveLength(1);
+    545|   expect(requests[0]).toMatchObject({
+       |                       ^
+    546|     models: {
+    547|       directory: join(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 16 passed (17)
+   Start at  22:43:01
+   Duration  9.67s (tests 69%, transform 24%, import 8%)
+
+error: script "test" exited with code 1

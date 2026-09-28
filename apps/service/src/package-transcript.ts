@@ -2,7 +2,7 @@ import { CatalogError } from "@screenrec/core/catalog";
 import { fileSubdirectory } from "@screenrec/core/files";
 import type { TimeRange } from "@screenrec/core/timeline";
 import { FileSourceEvidence } from "@screenrec/core/evidence-pages";
-import type { TranscriptMetadata } from "@screenrec/core/transcript";
+import type { RecordingTranscriptMetadata } from "@screenrec/core/transcript";
 import { FileTranscript, validateTranscriptPages } from "@screenrec/core/transcript-pages";
 import { TranscriptRead, transcriptContinuation } from "@screenrec/core/transcript-read";
 import {
@@ -56,7 +56,7 @@ type ReadInput = PackageTarget & {
 
 /** Transcript reads of a retained package, with the library's semantics over its portable pages. */
 export class PackageTranscriptInspection {
-  private portable: { records: FileTranscript; metadata: TranscriptMetadata } | undefined;
+  private portable: { records: FileTranscript; metadata: RecordingTranscriptMetadata } | undefined;
   constructor(private readonly media: PackageMediaContext) {}
 
   /** Resolves the revision once, as the library does, and the generation a continuation must name. */

@@ -9,10 +9,12 @@ import { OrderedPages, writeOrderedPages, type OrderedPageCodec } from "./ordere
 import type { TimeRange, TimelineRevision } from "./timeline.js";
 import {
   transcriptGaps,
+  recordingTranscriptIdentity,
+  type RecordingTranscriptIdentity,
   transcriptPolicy,
   type TranscriptGapRecord,
   type TranscriptIdentity,
-  type TranscriptMetadata,
+  type RecordingTranscriptMetadata,
   type TranscriptRecordQuery,
   type TranscriptRecords,
   type TranscriptSegmentRecord,
@@ -79,7 +81,7 @@ type Index = keyof typeof schemas;
 type Row = z.infer<(typeof schemas)[Index]>;
 type WordRow = z.infer<typeof schemas.words>;
 
-const codec: OrderedPageCodec<Row, TranscriptMetadata> = {
+const codec: OrderedPageCodec<Row, RecordingTranscriptMetadata> = {
   metadata: metadataSchema,
   orders: { words: 2, gaps: 1, segments: 1 },
   decode(value, { index }) {
@@ -135,21 +137,23 @@ type SourceTranscriptRecords = Pick<
 /** Writes one published generation in source time; the raw engine output is copied beside it. */
 export function writeTranscriptPages(
   records: SourceTranscriptRecords,
-  metadata: TranscriptMetadata,
+  metadata: RecordingTranscriptMetadata,
   directory: string,
   signal?: AbortSignal,
 ): Promise<void> {
   const rows = (index: string, query: TranscriptRecordQuery): Row[] =>
     index === "words"
-      ? records.wordRecords(metadata, query).map(wordRow)
+      ? records.wordRecords(recordingTranscriptIdentity(metadata), query).map(wordRow)
       : index === "gaps"
         ? records
-            .gapRecords(metadata, query)
+            .gapRecords(recordingTranscriptIdentity(metadata), query)
             .map(({ startUs, endUs, reason }) => ({ sourceRange: { startUs, endUs }, reason }))
-        : records.segmentRecords(metadata, query).map(({ startUs, endUs, ...segment }) => ({
-            ...segment,
-            sourceRange: { startUs, endUs },
-          }));
+        : records
+            .segmentRecords(recordingTranscriptIdentity(metadata), query)
+            .map(({ startUs, endUs, ...segment }) => ({
+              ...segment,
+              sourceRange: { startUs, endUs },
+            }));
   return writeOrderedPages(
     directory,
     { ...metadata, narration: { ...metadata.narration, source: portableNarration } },
@@ -169,7 +173,7 @@ export function writeTranscriptPages(
 
 /** One portable generation as the ordered records `TranscriptRead` consumes. */
 export class FileTranscript implements TranscriptRecords {
-  private readonly pages: OrderedPages<Row, TranscriptMetadata>;
+  private readonly pages: OrderedPages<Row, RecordingTranscriptMetadata>;
   readonly root: FileAccess;
   constructor(root: string | FileAccess) {
     this.root = fileAccess(root);
@@ -182,13 +186,14 @@ export class FileTranscript implements TranscriptRecords {
     )
       throw new CatalogError("INVALID_EVIDENCE", "Transcript page counts differ from metadata");
   }
-  get metadata(): TranscriptMetadata {
+  get metadata(): RecordingTranscriptMetadata {
     return structuredClone(this.pages.metadata);
   }
   private rows(identity: TranscriptIdentity, index: Index, query: TranscriptRecordQuery) {
     const { recordingId, sourceId, generation } = this.pages.metadata;
     if (
-      identity.recordingId !== recordingId ||
+      identity.owner.kind !== "recording" ||
+      identity.owner.recordingId !== recordingId ||
       identity.sourceId !== sourceId ||
       identity.generation !== generation
     )
@@ -270,7 +275,7 @@ export async function validateTranscriptPages(
   input: {
     source: string | FileAccess;
     edited: string | FileAccess;
-    identity: TranscriptIdentity;
+    identity: RecordingTranscriptIdentity;
     revision: TimelineRevision;
     /** Acquired narration intervals from the same package's source evidence. */
     narration: readonly TimeRange[];
@@ -318,7 +323,7 @@ async function validate(
   const segments: TranscriptSegmentRecord[] = [];
   let interval = 0;
   for await (const segment of all(
-    (query) => transcript.segmentRecords(identity, query),
+    (query) => transcript.segmentRecords(recordingTranscriptIdentity(identity), query),
     (row) => [row.ordinal],
   )) {
     while (interval < narration.length && narration[interval]!.endUs <= segment.startUs) interval++;
@@ -336,7 +341,7 @@ async function validate(
   const gaps = transcriptGaps(segments, revision.sourceDurationUs);
   let gap = 0;
   for await (const actual of all(
-    (query) => transcript.gapRecords(identity, query),
+    (query) => transcript.gapRecords(recordingTranscriptIdentity(identity), query),
     (row) => [row.startUs],
   ))
     if (!isDeepStrictEqual(actual, gaps[gap++]))
@@ -346,7 +351,7 @@ async function validate(
   let ordinal = 0,
     maxWordUs = 0;
   for await (const word of all(
-    (query) => transcript.wordRecords(identity, query),
+    (query) => transcript.wordRecords(recordingTranscriptIdentity(identity), query),
     (row) => [row.startUs, row.ordinal],
   )) {
     const segment = segments[word.segment];

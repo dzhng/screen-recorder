@@ -552,7 +552,7 @@ it("transcripts prepare, page, search, project cuts and retry through the servic
         parakeetModel.folderName,
       ),
     },
-    track: { role: "narration", available: narration },
+    track: { available: narration },
   });
   expect(requests[0].models.files).toEqual(parakeetModel.files);
 });

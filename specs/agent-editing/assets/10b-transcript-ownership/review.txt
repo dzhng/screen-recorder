@@ -1,0 +1,9 @@
+The ownership refactor leaves two existing tests incompatible with its changes: stale deletion SQL and a stale diagnostic expectation. Core type checking passes, but the focused transcript test run fails.
+
+Full review comments:
+
+- [P2] Update deletion fixtures for the owner-scoped transcript schema — /private/tmp/screenrec-transcript-ownership/packages/core/src/transcript.ts:239-240
+  The deletion test still inserts `recordingId`, `sourceGeneration`, and `narration` into `transcript_generations` (apps/service/src/deletion.test.ts:203), so the new schema makes it fail before exercising deletion. Its transcript-word insert and count queries also use the old schema. Update all three statements so the test continues verifying deletion and sibling isolation.
+
+- [P2] Update the expected diagnostic alongside its rename — /private/tmp/screenrec-transcript-ownership/packages/core/src/transcript.ts:357-357
+  The inconsistent-native-output test still expects “acquired narration interval” at packages/core/src/transcript.test.ts:774. Running the transcript suites now fails on this exact mismatch (21 passed, 1 failed). Update that expectation with the renamed diagnostic, consistent with the repository's [rename-sweep guidance](.agents/skills/code-review/SKILL.md#L182-L183).

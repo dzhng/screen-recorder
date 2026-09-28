@@ -1,0 +1,200 @@
+$ vitest run --maxWorkers=4 src/transcript-ownership.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-transcript-ownership/packages/core
+
+(node:17930) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/transcript-ownership.test.ts (7 tests | 3 failed) 589ms
+   × changed owner authority cannot publish indexed transcript rows 38ms
+   × changed source authority cannot publish indexed transcript rows 18ms
+   × changed descriptor authority cannot publish indexed transcript rows 25ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/transcript-ownership.test.ts > changed owner authority cannot publish indexed transcript rows
+AssertionError: promise resolved "{ …(11) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "engine": {
++     "computeUnits": "cpuAndNeuralEngine",
++     "decoder": "parakeet-tdt-batch",
++     "encoderPrecision": "int8",
++     "kindPolicy": "word-kind-v1",
++     "model": "model",
++     "modelDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
++     "modelRevision": "model-pin",
++     "policy": "transcript-v1",
++     "runtime": "FluidAudio",
++     "runtimeRevision": "runtime-pin",
++     "runtimeVersion": "0.15.7",
++   },
++   "gapCount": 2,
++   "generation": "same-attempt",
++   "maxWordUs": 200,
++   "owner": {
++     "assetId": "same-owner",
++     "kind": "asset",
++   },
++   "raw": {
++     "bytes": 154,
++     "sha256": "fe5eeb7142fb807d7fd924770b9b01588c2b095e37f0d93acdda70847b51d246",
++   },
++   "segmentCount": 1,
++   "source": {
++     "acquisitionId": "context-a",
++     "durationUs": 1000,
++     "kind": "asset",
++     "streamId": "track:7",
++     "supportDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
++   },
++   "sourceId": "same-owner",
++   "track": {
++     "source": "/tmp/transcript-owners-rqFrSx/immutable.mov",
++     "sourceOffsetUs": -250000,
++     "streamId": "track:7",
++   },
++   "wordCount": 1,
+  }
+
+ ❯ src/transcript-ownership.test.ts:84:24
+     82|   else if (change === "source") f.authoritative.set("asset", { sourceI…
+     83|   else f.authoritative.set("asset", { sourceId: asset.sourceId, source…
+     84|   await expect(pending).rejects.toMatchObject({ code: "UNAVAILABLE" });
+       |                        ^
+     85|   expect(f.catalog.catalog.prepare("SELECT state FROM transcript_gener…
+     86|   await f.store.reclaim(asset.owner, () => false, new AbortController(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/transcript-ownership.test.ts > changed source authority cannot publish indexed transcript rows
+AssertionError: promise resolved "{ …(11) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "engine": {
++     "computeUnits": "cpuAndNeuralEngine",
++     "decoder": "parakeet-tdt-batch",
++     "encoderPrecision": "int8",
++     "kindPolicy": "word-kind-v1",
++     "model": "model",
++     "modelDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
++     "modelRevision": "model-pin",
++     "policy": "transcript-v1",
++     "runtime": "FluidAudio",
++     "runtimeRevision": "runtime-pin",
++     "runtimeVersion": "0.15.7",
++   },
++   "gapCount": 2,
++   "generation": "same-attempt",
++   "maxWordUs": 200,
++   "owner": {
++     "assetId": "same-owner",
++     "kind": "asset",
++   },
++   "raw": {
++     "bytes": 154,
++     "sha256": "fe5eeb7142fb807d7fd924770b9b01588c2b095e37f0d93acdda70847b51d246",
++   },
++   "segmentCount": 1,
++   "source": {
++     "acquisitionId": "context-a",
++     "durationUs": 1000,
++     "kind": "asset",
++     "streamId": "track:7",
++     "supportDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
++   },
++   "sourceId": "same-owner",
++   "track": {
++     "source": "/tmp/transcript-owners-wd15Zk/immutable.mov",
++     "sourceOffsetUs": -250000,
++     "streamId": "track:7",
++   },
++   "wordCount": 1,
+  }
+
+ ❯ src/transcript-ownership.test.ts:84:24
+     82|   else if (change === "source") f.authoritative.set("asset", { sourceI…
+     83|   else f.authoritative.set("asset", { sourceId: asset.sourceId, source…
+     84|   await expect(pending).rejects.toMatchObject({ code: "UNAVAILABLE" });
+       |                        ^
+     85|   expect(f.catalog.catalog.prepare("SELECT state FROM transcript_gener…
+     86|   await f.store.reclaim(asset.owner, () => false, new AbortController(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/transcript-ownership.test.ts > changed descriptor authority cannot publish indexed transcript rows
+AssertionError: promise resolved "{ …(11) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "engine": {
++     "computeUnits": "cpuAndNeuralEngine",
++     "decoder": "parakeet-tdt-batch",
++     "encoderPrecision": "int8",
++     "kindPolicy": "word-kind-v1",
++     "model": "model",
++     "modelDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
++     "modelRevision": "model-pin",
++     "policy": "transcript-v1",
++     "runtime": "FluidAudio",
++     "runtimeRevision": "runtime-pin",
++     "runtimeVersion": "0.15.7",
++   },
++   "gapCount": 2,
++   "generation": "same-attempt",
++   "maxWordUs": 200,
++   "owner": {
++     "assetId": "same-owner",
++     "kind": "asset",
++   },
++   "raw": {
++     "bytes": 154,
++     "sha256": "fe5eeb7142fb807d7fd924770b9b01588c2b095e37f0d93acdda70847b51d246",
++   },
++   "segmentCount": 1,
++   "source": {
++     "acquisitionId": "context-a",
++     "durationUs": 1000,
++     "kind": "asset",
++     "streamId": "track:7",
++     "supportDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
++   },
++   "sourceId": "same-owner",
++   "track": {
++     "source": "/tmp/transcript-owners-t7eQoT/immutable.mov",
++     "sourceOffsetUs": -250000,
++     "streamId": "track:7",
++   },
++   "wordCount": 1,
+  }
+
+ ❯ src/transcript-ownership.test.ts:84:24
+     82|   else if (change === "source") f.authoritative.set("asset", { sourceI…
+     83|   else f.authoritative.set("asset", { sourceId: asset.sourceId, source…
+     84|   await expect(pending).rejects.toMatchObject({ code: "UNAVAILABLE" });
+       |                        ^
+     85|   expect(f.catalog.catalog.prepare("SELECT state FROM transcript_gener…
+     86|   await f.store.reclaim(asset.owner, () => false, new AbortController(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 4 passed (7)
+   Start at  21:54:07
+   Duration  1.03s (tests 68%, transform 19%, import 13%, worker 1%)
+
+error: script "test" exited with code 1

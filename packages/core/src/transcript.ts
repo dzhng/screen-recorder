@@ -5,7 +5,8 @@ import { basename, join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { z } from "zod";
 import { type RevisionStore } from "./library.js";
-import { CatalogError } from "./catalog.js";
+import { CatalogError, type Catalog } from "./catalog.js";
+import { ownerIdentity, type JobOwner } from "./jobs.js";
 import type { PageQuery } from "./ordered-pages.js";
 import type { SpeechEnginePins, SpeechModelRequest } from "./speech-models.js";
 import type { TimeRange } from "./timeline.js";
@@ -55,22 +56,77 @@ export type TranscriptEngine = SpeechEnginePins & {
   kindPolicy: typeof wordKindPolicy;
 };
 
+export type TranscriptOwner = Extract<JobOwner, { kind: "recording" | "asset" }>;
 export type TranscriptIdentity = Readonly<{
+  owner: TranscriptOwner;
+  sourceId: string;
+  generation: string;
+}>;
+export type TranscriptSource = Readonly<
+  { durationUs: number } & (
+    | { kind: "recording"; sourceGeneration: string }
+    | { kind: "asset"; streamId: string; acquisitionId?: string; supportDigest: string }
+  )
+>;
+type TranscriptDetails = {
+  engine: TranscriptEngine;
+  segmentCount: number;
+  wordCount: number;
+  gapCount: number;
+  /** Longest stored word, bounding the lookback for words covering a source point. */
+  maxWordUs: number;
+  raw: { bytes: number; sha256: string };
+};
+export type TranscriptMetadata = TranscriptIdentity &
+  TranscriptDetails & {
+    source: TranscriptSource;
+    track: Pick<SpeechTranscriptionRequest["track"], "source" | "streamId" | "sourceOffsetUs">;
+  };
+export type RecordingTranscriptIdentity = Readonly<{
   recordingId: string;
   sourceId: string;
   generation: string;
 }>;
-export type TranscriptMetadata = TranscriptIdentity & {
-  sourceGeneration: string;
-  engine: TranscriptEngine;
-  narration: { source: string; sourceOffsetUs: number };
-  segmentCount: number;
-  wordCount: number;
-  gapCount: number;
-  /** Longest stored word, which bounds how far before a span a word covering it can start. */
-  maxWordUs: number;
-  raw: { bytes: number; sha256: string };
-};
+/** The actual recording/package contract, which has no asset-source variant. */
+export type RecordingTranscriptMetadata = RecordingTranscriptIdentity &
+  TranscriptDetails & {
+    sourceGeneration: string;
+    narration: { source: string; sourceOffsetUs: number };
+  };
+export function recordingTranscriptIdentity(
+  value: RecordingTranscriptIdentity,
+): TranscriptIdentity {
+  return {
+    owner: { kind: "recording", recordingId: value.recordingId },
+    sourceId: value.sourceId,
+    generation: value.generation,
+  };
+}
+export function recordingTranscript(metadata: TranscriptMetadata): RecordingTranscriptMetadata {
+  const { owner, source, track, ...details } = metadata;
+  if (owner.kind !== "recording" || source.kind !== "recording")
+    throw new CatalogError("INVALID_EVIDENCE", "Recording transcript requires a recording source");
+  return {
+    ...details,
+    recordingId: owner.recordingId,
+    sourceGeneration: source.sourceGeneration,
+    narration: { source: track.source, sourceOffsetUs: track.sourceOffsetUs },
+  };
+}
+export function recordingTranscriptOwner(store: RevisionStore) {
+  return (identity: TranscriptIdentity, source: TranscriptSource): void => {
+    if (identity.owner.kind !== "recording" || source.kind !== "recording")
+      throw new CatalogError("INVALID_EVIDENCE", "Recording transcript requires a recording owner");
+    const recording = store.get(identity.owner.recordingId);
+    if (
+      !store.isAvailable(recording.recordingId) ||
+      recording.sourceId !== identity.sourceId ||
+      recording.sourceDurationUs === null ||
+      recording.sourceDurationUs !== source.durationUs
+    )
+      throw new CatalogError("UNAVAILABLE", "Recording no longer accepts this transcript source");
+  };
+}
 export type GapReason = "not_acquired" | "too_short";
 export type TranscriptWordRecord = {
   ordinal: number;
@@ -84,7 +140,7 @@ export type TranscriptWordRecord = {
   segment: number;
 };
 export type TranscriptGapRecord = { startUs: number; endUs: number; reason: GapReason };
-/** One readable narration interval as the engine saw it. */
+/** One readable source interval as the engine saw it. */
 export type TranscriptSegmentRecord = {
   ordinal: number;
   startUs: number;
@@ -151,14 +207,15 @@ function component(value: string): string {
     throw new CatalogError("INVALID_JOB", "Transcript identity is not a path component");
   return value;
 }
-const where = "recordingId=? AND generation=?";
+const where = "ownerKind=? AND ownerId=? AND generation=?";
 type GenerationRow = {
-  recordingId: string;
+  ownerKind: TranscriptOwner["kind"];
+  ownerId: string;
   sourceId: string;
   generation: string;
-  sourceGeneration: string;
+  source: string;
   engine: string;
-  narration: string;
+  track: string;
   segmentCount: number;
   wordCount: number;
   gapCount: number;
@@ -170,42 +227,50 @@ type GenerationRow = {
 /** Retained transcript rows and raw engine files; the job queue alone decides what is published. */
 export class TranscriptStore implements TranscriptRecords {
   constructor(
-    private readonly store: RevisionStore,
+    private readonly store: Catalog,
     private readonly home: string,
+    private readonly validateOwner: (
+      identity: TranscriptIdentity,
+      source: TranscriptSource,
+    ) => void,
   ) {
     store.catalog.exec(`
       CREATE TABLE IF NOT EXISTS transcript_generations (
-        recordingId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,
-        sourceGeneration TEXT NOT NULL,engine TEXT NOT NULL,narration TEXT NOT NULL,
+        ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,
+        source TEXT NOT NULL,engine TEXT NOT NULL,track TEXT NOT NULL,
         segmentCount INTEGER NOT NULL,wordCount INTEGER NOT NULL DEFAULT 0,gapCount INTEGER NOT NULL DEFAULT 0,
         maxWordUs INTEGER NOT NULL DEFAULT 0,rawSha256 TEXT,bytes INTEGER,state TEXT NOT NULL,
-        PRIMARY KEY(recordingId,generation)
+        PRIMARY KEY(ownerKind,ownerId,generation)
       ) STRICT;
       CREATE TABLE IF NOT EXISTS transcript_segments (
-        recordingId TEXT NOT NULL,generation TEXT NOT NULL,ordinal INTEGER NOT NULL,
+        ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,generation TEXT NOT NULL,ordinal INTEGER NOT NULL,
         startUs INTEGER NOT NULL,endUs INTEGER NOT NULL,state TEXT NOT NULL,reason TEXT,
-        PRIMARY KEY(recordingId,generation,ordinal)
+        PRIMARY KEY(ownerKind,ownerId,generation,ordinal)
       ) STRICT;
       CREATE TABLE IF NOT EXISTS transcript_words (
-        recordingId TEXT NOT NULL,generation TEXT NOT NULL,ordinal INTEGER NOT NULL,
+        ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,generation TEXT NOT NULL,ordinal INTEGER NOT NULL,
         startUs INTEGER NOT NULL,endUs INTEGER NOT NULL,instant INTEGER NOT NULL,text TEXT NOT NULL,
         kind TEXT NOT NULL,confidence REAL,segment INTEGER NOT NULL,
-        PRIMARY KEY(recordingId,generation,ordinal)
+        PRIMARY KEY(ownerKind,ownerId,generation,ordinal)
       ) STRICT;
       CREATE INDEX IF NOT EXISTS transcript_words_time
-        ON transcript_words(recordingId,generation,startUs,ordinal);
+        ON transcript_words(ownerKind,ownerId,generation,startUs,ordinal);
       CREATE TABLE IF NOT EXISTS transcript_gaps (
-        recordingId TEXT NOT NULL,generation TEXT NOT NULL,startUs INTEGER NOT NULL,
+        ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,generation TEXT NOT NULL,startUs INTEGER NOT NULL,
         endUs INTEGER NOT NULL,reason TEXT NOT NULL,
-        PRIMARY KEY(recordingId,generation,startUs)
+        PRIMARY KEY(ownerKind,ownerId,generation,startUs)
       ) STRICT;
     `);
   }
 
   /** Owned parent directories must be real directories so removal never follows a link out. */
-  private async parent(recordingId: string, create = false): Promise<string | null> {
+  private async parent(owner: TranscriptOwner, create = false): Promise<string | null> {
     let path = this.home;
-    for (const name of ["recordings", component(recordingId), "evidence", "transcript"]) {
+    const names =
+      owner.kind === "recording"
+        ? ["recordings", component(owner.recordingId), "evidence", "transcript"]
+        : ["transcripts", "assets", component(owner.assetId)];
+    for (const name of names) {
       path = join(path, name);
       if (create)
         await mkdir(path).catch((error: NodeJS.ErrnoException) => {
@@ -226,7 +291,7 @@ export class TranscriptStore implements TranscriptRecords {
   /** Creates the attempt's empty generation directory and names the file native must publish. */
   async reserve(identity: TranscriptIdentity): Promise<string> {
     const directory = join(
-      (await this.parent(identity.recordingId, true))!,
+      (await this.parent(identity.owner, true))!,
       component(identity.generation),
     );
     await mkdir(directory);
@@ -235,14 +300,29 @@ export class TranscriptStore implements TranscriptRecords {
 
   async ingest(input: {
     identity: TranscriptIdentity;
-    sourceGeneration: string;
+    source: TranscriptSource;
     request: SpeechTranscriptionRequest;
     receipt: SpeechTranscriptionReceipt;
     pins: SpeechEnginePins & { modelDigest: string };
     signal: AbortSignal;
   }): Promise<TranscriptMetadata> {
     const { identity, request, pins, signal } = input;
-    const { recordingId, sourceId, generation } = identity;
+    const { owner, sourceId, generation } = identity;
+    const [ownerKind, ownerId] = ownerIdentity(owner);
+    const source = input.source;
+    signal.throwIfAborted();
+    if (
+      source.kind !== owner.kind ||
+      !Number.isSafeInteger(source.durationUs) ||
+      source.durationUs < 0 ||
+      (source.kind === "asset" &&
+        (sourceId !== ownerId || source.streamId !== request.track.streamId))
+    )
+      throw new CatalogError(
+        "INVALID_EVIDENCE",
+        "Transcript source does not match its owner or selection",
+      );
+    this.validateOwner(identity, source);
     const parsed = receiptSchema.safeParse(input.receipt);
     if (!parsed.success) invalid("Transcription receipt is malformed");
     const receipt = parsed.data;
@@ -254,7 +334,7 @@ export class TranscriptStore implements TranscriptRecords {
       receipt.engine.decoder !== pins.decoder
     )
       invalid("Transcription receipt names another output or engine");
-    // Native narrows each acquired interval to the media the narration movie actually holds, so a
+    // Native narrows each acquired interval to the media the selected source actually holds, so a
     // segment is any ordered, nonempty part of one acquired interval; time between segments was not read.
     let words = 0,
       interval = 0,
@@ -274,15 +354,12 @@ export class TranscriptStore implements TranscriptRecords {
         (segment.state === "skipped") !== (segment.reason === "too_short") ||
         (segment.state === "skipped" && segment.wordCount !== 0)
       )
-        invalid("Transcription segment does not lie in an acquired narration interval");
+        invalid("Transcription segment does not lie in an acquired source interval");
       readUs = segment.source.endUs;
       words += segment.wordCount;
     }
     if (words !== receipt.wordCount) invalid("Transcription word count does not match segments");
-    const recording = this.store.get(recordingId);
-    const durationUs = recording.sourceDurationUs;
-    if (recording.state === "canceled" || recording.sourceId !== sourceId || durationUs === null)
-      throw new CatalogError("UNAVAILABLE", "Recording no longer accepts a transcript");
+    const durationUs = source.durationUs;
     const engine: TranscriptEngine = {
       ...pins,
       encoderPrecision: receipt.engine.encoderPrecision,
@@ -290,29 +367,31 @@ export class TranscriptStore implements TranscriptRecords {
       policy: transcriptPolicy,
       kindPolicy: wordKindPolicy,
     };
-    const narration = {
+    const track = {
       source: request.track.source,
+      ...(request.track.streamId === undefined ? {} : { streamId: request.track.streamId }),
       sourceOffsetUs: request.track.sourceOffsetUs,
     };
     this.store.catalog
       .prepare(
-        `INSERT INTO transcript_generations(recordingId,sourceId,generation,sourceGeneration,engine,narration,segmentCount,state)
-         VALUES(?,?,?,?,?,?,?,'ingesting')`,
+        `INSERT INTO transcript_generations(ownerKind,ownerId,sourceId,generation,source,engine,track,segmentCount,state)
+         VALUES(?,?,?,?,?,?,?,?,'ingesting')`,
       )
       .run(
-        recordingId,
+        ownerKind,
+        ownerId,
         sourceId,
         component(generation),
-        input.sourceGeneration,
+        JSON.stringify(source),
         JSON.stringify(engine),
-        JSON.stringify(narration),
+        JSON.stringify(track),
         receipt.segments.length,
       );
     const insertSegment = this.store.catalog.prepare(
-      "INSERT INTO transcript_segments VALUES(?,?,?,?,?,?,?)",
+      "INSERT INTO transcript_segments VALUES(?,?,?,?,?,?,?,?)",
     );
     const insertWord = this.store.catalog.prepare(
-      "INSERT INTO transcript_words VALUES(?,?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO transcript_words VALUES(?,?,?,?,?,?,?,?,?,?,?)",
     );
     let segments: SpeechTranscriptionReceipt["segments"] = [];
     let batch: TranscriptWordRecord[] = [];
@@ -321,7 +400,8 @@ export class TranscriptStore implements TranscriptRecords {
       this.store.transaction(() => {
         for (const segment of segments)
           insertSegment.run(
-            recordingId,
+            ownerKind,
+            ownerId,
             generation,
             segment.ordinal,
             segment.source.startUs,
@@ -331,7 +411,8 @@ export class TranscriptStore implements TranscriptRecords {
           );
         for (const word of batch)
           insertWord.run(
-            recordingId,
+            ownerKind,
+            ownerId,
             generation,
             word.ordinal,
             word.startUs,
@@ -452,11 +533,12 @@ export class TranscriptStore implements TranscriptRecords {
     );
     signal.throwIfAborted();
     return this.store.transaction(() => {
-      const insertGap = this.store.catalog.prepare("INSERT INTO transcript_gaps VALUES(?,?,?,?,?)");
+      const insertGap = this.store.catalog.prepare(
+        "INSERT INTO transcript_gaps VALUES(?,?,?,?,?,?)",
+      );
       for (const gap of gaps)
-        insertGap.run(recordingId, generation, gap.startUs, gap.endUs, gap.reason);
-      if (!this.store.isAvailable(recordingId))
-        throw new CatalogError("UNAVAILABLE", "Recording no longer accepts a transcript");
+        insertGap.run(ownerKind, ownerId, generation, gap.startUs, gap.endUs, gap.reason);
+      this.validateOwner(identity, source);
       this.store.catalog
         .prepare(
           `UPDATE transcript_generations SET wordCount=?,gapCount=?,maxWordUs=?,rawSha256=?,bytes=?,state='complete' WHERE ${where}`,
@@ -467,13 +549,14 @@ export class TranscriptStore implements TranscriptRecords {
           maxWordUs,
           receipt.output.sha256,
           bytes,
-          recordingId,
+          ownerKind,
+          ownerId,
           generation,
         );
       return metadata(
         this.store.catalog
           .prepare(`SELECT * FROM transcript_generations WHERE ${where}`)
-          .get(recordingId, generation) as GenerationRow,
+          .get(ownerKind, ownerId, generation) as GenerationRow,
       );
     });
   }
@@ -514,7 +597,7 @@ export class TranscriptStore implements TranscriptRecords {
       transcript_segments: "ordinal,startUs,endUs,state,reason",
     }[table];
     const clauses = [where];
-    const args: (string | number)[] = [identity.recordingId, identity.generation];
+    const args: (string | number)[] = [...ownerIdentity(identity.owner), identity.generation];
     const tuple = keys.length === 1 ? keys[0]! : `(${keys.join(",")})`;
     for (const [bound, operator] of [
       [query.lower, ">"],
@@ -535,12 +618,10 @@ export class TranscriptStore implements TranscriptRecords {
   }
 
   /** Removes one unretained generation's files and rows, yielding between bounded batches. */
-  async remove(
-    identity: Pick<TranscriptIdentity, "recordingId" | "generation">,
-    signal?: AbortSignal,
-  ) {
-    const { recordingId, generation } = identity;
-    const parent = await this.parent(recordingId);
+  async remove(identity: Pick<TranscriptIdentity, "owner" | "generation">, signal?: AbortSignal) {
+    const { owner, generation } = identity;
+    const [ownerKind, ownerId] = ownerIdentity(owner);
+    const parent = await this.parent(owner);
     if (parent) await rm(join(parent, component(generation)), { recursive: true, force: true });
     for (const table of ["transcript_words", "transcript_segments", "transcript_gaps"]) {
       for (;;) {
@@ -549,14 +630,14 @@ export class TranscriptStore implements TranscriptRecords {
           .prepare(
             `DELETE FROM ${table} WHERE rowid IN (SELECT rowid FROM ${table} WHERE ${where} LIMIT 256)`,
           )
-          .run(recordingId, generation);
+          .run(ownerKind, ownerId, generation);
         if (Number(removed.changes) < 256) break;
         await setImmediate(undefined, signal ? { signal } : {});
       }
     }
     this.store.catalog
       .prepare(`DELETE FROM transcript_generations WHERE ${where}`)
-      .run(recordingId, generation);
+      .run(ownerKind, ownerId, generation);
   }
 
   /**
@@ -564,7 +645,7 @@ export class TranscriptStore implements TranscriptRecords {
    * ingestion began) or only rows (a crash removed its directory first). Continues past failures.
    */
   async reclaim(
-    recordingId: string,
+    owner: TranscriptOwner,
     keep: (generation: string) => boolean,
     signal: AbortSignal,
   ): Promise<void> {
@@ -574,14 +655,14 @@ export class TranscriptStore implements TranscriptRecords {
       signal.throwIfAborted();
       if (keep(generation)) return;
       try {
-        await this.remove({ recordingId, generation }, signal);
+        await this.remove({ owner, generation }, signal);
       } catch (error) {
         signal.throwIfAborted();
         if (!failed) firstError = error;
         failed = true;
       }
     };
-    const parent = await this.parent(recordingId);
+    const parent = await this.parent(owner);
     if (parent)
       for await (const entry of await opendir(parent, { bufferSize: 16 })) await visit(entry.name);
     let after = "";
@@ -589,9 +670,9 @@ export class TranscriptStore implements TranscriptRecords {
       signal.throwIfAborted();
       const row = this.store.catalog
         .prepare(
-          "SELECT generation FROM transcript_generations WHERE recordingId=? AND generation>? ORDER BY generation LIMIT 1",
+          "SELECT generation FROM transcript_generations WHERE ownerKind=? AND ownerId=? AND generation>? ORDER BY generation LIMIT 1",
         )
-        .get(recordingId, after) as { generation: string } | undefined;
+        .get(...ownerIdentity(owner), after) as { generation: string } | undefined;
       if (!row) break;
       after = row.generation;
       await visit(row.generation);
@@ -599,11 +680,9 @@ export class TranscriptStore implements TranscriptRecords {
     if (failed) throw firstError;
   }
 
-  /** Deletion's hook: the caller has fenced the recording and stopped every transcript producer. */
-  async purgeRecording(recordingId: string, signal: AbortSignal): Promise<void> {
-    if (!this.store.isDeleting(recordingId))
-      throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
-    await this.reclaim(recordingId, () => false, signal);
+  /** The caller has fenced this owner and stopped every transcript producer. */
+  async purge(owner: TranscriptOwner, signal: AbortSignal): Promise<void> {
+    await this.reclaim(owner, () => false, signal);
   }
 }
 
@@ -627,12 +706,15 @@ export function transcriptGaps(
 
 function metadata(row: GenerationRow): TranscriptMetadata {
   return {
-    recordingId: row.recordingId,
+    owner:
+      row.ownerKind === "recording"
+        ? { kind: "recording", recordingId: row.ownerId }
+        : { kind: "asset", assetId: row.ownerId },
     sourceId: row.sourceId,
     generation: row.generation,
-    sourceGeneration: row.sourceGeneration,
+    source: JSON.parse(row.source) as TranscriptSource,
     engine: JSON.parse(row.engine) as TranscriptEngine,
-    narration: JSON.parse(row.narration) as TranscriptMetadata["narration"],
+    track: JSON.parse(row.track) as TranscriptMetadata["track"],
     segmentCount: row.segmentCount,
     wordCount: row.wordCount,
     gapCount: row.gapCount,

@@ -34,7 +34,7 @@ import { SourceProcessing } from "@screenrec/core/processing";
 import { PreviewInspection } from "@screenrec/core/preview";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
-import { TranscriptStore } from "@screenrec/core/transcript";
+import { TranscriptStore, recordingTranscriptOwner } from "@screenrec/core/transcript";
 import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import { Publication } from "../dist/publication.js";
 import { MediaExports } from "../dist/exports.js";
@@ -140,7 +140,7 @@ async function fixture(
   let processing, preview, exports, sceneOwner, indexOwner, transcriptOwner;
   const sceneEvidence = new SceneEvidenceStore(store);
   const indexEvidence = new ScreenshotIndexStore(store, home);
-  const transcriptEvidence = new TranscriptStore(store, home);
+  const transcriptEvidence = new TranscriptStore(store, home, recordingTranscriptOwner(store));
   const speech = { models: "ready", fail: null, requests: 0 };
   let recoverOnCapacity = false;
   const recoveryErrors = [];
