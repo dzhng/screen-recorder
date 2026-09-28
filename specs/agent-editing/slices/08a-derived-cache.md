@@ -1,6 +1,6 @@
 # 08a — Shared derived-file ownership
 
-Status: owner generalization implemented; [focused checks and independent review](../assets/08a-derived-cache/README.md) pass. Broad core runs retain deadline failures; revalidation remains open before this prerequisite closes. Dependencies: [02a](./02a-preparation-jobs.md), [04](./04-projects.md). Independent of native execution.
+Status: verified for shared cache ownership and preservation. [Focused checks, independent review and pre-change deadline controls](../assets/08a-derived-cache/README.md) pass their stated gates. Broad-suite timing is not green; inherited storage/history deadlines remain explicit under 24, not erased by this acceptance. Dependencies: [02a](./02a-preparation-jobs.md), [04](./04-projects.md). Independent of native execution.
 
 ## Contract
 

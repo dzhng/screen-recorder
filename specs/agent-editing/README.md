@@ -20,8 +20,8 @@ pictures, strict streamed records and source/ancestor availability provenance.
 Next integrate [07 video](slices/07-video-execution.md) and
 [08 audio](slices/08-audio-mixing.md) from their isolated implementation worktrees
 after review and decoded-media verification. [08a derived-file ownership](slices/08a-derived-cache.md)
-is implemented at its owner seam; revalidate its retained broad-test deadline failures
-while native work proceeds. Project previews must reuse this cache. Audio resampling still needs its
+is verified at its owner seam, with broad-test deadline failures retained under 24.
+Project previews must reuse this cache. Audio resampling still needs its
 bounded-context and fractional-phase gates settled; video is checking production
 parity, cancellation and resource bounds. Then wire the first public rendered
 editing checkpoint [09](slices/09-first-preview.md). State journeys do not close it.
@@ -78,10 +78,10 @@ Current evidence:
 - [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.
-- [05 compiler](assets/05-compiler/README.md): 92 tests, integrated composition/core
+- [05 compiler](assets/05-compiler/README.md): 95 tests, integrated composition/core
   builds, core typecheck and strict-record probe pass; no native readiness claim.
 - [08a derived cache](assets/08a-derived-cache/README.md): owner isolation/lifecycle
-  checks and independent review pass; broad core deadlines remain explicitly red.
+  checks, independent review and baseline controls pass; broad core deadlines remain explicitly red.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
   independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
   verifies profile conversion on the tested frames; encoding loss remains explicit.
@@ -188,7 +188,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
 - [ ] [07 — Execute video plans](slices/07-video-execution.md)
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
-- [ ] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
+- [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [ ] [09 — First public preview and export](slices/09-first-preview.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)

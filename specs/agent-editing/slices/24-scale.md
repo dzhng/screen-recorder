@@ -5,7 +5,7 @@ deadline from [baseline maintenance](../assets/00-baseline/audio-fix/review.md);
 neither baseline nor changed diagnostic establishes a pass. The inherited storage
 inventory deadline also failed during concurrent build/native tests but passes
 unchanged in isolation; retain this load-sensitive case in final scale verification.
-See [integration evidence](../assets/integration/README.md). Dependencies: [23](./23-cutover.md).
+See [integration evidence](../assets/integration/README.md). The [cache-owner control](../assets/08a-derived-cache/README.md) also reproduces the large-history and storage setup deadlines before the cache change; processing checks pass in isolation. Revalidate these without relaxing their functional/bounded-work assertions. Dependencies: [23](./23-cutover.md).
 
 ## Contract
 

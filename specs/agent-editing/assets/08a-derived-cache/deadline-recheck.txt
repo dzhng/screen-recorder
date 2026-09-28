@@ -1,0 +1,63 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:57560) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/processing.test.ts (9 tests | 1 failed) 17497ms
+   × cleanup reclaims every crash phase while preserving published evidence and immutable source 5555ms
+(node:57690) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/projects.test.ts (6 tests | 1 failed) 11470ms
+   × large deleted histories retire in restartable pages without losing the tombstone 9496ms
+(node:57893) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/storage.test.ts (13 tests | 1 failed) 12476ms
+   × large file and reservation inventories yield while unrelated catalog reads keep working 5255ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/processing.test.ts > cleanup reclaims every crash phase while preserving published evidence and immutable source
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/processing.test.ts:197:1
+    195| }
+    196|
+    197| test("cleanup reclaims every crash phase while preserving published ev…
+       | ^
+    198|   const f = await fixture();
+    199|   const recording = f.finish();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/projects.test.ts > large deleted histories retire in restartable pages without losing the tombstone
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/projects.test.ts:240:1
+    238| });
+    239|
+    240| test("large deleted histories retire in restartable pages without losi…
+       | ^
+    241|   const { store, catalog } = await setup();
+    242|   const created = store.create({ requestId: "paged", canvas });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/storage.test.ts > large file and reservation inventories yield while unrelated catalog reads keep working
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/storage.test.ts:144:1
+    142| });
+    143|
+    144| test("large file and reservation inventories yield while unrelated cat…
+       | ^
+    145|   const { home, store, cache, storage, take, file } = await fixture();
+    146|   const other = store.allocate().recording;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  3 failed | 25 passed (28)
+   Start at  19:03:53
+   Duration  48.07s (tests 89%, transform 8%, import 3%)
+

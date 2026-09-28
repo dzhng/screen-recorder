@@ -1,0 +1,73 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-cache-baseline/packages/core
+
+(node:61292) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61377) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61377) PromiseRejectionHandledWarning: Promise rejection was handled asynchronously (rejection id: 7)
+ ❯ src/storage.test.ts (13 tests | 1 failed) 6272ms
+   × large file and reservation inventories yield while unrelated catalog reads keep working 5105ms
+(node:61430) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/projects.test.ts (6 tests | 1 failed) 5987ms
+   × large deleted histories retire in restartable pages without losing the tombstone 5545ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/projects.test.ts > large deleted histories retire in restartable pages without losing the tombstone
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/projects.test.ts:240:1
+    238| });
+    239|
+    240| test("large deleted histories retire in restartable pages without losi…
+       | ^
+    241|   const { store, catalog } = await setup();
+    242|   const created = store.create({ requestId: "paged", canvas });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/storage.test.ts > large file and reservation inventories yield while unrelated catalog reads keep working
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/storage.test.ts:144:1
+    142| });
+    143|
+    144| test("large file and reservation inventories yield while unrelated cat…
+       | ^
+    145|   const { home, store, cache, storage, take, file } = await fixture();
+    146|   const other = store.allocate().recording;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: Storage inspection was canceled
+ ❯ RecordingStorage.inspect src/storage.ts:261:15
+    259|     } catch (error) {
+    260|       if (this.lifetime.signal.aborted)
+    261|         throw new CatalogError("CANCELED", "Storage inspection was can…
+       |               ^
+    262|       if (error instanceof CatalogError) throw error;
+    263|       throw new CatalogError(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'CANCELED', details: {}, retryable: false }
+This error originated in "src/storage.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "large file and reservation inventories yield while unrelated catalog reads keep working". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  2 failed | 26 passed (28)
+     Errors  1 error
+   Start at  19:08:48
+   Duration  24.16s (tests 90%, transform 6%, import 3%)
+

@@ -32,3 +32,20 @@ regression acceptance or a public preview route.
 Original assets and retained generated media remain outside this evictable cache.
 When 09 publishes project derivatives, its deletion coordinator must drain readers
 and purge their cache ownership before retiring project history.
+
+
+A control snapshot from pre-cache commit `a4bd655` was extracted with `git archive`,
+built with the same installed dependencies, and ran the same processing/project/
+storage files with one worker. It passes 26/28 and reproduces both the large-history
+and storage deadlines ([control output](before-cache-deadlines.txt)). The current
+[focused rerun](deadline-recheck.txt) passes 25/28, additionally timing out in
+processing cleanup. This establishes that two deadlines precede the cache change;
+it does not certify the remaining one or turn either deadline into a pass.
+
+
+The remaining processing file passes all nine tests in a subsequent isolated run
+([output](processing-isolated.txt)), with unchanged assertions and deadlines.
+Together with the pre-change control, this supports cache-owner preservation;
+it does not establish a green broad suite under concurrent load. The owner seam
+is accepted; the inherited storage/history deadline behavior remains explicit
+work for final scale verification.
