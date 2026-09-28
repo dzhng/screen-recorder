@@ -21,10 +21,8 @@ const report = {
   passed: false,
   trace: [],
   checks: {},
-  pending: [
-    "Selected-source still delivery and retained screenshot indexes",
-    "Acquisition-mask public picture journey and fresh visual review of public artifacts",
-  ],
+  scope:
+    "Project video pictures; selected-source, retained-index and acquisition-gap media have separate live journeys",
 };
 const service = new JourneyService(home, report);
 const call = service.call.bind(service);

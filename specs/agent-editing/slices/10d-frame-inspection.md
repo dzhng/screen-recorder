@@ -50,128 +50,68 @@ procedure; no listening or broader codec-quality claim follows from stills.
 ## Failure boundary and discretion
 
 Do not create a second layer/transform interpreter or bypass source availability.
-Unimplemented pointer/geometry features remain their named later gates.
+Pointer execution and broader output-profile acceptance remain their named later
+gates; static geometry is verified under 15.
 
 Delegated: extraction of the coherent native picture executor and index storage
 representation. Sampling, capability, identity and single-owner rules are fixed.
 Update slice Status and the README handoff after verified passes.
 
 
-## Picture planning checkpoint
+## Current pickup
 
-The compiler now selects the video plane through the same contributor, processing
-and execution-window owners used by movies and audio inspection. A narrow request
-inside a frame retains that frame's global sample timestamp; unrelated audio
-retiming and audio processing do not block the picture. [Focused evidence](../assets/10d-picture-window/README.md)
-covers this pure planning prerequisite, not delivered-image acceptance.
+Complete raw-image public frame delivery, then project still composition and its
+retained indexes. Reuse the native still owner below, retain truthful timeless
+image provenance, and verify actual CLI/MCP media and lifecycle. The public timed
+picture/index and acquired-gap checkpoints already pass; do not restart them as
+unimplemented features. Preserve their existing journeys when changing shared
+owners. Whole-slice closure still requires reconciling every acceptance item.
 
-The [core demanded-picture lifecycle](../assets/10d-project-frame-core/README.md)
-now pins requests and checks native receipt identity under the shared job/cache
-owners. Its controlled-renderer tests do not establish native or public acceptance.
-Concurrent frame and movie staging share safe workspace lifetime. The
-[public project-picture journey](../assets/10d-public-project-frames/README.md)
-verifies actual delivery and retained-source rendering after project deletion.
-## Native checkpoint
+## Established evidence
 
-Demanded PNGs and movies share one compiled-picture execution owner, including
-selected-stream physical membership, support masking, orientation and the canvas
-raster. Delivery bounds apply after that raster. Receipts preserve compiler time
-separately from the actual physical sample and distinguish unavailable pictures
-from an empty canvas. The [native checkpoint evidence](../assets/10d-native-pictures/EVIDENCE.md)
-records the executed gates and links the corrected common-profile visual review. This does
-not close the public delivery, selected-source or retained-index gates above.
+[Compiler picture planning](../assets/10d-picture-window/README.md) and
+[core lifecycle](../assets/10d-project-frame-core/README.md) are prerequisites.
+[Native extraction](../assets/10d-native-pictures/EVIDENCE.md) and
+[public project pictures](../assets/10d-public-project-frames/README.md) supply
+actual delivered media. The common profile references received limited independent
+visual review; this does not establish broad codec/color quality.
 
-## Selected-source native/core checkpoint
+[Selected-source extraction](../assets/10d-source-frames/README.md),
+[public routing](../assets/10d-source-routing/README.md), and
+[actual source delivery](../assets/10d-source-frame-public/README.md) verify
+stream selection, physical gaps, provenance, retry and retained acquisition
+lifetime. [Physical no-picture observations](../assets/10d-source-empty-observation/README.md)
+distinguish a demanded empty sample from decoder failure. [Fresh frame skill use](../assets/10d-frame-skill/README.md)
+checks an external consumer. Raw images remain the distinct next public path.
 
-[Selected timed-video source frames](../assets/10d-source-frames/README.md) use the
-shared frame inspection lifetime and explicit-track physical presentation reader.
-Source clocks, sample support, acquisition exclusion and source-only references are
-verified; [public routing](../assets/10d-source-routing/README.md) and actual
-source delivery also pass. Raw still-image source
-requests remain explicitly unsupported under 10d/06, without inventing timed media.
-Scene/interruption events and retained source indexes are verified below; project
-cut events are verified in 10c; project-index projection remains required follow-up.
+[Scene ownership](../assets/10d-scene-ownership/README.md),
+[selected-source sampling](../assets/10d-source-scene-sampling/README.md), and
+[actual source/project scenes](../assets/10d-public-scenes/README.md) retain
+physical clocks and measured before/after observations.
+[Fresh scene skill use](../assets/10d-scene-skill/README.md) verifies occurrence
+coverage and explicit dependency recovery. Authored project cuts belong to
+[10c](10c-occurrence-queries.md), not the visual scene detector.
 
-## Retained scene-store prerequisite
+[Retained index ownership](../assets/10d-index-ownership/README.md),
+[source selection](../assets/10d-source-index-selection/README.md),
+[queued source production](../assets/10d-source-index-jobs/README.md), and
+[service integration](../assets/10d-source-index-service/README.md) lead to
+[actual source-index journeys](../assets/10d-source-index-public/README.md).
+The latter verify paging, batch images, short physical islands, retry and retained
+history/restart; controlled empty-admission cases are labeled separately.
+[Fresh source-index skill use](../assets/10d-source-index-skill/README.md) verifies
+the public recovery/read workflow.
 
-The [scene ownership checkpoint](../assets/10d-scene-ownership/README.md) separates
-asset/stream/context identity from actual recording/package views while retaining
-the canonical chunk and generation owners. Sampling, preparation and projected scene events are verified in the checkpoints
-below. A completed store generation alone does not establish index readiness;
-the public source-index journey verifies selection, materialization and delivery.
-
-## Selected-source public delivery checkpoint
-
-[Public source-frame evidence](../assets/10d-source-frame-public/README.md) now
-covers actual CLI/MCP PNG delivery, mixed batches, retained acquisition authority,
-physical gaps and cancellation/retry. Exact color-managed pixels preserve the
-reviewed native reference set. Public custom video-mask admission is not covered:
-the existing acquisition importer exposes physical video support, while narrower
-mask verification remains native/core only. Raw still-image admission and project-index projection remain open.
-
-[Product skill use](../assets/10d-frame-skill/README.md) passes a fresh weakest-model
-run against the frozen source/project picture runtime. The agent distinguishes
-source gaps and the project global sample clock without task-specific coaching.
-
-
-The [selected-source scene sampler](../assets/10d-source-scene-sampling/README.md)
-now preserves exact physical clocks and gaps between grid observations. Its
-separate presentation policy does not change recording nearest-sample evidence.
-[Retained asset chunks and actual-boundary indexing](../assets/10d-source-scene-retention/README.md)
-now preserve this policy through paging and restart. [Source preparation jobs](../assets/10d-source-scene-preparation/README.md)
-use the shared queue and retain their selected dependencies. [Core scene event readers](../assets/10d-scene-event-readers/README.md)
-merge exact boundaries into repeated project occurrences and preserve source
-stillness/gap context. [Public scene journeys](../assets/10d-public-scenes/README.md)
-now verify actual preparation, source/project event reads and capture preservation.
-Retained source indexes are verified below; project-index projection remains next.
-Project cuts are verified by [10c](10c-occurrence-queries.md).
-
-
-[Retained screenshot ownership](../assets/10d-index-ownership/README.md) now admits
-real selected-source PNG/coverage records through the existing store and leases,
-while preserving recording/package serialization. Source selection/materialization is verified below; project frame-phase mapping
-remains required before project index readiness.
-
-[Fresh scene skill use](../assets/10d-scene-skill/README.md) verifies whole-project
-occurrence coverage and explicit canceled-dependency recovery. It does not close
-retained screenshot selection or visual detector-quality acceptance.
-[Physical no-picture observations](../assets/10d-source-empty-observation/README.md)
-distinguish actual empty samples from ordinary decoder failures. Native support-edge
-evidence establishes why source selection must inspect short supported islands.
-
-[Source index selection](../assets/10d-source-index-selection/README.md) now plans
-bounded raw-picture requests from observed scene sides and support edges, and
-retains verified demanded no-picture provenance. Shared-queue materialization and final public coverage are verified below.
-
-[Retained source index jobs](../assets/10d-source-index-jobs/README.md) now publish
-source images and coverage using the shared queue/readers. Exact queued scene
-retention, terminal retry/cancellation and real native preparation pass. Public source index delivery is verified below; project frame-phase projection
-remains the next gate.
-
-## Source index public routing checkpoint
-
-[Service integration](../assets/10d-source-index-service/README.md) routes flat
-selected-source requests and retained PNG delivery through the shared owners.
-The public journey below supplies native acceptance beyond producer checks and
-existing adapter preservation.
-
-## Source index skill checkpoint
-
-[Fresh product-skill use](../assets/10d-source-index-skill/README.md) recovers a
-canceled prerequisite and retrieves every source storyboard entry, image and
-coverage interval through the actual public CLI. It preserves requested versus
-decoded clocks, generation and uncertainty. Multi-page and broader lifecycle
-acceptance belong to the public journey; project index projection remains open.
-[Public source-index delivery](../assets/10d-source-index-public/README.md) now passes
-actual CLI/MCP/native preparation, dependency retry, paging, image/batch delivery,
-physical short-island selection and retained independence across history/restart.
-Controlled empty-support/ready-empty admission cases are labeled separately.
-Project retained-index frame-phase projection remains open.
-
-[Project frame-boundary timing](../assets/10d-project-index-clock/README.md) now
-selects neighbors through the compiler's existing integer-floor sample clock and
-shared visibility builder. This pure seam preserves movie/picture plans. Candidate
-selection is verified below; retained materialization and public delivery remain open.
+[Compiler frame boundaries](../assets/10d-project-index-clock/README.md),
+[project candidate selection](../assets/10d-project-index-selection/README.md),
+[retained project ownership](../assets/10d-project-index-domain/README.md), and
+[queued materialization](../assets/10d-project-index-processing/README.md) support
+[actual public project-index journeys](../assets/10d-project-index-public/README.md).
+Those delivered-media checks include empty/background projects, dry/processed
+taps, cancellation/retry, complete coverage paging, historical reads and deletion.
+[Fresh reinspection](../assets/10d-frame-visibility/README.md) resolves the earlier
+public range ambiguity without changing PNGs. [Combined native verification](../assets/10d-inspection-integration/README.md)
+preserves these paths alongside still decoding and the acquired-gap fix.
 
 ## Project retained-index selection contract
 
@@ -210,7 +150,7 @@ validates identity, PNG receipts, exact sampled coverage and store lifetime.
 Preparation and frame materialization now retain multi-source scene dependencies
 through indexed job references. Reclaim retained project indexes
 through the existing deletion owner after work drains and delivery leases are
-revoked. Public routing and real CLI/MCP/native journeys follow those owners.
+revoked. Public routing and real CLI/MCP/native journeys now verify those owners.
 Selection/reason budgets refuse explicitly rather than truncate; slice 24 owns
 release-scale measurements. Before rendering, the producer must call the shared
 record preflight, including a heavily overlapping frame regression.
@@ -221,41 +161,20 @@ inspection must not invent another anchor/curve interpreter. A short activation
 between periodic samples must get candidates before temporal processing is accepted.
 
 
-## Retained project ownership checkpoint
+## Retained production and lifetime
 
-[Real-store ownership checks](../assets/10d-project-index-domain/README.md) now cover
-empty/audio-only projects, selected scene pins, frame identity, full sampled
-visibility, restart, reader fencing and reclamation. Their frozen PNGs and synthetic
-native receipts prove ownership, not visual/native or public index acceptance.
-The shared record encoder supplies the producer byte preflight before actual
-frame work; public materialization acceptance remains a separate gate.
+The shared record encoder preflights all candidate bytes before rendering.
+Source and project scene dependencies use normalized job-input references, kept
+through retryable failure and older active attempts until they drain. Successful
+retained PNG publication releases preparation inputs; readers use the stored
+generation's pins without requiring current scenes or renderer availability.
+Catalog format 12 refuses earlier development catalogs missing these semantics.
 
-Public picture receipts omit renderer-private visual instructions. Native
-publication still compares the complete compiled graph before projecting timing,
-layers and physical-source observations; retained admission checks that same public
-projection. The project-picture recipe advances for this artifact-shape change.
-[Actual CLI/MCP delivery and fresh reinspection](../assets/10d-project-index-domain/integrated.json)
-confirm the public receipt boundary with unchanged images. This does not close
-project-index queue or public producer acceptance.
-
-## Project materialization checkpoint
-
-[Project producer and lifetime checks](../assets/10d-project-index-processing/README.md)
-now exercise the shared heavy/frame queue, retained PNG copies, exact coverage,
-empty/background projects, byte preflight, cancellation/retry/restart and retained
-readers. Source and project scene dependencies use normalized job-input references;
-job retirement also releases ordinary asset/acquisition references. Catalog format
-12 refuses earlier development catalogs that lack those semantic input references.
-These are real-owner tests with controlled renderer receipts, not public/native
-acceptance. [Public protocol/service/deletion integration and actual index journeys](../assets/10d-project-index-public/README.md)
-now pass with native pictures and retained coverage. Reclamation uses the existing
-store after job/delivery drain. [Fresh product-skill use](../assets/10d-project-index-skill/README.md)
-exposes competing one-microsecond request and full-frame visibility ranges; resolve
-that public metadata ambiguity through the compiler clock and repeat fresh use.
-[The visibility correction and fresh reinspection](../assets/10d-frame-visibility/README.md)
-now resolve that ambiguity with unchanged pixels. Raw still admission and all
-remaining 10d gates are not implied by those checks.
-
+The existing deletion owner reclaims retained project indexes after active work
+and delivery leases drain. There is no second cleanup worker. Public native
+journeys verify open-delivery revocation, external copy preservation and unrelated
+project survival. Native frame receipts still validate the full compiled graph;
+public and retained receipts omit renderer-private execution coordinates.
 
 ## Public frame visibility
 
