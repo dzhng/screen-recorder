@@ -1,0 +1,213 @@
+{
+  "hypothesis": "Color subsampling creates large edge deltas even without compression",
+  "inputSha256": "d8f2a2e3bdc9c2dc8ba58370ddad9cd97d87469c6feed6a4d8af633c91f0f46b",
+  "size": [
+    40,
+    64
+  ],
+  "frames": 8,
+  "encoder": "none",
+  "trials": [
+    {
+      "format": "yuv444p",
+      "commands": [
+        [
+          "/opt/homebrew/bin/ffmpeg",
+          "-v",
+          "error",
+          "-f",
+          "rawvideo",
+          "-pixel_format",
+          "rgba",
+          "-video_size",
+          "40x64",
+          "-framerate",
+          "8",
+          "-i",
+          "/tmp/screenrec-zoom-chroma-confirm/input.rgba",
+          "-vf",
+          "scale=in_range=pc:out_range=tv:out_color_matrix=bt709:flags=accurate_rnd+full_chroma_int",
+          "-pix_fmt",
+          "yuv444p",
+          "-f",
+          "rawvideo",
+          "/tmp/screenrec-zoom-chroma-confirm/yuv444p.raw"
+        ],
+        [
+          "/opt/homebrew/bin/ffmpeg",
+          "-v",
+          "error",
+          "-f",
+          "rawvideo",
+          "-pixel_format",
+          "yuv444p",
+          "-video_size",
+          "40x64",
+          "-framerate",
+          "8",
+          "-i",
+          "/tmp/screenrec-zoom-chroma-confirm/yuv444p.raw",
+          "-vf",
+          "scale=in_range=tv:out_range=pc:in_color_matrix=bt709:flags=accurate_rnd+full_chroma_int",
+          "-pix_fmt",
+          "rgba",
+          "-f",
+          "rawvideo",
+          "/tmp/screenrec-zoom-chroma-confirm/yuv444p.rgba"
+        ]
+      ],
+      "outputSha256": "db5e1ee235b3d3c5f0196a634960c35bbd73780aabe4b3539c84ee666f33cfe3",
+      "samples": [
+        {
+          "index": 0,
+          "max": 1,
+          "mean": 0.028125,
+          "fractionOver4": 0.0
+        },
+        {
+          "index": 1,
+          "max": 1,
+          "mean": 0.03333333333333333,
+          "fractionOver4": 0.0
+        },
+        {
+          "index": 2,
+          "max": 1,
+          "mean": 0.05286458333333333,
+          "fractionOver4": 0.0
+        },
+        {
+          "index": 3,
+          "max": 2,
+          "mean": 0.08528645833333333,
+          "fractionOver4": 0.0
+        },
+        {
+          "index": 4,
+          "max": 1,
+          "mean": 0.1125,
+          "fractionOver4": 0.0
+        },
+        {
+          "index": 5,
+          "max": 1,
+          "mean": 0.09049479166666667,
+          "fractionOver4": 0.0
+        },
+        {
+          "index": 6,
+          "max": 1,
+          "mean": 0.06158854166666667,
+          "fractionOver4": 0.0
+        },
+        {
+          "index": 7,
+          "max": 1,
+          "mean": 0.051432291666666664,
+          "fractionOver4": 0.0
+        }
+      ]
+    },
+    {
+      "format": "yuv420p",
+      "commands": [
+        [
+          "/opt/homebrew/bin/ffmpeg",
+          "-v",
+          "error",
+          "-f",
+          "rawvideo",
+          "-pixel_format",
+          "rgba",
+          "-video_size",
+          "40x64",
+          "-framerate",
+          "8",
+          "-i",
+          "/tmp/screenrec-zoom-chroma-confirm/input.rgba",
+          "-vf",
+          "scale=in_range=pc:out_range=tv:out_color_matrix=bt709:flags=accurate_rnd+full_chroma_int",
+          "-pix_fmt",
+          "yuv420p",
+          "-f",
+          "rawvideo",
+          "/tmp/screenrec-zoom-chroma-confirm/yuv420p.raw"
+        ],
+        [
+          "/opt/homebrew/bin/ffmpeg",
+          "-v",
+          "error",
+          "-f",
+          "rawvideo",
+          "-pixel_format",
+          "yuv420p",
+          "-video_size",
+          "40x64",
+          "-framerate",
+          "8",
+          "-i",
+          "/tmp/screenrec-zoom-chroma-confirm/yuv420p.raw",
+          "-vf",
+          "scale=in_range=tv:out_range=pc:in_color_matrix=bt709:flags=accurate_rnd+full_chroma_int",
+          "-pix_fmt",
+          "rgba",
+          "-f",
+          "rawvideo",
+          "/tmp/screenrec-zoom-chroma-confirm/yuv420p.rgba"
+        ]
+      ],
+      "outputSha256": "ee77afd86b6d52a99a4a5bf6da2a6a18eecc8ce2b8c596ecb1a0c86ffa786a1b",
+      "samples": [
+        {
+          "index": 0,
+          "max": 97,
+          "mean": 1.79453125,
+          "fractionOver4": 0.06809895833333333
+        },
+        {
+          "index": 1,
+          "max": 122,
+          "mean": 2.1654947916666667,
+          "fractionOver4": 0.08723958333333333
+        },
+        {
+          "index": 2,
+          "max": 111,
+          "mean": 2.7861979166666666,
+          "fractionOver4": 0.10963541666666667
+        },
+        {
+          "index": 3,
+          "max": 94,
+          "mean": 2.9309895833333335,
+          "fractionOver4": 0.11901041666666666
+        },
+        {
+          "index": 4,
+          "max": 97,
+          "mean": 1.9703125,
+          "fractionOver4": 0.07486979166666667
+        },
+        {
+          "index": 5,
+          "max": 87,
+          "mean": 1.5888020833333334,
+          "fractionOver4": 0.0703125
+        },
+        {
+          "index": 6,
+          "max": 91,
+          "mean": 1.1604166666666667,
+          "fractionOver4": 0.04674479166666667
+        },
+        {
+          "index": 7,
+          "max": 79,
+          "mean": 0.7888020833333333,
+          "fractionOver4": 0.03658854166666667
+        }
+      ]
+    }
+  ],
+  "scope": "Controlled RGB/YUV code-value roundtrip, not a native display or production profile"
+}

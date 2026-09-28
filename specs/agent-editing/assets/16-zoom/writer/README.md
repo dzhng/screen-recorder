@@ -50,3 +50,8 @@ the normalized writer bytes exactly, with the same <=1 direct-PNG differences.
 `lossless-control.json` and `lossless-control.mov` retain that positive control.
 This isolates a lossless display route; it neither ships a new format nor proves
 which part of the H.264 conversion/compression/decode path causes each artifact.
+
+The [controlled chroma comparison](chroma/README.md) separates subsampling from
+compression: RGB/YUV 4:4:4 roundtrips stay within two levels, while 4:2:0 alone
+reaches 79–122 without any encoder. This is a reason to distinguish codec loss
+from incorrect geometry; it does not select a production quality profile.

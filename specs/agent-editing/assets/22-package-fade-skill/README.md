@@ -11,7 +11,7 @@ project's final revision is current, and its export receipt hash matches the
 actual file. Eight direct native PNGs exactly match separately authored constant
 opacity controls: time/2 seconds for the first half, half that value for the second.
 The four first-half frames also match the donor byte for byte. Fresh visual review
-of all20 originals and the comparison sheet found matching groups, stable geometry,
+of all 20 originals and the comparison sheet found matching groups, stable geometry,
 an initial black image, and the same brightness drop at the requested midpoint.
 Stills do not establish motion smoothness, audio or general encoding quality.
 
@@ -33,10 +33,10 @@ delivery, with unchanged project head. Its complete receipts are retained in
 oracle: root's independent constant controls verify the exact direct PNGs.
 
 `consumer/` retains all original requests, responses, package, media and inspection
-outputs. `examiner/` retains independent public receipts and20PNG captures;
+outputs. `examiner/` retains independent public receipts and 20 PNG captures;
 `examiner-source.mjs.gz` freezes the executed probe. No installed app or real user
 library was touched. This asset-only skill trial does not close retained acquisition,
-model-output or font dependency portability in slice22.
+model-output or font dependency portability in slice 22.
 
 Large help/trace receipts are gzip-compressed without changing their bytes;
 `compressed-receipts.json` retains uncompressed hashes and `sha256.json` pins all

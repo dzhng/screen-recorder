@@ -49,6 +49,6 @@ retain their reviewed hashes, and both additional output-mirror cases pass their
 independent oracle. Whole/range movies, unchanged PCM, export and lifetime checks
 are preserved.
 
-Root integration reproduces all39publicPNGs byte for byte on the combined worker,
-with172compositiontests and the targeted build passing. `root-integration.json`
+Root integration reproduces all 39 public PNGs byte for byte on the combined worker,
+with 172 composition tests and the targeted build passing. `root-integration.json`
 pins the worker and output hashes; encoded quality remains open.
