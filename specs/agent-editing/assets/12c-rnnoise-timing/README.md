@@ -51,3 +51,34 @@ review found no actionable defects and checked source/output hashes against the
 report. Its attempted rerun was blocked by nested sandbox execution, so the actual
 unrestricted confirmation above owns runtime evidence. Local review log:
 `/tmp/screenrec-rnnoise-timing-review.log`.
+
+## State across selections and splits
+
+The [state report](state-report.json) extends the same frozen processor and delay
+compensation. Before the trial, the hypothesis was that excluded input must be
+removed before the learned state sees it, while independently restarting each
+piece of a pure split would change the sound. Comparisons require exact float
+PCM equality and exact counts; no speech-quality threshold is inferred.
+
+Replacing every excluded prefix/tail sample with alternating ±0.9 values leaves
+the selected-input output identical. Processing the entire poisoned source before
+cropping changes every one of the 144,000 kept samples, with maximum absolute
+difference 0.036415. Independently processing the two unchanged halves changes
+72,960 samples, with maximum difference 0.005516. Thus this candidate also rejects
+both process-before-selection and independent reset-per-clip as general edit
+policies. This is measured state sensitivity, not a listening verdict.
+
+A fresh confirmation reproduces every raw output hash and these comparisons.
+The retained `kept-raw.f32` includes the declared front delay and flushed tail;
+the report supplies the selected source range and frame counts. The initial and
+confirmation scratch directories are `/tmp/screenrec-rnnoise-state-trial` and
+`/tmp/screenrec-rnnoise-state-confirm`. The reproduction command above runs the
+state cases as well as all prior timing cases. Each process and batch retain the
+existing 30-second and two-minute deadlines. No production state policy, channel
+policy or backend is adopted.
+
+Independent review found no actionable defects, recomputed the state comparisons
+and checked all 31 trial/confirmation artifact hashes plus retained output and
+processor identity. A fresh reviewer execution was blocked by nested sandbox
+restrictions; the root confirmation supplies actual runtime evidence. Review log:
+`/tmp/screenrec-rnnoise-state-review.txt`.

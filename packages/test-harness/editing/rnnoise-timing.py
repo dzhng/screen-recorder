@@ -71,6 +71,40 @@ report['speech'] = {'frames': len(source), 'outputFrames': len(selected),
                     'noTailNegativeControlFrames': len(missing_tail),
                     'inputPeak': peak(source), 'outputPeak': peak(selected)}
 (args.out / 'speech-selected.f32').write_bytes(selected.tobytes())
+# State experiment: input exclusion must precede processing; a pure split must not reset state.
+def compare(left, right):
+    assert len(left) == len(right)
+    return {'frames': len(left),
+            'differentSamples': sum(x != y for x, y in zip(left, right)),
+            'maximumAbsoluteDifference': max((abs(x-y) for x, y in zip(left, right)), default=0)}
+
+def compensate(name, samples):
+    output = process(name, samples)[960:960+len(samples)]
+    assert len(output) == len(samples)
+    return output
+
+first, last = len(source) // 5, 4 * len(source) // 5
+poisoned = array.array('f', source)
+for i in range(len(poisoned)):
+    if i < first or i >= last:
+        poisoned[i] = 0.9 if i % 2 else -0.9
+kept = compensate('kept', source[first:last])
+kept_poisoned = compensate('kept-poisoned', poisoned[first:last])
+isolation = compare(kept, kept_poisoned)
+assert isolation['differentSamples'] == 0
+wrong_clean = selected[first:last]
+wrong_poisoned = compensate('whole-poisoned', poisoned)[first:last]
+leak = compare(wrong_clean, wrong_poisoned)
+assert leak['differentSamples'] > 0, 'Process-before-selection control did not expose state leakage'
+midpoint = (first + last) // 2
+reset = (compensate('kept-left', source[first:midpoint]) +
+         compensate('kept-right', source[midpoint:last]))
+reset_error = compare(kept, reset)
+assert reset_error['differentSamples'] > 0, 'Independent resets unexpectedly preserved the kept result'
+report['selectedInput'] = {'sourceFrames': [first, last], 'excludedPoison': isolation,
+                           'processBeforeSelectionNegativeControl': leak,
+                           'independentSplitResetNegativeControl': reset_error,
+                           'scope': 'Research input/state ordering; no production preparation policy'}
 report['identity'] = {'runnerSha256': digest(Path(__file__)), 'processorSha256': digest(args.processor),
                       'driverSha256': digest(Path(__file__).with_name('rnnoise-frame-probe.c')),
                       'speechSha256': digest(args.speech), 'ffmpegSha256': digest(args.ffmpeg)}

@@ -64,6 +64,8 @@ restores tested timing/counts and proves selected-input isolation; independent
 split resets still fail. The [learned baseline](../assets/12c-rnnoise/README.md)
 reduces room tone but truncates output. Its [frame API probe](../assets/12c-rnnoise-timing/README.md)
 restores tested counts/positions without establishing protected speech quality.
+The same learned candidate also requires input exclusion before processing and
+fails independent reset-per-clip state, including exact repeated-run evidence.
 
 Next compare matched known-noise inputs and independent speech controls, then
 freeze a state policy that preserves pure splits while excluding removed input.
