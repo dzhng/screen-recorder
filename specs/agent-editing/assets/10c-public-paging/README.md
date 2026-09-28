@@ -48,10 +48,11 @@ The initial [export-map failure](failures/stale-runtime-export-map.json) was fix
 setup: copying built modules without their package export map could not start the
 service. No product behavior or acceptance threshold changed to resolve it.
 
-[Runtime verification](runtime-verification.json) preserves exact tested module hashes.
-The main worktree subsequently added audio inspection exports and routing; its
-package export map and service/protocol modules differ from this frozen run. The
-remaining recorded production modules match. Integration of those later routes is
-a separate verification step. Models are
-copied and hash-verified locally; no downloads, capture, app installation or audio
-playback occur. No new native build is required.
+The original [runtime comparison](runtime-verification.json) records the separate
+source-audio integration advancing while this harness was being reviewed. The
+[final integrated run](integrated/report.json) repeats the complete paging journey
+with those final service/protocol modules and package exports. Its
+[verification](integrated/runtime-verification.json) matches every recorded runtime
+file to the main worktree, including the harness itself. Original evidence remains
+available above. Models are copied and hash-verified locally; no downloads,
+capture, app installation or audio playback occur. No new native build is required.
