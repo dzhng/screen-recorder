@@ -1,0 +1,49 @@
+$ vitest run --maxWorkers=4 src/source-scene-retention.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:26741) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-scene-retention.test.ts (5 tests | 1 failed) 377ms
+   × boundary seeks filter exact clocks and continue through rounded-key collisions 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-scene-retention.test.ts > boundary seeks filter exact clocks and continue through rounded-key collisions
+AssertionError: expected [ { ordinal: +0, …(2) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "actualSourceUs": 1000,
++     "ordinal": 0,
++     "sample": {
++       "endTimescale": 10000000,
++       "endValue": "10004",
++       "originUs": 0,
++       "timescale": 10000000,
++       "value": "9996",
++     },
++   },
++ ]
+
+ ❯ src/source-scene-retention.test.ts:206:28
+    204|     limit: 1,
+    205|   });
+    206|   expect(first.boundaries).toEqual([]);
+       |                            ^
+    207|   expect(first.scanned).toBe(1);
+    208|   expect(first.next).toEqual({ actualSourceUs: 1000, ordinal: 0 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  04:31:53
+   Duration  556ms (tests 74%, transform 18%, import 8%)
+
+error: script "test" exited with code 1

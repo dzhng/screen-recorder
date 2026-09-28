@@ -68,10 +68,33 @@ function stamp(clock: SceneSampleClock) {
     endScale: BigInt(clock.endTimescale),
   };
 }
-function compare(a: SceneSampleClock, b: SceneSampleClock) {
+export function compareSceneSampleClocks(a: SceneSampleClock, b: SceneSampleClock) {
   const left = BigInt(a.value) * BigInt(b.timescale),
     right = BigInt(b.value) * BigInt(a.timescale);
   return left < right ? -1 : left > right ? 1 : 0;
+}
+export function sceneSampleSourceTime(sample: SceneSampleClock, originUs: number) {
+  const { start, scale } = stamp(sample);
+  return { numerator: start * 1000000n - BigInt(originUs) * scale, denominator: scale };
+}
+export function validateSceneSampleClock(
+  sample: SceneSampleClock,
+  requestedSourceUs: number,
+  actualSourceUs: number,
+  originUs: number,
+) {
+  const { start, scale, end, endScale } = stamp(sample);
+  const at = BigInt(requestedSourceUs) + BigInt(originUs);
+  const numerator = start * 1000000n,
+    abs = numerator < 0n ? -numerator : numerator;
+  const rounded =
+    (abs / scale + ((abs % scale) * 2n >= scale ? 1n : 0n)) * (numerator < 0n ? -1n : 1n);
+  if (
+    start * 1000000n > at * scale ||
+    end * 1000000n <= at * endScale ||
+    rounded - BigInt(originUs) !== BigInt(actualSourceUs)
+  )
+    invalid("Visual sample does not contain its request");
 }
 function validate(point: SourceVisualPoint, request: SourceVisualRequest, index: number) {
   if (
@@ -93,18 +116,12 @@ function validate(point: SourceVisualPoint, request: SourceVisualRequest, index:
   }
   if (point.status !== "available" || !acquired || !Number.isSafeInteger(point.actualSourceUs))
     invalid("Invalid acquired visual observation");
-  const { start, scale, end, endScale } = stamp(point.sample);
-  const at = BigInt(point.requestedSourceUs) + BigInt(request.asset.originUs);
-  const numerator = start * 1000000n,
-    abs = numerator < 0n ? -numerator : numerator;
-  const rounded =
-    (abs / scale + ((abs % scale) * 2n >= scale ? 1n : 0n)) * (numerator < 0n ? -1n : 1n);
-  if (
-    start * 1000000n > at * scale ||
-    end * 1000000n <= at * endScale ||
-    rounded - BigInt(request.asset.originUs) !== BigInt(point.actualSourceUs)
-  )
-    invalid("Visual sample does not contain its request");
+  validateSceneSampleClock(
+    point.sample,
+    point.requestedSourceUs,
+    point.actualSourceUs,
+    request.asset.originUs,
+  );
   compareVisualRasters(point, point);
   if (index === 0 && point.continuousFromPrevious)
     invalid("First observation cannot claim predecessor continuity");
@@ -209,7 +226,7 @@ export class SelectedSourceSceneAnalysis {
       if (point.status === "unavailable") row = point;
       else {
         if (state.last) {
-          const order = compare(state.last.sample, point.sample);
+          const order = compareSceneSampleClocks(state.last.sample, point.sample);
           if (order > 0) invalid("Presentation samples moved backwards");
           if (
             order === 0 &&

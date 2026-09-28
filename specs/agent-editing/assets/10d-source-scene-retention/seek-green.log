@@ -1,0 +1,11 @@
+$ vitest run --maxWorkers=4 src/source-scene-retention.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:25963) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  04:31:36
+   Duration  686ms (tests 72%, transform 20%, import 8%)

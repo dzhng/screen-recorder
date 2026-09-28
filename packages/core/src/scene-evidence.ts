@@ -6,7 +6,17 @@ import { selectSource } from "./source-selection.js";
 import { setImmediate } from "node:timers/promises";
 import { type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
-import { sceneSampleTimes, type SourceSceneAnalysis, type VisualComparison } from "./scenes.js";
+import {
+  scenePolicy,
+  sceneSampleTimes,
+  type SourceSceneAnalysis,
+  type VisualComparison,
+} from "./scenes.js";
+
+import { normalizeSourceSceneChunk, type SourceSceneChunk } from "./source-scene-chunks.js";
+import { sourceScenePolicy, sceneSampleSourceTime } from "./source-scenes.js";
+import { compare, fromTime } from "@screenrec/composition";
+import type { TimeRange } from "./timeline.js";
 
 export type SceneOwner = Extract<JobOwner, { kind: "recording" | "asset" }>;
 export type SceneEvidenceIdentity = {
@@ -17,7 +27,13 @@ export type SceneEvidenceIdentity = {
 };
 export type SceneSource = { durationUs: number } & (
   | { kind: "recording" }
-  | { kind: "asset"; streamId: string; acquisitionId?: string; supportDigest: string }
+  | {
+      kind: "asset";
+      streamId: string;
+      acquisitionId?: string;
+      supportDigest: string;
+      originUs: number;
+    }
 );
 export type RecordingSceneEvidenceIdentity = {
   recordingId: string;
@@ -87,6 +103,7 @@ export function assetSceneOwner(assets: AssetStore, acquisitions: AcquisitionSto
         ...(selected.selection.acquisitionId === undefined
           ? {}
           : { acquisitionId: selected.selection.acquisitionId }),
+        originUs: -selected.track.sourceOffsetUs,
         supportDigest: selected.supportDigest,
         durationUs: selected.durationUs,
       })
@@ -105,6 +122,7 @@ type Generation = SceneDetails & {
   throughUs: number;
   complete: number;
   lastComparison: string | null;
+  sourceState: string | null;
 };
 const where = "ownerKind=? AND ownerId=? AND sourceId=? AND generation=? AND policy=?";
 const key = (identity: SceneEvidenceIdentity) => [
@@ -126,6 +144,7 @@ function metadata(row: Generation): SceneEvidenceMetadata {
     throughUs: _throughUs,
     complete: _complete,
     lastComparison: _lastComparison,
+    sourceState: _sourceState,
     ...details
   } = row;
   const owner: SceneOwner =
@@ -215,22 +234,31 @@ export function normalizeSceneChunk(
   return { chunk, last };
 }
 
+export type SceneBoundary = {
+  ordinal: number;
+  actualSourceUs: number;
+  sample: (import("./source-scenes.js").SceneSampleClock & { originUs: number }) | null;
+};
+export type SceneBoundaryCursor = Pick<SceneBoundary, "ordinal" | "actualSourceUs">;
+type ScenePageRequest = { identity: SceneEvidenceIdentity; afterStartUs?: number; limit?: number };
+
 export abstract class SceneEvidenceReader {
   protected abstract readMetadata(identity: SceneEvidenceIdentity): SceneEvidenceMetadata;
   protected abstract readChunks(
     identity: SceneEvidenceIdentity,
     afterStartUs: number,
     limit: number,
-  ): SceneChunkReport[];
-  page({
-    identity,
-    afterStartUs,
-    limit = 100,
-  }: {
-    identity: SceneEvidenceIdentity;
-    afterStartUs?: number;
-    limit?: number;
-  }): { metadata: SceneEvidenceMetadata; chunks: SceneChunkReport[]; nextStartUs: number | null } {
+  ): (SceneChunkReport | SourceSceneChunk)[];
+  page(request: ScenePageRequest) {
+    return this.chunkPage<SceneChunkReport>(request, "recording");
+  }
+  sourcePage(request: ScenePageRequest) {
+    return this.chunkPage<SourceSceneChunk>(request, "asset");
+  }
+  private chunkPage<T extends SceneChunkReport | SourceSceneChunk>(
+    { identity, afterStartUs, limit = 100 }: ScenePageRequest,
+    kind: SceneSource["kind"],
+  ): { metadata: SceneEvidenceMetadata; chunks: T[]; nextStartUs: number | null } {
     if (
       !integer(limit) ||
       limit < 1 ||
@@ -239,12 +267,14 @@ export abstract class SceneEvidenceReader {
     )
       throw new CatalogError("INVALID_PARAMS", "Invalid scene page limit or cursor");
     const metadata = this.readMetadata(identity);
+    if (metadata.source.kind !== kind)
+      invalid(`Scene page requires a ${kind === "recording" ? "recording" : "asset"} source`);
     const rows = this.readChunks(identity, afterStartUs ?? -1, limit + 1);
     const more = rows.length > limit;
     if (more) rows.pop();
     return {
       metadata,
-      chunks: rows,
+      chunks: rows as T[],
       nextStartUs: more ? rows.at(-1)!.range.startUs : null,
     };
   }
@@ -261,13 +291,18 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
    ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,policy TEXT NOT NULL,
    source TEXT NOT NULL,durationUs INTEGER NOT NULL,sourceWidth INTEGER NOT NULL,sourceHeight INTEGER NOT NULL,
    throughUs INTEGER NOT NULL,chunkCount INTEGER NOT NULL,comparisonCount INTEGER NOT NULL,
-   boundaryCount INTEGER NOT NULL,lastComparison TEXT,complete INTEGER NOT NULL,
+   boundaryCount INTEGER NOT NULL,lastComparison TEXT,sourceState TEXT,complete INTEGER NOT NULL,
    PRIMARY KEY(ownerKind,ownerId,sourceId,generation,policy)
   ) STRICT;
   CREATE TABLE IF NOT EXISTS scene_evidence_chunks (
    ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,policy TEXT NOT NULL,
    startUs INTEGER NOT NULL,content TEXT NOT NULL,
    PRIMARY KEY(ownerKind,ownerId,sourceId,generation,policy,startUs)
+  ) STRICT;
+  CREATE TABLE IF NOT EXISTS scene_evidence_boundaries (
+   ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,policy TEXT NOT NULL,
+   actualSourceUs INTEGER NOT NULL,ordinal INTEGER NOT NULL,content TEXT NOT NULL,
+   PRIMARY KEY(ownerKind,ownerId,sourceId,generation,policy,actualSourceUs,ordinal)
   ) STRICT;`);
   }
   private get(identity: SceneEvidenceIdentity): Generation | undefined {
@@ -275,7 +310,11 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       .prepare(`SELECT * FROM scene_evidence_generations WHERE ${where}`)
       .get(...key(identity)) as Generation | undefined;
   }
-  append(identity: SceneEvidenceIdentity, source: SceneSource, report: SceneChunkReport): void {
+  append(
+    identity: SceneEvidenceIdentity,
+    source: SceneSource,
+    report: SceneChunkReport | SourceSceneChunk,
+  ): void {
     this.store.transaction(() => {
       this.validateOwner(identity, source);
       const { durationUs, ...descriptor } = source;
@@ -297,16 +336,32 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
           !isDeepStrictEqual(metadata(row).source, source))
       )
         invalid("Scene source context or dimensions changed");
-      const { chunk, last } = normalizeSceneChunk(
-        report,
-        durationUs,
-        row?.lastComparison ? JSON.parse(row.lastComparison) : undefined,
-      );
+      if (identity.policy !== (source.kind === "asset" ? sourceScenePolicy : scenePolicy.id))
+        invalid("Unsupported scene policy for source owner");
+      const normalized =
+        source.kind === "asset"
+          ? normalizeSourceSceneChunk(
+              report as SourceSceneChunk,
+              identity.sourceId,
+              source,
+              row?.sourceState
+                ? {
+                    ...JSON.parse(row.sourceState),
+                    ...(row.lastComparison ? { comparison: JSON.parse(row.lastComparison) } : {}),
+                  }
+                : undefined,
+            )
+          : normalizeSceneChunk(
+              report as SceneChunkReport,
+              durationUs,
+              row?.lastComparison ? JSON.parse(row.lastComparison) : undefined,
+            );
+      const { chunk, last } = normalized;
       const content = JSON.stringify(chunk);
       if (!row)
         this.store.catalog
           .prepare(
-            `INSERT INTO scene_evidence_generations VALUES (?,?,?,?,?,?,?,?,?,0,0,0,0,NULL,0)`,
+            `INSERT INTO scene_evidence_generations VALUES (?,?,?,?,?,?,?,?,?,0,0,0,0,NULL,NULL,0)`,
           )
           .run(
             ...key(identity),
@@ -318,15 +373,35 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       this.store.catalog
         .prepare("INSERT INTO scene_evidence_chunks VALUES (?,?,?,?,?,?,?)")
         .run(...key(identity), report.range.startUs, content);
+      for (const [index, pair] of chunk.comparisons.entries()) {
+        if (!pair.boundary) continue;
+        const boundary: SceneBoundary = {
+          ordinal: (row?.comparisonCount ?? 0) + index,
+          actualSourceUs: pair.actualSourceUs,
+          sample:
+            "current" in pair && source.kind === "asset"
+              ? { ...pair.current, originUs: source.originUs }
+              : null,
+        };
+        this.store.catalog
+          .prepare("INSERT INTO scene_evidence_boundaries VALUES (?,?,?,?,?,?,?,?)")
+          .run(
+            ...key(identity),
+            boundary.actualSourceUs,
+            boundary.ordinal,
+            JSON.stringify(boundary),
+          );
+      }
       this.store.catalog
         .prepare(
-          `UPDATE scene_evidence_generations SET throughUs=?,chunkCount=chunkCount+1,comparisonCount=comparisonCount+?,boundaryCount=boundaryCount+?,lastComparison=? WHERE ${where}`,
+          `UPDATE scene_evidence_generations SET throughUs=?,chunkCount=chunkCount+1,comparisonCount=comparisonCount+?,boundaryCount=boundaryCount+?,lastComparison=?,sourceState=? WHERE ${where}`,
         )
         .run(
           report.range.endUs,
           chunk.comparisons.length,
-          sceneBoundaries(chunk).length,
+          chunk.comparisons.filter((pair) => pair.boundary).length,
           last ? JSON.stringify(last) : null,
+          "sourceState" in normalized ? JSON.stringify(normalized.sourceState) : null,
           ...key(identity),
         );
     });
@@ -352,7 +427,7 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
     identity: SceneEvidenceIdentity,
     afterStartUs: number,
     limit: number,
-  ): SceneChunkReport[] {
+  ): (SceneChunkReport | SourceSceneChunk)[] {
     const rows = this.store.catalog
       .prepare(
         `SELECT content FROM scene_evidence_chunks WHERE ${where} AND startUs>? ORDER BY startUs LIMIT ?`,
@@ -360,24 +435,78 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       .all(...key(identity), afterStartUs, limit) as { content: string }[];
     return rows.map((row) => JSON.parse(row.content));
   }
+  boundaryPage({
+    identity,
+    range,
+    after,
+    limit = 100,
+  }: {
+    identity: SceneEvidenceIdentity;
+    range?: TimeRange;
+    after?: SceneBoundaryCursor;
+    limit?: number;
+  }) {
+    const metadata = this.readMetadata(identity);
+    const window = range ?? { startUs: 0, endUs: metadata.source.durationUs };
+    if (
+      !integer(limit) ||
+      limit < 1 ||
+      limit > 100 ||
+      !integer(window.startUs) ||
+      !integer(window.endUs) ||
+      window.startUs >= window.endUs ||
+      window.endUs > metadata.source.durationUs ||
+      (after && (!integer(after.ordinal) || !Number.isSafeInteger(after.actualSourceUs)))
+    )
+      throw new CatalogError("INVALID_PARAMS", "Invalid scene boundary page");
+    // Rounded microseconds provide the seek index; exact physical clocks settle membership.
+    const lower =
+      after && after.actualSourceUs >= window.startUs
+        ? after
+        : { actualSourceUs: window.startUs, ordinal: -1 };
+    const rows = this.store.catalog
+      .prepare(`SELECT content FROM scene_evidence_boundaries WHERE ${where}
+      AND (actualSourceUs,ordinal)>(?,?) AND actualSourceUs<=?
+      ORDER BY actualSourceUs,ordinal LIMIT ?`)
+      .all(...key(identity), lower.actualSourceUs, lower.ordinal, window.endUs, limit + 1) as {
+      content: string;
+    }[];
+    const more = rows.length > limit;
+    if (more) rows.pop();
+    const scanned = rows.map((row) => JSON.parse(row.content) as SceneBoundary);
+    const boundaries = scanned.filter((row) => {
+      const at = row.sample
+        ? sceneSampleSourceTime(row.sample, row.sample.originUs)
+        : fromTime(row.actualSourceUs);
+      return compare(at, fromTime(window.startUs)) >= 0 && compare(at, fromTime(window.endUs)) < 0;
+    });
+    const last = scanned.at(-1);
+    return {
+      metadata,
+      boundaries,
+      scanned: scanned.length,
+      next: more && last ? { actualSourceUs: last.actualSourceUs, ordinal: last.ordinal } : null,
+    };
+  }
   async remove(identity: SceneEvidenceIdentity): Promise<void> {
     this.store.transaction(() => {
       this.store.catalog
         .prepare(`UPDATE scene_evidence_generations SET complete=-1 WHERE ${where}`)
         .run(...key(identity));
     });
-    while (true) {
-      const removed = this.store.transaction(
-        () =>
-          this.store.catalog
-            .prepare(
-              `DELETE FROM scene_evidence_chunks WHERE rowid IN (SELECT rowid FROM scene_evidence_chunks WHERE ${where} LIMIT 100)`,
-            )
-            .run(...key(identity)).changes,
-      );
-      if (Number(removed) < 100) break;
-      await setImmediate();
-    }
+    for (const table of ["scene_evidence_chunks", "scene_evidence_boundaries"])
+      while (true) {
+        const removed = this.store.transaction(
+          () =>
+            this.store.catalog
+              .prepare(
+                `DELETE FROM ${table} WHERE rowid IN (SELECT rowid FROM ${table} WHERE ${where} LIMIT 100)`,
+              )
+              .run(...key(identity)).changes,
+        );
+        if (Number(removed) < 100) break;
+        await setImmediate();
+      }
     this.store.transaction(() => {
       this.store.catalog
         .prepare(`DELETE FROM scene_evidence_generations WHERE ${where}`)

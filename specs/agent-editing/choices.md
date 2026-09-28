@@ -1325,3 +1325,22 @@ A project with a very long clip identifier still produces a bounded image. The v
 ### Sound, high confidence — render retained measurements without another audio decode
 
 The native plotting operation receives bounded waveform or spectral measurements and writes PNG using the existing picture encoder/publication owner. It cannot reopen audio, mix channels or choose a different revision. This introduces one internal native operation, one core request adapter, and no new package dependency. The plan required measured images but left the rendering library open; using existing macOS graphics keeps output headless and avoids introducing a second media pipeline.
+
+## Retained source scene paging
+
+- **Sound, medium confidence — continuation counts examined candidates.** Two
+  physical samples can round to the same displayed microsecond. A range query
+  examines a bounded set, keeps only samples whose exact timestamps belong, and
+  continues after the last examined sample even when none belonged. This avoids
+  an unbounded search hidden behind an apparently small result page. Consumers
+  must follow the continuation until it is absent.
+- **Sound, high confidence — index actual sample time and ordinal together.** A
+  late request seeks directly to its cursor, including samples sharing the same
+  rounded time, rather than revisiting every earlier chunk. Exact clock data
+  remains alongside the index for range membership; displayed rounding cannot
+  change whether a sample belongs.
+- **Sound, high confidence — keep recording and asset evidence distinguishable.**
+  Recording packages describe nearest sampled pictures; imported assets describe
+  the picture physically present at the requested time. They share generation
+  ownership and storage but use explicit typed chunk views. An asset cannot be
+  exported accidentally through the recording package representation.

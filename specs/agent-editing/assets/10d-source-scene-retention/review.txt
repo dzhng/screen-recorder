@@ -1,0 +1,5 @@
+Independent review: no actionable regressions after fixing continuation seek.
+Reviewer focused tests/types passed. Reviewer full core run: 513 passed, 13 sandbox localhost-listener failures, one skipped. Outside reviewer sandbox, final full core run: 526 passed, one skipped (core-summary.txt).
+Shape: one generation/store owner, dedicated asset chunk codec, shared sample-clock arithmetic. Recording portable codec unchanged. No second processing owner introduced.
+Diff: fixed SQLite residual-filter continuation with one composite lower bound; red/green seek-key evidence retained. Rounded-clock mutation fails membership test.
+Docs: slice links retained evidence and names source preparation/public scenes/index selection as remaining work; choices centralized in spec ledger.

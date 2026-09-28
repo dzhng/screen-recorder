@@ -7,6 +7,7 @@ import { AcquisitionStore, AcquisitionImporter } from "./acquisitions.js";
 import { writeSceneEvidencePages } from "./scene-pages.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
+import { SelectedSourceSceneAnalysis, sourceScenePolicy } from "./source-scenes.js";
 import { selectSource } from "./source-selection.js";
 import {
   SceneEvidenceStore,
@@ -34,6 +35,39 @@ function analysisFor(recordingId: string, source: string) {
       rgbBase64: Buffer.alloc(3, requestedSourceUs >= 400000 ? 255 : 0).toString("base64"),
     })),
   }));
+}
+function assetAnalysisFor(assetId: string, originUs = -250000) {
+  return new SelectedSourceSceneAnalysis(
+    {
+      asset: { assetId, streamId: "v1", path: "/unused", originUs },
+      available: [{ startUs: 0, endUs: 1000000 }],
+    },
+    1000000,
+    async (request) => ({
+      assetId,
+      streamId: "v1",
+      originUs,
+      sourceWidth: 32,
+      sourceHeight: 16,
+      decodedSamples: request.atSourceUs.length,
+      readerOpens: 1,
+      samples: request.atSourceUs.map((at, index) => ({
+        requestedSourceUs: at,
+        status: "available" as const,
+        actualSourceUs: at,
+        sample: {
+          value: String(at + originUs),
+          timescale: 1000000,
+          endValue: String(at + originUs + 1),
+          endTimescale: 1000000,
+        },
+        width: 1,
+        height: 1,
+        rgbBase64: Buffer.alloc(3, at >= 400000 ? 255 : 0).toString("base64"),
+        continuousFromPrevious: index > 0,
+      })),
+    }),
+  );
 }
 async function fixture() {
   const home = await mkdtemp("/tmp/scene-ownership-");
@@ -80,18 +114,23 @@ async function fixture() {
     owner: { kind: "asset", assetId: asset.id },
     sourceId: asset.id,
     generation: "same-attempt",
-    policy: scenePolicy.id,
+    policy: sourceScenePolicy,
   };
   const descriptor = (streamId = "v1"): SceneSource => {
     const selected = selectSource(assets, acquisitions, { assetId: asset.id, streamId });
     return {
       kind: "asset",
       streamId,
+      originUs: -selected.track.sourceOffsetUs,
       supportDigest: selected.supportDigest,
       durationUs: selected.durationUs,
     };
   };
-  const analysis = analysisFor(recording.recordingId, file);
+  const recordingChunk = await analysisFor(recording.recordingId, file).analyze(
+    { startUs: 0, endUs: 1000000 },
+    new AbortController().signal,
+  );
+  const analysis = assetAnalysisFor(asset.id);
   const chunk = await analysis.analyze(
     { startUs: 0, endUs: 1000000 },
     new AbortController().signal,
@@ -107,18 +146,20 @@ async function fixture() {
     identity,
     descriptor,
     chunk,
+    recordingChunk,
   };
 }
-test("real recording and asset owners with identical IDs and attempts retain separate canonical scene rows", async () => {
+test("real recording and asset owners with identical IDs and attempts retain their distinct scene policies", async () => {
   const f = await fixture();
   expect(f.recording.recordingId).toBe(f.asset.id);
   expect(f.recording.sourceId).toBe(f.asset.id);
   const recording: SceneEvidenceIdentity = {
     ...f.identity,
     owner: { kind: "recording", recordingId: f.asset.id },
+    policy: scenePolicy.id,
   };
   f.evidence.append(f.identity, f.descriptor(), f.chunk);
-  f.evidence.append(recording, { kind: "recording", durationUs: 1000000 }, f.chunk);
+  f.evidence.append(recording, { kind: "recording", durationUs: 1000000 }, f.recordingChunk);
   const asset = f.evidence.finish(f.identity),
     captured = f.evidence.finish(recording);
   expect(asset.source).toEqual(f.descriptor());
@@ -130,12 +171,10 @@ test("real recording and asset owners with identical IDs and attempts retain sep
   await expect(
     writeSceneEvidencePages(f.evidence, f.identity, join(f.home, "asset-package")),
   ).rejects.toThrow("recording source");
-  expect(f.evidence.page({ identity: f.identity }).chunks).toEqual(
-    f.evidence.page({ identity: recording }).chunks,
-  );
+  expect(f.evidence.sourcePage({ identity: f.identity }).chunks).toEqual([f.chunk]);
   await f.evidence.remove(f.identity);
-  expect(() => f.evidence.page({ identity: f.identity })).toThrow("complete");
-  expect(f.evidence.page({ identity: recording }).chunks).toEqual([f.chunk]);
+  expect(() => f.evidence.sourcePage({ identity: f.identity })).toThrow("complete");
+  expect(f.evidence.page({ identity: recording }).chunks).toEqual([f.recordingChunk]);
 });
 test("stream, support, duration and source owner mismatches cannot append or rebind a generation", async () => {
   const f = await fixture();
@@ -155,7 +194,7 @@ test("stream, support, duration and source owner mismatches cannot append or reb
   expect(() => f.evidence.append(f.identity, f.descriptor("a1"), f.chunk)).toThrow("video stream");
   const first = { ...f.chunk, range: { startUs: 0, endUs: 200000 } };
   // Use an actual canonical short chunk; the first generation descriptor must stay pinned.
-  const analysis = analysisFor(f.recording.recordingId, "unused");
+  const analysis = assetAnalysisFor(f.asset.id);
   const short = await analysis.analyze(first.range, new AbortController().signal);
   f.evidence.append(f.identity, f.descriptor(), short);
   const later = await analysis.analyze(
@@ -187,17 +226,17 @@ test("bounded reclamation preserves pinned asset generations and cancellation ma
       controller.signal,
     ),
   ).rejects.toThrow();
-  expect(f.evidence.page({ identity: { ...f.identity, generation: "g0" } }).chunks).toEqual([
+  expect(f.evidence.sourcePage({ identity: { ...f.identity, generation: "g0" } }).chunks).toEqual([
     f.chunk,
   ]);
-  expect(() => f.evidence.page({ identity: { ...f.identity, generation: "g1" } })).toThrow(
+  expect(() => f.evidence.sourcePage({ identity: { ...f.identity, generation: "g1" } })).toThrow(
     "complete",
   );
   await f.evidence.reclaim(f.identity.owner, (generation) => generation === "g0");
-  expect(() => f.evidence.page({ identity: { ...f.identity, generation: "g204" } })).toThrow(
+  expect(() => f.evidence.sourcePage({ identity: { ...f.identity, generation: "g204" } })).toThrow(
     "complete",
   );
-  expect(f.evidence.page({ identity: { ...f.identity, generation: "g0" } }).chunks).toEqual([
+  expect(f.evidence.sourcePage({ identity: { ...f.identity, generation: "g0" } }).chunks).toEqual([
     f.chunk,
   ]);
 });
@@ -277,9 +316,10 @@ test("adopted acquisition contexts are authoritative and a generation cannot swi
     streamId: "v1",
     acquisitionId: a.id,
     durationUs: selected.durationUs,
+    originUs: -selected.track.sourceOffsetUs,
     supportDigest: selected.supportDigest,
   };
-  const analysis = analysisFor(f.recording.recordingId, "unused");
+  const analysis = assetAnalysisFor(assetId);
   f.evidence.append(
     identity,
     source,

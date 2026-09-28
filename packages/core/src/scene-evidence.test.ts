@@ -120,6 +120,19 @@ test("sparse future comparisons are retained once while request coverage remains
   ]);
   expect(chunks.flatMap(sceneBoundaries)).toEqual([{ kind: "scene", atSourceUs: 100_000_000 }]);
   expect(chunks.find((c) => c.comparisons.length)!.range.endUs).toBe(50_000_000);
+  expect(
+    f.evidence.boundaryPage({
+      identity: f.identity,
+      range: { startUs: 100_000_000, endUs: 100_000_001 },
+      limit: 1,
+    }).boundaries,
+  ).toEqual([{ ordinal: 0, actualSourceUs: 100_000_000, sample: null }]);
+  expect(
+    f.evidence.boundaryPage({
+      identity: f.identity,
+      range: { startUs: 40_000_000, endUs: 50_000_001 },
+    }).boundaries,
+  ).toEqual([]);
 });
 
 test("gaps, changed identities and dimensions cannot advance persisted coverage", async () => {

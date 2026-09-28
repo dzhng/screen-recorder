@@ -1,0 +1,41 @@
+$ vitest run --maxWorkers=4 src/source-scene-retention.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:25480) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-scene-retention.test.ts (5 tests | 1 failed) 336ms
+   × late boundary reads use an indexed bounded seek and reclamation removes its rows 256ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-scene-retention.test.ts > late boundary reads use an indexed bounded seek and reclamation removes its rows
+AssertionError: expected [ …(2) ] to deeply equal [ 1999600000, 9997 ]
+
+- Expected
++ Received
+
+  [
+-   1999600000,
+-   9997,
++   "rgb-spatial-change-v2-presentation-v1",
++   0,
+  ]
+
+ ❯ src/source-scene-retention.test.ts:310:36
+    308|     const continued = f.evidence.boundaryPage({ identity: f.identity, …
+    309|     expect(continued.boundaries.map((b) => b.actualSourceUs)).toEqual(…
+    310|     expect(seekKeys[1]!.slice(-2)).toEqual([cursor.actualSourceUs, cur…
+       |                                    ^
+    311|     expect(seekKeys[1]).toHaveLength(7);
+    312|   } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  04:31:21
+   Duration  544ms (tests 68%, transform 22%, import 9%)
+
+error: script "test" exited with code 1
