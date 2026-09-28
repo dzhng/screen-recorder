@@ -379,12 +379,14 @@ export const operationSchema = z.discriminatedUnion("operation", [
         recording
           .extend({ ...exportDestination, kind: z.enum(["video", "processed-package"]) })
           .strict(),
-        project.extend({ ...exportDestination, kind: z.literal("video") }).strict(),
+        project
+          .extend({ ...exportDestination, kind: z.enum(["video", "processed-package"]) })
+          .strict(),
       ]),
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video; recordings export video or a complete processed-package ZIP. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video or an editable processed-package ZIP; recordings export video or their processed-package ZIP. Project packaging currently requires the current revision and refuses acquisition/evidence dependencies whose portable adoption is not implemented. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
     ),
   z
     .object({
@@ -473,6 +475,15 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .strict()
     .describe(
       "Read one package admission, or omit admissionId for package recovery, storage status and active admissions (including opens whose reply was lost). Handles expire when closed or the service restarts.",
+    ),
+  z
+    .object({
+      operation: z.literal("package.adopt"),
+      params: z.object({ packageHandle: id, requestId: id }).strict(),
+    })
+    .strict()
+    .describe(
+      "Adopt an opened editable project package into independent durable assets and revisions. Repeat the same requestId and packageHandle to poll the shared preparation job; ready result contains projectId and revisionId; inspect the durable project and its retained history with project.get and revision.history. Closing the package cancels unfinished adoption; a committed project survives package closure.",
     ),
   z
     .object({

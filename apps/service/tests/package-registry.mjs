@@ -1,3 +1,5 @@
+import { validatePackageTranscript } from "../dist/package-transcript.js";
+import { validateManifest } from "@screenrec/core/package-manifest";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { randomUUID, createHash } from "node:crypto";
@@ -50,6 +52,12 @@ async function fixture(t, options = {}) {
   });
   const delivery = new DerivativeDelivery();
   const registry = new PackageRegistry({
+    validate: validateManifest,
+    inspect: validatePackageTranscript,
+    mediaPaths: (manifest) =>
+      manifest.inventory
+        .filter((member) => ["video", "system", "narration"].includes(member.role))
+        .map((member) => member.path),
     parent: { directory, handle },
     jobs,
     delivery,

@@ -7,6 +7,8 @@ import {
   validateArchiveLimits,
   verifyArchiveReceipt,
   type ArchiveLimits,
+  type ArchiveManifest,
+  type ArchiveManifestValidator,
 } from "@screenrec/core/package-archive";
 import {
   IdentifiedFiles,
@@ -18,16 +20,23 @@ import {
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 import type { AdmittedArchive } from "./archive-input.js";
 import { isPrivateDirectory } from "./managed-files.js";
-import { validatePackageTranscript } from "./package-transcript.js";
+import type { validateManifest } from "@screenrec/core/package-manifest";
 
 export const packageOutputBytes = 128 * 1024 ** 2;
 
-type Options = { signal?: AbortSignal; limits?: ArchiveLimits; timeoutMs?: number };
-async function extractArchive(
+export type PackageArchiveOptions<T extends ArchiveManifest> = {
+  validate: ArchiveManifestValidator<T>;
+  mediaPaths?: (manifest: T) => readonly string[];
+  inspect?: (retained: RetainedPackage<T>, signal?: AbortSignal) => Promise<void>;
+  signal?: AbortSignal;
+  limits?: ArchiveLimits;
+  timeoutMs?: number;
+};
+async function extractArchive<T extends ArchiveManifest>(
   archive: AdmittedArchive,
   workspace: FileHandle,
   worker: MediaWorker,
-  options: Options,
+  options: PackageArchiveOptions<T>,
 ) {
   const limits = options.limits ?? archiveLimits;
   validateArchiveLimits(limits);
@@ -81,7 +90,7 @@ async function extractArchive(
         ...(options.signal ? { signal: options.signal } : {}),
       },
     );
-    const verified = verifyArchiveReceipt(nativeResult(result), limits);
+    const verified = verifyArchiveReceipt(nativeResult(result), limits, options.validate);
     if (verified.copiedBytes !== archive.bytes)
       throw new CatalogError("INVALID_NATIVE_RESPONSE", "Archive copy size differs from admission");
     return { verified, identity, close };
@@ -90,14 +99,14 @@ async function extractArchive(
     throw failure;
   }
 }
-type Extraction = Awaited<ReturnType<typeof extractArchive>>;
+type Extraction<T extends ArchiveManifest> = Awaited<ReturnType<typeof extractArchive<T>>>;
 
 /** Validates and releases an extraction, returning the full receipt a retained context keeps private. */
-export async function verifyPackageArchive(
+export async function verifyPackageArchive<T extends ArchiveManifest>(
   archive: AdmittedArchive,
   workspace: FileHandle,
   worker: MediaWorker,
-  options: Options = {},
+  options: PackageArchiveOptions<T>,
 ) {
   const extraction = await extractArchive(archive, workspace, worker, options);
   await extraction.close();
@@ -105,22 +114,27 @@ export async function verifyPackageArchive(
   return receipt;
 }
 
-export async function openPackageArchive(
+export async function openPackageArchive<T extends ArchiveManifest>(
   archive: AdmittedArchive,
   workspace: { directory: string; handle: FileHandle },
   worker: MediaWorker,
-  options: Options = {},
+  options: PackageArchiveOptions<T>,
 ) {
   const extraction = await extractArchive(archive, workspace.handle, worker, options);
-  let retained: RetainedPackage;
+  let retained: RetainedPackage<T>;
   try {
-    retained = new RetainedPackage(workspace, worker, extraction);
+    retained = new RetainedPackage(
+      workspace,
+      worker,
+      extraction,
+      options.mediaPaths?.(extraction.verified.manifest) ?? [],
+    );
   } catch (error) {
     await extraction.close(error);
     throw error;
   }
   try {
-    await validatePackageTranscript(retained, options.signal);
+    await options.inspect?.(retained, options.signal);
   } catch (error) {
     await retained.close();
     throw error;
@@ -141,9 +155,9 @@ type Output = {
 
 /** One validated, extracted package: its members, bounded derivative outputs and the native work
  * that reads them. PackageRegistry owns its scheduling and handle lifetime. */
-export class RetainedPackage {
-  readonly manifest: Extraction["verified"]["manifest"];
-  readonly archiveUsage: Readonly<Pick<Extraction["verified"], "copiedBytes" | "expandedBytes">>;
+export class RetainedPackage<T extends ArchiveManifest = ReturnType<typeof validateManifest>> {
+  readonly manifest: Extraction<T>["verified"]["manifest"];
+  readonly archiveUsage: Readonly<Pick<Extraction<T>["verified"], "copiedBytes" | "expandedBytes">>;
   readonly revisionContents: Readonly<Record<string, string>>;
   readonly files: FileAccess;
   private readonly opened: IdentifiedFiles;
@@ -158,7 +172,8 @@ export class RetainedPackage {
   constructor(
     private readonly workspace: { directory: string; handle: FileHandle },
     private readonly worker: MediaWorker,
-    private readonly extraction: Extraction,
+    private readonly extraction: Extraction<T>,
+    private readonly mediaPaths: readonly string[],
   ) {
     this.manifest = extraction.verified.manifest;
     this.archiveUsage = Object.freeze({
@@ -305,7 +320,7 @@ export class RetainedPackage {
         typeof name === "string"
           ? this.manifest.inventory.find(
               (file) =>
-                ["video", "system", "narration"].includes(file.role) &&
+                this.mediaPaths.includes(file.path) &&
                 (file.path === name || this.files.path(file.path) === name),
             )
           : undefined;

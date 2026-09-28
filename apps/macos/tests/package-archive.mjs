@@ -1,3 +1,4 @@
+import { validateManifest } from "@screenrec/core/package-manifest";
 import { withArchiveCopyBarrier } from "./fixtures/archive-copy-barrier.mjs";
 import { admitArchive } from "../../service/dist/archive-input.js";
 import assert from "node:assert/strict";
@@ -66,7 +67,10 @@ async function fixture(mode = "valid", files = contents()) {
 }
 async function inspect(f, options = {}, worker = run) {
   try {
-    return await verifyPackageArchive(f.input, f.workspace, worker, options);
+    return await verifyPackageArchive(f.input, f.workspace, worker, {
+      ...options,
+      validate: validateManifest,
+    });
   } finally {
     assert.deepEqual(await readdir(f.directory), []);
   }
@@ -212,7 +216,9 @@ test("retained workspace descriptor survives ancestor replacement without touchi
     await mkdir(outside);
     await writeFile(join(outside, "sentinel"), "untouched");
     await symlink(outside, f.directory);
-    const receipt = await verifyPackageArchive(f.input, f.workspace, run);
+    const receipt = await verifyPackageArchive(f.input, f.workspace, run, {
+      validate: validateManifest,
+    });
     assert.equal(receipt.manifest.snapshot.revisionId, "r0");
     assert.deepEqual(await readdir(retained), []);
     assert.deepEqual(await readdir(outside), ["sentinel"]);
@@ -227,7 +233,7 @@ test("nonempty workspace admission preserves existing files", async () => {
   try {
     await writeFile(join(f.directory, "sentinel"), "untouched");
     await assert.rejects(
-      verifyPackageArchive(f.input, f.workspace, run),
+      verifyPackageArchive(f.input, f.workspace, run, { validate: validateManifest }),
       (error) => error.code === "INVALID_STORAGE",
     );
     assert.equal(await readFile(join(f.directory, "sentinel"), "utf8"), "untouched");
@@ -495,7 +501,7 @@ test("workspace lock survives preparation worker exit and refuses a second open 
   try {
     await inspect(f);
     await assert.rejects(
-      verifyPackageArchive(f.input, other, run),
+      verifyPackageArchive(f.input, other, run, { validate: validateManifest }),
       (error) => error.code === "INVALID_STORAGE",
     );
     assert.deepEqual(await readdir(f.directory), []);
@@ -514,7 +520,7 @@ test("cleanup ownership loss is explicit and original descriptor supports recove
   };
   try {
     await assert.rejects(
-      verifyPackageArchive(f.input, f.workspace, wrapped),
+      verifyPackageArchive(f.input, f.workspace, wrapped, { validate: validateManifest }),
       (error) => error.code === "ARCHIVE_CLEANUP_FAILED",
     );
     assert.ok((await readdir(f.directory)).length > 0);

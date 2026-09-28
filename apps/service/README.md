@@ -71,3 +71,17 @@ listener cleanup. A broken control output — the app dying while a reply is bei
 written — closes the listener through the same path EOF uses, so the promised
 cleanup is not lost to a race between the two pipes. `service.health` takes no
 parameters and refuses the ones it is given.
+
+
+## Editable package ownership
+
+Project export uses the existing durable publication owner. Archive extraction and
+retained handles share the same bounded registry as recording packages; each
+service supplies its own manifest validator and explicit media-member authority.
+The project manifest owns dependency meaning, while asset/project stores own
+byte validation and atomic durable adoption. Package inspection alone does not
+create a managed project. Closing a handle drains its unfinished work; adopted
+projects no longer depend on that handle or donor files.
+
+[Portable-project scope and evidence](../../specs/agent-editing/slices/22-portable-projects.md)
+separate the verified asset-only path from retained owner classes still refused.

@@ -1,3 +1,4 @@
+import { ProjectPackages } from "./project-packages.js";
 import { writeFile } from "node:fs/promises";
 import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
 import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
@@ -72,6 +73,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
   let listener: LocalListener | undefined;
   let deletion: ProjectDeletion | undefined;
   let exports: MediaExports | undefined;
+  let packages: ProjectPackages | undefined;
   const delivery = new DerivativeDelivery();
   const modelLifetime = new AbortController();
   let modelPreparation: Promise<void> | undefined;
@@ -424,13 +426,40 @@ export async function startProjectService(options: { home: string; worker?: Medi
           )
         : null,
     });
+    const projectPackages = new ProjectPackages({
+      directory: library,
+      projects,
+      assets,
+      jobs: queue,
+      worker,
+      delivery,
+      assertPortable(projectId, assetIds) {
+        const project = { kind: "project" as const, projectId };
+        if (
+          projectIndex.hasGenerations(project) ||
+          assetIds.some((assetId) => {
+            const asset = { kind: "asset" as const, assetId };
+            return (
+              sceneRecords.hasGenerations(asset) ||
+              transcriptStore.hasGenerations(asset) ||
+              projectIndex.hasGenerations(asset)
+            );
+          })
+        )
+          throw new CatalogError(
+            "UNSUPPORTED_PACKAGE_DEPENDENCY",
+            "Portable evidence-generation adoption is not yet implemented",
+          );
+      },
+    });
+    packages = projectPackages;
     const mediaExports = new MediaExports({
       catalog,
       jobs: queue,
       cache,
       worker,
       files,
-      project: { store: projects, preview },
+      project: { store: projects, preview, package: projectPackages },
     });
     exports = mediaExports;
     queue.startAdmission((job) => {
@@ -875,6 +904,23 @@ export async function startProjectService(options: { home: string; worker?: Medi
               },
             };
           }
+          case "package.open":
+            return { ok: true, data: await projectPackages.open(operation.params.path) };
+          case "package.status":
+            return { ok: true, data: projectPackages.status(operation.params.admissionId) };
+          case "package.close":
+            return {
+              ok: true,
+              data: await projectPackages.closeAdmission(operation.params.admissionId),
+            };
+          case "package.adopt":
+            return {
+              ok: true,
+              data: projectPackages.adopt(
+                operation.params.packageHandle,
+                operation.params.requestId,
+              ),
+            };
           case "export.create":
             return { ok: true, data: await mediaExports.create(operation.params) };
           case "export.list":
@@ -948,6 +994,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             delivery.dispose();
             await projectDeletion.close();
             await exportsClosed;
+            await projectPackages.close();
             await queue.close();
             await modelPreparation;
             catalog!.close();
@@ -963,6 +1010,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     delivery.dispose();
     await deletion?.close();
     await exports?.close();
+    await packages?.close();
     await jobs?.close();
     catalog?.close();
     ownership.release();

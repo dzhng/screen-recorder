@@ -18,9 +18,14 @@ export type AdmittedArchive = OpenedFile &
 export function admitArchive(path: string): AdmittedArchive {
   if (process.platform !== "darwin")
     throw new CatalogError("UNSUPPORTED_PLATFORM", "Archive admission requires macOS");
-  const file = openedFile(
-    openSync(path, constants.O_RDONLY | constants.O_NONBLOCK | O_NOFOLLOW_ANY),
-  );
+  let file: OpenedFile;
+  try {
+    file = openedFile(openSync(path, constants.O_RDONLY | constants.O_NONBLOCK | O_NOFOLLOW_ANY));
+  } catch (error) {
+    throw new CatalogError("INVALID_PACKAGE", "Package archive could not be admitted", {
+      reason: error instanceof Error ? error.message : String(error),
+    });
+  }
   try {
     const stat = fstatSync(file.fd, { bigint: true });
     if (!stat.isFile() || stat.size < 1n || stat.size > BigInt(archiveLimits.compressedBytes))

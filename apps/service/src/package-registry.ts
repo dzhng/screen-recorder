@@ -1,3 +1,4 @@
+import type { validateManifest } from "@screenrec/core/package-manifest";
 import { randomUUID } from "node:crypto";
 import { rm, type FileHandle } from "node:fs/promises";
 import { join } from "node:path";
@@ -6,6 +7,8 @@ import {
   archiveLimits,
   validateArchiveLimits,
   type ArchiveLimits,
+  type ArchiveManifest,
+  type ArchiveManifestValidator,
 } from "@screenrec/core/package-archive";
 import {
   type JobQueue,
@@ -46,16 +49,19 @@ type Admission = {
   error: string | null;
 };
 type PackageAdmission = Readonly<Admission>;
-type Work = (context: RetainedPackage, signal: AbortSignal) => Promise<string>;
+type Work<T extends ArchiveManifest> = (
+  context: RetainedPackage<T>,
+  signal: AbortSignal,
+) => Promise<string>;
 type Workspace = Awaited<ReturnType<typeof provisionPackageWorkspace>>;
-type Entry = Admission & {
+type Entry<T extends ArchiveManifest> = Admission & {
   terminal: "failed" | "canceled" | "closed";
   budget: number;
   input: AdmittedArchive;
   context: JobContext;
-  requests: Map<string, Work>;
+  requests: Map<string, Work<T>>;
   workspace?: Workspace;
-  retained?: RetainedPackage;
+  retained?: RetainedPackage<T>;
   provisionFailure?: unknown;
   provisionStarted: boolean;
   closing?: Promise<void>;
@@ -66,9 +72,9 @@ const describe = (error: unknown) =>
   (error instanceof Error ? error.message : String(error)).slice(0, 4096);
 
 /** One process-local resource owner; execution capacity remains exclusively in JobQueue. */
-export class PackageRegistry {
-  private readonly entries = new Map<string, Entry>();
-  private readonly handles = new Map<string, Entry>();
+export class PackageRegistry<T extends ArchiveManifest = ReturnType<typeof validateManifest>> {
+  private readonly entries = new Map<string, Entry<T>>();
+  private readonly handles = new Map<string, Entry<T>>();
   private readonly terminal = new Map<string, PackageAdmission>();
   private phase: "recovery" | "ready" | "disposed" = "recovery";
   private recovering: Promise<void> | undefined;
@@ -78,6 +84,9 @@ export class PackageRegistry {
   constructor(
     private readonly options: {
       parent: { directory: string; handle: FileHandle };
+      validate: ArchiveManifestValidator<T>;
+      mediaPaths?: (manifest: T) => readonly string[];
+      inspect?: (retained: RetainedPackage<T>, signal?: AbortSignal) => Promise<void>;
       jobs: JobQueue;
       worker: MediaWorker;
       delivery: DerivativeDelivery;
@@ -166,7 +175,7 @@ export class PackageRegistry {
         true,
       );
     }
-    let entry!: Entry;
+    let entry!: Entry<T>;
     let context: JobContext;
     try {
       context = this.options.jobs.createContext(({ job, signal }) =>
@@ -216,10 +225,10 @@ export class PackageRegistry {
   }
   lookup(
     handle: string,
-  ): Pick<RetainedPackage, "manifest" | "revisionContents" | "files" | "archiveUsage"> {
+  ): Pick<RetainedPackage<T>, "manifest" | "revisionContents" | "files" | "archiveUsage"> {
     return this.ready(handle).retained!;
   }
-  submit(handle: string, request: ContextJobRequest, execute: Work): ContextJob {
+  submit(handle: string, request: ContextJobRequest, execute: Work<T>): ContextJob {
     if (request.artifact === "package.open")
       throw new CatalogError("INVALID_REQUEST", "Package admission is owned by the registry");
     const entry = this.ready(handle);
@@ -281,13 +290,13 @@ export class PackageRegistry {
     );
     if (failed) throw failed.reason;
   }
-  private ready(handle: string): Entry {
+  private ready(handle: string): Entry<T> {
     const entry = this.handles.get(handle);
     if (this.phase === "disposed" || !entry || entry.state !== "ready")
       throw new CatalogError("CONTEXT_CLOSED", "Package handle is not open in this process");
     return entry;
   }
-  private snapshot(entry: Entry): PackageAdmission {
+  private snapshot(entry: Entry<T>): PackageAdmission {
     return Object.freeze({
       id: entry.id,
       state: entry.state,
@@ -296,7 +305,7 @@ export class PackageRegistry {
       error: entry.error,
     });
   }
-  private async execute(entry: Entry, job: ContextJob, signal: AbortSignal): Promise<string> {
+  private async execute(entry: Entry<T>, job: ContextJob, signal: AbortSignal): Promise<string> {
     if (job.artifact !== "package.open") {
       const work = entry.requests.get(job.jobId);
       if (!work || entry.state !== "ready")
@@ -322,7 +331,13 @@ export class PackageRegistry {
         entry.input,
         { directory: entry.workspace.directory, handle: entry.workspace.handle },
         this.options.worker,
-        { signal, limits: this.limits },
+        {
+          signal,
+          limits: this.limits,
+          validate: this.options.validate,
+          ...(this.options.mediaPaths ? { mediaPaths: this.options.mediaPaths } : {}),
+          ...(this.options.inspect ? { inspect: this.options.inspect } : {}),
+        },
       );
       if (signal.aborted || entry.state !== "opening")
         throw new CatalogError("CANCELED", "Package opening canceled");
@@ -343,7 +358,7 @@ export class PackageRegistry {
       throw error;
     }
   }
-  private closeEntry(entry: Entry): Promise<void> {
+  private closeEntry(entry: Entry<T>): Promise<void> {
     if (entry.closing) return entry.closing;
     entry.state = "closing";
     if (entry.packageHandle) this.handles.delete(entry.packageHandle);

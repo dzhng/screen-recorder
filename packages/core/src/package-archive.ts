@@ -1,7 +1,6 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import { CatalogError } from "./catalog.js";
-import { validateManifest } from "./package-manifest.js";
 
 /** Limits apply to observed bytes and names, independently of ZIP header declarations. */
 export const archiveLimits = {
@@ -54,8 +53,21 @@ export function validateArchiveLimits(limits: ArchiveLimits): void {
       );
 }
 
+export type ArchiveManifest = {
+  inventory: readonly { path: string; bytes: number; sha256: string }[];
+};
+export type ArchiveManifestValidator<T extends ArchiveManifest> = (
+  body: string,
+  revisions: ReadonlyMap<string, string>,
+  limits: ArchiveLimits,
+) => T;
+
 /** The native owner supplies fully enumerated, hashed bytes; this owner checks their package meaning. */
-export function verifyArchiveReceipt(value: unknown, limits: ArchiveLimits = archiveLimits) {
+export function verifyArchiveReceipt<T extends ArchiveManifest>(
+  value: unknown,
+  limits: ArchiveLimits,
+  validate: ArchiveManifestValidator<T>,
+) {
   validateArchiveLimits(limits);
   const parsed = receiptSchema.safeParse(value);
   const invalid = (message: string): never => {
@@ -72,11 +84,7 @@ export function verifyArchiveReceipt(value: unknown, limits: ArchiveLimits = arc
     receipt.initialReadBytes > limits.initialReadBytes
   )
     return invalid("Archive receipt exceeds its limits");
-  const manifest = validateManifest(
-    receipt.manifest,
-    new Map(Object.entries(receipt.revisions)),
-    limits,
-  );
+  const manifest = validate(receipt.manifest, new Map(Object.entries(receipt.revisions)), limits);
   const expected = new Map(manifest.inventory.map((entry) => [entry.path, entry]));
   const actual = new Map<string, z.infer<typeof memberSchema>>();
   const folded = new Map<string, string>();

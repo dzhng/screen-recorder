@@ -1,3 +1,4 @@
+import { validateManifest } from "@screenrec/core/package-manifest";
 import { fork, execFileSync } from "node:child_process";
 import { once } from "node:events";
 import { fileURLToPath } from "node:url";
@@ -88,7 +89,9 @@ test("streamed ZIP publishes through the existing no-clobber owner and independe
   assert.deepEqual(await readdir(f.paths.scratch), []);
   const archive = admitArchive(join(f.paths.output, "capture.zip"));
   try {
-    const result = await verifyPackageArchive(archive, f.handles.read, worker);
+    const result = await verifyPackageArchive(archive, f.handles.read, worker, {
+      validate: validateManifest,
+    });
     assert.equal(result.manifest.snapshot.revisionId, "r0");
     assert.equal(
       result.manifest.inventory.find((entry) => entry.role === "video").sha256,

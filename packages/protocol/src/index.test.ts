@@ -235,7 +235,7 @@ it("transcript pages and searches are bounded and their cursors name the pinned 
     expect(parse(operation, params).success, JSON.stringify(params)).toBe(false);
 });
 
-it("project video export preserves its target and refuses ambiguous owners or package mode", () => {
+it("project exports preserve their target and refuse ambiguous owners", () => {
   const destination = {
     exportId: "67a0c032-a3ee-44b9-81f8-7269f0f3195e",
     directory: "/tmp/exports",
@@ -244,9 +244,12 @@ it("project video export preserves its target and refuses ambiguous owners or pa
   };
   const params = { ...destination, projectId: "project", revisionId: "revision" };
   expect(operationSchema.parse({ operation: "export.create", params }).params).toEqual(params);
+  const portable = { ...params, kind: "processed-package", leaf: "tutorial.zip" };
+  expect(operationSchema.parse({ operation: "export.create", params: portable }).params).toEqual(
+    portable,
+  );
   for (const invalid of [
     { ...params, recordingId: "recording" },
-    { ...params, kind: "processed-package" },
     { ...params, range: { startUs: 0, endUs: 1 } },
     destination,
   ])

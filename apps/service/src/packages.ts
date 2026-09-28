@@ -1,3 +1,6 @@
+import { openPackageParent } from "./package-workspace.js";
+import { validateManifest } from "@screenrec/core/package-manifest";
+import { validatePackageTranscript } from "./package-transcript.js";
 import { readRawCursor, type RawCursorOptions } from "@screenrec/core/raw-cursor";
 import { PackageTimelineInspection } from "./timeline-inspection.js";
 import {
@@ -10,13 +13,12 @@ import { PackageTranscriptInspection } from "./package-transcript.js";
 import { PackageAudioInspection } from "./package-audio.js";
 import { PackagePreviewInspection } from "./package-preview.js";
 import { PackageFrameInspection } from "./package-frames.js";
-import { constants } from "node:fs";
-import { mkdir, lstat, realpath, open, type FileHandle } from "node:fs/promises";
+import { type FileHandle } from "node:fs/promises";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { TimelineRevision } from "@screenrec/core/timeline";
 import type { PreviewRenderer } from "@screenrec/core/preview";
 import type { PreviewEvidence } from "./render.js";
-import { fileSubdirectory, O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { fileSubdirectory } from "@screenrec/core/files";
 import { FileScreenshotIndex } from "@screenrec/core/index-pages";
 import { RetainedIndexRead } from "@screenrec/core/index-read";
 import { framePolicy } from "@screenrec/core/frame-materialization";
@@ -24,7 +26,6 @@ import { trailPolicy } from "@screenrec/core/trails";
 import type { JobQueue } from "@screenrec/core/jobs";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { MediaWorker } from "./worker.js";
-import { isPrivateDirectory } from "./managed-files.js";
 import { PackageRegistry } from "./package-registry.js";
 
 type Reference = { packageHandle: string; revisionId: string; generation: string };
@@ -71,27 +72,16 @@ export class PackageInspection {
     if (this.preparing) return this.preparing;
     this.preparing = (async () => {
       if (!this.registry) {
-        await mkdir(this.options.directory, { recursive: true, mode: 0o700 });
-        const before = await lstat(this.options.directory, { bigint: true });
-        if (!isPrivateDirectory(before))
-          throw new CatalogError(
-            "INVALID_STORAGE",
-            "Package root must be an exclusively owned private directory",
-          );
-        const directory = await realpath(this.options.directory);
-        const handle = await open(
-          directory,
-          constants.O_RDONLY | constants.O_DIRECTORY | O_NOFOLLOW_ANY,
-        );
+        const { directory, handle } = await openPackageParent(this.options.directory);
         try {
-          const info = await handle.stat({ bigint: true });
-          if (!isPrivateDirectory(info) || info.dev !== before.dev || info.ino !== before.ino)
-            throw new CatalogError(
-              "INVALID_STORAGE",
-              "Package root must be an exclusively owned private directory",
-            );
           this.registry = new PackageRegistry({
             ...this.options,
+            validate: validateManifest,
+            mediaPaths: (manifest) =>
+              manifest.inventory
+                .filter((member) => ["video", "system", "narration"].includes(member.role))
+                .map((member) => member.path),
+            inspect: validatePackageTranscript,
             parent: { directory, handle },
           });
           this.parent = handle;
@@ -120,15 +110,9 @@ export class PackageInspection {
   }
   async open(path: string) {
     await this.prepare();
-    try {
-      return await this.registry!.open(path);
-    } catch (error) {
-      if (error instanceof CatalogError) throw error;
-      throw new CatalogError("INVALID_PACKAGE", "Package archive could not be admitted", {
-        reason: error instanceof Error ? error.message : String(error),
-      });
-    }
+    return this.registry!.open(path);
   }
+
   status(admissionId?: string) {
     if (admissionId !== undefined) {
       if (!this.registry) throw new CatalogError("NOT_FOUND", "Package admission does not exist");

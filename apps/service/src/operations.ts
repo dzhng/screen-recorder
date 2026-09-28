@@ -139,6 +139,7 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "package.adopt":
       case "project.delete":
       case "project.create":
       case "project.get":

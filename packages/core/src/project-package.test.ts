@@ -72,6 +72,31 @@ test("portable manifest validates complete history bytes, undo targets, paths an
   const validate = (value: unknown, entries = revisions) =>
     validateProjectPackage(JSON.stringify(value), entries, archiveLimits);
   expect(validate(manifest).snapshot).toEqual(snapshot);
+  const second = { ...snapshot.revisions[0]!, id: "r1", ordinal: 1, operation: "apply" as const };
+  const secondText = JSON.stringify(second);
+  const two = {
+    ...snapshot,
+    project: { ...snapshot.project, currentRevisionId: "r1" },
+    revisions: [...snapshot.revisions, second],
+  };
+  const twoInventory = [
+    ...manifest.inventory,
+    {
+      path: "revisions/1.json",
+      bytes: Buffer.byteLength(secondText),
+      sha256: createHash("sha256").update(secondText).digest("hex"),
+    },
+  ];
+  expect(() =>
+    validateProjectPackage(
+      JSON.stringify(projectPackageManifest(two, [], twoInventory)),
+      new Map([...revisions, ["revisions/1.json", secondText]]),
+      {
+        ...archiveLimits,
+        revisionBytes: Math.max(Buffer.byteLength(text), Buffer.byteLength(secondText)) + 1,
+      },
+    ),
+  ).toThrow(/revision byte budget/);
   expect(() =>
     validate(manifest, new Map([[path, text.replace("Editable", "Changed") + " "]])),
   ).toThrow(/hash or size/);

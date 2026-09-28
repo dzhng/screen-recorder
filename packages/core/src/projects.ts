@@ -405,7 +405,7 @@ export class ProjectStore {
         "SELECT COUNT(*) AS count,COALESCE(SUM(length(CAST(content AS BLOB))),0) AS bytes FROM project_revisions WHERE projectId=?",
       )
       .get(projectId) as { count: number; bytes: number };
-    if (usage.count > archiveLimits.history || usage.bytes > archiveLimits.initialReadBytes)
+    if (usage.count > archiveLimits.history || usage.bytes > archiveLimits.revisionBytes)
       throw new CatalogError(
         "LIMIT_EXCEEDED",
         "Project history exceeds the portable snapshot budget",

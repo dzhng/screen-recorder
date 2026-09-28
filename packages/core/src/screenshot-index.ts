@@ -281,6 +281,15 @@ export class ScreenshotIndexStore<
 > extends ScreenshotIndexReader<D> {
   private readonly home: string;
   private readonly device: number;
+  hasGenerations(owner: JobOwner): boolean {
+    return Boolean(
+      this.store.catalog
+        .prepare(
+          "SELECT 1 FROM screenshot_index_generations WHERE ownerKind=? AND ownerId=? LIMIT 1",
+        )
+        .get(...ownerIdentity(owner)),
+    );
+  }
   constructor(
     private readonly store: Catalog,
     home: string,

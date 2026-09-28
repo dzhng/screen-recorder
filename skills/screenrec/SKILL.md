@@ -204,6 +204,17 @@ audio or video, inspect both planes: the requested replacement must change while
 the protected plane keeps its source and timing. A downloaded preview is a viewing
 artifact; it does not establish that a durable export intent has published.
 
+For an editable project transfer, discover `export.create` package support and
+poll its durable export intent until committed. Open the resulting ZIP, inspect
+`package.status`, then explicitly adopt it with a stable request ID. Poll the same
+adoption request; its ready result supplies durable project/revision IDs. Use those
+IDs for history, rendering and edits. Opening alone owns a temporary package
+handle; closing it cancels unfinished adoption but preserves a committed project.
+Current project packaging requires the current revision and refuses acquisitions
+and retained evidence generations whose adoption is not implemented. Report that limitation rather than substituting
+a flattened movie or dropping dependencies. Verify the adopted project's playback
+and undo before presenting a transfer as complete.
+
 ## Invocation and identity
 
 - Pass structured parameters through stdin to avoid shell quoting problems:

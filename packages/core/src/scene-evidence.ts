@@ -291,6 +291,13 @@ export abstract class SceneEvidenceReader {
 
 /** Retained analysis lives in the catalog; queue readiness remains the publication authority. */
 export class SceneEvidenceStore extends SceneEvidenceReader {
+  hasGenerations(owner: SceneOwner): boolean {
+    return Boolean(
+      this.store.catalog
+        .prepare("SELECT 1 FROM scene_evidence_generations WHERE ownerKind=? AND ownerId=? LIMIT 1")
+        .get(...ownerIdentity(owner)),
+    );
+  }
   constructor(
     private readonly store: Catalog,
     private readonly validateOwner: (identity: SceneEvidenceIdentity, source: SceneSource) => void,

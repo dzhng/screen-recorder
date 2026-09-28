@@ -2093,3 +2093,22 @@ existing lifetime owner.
 - **Choice:** Extend the existing native projection to omit geometry authoring
   values after matrix compilation. **Verdict:** sound, high confidence. The worker
   has no second curve evaluator and direct harnesses share the same projection.
+
+## Slice 22 — Public archive checkpoint
+
+- **Sound, medium confidence:** This checkpoint refuses a non-current revision
+  while the project owner only represents a current head at the end of history. A project
+  export names its current editable state plus all retained history. Earlier
+  revision export stays an explicit follow-up until the project owner can represent
+  that branch without ordinal collisions or changed undo meaning.
+- **Sound, medium confidence:** An adoption job returns only durable project and
+  revision IDs. A long history or large document can exceed the bounded job-result
+  envelope; returning its IDs lets the caller read the normal paged history without
+  reporting a successful catalog commit as a failed oversized job result.
+- **Sound, high confidence:** Each service explicitly selects its package format
+  validator. Opening a project ZIP in the recording service does not reinterpret
+  it, and opening an old recording package in the project service does not migrate
+  history. The archive parser and resource lifetime remain shared.
+- **Sound, high confidence:** Package export assembly has its own private managed
+  root, separate from temporary opened-package handles. Restart recovery can clean
+  expired opened ZIPs without deleting work retained by a durable export intent.

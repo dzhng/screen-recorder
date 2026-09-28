@@ -226,6 +226,13 @@ type GenerationRow = {
 
 /** Retained transcript rows and raw engine files; the job queue alone decides what is published. */
 export class TranscriptStore implements TranscriptRecords {
+  hasGenerations(owner: TranscriptOwner): boolean {
+    return Boolean(
+      this.store.catalog
+        .prepare("SELECT 1 FROM transcript_generations WHERE ownerKind=? AND ownerId=? LIMIT 1")
+        .get(...ownerIdentity(owner)),
+    );
+  }
   constructor(
     private readonly store: Catalog,
     private readonly home: string,

@@ -118,6 +118,7 @@ export function validateProjectPackage(
       invalid("Project inventory exceeds byte limit");
   }
   const consumed = new Set<string>();
+  let revisionBytes = 0;
   const documents = manifest.revisions.map((path, index) => {
     if (path !== `revisions/${index}.json`) invalid("Project revision inventory is incomplete");
     const text = revisions.get(path),
@@ -130,6 +131,9 @@ export function validateProjectPackage(
       entry.sha256 !== createHash("sha256").update(text).digest("hex")
     )
       invalid("Project revision hash or size differs");
+    revisionBytes += Buffer.byteLength(text);
+    if (revisionBytes > limits.revisionBytes)
+      invalid("Project history exceeds aggregate revision byte budget");
     consumed.add(path);
     try {
       return JSON.parse(text);

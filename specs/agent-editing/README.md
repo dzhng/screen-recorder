@@ -54,10 +54,9 @@ Current pickup and priority:
    encoded edge/color defects. Remaining geometry scalars, gain and keyframe
    journeys stay in 16.
 
-[Portable snapshots](slices/22a-portable-snapshots.md) are a dependency-ready core
-checkpoint. Public archive relocation and complete retained dependency ownership
-remain in [22](slices/22-portable-projects.md); do not claim portable playback from
-core snapshot checks.
+[Portable project work](slices/22-portable-projects.md) is in progress. Its owning
+slice distinguishes verified snapshot/archive checkpoints from open dependency
+classes and full acceptance.
 
 Compact evidence ledger:
 

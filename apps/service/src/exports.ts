@@ -1,3 +1,4 @@
+import type { ProjectPackages, PinnedProjectPackage } from "./project-packages.js";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
@@ -50,7 +51,7 @@ type Request = {
   leaf: string;
 } & (
   | { kind: "video" | "processed-package"; recordingId: string }
-  | { kind: "video"; projectId: string }
+  | { kind: "video" | "processed-package"; projectId: string }
 );
 type ExportOwner = Extract<JobOwner, { kind: "recording" | "project" }>;
 type ExportCursor = {
@@ -71,7 +72,7 @@ type Intent = {
   targetKind: "recording" | "project";
   targetId: string;
   request: string;
-  snapshot: Snapshot | PinnedProjectPreview;
+  snapshot: Snapshot | PinnedProjectPreview | PinnedProjectPackage;
   destination: { directory: string; identity: DirectoryIdentity; leaf: string };
   staging: DirectoryIdentity | null;
   stagingCleared: 0 | 1;
@@ -163,7 +164,7 @@ export class MediaExports {
         package: PackageOwners;
         files: Pick<ManagedFiles, "recordingDirectory">;
       };
-      project?: { store: ProjectStore; preview: ProjectPreviewInspection };
+      project?: { store: ProjectStore; preview: ProjectPreviewInspection; package?: ProjectPackages };
     },
   ) {
     owners.catalog.catalog.exec(`CREATE TABLE IF NOT EXISTS export_intents (
@@ -194,6 +195,14 @@ export class MediaExports {
         "Project exports are unavailable in this service",
       );
     return this.owners.project;
+  }
+  private projectPackage() {
+    const packages = this.project().package;
+    if (!packages) throw new CatalogError("NOT_READY", "Project packages are unavailable in this service");
+    return packages;
+  }
+  private packageDirectory(intent: Pick<Intent, "targetKind" | "targetId">, signal?: AbortSignal) {
+    return intent.targetKind === "project" ? this.projectPackage().exportDirectory() : this.recording().files.recordingDirectory(intent.targetId, signal);
   }
   private owner(intent: Pick<Intent, "targetKind" | "targetId">): ExportOwner {
     return intent.targetKind === "recording"
@@ -391,8 +400,7 @@ export class MediaExports {
     if (this.hasPreparedInput(intent)) return { state: "ready" };
     let ready;
     if (intent.targetKind === "project") {
-      if (intent.kind !== "video")
-        throw new CatalogError("INVALID_JOB", "Projects export video only");
+      if (intent.kind === "processed-package") return { state: "ready" };
       const pinned = intent.snapshot as PinnedProjectPreview;
       ready = this.project().preview.request(pinned);
     } else {
@@ -526,14 +534,14 @@ export class MediaExports {
     let parent:
       Awaited<ReturnType<ManagedFiles["recordingDirectory"]>> | undefined;
     try {
-      parent = await this.recording().files.recordingDirectory(intent.targetId);
+      parent = await this.packageDirectory(intent);
       if (
         parent.identity.dev !== reservation.parent.dev ||
         parent.identity.ino !== reservation.parent.ino
       )
         throw new CatalogError(
           "INVALID_STORAGE",
-          "Assembly recording parent changed",
+          "Assembly parent changed",
         );
       for (const child of [reservation.input, reservation.zip])
         await removePackageWorkspace(
@@ -558,22 +566,16 @@ export class MediaExports {
     prepare: (file: { readonly fd: number }, bytes: number) => Promise<void>,
   ) {
     await this.cleanupAssembly(intent);
-    const owners = this.recording().package;
+    const owners = intent.targetKind === "recording" ? this.recording().package : null;
     const source = intent.sourceEvidence,
       scenes = intent.packageEvidence?.scenes,
       index = intent.packageEvidence?.index,
       transcript = intent.packageEvidence?.transcript ?? null;
     if (
-      !source ||
-      !scenes ||
-      !index ||
-      (!transcript && owners.source.hasAudio(source, "narration"))
+      owners && (!source || !scenes || !index || (!transcript && owners.source.hasAudio(source, "narration")))
     )
       throw new JobDependencyLost("Package evidence is not admitted");
-    const parent = await this.recording().files.recordingDirectory(
-      intent.targetId,
-      signal,
-    );
+    const parent = await this.packageDirectory(intent, signal);
     const workspaces: Awaited<ReturnType<typeof provisionPackageWorkspace>>[] =
       [];
     let archive: Awaited<ReturnType<typeof assemblePackage>> | undefined;
@@ -602,24 +604,12 @@ export class MediaExports {
       }
       const input = workspaces[0]!,
         zip = workspaces[1]!;
-      archive = await assemblePackage(
-        {
-          snapshot: intent.snapshot as Snapshot,
-          source,
-          scenes,
-          index,
-          transcript,
-        },
-        {
-          ...owners,
-          store: this.recording().store,
-          worker: this.owners.worker,
-        },
-        parent,
-        input,
-        zip,
-        signal,
-      );
+      archive = owners
+        ? await assemblePackage(
+            { snapshot: intent.snapshot as Snapshot, source: source!, scenes: scenes!, index: index!, transcript },
+            { ...owners, store: this.recording().store, worker: this.owners.worker }, parent, input, zip, signal,
+          )
+        : await this.projectPackage().assemble(intent.snapshot as PinnedProjectPackage, input, zip, signal);
       intent.assembly.bytes = archive.receipt.bytes;
       this.saveAssembly(intent);
       await checkWorkspace(input);
@@ -700,8 +690,6 @@ export class MediaExports {
     const targetKind = "projectId" in request ? "project" : "recording";
     const targetId =
       "projectId" in request ? request.projectId : request.recordingId;
-    if (targetKind === "project" && request.kind !== "video")
-      throw new CatalogError("INVALID_PARAMS", "Projects export video only");
     const key = JSON.stringify([
       request.kind,
       targetKind,
@@ -728,7 +716,9 @@ export class MediaExports {
     }
     const snapshot =
       targetKind === "project"
-        ? this.project().preview.pin({
+        ? request.kind === "processed-package"
+          ? this.projectPackage().pin(targetId, request.revisionId)
+          : this.project().preview.pin({
             projectId: targetId,
             revisionId: request.revisionId,
           })

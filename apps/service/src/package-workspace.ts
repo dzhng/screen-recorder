@@ -1,6 +1,7 @@
+import { isPrivateDirectory } from "./managed-files.js";
 import { randomUUID } from "node:crypto";
 import { constants } from "node:fs";
-import { open, type FileHandle } from "node:fs/promises";
+import { open, mkdir, lstat, realpath, type FileHandle } from "node:fs/promises";
 import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
 import { O_NOFOLLOW_ANY } from "@screenrec/core/files";
@@ -8,6 +9,25 @@ import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 type Identity = Readonly<{ dev: string; ino: string }>;
 type Parent = Readonly<{ directory: string; handle: FileHandle }>;
+
+/** Admit the one private root shared by archive workspaces; its handle owns later lookup authority. */
+export async function openPackageParent(path: string) {
+  await mkdir(path, { recursive: true, mode: 0o700 });
+  const before = await lstat(path, { bigint: true });
+  if (!isPrivateDirectory(before))
+    throw new CatalogError("INVALID_STORAGE", "Package root must be a private owned directory");
+  const directory = await realpath(path);
+  const handle = await open(directory, constants.O_RDONLY | constants.O_DIRECTORY | O_NOFOLLOW_ANY);
+  try {
+    const actual = await handle.stat({ bigint: true });
+    if (!isPrivateDirectory(actual) || actual.dev !== before.dev || actual.ino !== before.ino)
+      throw new CatalogError("INVALID_STORAGE", "Package root identity changed during admission");
+    return { directory, handle, identity: { dev: String(actual.dev), ino: String(actual.ino) } };
+  } catch (error) {
+    await handle.close();
+    throw error;
+  }
+}
 
 class FailedWorkspaceProvision extends CatalogError {
   constructor(
