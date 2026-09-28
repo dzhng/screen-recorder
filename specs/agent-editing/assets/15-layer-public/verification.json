@@ -1,0 +1,1557 @@
+{
+  "passed": true,
+  "worker": {
+    "path": "/tmp/screenrec-geometry-integrated-native",
+    "sha256": "27a7b97869cce53631e8ea7730bb82484b203553da6a23beed94bcf2f211c61d"
+  },
+  "report": "/tmp/screenrec-layers-public-reviewed/report.json",
+  "command": "SCREENREC_NATIVE=<frozen-worker> node packages/test-harness/editing/layers.mjs --case presenter-and-screen --out <fresh-directory>",
+  "checks": {
+    "wrongTapRejected": true,
+    "noncommutingPairsDifferent": true,
+    "restartedLayout": {
+      "compared": 12321,
+      "total": 15360,
+      "maximumError": 0,
+      "maximumMaskCountDelta": 0,
+      "maximumCentroidDelta": 0.0,
+      "maximumBoundsDelta": 0
+    },
+    "lifetime": {
+      "donorsRemoved": true,
+      "oldRevisionExact": true,
+      "newRevisionDifferent": true,
+      "deletedLeaseRevoked": true,
+      "externalExportPreserved": true,
+      "retainedSourcesRerendered": true
+    }
+  },
+  "nativePublicExactPngPairs": 62,
+  "readinessRed": "/tmp/screenrec-layers-public-readiness-red/report.json",
+  "sourceReference": "Independent AVAssetImageGenerator/CoreGraphics sRGB source decode",
+  "cases": [
+    {
+      "name": "160x96-rotated-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "8f0ae1a7d4c6a7fe72b3145bef855a18b5f65314b43db5dd89672d5a0590c1a3",
+          "verdict": {
+            "compared": 14481,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 1,
+            "maximumCentroidDelta": 0.008518024032042604,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "pictures": 10,
+          "audio": {
+            "frames": 48000,
+            "pcmSha256": "f34cf319e6fe67a5453148685af98cd1eaa3b65292f9277e882c737ec1fd19d8"
+          },
+          "codecErrors": [
+            {
+              "maximum": 55,
+              "mae": 0.2205078125,
+              "aboveLosslessThreshold": 261
+            },
+            {
+              "maximum": 10,
+              "mae": 0.13589409722222223,
+              "aboveLosslessThreshold": 199
+            },
+            {
+              "maximum": 8,
+              "mae": 0.13046875,
+              "aboveLosslessThreshold": 219
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12549913194444445,
+              "aboveLosslessThreshold": 181
+            },
+            {
+              "maximum": 8,
+              "mae": 0.1244140625,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12411024305555556,
+              "aboveLosslessThreshold": 182
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12411024305555556,
+              "aboveLosslessThreshold": 182
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12411024305555556,
+              "aboveLosslessThreshold": 182
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12411024305555556,
+              "aboveLosslessThreshold": 182
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12411024305555556,
+              "aboveLosslessThreshold": 182
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "pictures": 8,
+          "audio": {
+            "frames": 33067,
+            "pcmSha256": "62a80d7b62989e1d35e272fb32771b70cbc91a177addbb4a55da7fc6bfee1795"
+          },
+          "codecErrors": [
+            {
+              "maximum": 55,
+              "mae": 0.2205078125,
+              "aboveLosslessThreshold": 261
+            },
+            {
+              "maximum": 10,
+              "mae": 0.13589409722222223,
+              "aboveLosslessThreshold": 199
+            },
+            {
+              "maximum": 8,
+              "mae": 0.13046875,
+              "aboveLosslessThreshold": 219
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12549913194444445,
+              "aboveLosslessThreshold": 181
+            },
+            {
+              "maximum": 8,
+              "mae": 0.1244140625,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12411024305555556,
+              "aboveLosslessThreshold": 182
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12411024305555556,
+              "aboveLosslessThreshold": 182
+            },
+            {
+              "maximum": 8,
+              "mae": 0.12411024305555556,
+              "aboveLosslessThreshold": 182
+            }
+          ]
+        }
+      ],
+      "export": {
+        "bytes": 24823,
+        "destination": {
+          "dev": "16777229",
+          "ino": "319425696"
+        },
+        "file": {
+          "dev": "16777229",
+          "ino": "319425992"
+        },
+        "leaf": "160x96-rotated-crop-export.mp4",
+        "sha256": "2b00f767244595d3628d810c10da09f6ed2bb1335c8dadbbf2745d908ea41608",
+        "stage": {
+          "dev": "16777229",
+          "ino": "319425989"
+        }
+      },
+      "movieRefusal": null
+    },
+    {
+      "name": "160x96-presenter",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73",
+          "verdict": {
+            "compared": 12055,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "pictures": 10,
+          "audio": {
+            "frames": 48000,
+            "pcmSha256": "f34cf319e6fe67a5453148685af98cd1eaa3b65292f9277e882c737ec1fd19d8"
+          },
+          "codecErrors": [
+            {
+              "maximum": 18,
+              "mae": 0.7276909722222222,
+              "aboveLosslessThreshold": 1464
+            },
+            {
+              "maximum": 14,
+              "mae": 0.5922092013888889,
+              "aboveLosslessThreshold": 1148
+            },
+            {
+              "maximum": 8,
+              "mae": 0.5348090277777777,
+              "aboveLosslessThreshold": 683
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5328776041666666,
+              "aboveLosslessThreshold": 667
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5320963541666667,
+              "aboveLosslessThreshold": 662
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5318359375,
+              "aboveLosslessThreshold": 660
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5318359375,
+              "aboveLosslessThreshold": 660
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5318359375,
+              "aboveLosslessThreshold": 660
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5318359375,
+              "aboveLosslessThreshold": 660
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5318359375,
+              "aboveLosslessThreshold": 660
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "pictures": 8,
+          "audio": {
+            "frames": 33067,
+            "pcmSha256": "62a80d7b62989e1d35e272fb32771b70cbc91a177addbb4a55da7fc6bfee1795"
+          },
+          "codecErrors": [
+            {
+              "maximum": 18,
+              "mae": 0.7276909722222222,
+              "aboveLosslessThreshold": 1464
+            },
+            {
+              "maximum": 14,
+              "mae": 0.5922092013888889,
+              "aboveLosslessThreshold": 1148
+            },
+            {
+              "maximum": 8,
+              "mae": 0.5348090277777777,
+              "aboveLosslessThreshold": 683
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5328776041666666,
+              "aboveLosslessThreshold": 667
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5320963541666667,
+              "aboveLosslessThreshold": 662
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5318359375,
+              "aboveLosslessThreshold": 660
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5318359375,
+              "aboveLosslessThreshold": 660
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5318359375,
+              "aboveLosslessThreshold": 660
+            }
+          ]
+        }
+      ],
+      "export": {
+        "bytes": 24764,
+        "destination": {
+          "dev": "16777229",
+          "ino": "319425696"
+        },
+        "file": {
+          "dev": "16777229",
+          "ino": "319426193"
+        },
+        "leaf": "160x96-presenter-export.mp4",
+        "sha256": "bb66b08c1e8e5d1d98dd9eb4b4d24b480598103d84fe208cf3b97433cbcb3667",
+        "stage": {
+          "dev": "16777229",
+          "ino": "319426189"
+        }
+      },
+      "movieRefusal": null
+    },
+    {
+      "name": "160x96-presenter-reversed",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "b77c72aaf28771dec6d7b144f7ba0b3dcb4a9a946771b119f73423f5ca7c34f0",
+          "verdict": {
+            "compared": 12420,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "160x96-order-placement-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "bd4ba48875b82cc63067e6dfde429148cc189b4d4344c62b09ee6ee0c2606253",
+          "verdict": {
+            "compared": 13760,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "160x96-order-crop-placement",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "3cb2201ebc276d36701adc0a2b393c822a00c419cd9f2684b5ec61dae773924e",
+          "verdict": {
+            "compared": 14982,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 2,
+            "maximumCentroidDelta": 0.1213592233009706,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "160x96-parent-opacity",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "23265dee6eaa13c5aae239f5af92b3acaa5b653147d09efcd2b4e1fdaff55bf9",
+          "verdict": {
+            "compared": 14080,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "160x96-child-opacity",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "fa7aff98d5a03bdc97a5160e8a044e71c8afd88fd006107d1e45950a09a6437b",
+          "verdict": {
+            "compared": 13600,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "160x96-nested-taps",
+      "frames": [
+        {
+          "tap": "screen/dry",
+          "sha256": "11d2989394843fd944938187e5f09bcb09f6cf5bcad7675b740a0cf4c02e4725",
+          "verdict": {
+            "compared": 11904,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen/after:screen-place",
+          "sha256": "11d2989394843fd944938187e5f09bcb09f6cf5bcad7675b740a0cf4c02e4725",
+          "verdict": {
+            "compared": 11904,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen/after:screen-opacity",
+          "sha256": "1c51911dc71066c3cec008a757103c6b515c883389b4e5244bf596ef48511f53",
+          "verdict": {
+            "compared": 11904,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen/processed",
+          "sha256": "1c51911dc71066c3cec008a757103c6b515c883389b4e5244bf596ef48511f53",
+          "verdict": {
+            "compared": 11904,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter/dry",
+          "sha256": "a4489638f042a798f892786b127d3f00f34c0ca5b3c53b8b3d8878dd187db90e",
+          "verdict": {
+            "compared": 12941,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 21,
+            "maximumCentroidDelta": 0.2685729695347092,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter/after:presenter-layout",
+          "sha256": "bbbf3b1663d9b3db39b7554f1a9683c10c2860477647537c2ca5324a2df08e2b",
+          "verdict": {
+            "compared": 13982,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter/after:presenter-opacity",
+          "sha256": "dbed22b0c65448b2df78882bc60cf7133832cc6db3125b36af5e988344772332",
+          "verdict": {
+            "compared": 13982,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter/processed",
+          "sha256": "dbed22b0c65448b2df78882bc60cf7133832cc6db3125b36af5e988344772332",
+          "verdict": {
+            "compared": 13982,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen-track/dry",
+          "sha256": "1c51911dc71066c3cec008a757103c6b515c883389b4e5244bf596ef48511f53",
+          "verdict": {
+            "compared": 11904,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen-track/after:screen-track-opacity",
+          "sha256": "4bce1d7296be7f1af6f33887710646d36a6c981b1ff4ab6650dfd4f5dab8ca01",
+          "verdict": {
+            "compared": 11904,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen-track/processed",
+          "sha256": "4bce1d7296be7f1af6f33887710646d36a6c981b1ff4ab6650dfd4f5dab8ca01",
+          "verdict": {
+            "compared": 11904,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter-track/dry",
+          "sha256": "dbed22b0c65448b2df78882bc60cf7133832cc6db3125b36af5e988344772332",
+          "verdict": {
+            "compared": 13982,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter-track/after:presenter-track-opacity",
+          "sha256": "01613a31ba02499c8357596112e358e11815572ba0349605339d1e7de91b266e",
+          "verdict": {
+            "compared": 13982,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter-track/processed",
+          "sha256": "01613a31ba02499c8357596112e358e11815572ba0349605339d1e7de91b266e",
+          "verdict": {
+            "compared": 13982,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "inner/dry",
+          "sha256": "4d2582800f9104f6c84984449de2c42f162a6a031fa9b705b1b0445c5fbd7780",
+          "verdict": {
+            "compared": 10818,
+            "total": 15360,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "inner/after:inner-opacity",
+          "sha256": "f1fa5036022ddf4823fe7fbd1a16835540942e89bddf5a0436e5ae7c4b7b4eba",
+          "verdict": {
+            "compared": 10825,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "inner/processed",
+          "sha256": "f1fa5036022ddf4823fe7fbd1a16835540942e89bddf5a0436e5ae7c4b7b4eba",
+          "verdict": {
+            "compared": 10825,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "outer/dry",
+          "sha256": "f1fa5036022ddf4823fe7fbd1a16835540942e89bddf5a0436e5ae7c4b7b4eba",
+          "verdict": {
+            "compared": 10825,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "outer/after:outer-opacity",
+          "sha256": "8aa6b735c429d7824b0c9698e882effff943526087bc31163087b2bd490c5e20",
+          "verdict": {
+            "compared": 10825,
+            "total": 15360,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "outer/processed",
+          "sha256": "8aa6b735c429d7824b0c9698e882effff943526087bc31163087b2bd490c5e20",
+          "verdict": {
+            "compared": 10825,
+            "total": 15360,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "output/dry",
+          "sha256": "7181aa79d6b014ca4c87ad16a81cf9bfbbb613ad5c29f173046275665e8f17d9",
+          "verdict": {
+            "compared": 11992,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "output/after:output-opacity",
+          "sha256": "913a48457f3a3c0b8701574aa44fd8757215456163db21b2ccd6244365ea11cf",
+          "verdict": {
+            "compared": 12004,
+            "total": 15360,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "output/processed",
+          "sha256": "913a48457f3a3c0b8701574aa44fd8757215456163db21b2ccd6244365ea11cf",
+          "verdict": {
+            "compared": 12004,
+            "total": 15360,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": {
+        "code": "NOT_READY",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "160x96-output-transparent-margin",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "ecfb27d763215c295473ee4e1ce905ac29487a3eaa5030419e5e2327c7d88ca7",
+          "verdict": {
+            "compared": 10993,
+            "total": 15360,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": {
+        "code": "NOT_READY",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "128x128-rotated-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "c44a1d7976626d92323178d5500fe76f7d1eb01bd596a5e6e2c1654c7026afbe",
+          "verdict": {
+            "compared": 15505,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 1,
+            "maximumCentroidDelta": 0.008518024032042604,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "pictures": 10,
+          "audio": {
+            "frames": 48000,
+            "pcmSha256": "f34cf319e6fe67a5453148685af98cd1eaa3b65292f9277e882c737ec1fd19d8"
+          },
+          "codecErrors": [
+            {
+              "maximum": 55,
+              "mae": 0.20672607421875,
+              "aboveLosslessThreshold": 261
+            },
+            {
+              "maximum": 10,
+              "mae": 0.12740071614583334,
+              "aboveLosslessThreshold": 199
+            },
+            {
+              "maximum": 8,
+              "mae": 0.122314453125,
+              "aboveLosslessThreshold": 219
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11765543619791667,
+              "aboveLosslessThreshold": 181
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "pictures": 8,
+          "audio": {
+            "frames": 33067,
+            "pcmSha256": "62a80d7b62989e1d35e272fb32771b70cbc91a177addbb4a55da7fc6bfee1795"
+          },
+          "codecErrors": [
+            {
+              "maximum": 55,
+              "mae": 0.20672607421875,
+              "aboveLosslessThreshold": 261
+            },
+            {
+              "maximum": 10,
+              "mae": 0.12740071614583334,
+              "aboveLosslessThreshold": 199
+            },
+            {
+              "maximum": 8,
+              "mae": 0.122314453125,
+              "aboveLosslessThreshold": 219
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11765543619791667,
+              "aboveLosslessThreshold": 181
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            },
+            {
+              "maximum": 8,
+              "mae": 0.11663818359375,
+              "aboveLosslessThreshold": 184
+            }
+          ]
+        }
+      ],
+      "export": {
+        "bytes": 24836,
+        "destination": {
+          "dev": "16777229",
+          "ino": "319425696"
+        },
+        "file": {
+          "dev": "16777229",
+          "ino": "319427394"
+        },
+        "leaf": "128x128-rotated-crop-export.mp4",
+        "sha256": "d0c238b8ce003ad8896e706cb15709fa4ddaaa2d15227b9a7e51cddba87d0cc4",
+        "stage": {
+          "dev": "16777229",
+          "ino": "319427391"
+        }
+      },
+      "movieRefusal": null
+    },
+    {
+      "name": "128x128-presenter",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "cee54d22036ca8c509d5ab9e94a4ede4b049710e5239c09b3ace96266e6287a9",
+          "verdict": {
+            "compared": 13296,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "pictures": 10,
+          "audio": {
+            "frames": 48000,
+            "pcmSha256": "f34cf319e6fe67a5453148685af98cd1eaa3b65292f9277e882c737ec1fd19d8"
+          },
+          "codecErrors": [
+            {
+              "maximum": 18,
+              "mae": 0.7090250651041666,
+              "aboveLosslessThreshold": 1499
+            },
+            {
+              "maximum": 10,
+              "mae": 0.5784708658854166,
+              "aboveLosslessThreshold": 889
+            },
+            {
+              "maximum": 8,
+              "mae": 0.5535074869791666,
+              "aboveLosslessThreshold": 681
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5494791666666666,
+              "aboveLosslessThreshold": 669
+            },
+            {
+              "maximum": 7,
+              "mae": 0.54852294921875,
+              "aboveLosslessThreshold": 666
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5483805338541666,
+              "aboveLosslessThreshold": 666
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5483805338541666,
+              "aboveLosslessThreshold": 666
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5483805338541666,
+              "aboveLosslessThreshold": 666
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5483805338541666,
+              "aboveLosslessThreshold": 666
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5483805338541666,
+              "aboveLosslessThreshold": 666
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "pictures": 8,
+          "audio": {
+            "frames": 33067,
+            "pcmSha256": "62a80d7b62989e1d35e272fb32771b70cbc91a177addbb4a55da7fc6bfee1795"
+          },
+          "codecErrors": [
+            {
+              "maximum": 18,
+              "mae": 0.7090250651041666,
+              "aboveLosslessThreshold": 1499
+            },
+            {
+              "maximum": 10,
+              "mae": 0.5784708658854166,
+              "aboveLosslessThreshold": 889
+            },
+            {
+              "maximum": 8,
+              "mae": 0.5535074869791666,
+              "aboveLosslessThreshold": 681
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5494791666666666,
+              "aboveLosslessThreshold": 669
+            },
+            {
+              "maximum": 7,
+              "mae": 0.54852294921875,
+              "aboveLosslessThreshold": 666
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5483805338541666,
+              "aboveLosslessThreshold": 666
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5483805338541666,
+              "aboveLosslessThreshold": 666
+            },
+            {
+              "maximum": 7,
+              "mae": 0.5483805338541666,
+              "aboveLosslessThreshold": 666
+            }
+          ]
+        }
+      ],
+      "export": {
+        "bytes": 24737,
+        "destination": {
+          "dev": "16777229",
+          "ino": "319425696"
+        },
+        "file": {
+          "dev": "16777229",
+          "ino": "319427602"
+        },
+        "leaf": "128x128-presenter-export.mp4",
+        "sha256": "5a1d3a01ac2aab8c7193a7601a149c58483aa4c5cc274dff32b0058cc0c9a296",
+        "stage": {
+          "dev": "16777229",
+          "ino": "319427596"
+        }
+      },
+      "movieRefusal": null
+    },
+    {
+      "name": "128x128-presenter-reversed",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "5f96b2aa330b11a69958a6af6b8d329fad182c8fb96a463cb4522105b866b7a0",
+          "verdict": {
+            "compared": 13696,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "128x128-order-placement-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "72097a1986fa7ffc9bb62969b59f29dfb9630bda0acc3d70ac5c299b8ed73c9b",
+          "verdict": {
+            "compared": 14784,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "128x128-order-crop-placement",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "fd3df20a20bcc2e2abc7b7417bfc9c0588ce5ecb547d616e0ea759f0d63607a8",
+          "verdict": {
+            "compared": 15952,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "128x128-parent-opacity",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "3977e09c0fea8901392d3ac4d687b4428229e51916443e23fc30a51ce3bbf2d1",
+          "verdict": {
+            "compared": 15104,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "128x128-child-opacity",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "0ad20dbf23fc895cfca0200fccb18d7c5f2cccfee3c98160233da736104e199a",
+          "verdict": {
+            "compared": 14624,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": null
+    },
+    {
+      "name": "128x128-nested-taps",
+      "frames": [
+        {
+          "tap": "screen/dry",
+          "sha256": "c3b685c62d158f9461e403018acb62ad252ea5691fdcb813f506158ad527edda",
+          "verdict": {
+            "compared": 12672,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen/after:screen-place",
+          "sha256": "c3b685c62d158f9461e403018acb62ad252ea5691fdcb813f506158ad527edda",
+          "verdict": {
+            "compared": 12672,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen/after:screen-opacity",
+          "sha256": "93fcb16009b0794aa24176be9a57ca508238c7e7611557902eeee5d8619ef4e8",
+          "verdict": {
+            "compared": 12672,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen/processed",
+          "sha256": "93fcb16009b0794aa24176be9a57ca508238c7e7611557902eeee5d8619ef4e8",
+          "verdict": {
+            "compared": 12672,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter/dry",
+          "sha256": "68ed4d1b939f0966303bc76e7faa8a2ad24d00408336e02151388ea4f95a23a5",
+          "verdict": {
+            "compared": 12923,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 1,
+            "maximumCentroidDelta": 0.005689694874433826,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter/after:presenter-layout",
+          "sha256": "47d11f8be23531f275afea9803ca3a954688b4dcc1b84ae12689047714be01f6",
+          "verdict": {
+            "compared": 15006,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter/after:presenter-opacity",
+          "sha256": "cdd63574f7620925096ca90f7244b30760f18054c8f944efffbb475c79abf5f1",
+          "verdict": {
+            "compared": 15006,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter/processed",
+          "sha256": "cdd63574f7620925096ca90f7244b30760f18054c8f944efffbb475c79abf5f1",
+          "verdict": {
+            "compared": 15006,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen-track/dry",
+          "sha256": "93fcb16009b0794aa24176be9a57ca508238c7e7611557902eeee5d8619ef4e8",
+          "verdict": {
+            "compared": 12672,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen-track/after:screen-track-opacity",
+          "sha256": "d02b46954dff1e09d3b663b0db6a868bc1e46a5bb4ad7cf15f66847d1b0dcb56",
+          "verdict": {
+            "compared": 12672,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "screen-track/processed",
+          "sha256": "d02b46954dff1e09d3b663b0db6a868bc1e46a5bb4ad7cf15f66847d1b0dcb56",
+          "verdict": {
+            "compared": 12672,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter-track/dry",
+          "sha256": "cdd63574f7620925096ca90f7244b30760f18054c8f944efffbb475c79abf5f1",
+          "verdict": {
+            "compared": 15006,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter-track/after:presenter-track-opacity",
+          "sha256": "80386e492cf9267165db819a5d36d2babe1d11600f55add5bc76020009b7d377",
+          "verdict": {
+            "compared": 15006,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "presenter-track/processed",
+          "sha256": "80386e492cf9267165db819a5d36d2babe1d11600f55add5bc76020009b7d377",
+          "verdict": {
+            "compared": 15006,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "inner/dry",
+          "sha256": "5c7a8a9d011f0ce0b8967fffaeb4bd43d95702613e53292195205f3e9bb9320b",
+          "verdict": {
+            "compared": 11507,
+            "total": 16384,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "inner/after:inner-opacity",
+          "sha256": "58d3232aab4248cabfaf693dd5166242dc5626518591d0c3f4095eb564e580cc",
+          "verdict": {
+            "compared": 11512,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "inner/processed",
+          "sha256": "58d3232aab4248cabfaf693dd5166242dc5626518591d0c3f4095eb564e580cc",
+          "verdict": {
+            "compared": 11512,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "outer/dry",
+          "sha256": "58d3232aab4248cabfaf693dd5166242dc5626518591d0c3f4095eb564e580cc",
+          "verdict": {
+            "compared": 11512,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "outer/after:outer-opacity",
+          "sha256": "272f66ddab03852d5b8a547d8842a486693455d59f42863a43f0d6b3063265a3",
+          "verdict": {
+            "compared": 11512,
+            "total": 16384,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "outer/processed",
+          "sha256": "272f66ddab03852d5b8a547d8842a486693455d59f42863a43f0d6b3063265a3",
+          "verdict": {
+            "compared": 11512,
+            "total": 16384,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "output/dry",
+          "sha256": "f456281cd06dd3656d0a671186474e77b6fd6c2a50d01f502c09f3a1a7031d51",
+          "verdict": {
+            "compared": 13147,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "output/after:output-opacity",
+          "sha256": "59a16d20a0bd7339c3ec7589c1da6bcf54311c326d3cf590334a41293f27270b",
+          "verdict": {
+            "compared": 13159,
+            "total": 16384,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        },
+        {
+          "tap": "output/processed",
+          "sha256": "59a16d20a0bd7339c3ec7589c1da6bcf54311c326d3cf590334a41293f27270b",
+          "verdict": {
+            "compared": 13159,
+            "total": 16384,
+            "maximumError": 1,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": {
+        "code": "NOT_READY",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "128x128-output-transparent-margin",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "sha256": "80f199846bbd2785f5d7ccfb8038ab3ed68b5949dccb9f3a4710607eb7216301",
+          "verdict": {
+            "compared": 12240,
+            "total": 16384,
+            "maximumError": 0,
+            "maximumMaskCountDelta": 0,
+            "maximumCentroidDelta": 0.0,
+            "maximumBoundsDelta": 0
+          }
+        }
+      ],
+      "movies": [],
+      "export": null,
+      "movieRefusal": {
+        "code": "NOT_READY",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false
+      }
+    }
+  ],
+  "visualReview": {
+    "agent": "public_layers_visual",
+    "images": 141,
+    "sheets": 12,
+    "enlargements": 5,
+    "observations": [
+      "Faint horizontal strip above presenter",
+      "Narrow vertical presenter remnant with reversed order",
+      "Soft/bright edges in enlarged views"
+    ],
+    "disposition": "All targeted regions match independent expected support, with maximum 0\u20131 code-value differences. No unaccounted geometry defect.",
+    "regions": [
+      {
+        "name": "128x128-presenter",
+        "region": {
+          "x": 94,
+          "y": 22,
+          "width": 20,
+          "height": 3
+        },
+        "maximumChannelError": 1,
+        "expectedLit": 16,
+        "actualLit": 16,
+        "count": 60
+      },
+      {
+        "name": "160x96-presenter-reversed",
+        "region": {
+          "x": 143,
+          "y": 28,
+          "width": 6,
+          "height": 55
+        },
+        "maximumChannelError": 0,
+        "expectedLit": 96,
+        "actualLit": 96,
+        "count": 330
+      },
+      {
+        "name": "160x96-parent-opacity",
+        "region": {
+          "x": 7,
+          "y": 15,
+          "width": 3,
+          "height": 51
+        },
+        "maximumChannelError": 0,
+        "expectedLit": 96,
+        "actualLit": 96,
+        "count": 153
+      },
+      {
+        "name": "160x96-child-opacity",
+        "region": {
+          "x": 7,
+          "y": 15,
+          "width": 3,
+          "height": 51
+        },
+        "maximumChannelError": 0,
+        "expectedLit": 96,
+        "actualLit": 96,
+        "count": 153
+      }
+    ]
+  },
+  "tests": {
+    "projects": 18,
+    "frameTaps": 62,
+    "previews": 8,
+    "decodedMoviePictures": 72,
+    "fullExports": 4,
+    "nonopaqueMovieRefusals": 4,
+    "exactWavExcerpts": 8,
+    "unchangedVisualCapturesAfterReviewFixes": 141,
+    "syntaxAndLint": true
+  },
+  "codeReview": {
+    "firstFindings": [
+      "Final movie duration unchecked",
+      "WAV format/sample-rate unchecked",
+      "Restarted changed layout only checked for difference"
+    ],
+    "disposition": "All fixed with actual format/duration assertions and independent new-layout pixel comparison; full journey rerun passed.",
+    "final": "No remaining actionable false positives within stated journey scope.",
+    "log": "/tmp/screenrec-public-layers-review-final.log"
+  }
+}

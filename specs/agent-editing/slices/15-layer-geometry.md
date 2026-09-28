@@ -1,6 +1,6 @@
 # 15 — Layers, crop and pointer geometry
 
-Status: compiler/native geometry checkpoint verified and under final review; [evidence](../assets/15-layer-geometry/README.md). Pointer adoption, public journey integration and wider visual/profile acceptance remain open. Dependencies: [09](./09-first-preview.md).
+Status: compiler/native geometry and [public static layer delivery](../assets/15-layer-public/README.md) verified; [native evidence](../assets/15-layer-geometry/README.md). Pointer adoption, remaining edit-operation journeys and wider visual/profile acceptance remain open. Dependencies: [09](./09-first-preview.md).
 
 ## Contract
 
@@ -122,3 +122,9 @@ materialized canvas area and live coverage-mask bytes before allocation. Inactiv
 clip taps are transparent without opening a reader. Their native red/green and
 smaller-request recovery evidence is linked in the checkpoint; these provisional
 bounds do not close slice24 scale acceptance.
+
+The [public delivery checkpoint](../assets/15-layer-public/README.md) runs the
+same independent geometry oracle through actual CLI/MCP project editing,
+frame taps, bounded previews and full exports. Source removal and project lifetime
+checks exercise owned media rather than stale catalog rows. Pointer adoption and
+wider output profiles remain separate acceptance gates.

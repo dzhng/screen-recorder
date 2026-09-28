@@ -1,0 +1,707 @@
+[
+  {
+    "index": 1,
+    "path": "/tmp/screenrec-layers-public-reviewed/0-160x96-rotated-crop-output-processed.png",
+    "label": "1 0-160x96-rotated-crop-output-processed.png"
+  },
+  {
+    "index": 2,
+    "path": "/tmp/screenrec-layers-public-reviewed/1-160x96-presenter-output-processed.png",
+    "label": "2 1-160x96-presenter-output-processed.png"
+  },
+  {
+    "index": 3,
+    "path": "/tmp/screenrec-layers-public-reviewed/10-160x96-nested-taps-screen-processed.png",
+    "label": "3 10-160x96-nested-taps-screen-processed.png"
+  },
+  {
+    "index": 4,
+    "path": "/tmp/screenrec-layers-public-reviewed/11-160x96-nested-taps-presenter-dry.png",
+    "label": "4 11-160x96-nested-taps-presenter-dry.png"
+  },
+  {
+    "index": 5,
+    "path": "/tmp/screenrec-layers-public-reviewed/12-160x96-nested-taps-presenter-after-presenter-layout.png",
+    "label": "5 12-160x96-nested-taps-presenter-after-presenter-layout.png"
+  },
+  {
+    "index": 6,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/000.png",
+    "label": "6 128x128-presenter-0-decoded/000.png"
+  },
+  {
+    "index": 7,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/001.png",
+    "label": "7 128x128-presenter-0-decoded/001.png"
+  },
+  {
+    "index": 8,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/002.png",
+    "label": "8 128x128-presenter-0-decoded/002.png"
+  },
+  {
+    "index": 9,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/003.png",
+    "label": "9 128x128-presenter-0-decoded/003.png"
+  },
+  {
+    "index": 10,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/004.png",
+    "label": "10 128x128-presenter-0-decoded/004.png"
+  },
+  {
+    "index": 11,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/005.png",
+    "label": "11 128x128-presenter-0-decoded/005.png"
+  },
+  {
+    "index": 12,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/006.png",
+    "label": "12 128x128-presenter-0-decoded/006.png"
+  },
+  {
+    "index": 13,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/007.png",
+    "label": "13 128x128-presenter-0-decoded/007.png"
+  },
+  {
+    "index": 14,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/008.png",
+    "label": "14 128x128-presenter-0-decoded/008.png"
+  },
+  {
+    "index": 15,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-0-decoded/009.png",
+    "label": "15 128x128-presenter-0-decoded/009.png"
+  },
+  {
+    "index": 16,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-123457-decoded/000.png",
+    "label": "16 128x128-presenter-123457-decoded/000.png"
+  },
+  {
+    "index": 17,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-123457-decoded/001.png",
+    "label": "17 128x128-presenter-123457-decoded/001.png"
+  },
+  {
+    "index": 18,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-123457-decoded/002.png",
+    "label": "18 128x128-presenter-123457-decoded/002.png"
+  },
+  {
+    "index": 19,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-123457-decoded/003.png",
+    "label": "19 128x128-presenter-123457-decoded/003.png"
+  },
+  {
+    "index": 20,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-123457-decoded/004.png",
+    "label": "20 128x128-presenter-123457-decoded/004.png"
+  },
+  {
+    "index": 21,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-123457-decoded/005.png",
+    "label": "21 128x128-presenter-123457-decoded/005.png"
+  },
+  {
+    "index": 22,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-123457-decoded/006.png",
+    "label": "22 128x128-presenter-123457-decoded/006.png"
+  },
+  {
+    "index": 23,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-presenter-123457-decoded/007.png",
+    "label": "23 128x128-presenter-123457-decoded/007.png"
+  },
+  {
+    "index": 24,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/000.png",
+    "label": "24 128x128-rotated-crop-0-decoded/000.png"
+  },
+  {
+    "index": 25,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/001.png",
+    "label": "25 128x128-rotated-crop-0-decoded/001.png"
+  },
+  {
+    "index": 26,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/002.png",
+    "label": "26 128x128-rotated-crop-0-decoded/002.png"
+  },
+  {
+    "index": 27,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/003.png",
+    "label": "27 128x128-rotated-crop-0-decoded/003.png"
+  },
+  {
+    "index": 28,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/004.png",
+    "label": "28 128x128-rotated-crop-0-decoded/004.png"
+  },
+  {
+    "index": 29,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/005.png",
+    "label": "29 128x128-rotated-crop-0-decoded/005.png"
+  },
+  {
+    "index": 30,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/006.png",
+    "label": "30 128x128-rotated-crop-0-decoded/006.png"
+  },
+  {
+    "index": 31,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/007.png",
+    "label": "31 128x128-rotated-crop-0-decoded/007.png"
+  },
+  {
+    "index": 32,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/008.png",
+    "label": "32 128x128-rotated-crop-0-decoded/008.png"
+  },
+  {
+    "index": 33,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-0-decoded/009.png",
+    "label": "33 128x128-rotated-crop-0-decoded/009.png"
+  },
+  {
+    "index": 34,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-123457-decoded/000.png",
+    "label": "34 128x128-rotated-crop-123457-decoded/000.png"
+  },
+  {
+    "index": 35,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-123457-decoded/001.png",
+    "label": "35 128x128-rotated-crop-123457-decoded/001.png"
+  },
+  {
+    "index": 36,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-123457-decoded/002.png",
+    "label": "36 128x128-rotated-crop-123457-decoded/002.png"
+  },
+  {
+    "index": 37,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-123457-decoded/003.png",
+    "label": "37 128x128-rotated-crop-123457-decoded/003.png"
+  },
+  {
+    "index": 38,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-123457-decoded/004.png",
+    "label": "38 128x128-rotated-crop-123457-decoded/004.png"
+  },
+  {
+    "index": 39,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-123457-decoded/005.png",
+    "label": "39 128x128-rotated-crop-123457-decoded/005.png"
+  },
+  {
+    "index": 40,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-123457-decoded/006.png",
+    "label": "40 128x128-rotated-crop-123457-decoded/006.png"
+  },
+  {
+    "index": 41,
+    "path": "/tmp/screenrec-layers-public-reviewed/128x128-rotated-crop-123457-decoded/007.png",
+    "label": "41 128x128-rotated-crop-123457-decoded/007.png"
+  },
+  {
+    "index": 42,
+    "path": "/tmp/screenrec-layers-public-reviewed/13-160x96-nested-taps-presenter-after-presenter-opacity.png",
+    "label": "42 13-160x96-nested-taps-presenter-after-presenter-opacity.png"
+  },
+  {
+    "index": 43,
+    "path": "/tmp/screenrec-layers-public-reviewed/14-160x96-nested-taps-presenter-processed.png",
+    "label": "43 14-160x96-nested-taps-presenter-processed.png"
+  },
+  {
+    "index": 44,
+    "path": "/tmp/screenrec-layers-public-reviewed/15-160x96-nested-taps-screen-track-dry.png",
+    "label": "44 15-160x96-nested-taps-screen-track-dry.png"
+  },
+  {
+    "index": 45,
+    "path": "/tmp/screenrec-layers-public-reviewed/16-160x96-nested-taps-screen-track-after-screen-track-opacity.png",
+    "label": "45 16-160x96-nested-taps-screen-track-after-screen-track-opacity.png"
+  },
+  {
+    "index": 46,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/000.png",
+    "label": "46 160x96-presenter-0-decoded/000.png"
+  },
+  {
+    "index": 47,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/001.png",
+    "label": "47 160x96-presenter-0-decoded/001.png"
+  },
+  {
+    "index": 48,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/002.png",
+    "label": "48 160x96-presenter-0-decoded/002.png"
+  },
+  {
+    "index": 49,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/003.png",
+    "label": "49 160x96-presenter-0-decoded/003.png"
+  },
+  {
+    "index": 50,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/004.png",
+    "label": "50 160x96-presenter-0-decoded/004.png"
+  },
+  {
+    "index": 51,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/005.png",
+    "label": "51 160x96-presenter-0-decoded/005.png"
+  },
+  {
+    "index": 52,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/006.png",
+    "label": "52 160x96-presenter-0-decoded/006.png"
+  },
+  {
+    "index": 53,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/007.png",
+    "label": "53 160x96-presenter-0-decoded/007.png"
+  },
+  {
+    "index": 54,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/008.png",
+    "label": "54 160x96-presenter-0-decoded/008.png"
+  },
+  {
+    "index": 55,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-0-decoded/009.png",
+    "label": "55 160x96-presenter-0-decoded/009.png"
+  },
+  {
+    "index": 56,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-123457-decoded/000.png",
+    "label": "56 160x96-presenter-123457-decoded/000.png"
+  },
+  {
+    "index": 57,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-123457-decoded/001.png",
+    "label": "57 160x96-presenter-123457-decoded/001.png"
+  },
+  {
+    "index": 58,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-123457-decoded/002.png",
+    "label": "58 160x96-presenter-123457-decoded/002.png"
+  },
+  {
+    "index": 59,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-123457-decoded/003.png",
+    "label": "59 160x96-presenter-123457-decoded/003.png"
+  },
+  {
+    "index": 60,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-123457-decoded/004.png",
+    "label": "60 160x96-presenter-123457-decoded/004.png"
+  },
+  {
+    "index": 61,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-123457-decoded/005.png",
+    "label": "61 160x96-presenter-123457-decoded/005.png"
+  },
+  {
+    "index": 62,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-123457-decoded/006.png",
+    "label": "62 160x96-presenter-123457-decoded/006.png"
+  },
+  {
+    "index": 63,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-presenter-123457-decoded/007.png",
+    "label": "63 160x96-presenter-123457-decoded/007.png"
+  },
+  {
+    "index": 64,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/000.png",
+    "label": "64 160x96-rotated-crop-0-decoded/000.png"
+  },
+  {
+    "index": 65,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/001.png",
+    "label": "65 160x96-rotated-crop-0-decoded/001.png"
+  },
+  {
+    "index": 66,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/002.png",
+    "label": "66 160x96-rotated-crop-0-decoded/002.png"
+  },
+  {
+    "index": 67,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/003.png",
+    "label": "67 160x96-rotated-crop-0-decoded/003.png"
+  },
+  {
+    "index": 68,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/004.png",
+    "label": "68 160x96-rotated-crop-0-decoded/004.png"
+  },
+  {
+    "index": 69,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/005.png",
+    "label": "69 160x96-rotated-crop-0-decoded/005.png"
+  },
+  {
+    "index": 70,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/006.png",
+    "label": "70 160x96-rotated-crop-0-decoded/006.png"
+  },
+  {
+    "index": 71,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/007.png",
+    "label": "71 160x96-rotated-crop-0-decoded/007.png"
+  },
+  {
+    "index": 72,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/008.png",
+    "label": "72 160x96-rotated-crop-0-decoded/008.png"
+  },
+  {
+    "index": 73,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-0-decoded/009.png",
+    "label": "73 160x96-rotated-crop-0-decoded/009.png"
+  },
+  {
+    "index": 74,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-123457-decoded/000.png",
+    "label": "74 160x96-rotated-crop-123457-decoded/000.png"
+  },
+  {
+    "index": 75,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-123457-decoded/001.png",
+    "label": "75 160x96-rotated-crop-123457-decoded/001.png"
+  },
+  {
+    "index": 76,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-123457-decoded/002.png",
+    "label": "76 160x96-rotated-crop-123457-decoded/002.png"
+  },
+  {
+    "index": 77,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-123457-decoded/003.png",
+    "label": "77 160x96-rotated-crop-123457-decoded/003.png"
+  },
+  {
+    "index": 78,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-123457-decoded/004.png",
+    "label": "78 160x96-rotated-crop-123457-decoded/004.png"
+  },
+  {
+    "index": 79,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-123457-decoded/005.png",
+    "label": "79 160x96-rotated-crop-123457-decoded/005.png"
+  },
+  {
+    "index": 80,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-123457-decoded/006.png",
+    "label": "80 160x96-rotated-crop-123457-decoded/006.png"
+  },
+  {
+    "index": 81,
+    "path": "/tmp/screenrec-layers-public-reviewed/160x96-rotated-crop-123457-decoded/007.png",
+    "label": "81 160x96-rotated-crop-123457-decoded/007.png"
+  },
+  {
+    "index": 82,
+    "path": "/tmp/screenrec-layers-public-reviewed/17-160x96-nested-taps-screen-track-processed.png",
+    "label": "82 17-160x96-nested-taps-screen-track-processed.png"
+  },
+  {
+    "index": 83,
+    "path": "/tmp/screenrec-layers-public-reviewed/18-160x96-nested-taps-presenter-track-dry.png",
+    "label": "83 18-160x96-nested-taps-presenter-track-dry.png"
+  },
+  {
+    "index": 84,
+    "path": "/tmp/screenrec-layers-public-reviewed/19-160x96-nested-taps-presenter-track-after-presenter-track-opacity.png",
+    "label": "84 19-160x96-nested-taps-presenter-track-after-presenter-track-opacity.png"
+  },
+  {
+    "index": 85,
+    "path": "/tmp/screenrec-layers-public-reviewed/2-160x96-presenter-reversed-output-processed.png",
+    "label": "85 2-160x96-presenter-reversed-output-processed.png"
+  },
+  {
+    "index": 86,
+    "path": "/tmp/screenrec-layers-public-reviewed/20-160x96-nested-taps-presenter-track-processed.png",
+    "label": "86 20-160x96-nested-taps-presenter-track-processed.png"
+  },
+  {
+    "index": 87,
+    "path": "/tmp/screenrec-layers-public-reviewed/21-160x96-nested-taps-inner-dry.png",
+    "label": "87 21-160x96-nested-taps-inner-dry.png"
+  },
+  {
+    "index": 88,
+    "path": "/tmp/screenrec-layers-public-reviewed/22-160x96-nested-taps-inner-after-inner-opacity.png",
+    "label": "88 22-160x96-nested-taps-inner-after-inner-opacity.png"
+  },
+  {
+    "index": 89,
+    "path": "/tmp/screenrec-layers-public-reviewed/23-160x96-nested-taps-inner-processed.png",
+    "label": "89 23-160x96-nested-taps-inner-processed.png"
+  },
+  {
+    "index": 90,
+    "path": "/tmp/screenrec-layers-public-reviewed/24-160x96-nested-taps-outer-dry.png",
+    "label": "90 24-160x96-nested-taps-outer-dry.png"
+  },
+  {
+    "index": 91,
+    "path": "/tmp/screenrec-layers-public-reviewed/25-160x96-nested-taps-outer-after-outer-opacity.png",
+    "label": "91 25-160x96-nested-taps-outer-after-outer-opacity.png"
+  },
+  {
+    "index": 92,
+    "path": "/tmp/screenrec-layers-public-reviewed/26-160x96-nested-taps-outer-processed.png",
+    "label": "92 26-160x96-nested-taps-outer-processed.png"
+  },
+  {
+    "index": 93,
+    "path": "/tmp/screenrec-layers-public-reviewed/27-160x96-nested-taps-output-dry.png",
+    "label": "93 27-160x96-nested-taps-output-dry.png"
+  },
+  {
+    "index": 94,
+    "path": "/tmp/screenrec-layers-public-reviewed/28-160x96-nested-taps-output-after-output-opacity.png",
+    "label": "94 28-160x96-nested-taps-output-after-output-opacity.png"
+  },
+  {
+    "index": 95,
+    "path": "/tmp/screenrec-layers-public-reviewed/29-160x96-nested-taps-output-processed.png",
+    "label": "95 29-160x96-nested-taps-output-processed.png"
+  },
+  {
+    "index": 96,
+    "path": "/tmp/screenrec-layers-public-reviewed/3-160x96-order-placement-crop-output-processed.png",
+    "label": "96 3-160x96-order-placement-crop-output-processed.png"
+  },
+  {
+    "index": 97,
+    "path": "/tmp/screenrec-layers-public-reviewed/30-160x96-output-transparent-margin-output-processed.png",
+    "label": "97 30-160x96-output-transparent-margin-output-processed.png"
+  },
+  {
+    "index": 98,
+    "path": "/tmp/screenrec-layers-public-reviewed/31-128x128-rotated-crop-output-processed.png",
+    "label": "98 31-128x128-rotated-crop-output-processed.png"
+  },
+  {
+    "index": 99,
+    "path": "/tmp/screenrec-layers-public-reviewed/32-128x128-presenter-output-processed.png",
+    "label": "99 32-128x128-presenter-output-processed.png"
+  },
+  {
+    "index": 100,
+    "path": "/tmp/screenrec-layers-public-reviewed/33-128x128-presenter-reversed-output-processed.png",
+    "label": "100 33-128x128-presenter-reversed-output-processed.png"
+  },
+  {
+    "index": 101,
+    "path": "/tmp/screenrec-layers-public-reviewed/34-128x128-order-placement-crop-output-processed.png",
+    "label": "101 34-128x128-order-placement-crop-output-processed.png"
+  },
+  {
+    "index": 102,
+    "path": "/tmp/screenrec-layers-public-reviewed/35-128x128-order-crop-placement-output-processed.png",
+    "label": "102 35-128x128-order-crop-placement-output-processed.png"
+  },
+  {
+    "index": 103,
+    "path": "/tmp/screenrec-layers-public-reviewed/36-128x128-parent-opacity-output-processed.png",
+    "label": "103 36-128x128-parent-opacity-output-processed.png"
+  },
+  {
+    "index": 104,
+    "path": "/tmp/screenrec-layers-public-reviewed/37-128x128-child-opacity-output-processed.png",
+    "label": "104 37-128x128-child-opacity-output-processed.png"
+  },
+  {
+    "index": 105,
+    "path": "/tmp/screenrec-layers-public-reviewed/38-128x128-nested-taps-screen-dry.png",
+    "label": "105 38-128x128-nested-taps-screen-dry.png"
+  },
+  {
+    "index": 106,
+    "path": "/tmp/screenrec-layers-public-reviewed/39-128x128-nested-taps-screen-after-screen-place.png",
+    "label": "106 39-128x128-nested-taps-screen-after-screen-place.png"
+  },
+  {
+    "index": 107,
+    "path": "/tmp/screenrec-layers-public-reviewed/4-160x96-order-crop-placement-output-processed.png",
+    "label": "107 4-160x96-order-crop-placement-output-processed.png"
+  },
+  {
+    "index": 108,
+    "path": "/tmp/screenrec-layers-public-reviewed/40-128x128-nested-taps-screen-after-screen-opacity.png",
+    "label": "108 40-128x128-nested-taps-screen-after-screen-opacity.png"
+  },
+  {
+    "index": 109,
+    "path": "/tmp/screenrec-layers-public-reviewed/41-128x128-nested-taps-screen-processed.png",
+    "label": "109 41-128x128-nested-taps-screen-processed.png"
+  },
+  {
+    "index": 110,
+    "path": "/tmp/screenrec-layers-public-reviewed/42-128x128-nested-taps-presenter-dry.png",
+    "label": "110 42-128x128-nested-taps-presenter-dry.png"
+  },
+  {
+    "index": 111,
+    "path": "/tmp/screenrec-layers-public-reviewed/43-128x128-nested-taps-presenter-after-presenter-layout.png",
+    "label": "111 43-128x128-nested-taps-presenter-after-presenter-layout.png"
+  },
+  {
+    "index": 112,
+    "path": "/tmp/screenrec-layers-public-reviewed/44-128x128-nested-taps-presenter-after-presenter-opacity.png",
+    "label": "112 44-128x128-nested-taps-presenter-after-presenter-opacity.png"
+  },
+  {
+    "index": 113,
+    "path": "/tmp/screenrec-layers-public-reviewed/45-128x128-nested-taps-presenter-processed.png",
+    "label": "113 45-128x128-nested-taps-presenter-processed.png"
+  },
+  {
+    "index": 114,
+    "path": "/tmp/screenrec-layers-public-reviewed/46-128x128-nested-taps-screen-track-dry.png",
+    "label": "114 46-128x128-nested-taps-screen-track-dry.png"
+  },
+  {
+    "index": 115,
+    "path": "/tmp/screenrec-layers-public-reviewed/47-128x128-nested-taps-screen-track-after-screen-track-opacity.png",
+    "label": "115 47-128x128-nested-taps-screen-track-after-screen-track-opacity.png"
+  },
+  {
+    "index": 116,
+    "path": "/tmp/screenrec-layers-public-reviewed/48-128x128-nested-taps-screen-track-processed.png",
+    "label": "116 48-128x128-nested-taps-screen-track-processed.png"
+  },
+  {
+    "index": 117,
+    "path": "/tmp/screenrec-layers-public-reviewed/49-128x128-nested-taps-presenter-track-dry.png",
+    "label": "117 49-128x128-nested-taps-presenter-track-dry.png"
+  },
+  {
+    "index": 118,
+    "path": "/tmp/screenrec-layers-public-reviewed/5-160x96-parent-opacity-output-processed.png",
+    "label": "118 5-160x96-parent-opacity-output-processed.png"
+  },
+  {
+    "index": 119,
+    "path": "/tmp/screenrec-layers-public-reviewed/50-128x128-nested-taps-presenter-track-after-presenter-track-opacity.png",
+    "label": "119 50-128x128-nested-taps-presenter-track-after-presenter-track-opacity.png"
+  },
+  {
+    "index": 120,
+    "path": "/tmp/screenrec-layers-public-reviewed/51-128x128-nested-taps-presenter-track-processed.png",
+    "label": "120 51-128x128-nested-taps-presenter-track-processed.png"
+  },
+  {
+    "index": 121,
+    "path": "/tmp/screenrec-layers-public-reviewed/52-128x128-nested-taps-inner-dry.png",
+    "label": "121 52-128x128-nested-taps-inner-dry.png"
+  },
+  {
+    "index": 122,
+    "path": "/tmp/screenrec-layers-public-reviewed/53-128x128-nested-taps-inner-after-inner-opacity.png",
+    "label": "122 53-128x128-nested-taps-inner-after-inner-opacity.png"
+  },
+  {
+    "index": 123,
+    "path": "/tmp/screenrec-layers-public-reviewed/54-128x128-nested-taps-inner-processed.png",
+    "label": "123 54-128x128-nested-taps-inner-processed.png"
+  },
+  {
+    "index": 124,
+    "path": "/tmp/screenrec-layers-public-reviewed/55-128x128-nested-taps-outer-dry.png",
+    "label": "124 55-128x128-nested-taps-outer-dry.png"
+  },
+  {
+    "index": 125,
+    "path": "/tmp/screenrec-layers-public-reviewed/56-128x128-nested-taps-outer-after-outer-opacity.png",
+    "label": "125 56-128x128-nested-taps-outer-after-outer-opacity.png"
+  },
+  {
+    "index": 126,
+    "path": "/tmp/screenrec-layers-public-reviewed/57-128x128-nested-taps-outer-processed.png",
+    "label": "126 57-128x128-nested-taps-outer-processed.png"
+  },
+  {
+    "index": 127,
+    "path": "/tmp/screenrec-layers-public-reviewed/58-128x128-nested-taps-output-dry.png",
+    "label": "127 58-128x128-nested-taps-output-dry.png"
+  },
+  {
+    "index": 128,
+    "path": "/tmp/screenrec-layers-public-reviewed/59-128x128-nested-taps-output-after-output-opacity.png",
+    "label": "128 59-128x128-nested-taps-output-after-output-opacity.png"
+  },
+  {
+    "index": 129,
+    "path": "/tmp/screenrec-layers-public-reviewed/6-160x96-child-opacity-output-processed.png",
+    "label": "129 6-160x96-child-opacity-output-processed.png"
+  },
+  {
+    "index": 130,
+    "path": "/tmp/screenrec-layers-public-reviewed/60-128x128-nested-taps-output-processed.png",
+    "label": "130 60-128x128-nested-taps-output-processed.png"
+  },
+  {
+    "index": 131,
+    "path": "/tmp/screenrec-layers-public-reviewed/61-128x128-output-transparent-margin-output-processed.png",
+    "label": "131 61-128x128-output-transparent-margin-output-processed.png"
+  },
+  {
+    "index": 132,
+    "path": "/tmp/screenrec-layers-public-reviewed/62-historical.png",
+    "label": "132 62-historical.png"
+  },
+  {
+    "index": 133,
+    "path": "/tmp/screenrec-layers-public-reviewed/63-current.png",
+    "label": "133 63-current.png"
+  },
+  {
+    "index": 134,
+    "path": "/tmp/screenrec-layers-public-reviewed/64-retained-again.png",
+    "label": "134 64-retained-again.png"
+  },
+  {
+    "index": 135,
+    "path": "/tmp/screenrec-layers-public-reviewed/7-160x96-nested-taps-screen-dry.png",
+    "label": "135 7-160x96-nested-taps-screen-dry.png"
+  },
+  {
+    "index": 136,
+    "path": "/tmp/screenrec-layers-public-reviewed/8-160x96-nested-taps-screen-after-screen-place.png",
+    "label": "136 8-160x96-nested-taps-screen-after-screen-place.png"
+  },
+  {
+    "index": 137,
+    "path": "/tmp/screenrec-layers-public-reviewed/9-160x96-nested-taps-screen-after-screen-opacity.png",
+    "label": "137 9-160x96-nested-taps-screen-after-screen-opacity.png"
+  },
+  {
+    "index": 138,
+    "path": "/tmp/screenrec-layers-public-reviewed/plate-reference/000.png",
+    "label": "138 plate-reference/000.png"
+  },
+  {
+    "index": 139,
+    "path": "/tmp/screenrec-layers-public-reviewed/presenter-reference/000.png",
+    "label": "139 presenter-reference/000.png"
+  },
+  {
+    "index": 140,
+    "path": "/tmp/screenrec-layers-public-reviewed/rotated-reference/000.png",
+    "label": "140 rotated-reference/000.png"
+  },
+  {
+    "index": 141,
+    "path": "/tmp/screenrec-layers-public-reviewed/screen-reference/000.png",
+    "label": "141 screen-reference/000.png"
+  }
+]
