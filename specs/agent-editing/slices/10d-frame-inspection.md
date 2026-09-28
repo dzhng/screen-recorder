@@ -108,3 +108,7 @@ reviewed native reference set. Public custom video-mask admission is not covered
 the existing acquisition importer exposes physical video support, while narrower
 mask verification remains native/core only. Raw still images and retained source
 index generalization remain open.
+
+[Product skill use](../assets/10d-frame-skill/README.md) passes a fresh weakest-model
+run against the frozen source/project picture runtime. The agent distinguishes
+source gaps and the project global sample clock without task-specific coaching.

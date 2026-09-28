@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps, or inspect captured cursor and timeline evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps, inspect selected-source or edited-project pictures, or inspect captured cursor and timeline evidence.
 ---
 
 # Screenrec
@@ -98,6 +98,18 @@ its children remain processed. Child taps exclude ancestors. Compare the same
 pinned range across taps to isolate level or processing changes; do not normalize
 or judge a join's sound merely because rendering succeeds. Preserve the returned
 sample clock, channel layout and unavailable ranges when analyzing delivered WAVs.
+
+For picture inspection, choose a raw source stream or a pinned project before
+requesting frames. Source requests use asset/stream identity, optional acquisition,
+and source time; do not add a recording or project revision. Project requests use
+project time and the inspected revision. The returned global project sample can
+precede the requested time; preserve its sample time, visible range and occurrence
+provenance instead of treating it as a wrong frame. A raw source image excludes
+project processing, crop/zoom and capture overlays. An unavailable source gap is
+missing evidence, not a black frame. Poll the same selection while processing;
+inspect failure before explicit frame retry. For batches, preserve per-item order
+and errors, and deliver only ready pictures. Check the returned dimensions and
+sample identity; an inspection size bound does not author a crop or aspect ratio.
 
 For captured observations, use advertised `timeline.events` and `cursor.raw` reads.
 A source request needs explicit acquisition authority and source time; project

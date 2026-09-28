@@ -1,0 +1,4 @@
+Requested pictures and receipts are saved under /tmp/source-picture-skill-live/results.
+The raw second video stream picture at 0.15s is source-015.png. It shows a green field with a yellow strip; the decoded sample is at 0.10s.
+The edited project picture at 0.15s is project-015.png. It shows a red field with a blue upper-left block. The compositor sampled at 0.10s from track:1.
+The raw stream request at 0.45s returned physical_gap, so there is no image for that moment. The asset metadata places the gap between 0.40s and 0.60s. The initial and polling receipts document all three requests and their outcomes.

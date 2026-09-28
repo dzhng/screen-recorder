@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "model": "gpt-6-luna",
+  "context": "fork:none",
+  "checks": {
+    "sourceIdentity": true,
+    "sourceNoFakeRevision": true,
+    "pinnedProject": true,
+    "sourceSampleExplained": true,
+    "projectGlobalSampleAndVisibleRange": true,
+    "physicalGapNoImage": true,
+    "onlyDiscoveryAndReadCommands": true,
+    "scratchServiceStoppedAndHomeRemoved": true
+  },
+  "skillSha256": "85fd679327878559647cd8c79eb2b7064658759453db9dcd65e7d588f7b3cc97",
+  "commands": [
+    "--help",
+    "--help",
+    "--help",
+    "asset.get",
+    "project.get",
+    "frame.get",
+    "frame.get",
+    "frame.get",
+    "frame.get",
+    "frame.get"
+  ],
+  "images": {
+    "source-015.png": "f5559a2028199be2f55af6dab8a0910f891c16bd1617909331383640f16f3dda",
+    "project-015.png": "19e9b30d4d42eb26a524b5e593df5594547a304f75bfcf06bca63acb85e17138"
+  }
+}
