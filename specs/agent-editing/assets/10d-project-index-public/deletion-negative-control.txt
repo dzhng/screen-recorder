@@ -62,4 +62,3 @@ AssertionError: promise resolved "Buffer[ 117, 110, 112, 117, 98, …(-82) ]" in
       Tests  1 failed (1)
    Start at  08:35:19
    Duration  330ms (transform 46%, tests 33%, import 20%, worker 1%)
-

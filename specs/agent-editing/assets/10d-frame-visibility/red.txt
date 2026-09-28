@@ -1,0 +1,48 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:31895) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/frame-inspection.test.ts (8 tests | 1 failed | 7 skipped) 56ms
+   × demanded still pins global picture timing across head changes and cache regeneration 55ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/frame-inspection.test.ts > demanded still pins global picture timing across head changes and cache regeneration
+AssertionError: expected { …(19) } to match object { …(6) }
+(17 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -1,12 +1,12 @@
+  {
+    "atUs": 75001,
+    "frame": {
+      "sampleAtUs": 50000,
+      "visibleRange": {
+-       "endUs": 100000,
+-       "startUs": 50000,
++       "endUs": 75002,
++       "startUs": 75001,
+      },
+    },
+    "height": 96,
+    "pictures": [
+      {
+
+ ❯ packages/core/src/frame-inspection.test.ts:166:17
+    164|   const image = ready.published!.frame;
+    165|   expect(image.frame).not.toHaveProperty("visual");
+    166|   expect(image).toMatchObject({
+       |                 ^
+    167|     revisionId: first.revisionId,
+    168|     atUs: 75001,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  09:14:05
+   Duration  369ms (transform 54%, import 27%, tests 18%, worker 1%)

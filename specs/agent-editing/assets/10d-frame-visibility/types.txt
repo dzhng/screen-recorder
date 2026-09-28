@@ -10,15 +10,15 @@
 @screenrec/protocol:build: $ tsc -p tsconfig.json
 @screenrec/client:build: cache hit, replaying logs 5036b94a749022ed
 @screenrec/client:build: $ tsc -p tsconfig.json
-@screenrec/core:build: cache hit, replaying logs c523298f5c1beea5
+@screenrec/core:build: cache hit, replaying logs 3238bf5c56ebe13a
 @screenrec/core:build: $ tsc -p tsconfig.json
-@screenrec/service:check-types: cache miss, executing d4bbbf8af0ce1ea0
-@screenrec/service:build: cache hit, replaying logs df486b6e3e80c0db
+@screenrec/service:check-types: cache miss, executing 35bb794133ce07dc
+@screenrec/service:build: cache hit, replaying logs 474ffb5f1e91580c
 @screenrec/service:build: $ tsc -p tsconfig.json
-@screenrec/cli:check-types: cache miss, executing f35f0973a46dd371
+@screenrec/cli:check-types: cache miss, executing 7efc36e3d517f160
 @screenrec/service:check-types: $ tsc -p tsconfig.check.json
 @screenrec/cli:check-types: $ tsc -p tsconfig.check.json
 
  Tasks:    7 successful, 7 total
 Cached:    5 cached, 7 total
-  Time:    431ms
+  Time:    343ms

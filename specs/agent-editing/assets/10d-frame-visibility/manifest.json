@@ -1,0 +1,42 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 1656,
+    "sha256": "b5a2759b66b4dfb939145c46600361df6f0fa47339b8e63abeb4904c000d66e5"
+  },
+  {
+    "path": "core.txt",
+    "bytes": 10211,
+    "sha256": "aab7a9c4fe6e6ce500ca0710a34114343abd803bb9dba82ce7ddea18229c6726"
+  },
+  {
+    "path": "focused.txt",
+    "bytes": 689,
+    "sha256": "e3531f5821a9aba1d08c776e2015391aaefde5485685770129841951c1310f66"
+  },
+  {
+    "path": "pixel-parity.json",
+    "bytes": 1877,
+    "sha256": "5d50b77a6b38570a9d02a7b62c76cdd8edb88ee0a0591973a2604ab376a395e1"
+  },
+  {
+    "path": "public.json",
+    "bytes": 234158,
+    "sha256": "103ce3055f41bddae8a9c2c50eb1768aa4bf6a4e65338221bd839032adc67538"
+  },
+  {
+    "path": "red.txt",
+    "bytes": 1540,
+    "sha256": "8ff0c8b5fd16dcd80d4e0b5ece24bf6ff2b9c9aff2b4ebeef3d6d85b6a3231be"
+  },
+  {
+    "path": "review.txt",
+    "bytes": 117651,
+    "sha256": "f6f011793da8b5a8c0a1c6ef9992e4de545f34eba1e9fc3924b90f8713953023"
+  },
+  {
+    "path": "types.txt",
+    "bytes": 1081,
+    "sha256": "349847a948c543055cac6f208f409074bdd5c1c3db3bfc317ecbdd8e967f9d65"
+  }
+]

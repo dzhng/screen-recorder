@@ -16,8 +16,8 @@
   },
   {
     "path": "cli.txt",
-    "bytes": 360,
-    "sha256": "13c97fd153d9501e2a05c771ad8c637eb80c9e828076aaec71b988bccec3284a"
+    "bytes": 359,
+    "sha256": "3277e7b83e9b3be2818cfee1a253ad22420b2c350018e5b4c59ee3710cb70182"
   },
   {
     "path": "composition-0.png",
@@ -56,8 +56,8 @@
   },
   {
     "path": "core.txt",
-    "bytes": 1041,
-    "sha256": "dd2f0ec17856ce3aa7c2a59d2b63b432dc3674996fc38c8ef5da070e41146721"
+    "bytes": 1040,
+    "sha256": "c72e8812065992900fcd8b0daa36b8e11bd7248f23bba2c4f8ad490372d04e78"
   },
   {
     "path": "current-hidden-presenter.png",
@@ -66,8 +66,8 @@
   },
   {
     "path": "deletion-negative-control.txt",
-    "bytes": 1731,
-    "sha256": "4b3eba3ad70ffe7400ed74a0716424ebb3038229ee0059e7d5cb5e7d2b22a49f"
+    "bytes": 1730,
+    "sha256": "91d1679b38c1d040fe69054cf70bb1b59ea3331d7d6bc9b37314ef20ff12e703"
   },
   {
     "path": "direct-0.png",
@@ -126,8 +126,8 @@
   },
   {
     "path": "protocol.txt",
-    "bytes": 225,
-    "sha256": "7e8e5ddd5dc8f42d9dfd8895881592e37f0a65d94124b2181d1680e137512328"
+    "bytes": 224,
+    "sha256": "131463ca11dd339912211deaa146aa931158a649ec2cccb1011a5d9c5e5b614d"
   },
   {
     "path": "report.json",
@@ -141,8 +141,8 @@
   },
   {
     "path": "review.txt",
-    "bytes": 127467,
-    "sha256": "59bb9784082b5f5e3762b6e326e998ebb8496c686a1859dd86ea2dd5ddc7c853"
+    "bytes": 127464,
+    "sha256": "6f2593c6c9d2f890c9dac6998c7bb8333c8a1e8d1b03d80f77df73cf895acaf4"
   },
   {
     "path": "service.log",
@@ -151,8 +151,8 @@
   },
   {
     "path": "service.txt",
-    "bytes": 2240,
-    "sha256": "5022bbf6152f0137a3342da62f287baa0d298295ef1e3859609dbfcf2af17807"
+    "bytes": 2239,
+    "sha256": "daaa5c0fa34440f2703e72b2aa83b0b0e0d60a48be024b7a9bbf33a63726bd68"
   },
   {
     "path": "source-preservation.json",
@@ -161,8 +161,8 @@
   },
   {
     "path": "types.txt",
-    "bytes": 1083,
-    "sha256": "0c9aaea2322734d07187e6fea777d0bcd9f567221b729a7b9aa5663e533fd2f8"
+    "bytes": 1081,
+    "sha256": "a24948f3216b5d03ede469fa4f0144d951c98795542bba7ae102b31b647b8d62"
   },
   {
     "path": "unrelated-project-after-delete.png",

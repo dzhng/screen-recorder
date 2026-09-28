@@ -495,7 +495,7 @@ index 4313f62..506e573 100644
 +++ b/packages/protocol/src/operations.ts
 @@ -202,6 +202,8 @@ const spectrogramParams = z.union([
  ]);
- 
+
  const indexFields = { revisionId: id, generation: id };
 +const projectIndexParams = projectFrameParams.omit({ atUs: true });
 +const projectIndexReference = projectIndexParams.required().extend({ generation: id });
@@ -2306,7 +2306,7 @@ index 08889a6..d2dfa68 100644
 @@ -51,6 +51,43 @@ it("artifact reads ask for one bounded chunk at a whole offset", () => {
      expect(read({ offset, maxBytes }).success).toBe(false);
  });
- 
+
 +it("project indexes use picture taps and retained references across paging and delivery", () => {
 +  const reference = {
 +    projectId: "project",
@@ -2415,7 +2415,7 @@ exec
 
  Tasks:    13 successful, 13 total
 Cached:    8 cached, 13 total
-  Time:    714ms 
+  Time:    714ms
 
 
  RUN  v5.0.0 /Users/david/dev/screen-recorder

@@ -1,0 +1,2196 @@
+2026-09-28T16:15:51.016884Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T16:15:51.017456Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/dev/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e8cd-1ac0-7df0-afa6-b69360dd1703
+--------
+user
+current changes
+exec
+/bin/zsh -lc 'git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md' in /Users/david/dev/screen-recorder
+2026-09-28T16:15:57.105989Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-922bf8d2-78e4-471f-80f6-bf1393604181"
+ succeeded in 0ms:
+ M apps/service/src/project-render.ts
+ M packages/core/src/frame-inspection.test.ts
+ M packages/core/src/frame-inspection.ts
+ M packages/core/src/project-index.test.ts
+ M packages/core/src/project-window.ts
+ M packages/test-harness/editing/project-index-evidence.mjs
+ M skills/screenrec/SKILL.md
+ M specs/agent-editing/slices/10d-frame-inspection.md
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+
+exec
+/bin/zsh -lc 'find .. -name AGENTS.override.md -o -name AGENTS.md; git diff --stat; git diff -- apps/service/src/project-render.ts packages/core/src/frame-inspection.ts packages/core/src/project-window.ts' in /Users/david/dev/screen-recorder
+exec
+/bin/zsh -lc 'git diff --stat; git diff -- apps/service/src/project-render.ts packages/core/src/frame-inspection.ts packages/core/src/project-window.ts; find apps packages skills specs -name AGENTS.md -o -name AGENTS.override.md' in /Users/david/dev/screen-recorder
+2026-09-28T16:16:15.016030Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-dd7a5fdd-a423-4d10-8aa4-1e0e57e19513"
+ succeeded in 301ms:
+apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+
+exec
+/bin/zsh -lc "git diff; cat packages/core/src/project-window.ts; sed -n '1,210p' packages/core/src/frame-inspection.ts; sed -n '450,650p' packages/core/src/frame-inspection.ts; cat .agents/skills/write-tests/SKILL.md" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+diff --git a/apps/service/src/project-render.ts b/apps/service/src/project-render.ts
+index 210a9fd..7015cdb 100644
+--- a/apps/service/src/project-render.ts
++++ b/apps/service/src/project-render.ts
+@@ -105,7 +105,7 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
+
+ export function projectFrameRenderer(worker: MediaWorker, workspace: string): ProjectFrameRenderer {
+   return {
+-    implementationId: "native-composition-picture-v3",
++    implementationId: "native-composition-picture-v4",
+     render: async ({ window, assets, output, maxLongEdge }, signal) =>
+       withRenderedFile(
+         worker,
+diff --git a/packages/core/src/frame-inspection.test.ts b/packages/core/src/frame-inspection.test.ts
+index 4f776df..a9396ee 100644
+--- a/packages/core/src/frame-inspection.test.ts
++++ b/packages/core/src/frame-inspection.test.ts
+@@ -168,7 +168,7 @@ test("demanded still pins global picture timing across head changes and cache re
+     atUs: 75001,
+     width: 160,
+     height: 96,
+-    frame: { sampleAtUs: 50000, visibleRange: { startUs: 75001, endUs: 75002 } },
++    frame: { sampleAtUs: 50000, visibleRange: { startUs: 50000, endUs: 100000 } },
+     pictures: [{ status: "available", requestedSourceUs: 50000, actualSourceUs: 50000 }],
+   });
+   expect(await readFile(image.file, "utf8")).toBe("test frame payload");
+@@ -296,3 +296,39 @@ test("native visual instructions are verified before the public frame receipt om
+   expect(f.frames.request(request)).toMatchObject({ state: "failed", published: null });
+   expect(f.cache.bytes).toBe(0);
+ });
++
++test.each([
++  [0, 0, 50000],
++  [50000, 50000, 100000],
++  [999999, 950000, 1000000],
++])(
++  "picture requested at %i reports the full displayed frame interval",
++  async (atUs, startUs, endUs) => {
++    const f = await fixture();
++    const request = { projectId: f.projectId, atUs };
++    f.frames.request(request);
++    await f.jobs.idle();
++    expect(f.frames.request(request).published!.frame).toMatchObject({
++      atUs,
++      frame: { sampleAtUs: startUs, visibleRange: { startUs, endUs } },
++    });
++  },
++);
++
++test("public visibility projection cannot hide a native receipt with the wrong request range", async () => {
++  const f = await fixture({
++    ...renderer,
++    async render(request, signal) {
++      const receipt = (await renderer.render(request, signal)) as {
++        frame: { visibleRange: { startUs: number; endUs: number } };
++      };
++      receipt.frame.visibleRange = { startUs: 50000, endUs: 100000 };
++      return receipt;
++    },
++  });
++  const request = { projectId: f.projectId, atUs: 75001 };
++  f.frames.request(request);
++  await f.jobs.idle();
++  expect(f.frames.request(request)).toMatchObject({ state: "failed", published: null });
++  expect(f.cache.bytes).toBe(0);
++});
+diff --git a/packages/core/src/frame-inspection.ts b/packages/core/src/frame-inspection.ts
+index cf136d4..ed06a4e 100644
+--- a/packages/core/src/frame-inspection.ts
++++ b/packages/core/src/frame-inspection.ts
+@@ -495,11 +495,11 @@ function roundedSampleUs(sample: { value: string; timescale: number }): bigint {
+   );
+ }
+
+-type PicturePlan = { window: CompositionWindow; assets: readonly CompositionAssetBinding[] };
++type PicturePlan = Pick<ReturnType<typeof projectWindow>, "window" | "assets" | "frameBoundary">;
+ type PictureReceipt = z.infer<typeof projectReceiptSchema>;
+-function inspectedFrame(frame: CompiledFrame): PictureReceipt["frame"] {
++function inspectedFrame(frame: CompiledFrame, plan: PicturePlan): PictureReceipt["frame"] {
+   const { visual: _visual, ...evidence } = frame;
+-  return evidence;
++  return { ...evidence, visibleRange: plan.frameBoundary(frame.sampleAtUs).after!.visibleRange };
+ }
+
+ /** Native instructions stay private, but must match before any public evidence is projected. */
+@@ -512,7 +512,7 @@ export function validateProjectFrameReceipt(
+   const parsed = nativeProjectReceiptSchema.safeParse(receipt);
+   if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+   checkPictureReceipt(parsed.data, plan.window.frames().next().value!, plan, output, maxLongEdge);
+-  return { ...parsed.data, frame: inspectedFrame(parsed.data.frame) };
++  return { ...parsed.data, frame: inspectedFrame(parsed.data.frame, plan) };
+ }
+
+ /** Retained records contain the same public evidence; renderer-private instructions are never stored. */
+@@ -526,7 +526,7 @@ export function validateRetainedProjectFrameReceipt(
+   if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+   checkPictureReceipt(
+     parsed.data,
+-    inspectedFrame(plan.window.frames().next().value!),
++    inspectedFrame(plan.window.frames().next().value!, plan),
+     plan,
+     output,
+     maxLongEdge,
+diff --git a/packages/core/src/project-index.test.ts b/packages/core/src/project-index.test.ts
+index 1c4f3ea..e5b4a6d 100644
+--- a/packages/core/src/project-index.test.ts
++++ b/packages/core/src/project-index.test.ts
+@@ -226,7 +226,7 @@ test("audio-only project retains background pictures and exact sampled visibilit
+   await append(f, identity, 1, 900000);
+   expect(first.frame).toMatchObject({
+     pictures: [],
+-    frame: { visibleRange: { startUs: 0, endUs: 1 } },
++    frame: { visibleRange: { startUs: 0, endUs: 100000 } },
+   });
+   expect(first.frame.frame).not.toHaveProperty("visual");
+   expect(first.candidate.visibleRange).toEqual({ startUs: 0, endUs: 100000 });
+diff --git a/packages/core/src/project-window.ts b/packages/core/src/project-window.ts
+index 021ec86..b1489ef 100644
+--- a/packages/core/src/project-window.ts
++++ b/packages/core/src/project-window.ts
+@@ -93,7 +93,12 @@ export function projectComposition(
+           originUs: asset.originUs,
+         });
+       }
+-      return { window: bound, assets: [...bindings.values()], durationUs: model.durationUs };
++      return {
++        window: bound,
++        assets: [...bindings.values()],
++        durationUs: model.durationUs,
++        frameBoundary: compiler.frameBoundary,
++      };
+     },
+   };
+ }
+diff --git a/packages/test-harness/editing/project-index-evidence.mjs b/packages/test-harness/editing/project-index-evidence.mjs
+index e662ea5..c45dcdb 100644
+--- a/packages/test-harness/editing/project-index-evidence.mjs
++++ b/packages/test-harness/editing/project-index-evidence.mjs
+@@ -81,6 +81,7 @@ async function inspect(input) {
+     entries.map((_, ordinal) => ordinal),
+   );
+   for (const entry of entries) {
++    assert.deepEqual(entry.frame.frame.visibleRange, entry.candidate.visibleRange);
+     assert.deepEqual(entry.reference, { ...reference, ordinal: entry.candidate.ordinal });
+     assert.deepEqual(
+       coverage
+diff --git a/skills/screenrec/SKILL.md b/skills/screenrec/SKILL.md
+index ce2b563..1e64b2d 100644
+--- a/skills/screenrec/SKILL.md
++++ b/skills/screenrec/SKILL.md
+@@ -132,7 +132,11 @@ requesting frames. Source requests use asset/stream identity, optional acquisiti
+ and source time; do not add a recording or project revision. Project requests use
+ project time and the inspected revision. The returned global project sample can
+ precede the requested time; preserve its sample time, visible range and occurrence
+-provenance instead of treating it as a wrong frame. A raw source image excludes
++provenance instead of treating it as a wrong frame. `atUs` is the request instant;
++`frame.visibleRange` is the full interval displaying that project frame. Authored
++clip edges can fall inside a displayed frame; use the sampled frame and its range
++to describe visible changes, rather than assuming an edit edge is a new picture.
++A raw source image excludes
+ project processing, crop/zoom and capture overlays. An unavailable source gap is
+ missing evidence, not a black frame. Poll the same selection while processing;
+ inspect failure before explicit frame retry. For batches, preserve per-item order
+diff --git a/specs/agent-editing/slices/10d-frame-inspection.md b/specs/agent-editing/slices/10d-frame-inspection.md
+index 5bf5abf..3d8ea9c 100644
+--- a/specs/agent-editing/slices/10d-frame-inspection.md
++++ b/specs/agent-editing/slices/10d-frame-inspection.md
+@@ -253,3 +253,16 @@ store after job/delivery drain. [Fresh product-skill use](../assets/10d-project-
+ exposes competing one-microsecond request and full-frame visibility ranges; resolve
+ that public metadata ambiguity through the compiler clock and repeat fresh use.
+ These checks do not close custom exclusion masks, raw still admission or all 10d gates.
++
++
++## Public frame visibility
++
++Direct and retained project picture receipts use the compiler's complete global
++frame visibility interval, clipped only by the project end. The request instant
++remains `atUs`; it is not a visibility window. Native execution still receives
++and validates the original demanded window before this public projection. At
++10 fps, a clip authored to enter at 2.25 seconds first appears in the 2.30-second
++sample; the base-only 2.20-second sample remains displayed through 2.30 seconds.
++This distinguishes authored intent from sampled output without another clock.
++The project-picture recipe advances to v4 because cached metadata changed; native
++pixels, source-picture identity and movie windows are unchanged.
+import {
+  createCompiler,
+  isMediaClip,
+  processingCapabilities,
+  rangeSchema,
+  requireWindowReady,
+  validateComposition,
+  type ProcessingTap,
+  type ProcessorImplementations,
+} from "@screenrec/composition";
+import { AssetStore, compositionAsset } from "./assets.js";
+import { ProjectStore } from "./projects.js";
+import { CatalogError } from "./catalog.js";
+
+export type CompositionWindow = ReturnType<ReturnType<typeof createCompiler>["window"]>;
+export type CompositionAssetBinding = {
+  assetId: string;
+  streamId: string;
+  path: string;
+  originUs: number;
+};
+
+const implementations = (id: string): ProcessorImplementations => ({
+  geometry: id,
+  opacity: id,
+  gain: id,
+});
+export const projectCapabilities = (id: string) => processingCapabilities(implementations(id));
+
+/** One immutable revision context owns model validation, compiler timing and source bindings. */
+export function projectComposition(
+  projects: ProjectStore,
+  assets: AssetStore,
+  input: { projectId: string; revisionId?: string | undefined },
+) {
+  const revision = projects.revision(input.projectId, input.revisionId);
+  const ids = [...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId))];
+  const metadata = new Map(ids.map((id) => [id, assets.get(id)]));
+  const model = validateComposition(
+    revision.document,
+    [...metadata.values()].map(compositionAsset),
+    projects.contexts(revision.document),
+  );
+  const compiler = createCompiler(model, revision.id);
+  return {
+    projectId: input.projectId,
+    revisionId: revision.id,
+    model,
+    compiler,
+    window(
+      input: {
+        range?: { startUs: number; endUs: number } | undefined;
+        tap?: ProcessingTap | undefined;
+      },
+      implementationId: string,
+      component?: "audio" | "video",
+    ) {
+      const parsed = rangeSchema.safeParse(input.range ?? { startUs: 0, endUs: model.durationUs });
+      if (!parsed.success || parsed.data.endUs > model.durationUs)
+        throw new CatalogError(
+          "INVALID_PARAMS",
+          "Rendering requires a nonempty range within the pinned project",
+        );
+      const window = (
+        component === "audio"
+          ? compiler.audioWindow
+          : component === "video"
+            ? compiler.videoWindow
+            : compiler.window
+      )({
+        range: parsed.data,
+        rendition: { sampleRate: 48000, channels: 2 },
+        tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
+      });
+      const requirements = window.manifest.requirements.map((requirement) => ({
+        ...requirement,
+        implementationId:
+          requirement.kind === "executor"
+            ? implementationId
+            : requirement.kind === "processor"
+              ? (implementations(implementationId)[requirement.processor.type] ?? null)
+              : null,
+      }));
+      const bound = { ...window, manifest: { ...window.manifest, requirements } };
+      requireWindowReady(bound.manifest);
+      const bindings = new Map<string, CompositionAssetBinding>();
+      for (const source of bound.manifest.sources) {
+        const asset = metadata.get(source.assetId)!;
+        bindings.set(JSON.stringify([asset.id, source.streamId]), {
+          assetId: asset.id,
+          streamId: source.streamId,
+          path: assets.path(asset.id),
+          originUs: asset.originUs,
+        });
+      }
+      return {
+        window: bound,
+        assets: [...bindings.values()],
+        durationUs: model.durationUs,
+        frameBoundary: compiler.frameBoundary,
+      };
+    },
+  };
+}
+
+/** Preview and media inspection resolve the same immutable dependencies and execution requirements. */
+export function projectWindow(
+  projects: ProjectStore,
+  assets: AssetStore,
+  input: {
+    projectId: string;
+    revisionId?: string | undefined;
+    range?: { startUs: number; endUs: number } | undefined;
+    tap?: ProcessingTap | undefined;
+  },
+  implementationId: string,
+  component?: "audio" | "video",
+) {
+  return projectComposition(projects, assets, input).window(input, implementationId, component);
+}
+import { isDeepStrictEqual } from "node:util";
+import { z } from "zod";
+import {
+  compiledFrameSchema,
+  processingTapSchema,
+  type ProcessingTap,
+  type CompiledFrame,
+} from "@screenrec/composition";
+import type { ProjectStore } from "./projects.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
+import type { AssetStore } from "./assets.js";
+import type { JobQueue, JobExecution, JobOwner, Job } from "./jobs.js";
+import type { DerivedCache } from "./cache.js";
+import { CatalogError } from "./catalog.js";
+import { submitCachedDerivative } from "./cached-derivative.js";
+import {
+  projectWindow,
+  type CompositionWindow,
+  type CompositionAssetBinding,
+} from "./project-window.js";
+
+const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+const selectedPicture = {
+  clipId: z.string().min(1),
+  assetId: z.string().min(1),
+  streamId: z.string().min(1),
+  requestedSourceUs: time,
+};
+const nativeProjectReceiptSchema = z.object({
+  file: z.string(),
+  mediaType: z.literal("image/png"),
+  profile: z.literal("h264-rec709"),
+  frame: compiledFrameSchema,
+  width: z.int().positive(),
+  height: z.int().positive(),
+  sourceWidth: z.int().positive(),
+  sourceHeight: z.int().positive(),
+  decodedSamples: time,
+  readerOpens: time,
+  bytes: z
+    .int()
+    .positive()
+    .max(32 * 1024 * 1024),
+  pictures: z.array(
+    z.discriminatedUnion("status", [
+      z.object({ status: z.literal("unavailable"), ...selectedPicture, reason: z.string().min(1) }),
+      z.object({
+        status: z.literal("available"),
+        ...selectedPicture,
+        actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+        sample: z.object({
+          value: z.string().regex(/^-?\d+$/),
+          timescale: z.int().positive(),
+          originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+        }),
+      }),
+    ]),
+  ),
+});
+const projectReceiptSchema = nativeProjectReceiptSchema.extend({
+  frame: z.strictObject(compiledFrameSchema.shape).omit({ visual: true }),
+});
+export const projectPictureOptionsSchema = z.strictObject({
+  maxLongEdge: z.int().min(1).max(8192),
+  tap: processingTapSchema,
+  implementationId: z.string().min(1),
+});
+const optionsSchema = z.strictObject({ atUs: time, ...projectPictureOptionsSchema.shape });
+export type ProjectFrameInput = {
+  projectId: string;
+  revisionId?: string | undefined;
+  atUs: number;
+  maxLongEdge?: number | undefined;
+  tap?: ProcessingTap | undefined;
+};
+export type ProjectFrameRenderer = {
+  implementationId: string;
+  render(
+    request: {
+      window: CompositionWindow;
+      assets: readonly CompositionAssetBinding[];
+      output: string;
+      maxLongEdge: number;
+    },
+    signal: AbortSignal,
+  ): Promise<unknown>;
+};
+export type ProjectFrameArtifact = z.infer<typeof projectReceiptSchema> &
+  z.infer<typeof optionsSchema> & {
+    projectId: string;
+    revisionId: string;
+    cacheId: string;
+  };
+
+const sourceOptionsSchema = z.strictObject({
+  selection: sourceSelectionSchema,
+  atUs: time,
+  maxLongEdge: z.int().min(1).max(8192),
+  supportDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  implementationId: z.string().min(1),
+});
+const sourceReceiptSchema = projectReceiptSchema
+  .omit({ profile: true, frame: true, pictures: true })
+  .extend({
+    assetId: z.string().min(1),
+    streamId: z.string().min(1),
+    requestedSourceUs: time,
+    actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+    sample: z.object({
+      value: z
+        .string()
+        .max(21)
+        .regex(/^-?\d+$/),
+      timescale: z.int().positive(),
+      endValue: z
+        .string()
+        .max(21)
+        .regex(/^-?\d+$/),
+      endTimescale: z.int().positive(),
+      originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+    }),
+  });
+export type SourceFrameInput = SourceSelection & { atUs: number; maxLongEdge?: number | undefined };
+export type SourceFrameUnavailable = z.infer<typeof sourceOptionsSchema> &
+  Pick<Job, "jobId" | "attemptId" | "reason"> & {
+    observation: { requestedSourceUs: number; status: "unavailable"; reason: "empty_edit" };
+  };
+export type MediaFrameInput = SourceFrameInput | ProjectFrameInput;
+export type SourceFrameRenderer = {
+  implementationId: string;
+  render(
+    request: {
+      asset: CompositionAssetBinding;
+      available: { startUs: number; endUs: number }[];
+      atUs: number;
+      maxLongEdge: number;
+      output: string;
+    },
+    signal: AbortSignal,
+  ): Promise<unknown>;
+};
+export type SourceFrameArtifact = z.infer<typeof sourceReceiptSchema> &
+  SourceSelection & {
+    atUs: number;
+    maxLongEdge: number;
+    supportDigest: string;
+    implementationId: string;
+    cacheId: string;
+  };
+
+/** A demanded picture uses the movie's global schedule and shared derivative lifetime. */
+export class MediaFrameInspection {
+  constructor(
+    private readonly owners: {
+      assets: AssetStore;
+      acquisitions: AcquisitionStore;
+      jobs: JobQueue;
+      cache: DerivedCache;
+      sourceRenderer: SourceFrameRenderer;
+      project?: { projects: ProjectStore; renderer: ProjectFrameRenderer };
+    },
+  ) {
+    if (
+      !owners.sourceRenderer.implementationId ||
+      (owners.project && !owners.project.renderer.implementationId)
+    )
+      throw new Error("Picture renderer needs an implementation identity");
+  }
+  private get project() {
+    if (!this.owners.project)
+      throw new CatalogError("UNSUPPORTED_JOB", "Project pictures are unavailable");
+    return this.owners.project;
+  }
+
+  sourcePlan(input: SourceFrameInput) {
+    const source = selectSource(this.owners.assets, this.owners.acquisitions, {
+      assetId: input.assetId,
+      streamId: input.streamId,
+      ...(input.acquisitionId === undefined ? {} : { acquisitionId: input.acquisitionId }),
+    });
+    if (source.stream.kind !== "video")
+      throw new CatalogError("UNSUPPORTED_MEDIA", "Source pictures require timed video");
+    const parsed = sourceOptionsSchema.safeParse({
+      selection: source.selection,
+      atUs: input.atUs,
+      maxLongEdge: input.maxLongEdge ?? 1600,
+      supportDigest: source.supportDigest,
+      implementationId: this.owners.sourceRenderer.implementationId,
+    });
+    if (!parsed.success || input.atUs >= source.durationUs)
+      throw new CatalogError("INVALID_RANGE", "Picture time must lie within the source duration");
+    const contains = (range: { startUs: number; endUs: number }) =>
+      range.startUs <= input.atUs && input.atUs < range.endUs;
+    const reason = !(source.stream.available ?? [source.stream.bounds]).some(contains)
+      ? "physical_gap"
+      : !source.track.available.some(contains)
+        ? "acquisition_excluded"
+        : null;
+    const asset: CompositionAssetBinding = {
+      assetId: source.selection.assetId,
+      streamId: source.selection.streamId,
+      path: source.track.source,
+      originUs: -source.track.sourceOffsetUs,
+    };
+    return { source, options: parsed.data, asset, reason };
+  }
+  private requestSource(input: SourceFrameInput) {
+    const { options, reason } = this.sourcePlan(input);
+    const { assets, acquisitions, jobs, cache } = this.owners;
+    | ReturnType<MediaFrameInspection["requestProject"]>;
+  retry(input: MediaFrameInput) {
+    const current = this.request(input);
+    if (current.jobId) this.owners.jobs.retry(current.jobId);
+    return this.request(
+      "projectId" in current
+        ? { ...input, projectId: current.projectId, revisionId: current.revisionId }
+        : input,
+    );
+  }
+  async execute(execution: JobExecution): Promise<string> {
+    return execution.job.target.kind === "project"
+      ? this.executeProject(execution)
+      : this.executeSource(execution);
+  }
+  private async executeProject({ job, signal }: JobExecution): Promise<string> {
+    const parsed = optionsSchema.safeParse(JSON.parse(job.input));
+    if (job.target.kind !== "project" || job.artifact !== "frame" || !parsed.success)
+      throw new CatalogError("UNSUPPORTED_JOB", "Picture job does not name a project frame");
+    if (parsed.data.implementationId !== this.project.renderer.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
+    const plan = this.planProject({
+      projectId: job.target.projectId,
+      revisionId: job.target.revisionId,
+      ...parsed.data,
+    });
+    const projectId = job.target.projectId;
+    return this.publish({ kind: "project", projectId }, signal, async (output) => {
+      const receipt = await this.project.renderer.render(
+        { window: plan.window, assets: plan.assets, output, maxLongEdge: plan.options.maxLongEdge },
+        signal,
+      );
+      signal.throwIfAborted();
+      const value = validateProjectFrameReceipt(receipt, plan, output, plan.options.maxLongEdge);
+      return { ...value, ...plan.options, projectId, revisionId: plan.window.manifest.revisionId };
+    });
+  }
+}
+
+function roundedSampleUs(sample: { value: string; timescale: number }): bigint {
+  const numerator = BigInt(sample.value) * 1000000n,
+    scale = BigInt(sample.timescale);
+  const absolute = numerator < 0n ? -numerator : numerator;
+  return (
+    (absolute / scale + ((absolute % scale) * 2n >= scale ? 1n : 0n)) * (numerator < 0n ? -1n : 1n)
+  );
+}
+
+type PicturePlan = Pick<ReturnType<typeof projectWindow>, "window" | "assets" | "frameBoundary">;
+type PictureReceipt = z.infer<typeof projectReceiptSchema>;
+function inspectedFrame(frame: CompiledFrame, plan: PicturePlan): PictureReceipt["frame"] {
+  const { visual: _visual, ...evidence } = frame;
+  return { ...evidence, visibleRange: plan.frameBoundary(frame.sampleAtUs).after!.visibleRange };
+}
+
+/** Native instructions stay private, but must match before any public evidence is projected. */
+export function validateProjectFrameReceipt(
+  receipt: unknown,
+  plan: PicturePlan,
+  output: string,
+  maxLongEdge: number,
+): PictureReceipt {
+  const parsed = nativeProjectReceiptSchema.safeParse(receipt);
+  if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+  checkPictureReceipt(parsed.data, plan.window.frames().next().value!, plan, output, maxLongEdge);
+  return { ...parsed.data, frame: inspectedFrame(parsed.data.frame, plan) };
+}
+
+/** Retained records contain the same public evidence; renderer-private instructions are never stored. */
+export function validateRetainedProjectFrameReceipt(
+  receipt: unknown,
+  plan: PicturePlan,
+  output: string,
+  maxLongEdge: number,
+): PictureReceipt {
+  const parsed = projectReceiptSchema.safeParse(receipt);
+  if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+  checkPictureReceipt(
+    parsed.data,
+    inspectedFrame(plan.window.frames().next().value!, plan),
+    plan,
+    output,
+    maxLongEdge,
+  );
+  return parsed.data;
+}
+function checkPictureReceipt(
+  value: PictureReceipt,
+  expected: PictureReceipt["frame"],
+  plan: PicturePlan,
+  output: string,
+  maxLongEdge: number,
+) {
+  const { pictures } = value;
+  if (
+    value.file !== output ||
+    !isDeepStrictEqual(value.frame, expected) ||
+    value.sourceWidth !== plan.window.manifest.canvas.width ||
+    value.sourceHeight !== plan.window.manifest.canvas.height ||
+    value.width > value.sourceWidth ||
+    value.height > value.sourceHeight ||
+    Math.max(value.width, value.height) > maxLongEdge ||
+    pictures.length !== expected.layers.length ||
+    pictures.some((picture, index) => {
+      const layer = expected.layers[index]!;
+      return (
+        picture.clipId !== layer.clipId ||
+        picture.assetId !== layer.assetId ||
+        picture.streamId !== layer.streamId ||
+        picture.requestedSourceUs !== layer.sourceUs ||
+        (layer.availability !== "available" && picture.status === "available")
+      );
+    })
+  )
+    throw new CatalogError("INVALID_RESPONSE", "Picture receipt differs from its pinned frame");
+  if (
+    pictures.some(
+      (picture) =>
+        picture.status === "available" &&
+        (roundedSampleUs(picture.sample) - BigInt(picture.sample.originUs) !==
+          BigInt(picture.actualSourceUs) ||
+          picture.sample.originUs !==
+            plan.assets.find(
+              (asset) => asset.assetId === picture.assetId && asset.streamId === picture.streamId,
+            )?.originUs),
+    )
+  )
+    throw new CatalogError("INVALID_RESPONSE", "Picture receipt changed its source clock");
+}
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T16:16:18.871927Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-d0496962-18ef-44b2-b9e2-6cee2cb0dfc1"
+exec
+/bin/zsh -lc "rg -n 'frameBoundary|sampleAtUs|visibleRange' packages/composition/src/compiler.ts; rg -n 'validateProjectFrameReceipt|validateRetainedProjectFrameReceipt' . --glob '"'!bun.lock'"'; cat package.json; cat packages/core/package.json; sed -n '300,390p' packages/core/src/frame-inspection.ts; cat specs/recording-for-ai/README.md" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+64:): Pick<CompiledFrame, "index" | "sampleAtUs" | "visibleRange"> {
+65:  const sampleAtUs = safeInteger(clock.timeAt(index));
+69:    sampleAtUs,
+70:    visibleRange: {
+71:      startUs: Math.max(range.startUs, sampleAtUs),
+265:    frameBoundary(at: TimeValue) {
+272:      ): Pick<CompiledFrame, "index" | "sampleAtUs" | "visibleRange"> | null => {
+./packages/core/src/project-index.test.ts:3:import { validateProjectFrameReceipt } from "./frame-inspection.js";
+./packages/core/src/project-index.test.ts:197:    ...validateProjectFrameReceipt(raw, plan, file, identity.maxLongEdge),
+./packages/core/src/frame-inspection.ts:483:      const value = validateProjectFrameReceipt(receipt, plan, output, plan.options.maxLongEdge);
+./packages/core/src/frame-inspection.ts:506:export function validateProjectFrameReceipt(
+./packages/core/src/frame-inspection.ts:519:export function validateRetainedProjectFrameReceipt(
+./packages/core/src/project-index.ts:10:  validateRetainedProjectFrameReceipt,
+./packages/core/src/project-index.ts:199:      validateRetainedProjectFrameReceipt(
+./specs/agent-editing/assets/10d-project-index-public/review.txt:2611:  validateRetainedProjectFrameReceipt,
+./specs/agent-editing/assets/10d-project-index-public/review.txt:2817:      validateRetainedProjectFrameReceipt(
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+{
+  "name": "@screenrec/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./timeline": {
+      "types": "./dist/timeline.d.ts",
+      "default": "./dist/timeline.js"
+    },
+    "./library": {
+      "types": "./dist/library.d.ts",
+      "default": "./dist/library.js"
+    },
+    "./jobs": {
+      "types": "./dist/jobs.d.ts",
+      "default": "./dist/jobs.js"
+    },
+    "./evidence": {
+      "types": "./dist/evidence.d.ts",
+      "default": "./dist/evidence.js"
+    },
+    "./processing": {
+      "types": "./dist/processing.d.ts",
+      "default": "./dist/processing.js"
+    },
+    "./cache": {
+      "types": "./dist/cache.d.ts",
+      "default": "./dist/cache.js"
+    },
+    "./frames": {
+      "types": "./dist/frames.d.ts",
+      "default": "./dist/frames.js"
+    },
+    "./audio": {
+      "types": "./dist/audio.d.ts",
+      "default": "./dist/audio.js"
+    },
+    "./scenes": {
+      "types": "./dist/scenes.d.ts",
+      "default": "./dist/scenes.js"
+    },
+    "./trails": {
+      "types": "./dist/trails.d.ts",
+      "default": "./dist/trails.js"
+    },
+    "./visual-cache": {
+      "types": "./dist/visual-cache.d.ts",
+      "default": "./dist/visual-cache.js"
+    },
+    "./scene-evidence": {
+      "types": "./dist/scene-evidence.d.ts",
+      "default": "./dist/scene-evidence.js"
+    },
+    "./scene-processing": {
+      "types": "./dist/scene-processing.d.ts",
+      "default": "./dist/scene-processing.js"
+    },
+    "./frame-materialization": {
+      "types": "./dist/frame-materialization.d.ts",
+      "default": "./dist/frame-materialization.js"
+    },
+    "./selection": {
+      "types": "./dist/selection.d.ts",
+      "default": "./dist/selection.js"
+    },
+    "./screenshot-index": {
+      "types": "./dist/screenshot-index.d.ts",
+      "default": "./dist/screenshot-index.js"
+    },
+    "./index-processing": {
+      "types": "./dist/index-processing.d.ts",
+      "default": "./dist/index-processing.js"
+    },
+    "./storage": {
+      "types": "./dist/storage.d.ts",
+      "default": "./dist/storage.js"
+    },
+    "./package-manifest": {
+      "types": "./dist/package-manifest.d.ts",
+      "default": "./dist/package-manifest.js"
+    },
+    "./evidence-pages": {
+      "types": "./dist/evidence-pages.d.ts",
+      "default": "./dist/evidence-pages.js"
+    },
+    "./scene-pages": {
+      "types": "./dist/scene-pages.d.ts",
+      "default": "./dist/scene-pages.js"
+    },
+    "./index-pages": {
+      "types": "./dist/index-pages.d.ts",
+      "default": "./dist/index-pages.js"
+    },
+    "./presentation-evidence": {
+      "types": "./dist/presentation-evidence.d.ts",
+      "default": "./dist/presentation-evidence.js"
+    },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "default": "./dist/preview.js"
+    },
+    "./pointer-schedule": {
+      "types": "./dist/pointer-schedule.d.ts",
+      "default": "./dist/pointer-schedule.js"
+    },
+    "./package-archive": {
+      "types": "./dist/package-archive.d.ts",
+      "default": "./dist/package-archive.js"
+    },
+    "./files": {
+      "types": "./dist/files.d.ts",
+      "default": "./dist/files.js"
+    },
+    "./index-read": {
+      "types": "./dist/index-read.d.ts",
+      "default": "./dist/index-read.js"
+    },
+    "./event-pages": {
+      "types": "./dist/event-pages.d.ts",
+      "default": "./dist/event-pages.js"
+    },
+    "./retained-image": {
+      "types": "./dist/retained-image.d.ts",
+      "default": "./dist/retained-image.js"
+    },
+    "./raw-cursor": {
+      "types": "./dist/raw-cursor.d.ts",
+      "default": "./dist/raw-cursor.js"
+    },
+    "./ordered-pages": {
+      "types": "./dist/ordered-pages.d.ts",
+      "default": "./dist/ordered-pages.js"
+    },
+    "./evidence-read": {
+      "types": "./dist/evidence-read.d.ts",
+      "default": "./dist/evidence-read.js"
+    },
+    "./timeline-inspection": {
+      "types": "./dist/timeline-inspection.d.ts",
+      "default": "./dist/timeline-inspection.js"
+    },
+    "./derivative-inspection": {
+      "types": "./dist/derivative-inspection.d.ts",
+      "default": "./dist/derivative-inspection.js"
+    },
+    "./speech-models": {
+      "types": "./dist/speech-models.d.ts",
+      "default": "./dist/speech-models.js"
+    },
+    "./word-kind": {
+      "types": "./dist/word-kind.d.ts",
+      "default": "./dist/word-kind.js"
+    },
+    "./transcript": {
+      "types": "./dist/transcript.d.ts",
+      "default": "./dist/transcript.js"
+    },
+    "./transcript-read": {
+      "types": "./dist/transcript-read.d.ts",
+      "default": "./dist/transcript-read.js"
+    },
+    "./transcript-pages": {
+      "types": "./dist/transcript-pages.d.ts",
+      "default": "./dist/transcript-pages.js"
+    },
+    "./transcript-processing": {
+      "types": "./dist/transcript-processing.d.ts",
+      "default": "./dist/transcript-processing.js"
+    },
+    "./catalog": {
+      "types": "./dist/catalog.d.ts",
+      "default": "./dist/catalog.js"
+    },
+    "./assets": {
+      "types": "./dist/assets.d.ts",
+      "default": "./dist/assets.js"
+    },
+    "./projects": {
+      "types": "./dist/projects.d.ts",
+      "default": "./dist/projects.js"
+    },
+    "./project-preview": {
+      "types": "./dist/project-preview.d.ts",
+      "default": "./dist/project-preview.js"
+    },
+    "./acquisitions": {
+      "types": "./dist/acquisitions.d.ts",
+      "default": "./dist/acquisitions.js"
+    },
+    "./project-evidence": {
+      "types": "./dist/project-evidence.d.ts",
+      "default": "./dist/project-evidence.js"
+    },
+    "./audio-inspection": {
+      "types": "./dist/audio-inspection.d.ts",
+      "default": "./dist/audio-inspection.js"
+    },
+    "./capture-source-read": {
+      "types": "./dist/capture-source-read.d.ts",
+      "default": "./dist/capture-source-read.js"
+    },
+    "./frame-inspection": {
+      "types": "./dist/frame-inspection.d.ts",
+      "default": "./dist/frame-inspection.js"
+    },
+    "./audio-wave": {
+      "types": "./dist/audio-wave.d.ts",
+      "default": "./dist/audio-wave.js"
+    },
+    "./acoustic-inspection": {
+      "types": "./dist/acoustic-inspection.d.ts",
+      "default": "./dist/acoustic-inspection.js"
+    },
+    "./audio-spectrum": {
+      "types": "./dist/audio-spectrum.d.ts",
+      "default": "./dist/audio-spectrum.js"
+    },
+    "./source-scenes": {
+      "types": "./dist/source-scenes.d.ts",
+      "default": "./dist/source-scenes.js"
+    },
+    "./acoustic-image": {
+      "types": "./dist/acoustic-image.d.ts",
+      "default": "./dist/acoustic-image.js"
+    },
+    "./source-events": {
+      "types": "./dist/source-events.d.ts",
+      "default": "./dist/source-events.js"
+    },
+    "./scene-source-read": {
+      "types": "./dist/scene-source-read.d.ts",
+      "default": "./dist/scene-source-read.js"
+    },
+    "./source-index": {
+      "types": "./dist/source-index.d.ts",
+      "default": "./dist/source-index.js"
+    },
+    "./project-index": {
+      "types": "./dist/project-index.d.ts",
+      "default": "./dist/project-index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.check.json",
+    "test": "vitest run --maxWorkers=4"
+  },
+  "dependencies": {
+    "@screenrec/composition": "workspace:*",
+    "zod": "4.6.5"
+  }
+}
+      this.owners.cache.remove(output.id);
+      throw error;
+    }
+  }
+  private async executeSource({ job, signal }: JobExecution) {
+    const parsed = sourceOptionsSchema.safeParse(JSON.parse(job.input));
+    if (
+      job.target.kind !== "asset" ||
+      job.artifact !== "frame" ||
+      !parsed.success ||
+      parsed.data.selection.assetId !== job.target.assetId
+    )
+      throw new CatalogError("UNSUPPORTED_JOB", "Picture job does not name a selected source");
+    if (parsed.data.implementationId !== this.owners.sourceRenderer.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
+    const plan = this.sourcePlan({ ...parsed.data.selection, ...parsed.data });
+    if (plan.options.supportDigest !== parsed.data.supportDigest)
+      throw new CatalogError("ARTIFACT_CHANGED", "Selected source support changed");
+    if (plan.reason) throw new CatalogError("UNAVAILABLE", plan.reason);
+    return this.publish({ kind: "asset", assetId: job.target.assetId }, signal, async (output) => {
+      const parsedReceipt = sourceReceiptSchema.safeParse(
+        await this.owners.sourceRenderer
+          .render(
+            {
+              asset: plan.asset,
+              available: plan.source.track.available,
+              atUs: plan.options.atUs,
+              maxLongEdge: plan.options.maxLongEdge,
+              output,
+            },
+            signal,
+          )
+          .catch((error: unknown) => {
+            if (error instanceof CatalogError && error.code === "SOURCE_PICTURE_UNAVAILABLE")
+              throw new CatalogError("UNAVAILABLE", error.message, {
+                reason: "empty_edit",
+                requestedSourceUs: plan.options.atUs,
+              });
+            throw error;
+          }),
+      );
+      if (!parsedReceipt.success)
+        throw new CatalogError("INVALID_RESPONSE", "Malformed source picture receipt");
+      const value = parsedReceipt.data,
+        sample = value.sample;
+      const start = BigInt(sample.value),
+        end = BigInt(sample.endValue),
+        scale = BigInt(sample.timescale),
+        endScale = BigInt(sample.endTimescale);
+      const at = BigInt(plan.options.atUs) + BigInt(plan.asset.originUs);
+      const rounded = roundedSampleUs(sample);
+      const metadata = this.owners.assets
+        .get(plan.asset.assetId)
+        .streams.find((stream) => stream.id === plan.asset.streamId)!;
+      if (
+        value.assetId !== plan.asset.assetId ||
+        value.streamId !== plan.asset.streamId ||
+        value.requestedSourceUs !== plan.options.atUs ||
+        sample.originUs !== plan.asset.originUs ||
+        rounded - BigInt(sample.originUs) !== BigInt(value.actualSourceUs) ||
+        start * 1000000n > at * scale ||
+        end * 1000000n <= at * endScale ||
+        value.sourceWidth !== Math.round(metadata.orientedWidth ?? metadata.width!) ||
+        value.sourceHeight !== Math.round(metadata.orientedHeight ?? metadata.height!) ||
+        value.width > value.sourceWidth ||
+        value.height > value.sourceHeight ||
+        Math.max(value.width, value.height) > plan.options.maxLongEdge
+      )
+        throw new CatalogError(
+          "INVALID_RESPONSE",
+          "Source picture receipt changed its selection or physical clock",
+        );
+      return {
+        ...value,
+        ...plan.options.selection,
+        atUs: plan.options.atUs,
+        maxLongEdge: plan.options.maxLongEdge,
+        supportDigest: plan.options.supportDigest,
+        implementationId: plan.options.implementationId,
+      };
+    });
+  }
+
+  private planProject(input: ProjectFrameInput) {
+    const options = optionsSchema.safeParse({
+      atUs: input.atUs,
+      maxLongEdge: input.maxLongEdge ?? 1600,
+      tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
+      implementationId: this.project.renderer.implementationId,
+    });
+    if (!options.success || input.atUs === Number.MAX_SAFE_INTEGER)
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
+outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
+it fixed three real defects, the worst of which let a cut of one word silently delete the next.
+
+Needing this person rather than a check:
+
+- **System audio:** a take with something playing, which a check must not make this Mac do,
+  and with it the A/V timing measurement that needs both tracks against a known event
+  ([01](slices/01-native-capture.md)).
+- **A region take:** proving where one landed means recording whatever is on the screen, and a
+  fixture launch is refused every source but its own window precisely so an automated run cannot
+  ([01](slices/01-native-capture.md), [03](slices/03-cursor-geometry.md)).
+- **The menu bar and the pointer:** clicking the status menu, dragging the floating controls, and
+  making the deliberate gestures the trail and index gates are about — computer-use reaches none
+  of them on this Mac ([07](slices/07-menu-bar-controls.md),
+  [10](slices/10-cursor-trails.md), [11](slices/11-screenshot-selection.md)).
+- **Ears:** an audio excerpt, a recovered tail (`bun run lab:recovery --microphone` writes the
+  clips), and a cut inside a rendered export
+  ([09](slices/09-frame-inspection.md), [02](slices/02-interruption-recovery.md),
+  [13](slices/13-edited-media.md)).
+- **An agent that is not this one:** the real-narration journey through CLI and MCP
+  ([12](slices/12-cli-mcp-operations.md)).
+
+The installed copy was rebuilt and replaced on 2026-09-26. `bun run install:personal`
+replaces it on subsequent changes and refuses while the app is running.
+
+Priority order: the two recorded capability decisions, then whatever the person answers above.
+
+The original [verification gates](verification.md) remain requirements. Fixtures
+and unit checks do not close the full read → edit → inspect → export journey.
+
+- [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
+- [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)
+- [ ] [01 — Native capture and separate audio](slices/01-native-capture.md)
+- [ ] [02 — Recover interrupted source media](slices/02-interruption-recovery.md)
+- [ ] [03 — Cursor positions in captured coordinates](slices/03-cursor-geometry.md)
+- [x] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
+- [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
+- [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
+  - [x] [06a — Durable revision transactions](slices/06a-revision-store.md)
+  - [x] [06b — Bounded local transport](slices/06b-local-transport.md)
+  - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md)
+  - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md)
+  - [x] [06e — Library operations through the service](slices/06e-library-operations.md)
+  - [x] [06f — Native capture service control](slices/06f-capture-service.md)
+  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md)
+  - [x] [06h — Normalized cursor evidence index](slices/06h-evidence-index.md)
+  - [x] [06i — Source processing integration](slices/06i-source-processing.md)
+  - [x] [06j — Source timing evidence](slices/06j-source-timing.md)
+- [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
+  - [x] [07a — Settings window, permissions and launch at login](slices/07a-settings-window.md)
+  - [ ] [07b — Countdown and recording overlay](slices/07b-recording-overlays.md)
+- [x] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
+- [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
+  - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md)
+  - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md)
+  - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md)
+  - [ ] [09d — Revision-bound public frame inspection](slices/09d-public-frames.md)
+  - [x] [09e — Revision-bound audio inspection](slices/09e-public-audio.md)
+- [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
+  - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md)
+  - [ ] [10b — Shared clean visual observations](slices/10b-visual-observations.md)
+  - [ ] [10c — Requested-time trail planning](slices/10c-trail-timing.md)
+  - [x] [10d — Indexed trail evidence](slices/10d-trail-evidence.md)
+  - [ ] [10e — Default public trail frames](slices/10e-public-trails.md)
+  - [x] [10f — Durable shared scene evidence](slices/10f-durable-scenes.md)
+- [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
+  - [x] [11a — Incremental selection ledger](slices/11a-selection-ledger.md)
+  - [x] [11b — Shared frame materialization](slices/11b-shared-frame-materialization.md)
+  - [ ] [11c — Retained index and public delivery](slices/11c-retained-index.md)
+- [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
+  - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md)
+- [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
+  - [x] [13a — Native render timing feasibility](slices/13a-native-render-timing.md)
+  - [x] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md)
+  - [x] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md)
+  - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md)
+  - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md)
+  - [x] [13d3 — Sequential pointer schedule](slices/13d3-pointer-schedule.md)
+  - [x] [13d4 — Native pointer composition](slices/13d4-pointer-composition.md)
+  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md)
+- [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
+  - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
+  - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)
+    - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md)
+    - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md)
+    - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md)
+  - [x] [14c1 — Bounded archive extraction](slices/14c1-bounded-archive-extraction.md)
+  - [x] [14c2 — Retained archive inspection](slices/14c2-retained-package-inspection.md)
+  - [x] [14c3a — Transient package job contexts](slices/14c3a-transient-context-jobs.md)
+  - [x] [14c3b1 — Reusable outputs and isolated delivery](slices/14c3b1-package-output-release.md)
+  - [x] [14c3b2 — Admitted inputs and workspace cleanup](slices/14c3b2-package-workspace-primitives.md)
+  - [x] [14c3b3 — Internal package registry](slices/14c3b3-package-registry.md)
+  - [x] [14c3c1 — Public package admission and retained index](slices/14c3c1-public-package-index.md)
+  - [x] [14c3c2 — Arbitrary package frame and audio](slices/14c3c2-package-frame-audio.md)
+    - [x] [14c3c2a — Public arbitrary package frames](slices/14c3c2a-package-frames.md)
+    - [x] [14c3c2b — Public package audio](slices/14c3c2b-package-audio.md)
+  - [x] [14c3c3 — Public package raw cursor](slices/14c3c3-package-cursor.md)
+  - [x] [14c3c4 — Public timeline inspection](slices/14c3c4-timeline-inspection.md)
+  - [ ] [14d — Pinned export intent and atomic publication](slices/14d-export-publication.md)
+    - [x] [14d2a — Durable video intent](slices/14d2a-video-intent.md)
+    - [x] [14d2b1 — Deferred job admission](slices/14d2b1-deferred-admission.md)
+    - [x] [14d2b2 — Pinned waiting exports](slices/14d2b2-pinned-waiting-video.md)
+    - [x] [14d2b3 — Per-export abandonment](slices/14d2b3-export-abandonment.md)
+    - [x] [14d2b4 — Queued publication recovery](slices/14d2b4-queued-recovery.md)
+    - [x] [14d3 — Complete processed-package export](slices/14d3-processed-package.md)
+      - [x] [14d3a — Bounded ZIP producer](slices/14d3a-archive-writer.md)
+      - [x] [14d3b — Complete no-narration assembly](slices/14d3b-package-assembly.md)
+    - [x] [14d4 — Persisted export discovery](slices/14d4-export-discovery.md)
+- [ ] [15 — Installed personal workflow and closeout](slices/15-personal-release.md)
+  - [x] [15a — Client discovery](slices/15a-client-discovery.md)
+  - [x] [15b — Recording storage and manual deletion](slices/15b-storage-and-deletion.md)
+
+## Outcome
+
+Record a narrated website demonstration on localhost, then tell an external coding
+agent to inspect the latest recording. It reads word-timed narration and a screenshot
+index, requests images/audio at useful moments, and uses cursor trails to understand
+what was pointed at. It can trim or cut specified ranges, undo, and inspect or export
+the edited result.
+
+“Cut out the part where I said this is free” and “cut out the ums” are external-agent
+workflows over evidence and explicit edit operations. Filler removal is best-effort:
+the transcript reports a filler only when the engine emitted one. The app contains local speech
+recognition but no assistant, semantic editing model, rewriting or summarization.
+The original recording and non-destructive history remain intact.
+
+## Settled scope
+
+- macOS menu-bar app; display/window/region capture, microphone narration and optional
+  separately captured system/browser audio. All system audio is the initial filter;
+  source selection does not imply browser-tab sound isolation.
+- Start, stop, cancel, pause/resume and restart through native controls/shortcuts
+  and machine operations. Pauses omit media time but add explicit elapsed-pause markers.
+- Local English transcription with word timestamps; fillers and repetitions appear
+  when the engine emits them, without a capture guarantee.
+- Clean source media plus raw cursor history; default two-second fading trail on
+  inspection images, reset at pause/cut/scene/geometry boundaries; optional clean frames.
+- Visual-change/coverage/cursor-aware screenshot index; arbitrary frame, crop,
+  transcript, timeline, cursor and audio inspection.
+- Latest discovers the newest take immediately, even before artifacts are ready.
+  Separate readiness/failure/retry states let the caller wait and request again.
+- Full CLI/MCP trim, batch cut, history, undo and restore. Revision-bound writes
+  reject stale edits. Current/historical reads and exports pin a revision.
+- Exactly two exports: playable human video, and the complete processed AI package
+  including original media, source data, edits and current evidence. Package reader
+  supports new frame requests after relocation.
+- Preserve partial recordings honestly after interruption. Keep data until manually
+  deleted; expose storage usage. Optimize short pointers and 2–5 minute walkthroughs,
+  with bounded paged access to longer recordings.
+- Personal host first. No drawings, webcam, editing timeline GUI, live AI streaming,
+  cloud transcription, remote MCP, hosted sharing, accounts, public updater,
+  speculative platform support, or general video effects in this release.
+
+## Architecture in one view
+
+```mermaid
+flowchart LR
+  User[Native menu-bar controls] --> App[Swift app / capture]
+  App <-->|private control channel| Service[App-managed Node service]
+  CLI[CLI] -->|local socket| Service
+  MCP[MCP stdio adapter] -->|local socket| Service
+  Service --> Core[Shared core: library / timeline / jobs / evidence]
+  Core --> DB[(Local catalog and immutable sources)]
+  Core -->|resolved media plans| Workers[Bounded Swift media / speech workers]
+  Workers --> DB
+  Core --> Package[Portable package reader and writer]
+  Future[Future editing UI] -. CLI JSON .-> CLI
+```
+
+[Architecture](architecture.md) names every owner, process lifetime and package.
+[Contracts](contracts.md) specifies units, schema fields, operations, partial words,
+pause/cut events, limits, request replay, audio mix and export semantics.
+[Research](research.md) records actual SDK/reference evidence and the three-draft synthesis.
+
+## Review surfaces
+
+Each slice file states its dependencies; this table names what a top-level gate shows.
+
+| Slice | Review surface |
+| --- | --- |
+| [00 Workspace and native harness](slices/00-workspace.md) | Local .app launch and protocol round trip |
+| [00b Real-agent image access](slices/00b-client-image-probe.md) | Actual agent MCP/CLI image read |
+| [01 Native capture and separate audio](slices/01-native-capture.md) | Three capture sources + isolated audio playback |
+| [02 Recover interrupted source media](slices/02-interruption-recovery.md) | Killed writer, decoded recovered prefix |
+| [03 Cursor positions in captured coordinates](slices/03-cursor-geometry.md) | Asymmetric grid and cursor error |
+| [04 Select a local speech engine](slices/04-local-speech-gate.md) | Emitted-token diagnostic and selected runtime |
+| [05 Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md) | Expected source spans and revision examples |
+| [06 Single-writer library and app-managed service](slices/06-service-and-jobs.md) | Real-process state/race/restart cases |
+| [07 Usable menu-bar recording controls](slices/07-menu-bar-controls.md) | Native controls and recording state shots |
+| [08 Durable local transcription and projections](slices/08-transcript-processing.md) | Word-timed transcript and retry |
+| [09 Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md) | Timestamped clean frames/audio |
+| [10 Readable cursor trails on requested frames](slices/10-cursor-trails.md) | Circle/wave and boundary trail shots |
+| [11 Useful bounded screenshot index](slices/11-screenshot-selection.md) | Contact sheet with selection reasons |
+| [12 Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md) | CLI/MCP parity and actual agent edit calls |
+| [13 Playable edited media and audio joins](slices/13-edited-media.md) | Audition/inspect actual edited media |
+| [14 Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md) | Two exports; moved package, new frame |
+| [15 Installed personal workflow and closeout](slices/15-personal-release.md) | Installed localhost journey and closeout |
+
+Slices 00b, 01, 04 and 05 can progress independently after bootstrap; pending
+client login in 00b does not block the other probes. Recovery follows
+capture; geometry is judged separately. Image transport is proved early using a
+fixture; the full AI edit journey waits for actual edit operations and media output.
+No slice may declare a downstream contract complete using an upstream failed probe.
+
+## Risk decisions before mechanical work
+
+1. **Speech engine:** Parakeet and Whisper were compared through real local runtimes,
+   with Apple and a verbatim model as bounded alternatives. None met the filler gate.
+   The user chose best-effort fillers, and Parakeet ships. Boundary timing and
+   resources stay measured on real narration.
+2. **Recoverable media:** try native fragmented files before custom segmented
+   storage. Slice 02 chooses from observed interruption behavior.
+3. **Cursor geometry:** native metadata owns coordinate transforms. Slice 03 must
+   prove moved-window and region behavior; later overlays cannot mask a bad transform.
+4. **Scene/index policy:** deterministic heuristics with measured fixture outcomes.
+   Slice 11 can tune thresholds, but cannot suppress cursor-only emphasis.
+5. **Actual consumer:** prior Claude CLI evidence remains recorded, but the user
+   requested no further Claude use. Complete later consumer gates with an available
+   non-Claude agent through the same public operations.
+6. **Fresh formats:** plan version 1 without migration/backward-compatibility machinery.
+   Existing user recording data from another app was not requested for import.
+7. **Package semantics:** preserve originals and edit history, label source/edited
+   coordinates, export a pinned revision, and reopen with the same inspector.
+
+The named engine, recovery, geometry, app/service lifecycle and actual-client checks
+are explicit feasibility gates that may require technical reslicing. They never
+authorize silently changing product scope. Other user-visible defaults are specified
+in contracts, not left as guesses.
+
+## Review and quality gates
+
+Use [verification](verification.md) throughout. Every visual slice explicitly runs
+unprimed screenshot-critique last; comparisons against references/prior frames use
+compare-screenshots first. Native controls, geometry, trail styling, and frame
+selection have separate review surfaces. Human visual checkpoints are non-blocking
+for reversible choices; missing capture permission or actual narration is not
+inferred from silence.
+
+Use narrow tests during iteration and the broad local gate once at final closeout.
+Substantive implementation receives code-review and a codex second opinion under
+their skills. The spec itself has undergone independent draft synthesis, recursive
+fog splitting, ownership review and link/contract review; these do not replace
+future implementation testing.
+
+## Spec maintenance and handoff
+
+The [map](MAP.md) preserves user decisions and discovery evidence; its old OPEN
+checklist and kickoff prompt are superseded by this spec. Keep it as rationale, not
+a competing task list. A new discovery updates the relevant contract/slice and this
+handoff; record changed user-visible choices in the [implementation choices ledger](choices.md).
+No file may carry instructions to implement an abandoned architecture.
+
+Implementation-only discretion: internal algorithms/names and reversible styling
+within a slice's explicit acceptance tests. Undeclared new capability, incompatible
+format, second owner, or altered product scope is a spec gap to resolve, not
+permission for an implementer to guess.
+
+When all gates ship, use close-spec to turn the plan into durable rationale. Future
+work stays in the existing placeholders:
+[tester release](../tester-release/README.md),
+[public release](../public-release/README.md),
+[editing UI](../editing-ui/README.md).
+
+2026-09-28T16:16:23.427583Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-ab2c31ba-da9e-4bca-86dc-998110cada98"
+exec
+/bin/zsh -lc "sed -n '35,95p' packages/composition/src/compiler.ts; sed -n '245,303p' packages/composition/src/compiler.ts; rg -n 'planProject' packages/core/src/frame-inspection.ts; sed -n '385,438p' packages/core/src/frame-inspection.ts; sed -n '165,225p' packages/core/src/project-index.ts; rg -n 'frameClock|timeAt|indexAt' packages/composition/src/clock*; ls -a | grep -E 'AGENTS|vitest'; git diff --cached --stat" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+  return parsed.data;
+}
+
+function firstAvailable(ranges: Resolved["available"], at: Rational): number {
+  let lo = 0,
+    hi = ranges.length;
+  while (lo < hi) {
+    const middle = Math.floor((lo + hi) / 2);
+    if (compare(ranges[middle]!.end, at) <= 0) lo = middle + 1;
+    else hi = middle;
+  }
+  return lo;
+}
+
+function frameClock(fps: Fraction) {
+  const numerator = BigInt(fps.numerator),
+    denominator = 1000000n * BigInt(fps.denominator);
+  return {
+    timeAt: (index: bigint) => (index * denominator) / numerator,
+    // Floor timestamps make an exact integer boundary slightly earlier than k * period.
+    indexAt: (time: bigint) => ((time + 1n) * numerator + denominator - 1n) / denominator - 1n,
+    firstAtOrAfter: (time: number) => (BigInt(time) * numerator + denominator - 1n) / denominator,
+  };
+}
+
+function frameTiming(
+  clock: ReturnType<typeof frameClock>,
+  index: bigint,
+  range: Range,
+): Pick<CompiledFrame, "index" | "sampleAtUs" | "visibleRange"> {
+  const sampleAtUs = safeInteger(clock.timeAt(index));
+  const next = clock.timeAt(index + 1n);
+  return {
+    index: safeInteger(index),
+    sampleAtUs,
+    visibleRange: {
+      startUs: Math.max(range.startUs, sampleAtUs),
+      endUs: safeInteger(next < BigInt(range.endUs) ? next : BigInt(range.endUs)),
+    },
+  };
+}
+
+function compileSchedules(
+  visual: ReturnType<typeof visualPlanner>,
+  processing: ReturnType<typeof processingPlanner>,
+  tap: import("./execution-window.js").ProcessingTap | undefined,
+  clock: ReturnType<typeof frameClock>,
+  query: ReturnType<typeof intervalIndex<Resolved>>,
+  contexts: ReturnType<typeof audioContexts>,
+) {
+  return {
+    *audio(input: Range, sampleRate = 48000): Generator<CompiledAudio> {
+      const range = checkedRange(input);
+      if (!Number.isSafeInteger(sampleRate) || sampleRate <= 0)
+        throw new CompositionError("INVALID_TIME", "Expected a positive integer sample rate");
+      const sample = (at: Rational) => sampleAt(at, sampleRate);
+      const requestedStart = sample(fromTime(range.startUs)),
+        requestedEnd = sample(fromTime(range.endUs));
+      for (const value of query(fromTime(range.startUs), fromTime(range.endUs))) {
+        if (value.track.kind !== "audio") continue;
+        const start = Math.max(requestedStart, sample(value.range.start));
+      revisionId,
+      model.document.canvas,
+      request,
+      inputs,
+      plan,
+      contexts,
+      compileSchedules(
+        visual,
+        processing,
+        request.tap,
+        clock,
+        intervalIndex(inputs, (clip) => clip.range, renderOrder),
+        contexts,
+      ),
+      component,
+    );
+  }
+  return {
+    ...compileSchedules(visual, processing, undefined, clock, query, contexts),
+    /** Neighbors of an exact boundary in the existing integer-microsecond picture clock. */
+    frameBoundary(at: TimeValue) {
+      const parsed = timeValueSchema.safeParse(at);
+      if (!parsed.success || compare(fromTime(parsed.data), fromTime(model.durationUs)) > 0)
+        throw new CompositionError("INVALID_TIME", "Frame boundary must be within the project");
+      const threshold = ceil(fromTime(parsed.data));
+      const picture = (
+        index: bigint,
+      ): Pick<CompiledFrame, "index" | "sampleAtUs" | "visibleRange"> | null => {
+        const sample = clock.timeAt(index);
+        if (sample >= BigInt(model.durationUs)) return null;
+        return frameTiming(clock, index, { startUs: 0, endUs: model.durationUs });
+      };
+      return {
+        before: threshold === 0 ? null : picture(clock.indexAt(BigInt(threshold - 1))),
+        after: picture(clock.indexAt(clock.timeAt(clock.firstAtOrAfter(threshold)))),
+      };
+    },
+    /** Validate target and step scope without inventing a render range for an empty project. */
+    tapPlan(input: unknown, component?: "audio" | "video") {
+      const tap = processingTapSchema.safeParse(input);
+      if (!tap.success) throw new CompositionError("INVALID_COMPOSITION", tap.error.message);
+      return processing(
+        model.clips.filter((value) => !component || value.track.kind === component),
+        tap.data,
+        component,
+      );
+    },
+    processing(input: Range) {
+      const range = checkedRange(input);
+      return processing(contributors(range));
+    },
+    window: (input: unknown) => window(input),
+    audioWindow: (input: unknown) => window(input, "audio"),
+    videoWindow: (input: unknown) => window(input, "video"),
+  };
+}
+383:  private planProject(input: ProjectFrameInput) {
+408:    const { window, options } = this.planProject(input);
+471:    const plan = this.planProject({
+      atUs: input.atUs,
+      maxLongEdge: input.maxLongEdge ?? 1600,
+      tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
+      implementationId: this.project.renderer.implementationId,
+    });
+    if (!options.success || input.atUs === Number.MAX_SAFE_INTEGER)
+      throw new CatalogError("INVALID_PARAMS", "Invalid demanded picture options");
+    const plan = projectWindow(
+      this.project.projects,
+      this.owners.assets,
+      {
+        projectId: input.projectId,
+        revisionId: input.revisionId,
+        range: { startUs: input.atUs, endUs: input.atUs + 1 },
+        tap: options.data.tap,
+      },
+      this.project.renderer.implementationId,
+      "video",
+    );
+    return { ...plan, options: options.data };
+  }
+
+  private requestProject(input: ProjectFrameInput) {
+    const { window, options } = this.planProject(input);
+    const revisionId = window.manifest.revisionId;
+    const status = submitCachedDerivative<ProjectFrameArtifact>(
+      this.owners.jobs,
+      this.owners.cache,
+      {
+        target: { kind: "project", projectId: input.projectId, revisionId },
+        artifact: "frame",
+        input: JSON.stringify(options),
+      },
+      "frame",
+    );
+    return {
+      projectId: input.projectId,
+      revisionId,
+      ...options,
+      state: status.state,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      published: status.published
+        ? { generation: status.published.generation, frame: status.published.value }
+        : null,
+    };
+  }
+
+  request(input: SourceFrameInput): ReturnType<MediaFrameInspection["requestSource"]>;
+  request(input: ProjectFrameInput): ReturnType<MediaFrameInspection["requestProject"]>;
+  request(
+    input: MediaFrameInput,
+  ):
+        const retained = scenes.sourcePage({ identity: dependency, limit: 1 }).metadata;
+        if (
+          !isDeepStrictEqual(retained, dependency) ||
+          !isDeepStrictEqual(
+            dependency.source,
+            sourceSceneDescriptor(selectSource(assets, acquisitions, selection)),
+          )
+        )
+          invalid("Project index scenes differ from their pinned source");
+      }
+      return plan.model.durationUs;
+    },
+    candidate(identity, candidate, frame, path, previous) {
+      const { composition, plan } = resolve(identity);
+      const expected = plan.compiler.frameBoundary(candidate.sampleAtUs).after;
+      if (
+        !expected ||
+        !isDeepStrictEqual(expected, {
+          index: candidate.index,
+          sampleAtUs: candidate.sampleAtUs,
+          visibleRange: candidate.visibleRange,
+        }) ||
+        (previous && previous.index >= candidate.index)
+      )
+        invalid("Project index candidates must be distinct globally phased pictures in order");
+      if (
+        frame.projectId !== identity.projectId ||
+        frame.revisionId !== identity.revisionId ||
+        frame.implementationId !== identity.implementationId ||
+        frame.maxLongEdge !== identity.maxLongEdge ||
+        !isDeepStrictEqual(frame.tap, identity.tap) ||
+        frame.atUs !== candidate.sampleAtUs
+      )
+        invalid("Project index picture belongs to another request");
+      validateRetainedProjectFrameReceipt(
+        frame,
+        composition.window(
+          {
+            range: { startUs: candidate.sampleAtUs, endUs: candidate.sampleAtUs + 1 },
+            tap: identity.tap,
+          },
+          identity.implementationId,
+          "video",
+        ),
+        path,
+        identity.maxLongEdge,
+      );
+    },
+    coverage(_identity, candidate, coverage) {
+      if (coverage.equality === "sampled") {
+        if (
+          !candidate ||
+          coverage.ordinal !== candidate.ordinal ||
+          !isDeepStrictEqual(coverage.project, candidate.visibleRange)
+        )
+          invalid("Sampled project coverage requires the delivered picture's complete visibility");
+      } else if (coverage.ordinal !== null || candidate)
+        invalid("Unproven project coverage cannot name a sampled picture");
+      return coverage.project;
+    },
+    merge(before, next) {
+zsh:1: no matches found: packages/composition/src/clock*
+AGENTS.md
+
+2026-09-28T16:16:30.762529Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-e815056e-7499-4f0f-bd00-4dce2804fe93"
+exec
+/bin/zsh -lc 'bun run --cwd packages/core test src/frame-inspection.test.ts src/project-index.test.ts' in /Users/david/dev/screen-recorder
+2026-09-28T16:16:37.843356Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-0dfe3625-8095-46a6-bde4-fdb461309c90"
+ succeeded in 36451ms:
+../photoctl/target/ort-runtime/6d66f175d6c1405606dd46d05675ec725e10ebe39f187fa20972d43872e7926d/source/AGENTS.md
+../photoctl/target/ort-runtime/6d66f175d6c1405606dd46d05675ec725e10ebe39f187fa20972d43872e7926d/build/_deps/kleidiai-src/AGENTS.md
+../photoctl/AGENTS.md
+../agentphone/AGENTS.md
+../duet-agent/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet/AGENTS.md
+../screen-recorder-acquisition-composition/AGENTS.md
+../screen-recorder-acquisition-composition/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../chat-app/AGENTS.md
+../game/AGENTS.md
+../screen-recorder/AGENTS.md
+../screen-recorder/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screen-recorder/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../battlegame/.claude/worktrees/agent-a0c5f1f6918917d82/AGENTS.md
+../battlegame/.claude/worktrees/agent-aa7bc47eab4fa01b1/AGENTS.md
+../battlegame/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/research-assistant/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/writing-editor/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/AGENTS.md
+../agentlogs/node_modules/.bun/recharts@3.8.0+cc24ebc1a65b5eee/node_modules/recharts/AGENTS.md
+../agentlogs/AGENTS.md
+../factory/AGENTS.md
+../3d-harness/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+ apps/service/src/project-render.ts                 |  2 +-
+ packages/core/src/frame-inspection.test.ts         | 38 +++++++++++++++++++++-
+ packages/core/src/frame-inspection.ts              | 10 +++---
+ packages/core/src/project-index.test.ts            |  2 +-
+ packages/core/src/project-window.ts                |  7 +++-
+ .../editing/project-index-evidence.mjs             |  1 +
+ skills/screenrec/SKILL.md                          |  6 +++-
+ specs/agent-editing/slices/10d-frame-inspection.md | 13 ++++++++
+ 8 files changed, 69 insertions(+), 10 deletions(-)
+diff --git a/apps/service/src/project-render.ts b/apps/service/src/project-render.ts
+index 210a9fd..7015cdb 100644
+--- a/apps/service/src/project-render.ts
++++ b/apps/service/src/project-render.ts
+@@ -105,7 +105,7 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
+
+ export function projectFrameRenderer(worker: MediaWorker, workspace: string): ProjectFrameRenderer {
+   return {
+-    implementationId: "native-composition-picture-v3",
++    implementationId: "native-composition-picture-v4",
+     render: async ({ window, assets, output, maxLongEdge }, signal) =>
+       withRenderedFile(
+         worker,
+diff --git a/packages/core/src/frame-inspection.ts b/packages/core/src/frame-inspection.ts
+index cf136d4..ed06a4e 100644
+--- a/packages/core/src/frame-inspection.ts
++++ b/packages/core/src/frame-inspection.ts
+@@ -495,11 +495,11 @@ function roundedSampleUs(sample: { value: string; timescale: number }): bigint {
+   );
+ }
+
+-type PicturePlan = { window: CompositionWindow; assets: readonly CompositionAssetBinding[] };
++type PicturePlan = Pick<ReturnType<typeof projectWindow>, "window" | "assets" | "frameBoundary">;
+ type PictureReceipt = z.infer<typeof projectReceiptSchema>;
+-function inspectedFrame(frame: CompiledFrame): PictureReceipt["frame"] {
++function inspectedFrame(frame: CompiledFrame, plan: PicturePlan): PictureReceipt["frame"] {
+   const { visual: _visual, ...evidence } = frame;
+-  return evidence;
++  return { ...evidence, visibleRange: plan.frameBoundary(frame.sampleAtUs).after!.visibleRange };
+ }
+
+ /** Native instructions stay private, but must match before any public evidence is projected. */
+@@ -512,7 +512,7 @@ export function validateProjectFrameReceipt(
+   const parsed = nativeProjectReceiptSchema.safeParse(receipt);
+   if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+   checkPictureReceipt(parsed.data, plan.window.frames().next().value!, plan, output, maxLongEdge);
+-  return { ...parsed.data, frame: inspectedFrame(parsed.data.frame) };
++  return { ...parsed.data, frame: inspectedFrame(parsed.data.frame, plan) };
+ }
+
+ /** Retained records contain the same public evidence; renderer-private instructions are never stored. */
+@@ -526,7 +526,7 @@ export function validateRetainedProjectFrameReceipt(
+   if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+   checkPictureReceipt(
+     parsed.data,
+-    inspectedFrame(plan.window.frames().next().value!),
++    inspectedFrame(plan.window.frames().next().value!, plan),
+     plan,
+     output,
+     maxLongEdge,
+diff --git a/packages/core/src/project-window.ts b/packages/core/src/project-window.ts
+index 021ec86..b1489ef 100644
+--- a/packages/core/src/project-window.ts
++++ b/packages/core/src/project-window.ts
+@@ -93,7 +93,12 @@ export function projectComposition(
+           originUs: asset.originUs,
+         });
+       }
+-      return { window: bound, assets: [...bindings.values()], durationUs: model.durationUs };
++      return {
++        window: bound,
++        assets: [...bindings.values()],
++        durationUs: model.durationUs,
++        frameBoundary: compiler.frameBoundary,
++      };
+     },
+   };
+ }
+
+exec
+/bin/zsh -lc 'for d in /Users /Users/david /Users/david/dev; do for f in AGENTS.override.md AGENTS.md; do if [ -f "$d/$f" ]; then echo "$d/$f"; cat "$d/$f"; fi; done; done; git status --short' in /Users/david/dev/screen-recorder
+2026-09-28T16:16:38.818425Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-9f76675a-35d4-4290-b288-fdc4d0057a58"
+ succeeded in 202ms:
+ M apps/service/src/project-render.ts
+ M packages/core/src/frame-inspection.test.ts
+ M packages/core/src/frame-inspection.ts
+ M packages/core/src/project-index.test.ts
+ M packages/core/src/project-window.ts
+ M packages/test-harness/editing/project-index-evidence.mjs
+ M skills/screenrec/SKILL.md
+ M specs/agent-editing/slices/10d-frame-inspection.md
+
+2026-09-28T16:16:39.072668Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-b41de489-1a1d-4e16-8105-cf56aafaba9e"
+ succeeded in 1622ms:
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:36633) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36634) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  09:16:37
+   Duration  1.59s (tests 72%, transform 23%, import 5%)
+
+
+exec
+/bin/zsh -lc 'bun run --cwd packages/core check-types; bun run --cwd apps/service check-types' in /Users/david/dev/screen-recorder
+2026-09-28T16:16:44.853981Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8cd-1ac0-7df0-afa6-b69360dd1703 turn_id=01a0e8cd-1b62-7af0-b43a-8e3150b9a2cf item_id="exec-381be7c3-01f7-4cd4-b10c-45e0a69e1080"
+ succeeded in 659ms:
+$ tsc -p tsconfig.check.json
+
+codex
+No actionable regressions found. The public visibility projection preserves native receipt validation and updates the renderer cache identity. All 21 focused tests and the core and service type checks passed.
+No actionable regressions found. The public visibility projection preserves native receipt validation and updates the renderer cache identity. All 21 focused tests and the core and service type checks passed.

@@ -132,7 +132,11 @@ requesting frames. Source requests use asset/stream identity, optional acquisiti
 and source time; do not add a recording or project revision. Project requests use
 project time and the inspected revision. The returned global project sample can
 precede the requested time; preserve its sample time, visible range and occurrence
-provenance instead of treating it as a wrong frame. A raw source image excludes
+provenance instead of treating it as a wrong frame. `atUs` is the request instant;
+`frame.visibleRange` is the full interval displaying that project frame. Authored
+clip edges can fall inside a displayed frame; use the sampled frame and its range
+to describe visible changes, rather than assuming an edit edge is a new picture.
+A raw source image excludes
 project processing, crop/zoom and capture overlays. An unavailable source gap is
 missing evidence, not a black frame. Poll the same selection while processing;
 inspect failure before explicit frame retry. For batches, preserve per-item order

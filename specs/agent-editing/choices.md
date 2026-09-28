@@ -1810,3 +1810,18 @@ existing lifetime owner.
   authored-empty states; negative controls reject RGB three and alpha 254.
   Nonempty frames retain unchanged landmark checks. The plan left blank codec
   verification unspecified; this adds no wider color allowance or product behavior.
+
+
+## Displayed frame intervals — 2026-09-28
+
+- **Sound, high confidence — a picture receipt describes its full displayed interval.**
+  At ten frames per second, requesting a picture at 2.25 seconds returns the sample
+  at 2.20 seconds, displayed until 2.30 seconds. The receipt now says exactly that;
+  the separate request time still says 2.25. Previously its visibility field echoed
+  the internal one-microsecond decode request while index coverage used the full
+  frame interval. The plan required both truthful frame timing and coverage but
+  left this public field projection implicit. Using the compiler's existing
+  timing owner removes the competing meanings without changing which picture is
+  rendered. Native receipts still must match the demanded execution window before
+  projection. Future consumers can compare direct pictures and storyboard
+  coverage; the changed metadata has a new cache recipe identity.

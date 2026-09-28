@@ -81,6 +81,7 @@ async function inspect(input) {
     entries.map((_, ordinal) => ordinal),
   );
   for (const entry of entries) {
+    assert.deepEqual(entry.frame.frame.visibleRange, entry.candidate.visibleRange);
     assert.deepEqual(entry.reference, { ...reference, ordinal: entry.candidate.ordinal });
     assert.deepEqual(
       coverage

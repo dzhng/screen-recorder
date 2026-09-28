@@ -93,7 +93,12 @@ export function projectComposition(
           originUs: asset.originUs,
         });
       }
-      return { window: bound, assets: [...bindings.values()], durationUs: model.durationUs };
+      return {
+        window: bound,
+        assets: [...bindings.values()],
+        durationUs: model.durationUs,
+        frameBoundary: compiler.frameBoundary,
+      };
     },
   };
 }

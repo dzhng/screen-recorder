@@ -495,11 +495,11 @@ function roundedSampleUs(sample: { value: string; timescale: number }): bigint {
   );
 }
 
-type PicturePlan = { window: CompositionWindow; assets: readonly CompositionAssetBinding[] };
+type PicturePlan = Pick<ReturnType<typeof projectWindow>, "window" | "assets" | "frameBoundary">;
 type PictureReceipt = z.infer<typeof projectReceiptSchema>;
-function inspectedFrame(frame: CompiledFrame): PictureReceipt["frame"] {
+function inspectedFrame(frame: CompiledFrame, plan: PicturePlan): PictureReceipt["frame"] {
   const { visual: _visual, ...evidence } = frame;
-  return evidence;
+  return { ...evidence, visibleRange: plan.frameBoundary(frame.sampleAtUs).after!.visibleRange };
 }
 
 /** Native instructions stay private, but must match before any public evidence is projected. */
@@ -512,7 +512,7 @@ export function validateProjectFrameReceipt(
   const parsed = nativeProjectReceiptSchema.safeParse(receipt);
   if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
   checkPictureReceipt(parsed.data, plan.window.frames().next().value!, plan, output, maxLongEdge);
-  return { ...parsed.data, frame: inspectedFrame(parsed.data.frame) };
+  return { ...parsed.data, frame: inspectedFrame(parsed.data.frame, plan) };
 }
 
 /** Retained records contain the same public evidence; renderer-private instructions are never stored. */
@@ -526,7 +526,7 @@ export function validateRetainedProjectFrameReceipt(
   if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
   checkPictureReceipt(
     parsed.data,
-    inspectedFrame(plan.window.frames().next().value!),
+    inspectedFrame(plan.window.frames().next().value!, plan),
     plan,
     output,
     maxLongEdge,

@@ -35,8 +35,10 @@ Current pickup and priority:
    [public CLI/MCP/native journeys](assets/10d-project-index-public/README.md) now
    pass, including retry, retained history and deletion.
    [Fresh skill use](assets/10d-project-index-skill/README.md) exposed competing
-   frame-range meanings. Next make public frame visibility consistent with the
-   compiler clock, preserve images/native graph validation, and repeat fresh use.
+   frame-range meanings. [Public visibility](assets/10d-frame-visibility/README.md)
+   now uses the compiler interval, with native validation intact and all 22 PNGs
+   unchanged. Fresh interpretation verification is running; retain its outcome
+   before closing that acceptance checkpoint.
    Custom exclusion masks and raw still-image admission remain open.
    Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).

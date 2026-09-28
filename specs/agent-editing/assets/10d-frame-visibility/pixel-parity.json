@@ -1,0 +1,112 @@
+[
+  {
+    "image": "direct-5000000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "composition-0.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "presenter-dry.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "historical-before-restart.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "historical-after-restart.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "composition-5000000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "direct-3300000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "direct-3200000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "unrelated-project-after-delete.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "current-hidden-presenter.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "composition-2200000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "composition-2300000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "direct-5900000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "direct-2300000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "direct-2200000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "presenter-processed.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "composition-5900000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "direct-0.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "composition-3200000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "composition-3300000.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "background-1.png",
+    "exists": true,
+    "equal": true
+  },
+  {
+    "image": "background-0.png",
+    "exists": true,
+    "equal": true
+  }
+]

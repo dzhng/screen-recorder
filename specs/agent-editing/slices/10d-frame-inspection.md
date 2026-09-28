@@ -253,3 +253,16 @@ store after job/delivery drain. [Fresh product-skill use](../assets/10d-project-
 exposes competing one-microsecond request and full-frame visibility ranges; resolve
 that public metadata ambiguity through the compiler clock and repeat fresh use.
 These checks do not close custom exclusion masks, raw still admission or all 10d gates.
+
+
+## Public frame visibility
+
+Direct and retained project picture receipts use the compiler's complete global
+frame visibility interval, clipped only by the project end. The request instant
+remains `atUs`; it is not a visibility window. Native execution still receives
+and validates the original demanded window before this public projection. At
+10 fps, a clip authored to enter at 2.25 seconds first appears in the 2.30-second
+sample; the base-only 2.20-second sample remains displayed through 2.30 seconds.
+This distinguishes authored intent from sampled output without another clock.
+The project-picture recipe advances to v4 because cached metadata changed; native
+pixels, source-picture identity and movie windows are unchanged.

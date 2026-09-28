@@ -168,7 +168,7 @@ test("demanded still pins global picture timing across head changes and cache re
     atUs: 75001,
     width: 160,
     height: 96,
-    frame: { sampleAtUs: 50000, visibleRange: { startUs: 75001, endUs: 75002 } },
+    frame: { sampleAtUs: 50000, visibleRange: { startUs: 50000, endUs: 100000 } },
     pictures: [{ status: "available", requestedSourceUs: 50000, actualSourceUs: 50000 }],
   });
   expect(await readFile(image.file, "utf8")).toBe("test frame payload");
@@ -287,6 +287,42 @@ test("native visual instructions are verified before the public frame receipt om
     async render(request, signal) {
       const receipt = (await renderer.render(request, signal)) as { frame: { visual: unknown[] } };
       receipt.frame.visual = [];
+      return receipt;
+    },
+  });
+  const request = { projectId: f.projectId, atUs: 75001 };
+  f.frames.request(request);
+  await f.jobs.idle();
+  expect(f.frames.request(request)).toMatchObject({ state: "failed", published: null });
+  expect(f.cache.bytes).toBe(0);
+});
+
+test.each([
+  [0, 0, 50000],
+  [50000, 50000, 100000],
+  [999999, 950000, 1000000],
+])(
+  "picture requested at %i reports the full displayed frame interval",
+  async (atUs, startUs, endUs) => {
+    const f = await fixture();
+    const request = { projectId: f.projectId, atUs };
+    f.frames.request(request);
+    await f.jobs.idle();
+    expect(f.frames.request(request).published!.frame).toMatchObject({
+      atUs,
+      frame: { sampleAtUs: startUs, visibleRange: { startUs, endUs } },
+    });
+  },
+);
+
+test("public visibility projection cannot hide a native receipt with the wrong request range", async () => {
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      const receipt = (await renderer.render(request, signal)) as {
+        frame: { visibleRange: { startUs: number; endUs: number } };
+      };
+      receipt.frame.visibleRange = { startUs: 50000, endUs: 100000 };
       return receipt;
     },
   });

@@ -226,7 +226,7 @@ test("audio-only project retains background pictures and exact sampled visibilit
   await append(f, identity, 1, 900000);
   expect(first.frame).toMatchObject({
     pictures: [],
-    frame: { visibleRange: { startUs: 0, endUs: 1 } },
+    frame: { visibleRange: { startUs: 0, endUs: 100000 } },
   });
   expect(first.frame.frame).not.toHaveProperty("visual");
   expect(first.candidate.visibleRange).toEqual({ startUs: 0, endUs: 100000 });
