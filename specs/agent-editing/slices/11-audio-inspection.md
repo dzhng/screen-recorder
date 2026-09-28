@@ -58,3 +58,10 @@ Delegated: Bucket pyramid and spectrogram implementation after axis/energy confo
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
+
+## Waveform skill acceptance
+
+[Blind skill use](../assets/11-waveform-skill/README.md) verifies that a fresh agent
+can locate a short energy interval, map repeated project uses, and compare per-channel
+dry/processed measurements through the delivered public JSON. Image navigation,
+spectrogram use and listening remain separate open gates.

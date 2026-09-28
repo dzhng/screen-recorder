@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "model": "gpt-6-luna",
+  "context": "fork:none",
+  "skillSha256": "b34ba575f2bc53271b07e0aa2086b0be28942e191aa44aca3836c3e63462ee8b",
+  "checks": {
+    "sourceIntervalSamples": [
+      38400,
+      39360
+    ],
+    "projectIntervalsUs": [
+      [
+        800000,
+        820000
+      ],
+      [
+        2800000,
+        2820000
+      ]
+    ],
+    "firstDryPeakRms": [
+      1.5,
+      1
+    ],
+    "firstProcessedPeakRms": [
+      0.75,
+      0.5
+    ],
+    "headUnchanged": true,
+    "onlyDiscoveryAndReadCommands": true,
+    "listeningClaimed": false,
+    "scratchServiceStoppedAndHomeRemoved": true
+  },
+  "runtimeSha256": {
+    "project-service.mjs": "3848848765996178de43d4f672eb438beb3895a35a9ed3793d1d69af60dc3d4a",
+    "cli.mjs": "8959b4a8c127d6b9ffb84386aa748ffb3b3af581bb82f164708a6df0bb1f9ba5",
+    "screenrec-native": "aacc5ccc84264dd70cec07f115c6660096a78e88dda187c8acd021d876070289"
+  }
+}

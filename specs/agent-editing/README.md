@@ -26,7 +26,8 @@ Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
 In parallel, finish [11 acoustic artifacts](slices/11-audio-inspection.md).
 [Public waveform JSON](assets/11-waveform-public/README.md) verifies raw/processed
 measurements, all nested taps, automatic overview, history and dependency retry.
-Images, bounded spectrograms, labeled axes and fresh agent/visual acceptance remain.
+[Blind waveform skill use](assets/11-waveform-skill/README.md) also passes.
+Images, bounded spectrograms, labeled axes and visual acceptance remain.
 Its PCM-only implementation is independent of the remaining event categories.
 
 [11a PCM delivery](slices/11a-audio-delivery.md) is verified, including actual
@@ -52,7 +53,7 @@ Current public evidence:
   Custom public video exclusion masks and raw still-image admission remain open.
 - [Transcript](assets/10c-project-skill/README.md),
   [audio/capture](assets/11a-10c-inspection-skill/README.md) and picture skills
-  pass blind agent use. Waveform skill use is next; none establishes listening.
+  pass blind agent use, as does waveform measurement; none establishes listening.
 
 Use isolated homes and frozen workers. Imported sources never fabricate recording
 rows or narration roles. Preserve capture clocks/acquisition provenance separately

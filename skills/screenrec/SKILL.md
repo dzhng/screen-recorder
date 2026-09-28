@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps, inspect selected-source or edited-project pictures, or inspect captured cursor and timeline evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform measurements, inspect selected-source or edited-project pictures, or inspect captured cursor and timeline evidence.
 ---
 
 # Screenrec
@@ -99,6 +99,15 @@ pinned range across taps to isolate level or processing changes; do not normaliz
 or judge a join's sound merely because rendering succeeds. Preserve the returned
 sample clock, channel layout and unavailable ranges when analyzing delivered WAVs.
 
+For waveform inspection, reuse the same source/project selection, range and tap.
+Read the delivered JSON file, not just its readiness receipt. Start with the
+automatic overview, then narrow the range and set bucketFrames for short sounds.
+Preserve its sampleRate and absolute sampleRange; a ranged excerpt does not reset
+the clock to zero. Compare channels separately and account for partial edge
+buckets and unavailable support. Min/max/RMS can locate energy changes but cannot
+prove silence, speech boundaries or a natural join. Pin the project revision while
+polling; an explicit waveform retry also retries its audio prerequisite.
+
 For picture inspection, choose a raw source stream or a pinned project before
 requesting frames. Source requests use asset/stream identity, optional acquisition,
 and source time; do not add a recording or project revision. Project requests use
@@ -134,7 +143,7 @@ artifact; it does not establish that a durable export intent has published.
   them from memory. On `NOT_FOUND`, compare the submitted ID against the saved
   receipt before diagnosing lost service state.
 - Parse the JSON envelope even on a nonzero exit. `--output` writes delivered
-  media to a file or directory according to the operation.
+  media or JSON evidence to a file or directory according to the operation.
 - Edit ranges are half-open integer microseconds in the expected revision's
   playback timeline. Source timestamps and edited playback timestamps differ
   after cuts; use the reported mapping and retained fragments.
