@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; video-only compiler selection is verified, native demanded-picture extraction is underway. Public still/index acceptance remains open. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public/source/index integration remains open; fresh visual review found a color/brightness discrepancy that is being investigated. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -70,3 +70,12 @@ now pins requests and checks native receipt identity under the shared job/cache
 owners. Its controlled-renderer tests do not establish native or public acceptance.
 Concurrent frame and movie staging must share safe workspace lifetime before
 the service route is integrated.
+## Native checkpoint
+
+Demanded PNGs and movies share one compiled-picture execution owner, including
+selected-stream physical membership, support masking, orientation and the canvas
+raster. Delivery bounds apply after that raster. Receipts preserve compiler time
+separately from the actual physical sample and distinguish unavailable pictures
+from an empty canvas. The [native checkpoint evidence](../assets/10d-native-pictures/EVIDENCE.md)
+records the executed gates and the still-pending fresh visual review. This does
+not close the public delivery, selected-source or retained-index gates above.

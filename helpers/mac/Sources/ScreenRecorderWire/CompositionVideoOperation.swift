@@ -29,7 +29,7 @@ enum CompositionVideoOperation {
             file = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
         }
         func close() { try? file.close() }
-        func next() throws -> CompositionVideoRenderer.Frame? {
+        func next() throws -> CompositionPictureExecutor.Frame? {
             while true {
                 if let end = buffer[offset...].firstIndex(of: 10) {
                     let data = buffer.subdata(in: offset..<end)
@@ -37,7 +37,7 @@ enum CompositionVideoOperation {
                     guard !data.isEmpty, data.count < 65_536,
                         let object = try JSONSerialization.jsonObject(with: data) as? [String: Any]
                     else { throw invalid("Invalid compiled frame record.") }
-                    return try WireRequest.decode(CompositionVideoRenderer.Frame.self, from: object)
+                    return try WireRequest.decode(CompositionPictureExecutor.Frame.self, from: object)
                 }
                 if offset > 0 {
                     buffer.removeSubrange(0..<offset)

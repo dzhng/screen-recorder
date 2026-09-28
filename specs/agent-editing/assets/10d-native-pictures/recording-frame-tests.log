@@ -1,0 +1,11 @@
+✔ frame worker returns actual sample pixels and survives invalid requests (594.995667ms)
+✔ frame worker draws the supplied pointer and trail, or nothing at all (202.480833ms)
+✔ frame decode failure permits explicit retry while invalid requests remain terminal (74.550042ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 923.523625

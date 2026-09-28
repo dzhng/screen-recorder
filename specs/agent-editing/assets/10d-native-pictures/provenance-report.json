@@ -1,0 +1,188 @@
+{
+  "results": [
+    {
+      "name": "leading-partial-picture",
+      "pictures": 2,
+      "moviePixelSHA256": "630054a1fb5bf437862d87fa2066a94c798c73248df1afa03ec02f3bcdb8501b",
+      "ids": [
+        "A0",
+        "black"
+      ]
+    }
+  ],
+  "negatives": [
+    {
+      "name": "encoded-limit",
+      "code": "LIMIT_EXCEEDED"
+    },
+    {
+      "name": "oversize-limit",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "name": "invalid-size",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "name": "unknown-crop",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "name": "layering",
+      "code": "NOT_READY"
+    }
+  ],
+  "bounded": {
+    "bytes": 1319,
+    "decodedSamples": 1,
+    "file": "/tmp/compiled-picture-provenance/bounded.png",
+    "frame": {
+      "index": 0,
+      "layers": [
+        {
+          "assetId": "tagged-a.mov",
+          "availability": "available",
+          "clipId": "a-first",
+          "placement": "contain",
+          "sourceUs": 0,
+          "streamId": "track:1",
+          "trackId": "video"
+        }
+      ],
+      "sampleAtUs": 0,
+      "visibleRange": {
+        "endUs": 50000,
+        "startUs": 0
+      }
+    },
+    "height": 64,
+    "mediaType": "image/png",
+    "picture": {
+      "actualSourceUs": 0,
+      "assetId": "tagged-a.mov",
+      "clipId": "a-first",
+      "requestedSourceUs": 0,
+      "sample": {
+        "originUs": 0,
+        "timescale": 16384,
+        "value": "0"
+      },
+      "status": "available",
+      "streamId": "track:1"
+    },
+    "profile": "h264-rec709",
+    "readerOpens": 1,
+    "sourceHeight": 128,
+    "sourceWidth": 160,
+    "width": 80
+  },
+  "physical": {
+    "bytes": 724,
+    "decodedSamples": 0,
+    "file": "/tmp/compiled-picture-provenance/physical-empty.png",
+    "frame": {
+      "index": 5,
+      "layers": [
+        {
+          "assetId": "empty-edit.mov",
+          "availability": "available",
+          "clipId": "gapped",
+          "placement": "contain",
+          "sourceUs": 250000,
+          "streamId": "track:1",
+          "trackId": "video"
+        }
+      ],
+      "sampleAtUs": 250000,
+      "visibleRange": {
+        "endUs": 300000,
+        "startUs": 250000
+      }
+    },
+    "height": 128,
+    "mediaType": "image/png",
+    "picture": {
+      "assetId": "empty-edit.mov",
+      "clipId": "gapped",
+      "reason": "physical-empty",
+      "requestedSourceUs": 250000,
+      "status": "unavailable",
+      "streamId": "track:1"
+    },
+    "profile": "h264-rec709",
+    "readerOpens": 1,
+    "sourceHeight": 128,
+    "sourceWidth": 160,
+    "width": 160
+  },
+  "fractional": {
+    "bytes": 20328,
+    "decodedSamples": 1,
+    "file": "/tmp/compiled-picture-provenance/fractional.png",
+    "frame": {
+      "index": 0,
+      "layers": [
+        {
+          "assetId": "fractional",
+          "availability": "available",
+          "clipId": "a-first",
+          "placement": "contain",
+          "sourceUs": 33367,
+          "streamId": "track:1",
+          "trackId": "video"
+        }
+      ],
+      "sampleAtUs": 0,
+      "visibleRange": {
+        "endUs": 50000,
+        "startUs": 0
+      }
+    },
+    "height": 128,
+    "mediaType": "image/png",
+    "picture": {
+      "actualSourceUs": 33367,
+      "assetId": "fractional",
+      "clipId": "a-first",
+      "requestedSourceUs": 33367,
+      "sample": {
+        "originUs": 0,
+        "timescale": 90000,
+        "value": "3003"
+      },
+      "status": "available",
+      "streamId": "track:1"
+    },
+    "profile": "h264-rec709",
+    "readerOpens": 1,
+    "sourceHeight": 128,
+    "sourceWidth": 160,
+    "width": 160
+  },
+  "defaultBound": {
+    "bytes": 27241,
+    "decodedSamples": 0,
+    "file": "/tmp/compiled-picture-provenance/default-bound.png",
+    "frame": {
+      "index": 0,
+      "layers": [],
+      "sampleAtUs": 0,
+      "visibleRange": {
+        "endUs": 50000,
+        "startUs": 0
+      }
+    },
+    "height": 900,
+    "mediaType": "image/png",
+    "picture": {
+      "status": "background"
+    },
+    "profile": "h264-rec709",
+    "readerOpens": 0,
+    "sourceHeight": 1800,
+    "sourceWidth": 3200,
+    "width": 1600
+  },
+  "cancellation": "PASS production NativeWire task cancellation drains writer and removes staging",
+  "passed": true
+}
