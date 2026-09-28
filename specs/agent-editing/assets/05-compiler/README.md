@@ -71,3 +71,14 @@ the compiler's retained domains, including unresolved fractional phase cases.
 Independent Codex review found no actionable regressions and reran the 95-test
 suite plus TypeScript checking. Removing availability-domain restriction and pitch
 separation falsifies the new boundary tests.
+
+
+The phase follow-on pairs each source context with its full-run output sample
+range. Fractional-offset golden schedules retain that origin through a pure split
+and late window; trimming recomputes it. Strict records/manifests round-trip these
+bounds in the 96-test suite. Frozen nearest-source selection and actual PCM parity
+remain slice 08 evidence.
+
+Independent phase review found no actionable regressions and reran the suite and
+TypeScript check. Substituting each split clip’s origin for the retained-run origin
+fails the fractional-offset regression.

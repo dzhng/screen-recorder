@@ -1,6 +1,8 @@
+import { sampleAt } from "./sample-clock.js";
+import type { AudioContext } from "./compiled-records.js";
 import { sourceTime, intersection, type ValidatedComposition, type ExactRange } from "./model.js";
 import { compare, fromTime, toTime, type Rational } from "./rational.js";
-import { isMediaClip, type SelectionRange, type Range } from "./schema.js";
+import { isMediaClip, type Range } from "./schema.js";
 
 type Run = {
   assetId: string;
@@ -53,30 +55,12 @@ export function audioContexts(model: ValidatedComposition) {
       if (runs.at(-1) !== run) runs.push(run);
     }
   }
-  const serialized = new Map<Run, SelectionRange>();
-  const contexts = new Map(
-    [...owners].map(([id, runs]) => [
-      id,
-      Object.freeze(
-        runs.map((run) => {
-          let range = serialized.get(run);
-          if (!range) {
-            range = Object.freeze({
-              startUs: Object.freeze(toTime(run.source.start)),
-              endUs: Object.freeze(toTime(run.source.end)),
-            });
-            serialized.set(run, range);
-          }
-          return range;
-        }),
-      ),
-    ]),
-  );
   return (
     value: ValidatedComposition["clips"][number],
     range: Range,
-  ): readonly SelectionRange[] => {
-    const ranges = contexts.get(value.clip.id) ?? [];
+    sampleRate: number,
+  ): readonly AudioContext[] => {
+    const ranges = owners.get(value.clip.id) ?? [];
     if (ranges.length === 0) return Object.freeze([]);
     const kept = intersection(value.range, {
       start: fromTime(range.startUs),
@@ -89,11 +73,28 @@ export function audioContexts(model: ValidatedComposition) {
       after = ranges.length;
     while (first < after) {
       const middle = Math.floor((first + after) / 2);
-      if (compare(fromTime(ranges[middle]!.endUs), start) <= 0) first = middle + 1;
+      if (compare(ranges[middle]!.source.end, start) <= 0) first = middle + 1;
       else after = middle;
     }
     after = first;
-    while (after < ranges.length && compare(fromTime(ranges[after]!.startUs), end) < 0) after++;
-    return Object.freeze(ranges.slice(first, after));
+    while (after < ranges.length && compare(ranges[after]!.source.start, end) < 0) after++;
+    return Object.freeze(
+      ranges.slice(first, after).flatMap((run) => {
+        const sampleRange = {
+          start: sampleAt(run.project.start, sampleRate),
+          end: sampleAt(run.project.end, sampleRate),
+        };
+        if (sampleRange.start === sampleRange.end) return [];
+        return [
+          Object.freeze({
+            source: Object.freeze({
+              startUs: Object.freeze(toTime(run.source.start)),
+              endUs: Object.freeze(toTime(run.source.end)),
+            }),
+            sampleRange: Object.freeze(sampleRange),
+          }),
+        ];
+      }),
+    );
   };
 }

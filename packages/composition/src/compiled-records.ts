@@ -31,13 +31,15 @@ const sampleRange = z
   .object({ start: index, end: index })
   .strict()
   .refine((range) => range.start < range.end, "Expected a positive half-open sample range");
+export const audioContextSchema = z.object({ source: selectionRangeSchema, sampleRange }).strict();
+export type AudioContext = z.infer<typeof audioContextSchema>;
 export const compiledAudioSchema = z
   .object({
     clipId: id,
     trackId: id,
     sampleRange,
     placement: selectionRangeSchema,
-    context: z.array(selectionRangeSchema).readonly(),
+    context: z.array(audioContextSchema).readonly(),
     source: z.discriminatedUnion("kind", [
       z.object({ kind: z.literal("silence") }).strict(),
       z

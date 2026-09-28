@@ -171,12 +171,15 @@ and ancestor availability holes break runs. Clip IDs and post-resampling gain do
 not: a pure split preserves the domain, while a trim or removal changes it. No
 persisted lineage or original-selection envelope survives an edit.
 
-Compiled audio `context` contains the exact source-clock ranges for relevant runs,
+Compiled audio `context` contains exact `source` bounds and absolute output `sampleRange` bounds for relevant runs,
 without clipping their bounds to the requested output window. The manifest carries
 the same context for dependency identity. Native resampling intersects these
 domains with proven occupied source segments; excluded PCM must never enter the
 filter, even if decoding must seek through it. Synthetic edge padding is permitted.
-Existing exact source/placement mappings own phase; context adds no editorial clock.
+The compiler floors full-run project endpoints in the requested output sample clock.
+Native code consumes that origin directly rather than reconstructing it from a
+window or split clip. Frozen nearest-source-start and ceil-source-end decoding
+remain native rules; context adds no editorial clock.
 This permission is specific to resampling, not context for authored DSP steps.
 Slice 08 must prove split/window parity, boundary isolation and fractional-phase
 readiness through real decoded samples; compiler domain conformance alone does not.

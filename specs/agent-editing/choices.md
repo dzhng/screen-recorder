@@ -650,6 +650,12 @@ trim and stretch replacements keep their single-interval behavior.
   Native execution may pad synthetically outside a domain, but may not feed real
   neighboring samples into the filter. Post-resampling gain changes do not split a run.
 
+- **Sound; high confidence — The compiler supplies the retained output origin.**
+  Each context pairs exact source bounds with the full run's floored output sample
+  bounds at the requested rate. Native resampling can preserve frozen nearest-source
+  selection without reconstructing project origins across fractional offsets,
+  splits or windows. This pins phase metadata, not decoded-media equivalence.
+
 ## Project derivative retirement — 2026-09-27
 
 - **Sound; high confidence — A held derivative keeps deletion retryable.**

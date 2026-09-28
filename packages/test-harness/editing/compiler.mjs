@@ -96,11 +96,13 @@ assert.deepEqual(
 );
 const originalAudioContext = [{ startUs: 500000, endUs: 1500000 }];
 assert.deepEqual(
-  [...after.audio({ startUs: 0, endUs: 700000 })].map((segment) => segment.context),
+  [...after.audio({ startUs: 0, endUs: 700000 })].map((segment) =>
+    segment.context.map((part) => part.source),
+  ),
   [originalAudioContext, originalAudioContext],
 );
 assert.deepEqual(
-  [...after.audio({ startUs: 600001, endUs: 650001 })][0].context,
+  [...after.audio({ startUs: 600001, endUs: 650001 })][0].context.map((part) => part.source),
   originalAudioContext,
 );
 const removed = applyBatch(
@@ -122,7 +124,7 @@ assert.deepEqual(
       startUs: 0,
       endUs: 700000,
     }),
-  ].map((segment) => segment.context),
+  ].map((segment) => segment.context.map((part) => part.source)),
   [[{ startUs: 500000, endUs: 700000 }], [{ startUs: 800000, endUs: 1500000 }]],
 );
 for (const sampleRate of [44100, 48000]) {
@@ -130,6 +132,13 @@ for (const sampleRate of [44100, 48000]) {
   assert.equal(segments[0].sampleRange.start, Math.floor((50001 * sampleRate) / 1000000));
   assert.equal(segments.at(-1).sampleRange.end, Math.floor((650009 * sampleRate) / 1000000));
   assert.equal(segments[0].sampleRange.end, segments[1].sampleRange.start);
+  assert.deepEqual(
+    segments.map((part) => part.context[0].sampleRange),
+    [
+      { start: 0, end: sampleRate === 48000 ? 33600 : 30870 },
+      { start: 0, end: sampleRate === 48000 ? 33600 : 30870 },
+    ],
+  );
 }
 assert.deepEqual(compiler.processing({ startUs: 1, endUs: 2 }).at(-1).inputs, [
   { kind: "track", id: "video" },

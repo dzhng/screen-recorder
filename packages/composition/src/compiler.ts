@@ -1,3 +1,4 @@
+import { sampleAt } from "./sample-clock.js";
 import { audioContexts } from "./audio-context.js";
 import type { CompiledFrame, CompiledAudio } from "./compiled-records.js";
 import { executionWindow, executionWindowRequestSchema } from "./execution-window.js";
@@ -86,8 +87,7 @@ function compileSchedules(
       const range = checkedRange(input);
       if (!Number.isSafeInteger(sampleRate) || sampleRate <= 0)
         throw new CompositionError("INVALID_TIME", "Expected a positive integer sample rate");
-      const sample = (at: Rational) =>
-        safeInteger((at.numerator * BigInt(sampleRate)) / (at.denominator * 1000000n));
+      const sample = (at: Rational) => sampleAt(at, sampleRate);
       const requestedStart = sample(fromTime(range.startUs)),
         requestedEnd = sample(fromTime(range.endUs));
       for (const value of query(fromTime(range.startUs), fromTime(range.endUs))) {
@@ -123,7 +123,7 @@ function compileSchedules(
           sampleRange: { start, end },
           placement: { startUs: toTime(value.range.start), endUs: toTime(value.range.end) },
           source,
-          context: contexts(value, range),
+          context: contexts(value, range, sampleRate),
           pitch: isMediaClip(clip) ? (clip.pitch ?? "preserve") : "preserve",
           available,
         };

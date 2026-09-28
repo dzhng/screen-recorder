@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
-import { type CompiledAudio, type CompiledFrame } from "./compiled-records.js";
+import { audioContextSchema, type CompiledAudio, type CompiledFrame } from "./compiled-records.js";
 import { type ValidatedComposition } from "./model.js";
 import { processingInstructionSchema, type ProcessingInstruction } from "./processing-plan.js";
 import type { audioContexts } from "./audio-context.js";
@@ -42,7 +42,7 @@ const source = z
     source: mediaClipSchema.shape.source,
     placement: selectionRangeSchema,
     pitch: z.enum(["preserve", "follow"]).optional(),
-    context: z.array(selectionRangeSchema).readonly().optional(),
+    context: z.array(audioContextSchema).readonly().optional(),
   })
   .strict();
 export const executionWindowManifestSchema = z
@@ -131,7 +131,10 @@ export function executionWindow(
       source: clip.source,
       placement: { startUs: toTime(value.range.start), endUs: toTime(value.range.end) },
       ...(value.track.kind === "audio"
-        ? { pitch: clip.pitch ?? "preserve", context: contexts(value, request.range) }
+        ? {
+            pitch: clip.pitch ?? "preserve",
+            context: contexts(value, request.range, request.rendition.sampleRate),
+          }
         : {}),
     });
     if (value.track.kind === "audio" && value.rate && compare(value.rate, fromTime(1)) !== 0) {

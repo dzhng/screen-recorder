@@ -106,8 +106,8 @@ test("audio windows clip absolute sample bounds without restarting source mappin
       clipId: "voice",
       trackId: "a",
       context: [
-        { startUs: 500000, endUs: 600000 },
-        { startUs: 700000, endUs: 1500000 },
+        { source: { startUs: 500000, endUs: 600000 }, sampleRange: { start: 480, end: 5280 } },
+        { source: { startUs: 700000, endUs: 1500000 }, sampleRange: { start: 10080, end: 48480 } },
       ],
       sampleRange: { start: 480, end: 48480 },
       placement: { startUs: 10001, endUs: 1010001 },
@@ -128,7 +128,7 @@ test("audio windows clip absolute sample bounds without restarting source mappin
   expect(short.sampleRange).toEqual({ start: 9600, end: 14400 });
   expect(short.placement).toEqual({ startUs: 10001, endUs: 1010001 });
   expect(short.available).toEqual([{ start: 10080, end: 14400 }]);
-  expect(short.context).toEqual([{ startUs: 700000, endUs: 1500000 }]);
+  expect(short.context.map((part) => part.source)).toEqual([{ startUs: 700000, endUs: 1500000 }]);
 });
 
 test("processing instructions apply ordered steps after each combined child result", () => {
@@ -357,7 +357,9 @@ test("window identity pins source mapping, rendition and unresolved retiming acr
   expect(first.manifest.sources).toEqual([
     {
       clipId: "speech",
-      context: [{ startUs: 500000, endUs: 1500000 }],
+      context: [
+        { source: { startUs: 500000, endUs: 1500000 }, sampleRange: { start: 480, end: 34080 } },
+      ],
       assetId: "source",
       streamId: "audio",
       source: input.clips[0]!.source,
@@ -661,11 +663,13 @@ test("resampling context preserves pure splits but shrinks with the current sele
   );
   const compiler = createCompiler(validateComposition(split.document, media), "split");
   expect(
-    [...compiler.audio({ startUs: 0, endUs: 1000000 })].map((segment) => segment.context),
+    [...compiler.audio({ startUs: 0, endUs: 1000000 })].map((segment) =>
+      segment.context.map((part) => part.source),
+    ),
   ).toEqual([[{ startUs: 500000, endUs: 1500000 }], [{ startUs: 500000, endUs: 1500000 }]]);
-  expect([...compiler.audio({ startUs: 700001, endUs: 800001 })][0]!.context).toEqual([
-    { startUs: 500000, endUs: 1500000 },
-  ]);
+  expect(
+    [...compiler.audio({ startUs: 700001, endUs: 800001 })][0]!.context.map((part) => part.source),
+  ).toEqual([{ startUs: 500000, endUs: 1500000 }]);
   const changedGain = applyBatch(
     split.document,
     [
@@ -683,7 +687,7 @@ test("resampling context preserves pure splits but shrinks with the current sele
         startUs: 0,
         endUs: 1000000,
       }),
-    ].map((segment) => segment.context),
+    ].map((segment) => segment.context.map((part) => part.source)),
   ).toEqual([[{ startUs: 500000, endUs: 1500000 }], [{ startUs: 500000, endUs: 1500000 }]]);
   const cut = applyBatch(
     input,
@@ -704,7 +708,7 @@ test("resampling context preserves pure splits but shrinks with the current sele
         startUs: 0,
         endUs: 1000000,
       }),
-    ].map((segment) => segment.context),
+    ].map((segment) => segment.context.map((part) => part.source)),
   ).toEqual([[{ startUs: 500000, endUs: 700000 }], [{ startUs: 800000, endUs: 1500000 }]]);
   const trimmed = applyBatch(
     input,
@@ -725,7 +729,7 @@ test("resampling context preserves pure splits but shrinks with the current sele
         startUs: 200000,
         endUs: 1000000,
       }),
-    ][0]!.context,
+    ][0]!.context.map((part) => part.source),
   ).toEqual([{ startUs: 700000, endUs: 1500000 }]);
 });
 
@@ -796,7 +800,7 @@ test("resampling domains exclude source and ancestor holes and never borrow a pa
   expect(
     [...compiler.audio({ startUs: 0, endUs: 1000000 })].map((segment) => [
       segment.clipId,
-      segment.context,
+      segment.context.map((part) => part.source),
     ]),
   ).toEqual([
     [
@@ -815,14 +819,14 @@ test("resampling domains exclude source and ancestor holes and never borrow a pa
     ],
   ]);
   const late = [...compiler.audio({ startUs: 600001, endUs: 700001 })];
-  expect(late.map((segment) => segment.context)).toEqual([
+  expect(late.map((segment) => segment.context.map((part) => part.source))).toEqual([
     [{ startUs: 500000, endUs: 1000000 }],
     [{ startUs: 500000, endUs: 1000000 }],
   ]);
-  Reflect.set(late[0]!.context[0]!, "startUs", 0);
-  expect([...compiler.audio({ startUs: 600001, endUs: 700001 })][0]!.context).toEqual([
-    { startUs: 500000, endUs: 1000000 },
-  ]);
+  Reflect.set(late[0]!.context[0]!.source, "startUs", 0);
+  expect(
+    [...compiler.audio({ startUs: 600001, endUs: 700001 })][0]!.context.map((part) => part.source),
+  ).toEqual([{ startUs: 500000, endUs: 1000000 }]);
 });
 
 test("resampling runs break on source, clock, pitch or placement changes", () => {
@@ -869,8 +873,96 @@ test("resampling runs break on source, clock, pitch or placement changes", () =>
           startUs: 0,
           endUs: 400000,
         }),
-      ].map((segment) => segment.context),
+      ].map((segment) => segment.context.map((part) => part.source)),
       variant,
     ).toEqual([[{ startUs: 0, endUs: 100000 }], [{ startUs: sourceStart, endUs: sourceEnd }]]);
   }
+});
+
+test("fractional sample offsets keep a full retained-run origin across splits and windows", () => {
+  const assets = [
+    {
+      id: "asset",
+      streams: [
+        {
+          id: "audio",
+          kind: "audio" as const,
+          bounds: { startUs: 0, endUs: 2000000 },
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    },
+  ];
+  const input = structuredClone(document);
+  input.tracks = [{ id: "a", kind: "audio", order: 0 }];
+  input.clips = [
+    {
+      id: "voice",
+      trackId: "a",
+      assetId: "asset",
+      streamId: "audio",
+      source: { kind: "range", range: { startUs: 500001, endUs: 1500001 } },
+      placement: { kind: "project", range: { startUs: 10001, endUs: 1010001 } },
+    },
+  ];
+  const split = applyBatch(
+    input,
+    [{ operation: "split", clipIds: ["voice"], atUs: 123457, scope: "selected" }],
+    { assets, namespace: "phase" },
+  );
+  const original = createCompiler(validateComposition(input, assets), "before");
+  const compiler = createCompiler(validateComposition(split.document, assets), "after");
+  for (const [rate, end] of [
+    [48000, 48480],
+    [44100, 44541],
+  ] as const) {
+    const context = [
+      {
+        source: { startUs: 500001, endUs: 1500001 },
+        sampleRange: { start: rate === 48000 ? 480 : 441, end },
+      },
+    ];
+    const full = [...compiler.audio({ startUs: 0, endUs: 1100000 }, rate)];
+    expect(full.map((segment) => segment.context)).toEqual([context, context]);
+    expect([...original.audio({ startUs: 0, endUs: 1100000 }, rate)][0]!.context).toEqual(context);
+    const late = [...compiler.audio({ startUs: 700001, endUs: 800001 }, rate)][0]!;
+    expect(late.context).toEqual(context);
+    expect(late.sampleRange.start - late.context[0]!.sampleRange.start).toBe(
+      rate === 48000 ? 33120 : 30429,
+    );
+    expect(compiledAudioSchema.parse(JSON.parse(JSON.stringify(late)))).toEqual(late);
+    expect(
+      compiledAudioSchema.safeParse({
+        ...late,
+        context: [{ ...context[0], sampleRange: { start: end, end: 0 } }],
+      }).success,
+    ).toBe(false);
+  }
+  const trimmed = applyBatch(
+    input,
+    [
+      {
+        operation: "trim",
+        clipId: "voice",
+        range: { startUs: 200001, endUs: 1010001 },
+        scope: "selected",
+        ripple: "none",
+      },
+    ],
+    { assets, namespace: "trim-phase" },
+  );
+  const trimmedCompiler = createCompiler(validateComposition(trimmed.document, assets), "trimmed");
+  const window = trimmedCompiler.window({
+    range: { startUs: 700001, endUs: 800001 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  const context = [
+    { source: { startUs: 690001, endUs: 1500001 }, sampleRange: { start: 9600, end: 48480 } },
+  ];
+  expect([...window.audio()][0]!.context).toEqual(context);
+  expect(window.manifest.sources[0]!.context).toEqual(context);
+  expect(executionWindowManifestSchema.parse(JSON.parse(JSON.stringify(window.manifest)))).toEqual(
+    window.manifest,
+  );
 });
