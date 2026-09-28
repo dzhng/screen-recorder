@@ -1645,3 +1645,25 @@ format instead, as the user-approved no-migration contract allows, and change ev
 affected image/scene recipe so cached old pictures cannot masquerade as corrected
 output. This integration choice is sound with high confidence; it leaves the
 unaffected capture-journal and audio identities alone.
+
+## Project index candidate selection — 2026-09-28
+
+- **Sound, medium confidence — bound one complete selection before rendering.**
+  A pathological project with thousands of repeated clips can request many pictures
+  and attach many explanations to the same picture. Keep a bounded candidate map
+  until the full selection succeeds, then return ordered candidates; stop with an
+  explicit limit error instead of returning a partial storyboard. The pass leaves
+  budget values in the selection owner, with the exceeded bound and revision in the
+  error. The plan required bounded work but did not choose a buffering strategy.
+  This makes deduplication across overlapping layers simple and prevents rendering
+  work for a selection that will ultimately be refused. Slice 24 still owns measured
+  scale acceptance; raising a budget does not require another paging mechanism.
+- **Sound, high confidence — move each observed scene side toward its own side.**
+  At three frames per second, a scene change at 350 milliseconds first observed at
+  400 milliseconds must not select the preceding 333-millisecond picture as the
+  new side. Choose at-or-before the actual earlier observation and at-or-after the
+  actual later observation, using the compiler clock. Keep exact matches and both
+  original and projected times. The policy did not choose directional rounding.
+  Omit a side if this choice leaves its occurrence's supported interval; authored
+  boundaries still select surrounding output. This avoids attributing a neighboring
+  clip to a source observation without claiming raw-source/composite equality.

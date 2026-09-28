@@ -11,6 +11,26 @@ import {
 import type { SceneSource } from "./scene-evidence.js";
 
 export type SourceSceneChunk = Awaited<ReturnType<SelectedSourceSceneAnalysis["analyze"]>>;
+type Point = SourceSceneChunk["coverage"][number];
+/** A scene side is an observed picture, not a timestamp guessed beside the new boundary. */
+export function observedSceneBoundary(
+  before: Point | undefined,
+  point: Point,
+  chunk: SourceSceneChunk,
+) {
+  return before?.status === "available" &&
+    point.status === "available" &&
+    point.continuousFromPrevious &&
+    compareSceneSampleClocks(before.sample, point.sample) !== 0
+    ? chunk.comparisons.find(
+        (pair) =>
+          pair.boundary &&
+          compareSceneSampleClocks(pair.previous, before.sample) === 0 &&
+          compareSceneSampleClocks(pair.current, point.sample) === 0,
+      )
+    : undefined;
+}
+
 const integer = z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
 const time = integer.nonnegative();
 const clock = z.strictObject({

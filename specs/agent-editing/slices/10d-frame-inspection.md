@@ -170,8 +170,8 @@ Project retained-index frame-phase projection remains open.
 
 [Project frame-boundary timing](../assets/10d-project-index-clock/README.md) now
 selects neighbors through the compiler's existing integer-floor sample clock and
-shared visibility builder. This pure seam preserves movie/picture plans; project
-candidate policy, materialization and public retained-index delivery remain open.
+shared visibility builder. This pure seam preserves movie/picture plans. Candidate
+selection is verified below; retained materialization and public delivery remain open.
 
 ## Project retained-index selection contract
 
@@ -186,7 +186,11 @@ and compiler neighbors around authored clip and availability boundaries. Authore
 edges remain reasons even when continuous source mapping suppresses an editorial
 cut: separate clip stacks can still change the picture. Source changes contribute
 both actual observed request times through the occurrence projection owner; never
-invent the before side as event time minus one microsecond. Map and deduplicate
+invent the before side as event time minus one microsecond. Select at-or-before
+the earlier projected observation and at-or-after the later one, including an
+exact sample on either side. Omit a side when its quantized frame leaves that
+occurrence's available fragment; do not substitute another clip or a source gap.
+Keep both original and projected observation times in the reason. Deduplicate
 through compiler frame identities, retaining all reasons. Holds and background
 periods retain authored/periodic candidates even without advancing source evidence.
 
@@ -199,13 +203,16 @@ An empty project has no candidates or coverage; an audio-only nonempty project c
 have background pictures. No fabricated one-microsecond request admits an empty
 project.
 
-The next pass is the bounded pure selector and exact timing/coverage tests. Then
-reuse the retained index domain, preparation queue and frame materializer for
-publication; retain multi-source scene dependencies through indexed job references
+[Pure candidate selection](../assets/10d-project-index-selection/README.md) now
+implements this policy with bounded work and cancellation. Candidate visibility
+is a timing plan, not proof that a PNG was delivered. Next reuse the retained
+index domain, preparation queue and frame materializer for publication; retain multi-source scene dependencies through indexed job references
 and reclaim retained project indexes through the existing deletion owner after
 work drains and delivery leases are revoked. Public routing and real CLI/MCP/native
 journeys follow those owners. Selection/reason budgets refuse explicitly rather
-than truncate; slice 24 owns release-scale measurements.
+than truncate; slice 24 owns release-scale measurements. Before rendering, the
+materializer must preflight candidate serialization through the retained store's
+existing row-budget owner, including a heavily overlapping frame regression.
 
 Processing is currently constant. When [16](16-keyframes.md) adds windows/curves,
 its composition temporal owner must supply their boundaries to this selector;

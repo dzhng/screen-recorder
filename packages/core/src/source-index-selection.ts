@@ -1,8 +1,8 @@
 import { CatalogError } from "./catalog.js";
 import { setImmediate } from "node:timers/promises";
 import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
-import type { SourceSceneChunk } from "./source-scene-chunks.js";
-import { compareSceneSampleClocks, type SceneSampleClock } from "./source-scenes.js";
+import { observedSceneBoundary, type SourceSceneChunk } from "./source-scene-chunks.js";
+import type { SceneSampleClock } from "./source-scenes.js";
 import type { TimeRange } from "./timeline.js";
 import { selectionPolicy } from "./selection.js";
 
@@ -122,17 +122,7 @@ export async function* selectSourceIndex(
             previousSupport === range && previous?.status === "available" ? previous : undefined;
           if (!before || !point.continuousFromPrevious)
             add(at, range, { kind: "availability", eventSourceUs: at });
-          const boundary =
-            before &&
-            point.continuousFromPrevious &&
-            compareSceneSampleClocks(before.sample, point.sample) !== 0
-              ? chunk.comparisons.find(
-                  (pair) =>
-                    pair.boundary &&
-                    compareSceneSampleClocks(pair.previous, before.sample) === 0 &&
-                    compareSceneSampleClocks(pair.current, point.sample) === 0,
-                )
-              : undefined;
+          const boundary = observedSceneBoundary(before, point, chunk);
           if (boundary) {
             const reason = {
               kind: "scene" as const,

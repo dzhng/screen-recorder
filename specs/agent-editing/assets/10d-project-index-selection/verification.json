@@ -1,0 +1,51 @@
+{
+  "date": "2026-09-28",
+  "base": "a0b93d1",
+  "policyCommit": "52638ff",
+  "scope": "pure candidate selection; no retained publication or native/public delivery claim",
+  "checks": {
+    "focusedProjectTests": {
+      "passed": 10
+    },
+    "core": {
+      "files": 57,
+      "passed": 581,
+      "skipped": 1,
+      "command": "bun run --cwd packages/core test"
+    },
+    "types": {
+      "passed": true,
+      "command": "bun run --cwd packages/core check-types"
+    },
+    "lint": {
+      "passed": true,
+      "scope": "four changed core TypeScript files"
+    },
+    "negativeControl": {
+      "mutation": "reverse scene-side quantization",
+      "expectedFailure": true,
+      "artifact": "direction-mutant.txt"
+    }
+  },
+  "limits": {
+    "selectedOccurrences": 10000,
+    "selectedPictures": 20000,
+    "selectionReasons": 100000,
+    "selectionWorkItems": 1000000,
+    "overflow": "terminal LIMIT_EXCEEDED with revision and exceeded bound; no partial candidates"
+  },
+  "remaining": [
+    "retained project index domain and materialization",
+    "actual queued scene dependency retention",
+    "public CLI/MCP/native delivery",
+    "empty project target validation through existing composition planner",
+    "release-scale latency/memory gate"
+  ],
+  "review": {
+    "outcome": "No actionable correctness or bounded-work defects found",
+    "focusedTestsPassed": 17,
+    "typesPassed": true,
+    "fullSuiteBoundary": "568 passed, 1 skipped, 13 failures caused by sandbox-denied localhost binding; separate unrestricted full core run passed581 tests",
+    "artifact": "review.txt"
+  }
+}

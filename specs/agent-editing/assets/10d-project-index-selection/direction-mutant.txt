@@ -1,0 +1,56 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+ ❯ src/project-index-selection.test.ts (9 tests | 1 failed | 8 skipped) 9ms
+   × scene sides retain actual observations and choose old/new pictures directionally on a coarse clock 9ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  07:27:58
+   Duration  181ms (transform 66%, import 27%, tests 7%, worker 1%)
+
+$ vitest run --maxWorkers=4 project-index-selection.test.ts -t "scene sides retain actual observations"
+(node:93646) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-index-selection.test.ts > scene sides retain actual observations and choose old/new pictures directionally on a coarse clock
+AssertionError: expected [ { sampleAtUs: 333333, …(1) }, …(1) ] to match object [ { sampleAtUs: +0, …(1) }, …(1) ]
+
+- Expected
++ Received
+
+@@ -5,18 +5,18 @@
+        "generation": "scenes-1",
+        "observedSourceUs": 200000,
+        "projectAtUs": 200000,
+        "side": "before",
+      },
+-     "sampleAtUs": 0,
++     "sampleAtUs": 333333,
+    },
+    {
+      "reason": {
+        "clipId": "c",
+        "generation": "scenes-1",
+        "observedSourceUs": 400000,
+        "projectAtUs": 400000,
+        "side": "after",
+      },
+-     "sampleAtUs": 666666,
++     "sampleAtUs": 333333,
+    },
+  ]
+
+ ❯ src/project-index-selection.test.ts:151:17
+    149|       .map((reason) => ({ sampleAtUs: candidate.sampleAtUs, reason })),
+    150|   );
+    151|   expect(sides).toMatchObject([
+       |                 ^
+    152|     {
+    153|       sampleAtUs: 0,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+error: script "test" exited with code 1
