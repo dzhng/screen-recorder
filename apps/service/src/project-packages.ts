@@ -1,19 +1,22 @@
 import { createHash } from "node:crypto";
 import { fstatSync, constants } from "node:fs";
 import { mkdir, open, writeFile, type FileHandle } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
-import { copyImportedFile, fileIdentity } from "@screenrec/core/files";
+import { copyImportedFile, fileIdentity, type IdentifiedFile } from "@screenrec/core/files";
 import { archiveLimits } from "@screenrec/core/package-archive";
 import {
-  collectPortableAssets,
-  projectAssetRoots,
+  collectPortableResources,
+  projectResourceRoots,
+  resourceMembers,
+  type PortableResource,
   projectPackageManifest,
   validateProjectPackage,
   type ValidatedProjectPackage,
 } from "@screenrec/core/project-package";
 import type { ProjectStore, ProjectSnapshot } from "@screenrec/core/projects";
-import type { AssetStore, PortableAsset } from "@screenrec/core/assets";
+import type { AssetStore } from "@screenrec/core/assets";
+import type { AcquisitionImporter, PortableAcquisitionFiles } from "@screenrec/core/acquisitions";
 import type { JobQueue } from "@screenrec/core/jobs";
 import { PackageRegistry } from "./package-registry.js";
 import { openPackageParent } from "./package-workspace.js";
@@ -24,13 +27,15 @@ import type { DerivativeDelivery } from "./delivery.js";
 export type PinnedProjectPackage = {
   revisionId: string;
   snapshot: ProjectSnapshot;
-  assets: PortableAsset[];
+  resources: PortableResource[];
+  acquisitionFiles: Record<string, Record<"journal" | "normalized", IdentifiedFile>>;
 };
 type Workspace = { directory: string; handle: FileHandle };
 type Owners = {
   directory: string;
   projects: ProjectStore;
   assets: AssetStore;
+  acquisitions: AcquisitionImporter;
   jobs: JobQueue;
   worker: MediaWorker;
   delivery: DerivativeDelivery;
@@ -84,7 +89,9 @@ export class ProjectPackages {
         ...admission,
         project: manifest.snapshot.project,
         revisions: manifest.snapshot.revisions.length,
-        assets: manifest.assets.length,
+        assets: manifest.resources.filter((resource) => resource.kind === "asset").length,
+        acquisitions: manifest.resources.filter((resource) => resource.kind === "acquisition")
+          .length,
       };
     }
     return { usage: this.registry?.usage() ?? null, admissions: this.registry?.active() ?? [] };
@@ -111,21 +118,38 @@ export class ProjectPackages {
         "Project package currently requires the current revision",
       );
     let metadataBytes = 0;
-    const assets = collectPortableAssets(projectAssetRoots(snapshot), (id) => {
-      const asset = this.owners.assets.portable(id);
-      metadataBytes += Buffer.byteLength(JSON.stringify(asset));
+    const acquisitionFiles: PinnedProjectPackage["acquisitionFiles"] = {};
+    const resources = collectPortableResources(projectResourceRoots(snapshot), (identity) => {
+      let resource: PortableResource;
+      if (identity.kind === "asset")
+        resource = { kind: "asset", ...this.owners.assets.portable(identity.id) };
+      else if (identity.kind === "acquisition") {
+        const pinned = this.owners.acquisitions.portable(identity.id);
+        acquisitionFiles[identity.id] = pinned.files;
+        resource = { kind: "acquisition", acquisition: pinned.acquisition };
+      } else
+        throw new CatalogError(
+          "UNSUPPORTED_PACKAGE_DEPENDENCY",
+          "Portable scene-generation adoption is not yet implemented",
+        );
+      metadataBytes += Buffer.byteLength(JSON.stringify(resource));
       if (metadataBytes > archiveLimits.manifestBytes)
         throw new CatalogError(
           "LIMIT_EXCEEDED",
-          "Project asset metadata exceeds package manifest budget",
+          "Project resource metadata exceeds package manifest budget",
         );
-      return asset;
+      return resource;
     });
     this.owners.assertPortable(
       projectId,
-      assets.map((entry) => entry.asset.id),
+      resources.flatMap((entry) => (entry.kind === "asset" ? [entry.asset.id] : [])),
     );
-    return { revisionId: snapshot.project.currentRevisionId, snapshot, assets };
+    return {
+      revisionId: snapshot.project.currentRevisionId,
+      snapshot,
+      resources,
+      acquisitionFiles,
+    };
   }
   adopt(packageHandle: string, requestId: string) {
     if (!this.registry) throw new CatalogError("CONTEXT_CLOSED", "Project package is not open");
@@ -135,8 +159,9 @@ export class ProjectPackages {
       async (context, signal) => {
         const manifest = context.manifest;
         const staged: Awaited<ReturnType<AssetStore["stagePortable"]>>[] = [];
+        const acquisitions: Awaited<ReturnType<AcquisitionImporter["stagePortable"]>>[] = [];
         try {
-          for (const entry of manifest.assets) {
+          for (const entry of manifest.resources.filter((entry) => entry.kind === "asset")) {
             signal.throwIfAborted();
             const path = `assets/${entry.asset.fileName}`,
               source = context.files.open(path);
@@ -144,14 +169,46 @@ export class ProjectPackages {
               const stat = fstatSync(source.fd, { bigint: true });
               const locator = context.files.path(path);
               staged.push(
-                await this.owners.assets.stagePortable(entry, locator, signal, {
-                  path: locator,
-                  bytes: Number(stat.size),
-                  identity: fileIdentity(stat),
-                }),
+                await this.owners.assets.stagePortable(
+                  { asset: entry.asset, origins: entry.origins, dependencies: entry.dependencies },
+                  locator,
+                  signal,
+                  {
+                    path: locator,
+                    bytes: Number(stat.size),
+                    identity: fileIdentity(stat),
+                  },
+                ),
               );
             } finally {
               source.close();
+            }
+          }
+          for (const entry of manifest.resources) {
+            if (entry.kind !== "acquisition") continue;
+            const members = resourceMembers(entry);
+            const leases: ReturnType<typeof context.files.open>[] = [];
+            try {
+              for (const member of members) leases.push(context.files.open(member.path));
+              const files = Object.fromEntries(
+                members.map((member, index) => {
+                  const stat = fstatSync(leases[index]!.fd, { bigint: true });
+                  return [
+                    index === 0 ? "journal" : "normalized",
+                    {
+                      path: context.files.path(member.path),
+                      bytes: Number(stat.size),
+                      identity: fileIdentity(stat),
+                      sha256: manifest.inventory.find((item) => item.path === member.path)!.sha256,
+                    },
+                  ];
+                }),
+              ) as PortableAcquisitionFiles;
+              acquisitions.push(
+                await this.owners.acquisitions.stagePortable(entry.acquisition, files, signal),
+              );
+            } finally {
+              for (const lease of leases) lease.close();
             }
           }
           signal.throwIfAborted();
@@ -163,6 +220,7 @@ export class ProjectPackages {
             },
             () => {
               for (const asset of staged) asset.publish();
+              for (const acquisition of acquisitions) acquisition.publish();
             },
           );
           return JSON.stringify({
@@ -170,6 +228,7 @@ export class ProjectPackages {
             revisionId: result.revision.id,
           });
         } finally {
+          await Promise.all(acquisitions.map((acquisition) => acquisition.close()));
           await Promise.all(staged.map((asset) => asset.close()));
         }
       },
@@ -225,28 +284,46 @@ export class ProjectPackages {
       revisions.set(path, body);
       await text(path, body);
     }
-    const manifest = projectPackageManifest(pinned.snapshot, pinned.assets, [
-      ...plan.map(({ identity: _identity, ...entry }) => entry),
-      ...pinned.assets.map(({ asset }) => ({
-        path: `assets/${asset.fileName}`,
-        bytes: asset.bytes,
-        sha256: asset.id,
-      })),
-    ]);
+    const declared = pinned.resources.flatMap(resourceMembers);
+    if (
+      declared.length + plan.length >= archiveLimits.entries ||
+      declared.some((entry) => entry.bytes > archiveLimits.memberBytes) ||
+      declared.reduce((sum, entry) => sum + entry.bytes, expanded) > archiveLimits.expandedBytes
+    )
+      throw new CatalogError("LIMIT_EXCEEDED", "Project resources exceed archive budget");
+    for (const entry of pinned.resources) {
+      const members = resourceMembers(entry);
+      for (const [index, member] of members.entries()) {
+        signal.throwIfAborted();
+        const source =
+          entry.kind === "asset"
+            ? undefined
+            : pinned.acquisitionFiles[entry.acquisition.id]![
+                index === 0 ? "journal" : "normalized"
+              ];
+        const path = join(input.directory, member.path);
+        await mkdir(dirname(path), { recursive: true, mode: 0o700 });
+        const copied = await copyImportedFile(
+          entry.kind === "asset" ? this.owners.assets.path(entry.asset.id) : source!.path,
+          path,
+          signal,
+          source,
+        );
+        if (
+          (member.sha256 !== null && copied.sha256 !== member.sha256) ||
+          copied.bytes !== member.bytes
+        )
+          throw new CatalogError("INVALID_STORAGE", "Package source bytes changed");
+        await add(member.path, copied.bytes, copied.sha256);
+      }
+    }
+    const manifest = projectPackageManifest(
+      pinned.snapshot,
+      pinned.resources,
+      plan.map(({ identity: _identity, ...entry }) => entry),
+    );
     const body = JSON.stringify(manifest);
     validateProjectPackage(body, revisions, archiveLimits);
-    for (const entry of pinned.assets) {
-      signal.throwIfAborted();
-      const path = `assets/${entry.asset.fileName}`;
-      const copied = await copyImportedFile(
-        this.owners.assets.path(entry.asset.id),
-        join(input.directory, path),
-        signal,
-      );
-      if (copied.sha256 !== entry.asset.id || copied.bytes !== entry.asset.bytes)
-        throw new CatalogError("INVALID_STORAGE", "Package source bytes changed");
-      await add(path, copied.bytes, copied.sha256);
-    }
     await text("manifest.json", body);
     const planBody = JSON.stringify(plan);
     if (Buffer.byteLength(planBody) > archiveLimits.receiptBytes)

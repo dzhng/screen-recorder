@@ -1,13 +1,13 @@
 import { isDeepStrictEqual } from "node:util";
-import { ResourceReferences, type ResourceOwner } from "./references.js";
+import { ResourceReferences, resourceKinds, type ResourceOwner } from "./references.js";
 import type { Asset as CompositionAsset } from "@screenrec/composition";
-import { createHash, randomUUID } from "node:crypto";
+import { randomUUID } from "node:crypto";
 import { constants } from "node:fs";
 import { mkdir, open, link, unlink, opendir, rm, lstat } from "node:fs/promises";
 import { extname, isAbsolute, join } from "node:path";
 import { z } from "zod";
 import { Catalog, CatalogError } from "./catalog.js";
-import { copyImportedFile, fileIdentity, type IdentifiedFile } from "./files.js";
+import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";
 
 const integer = z.number().int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
 const positive = integer.positive();
@@ -80,7 +80,9 @@ export const portableAssetSchema = z.strictObject({
       }),
     )
     .max(1000),
-  dependencies: z.array(z.string().regex(/^[a-f0-9]{64}$/)).max(25_000),
+  dependencies: z
+    .array(z.strictObject({ kind: z.enum(resourceKinds), id: z.string().min(1).max(2048) }))
+    .max(25_000),
 });
 export type PortableAsset = z.infer<typeof portableAssetSchema>;
 export type AssetSummary = Pick<Asset, "id" | "bytes" | "createdAt" | "fileName"> & {
@@ -334,17 +336,9 @@ export class AssetStore {
     if (origins.nextCursor)
       throw new CatalogError("LIMIT_EXCEEDED", "Asset provenance exceeds package limit");
     const dependencies = this.dependencies.dependencies({ kind: "asset", id });
-    if (dependencies.some((dependency) => dependency.kind !== "asset"))
-      throw new CatalogError(
-        "UNSUPPORTED_PACKAGE_DEPENDENCY",
-        "Asset has a dependency not yet supported by portable assets",
-      );
-    return {
-      asset: this.get(id),
-      origins: origins.origins,
-      dependencies: dependencies.map((dependency) => dependency.id),
-    };
+    return { asset: this.get(id), origins: origins.origins, dependencies };
   }
+
   /** Copy and hash before the caller's shared publication transaction. Unpublished links recover as orphans. */
   async stagePortable(
     value: unknown,
@@ -390,31 +384,8 @@ export class AssetStore {
           constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
         );
         try {
-          const stat = await existing.stat();
-          if (!stat.isFile() || stat.size !== asset.bytes)
-            throw new CatalogError(
-              "INVALID_PACKAGE",
-              "Existing asset file conflicts with package identity",
-            );
-          const hash = createHash("sha256"),
-            buffer = Buffer.alloc(65536);
-          for (let position = 0; position < stat.size;) {
-            signal.throwIfAborted();
-            const { bytesRead } = await existing.read(
-              buffer,
-              0,
-              Math.min(buffer.length, stat.size - position),
-              position,
-            );
-            if (!bytesRead)
-              throw new CatalogError(
-                "INVALID_PACKAGE",
-                "Existing asset file ended during validation",
-              );
-            hash.update(buffer.subarray(0, bytesRead));
-            position += bytesRead;
-          }
-          if (hash.digest("hex") !== asset.id)
+          const checked = await hashFile(existing, asset.bytes, signal);
+          if (checked.sha256 !== asset.id)
             throw new CatalogError(
               "INVALID_PACKAGE",
               "Existing asset file hash conflicts with package identity",
@@ -463,7 +434,14 @@ export class AssetStore {
               .prepare("INSERT OR IGNORE INTO asset_origins VALUES(?,?)")
               .run(asset.id, JSON.stringify(origin));
           // Closure is validated by the package owner before this transaction starts.
-          this.dependencies.retain("asset", { kind: "asset", id: asset.id }, dependencies);
+          for (const kind of resourceKinds)
+            this.dependencies.retain(
+              kind,
+              { kind: "asset", id: asset.id },
+              dependencies
+                .filter((dependency) => dependency.kind === kind)
+                .map((dependency) => dependency.id),
+            );
         },
       };
     } catch (error) {

@@ -499,3 +499,136 @@ test("pointer history derives the capture clock and full selected stream at the 
     capture.presentation({ ...selection, assetId: audio.assetId, streamId: audio.streamId }),
   ).toThrow(/captured-video authority/);
 });
+
+test("portable acquisition adoption preserves source identities, evidence and bound asset ownership", async () => {
+  const donor = await fixture(),
+    receiver = await fixture();
+  const intent = await donor.admit();
+  const original = await donor.importer.executeImport(
+    intent.acquisitionId,
+    "portable-generation",
+    donor.native,
+    signal(),
+  );
+  const pinned = donor.importer.portable(original.id);
+  const hashed = async (file: typeof pinned.files.journal) => ({
+    ...file,
+    sha256: createHash("sha256")
+      .update(await readFile(file.path))
+      .digest("hex"),
+  });
+  const portableFiles = {
+    journal: await hashed(pinned.files.journal),
+    normalized: await hashed(pinned.files.normalized),
+  };
+  await expect(
+    receiver.importer.stagePortable(
+      { ...pinned.acquisition, id: original.id.toUpperCase() },
+      portableFiles,
+      signal(),
+    ),
+  ).rejects.toThrow(/canonical/);
+  const collisionDirectory = join(receiver.root, "acquisitions", original.id);
+  await mkdir(collisionDirectory);
+  await writeFile(join(collisionDirectory, "retained"), "must survive failed staging");
+  await expect(
+    receiver.importer.stagePortable(pinned.acquisition, portableFiles, signal()),
+  ).rejects.toThrow(/EEXIST/);
+  expect(await readFile(join(collisionDirectory, "retained"), "utf8")).toBe(
+    "must survive failed staging",
+  );
+  await rm(collisionDirectory, { recursive: true });
+  const stagedAssets = await Promise.all(
+    [...new Set(original.bindings.map((binding) => binding.assetId))].map((id) =>
+      receiver.assets.stagePortable(donor.assets.portable(id), donor.assets.path(id), signal()),
+    ),
+  );
+  const staged = await receiver.importer.stagePortable(pinned.acquisition, portableFiles, signal());
+  expect(() => receiver.acquisitions.get(original.id)).toThrow(/not completed/);
+  expect(receiver.assets.list().assets).toEqual([]);
+  receiver.catalog.transaction(() => {
+    for (const asset of stagedAssets) asset.publish();
+    staged.publish();
+  });
+  await staged.close();
+  for (const asset of stagedAssets) await asset.close();
+  const adopted = receiver.acquisitions.get(original.id);
+  expect(receiver.importer.portable(original.id).acquisition).toEqual(pinned.acquisition);
+  expect(adopted.evidence.receipt.file).not.toBe(original.evidence.receipt.file);
+  expect([...receiver.evidence.exportRecords(adopted.evidence, "narration")]).toEqual([
+    ...donor.evidence.exportRecords(original.evidence, "narration"),
+  ]);
+  for (const binding of original.bindings)
+    expect(receiver.assets.references(binding.assetId)).toContainEqual({
+      kind: "acquisition",
+      id: original.id,
+    });
+  await rm(donor.donor, { recursive: true });
+  await rm(donor.importer.journalPath(original.id));
+  await rm(original.evidence.receipt.file);
+  expect(await readFile(receiver.importer.journalPath(original.id), "utf8")).toBe(donor.journal);
+  await expect(
+    receiver.importer.stagePortable(
+      {
+        ...pinned.acquisition,
+        receipt: {
+          ...pinned.acquisition.receipt,
+          header: { ...pinned.acquisition.receipt.header, provenance: "changed" },
+        },
+      },
+      portableFiles,
+      signal(),
+    ),
+  ).rejects.toThrow(/conflict/);
+});
+
+test("unpublished portable acquisitions recover and transactional failures leave no visible owner", async () => {
+  const donor = await fixture(),
+    receiver = await fixture();
+  const intent = await donor.admit();
+  const original = await donor.importer.executeImport(
+    intent.acquisitionId,
+    "portable-rollback",
+    donor.native,
+    signal(),
+  );
+  const pinned = donor.importer.portable(original.id);
+  const files = {
+    journal: {
+      ...pinned.files.journal,
+      sha256: createHash("sha256")
+        .update(await readFile(pinned.files.journal.path))
+        .digest("hex"),
+    },
+    normalized: {
+      ...pinned.files.normalized,
+      sha256: createHash("sha256")
+        .update(await readFile(pinned.files.normalized.path))
+        .digest("hex"),
+    },
+  };
+  const assets = await Promise.all(
+    [...new Set(original.bindings.map((binding) => binding.assetId))].map((id) =>
+      receiver.assets.stagePortable(donor.assets.portable(id), donor.assets.path(id), signal()),
+    ),
+  );
+  const stage = await receiver.importer.stagePortable(pinned.acquisition, files, signal());
+  expect(() =>
+    receiver.catalog.transaction(() => {
+      assets.forEach((asset) => asset.publish());
+      stage.publish();
+      throw new Error("project revision failure");
+    }),
+  ).toThrow("project revision failure");
+  expect(receiver.assets.list().assets).toEqual([]);
+  expect(() => receiver.acquisitions.get(original.id)).toThrow(/not completed/);
+  await stage.close();
+  for (const asset of assets) await asset.close();
+  expect(() => receiver.acquisitions.intent(original.id)).toThrow(/does not exist/);
+  // Restart recovery also reclaims a staged acquisition whose caller never closed it.
+  await receiver.importer.stagePortable(pinned.acquisition, files, signal());
+  await receiver.importer.recover(signal());
+  expect(() => receiver.acquisitions.intent(original.id)).toThrow(/does not exist/);
+  const retry = await receiver.importer.stagePortable(pinned.acquisition, files, signal());
+  await retry.close();
+});

@@ -33,16 +33,36 @@ Run with a frozen native worker and isolated scratch homes:
 SCREENREC_NATIVE=/path/to/frozen/screenrec-native node packages/test-harness/editing/package.mjs --case relocate-edit-undo
 ```
 
-This checkpoint supports asset-only projects at their current revision. Capture
-acquisitions and retained source/project evidence generations are explicitly
-refused until their owning stores support portable adoption. Prepared model-dependent
-outputs, fonts and actual 15a output remain [slice 22](../../slices/22-portable-projects.md)
-acceptance. Native media equality does not close listening or physical-camera gates.
+Acquisition dependencies preserve the original acquisition/source/generation IDs,
+all bindings, exact journal bytes and exact normalized evidence. The public fixture
+imports a labeled synthetic journal through the real native importer, uses its
+acquisition only in a historical revision, and compares raw cursor rows after
+relocation. It does not claim live capture quality. Asset and acquisition metadata,
+references and editable history publish together after file staging; failed staging
+and restart recovery retain no visible partial acquisition. Existing identities
+require matching provenance and byte hashes. Case-insensitive path collisions are
+rejected, and cleanup only removes an exclusively created acquisition directory.
+
+The acquisition pass has 13 focused core tests and 16 focused service tests green;
+the wider affected-owner run passed 95 tests before the final collision fixes.
+Independent review found the case-colliding UUID cleanup issue, now fixed with
+regressions; a second static review found no actionable defects. Its earlier broad
+core run encountered timing failures and is not counted as passing. The public
+run also caught persisted-pin serialization, strict descriptor and zero-origin
+clock issues; all are corrected and the final relocation run passes.
+
+This checkpoint requires the current revision. Retained scene/transcript/index
+generations are explicitly refused until their stores and queue publication owner
+support atomic portable adoption. Prepared model-dependent outputs, fonts and
+actual 15a output remain [slice 22](../../slices/22-portable-projects.md) acceptance.
+Native media equality does not close listening or physical-camera gates. The full
+acquisition/evidence autonomous skill journey remains open.
+
 A [fresh autonomous package/fade skill trial](../22-package-fade-skill/README.md)
 now verifies export/adoption and continued editing, retaining workflow and handoff
 errors separately from the verified result.
 
-Root integration reproduces every public check and the current/historical decoded
+Earlier asset-only root integration reproduces every public check and the current/historical decoded
 RGB and WAV hashes on the combined worker. Service (16), protocol (19), and core
 (11) checks pass. The first core run retains a five-second large-history deletion
 timeout during a concurrent Swift build; the unchanged confirmation passes after

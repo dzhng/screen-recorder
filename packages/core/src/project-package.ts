@@ -2,8 +2,10 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { isMediaClip, validateComposition } from "@screenrec/composition";
 import { CatalogError } from "./catalog.js";
-import { compositionAsset, portableAssetSchema, type PortableAsset } from "./assets.js";
+import { compositionAsset, portableAssetSchema } from "./assets.js";
 import { validateProjectSnapshot, type ProjectSnapshot } from "./projects.js";
+import { portableAcquisitionSchema } from "./acquisitions.js";
+import type { ResourceReference } from "./references.js";
 import type { ArchiveLimits } from "./package-archive.js";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
@@ -12,13 +14,47 @@ const member = z.strictObject({
   bytes: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
   sha256: digest,
 });
+const resourceSchema = z.discriminatedUnion("kind", [
+  portableAssetSchema.extend({ kind: z.literal("asset") }),
+  z.strictObject({ kind: z.literal("acquisition"), acquisition: portableAcquisitionSchema }),
+]);
+export type PortableResource = z.infer<typeof resourceSchema>;
+export function resourceIdentity(resource: PortableResource): ResourceReference {
+  return resource.kind === "asset"
+    ? { kind: "asset", id: resource.asset.id }
+    : { kind: "acquisition", id: resource.acquisition.id };
+}
+const key = (identity: ResourceReference) => `${identity.kind}:${identity.id}`;
+export function resourceMembers(resource: PortableResource) {
+  if (resource.kind === "asset")
+    return [
+      {
+        path: `assets/${resource.asset.fileName}`,
+        bytes: resource.asset.bytes,
+        sha256: resource.asset.id,
+      },
+    ];
+  const acquisition = resource.acquisition;
+  return [
+    {
+      path: `acquisitions/${acquisition.id}/journal.jsonl`,
+      bytes: acquisition.journal.bytes,
+      sha256: acquisition.journal.sha256,
+    },
+    {
+      path: `acquisitions/${acquisition.id}/normalized.jsonl`,
+      bytes: acquisition.receipt.bytes,
+      sha256: null,
+    },
+  ];
+}
 const manifestSchema = z.strictObject({
   format: z.literal("screenrec-project"),
   version: z.literal(1),
   project: z.unknown(),
   undo: z.array(z.string()).max(1000),
   revisions: z.array(z.string()).min(1).max(1000),
-  assets: z.array(portableAssetSchema).max(25_000),
+  resources: z.array(resourceSchema).max(25_000),
   inventory: z.array(member).max(25_000),
 });
 export type ProjectPackageManifest = z.infer<typeof manifestSchema>;
@@ -28,42 +64,51 @@ function invalid(message: string): never {
 }
 
 /** The same graph walk selects an export closure and checks an imported closure; cycles terminate by identity. */
-export function collectPortableAssets<T extends { asset: { id: string }; dependencies: string[] }>(
-  roots: readonly string[],
-  read: (id: string) => T,
+export function collectPortableResources(
+  roots: readonly ResourceReference[],
+  read: (identity: ResourceReference) => PortableResource,
   limit = 25_000,
-): T[] {
-  const found = new Map<string, T>(),
-    pending = [...new Set(roots)];
-  for (let position = 0; position < pending.length; position++) {
-    const id = pending[position]!;
-    if (found.has(id)) continue;
-    if (found.size >= limit)
+): PortableResource[] {
+  const found = new Map<string, PortableResource>(),
+    queued = new Set<string>(),
+    pending: ResourceReference[] = [];
+  const enqueue = (identity: ResourceReference) => {
+    if (queued.has(key(identity))) return;
+    if (queued.size >= limit)
       throw new CatalogError("LIMIT_EXCEEDED", "Portable dependency inventory exceeds its limit");
-    const value = read(id);
-    if (value.asset.id !== id) invalid("Dependency identity differs from inventory key");
-    found.set(id, value);
-    for (const dependency of value.dependencies)
-      if (!found.has(dependency)) pending.push(dependency);
-    if (pending.length > limit * 2)
-      throw new CatalogError("LIMIT_EXCEEDED", "Portable dependency edges exceed their limit");
+    queued.add(key(identity));
+    pending.push(identity);
+  };
+  roots.forEach(enqueue);
+  for (let position = 0; position < pending.length; position++) {
+    const identity = pending[position]!,
+      value = read(identity);
+    if (key(resourceIdentity(value)) !== key(identity))
+      invalid("Dependency identity differs from inventory key");
+    found.set(key(identity), value);
+    const dependencies: ResourceReference[] =
+      value.kind === "asset"
+        ? value.dependencies
+        : value.acquisition.bindings.map((binding) => ({ kind: "asset", id: binding.assetId }));
+    dependencies.forEach(enqueue);
   }
-  return [...found.values()].sort((a, b) => a.asset.id.localeCompare(b.asset.id));
-}
-export function projectAssetRoots(snapshot: ProjectSnapshot): string[] {
-  const clips = snapshot.revisions.flatMap((revision) =>
-    revision.document.clips.filter(isMediaClip),
+  return [...found.values()].sort((a, b) =>
+    key(resourceIdentity(a)).localeCompare(key(resourceIdentity(b))),
   );
-  if (clips.some((clip) => clip.acquisitionId))
-    throw new CatalogError(
-      "UNSUPPORTED_PACKAGE_DEPENDENCY",
-      "Capture evidence adoption is not yet supported by project packages",
-    );
-  return [...new Set(clips.map((clip) => clip.assetId))];
+}
+export function projectResourceRoots(snapshot: ProjectSnapshot): ResourceReference[] {
+  return snapshot.revisions.flatMap((revision) =>
+    revision.document.clips
+      .filter(isMediaClip)
+      .flatMap((clip): ResourceReference[] => [
+        { kind: "asset", id: clip.assetId },
+        ...(clip.acquisitionId ? [{ kind: "acquisition" as const, id: clip.acquisitionId }] : []),
+      ]),
+  );
 }
 export function projectPackageManifest(
   snapshot: ProjectSnapshot,
-  assets: PortableAsset[],
+  resources: PortableResource[],
   inventory: ProjectPackageManifest["inventory"],
 ): ProjectPackageManifest {
   return {
@@ -72,7 +117,7 @@ export function projectPackageManifest(
     project: snapshot.project,
     undo: snapshot.undo,
     revisions: snapshot.revisions.map((revision) => `revisions/${revision.ordinal}.json`),
-    assets,
+    resources,
     inventory,
   };
 }
@@ -147,29 +192,49 @@ export function validateProjectPackage(
     revisions: documents,
     undo: manifest.undo,
   });
-  const assets = new Map<string, PortableAsset>();
-  for (const portable of manifest.assets) {
-    const asset = portable.asset;
-    if (assets.has(asset.id) || !asset.fileName.startsWith(asset.id))
-      invalid("Duplicate or ambiguous project asset");
-    const path = `assets/${asset.fileName}`,
-      entry = inventory.get(path);
-    if (!entry || entry.sha256 !== asset.id || entry.bytes !== asset.bytes)
-      invalid("Project asset byte identity differs");
-    consumed.add(path);
-    assets.set(asset.id, portable);
+  const resources = new Map<string, PortableResource>();
+  for (const resource of manifest.resources) {
+    const identity = key(resourceIdentity(resource));
+    if (resources.has(identity)) invalid("Duplicate project dependency");
+    if (resource.kind === "asset" && !resource.asset.fileName.startsWith(resource.asset.id))
+      invalid("Ambiguous project asset filename");
+    for (const member of resourceMembers(resource)) {
+      const entry = inventory.get(member.path);
+      if (
+        !entry ||
+        entry.bytes !== member.bytes ||
+        (member.sha256 !== null && entry.sha256 !== member.sha256)
+      )
+        invalid("Project dependency byte identity differs");
+      consumed.add(member.path);
+    }
+    resources.set(identity, resource);
   }
-  const closure = collectPortableAssets(
-    projectAssetRoots(snapshot),
-    (id) => assets.get(id) ?? invalid("Missing transitive project asset"),
+  const closure = collectPortableResources(
+    projectResourceRoots(snapshot),
+    (identity) => resources.get(key(identity)) ?? invalid("Missing transitive project dependency"),
     limits.entries,
   );
-  if (closure.length !== assets.size || consumed.size !== inventory.size)
+  if (closure.length !== resources.size || consumed.size !== inventory.size)
     invalid("Unreferenced project inventory member");
+  const assets = closure.flatMap((resource) =>
+    resource.kind === "asset" ? [compositionAsset(resource.asset)] : [],
+  );
+  const acquisitions = closure.flatMap((resource) =>
+    resource.kind === "acquisition"
+      ? [
+          {
+            id: resource.acquisition.id,
+            bindings: resource.acquisition.bindings.map(({ assetId, streamId, available }) => ({
+              assetId,
+              streamId,
+              available,
+            })),
+          },
+        ]
+      : [],
+  );
   for (const revision of snapshot.revisions)
-    validateComposition(
-      revision.document,
-      closure.map((entry) => compositionAsset(entry.asset)),
-    );
+    validateComposition(revision.document, assets, acquisitions);
   return { ...manifest, snapshot };
 }

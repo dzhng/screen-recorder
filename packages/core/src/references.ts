@@ -1,6 +1,8 @@
 import type { Catalog } from "./catalog.js";
 
-export type ResourceKind = "asset" | "acquisition" | "scene-generation";
+export const resourceKinds = ["asset", "acquisition", "scene-generation"] as const;
+export type ResourceKind = (typeof resourceKinds)[number];
+export type ResourceReference = { kind: ResourceKind; id: string };
 export type ResourceOwner = {
   kind: "asset" | "acquisition" | "project" | "revision" | "job" | "job-input" | "export";
   id: string;
@@ -39,13 +41,13 @@ export class ResourceReferences {
         .run(owner.kind, owner.id).changes,
     );
   }
-  dependencies(owner: ResourceOwner, limit = 25_000): { kind: ResourceKind; id: string }[] {
+  dependencies(owner: ResourceOwner, limit = 25_000): ResourceReference[] {
     const rows = this.store.catalog
       .prepare(
         `SELECT resourceKind AS kind,resourceId AS id FROM resource_references
        WHERE ownerKind=? AND ownerId=? ORDER BY resourceKind,resourceId LIMIT ?`,
       )
-      .all(owner.kind, owner.id, limit + 1) as { kind: ResourceKind; id: string }[];
+      .all(owner.kind, owner.id, limit + 1) as ResourceReference[];
     if (rows.length > limit)
       throw new RangeError("Resource dependency inventory exceeds its limit");
     return rows;

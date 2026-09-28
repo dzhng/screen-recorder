@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { open } from "node:fs/promises";
+import { open, type FileHandle } from "node:fs/promises";
 import { isDeepStrictEqual } from "node:util";
 import { readSync, closeSync, constants, fstatSync, openSync, type BigIntStats } from "node:fs";
 import { join } from "node:path";
@@ -227,6 +227,31 @@ export async function copyRetainedFile(
   } finally {
     await output.close();
   }
+}
+
+/** Hash a borrowed regular-file descriptor within its declared size and identity. */
+export async function hashFile(file: FileHandle, expectedBytes: number, signal: AbortSignal) {
+  const before = await file.stat({ bigint: true });
+  if (!before.isFile() || before.size !== BigInt(expectedBytes))
+    throw new CatalogError("INVALID_STORAGE", "Retained file size differs from its identity");
+  const hash = createHash("sha256"),
+    buffer = Buffer.alloc(65536);
+  for (let position = 0; position < expectedBytes;) {
+    signal.throwIfAborted();
+    const { bytesRead } = await file.read(
+      buffer,
+      0,
+      Math.min(buffer.length, expectedBytes - position),
+      position,
+    );
+    if (!bytesRead) throw new CatalogError("INVALID_STORAGE", "Retained file ended during hashing");
+    hash.update(buffer.subarray(0, bytesRead));
+    position += bytesRead;
+  }
+  if (!isDeepStrictEqual(fileIdentity(before), fileIdentity(await file.stat({ bigint: true }))))
+    throw new CatalogError("SOURCE_CHANGED", "Retained file changed during hashing");
+  signal.throwIfAborted();
+  return { bytes: expectedBytes, sha256: hash.digest("hex") };
 }
 
 /** Copy a frozen local file with bounded memory; the caller owns staged-file cleanup/publication. */

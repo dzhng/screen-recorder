@@ -2128,3 +2128,27 @@ existing lifetime owner.
   The plan allowed reviewable passes without fixing their grouping. This is a
   checkpoint boundary only: remaining scalar consumers and full slice16 acceptance
   remain open and continue under their original contracts.
+
+## Slice 22 — Acquisition dependency checkpoint
+
+- **Sound, medium confidence:** Acquisition admission is a typed import/package
+  union. A package has no capture-directory import path, so it must not invent one
+  or pretend to rerun native parsing. Catalog format 14 requires a fresh library,
+  following the existing development no-migration contract.
+- **Sound, high confidence:** Retain acquisition, source and generation identities
+  exactly while project/revision identities remain fresh. History and provenance
+  reference those acquisition identities; collisions require complete matching
+  metadata and local byte hashes rather than silently remapping their meaning.
+- **Sound, high confidence:** SourceEvidenceStore ingests the exact packaged
+  normalized bytes under a pending acquisition reservation. The existing project
+  transaction publishes acquisition metadata and references together with assets
+  and history. Unpublished staged evidence remains unreachable and existing owner
+  recovery reclaims it.
+- **Sound, high confidence:** Acquisition IDs require the lowercase canonical form
+  emitted by their sole Node randomUUID producer. Native capture session IDs are
+  separate source identities and retain their original spelling. Exclusive directory
+  creation protects retained data even when staging finds an unexpected directory.
+- **Sound, medium confidence:** General resource references carry asset and
+  acquisition closure through one graph walk. Scene-generation resources still
+  refuse export until their real retained owner and queue readiness are portable;
+  the refusal is a checkpoint boundary, not reduced final package scope.

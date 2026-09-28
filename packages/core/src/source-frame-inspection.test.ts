@@ -75,11 +75,10 @@ async function fixture(render = renderer, imageRenderer?: SourceImageRenderer) {
       ],
     })),
   }));
-  catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?,?)").run(
+  catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?)").run(
     "mask",
     "capture",
-    home,
-    "{}",
+    JSON.stringify({ kind: "import", path: home, files: {} }),
     JSON.stringify({
       id: "mask",
       bindings: [

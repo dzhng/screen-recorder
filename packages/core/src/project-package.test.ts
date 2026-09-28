@@ -4,7 +4,11 @@ import { projectPackageManifest, validateProjectPackage } from "./project-packag
 import type { ProjectSnapshot } from "./projects.js";
 
 import { test, expect } from "vitest";
-import { collectPortableAssets } from "./project-package.js";
+import {
+  collectPortableResources,
+  resourceIdentity,
+  type PortableResource,
+} from "./project-package.js";
 
 test("portable inventory follows generated reference chains and rejects missing dependencies within a bound", () => {
   const records = new Map([
@@ -12,19 +16,32 @@ test("portable inventory follows generated reference chains and rejects missing 
     ["reference", { asset: { id: "reference" }, dependencies: ["original"] }],
     ["original", { asset: { id: "original" }, dependencies: [] }],
   ]);
-  const read = (id: string) => {
+  const read = ({ id }: { id: string }): PortableResource => {
     const value = records.get(id);
     if (!value) throw new Error("missing reference");
-    return value;
+    return {
+      kind: "asset",
+      asset: {
+        ...value.asset,
+        bytes: 0,
+        fileName: id,
+        createdAt: "fixture",
+        originUs: 0,
+        streams: [],
+      },
+      origins: [],
+      dependencies: value.dependencies.map((id) => ({ kind: "asset", id })),
+    };
   };
-  expect(collectPortableAssets(["speech", "original"], read).map((item) => item.asset.id)).toEqual([
-    "original",
-    "reference",
-    "speech",
-  ]);
-  expect(() => collectPortableAssets(["speech"], read, 2)).toThrow(/limit/);
+  const roots = (...ids: string[]) => ids.map((id) => ({ kind: "asset" as const, id }));
+  expect(
+    collectPortableResources(roots("speech", "original"), read).map(
+      (item) => resourceIdentity(item).id,
+    ),
+  ).toEqual(["original", "reference", "speech"]);
+  expect(() => collectPortableResources(roots("speech"), read, 2)).toThrow(/limit/);
   records.delete("reference");
-  expect(() => collectPortableAssets(["speech"], read)).toThrow("missing reference");
+  expect(() => collectPortableResources(roots("speech"), read)).toThrow("missing reference");
 });
 
 test("portable manifest validates complete history bytes, undo targets, paths and declared media closure", () => {

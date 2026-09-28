@@ -159,12 +159,11 @@ async function fixture(durationUs = 1000000) {
     },
     context(id: string, available: { startUs: number; endUs: number }[]) {
       catalog.catalog
-        .prepare("INSERT INTO acquisitions VALUES(?,?,?,?,?)")
+        .prepare("INSERT INTO acquisitions VALUES(?,?,?,?)")
         .run(
           id,
           id,
-          "fixture",
-          "{}",
+          JSON.stringify({ kind: "import", path: "fixture", files: {} }),
           JSON.stringify({ id, bindings: [{ assetId: asset.id, streamId: "v1", available }] }),
         );
       return { assetId: asset.id, streamId: "v1", acquisitionId: id };

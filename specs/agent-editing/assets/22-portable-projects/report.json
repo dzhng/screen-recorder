@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "scope": "actual CLI/MCP asset-only project package relocation; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
+  "scope": "actual CLI/MCP project package relocation with retained acquisition journal and normalized evidence; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
   "checks": {
     "current": {
       "video": "36e7aad74b4d0ff3d42c003ab8995e5939f06cee5feef629a8b6290ed2433f99",
@@ -13,6 +13,9 @@
     "donorRemoved": true,
     "packageRemoved": true,
     "sourceBytesUnchanged": true,
+    "acquisitionIdentityAndBindingsRetained": true,
+    "exactNormalizedEvidenceRetained": true,
+    "exactJournalRetained": true,
     "historicalOnlyMediaRetained": true,
     "generatedReferenceFixtureRetained": true,
     "editableUndo": true,
@@ -75,6 +78,29 @@
       "ok": true
     },
     {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "cursor.raw",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
       "operation": "project.create",
       "transport": "cli",
       "ok": true
@@ -106,18 +132,6 @@
       "operation": "preview.get",
       "transport": "cli",
       "ok": true,
-      "state": "processing"
-    },
-    {
-      "operation": "preview.get",
-      "transport": "cli",
-      "ok": true,
-      "state": "processing"
-    },
-    {
-      "operation": "preview.get",
-      "transport": "cli",
-      "ok": true,
       "state": "ready"
     },
     {
@@ -165,19 +179,7 @@
       "operation": "preview.get",
       "transport": "cli",
       "ok": true,
-      "state": "processing"
-    },
-    {
-      "operation": "preview.get",
-      "transport": "cli",
-      "ok": true,
       "state": "ready"
-    },
-    {
-      "operation": "audio.get",
-      "transport": "cli",
-      "ok": true,
-      "state": "processing"
     },
     {
       "operation": "audio.get",
@@ -199,18 +201,6 @@
     {
       "operation": "export.create",
       "transport": "cli",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
       "ok": true,
       "state": "running"
     },
@@ -410,6 +400,30 @@
       "operation": "package.status",
       "transport": "mcp",
       "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "closing"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
       "state": "closing"
     },
     {
@@ -483,6 +497,12 @@
       "transport": "mcp",
       "ok": true,
       "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "closing"
     },
     {
       "operation": "package.status",
@@ -614,6 +634,17 @@
       "state": "closed"
     },
     {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "cursor.raw",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
       "operation": "asset.list",
       "transport": "mcp",
       "ok": true
@@ -652,6 +683,12 @@
       "transport": "cli",
       "ok": true,
       "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
     },
     {
       "operation": "audio.get",
@@ -835,7 +872,7 @@
     }
   ],
   "remaining": [
-    "capture/evidence generations",
+    "scene/transcript/index generations",
     "prepared 15a outputs and fonts",
     "fresh autonomous skill journey"
   ]

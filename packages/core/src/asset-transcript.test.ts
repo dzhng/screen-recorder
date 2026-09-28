@@ -245,12 +245,11 @@ test("explicit acquisition masks separate jobs for the same bytes and retain the
     ["empty", []],
   ] as const) {
     f.catalog.catalog
-      .prepare("INSERT INTO acquisitions VALUES(?,?,?,?,?)")
+      .prepare("INSERT INTO acquisitions VALUES(?,?,?,?)")
       .run(
         id,
         id,
-        "fixture",
-        "{}",
+        JSON.stringify({ kind: "import", path: "fixture", files: {} }),
         JSON.stringify({ id, bindings: [{ assetId: f.asset.id, streamId: "track:2", available }] }),
       );
   }

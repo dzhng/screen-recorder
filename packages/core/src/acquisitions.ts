@@ -1,12 +1,18 @@
-import { randomUUID } from "node:crypto";
-import { constants } from "node:fs";
+import { createHash, randomUUID } from "node:crypto";
+import { z } from "zod";
+import { isDeepStrictEqual } from "node:util";
+import { constants, openSync, fstatSync, closeSync } from "node:fs";
 import { chmod, lstat, mkdir, open, opendir, realpath, rm } from "node:fs/promises";
 import { dirname, isAbsolute, join } from "node:path";
-import type { AcquisitionContext } from "@screenrec/composition";
+import { acquisitionContextSchema, type AcquisitionContext } from "@screenrec/composition";
 import { AssetStore, compositionAsset, type Asset, type AssetProbe } from "./assets.js";
 import { Catalog, CatalogError } from "./catalog.js";
-import { copyImportedFile, fileIdentity, type IdentifiedFile } from "./files.js";
-import type { SourceEvidenceMetadata, SourceEvidenceStore } from "./evidence.js";
+import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";
+import {
+  validateSourceReceipt,
+  type SourceEvidenceMetadata,
+  type SourceEvidenceStore,
+} from "./evidence.js";
 import type { SourceExporter } from "./processing.js";
 import { ResourceReferences, type ResourceOwner } from "./references.js";
 
@@ -14,7 +20,17 @@ const members = ["capture.journal.jsonl", "video.mov", "narration.mov", "system.
 type Member = (typeof members)[number];
 type SourceFiles = Record<Member, IdentifiedFile | null>;
 export type PreparedAcquisition = { requestId: string; path: string; files: SourceFiles };
-export type AcquisitionIntent = PreparedAcquisition & { acquisitionId: string };
+export type AcquisitionImportIntent = PreparedAcquisition & {
+  kind: "import";
+  acquisitionId: string;
+};
+export type AcquisitionIntent =
+  | AcquisitionImportIntent
+  | { kind: "package"; acquisitionId: string; requestId: string; packageIdentity: string };
+type AcquisitionAdmission =
+  | Omit<AcquisitionImportIntent, "acquisitionId" | "requestId">
+  | { kind: "package"; packageIdentity: string };
+
 export type Acquisition = {
   id: string;
   sourceId: string;
@@ -26,6 +42,73 @@ export type Acquisition = {
     supportBasis: "physical" | "captured-audio";
   })[];
 };
+const memberBytes = z.number().int().nonnegative().max(268_435_456);
+export const portableAcquisitionSchema = z
+  .strictObject({
+    id: z
+      .uuid()
+      .refine((value) => value === value.toLowerCase(), "Acquisition ID must be canonical"),
+    sourceId: z.string().min(1).max(256),
+    generation: z.string().regex(/^[A-Za-z0-9_-]{1,128}$/),
+    receipt: z.record(z.string(), z.unknown()),
+    journal: z.strictObject({ bytes: memberBytes, sha256: z.string().regex(/^[a-f0-9]{64}$/) }),
+    bindings: z
+      .array(
+        acquisitionContextSchema.shape.bindings.element
+          .extend({
+            sourceRoles: z
+              .array(z.enum(["video", "narration", "system"]))
+              .min(1)
+              .max(3),
+            sourceToAssetOffsetUs: z
+              .number()
+              .int()
+              .min(Number.MIN_SAFE_INTEGER)
+              .max(Number.MAX_SAFE_INTEGER),
+            supportBasis: z.enum(["physical", "captured-audio"]),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(256),
+  })
+  .transform((value) => {
+    if ("file" in value.receipt)
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Portable acquisition receipt must not contain a local path",
+      );
+    const { file: _file, ...receipt } = validateSourceReceipt(
+      { ...value.receipt, file: "source.jsonl" },
+      value.sourceId,
+    );
+    return { ...value, receipt };
+  });
+export type PortableAcquisition = z.infer<typeof portableAcquisitionSchema>;
+export type PortableAcquisitionFiles = Record<
+  "journal" | "normalized",
+  IdentifiedFile & { sha256: string }
+>;
+function portableAcquisition(value: Acquisition): PortableAcquisition {
+  if (
+    value.evidence.owner.kind !== "acquisition" ||
+    value.evidence.owner.acquisitionId !== value.id ||
+    value.evidence.sourceId !== value.sourceId
+  )
+    throw new CatalogError(
+      "INVALID_STORAGE",
+      "Acquisition evidence identity conflicts with its owner",
+    );
+  const { file: _file, ...receipt } = value.evidence.receipt;
+  return portableAcquisitionSchema.parse({
+    id: value.id,
+    sourceId: value.sourceId,
+    generation: value.evidence.generation,
+    receipt,
+    journal: { bytes: value.journal.bytes, sha256: value.journal.sha256 },
+    bindings: value.bindings,
+  });
+}
 const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
 
 /** An explicit capture adoption owns its media and journal independently of the donor library. */
@@ -34,44 +117,89 @@ export class AcquisitionStore {
   constructor(private readonly catalog: Catalog) {
     this.dependencies = new ResourceReferences(catalog);
     catalog.catalog.exec(`CREATE TABLE IF NOT EXISTS acquisitions (
-      id TEXT PRIMARY KEY, requestId TEXT UNIQUE NOT NULL, path TEXT NOT NULL,
-      files TEXT NOT NULL, metadata TEXT
+      id TEXT PRIMARY KEY, requestId TEXT UNIQUE NOT NULL, admission TEXT NOT NULL, metadata TEXT
     ) STRICT`);
   }
 
-  replay(requestId: string, path: string): AcquisitionIntent | null {
+  replay(requestId: string, path: string): AcquisitionImportIntent | null {
     const row = this.catalog.catalog
-      .prepare("SELECT id,path FROM acquisitions WHERE requestId=?")
+      .prepare("SELECT id,admission FROM acquisitions WHERE requestId=?")
       .get(requestId);
     if (!row) return null;
-    if (row.path !== path)
+    const admission = JSON.parse(row.admission as string) as AcquisitionAdmission;
+    if (admission.kind !== "import" || admission.path !== path)
       throw new CatalogError(
         "REQUEST_CONFLICT",
-        "Acquisition request ID already names another directory",
+        "Acquisition request ID already names another input",
       );
-    return this.intent(row.id as string);
+    return { ...admission, requestId, acquisitionId: row.id as string };
   }
   /** Called inside the shared queue admission transaction. */
-  admitImport(prepared: PreparedAcquisition): AcquisitionIntent {
+  admitImport(prepared: PreparedAcquisition): AcquisitionImportIntent {
     const replay = this.replay(prepared.requestId, prepared.path);
     if (replay) return replay;
     const acquisitionId = randomUUID();
+    const admission: AcquisitionAdmission = {
+      kind: "import",
+      path: prepared.path,
+      files: prepared.files,
+    };
     this.catalog.catalog
-      .prepare("INSERT INTO acquisitions VALUES(?,?,?,?,NULL)")
-      .run(acquisitionId, prepared.requestId, prepared.path, JSON.stringify(prepared.files));
-    return this.intent(acquisitionId);
+      .prepare("INSERT INTO acquisitions VALUES(?,?,?,NULL)")
+      .run(acquisitionId, prepared.requestId, JSON.stringify(admission));
+    return { ...prepared, kind: "import", acquisitionId };
   }
   intent(acquisitionId: string): AcquisitionIntent {
     const row = this.catalog.catalog
-      .prepare("SELECT requestId,path,files FROM acquisitions WHERE id=?")
+      .prepare("SELECT requestId,admission FROM acquisitions WHERE id=?")
       .get(acquisitionId);
     if (!row) throw new CatalogError("NOT_FOUND", "Acquisition does not exist", { acquisitionId });
     return {
+      ...(JSON.parse(row.admission as string) as AcquisitionAdmission),
       acquisitionId,
       requestId: row.requestId as string,
-      path: row.path as string,
-      files: JSON.parse(row.files as string),
     };
+  }
+  /** Package reservations have no invented capture-import path or file roles. */
+  admitPortable(acquisitionId: string, packageIdentity: string) {
+    const existing = this.catalog.catalog
+      .prepare("SELECT metadata FROM acquisitions WHERE id=?")
+      .get(acquisitionId);
+    if (existing) {
+      if (existing.metadata === null)
+        throw new CatalogError(
+          "PROCESSING_BUSY",
+          "Acquisition is already being prepared",
+          {},
+          true,
+        );
+      return { existing: JSON.parse(existing.metadata as string) as Acquisition, requestId: null };
+    }
+    const requestId = randomUUID();
+    this.catalog.catalog
+      .prepare("INSERT INTO acquisitions VALUES(?,?,?,NULL)")
+      .run(acquisitionId, requestId, JSON.stringify({ kind: "package", packageIdentity }));
+    return { existing: null, requestId };
+  }
+  publish(value: Acquisition): void {
+    this.intent(value.id);
+    this.catalog.catalog
+      .prepare("UPDATE acquisitions SET metadata=? WHERE id=?")
+      .run(JSON.stringify(value), value.id);
+  }
+  ready(acquisitionId: string): boolean {
+    return Boolean(
+      this.catalog.catalog
+        .prepare("SELECT 1 FROM acquisitions WHERE id=? AND metadata IS NOT NULL")
+        .get(acquisitionId),
+    );
+  }
+  discardPortable(acquisitionId: string, requestId: string): void {
+    this.catalog.catalog
+      .prepare(
+        "DELETE FROM acquisitions WHERE id=? AND requestId=? AND metadata IS NULL AND json_extract(admission,'$.kind')='package'",
+      )
+      .run(acquisitionId, requestId);
   }
   get(acquisitionId: string): Acquisition {
     const row = this.catalog.catalog
@@ -172,6 +300,171 @@ export class AcquisitionImporter {
     return join(this.directory, id, this.store.get(id).journal.fileName);
   }
 
+  portable(id: string): {
+    acquisition: PortableAcquisition;
+    files: Record<"journal" | "normalized", IdentifiedFile>;
+  } {
+    const value = this.store.get(id),
+      acquisition = portableAcquisition(value);
+    const paths = { journal: this.journalPath(id), normalized: value.evidence.receipt.file };
+    const identify = (path: string, bytes: number): IdentifiedFile => {
+      const fd = openSync(path, constants.O_RDONLY | constants.O_NONBLOCK | constants.O_NOFOLLOW);
+      try {
+        const stat = fstatSync(fd, { bigint: true });
+        if (!stat.isFile() || stat.size !== BigInt(bytes))
+          throw new CatalogError("INVALID_STORAGE", "Acquisition member differs from its receipt");
+        return { path, bytes, identity: fileIdentity(stat) };
+      } finally {
+        closeSync(fd);
+      }
+    };
+    return {
+      acquisition,
+      files: {
+        journal: identify(paths.journal, value.journal.bytes),
+        normalized: identify(paths.normalized, value.evidence.receipt.bytes),
+      },
+    };
+  }
+  async stagePortable(value: unknown, files: PortableAcquisitionFiles, signal: AbortSignal) {
+    const acquisition = portableAcquisitionSchema.parse(value);
+    signal.throwIfAborted();
+    if (
+      files.journal.bytes !== acquisition.journal.bytes ||
+      files.journal.sha256 !== acquisition.journal.sha256 ||
+      files.normalized.bytes !== acquisition.receipt.bytes
+    )
+      throw new CatalogError("INVALID_PACKAGE", "Acquisition members conflict with their receipts");
+    const packageIdentity = createHash("sha256")
+      .update(JSON.stringify([acquisition, files.journal.sha256, files.normalized.sha256]))
+      .digest("hex");
+    const reservation = this.catalog.transaction(() =>
+      this.store.admitPortable(acquisition.id, packageIdentity),
+    );
+    const owner = { kind: "acquisition" as const, acquisitionId: acquisition.id };
+    if (reservation.existing) {
+      if (!isDeepStrictEqual(portableAcquisition(reservation.existing), acquisition))
+        throw new CatalogError(
+          "INVALID_PACKAGE",
+          "Existing acquisition metadata conflicts with package identity",
+        );
+      for (const [path, member] of [
+        [this.journalPath(acquisition.id), files.journal],
+        [reservation.existing.evidence.receipt.file, files.normalized],
+      ] as const) {
+        const file = await open(
+          path,
+          constants.O_RDONLY | constants.O_NONBLOCK | constants.O_NOFOLLOW,
+        );
+        try {
+          if ((await hashFile(file, member.bytes, signal)).sha256 !== member.sha256)
+            throw new CatalogError(
+              "INVALID_PACKAGE",
+              "Existing acquisition content conflicts with package identity",
+            );
+        } finally {
+          await file.close();
+        }
+      }
+      return {
+        close: async () => {},
+        publish: () => {
+          signal.throwIfAborted();
+          this.assets.retain(
+            { kind: "acquisition", id: acquisition.id },
+            acquisition.bindings.map((binding) => binding.assetId),
+          );
+        },
+      };
+    }
+    const directory = join(this.directory, acquisition.id, acquisition.generation);
+    const sourceDirectory = join(directory, "source"),
+      normalized = join(directory, "source.jsonl");
+    let ownsDirectory = false;
+    const close = async () => {
+      if (this.store.ready(acquisition.id)) return;
+      await this.evidence.purge(owner, new AbortController().signal);
+      if (ownsDirectory)
+        await rm(join(this.directory, acquisition.id), { recursive: true, force: true });
+      this.store.discardPortable(acquisition.id, reservation.requestId!);
+    };
+    try {
+      await mkdir(join(this.directory, acquisition.id), { mode: 0o700 });
+      ownsDirectory = true;
+      await mkdir(sourceDirectory, { recursive: true, mode: 0o700 });
+      for (const [path, member] of [
+        [join(sourceDirectory, "capture.journal.jsonl"), files.journal],
+        [normalized, files.normalized],
+      ] as const) {
+        const copied = await copyImportedFile(member.path, path, signal, member, 268_435_456);
+        if (copied.sha256 !== member.sha256 || copied.bytes !== member.bytes)
+          throw new CatalogError(
+            "INVALID_PACKAGE",
+            "Acquisition member hash differs from inventory",
+          );
+      }
+      const evidence = await this.evidence.ingest({
+        owner,
+        sourceId: acquisition.sourceId,
+        generation: acquisition.generation,
+        file: normalized,
+        receipt: { ...acquisition.receipt, file: normalized },
+        signal,
+      });
+      const adopted: Acquisition = {
+        id: acquisition.id,
+        sourceId: acquisition.sourceId,
+        evidence,
+        journal: {
+          ...acquisition.journal,
+          fileName: `${acquisition.generation}/source/capture.journal.jsonl`,
+        },
+        bindings: acquisition.bindings,
+      };
+      for (const path of [
+        normalized,
+        sourceDirectory,
+        directory,
+        dirname(directory),
+        this.directory,
+      ]) {
+        const file = await open(path, constants.O_RDONLY);
+        try {
+          await file.sync();
+        } finally {
+          await file.close();
+        }
+      }
+      signal.throwIfAborted();
+      return {
+        close,
+        publish: () => {
+          signal.throwIfAborted();
+          for (const binding of acquisition.bindings) {
+            if (new Set(binding.sourceRoles).size !== binding.sourceRoles.length)
+              throw new CatalogError("INVALID_PACKAGE", "Acquisition repeats a source role");
+            for (const role of binding.sourceRoles) {
+              const expected = this.binding(this.assets.get(binding.assetId), role, evidence);
+              if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
+                throw new CatalogError(
+                  "INVALID_PACKAGE",
+                  "Acquisition binding conflicts with source clocks and evidence",
+                );
+            }
+          }
+          this.assets.retain(
+            { kind: "acquisition", id: acquisition.id },
+            acquisition.bindings.map((binding) => binding.assetId),
+          );
+          this.store.publish(adopted);
+        },
+      };
+    } catch (error) {
+      await close();
+      throw error;
+    }
+  }
+
   async executeImport(
     acquisitionId: string,
     attemptId: string,
@@ -179,6 +472,8 @@ export class AcquisitionImporter {
     signal: AbortSignal,
   ): Promise<Acquisition> {
     const intent = this.store.intent(acquisitionId);
+    if (intent.kind !== "import")
+      throw new CatalogError("INVALID_REQUEST", "Capture import requires an import admission");
     const ready = this.catalog.catalog
       .prepare("SELECT metadata FROM acquisitions WHERE id=?")
       .get(acquisitionId)!;
@@ -277,9 +572,7 @@ export class AcquisitionImporter {
       }
       signal.throwIfAborted();
       this.catalog.transaction(() => {
-        this.catalog.catalog
-          .prepare("UPDATE acquisitions SET metadata=? WHERE id=?")
-          .run(JSON.stringify(value), acquisitionId);
+        this.store.publish(value);
       });
       published = true;
       return value;
@@ -329,7 +622,7 @@ export class AcquisitionImporter {
       streamId: stream.id,
       available,
       sourceRoles: [sourceRole],
-      sourceToAssetOffsetUs: -asset.originUs,
+      sourceToAssetOffsetUs: asset.originUs === 0 ? 0 : -asset.originUs,
       supportBasis: sourceRole === "video" ? "physical" : "captured-audio",
     };
   }
@@ -347,6 +640,10 @@ export class AcquisitionImporter {
         await this.evidence.purge({ kind: "acquisition", acquisitionId: entry.name }, signal);
         this.assets.release({ kind: "acquisition", id: entry.name });
         await rm(join(this.directory, entry.name), { recursive: true, force: true });
+        if (row) {
+          const intent = this.store.intent(entry.name);
+          if (intent.kind === "package") this.store.discardPortable(entry.name, intent.requestId);
+        }
       } else {
         for await (const attempt of await opendir(join(this.directory, entry.name))) {
           if (attempt.name !== metadata.evidence.generation)
@@ -355,6 +652,21 @@ export class AcquisitionImporter {
               force: true,
             });
         }
+      }
+    }
+    // A crash can happen after reserving an intent but before creating its directory.
+    for (;;) {
+      const pending = this.catalog.catalog
+        .prepare(
+          "SELECT id,requestId FROM acquisitions WHERE metadata IS NULL AND json_extract(admission,'$.kind')='package' LIMIT 256",
+        )
+        .all() as { id: string; requestId: string }[];
+      if (!pending.length) break;
+      for (const intent of pending) {
+        signal.throwIfAborted();
+        await this.evidence.purge({ kind: "acquisition", acquisitionId: intent.id }, signal);
+        this.assets.release({ kind: "acquisition", id: intent.id });
+        this.store.discardPortable(intent.id, intent.requestId);
       }
     }
   }

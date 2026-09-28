@@ -94,11 +94,10 @@ async function fixture(
     })),
   }));
   // Seed completed import-boundary metadata; actual journal adoption has its own acquisition tests.
-  catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?,?)").run(
+  catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?)").run(
     "mask",
     "import-mask",
-    home,
-    "{}",
+    JSON.stringify({ kind: "import", path: home, files: {} }),
     JSON.stringify({
       id: "mask",
       bindings: [

@@ -77,8 +77,8 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
       file = join(home, `${id}.jsonl`),
       body = rows.map((row) => JSON.stringify(row) + "\n").join("");
     catalog.catalog
-      .prepare("INSERT INTO acquisitions VALUES(?,?,?,?,NULL)")
-      .run(id, id, home, "{}");
+      .prepare("INSERT INTO acquisitions VALUES(?,?,?,NULL)")
+      .run(id, id, JSON.stringify({ kind: "import", path: home, files: {} }));
     await writeFile(file, body);
     const evidence = await captureRecords.ingest({
       owner: { kind: "acquisition", acquisitionId: id },
@@ -516,11 +516,10 @@ test("empty projects, ready zero-word sources and unavailable models remain dist
 
 test("ancestor acquisition gaps remain explicit and original words stay partial across the hole", async () => {
   const f = await fixture();
-  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?,?)").run(
+  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?)").run(
     "mask",
     "mask",
-    "fixture",
-    "{}",
+    JSON.stringify({ kind: "import", path: "fixture", files: {} }),
     JSON.stringify({
       id: "mask",
       bindings: [
@@ -699,11 +698,10 @@ test("no audio tracks and a source with no acquired support have different evide
   const noSpeech = await f.evidence.get(video);
   expect(noSpeech.dependencies).toEqual([]);
   expect(noSpeech.page).toEqual({ rows: [], nextCursor: null });
-  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?,?)").run(
+  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?)").run(
     "empty",
     "empty",
-    "fixture",
-    "{}",
+    JSON.stringify({ kind: "import", path: "fixture", files: {} }),
     JSON.stringify({
       id: "empty",
       bindings: [{ assetId: f.asset.id, streamId: "speech", available: [] }],

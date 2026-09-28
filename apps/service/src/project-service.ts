@@ -427,6 +427,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         : null,
     });
     const projectPackages = new ProjectPackages({
+      acquisitions: acquisitionImports,
       directory: library,
       projects,
       assets,

@@ -161,11 +161,10 @@ test("two source parents share the heavy lane and leave frame capacity for their
 
 test("narrow acquisition support remains visible when every prepared scene grid point misses it", async () => {
   const f = await fixture();
-  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?,?)").run(
+  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?)").run(
     "mask",
     "fixture",
-    f.home,
-    "{}",
+    JSON.stringify({ kind: "import", path: f.home, files: {} }),
     JSON.stringify({
       id: "mask",
       bindings: [

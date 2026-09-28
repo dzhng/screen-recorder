@@ -36,11 +36,11 @@ const run = promisify(execFile),
 const report = {
   passed: false,
   scope:
-    "actual CLI/MCP asset-only project package relocation; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
+    "actual CLI/MCP project package relocation with retained acquisition journal and normalized evidence; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
   checks: {},
   trace: [],
   remaining: [
-    "capture/evidence generations",
+    "scene/transcript/index generations",
     "prepared 15a outputs and fonts",
     "fresh autonomous skill journey",
   ],
@@ -138,6 +138,7 @@ const placed = (asset, trackId, kind, label) => ({
   clip: {
     trackId,
     assetId: asset.id,
+    ...(kind === "video" && asset.acquisitionId ? { acquisitionId: asset.acquisitionId } : {}),
     streamId: asset.streams.find((stream) => stream.kind === kind).id,
     source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
     placement: { kind: "project", range: { startUs: 0, endUs: 2000000 } },
@@ -150,6 +151,69 @@ try {
   const a = await asset("a.mov"),
     b = await asset("b.mov"),
     reference = await asset("b-audio.wav");
+  const capture = join(scratch, "imports", "capture");
+  await mkdir(capture);
+  await copyFile(join(corpus, "a.mov"), join(capture, "video.mov"));
+  const journal = [
+    {
+      event: "header",
+      data: {
+        schemaVersion: 1,
+        sessionID: "portable-synthetic-journal",
+        source: { kind: "window", windowID: 7 },
+        width: 160,
+        height: 96,
+        microphone: false,
+        systemAudio: false,
+      },
+    },
+    { event: "origin", data: { hostUs: 1000000 } },
+    {
+      event: "cursorSamples",
+      data: {
+        samples: [
+          {
+            sourceUs: 500000,
+            globalX: 12,
+            globalY: 18,
+            x: 12,
+            y: 18,
+            buttons: 0,
+            eligibility: "inside",
+            geometryEpoch: 1,
+          },
+        ],
+      },
+    },
+    { event: "finished", data: {} },
+    { event: "lifecycle", data: { state: "complete" } },
+  ]
+    .map((row, index) => JSON.stringify({ ...row, sequence: index + 1 }) + "\n")
+    .join("");
+  await writeFile(join(capture, "capture.journal.jsonl"), journal);
+  const imported = await call("acquisition.import", { requestId: "capture", path: capture });
+  const captureJob = await poll(
+    () => call("job.get", { jobId: imported.jobId }),
+    (value) => value.state === "ready",
+  );
+  const acquisition = await call("acquisition.get", {
+    acquisitionId: captureJob.target.acquisitionId,
+  });
+  a.acquisitionId = acquisition.id;
+  const normalizedHash = hash(await readFile(acquisition.evidence.receipt.file));
+  const captureBinding = acquisition.bindings.find((binding) =>
+    binding.sourceRoles.includes("video"),
+  );
+  const cursorParams = {
+    acquisitionId: acquisition.id,
+    assetId: captureBinding.assetId,
+    streamId: captureBinding.streamId,
+    sourceRange: { startUs: 0, endUs: 2000000 },
+  };
+  const originalCursor = await call("cursor.raw", cursorParams, { transport: "mcp" });
+  assert.equal(originalCursor.state, "ready");
+  assert.equal(originalCursor.page.rows.length, 1);
+
   // The generation producer is not ready. This explicit fixture only tests owned reference closure.
   service.assets.retain({ kind: "asset", id: b.id }, [reference.id]);
   await service.assets.import(
@@ -322,6 +386,20 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     "closed",
   );
   await rm(packagePath);
+  const adoptedAcquisition = await call(
+    "acquisition.get",
+    { acquisitionId: acquisition.id },
+    { transport: "mcp" },
+  );
+  assert.equal(adoptedAcquisition.journal.sha256, hash(journal));
+  assert.equal(hash(await readFile(adoptedAcquisition.evidence.receipt.file)), normalizedHash);
+  assert.deepEqual(adoptedAcquisition.bindings, acquisition.bindings);
+  assert.equal(adoptedAcquisition.evidence.sourceId, acquisition.evidence.sourceId);
+  assert.equal(adoptedAcquisition.evidence.generation, acquisition.evidence.generation);
+  const adoptedCursor = await call("cursor.raw", cursorParams);
+  assert.equal(adoptedCursor.state, "ready");
+  assert.deepEqual(adoptedCursor.page.rows, originalCursor.page.rows);
+
   const actualAssets = (await call("asset.list", {}, { transport: "mcp" })).assets;
   assert.deepEqual(actualAssets.map((item) => item.id).sort(), [a.id, b.id, reference.id].sort());
   for (const original of [a, b, reference])
@@ -406,6 +484,9 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     donorRemoved: true,
     packageRemoved: true,
     sourceBytesUnchanged: true,
+    acquisitionIdentityAndBindingsRetained: true,
+    exactNormalizedEvidenceRetained: true,
+    exactJournalRetained: true,
     historicalOnlyMediaRetained: true,
     generatedReferenceFixtureRetained: true,
     editableUndo: true,
