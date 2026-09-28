@@ -224,6 +224,48 @@ try {
   evidence.checks.push(
     "mono duplication, stereo identity, overlap and clip/track/group/output gain exact at every sample; no ramps",
   );
+  // Lossless container changes must not alter either channel, endpoints or mix arithmetic.
+  const losslessSources = [];
+  for (const [source, name, extension, codec] of [
+    [a, "voice-aiff", "aiff", "pcm_s16be"],
+    [b, "music-alac", "m4a", "alac"],
+  ]) {
+    const path = join(scratch, `${name}.${extension}`);
+    const encoded = spawnSync("ffmpeg", [
+      "-nostdin", "-v", "error", "-i", source.binding.path,
+      "-c:a", codec, path,
+    ], { encoding: "utf8", timeout: 30000 });
+    assert.equal(encoded.status, 0, encoded.stderr || String(encoded.error));
+    const probe = call("media.probe", { path });
+    const stream = probe.streams.find((value) => value.kind === "audio");
+    const converted = {
+      binding: { assetId: name, streamId: stream.id, path, originUs: probe.originUs },
+      asset: { id: name, streams: [{ id: stream.id, kind: "audio",
+        bounds: { startUs: stream.startUs, endUs: stream.endUs },
+        available: [{ startUs: stream.startUs, endUs: stream.endUs }],
+      }] },
+    };
+    sources.push(converted);
+    losslessSources.push(converted);
+  }
+  const lossless = structuredClone(document);
+  for (const [index, source] of losslessSources.entries()) {
+    lossless.clips[index].assetId = source.binding.assetId;
+    lossless.clips[index].streamId = source.binding.streamId;
+  }
+  assert.deepEqual(render(lossless).samples, mixed.samples);
+  const losslessRange = { startUs: 123457, endUs: 812349 };
+  const firstLosslessSample = Math.floor(losslessRange.startUs * 48000 / 1000000);
+  const lastLosslessSample = Math.floor(losslessRange.endUs * 48000 / 1000000);
+  assert.deepEqual(render(lossless, losslessRange).samples,
+    mixed.samples.slice(firstLosslessSample * 2, lastLosslessSample * 2));
+  const losslessSplit = applyBatch(lossless, [{ operation: "split",
+    clipIds: ["voice-clip", "music-clip"], atUs: 333333, scope: "selected" }],
+    { assets: sources.map((source) => source.asset), namespace: "lossless-split" });
+  assert.deepEqual(render(losslessSplit.document).samples, mixed.samples);
+  evidence.checks.push(
+    "AIFF mono and ALAC stereo overlap preserves every WAV reference sample, fractional range and pure split",
+  );
   const withSilence = structuredClone(document);
   withSilence.tracks.push({ id: "silent-track", kind: "audio", order: 2 });
   withSilence.clips.push({

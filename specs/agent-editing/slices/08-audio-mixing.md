@@ -44,3 +44,8 @@ Prove impulses outside selection, source acquisition and ancestor support cannot
 affect retained output, while pure splits and late windows preserve samples.
 The tested unit-rate fractional mappings are verified; unknown rate-changing
 phase still requires prepared retiming and must not be inferred from those checks.
+
+[Mixed lossless-container evidence](../assets/08-lossless-containers/README.md)
+verifies AIFF mono and ALAC stereo overlap against every original WAV sample,
+including fractional windows and pure splits. This does not close broader codec,
+mixed-rate, segment-origin or listening acceptance.
