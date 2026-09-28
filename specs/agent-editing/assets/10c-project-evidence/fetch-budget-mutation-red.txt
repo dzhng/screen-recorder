@@ -1,0 +1,30 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "tied tracks checkpoint"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:44654) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (13 tests | 1 failed | 12 skipped) 2397ms
+   × tied tracks checkpoint bounded initialization and read near-linearly across limit-one pages 2396ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > tied tracks checkpoint bounded initialization and read near-linearly across limit-one pages
+AssertionError: expected 256 to be less than or equal to 4
+ ❯ src/project-evidence.test.ts:500:58
+    498|   );
+    499|   expect(f.reads.reduce((sum, read) => sum + read.rows, 0)).toBeLessTh…
+    500|   expect(Math.max(...f.reads.map((read) => read.limit))).toBeLessThanO…
+       |                                                          ^
+    501| }, 30000);
+    502|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  23:41:15
+   Duration  2.82s (tests 87%, transform 10%, import 3%)
+
+error: script "test" exited with code 1

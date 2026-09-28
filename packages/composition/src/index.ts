@@ -27,6 +27,7 @@ export type {
   Stream,
 } from "./schema.js";
 export type { Rational } from "./rational.js";
+export { compare, fromTime, toTime, floor, ceil } from "./rational.js";
 
 export {
   validateComposition,

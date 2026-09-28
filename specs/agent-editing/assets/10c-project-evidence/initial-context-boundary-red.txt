@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:36914) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (12 tests | 1 failed) 11832ms
+   × continuation pages reuse the immutable revision execution context 2999ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > continuation pages reuse the immutable revision execution context
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/project-evidence.test.ts:656:17
+    654|   const rows = await pages(f, { ...input, limit: 1 });
+    655|   expect(rows).toHaveLength(300);
+    656|   expect(reads).toBe(0);
+       |                 ^
+    657| }, 30000);
+    658|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  23:34:57
+   Duration  13.23s (tests 91%, transform 6%, import 2%)
+
+error: script "test" exited with code 1

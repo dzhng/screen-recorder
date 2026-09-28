@@ -1,0 +1,6 @@
+The focused tests pass, but continuation paging rebuilds whole-project execution state on every page, undermining the bounded-work design for large projects.
+
+Review comment:
+
+- [P2] Reuse the revision projection across continuation pages — /private/tmp/screenrec-project-evidence-paging/packages/core/src/project-evidence.ts:369-375
+  Every continuation calls `plan()` again, which loads all referenced assets, validates the entire composition, and rebuilds all source and track interval indexes before selecting the requested window. Consequently, reading N occurrences with limit-one pages performs at least quadratic composition work, despite the bounded source-row scan; even a narrow window repeatedly processes unrelated clips. Reuse a revision-bound validated model/projection so continuation work is bounded by the selected evidence rather than the whole project.

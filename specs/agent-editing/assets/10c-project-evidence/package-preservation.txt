@@ -1,0 +1,13 @@
+(node:41059) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ narrated package pins its transcript and reopens with the library's transcript reads (2313.707375ms)
+✔ narrated package keeps its selected transcript generation across regeneration and cleanup (1982.661417ms)
+✔ narrated export fails retryably until models are prepared, then waits for transcription (1589.331875ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6128.91475

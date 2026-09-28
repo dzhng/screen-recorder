@@ -1,0 +1,54 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "actual native gaps narrower"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:40561) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (13 tests | 1 failed | 12 skipped) 113ms
+   × actual native gaps narrower than requested support survive project projection 111ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > actual native gaps narrower than requested support survive project projection
+AssertionError: expected [ 'one', 'two', 'three' ] to deeply equal [ [ 'not_acquired', …(1) ], …(4) ]
+
+- Expected
++ Received
+
+  [
+-   [
+-     "not_acquired",
+-     {
+-       "endUs": 100,
+-       "startUs": 0,
+-     },
+-   ],
+    "one",
+    "two",
+    "three",
+-   [
+-     "not_acquired",
+-     {
+-       "endUs": 1000,
+-       "startUs": 900,
+-     },
+-   ],
+  ]
+
+ ❯ src/project-evidence.test.ts:630:5
+    628|   expect(
+    629|     rows.map((row) => (row.type === "word" ? row.text : [row.reason, r…
+    630|   ).toEqual([
+       |     ^
+    631|     ["not_acquired", { startUs: 0, endUs: 100 }],
+    632|     "one",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  23:37:51
+   Duration  872ms (transform 68%, import 16%, tests 15%, worker 1%)
+
+error: script "test" exited with code 1

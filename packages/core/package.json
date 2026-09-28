@@ -187,6 +187,10 @@
     "./acquisitions": {
       "types": "./dist/acquisitions.d.ts",
       "default": "./dist/acquisitions.js"
+    },
+    "./project-evidence": {
+      "types": "./dist/project-evidence.d.ts",
+      "default": "./dist/project-evidence.js"
     }
   },
   "scripts": {

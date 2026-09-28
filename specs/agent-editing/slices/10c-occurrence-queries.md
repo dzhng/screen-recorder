@@ -1,6 +1,6 @@
 # 10c — Bounded occurrence evidence and phrase search
 
-Status: not started. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Pure selection and core transcript paging are verified; public routing, phrase search and event/cursor evidence remain open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -78,3 +78,13 @@ fixed. Record any budget limits for 24 and update the slice/handoff after each p
 Exact window, inverse-range and forward-point selection is implemented and verified
 in the composition owner. [Evidence](../assets/10c-occurrence-window/README.md)
 records the bounded-read and preservation gates; public occurrence queries remain open.
+
+## Core paging checkpoint
+
+[Project evidence paging](../assets/10c-project-evidence/README.md) uses immutable
+cached manifests/checkpoints and a bounded per-track heap. Source generations and
+project lifetime are rechecked after checkpoint publication. Revision execution
+contexts reuse exact indexes without repeated whole-project work on continuation.
+The linked evidence records provisional slice-24 limits, empty-project semantics,
+source-row scan bounds and the remaining checkpoint I/O cost. This is not public
+CLI/MCP acceptance and does not close phrase/event work.

@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "cold execution owner"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:40055) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (13 tests | 1 failed | 12 skipped) 111ms
+   × a cold execution owner rebuilds once and a cached context never revives a deleting project 110ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > a cold execution owner rebuilds once and a cached context never revives a deleting project
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/project-evidence.test.ts:686:17
+    684|   const third = (await restarted.get({ ...input, cursor: second.nextCu…
+    685|   expect(third.rows).toMatchObject([{ type: "word", text: "three" }]);
+    686|   expect(reads).toBe(1);
+       |                 ^
+    687|   f.projects.markDeleting(input.projectId);
+    688|   await expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  23:37:23
+   Duration  787ms (transform 64%, import 19%, tests 16%)
+
+error: script "test" exited with code 1

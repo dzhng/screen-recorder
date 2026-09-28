@@ -405,3 +405,28 @@ test("late project windows and named inverse seeks skip unrelated occurrence env
   ]);
   expect(reads).toBeLessThan(4);
 });
+
+test("inverse windows expose exact unavailable source fragments separately from support", () => {
+  const a = clip("a", 0, 7);
+  a.acquisitionId = "masked";
+  const projection = createSourceRangeProjection(
+    validateComposition(
+      document([a]),
+      [asset()],
+      [
+        {
+          id: "masked",
+          bindings: [
+            { assetId: "source", streamId: "video", available: [range(0, 4), range(6, 10)] },
+          ],
+        },
+      ],
+    ),
+  );
+  expect(projection.inverse("a", range(2, 5))?.unavailable).toEqual([
+    { source: { start: r(4n), end: r(6n) }, project: { start: r(14n, 5n), end: r(21n, 5n) } },
+  ]);
+  expect(projection.inverse("a", range(3, 4))?.unavailable).toEqual([
+    { source: { start: r(30n, 7n), end: r(40n, 7n) }, project: { start: r(3n), end: r(4n) } },
+  ]);
+});

@@ -40,6 +40,7 @@ export type SourceWindowOccurrence = OccurrenceIdentity & {
   /** The selected editorial envelope, including times where source evidence is unavailable. */
   project: ExactRange;
   fragments: { source: ExactRange; project: ExactRange }[];
+  unavailable: { source: ExactRange; project: ExactRange }[];
 };
 export type SourcePointOccurrence = OccurrenceIdentity & { source: Rational; project: Rational };
 function occurrenceIdentity(value: Resolved): OccurrenceIdentity {
@@ -154,7 +155,20 @@ export function createSourceRangeProjection(model: ValidatedComposition) {
         project,
         source: { start: sourceTime(value, project.start), end: sourceTime(value, project.end) },
       }));
-    return { ...occurrenceIdentity(value), project, fragments };
+    const unavailable: SourceWindowOccurrence["unavailable"] = [];
+    let through = project.start;
+    for (const next of [
+      ...fragments.map((fragment) => fragment.project),
+      { start: project.end, end: project.end },
+    ]) {
+      if (compare(through, next.start) < 0)
+        unavailable.push({
+          project: { start: through, end: next.start },
+          source: { start: sourceTime(value, through), end: sourceTime(value, next.start) },
+        });
+      through = next.end;
+    }
+    return { ...occurrenceIdentity(value), project, fragments, unavailable };
   }
   return {
     window(input: {

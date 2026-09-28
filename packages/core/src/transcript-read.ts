@@ -269,8 +269,8 @@ class TranscriptTraversal {
     spans: for (const span of spans) {
       // A later row starts after the last one, so it cannot fall in a span that ended by then.
       if (after && span.endUs <= after.sourceUs) continue;
-      const words = this.spanWords(span, after);
-      const gaps = this.spanGaps(span, after);
+      const words = this.spanWords(span, after, Math.min(batch, count + 1));
+      const gaps = this.spanGaps(span, after, Math.min(batch, count + 1));
       let word = words.next();
       let gap = gaps.next();
       while (!word.done || !gap.done) {
@@ -290,7 +290,11 @@ class TranscriptTraversal {
   }
 
   /** Admission guarantees disjoint words, so at most one predecessor can cover the window start. */
-  private *spanWords(span: TimeRange, after: { sourceUs: number; ordinal: number | null } | null) {
+  private *spanWords(
+    span: TimeRange,
+    after: { sourceUs: number; ordinal: number | null } | null,
+    fetch: number,
+  ) {
     const prior = this.records.wordRecords(this.identity, {
       upper: { key: [span.startUs, 0], inclusive: false },
       reverse: true,
@@ -317,17 +321,17 @@ class TranscriptTraversal {
       const words = this.records.wordRecords(this.identity, {
         lower,
         upper: { key: [span.endUs, 0], inclusive: false },
-        limit: batch,
+        limit: fetch,
       });
       for (const word of words) if (word.endUs > span.startUs) yield word;
-      if (words.length < batch) return;
+      if (words.length < fetch) return;
       const last = words.at(-1)!;
       lower = { key: [last.startUs, last.ordinal], inclusive: false };
     }
   }
 
   /** Gaps are disjoint, so only the one starting at or before the span can already cover it. */
-  private *spanGaps(span: TimeRange, after: { sourceUs: number } | null) {
+  private *spanGaps(span: TimeRange, after: { sourceUs: number } | null, fetch: number) {
     const prior = this.records.gapRecords(this.identity, {
       upper: { key: [span.startUs], inclusive: true },
       reverse: true,
@@ -343,10 +347,10 @@ class TranscriptTraversal {
       const gaps = this.records.gapRecords(this.identity, {
         lower,
         upper: { key: [span.endUs], inclusive: false },
-        limit: batch,
+        limit: fetch,
       });
       yield* gaps;
-      if (gaps.length < batch) return;
+      if (gaps.length < fetch) return;
       lower = { key: [gaps.at(-1)!.startUs], inclusive: false };
     }
   }

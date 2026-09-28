@@ -1,0 +1,137 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "generation changes during checkpoint"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:40369) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (13 tests | 1 failed | 12 skipped) 76ms
+   × generation changes during checkpoint publication reject the page instead of returning stale continuation 75ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > generation changes during checkpoint publication reject the page instead of returning stale continuation
+AssertionError: promise resolved "{ …(5) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "dependencies": [
++     {
++       "jobId": "525e0f96-2579-4d3f-b1cb-c5be7fcd7964",
++       "reason": null,
++       "retryable": false,
++       "selection": {
++         "assetId": "31fafb48f6785d7e0335d90c86fcca15be0db32acd44fa509534ca25002072a6",
++         "streamId": "speech",
++       },
++       "state": "ready",
++       "transcript": {
++         "engine": {
++           "computeUnits": "cpuAndNeuralEngine",
++           "decoder": "parakeet-tdt-batch",
++           "encoderPrecision": "int8",
++           "kindPolicy": "word-kind-v1",
++           "model": "model",
++           "modelDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
++           "modelRevision": "revision",
++           "policy": "transcript-v1",
++           "runtime": "FluidAudio",
++           "runtimeRevision": "runtime",
++           "runtimeVersion": "0.15.7",
++         },
++         "gapCount": 0,
++         "generation": "95b687a2-1bd6-4578-86fd-056dfc30d14b",
++         "maxWordUs": 100,
++         "owner": {
++           "assetId": "31fafb48f6785d7e0335d90c86fcca15be0db32acd44fa509534ca25002072a6",
++           "kind": "asset",
++         },
++         "raw": {
++           "bytes": 291,
++           "sha256": "af69a4dee910866102003b4d3ac60256c59698de0a29a2cae1f895da1f9b228e",
++         },
++         "segmentCount": 1,
++         "source": {
++           "durationUs": 1000,
++           "kind": "asset",
++           "streamId": "speech",
++           "supportDigest": "fc929ef1f574f02a0ec83baa69b5558be3dcee276accab6d7c84f3f35afb03a9",
++         },
++         "sourceId": "31fafb48f6785d7e0335d90c86fcca15be0db32acd44fa509534ca25002072a6",
++         "track": {
++           "source": "/tmp/project-evidence-qlERtf/assets/31fafb48f6785d7e0335d90c86fcca15be0db32acd44fa509534ca25002072a6.mov",
++           "sourceOffsetUs": -500,
++           "streamId": "speech",
++         },
++         "wordCount": 3,
++       },
++     },
++   ],
++   "page": {
++     "nextCursor": {
++       "checkpointId": "c935b845-5a60-406e-9bdf-aad1882b7abe",
++       "manifestId": "f0a4bfe1-b105-422a-a272-369c4b0fc560",
++       "projectId": "3161074f-b6e4-4e9b-8f1e-a1ae0cbdf7ce",
++       "queryDigest": "a40158c7cf1bc194f06a3a17a9cd95a6c98b95236ab92ba72f3cc1b3bb88293f",
++       "revisionId": "0b548710-6c6c-431d-ba1e-b54bd6820a34",
++     },
++     "rows": [
++       {
++         "assetId": "31fafb48f6785d7e0335d90c86fcca15be0db32acd44fa509534ca25002072a6",
++         "clipId": "clip:8289b82350f4e7b1bb2f6049ad89922d9f35461dbb20b01b07af6973ca4dc235:1",
++         "confidence": 0.9,
++         "fragments": [
++           {
++             "project": {
++               "endUs": 200,
++               "startUs": 100,
++             },
++             "source": {
++               "endUs": 200,
++               "startUs": 100,
++             },
++           },
++         ],
++         "generation": "95b687a2-1bd6-4578-86fd-056dfc30d14b",
++         "id": "w0",
++         "kind": "speech",
++         "ordinal": 0,
++         "partial": false,
++         "segment": 0,
++         "sourceRange": {
++           "endUs": 200,
++           "startUs": 100,
++         },
++         "streamId": "speech",
++         "text": "one",
++         "trackId": "track:8289b82350f4e7b1bb2f6049ad89922d9f35461dbb20b01b07af6973ca4dc235:0",
++         "trackRank": 0,
++         "type": "word",
++       },
++     ],
++   },
++   "projectId": "3161074f-b6e4-4e9b-8f1e-a1ae0cbdf7ce",
++   "revisionId": "0b548710-6c6c-431d-ba1e-b54bd6820a34",
++   "state": "ready",
+  }
+
+ ❯ src/project-evidence.test.ts:467:26
+    465|     ).not.toBe(source.published!.generation);
+    466|     release();
+    467|     await expect(pending).rejects.toMatchObject({ code: "ARTIFACT_CHAN…
+       |                          ^
+    468|   } finally {
+    469|     release();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  23:37:42
+   Duration  451ms (transform 58%, import 21%, tests 20%, worker 1%)
+
+error: script "test" exited with code 1
