@@ -64,3 +64,6 @@ User feedback changing the named contract or judged variable requires updating t
 can locate a short energy interval, map repeated project uses, and compare per-channel
 dry/processed measurements through the delivered public JSON. Image navigation,
 spectrogram use and listening remain separate open gates.
+## Acoustic raster checkpoint
+
+The [headless raster evidence](../assets/11-acoustic-raster/README.md) covers images from retained measurements, channel/time/frequency axes, subpixel peak preservation, bounded labels and shared picture PNG preservation. The core request adapter and native operation are ready for the existing acoustic lifecycle; public image delivery and fresh-agent use remain open.

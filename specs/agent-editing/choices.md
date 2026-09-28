@@ -1308,3 +1308,20 @@ trim and stretch replacements keep their single-interval behavior.
   PCM through the existing audio owner, respecting capture masks. The plan left
   edge-window semantics open; inventing neighboring samples would conceal missing
   evidence. No second decoder or mixer is introduced.
+## Acoustic raster choices — 2026-09-28
+
+### Sound, medium confidence — preserve short energy when compressing measurements into pixels
+
+When many time buckets or frequency bins share one image pixel, draw the largest spectral density in that pixel. A short click or narrow tone therefore remains visible; averaging could hide it and last-value assignment could erase it. The spec requires useful bounded pictures but leaves raster reduction unspecified. This affects only display: numerical density remains unchanged. The legend says “max per pixel,” so the image cannot be mistaken for an average-energy measurement.
+
+### Sound, medium confidence — one fixed spectral display scale and shared waveform scale
+
+A quiet channel beside a loud channel uses the same waveform amplitude scale, with a minimum full-scale range and five percent headroom above larger peaks. It does not make both channels appear equally loud. Spectral images use a fixed -120 to 0 dB density scale (power relative to full-scale squared per Hz), preserving comparability between views; values outside it saturate only in the image, never in numerical evidence. The plan did not specify display scaling. Future appearance changes must keep scale labels explicit and keep underlying measurements intact.
+
+### Sound, high confidence — preserve full labels outside the bounded image
+
+A project with a very long clip identifier still produces a bounded image. The visible label ends with an explicit full-text-in-receipt notice; the native receipt retains the entire provenance string. Rejecting legitimate identifiers would prevent inspection, while silently clipping text would hide identity. The plan required provenance without choosing overflow behavior. Public artifact delivery must preserve that receipt so an agent can resolve the abbreviated label.
+
+### Sound, high confidence — render retained measurements without another audio decode
+
+The native plotting operation receives bounded waveform or spectral measurements and writes PNG using the existing picture encoder/publication owner. It cannot reopen audio, mix channels or choose a different revision. This introduces one internal native operation, one core request adapter, and no new package dependency. The plan required measured images but left the rendering library open; using existing macOS graphics keeps output headless and avoids introducing a second media pipeline.

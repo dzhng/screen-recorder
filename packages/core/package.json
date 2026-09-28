@@ -219,6 +219,10 @@
     "./source-scenes": {
       "types": "./dist/source-scenes.d.ts",
       "default": "./dist/source-scenes.js"
+    },
+    "./acoustic-image": {
+      "types": "./dist/acoustic-image.d.ts",
+      "default": "./dist/acoustic-image.js"
     }
   },
   "scripts": {

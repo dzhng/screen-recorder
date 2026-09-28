@@ -1,0 +1,38 @@
+[
+  {
+    "image": "detail.png",
+    "beforeSha256": "7352b964efc35abf374ce763272a32a9a5613391a868b20f02754c5a92014d04",
+    "afterSha256": "c56e88eaaebc3211072b56e139b88040964a57ae37f8a0aa4c1789b08cf096e6",
+    "changed": true
+  },
+  {
+    "image": "spectrum.png",
+    "beforeSha256": "82421bb5a9c4d1568745fba023b1bdff71c5a342ded5e5c01d3c71e4bb3026fb",
+    "afterSha256": "8c0425af8b25ca990371492b65bffaa2dba815e26fc458becb49afa92b8af34e",
+    "changed": true
+  },
+  {
+    "image": "long-provenance.png",
+    "beforeSha256": "c52a20cead5708d785ad49f928b5aa51c1ffd23d87a025f3f2ddc730b36379ef",
+    "afterSha256": "e094e9cc7991d792bee90a8f5f83ac0c0a9bf013e5f982c2ed97573d6f842276",
+    "changed": true
+  },
+  {
+    "image": "waveform.png",
+    "beforeSha256": "22f73c1393c3e37eff4f17c67d9c0d00f09f9ecbe0101f35e526abd4bb4653cb",
+    "afterSha256": "77d9363811a995de2cab2683c29d718de96c0210b266226663f09b5cd20dc756",
+    "changed": true
+  },
+  {
+    "image": "subpixel-time.png",
+    "beforeSha256": "7b44a53efd0f886fe90dece5803a41616a942358992acf42d2c4626ae2c02ed3",
+    "afterSha256": "82c2f6a7505a60fcb99a14db460c12e5a360a80846c774a34a0f88968315d83e",
+    "changed": true
+  },
+  {
+    "image": "subpixel-frequency.png",
+    "beforeSha256": "ed027e4c98aeae41326a8b9b984ee12291c4f8a028c56c9d1f643e3e80c7d421",
+    "afterSha256": "afeec403d9faee906f67891b774636889a328957ee6ee12368920d42525febeb",
+    "changed": true
+  }
+]

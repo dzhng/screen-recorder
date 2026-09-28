@@ -1,0 +1,50 @@
+[
+  {
+    "image": "subpixel-frequency.png",
+    "pixels": 577840,
+    "colorEntropyBits": 1.4202701773162367,
+    "dominantColorShare": 0.6293022289907241,
+    "luminanceContrast": 243.1342,
+    "transparentShare": 0.0
+  },
+  {
+    "image": "subpixel-time.png",
+    "pixels": 577840,
+    "colorEntropyBits": 1.4178361539448348,
+    "dominantColorShare": 0.6293593382251143,
+    "luminanceContrast": 243.1342,
+    "transparentShare": 0.0
+  },
+  {
+    "image": "waveform.png",
+    "pixels": 880400,
+    "colorEntropyBits": 1.6983983145536337,
+    "dominantColorShare": 0.533323489323035,
+    "luminanceContrast": 211.10599999999997,
+    "transparentShare": 0.0
+  },
+  {
+    "image": "spectrum.png",
+    "pixels": 880400,
+    "colorEntropyBits": 1.844645503811393,
+    "dominantColorShare": 0.5242776010904134,
+    "luminanceContrast": 243.1342,
+    "transparentShare": 0.0
+  },
+  {
+    "image": "detail.png",
+    "pixels": 880400,
+    "colorEntropyBits": 1.8426058272583214,
+    "dominantColorShare": 0.528342798727851,
+    "luminanceContrast": 211.10599999999997,
+    "transparentShare": 0.0
+  },
+  {
+    "image": "long-provenance.png",
+    "pixels": 880400,
+    "colorEntropyBits": 1.8474808491662695,
+    "dominantColorShare": 0.5279918218991367,
+    "luminanceContrast": 211.10599999999997,
+    "transparentShare": 0.0
+  }
+]

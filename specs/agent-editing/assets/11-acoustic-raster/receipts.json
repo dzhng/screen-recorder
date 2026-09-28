@@ -1,0 +1,156 @@
+[
+  {
+    "data": {
+      "amplitudeLimit": 2.1,
+      "bytes": 73371,
+      "file": "/tmp/screenrec-acoustic-raster-accepted/waveform.png",
+      "height": 710,
+      "mediaType": "image/png",
+      "panelHeight": 180,
+      "panelStride": 244,
+      "plotLeft": 92,
+      "plotTop": 164,
+      "plotWidth": 1080,
+      "provenance": [
+        "asset fixture-stereo | stream track:1",
+        "audio fixture-pcm | generation 2",
+        "support fixture-support-v1"
+      ],
+      "width": 1240
+    },
+    "id": "plot-0",
+    "ok": true
+  },
+  {
+    "error": {
+      "code": "INVALID_OUTPUT",
+      "details": {},
+      "message": "Output must be a new absolute path.",
+      "retryable": false
+    },
+    "id": "plot-1",
+    "ok": false
+  },
+  {
+    "data": {
+      "bytes": 84240,
+      "densityCeilingDb": 0,
+      "densityFloorDb": -120,
+      "file": "/tmp/screenrec-acoustic-raster-accepted/spectrum.png",
+      "height": 710,
+      "mediaType": "image/png",
+      "panelHeight": 180,
+      "panelStride": 244,
+      "plotLeft": 92,
+      "plotTop": 164,
+      "plotWidth": 1080,
+      "provenance": [
+        "asset fixture-stereo | stream track:1",
+        "audio fixture-pcm | generation 2",
+        "support fixture-support-v1",
+        "FFT 256 frames | hop 128 frames | hann window | clipped PCM support is zero-padded"
+      ],
+      "width": 1240
+    },
+    "id": "plot-2",
+    "ok": true
+  },
+  {
+    "data": {
+      "amplitudeLimit": 2.1,
+      "bytes": 83121,
+      "file": "/tmp/screenrec-acoustic-raster-accepted/detail.png",
+      "height": 710,
+      "mediaType": "image/png",
+      "panelHeight": 180,
+      "panelStride": 244,
+      "plotLeft": 92,
+      "plotTop": 164,
+      "plotWidth": 1080,
+      "provenance": [
+        "project fixture-project | revision revision-7",
+        "audio fixture-pcm | generation 2",
+        "tap {\"target\":{\"kind\":\"clip\",\"id\":\"f5b348fd-08dd-4d57-a985-33c635a970bb\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"f215024a-95d8-4f54-94ba-72544cad4b16\"}}"
+      ],
+      "width": 1240
+    },
+    "id": "plot-3",
+    "ok": true
+  },
+  {
+    "data": {
+      "amplitudeLimit": 2.1,
+      "bytes": 77542,
+      "file": "/tmp/screenrec-acoustic-raster-accepted/long-provenance.png",
+      "height": 710,
+      "mediaType": "image/png",
+      "panelHeight": 180,
+      "panelStride": 244,
+      "plotLeft": 92,
+      "plotTop": 164,
+      "plotWidth": 1080,
+      "provenance": [
+        "project fixture-project | revision revision-7",
+        "audio fixture-pcm | generation 2",
+        "tap {\"target\":{\"kind\":\"clip\",\"id\":\"long-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nend\"},\"point\":{\"kind\":\"processed\"}}"
+      ],
+      "width": 1240
+    },
+    "id": "plot-4",
+    "ok": true
+  },
+  {
+    "data": {
+      "bytes": 56147,
+      "densityCeilingDb": 0,
+      "densityFloorDb": -120,
+      "file": "/tmp/screenrec-acoustic-raster-accepted/subpixel-time.png",
+      "height": 466,
+      "mediaType": "image/png",
+      "panelHeight": 180,
+      "panelStride": 244,
+      "plotLeft": 92,
+      "plotTop": 164,
+      "plotWidth": 1080,
+      "provenance": [
+        "Synthetic narrow-cell raster control",
+        "One nonzero time/frequency cell; all others zero"
+      ],
+      "width": 1240
+    },
+    "id": "plot-5",
+    "ok": true
+  },
+  {
+    "data": {
+      "bytes": 55232,
+      "densityCeilingDb": 0,
+      "densityFloorDb": -120,
+      "file": "/tmp/screenrec-acoustic-raster-accepted/subpixel-frequency.png",
+      "height": 466,
+      "mediaType": "image/png",
+      "panelHeight": 180,
+      "panelStride": 244,
+      "plotLeft": 92,
+      "plotTop": 164,
+      "plotWidth": 1080,
+      "provenance": [
+        "Synthetic narrow-cell raster control",
+        "One nonzero time/frequency cell; all others zero"
+      ],
+      "width": 1240
+    },
+    "id": "plot-6",
+    "ok": true
+  },
+  {
+    "error": {
+      "code": "INVALID_REQUEST",
+      "details": {},
+      "message": "Acoustic columns must partition the displayed sample range.",
+      "retryable": false
+    },
+    "id": "plot-7",
+    "ok": false
+  }
+]

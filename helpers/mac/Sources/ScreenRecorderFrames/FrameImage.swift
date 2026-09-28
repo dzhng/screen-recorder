@@ -96,14 +96,7 @@ struct FrameImage {
     }
 
     func publishPNG(to output: NewFile, context: CIContext, maxEncodedBytes: Int) throws -> Int {
-        let data = try png(context: context)
-        guard data.count <= maxEncodedBytes else {
-            throw NativeFailure("LIMIT_EXCEEDED", "Encoded frame exceeds the requested byte limit.")
-        }
-        try Task.checkCancellation()
-        try output.write(data)
-        try Task.checkCancellation()
-        return try output.publish()
+        try publishPNGData(png(context: context), to: output, maxEncodedBytes: maxEncodedBytes)
     }
 
     func png(context: CIContext) throws -> Data {
@@ -113,18 +106,7 @@ struct FrameImage {
         else {
             throw NativeFailure.decodeFailed("Cannot render \(width)x\(height) frame.")
         }
-        let data = NSMutableData()
-        guard
-            let destination = CGImageDestinationCreateWithData(
-                data, UTType.png.identifier as CFString, 1, nil)
-        else {
-            throw NativeFailure.decodeFailed("Cannot create PNG encoder.")
-        }
-        CGImageDestinationAddImage(destination, rendered, nil)
-        guard CGImageDestinationFinalize(destination) else {
-            throw NativeFailure.decodeFailed("Cannot encode PNG frame.")
-        }
-        return data as Data
+        return try encodePNG(rendered)
     }
 }
 
@@ -144,4 +126,30 @@ public func orientedVideoImage(_ buffer: CVPixelBuffer, transform: CGAffineTrans
         by: CGAffineTransform(
             translationX: -oriented.extent.origin.x, y: -oriented.extent.origin.y))
     return oriented
+}
+
+/// Shared lossless encoder for pictures and measured acoustic plots.
+func encodePNG(_ rendered: CGImage) throws -> Data {
+    let data = NSMutableData()
+    guard
+        let destination = CGImageDestinationCreateWithData(
+            data, UTType.png.identifier as CFString, 1, nil)
+    else {
+        throw NativeFailure.decodeFailed("Cannot create PNG encoder.")
+    }
+    CGImageDestinationAddImage(destination, rendered, nil)
+    guard CGImageDestinationFinalize(destination) else {
+        throw NativeFailure.decodeFailed("Cannot encode PNG frame.")
+    }
+    return data as Data
+}
+
+func publishPNGData(_ data: Data, to output: NewFile, maxEncodedBytes: Int) throws -> Int {
+    guard data.count <= maxEncodedBytes else {
+        throw NativeFailure("LIMIT_EXCEEDED", "Encoded image exceeds the requested byte limit.")
+    }
+    try Task.checkCancellation()
+    try output.write(data)
+    try Task.checkCancellation()
+    return try output.publish()
 }

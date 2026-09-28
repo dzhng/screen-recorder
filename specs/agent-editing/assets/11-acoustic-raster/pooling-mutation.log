@@ -1,0 +1,27 @@
+(node:42256) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ actual waveform and spectral PNGs preserve absolute sample axes, channel identity and narrow energy (1793.227458ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1910.233875
+
+✖ failing tests:
+
+test at helpers/mac/Tests/acoustic-image.test.mjs:29:1
+✖ actual waveform and spectral PNGs preserve absolute sample axes, channel identity and narrow energy (1793.227458ms)
+  AssertionError [ERR_ASSERTION]: subpixel-time lost the only energy cell at 619,253: 0,0,107
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-project-evidence-journey/helpers/mac/Tests/acoustic-image.test.mjs:278:14)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

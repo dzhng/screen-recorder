@@ -1,0 +1,44 @@
+{
+  "impulseSample": 102000,
+  "impulseSeconds": 2.125,
+  "impulseX": 630.83,
+  "detailX": 429.24655819774716,
+  "waveform": {
+    "amplitudeLimit": 2.1,
+    "bytes": 73371,
+    "file": "/tmp/screenrec-acoustic-raster-accepted/waveform.png",
+    "height": 710,
+    "mediaType": "image/png",
+    "panelHeight": 180,
+    "panelStride": 244,
+    "plotLeft": 92,
+    "plotTop": 164,
+    "plotWidth": 1080,
+    "provenance": [
+      "asset fixture-stereo | stream track:1",
+      "audio fixture-pcm | generation 2",
+      "support fixture-support-v1"
+    ],
+    "width": 1240
+  },
+  "spectrum": {
+    "bytes": 84240,
+    "densityCeilingDb": 0,
+    "densityFloorDb": -120,
+    "file": "/tmp/screenrec-acoustic-raster-accepted/spectrum.png",
+    "height": 710,
+    "mediaType": "image/png",
+    "panelHeight": 180,
+    "panelStride": 244,
+    "plotLeft": 92,
+    "plotTop": 164,
+    "plotWidth": 1080,
+    "provenance": [
+      "asset fixture-stereo | stream track:1",
+      "audio fixture-pcm | generation 2",
+      "support fixture-support-v1",
+      "FFT 256 frames | hop 128 frames | hann window | clipped PCM support is zero-padded"
+    ],
+    "width": 1240
+  }
+}

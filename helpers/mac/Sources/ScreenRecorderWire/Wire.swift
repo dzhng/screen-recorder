@@ -43,6 +43,11 @@ public enum NativeWire {
             "media.renderCompositionMovie": media { try json(await CompositionMovieOperation.execute($0)) },
             "media.mixCompositionAudio": media { try json(await CompositionAudioOperation.execute($0)) },
             "media.sourceVisualSamples": media { try json(await SourceVisualSamplesOperation.execute($0)) },
+            "media.acousticImage": media { params in
+                let request = try WireRequest.decode(AcousticImage.Request.self, from: params)
+                try WireRequest.requireAbsolute(request.output)
+                return try json(AcousticImage.write(request))
+            },
             "media.sourceFrame": media { try json(await SourceFrameOperation.execute($0)) },
             "media.sourceAudio": media { try json(await SourceAudioOperation.execute($0)) },
             "media.audio": media { try json(await AudioOperation.execute($0)) },

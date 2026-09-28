@@ -1,0 +1,7 @@
+{
+  "byteIdentical": true,
+  "bytes": 405,
+  "sha256": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+  "baselineNative": "/tmp/screenrec-lifecycle-integrated-native",
+  "candidateNativeSha256": "cbdd429e3c41ba6534b99704879df02b231ae746c0d83407c17ced09ffb5585a"
+}

@@ -1,0 +1,25 @@
+(node:41094) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ actual waveform and spectral PNGs preserve absolute sample axes, channel identity and narrow energy (715.02125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 779.033666
+
+✖ failing tests:
+
+test at helpers/mac/Tests/acoustic-image.test.mjs:28:1
+✖ actual waveform and spectral PNGs preserve absolute sample axes, channel identity and narrow energy (715.02125ms)
+  Error: Acoustic provenance label exceeds 140 characters
+      at acousticImageRequest (file:///private/tmp/screenrec-project-evidence-journey/packages/core/dist/acoustic-image.js:52:15)
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-project-evidence-journey/helpers/mac/Tests/acoustic-image.test.mjs:190:27)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    code: 'LIMIT_EXCEEDED',
+    details: {},
+    retryable: false
+  }
