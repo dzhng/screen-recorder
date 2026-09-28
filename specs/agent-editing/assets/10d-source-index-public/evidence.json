@@ -1,0 +1,2117 @@
+{
+  "passed": true,
+  "scope": "Public CLI/MCP source indexes using actual native scene/frame workers; controlled probe admission cases labeled separately",
+  "checks": {
+    "canceledSceneRetry": true,
+    "batchErrors": true,
+    "coverageFilterBinding": true,
+    "canceledFrameRetry": true,
+    "physicalShortIsland": {
+      "nativeRequests": [
+        [
+          0,
+          200000,
+          400000,
+          600000,
+          799999
+        ]
+      ],
+      "selectedRequests": [
+        50000,
+        99999,
+        600000,
+        799999
+      ]
+    },
+    "retainedAcquisition": {
+      "scope": "Synthetic capture journal around real native video",
+      "acquisitionId": "703444c1-2a48-46de-b37b-39acc7c3705e",
+      "donorRemoved": true
+    },
+    "projectHistoryAndDeletionIndependence": true,
+    "importedDonorRemoved": true,
+    "restart": true
+  },
+  "controlledCacheLoss": {
+    "scope": "Scratch service stopped; only derived-cache files removed",
+    "files": 20
+  },
+  "controlledProbeAdmission": [
+    {
+      "name": "declared-empty-support",
+      "selection": {
+        "assetId": "85ae8a4850387d47b94b17c194eafa229fdcabbbecf01b76fe85cd26c6204c09",
+        "streamId": "track:1"
+      },
+      "scope": "Native decoding with controlled declared probe support",
+      "result": {
+        "assetId": "85ae8a4850387d47b94b17c194eafa229fdcabbbecf01b76fe85cd26c6204c09",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "no_video",
+        "retryable": false,
+        "jobId": null,
+        "published": null,
+        "dependencies": [
+          {
+            "artifact": "source-scenes",
+            "assetId": "85ae8a4850387d47b94b17c194eafa229fdcabbbecf01b76fe85cd26c6204c09",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "jobId": null,
+            "reason": "no_video",
+            "retryable": false,
+            "published": null
+          }
+        ],
+        "page": null
+      }
+    },
+    {
+      "name": "declared-empty-edit",
+      "selection": {
+        "assetId": "2c9b36ed0985adeb136a934cbba67e8c818bec418437119f5e543c3928fb3d6f",
+        "streamId": "track:1"
+      },
+      "scope": "Native scene/frame outcomes with controlled declared probe support",
+      "generation": "f0abef1b-0a4e-4af3-be36-3c828ac2c02c"
+    }
+  ],
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "mcp",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_requested"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_requested"
+    },
+    {
+      "operation": "index.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.frames",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Coverage continuation belongs to another index or filter",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Source index continuation belongs to another selection",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "index.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Source screenshot index belongs to another selection",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.restore",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.delete",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "index.frame",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Selected index frame does not exist",
+        "retryable": false,
+        "details": {}
+      }
+    }
+  ],
+  "batchOracle": [
+    "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+    "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+    "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+  ],
+  "negativeControls": {
+    "duplicateBatchImageRejected": true,
+    "swappedBatchImagesRejected": true,
+    "falselySampledIslandRejected": true,
+    "falselySampledEmptyRejected": true,
+    "missingEmptyObservationRejected": true
+  },
+  "nativeSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "selections": [
+    {
+      "name": "native-first",
+      "selection": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1"
+      },
+      "metadata": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1",
+        "generation": "bdd8a8a3-4519-40a2-b464-212342965d32",
+        "scenes": {
+          "sourceId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+          "generation": "2cad558a-8dd0-4a1c-9185-e1f1a6d6f6de",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 3,
+          "boundaryCount": 0,
+          "owner": {
+            "kind": "asset",
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "originUs": 1250000,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "durationUs": 1000000
+          }
+        },
+        "selectionPolicy": "source-presentation-selection-v1",
+        "implementationId": "native-source-picture-v2",
+        "maxLongEdge": 1600,
+        "durationUs": 1000000,
+        "candidateCount": 4,
+        "coverageCount": 5,
+        "bytes": 1620
+      },
+      "entries": [
+        {
+          "candidate": {
+            "ordinal": 0,
+            "requestedSourceUs": 0,
+            "support": {
+              "startUs": 0,
+              "endUs": 400000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 0
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 0
+              }
+            ]
+          },
+          "actualSourceUs": 0,
+          "sample": {
+            "value": "12800",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 1,
+            "requestedSourceUs": 399999,
+            "support": {
+              "startUs": 0,
+              "endUs": 400000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 400000
+              }
+            ]
+          },
+          "actualSourceUs": 300000,
+          "sample": {
+            "value": "15872",
+            "timescale": 10240,
+            "endValue": "16896",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 2,
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 600000,
+              "endUs": 1000000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 600000
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "actualSourceUs": 600000,
+          "sample": {
+            "value": "18944",
+            "timescale": 10240,
+            "endValue": "19968",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 3,
+            "requestedSourceUs": 999999,
+            "support": {
+              "startUs": 600000,
+              "endUs": 1000000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 1000000
+              }
+            ]
+          },
+          "actualSourceUs": 900000,
+          "sample": {
+            "value": "22016",
+            "timescale": 10240,
+            "endValue": "23040",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        }
+      ],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": 0,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 0,
+            "endUs": 399999
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": 1,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 399999,
+            "endUs": 400000
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 400000,
+            "endUs": 600000
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": 2,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 600000,
+            "endUs": 999999
+          }
+        },
+        {
+          "sequence": 4,
+          "ordinal": 3,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 999999,
+            "endUs": 1000000
+          }
+        }
+      ],
+      "imageSha256": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+      "pixelOracle": {
+        "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+        "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+        "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+        "actualProfile": {
+          "width": 64,
+          "outputProfile": "kCGColorSpaceSRGB",
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "height": 48,
+          "opaque": true,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+        },
+        "expectedProfile": {
+          "width": 64,
+          "height": 48,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "outputProfile": "kCGColorSpaceSRGB",
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "opaque": true
+        }
+      }
+    },
+    {
+      "name": "native-temporal-pictures",
+      "selection": {
+        "assetId": "48045cfe2be6828805bdbfda601d52549075da7e2fc49b731afd63bb1a7939b5",
+        "streamId": "track:1"
+      },
+      "metadata": {
+        "assetId": "48045cfe2be6828805bdbfda601d52549075da7e2fc49b731afd63bb1a7939b5",
+        "streamId": "track:1",
+        "generation": "588004eb-55a6-44b9-a727-3dca62f3949b",
+        "scenes": {
+          "sourceId": "48045cfe2be6828805bdbfda601d52549075da7e2fc49b731afd63bb1a7939b5",
+          "generation": "b27ded11-2e84-41b3-a253-6f619b86aee0",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 3,
+          "boundaryCount": 0,
+          "owner": {
+            "kind": "asset",
+            "assetId": "48045cfe2be6828805bdbfda601d52549075da7e2fc49b731afd63bb1a7939b5"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "originUs": 1250000,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "durationUs": 1000000
+          }
+        },
+        "selectionPolicy": "source-presentation-selection-v1",
+        "implementationId": "native-source-picture-v2",
+        "maxLongEdge": 1600,
+        "durationUs": 1000000,
+        "candidateCount": 4,
+        "coverageCount": 5,
+        "bytes": 1640
+      },
+      "entries": [
+        {
+          "candidate": {
+            "ordinal": 0,
+            "requestedSourceUs": 0,
+            "support": {
+              "startUs": 0,
+              "endUs": 400000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 0
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 0
+              }
+            ]
+          },
+          "actualSourceUs": 0,
+          "sample": {
+            "value": "12800",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 1,
+            "requestedSourceUs": 399999,
+            "support": {
+              "startUs": 0,
+              "endUs": 400000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 400000
+              }
+            ]
+          },
+          "actualSourceUs": 300000,
+          "sample": {
+            "value": "15872",
+            "timescale": 10240,
+            "endValue": "16896",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 2,
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 600000,
+              "endUs": 1000000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 600000
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "actualSourceUs": 600000,
+          "sample": {
+            "value": "18944",
+            "timescale": 10240,
+            "endValue": "19968",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 3,
+            "requestedSourceUs": 999999,
+            "support": {
+              "startUs": 600000,
+              "endUs": 1000000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 1000000
+              }
+            ]
+          },
+          "actualSourceUs": 900000,
+          "sample": {
+            "value": "22016",
+            "timescale": 10240,
+            "endValue": "23040",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        }
+      ],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": 0,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 0,
+            "endUs": 399999
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": 1,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 399999,
+            "endUs": 400000
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 400000,
+            "endUs": 600000
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": 2,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 600000,
+            "endUs": 999999
+          }
+        },
+        {
+          "sequence": 4,
+          "ordinal": 3,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 999999,
+            "endUs": 1000000
+          }
+        }
+      ]
+    },
+    {
+      "name": "native-second",
+      "selection": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:2"
+      },
+      "metadata": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:2",
+        "generation": "95ee4875-e13a-482a-a782-bef5267eaac3",
+        "scenes": {
+          "sourceId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+          "generation": "8952d99a-c082-467d-8f8f-3fc28434e541",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 3,
+          "boundaryCount": 0,
+          "owner": {
+            "kind": "asset",
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:2",
+            "originUs": 1250000,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "durationUs": 1000000
+          }
+        },
+        "selectionPolicy": "source-presentation-selection-v1",
+        "implementationId": "native-source-picture-v2",
+        "maxLongEdge": 1600,
+        "durationUs": 1000000,
+        "candidateCount": 4,
+        "coverageCount": 5,
+        "bytes": 1660
+      },
+      "entries": [
+        {
+          "candidate": {
+            "ordinal": 0,
+            "requestedSourceUs": 0,
+            "support": {
+              "startUs": 0,
+              "endUs": 400000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 0
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 0
+              }
+            ]
+          },
+          "actualSourceUs": 0,
+          "sample": {
+            "value": "12800",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 1,
+            "requestedSourceUs": 399999,
+            "support": {
+              "startUs": 0,
+              "endUs": 400000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 400000
+              }
+            ]
+          },
+          "actualSourceUs": 300000,
+          "sample": {
+            "value": "15872",
+            "timescale": 10240,
+            "endValue": "16896",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 2,
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 600000,
+              "endUs": 1000000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 600000
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "actualSourceUs": 600000,
+          "sample": {
+            "value": "18944",
+            "timescale": 10240,
+            "endValue": "19968",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 3,
+            "requestedSourceUs": 999999,
+            "support": {
+              "startUs": 600000,
+              "endUs": 1000000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 1000000
+              }
+            ]
+          },
+          "actualSourceUs": 900000,
+          "sample": {
+            "value": "22016",
+            "timescale": 10240,
+            "endValue": "23040",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        }
+      ],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": 0,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 0,
+            "endUs": 399999
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": 1,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 399999,
+            "endUs": 400000
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 400000,
+            "endUs": 600000
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": 2,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 600000,
+            "endUs": 999999
+          }
+        },
+        {
+          "sequence": 4,
+          "ordinal": 3,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 999999,
+            "endUs": 1000000
+          }
+        }
+      ],
+      "imageSha256": "f5559a2028199be2f55af6dab8a0910f891c16bd1617909331383640f16f3dda",
+      "pixelOracle": {
+        "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+        "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+        "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+        "actualProfile": {
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "height": 48,
+          "outputProfile": "kCGColorSpaceSRGB",
+          "width": 64,
+          "opaque": true,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+        },
+        "expectedProfile": {
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "opaque": true,
+          "height": 48,
+          "width": 64,
+          "outputProfile": "kCGColorSpaceSRGB"
+        }
+      }
+    },
+    {
+      "name": "native-short-island",
+      "selection": {
+        "assetId": "077488088897107c6cbbc7bed525e88abb3bdc4206590bcb4e685fe48212d81d",
+        "streamId": "track:2"
+      },
+      "metadata": {
+        "assetId": "077488088897107c6cbbc7bed525e88abb3bdc4206590bcb4e685fe48212d81d",
+        "streamId": "track:2",
+        "generation": "a5550ba3-238b-47a9-a814-65a9d44530ca",
+        "scenes": {
+          "sourceId": "077488088897107c6cbbc7bed525e88abb3bdc4206590bcb4e685fe48212d81d",
+          "generation": "a85e282a-186e-40e0-81cf-e54ddaf3916c",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 1,
+          "boundaryCount": 0,
+          "owner": {
+            "kind": "asset",
+            "assetId": "077488088897107c6cbbc7bed525e88abb3bdc4206590bcb4e685fe48212d81d"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:2",
+            "originUs": 1250000,
+            "supportDigest": "4f4013c1e3fae9eafefb2576b539f68fdc00fdf0cffbc1db26304883126bd281",
+            "durationUs": 800000
+          }
+        },
+        "selectionPolicy": "source-presentation-selection-v1",
+        "implementationId": "native-source-picture-v2",
+        "maxLongEdge": 1600,
+        "durationUs": 800000,
+        "candidateCount": 4,
+        "coverageCount": 6,
+        "bytes": 1620
+      },
+      "entries": [
+        {
+          "candidate": {
+            "ordinal": 0,
+            "requestedSourceUs": 50000,
+            "support": {
+              "startUs": 50000,
+              "endUs": 100000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 50000
+              }
+            ]
+          },
+          "actualSourceUs": 50000,
+          "sample": {
+            "value": "13312",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 1,
+            "requestedSourceUs": 99999,
+            "support": {
+              "startUs": 50000,
+              "endUs": 100000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 100000
+              }
+            ]
+          },
+          "actualSourceUs": 50000,
+          "sample": {
+            "value": "13312",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 2,
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 600000,
+              "endUs": 800000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 600000
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "actualSourceUs": 600000,
+          "sample": {
+            "value": "18944",
+            "timescale": 10240,
+            "endValue": "19968",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 3,
+            "requestedSourceUs": 799999,
+            "support": {
+              "startUs": 600000,
+              "endUs": 800000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 800000
+              }
+            ]
+          },
+          "actualSourceUs": 700000,
+          "sample": {
+            "value": "19968",
+            "timescale": 10240,
+            "endValue": "20992",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        }
+      ],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 0,
+            "endUs": 50000
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": 0,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 50000,
+            "endUs": 99999
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": 1,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 99999,
+            "endUs": 100000
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 100000,
+            "endUs": 600000
+          }
+        },
+        {
+          "sequence": 4,
+          "ordinal": 2,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 600000,
+            "endUs": 799999
+          }
+        },
+        {
+          "sequence": 5,
+          "ordinal": 3,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 799999,
+            "endUs": 800000
+          }
+        }
+      ]
+    },
+    {
+      "name": "native-acquisition",
+      "selection": {
+        "assetId": "87a681ca83f7ae13a8874a49b8ff9a1d06f52e305bb11a108ba3b85f0f75e31a",
+        "streamId": "track:1",
+        "acquisitionId": "703444c1-2a48-46de-b37b-39acc7c3705e"
+      },
+      "metadata": {
+        "assetId": "87a681ca83f7ae13a8874a49b8ff9a1d06f52e305bb11a108ba3b85f0f75e31a",
+        "streamId": "track:1",
+        "acquisitionId": "703444c1-2a48-46de-b37b-39acc7c3705e",
+        "generation": "317ce012-7940-45f3-83bd-b07874fa3a3c",
+        "scenes": {
+          "sourceId": "87a681ca83f7ae13a8874a49b8ff9a1d06f52e305bb11a108ba3b85f0f75e31a",
+          "generation": "8a46e180-4a87-439b-b048-6f337eda6f23",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 3,
+          "boundaryCount": 0,
+          "owner": {
+            "kind": "asset",
+            "assetId": "87a681ca83f7ae13a8874a49b8ff9a1d06f52e305bb11a108ba3b85f0f75e31a"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "acquisitionId": "703444c1-2a48-46de-b37b-39acc7c3705e",
+            "originUs": 1250000,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "durationUs": 1000000
+          }
+        },
+        "selectionPolicy": "source-presentation-selection-v1",
+        "implementationId": "native-source-picture-v2",
+        "maxLongEdge": 1600,
+        "durationUs": 1000000,
+        "candidateCount": 4,
+        "coverageCount": 5,
+        "bytes": 1620
+      },
+      "entries": [
+        {
+          "candidate": {
+            "ordinal": 0,
+            "requestedSourceUs": 0,
+            "support": {
+              "startUs": 0,
+              "endUs": 400000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 0
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 0
+              }
+            ]
+          },
+          "actualSourceUs": 0,
+          "sample": {
+            "value": "12800",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 1,
+            "requestedSourceUs": 399999,
+            "support": {
+              "startUs": 0,
+              "endUs": 400000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 400000
+              }
+            ]
+          },
+          "actualSourceUs": 300000,
+          "sample": {
+            "value": "15872",
+            "timescale": 10240,
+            "endValue": "16896",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 2,
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 600000,
+              "endUs": 1000000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 600000
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "actualSourceUs": 600000,
+          "sample": {
+            "value": "18944",
+            "timescale": 10240,
+            "endValue": "19968",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        },
+        {
+          "candidate": {
+            "ordinal": 3,
+            "requestedSourceUs": 999999,
+            "support": {
+              "startUs": 600000,
+              "endUs": 1000000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 1000000
+              }
+            ]
+          },
+          "actualSourceUs": 900000,
+          "sample": {
+            "value": "22016",
+            "timescale": 10240,
+            "endValue": "23040",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "coverageCount": 1
+        }
+      ],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": 0,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 0,
+            "endUs": 399999
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": 1,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 399999,
+            "endUs": 400000
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 400000,
+            "endUs": 600000
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": 2,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 600000,
+            "endUs": 999999
+          }
+        },
+        {
+          "sequence": 4,
+          "ordinal": 3,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 999999,
+            "endUs": 1000000
+          }
+        }
+      ]
+    },
+    {
+      "name": "controlled-ready-empty",
+      "selection": {
+        "assetId": "2c9b36ed0985adeb136a934cbba67e8c818bec418437119f5e543c3928fb3d6f",
+        "streamId": "track:1"
+      },
+      "metadata": {
+        "assetId": "2c9b36ed0985adeb136a934cbba67e8c818bec418437119f5e543c3928fb3d6f",
+        "streamId": "track:1",
+        "generation": "f0abef1b-0a4e-4af3-be36-3c828ac2c02c",
+        "scenes": {
+          "sourceId": "2c9b36ed0985adeb136a934cbba67e8c818bec418437119f5e543c3928fb3d6f",
+          "generation": "58abe383-7279-4999-887a-edbc4b0a6cac",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 0,
+          "boundaryCount": 0,
+          "owner": {
+            "kind": "asset",
+            "assetId": "2c9b36ed0985adeb136a934cbba67e8c818bec418437119f5e543c3928fb3d6f"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "originUs": 1250000,
+            "supportDigest": "324e80bad6ee0ed00637be11f15edb05220d4d6172d351b1157ca3da6dd4fed8",
+            "durationUs": 500000
+          }
+        },
+        "selectionPolicy": "source-presentation-selection-v1",
+        "implementationId": "native-source-picture-v2",
+        "maxLongEdge": 1600,
+        "durationUs": 500000,
+        "candidateCount": 0,
+        "coverageCount": 3,
+        "bytes": 0
+      },
+      "entries": [],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 0,
+            "endUs": 450000
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "observation",
+          "equality": "unproven",
+          "observation": {
+            "kind": "frame",
+            "frame": {
+              "selection": {
+                "assetId": "2c9b36ed0985adeb136a934cbba67e8c818bec418437119f5e543c3928fb3d6f",
+                "streamId": "track:1"
+              },
+              "atUs": 450000,
+              "maxLongEdge": 1600,
+              "supportDigest": "324e80bad6ee0ed00637be11f15edb05220d4d6172d351b1157ca3da6dd4fed8",
+              "implementationId": "native-source-picture-v2",
+              "jobId": "cc33bb91-8b95-4d25-9f06-d397d944083a",
+              "attemptId": "75c7fe88-4a40-4139-9b29-0e6c06314964",
+              "reason": "Requested source picture has no physical sample.",
+              "observation": {
+                "requestedSourceUs": 450000,
+                "status": "unavailable",
+                "reason": "empty_edit"
+              }
+            }
+          },
+          "source": {
+            "startUs": 450000,
+            "endUs": 499999
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "observation",
+          "equality": "unproven",
+          "observation": {
+            "kind": "scene",
+            "point": {
+              "requestedSourceUs": 499999,
+              "status": "unavailable",
+              "reason": "empty_edit",
+              "continuousFromPrevious": false
+            }
+          },
+          "source": {
+            "startUs": 499999,
+            "endUs": 500000
+          }
+        }
+      ]
+    }
+  ]
+}

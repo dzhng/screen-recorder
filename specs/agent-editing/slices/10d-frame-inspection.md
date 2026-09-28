@@ -153,8 +153,8 @@ source index delivery and project frame-phase projection remain the next gates.
 
 [Service integration](../assets/10d-source-index-service/README.md) routes flat
 selected-source requests and retained PNG delivery through the shared owners.
-Native CLI/MCP journey acceptance remains open; producer checks and existing
-adapter preservation alone do not close it.
+The public journey below supplies native acceptance beyond producer checks and
+existing adapter preservation.
 
 ## Source index skill checkpoint
 
@@ -163,3 +163,8 @@ canceled prerequisite and retrieves every source storyboard entry, image and
 coverage interval through the actual public CLI. It preserves requested versus
 decoded clocks, generation and uncertainty. Multi-page and broader lifecycle
 acceptance belong to the public journey; project index projection remains open.
+[Public source-index delivery](../assets/10d-source-index-public/README.md) now passes
+actual CLI/MCP/native preparation, dependency retry, paging, image/batch delivery,
+physical short-island selection and retained independence across history/restart.
+Controlled empty-support/ready-empty admission cases are labeled separately.
+Project retained-index frame-phase projection remains open.

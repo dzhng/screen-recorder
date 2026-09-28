@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: index.frames: {"id":"df1b6169-3fb7-4b6e-a784-52bfeac211f5","ok":false,"error":{"code":"INVALID_RESPONSE","message":"Batch response does not match its request","retryable":false,"details":{}}}
+
+false !== true
+
+    at JourneyService.call (file:///private/tmp/screenrec-project-evidence-paging/packages/test-harness/editing/source-evidence-fixture.mjs:110:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///private/tmp/screenrec-project-evidence-paging/packages/test-harness/editing/source-index-evidence.mjs:149:17 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0
