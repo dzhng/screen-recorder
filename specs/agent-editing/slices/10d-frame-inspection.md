@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw PNG/JPEG inspection passes its native public journey, including fresh skill use and resized recovery review. Project still composition/indexing passes its native public journey and fresh skill use; combined renderer binding remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw PNG/JPEG inspection passes its native public journey, including fresh skill use and resized recovery review. Project still composition/indexing passes its native public journey and fresh skill use; combined renderer binding and fresh native preservation pass. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -60,12 +60,12 @@ Update slice Status and the README handoff after verified passes.
 
 ## Current pickup
 
-Integrate the project still-image checkpoint with pointer readiness and the updated
-renderer identities, then verify the combined native paths. The native still owner
-now serves both raw and composited image delivery with timeless provenance. The public timed
-picture/index and acquired-gap checkpoints already pass; do not restart them as
-unimplemented features. Preserve their existing journeys when changing shared
-owners. Whole-slice closure still requires reconciling every acceptance item.
+Reconcile completion against all acceptance items using the independent audit and
+[joint preservation evidence](../assets/10d-joint-preservation/README.md). Combined
+image/pointer public journeys pass, all forty image captures preserve reviewed
+bytes, and native recording frames, recording packages and project exports remain
+green. Fresh pointer authoring belongs to slice15; broader codec, animated
+processing and release-scale acceptance retain their separate owners.
 
 ## Established evidence
 

@@ -16,8 +16,8 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Integrate and verify the combined [10d picture/index](slices/10d-frame-inspection.md)
-   and pointer renderer bindings. [Project still composition/indexes](assets/10d-project-image-public/README.md)
+1. Complete the acceptance reconciliation for [10d picture/index](slices/10d-frame-inspection.md)
+   after the [joint native preservation gates](assets/10d-joint-preservation/README.md). [Project still composition/indexes](assets/10d-project-image-public/README.md)
    now pass their native public journey, fresh skill use and
    [root integration checks](assets/10d-project-image-integration/README.md). Raw PNG/JPEG
    inspection passes its [public lifecycle and fresh skill checks](assets/10d-source-image-public/README.md).
@@ -27,15 +27,15 @@ Current pickup and priority:
    their exact evidence boundaries; arbitrary direct video-mask admission is not
    provided by the current capture producer. Keep the complete
    [10 umbrella](slices/10-project-evidence.md) in scope.
-2. Finish [15 layers and geometry](slices/15-layer-geometry.md) public pointer
-   admission and renderer bindings. Static presenter/stack/edit behavior passes
+2. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
+   skill use and remaining geometry acceptance. Static presenter/stack/edit behavior passes
    [public journeys](assets/15-layer-public/README.md),
    [fresh skill use](assets/15-layer-skill/README.md) and
    [moving-source conformance](assets/15-layer-edit-motion/README.md).
    Pointer authoring, shared source-time sampling, queued source histories and
    [native prepared execution](assets/15-pointer-execution/README.md) are integrated;
-   public readiness remains unbound. Admit histories before heavy renders/indexes
-   through the existing queue, preserving cache-ready reads and explicit retries.
+   [public readiness](assets/15-pointer-public/README.md) now passes actual native
+   journeys, preserving cache-ready reads and explicit retries.
    [Combined worker checks](assets/15-pointer-integration/README.md) retain scoped
    geometry and non-pointer preservation; full color/profile acceptance stays open.
 3. Advance the unresolved media risks before adopting processors: speech
@@ -63,8 +63,8 @@ Compact evidence ledger:
   [Raw image inspection](assets/10d-source-image-public/README.md) passes its native
   CLI/MCP lifecycle journey with unchanged reviewed native pixels, fresh skill use
   and resized recovery review. [Project still composition/indexing](assets/10d-project-image-public/README.md)
-  passes its own public media/lifecycle and fresh skill gates; combined renderer
-  identity and preservation verification remain required.
+  passes its own public media/lifecycle and fresh skill gates; [combined renderer
+  identity and preservation verification](assets/10d-joint-preservation/README.md) pass.
 - [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
   project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),
   [acoustic images/lifecycle](assets/11-acoustic-lifecycle/README.md) and

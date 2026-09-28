@@ -1,0 +1,185 @@
+{
+  "commit": "891e55fe66af1b862d49211a406c3e17f1d70f85",
+  "worker": {
+    "path": "/tmp/screenrec-project-image-integrated-native",
+    "sha256": "2b40350219d91abdb79d0872d2fa34aff64be0d60a711cacf3724d06749c0db2"
+  },
+  "reports": {
+    "pointer": {
+      "sha256Uncompressed": "31c2ab7dd97e8ddf6fe6a28a2bc392ccc3d129335942b5e72bdd41b7a3d9da1d",
+      "passed": true
+    },
+    "images": {
+      "sha256Uncompressed": "666fa52057ae0cf35dd18d949799fbcba117f7223fcf3cdac05c73754526cb07",
+      "passed": true
+    }
+  },
+  "logs": {
+    "native-frames": "2b5f26600b6a44962fd92528532152b330a1ee6003633bb34698eb9b6e5e27d1",
+    "recording-packages": "21c36177e32f530c9b8a656c2a655510df905de0b057da6eb9224555885a34e0",
+    "project-exports": "35eb3145e5f7882c1ff2798aa68fa12d6df32866c16ee6505e69449595327be8",
+    "types": "b10724236c285d1afe7b4889702315fa214a467b18b764c823e093b3eac8b8f8"
+  },
+  "imageParity": [
+    {
+      "path": "regenerated.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "frame-1199999.png",
+      "sha256": "923a11cc256ba3b4d56c2e6fbb7c5b5c0fe4a168ea36ef54f9cd7c7a96b5ed62"
+    },
+    {
+      "path": "restarted-history.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "frame-600000.png",
+      "sha256": "923a11cc256ba3b4d56c2e6fbb7c5b5c0fe4a168ea36ef54f9cd7c7a96b5ed62"
+    },
+    {
+      "path": "frame-0.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "underlying-video.png",
+      "sha256": "97449a90531f794ebb02249132e7a6c293b7bfb025eb3c09e4ab8cea218b8e94"
+    },
+    {
+      "path": "dry-card-reordered.png",
+      "sha256": "59081b5caa1b30fc754a867f014d18302b8265fe42ed012f13f171eb870f5cb6"
+    },
+    {
+      "path": "index-direct-8.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "index-8.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "historical.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "index-9.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "index-direct-9.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "processed-order-b.png",
+      "sha256": "1ba28f3cd9056c9f409cd943950062a71786a28827be73d5b50572d46844fcd7"
+    },
+    {
+      "path": "processed-order-a.png",
+      "sha256": "197f1f0322a370639ca0f139ec9938ebfd8e210439b3a03f31a18ec6ed306768"
+    },
+    {
+      "path": "index-direct-2.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "index-2.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "frame-1999999.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "index-3.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "index-direct-3.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "index-direct-1.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "index-1.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "frame-1399999.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "frame-1200000.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "frame-599999.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "image-over-video.png",
+      "sha256": "6f21ee54952e170c5a87f6e2c3c828c7365ed12748377c439ad436041c1b8153"
+    },
+    {
+      "path": "index-0.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "index-direct-0.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "index-direct-4.png",
+      "sha256": "923a11cc256ba3b4d56c2e6fbb7c5b5c0fe4a168ea36ef54f9cd7c7a96b5ed62"
+    },
+    {
+      "path": "index-4.png",
+      "sha256": "923a11cc256ba3b4d56c2e6fbb7c5b5c0fe4a168ea36ef54f9cd7c7a96b5ed62"
+    },
+    {
+      "path": "index-5.png",
+      "sha256": "923a11cc256ba3b4d56c2e6fbb7c5b5c0fe4a168ea36ef54f9cd7c7a96b5ed62"
+    },
+    {
+      "path": "dry-card.png",
+      "sha256": "59081b5caa1b30fc754a867f014d18302b8265fe42ed012f13f171eb870f5cb6"
+    },
+    {
+      "path": "index-direct-5.png",
+      "sha256": "923a11cc256ba3b4d56c2e6fbb7c5b5c0fe4a168ea36ef54f9cd7c7a96b5ed62"
+    },
+    {
+      "path": "index-direct-7.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "index-7.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "index-6.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "index-direct-6.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    },
+    {
+      "path": "restarted-index.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "frame-1400000.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "frame-299999.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "path": "frame-300000.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
+    }
+  ]
+}
