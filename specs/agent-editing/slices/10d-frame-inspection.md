@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw PNG/JPEG inspection passes its native public journey, including fresh skill use and resized recovery review. Project still composition/indexing passes its native public journey and fresh skill use; combined renderer binding and fresh native preservation pass. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: accepted for direct source/project pictures and retained screenshot inspection. [Completion reconciliation](../assets/10d-joint-preservation/completion.md) includes combined image/pointer binding, corrected named-frame proof and current native recording/package preservation. Broader codec, geometry, animation and scale remain separate gates. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -57,15 +57,6 @@ Delegated: extraction of the coherent native picture executor and index storage
 representation. Sampling, capability, identity and single-owner rules are fixed.
 Update slice Status and the README handoff after verified passes.
 
-
-## Current pickup
-
-Reconcile completion against all acceptance items using the independent audit and
-[joint preservation evidence](../assets/10d-joint-preservation/README.md). Combined
-image/pointer public journeys pass, all forty image captures preserve reviewed
-bytes, and native recording frames, recording packages and project exports remain
-green. Fresh pointer authoring belongs to slice15; broader codec, animated
-processing and release-scale acceptance retain their separate owners.
 
 ## Established evidence
 

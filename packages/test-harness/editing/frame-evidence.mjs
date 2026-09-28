@@ -209,7 +209,12 @@ try {
     assert.ok(cli.bytes.equals(mcp.bytes), "CLI and inline MCP PNG differ");
     const receipt = cli.data.published.frame;
     assert.equal(receipt.frame.sampleAtUs, sampleAtUs);
-    assert.deepEqual(receipt.frame.visibleRange, { startUs: atUs, endUs: atUs + 1 });
+    // The 10 fps fixture displays each global sample for 100 ms, even for
+    // requests inside that interval; the request instant is not its visibility.
+    assert.deepEqual(receipt.frame.visibleRange, {
+      startUs: sampleAtUs,
+      endUs: Math.min(sampleAtUs + 100000, 1800000),
+    });
     assert.equal(receipt.width, 160);
     assert.equal(receipt.height, 128);
     if (label === null) assert.deepEqual(receipt.pictures, []);

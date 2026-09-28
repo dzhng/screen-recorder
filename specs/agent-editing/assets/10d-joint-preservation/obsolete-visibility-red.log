@@ -1,0 +1,23 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
++   endUs: 100000,
+-   endUs: 1,
+    startUs: 0
+  }
+
+    at file:///Users/david/dev/screen-recorder/packages/test-harness/editing/frame-evidence.mjs:212:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: { startUs: 0, endUs: 100000 },
+  expected: { startUs: 0, endUs: 1 },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

@@ -12,6 +12,14 @@
     "images": {
       "sha256Uncompressed": "666fa52057ae0cf35dd18d949799fbcba117f7223fcf3cdac05c73754526cb07",
       "passed": true
+    },
+    "named-frames": {
+      "sha256Uncompressed": "f9b0266ed54058741568da8b58aa6f2bddb6bddc6d3c2fa6c43c3ae556de0162",
+      "passed": true
+    },
+    "named-occurrences": {
+      "sha256Uncompressed": "1e36284e56f1fc13a8929790e2728fab51b24321552dface78d9b12ec552c290",
+      "passed": true
     }
   },
   "logs": {
@@ -181,5 +189,6 @@
       "path": "frame-300000.png",
       "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093"
     }
-  ]
+  ],
+  "correctedFrameRunnerSha256": "8bf3c8dd6f5221b45a4eb8f6efd3e3f09ec6ee31949523cd6fdb064c195127a5"
 }

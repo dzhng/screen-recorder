@@ -16,17 +16,11 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Complete the acceptance reconciliation for [10d picture/index](slices/10d-frame-inspection.md)
-   after the [joint native preservation gates](assets/10d-joint-preservation/README.md). [Project still composition/indexes](assets/10d-project-image-public/README.md)
-   now pass their native public journey, fresh skill use and
-   [root integration checks](assets/10d-project-image-integration/README.md). Raw PNG/JPEG
-   inspection passes its [public lifecycle and fresh skill checks](assets/10d-source-image-public/README.md).
-   Source/project video pictures, scenes and retained indexes also pass their
-   public journeys. [Compiler visibility](assets/10d-frame-visibility/README.md)
-   and [acquisition-gap pictures](assets/10d-acquisition-pictures/README.md) retain
-   their exact evidence boundaries; arbitrary direct video-mask admission is not
-   provided by the current capture producer. Keep the complete
-   [10 umbrella](slices/10-project-evidence.md) in scope.
+1. [10d picture/index](slices/10d-frame-inspection.md) and the
+   [10 occurrence-inspection umbrella](slices/10-project-evidence.md) are accepted.
+   [Completion evidence](assets/10d-joint-preservation/completion.md) reconciles
+   their full scope, combined renderer bindings and current native preservation.
+   Continue with the remaining priorities below; do not reopen these as unbuilt.
 2. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
    skill use and remaining geometry acceptance. Static presenter/stack/edit behavior passes
    [public journeys](assets/15-layer-public/README.md),
@@ -181,8 +175,8 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [x] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
 - [x] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
-- [ ] [10d — Direct frames and retained screenshot inspection](slices/10d-frame-inspection.md)
-- [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
+- [x] [10d — Direct frames and retained screenshot inspection](slices/10d-frame-inspection.md)
+- [x] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [x] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)

@@ -1,6 +1,6 @@
 # 10 — Occurrence-aware inspection
 
-Status: exact range projection is verified in 10a. Acquisition, occurrence queries and direct frames are split into 10b–10d; this umbrella remains open until all pass. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md), [10d](./10d-frame-inspection.md).
+Status: accepted within occurrence-inspection scope. 10a–10d and the current named repeated-speech probe pass; [completion evidence](../assets/10d-joint-preservation/completion.md) reconciles the umbrella. Acoustic and speech-quality acceptance remain separate. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md), [10d](./10d-frame-inspection.md).
 
 ## Contract
 

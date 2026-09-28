@@ -22,3 +22,6 @@ The public runners are the existing `pointer-public.mjs` and
 queue, schema, processor or quality threshold was introduced for this integration.
 Full codec/color quality, scale, animated processing and fresh pointer authoring
 remain their separately owned gates. This evidence does not accept those features.
+
+[Completion reconciliation](completion.md) records the requirement-by-requirement
+audit and corrected named frame/occurrence probe reruns.
