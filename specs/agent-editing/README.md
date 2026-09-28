@@ -31,6 +31,10 @@ Native composition movie assembly, core admission and public preview are integra
 through the existing jobs/cache/delivery owners. The [live preview journey](assets/09-first-preview/README.md) passes. Integrate project exports through the same durable
 export-intent/publication owner. Do not translate compositions
 into recording spans or count state journeys as rendered-media acceptance.
+In parallel, [10a](slices/10a-source-range-projection.md) isolates exact source-range
+projection. Public inspection in 10 still requires asset-stream acquisition and
+bounded occurrence pagination; current recording transcript owners cannot be reused
+by inventing recording rows or narration roles for imports.
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
 are integrated in the isolated service. Import identity and job admission commit
@@ -205,6 +209,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [ ] [09 — First public preview and export](slices/09-first-preview.md)
+- [ ] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)

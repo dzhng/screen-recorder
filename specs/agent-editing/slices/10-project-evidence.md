@@ -1,6 +1,6 @@
 # 10 — Occurrence-aware inspection
 
-Status: not started. Dependencies: [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md).
+Status: source acquisition still assumes recording roles; refactor that owner before public project reads. Exact range mapping is isolated in 10a. Dependencies: [04](./04-projects.md), [05](./05-compiler.md), [10a](./10a-source-range-projection.md), [09](./09-first-preview.md).
 
 ## Contract
 
