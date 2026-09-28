@@ -39,6 +39,17 @@ export class ResourceReferences {
         .run(owner.kind, owner.id).changes,
     );
   }
+  dependencies(owner: ResourceOwner, limit = 25_000): { kind: ResourceKind; id: string }[] {
+    const rows = this.store.catalog
+      .prepare(
+        `SELECT resourceKind AS kind,resourceId AS id FROM resource_references
+       WHERE ownerKind=? AND ownerId=? ORDER BY resourceKind,resourceId LIMIT ?`,
+      )
+      .all(owner.kind, owner.id, limit + 1) as { kind: ResourceKind; id: string }[];
+    if (rows.length > limit)
+      throw new RangeError("Resource dependency inventory exceeds its limit");
+    return rows;
+  }
   owners(kind: ResourceKind, id: string): ResourceOwner[] {
     return this.store.catalog
       .prepare(`SELECT ownerKind AS kind,ownerId AS id FROM resource_references

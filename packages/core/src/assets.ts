@@ -1,6 +1,7 @@
+import { isDeepStrictEqual } from "node:util";
 import { ResourceReferences, type ResourceOwner } from "./references.js";
 import type { Asset as CompositionAsset } from "@screenrec/composition";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { constants } from "node:fs";
 import { mkdir, open, link, unlink, opendir, rm, lstat } from "node:fs/promises";
 import { extname, isAbsolute, join } from "node:path";
@@ -62,6 +63,26 @@ export const mediaProbeSchema = z.object({
 });
 export type MediaProbe = z.infer<typeof mediaProbeSchema>;
 export type Asset = MediaProbe & { id: string; bytes: number; createdAt: string; fileName: string };
+export const portableAssetSchema = z.strictObject({
+  asset: mediaProbeSchema
+    .extend({
+      id: z.string().regex(/^[a-f0-9]{64}$/),
+      bytes: integer.nonnegative(),
+      createdAt: z.string().min(1),
+      fileName: z.string().regex(/^[a-f0-9]{64}(?:\.[a-z0-9]{1,12})?$/),
+    })
+    .strict(),
+  origins: z
+    .array(
+      z.strictObject({
+        kind: z.enum(["import", "capture", "generated"]),
+        source: z.string().optional(),
+      }),
+    )
+    .max(1000),
+  dependencies: z.array(z.string().regex(/^[a-f0-9]{64}$/)).max(25_000),
+});
+export type PortableAsset = z.infer<typeof portableAssetSchema>;
 export type AssetSummary = Pick<Asset, "id" | "bytes" | "createdAt" | "fileName"> & {
   mediaKinds: MediaProbe["streams"][number]["kind"][];
   streamCount: number;
@@ -308,6 +329,148 @@ export class AssetStore {
     return this.dependencies.owners("asset", id);
   }
 
+  portable(id: string): PortableAsset {
+    const origins = this.origins(id, { limit: 1000 });
+    if (origins.nextCursor)
+      throw new CatalogError("LIMIT_EXCEEDED", "Asset provenance exceeds package limit");
+    const dependencies = this.dependencies.dependencies({ kind: "asset", id });
+    if (dependencies.some((dependency) => dependency.kind !== "asset"))
+      throw new CatalogError(
+        "UNSUPPORTED_PACKAGE_DEPENDENCY",
+        "Asset has a dependency not yet supported by portable assets",
+      );
+    return {
+      asset: this.get(id),
+      origins: origins.origins,
+      dependencies: dependencies.map((dependency) => dependency.id),
+    };
+  }
+  /** Copy and hash before the caller's shared publication transaction. Unpublished links recover as orphans. */
+  async stagePortable(
+    value: unknown,
+    path: string,
+    signal: AbortSignal,
+    expected?: IdentifiedFile,
+  ) {
+    const parsed = portableAssetSchema.safeParse(value);
+    if (!parsed.success)
+      throw new CatalogError("INVALID_PACKAGE", "Invalid portable asset metadata");
+    const { asset, origins, dependencies } = parsed.data;
+    if (!asset.fileName.startsWith(asset.id))
+      throw new CatalogError("INVALID_PACKAGE", "Asset member identity differs from its hash");
+    const staging = join(this.staging, randomUUID() + extname(asset.fileName));
+    let retainedName = asset.fileName;
+    const close = async () => {
+      await unlink(staging).catch((error) => {
+        if (!absent(error)) throw error;
+      });
+      const row = this.store.catalog
+        .prepare("SELECT metadata FROM assets WHERE id=?")
+        .get(asset.id);
+      if (row && (JSON.parse(row.metadata as string) as Asset).fileName !== retainedName)
+        await unlink(join(this.directory, retainedName)).catch((error) => {
+          if (!absent(error)) throw error;
+        });
+    };
+    try {
+      const copied = await copyImportedFile(path, staging, signal, expected);
+      if (copied.sha256 !== asset.id || copied.bytes !== asset.bytes)
+        throw new CatalogError(
+          "INVALID_PACKAGE",
+          "Asset byte hash or size does not match its identity",
+        );
+      const stored = this.store.catalog
+        .prepare("SELECT metadata FROM assets WHERE id=?")
+        .get(asset.id);
+      if (stored) retainedName = (JSON.parse(stored.metadata as string) as Asset).fileName;
+      await link(staging, join(this.directory, retainedName)).catch(async (error) => {
+        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+        const existing = await open(
+          join(this.directory, retainedName),
+          constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
+        );
+        try {
+          const stat = await existing.stat();
+          if (!stat.isFile() || stat.size !== asset.bytes)
+            throw new CatalogError(
+              "INVALID_PACKAGE",
+              "Existing asset file conflicts with package identity",
+            );
+          const hash = createHash("sha256"),
+            buffer = Buffer.alloc(65536);
+          for (let position = 0; position < stat.size;) {
+            signal.throwIfAborted();
+            const { bytesRead } = await existing.read(
+              buffer,
+              0,
+              Math.min(buffer.length, stat.size - position),
+              position,
+            );
+            if (!bytesRead)
+              throw new CatalogError(
+                "INVALID_PACKAGE",
+                "Existing asset file ended during validation",
+              );
+            hash.update(buffer.subarray(0, bytesRead));
+            position += bytesRead;
+          }
+          if (hash.digest("hex") !== asset.id)
+            throw new CatalogError(
+              "INVALID_PACKAGE",
+              "Existing asset file hash conflicts with package identity",
+            );
+        } finally {
+          await existing.close();
+        }
+      });
+      const directory = await open(this.directory, constants.O_RDONLY);
+      try {
+        await directory.sync();
+      } finally {
+        await directory.close();
+      }
+      signal.throwIfAborted();
+      return {
+        close,
+        publish: () => {
+          signal.throwIfAborted();
+          const prior = this.store.catalog
+            .prepare("SELECT metadata FROM assets WHERE id=?")
+            .get(asset.id);
+          if (prior) {
+            const existing = JSON.parse(prior.metadata as string) as Asset;
+            if (existing.fileName !== retainedName)
+              throw new CatalogError(
+                "STORAGE_BUSY",
+                "Asset publication changed during package staging; retry adoption",
+                {},
+                true,
+              );
+            if (
+              existing.bytes !== asset.bytes ||
+              !isDeepStrictEqual(mediaProbeSchema.parse(existing), mediaProbeSchema.parse(asset))
+            )
+              throw new CatalogError(
+                "INVALID_PACKAGE",
+                "Existing asset metadata conflicts with package identity",
+              );
+          } else
+            this.store.catalog
+              .prepare("INSERT INTO assets(id,metadata) VALUES(?,?)")
+              .run(asset.id, JSON.stringify({ ...asset, fileName: retainedName }));
+          for (const origin of origins)
+            this.store.catalog
+              .prepare("INSERT OR IGNORE INTO asset_origins VALUES(?,?)")
+              .run(asset.id, JSON.stringify(origin));
+          // Closure is validated by the package owner before this transaction starts.
+          this.dependencies.retain("asset", { kind: "asset", id: asset.id }, dependencies);
+        },
+      };
+    } catch (error) {
+      await close();
+      throw error;
+    }
+  }
   async import(
     path: string,
     provenance: AssetProvenance,

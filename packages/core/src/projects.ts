@@ -1,3 +1,4 @@
+import { archiveLimits } from "./package-archive.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
@@ -28,6 +29,55 @@ export type ProjectRevision = {
   operation: "create" | "apply" | "undo" | "restore";
   document: EditBatchResult["document"];
 };
+export type ProjectSnapshot = {
+  project: Project;
+  revisions: ProjectRevision[];
+  undo: string[];
+};
+const projectSnapshotSchema = z.strictObject({
+  project: z.strictObject({
+    projectId: z.string().min(1),
+    title: z.string(),
+    createdAt: z.string().min(1),
+    currentRevisionId: z.string().min(1),
+  }),
+  revisions: z
+    .array(
+      z.strictObject({
+        id: z.string().min(1),
+        projectId: z.string().min(1),
+        ordinal: z.number().int().nonnegative(),
+        createdAt: z.string().min(1),
+        operation: z.enum(["create", "apply", "undo", "restore"]),
+        document: compositionSchema,
+      }),
+    )
+    .min(1)
+    .max(archiveLimits.history),
+  undo: z.array(z.string().min(1)).max(archiveLimits.history),
+});
+/** Untrusted snapshots must retain a complete ordered history and a valid undo stack. */
+export function validateProjectSnapshot(value: unknown): ProjectSnapshot {
+  const result = projectSnapshotSchema.safeParse(value);
+  if (!result.success) throw new CatalogError("INVALID_PACKAGE", "Invalid project snapshot");
+  const snapshot = result.data;
+  const ids = new Set<string>();
+  for (const [ordinal, revision] of snapshot.revisions.entries()) {
+    if (
+      revision.ordinal !== ordinal ||
+      revision.projectId !== snapshot.project.projectId ||
+      ids.has(revision.id)
+    )
+      throw new CatalogError("INVALID_PACKAGE", "Project history is incomplete or ambiguous");
+    ids.add(revision.id);
+  }
+  if (
+    snapshot.project.currentRevisionId !== snapshot.revisions.at(-1)!.id ||
+    snapshot.undo.some((id) => !ids.has(id))
+  )
+    throw new CatalogError("INVALID_PACKAGE", "Project head or undo target is missing");
+  return snapshot;
+}
 export type ProjectEditResult = { revision: ProjectRevision; edit: EditBatchResult };
 export type ProjectHistoryCursor = {
   projectId: string;
@@ -347,6 +397,99 @@ export class ProjectStore {
           ? { projectId, afterOrdinal: revisions.at(-1)!.ordinal, throughOrdinal }
           : null,
     };
+  }
+  snapshot(projectId: string): ProjectSnapshot {
+    const project = this.get(projectId);
+    const usage = this.store.catalog
+      .prepare(
+        "SELECT COUNT(*) AS count,COALESCE(SUM(length(CAST(content AS BLOB))),0) AS bytes FROM project_revisions WHERE projectId=?",
+      )
+      .get(projectId) as { count: number; bytes: number };
+    if (usage.count > archiveLimits.history || usage.bytes > archiveLimits.initialReadBytes)
+      throw new CatalogError(
+        "LIMIT_EXCEEDED",
+        "Project history exceeds the portable snapshot budget",
+      );
+    const history = this.history(projectId, undefined, archiveLimits.history);
+    if (history.nextCursor)
+      throw new CatalogError(
+        "LIMIT_EXCEEDED",
+        "Project history exceeds the portable snapshot limit",
+      );
+    const undo = this.store.catalog
+      .prepare("SELECT targetId FROM project_undo WHERE projectId=? ORDER BY position LIMIT 1001")
+      .all(projectId)
+      .map((row) => row.targetId as string);
+    if (undo.length > archiveLimits.history)
+      throw new CatalogError("LIMIT_EXCEEDED", "Project undo exceeds the portable snapshot limit");
+    return { project, revisions: history.revisions, undo };
+  }
+  /** Dependencies publish in this transaction, so neither half of adoption becomes visible alone. */
+  adopt(
+    input: { requestId: string; packageIdentity: string; snapshot: unknown },
+    publishDependencies: () => void,
+  ) {
+    const snapshot = validateProjectSnapshot(input.snapshot);
+    const key = canonical({ packageIdentity: input.packageIdentity, snapshot });
+    return this.store.transaction(() => {
+      const prior = this.store.catalog
+        .prepare("SELECT createArguments,createResult FROM projects WHERE createRequestId=?")
+        .get(input.requestId);
+      if (prior) {
+        if (prior.createArguments !== key)
+          throw new CatalogError(
+            "REQUEST_CONFLICT",
+            "Adoption request ID already names another package",
+          );
+        return JSON.parse(prior.createResult as string) as {
+          project: Project;
+          revision: ProjectRevision;
+          revisionIds: Record<string, string>;
+        };
+      }
+      publishDependencies();
+      const projectId = randomUUID();
+      const revisionIds = Object.fromEntries(
+        snapshot.revisions.map((revision) => [revision.id, randomUUID()]),
+      );
+      const revisions = snapshot.revisions.map((revision) => ({
+        ...revision,
+        id: revisionIds[revision.id]!,
+        projectId,
+      }));
+      for (const revision of revisions) {
+        const ids = [
+          ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
+        ];
+        validateComposition(
+          revision.document,
+          ids.map((id) => compositionAsset(this.assets.get(id))),
+          this.contexts(revision.document),
+        );
+      }
+      const project = {
+        ...snapshot.project,
+        projectId,
+        currentRevisionId: revisionIds[snapshot.project.currentRevisionId]!,
+      };
+      const result = { project, revision: revisions.at(-1)!, revisionIds };
+      this.store.catalog
+        .prepare(
+          "INSERT INTO projects(projectId,title,createdAt,currentRevisionId,createRequestId,createArguments,createResult) VALUES(?,?,?,?,?,?,?)",
+        )
+        .run(
+          projectId,
+          project.title,
+          project.createdAt,
+          project.currentRevisionId,
+          input.requestId,
+          key,
+          JSON.stringify(result),
+        );
+      for (const revision of revisions) this.insertRevision(revision);
+      for (const id of snapshot.undo) this.pushUndo(projectId, revisionIds[id]!);
+      return result;
+    });
   }
   private mutate<T>(projectId: string, requestId: string, args: unknown, run: () => T): T {
     const key = canonical(args);

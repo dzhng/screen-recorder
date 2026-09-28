@@ -251,6 +251,10 @@
     "./composition-pointer": {
       "types": "./dist/composition-pointer.d.ts",
       "default": "./dist/composition-pointer.js"
+    },
+    "./project-package": {
+      "types": "./dist/project-package.d.ts",
+      "default": "./dist/project-package.js"
     }
   },
   "scripts": {

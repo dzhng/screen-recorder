@@ -2064,3 +2064,17 @@ existing lifetime owner.
   transport narrowing implicit. **Verdict:** sound, high confidence. Native still
   receives the routing, step identities and executable gain/pointer parameters
   it needs; no native authoring evaluator or silent dry fallback is added.
+
+## Slice 22a — Portable snapshot boundary
+
+- **Sound, medium confidence:** Adopting a package creates new project and revision
+  identities while keeping clip/track/processing identities inside its documents.
+  This allows two independent copies in one library without revision collisions;
+  the adoption receipt maps donor revisions to their new identities.
+- **Sound, medium confidence:** Copy and hash media before the shared publication
+  transaction, then expose asset rows and the entire project together. Failed
+  transactions can leave invisible immutable files for existing startup recovery;
+  they cannot expose a partly adopted project.
+- **Sound, high confidence:** Preserve the actual active undo stack separately from
+  historical documents. Undo/restore operations append revisions, so deriving undo
+  from the last two documents would change the next undo after relocation.

@@ -264,3 +264,128 @@ test("large deleted histories retire in restartable pages without losing the tom
   expect(store.create({ requestId: "paged", canvas })).toEqual(created);
   expect(store.list().projects).toEqual([]);
 });
+
+test("portable adoption preserves history and active undo independently and publishes dependencies atomically", async () => {
+  const donor = await setup(),
+    receiver = await setup();
+  const initial = donor.store.create({ requestId: "donor", title: "Portable", canvas });
+  const id = initial.project.projectId;
+  const first = donor.store.apply(id, {
+    requestId: "first",
+    expectedRevisionId: initial.revision.id,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  });
+  const second = donor.store.apply(id, {
+    requestId: "second",
+    expectedRevisionId: first.revision.id,
+    operations: [{ operation: "canvas.set", canvas: { height: 240 } }],
+  });
+  donor.store.undo(id, { requestId: "undo-second", expectedRevisionId: second.revision.id });
+  const snapshot = donor.store.snapshot(id);
+  const input = { requestId: "adopt", packageIdentity: "verified-archive", snapshot };
+  expect(() =>
+    receiver.store.adopt(input, () => {
+      receiver.catalog.catalog
+        .prepare("INSERT INTO assets(id,metadata) VALUES(?,?)")
+        .run("partial", "{}");
+      throw new Error("dependency canceled");
+    }),
+  ).toThrow("dependency canceled");
+  expect(receiver.assets.list().assets).toEqual([]);
+  expect(receiver.store.list().projects).toEqual([]);
+  const adopted = receiver.store.adopt(input, () => {});
+  expect(adopted.project.projectId).not.toBe(id);
+  expect(
+    receiver.store.adopt(input, () => {
+      throw new Error("must not publish twice");
+    }),
+  ).toEqual(adopted);
+  expect(
+    receiver.store.history(adopted.project.projectId).revisions.map((r) => r.document),
+  ).toEqual(snapshot.revisions.map((r) => r.document));
+  donor.store.markDeleting(id);
+  const undone = receiver.store.undo(adopted.project.projectId, {
+    requestId: "undo-first",
+    expectedRevisionId: adopted.revision.id,
+  });
+  expect(undone.document).toEqual(initial.revision.document);
+  expect(() => receiver.store.adopt({ ...input, packageIdentity: "other" }, () => {})).toThrow(
+    /another package/,
+  );
+  const broken = structuredClone(snapshot);
+  broken.revisions.splice(1, 1);
+  expect(() =>
+    receiver.store.adopt({ ...input, requestId: "invalid", snapshot: broken }, () => {}),
+  ).toThrow(/incomplete/);
+});
+
+test("portable adoption retains media used only by a past revision and restores it through undo", async () => {
+  const donor = await setup(),
+    receiver = await setup();
+  const source = join(donor.home, "source.wav");
+  await writeFile(source, "lossless fixture bytes");
+  const asset = await donor.assets.import(source, { kind: "generated" }, async () => ({
+    originUs: 0,
+    streams: [
+      {
+        id: "a",
+        kind: "audio",
+        codec: "pcm",
+        decodable: true,
+        startUs: 0,
+        endUs: 1000,
+        segments: [{ startUs: 0, endUs: 1000, empty: false }],
+      },
+    ],
+  }));
+  const created = donor.store.create({ requestId: "create", canvas });
+  const placed = donor.store.apply(created.project.projectId, {
+    requestId: "place",
+    expectedRevisionId: created.revision.id,
+    operations: [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "audio" },
+      {
+        operation: "place",
+        label: "voice",
+        clip: {
+          trackId: { label: "audio" },
+          assetId: asset.id,
+          streamId: "a",
+          source: { kind: "range", range: { startUs: 0, endUs: 1000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000 } },
+        },
+      },
+    ],
+  });
+  donor.store.apply(created.project.projectId, {
+    requestId: "remove",
+    expectedRevisionId: placed.revision.id,
+    operations: [{ operation: "remove", clipIds: [placed.edit.labels.voice], ripple: "none" }],
+  });
+  const staged = await receiver.assets.stagePortable(
+    donor.assets.portable(asset.id),
+    donor.assets.path(asset.id),
+    new AbortController().signal,
+  );
+  const adopted = receiver.store.adopt(
+    {
+      requestId: "copy",
+      packageIdentity: "verified",
+      snapshot: donor.store.snapshot(created.project.projectId),
+    },
+    () => staged.publish(),
+  );
+  await staged.close();
+  expect(adopted.revision.document.clips).toEqual([]);
+  expect(receiver.assets.references(asset.id)).toEqual([
+    { kind: "revision", id: adopted.revisionIds[placed.revision.id] },
+  ]);
+  await rm(source);
+  await rm(donor.assets.path(asset.id));
+  const undone = receiver.store.undo(adopted.project.projectId, {
+    requestId: "undo",
+    expectedRevisionId: adopted.revision.id,
+  });
+  expect(undone.document).toEqual(placed.revision.document);
+  expect(receiver.assets.get(asset.id)).toEqual(asset);
+});

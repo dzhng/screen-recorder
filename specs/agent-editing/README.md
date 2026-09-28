@@ -51,6 +51,11 @@ Current pickup and priority:
    now pass their public vertical; animated geometry, gain and remaining keyframe
    journeys stay in 16.
 
+[Portable snapshots](slices/22a-portable-snapshots.md) are a dependency-ready core
+checkpoint. Public archive relocation and complete retained dependency ownership
+remain in [22](slices/22-portable-projects.md); do not claim portable playback from
+core snapshot checks.
+
 Compact evidence ledger:
 
 - [Preview](assets/09-first-preview/README.md) and
