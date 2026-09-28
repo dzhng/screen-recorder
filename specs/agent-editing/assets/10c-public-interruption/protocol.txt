@@ -1,0 +1,9 @@
+$ vitest run
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/protocol
+
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  03:12:34
+   Duration  439ms (transform 59%, import 29%, tests 11%, worker 2%)

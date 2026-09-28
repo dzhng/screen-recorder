@@ -71,10 +71,36 @@ export async function captureFixtures(home, out) {
     { event: "finished", data: {} },
     { event: "lifecycle", data: { state: "complete" } },
   ];
+  const shortBase = [
+    ...records.slice(0, -2).filter((record) => record.event !== "audioSamples"),
+    { event: "pausePlaced", data: { atSourceUs: 250000, elapsedPauseUs: 17 } },
+    { event: "pausePlaced", data: { atSourceUs: 250000, elapsedPauseUs: 19 } },
+    { event: "audioSamples", data: { role: "narration", startUs: 0, endUs: 600000 } },
+  ];
+  const terminal = (state) => ({
+    event: "finished",
+    data: {
+      state,
+      durationUs: 2750000,
+      ...(state === "interrupted"
+        ? { failure: { code: "DEVICE_LOST", message: "Synthetic fixture" } }
+        : {}),
+    },
+  });
+  const completed = [
+    ...shortBase,
+    terminal("complete"),
+    { event: "lifecycle", data: { state: "complete" } },
+  ];
+  const interrupted = [
+    ...shortBase,
+    terminal("interrupted"),
+    { event: "lifecycle", data: { state: "interrupted", reason: "DEVICE_LOST" } },
+  ];
   const contexts = [];
-  for (const [name, journal] of [
+  for (const [name, journal, suffix = "", reason = "capture_completion_unknown"] of [
     ["synthetic", records],
-    ["incomplete", records.slice(0, -2)],
+    ["incomplete", records.slice(0, -2), "{", "capture_completion_untrusted"],
     [
       "empty",
       [
@@ -83,20 +109,34 @@ export async function captureFixtures(home, out) {
         { event: "lifecycle", data: { state: "complete" } },
       ],
     ],
+    ["complete", completed, "", null],
+    ["interrupted", interrupted, "", null],
+    ["missing", shortBase],
+    ["lifecycle-only", [...shortBase, { event: "lifecycle", data: { state: "interrupted" } }]],
+    ["torn", interrupted, "{", "capture_completion_untrusted"],
+    ["corrupt", interrupted, "{bad}\n", "capture_completion_untrusted"],
+    [
+      "conflicting",
+      [...shortBase, terminal("complete"), { event: "lifecycle", data: { state: "interrupted" } }],
+      "",
+      "capture_completion_conflict",
+    ],
   ]) {
     const directory = join(home, `${name}-donor`);
     await mkdir(directory, { recursive: true });
     await copyFile(video, join(directory, "video.mov"), constants.COPYFILE_FICLONE);
     if (name !== "empty")
       await copyFile(
-        join(fixture, "narration.mov"),
+        ["synthetic", "incomplete"].includes(name)
+          ? join(fixture, "narration.mov")
+          : join(root, "specs/agent-editing/assets/10c-capture-interruption/inputs/narration.mov"),
         join(directory, "narration.mov"),
         constants.COPYFILE_FICLONE,
       );
     let body = journal
       .map((record, i) => JSON.stringify({ ...record, sequence: i + 1 }) + "\n")
       .join("");
-    if (name === "incomplete") body += "{";
+    body += suffix;
     await writeFile(join(directory, "capture.journal.jsonl"), body);
     const output = join(out, `${name}-normalized.jsonl`);
     const receipt = nativeResult(await native("media.sourceEvidence", { directory, output }));
@@ -105,13 +145,43 @@ export async function captureFixtures(home, out) {
       .split("\n")
       .filter(Boolean)
       .map(JSON.parse);
-    assert.equal(receipt.incompleteTail, name === "incomplete");
-    assert.equal(receipt.finished, name !== "incomplete");
-    assert.equal(receipt.invalidAtSequence ?? null, null);
-    assert.equal(receipt.cursorSamples, name !== "empty" ? samples.length : 0);
-    assert.equal(receipt.pauseEvents, name !== "empty" ? 2 : 0);
+    assert.equal(receipt.incompleteTail, suffix === "{");
+    assert.equal(
+      receipt.finished,
+      journal.some((record) => record.event === "finished"),
+    );
+    assert.equal(receipt.invalidAtSequence ?? null, name === "corrupt" ? journal.length + 1 : null);
+    assert.equal(
+      receipt.cursorSamples,
+      journal
+        .filter((record) => record.event === "cursorSamples")
+        .reduce((sum, record) => sum + record.data.samples.length, 0),
+    );
+    assert.equal(
+      receipt.pauseEvents,
+      journal.filter((record) => record.event === "pausePlaced").length,
+    );
+    const finishedAt = journal.findIndex((record) => record.event === "finished");
+    const finished = journal[finishedAt]?.data;
+    const completion =
+      finished?.durationUs === undefined
+        ? undefined
+        : {
+            sequence: finishedAt + 1,
+            state: finished.state,
+            durationUs: finished.durationUs,
+            ...(finished.failure ? { failureCode: finished.failure.code } : {}),
+          };
+    assert.deepEqual(receipt.completion, completion);
+    const interruption = {
+      state: reason === null ? "ready" : "unavailable",
+      reason,
+      marker: reason === null && completion?.state === "interrupted" ? completion : null,
+    };
+
     contexts.push({
       name,
+      interruption,
       directory,
       journalSha256: hash(body),
       normalizedSha256: hash(await readFile(output)),
@@ -136,13 +206,16 @@ export async function captureFixtures(home, out) {
   await writeFile(
     join(out, "fixture-receipts.json"),
     JSON.stringify(
-      contexts.map(({ name, directory, journalSha256, normalizedSha256, receipt }) => ({
-        name,
-        directory,
-        journalSha256,
-        normalizedSha256,
-        receipt,
-      })),
+      contexts.map(
+        ({ name, interruption, directory, journalSha256, normalizedSha256, receipt }) => ({
+          name,
+          interruption,
+          directory,
+          journalSha256,
+          normalizedSha256,
+          receipt,
+        }),
+      ),
       null,
       2,
     ) + "\n",

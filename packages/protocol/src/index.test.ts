@@ -217,3 +217,26 @@ it("project video export preserves its target and refuses ambiguous owners or pa
       false,
     );
 });
+
+it("source capture continuations retain every reader head through both public operations", () => {
+  const position = {
+    cursor: { after: null, done: true },
+    pause: { after: [999, 1], done: false },
+    geometry: { after: null, done: true },
+    interruption: { after: null, done: false },
+  };
+  for (const operation of ["cursor.raw", "timeline.events"]) {
+    const params = {
+      assetId: "asset",
+      streamId: "track:1",
+      acquisitionId: "capture",
+      sourceRange: { startUs: 0, endUs: 1000 },
+      limit: 1,
+      cursor: { reference: "pinned", position },
+    };
+    expect(operationSchema.parse({ operation, params })).toEqual({ operation, params });
+    expect(
+      operationSchema.safeParse({ operation, params: { ...params, revisionId: "fake" } }).success,
+    ).toBe(false);
+  }
+});

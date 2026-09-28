@@ -1,0 +1,13 @@
+$ vitest run src/project-service.test.ts src/operations.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/apps/service
+
+(node:37277) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37276) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  16 passed (16)
+   Start at  03:07:35
+   Duration  2.00s (tests 79%, transform 15%, import 6%)

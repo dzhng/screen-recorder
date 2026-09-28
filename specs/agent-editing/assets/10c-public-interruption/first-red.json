@@ -1,0 +1,198 @@
+{
+  "passed": false,
+  "boundary": "Actual CLI/MCP, acquisition import, native media probing and journal normalization. Synthetic journals are explicitly labeled; no live capture or database seeding.",
+  "checks": {},
+  "pending": [
+    "source scenes",
+    "project cut semantics",
+    "interruption inspection"
+  ],
+  "error": {
+    "message": "cursor.raw: {\"id\":\"d770201d-4eaa-40b4-8688-9e3a6f64dd6c\",\"ok\":false,\"error\":{\"code\":\"INVALID_PARAMS\",\"message\":\"Parameters do not match the operation schema.\",\"retryable\":false,\"details\":{}}}\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: cursor.raw: {\"id\":\"d770201d-4eaa-40b4-8688-9e3a6f64dd6c\",\"ok\":false,\"error\":{\"code\":\"INVALID_PARAMS\",\"message\":\"Parameters do not match the operation schema.\",\"retryable\":false,\"details\":{}}}\n\nfalse !== true\n\n    at JourneyService.call (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-evidence-fixture.mjs:110:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async pages (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/capture-evidence.mjs:104:14)\n    at async file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/capture-evidence.mjs:176:25"
+  },
+  "traceRuns": [
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 5
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    }
+  ],
+  "originalReportSha256": "eb462ce2460c61d1239ccdf729176a5dfcecf0518faa7caf9bc44330e89fd9eb"
+}

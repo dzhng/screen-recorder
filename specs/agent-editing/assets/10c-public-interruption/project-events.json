@@ -1,0 +1,1185 @@
+{
+  "actual": {
+    "projectId": "be2395fd-b55a-43ec-a3c1-39d220b274d8",
+    "revisionId": "4693f5d9-0734-4752-9b0f-ae90ddb28b41",
+    "state": "ready",
+    "dependencies": [
+      {
+        "selection": {
+          "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03"
+        },
+        "transcript": null,
+        "capture": {
+          "selection": {
+            "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+            "streamId": "track:1",
+            "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03"
+          },
+          "domain": "events",
+          "durationUs": 133973334,
+          "sourceToAssetOffsetUs": -48675,
+          "supportDigest": "188a1d824ff0989b5f694a7f7e5fbc28473546becbeab1b57ae85d47f29e7948",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+            "receipt": {
+              "audioIntervals": 2,
+              "bytes": 2124,
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03/dbd25885-1281-46cd-b072-02e87e6a9923/source.jsonl",
+              "finished": true,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "state": "complete"
+              },
+              "lastSequence": 12,
+              "originHostUs": 1000000,
+              "pauseEvents": 2
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "unavailable",
+              "reason": "requires_captured_video"
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_unknown"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": null
+      },
+      {
+        "selection": {
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "8d1a5b35-59fb-4c7c-816a-01d7e1f7c5db"
+        },
+        "transcript": null,
+        "capture": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "8d1a5b35-59fb-4c7c-816a-01d7e1f7c5db"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "8d1a5b35-59fb-4c7c-816a-01d7e1f7c5db"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "c0c09d77-861c-45a2-9776-707b0bef05e4",
+            "receipt": {
+              "audioIntervals": 0,
+              "bytes": 0,
+              "cursorSamples": 0,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/8d1a5b35-59fb-4c7c-816a-01d7e1f7c5db/c0c09d77-861c-45a2-9776-707b0bef05e4/source.jsonl",
+              "finished": true,
+              "geometryRecords": 0,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastLifecycle": {
+                "state": "complete"
+              },
+              "lastSequence": 4,
+              "originHostUs": 1000000,
+              "pauseEvents": 0
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_unknown"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": null
+      },
+      {
+        "selection": {
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03"
+        },
+        "transcript": null,
+        "capture": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+            "receipt": {
+              "audioIntervals": 2,
+              "bytes": 2124,
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03/dbd25885-1281-46cd-b072-02e87e6a9923/source.jsonl",
+              "finished": true,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "state": "complete"
+              },
+              "lastSequence": 12,
+              "originHostUs": 1000000,
+              "pauseEvents": 2
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_unknown"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": null
+      },
+      {
+        "selection": {
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1"
+        },
+        "transcript": null,
+        "capture": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": 0,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": null,
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "unavailable",
+              "reason": "capture_context_missing"
+            },
+            {
+              "kind": "geometry",
+              "state": "unavailable",
+              "reason": "capture_context_missing"
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_context_missing"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "state": "unavailable",
+        "reason": "capture_context_missing",
+        "retryable": false,
+        "jobId": null
+      }
+    ],
+    "coverage": {
+      "manifestId": "f541207f-75eb-495f-ae43-1e6a7e5edcc8",
+      "occurrences": [
+        {
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:3",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "projectRange": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 1000000
+            }
+          ],
+          "unavailable": []
+        },
+        {
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:10",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:2",
+          "projectRange": {
+            "startUs": 0,
+            "endUs": 2500000
+          },
+          "available": [
+            {
+              "startUs": 201325,
+              "endUs": 951325
+            },
+            {
+              "startUs": 1701325,
+              "endUs": 2500000
+            }
+          ],
+          "unavailable": [
+            {
+              "startUs": 0,
+              "endUs": 201325
+            },
+            {
+              "startUs": 951325,
+              "endUs": 1701325
+            }
+          ]
+        },
+        {
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:4",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "projectRange": {
+            "startUs": 1000000,
+            "endUs": 2000000
+          },
+          "available": [
+            {
+              "startUs": 1000000,
+              "endUs": 2000000
+            }
+          ],
+          "unavailable": []
+        },
+        {
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:7",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+          "projectRange": {
+            "startUs": 1000000,
+            "endUs": 2000000
+          },
+          "available": [
+            {
+              "startUs": 1000000,
+              "endUs": 2000000
+            }
+          ],
+          "unavailable": []
+        },
+        {
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:5",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "projectRange": {
+            "startUs": 2000000,
+            "endUs": 3000000
+          },
+          "available": [
+            {
+              "startUs": 2000000,
+              "endUs": 3000000
+            }
+          ],
+          "unavailable": []
+        },
+        {
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:6",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "projectRange": {
+            "startUs": 4000000,
+            "endUs": 7750000
+          },
+          "available": [
+            {
+              "startUs": 4000000,
+              "endUs": 5500000
+            },
+            {
+              "startUs": 6250000,
+              "endUs": 7750000
+            }
+          ],
+          "unavailable": [
+            {
+              "startUs": 5500000,
+              "endUs": 6250000
+            }
+          ]
+        },
+        {
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:8",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+          "projectRange": {
+            "startUs": 8000000,
+            "endUs": 9000000
+          },
+          "available": [
+            {
+              "startUs": 8000000,
+              "endUs": 9000000
+            }
+          ],
+          "unavailable": []
+        },
+        {
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:9",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+          "projectRange": {
+            "startUs": 9000000,
+            "endUs": 10000000
+          },
+          "available": [
+            {
+              "startUs": 9000000,
+              "endUs": 10000000
+            }
+          ],
+          "unavailable": []
+        }
+      ]
+    },
+    "page": {
+      "rows": [
+        {
+          "kind": "pause",
+          "sourceAtUs": 501326,
+          "captureAtUs": 550001,
+          "sourceSequence": 10,
+          "observation": {
+            "atSourceUs": 550001,
+            "elapsedPauseUs": 123456
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:10",
+          "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:2",
+          "trackRank": 2,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 501326
+        },
+        {
+          "kind": "geometry",
+          "sourceAtUs": 0,
+          "captureAtUs": 250000,
+          "sourceSequence": 1,
+          "observation": {
+            "epoch": 1,
+            "geometry": {
+              "contentRect": {
+                "height": 985,
+                "width": 1560,
+                "x": 0,
+                "y": 0
+              },
+              "contentScale": 1,
+              "outputHeight": 1970,
+              "outputWidth": 3120,
+              "scaleFactor": 2
+            },
+            "hostUs": 1000000,
+            "sourceUs": 250000
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:4",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 1000000
+        },
+        {
+          "kind": "geometry",
+          "sourceAtUs": 0,
+          "captureAtUs": 250000,
+          "sourceSequence": 1,
+          "observation": {
+            "epoch": 1,
+            "geometry": {
+              "contentRect": {
+                "height": 985,
+                "width": 1560,
+                "x": 0,
+                "y": 0
+              },
+              "contentScale": 1,
+              "outputHeight": 1970,
+              "outputWidth": 3120,
+              "scaleFactor": 2
+            },
+            "hostUs": 1000000,
+            "sourceUs": 250000
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:7",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+          "trackRank": 1,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 1000000
+        },
+        {
+          "kind": "pause",
+          "sourceAtUs": 300001,
+          "captureAtUs": 550001,
+          "sourceSequence": 10,
+          "observation": {
+            "atSourceUs": 550001,
+            "elapsedPauseUs": 123456
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:4",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 1300001
+        },
+        {
+          "kind": "geometry",
+          "sourceAtUs": 300001,
+          "captureAtUs": 550001,
+          "sourceSequence": 12,
+          "observation": {
+            "epoch": 2,
+            "geometry": {
+              "contentRect": {
+                "height": 985,
+                "width": 1560,
+                "x": 0,
+                "y": 0
+              },
+              "contentScale": 1,
+              "outputHeight": 1970,
+              "outputWidth": 3120,
+              "scaleFactor": 2
+            },
+            "hostUs": 1300001,
+            "sourceUs": 550001
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:4",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 1300001
+        },
+        {
+          "kind": "pause",
+          "sourceAtUs": 300001,
+          "captureAtUs": 550001,
+          "sourceSequence": 10,
+          "observation": {
+            "atSourceUs": 550001,
+            "elapsedPauseUs": 123456
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:7",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+          "trackRank": 1,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 1300001
+        },
+        {
+          "kind": "geometry",
+          "sourceAtUs": 300001,
+          "captureAtUs": 550001,
+          "sourceSequence": 12,
+          "observation": {
+            "epoch": 2,
+            "geometry": {
+              "contentRect": {
+                "height": 985,
+                "width": 1560,
+                "x": 0,
+                "y": 0
+              },
+              "contentScale": 1,
+              "outputHeight": 1970,
+              "outputWidth": 3120,
+              "scaleFactor": 2
+            },
+            "hostUs": 1300001,
+            "sourceUs": 550001
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:7",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+          "trackRank": 1,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 1300001
+        },
+        {
+          "kind": "geometry",
+          "sourceAtUs": 0,
+          "captureAtUs": 250000,
+          "sourceSequence": 1,
+          "observation": {
+            "epoch": 1,
+            "geometry": {
+              "contentRect": {
+                "height": 985,
+                "width": 1560,
+                "x": 0,
+                "y": 0
+              },
+              "contentScale": 1,
+              "outputHeight": 1970,
+              "outputWidth": 3120,
+              "scaleFactor": 2
+            },
+            "hostUs": 1000000,
+            "sourceUs": 250000
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:5",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 2000000
+        },
+        {
+          "kind": "pause",
+          "sourceAtUs": 300001,
+          "captureAtUs": 550001,
+          "sourceSequence": 10,
+          "observation": {
+            "atSourceUs": 550001,
+            "elapsedPauseUs": 123456
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:5",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 2300001
+        },
+        {
+          "kind": "geometry",
+          "sourceAtUs": 300001,
+          "captureAtUs": 550001,
+          "sourceSequence": 12,
+          "observation": {
+            "epoch": 2,
+            "geometry": {
+              "contentRect": {
+                "height": 985,
+                "width": 1560,
+                "x": 0,
+                "y": 0
+              },
+              "contentScale": 1,
+              "outputHeight": 1970,
+              "outputWidth": 3120,
+              "scaleFactor": 2
+            },
+            "hostUs": 1300001,
+            "sourceUs": 550001
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:5",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 2300001
+        },
+        {
+          "kind": "geometry",
+          "sourceAtUs": 0,
+          "captureAtUs": 250000,
+          "sourceSequence": 1,
+          "observation": {
+            "epoch": 1,
+            "geometry": {
+              "contentRect": {
+                "height": 985,
+                "width": 1560,
+                "x": 0,
+                "y": 0
+              },
+              "contentScale": 1,
+              "outputHeight": 1970,
+              "outputWidth": 3120,
+              "scaleFactor": 2
+            },
+            "hostUs": 1000000,
+            "sourceUs": 250000
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:6",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": 4000000
+        },
+        {
+          "kind": "pause",
+          "sourceAtUs": 300001,
+          "captureAtUs": 550001,
+          "sourceSequence": 10,
+          "observation": {
+            "atSourceUs": 550001,
+            "elapsedPauseUs": 123456
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:6",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": {
+            "numerator": 8900003,
+            "denominator": 2
+          }
+        },
+        {
+          "kind": "geometry",
+          "sourceAtUs": 300001,
+          "captureAtUs": 550001,
+          "sourceSequence": 12,
+          "observation": {
+            "epoch": 2,
+            "geometry": {
+              "contentRect": {
+                "height": 985,
+                "width": 1560,
+                "x": 0,
+                "y": 0
+              },
+              "contentScale": 1,
+              "outputHeight": 1970,
+              "outputWidth": 3120,
+              "scaleFactor": 2
+            },
+            "hostUs": 1300001,
+            "sourceUs": 550001
+          },
+          "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:6",
+          "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+          "streamId": "track:1",
+          "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+          "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+          "trackRank": 0,
+          "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+          "projectAtUs": {
+            "numerator": 8900003,
+            "denominator": 2
+          }
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  "expected": [
+    {
+      "kind": "pause",
+      "sourceAtUs": 501326,
+      "captureAtUs": 550001,
+      "sourceSequence": 10,
+      "observation": {
+        "atSourceUs": 550001,
+        "elapsedPauseUs": 123456
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:10",
+      "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:2",
+      "trackRank": 2,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 501326
+    },
+    {
+      "kind": "geometry",
+      "sourceAtUs": 0,
+      "captureAtUs": 250000,
+      "sourceSequence": 1,
+      "observation": {
+        "epoch": 1,
+        "geometry": {
+          "contentRect": {
+            "height": 985,
+            "width": 1560,
+            "x": 0,
+            "y": 0
+          },
+          "contentScale": 1,
+          "outputHeight": 1970,
+          "outputWidth": 3120,
+          "scaleFactor": 2
+        },
+        "hostUs": 1000000,
+        "sourceUs": 250000
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:4",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 1000000
+    },
+    {
+      "kind": "geometry",
+      "sourceAtUs": 0,
+      "captureAtUs": 250000,
+      "sourceSequence": 1,
+      "observation": {
+        "epoch": 1,
+        "geometry": {
+          "contentRect": {
+            "height": 985,
+            "width": 1560,
+            "x": 0,
+            "y": 0
+          },
+          "contentScale": 1,
+          "outputHeight": 1970,
+          "outputWidth": 3120,
+          "scaleFactor": 2
+        },
+        "hostUs": 1000000,
+        "sourceUs": 250000
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:7",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+      "trackRank": 1,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 1000000
+    },
+    {
+      "kind": "pause",
+      "sourceAtUs": 300001,
+      "captureAtUs": 550001,
+      "sourceSequence": 10,
+      "observation": {
+        "atSourceUs": 550001,
+        "elapsedPauseUs": 123456
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:4",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 1300001
+    },
+    {
+      "kind": "geometry",
+      "sourceAtUs": 300001,
+      "captureAtUs": 550001,
+      "sourceSequence": 12,
+      "observation": {
+        "epoch": 2,
+        "geometry": {
+          "contentRect": {
+            "height": 985,
+            "width": 1560,
+            "x": 0,
+            "y": 0
+          },
+          "contentScale": 1,
+          "outputHeight": 1970,
+          "outputWidth": 3120,
+          "scaleFactor": 2
+        },
+        "hostUs": 1300001,
+        "sourceUs": 550001
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:4",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 1300001
+    },
+    {
+      "kind": "pause",
+      "sourceAtUs": 300001,
+      "captureAtUs": 550001,
+      "sourceSequence": 10,
+      "observation": {
+        "atSourceUs": 550001,
+        "elapsedPauseUs": 123456
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:7",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+      "trackRank": 1,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 1300001
+    },
+    {
+      "kind": "geometry",
+      "sourceAtUs": 300001,
+      "captureAtUs": 550001,
+      "sourceSequence": 12,
+      "observation": {
+        "epoch": 2,
+        "geometry": {
+          "contentRect": {
+            "height": 985,
+            "width": 1560,
+            "x": 0,
+            "y": 0
+          },
+          "contentScale": 1,
+          "outputHeight": 1970,
+          "outputWidth": 3120,
+          "scaleFactor": 2
+        },
+        "hostUs": 1300001,
+        "sourceUs": 550001
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:7",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:1",
+      "trackRank": 1,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 1300001
+    },
+    {
+      "kind": "geometry",
+      "sourceAtUs": 0,
+      "captureAtUs": 250000,
+      "sourceSequence": 1,
+      "observation": {
+        "epoch": 1,
+        "geometry": {
+          "contentRect": {
+            "height": 985,
+            "width": 1560,
+            "x": 0,
+            "y": 0
+          },
+          "contentScale": 1,
+          "outputHeight": 1970,
+          "outputWidth": 3120,
+          "scaleFactor": 2
+        },
+        "hostUs": 1000000,
+        "sourceUs": 250000
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:5",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 2000000
+    },
+    {
+      "kind": "pause",
+      "sourceAtUs": 300001,
+      "captureAtUs": 550001,
+      "sourceSequence": 10,
+      "observation": {
+        "atSourceUs": 550001,
+        "elapsedPauseUs": 123456
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:5",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 2300001
+    },
+    {
+      "kind": "geometry",
+      "sourceAtUs": 300001,
+      "captureAtUs": 550001,
+      "sourceSequence": 12,
+      "observation": {
+        "epoch": 2,
+        "geometry": {
+          "contentRect": {
+            "height": 985,
+            "width": 1560,
+            "x": 0,
+            "y": 0
+          },
+          "contentScale": 1,
+          "outputHeight": 1970,
+          "outputWidth": 3120,
+          "scaleFactor": 2
+        },
+        "hostUs": 1300001,
+        "sourceUs": 550001
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:5",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 2300001
+    },
+    {
+      "kind": "geometry",
+      "sourceAtUs": 0,
+      "captureAtUs": 250000,
+      "sourceSequence": 1,
+      "observation": {
+        "epoch": 1,
+        "geometry": {
+          "contentRect": {
+            "height": 985,
+            "width": 1560,
+            "x": 0,
+            "y": 0
+          },
+          "contentScale": 1,
+          "outputHeight": 1970,
+          "outputWidth": 3120,
+          "scaleFactor": 2
+        },
+        "hostUs": 1000000,
+        "sourceUs": 250000
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:6",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": 4000000
+    },
+    {
+      "kind": "pause",
+      "sourceAtUs": 300001,
+      "captureAtUs": 550001,
+      "sourceSequence": 10,
+      "observation": {
+        "atSourceUs": 550001,
+        "elapsedPauseUs": 123456
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:6",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": {
+        "numerator": 8900003,
+        "denominator": 2
+      }
+    },
+    {
+      "kind": "geometry",
+      "sourceAtUs": 300001,
+      "captureAtUs": 550001,
+      "sourceSequence": 12,
+      "observation": {
+        "epoch": 2,
+        "geometry": {
+          "contentRect": {
+            "height": 985,
+            "width": 1560,
+            "x": 0,
+            "y": 0
+          },
+          "contentScale": 1,
+          "outputHeight": 1970,
+          "outputWidth": 3120,
+          "scaleFactor": 2
+        },
+        "hostUs": 1300001,
+        "sourceUs": 550001
+      },
+      "clipId": "clip:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:6",
+      "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+      "streamId": "track:1",
+      "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+      "trackId": "track:aa6ea75576acab74794c988a6598a85c1a7672142cb263d0a7abf7a73ff24988:0",
+      "trackRank": 0,
+      "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+      "projectAtUs": {
+        "numerator": 8900003,
+        "denominator": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+[
+  {
+    "identity": {
+      "owner": {
+        "kind": "acquisition",
+        "acquisitionId": "287e8194-9312-4e27-b260-3ba304d862d8"
+      },
+      "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+      "generation": "24571c3b-39a6-4b67-a269-de28339f5fae"
+    },
+    "index": "pauses",
+    "range": {
+      "startUs": 124000000,
+      "endUs": 125000000
+    },
+    "after": null,
+    "limit": 1,
+    "rows": []
+  },
+  {
+    "identity": {
+      "owner": {
+        "kind": "acquisition",
+        "acquisitionId": "287e8194-9312-4e27-b260-3ba304d862d8"
+      },
+      "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+      "generation": "24571c3b-39a6-4b67-a269-de28339f5fae"
+    },
+    "index": "geometry",
+    "range": {
+      "startUs": 124000000,
+      "endUs": 125000000
+    },
+    "after": null,
+    "limit": 1,
+    "rows": [
+      {
+        "sourceUs": 124330018,
+        "sequence": 7443
+      }
+    ]
+  },
+  {
+    "identity": {
+      "owner": {
+        "kind": "acquisition",
+        "acquisitionId": "287e8194-9312-4e27-b260-3ba304d862d8"
+      },
+      "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+      "generation": "24571c3b-39a6-4b67-a269-de28339f5fae"
+    },
+    "index": "geometry",
+    "range": {
+      "startUs": 124000000,
+      "endUs": 125000000
+    },
+    "after": [
+      124330018,
+      7443
+    ],
+    "limit": 1,
+    "rows": [
+      {
+        "sourceUs": 124801338,
+        "sequence": 7474
+      }
+    ]
+  },
+  {
+    "identity": {
+      "owner": {
+        "kind": "acquisition",
+        "acquisitionId": "287e8194-9312-4e27-b260-3ba304d862d8"
+      },
+      "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+      "generation": "24571c3b-39a6-4b67-a269-de28339f5fae"
+    },
+    "index": "geometry",
+    "range": {
+      "startUs": 124000000,
+      "endUs": 125000000
+    },
+    "after": [
+      124801338,
+      7474
+    ],
+    "limit": 1,
+    "rows": []
+  }
+]

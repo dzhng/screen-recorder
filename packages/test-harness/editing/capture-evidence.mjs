@@ -19,7 +19,7 @@ const report = {
     "Actual CLI/MCP, acquisition import, native media probing and journal normalization. Synthetic journals are explicitly labeled; no live capture or database seeding.",
   checks: {},
   trace: [],
-  pending: ["source scenes", "project cut semantics", "interruption inspection"],
+  pending: ["source scenes", "project cut semantics"],
 };
 const service = new JourneyService(
   home,
@@ -53,35 +53,86 @@ const compare = (a, b) => {
     [bn, bd] = rational(b);
   return an * bd < bn * ad ? -1 : an * bd > bn * ad ? 1 : 0;
 };
-const sourceRows = (fixture, binding, domain, range) =>
-  fixture.normalized
-    .flatMap((record, index) => {
-      const kind = { cursorSample: "cursor", geometry: "geometry", pause: "pause" }[record.event];
-      if (
-        !kind ||
-        (domain === "cursor") !== (kind === "cursor") ||
-        (kind === "geometry" && !binding.sourceRoles.includes("video"))
-      )
-        return [];
-      const captureAtUs = record.data.sourceUs ?? record.data.atSourceUs;
-      if (captureAtUs === undefined || captureAtUs === null) return [];
-      const sourceAtUs = captureAtUs + binding.sourceToAssetOffsetUs;
-      if (
-        sourceAtUs < range.startUs ||
-        sourceAtUs >= range.endUs ||
-        !binding.available.some((span) => span.startUs <= sourceAtUs && sourceAtUs < span.endUs)
-      )
-        return [];
-      return [
-        { kind, sourceAtUs, captureAtUs, sourceSequence: index + 1, observation: record.data },
-      ];
+const sourceRows = (fixture, binding, domain, range) => {
+  const rows = fixture.normalized.flatMap((record, index) => {
+    const kind = { cursorSample: "cursor", geometry: "geometry", pause: "pause" }[record.event];
+    if (
+      !kind ||
+      (domain === "cursor") !== (kind === "cursor") ||
+      (kind === "geometry" && !binding.sourceRoles.includes("video"))
+    )
+      return [];
+    const captureAtUs = record.data.sourceUs ?? record.data.atSourceUs;
+    if (captureAtUs === undefined || captureAtUs === null) return [];
+    const sourceAtUs = captureAtUs + binding.sourceToAssetOffsetUs;
+    if (
+      sourceAtUs < range.startUs ||
+      sourceAtUs >= range.endUs ||
+      !binding.available.some((span) => span.startUs <= sourceAtUs && sourceAtUs < span.endUs)
+    )
+      return [];
+    return [{ kind, sourceAtUs, captureAtUs, sourceSequence: index + 1, observation: record.data }];
+  });
+  const marker = fixture.interruption?.marker;
+  if (domain === "events" && marker) {
+    const sourceAtUs = marker.durationUs + binding.sourceToAssetOffsetUs;
+    if (
+      range.startUs < sourceAtUs &&
+      sourceAtUs <= range.endUs &&
+      binding.available.some((span) => span.startUs < sourceAtUs && sourceAtUs <= span.endUs)
+    ) {
+      rows.push({
+        kind: "interruption",
+        sourceAtUs,
+        captureAtUs: marker.durationUs,
+        sourceSequence: marker.sequence,
+        observation: {
+          state: marker.state,
+          durationUs: marker.durationUs,
+          ...(marker.failureCode ? { failureCode: marker.failureCode } : {}),
+        },
+      });
+    }
+  }
+  return rows.sort(
+    (a, b) =>
+      a.sourceAtUs - b.sourceAtUs ||
+      a.sourceSequence - b.sourceSequence ||
+      a.kind.localeCompare(b.kind),
+  );
+};
+const projectRows = (plans, labels, domain) =>
+  plans
+    .flatMap((plan) => {
+      if (!plan.fixture || (domain === "cursor" && plan.track === "audio")) return [];
+      return sourceRows(plan.fixture, plan.binding, domain, {
+        startUs: plan.from,
+        endUs: plan.to,
+      }).map((row) => ({
+        ...row,
+        clipId: labels[plan.label],
+        assetId: plan.binding.assetId,
+        streamId: plan.binding.streamId,
+        acquisitionId: plan.fixture.context.id,
+        trackId: labels[plan.track],
+        trackRank: plan.rank,
+        generation: plan.fixture.context.evidence.generation,
+        projectAtUs: fraction(
+          BigInt(plan.start) * BigInt(plan.to - plan.from) +
+            BigInt(row.sourceAtUs - plan.from) * BigInt(plan.duration),
+          plan.to - plan.from,
+        ),
+      }));
     })
     .sort(
       (a, b) =>
-        a.sourceAtUs - b.sourceAtUs ||
+        compare(a.projectAtUs, b.projectAtUs) ||
+        a.trackRank - b.trackRank ||
+        a.clipId.localeCompare(b.clipId) ||
         a.sourceSequence - b.sourceSequence ||
         a.kind.localeCompare(b.kind),
     );
+
 async function pages(operation, params, limit, expectedRevisionId) {
   let result = await poll(
     () => call(operation, { ...params, limit }),
@@ -246,7 +297,7 @@ try {
       (value) => value.kind === "unplaced_geometry" && value.reason === "no_source_time",
     ),
   );
-  for (const kind of ["scene", "cut", "interruption"])
+  for (const kind of ["scene", "cut"])
     assert.ok(
       sourceEvents.context.coverage.some(
         (value) => value.kind === kind && value.reason === "unsupported",
@@ -264,6 +315,66 @@ try {
     ),
     [50001],
   );
+  const terminationProof = [];
+  for (const fixture of fixtures.contexts.filter((value) => value.interruption)) {
+    const selection = selected(fixture.context, fixture.video);
+    const expected = sourceRows(fixture, fixture.video, "events", sourceRange);
+    for (const limit of [1, 2, 500])
+      assert.deepEqual(
+        (await pages("timeline.events", { ...selection, sourceRange }, limit)).rows,
+        expected,
+      );
+    const cli = await call("timeline.events", { ...selection, sourceRange });
+    const mcp = await call("timeline.events", { ...selection, sourceRange }, { transport: "mcp" });
+    assert.deepEqual(cli, mcp);
+    assert.deepEqual(
+      cli.context.coverage.find((value) => value.kind === "interruption"),
+      {
+        kind: "interruption",
+        state: fixture.interruption.state,
+        reason: fixture.interruption.reason,
+      },
+    );
+    terminationProof.push({ name: fixture.name, expected: fixture.interruption, result: cli });
+  }
+  const interrupted = fixtures.contexts.find((value) => value.name === "interrupted");
+  const interruptedVideo = selected(interrupted.context, interrupted.video);
+  const marker = (
+    await pages("timeline.events", { ...interruptedVideo, sourceRange }, 1)
+  ).rows.filter((row) => row.kind === "interruption");
+  assert.deepEqual(
+    marker.map((row) => [row.captureAtUs, row.sourceAtUs]),
+    [[2750000, 2500000]],
+  );
+  const leftEnd = await pages(
+    "timeline.events",
+    { ...interruptedVideo, sourceRange: { startUs: 2499999, endUs: 2500000 } },
+    1,
+  );
+  assert.deepEqual(
+    leftEnd.rows.filter((row) => row.kind === "interruption"),
+    marker,
+  );
+  const shortAudioBinding = interrupted.context.bindings.find((binding) =>
+    binding.sourceRoles.includes("narration"),
+  );
+  const shortAudio = await pages(
+    "timeline.events",
+    selected(interrupted.context, shortAudioBinding),
+    1,
+  );
+  assert.deepEqual(shortAudio.initial.sourceRange, { startUs: 0, endUs: 600000 });
+  assert.equal(shortAudio.rows.filter((row) => row.kind === "interruption").length, 0);
+  assert.equal(shortAudio.initial.context.evidence.receipt.completion.durationUs, 2750000);
+  report.checks.interruption = {
+    states: terminationProof.map((value) => value.name),
+    bothTransports: true,
+    exactCaptureOffset: true,
+    closingEndpoint: true,
+    sourcePageOne: true,
+    shortAudioNotRelocated: true,
+  };
+  await save("termination-source.json", { contexts: terminationProof, shortAudio });
   report.checks.source = {
     bothTransports: true,
     exactNormalizedRows: true,
@@ -416,37 +527,7 @@ try {
     { transport: "mcp" },
   );
   const revisionId = edited.revision.id;
-  const oracle = (domain) =>
-    plans
-      .flatMap((plan) => {
-        if (!plan.fixture || (domain === "cursor" && plan.track === "audio")) return [];
-        return sourceRows(plan.fixture, plan.binding, domain, {
-          startUs: plan.from,
-          endUs: plan.to,
-        }).map((row) => ({
-          ...row,
-          clipId: edited.edit.labels[plan.label],
-          assetId: plan.binding.assetId,
-          streamId: plan.binding.streamId,
-          acquisitionId: plan.fixture.context.id,
-          trackId: edited.edit.labels[plan.track],
-          trackRank: plan.rank,
-          generation: plan.fixture.context.evidence.generation,
-          projectAtUs: fraction(
-            BigInt(plan.start) * BigInt(plan.to - plan.from) +
-              BigInt(row.sourceAtUs - plan.from) * BigInt(plan.duration),
-            plan.to - plan.from,
-          ),
-        }));
-      })
-      .sort(
-        (a, b) =>
-          compare(a.projectAtUs, b.projectAtUs) ||
-          a.trackRank - b.trackRank ||
-          a.clipId.localeCompare(b.clipId) ||
-          a.sourceSequence - b.sourceSequence ||
-          a.kind.localeCompare(b.kind),
-      );
+  const oracle = (domain) => projectRows(plans, edited.edit.labels, domain);
   for (const [operation, domain, limits] of [
     ["cursor.raw", "cursor", [1, 2, 5000]],
     ["timeline.events", "events", [1, 2, 500]],
@@ -541,6 +622,159 @@ try {
     checkpointFileLossNotLRU: true,
     freshReadAfterLoss: true,
   };
+  const terminationProject = await call("project.create", {
+    requestId: "termination-project",
+    canvas: {
+      width: 32,
+      height: 32,
+      fps: { numerator: 1, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  const terminationPlans = [
+    {
+      label: "opening",
+      track: "a",
+      rank: 0,
+      start: 1000000,
+      duration: 1000000,
+      from: 0,
+      to: 1000000,
+      fixture: interrupted,
+      binding: interrupted.video,
+    },
+    {
+      label: "ending",
+      track: "a",
+      rank: 0,
+      start: 0,
+      duration: 1000000,
+      from: 1500000,
+      to: 2500000,
+      fixture: interrupted,
+      binding: interrupted.video,
+    },
+    {
+      label: "repeat",
+      track: "a",
+      rank: 0,
+      start: 2000000,
+      duration: 1000000,
+      from: 1500000,
+      to: 2500000,
+      fixture: interrupted,
+      binding: interrupted.video,
+    },
+    {
+      label: "retimed",
+      track: "a",
+      rank: 0,
+      start: 4000000,
+      duration: 3750001,
+      from: 0,
+      to: 2500000,
+      fixture: interrupted,
+      binding: interrupted.video,
+    },
+    {
+      label: "short",
+      track: "audio",
+      rank: 1,
+      start: 0,
+      duration: 1000000,
+      from: 0,
+      to: 600000,
+      fixture: interrupted,
+      binding: shortAudioBinding,
+    },
+  ];
+  const terminationEdit = await call("edit.apply", {
+    projectId: terminationProject.project.projectId,
+    requestId: "termination-placements",
+    expectedRevisionId: terminationProject.revision.id,
+    operations: [
+      { operation: "track.add", label: "a", track: { kind: "video", order: 0 } },
+      { operation: "track.add", label: "audio", track: { kind: "audio", order: 1 } },
+      ...terminationPlans.map(place),
+    ],
+  });
+  assert.ok(terminationEdit.edit.labels.opening < terminationEdit.edit.labels.ending);
+  const terminationQuery = {
+    projectId: terminationProject.project.projectId,
+    revisionId: terminationEdit.revision.id,
+  };
+  const expectedTermination = projectRows(terminationPlans, terminationEdit.edit.labels, "events");
+  for (const limit of [1, 2, 500])
+    assert.deepEqual(
+      (await pages("timeline.events", terminationQuery, limit, terminationQuery.revisionId)).rows,
+      expectedTermination,
+    );
+  const atJoin = expectedTermination.filter((row) => compare(row.projectAtUs, 1000000) === 0);
+  assert.deepEqual(
+    atJoin.map((row) => row.kind),
+    ["geometry", "pause", "pause", "interruption"],
+  );
+  assert.equal(
+    expectedTermination.filter((row) => row.trackRank === 1 && row.kind === "interruption").length,
+    0,
+  );
+  const left = await pages(
+    "timeline.events",
+    { ...terminationQuery, range: { startUs: 0, endUs: 1000000 } },
+    1,
+  );
+  const right = await pages(
+    "timeline.events",
+    { ...terminationQuery, range: { startUs: 1000000, endUs: 7750001 } },
+    1,
+  );
+  assert.deepEqual(
+    [...left.rows, ...right.rows].sort(
+      (a, b) =>
+        compare(a.projectAtUs, b.projectAtUs) ||
+        a.trackRank - b.trackRank ||
+        a.clipId.localeCompare(b.clipId) ||
+        a.sourceSequence - b.sourceSequence ||
+        a.kind.localeCompare(b.kind),
+    ),
+    expectedTermination,
+  );
+  const terminationFirst = await call("timeline.events", { ...terminationQuery, limit: 1 });
+  assert.ok(terminationFirst.page.nextCursor);
+  await call("edit.apply", {
+    projectId: terminationQuery.projectId,
+    requestId: "termination-new-head",
+    expectedRevisionId: terminationQuery.revisionId,
+    operations: [{ operation: "track.add", label: "extra", track: { kind: "video", order: 2 } }],
+  });
+  await service.stop();
+  await service.start();
+  const terminationResume = await call(
+    "timeline.events",
+    { projectId: terminationQuery.projectId, cursor: terminationFirst.page.nextCursor, limit: 500 },
+    { transport: "mcp" },
+  );
+  assert.equal(terminationResume.revisionId, terminationQuery.revisionId);
+  assert.deepEqual(
+    [...terminationFirst.page.rows, ...terminationResume.page.rows],
+    expectedTermination,
+  );
+  report.checks.interruptionProject = {
+    adjacentOpeningTies: true,
+    priorEndpointOrder: true,
+    pageOne: true,
+    limits: [1, 2, 500],
+    partitionedWindows: true,
+    repeatedAndRetimed: true,
+    shortAudioNotRelocated: true,
+    historicalRestart: true,
+  };
+  await save("termination-project.json", {
+    query: terminationQuery,
+    expected: expectedTermination,
+    first: terminationFirst,
+    resumed: terminationResume,
+  });
   const crowded = await call("project.create", {
     requestId: "capture-many-tracks",
     canvas: {
@@ -652,7 +886,6 @@ try {
       ].map(async (path) => [path, hash(await readFile(join(root, path)))]),
     ),
   );
-  console.log(JSON.stringify({ out, passed: true }));
 } catch (error) {
   report.error = { message: error.message, stack: error.stack };
   throw error;
@@ -661,7 +894,13 @@ try {
     report.shutdownError = error.message;
     report.passed = false;
   });
-  await save("report.json", report);
-  await writeFile(join(out, "service.log"), service.logs.join(""));
-  await rm(home, { recursive: true, force: true });
+  try {
+    await save("report.json", report);
+    await writeFile(join(out, "service.log"), service.logs.join(""));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
 }
+
+console.log(JSON.stringify({ out, passed: report.passed }));
+if (!report.passed) process.exitCode = 1;

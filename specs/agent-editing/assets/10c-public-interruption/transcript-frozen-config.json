@@ -1,0 +1,67 @@
+{
+  "sources": [
+    {
+      "name": "first",
+      "sha256": "b537d4a48774f1dd241c3405b149101aae94674b60fbf41c990c0538e4661e46",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 6000000
+        },
+        {
+          "startUs": 6500000,
+          "endUs": 12500000
+        }
+      ],
+      "rawFile": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10b-native-selection/selected/first-physical-selected.jsonl",
+      "rawSha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac",
+      "receiptFile": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10b-native-selection/selected/first-physical-selected-response.json"
+    },
+    {
+      "name": "second",
+      "sha256": "5788fe236768fc65d2f3f5fc8f9ca8b75045f176044d089641c8c98d2ce8488d",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 6000000
+        },
+        {
+          "startUs": 6500000,
+          "endUs": 12500000
+        }
+      ],
+      "rawFile": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10b-native-selection/selected/second-physical-selected.jsonl",
+      "rawSha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5",
+      "receiptFile": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10b-native-selection/selected/second-physical-selected-response.json"
+    },
+    {
+      "name": "first",
+      "sha256": "b537d4a48774f1dd241c3405b149101aae94674b60fbf41c990c0538e4661e46",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 2000000
+        },
+        {
+          "startUs": 3000000,
+          "endUs": 6000000
+        },
+        {
+          "startUs": 6500000,
+          "endUs": 12000000
+        }
+      ],
+      "rawFile": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10b-native-selection/selected/first-acquired-selected.jsonl",
+      "rawSha256": "87de3965e7b174f5c6826973bb1e2d09e9039c06f8a41f51b293ee786a14bcc6",
+      "receiptFile": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10b-native-selection/selected/first-acquired-selected-response.json"
+    }
+  ],
+  "readsFile": "/tmp/interruption-public-transcript-final/source-reads.jsonl",
+  "observationsFile": "/tmp/interruption-public-transcript-final/frozen-calls.json"
+}

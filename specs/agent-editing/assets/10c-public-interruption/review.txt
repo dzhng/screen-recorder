@@ -1,0 +1,11 @@
+Review scope: final uncommitted protocol and capture journey pass.
+
+Shape: one shared capture reader remains authoritative; public cursor schema admits its interruption head. Existing capture fixture/oracle extended without a parallel runtime owner. Production change is two added lines and one changed help description; remaining executable changes are tests/harness.
+
+Diff: no unresolved findings. Retained final capture and frozen-transcript reports pass, their original report hashes match the retained reports, and all recorded runtime and harness hashes match the reviewed worktree. The mutation report confirms omission of interruption rows fails the actual public journey.
+
+Docs: public checkpoint links to retained evidence and distinguishes synthetic journal input, actual normalization/delivery, frozen transcript preservation and physical capture acceptance. Root handoff updates are owned by the integrating agent.
+
+Independent Codex review: prior attempt ended at usage limit and is not acceptance evidence. A fresh codex review --uncommitted completed successfully on 2026-09-28; final response:
+
+The protocol change matches the capture reader’s existing continuation format, and the expanded harness covers interruption boundaries and pagination without apparent regressions. All 18 protocol tests passed.

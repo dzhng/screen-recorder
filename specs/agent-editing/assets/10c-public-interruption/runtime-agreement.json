@@ -1,0 +1,10 @@
+{
+  "sharedRuntimeHashesMatch": true,
+  "commonFiles": [
+    "apps/service/dist/project-service.js",
+    "packages/core/dist/project-evidence.js",
+    "packages/protocol/dist/operations.js"
+  ],
+  "nativeSha256": "0d504b4d34ac76e1cd0f75091779e80ca789917f0961d26b597a646be9f8650a",
+  "finalHarnessMatchesSource": true
+}

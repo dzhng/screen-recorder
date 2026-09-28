@@ -1,0 +1,23 @@
+(node:30476) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: cursor.raw: {"id":"d770201d-4eaa-40b4-8688-9e3a6f64dd6c","ok":false,"error":{"code":"INVALID_PARAMS","message":"Parameters do not match the operation schema.","retryable":false,"details":{}}}
+
+false !== true
+
+    at JourneyService.call (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-evidence-fixture.mjs:110:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async pages (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/capture-evidence.mjs:104:14)
+    at async file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/capture-evidence.mjs:176:25 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

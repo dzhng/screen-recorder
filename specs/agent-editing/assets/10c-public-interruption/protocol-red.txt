@@ -1,0 +1,41 @@
+$ vitest run
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/protocol
+
+ ❯ src/index.test.ts (11 tests | 1 failed) 50ms
+   × source capture continuations retain every reader head through both public operations 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/index.test.ts > source capture continuations retain every reader head through both public operations
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "interruption"
+    ],
+    "path": [
+      "params",
+      "cursor",
+      "position"
+    ],
+    "message": "Unrecognized key: \"interruption\""
+  }
+]
+ ❯ src/index.test.ts:231:28
+    229|     const params = { assetId: "asset", streamId: "track:1", acquisitio…
+    230|       sourceRange: { startUs: 0, endUs: 1000 }, limit: 1, cursor: { re…
+    231|     expect(operationSchema.parse({ operation, params })).toEqual({ ope…
+       |                            ^
+    232|     expect(operationSchema.safeParse({ operation, params: { ...params,…
+    233|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 17 passed (18)
+   Start at  03:03:29
+   Duration  661ms (transform 56%, import 33%, tests 10%, worker 2%)
+
+error: script "test" exited with code 1

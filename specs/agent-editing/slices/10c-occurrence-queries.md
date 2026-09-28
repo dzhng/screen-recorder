@@ -150,3 +150,12 @@ existing occurrence ordering through bounded adjacent-head merging. Unknown,
 damaged or conflicting termination stays qualified as unavailable. Public
 source/project interruption routing and live delivery remain unverified here;
 ordinary frame/sample point semantics remain half-open.
+
+## Public interruption checkpoint
+
+[Actual CLI/MCP interruption evidence](../assets/10c-public-interruption/README.md)
+verifies retained journal qualifications, exact nonzero-origin capture endpoints,
+short audio, adjacent occurrence ordering, page-one continuations and historical
+restart. The public schema now accepts the reader's interruption continuation head.
+Existing capture and frozen transcript journeys pass on matching shared runtime
+hashes. Source scene and project-cut semantics remain separate open work.

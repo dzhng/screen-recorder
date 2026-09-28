@@ -1,0 +1,58 @@
+{
+  "originUs": 250000,
+  "streams": [
+    {
+      "codec": "avc1",
+      "decodable": true,
+      "endUs": 2500000,
+      "height": 1970,
+      "id": "track:1",
+      "kind": "video",
+      "orientedHeight": 1970,
+      "orientedWidth": 3120,
+      "samples": {
+        "count": 60,
+        "firstPtsUs": 0,
+        "lastPtsUs": 2476107,
+        "maxDurationUs": 36984,
+        "minDurationUs": 12530
+      },
+      "segments": [
+        {
+          "empty": true,
+          "endUs": 0,
+          "startUs": -250000
+        },
+        {
+          "empty": false,
+          "endUs": 1000000,
+          "mediaDurationUs": 1000000,
+          "mediaStartUs": 0,
+          "startUs": 0
+        },
+        {
+          "empty": true,
+          "endUs": 1500000,
+          "startUs": 1000000
+        },
+        {
+          "empty": false,
+          "endUs": 2500000,
+          "mediaDurationUs": 1000000,
+          "mediaStartUs": 1012530,
+          "startUs": 1500000
+        }
+      ],
+      "startUs": 0,
+      "transform": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "width": 3120
+    }
+  ]
+}

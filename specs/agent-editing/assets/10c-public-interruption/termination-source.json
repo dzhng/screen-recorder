@@ -1,0 +1,2014 @@
+{
+  "contexts": [
+    {
+      "name": "synthetic",
+      "expected": {
+        "state": "unavailable",
+        "reason": "capture_completion_unknown",
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "dbd25885-1281-46cd-b072-02e87e6a9923",
+            "receipt": {
+              "audioIntervals": 2,
+              "bytes": 2124,
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/9fd1c040-dd8f-4a8c-aa55-c2a9e20c3f03/dbd25885-1281-46cd-b072-02e87e6a9923/source.jsonl",
+              "finished": true,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "state": "complete"
+              },
+              "lastSequence": 12,
+              "originHostUs": 1000000,
+              "pauseEvents": 2
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_unknown"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "incomplete",
+      "expected": {
+        "state": "unavailable",
+        "reason": "capture_completion_untrusted",
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "99f9f7d3-79c2-4603-9d69-de10aa0b43bb",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "99f9f7d3-79c2-4603-9d69-de10aa0b43bb"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "99f9f7d3-79c2-4603-9d69-de10aa0b43bb"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "5c8c822f-bea6-4242-82ff-7574fb633106",
+            "receipt": {
+              "audioIntervals": 2,
+              "bytes": 2124,
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/99f9f7d3-79c2-4603-9d69-de10aa0b43bb/5c8c822f-bea6-4242-82ff-7574fb633106/source.jsonl",
+              "finished": false,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": true,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastSequence": 10,
+              "originHostUs": 1000000,
+              "pauseEvents": 2
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_untrusted"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "empty",
+      "expected": {
+        "state": "unavailable",
+        "reason": "capture_completion_unknown",
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "8d1a5b35-59fb-4c7c-816a-01d7e1f7c5db",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "8d1a5b35-59fb-4c7c-816a-01d7e1f7c5db"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "8d1a5b35-59fb-4c7c-816a-01d7e1f7c5db"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "c0c09d77-861c-45a2-9776-707b0bef05e4",
+            "receipt": {
+              "audioIntervals": 0,
+              "bytes": 0,
+              "cursorSamples": 0,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/8d1a5b35-59fb-4c7c-816a-01d7e1f7c5db/c0c09d77-861c-45a2-9776-707b0bef05e4/source.jsonl",
+              "finished": true,
+              "geometryRecords": 0,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastLifecycle": {
+                "state": "complete"
+              },
+              "lastSequence": 4,
+              "originHostUs": 1000000,
+              "pauseEvents": 0
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_unknown"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "complete",
+      "expected": {
+        "state": "ready",
+        "reason": null,
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "64c0e3d7-a137-404d-8efa-c5cbb2b066e6",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "64c0e3d7-a137-404d-8efa-c5cbb2b066e6"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "64c0e3d7-a137-404d-8efa-c5cbb2b066e6"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "ee3656eb-57ee-40dd-bbeb-b35bd517be18",
+            "receipt": {
+              "audioIntervals": 1,
+              "bytes": 2164,
+              "completion": {
+                "durationUs": 2750000,
+                "sequence": 12,
+                "state": "complete"
+              },
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/64c0e3d7-a137-404d-8efa-c5cbb2b066e6/ee3656eb-57ee-40dd-bbeb-b35bd517be18/source.jsonl",
+              "finished": true,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "state": "complete"
+              },
+              "lastSequence": 13,
+              "originHostUs": 1000000,
+              "pauseEvents": 4
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 14,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 17
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 15,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 19
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "interrupted",
+      "expected": {
+        "state": "ready",
+        "reason": null,
+        "marker": {
+          "sequence": 12,
+          "state": "interrupted",
+          "durationUs": 2750000,
+          "failureCode": "DEVICE_LOST"
+        }
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "5bd1d9d4-c92a-4df8-bed4-064757484631",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "5bd1d9d4-c92a-4df8-bed4-064757484631"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "5bd1d9d4-c92a-4df8-bed4-064757484631"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "40c23d62-5562-4e0b-9d81-5ac6a69e06aa",
+            "receipt": {
+              "audioIntervals": 1,
+              "bytes": 2164,
+              "completion": {
+                "durationUs": 2750000,
+                "failureCode": "DEVICE_LOST",
+                "sequence": 12,
+                "state": "interrupted"
+              },
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/5bd1d9d4-c92a-4df8-bed4-064757484631/40c23d62-5562-4e0b-9d81-5ac6a69e06aa/source.jsonl",
+              "finished": true,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "reason": "DEVICE_LOST",
+                "state": "interrupted"
+              },
+              "lastSequence": 13,
+              "originHostUs": 1000000,
+              "pauseEvents": 4
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 14,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 17
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 15,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 19
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            },
+            {
+              "kind": "interruption",
+              "sourceAtUs": 2500000,
+              "captureAtUs": 2750000,
+              "sourceSequence": 12,
+              "observation": {
+                "state": "interrupted",
+                "durationUs": 2750000,
+                "failureCode": "DEVICE_LOST"
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "missing",
+      "expected": {
+        "state": "unavailable",
+        "reason": "capture_completion_unknown",
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "9825fa3a-6211-426a-82bc-25827bcde1d5",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "9825fa3a-6211-426a-82bc-25827bcde1d5"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "9825fa3a-6211-426a-82bc-25827bcde1d5"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "993d7134-3c13-40bd-8981-b37ca044e844",
+            "receipt": {
+              "audioIntervals": 1,
+              "bytes": 2164,
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/9825fa3a-6211-426a-82bc-25827bcde1d5/993d7134-3c13-40bd-8981-b37ca044e844/source.jsonl",
+              "finished": false,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastSequence": 11,
+              "originHostUs": 1000000,
+              "pauseEvents": 4
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_unknown"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 14,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 17
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 15,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 19
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "lifecycle-only",
+      "expected": {
+        "state": "unavailable",
+        "reason": "capture_completion_unknown",
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "ab423c35-0ac7-4ff2-9a24-1c3de0f7f425",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "ab423c35-0ac7-4ff2-9a24-1c3de0f7f425"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "ab423c35-0ac7-4ff2-9a24-1c3de0f7f425"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "b74f1323-158d-4551-92c9-130009cec59a",
+            "receipt": {
+              "audioIntervals": 1,
+              "bytes": 2164,
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/ab423c35-0ac7-4ff2-9a24-1c3de0f7f425/b74f1323-158d-4551-92c9-130009cec59a/source.jsonl",
+              "finished": false,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "state": "interrupted"
+              },
+              "lastSequence": 12,
+              "originHostUs": 1000000,
+              "pauseEvents": 4
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_unknown"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 14,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 17
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 15,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 19
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "torn",
+      "expected": {
+        "state": "unavailable",
+        "reason": "capture_completion_untrusted",
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "c6d0576b-3009-459c-ab71-26df07abebc4",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "c6d0576b-3009-459c-ab71-26df07abebc4"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "c6d0576b-3009-459c-ab71-26df07abebc4"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "20f5c1ad-88c2-4282-85aa-48a2233aa013",
+            "receipt": {
+              "audioIntervals": 1,
+              "bytes": 2164,
+              "completion": {
+                "durationUs": 2750000,
+                "failureCode": "DEVICE_LOST",
+                "sequence": 12,
+                "state": "interrupted"
+              },
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/c6d0576b-3009-459c-ab71-26df07abebc4/20f5c1ad-88c2-4282-85aa-48a2233aa013/source.jsonl",
+              "finished": true,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": true,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "reason": "DEVICE_LOST",
+                "state": "interrupted"
+              },
+              "lastSequence": 13,
+              "originHostUs": 1000000,
+              "pauseEvents": 4
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_untrusted"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 14,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 17
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 15,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 19
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "corrupt",
+      "expected": {
+        "state": "unavailable",
+        "reason": "capture_completion_untrusted",
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "57708efb-8f9c-47f4-b471-21287a2afda4",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "57708efb-8f9c-47f4-b471-21287a2afda4"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "57708efb-8f9c-47f4-b471-21287a2afda4"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "1f74faaf-bbd7-4366-827a-9270ed71cd79",
+            "receipt": {
+              "audioIntervals": 1,
+              "bytes": 2164,
+              "completion": {
+                "durationUs": 2750000,
+                "failureCode": "DEVICE_LOST",
+                "sequence": 12,
+                "state": "interrupted"
+              },
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/57708efb-8f9c-47f4-b471-21287a2afda4/1f74faaf-bbd7-4366-827a-9270ed71cd79/source.jsonl",
+              "finished": true,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "invalidAtSequence": 14,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "reason": "DEVICE_LOST",
+                "state": "interrupted"
+              },
+              "lastSequence": 13,
+              "originHostUs": 1000000,
+              "pauseEvents": 4
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_untrusted"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 14,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 17
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 15,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 19
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    },
+    {
+      "name": "conflicting",
+      "expected": {
+        "state": "unavailable",
+        "reason": "capture_completion_conflict",
+        "marker": null
+      },
+      "result": {
+        "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+        "streamId": "track:1",
+        "acquisitionId": "bd2f236e-8536-4cc3-9e1a-90d36f553209",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          {
+            "startUs": 1500000,
+            "endUs": 2500000
+          }
+        ],
+        "state": "ready",
+        "context": {
+          "selection": {
+            "assetId": "77b820e8f275f013913f0bc663e8842503e3d6c61afcacdb563ae32f06f558f0",
+            "streamId": "track:1",
+            "acquisitionId": "bd2f236e-8536-4cc3-9e1a-90d36f553209"
+          },
+          "domain": "events",
+          "durationUs": 2500000,
+          "sourceToAssetOffsetUs": -250000,
+          "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+          "evidence": {
+            "owner": {
+              "kind": "acquisition",
+              "acquisitionId": "bd2f236e-8536-4cc3-9e1a-90d36f553209"
+            },
+            "sourceId": "synthetic-capture-evidence",
+            "generation": "5ac06e76-4582-473a-82c1-d03d77c7a12f",
+            "receipt": {
+              "audioIntervals": 1,
+              "bytes": 2164,
+              "completion": {
+                "durationUs": 2750000,
+                "sequence": 12,
+                "state": "complete"
+              },
+              "cursorSamples": 8,
+              "displaySpaces": 0,
+              "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/bd2f236e-8536-4cc3-9e1a-90d36f553209/5ac06e76-4582-473a-82c1-d03d77c7a12f/source.jsonl",
+              "finished": true,
+              "firstCursorSourceUs": 250000,
+              "geometryRecords": 3,
+              "header": {
+                "height": 1970,
+                "microphone": true,
+                "schemaVersion": 1,
+                "sessionID": "synthetic-capture-evidence",
+                "source": {
+                  "kind": "window",
+                  "windowID": 7
+                },
+                "systemAudio": false,
+                "width": 3120
+              },
+              "incompleteTail": false,
+              "journal": "capture.journal.jsonl",
+              "lastCursorSourceUs": 2749999,
+              "lastLifecycle": {
+                "state": "interrupted"
+              },
+              "lastSequence": 13,
+              "originHostUs": 1000000,
+              "pauseEvents": 4
+            }
+          },
+          "coverage": [
+            {
+              "kind": "pause",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "geometry",
+              "state": "ready",
+              "reason": null
+            },
+            {
+              "kind": "unplaced_geometry",
+              "state": "unavailable",
+              "reason": "no_source_time"
+            },
+            {
+              "kind": "interruption",
+              "state": "unavailable",
+              "reason": "capture_completion_conflict"
+            },
+            {
+              "kind": "scene",
+              "state": "unavailable",
+              "reason": "unsupported"
+            },
+            {
+              "kind": "cut",
+              "state": "unavailable",
+              "reason": "unsupported"
+            }
+          ]
+        },
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 2500000
+        },
+        "page": {
+          "rows": [
+            {
+              "kind": "geometry",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 1,
+              "observation": {
+                "epoch": 1,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1000000,
+                "sourceUs": 250000
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 14,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 17
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 0,
+              "captureAtUs": 250000,
+              "sourceSequence": 15,
+              "observation": {
+                "atSourceUs": 250000,
+                "elapsedPauseUs": 19
+              }
+            },
+            {
+              "kind": "pause",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 10,
+              "observation": {
+                "atSourceUs": 550001,
+                "elapsedPauseUs": 123456
+              }
+            },
+            {
+              "kind": "geometry",
+              "sourceAtUs": 300001,
+              "captureAtUs": 550001,
+              "sourceSequence": 12,
+              "observation": {
+                "epoch": 2,
+                "geometry": {
+                  "contentRect": {
+                    "height": 985,
+                    "width": 1560,
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contentScale": 1,
+                  "outputHeight": 1970,
+                  "outputWidth": 3120,
+                  "scaleFactor": 2
+                },
+                "hostUs": 1300001,
+                "sourceUs": 550001
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      }
+    }
+  ],
+  "shortAudio": {
+    "rows": [
+      {
+        "kind": "pause",
+        "sourceAtUs": 250000,
+        "captureAtUs": 250000,
+        "sourceSequence": 14,
+        "observation": {
+          "atSourceUs": 250000,
+          "elapsedPauseUs": 17
+        }
+      },
+      {
+        "kind": "pause",
+        "sourceAtUs": 250000,
+        "captureAtUs": 250000,
+        "sourceSequence": 15,
+        "observation": {
+          "atSourceUs": 250000,
+          "elapsedPauseUs": 19
+        }
+      },
+      {
+        "kind": "pause",
+        "sourceAtUs": 550001,
+        "captureAtUs": 550001,
+        "sourceSequence": 10,
+        "observation": {
+          "atSourceUs": 550001,
+          "elapsedPauseUs": 123456
+        }
+      }
+    ],
+    "initial": {
+      "assetId": "191647321633024beaf0b82b88da0ac5bbdb7d916010423d41473e4de4703962",
+      "streamId": "track:1",
+      "acquisitionId": "5bd1d9d4-c92a-4df8-bed4-064757484631",
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 600000
+        }
+      ],
+      "state": "ready",
+      "context": {
+        "selection": {
+          "assetId": "191647321633024beaf0b82b88da0ac5bbdb7d916010423d41473e4de4703962",
+          "streamId": "track:1",
+          "acquisitionId": "5bd1d9d4-c92a-4df8-bed4-064757484631"
+        },
+        "domain": "events",
+        "durationUs": 600000,
+        "sourceToAssetOffsetUs": 0,
+        "supportDigest": "cb0b81073566cc434c2b3aa46def4712e7a3c471393773ca91ed41cd8131d10d",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "5bd1d9d4-c92a-4df8-bed4-064757484631"
+          },
+          "sourceId": "synthetic-capture-evidence",
+          "generation": "40c23d62-5562-4e0b-9d81-5ac6a69e06aa",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 2164,
+            "completion": {
+              "durationUs": 2750000,
+              "failureCode": "DEVICE_LOST",
+              "sequence": 12,
+              "state": "interrupted"
+            },
+            "cursorSamples": 8,
+            "displaySpaces": 0,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-msusEG/library/acquisitions/5bd1d9d4-c92a-4df8-bed4-064757484631/40c23d62-5562-4e0b-9d81-5ac6a69e06aa/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 250000,
+            "geometryRecords": 3,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "synthetic-capture-evidence",
+              "source": {
+                "kind": "window",
+                "windowID": 7
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 2749999,
+            "lastLifecycle": {
+              "reason": "DEVICE_LOST",
+              "state": "interrupted"
+            },
+            "lastSequence": 13,
+            "originHostUs": 1000000,
+            "pauseEvents": 4
+          }
+        },
+        "coverage": [
+          {
+            "kind": "pause",
+            "state": "ready",
+            "reason": null
+          },
+          {
+            "kind": "geometry",
+            "state": "unavailable",
+            "reason": "requires_captured_video"
+          },
+          {
+            "kind": "unplaced_geometry",
+            "state": "unavailable",
+            "reason": "no_source_time"
+          },
+          {
+            "kind": "interruption",
+            "state": "ready",
+            "reason": null
+          },
+          {
+            "kind": "scene",
+            "state": "unavailable",
+            "reason": "unsupported"
+          },
+          {
+            "kind": "cut",
+            "state": "unavailable",
+            "reason": "unsupported"
+          }
+        ]
+      },
+      "sourceRange": {
+        "startUs": 0,
+        "endUs": 600000
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "pause",
+            "sourceAtUs": 250000,
+            "captureAtUs": 250000,
+            "sourceSequence": 14,
+            "observation": {
+              "atSourceUs": 250000,
+              "elapsedPauseUs": 17
+            }
+          }
+        ],
+        "nextCursor": {
+          "reference": "b24069b781c9c97b0a7f313a8fa825bc8bf7d325cc729b9e3d16718ca0c9f9b9",
+          "position": {
+            "cursor": {
+              "after": null,
+              "done": false
+            },
+            "pause": {
+              "after": [
+                250000,
+                14
+              ],
+              "done": false
+            },
+            "geometry": {
+              "after": null,
+              "done": false
+            },
+            "interruption": {
+              "after": null,
+              "done": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

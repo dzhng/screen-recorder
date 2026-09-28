@@ -1,0 +1,6 @@
+{
+  "exitCode": 1,
+  "originalServiceSha256": "5df1cada370b48ba2542cb440c84840c0aa9a82389826374e1e72d8163649614",
+  "mutatedServiceSha256": "06a2a3b902962943cc8d3efefada2f97e9e636dd3872aa101b92a7ee48896cfa",
+  "mutation": "Omit source interruption rows at actual public service response boundary; leave continuation unchanged"
+}

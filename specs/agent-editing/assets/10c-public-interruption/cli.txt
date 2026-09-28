@@ -1,0 +1,11 @@
+$ vitest run
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/apps/cli
+
+(node:37313) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  27 passed (27)
+   Start at  03:07:38
+   Duration  5.21s (tests 94%, transform 4%, import 2%)
