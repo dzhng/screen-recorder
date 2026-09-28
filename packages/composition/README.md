@@ -65,8 +65,12 @@ gain authoring are available in this pure package; capability discovery explicit
 distinguishes that from native execution, which remains unimplemented.
 
 The [compiler](src/compiler.ts) builds an interval index once for a validated
-immutable revision. Frame iterators keep absolute project phase; audio schedules
+immutable revision. Frame iterators keep absolute project phase, including the already-visible picture
+when a window begins between frame timestamps. Sample time remains distinct from
+the clipped visible interval; audio schedules
 clip absolute sample bounds while retaining the whole source/placement mapping.
+Frame availability distinguishes own-source absence from missing ancestor support;
+ancestor absence cannot be repaired by proving an empty edit in the child file.
 Unavailable media remains marked, and missing contributors represent background
 or silence rather than invented source evidence. Processing instructions retain
 ordered steps and combine children before their parent stack. Their list is
@@ -84,5 +88,7 @@ rather than treating a descriptor as prepared media. Raw source evidence remains
 separate from target taps.
 
 These are pure schedules and dependency manifests, not native readiness claims.
-The [compiler slice](../../specs/agent-editing/slices/05-compiler.md) owns the remaining
-worker binding and media acceptance before native consumers adopt them.
+The [compiler slice](../../specs/agent-editing/slices/05-compiler.md) records pure
+conformance and names the downstream native/media acceptance owners. Streamed
+records derive their types from [strict schemas](src/compiled-records.ts), so worker
+adoption cannot silently add a second timing or processing policy.

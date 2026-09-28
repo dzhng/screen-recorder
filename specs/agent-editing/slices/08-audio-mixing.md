@@ -24,7 +24,7 @@ node packages/test-harness/editing/audio-mix.mjs --case music-and-replacement
 
 ## Acceptance
 
-Known tone/impulse mixes have expected placements, amplitudes, channel mapping and sample counts. Replace audio while video plan is identical. Test absent streams versus acquired silence, 44.1/48 kHz, long edits without drift, cancel/restart and bounded PCM buffers. Audition real narration joins per verification.md.
+Known tone/impulse mixes have expected placements, amplitudes, channel mapping and sample counts. Replace audio while video plan is identical. Test absent streams versus acquired silence and actual mixed 44.1/48 kHz source decoding/resampling (slice 05 proves only rate-independent presentation-time planning), long edits without drift, cancel/restart and bounded PCM buffers. Audition real narration joins per verification.md.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 

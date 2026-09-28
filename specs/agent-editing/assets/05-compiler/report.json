@@ -1,7 +1,7 @@
 {
   "fixture": "phase-offset",
   "scope": "pure composition schedules; no service or native execution",
-  "comparisons": 34,
+  "comparisons": 38,
   "splitPreserved": true,
   "outputSampleRates": [
     44100,
@@ -10,5 +10,15 @@
   "nestedProcessing": true,
   "targetTaps": true,
   "strictManifest": true,
+  "strictStreamRecords": true,
+  "leadingPicturePreserved": true,
+  "availabilityProvenance": true,
+  "independentReorderedAV": true,
+  "nestedWindowRestriction": true,
+  "sourceRateMetadata": [
+    44100,
+    48000
+  ],
+  "resampling": "not executed; slice 08",
   "nativeReadiness": "unresolved; NOT_READY"
 }

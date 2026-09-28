@@ -144,7 +144,10 @@ latency/tail handling recorded. Container frame/audio padding is reported separa
 from requested content duration; it must not shift later clips.
 
 Range previews preserve the full project's frame/sample phase and return an offset
-back to project time. Rendering a short range must not restart keyframes, shift
+back to project time. A preview beginning between frame timestamps includes the
+already visible picture, sampled at its original project instant; only its visible
+interval is clipped. The same applies at the preview end. Its leading picture may
+therefore depend on a clip whose authored interval ended before the preview began. Rendering a short range must not restart keyframes, shift
 caption timing, or evaluate a different source sample from a full export.
 
 `projectToSource` identifies all active visual/audio occurrences; `sourceToProject`

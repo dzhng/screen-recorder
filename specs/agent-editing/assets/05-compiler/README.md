@@ -1,48 +1,54 @@
-# Compiler scheduling evidence
+# Compiler evidence
 
-This pass verifies the pure composition boundary only. It opens no service,
-decodes no media and makes no CLI/MCP or native-output claim. Slice 05 remains open.
+The pure compiler gate passes. This evidence opens no service, decodes no media and
+makes no CLI/MCP or native-readiness claim. Native/video/audio/public-route adoption
+remains gated by 07, 08, 09 and their later capability slices.
 
-The [probe](../../../../packages/test-harness/editing/compiler.mjs) compares
-short-window schedules against full-project schedules and independent rational
-clock arithmetic. Its [report](report.json) records fractional frame phase,
-exact split preservation, absolute audio endpoints and nested processing order.
+The [probe](../../../../packages/test-harness/editing/compiler.mjs) runs the actual
+core asset-metadata projection and public compiler exports. Build core and composition
+before running it. The [report](report.json) distinguishes source-rate metadata,
+output sample clocks and unexecuted resampling.
 
-The compiler tests additionally exercise acquisition gaps, held frames,
-half-open membership, bypass/order retention, nested parent execution order,
-late windows in 10,000 repeated clips, lazy two-hour frame iteration, empty
-windows with out-of-range next timestamps, and protection against returned-plan
-mutation. No elapsed-time threshold is claimed as a performance acceptance gate.
+Independent golden sequences prove B→A video over A→B audio, then restrict the full
+nested processing tree to a short window. The same fixture carries 44.1/48 kHz
+source metadata through the actual admission-to-composition projection. Its project
+selection remains in presentation microseconds; no decoded-rate parity is claimed.
+Strict frame/audio records and manifests round-trip JSON, including fractional
+source boundaries and clipped sample bounds.
 
-Verification: composition build and typecheck, 85 composition tests, focused
-lint, and the compiler probe pass. New behavior tests were observed failing
-before implementation. Independent review found mutable empty-stack results and
-premature overflow validation of a frame outside the window; both now have
-red/green regression tests and fixes. Phase-reset mutation separately falsifies
-the range/full comparison. A subsequent independent Codex CLI review found no
-actionable defects and independently reran build, typecheck, the 85 tests and probe.
+The frozen [render reproduction](../../../../packages/test-harness/editing/RENDER-REPRODUCTION.md)
+exposed a defect in the first compiler pass: filtering samples at or after preview
+start omitted the picture already visible there. Frames now carry the original
+sample time and a separately clipped visible interval. A 50,001µs start retains the
+33,366µs picture; an exact 66,733µs boundary correctly selects that sampled frame.
+Window dependencies retain a leading picture's clip even if it ended before the
+window, and omit video occurrences with no sampled presentation in that window.
+The leading-picture regression failed on the old implementation before the fix.
 
-The execution-window pass adds revision/rendition identity, strict serializable
-manifests, dry/after-step/processed target taps and unresolved retiming requirements.
-A short retimed window retains its full source selection and preparation output
-count. Its native readiness guard returns NOT_READY. Request mutation cannot
-change an already compiled window; source and processing dependencies exclude
-sibling targets and later parent stages. The expanded suite passes 89 composition
-tests, build, typecheck, focused lint and the independent compiler probe.
+Compiled frame layers distinguish source-unavailable from anchor-unavailable,
+with ancestor support taking precedence. A direct and an attached occurrence of
+the same gapped source produce different statuses in the independent probe. Only
+a source-unavailable status may be resolved by native proof of a physical empty
+edit; an unknown gap or unavailable ancestor cannot silently become black. The
+resolver preserves this cause before intersecting availability, so native workers
+do not recreate attachment logic.
 
-Independent review caught schedule filtering after unrelated sibling work. Window
-schedules now reuse the shared clock functions with an index of selected inputs.
-A deterministic metadata-read probe changed from four unrelated availability reads
-to zero; no wall-clock budget was weakened. Removing the tap filter or retime
-requirement also falsified its respective regression assertion. Follow-up review
-found no further actionable issues within this partial scope. Final independent
-Codex CLI review was clean and reran all 89 tests, build, typecheck and probe.
+The composition suite covers gaps, holds, exact cuts, nested ordering, gain/bypass,
+retiming requirements, target taps, no-op empty stacks, immutable result ownership,
+late windows in 10,000 repeated clips and lazy two-hour iteration. Window target
+selection occurs before source/availability calculation; a deterministic metadata
+read probe confirms unrelated siblings are not resolved during scoped iteration.
+No wall-clock threshold is substituted for the later scale gate.
 
-Next: bind native executors and immutable prepared results, pin actual implementation
-identities, and verify the strict window plus streamed schedules through real media
-consumers. Typed unresolved requirements are not a passing media gate. Source sample
-rates/layout remain admitted metadata consumed by decode/resample preparation; the
-tested rates here are output clocks, not mixed-rate decoded-media parity. Windows/
-curves and visual variants remain rejected by the current authoring schema until
-their owning slices land. CLI/MCP service-to-media journeys remain unbuilt for this
-compiler path and must land with those execution routes.
+Verification: composition build/typecheck, core build, 92 composition tests, focused
+lint/format checks and the expanded compiler probe pass. Removing the strict frame
+coverage check falsifies its malformed-record regression. Earlier independent
+reviews caught mutable empty stacks, out-of-window arithmetic and post-filtered
+sibling work; those findings remain fixed. Native executors and actual prepared
+results intentionally stay unresolved with an explicit NOT_READY guard. Stateful
+processing, recipe pins, decoded-media fidelity and public journeys are not implied.
+
+Final independent Codex review found no actionable regressions and reran the
+92-test suite, typecheck/build and compiler conformance harness after the
+availability-provenance change. Pure slice 05 acceptance is complete; downstream
+media and live-route gates remain unchanged.

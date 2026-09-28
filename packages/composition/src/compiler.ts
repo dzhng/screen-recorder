@@ -1,35 +1,12 @@
+import type { CompiledFrame, CompiledAudio } from "./compiled-records.js";
 import { executionWindow, executionWindowRequestSchema } from "./execution-window.js";
 import { processingPlanner } from "./processing-plan.js";
 import { CompositionError } from "./errors.js";
 import { sourceTime, type ValidatedComposition } from "./model.js";
-import { compare, floor, fromTime, toTime, type Rational } from "./rational.js";
-import { isMediaClip, rangeSchema, type Range, type SelectionRange } from "./schema.js";
+import { compare, floor, ceil, fromTime, toTime, type Rational } from "./rational.js";
+import { isMediaClip, rangeSchema, type Range, type Fraction } from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
-export type CompiledFrame = {
-  index: number;
-  atUs: number;
-  layers: {
-    clipId: string;
-    trackId: string;
-    assetId: string;
-    streamId: string;
-    sourceUs: number;
-    available: boolean;
-    placement: "contain";
-  }[];
-};
-export type CompiledAudio = {
-  clipId: string;
-  trackId: string;
-  sampleRange: { start: number; end: number };
-  placement: SelectionRange;
-  source:
-    | { kind: "silence" }
-    | { kind: "range"; assetId: string; streamId: string; range: SelectionRange };
-  pitch: "preserve" | "follow";
-  available: { start: number; end: number }[];
-};
 function safeInteger(value: bigint): number {
   if (value < 0n || value > BigInt(Number.MAX_SAFE_INTEGER))
     throw new CompositionError("INVALID_TIME", "Compiled clock exceeds safe-integer precision");
@@ -87,10 +64,21 @@ function intervalIndex(clips: readonly Resolved[]) {
   };
 }
 
-function compileSchedules(model: ValidatedComposition, query: ReturnType<typeof intervalIndex>) {
-  const fps = model.document.canvas.fps;
-  const frameNumerator = BigInt(fps.numerator);
-  const frameDenominator = 1000000n * BigInt(fps.denominator);
+function frameClock(fps: Fraction) {
+  const numerator = BigInt(fps.numerator),
+    denominator = 1000000n * BigInt(fps.denominator);
+  return {
+    timeAt: (index: bigint) => (index * denominator) / numerator,
+    // Floor timestamps make an exact integer boundary slightly earlier than k * period.
+    indexAt: (time: bigint) => ((time + 1n) * numerator + denominator - 1n) / denominator - 1n,
+    firstAtOrAfter: (time: number) => (BigInt(time) * numerator + denominator - 1n) / denominator,
+  };
+}
+
+function compileSchedules(
+  clock: ReturnType<typeof frameClock>,
+  query: ReturnType<typeof intervalIndex>,
+) {
   return {
     *audio(input: Range, sampleRate = 48000): Generator<CompiledAudio> {
       const range = checkedRange(input);
@@ -140,10 +128,9 @@ function compileSchedules(model: ValidatedComposition, query: ReturnType<typeof 
     },
     *frames(input: Range): Generator<CompiledFrame> {
       const range = checkedRange(input);
-      let index =
-        (BigInt(range.startUs) * frameNumerator + frameDenominator - 1n) / frameDenominator;
+      let index = clock.indexAt(BigInt(range.startUs));
       for (;;) {
-        const timestamp = (index * frameDenominator) / frameNumerator;
+        const timestamp = clock.timeAt(index);
         if (timestamp >= BigInt(range.endUs)) return;
         const atUs = safeInteger(timestamp);
         const at = fromTime(atUs);
@@ -152,18 +139,32 @@ function compileSchedules(model: ValidatedComposition, query: ReturnType<typeof 
           const clip = value.clip;
           if (value.track.kind !== "video" || !isMediaClip(clip)) continue;
           const part = value.available[firstAvailable(value.available, at)];
+          const anchor = value.anchorSupport[firstAvailable(value.anchorSupport, at)];
           layers.push({
             clipId: clip.id,
             trackId: clip.trackId,
             assetId: clip.assetId,
             streamId: clip.streamId,
             sourceUs: floor(sourceTime(value, at)),
-            available: part !== undefined && compare(part.start, at) <= 0,
+            availability:
+              anchor === undefined || compare(anchor.start, at) > 0
+                ? "anchor-unavailable"
+                : part !== undefined && compare(part.start, at) <= 0
+                  ? "available"
+                  : "source-unavailable",
             placement: "contain",
           });
         }
-        yield { index: safeInteger(index), atUs, layers };
-        index++;
+        const nextTimestamp = clock.timeAt(index + 1n);
+        const visibleEnd =
+          nextTimestamp < BigInt(range.endUs) ? nextTimestamp : BigInt(range.endUs);
+        yield {
+          index: safeInteger(index),
+          sampleAtUs: atUs,
+          visibleRange: { startUs: Math.max(range.startUs, atUs), endUs: safeInteger(visibleEnd) },
+          layers,
+        };
+        index = clock.indexAt(nextTimestamp);
       }
     },
   };
@@ -175,17 +176,37 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
     throw new CompositionError("INVALID_COMPOSITION", "Expected a revision identity");
   const query = intervalIndex(model.clips);
   const processing = processingPlanner(model);
+  const clock = frameClock(model.document.canvas.fps);
+  function contributors(range: Range) {
+    const leading = clock.indexAt(BigInt(range.startUs));
+    const candidates = new Map(
+      query(fromTime(range.startUs), fromTime(range.endUs)).map((value) => [value.clip.id, value]),
+    );
+    for (const value of query(fromTime(safeInteger(clock.timeAt(leading)))))
+      if (value.track.kind === "video") candidates.set(value.clip.id, value);
+    return [...candidates.values()]
+      .filter((value) => {
+        if (value.track.kind === "audio") return true;
+        const first = clock.firstAtOrAfter(ceil(value.range.start));
+        const sample = clock.timeAt(first > leading ? first : leading);
+        return (
+          sample < BigInt(range.endUs) &&
+          compare(fromTime(safeInteger(sample)), value.range.end) < 0
+        );
+      })
+      .sort((a, b) => a.trackRank - b.trackRank || compare(a.range.start, b.range.start));
+  }
   return {
-    ...compileSchedules(model, query),
+    ...compileSchedules(clock, query),
     processing(input: Range) {
       const range = checkedRange(input);
-      return processing(query(fromTime(range.startUs), fromTime(range.endUs)));
+      return processing(contributors(range));
     },
     window(input: unknown) {
       const parsed = executionWindowRequestSchema.safeParse(input);
       if (!parsed.success) throw new CompositionError("INVALID_COMPOSITION", parsed.error.message);
       const request = parsed.data;
-      const clips = query(fromTime(request.range.startUs), fromTime(request.range.endUs));
+      const clips = contributors(request.range);
       const plan = processing(clips, request.tap);
       const selected = new Set(
         plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
@@ -197,7 +218,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         request,
         inputs,
         plan,
-        compileSchedules(model, intervalIndex(inputs)),
+        compileSchedules(clock, intervalIndex(inputs)),
       );
     },
   };

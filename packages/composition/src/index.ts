@@ -49,7 +49,8 @@ export { processingTargetSchema, processingStepSchema } from "./schema.js";
 export type { ProcessingTarget, ProcessingStep } from "./schema.js";
 
 export { createCompiler } from "./compiler.js";
-export type { CompiledFrame, CompiledAudio } from "./compiler.js";
+export { compiledFrameSchema, compiledAudioSchema } from "./compiled-records.js";
+export type { CompiledFrame, CompiledAudio } from "./compiled-records.js";
 export type { ProcessingInstruction } from "./processing-plan.js";
 export {
   executionWindowRequestSchema,

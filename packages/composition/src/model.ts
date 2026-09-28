@@ -33,6 +33,7 @@ type Immutable<T> = T extends object ? { readonly [K in keyof T]: Immutable<T[K]
 export type ExactRange = Readonly<{ start: Rational; end: Rational }>;
 export type ResolvedPlacement = Readonly<{ range: ExactRange; available: readonly ExactRange[] }>;
 type ResolvedClip = ResolvedPlacement & {
+  anchorSupport: readonly ExactRange[];
   clip: Immutable<Clip>;
   stream: Immutable<Stream> | null;
   track: Immutable<Composition["tracks"][number]>;
@@ -272,6 +273,7 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
         : null;
     const result: ResolvedClip = {
       ...anchor,
+      anchorSupport: anchor.available,
       clip,
       track,
       trackRank: trackRanks.get(track.id)!,

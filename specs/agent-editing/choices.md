@@ -600,3 +600,24 @@ trim and stretch replacements keep their single-interval behavior.
   Repeating project.delete for an already absent project succeeds, matching the
   existing recording deletion contract. There is no extra deletion-request ledger
   or parallel job queue.
+
+## Compiler presentation-interval conformance — 2026-09-27
+
+- **Sound; high confidence — A partial preview keeps the picture already on screen.**
+  If a preview begins at 50,001 microseconds between project frames, its first picture
+  still comes from the preceding sampled frame; only that picture's visible interval
+  is shortened. The frozen render reproduction already requires this. The first
+  compiler pass incorrectly kept only samples starting inside the window. Records
+  now distinguish the original sample time from the clipped presentation interval,
+  and dependency selection includes the preceding picture's clip even after that
+  clip's authored interval ends. This is a preservation correction, not a new preview
+  policy; later native execution must preserve both fields.
+
+- **Sound; high confidence — Missing parent support outranks missing source support.**
+  Two clips can read the same gapped file, but one can additionally depend on an
+  unavailable attached parent. The resolver now retains the parent's exact support
+  before intersecting it with the child's source. Compiled frame layers distinguish
+  available, source-unavailable and anchor-unavailable, prioritizing the ancestor.
+  This fills a boundary-information gap: a native decoder may prove that a source
+  gap is an explicit empty edit, but that proof cannot repair missing parent support.
+  Only source-unavailable can enter that media proof; unknown gaps still fail.

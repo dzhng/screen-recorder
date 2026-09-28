@@ -5,6 +5,8 @@ import {
   type Composition,
   requireWindowReady,
   executionWindowManifestSchema,
+  compiledFrameSchema,
+  compiledAudioSchema,
 } from "./index.js";
 
 const document: Composition = {
@@ -48,8 +50,19 @@ test("range frames preserve the full project phase and source clock", () => {
   const compiler = createCompiler(validateComposition(document, assets), "revision");
   const full = [...compiler.frames({ startUs: 0, endUs: 1000000 })];
   const part = [...compiler.frames({ startUs: 50001, endUs: 180000 })];
-  expect(part).toEqual(full.filter((frame) => frame.atUs >= 50001 && frame.atUs < 180000));
-  expect(part.map((frame) => [frame.index, frame.atUs, frame.layers[0]?.sourceUs])).toEqual([
+  expect(part).toEqual(
+    full
+      .filter((frame) => frame.visibleRange.endUs > 50001 && frame.visibleRange.startUs < 180000)
+      .map((frame) => ({
+        ...frame,
+        visibleRange: {
+          startUs: Math.max(50001, frame.visibleRange.startUs),
+          endUs: Math.min(180000, frame.visibleRange.endUs),
+        },
+      })),
+  );
+  expect(part.map((frame) => [frame.index, frame.sampleAtUs, frame.layers[0]?.sourceUs])).toEqual([
+    [1, 33366, 533366],
     [2, 66733, 566733],
     [3, 100100, 600100],
     [4, 133466, 633466],
@@ -181,14 +194,14 @@ test("frame membership respects gaps, holds, nested ordering and half-open cuts"
   const compiler = createCompiler(validateComposition(input, media), "revision");
   expect(
     [...compiler.frames({ startUs: 100000, endUs: 300000 })].map((frame) =>
-      frame.layers.map((layer) => [layer.clipId, layer.sourceUs, layer.available]),
+      frame.layers.map((layer) => [layer.clipId, layer.sourceUs, layer.availability]),
     ),
   ).toEqual([
     [
-      ["c", 600000, false],
-      ["held", 700000, true],
+      ["c", 600000, "source-unavailable"],
+      ["held", 700000, "available"],
     ],
-    [["c", 700000, true]],
+    [["c", 700000, "available"]],
   ]);
   expect(compiler.processing({ startUs: 100000, endUs: 200000 }).at(-1)?.inputs).toEqual([
     { kind: "track", id: "v" },
@@ -214,11 +227,14 @@ test("two-hour requests are lazy and late repeated clips do not replay earlier f
   expect(
     late.map((frame) => [
       frame.index,
-      frame.atUs,
+      frame.sampleAtUs,
       frame.layers[0]?.clipId,
       frame.layers[0]?.sourceUs,
     ]),
-  ).toEqual([[215784, 7199992800, "repeat-7199", 1492800]]);
+  ).toEqual([
+    [215783, 7199959433, "repeat-7199", 1459433],
+    [215784, 7199992800, "repeat-7199", 1492800],
+  ]);
   expect(
     compiler.processing({ startUs: 7199500000, endUs: 7199600000 }).map((node) => node.target),
   ).toEqual([{ kind: "clip", id: "repeat-7199" }, { kind: "track", id: "v" }, { kind: "output" }]);
@@ -235,11 +251,17 @@ test("returned plan mutation cannot change a later plan for the same revision", 
   expect(compiler.processing({ startUs: 0, endUs: 1 })[0]!.steps).toEqual([]);
 });
 
-test("a frame outside a valid empty window needs no serializable timestamp", () => {
+test("a leading frame clips its end before converting an enormous next timestamp", () => {
   const input = structuredClone(document);
   input.canvas.fps = { numerator: 1, denominator: Number.MAX_SAFE_INTEGER };
   const compiler = createCompiler(validateComposition(input, assets), "revision");
-  expect([...compiler.frames({ startUs: 1, endUs: 2 })]).toEqual([]);
+  expect(
+    [...compiler.frames({ startUs: 1, endUs: 2 })].map((frame) => [
+      frame.index,
+      frame.sampleAtUs,
+      frame.visibleRange,
+    ]),
+  ).toEqual([[0, 0, { startUs: 1, endUs: 2 }]]);
 });
 
 test("target taps exclude parents and later steps while preserving child processing", () => {
@@ -382,6 +404,7 @@ test("a visual target tap excludes siblings from schedules and rejects foreign s
     ["other-clip"],
     ["other-clip"],
     ["other-clip"],
+    ["other-clip"],
   ]);
   expect([...window.audio()]).toEqual([]);
   expect(window.manifest.sources.map((source) => source.clipId)).toEqual(["other-clip"]);
@@ -444,4 +467,156 @@ test("a target tap does not read unrelated availability while iterating its sche
     ["chosen", { start: 0, end: 48000 }],
   ]);
   expect(unrelatedReads).toBe(0);
+});
+
+test("partial first frames retain their old source and exact visible coverage", () => {
+  const input = structuredClone(document);
+  input.clips = [
+    {
+      assetId: "asset",
+      streamId: "video",
+      trackId: "v",
+      id: "old",
+      source: { kind: "range", range: { startUs: 500000, endUs: 550000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 50000 } },
+    },
+    {
+      assetId: "asset",
+      streamId: "video",
+      trackId: "v",
+      id: "new",
+      source: { kind: "range", range: { startUs: 800000, endUs: 1750000 } },
+      placement: { kind: "project", range: { startUs: 50000, endUs: 1000000 } },
+    },
+  ];
+  const compiler = createCompiler(validateComposition(input, assets), "revision");
+  const request = {
+    range: { startUs: 50001, endUs: 70000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  };
+  const window = compiler.window(request);
+  expect(
+    [...window.frames()].map((frame) => [
+      frame.index,
+      frame.sampleAtUs,
+      frame.visibleRange,
+      frame.layers[0]?.clipId,
+      frame.layers[0]?.sourceUs,
+    ]),
+  ).toEqual([
+    [1, 33366, { startUs: 50001, endUs: 66733 }, "old", 533366],
+    [2, 66733, { startUs: 66733, endUs: 70000 }, "new", 816733],
+  ]);
+  expect(window.manifest.sources.map((source) => source.clipId)).toEqual(["old", "new"]);
+  expect(
+    compiler
+      .window({ ...request, range: { startUs: 50001, endUs: 60000 } })
+      .manifest.sources.map((source) => source.clipId),
+  ).toEqual(["old"]);
+  expect(
+    [...compiler.frames({ startUs: 66733, endUs: 66734 })].map((frame) => frame.index),
+  ).toEqual([2]);
+});
+
+test("stream records round-trip strictly and refuse impossible presentation/sample coverage", () => {
+  const compiler = createCompiler(validateComposition(document, assets), "revision");
+  const frame = [...compiler.frames({ startUs: 50001, endUs: 60000 })][0]!;
+  expect(compiledFrameSchema.parse(JSON.parse(JSON.stringify(frame)))).toEqual(frame);
+  expect(
+    compiledFrameSchema.safeParse({ ...frame, visibleRange: { startUs: 0, endUs: 60000 } }).success,
+  ).toBe(false);
+  const input = structuredClone(document);
+  input.tracks = [{ id: "a", kind: "audio", order: 0 }];
+  input.clips = [
+    {
+      id: "quiet",
+      trackId: "a",
+      source: { kind: "silence" },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    },
+  ];
+  const segment = [
+    ...createCompiler(validateComposition(input, []), "audio-revision").audio({
+      startUs: 100001,
+      endUs: 200001,
+    }),
+  ][0]!;
+  expect(compiledAudioSchema.parse(JSON.parse(JSON.stringify(segment)))).toEqual(segment);
+  expect(
+    compiledAudioSchema.safeParse({ ...segment, available: [{ start: 0, end: 9600 }] }).success,
+  ).toBe(false);
+  expect(compiledAudioSchema.safeParse({ ...segment, normalize: true }).success).toBe(false);
+});
+
+test("compiled availability distinguishes source gaps from unavailable ancestors", () => {
+  const input = structuredClone(document);
+  input.canvas.fps = { numerator: 10, denominator: 1 };
+  input.tracks = ["parent", "attached", "direct"].map((id, order) => ({
+    id,
+    kind: "video",
+    order,
+  }));
+  input.clips = [
+    {
+      id: "parent",
+      trackId: "parent",
+      assetId: "parent",
+      streamId: "v",
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    },
+    {
+      id: "attached",
+      trackId: "attached",
+      assetId: "child",
+      streamId: "v",
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "content", clipId: "parent", sourceRange: { startUs: 0, endUs: 1000000 } },
+    },
+    {
+      id: "direct",
+      trackId: "direct",
+      assetId: "child",
+      streamId: "v",
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    },
+  ];
+  const media = [200000, 300000].map((gapEnd, index) => ({
+    id: index === 0 ? "parent" : "child",
+    streams: [
+      {
+        id: "v",
+        kind: "video",
+        bounds: { startUs: 0, endUs: 1000000 },
+        available: [
+          { startUs: 0, endUs: 100000 },
+          { startUs: gapEnd, endUs: 1000000 },
+        ],
+      },
+    ],
+  }));
+  const compiler = createCompiler(validateComposition(input, media), "provenance");
+  expect(
+    [...compiler.frames({ startUs: 100000, endUs: 400000 })].map((frame) =>
+      frame.layers.map((layer) => [layer.clipId, layer.availability]),
+    ),
+  ).toEqual([
+    [
+      ["parent", "source-unavailable"],
+      ["attached", "anchor-unavailable"],
+      ["direct", "source-unavailable"],
+    ],
+    [
+      ["parent", "available"],
+      ["attached", "source-unavailable"],
+      ["direct", "source-unavailable"],
+    ],
+    [
+      ["parent", "available"],
+      ["attached", "available"],
+      ["direct", "available"],
+    ],
+  ]);
 });

@@ -1,6 +1,6 @@
 # 05 — Compile bounded execution plans
 
-Status: pure schedules and strict revision-pinned target windows verified; native binding and full compiler acceptance remain open. See [evidence](../assets/05-compiler/README.md). Dependencies: [01](./01-composition.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
+Status: pure compiler accepted. Strict records, availability provenance, clipped presentation intervals, independent AV and nested-window conformance pass. Native adoption belongs to downstream slices, not this dependency. See [evidence](../assets/05-compiler/README.md). Dependencies: [01](./01-composition.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
 
 ## Contract
 
@@ -24,7 +24,7 @@ node packages/test-harness/editing/compiler.mjs --fixture phase-offset
 
 ## Acceptance
 
-A short window agrees with the corresponding full-project schedule at all sampled times, including fractional fps and non-frame-aligned starts. Validate independent AV, repeat/reorder, held source, bounded iteration and mixed source rates. Golden plans show exact layer/source/sample membership.
+A short window agrees with the corresponding full-project schedule at all sampled times, including fractional fps and non-frame-aligned starts. Validate independent AV, repeat/reorder, held source and bounded iteration. Prove source presentation-time planning through the real admitted-metadata projection with different source-rate metadata; decoded mixed-rate resampling is the distinct slice 08 gate. Golden plans show exact layer/source/sample membership.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 
@@ -52,3 +52,28 @@ storage owner may hash canonical manifest bytes without another compiler hash
 algorithm. Frame/audio schedules remain lazy and preserve their absolute clocks.
 Native execution readiness must fail explicitly until the owning native slices
 bind real executors and prepared retiming results. A typed descriptor is not media.
+
+
+## Acceptance boundary
+
+The [pure probe](../../../packages/test-harness/editing/compiler.mjs) consumes the
+real core metadata projection and compiler exports. Strict manifest and streamed
+frame/audio schemas round-trip JSON; golden requests preserve independently
+reordered AV, nested window/full restriction, source gaps, fractional frame clocks
+and partial first/last pictures. Source sample-rate metadata does not change the
+project-time selection algebra. This is engine evidence, not a live service journey.
+
+Slice 07 binds/executes video instructions and preserves the frozen 06 media gate;
+08 proves decoded source-rate conversion, channel behavior, mixing and gain;
+09 proves CLI/MCP service-to-media preview/export; 14 binds verified stretch;
+15/16/15a extend the compiler for visual processing, automation and verified denoise.
+Those downstream implementations pin real worker/recipe identities and resolve the
+currently explicit preparation requirements. Their absence does not block this
+pure compiler acceptance, and this acceptance does not pre-approve their media.
+
+
+Frame availability carries source-versus-anchor provenance. The resolver retains
+exact anchor support before source intersection; anchor absence takes precedence
+in compiled records. Slice 07 may resolve source-unavailable to an explicit empty
+edit only through physical source proof. Unknown source gaps and unavailable
+ancestors remain unavailable. Native code must not recreate anchor semantics.

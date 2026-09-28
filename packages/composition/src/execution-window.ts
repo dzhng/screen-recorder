@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
-import { type CompiledAudio, type CompiledFrame } from "./compiler.js";
+import { type CompiledAudio, type CompiledFrame } from "./compiled-records.js";
 import { type ValidatedComposition } from "./model.js";
 import { processingInstructionSchema, type ProcessingInstruction } from "./processing-plan.js";
 import { compare, fromTime, toTime } from "./rational.js";
