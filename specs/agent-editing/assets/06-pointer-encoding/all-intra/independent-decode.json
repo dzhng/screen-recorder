@@ -1,0 +1,41 @@
+{
+  "decoder": "ffmpeg rgba; corroboration only, Apple decoder remains original evaluator",
+  "frames": [
+    {
+      "frame": 10,
+      "fullCount": 84,
+      "rangeCount": 84,
+      "centroidDelta": [
+        1.0476190476190368,
+        0.1904761904761898
+      ],
+      "changedChannels": 2725,
+      "fullSHA256": "2f10d1fa3718fcf5a57ac50c9204db97aaae496f544e1710f72d3a7006ddd462",
+      "rangeSHA256": "289f167fb6840c1e705a113b8f40ec953b7acf771a650332bb9945454433f630"
+    },
+    {
+      "frame": 11,
+      "fullCount": 88,
+      "rangeCount": 96,
+      "centroidDelta": [
+        0.27272727272726627,
+        0.06060606060606233
+      ],
+      "changedChannels": 3538,
+      "fullSHA256": "6df3cf8f227c4e6d7b2cbecccd189047c1be2025faf97410a308ed73074f0334",
+      "rangeSHA256": "14bb7b8fd434690a8f0f7c8780d691fd7a57b49ebdfb8adcd7ab702836428718"
+    },
+    {
+      "frame": 12,
+      "fullCount": 80,
+      "rangeCount": 72,
+      "centroidDelta": [
+        -0.6777777777777771,
+        -0.15555555555555145
+      ],
+      "changedChannels": 3022,
+      "fullSHA256": "a2949b2b4b04f5a05b8aaa74105b274474fe0be54a8f3f9279d3804e7c48734f",
+      "rangeSHA256": "2713e206f0783e49f3fc5eec67b611d697e06919418762adbb697db34868dc3f"
+    }
+  ]
+}

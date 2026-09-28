@@ -1,0 +1,38 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: ifError got unwanted exception: spawnSync /tmp/ScreenRecorderCompositionVideoTests ENOENT
+    at run (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/composition-movie.mjs:17:10)
+    at Object.spawnSync (node:internal/child_process:1119:20)
+    at spawnSync (node:child_process:911:24)
+    at run (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/composition-movie.mjs:12:13)
+    at file:///Users/david/dev/screen-recorder/packages/test-harness/editing/composition-movie.mjs:325:24
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: Error: spawnSync /tmp/ScreenRecorderCompositionVideoTests ENOENT
+      at Object.spawnSync (node:internal/child_process:1119:20)
+      at spawnSync (node:child_process:911:24)
+      at run (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/composition-movie.mjs:12:13)
+      at file:///Users/david/dev/screen-recorder/packages/test-harness/editing/composition-movie.mjs:325:24
+      at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+      at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+      at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'spawnSync /tmp/ScreenRecorderCompositionVideoTests',
+    path: '/tmp/ScreenRecorderCompositionVideoTests',
+    spawnargs: [
+      '/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-composition-movie-90zZlN/cancel-request.json',
+      'media.renderCompositionMovie'
+    ]
+  },
+  expected: null,
+  operator: 'ifError',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

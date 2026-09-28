@@ -111,7 +111,8 @@ Use isolated homes and frozen workers. Imported assets never fabricate recording
 rows or narration roles; preserve physical support and acquisition provenance.
 Never pad missing samples, truncate support or relax thresholds to conceal a
 failure. Numerical checks cannot close listening or physical-camera acceptance.
-Broader encoding/color (06), audio conformance/scale (08), camera (20/21),
+[Encoding trials](assets/06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
+no production profile is accepted. Broader encoding/color (06), audio conformance/scale (08), camera (20/21),
 portability (22), cutover (23), scale (24) and autonomous acceptance (25) remain
 explicit gates. No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,

@@ -1,0 +1,17 @@
+{
+  "bytes": 1683,
+  "decodedSamples": 3,
+  "durationUs": 200000,
+  "file": "/tmp/screenrec-pointer-intra-trial/range/movie.mp4",
+  "frames": 3,
+  "height": 160,
+  "maximumSequentialAdvanceUs": 1000000,
+  "mediaType": "video/mp4",
+  "pixelPoolAllocationThreshold": 4,
+  "pointerRasterizations": 3,
+  "profile": "h264-rec709",
+  "rasterizedFrames": 3,
+  "readerOpens": 1,
+  "retainedSourceBuffersBound": 1,
+  "width": 256
+}

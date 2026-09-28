@@ -1,0 +1,315 @@
+{
+  "workerSHA256": "418023101b4fe09a057d558a3f83491a9222234eab06636481c1a116c6b967d5",
+  "sourceSHA256": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+  "factor": "AVVideoAverageBitRateKey=40_000_000",
+  "writerInputChecks": [
+    {
+      "cohort": "full",
+      "index": 10,
+      "writerTraceExact": true,
+      "writerPixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "sha256": "74aaa4f959d910be73440dc23ae06a768a1f0a8d370512a0cd2dba4d58c6a495"
+    },
+    {
+      "cohort": "full",
+      "index": 11,
+      "writerTraceExact": true,
+      "writerPixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "sha256": "7faeca31c6016cdffb35490abbd12b4f53aac4b5cea982a75cf4bf2036b74e8d"
+    },
+    {
+      "cohort": "full",
+      "index": 12,
+      "writerTraceExact": true,
+      "writerPixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "sha256": "f735d7bfbe33b253832889b831555e4aad9ecc303ede8b70e57721cdeca24425"
+    },
+    {
+      "cohort": "range",
+      "index": 10,
+      "writerTraceExact": true,
+      "writerPixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "sha256": "74aaa4f959d910be73440dc23ae06a768a1f0a8d370512a0cd2dba4d58c6a495"
+    },
+    {
+      "cohort": "range",
+      "index": 11,
+      "writerTraceExact": true,
+      "writerPixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "sha256": "7faeca31c6016cdffb35490abbd12b4f53aac4b5cea982a75cf4bf2036b74e8d"
+    },
+    {
+      "cohort": "range",
+      "index": 12,
+      "writerTraceExact": true,
+      "writerPixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "sha256": "f735d7bfbe33b253832889b831555e4aad9ecc303ede8b70e57721cdeca24425"
+    }
+  ],
+  "movies": [
+    {
+      "cohort": "full",
+      "bytes": 7756,
+      "parentBytes": 2479,
+      "ratio": 3.1286809197256957,
+      "sha256": "d9340296d6f0d4a416da817aa2da932aa72da7d349806707a84e23b15dab8d68",
+      "frames": 20,
+      "allIntra": false
+    },
+    {
+      "cohort": "range",
+      "bytes": 2370,
+      "parentBytes": 1242,
+      "ratio": 1.9082125603864735,
+      "sha256": "cc761d3d3eba6dd6667d95890405c05b067fb37288b4a580cf9038d645487d0e",
+      "frames": 3,
+      "allIntra": false
+    }
+  ],
+  "trail": [
+    {
+      "index": 10,
+      "threshold": 19,
+      "fullCount": 121,
+      "rangeCount": 118,
+      "fullCentroid": [
+        84,
+        59.603305785123965
+      ],
+      "rangeCentroid": [
+        83.87288135593221,
+        59.559322033898304
+      ],
+      "centroidDelta": [
+        -0.12711864406779227,
+        -0.04398375122566023
+      ],
+      "fullOnly": 3,
+      "rangeOnly": 0,
+      "iou": 0.9752066115702479,
+      "decodedDifference": {
+        "changedChannels": 383,
+        "maximum": 3
+      }
+    },
+    {
+      "index": 10,
+      "threshold": 20,
+      "fullCount": 119,
+      "rangeCount": 118,
+      "fullCentroid": [
+        83.94117647058823,
+        59.563025210084035
+      ],
+      "rangeCentroid": [
+        83.87288135593221,
+        59.559322033898304
+      ],
+      "centroidDelta": [
+        -0.06829511465602423,
+        -0.0037031761857306833
+      ],
+      "fullOnly": 1,
+      "rangeOnly": 0,
+      "iou": 0.9915966386554622,
+      "decodedDifference": {
+        "changedChannels": 383,
+        "maximum": 3
+      }
+    },
+    {
+      "index": 10,
+      "threshold": 21,
+      "fullCount": 117,
+      "rangeCount": 117,
+      "fullCentroid": [
+        83.8974358974359,
+        59.56410256410256
+      ],
+      "rangeCentroid": [
+        83.8974358974359,
+        59.56410256410256
+      ],
+      "centroidDelta": [
+        0,
+        0
+      ],
+      "fullOnly": 0,
+      "rangeOnly": 0,
+      "iou": 1,
+      "decodedDifference": {
+        "changedChannels": 383,
+        "maximum": 3
+      }
+    },
+    {
+      "index": 11,
+      "threshold": 19,
+      "fullCount": 145,
+      "rangeCount": 147,
+      "fullCentroid": [
+        100.53793103448275,
+        62.90344827586207
+      ],
+      "rangeCentroid": [
+        100.34013605442176,
+        62.87074829931973
+      ],
+      "centroidDelta": [
+        -0.1977949800609906,
+        -0.03269997654233947
+      ],
+      "fullOnly": 0,
+      "rangeOnly": 2,
+      "iou": 0.9863945578231292,
+      "decodedDifference": {
+        "changedChannels": 441,
+        "maximum": 4
+      }
+    },
+    {
+      "index": 11,
+      "threshold": 20,
+      "fullCount": 145,
+      "rangeCount": 147,
+      "fullCentroid": [
+        100.53793103448275,
+        62.90344827586207
+      ],
+      "rangeCentroid": [
+        100.34013605442176,
+        62.87074829931973
+      ],
+      "centroidDelta": [
+        -0.1977949800609906,
+        -0.03269997654233947
+      ],
+      "fullOnly": 0,
+      "rangeOnly": 2,
+      "iou": 0.9863945578231292,
+      "decodedDifference": {
+        "changedChannels": 441,
+        "maximum": 4
+      }
+    },
+    {
+      "index": 11,
+      "threshold": 21,
+      "fullCount": 145,
+      "rangeCount": 146,
+      "fullCentroid": [
+        100.53793103448275,
+        62.90344827586207
+      ],
+      "rangeCentroid": [
+        100.32876712328768,
+        62.85616438356164
+      ],
+      "centroidDelta": [
+        -0.20916391119507693,
+        -0.04728389230042751
+      ],
+      "fullOnly": 0,
+      "rangeOnly": 1,
+      "iou": 0.9931506849315068,
+      "decodedDifference": {
+        "changedChannels": 441,
+        "maximum": 4
+      }
+    },
+    {
+      "index": 12,
+      "threshold": 19,
+      "fullCount": 118,
+      "rangeCount": 119,
+      "fullCentroid": [
+        104.04237288135593,
+        63.58474576271186
+      ],
+      "rangeCentroid": [
+        104.01680672268908,
+        63.60504201680672
+      ],
+      "centroidDelta": [
+        -0.025566158666848082,
+        0.020296254094859023
+      ],
+      "fullOnly": 2,
+      "rangeOnly": 3,
+      "iou": 0.9586776859504132,
+      "decodedDifference": {
+        "changedChannels": 315,
+        "maximum": 3
+      }
+    },
+    {
+      "index": 12,
+      "threshold": 20,
+      "fullCount": 118,
+      "rangeCount": 118,
+      "fullCentroid": [
+        104.04237288135593,
+        63.58474576271186
+      ],
+      "rangeCentroid": [
+        104.04237288135593,
+        63.601694915254235
+      ],
+      "centroidDelta": [
+        0,
+        0.016949152542373724
+      ],
+      "fullOnly": 2,
+      "rangeOnly": 2,
+      "iou": 0.9666666666666667,
+      "decodedDifference": {
+        "changedChannels": 315,
+        "maximum": 3
+      }
+    },
+    {
+      "index": 12,
+      "threshold": 21,
+      "fullCount": 116,
+      "rangeCount": 116,
+      "fullCentroid": [
+        104,
+        63.58620689655172
+      ],
+      "rangeCentroid": [
+        104.01724137931035,
+        63.58620689655172
+      ],
+      "centroidDelta": [
+        0.017241379310348748,
+        0
+      ],
+      "fullOnly": 1,
+      "rangeOnly": 1,
+      "iou": 0.9829059829059829,
+      "decodedDifference": {
+        "changedChannels": 315,
+        "maximum": 3
+      }
+    }
+  ],
+  "originalMagentaCriterionPassed": true
+}

@@ -1,0 +1,34 @@
+{
+  "frames": [
+    {
+      "key_frame": 1,
+      "best_effort_timestamp_time": "0.000000",
+      "pict_type": "I",
+      "side_data_list": [
+        {
+          "side_data_type": "H.26[45] User Data Unregistered SEI message"
+        }
+      ]
+    },
+    {
+      "key_frame": 1,
+      "best_effort_timestamp_time": "0.049999",
+      "pict_type": "I",
+      "side_data_list": [
+        {
+          "side_data_type": "H.26[45] User Data Unregistered SEI message"
+        }
+      ]
+    },
+    {
+      "key_frame": 1,
+      "best_effort_timestamp_time": "0.149999",
+      "pict_type": "I",
+      "side_data_list": [
+        {
+          "side_data_type": "H.26[45] User Data Unregistered SEI message"
+        }
+      ]
+    }
+  ]
+}

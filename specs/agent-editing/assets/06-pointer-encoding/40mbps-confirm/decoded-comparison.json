@@ -1,0 +1,38 @@
+[
+  {
+    "cohort": "full",
+    "decodedExact": true,
+    "observations": [
+      {
+        "path": "/tmp/screenrec-pointer-rate-trial/full/movie.mp4",
+        "encodedPayloadHash": "SHA256=eb368448f61ee9759214d7887075a8b7ff695a4ba560ea429500fc7beff55478",
+        "decodedRGBAHash": "cec1db47c6fbf4651e8d6bda9055fe2420b3f07271a767385b80d4b2dfc4e6dd",
+        "bytes": 3276800
+      },
+      {
+        "path": "/tmp/screenrec-pointer-rate-confirm/full/movie.mp4",
+        "encodedPayloadHash": "SHA256=9e942b7d788b7faea909a94c8e34b173577d8d69c1bff037b0987f2ff2e932cc",
+        "decodedRGBAHash": "cec1db47c6fbf4651e8d6bda9055fe2420b3f07271a767385b80d4b2dfc4e6dd",
+        "bytes": 3276800
+      }
+    ]
+  },
+  {
+    "cohort": "range",
+    "decodedExact": true,
+    "observations": [
+      {
+        "path": "/tmp/screenrec-pointer-rate-trial/range/movie.mp4",
+        "encodedPayloadHash": "SHA256=f0e5ee1462e0092c6706a65d15fbad35a086b1f9583b50b50ffc7f0b7d57bbe0",
+        "decodedRGBAHash": "f29d5f83963997417d04abc5b8ae8501ca86e7d5d172e1683e5a5acdb8eb79bb",
+        "bytes": 491520
+      },
+      {
+        "path": "/tmp/screenrec-pointer-rate-confirm/range/movie.mp4",
+        "encodedPayloadHash": "SHA256=3b4907e2013d3062ff9f182ecc281a1030bb13af6082335c1db8533973c59cdf",
+        "decodedRGBAHash": "f29d5f83963997417d04abc5b8ae8501ca86e7d5d172e1683e5a5acdb8eb79bb",
+        "bytes": 491520
+      }
+    ]
+  }
+]

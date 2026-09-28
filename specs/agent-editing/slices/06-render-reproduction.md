@@ -101,3 +101,10 @@ and source identities match before append, and read-only instrumentation changes
 none of the 23 decoded outputs. The unchanged magenta criterion still fails, so
 these discrepancies are downstream of the supplied pixels. General quality and
 legacy-byte acceptance stay open; no production encoding setting changed.
+
+[One-factor encoding trials](../assets/06-pointer-encoding/README.md) reject an
+all-intra keyframe policy for the frozen pointer cohort. A requested 40 Mbps rate
+passes its original three-sample centroid criterion with unchanged writer inputs,
+but exact pixels still differ. No production profile changes. Expand this candidate
+to retained recorded-content/temporal regressions before adopting any rate policy;
+do not conflate this scoped win with whole-image or legacy-byte acceptance.

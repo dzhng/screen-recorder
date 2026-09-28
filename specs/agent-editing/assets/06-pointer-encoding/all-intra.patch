@@ -1,0 +1,11 @@
+--- a/Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift
++++ b/Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift
+@@ -61,7 +61,7 @@
+         let settings: [String: Any] = [
+             AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: canvas.width,
+             AVVideoHeightKey: canvas.height,
+-            AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false],
++            AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false, AVVideoMaxKeyFrameIntervalKey: 1],
+             AVVideoColorPropertiesKey: [
+                 AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_709_2,
+                 AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_709_2,

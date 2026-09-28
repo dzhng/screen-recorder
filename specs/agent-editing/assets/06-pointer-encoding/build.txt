@@ -1,0 +1,16 @@
+[0/1] Planning build
+Building for debugging...
+[0/18] Write sources
+[1/18] Write swift-version--1AB21518FC5DEDBE.txt
+[3/12] Emitting module ScreenRecorderFrames
+[4/12] Compiling ScreenRecorderFrames CompositionVideoRenderer.swift
+[4/16] Write Objects.LinkFileList
+[8/16] Linking ScreenRecorderFrameTests
+[9/16] Applying ScreenRecorderFrameTests
+[10/16] Linking ScreenRecorderCompositionVideoTests
+[11/16] Linking ScreenRecorderCaptureTests
+[11/16] Linking screenrec-native
+[13/16] Applying screenrec-native
+[14/16] Applying ScreenRecorderCaptureTests
+[15/16] Applying ScreenRecorderCompositionVideoTests
+Build complete! (2.51s)

@@ -1,0 +1,21 @@
+{
+  "parent": "06-pointer-writer instrumented worker dcd24378b7e2da9c9d85ac029e29140ead91221fcba898a6b697cdbde9294ff1",
+  "factor": "AVVideoMaxKeyFrameIntervalKey=1; all other source/settings unchanged",
+  "prediction": "Eliminating interframe prediction reduces full/range magenta membership disagreement; writer-input bytes remain exact",
+  "falsifier": "Original strict <1px centroid still fails or writer inputs change",
+  "scope": "same frozen three matched frames, no production promotion; broad06 still open",
+  "timeoutSeconds": 60,
+  "repairAllowance": 1,
+  "confirmation": "Independent decoder and frame-type inspection; frozen baseline reused",
+  "queue": [
+    "all-intra policy",
+    "if null, separate rate-control experiment against original parent; no combined tuning"
+  ],
+  "allIntraVerdict": "discard: original criterion fails, matched writer inputs unchanged, x deltas4.4767/0.0295/3.4672; full2.873x and range1.355x size",
+  "next": {
+    "factor": "AVVideoAverageBitRateKey=40_000_000 against original parent; original keyframe policy retained",
+    "why": "Reuse prior slice06 high-rate diagnostic for rate-control sensitivity, not a proposed product bitrate",
+    "prediction": "Original full/range strict magenta centroid improves, writer inputs unchanged",
+    "promotion": "None: synthetic thin trail cannot establish general profile quality"
+  }
+}

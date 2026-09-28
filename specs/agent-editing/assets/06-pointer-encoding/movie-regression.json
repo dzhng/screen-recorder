@@ -1,0 +1,100 @@
+{
+  "nativeProductionEntry": true,
+  "liveMediaJourney": false,
+  "checks": [
+    {
+      "range": {
+        "startUs": 0,
+        "endUs": 1000000
+      },
+      "frames": 48000,
+      "aacRelativeRmsError": 0.008399025927761504,
+      "unchangedPictureNALUnits": true,
+      "clock": {
+        "timescale": 6000000,
+        "durationTicks": 6000000,
+        "editLists": 2
+      },
+      "externalProbe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "time_base": "1/1000000",
+            "duration_ts": 1000000,
+            "duration": "1.000000"
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio",
+            "sample_rate": "48000",
+            "channels": 2,
+            "time_base": "1/48000",
+            "duration_ts": 48000,
+            "duration": "1.000000"
+          }
+        ],
+        "format": {
+          "duration": "1.000000"
+        }
+      }
+    },
+    {
+      "range": {
+        "startUs": 123457,
+        "endUs": 812349
+      },
+      "frames": 33067,
+      "aacRelativeRmsError": 0.009384725207352224,
+      "unchangedPictureNALUnits": true,
+      "clock": {
+        "timescale": 6000000,
+        "durationTicks": 4133352,
+        "editLists": 2
+      },
+      "externalProbe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "time_base": "1/1000000",
+            "duration_ts": 688892,
+            "duration": "0.688892"
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio",
+            "sample_rate": "48000",
+            "channels": 2,
+            "time_base": "1/48000",
+            "duration_ts": 33067,
+            "duration": "0.688896"
+          }
+        ],
+        "format": {
+          "duration": "0.688896"
+        }
+      }
+    },
+    {
+      "range": {
+        "startUs": 1,
+        "endUs": 2
+      },
+      "frames": 0,
+      "videoOnly": true,
+      "clock": {
+        "timescale": 1000000,
+        "durationTicks": 1,
+        "editLists": 1
+      }
+    },
+    {
+      "cancellation": "PASS production NativeWire task cancellation drains writer and removes staging"
+    }
+  ]
+}
