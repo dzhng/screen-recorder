@@ -1,8 +1,8 @@
 {
-  "head": "8d1c741",
+  "head": "e374c1a",
   "worker": "/tmp/screenrec-pointer-contract-native",
   "workerSha256": "46e823a5fca14970c4848d06007b21bc70b433f832bad14035b70b45f0fa43f0",
-  "command": "SCREENREC_NATIVE=/tmp/screenrec-pointer-contract-native node packages/test-harness/editing/layers.mjs --out /tmp/screenrec-layer-split-integrated",
+  "command": "SCREENREC_NATIVE=/tmp/screenrec-pointer-contract-native node packages/test-harness/editing/layers.mjs --out /tmp/screenrec-layer-trim-journey",
   "passed": true,
   "existingPngHashesUnchanged": 62,
   "splitAtUs": 333333,
@@ -25,7 +25,13 @@
   "limits": [
     "Static footage; not moving-source boundary conformance",
     "No listening acceptance",
-    "Trim/move/duplicate and pointer execution remain separate gates"
+    "Pointer execution remains separate"
   ],
-  "review": "Independent Codex found no actionable defects; actual native journey run by integrating agent."
+  "review": "Independent Codex found no actionable defects; actual native journey run by integrating agent.",
+  "duplicateFrames": 3,
+  "movedFrames": 3,
+  "trimmedFrames": 2,
+  "removedTransparentFrames": 2,
+  "originalClipUnchanged": true,
+  "harnessCorrection": "Move request initially omitted required ripple setting; corrected to explicit none. No production change."
 }

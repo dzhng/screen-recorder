@@ -1,6 +1,6 @@
 # 15 — Layers, crop and pointer geometry
 
-Status: compiler/native geometry, [public static layer delivery](../assets/15-layer-public/README.md) and [processed split delivery](../assets/15-layer-edits/README.md) verified; [native evidence](../assets/15-layer-geometry/README.md). Pointer adoption, remaining edit-operation journeys and wider visual/profile acceptance remain open. Dependencies: [09](./09-first-preview.md).
+Status: compiler/native geometry, [public static layer delivery](../assets/15-layer-public/README.md) and [processed edit delivery](../assets/15-layer-edits/README.md) verified for their named scopes; [native evidence](../assets/15-layer-geometry/README.md). Pointer adoption, moving-source conformance and wider visual/profile acceptance remain open. Dependencies: [09](./09-first-preview.md).
 
 ## Contract
 

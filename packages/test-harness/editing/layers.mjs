@@ -540,6 +540,173 @@ try {
     });
   }
   report.checks.independentSplitProcessing = resetFrames;
+  const duplicate = await call("edit.apply", {
+    projectId: edited.projectId,
+    expectedRevisionId: independent.revision.id,
+    requestId: "duplicate-processed-left",
+    operations: [
+      {
+        operation: "duplicate",
+        clipIds: [edited.labels.presenter],
+        atUs: 1200000,
+        copyLabels: [{ clipId: edited.labels.presenter, label: "copy" }],
+      },
+    ],
+  });
+  const duplicateFrames = [];
+  for (const sourceUs of [0, 100000, 300000]) {
+    const original = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: independent.revision.id,
+        atUs: sourceUs,
+        tap: {
+          target: { kind: "clip", id: edited.labels.presenter },
+          point: { kind: "processed" },
+        },
+      },
+      `duplicate-original-${sourceUs}`,
+    );
+    const copy = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: duplicate.revision.id,
+        atUs: sourceUs + 1200000,
+        tap: {
+          target: { kind: "clip", id: duplicate.edit.labels.copy },
+          point: { kind: "processed" },
+        },
+      },
+      `duplicate-copy-${sourceUs}`,
+    );
+    assert.equal(
+      hash(await readFile(copy.file)),
+      hash(await readFile(original.file)),
+      "Duplicating a processed clip changed its clip-level picture",
+    );
+    assert.equal(copy.receipt.pictures.length, 1);
+    assert.equal(copy.receipt.pictures[0].clipId, duplicate.edit.labels.copy);
+    assert.equal(copy.receipt.pictures[0].assetId, media.presenter.assetId);
+    assert.equal(copy.receipt.pictures[0].requestedSourceUs, sourceUs);
+    assert.equal(copy.receipt.pictures[0].actualSourceUs, sourceUs);
+    duplicateFrames.push({ sourceUs, original, copy, sha256: hash(await readFile(copy.file)) });
+  }
+  report.checks.processedDuplicate = duplicateFrames;
+  const moved = await call(
+    "edit.apply",
+    {
+      projectId: edited.projectId,
+      expectedRevisionId: duplicate.revision.id,
+      requestId: "move-processed-copy",
+      operations: [
+        { operation: "move", clipIds: [duplicate.edit.labels.copy], atUs: 2000000, ripple: "none" },
+      ],
+    },
+    { transport: "mcp" },
+  );
+  const movedFrames = [];
+  for (const reference of duplicateFrames) {
+    const picture = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: moved.revision.id,
+        atUs: reference.sourceUs + 2000000,
+        tap: {
+          target: { kind: "clip", id: duplicate.edit.labels.copy },
+          point: { kind: "processed" },
+        },
+      },
+      `moved-copy-${reference.sourceUs}`,
+    );
+    assert.equal(
+      hash(await readFile(picture.file)),
+      reference.sha256,
+      "Moving a processed copy changed its picture",
+    );
+    assert.equal(picture.receipt.pictures.length, 1);
+    assert.equal(picture.receipt.pictures[0].clipId, duplicate.edit.labels.copy);
+    assert.equal(picture.receipt.pictures[0].requestedSourceUs, reference.sourceUs);
+    assert.equal(picture.receipt.pictures[0].actualSourceUs, reference.sourceUs);
+    movedFrames.push({ sourceUs: reference.sourceUs, ...picture, sha256: reference.sha256 });
+  }
+  report.checks.processedMove = movedFrames;
+  const trimmed = await call("edit.apply", {
+    projectId: edited.projectId,
+    expectedRevisionId: moved.revision.id,
+    requestId: "trim-processed-copy",
+    operations: [
+      {
+        operation: "trim",
+        clipId: duplicate.edit.labels.copy,
+        range: { startUs: 2100000, endUs: 2300001 },
+        ripple: "none",
+      },
+    ],
+  });
+  const trimmedFrames = [];
+  for (const sourceUs of [100000, 300000]) {
+    const reference = duplicateFrames.find((frame) => frame.sourceUs === sourceUs);
+    const picture = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: trimmed.revision.id,
+        atUs: sourceUs + 2000000,
+        tap: {
+          target: { kind: "clip", id: duplicate.edit.labels.copy },
+          point: { kind: "processed" },
+        },
+      },
+      `trimmed-copy-${sourceUs}`,
+    );
+    assert.equal(
+      hash(await readFile(picture.file)),
+      reference.sha256,
+      "Trimming a processed copy changed its surviving picture",
+    );
+    assert.equal(picture.receipt.pictures.length, 1);
+    assert.equal(picture.receipt.pictures[0].requestedSourceUs, sourceUs);
+    assert.equal(picture.receipt.pictures[0].actualSourceUs, sourceUs);
+    trimmedFrames.push({ sourceUs, ...picture, sha256: reference.sha256 });
+  }
+  const removed = [];
+  for (const atUs of [1300000, 2050000]) {
+    const picture = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: trimmed.revision.id,
+        atUs,
+        tap: {
+          target: { kind: "clip", id: duplicate.edit.labels.copy },
+          point: { kind: "processed" },
+        },
+      },
+      `removed-copy-${atUs}`,
+    );
+    assert.equal(picture.receipt.readerOpens, 0);
+    assert.deepEqual(picture.receipt.pictures, []);
+    const rgba = picture.file + ".rgba";
+    await run(fixtures.pixelTool, [picture.file, rgba]);
+    assert.ok(
+      (await readFile(rgba)).every((value) => value === 0),
+      "Moved or trimmed-away clip tap must be transparent",
+    );
+    removed.push({ atUs, ...picture });
+  }
+  const protectedOriginal = await delivered(
+    {
+      projectId: edited.projectId,
+      revisionId: trimmed.revision.id,
+      atUs: 100000,
+      tap: { target: { kind: "clip", id: edited.labels.presenter }, point: { kind: "processed" } },
+    },
+    "copy-edits-protected-original",
+  );
+  assert.equal(
+    hash(await readFile(protectedOriginal.file)),
+    duplicateFrames[1].sha256,
+    "Editing the copy changed its original clip",
+  );
+  report.checks.processedTrim = { frames: trimmedFrames, removed, protectedOriginal };
   const first = retained.find((r) => r.name === "160x96-presenter"),
     old = first.project;
   const newLayout = {

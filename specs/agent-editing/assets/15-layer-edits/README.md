@@ -1,4 +1,4 @@
-# Processed clip split journey
+# Processed clip edit journeys
 
 The existing [live layer journey](../../../../packages/test-harness/editing/layers.mjs)
 now splits a placed presenter at 333333 microseconds through MCP. CLI and MCP
@@ -15,13 +15,21 @@ lost processing and that the two pieces can be treated independently. The
 observable difference. This uses static source fixtures; it does not close moving
 source boundary conformance, retiming, stateful processors or listening acceptance.
 
+The journey also duplicates the processed left piece, moves its copy, and trims
+the copy to a range with a fractional frame endpoint. Delivered clip-level PNGs
+remain byte-identical at matched source instants, and native requested/decoded
+source timestamps match those explicit instants. Moved-away and trimmed-away
+positions deliver transparent clip taps with no decoder readers. The original
+clip remains unchanged after all copy edits. These are clip-tap preservation
+checks; the split scenario separately owns full-preview and narration checks.
+
 [Verification](verification.json) records the invocation, frozen worker, hashes
 and scope. The [complete journey](journey.json) retains public command traces and
 receipts, with JSON whitespace compacted. All 62 previously reviewed static tap
 images retain their hashes on the combined pointer-contract runtime. No new
 renderer behavior or visual-quality acceptance is claimed.
 
-The [independent code review](review.txt) found no actionable defects. Review
+The [split review](review.txt) and [copy/edit review](copy-review.txt) found no actionable defects. Review
 used syntax/diff checks; the integrating agent ran the actual native journey.
 The scratch service is stopped and its home removed on both success and failure.
-Trim, move, duplicate and pointer rendering remain separate live acceptance work.
+Pointer rendering remains separate live acceptance work.

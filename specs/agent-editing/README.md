@@ -46,8 +46,8 @@ Current pickup and priority:
    reads the same layout, and all 62 public journey images remain unchanged.
    [Pointer authoring/compiler](assets/15-pointer-contract/README.md) is integrated;
    execution remains unavailable pending exact source-history preparation and
-   native replay. [Processed split and independent-piece edits](assets/15-layer-edits/README.md)
-   pass live media checks. Finish trim/move/duplicate journeys and pointer geometry. The broader
+   native replay. [Processed split, duplicate, move and trim](assets/15-layer-edits/README.md)
+   pass their static media/tap checks. Finish pointer preparation and geometry. The broader
    final-output profile remains open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints

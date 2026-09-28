@@ -1,0 +1,1968 @@
+2026-09-28T15:27:24.985327Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T15:27:24.985386Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+2026-09-28T15:27:25.085967Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T15:27:25.085996Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/dev/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e8a0-c31a-75e1-9954-26477e22e8e3
+--------
+user
+current changes
+exec
+/bin/zsh -lc 'git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md' in /Users/david/dev/screen-recorder
+2026-09-28T15:27:32.781160Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8a0-c31a-75e1-9954-26477e22e8e3 turn_id=01a0e8a0-c3a9-7740-9fe8-a90a71c7d4b9 item_id="exec-cd870bad-57b8-4769-892a-2beb79d752f6"
+ succeeded in 0ms:
+ M packages/test-harness/editing/layers.mjs
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+
+exec
+/bin/zsh -lc 'git diff -- packages/test-harness/editing/layers.mjs; find packages -name AGENTS.md -o -name AGENTS.override.md; cat .agents/skills/write-tests/SKILL.md' in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+diff --git a/packages/test-harness/editing/layers.mjs b/packages/test-harness/editing/layers.mjs
+index 857f6fa..dcabe67 100644
+--- a/packages/test-harness/editing/layers.mjs
++++ b/packages/test-harness/editing/layers.mjs
+@@ -540,6 +540,173 @@ try {
+     });
+   }
+   report.checks.independentSplitProcessing = resetFrames;
++  const duplicate = await call("edit.apply", {
++    projectId: edited.projectId,
++    expectedRevisionId: independent.revision.id,
++    requestId: "duplicate-processed-left",
++    operations: [
++      {
++        operation: "duplicate",
++        clipIds: [edited.labels.presenter],
++        atUs: 1200000,
++        copyLabels: [{ clipId: edited.labels.presenter, label: "copy" }],
++      },
++    ],
++  });
++  const duplicateFrames = [];
++  for (const sourceUs of [0, 100000, 300000]) {
++    const original = await delivered(
++      {
++        projectId: edited.projectId,
++        revisionId: independent.revision.id,
++        atUs: sourceUs,
++        tap: {
++          target: { kind: "clip", id: edited.labels.presenter },
++          point: { kind: "processed" },
++        },
++      },
++      `duplicate-original-${sourceUs}`,
++    );
++    const copy = await delivered(
++      {
++        projectId: edited.projectId,
++        revisionId: duplicate.revision.id,
++        atUs: sourceUs + 1200000,
++        tap: {
++          target: { kind: "clip", id: duplicate.edit.labels.copy },
++          point: { kind: "processed" },
++        },
++      },
++      `duplicate-copy-${sourceUs}`,
++    );
++    assert.equal(
++      hash(await readFile(copy.file)),
++      hash(await readFile(original.file)),
++      "Duplicating a processed clip changed its clip-level picture",
++    );
++    assert.equal(copy.receipt.pictures.length, 1);
++    assert.equal(copy.receipt.pictures[0].clipId, duplicate.edit.labels.copy);
++    assert.equal(copy.receipt.pictures[0].assetId, media.presenter.assetId);
++    assert.equal(copy.receipt.pictures[0].requestedSourceUs, sourceUs);
++    assert.equal(copy.receipt.pictures[0].actualSourceUs, sourceUs);
++    duplicateFrames.push({ sourceUs, original, copy, sha256: hash(await readFile(copy.file)) });
++  }
++  report.checks.processedDuplicate = duplicateFrames;
++  const moved = await call(
++    "edit.apply",
++    {
++      projectId: edited.projectId,
++      expectedRevisionId: duplicate.revision.id,
++      requestId: "move-processed-copy",
++      operations: [
++        { operation: "move", clipIds: [duplicate.edit.labels.copy], atUs: 2000000, ripple: "none" },
++      ],
++    },
++    { transport: "mcp" },
++  );
++  const movedFrames = [];
++  for (const reference of duplicateFrames) {
++    const picture = await delivered(
++      {
++        projectId: edited.projectId,
++        revisionId: moved.revision.id,
++        atUs: reference.sourceUs + 2000000,
++        tap: {
++          target: { kind: "clip", id: duplicate.edit.labels.copy },
++          point: { kind: "processed" },
++        },
++      },
++      `moved-copy-${reference.sourceUs}`,
++    );
++    assert.equal(
++      hash(await readFile(picture.file)),
++      reference.sha256,
++      "Moving a processed copy changed its picture",
++    );
++    assert.equal(picture.receipt.pictures.length, 1);
++    assert.equal(picture.receipt.pictures[0].clipId, duplicate.edit.labels.copy);
++    assert.equal(picture.receipt.pictures[0].requestedSourceUs, reference.sourceUs);
++    assert.equal(picture.receipt.pictures[0].actualSourceUs, reference.sourceUs);
++    movedFrames.push({ sourceUs: reference.sourceUs, ...picture, sha256: reference.sha256 });
++  }
++  report.checks.processedMove = movedFrames;
++  const trimmed = await call("edit.apply", {
++    projectId: edited.projectId,
++    expectedRevisionId: moved.revision.id,
++    requestId: "trim-processed-copy",
++    operations: [
++      {
++        operation: "trim",
++        clipId: duplicate.edit.labels.copy,
++        range: { startUs: 2100000, endUs: 2300001 },
++        ripple: "none",
++      },
++    ],
++  });
++  const trimmedFrames = [];
++  for (const sourceUs of [100000, 300000]) {
++    const reference = duplicateFrames.find((frame) => frame.sourceUs === sourceUs);
++    const picture = await delivered(
++      {
++        projectId: edited.projectId,
++        revisionId: trimmed.revision.id,
++        atUs: sourceUs + 2000000,
++        tap: {
++          target: { kind: "clip", id: duplicate.edit.labels.copy },
++          point: { kind: "processed" },
++        },
++      },
++      `trimmed-copy-${sourceUs}`,
++    );
++    assert.equal(
++      hash(await readFile(picture.file)),
++      reference.sha256,
++      "Trimming a processed copy changed its surviving picture",
++    );
++    assert.equal(picture.receipt.pictures.length, 1);
++    assert.equal(picture.receipt.pictures[0].requestedSourceUs, sourceUs);
++    assert.equal(picture.receipt.pictures[0].actualSourceUs, sourceUs);
++    trimmedFrames.push({ sourceUs, ...picture, sha256: reference.sha256 });
++  }
++  const removed = [];
++  for (const atUs of [1300000, 2050000]) {
++    const picture = await delivered(
++      {
++        projectId: edited.projectId,
++        revisionId: trimmed.revision.id,
++        atUs,
++        tap: {
++          target: { kind: "clip", id: duplicate.edit.labels.copy },
++          point: { kind: "processed" },
++        },
++      },
++      `removed-copy-${atUs}`,
++    );
++    assert.equal(picture.receipt.readerOpens, 0);
++    assert.deepEqual(picture.receipt.pictures, []);
++    const rgba = picture.file + ".rgba";
++    await run(fixtures.pixelTool, [picture.file, rgba]);
++    assert.ok(
++      (await readFile(rgba)).every((value) => value === 0),
++      "Moved or trimmed-away clip tap must be transparent",
++    );
++    removed.push({ atUs, ...picture });
++  }
++  const protectedOriginal = await delivered(
++    {
++      projectId: edited.projectId,
++      revisionId: trimmed.revision.id,
++      atUs: 100000,
++      tap: { target: { kind: "clip", id: edited.labels.presenter }, point: { kind: "processed" } },
++    },
++    "copy-edits-protected-original",
++  );
++  assert.equal(
++    hash(await readFile(protectedOriginal.file)),
++    duplicateFrames[1].sha256,
++    "Editing the copy changed its original clip",
++  );
++  report.checks.processedTrim = { frames: trimmedFrames, removed, protectedOriginal };
+   const first = retained.find((r) => r.name === "160x96-presenter"),
+     old = first.project;
+   const newLayout = {
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T15:27:39.818410Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8a0-c31a-75e1-9954-26477e22e8e3 turn_id=01a0e8a0-c3a9-7740-9fe8-a90a71c7d4b9 item_id="exec-c6f0e4e3-9f16-4e47-a897-557d7bc29375"
+exec
+/bin/zsh -lc 'cat packages/test-harness/editing/layers.mjs' in /Users/david/dev/screen-recorder
+2026-09-28T15:27:42.173374Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8a0-c31a-75e1-9954-26477e22e8e3 turn_id=01a0e8a0-c3a9-7740-9fe8-a90a71c7d4b9 item_id="exec-703347e0-89e6-4abe-ac44-61fef61fe22d"
+ succeeded in 0ms:
+import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { parseArgs } from "node:util";
+import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
+import { layerTree, expectedRgba, compareGeometry, compareLandmarks } from "./layers-oracle.mjs";
+import { layerCases } from "./layers-cases.mjs";
+import { prepareLayersFixture } from "./layers-fixture.mjs";
+
+const { values } = parseArgs({
+  options: { case: { type: "string", default: "presenter-and-screen" }, out: { type: "string" } },
+});
+assert.equal(values.case, "presenter-and-screen");
+assert.ok(
+  process.env.SCREENREC_NATIVE,
+  "Freeze the native compositor before running the layer journey",
+);
+const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "layers-evidence-"));
+await mkdir(out, { recursive: true });
+const home = await mkdtemp(join(tmpdir(), "sr-layers-"));
+const report = { passed: false, trace: [], checks: {}, frames: [] };
+const service = new JourneyService(home, report),
+  call = service.call.bind(service);
+const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, null, 2) + "\n");
+const ref = (label) => ({ label });
+const target = (name, identify = ref) =>
+  name === "output"
+    ? { kind: "output" }
+    : {
+        kind: ["inner", "outer"].includes(name)
+          ? "group"
+          : name.endsWith("Track")
+            ? "track"
+            : "clip",
+        id: identify(name),
+      };
+const scenarioNames = new Set([
+  "presenter",
+  "presenter-reversed",
+  "nested-taps",
+  "order-placement-crop",
+  "order-crop-placement",
+  "parent-opacity",
+  "child-opacity",
+  "rotated-crop",
+  "output-transparent-margin",
+]);
+let deliveryOrdinal = 0;
+async function delivered(params, name) {
+  const ready = await poll(
+    () => call("frame.get", params),
+    (v) => v.state === "ready",
+    name,
+  );
+  const file = join(out, `${deliveryOrdinal++}-${name}.png`);
+  const cli = await call("frame.get", params, { output: file });
+  const mcp = await service.mcp.callTool({ name: "frame.get", arguments: params });
+  assert.equal(mcp.structuredContent.ok, true);
+  const images = mcp.content.filter((item) => item.type === "image");
+  assert.equal(images.length, 1);
+  const bytes = await readFile(file);
+  assert.ok(
+    bytes.equals(Buffer.from(images[0].data, "base64")),
+    "CLI and MCP deliver different frames",
+  );
+  assert.equal(cli.revisionId, ready.revisionId);
+  return { file, receipt: cli.published.frame };
+}
+async function imported(fixture) {
+  const pending = await call("asset.import", { requestId: fixture.sha256, path: fixture.path });
+  await poll(
+    () => call("job.get", { jobId: pending.jobId }),
+    (v) => v.state === "ready",
+    "layer import",
+  );
+  const asset = await call("asset.get", { assetId: fixture.sha256 });
+  return { assetId: asset.id, streamId: asset.streams[0].id };
+}
+async function createProject(canvas, media, suffix, scenario) {
+  const processing = Object.entries(scenario.stacks)
+    .filter(([name, steps]) => name !== "reversed" && steps.length)
+    .map(([name, steps]) => ({ operation: "processing.set", target: target(name), steps }));
+  const initial = await call("project.create", {
+    requestId: suffix,
+    canvas: { ...canvas, fps: { numerator: 10, denominator: 1 }, background: "#000000ff" },
+  });
+  const projectId = initial.project.projectId;
+  const place = (label, track, source) => ({
+    operation: "place",
+    label,
+    clip: {
+      ...source,
+      trackId: ref(track),
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    },
+  });
+  const edit = await call("edit.apply", {
+    projectId,
+    requestId: `${suffix}-placements`,
+    expectedRevisionId: initial.revision.id,
+    operations: [
+      { operation: "group.add", label: "outer", group: { kind: "video", order: 0 } },
+      {
+        operation: "group.add",
+        label: "inner",
+        group: { kind: "video", order: 0, parentId: ref("outer") },
+      },
+      {
+        operation: "track.add",
+        label: "screenTrack",
+        track: { kind: "video", order: scenario.stacks.reversed ? 1 : 0, parentId: ref("inner") },
+      },
+      {
+        operation: "track.add",
+        label: "presenterTrack",
+        track: { kind: "video", order: scenario.stacks.reversed ? 0 : 1, parentId: ref("inner") },
+      },
+      { operation: "track.add", label: "voice-track", track: { kind: "audio", order: 1 } },
+      place("screen", "screenTrack", media[scenario.sources?.screen ?? "screen"]),
+      place("presenter", "presenterTrack", media[scenario.sources?.presenter ?? "presenter"]),
+      place("voice", "voice-track", media.narration),
+      ...processing,
+    ],
+  });
+  return { projectId, revisionId: edit.revision.id, labels: edit.edit.labels };
+}
+async function deliveryBytes(delivery) {
+  const chunks = [];
+  let offset = 0;
+  while (offset < delivery.bytes) {
+    const part = await call(
+      "artifact.read",
+      { token: delivery.token, offset, maxBytes: 65536 },
+      { transport: "mcp" },
+    );
+    const bytes = Buffer.from(part.data, "base64");
+    assert.ok(bytes.length > 0);
+    assert.equal(part.nextOffset, offset + bytes.length);
+    chunks.push(bytes);
+    offset = part.nextOffset;
+  }
+  assert.equal(offset, delivery.bytes);
+  await call("artifact.close", { token: delivery.token }, { transport: "mcp" });
+  return Buffer.concat(chunks);
+}
+async function audioParity(selection, original, name) {
+  const file = join(out, name + ".wav");
+  const ready = await poll(
+    () => call("audio.get", selection, { output: file }),
+    (v) => v.state === "ready",
+    "unchanged audio",
+  );
+  const decoded = (
+    await run(
+      "ffmpeg",
+      ["-v", "error", "-nostdin", "-i", file, "-f", "f32le", "-c:a", "pcm_f32le", "pipe:1"],
+      { encoding: "buffer", maxBuffer: 16 * 1024 * 1024 },
+    )
+  ).stdout;
+  const start = Math.floor((selection.range.startUs * 48000) / 1000000),
+    end = Math.floor((selection.range.endUs * 48000) / 1000000);
+  const probe = JSON.parse(
+    (
+      await run("ffprobe", [
+        "-v",
+        "error",
+        "-select_streams",
+        "a:0",
+        "-show_streams",
+        "-of",
+        "json",
+        file,
+      ])
+    ).stdout,
+  ).streams[0];
+  assert.equal(probe.sample_rate, "48000");
+  assert.equal(probe.channels, 2);
+  assert.equal(probe.codec_name, "pcm_f32le");
+  assert.equal(probe.time_base, "1/48000");
+  assert.equal(probe.duration_ts, end - start);
+  assert.ok(
+    decoded.equals(original.subarray(start * 8, end * 8)),
+    "Geometry changed narration PCM or phase",
+  );
+  return {
+    range: selection.range,
+    pcmSha256: hash(decoded),
+    frames: end - start,
+    receipt: ready.published.audio,
+  };
+}
+async function movieGeometry(file, surface, canvas, range, fixtures, name) {
+  const directory = join(out, `${name}-${range.startUs}-decoded`);
+  await mkdir(directory);
+  const request = join(directory, "request.json");
+  // Independent 10fps clock: range starts with the preceding global sample,
+  // subsequent images start at each global boundary strictly before range end.
+  const times = [0];
+  for (let us = (Math.floor(range.startUs / 100000) + 1) * 100000; us < range.endUs; us += 100000)
+    times.push(us - range.startUs);
+  await writeFile(request, JSON.stringify({ movie: file, output: directory, timesUs: times }));
+  const sample = JSON.parse(
+    (await run(join(home, "frame-reference"), [request], { timeout: 60000 })).stdout,
+  );
+  const expected = expectedRgba(surface),
+    results = [];
+  for (const frame of sample) {
+    const rgba = frame.file + ".rgba";
+    await run(fixtures.pixelTool, [frame.file, rgba]);
+    const actual = await readFile(rgba);
+    const verdict = compareLandmarks(actual, expected, canvas.width, canvas.height);
+    let sum = 0,
+      maximum = 0,
+      above = 0;
+    for (let pixel = 0; pixel < canvas.width * canvas.height; pixel++) {
+      let edge = 0;
+      for (let c = 0; c < 3; c++) {
+        const delta = Math.abs(actual[pixel * 4 + c] - expected[pixel * 4 + c]);
+        sum += delta;
+        maximum = Math.max(maximum, delta);
+        edge = Math.max(edge, delta);
+      }
+      if (edge > 2) above++;
+    }
+    results.push({
+      sample: frame,
+      verdict,
+      codecError: {
+        maximum,
+        mae: sum / (canvas.width * canvas.height * 3),
+        aboveLosslessThreshold: above,
+      },
+    });
+  }
+  const metadata = JSON.parse(
+    (
+      await run("ffprobe", [
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-show_frames",
+        "-show_entries",
+        "frame=best_effort_timestamp_time,duration_time",
+        "-of",
+        "json",
+        file,
+      ])
+    ).stdout,
+  );
+  assert.deepEqual(
+    metadata.frames.map((f) => Math.round(Number(f.best_effort_timestamp_time) * 1000000)),
+    times,
+  );
+  assert.deepEqual(
+    metadata.frames.map((f) => Math.round(Number(f.duration_time) * 1000000)),
+    times.map((at, i) => (times[i + 1] ?? range.endUs - range.startUs) - at),
+  );
+  return results;
+}
+try {
+  const fixtures = await prepareLayersFixture(home, out);
+  await service.start();
+  const media = {};
+  for (const [name, fixture] of Object.entries(fixtures.media))
+    media[name] = await imported(fixture);
+  // Imported bytes are now owned by the library. Every subsequent render must survive loss of donor paths.
+  for (const fixture of Object.values(fixtures.media)) await rm(fixture.path);
+  const retained = [];
+  for (const canvas of [
+    { width: 160, height: 96 },
+    { width: 128, height: 128 },
+  ]) {
+    for (const scenario of layerCases(canvas).filter((s) => scenarioNames.has(s.name))) {
+      const name = `${canvas.width}x${canvas.height}-${scenario.name}`;
+      const project = await createProject(canvas, media, name, scenario);
+      const surfaces = {
+        screen: fixtures.media[scenario.sources?.screen ?? "screen"],
+        presenter: fixtures.media[scenario.sources?.presenter ?? "presenter"],
+      };
+      const oracle = layerTree(canvas, surfaces, scenario.stacks);
+      const taps = scenario.taps
+        ? [...oracle.taps.entries()]
+        : [["output/processed", oracle.output]];
+      const row = { name, canvas, project, frames: [] };
+      report.frames.push(row);
+      for (const [tapName, surface] of taps) {
+        const [rawName, point] = tapName.split("/"),
+          selected = rawName.replace("-track", "Track");
+        const tap = {
+          target: target(selected, (n) => project.labels[n]),
+          point: point.startsWith("after:")
+            ? { kind: "after-step", stepId: project.labels[point.slice(6)] }
+            : { kind: point },
+        };
+        const params = {
+          projectId: project.projectId,
+          revisionId: project.revisionId,
+          atUs: 450001,
+          maxLongEdge: Math.max(canvas.width, canvas.height),
+          tap,
+        };
+        const picture = await delivered(
+          params,
+          `${name}-${tapName.replaceAll("/", "-").replaceAll(":", "-")}`,
+        );
+        const rgba = picture.file + ".rgba";
+        await run(fixtures.pixelTool, [picture.file, rgba]);
+        const expected = expectedRgba(surface),
+          actual = await readFile(rgba);
+        const verdict = compareGeometry(actual, expected, canvas.width, canvas.height);
+        assert.equal(picture.receipt.frame.sampleAtUs, 400000);
+        const sourceNames =
+          selected === "screen" || selected === "screenTrack"
+            ? ["screen"]
+            : selected === "presenter" || selected === "presenterTrack"
+              ? ["presenter"]
+              : scenario.stacks.reversed
+                ? ["presenter", "screen"]
+                : ["screen", "presenter"];
+        assert.deepEqual(
+          picture.receipt.pictures.map((p) => [
+            p.clipId,
+            p.assetId,
+            p.streamId,
+            p.requestedSourceUs,
+            p.actualSourceUs,
+            p.status,
+          ]),
+          sourceNames.map((n) => [
+            project.labels[n],
+            media[scenario.sources?.[n] ?? n].assetId,
+            media[scenario.sources?.[n] ?? n].streamId,
+            400000,
+            400000,
+            "available",
+          ]),
+        );
+        row.frames.push({
+          tapName,
+          ...picture,
+          verdict,
+          sha256: hash(await readFile(picture.file)),
+        });
+      }
+      if (["presenter", "rotated-crop"].includes(scenario.name)) {
+        row.movies = [];
+        for (const range of [
+          { startUs: 0, endUs: 1000000 },
+          { startUs: 123457, endUs: 812349 },
+        ]) {
+          const selection = { projectId: project.projectId, revisionId: project.revisionId, range };
+          const file = join(out, `${name}-${range.startUs}.mp4`);
+          const ready = await poll(
+            () => call("preview.get", selection, { output: file }),
+            (v) => v.state === "ready",
+            name,
+          );
+          assert.deepEqual(ready.range, range);
+          const mcp = await call("preview.get", selection, { transport: "mcp" });
+          assert.ok((await deliveryBytes(mcp.delivery)).equals(await readFile(file)));
+          const frames = await movieGeometry(file, oracle.output, canvas, range, fixtures, name);
+          const audio = await audioParity(
+            selection,
+            fixtures.media.narration.pcm,
+            `${name}-${range.startUs}`,
+          );
+          row.movies.push({ range, file, frames, audio });
+          if (range.startUs === 0) {
+            const request = {
+              projectId: project.projectId,
+              revisionId: project.revisionId,
+              kind: "video",
+              exportId: randomUUID(),
+              directory: out,
+              leaf: `${name}-export.mp4`,
+            };
+            await call("export.create", request);
+            const exported = await poll(
+              () => call("export.status", { exportId: request.exportId }, { transport: "mcp" }),
+              (v) => v.state === "committed",
+              "layer export",
+            );
+            assert.ok((await readFile(exported.output)).equals(await readFile(file)));
+            row.export = { request, receipt: exported.receipt, output: exported.output };
+          }
+        }
+      }
+      if (scenario.movie === "nonopaque" || scenario.name === "output-transparent-margin") {
+        const request = await call("preview.get", {
+          projectId: project.projectId,
+          revisionId: project.revisionId,
+        });
+        const failed = await poll(
+          () => call("job.get", { jobId: request.jobId }),
+          (v) => v.state === "failed",
+          "transparent movie refusal",
+        );
+        assert.equal(failed.errorCode, "NOT_READY");
+        assert.equal(failed.retryable, false);
+        row.movieRefusal = {
+          code: failed.errorCode,
+          reason: failed.reason,
+          retryable: failed.retryable,
+        };
+      }
+      retained.push(row);
+      await save("report.json", report);
+      console.log(`PASS ${name}: ${row.frames.length} public taps`);
+    }
+  }
+  const nested = retained.find((row) => row.name === "160x96-nested-taps");
+  const before = nested.frames.find((frame) => frame.tapName === "screen/after:screen-place");
+  const after = nested.frames.find((frame) => frame.tapName === "screen/processed");
+  const beforePixels = await readFile(before.file + ".rgba"),
+    afterPixels = await readFile(after.file + ".rgba");
+  assert.throws(() => compareGeometry(beforePixels, afterPixels, 160, 96));
+  report.checks.wrongTapRejected = true;
+  for (const [a, b] of [
+    ["presenter", "presenter-reversed"],
+    ["order-placement-crop", "order-crop-placement"],
+    ["parent-opacity", "child-opacity"],
+  ]) {
+    const left = retained.find((row) => row.name === `160x96-${a}`).frames[0];
+    const right = retained.find((row) => row.name === `160x96-${b}`).frames[0];
+    assert.notEqual(left.sha256, right.sha256, `${a}/${b} lost its noncommuting behavior`);
+  }
+  report.checks.noncommutingPairsDifferent = true;
+  const edited = await createProject(
+    { width: 160, height: 96 },
+    media,
+    "processed-split",
+    layerCases({ width: 160, height: 96 }).find((s) => s.name === "presenter"),
+  );
+  const splitAtUs = 333333;
+  const split = await call(
+    "edit.apply",
+    {
+      projectId: edited.projectId,
+      expectedRevisionId: edited.revisionId,
+      requestId: "split-processed-presenter",
+      operations: [
+        {
+          operation: "split",
+          clipIds: [edited.labels.presenter],
+          atUs: splitAtUs,
+          rightLabels: [{ clipId: edited.labels.presenter, label: "right" }],
+        },
+      ],
+    },
+    { transport: "mcp" },
+  );
+  const splitFrames = [];
+  for (const atUs of [0, 300000, splitAtUs - 1, splitAtUs, splitAtUs + 1, 400000, 999999]) {
+    const original = await delivered(
+      { projectId: edited.projectId, revisionId: edited.revisionId, atUs },
+      `split-original-${atUs}`,
+    );
+    const divided = await delivered(
+      { projectId: edited.projectId, revisionId: split.revision.id, atUs },
+      `split-divided-${atUs}`,
+    );
+    assert.equal(
+      hash(await readFile(divided.file)),
+      hash(await readFile(original.file)),
+      `Pure processed split changed picture at ${atUs}`,
+    );
+    assert.equal(divided.receipt.frame.sampleAtUs, original.receipt.frame.sampleAtUs);
+    splitFrames.push({ atUs, original, divided, sha256: hash(await readFile(divided.file)) });
+  }
+  report.checks.processedSplit = { splitAtUs, frames: splitFrames };
+  const splitMovie = join(out, "processed-split.mp4");
+  const splitSelection = { projectId: edited.projectId, revisionId: split.revision.id };
+  await poll(
+    () => call("preview.get", splitSelection, { output: splitMovie }),
+    (v) => v.state === "ready",
+    "processed split preview",
+  );
+  const splitCanvas = { width: 160, height: 96 };
+  const splitSurface = layerTree(
+    splitCanvas,
+    fixtures.media,
+    layerCases(splitCanvas).find((s) => s.name === "presenter").stacks,
+  ).output;
+  report.checks.processedSplit.movie = await movieGeometry(
+    splitMovie,
+    splitSurface,
+    splitCanvas,
+    { startUs: 0, endUs: 1000000 },
+    fixtures,
+    "processed-split",
+  );
+  report.checks.processedSplit.audio = await audioParity(
+    { ...splitSelection, range: { startUs: 0, endUs: 1000000 } },
+    fixtures.media.narration.pcm,
+    "processed-split",
+  );
+  const independent = await call("edit.apply", {
+    projectId: edited.projectId,
+    expectedRevisionId: split.revision.id,
+    requestId: "reset-right-presenter-processing",
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: split.edit.labels.right },
+        steps: [],
+      },
+    ],
+  });
+  const resetFrames = [];
+  for (const atUs of [100000, 600000]) {
+    const before = await delivered({ ...splitSelection, atUs }, `independent-before-${atUs}`);
+    const after = await delivered(
+      { projectId: edited.projectId, revisionId: independent.revision.id, atUs },
+      `independent-after-${atUs}`,
+    );
+    const beforeBytes = await readFile(before.file),
+      afterBytes = await readFile(after.file);
+    if (atUs < splitAtUs)
+      assert.ok(afterBytes.equals(beforeBytes), "Editing right piece changed left piece");
+    else {
+      assert.ok(
+        !afterBytes.equals(beforeBytes),
+        "Clearing the right layout did not change its picture",
+      );
+      const rgba = after.file + ".rgba";
+      await run(fixtures.pixelTool, [after.file, rgba]);
+      const expected = expectedRgba(layerTree(splitCanvas, fixtures.media, {}).output);
+      compareGeometry(await readFile(rgba), expected, splitCanvas.width, splitCanvas.height);
+    }
+    resetFrames.push({
+      atUs,
+      before,
+      after,
+      beforeSha256: hash(beforeBytes),
+      afterSha256: hash(afterBytes),
+    });
+  }
+  report.checks.independentSplitProcessing = resetFrames;
+  const duplicate = await call("edit.apply", {
+    projectId: edited.projectId,
+    expectedRevisionId: independent.revision.id,
+    requestId: "duplicate-processed-left",
+    operations: [
+      {
+        operation: "duplicate",
+        clipIds: [edited.labels.presenter],
+        atUs: 1200000,
+        copyLabels: [{ clipId: edited.labels.presenter, label: "copy" }],
+      },
+    ],
+  });
+  const duplicateFrames = [];
+  for (const sourceUs of [0, 100000, 300000]) {
+    const original = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: independent.revision.id,
+        atUs: sourceUs,
+        tap: {
+          target: { kind: "clip", id: edited.labels.presenter },
+          point: { kind: "processed" },
+        },
+      },
+      `duplicate-original-${sourceUs}`,
+    );
+    const copy = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: duplicate.revision.id,
+        atUs: sourceUs + 1200000,
+        tap: {
+          target: { kind: "clip", id: duplicate.edit.labels.copy },
+          point: { kind: "processed" },
+        },
+      },
+      `duplicate-copy-${sourceUs}`,
+    );
+    assert.equal(
+      hash(await readFile(copy.file)),
+      hash(await readFile(original.file)),
+      "Duplicating a processed clip changed its clip-level picture",
+    );
+    assert.equal(copy.receipt.pictures.length, 1);
+    assert.equal(copy.receipt.pictures[0].clipId, duplicate.edit.labels.copy);
+    assert.equal(copy.receipt.pictures[0].assetId, media.presenter.assetId);
+    assert.equal(copy.receipt.pictures[0].requestedSourceUs, sourceUs);
+    assert.equal(copy.receipt.pictures[0].actualSourceUs, sourceUs);
+    duplicateFrames.push({ sourceUs, original, copy, sha256: hash(await readFile(copy.file)) });
+  }
+  report.checks.processedDuplicate = duplicateFrames;
+  const moved = await call(
+    "edit.apply",
+    {
+      projectId: edited.projectId,
+      expectedRevisionId: duplicate.revision.id,
+      requestId: "move-processed-copy",
+      operations: [
+        { operation: "move", clipIds: [duplicate.edit.labels.copy], atUs: 2000000, ripple: "none" },
+      ],
+    },
+    { transport: "mcp" },
+  );
+  const movedFrames = [];
+  for (const reference of duplicateFrames) {
+    const picture = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: moved.revision.id,
+        atUs: reference.sourceUs + 2000000,
+        tap: {
+          target: { kind: "clip", id: duplicate.edit.labels.copy },
+          point: { kind: "processed" },
+        },
+      },
+      `moved-copy-${reference.sourceUs}`,
+    );
+    assert.equal(
+      hash(await readFile(picture.file)),
+      reference.sha256,
+      "Moving a processed copy changed its picture",
+    );
+    assert.equal(picture.receipt.pictures.length, 1);
+    assert.equal(picture.receipt.pictures[0].clipId, duplicate.edit.labels.copy);
+    assert.equal(picture.receipt.pictures[0].requestedSourceUs, reference.sourceUs);
+    assert.equal(picture.receipt.pictures[0].actualSourceUs, reference.sourceUs);
+    movedFrames.push({ sourceUs: reference.sourceUs, ...picture, sha256: reference.sha256 });
+  }
+  report.checks.processedMove = movedFrames;
+  const trimmed = await call("edit.apply", {
+    projectId: edited.projectId,
+    expectedRevisionId: moved.revision.id,
+    requestId: "trim-processed-copy",
+    operations: [
+      {
+        operation: "trim",
+        clipId: duplicate.edit.labels.copy,
+        range: { startUs: 2100000, endUs: 2300001 },
+        ripple: "none",
+      },
+    ],
+  });
+  const trimmedFrames = [];
+  for (const sourceUs of [100000, 300000]) {
+    const reference = duplicateFrames.find((frame) => frame.sourceUs === sourceUs);
+    const picture = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: trimmed.revision.id,
+        atUs: sourceUs + 2000000,
+        tap: {
+          target: { kind: "clip", id: duplicate.edit.labels.copy },
+          point: { kind: "processed" },
+        },
+      },
+      `trimmed-copy-${sourceUs}`,
+    );
+    assert.equal(
+      hash(await readFile(picture.file)),
+      reference.sha256,
+      "Trimming a processed copy changed its surviving picture",
+    );
+    assert.equal(picture.receipt.pictures.length, 1);
+    assert.equal(picture.receipt.pictures[0].requestedSourceUs, sourceUs);
+    assert.equal(picture.receipt.pictures[0].actualSourceUs, sourceUs);
+    trimmedFrames.push({ sourceUs, ...picture, sha256: reference.sha256 });
+  }
+  const removed = [];
+  for (const atUs of [1300000, 2050000]) {
+    const picture = await delivered(
+      {
+        projectId: edited.projectId,
+        revisionId: trimmed.revision.id,
+        atUs,
+        tap: {
+          target: { kind: "clip", id: duplicate.edit.labels.copy },
+          point: { kind: "processed" },
+        },
+      },
+      `removed-copy-${atUs}`,
+    );
+    assert.equal(picture.receipt.readerOpens, 0);
+    assert.deepEqual(picture.receipt.pictures, []);
+    const rgba = picture.file + ".rgba";
+    await run(fixtures.pixelTool, [picture.file, rgba]);
+    assert.ok(
+      (await readFile(rgba)).every((value) => value === 0),
+      "Moved or trimmed-away clip tap must be transparent",
+    );
+    removed.push({ atUs, ...picture });
+  }
+  const protectedOriginal = await delivered(
+    {
+      projectId: edited.projectId,
+      revisionId: trimmed.revision.id,
+      atUs: 100000,
+      tap: { target: { kind: "clip", id: edited.labels.presenter }, point: { kind: "processed" } },
+    },
+    "copy-edits-protected-original",
+  );
+  assert.equal(
+    hash(await readFile(protectedOriginal.file)),
+    duplicateFrames[1].sha256,
+    "Editing the copy changed its original clip",
+  );
+  report.checks.processedTrim = { frames: trimmedFrames, removed, protectedOriginal };
+  const first = retained.find((r) => r.name === "160x96-presenter"),
+    old = first.project;
+  const newLayout = {
+    label: "new-layout",
+    processor: { type: "geometry", rect: { x: 0, y: 0, width: 24, height: 40 }, fit: "stretch" },
+  };
+  const changed = await call("edit.apply", {
+    projectId: old.projectId,
+    requestId: "new-layout",
+    expectedRevisionId: old.revisionId,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: old.labels.presenter },
+        steps: [newLayout],
+      },
+    ],
+  });
+  await service.stop();
+  await service.start();
+  const historical = await delivered(
+    { projectId: old.projectId, revisionId: old.revisionId, atUs: 450001 },
+    "historical",
+  );
+  assert.equal(hash(await readFile(historical.file)), first.frames[0].sha256);
+  const current = await delivered({ projectId: old.projectId, atUs: 450001 }, "current");
+  assert.notEqual(hash(await readFile(current.file)), first.frames[0].sha256);
+  assert.equal(current.receipt.revisionId, changed.revision.id);
+  const currentRgba = current.file + ".rgba";
+  await run(fixtures.pixelTool, [current.file, currentRgba]);
+  const currentExpected = expectedRgba(
+    layerTree(first.canvas, fixtures.media, { presenter: [newLayout] }).output,
+  );
+  const currentVerdict = compareGeometry(
+    await readFile(currentRgba),
+    currentExpected,
+    first.canvas.width,
+    first.canvas.height,
+  );
+  report.checks.restartedLayout = currentVerdict;
+  const lease = await call(
+    "preview.get",
+    { projectId: old.projectId, revisionId: old.revisionId },
+    { transport: "mcp" },
+  );
+  await call("project.delete", { projectId: old.projectId });
+  assert.equal(
+    (await call("frame.get", { projectId: old.projectId, atUs: 450001 }, { error: true })).code,
+    "NOT_FOUND",
+  );
+  assert.equal(
+    (
+      await call(
+        "artifact.read",
+        { token: lease.delivery.token, offset: 0 },
+        { transport: "mcp", error: true },
+      )
+    ).code,
+    "ARTIFACT_EXPIRED",
+  );
+  assert.equal(hash(await readFile(first.export.output)), first.export.receipt.sha256);
+  // Re-render retained source bytes through a fresh project after donor unlink and original project deletion.
+  const again = await createProject(
+    first.canvas,
+    media,
+    "retained-again",
+    layerCases(first.canvas).find((s) => s.name === "presenter"),
+  );
+  const recovered = await delivered(
+    { projectId: again.projectId, revisionId: again.revisionId, atUs: 450001 },
+    "retained-again",
+  );
+  assert.equal(hash(await readFile(recovered.file)), first.frames[0].sha256);
+  report.checks.lifetime = {
+    donorsRemoved: true,
+    oldRevisionExact: true,
+    newRevisionDifferent: true,
+    deletedLeaseRevoked: true,
+    externalExportPreserved: true,
+    retainedSourcesRerendered: true,
+  };
+  report.passed = true;
+} catch (error) {
+  report.error = { message: error.message, stack: error.stack };
+  process.exitCode = 1;
+} finally {
+  await service.stop().catch((error) => {
+    report.passed = false;
+    report.shutdownError = error.message;
+    process.exitCode = 1;
+  });
+  try {
+    await save("report.json", report);
+    await writeFile(join(out, "service.log"), service.logs.join(""));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
+}
+
+console.log(JSON.stringify({ passed: report.passed, out, error: report.error?.message }));
+
+exec
+/bin/zsh -lc "rg -n 'duplicate|trim|layers' specs/recording-for-ai/README.md | head -30; rg -n 'case \"trim\"|case \"duplicate\"|copyLabels|operation:.*trim' packages/ | head -50; cat package.json; sed -n '1,100p' packages/test-harness/editing/layers-fixture.mjs; find . -maxdepth 2 -name AGENTS.override.md" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+179:what was pointed at. It can trim or cut specified ranges, undo, and inspect or export
+203:- Full CLI/MCP trim, batch cut, history, undo and restore. Revision-bound writes
+packages/composition/src/processing.test.ts:226:        copyLabels: [{ clipId: first.labels.clip, label: "copy" }],
+packages/protocol/src/operations.ts:928:    .object({ operation: z.literal("edit.trim"), params: edit.extend({ range }) })
+packages/test-harness/src/timeline.ts:19:  { id: "lab-trim", operation: "trim", createdAt: "2026-09-15T00:00:00.000Z" },
+packages/composition/src/edits.test.ts:564:        operation: "trim",
+packages/composition/src/edits.test.ts:592:          operation: "trim",
+packages/composition/src/edits.test.ts:1172:      copyLabels: [
+packages/composition/src/edits.test.ts:1252:          copyLabels: [{ clipId: first.labels.audio, label: "absent" }],
+packages/core/src/package-manifest.test.ts:27:      operation: "trim",
+packages/core/src/event-pages.test.ts:319:    { id: "tail", operation: "trim", createdAt: "fixture" },
+packages/composition/src/pointer.test.ts:232:        operation: "trim",
+packages/core/src/selection.test.ts:267:    operation: "trim",
+packages/core/src/timeline.test.ts:25:    { id: "a", operation: "trim", createdAt: "now" },
+packages/test-harness/editing/edits.mjs:187:        copyLabels: [
+packages/core/src/library.test.ts:57:    operation: "trim",
+packages/core/src/library.test.ts:146:    operation: "trim" as const,
+packages/core/src/library.test.ts:493:      operation: "trim",
+packages/core/src/library.ts:49:  | { operation: "trim"; range: TimeRange }
+packages/composition/src/edits.ts:115:      copyLabels: z
+packages/composition/src/edits.ts:134:      operation: z.literal("trim"),
+packages/composition/src/edits.ts:451:        case "duplicate": {
+packages/composition/src/edits.ts:466:          for (const entry of operation.copyLabels) {
+packages/composition/src/edits.ts:550:        case "trim": {
+packages/core/src/frames.test.ts:893:    operation: "trim",
+packages/composition/src/acquisition.test.ts:210:      operation: "trim",
+packages/composition/src/acquisition.test.ts:219:      copyLabels: [{ clipId: "original", label: "copy" }],
+packages/composition/src/compiler.test.ts:721:        operation: "trim",
+packages/composition/src/compiler.test.ts:951:        operation: "trim",
+packages/test-harness/editing/layers.mjs:552:        copyLabels: [{ clipId: edited.labels.presenter, label: "copy" }],
+packages/test-harness/editing/layers.mjs:639:        operation: "trim",
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+import assert from "node:assert/strict";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { hash, root, run } from "./source-evidence-fixture.mjs";
+
+// Unequal corner landmarks make flips, source-domain crops and cover alignment observable.
+function picture(width, height, presenter) {
+  const bytes = Buffer.alloc(width * height * 3);
+  for (let y = 0; y < height; y++)
+    for (let x = 0; x < width; x++) {
+      const light = presenter
+        ? x >= 4 &&
+          x < width - 4 &&
+          y >= 4 &&
+          y < height - 4 &&
+          !(x >= width / 2 && y < height / 3) &&
+          !(x < 8 && y >= height - 12)
+        : (x >= 4 && x < 12 && y >= 4 && y < height - 4) ||
+          (x >= 4 && x < width - 4 && y >= height - 12 && y < height - 4) ||
+          (x >= width - 16 && x < width - 8 && y >= 4 && y < 12);
+      const at = (y * width + x) * 3;
+      bytes.fill(light ? 255 : 0, at, at + 3);
+    }
+  return bytes;
+}
+export const narrationSample = (frame, channel) =>
+  (((frame * (channel ? 13 : 7)) % 127) - 63) / 4096;
+function narration() {
+  const frames = 48000,
+    bytes = Buffer.alloc(44 + frames * 8);
+  bytes.write("RIFF");
+  bytes.writeUInt32LE(bytes.length - 8, 4);
+  bytes.write("WAVEfmt ", 8);
+  bytes.writeUInt32LE(16, 16);
+  bytes.writeUInt16LE(3, 20);
+  bytes.writeUInt16LE(2, 22);
+  bytes.writeUInt32LE(48000, 24);
+  bytes.writeUInt32LE(384000, 28);
+  bytes.writeUInt16LE(8, 32);
+  bytes.writeUInt16LE(32, 34);
+  bytes.write("data", 36);
+  bytes.writeUInt32LE(frames * 8, 40);
+  for (let frame = 0; frame < frames; frame++)
+    for (let channel = 0; channel < 2; channel++)
+      bytes.writeFloatLE(narrationSample(frame, channel), 44 + frame * 8 + channel * 4);
+  return bytes;
+}
+export async function prepareLayersFixture(home, out) {
+  const directory = join(home, "authored-sources");
+  await mkdir(directory, { recursive: true });
+  const referenceTool = join(home, "frame-reference"),
+    pixelTool = join(home, "frame-pixels");
+  for (const [source, target] of [
+    ["FrameColorReference.swift", referenceTool],
+    ["FrameImagePixels.swift", pixelTool],
+  ])
+    await run(
+      "swiftc",
+      ["-parse-as-library", join(root, "packages/test-harness/editing", source), "-o", target],
+      { timeout: 120000 },
+    );
+  async function referenceSource(name, path, width, height, raw) {
+    const refs = join(out, `${name}-reference`);
+    await mkdir(refs, { recursive: true });
+    const request = join(home, `${name}-reference.json`);
+    await writeFile(request, JSON.stringify({ movie: path, output: refs, timesUs: [0] }));
+    const { stdout } = await run(referenceTool, [request], { timeout: 60000 });
+    const reference = JSON.parse(stdout)[0],
+      rgbaPath = join(refs, "source.rgba");
+    const normalized = JSON.parse((await run(pixelTool, [reference.file, rgbaPath])).stdout);
+    assert.deepEqual([normalized.width, normalized.height], [width, height]);
+    assert.equal(reference.sourceProfile, "kCGColorSpaceCoreMedia709");
+    await writeFile(join(refs, "receipt.json"), JSON.stringify({ reference, normalized }, null, 2));
+    const rgba = await readFile(rgbaPath);
+    for (let pixel = 0; pixel < width * height; pixel++) {
+      assert.equal(rgba[pixel * 4 + 3], 255);
+      for (let channel = 0; channel < 3; channel++)
+        assert.ok(
+          Math.abs(rgba[pixel * 4 + channel] - raw[pixel * 3 + channel]) <= 2,
+          "Encoded source lost the independently authored black/white landmark",
+        );
+    }
+    return {
+      path,
+      width,
+      height,
+      sha256: hash(await readFile(path)),
+      reference,
+      normalized,
+      rgba,
+      encodedProfile: "corevideo709",
+    };
+  }
+  const media = {};
+  for (const [name, width, height, presenter] of [
+    ["screen", 64, 48, false],
+    ["presenter", 24, 40, true],
+    ["plate", 16, 16, false],
+  ]) {
+    const raw =
+
+2026-09-28T15:27:48.597038Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8a0-c31a-75e1-9954-26477e22e8e3 turn_id=01a0e8a0-c3a9-7740-9fe8-a90a71c7d4b9 item_id="exec-91ea9c62-bdbf-46e7-b484-9a800c46f610"
+exec
+/bin/zsh -lc "sed -n '440,500p' packages/composition/src/edits.ts; sed -n '545,600p' packages/composition/src/edits.ts; sed -n '1,120p' packages/test-harness/editing/source-evidence-fixture.mjs; git diff --check; node --check packages/test-harness/editing/layers.mjs; ls apps/macos/.build/release/ 2>/dev/null | head; rg -n 'SCREENREC_NATIVE|layers.mjs' packages/test-harness/package.json specs/recording-for-ai -g '*.md' | head -20" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+            operation.scope,
+            operation.ripple === "none"
+              ? "none"
+              : operation.ripple.trackIds.map((id) => resolve(id, "track")),
+            allocate,
+          );
+          next = result.document;
+          for (const anchor of result.touchedFixedAnchors)
+            touchedFixedAnchors.set(anchor.id, anchor);
+          break;
+        }
+        case "duplicate": {
+          const result = duplicateClips(
+            model,
+            clips(operation.clipIds),
+            operation.atUs,
+            operation.scope,
+            operation.tracks.map((entry) => ({
+              clipId: resolve(entry.clipId, "clip"),
+              trackId: resolve(entry.trackId, "track"),
+            })),
+            allocate,
+          );
+          const copies = new Map(
+            result.lineage.map((entry) => [entry.originalId, entry.clipIds[0]!]),
+          );
+          for (const entry of operation.copyLabels) {
+            const originalId = resolve(entry.clipId, "clip");
+            const id = copies.get(originalId);
+            if (!id) invalid("Copy label target was not duplicated", { clipId: originalId });
+            bind(entry.label, "clip", id);
+          }
+          next = result.document;
+          clipLineage.push(...result.lineage);
+          break;
+        }
+        case "reanchor": {
+          const id = clips([operation.clipId])[0]!;
+          const anchor = operation.placement;
+          const resolvedAnchor =
+            anchor.kind === "project"
+              ? anchor
+              : { ...anchor, clipId: resolve(anchor.clipId, "clip") };
+          next = {
+            ...before,
+            clips: before.clips.map((clip) =>
+              clip.id === id ? { ...clip, placement: resolvedAnchor } : clip,
+            ),
+          };
+          const candidate = validateComposition(next, model.assets, model.acquisitions);
+          const oldRange = model.clips.find((value) => value.clip.id === id)!.range;
+          const newRange = candidate.clips.find((value) => value.clip.id === id)!.range;
+          if (
+            compare(oldRange.start, newRange.start) !== 0 ||
+            compare(oldRange.end, newRange.end) !== 0
+          )
+            invalid(
+              "Reanchor must preserve the current project interval; move or retime explicitly first",
+              { clipId: id },
+            );
+          break;
+              touchedFixedAnchors.set(anchor.id, anchor);
+          }
+          break;
+        }
+        case "remove":
+        case "trim": {
+          const ids =
+            operation.operation === "remove"
+              ? clips(operation.clipIds, true)
+              : clips([operation.clipId]);
+          let ranges: ExactRange[] | undefined;
+          if (operation.operation === "remove") {
+            ranges = operation.ranges?.map((range) => ({
+              start: fromTime(range.startUs),
+              end: fromTime(range.endUs),
+            }));
+          } else {
+            const target = model.clips.find((value) => value.clip.id === ids[0])!.range;
+            const keep = {
+              start: fromTime(operation.range.startUs),
+              end: fromTime(operation.range.endUs),
+            };
+            if (compare(keep.start, target.start) < 0 || compare(keep.end, target.end) > 0)
+              invalid("Trim range must stay within the clip's resolved interval", {
+                clipId: ids[0],
+              });
+            ranges = [];
+            if (compare(target.start, keep.start) < 0)
+              ranges.push({ start: target.start, end: keep.start });
+            if (compare(keep.end, target.end) < 0)
+              ranges.push({ start: keep.end, end: target.end });
+          }
+          const result = partitionClips(
+            model,
+            ids,
+            { kind: "remove", scope: operation.scope, ...(ranges ? { ranges } : {}) },
+            allocate,
+          );
+          if (operation.ripple === "none") next = result.document;
+          else {
+            const shifted = rippleTimeline(
+              validateComposition(result.document, model.assets, model.acquisitions),
+              { kind: "remove", ranges: result.removalRanges },
+              operation.ripple.trackIds.map((id) => resolve(id, "track")),
+            );
+            next = shifted.document;
+            for (const anchor of shifted.touchedFixedAnchors)
+              touchedFixedAnchors.set(anchor.id, anchor);
+          }
+          clipLineage.push(...result.lineage);
+          removedAttachments.push(...result.removedAttachments);
+          break;
+        }
+        case "split": {
+          const result = partitionClips(
+            model,
+import assert from "node:assert/strict";
+import { execFile, fork } from "node:child_process";
+import { createHash, randomUUID } from "node:crypto";
+import { once } from "node:events";
+import { constants } from "node:fs";
+import { copyFile, lstat, mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
+import { promisify } from "node:util";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { cliReply } from "./first-preview-transport.mjs";
+
+export const run = promisify(execFile);
+export const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+export const root = new URL("../../../", import.meta.url).pathname;
+export async function poll(read, done, label) {
+  const deadline = performance.now() + 180000;
+  for (;;) {
+    const value = await read();
+    if (done(value)) return value;
+    assert.ok(!["failed", "canceled"].includes(value.state), `${label}: ${JSON.stringify(value)}`);
+    assert.ok(performance.now() < deadline, `${label}: deadline`);
+    await delay(100);
+  }
+}
+
+/** Copies already prepared, hash-pinned files. No network fetch or preparation operation. */
+export async function copyModels(home, request) {
+  const { parakeetModel: manifest, SpeechModels } =
+    await import("../../../packages/core/dist/speech-models.js");
+  assert.deepEqual(request.files, manifest.files);
+  const models = new SpeechModels(join(home, "library"));
+  const target = join(home, "library/models", manifest.name, manifest.revision);
+  const receipt = { modelDigest: models.modelDigest, files: {} };
+  for (const file of manifest.files) {
+    const source = join(request.directory, file.path);
+    const destination = join(target, manifest.folderName, file.path);
+    assert.ok((await lstat(source)).isFile());
+    await mkdir(dirname(destination), { recursive: true });
+    await copyFile(source, destination, constants.COPYFILE_FICLONE);
+    const bytes = await readFile(destination);
+    assert.equal(bytes.length, file.bytes);
+    assert.equal(hash(bytes), file.sha256);
+    const stat = await lstat(destination, { bigint: true });
+    receipt.files[file.path] = { modifiedNs: String(stat.mtimeNs), inode: String(stat.ino) };
+  }
+  await writeFile(join(target, "receipt.json"), JSON.stringify(receipt));
+  assert.deepEqual(models.status(), { state: "ready" });
+  return { modelDigest: models.modelDigest, files: manifest.files };
+}
+
+/** Public transports around a scratch project service; barriers hold only real native replies. */
+export class JourneyService {
+  constructor(
+    home,
+    report,
+    evidence,
+    serviceModule = new URL("./source-acquisition-service.mjs", import.meta.url),
+  ) {
+    this.home = home;
+    this.serviceModule = serviceModule;
+    this.evidence = evidence;
+    this.report = report;
+    this.logs = [];
+    this.barriers = new Map();
+  }
+  async start() {
+    this.child = fork(this.serviceModule, [this.home, ...(this.evidence ? [this.evidence] : [])], {
+      stdio: ["ignore", "pipe", "pipe", "ipc"],
+    });
+    this.child.stdout.on("data", (b) => this.logs.push(b.toString()));
+    this.child.stderr.on("data", (b) => this.logs.push(b.toString()));
+    this.child.on("message", (m) => {
+      if (m.type) this.barriers.set(`${m.id}/${m.type}`, m);
+    });
+    const [ready] = await Promise.race([
+      once(this.child, "message"),
+      once(this.child, "exit").then(([code]) => {
+        throw new Error(`Service exited ${code}: ${this.logs.join("")}`);
+      }),
+      delay(30000, undefined, { ref: false }).then(() => {
+        throw new Error("Service startup deadline");
+      }),
+    ]);
+    assert.equal(ready.error, undefined, JSON.stringify(ready));
+    this.socketPath = ready.socketPath;
+    this.mcp = new Client({ name: "source-transcript-journey", version: "1" });
+    await this.mcp.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [join(root, "apps/cli/dist/main.js"), "mcp", "--socket", this.socketPath],
+        stderr: "pipe",
+      }),
+    );
+  }
+  async call(operation, params, { transport = "cli", error = false, output } = {}) {
+    const response =
+      transport === "mcp"
+        ? (await this.mcp.callTool({ name: operation, arguments: params })).structuredContent
+        : await cliReply([
+            join(root, "apps/cli/dist/main.js"),
+            operation,
+            "--socket",
+            this.socketPath,
+            "--params",
+            JSON.stringify(params),
+            ...(output ? ["--output", output] : []),
+          ]);
+    assert.equal(response?.ok, !error, `${operation}: ${JSON.stringify(response)}`);
+    this.report.trace.push({
+      operation,
+      transport,
+      ok: response.ok,
+      state: response.data?.state,
+      error: response.error,
+    });
+    return response.ok ? response.data : response.error;
+  }
+  async arm(operation) {
+FluidAudio.build
+FluidAudioCLI.build
+ModuleCache
+Modules
+ScreenRecorder
+ScreenRecorder.build
+ScreenRecorder.dSYM
+ScreenRecorder.product
+ScreenRecorderAudio.build
+ScreenRecorderCapture.build
+specs/recording-for-ai/assets/video-render/job-lifetime.md:69:and native builds; `SCREENREC_NATIVE` may select a bundled executable instead of the
+specs/recording-for-ai/assets/portable-inspection/public-package-index.md:64:SCREENREC_NATIVE=/absolute/path/to/screenrec-native \
+specs/recording-for-ai/assets/portable-inspection/output-release.md:41:explicitly sets SCREENREC_NATIVE to dist/ScreenRecorder.app/Contents/MacOS/screenrec-native;
+specs/recording-for-ai/assets/export-publication/admission-abandon.md:25:selected explicitly through SCREENREC_NATIVE; media was generated.
+specs/recording-for-ai/slices/14c1-bounded-archive-extraction.md:98:`SCREENREC_NATIVE` can select another built worker; `SCREENREC_ARCHIVE_EVIDENCE`
+specs/recording-for-ai/assets/portable-inspection/workspace-primitives.md:51:Main fbdac77 rebuilt all eight workspace build tasks. With SCREENREC_NATIVE set to
+
+2026-09-28T15:27:57.066788Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8a0-c31a-75e1-9954-26477e22e8e3 turn_id=01a0e8a0-c3a9-7740-9fe8-a90a71c7d4b9 item_id="exec-ebc2231d-c8ae-46dc-9019-244a272ad8df"
+exec
+/bin/zsh -lc 'for p in /AGENTS.md /AGENTS.override.md /Users/AGENTS.md /Users/AGENTS.override.md /Users/david/AGENTS.md /Users/david/AGENTS.override.md /Users/david/dev/AGENTS.md /Users/david/dev/AGENTS.override.md; do if [ -f "$p" ]; then echo "$p"; cat "$p"; fi; done; sed -n '"'180,210p' specs/recording-for-ai/README.md; sed -n '180,260p' packages/composition/src/processing.test.ts; rg -n 'originalId|clip.id|surviv' packages/composition/src/partition.ts | head -20; git status --short" in /Users/david/dev/screen-recorder
+2026-09-28T15:28:09.971363Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8a0-c31a-75e1-9954-26477e22e8e3 turn_id=01a0e8a0-c3a9-7740-9fe8-a90a71c7d4b9 item_id="exec-5afd73b0-e5da-4b24-9cb6-fd3f977a30ec"
+ succeeded in 0ms:
+the edited result.
+
+“Cut out the part where I said this is free” and “cut out the ums” are external-agent
+workflows over evidence and explicit edit operations. Filler removal is best-effort:
+the transcript reports a filler only when the engine emitted one. The app contains local speech
+recognition but no assistant, semantic editing model, rewriting or summarization.
+The original recording and non-destructive history remain intact.
+
+## Settled scope
+
+- macOS menu-bar app; display/window/region capture, microphone narration and optional
+  separately captured system/browser audio. All system audio is the initial filter;
+  source selection does not imply browser-tab sound isolation.
+- Start, stop, cancel, pause/resume and restart through native controls/shortcuts
+  and machine operations. Pauses omit media time but add explicit elapsed-pause markers.
+- Local English transcription with word timestamps; fillers and repetitions appear
+  when the engine emits them, without a capture guarantee.
+- Clean source media plus raw cursor history; default two-second fading trail on
+  inspection images, reset at pause/cut/scene/geometry boundaries; optional clean frames.
+- Visual-change/coverage/cursor-aware screenshot index; arbitrary frame, crop,
+  transcript, timeline, cursor and audio inspection.
+- Latest discovers the newest take immediately, even before artifacts are ready.
+  Separate readiness/failure/retry states let the caller wait and request again.
+- Full CLI/MCP trim, batch cut, history, undo and restore. Revision-bound writes
+  reject stale edits. Current/historical reads and exports pin a revision.
+- Exactly two exports: playable human video, and the complete processed AI package
+  including original media, source data, edits and current evidence. Package reader
+  supports new frame requests after relocation.
+- Preserve partial recordings honestly after interruption. Keep data until manually
+  deleted; expose storage usage. Optimize short pointers and 2–5 minute walkthroughs,
+  with bounded paged access to longer recordings.
+        namespace: "rejected",
+      }),
+    ).toThrow();
+    expect(first.document).toEqual(old);
+  }
+});
+
+test("duplicate, ripple movement and deletion preserve target-owned stacks without inheritance", () => {
+  const first = applyBatch(
+    empty,
+    [
+      { operation: "group.add", group: { kind: "audio", order: 0 }, label: "group" },
+      {
+        operation: "track.add",
+        track: { kind: "audio", order: 0, parentId: ref("group") },
+        label: "track",
+      },
+      {
+        operation: "place",
+        label: "clip",
+        clip: {
+          trackId: ref("track"),
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 0, endUs: 10 } },
+        },
+      },
+      ...["clip", "track", "group"].map((kind) => ({
+        operation: "processing.set",
+        target: { kind, id: ref(kind) },
+        steps: [{ processor: { type: "gain", gain: 0.5 } }],
+      })),
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "gain", gain: 2 } }],
+      },
+    ],
+    context,
+  );
+  const copied = applyBatch(
+    first.document,
+    [
+      {
+        operation: "duplicate",
+        clipIds: [first.labels.clip],
+        atUs: 20,
+        copyLabels: [{ clipId: first.labels.clip, label: "copy" }],
+      },
+    ],
+    { ...context, namespace: "copy" },
+  );
+  const copyModel = validateComposition(copied.document, []);
+  const originalSteps = getProcessing(copyModel, { kind: "clip", id: first.labels.clip });
+  const copySteps = getProcessing(copyModel, { kind: "clip", id: copied.labels.copy });
+  expect(copySteps.map((s) => s.processor)).toEqual(originalSteps.map((s) => s.processor));
+  expect(copySteps[0]!.id).not.toBe(originalSteps[0]!.id);
+  expect(copied.processingLineage).toContainEqual({
+    originalId: originalSteps[0]!.id,
+    stepId: copySteps[0]!.id,
+  });
+  const moved = applyBatch(
+    copied.document,
+    [
+      {
+        operation: "move",
+        clipIds: [first.labels.clip],
+        atUs: 30,
+        ripple: { trackIds: [first.labels.track] },
+      },
+    ],
+    { ...context, namespace: "move" },
+  );
+  expect(
+    getProcessing(validateComposition(moved.document, []), { kind: "clip", id: first.labels.clip }),
+  ).toEqual(originalSteps);
+  const cleared = applyBatch(
+    moved.document,
+    [
+      { operation: "remove", clipIds: [first.labels.clip, copied.labels.copy], ripple: "none" },
+      { operation: "track.remove", trackId: first.labels.track },
+      { operation: "group.remove", groupId: first.labels.group },
+31:/** Restrict original affine mappings and rebase attachments onto their surviving parent pieces. */
+43:  const original = new Map(model.clips.map((value) => [value.clip.id, value]));
+47:      model.clips.filter((value) => affected.has(value.clip.id)).map((value) => value.range),
+80:  const lineage: { originalId: string; clipIds: string[] }[] = [];
+94:      if (partitioned.has(value.clip.id)) {
+102:        if (operation.kind === "remove" && affected.has(value.clip.id) && removed(range.start))
+104:        const id = next.length === 0 ? value.clip.id : allocate("clip");
+129:    pieces.set(value.clip.id, next);
+135:      lineage.push({ originalId: value.clip.id, clipIds: next.map((piece) => piece.clip.id) });
+136:    for (const child of children.get(value.clip.id) ?? []) ready.push(original.get(child)!);
+157:        members.push(piece.clip.id);
+170:    pieces.get(clip.id)!.map((piece) => piece.clip),
+187:      .filter((clip) => clip.placement.kind !== "project" && pieces.get(clip.id)!.length === 0)
+188:      .map((clip) => clip.id),
+ M packages/test-harness/editing/layers.mjs
+
+codex
+The added checks follow the existing edit and frame-delivery contracts, with no actionable defects found. Syntax and diff checks passed; the full native-backed journey was not run.
+The added checks follow the existing edit and frame-delivery contracts, with no actionable defects found. Syntax and diff checks passed; the full native-backed journey was not run.

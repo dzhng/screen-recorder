@@ -48,9 +48,10 @@ pass actual CLI/MCP/native delivery and recovery, with controlled empty-admissio
 cases labeled separately. [Project-cut events](assets/10c-project-cuts/README.md) pass actual public authored
 and preservation journeys. [Static layers and geometry](assets/15-layer-public/README.md)
 now pass actual CLI/MCP tap, preview, export, unchanged WAV and lifetime journeys.
-[Processed clip splitting](assets/15-layer-edits/README.md) also passes fractional
-boundary stills, a full preview, unchanged WAV and independent-piece processing
-checks with static footage; moving-source conformance remains separate.
+[Processed clip edits](assets/15-layer-edits/README.md) also pass fractional split
+stills, a full preview, unchanged WAV, independent-piece processing, and copied,
+moved and trimmed clip taps with exact source timestamps. These use static footage;
+moving-source conformance remains separate.
 Project screenshot indexes, speech/noise processing, animation and subjective
 listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
