@@ -1,6 +1,6 @@
 # 10a — Exact source-range occurrences
 
-Status: not started. Dependencies: [01](./01-composition.md), [05](./05-compiler.md).
+Status: verified pure engine prerequisite. Exact range lookup, availability-based completeness and shared interval selection pass the [deterministic gates](../assets/10a-source-range/README.md); public source acquisition and occurrence inspection remain in slice 10. Dependencies: [01](./01-composition.md), [05](./05-compiler.md).
 
 ## Contract
 

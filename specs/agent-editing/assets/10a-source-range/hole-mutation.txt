@@ -1,0 +1,41 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-range-projection
+
+ ❯ packages/composition/src/index.test.ts (22 tests | 1 failed | 21 skipped) 51ms
+   × range completeness sees internal stream and ancestor holes, not just endpoints 48ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/index.test.ts > range completeness sees internal stream and ancestor holes, not just endpoints
+AssertionError: expected { clipId: 'parent', …(7) } to match object { completeness: 'partial', …(1) }
+(8 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -1,7 +1,7 @@
+  {
+-   "completeness": "partial",
++   "completeness": "whole",
+    "fragments": [
+      {
+        "project": {
+          "end": {
+            "denominator": 1n,
+
+ ❯ packages/composition/src/index.test.ts:511:50
+    509|   child.placement = { kind: "content", clipId: "parent", sourceRange: …
+    510|   const projection = createSourceRangeProjection(validateComposition(d…
+    511|   expect(projection.clip("parent", range(2, 8))).toMatchObject({
+       |                                                  ^
+    512|     completeness: "partial", fragments: [
+    513|       { source: { start: r(2n), end: r(4n) }, project: { start: r(2n),…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 21 skipped (22)
+   Start at  20:33:59
+   Duration  1.17s (transform 69%, import 24%, tests 6%, worker 1%)
+

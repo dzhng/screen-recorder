@@ -1,0 +1,33 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-range-projection
+
+ ❯ packages/composition/src/source-projection.test.ts (6 tests | 1 failed | 5 skipped) 64ms
+   × repeated named range reads do not revisit the revision's unrelated clips 63ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/source-projection.test.ts > repeated named range reads do not revisit the revision's unrelated clips
+AssertionError: expected 100100 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 100100
+
+ ❯ packages/composition/src/source-projection.test.ts:251:17
+    249|     ]);
+    250|   }
+    251|   expect(reads).toBe(0);
+       |                 ^
+    252| });
+    253|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  20:36:34
+   Duration  424ms (transform 54%, import 25%, tests 20%, worker 1%)
+

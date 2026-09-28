@@ -38,6 +38,15 @@ the interval, or null when fast playback skips that bin at microsecond resolutio
 This interval form preserves the many-to-one relation created by flooring rather
 than pretending an inverse is a single exact timestamp.
 
+The [range projection owner](src/source-projection.ts) builds a reusable lookup for
+source words/events across an immutable revision. Its named-clip query avoids
+scanning unrelated occurrences; all-occurrence queries share the compiler's
+interval index. Results pair exact retained source/project fragments. Completeness
+means the entire original source range survives in that occurrence, including
+internal availability holes; clipping a later display/query window must not
+recompute it. Holds and authored silence have no retained source range. This is
+pure mapping, not source acquisition or public transcript inspection.
+
 Forward queries are ordered by placement start, track order and clip ID; reverse
 queries use the mapped occurrence start rather than its containing clip start. A half-open end
 belongs to the following clip. Unknown clip/source identities and invalid times

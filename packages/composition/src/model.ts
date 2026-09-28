@@ -100,7 +100,7 @@ export function sourceTime(clip: SourceClock, project: Rational): Rational {
     multiply(subtract(project, clip.range.start), clip.rate!),
   );
 }
-function projectTime(clip: SourceClock, source: Rational): Rational {
+export function projectTime(clip: SourceClock, source: Rational): Rational {
   if (clip.clip.source.kind !== "range")
     invalid(`Clip has no invertible source clock: ${clip.clip.id}`);
   return add(

@@ -1,3 +1,4 @@
+import { intervalIndex } from "./interval-index.js";
 import { sampleAt } from "./sample-clock.js";
 import { audioContexts } from "./audio-context.js";
 import type { CompiledFrame, CompiledAudio } from "./compiled-records.js";
@@ -9,6 +10,8 @@ import { compare, floor, ceil, fromTime, toTime, type Rational } from "./rationa
 import { isMediaClip, rangeSchema, type Range, type Fraction } from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
+const renderOrder = (a: Resolved, b: Resolved) =>
+  a.trackRank - b.trackRank || compare(a.range.start, b.range.start);
 function safeInteger(value: bigint): number {
   if (value < 0n || value > BigInt(Number.MAX_SAFE_INTEGER))
     throw new CompositionError("INVALID_TIME", "Compiled clock exceeds safe-integer precision");
@@ -31,41 +34,6 @@ function firstAvailable(ranges: Resolved["available"], at: Rational): number {
   return lo;
 }
 
-/** Balanced interval index over the detached immutable revision; queries skip unrelated prefixes. */
-function intervalIndex(clips: readonly Resolved[]) {
-  type Node = { clip: Resolved; end: Rational; left?: Node; right?: Node };
-  const sorted = [...clips].sort((a, b) => compare(a.range.start, b.range.start));
-  function build(start: number, end: number): Node | undefined {
-    if (start === end) return undefined;
-    const middle = Math.floor((start + end) / 2);
-    const left = build(start, middle),
-      right = build(middle + 1, end);
-    const clip = sorted[middle]!;
-    let max = clip.range.end;
-    for (const child of [left, right]) if (child && compare(child.end, max) > 0) max = child.end;
-    return { clip, end: max, ...(left ? { left } : {}), ...(right ? { right } : {}) };
-  }
-  const root = build(0, sorted.length);
-  return function query(start: Rational, end?: Rational): Resolved[] {
-    const result: Resolved[] = [];
-    const pending = root ? [root] : [];
-    while (pending.length) {
-      const node = pending.pop()!;
-      if (compare(node.end, start) <= 0) continue;
-      if (node.left) pending.push(node.left);
-      const beforeEnd = end
-        ? compare(node.clip.range.start, end) < 0
-        : compare(node.clip.range.start, start) <= 0;
-      if (!beforeEnd) continue;
-      if (compare(node.clip.range.end, start) > 0) result.push(node.clip);
-      if (node.right) pending.push(node.right);
-    }
-    return result.sort(
-      (a, b) => a.trackRank - b.trackRank || compare(a.range.start, b.range.start),
-    );
-  };
-}
-
 function frameClock(fps: Fraction) {
   const numerator = BigInt(fps.numerator),
     denominator = 1000000n * BigInt(fps.denominator);
@@ -79,7 +47,7 @@ function frameClock(fps: Fraction) {
 
 function compileSchedules(
   clock: ReturnType<typeof frameClock>,
-  query: ReturnType<typeof intervalIndex>,
+  query: ReturnType<typeof intervalIndex<Resolved>>,
   contexts: ReturnType<typeof audioContexts>,
 ) {
   return {
@@ -121,7 +89,10 @@ function compileSchedules(
           clipId: clip.id,
           trackId: clip.trackId,
           sampleRange: { start, end },
-          placement: { startUs: toTime(value.range.start), endUs: toTime(value.range.end) },
+          placement: {
+            startUs: toTime(value.range.start),
+            endUs: toTime(value.range.end),
+          },
           source,
           context: contexts(value, range, sampleRate),
           pitch: isMediaClip(clip) ? (clip.pitch ?? "preserve") : "preserve",
@@ -164,7 +135,10 @@ function compileSchedules(
         yield {
           index: safeInteger(index),
           sampleAtUs: atUs,
-          visibleRange: { startUs: Math.max(range.startUs, atUs), endUs: safeInteger(visibleEnd) },
+          visibleRange: {
+            startUs: Math.max(range.startUs, atUs),
+            endUs: safeInteger(visibleEnd),
+          },
           layers,
         };
         index = clock.indexAt(nextTimestamp);
@@ -177,7 +151,7 @@ function compileSchedules(
 export function createCompiler(model: ValidatedComposition, revisionId: string) {
   if (typeof revisionId !== "string" || revisionId.length === 0)
     throw new CompositionError("INVALID_COMPOSITION", "Expected a revision identity");
-  const query = intervalIndex(model.clips);
+  const query = intervalIndex(model.clips, (clip) => clip.range, renderOrder);
   const processing = processingPlanner(model);
   const clock = frameClock(model.document.canvas.fps);
   const contexts = audioContexts(model);
@@ -243,7 +217,11 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         inputs,
         plan,
         contexts,
-        compileSchedules(clock, intervalIndex(inputs), contexts),
+        compileSchedules(
+          clock,
+          intervalIndex(inputs, (clip) => clip.range, renderOrder),
+          contexts,
+        ),
       );
     },
   };

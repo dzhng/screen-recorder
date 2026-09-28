@@ -1,0 +1,10 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-range-projection/packages/composition
+
+
+ Test Files  6 passed (6)
+      Tests  104 passed (104)
+   Start at  20:36:43
+   Duration  810ms (tests 44%, transform 35%, import 21%, worker 1%)
+
