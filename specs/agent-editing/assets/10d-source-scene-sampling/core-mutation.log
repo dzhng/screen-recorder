@@ -1,0 +1,47 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging
+
+(node:6682) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/source-scenes.test.ts (5 tests | 1 failed) 7ms
+   × sub-grid gaps reset comparison and stillness even with available endpoints 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/source-scenes.test.ts > sub-grid gaps reset comparison and stillness even with available endpoints
+AssertionError: expected [ [ 200000, false ], …(3) ] to deeply equal [ [ 200000, false ], …(2) ]
+
+- Expected
++ Received
+
+@@ -2,10 +2,14 @@
+    [
+      200000,
+      false,
+    ],
+    [
++     400000,
++     true,
++   ],
++   [
+      600000,
+      false,
+    ],
+    [
+      800000,
+
+ ❯ packages/core/src/source-scenes.test.ts:46:68
+     44|   );
+     45|   const r = await a.analyze({ startUs: 0, endUs: 800000 }, new AbortCo…
+     46|   expect(r.comparisons.map((p) => [p.actualSourceUs, p.boundary])).toE…
+       |                                                                    ^
+     47|     [200000, false],
+     48|     [600000, false],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  02:32:54
+   Duration  95ms (transform 62%, import 17%, tests 17%, worker 4%)

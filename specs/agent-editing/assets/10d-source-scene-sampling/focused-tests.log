@@ -1,0 +1,14 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging
+
+(node:17921) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:17920) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:17922) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  3 passed (3)
+      Tests  32 passed (32)
+   Start at  02:44:37
+   Duration  376ms (tests 46%, transform 36%, import 17%, worker 1%)

@@ -1,0 +1,2 @@
+{"split":false,"reply":{"data":{"bytes":154036,"channels":1,"decodedFrames":40960,"file":"/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/audio-adjacency-wtwPnU/merged.wav","frames":37485,"layout":"mono","mediaType":"audio/wav","range":{"endUs":850000,"startUs":0},"sampleRange":{"end":37485,"start":0},"sampleRate":44100,"unavailable":[]},"id":"audio","ok":true}}
+{"split":true,"reply":{"error":{"code":"INVALID_RANGE","details":{},"message":"Available interval [150000,850000) is not strictly after [0,150000).","retryable":false},"id":"audio","ok":false}}

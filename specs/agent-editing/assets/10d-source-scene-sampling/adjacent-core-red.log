@@ -1,0 +1,31 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging
+
+(node:16378) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/source-scenes.test.ts (9 tests | 1 failed) 6ms
+   × touching availability spans preserve continuous comparison and stillness 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/source-scenes.test.ts > touching availability spans preserve continuous comparison and stillness
+Error: Visual continuity crosses acquisition gap
+ ❯ invalid packages/core/src/source-scenes.ts:50:9
+     48|   | (Omit<Available, "rgbBase64"> & { stillnessRunStartUs: number });
+     49| function invalid(message: string): never {
+     50|   throw new CatalogError("INVALID_EVIDENCE", message);
+       |         ^
+     51| }
+     52| function stamp(clock: SceneSampleClock) {
+ ❯ validate packages/core/src/source-scenes.ts:113:38
+ ❯ packages/core/src/source-scenes.ts:169:48
+ ❯ SelectedSourceSceneAnalysis.analyze packages/core/src/source-scenes.ts:169:22
+ ❯ packages/core/src/source-scenes.test.ts:266:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  02:43:20
+   Duration  97ms (transform 65%, tests 16%, import 15%, worker 4%)

@@ -18,14 +18,14 @@ public struct TimeSpan: Codable, Sendable, Equatable {
     /// and never touching, because adjacent retained spans are one span. Accepting a touching pair
     /// would make renderers ramp or cut at a join that does not exist.
     public static func areRetained(_ spans: [TimeSpan]) -> Bool {
-        var previous: TimeSpan?
-        for span in spans {
-            guard span.startUs > (previous?.endUs ?? -1), span.endUs > span.startUs,
-                span.endUs <= maximumMicroseconds
-            else { return false }
-            previous = span
-        }
-        return true
+        areAvailable(spans) && zip(spans, spans.dropFirst()).allSatisfy { $0.endUs < $1.startUs }
+    }
+
+    /// Availability can be split at metadata boundaries without missing any time at the join.
+    public static func areAvailable(_ spans: [TimeSpan]) -> Bool {
+        spans.allSatisfy {
+            $0.startUs >= 0 && $0.endUs > $0.startUs && $0.endUs <= maximumMicroseconds
+        } && zip(spans, spans.dropFirst()).allSatisfy { $0.endUs <= $1.startUs }
     }
 
     public func intersection(_ other: TimeSpan) -> TimeSpan? {

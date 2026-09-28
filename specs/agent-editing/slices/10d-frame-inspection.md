@@ -112,3 +112,10 @@ index generalization remain open.
 [Product skill use](../assets/10d-frame-skill/README.md) passes a fresh weakest-model
 run against the frozen source/project picture runtime. The agent distinguishes
 source gaps and the project global sample clock without task-specific coaching.
+
+
+The [selected-source scene sampler](../assets/10d-source-scene-sampling/README.md)
+now preserves exact physical clocks and gaps between grid observations. Its
+separate presentation policy does not change recording nearest-sample evidence.
+Asset chunk storage, actual-boundary indexing and public scene readiness remain
+the next retained-evidence prerequisite.

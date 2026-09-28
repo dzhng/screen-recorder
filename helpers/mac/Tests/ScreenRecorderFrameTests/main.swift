@@ -28,6 +28,8 @@ precondition(
     "Fixture must present 30 frames every 100000us, got \(stepsTruth)")
 print("PASS fixture presents \(stepsTruth.count) samples from \(stepsTruth.first!) to \(stepsTruth.last!)us")
 
+try await verifySourceSceneBounds(source: stepsFixture)
+
 let source = try await FrameSource(url: stepsFixture)
 let whole = TimeSpan(startUs: 0, endUs: 3_000_000)
 

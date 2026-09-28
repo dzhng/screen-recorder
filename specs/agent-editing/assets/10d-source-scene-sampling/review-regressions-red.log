@@ -1,0 +1,60 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging
+
+(node:12833) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/source-scenes.test.ts (8 tests | 2 failed) 7ms
+   × non-grid chunk endpoints retain their own continuity predecessor 3ms
+   × a rejected later observation leaves the entire chunk retryable 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/source-scenes.test.ts > non-grid chunk endpoints retain their own continuity predecessor
+AssertionError: expected [ 450000 ] to deeply equal [ 350000, 450000 ]
+
+- Expected
++ Received
+
+  [
+-   350000,
+    450000,
+  ]
+
+ ❯ packages/core/src/source-scenes.test.ts:222:57
+    220|   await a.analyze({ startUs: 0, endUs: 300000 }, new AbortController()…
+    221|   const next = await a.analyze({ startUs: 300000, endUs: 500000 }, new…
+    222|   expect(next.comparisons.map((p) => p.actualSourceUs)).toEqual([35000…
+       |                                                         ^
+    223|   expect(next.coverage.at(-1)).toMatchObject({ stillnessRunStartUs: 30…
+    224| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/core/src/source-scenes.test.ts > a rejected later observation leaves the entire chunk retryable
+AssertionError: expected [ 400000, 600000, 800000, 1000000 ] to deeply equal [ 600000, 800000, 1000000 ]
+
+- Expected
++ Received
+
+  [
++   400000,
+    600000,
+    800000,
+    1000000,
+  ]
+
+ ❯ packages/core/src/source-scenes.test.ts:240:57
+    238|   bad = false;
+    239|   const next = await a.analyze({ startUs: 400000, endUs: 1000000 }, ne…
+    240|   expect(next.comparisons.map((p) => p.actualSourceUs)).toEqual([60000…
+       |                                                         ^
+    241|   expect(next.coverage.at(-1)).toMatchObject({ stillnessRunStartUs: 0 …
+    242| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  02:38:54
+   Duration  91ms (transform 64%, tests 17%, import 15%, worker 4%)

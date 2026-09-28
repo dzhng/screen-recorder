@@ -157,7 +157,7 @@ public final class PresentationSource {
 
     deinit { reader.cancelReading() }
 
-    public func selection(at: CMTime, end: CMTime) throws -> Selection {
+    public func selection(at: CMTime, end: CMTime, maximumDecodedSamples: Int? = nil) throws -> Selection {
         while segmentIndex < segments.count
             && CMTimeRangeGetEnd(segments[segmentIndex].timeMapping.target) <= at
         { segmentIndex += 1 }
@@ -174,6 +174,9 @@ public final class PresentationSource {
         }
         while held == nil || heldEnd <= at {
             held = nil
+            if let maximumDecodedSamples, decodedCount >= maximumDecodedSamples {
+                throw NativeFailure("LIMIT_EXCEEDED", "Presentation decode exceeds its sample budget.")
+            }
             guard let sample = autoreleasepool(invoking: { decoded.copyNextSampleBuffer() }) else {
                 throw NativeFailure("UNAVAILABLE", "Decoder ended before retained sample support.")
             }

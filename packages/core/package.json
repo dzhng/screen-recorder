@@ -215,6 +215,10 @@
     "./audio-spectrum": {
       "types": "./dist/audio-spectrum.d.ts",
       "default": "./dist/audio-spectrum.js"
+    },
+    "./source-scenes": {
+      "types": "./dist/source-scenes.d.ts",
+      "default": "./dist/source-scenes.js"
     }
   },
   "scripts": {

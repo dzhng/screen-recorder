@@ -44,7 +44,7 @@ public enum SourceFrameRenderer {
             !request.asset.assetId.isEmpty, !request.asset.streamId.isEmpty,
             edge > 0, edge <= FrameLimits.maximumLongEdge,
             limit > 0, limit <= FrameLimits.maximumEncodedBytes,
-            TimeSpan.areRetained(request.available)
+            TimeSpan.areAvailable(request.available)
         else { throw NativeFailure("INVALID_REQUEST", "Invalid selected source picture request.") }
         guard request.available.contains(where: { $0.startUs <= request.atUs && request.atUs < $0.endUs }) else {
             throw NativeFailure("UNAVAILABLE", "Requested picture is outside selected source support.")

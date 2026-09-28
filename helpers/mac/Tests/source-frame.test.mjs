@@ -91,6 +91,19 @@ test("selected source pictures preserve explicit streams, physical sample clocks
     assert.equal(value.sample.originUs, 1250000);
     assert.ok(value.decodedSamples > 0 && value.decodedSamples <= 2);
     assert.equal(value.bytes, readFileSync(value.file).length);
+    const merged = call({ available: [{ startUs: 0, endUs: 850000 }] });
+    const touching = call({
+      available: [
+        { startUs: 0, endUs: 150000 },
+        { startUs: 150000, endUs: 850000 },
+      ],
+    });
+    assert.equal(merged.reply.ok, true, JSON.stringify(merged.reply));
+    assert.equal(touching.reply.ok, true, JSON.stringify(touching.reply));
+    const { file: mergedFile, ...mergedReceipt } = merged.reply.data;
+    const { file: touchingFile, ...touchingReceipt } = touching.reply.data;
+    assert.deepEqual(touchingReceipt, mergedReceipt);
+    assert.deepEqual(readFileSync(touchingFile), readFileSync(mergedFile));
     const second = call({ asset: { ...first.params.asset, streamId: "track:2" } });
     assert.equal(second.reply.ok, true, JSON.stringify(second.reply));
     const pixels = (file) =>
