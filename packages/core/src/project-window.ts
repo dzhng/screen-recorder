@@ -62,17 +62,12 @@ export function projectWindow(
     rendition: { sampleRate: 48000, channels: 2 },
     tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
   });
-  const gainTargets = new Set(
-    window.manifest.processing
-      .filter((node) => node.mediaKind === "audio" || node.mediaKind === "output")
-      .map((node) => JSON.stringify(node.target)),
-  );
   const requirements = window.manifest.requirements.map((requirement) => ({
     ...requirement,
     implementationId:
       requirement.kind === "executor"
         ? implementationId
-        : requirement.kind === "processor" && gainTargets.has(JSON.stringify(requirement.target))
+        : requirement.kind === "processor"
           ? (implementations(implementationId)[requirement.processor.type] ?? null)
           : null,
   }));

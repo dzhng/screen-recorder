@@ -46,6 +46,8 @@ not become another authoring model. No arbitrary processor parameter-bag escape 
 [Processing](processing.md) is one target forest and one ordered-stack owner in
 composition. There is no inherited settings system, parallel routing or effect
 mutation API. Processing groups and synchronized edit groups remain distinct.
+Composition validation owns processor/media compatibility; runtime readiness binds
+only explicitly registered implementations, without a second target allowlist.
 Native workers execute compiled post-retime/combined-result instructions; preview,
 inspection and export consume the same plan. Replace unshipped schema placeholders
 directly; no migration or compatibility adapter is required.
