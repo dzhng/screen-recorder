@@ -1,0 +1,2 @@
+$ tsc -p tsconfig.check.json
+$ tsc -p tsconfig.check.json

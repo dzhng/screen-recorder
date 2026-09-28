@@ -1,0 +1,20 @@
+evidence-codex-review.txt
+codex
+The ownership refactor leaves existing JavaScript integration callers broken by the required constructor argument. Type checks passed; the core test run encountered unrelated sandbox and filesystem-watch failures.
+
+Review comment:
+
+- [P2] Update the remaining JavaScript evidence-store callers — /private/tmp/screenrec-evidence-owners/packages/core/src/evidence.ts:175-177
+  Several integration harnesses still call `new SourceEvidenceStore(store)` without the now-required validator, including `apps/service/tests/video-export.mjs:139`, `apps/macos/tests/package-export.mjs:24`, and `apps/macos/tests/package-public-timeline.mjs:42`. Their source-processing jobs now fail during ingestion with `TypeError: this.validateOwner is not a function`, preventing export and timeline verification. Update these callers to pass `recordingEvidenceOwner(store)`; TypeScript checks do not cover these `.mjs` consumers. This also follows the repository's [stale-reference sweep guidance](.agents/skills/code-review/SKILL.md#2-no-stale-references).
+The ownership refactor leaves existing JavaScript integration callers broken by the required constructor argument. Type checks passed; the core test run encountered unrelated sandbox and filesystem-watch failures.
+
+Review comment:
+
+- [P2] Update the remaining JavaScript evidence-store callers — /private/tmp/screenrec-evidence-owners/packages/core/src/evidence.ts:175-177
+  Several integration harnesses still call `new SourceEvidenceStore(store)` without the now-required validator, including `apps/service/tests/video-export.mjs:139`, `apps/macos/tests/package-export.mjs:24`, and `apps/macos/tests/package-public-timeline.mjs:42`. Their source-processing jobs now fail during ingestion with `TypeError: this.validateOwner is not a function`, preventing export and timeline verification. Update these callers to pass `recordingEvidenceOwner(store)`; TypeScript checks do not cover these `.mjs` consumers. This also follows the repository's [stale-reference sweep guidance](.agents/skills/code-review/SKILL.md#2-no-stale-references).
+
+
+evidence-codex-review2.txt
+codex
+No actionable correctness findings. Callers, including JavaScript package and export harnesses, use explicit source-evidence owners while preserving recording-specific scene, index, and transcript identities. Broad tests were not rerun.
+No actionable correctness findings. Callers, including JavaScript package and export harnesses, use explicit source-evidence owners while preserving recording-specific scene, index, and transcript identities. Broad tests were not rerun.

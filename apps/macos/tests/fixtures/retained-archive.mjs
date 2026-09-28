@@ -46,7 +46,7 @@ export async function archiveFixture(original, destination) {
   const revision = old.history.find((value) => value.id === old.snapshot.revisionId);
   const metadata = {
     sourceIdentity: {
-      recordingId: source.recordingId,
+      owner: source.owner,
       sourceId: source.sourceId,
       generation: source.generation,
     },

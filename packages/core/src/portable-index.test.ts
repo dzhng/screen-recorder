@@ -39,11 +39,16 @@ async function fixture(count = 260) {
   store.registerSource(take.recordingId, duration);
   const revision = store.revision(take.recordingId),
     sourceIdentity = {
-      recordingId: take.recordingId,
+      owner: { kind: "recording" as const, recordingId: take.recordingId },
       sourceId: take.sourceId,
       generation: "source1",
     };
-  const sceneIdentity = { ...sourceIdentity, generation: "scene1", policy: scenePolicy.id };
+  const sceneIdentity = {
+    recordingId: sourceIdentity.owner.recordingId,
+    sourceId: sourceIdentity.sourceId,
+    generation: "scene1",
+    policy: scenePolicy.id,
+  };
   const scenes = new SceneEvidenceStore(store),
     analysis = new SourceSceneAnalysis(take.recordingId, "/unused", duration, async (request) => ({
       sourceWidth: 1,
@@ -67,7 +72,8 @@ async function fixture(count = 260) {
     );
   scenes.finish(sceneIdentity, duration);
   const identity = {
-    ...sourceIdentity,
+    recordingId: sourceIdentity.owner.recordingId,
+    sourceId: sourceIdentity.sourceId,
     generation: "index1",
     sourceIdentity,
     sceneIdentity,

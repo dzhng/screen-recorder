@@ -10,7 +10,11 @@ import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
+import {
+  recordingEvidenceOwner,
+  SourceEvidenceStore,
+  type SourceEvidenceReceipt,
+} from "@screenrec/core/evidence";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import type { VisualObservations } from "@screenrec/core/scenes";
 import { VisualObservationCache } from "@screenrec/core/visual-cache";
@@ -114,7 +118,7 @@ async function main(): Promise<void> {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
-    evidence = new SourceEvidenceStore(store);
+    evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
     cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
     storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
       exports!.usage(

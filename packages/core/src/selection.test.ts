@@ -9,7 +9,11 @@ import {
 } from "./selection.js";
 const input = (durationUs: number): SelectionInput => ({
   revision: createOriginalRevision(durationUs, ""),
-  sourceIdentity: { recordingId: "r", sourceId: "s", generation: "source" },
+  sourceIdentity: {
+    owner: { kind: "recording" as const, recordingId: "r" },
+    sourceId: "s",
+    generation: "source",
+  },
   sceneIdentity: {
     recordingId: "r",
     sourceId: "s",

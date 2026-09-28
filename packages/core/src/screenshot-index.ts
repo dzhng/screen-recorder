@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import { retainedFileRead } from "./files.js";
 import { openRetainedImage } from "./retained-image.js";
 import {
@@ -69,11 +70,12 @@ const integer = (n: number) => Number.isSafeInteger(n) && n >= 0;
 function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
-function sourceIdentity({ recordingId, sourceId, generation }: EvidenceIdentity): EvidenceIdentity {
-  return { recordingId, sourceId, generation };
+function sourceIdentity({ owner, sourceId, generation }: EvidenceIdentity): EvidenceIdentity {
+  return { owner, sourceId, generation };
 }
 function sceneIdentity(identity: SceneEvidenceIdentity): SceneEvidenceIdentity {
-  return { ...sourceIdentity(identity), policy: identity.policy };
+  const { recordingId, sourceId, generation, policy } = identity;
+  return { recordingId, sourceId, generation, policy };
 }
 function pinnedIdentity(identity: ScreenshotIndexIdentity): ScreenshotIndexIdentity {
   const {
@@ -136,7 +138,7 @@ export function validateIndexEntry(
       sceneIdentity(identity.sceneIdentity),
     ) ||
     (frame.sourceEvidence !== null &&
-      (frame.sourceEvidence.recordingId !== identity.recordingId ||
+      (evidenceRecordingId(frame.sourceEvidence) !== identity.recordingId ||
         frame.sourceEvidence.sourceId !== identity.sourceId ||
         frame.sourceEvidence.generation !== identity.sourceIdentity.generation)) ||
     (frame.annotation !== null &&
@@ -250,11 +252,10 @@ export class ScreenshotIndexStore extends ScreenshotIndexReader {
     if (
       recording.sourceId !== identity.sourceId ||
       recording.state === "canceled" ||
+      evidenceRecordingId(identity.sourceIdentity) !== identity.recordingId ||
+      identity.sceneIdentity.recordingId !== identity.recordingId ||
       [identity.sourceIdentity, identity.sceneIdentity].some(
-        (value) =>
-          value.recordingId !== identity.recordingId ||
-          value.sourceId !== identity.sourceId ||
-          !value.generation,
+        (value) => value.sourceId !== identity.sourceId || !value.generation,
       ) ||
       !identity.selectionPolicy ||
       !identity.framePolicy ||

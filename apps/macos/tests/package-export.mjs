@@ -5,7 +5,7 @@ import { rename, readFile } from "node:fs/promises";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { SourceProcessing } from "@screenrec/core/processing";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { IndexProcessing } from "@screenrec/core/index-processing";
@@ -21,7 +21,7 @@ assert.ok(executable);
 const worker = mediaWorker({ SCREENREC_NATIVE: executable });
 let produced;
 async function exportFromLibrary({ store, home, recordingId, revisionId }) {
-  const source = new SourceEvidenceStore(store),
+  const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
     sceneEvidence = new SceneEvidenceStore(store),
     indexEvidence = new ScreenshotIndexStore(store, home);
   const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));

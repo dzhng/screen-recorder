@@ -265,7 +265,7 @@ test("failed validation cleans up, while an unconfirmed nonempty creation keeps 
 test("same-provenance library deletion and package close revoke only their own delivery namespaces", async (t) => {
   const [
     { DerivedCache, recordingCacheOwnerCheck },
-    { SourceEvidenceStore },
+    { SourceEvidenceStore, recordingEvidenceOwner },
     { SceneEvidenceStore },
     { ScreenshotIndexStore },
     { TranscriptStore },
@@ -317,7 +317,7 @@ test("same-provenance library deletion and package close revoke only their own d
     cache,
     capture,
     delivery: f.delivery,
-    source: new SourceEvidenceStore(f.store),
+    source: new SourceEvidenceStore(f.store, recordingEvidenceOwner(f.store)),
     scenes: new SceneEvidenceStore(f.store),
     index: new ScreenshotIndexStore(f.store, f.home),
     transcripts: new TranscriptStore(f.store, f.home),
@@ -529,7 +529,11 @@ test("correctly hashed malformed payload is admitted structurally and rejected b
     import("../../../packages/core/dist/files.js"),
   ]);
   const f = await fixture(t),
-    identity = { recordingId: "take", sourceId: "source", generation: "source-1" };
+    identity = {
+      owner: { kind: "recording", recordingId: "take" },
+      sourceId: "source",
+      generation: "source-1",
+    };
   const hash = (value) => createHash("sha256").update(value).digest("hex");
   const page = JSON.stringify([
     {

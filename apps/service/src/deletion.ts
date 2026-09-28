@@ -67,7 +67,7 @@ export class RecordingDeletion {
       await cache.purgeOwner({ kind: "recording", recordingId: recordingId }, ({ ids, root }) =>
         files.removeCacheFiles(ids, root, signal),
       );
-      await source.purgeRecording(recordingId, signal);
+      await source.purge({ kind: "recording", recordingId }, signal);
       await scenes.reclaim(recordingId, () => false, signal);
       await files.removeRecordingDirectory(recordingId, signal);
       await index.forgetRecording(recordingId, signal);

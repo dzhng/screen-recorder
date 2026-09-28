@@ -228,18 +228,20 @@ async function retainedReader(original, output, native) {
     const artifact = (kind) =>
       manifest.evidence.find((entry) => entry.artifact.reference.kind === kind).artifact;
     const sourceIdentity = {
-      recordingId: manifest.snapshot.recordingId,
+      owner: { kind: "recording", recordingId: manifest.snapshot.recordingId },
       sourceId: manifest.snapshot.sourceId,
       generation: artifact("source").generation,
     };
     assert.equal(source.generation, sourceIdentity.generation);
     const sceneIdentity = {
-      ...sourceIdentity,
+      recordingId: sourceIdentity.owner.recordingId,
+      sourceId: sourceIdentity.sourceId,
       generation: artifact("scenes").generation,
       policy: artifact("scenes").policy,
     };
     const indexIdentity = {
-      ...sourceIdentity,
+      recordingId: sourceIdentity.owner.recordingId,
+      sourceId: sourceIdentity.sourceId,
       generation: artifact("index").generation,
       revisionId: manifest.snapshot.revisionId,
       sourceIdentity,

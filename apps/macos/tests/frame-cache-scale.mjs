@@ -10,7 +10,7 @@ import { RevisionStore } from "@screenrec/core/library";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceProcessing } from "@screenrec/core/processing";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
@@ -59,7 +59,7 @@ async function fixture(home, input) {
     const source = new SourceProcessing(
       store,
       jobs,
-      new SourceEvidenceStore(store),
+      new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
       home,
       async () => {
         throw new Error("No fixture exporter");

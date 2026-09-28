@@ -1,11 +1,30 @@
 import { createReadStream } from "node:fs";
 import { setImmediate } from "node:timers/promises";
 import { type RevisionStore } from "./library.js";
-import { CatalogError } from "./catalog.js";
+import { CatalogError, type Catalog } from "./catalog.js";
 import { SourceEvidenceReader, type RecordQuery, type EvidenceIndex } from "./evidence-read.js";
 
+export type EvidenceOwner =
+  | Readonly<{ kind: "recording"; recordingId: string }>
+  | Readonly<{ kind: "acquisition"; acquisitionId: string }>;
+export function evidenceOwnerKey(owner: EvidenceOwner): [EvidenceOwner["kind"], string] {
+  return [owner.kind, owner.kind === "recording" ? owner.recordingId : owner.acquisitionId];
+}
+export function recordingEvidenceOwner(store: RevisionStore): (identity: EvidenceIdentity) => void {
+  return ({ owner, sourceId }) => {
+    if (owner.kind !== "recording") invalid("Recording evidence requires a recording owner");
+    const recording = store.get(owner.recordingId);
+    if (recording.state === "canceled" || recording.sourceId !== sourceId)
+      invalid("Recording identity no longer accepts evidence");
+  };
+}
+/** Recording-domain readers must reject evidence owned by an acquisition. */
+export function evidenceRecordingId(identity: EvidenceIdentity): string {
+  if (identity.owner.kind !== "recording") invalid("Evidence requires a recording owner");
+  return identity.owner.recordingId;
+}
 export type EvidenceIdentity = Readonly<{
-  recordingId: string;
+  owner: EvidenceOwner;
   sourceId: string;
   generation: string;
 }>;
@@ -153,26 +172,29 @@ export function validateSourceReceipt(value: unknown, sourceId: string): SourceE
 
 /** Indexes native-normalized evidence; the artifact queue alone decides whether to publish it. */
 export class SourceEvidenceStore extends SourceEvidenceReader {
-  constructor(private readonly store: RevisionStore) {
+  constructor(
+    private readonly store: Catalog,
+    private readonly validateOwner: (identity: EvidenceIdentity) => void,
+  ) {
     super();
     store.catalog.exec(`
       CREATE TABLE IF NOT EXISTS source_evidence_generations (
-        recordingId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,receipt TEXT,
-        PRIMARY KEY(recordingId,sourceId,generation)
+        ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,receipt TEXT,
+        PRIMARY KEY(ownerKind,ownerId,sourceId,generation)
       ) STRICT;
       CREATE TABLE IF NOT EXISTS source_evidence_records (
-        recordingId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,
+        ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,
         sequence INTEGER NOT NULL,event TEXT NOT NULL,sourceUs INTEGER,content TEXT NOT NULL,
-        PRIMARY KEY(recordingId,sourceId,generation,sequence)
+        PRIMARY KEY(ownerKind,ownerId,sourceId,generation,sequence)
       ) STRICT;
       CREATE INDEX IF NOT EXISTS source_evidence_time ON source_evidence_records
-        (recordingId,sourceId,generation,sourceUs,sequence) WHERE event='cursorSample';
+        (ownerKind,ownerId,sourceId,generation,sourceUs,sequence) WHERE event='cursorSample';
       CREATE INDEX IF NOT EXISTS source_evidence_pauses ON source_evidence_records
-        (recordingId,sourceId,generation,sourceUs,sequence) WHERE event='pause';
+        (ownerKind,ownerId,sourceId,generation,sourceUs,sequence) WHERE event='pause';
       CREATE INDEX IF NOT EXISTS source_evidence_geometry ON source_evidence_records
-        (recordingId,sourceId,generation,sourceUs,sequence) WHERE event='geometry';
+        (ownerKind,ownerId,sourceId,generation,sourceUs,sequence) WHERE event='geometry';
       CREATE INDEX IF NOT EXISTS source_evidence_audio ON source_evidence_records
-        (recordingId,sourceId,generation,json_extract(content,'$.role'),sourceUs,sequence) WHERE event='audioAcquired';
+        (ownerKind,ownerId,sourceId,generation,json_extract(content,'$.role'),sourceUs,sequence) WHERE event='audioAcquired';
     `);
   }
   async ingest(
@@ -182,29 +204,28 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
       signal?: AbortSignal;
     },
   ): Promise<SourceEvidenceMetadata> {
-    const { recordingId, sourceId, generation, receipt, signal } = input;
+    const { owner, sourceId, generation, receipt, signal } = input;
+    const [ownerKind, ownerId] = evidenceOwnerKey(owner);
     signal?.throwIfAborted();
-    const recording = this.store.get(recordingId);
-    if (recording.state === "canceled") invalid("Canceled recording cannot accept evidence");
-    if (!generation || recording.sourceId !== sourceId)
-      invalid("Evidence identity does not match its recording");
+    this.validateOwner(input);
+    if (!generation) invalid("Evidence generation is required");
     validateSourceReceipt(receipt, sourceId);
     if (receipt.file !== input.file) invalid("Invalid evidence receipt");
     this.store.transaction(() => {
       if (
         this.store.catalog
           .prepare(
-            "SELECT 1 FROM source_evidence_generations WHERE recordingId=? AND sourceId=? AND generation=?",
+            "SELECT 1 FROM source_evidence_generations WHERE ownerKind=? AND ownerId=? AND sourceId=? AND generation=?",
           )
-          .get(recordingId, sourceId, generation)
+          .get(ownerKind, ownerId, sourceId, generation)
       )
         invalid("Evidence generation already exists");
       this.store.catalog
-        .prepare("INSERT INTO source_evidence_generations VALUES(?,?,?,NULL)")
-        .run(recordingId, sourceId, generation);
+        .prepare("INSERT INTO source_evidence_generations VALUES(?,?,?,?,NULL)")
+        .run(ownerKind, ownerId, sourceId, generation);
     });
     const insert = this.store.catalog.prepare(
-      "INSERT INTO source_evidence_records VALUES(?,?,?,?,?,?,?)",
+      "INSERT INTO source_evidence_records VALUES(?,?,?,?,?,?,?,?)",
     );
     let batch: RecordRow[] = [];
     let bytes = 0,
@@ -222,7 +243,8 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
       this.store.transaction(() => {
         for (const row of batch)
           insert.run(
-            recordingId,
+            ownerKind,
+            ownerId,
             sourceId,
             generation,
             row.sequence,
@@ -298,63 +320,63 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
         invalid("Evidence file does not match its receipt");
       await flush();
       this.store.transaction(() => {
-        const current = this.store.get(recordingId);
-        if (current.sourceId !== sourceId || current.state === "canceled")
-          invalid("Recording no longer accepts evidence");
+        this.validateOwner(input);
         this.store.catalog
           .prepare(
-            "UPDATE source_evidence_generations SET receipt=? WHERE recordingId=? AND sourceId=? AND generation=?",
+            "UPDATE source_evidence_generations SET receipt=? WHERE ownerKind=? AND ownerId=? AND sourceId=? AND generation=?",
           )
-          .run(JSON.stringify(receipt), recordingId, sourceId, generation);
+          .run(JSON.stringify(receipt), ownerKind, ownerId, sourceId, generation);
       });
-      return { recordingId, sourceId, generation, receipt };
+      return { owner, sourceId, generation, receipt };
     } catch (error) {
       this.removeUnpublished(input);
       throw error;
     }
   }
   /** Caller has fenced admission and stopped every source evidence producer. */
-  async purgeRecording(recordingId: string, signal: AbortSignal): Promise<void> {
+  async purge(owner: EvidenceOwner, signal: AbortSignal): Promise<void> {
     for (;;) {
       signal.throwIfAborted();
-      const identity = this.store.catalog
-        .prepare(`SELECT recordingId,sourceId,generation
-        FROM source_evidence_generations WHERE recordingId=? ORDER BY sourceId,generation LIMIT 1`)
-        .get(recordingId) as EvidenceIdentity | undefined;
-      if (!identity) return;
-      await this.reclaim(identity, signal);
+      const row = this.store.catalog
+        .prepare(`SELECT sourceId,generation FROM source_evidence_generations
+        WHERE ownerKind=? AND ownerId=? ORDER BY sourceId,generation LIMIT 1`)
+        .get(...evidenceOwnerKey(owner)) as { sourceId: string; generation: string } | undefined;
+      if (!row) return;
+      await this.reclaim({ owner, ...row }, signal);
       await setImmediate(undefined, { signal });
     }
   }
 
   /** Reclaim a dead generation without holding the event loop for its entire index. */
   async reclaim(identity: EvidenceIdentity, signal: AbortSignal): Promise<void> {
-    const { recordingId, sourceId, generation } = identity;
+    const { owner, sourceId, generation } = identity;
+    const [ownerKind, ownerId] = evidenceOwnerKey(owner);
     for (;;) {
       signal.throwIfAborted();
       const deleted = this.store.catalog
         .prepare(`DELETE FROM source_evidence_records
-        WHERE recordingId=? AND sourceId=? AND generation=? AND sequence IN
-        (SELECT sequence FROM source_evidence_records WHERE recordingId=? AND sourceId=? AND generation=? LIMIT 256)`)
-        .run(recordingId, sourceId, generation, recordingId, sourceId, generation);
+        WHERE ownerKind=? AND ownerId=? AND sourceId=? AND generation=? AND sequence IN
+        (SELECT sequence FROM source_evidence_records WHERE ownerKind=? AND ownerId=? AND sourceId=? AND generation=? LIMIT 256)`)
+        .run(ownerKind, ownerId, sourceId, generation, ownerKind, ownerId, sourceId, generation);
       if (Number(deleted.changes) === 0) break;
       await setImmediate(undefined, { signal });
     }
     signal.throwIfAborted();
     this.store.catalog
       .prepare(
-        "DELETE FROM source_evidence_generations WHERE recordingId=? AND sourceId=? AND generation=?",
+        "DELETE FROM source_evidence_generations WHERE ownerKind=? AND ownerId=? AND sourceId=? AND generation=?",
       )
-      .run(recordingId, sourceId, generation);
+      .run(ownerKind, ownerId, sourceId, generation);
   }
 
-  protected requireComplete({ recordingId, sourceId, generation }: EvidenceIdentity): void {
+  protected requireComplete({ owner, sourceId, generation }: EvidenceIdentity): void {
+    const [ownerKind, ownerId] = evidenceOwnerKey(owner);
     if (
       !this.store.catalog
         .prepare(
-          "SELECT 1 FROM source_evidence_generations WHERE recordingId=? AND sourceId=? AND generation=? AND receipt IS NOT NULL",
+          "SELECT 1 FROM source_evidence_generations WHERE ownerKind=? AND ownerId=? AND sourceId=? AND generation=? AND receipt IS NOT NULL",
         )
-        .get(recordingId, sourceId, generation)
+        .get(ownerKind, ownerId, sourceId, generation)
     )
       throw new CatalogError("NOT_READY", "Evidence generation is not indexed");
   }
@@ -379,9 +401,9 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
       },
     };
     const index = indexes[query.index];
-    const clauses = ["recordingId=? AND sourceId=? AND generation=?", index.condition];
+    const clauses = ["ownerKind=? AND ownerId=? AND sourceId=? AND generation=?", index.condition];
     const args: (string | number)[] = [
-      identity.recordingId,
+      ...evidenceOwnerKey(identity.owner),
       identity.sourceId,
       identity.generation,
     ];
@@ -404,18 +426,19 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
   }
 
   /** Caller must only remove a generation its artifact queue has not published. */
-  removeUnpublished({ recordingId, sourceId, generation }: EvidenceIdentity): void {
+  removeUnpublished({ owner, sourceId, generation }: EvidenceIdentity): void {
+    const [ownerKind, ownerId] = evidenceOwnerKey(owner);
     this.store.transaction(() => {
       this.store.catalog
         .prepare(
-          "DELETE FROM source_evidence_records WHERE recordingId=? AND sourceId=? AND generation=?",
+          "DELETE FROM source_evidence_records WHERE ownerKind=? AND ownerId=? AND sourceId=? AND generation=?",
         )
-        .run(recordingId, sourceId, generation);
+        .run(ownerKind, ownerId, sourceId, generation);
       this.store.catalog
         .prepare(
-          "DELETE FROM source_evidence_generations WHERE recordingId=? AND sourceId=? AND generation=?",
+          "DELETE FROM source_evidence_generations WHERE ownerKind=? AND ownerId=? AND sourceId=? AND generation=?",
         )
-        .run(recordingId, sourceId, generation);
+        .run(ownerKind, ownerId, sourceId, generation);
     });
   }
 }

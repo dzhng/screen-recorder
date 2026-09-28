@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./catalog.js";
 import type { SourceSelectionRead } from "./evidence.js";
@@ -12,7 +13,7 @@ export async function* selectionEvidence(
 ): AsyncGenerator<SelectionEvent> {
   const { revision, sourceIdentity, sceneIdentity } = input;
   if (
-    sourceIdentity.recordingId !== sceneIdentity.recordingId ||
+    evidenceRecordingId(sourceIdentity) !== sceneIdentity.recordingId ||
     sourceIdentity.sourceId !== sceneIdentity.sourceId
   )
     throw new CatalogError("INVALID_EVIDENCE", "Selection evidence must name one source");

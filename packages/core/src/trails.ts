@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, RawCursorSample, SourceTrailRead } from "./evidence.js";
@@ -59,7 +60,7 @@ export async function planFrameTrail(
   const { evidence, identity, sample } = dependencies;
   const trailUs = request.trailUs ?? trailPolicy.defaultUs;
   const scene = await analyzeFrameScene(
-    { ...request, recordingId: identity.recordingId, trailUs },
+    { ...request, recordingId: evidenceRecordingId(identity), trailUs },
     sample,
     signal,
   );
@@ -71,7 +72,12 @@ export async function planFrameTrail(
       scene,
       readScene: async (at, trailUs) => ({
         scene: await analyzeFrameScene(
-          { ...request, recordingId: identity.recordingId, requestedSourceUs: at, trailUs },
+          {
+            ...request,
+            recordingId: evidenceRecordingId(identity),
+            requestedSourceUs: at,
+            trailUs,
+          },
           sample,
           signal,
         ),

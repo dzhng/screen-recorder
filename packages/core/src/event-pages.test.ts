@@ -7,7 +7,7 @@ import { fileAccess } from "./files.js";
 import { TimelineInspection } from "./timeline-inspection.js";
 import { RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 import { FileSourceEvidence, writeSourceEvidencePages } from "./evidence-pages.js";
@@ -32,12 +32,12 @@ async function fixture(staticScenes = false, sourceCount = 520, duration = 2_600
   stores.push(store);
   const recording = store.allocate().recording,
     sourceIdentity = {
-      recordingId: recording.recordingId,
+      owner: { kind: "recording" as const, recordingId: recording.recordingId },
       sourceId: recording.sourceId,
       generation: "source-1",
     };
   store.registerSource(recording.recordingId, duration);
-  const source = new SourceEvidenceStore(store);
+  const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   const records = [];
   for (let i = 0; i < sourceCount; i++) {
     const atSourceUs = i * 5_000_000;
@@ -79,7 +79,12 @@ async function fixture(staticScenes = false, sourceCount = 520, duration = 2_600
       bytes: Buffer.byteLength(body),
     },
   });
-  const sceneIdentity = { ...sourceIdentity, generation: "scene-1", policy: scenePolicy.id },
+  const sceneIdentity = {
+      recordingId: sourceIdentity.owner.recordingId,
+      sourceId: sourceIdentity.sourceId,
+      generation: "scene-1",
+      policy: scenePolicy.id,
+    },
     scenes = new SceneEvidenceStore(store);
   const analysis = new SourceSceneAnalysis(
     recording.recordingId,

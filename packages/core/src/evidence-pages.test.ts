@@ -9,7 +9,7 @@ import { createOriginalRevision } from "./timeline.js";
 import { planFrameTrail } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
 import { RevisionStore } from "./library.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import {
   FileSourceEvidence,
   readSourceMetadata,
@@ -31,7 +31,7 @@ async function fixture() {
   stores.add(store);
   const recording = store.allocate().recording;
   const identity = {
-    recordingId: recording.recordingId,
+    owner: { kind: "recording" as const, recordingId: recording.recordingId },
     sourceId: recording.sourceId,
     generation: "source-1",
   };
@@ -95,7 +95,7 @@ async function fixture() {
     finished: true,
     bytes: Buffer.byteLength(body),
   };
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   const metadata = await evidence.ingest({ ...identity, receipt, file });
   return { root, store, evidence, identity, metadata, library, file };
 }
@@ -130,6 +130,7 @@ test("relocated bounded source pages preserve normalized queries without the ori
   expect(expected.pauses).toEqual([{ atSourceUs: 20, elapsedPauseUs: 999, sequence: 6 }]);
   const input = {
     ...f.identity,
+    recordingId: f.identity.owner.recordingId,
     revision: createOriginalRevision(900, ""),
     range: { startUs: 10, endUs: 25 },
     track: "mix" as const,
@@ -394,10 +395,14 @@ test("raw cursor pages share source-time ordering and isolate package continuati
   ]);
   expect(second.nextCursor).toBeNull();
   expect(first.sourceRevisionId).toBe("r0");
-  const library = readRawCursor({ recordingId: f.identity.recordingId }, { sourceRange }, () => ({
-    metadata: f.metadata,
-    reader: f.evidence,
-  }));
+  const library = readRawCursor(
+    { recordingId: f.identity.owner.recordingId },
+    { sourceRange },
+    () => ({
+      metadata: f.metadata,
+      reader: f.evidence,
+    }),
+  );
   expect([...first.samples, ...second.samples]).toEqual(library.samples);
   expect(first.integrity).toEqual(library.integrity);
   for (const changed of [

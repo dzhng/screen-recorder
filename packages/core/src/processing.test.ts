@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:
 import { basename, dirname, join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -18,7 +18,7 @@ async function fixture(failFirst = false, beforeReceipt?: () => Promise<void>) {
     now: () => "2026-09-16T00:00:00Z",
     newId: () => `id-${++id}`,
   });
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   let processing: SourceProcessing;
   let calls = 0;
   const jobs = new JobQueue({
@@ -170,7 +170,7 @@ async function orphan(
   }
   if (mode !== "file") {
     f.store.catalog
-      .prepare("INSERT INTO source_evidence_generations VALUES(?,?,?,?)")
+      .prepare("INSERT INTO source_evidence_generations VALUES('recording',?,?,?,?)")
       .run(
         recording.recordingId,
         recording.sourceId,
@@ -178,7 +178,7 @@ async function orphan(
         mode === "complete" ? "{}" : null,
       );
     const insert = f.store.catalog.prepare(
-      "INSERT INTO source_evidence_records VALUES(?,?,?,?,?,?,?)",
+      "INSERT INTO source_evidence_records VALUES('recording',?,?,?,?,?,?,?)",
     );
     for (let sequence = 1; sequence <= 600; sequence++)
       insert.run(
@@ -292,7 +292,11 @@ test("cleanup aborts between index batches and the next pass completes the remai
   const tick = setImmediate(() => controller.abort());
   await expect(
     f.evidence.reclaim(
-      { recordingId: recording.recordingId, sourceId: recording.sourceId, generation: "dead" },
+      {
+        owner: { kind: "recording", recordingId: recording.recordingId },
+        sourceId: recording.sourceId,
+        generation: "dead",
+      },
       controller.signal,
     ),
   ).rejects.toThrow();

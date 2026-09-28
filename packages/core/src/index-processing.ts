@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import {
   RetainedIndexRead,
   validateIndexCoverageCursor,
@@ -81,9 +82,9 @@ export class IndexProcessing {
     }
     const sourceId = this.store.get(input.recordingId).sourceId;
     if (
-      [selected.source, selected.scenes].some(
-        (value) => value.recordingId !== input.recordingId || value.sourceId !== sourceId,
-      )
+      evidenceRecordingId(selected.source) !== input.recordingId ||
+      selected.scenes.recordingId !== input.recordingId ||
+      [selected.source, selected.scenes].some((value) => value.sourceId !== sourceId)
     )
       throw new CatalogError("INVALID_EVIDENCE", "Index evidence belongs to another source");
     const options: IndexInput = {
@@ -228,7 +229,7 @@ export class IndexProcessing {
     const revision = this.store.revision(job.target.recordingId, job.target.revisionId);
     const sourceId = this.store.get(job.target.recordingId).sourceId;
     const sourceIdentity = {
-      recordingId: job.target.recordingId,
+      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
       sourceId,
       generation: input.source.generation,
     };

@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import { join } from "node:path";
 import { type RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
@@ -112,7 +113,10 @@ export abstract class PreviewInspectionBase<
         }
       : this.backend.source(context);
     return this.admit(context, source, (evidence) => {
-      if (evidence.recordingId !== context.recordingId || evidence.sourceId !== context.sourceId)
+      if (
+        evidenceRecordingId(evidence) !== context.recordingId ||
+        evidence.sourceId !== context.sourceId
+      )
         throw new CatalogError("INVALID_EVIDENCE", "Preview evidence belongs to another source");
       return this.submit(context, {
         policy: previewPolicy.id,

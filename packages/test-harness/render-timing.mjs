@@ -14,7 +14,7 @@ import { PreviewInspection } from "@screenrec/core/preview";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { constants } from "node:fs";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { journalRows } from "../../apps/macos/tests/fixtures/generated-capture.mjs";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import {
@@ -251,7 +251,7 @@ test(
         rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
       );
       const run = mediaWorker({ SCREENREC_NATIVE: native });
-      const sourceEvidence = new SourceEvidenceStore(store);
+      const sourceEvidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
       const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
       await cache.reconcile();
       let processing, preview;

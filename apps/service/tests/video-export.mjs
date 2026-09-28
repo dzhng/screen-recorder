@@ -29,7 +29,7 @@ import { RecordingStorage } from "@screenrec/core/storage";
 import { RevisionStore } from "@screenrec/core/library";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { PreviewInspection } from "@screenrec/core/preview";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
@@ -136,7 +136,7 @@ async function fixture(
   }
   const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   let processing, preview, exports, sceneOwner, indexOwner, transcriptOwner;
   const sceneEvidence = new SceneEvidenceStore(store);
   const indexEvidence = new ScreenshotIndexStore(store, home);

@@ -3,7 +3,7 @@ import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join, basename, dirname } from "node:path";
 import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 import { SceneProcessing } from "./scene-processing.js";
@@ -25,7 +25,7 @@ async function fixture(beforeDecode?: (call: number) => Promise<void>, beforeSou
     newId: () => `id-${++id}`,
   });
   const evidence = {
-    source: new SourceEvidenceStore(store),
+    source: new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
     scenes: new SceneEvidenceStore(store),
   };
   const retained = new ScreenshotIndexStore(store, home);

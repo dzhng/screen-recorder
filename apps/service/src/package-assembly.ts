@@ -126,7 +126,7 @@ export async function assemblePackage(
   const { snapshot, source, scenes, index, transcript } = selected;
   const revision = owners.store.revision(snapshot.recordingId, snapshot.revisionId);
   const sourceIdentity = {
-    recordingId: source.recordingId,
+    owner: source.owner,
     sourceId: source.sourceId,
     generation: source.generation,
   };

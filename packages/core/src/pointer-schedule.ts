@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import { createHash, randomUUID } from "node:crypto";
 import { link, open, rm } from "node:fs/promises";
 import { dirname, isAbsolute, join } from "node:path";
@@ -65,7 +66,7 @@ export async function writePointerSchedule(input: ScheduleInput, signal: AbortSi
     const source = input.presentation;
     const header = {
       version: 1,
-      recordingId: input.identity.recordingId,
+      recordingId: evidenceRecordingId(input.identity),
       sourceId: input.identity.sourceId,
       sourceGeneration: input.identity.generation,
       revisionId: source.revision.id,

@@ -2,7 +2,7 @@ import { afterEach, expect, test, vi } from "vitest";
 import { mkdtemp, writeFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { selectIndex } from "./selection.js";
@@ -71,12 +71,17 @@ async function fixture({
   const recording = store.allocate().recording;
   store.registerSource(recording.recordingId, durationUs);
   const sourceIdentity = {
-    recordingId: recording.recordingId,
+    owner: { kind: "recording" as const, recordingId: recording.recordingId },
     sourceId: recording.sourceId,
     generation: "source-1",
   };
-  const sceneIdentity = { ...sourceIdentity, generation: "scenes-1", policy: scenePolicy.id };
-  const source = new SourceEvidenceStore(store);
+  const sceneIdentity = {
+    recordingId: sourceIdentity.owner.recordingId,
+    sourceId: sourceIdentity.sourceId,
+    generation: "scenes-1",
+    policy: scenePolicy.id,
+  };
+  const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   const scenes = new SceneEvidenceStore(store);
   const file = join(root, "normalized.jsonl");
   const body = records.map((row) => JSON.stringify(row) + "\n").join("");
@@ -224,7 +229,7 @@ test("sparse future scene events use actual time while visual requests remain or
 
 test("removed frames cannot prove stillness while retained observations keep their source run", async () => {
   const f = await fixture({ records: [geometry(0), point(0)] });
-  f.input.revision = f.store.edit(f.input.sourceIdentity.recordingId, {
+  f.input.revision = f.store.edit(f.input.sourceIdentity.owner.recordingId, {
     operation: "cut",
     requestId: "cut",
     expectedRevisionId: "r0",
@@ -251,7 +256,7 @@ test("removed frames cannot prove stillness while retained observations keep the
     durationUs: 120_000_000,
     actual: (at) => (at < 50_000_000 ? 0 : 100_000_000),
   });
-  sparse.input.revision = sparse.store.edit(sparse.input.sourceIdentity.recordingId, {
+  sparse.input.revision = sparse.store.edit(sparse.input.sourceIdentity.owner.recordingId, {
     operation: "cut",
     requestId: "cut",
     expectedRevisionId: "r0",

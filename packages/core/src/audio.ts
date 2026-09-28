@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import { isAbsolute, join } from "node:path";
 import { type RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
@@ -126,7 +127,7 @@ export function planAudioTracks(
 ) {
   const { spans, track } = input;
   if (
-    input.recordingId !== input.sourceEvidence.recordingId ||
+    input.recordingId !== evidenceRecordingId(input.sourceEvidence) ||
     input.sourceId !== input.sourceEvidence.sourceId
   )
     throw new CatalogError("INVALID_EVIDENCE", "Audio evidence belongs to another source");

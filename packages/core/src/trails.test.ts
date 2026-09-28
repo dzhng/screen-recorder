@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync, readdirSy
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import type { VisualSampler } from "./scenes.js";
 import { planFrameTrail } from "./trails.js";
 import { PresentationEvidence } from "./presentation-evidence.js";
@@ -45,7 +45,7 @@ async function fixture(records: { event: string; data: Record<string, unknown> }
   });
   const recording = store.allocate().recording;
   const identity = {
-    recordingId: recording.recordingId,
+    owner: { kind: "recording" as const, recordingId: recording.recordingId },
     sourceId: recording.sourceId,
     generation: "fixture",
   };
@@ -53,7 +53,7 @@ async function fixture(records: { event: string; data: Record<string, unknown> }
   const body = records.map((row) => JSON.stringify(row) + "\n").join("");
   writeFileSync(file, body);
   const cursors = records.filter((r) => r.event === "cursorSample");
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   await evidence.ingest({
     ...identity,
     file,

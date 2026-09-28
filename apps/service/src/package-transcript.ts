@@ -30,7 +30,11 @@ export async function validatePackageTranscript(
     {
       source: fileSubdirectory(context.files, transcript.directory),
       edited: fileSubdirectory(context.files, edited.directory),
-      identity: { ...sourceIdentity, generation: transcript.generation },
+      identity: {
+        recordingId: sourceIdentity.owner.recordingId,
+        sourceId: sourceIdentity.sourceId,
+        generation: transcript.generation,
+      },
       revision: packageRevisions(context).find(({ id }) => id === manifest.snapshot.revisionId)!,
       narration: new FileSourceEvidence(
         fileSubdirectory(context.files, source.directory),

@@ -77,7 +77,7 @@ export type FrameMaterializationInput = FrameRenderOptions & {
 function summarizeSource(source: SourceEvidenceMetadata) {
   const receipt = source.receipt;
   return {
-    recordingId: source.recordingId,
+    owner: source.owner,
     sourceId: source.sourceId,
     generation: source.generation,
     integrity: {

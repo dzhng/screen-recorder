@@ -4,7 +4,7 @@ import { cp, mkdir, mkdtemp, readFile, writeFile, realpath, rename, rm } from "n
 import { join, dirname } from "node:path";
 import { RevisionStore } from "@screenrec/core/library";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { FileSceneEvidence } from "@screenrec/core/scene-pages";
 import { scenePolicy } from "@screenrec/core/scenes";
@@ -39,7 +39,7 @@ async function seed(home, portable, context) {
   await mkdir(sourceRoot, { recursive: true });
   for (const name of ["video.mov", "system.mov", "capture.journal.jsonl"])
     await cp(join(portable, "source", name), join(sourceRoot, name));
-  const source = new SourceEvidenceStore(store),
+  const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
     scenes = new SceneEvidenceStore(store);
   const retained = new FileSceneEvidence(join(portable, "scene-pages"), context.scenes);
   const jobs = new JobQueue({
@@ -65,7 +65,9 @@ async function seed(home, portable, context) {
         await cp(join(portable, "source/normalized.jsonl"), file);
         return JSON.stringify(
           await source.ingest({
-            ...identity,
+            owner: { kind: "recording", recordingId: identity.recordingId },
+            sourceId: identity.sourceId,
+            generation: identity.generation,
             file,
             receipt: { ...context.source.receipt, file },
             signal,

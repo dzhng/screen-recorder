@@ -36,16 +36,22 @@ function fixture() {
   const recording = catalog.allocate().recording;
   catalog.registerSource(recording.recordingId, 10_000_000);
   const sourceIdentity = {
-    recordingId: recording.recordingId,
+    owner: { kind: "recording" as const, recordingId: recording.recordingId },
     sourceId: recording.sourceId,
     generation: "source-1",
   };
   const identity = {
-    ...sourceIdentity,
+    recordingId: sourceIdentity.owner.recordingId,
+    sourceId: sourceIdentity.sourceId,
     generation: "index-1",
     revisionId: "r0",
     sourceIdentity,
-    sceneIdentity: { ...sourceIdentity, generation: "scene-1", policy: "scene-v1" },
+    sceneIdentity: {
+      recordingId: sourceIdentity.owner.recordingId,
+      sourceId: sourceIdentity.sourceId,
+      generation: "scene-1",
+      policy: "scene-v1",
+    },
     selectionPolicy: "selection-v1",
     framePolicy: "frame-v2",
     trailPolicy: "trail-v1",
@@ -494,14 +500,15 @@ test("forgetRecording removes all target generation metadata without removing fi
   f.catalog.registerSource(recording.recordingId, 10_000_000);
   const sourceIdentity = {
     ...f.identity.sourceIdentity,
-    recordingId: recording.recordingId,
+    owner: { kind: "recording" as const, recordingId: recording.recordingId },
     sourceId: recording.sourceId,
   };
   const sibling = {
     ...f,
     identity: {
       ...f.identity,
-      ...sourceIdentity,
+      recordingId: recording.recordingId,
+      sourceId: recording.sourceId,
       generation: "sibling-index",
       sourceIdentity,
       sceneIdentity: {

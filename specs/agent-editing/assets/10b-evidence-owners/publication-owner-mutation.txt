@@ -1,0 +1,61 @@
+$ vitest run --maxWorkers=4 src/evidence-owner.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-evidence-owners/packages/core
+
+(node:76551) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/evidence-owner.test.ts (2 tests | 1 failed) 26ms
+   × an acquisition retired during ingestion cannot publish and its unfinished rows are reclaimed 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/evidence-owner.test.ts > an acquisition retired during ingestion cannot publish and its unfinished rows are reclaimed
+AssertionError: promise resolved "{ owner: { …(2) }, …(3) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "generation": "same-attempt",
++   "owner": {
++     "acquisitionId": "same-id",
++     "kind": "acquisition",
++   },
++   "receipt": {
++     "audioIntervals": 300,
++     "bytes": 24489,
++     "cursorSamples": 0,
++     "displaySpaces": 0,
++     "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/evidence-owner-lNisTY/observations.jsonl",
++     "finished": true,
++     "geometryRecords": 0,
++     "header": {
++       "sessionID": "session",
++     },
++     "incompleteTail": false,
++     "journal": "capture.journal.jsonl",
++     "lastSequence": 300,
++     "pauseEvents": 0,
++   },
++   "sourceId": "session",
+  }
+
+ ❯ src/evidence-owner.test.ts:59:21
+     57|   const work = store.ingest({...identity, file:f.file, receipt:f.recei…
+     58|   setImmediate(() => { available = false; });
+     59|   await expect(work).rejects.toThrow("Acquisition retired");
+       |                     ^
+     60|   expect(() => store.audio(identity,"narration",{startUs:0,endUs:40}))…
+     61|   available = true;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  21:22:58
+   Duration  189ms (transform 40%, import 38%, tests 21%, worker 2%)
+
+error: script "test" exited with code 1

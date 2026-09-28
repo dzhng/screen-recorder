@@ -7,7 +7,7 @@ import { RevisionStore } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
 import { JobQueue, type JobExecutor, recordingJobTargets } from "@screenrec/core/jobs";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { TranscriptStore } from "@screenrec/core/transcript";
@@ -61,7 +61,7 @@ async function fixture(
     cache,
     capture,
     delivery,
-    source: new SourceEvidenceStore(store),
+    source: new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
     scenes: new SceneEvidenceStore(store),
     index: new ScreenshotIndexStore(store, home),
     transcripts: new TranscriptStore(store, home),

@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import {
   LibraryAudioInspection,
@@ -38,7 +38,7 @@ async function fixture(
   });
   const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 100);
   await cache.reconcile();
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   let processing!: SourceProcessing, audio!: LibraryAudioInspection;
   const requests: Parameters<AudioDecoder>[0][] = [];
   let sourceCalls = 0;

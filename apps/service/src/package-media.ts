@@ -48,13 +48,18 @@ export function portableIdentities(manifest: Manifest) {
   const { recordingId, sourceId } = manifest.snapshot;
   const source = portableEvidence(manifest, "source", "metadata.json"),
     scenes = portableEvidence(manifest, "scenes", "pages.json");
-  const sourceIdentity = { recordingId, sourceId, generation: source.generation };
+  const sourceIdentity = {
+    owner: { kind: "recording" as const, recordingId },
+    sourceId,
+    generation: source.generation,
+  };
   return {
     source,
     scenes,
     sourceIdentity,
     sceneIdentity: {
-      ...sourceIdentity,
+      recordingId,
+      sourceId,
       generation: scenes.generation,
       policy: scenes.artifact.policy,
     },

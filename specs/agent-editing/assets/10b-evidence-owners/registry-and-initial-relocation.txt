@@ -1,0 +1,47 @@
+(node:81453) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ generated package inspection survives relocation without its library (0.710167ms)
+(node:81454) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ registry reserves before extraction, charges copied bytes, and closes without library rows (262.016125ms)
+✔ 64 GiB admission pool rejects two maximum sparse inputs before extraction and releases canceled queue work (46.11075ms)
+✔ four same-content resource owners stay independent and failed close retains its slot and charge (394.799334ms)
+✔ one handle makes more than 32 requests and bounded terminal receipts expire without resurrection (2700.223708ms)
+✔ failed validation cleans up, while an unconfirmed nonempty creation keeps its reservation until explicit retry (208.794ms)
+✔ same-provenance library deletion and package close revoke only their own delivery namespaces (259.780208ms)
+(node:81765) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+screenrec-native: owning parent 1 exited; abandoning work
+✔ startup remains blocked by a killed owner's actual native child while library jobs continue (238.646875ms)
+✔ close fences delivery and drains an actual native media worker before removing its directory (668.925333ms)
+✔ correctly hashed malformed payload is admitted structurally and rejected by the shared lazy reader (171.069875ms)
+✔ default peak reservations block a fourth pending open but validated steady bytes allow it (319.533792ms)
+✔ failed context work can retry and canceled queued work never consumes execution (187.735333ms)
+✔ partial copy cancellation drains the actual worker before returning reservation and removing its tree (392.004333ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5938.780125
+
+✖ failing tests:
+
+test at apps/macos/tests/package-relocation.mjs:267:3
+✖ generated package inspection survives relocation without its library (0.710167ms)
+  AssertionError [ERR_ASSERTION]: SCREENREC_RELOCATION_BUNDLE must name an isolated built app
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-evidence-owners/apps/macos/tests/package-relocation.mjs:273:14)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

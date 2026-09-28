@@ -1,0 +1,18 @@
+$ vitest run --maxWorkers=4 src/evidence-owner.test.ts src/index-processing.test.ts src/screenshot-index.test.ts src/portable-index.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-evidence-owners/packages/core
+
+(node:84426) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:84423) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:84425) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:84424) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  4 passed (4)
+      Tests  31 passed (31)
+   Start at  21:28:24
+   Duration  925ms (tests 76%, transform 15%, import 9%)
+

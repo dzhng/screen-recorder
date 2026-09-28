@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import { TranscriptStore, type SpeechTranscriber } from "./transcript.js";
 import { TranscriptProcessing, type TranscriptionModels } from "./transcript-processing.js";
@@ -66,7 +66,7 @@ async function fixture(options: Options = {}) {
     now: () => "2026-09-17T00:00:00Z",
     newId: randomUUID,
   });
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   const transcripts = new TranscriptStore(store, home);
   let source!: SourceProcessing;
   let transcript!: TranscriptProcessing;

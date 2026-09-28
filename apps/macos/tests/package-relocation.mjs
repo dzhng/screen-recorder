@@ -19,7 +19,7 @@ import { test } from "node:test";
 import { setTimeout } from "node:timers/promises";
 import { RevisionStore } from "@screenrec/core/library";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
@@ -411,7 +411,7 @@ export function registerRelocationTest({
           operation: "trim",
           range: { startUs: 0, endUs: 1_000_000 },
         });
-        const sourceEvidence = new SourceEvidenceStore(store),
+        const sourceEvidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
           sceneEvidence = new SceneEvidenceStore(store),
           index = new ScreenshotIndexStore(store, original);
         let processing, scenes, indexing;

@@ -1,3 +1,4 @@
+import { evidenceIdentitySchema } from "./evidence-pages.js";
 import { retainedFileRead } from "./files.js";
 import { z } from "zod";
 import { createHash } from "node:crypto";
@@ -33,7 +34,7 @@ const sourceIdentity = z.strictObject({ recordingId: text, sourceId: text, gener
 const identitySchema = sourceIdentity
   .extend({
     revisionId: text,
-    sourceIdentity,
+    sourceIdentity: evidenceIdentitySchema,
     sceneIdentity: sourceIdentity.extend({ policy: text }),
     selectionPolicy: text,
     framePolicy: text,

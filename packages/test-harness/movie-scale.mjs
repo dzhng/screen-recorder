@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
 import { RevisionStore } from "../../packages/core/dist/library.js";
-import { SourceEvidenceStore } from "../../packages/core/dist/evidence.js";
+import { SourceEvidenceStore, recordingEvidenceOwner } from "../../packages/core/dist/evidence.js";
 import { planAudioTracks } from "../../packages/core/dist/audio.js";
 import {
   createRevision,
@@ -177,7 +177,7 @@ store.ingestLifecycle(recording.recordingId, {
   reason: "generated fixture",
   sourceDurationUs: 300000000,
 });
-const evidence = new SourceEvidenceStore(store);
+const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
 const acquisitions = [
   { role: "narration", startUs: 125000, endUs: 142000000 },
   { role: "narration", startUs: 142250000, endUs: 300000000 },
@@ -189,7 +189,7 @@ const normalized =
   journal = join(dir, "normalized.jsonl");
 await writeFile(journal, normalized);
 const metadata = await evidence.ingest({
-  recordingId: recording.recordingId,
+  owner: { kind: "recording", recordingId: recording.recordingId },
   sourceId: recording.sourceId,
   generation: randomUUID(),
   file: journal,

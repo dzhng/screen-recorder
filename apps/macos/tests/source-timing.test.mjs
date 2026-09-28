@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { RevisionStore } from "@screenrec/core/library";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 test("native timing evidence publishes through the service and survives indexed range reads", async () => {
@@ -87,7 +87,7 @@ test("native timing evidence publishes through the service and survives indexed 
     newId: randomUUID,
   });
   try {
-    const evidence = new SourceEvidenceStore(store);
+    const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
     const identity = ready.published.evidence;
     assert.deepEqual(evidence.audio(identity, "narration", { startUs: 50, endUs: 350 }), [
       { startUs: 50, endUs: 200 },

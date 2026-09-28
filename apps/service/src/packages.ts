@@ -287,7 +287,8 @@ export class PackageInspection {
     if (view.index) return view.index;
     const { sourceIdentity, sceneIdentity } = portableIdentities(context.manifest);
     const identity = {
-      ...sourceIdentity,
+      recordingId: sourceIdentity.owner.recordingId,
+      sourceId: sourceIdentity.sourceId,
       revisionId,
       generation,
       sourceIdentity,

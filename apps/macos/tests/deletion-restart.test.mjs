@@ -55,13 +55,19 @@ test(
       await cache.publish(cached.id);
       if (label === "sibling") return { ...take, directory, source, cached };
       const sourceIdentity = {
-        recordingId: take.recordingId,
+        owner: { kind: "recording", recordingId: take.recordingId },
         sourceId: take.sourceId,
         generation: "source-fixture",
       };
-      const sceneIdentity = { ...sourceIdentity, generation: "scene-fixture", policy: "scene-v1" };
+      const sceneIdentity = {
+        recordingId: sourceIdentity.owner.recordingId,
+        sourceId: sourceIdentity.sourceId,
+        generation: "scene-fixture",
+        policy: "scene-v1",
+      };
       const identity = {
-        ...sourceIdentity,
+        recordingId: sourceIdentity.owner.recordingId,
+        sourceId: sourceIdentity.sourceId,
         generation: "index-fixture",
         revisionId: "r0",
         sourceIdentity,

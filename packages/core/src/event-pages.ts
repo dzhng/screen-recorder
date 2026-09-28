@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
@@ -110,7 +111,7 @@ export class TimelineEventRead {
   constructor(input: TimelineEventInput) {
     this.input = { ...input, ...structuredClone(eventMetadata(input)) };
     if (
-      input.sourceIdentity.recordingId !== input.sceneIdentity.recordingId ||
+      evidenceRecordingId(input.sourceIdentity) !== input.sceneIdentity.recordingId ||
       input.sourceIdentity.sourceId !== input.sceneIdentity.sourceId
     )
       invalid("Event inputs name different sources");
@@ -313,7 +314,7 @@ function eventMetadata(input: TimelineEventMetadata): TimelineEventMetadata {
   const { sourceIdentity, sceneIdentity, revision, interrupted } = input;
   return {
     sourceIdentity: {
-      recordingId: sourceIdentity.recordingId,
+      owner: sourceIdentity.owner,
       sourceId: sourceIdentity.sourceId,
       generation: sourceIdentity.generation,
     },

@@ -165,7 +165,10 @@ export class SourceProcessing {
         return;
       try {
         if (exists) await rm(join(parent, generation), { recursive: true, force: true });
-        await this.evidence.reclaim({ recordingId, sourceId, generation }, signal);
+        await this.evidence.reclaim(
+          { owner: { kind: "recording", recordingId }, sourceId, generation },
+          signal,
+        );
       } catch (error) {
         signal.throwIfAborted();
         firstError ??= error;
@@ -182,7 +185,7 @@ export class SourceProcessing {
       signal.throwIfAborted();
       const row = this.store.catalog
         .prepare(`SELECT generation FROM source_evidence_generations
-        WHERE recordingId=? AND sourceId=? AND generation>? ORDER BY generation LIMIT 1`)
+        WHERE ownerKind='recording' AND ownerId=? AND sourceId=? AND generation>? ORDER BY generation LIMIT 1`)
         .get(recordingId, sourceId, after) as { generation: string } | undefined;
       if (!row) break;
       after = row.generation;
@@ -215,7 +218,7 @@ export class SourceProcessing {
     const outputDirectory = join(root, "evidence", "source", job.attemptId);
     const output = join(outputDirectory, "observations.jsonl");
     const identity = {
-      recordingId: job.target.recordingId,
+      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
       sourceId: recording.sourceId,
       generation: job.attemptId,
     };

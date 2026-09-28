@@ -1,3 +1,4 @@
+import { evidenceRecordingId } from "./evidence.js";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import { CatalogError } from "./catalog.js";
@@ -29,7 +30,7 @@ function reference<Target>(context: TimelineContext<Target>) {
   const { sourceIdentity, sceneIdentity, revision, interrupted } = context.events;
   return {
     target: context.target,
-    recordingId: sourceIdentity.recordingId,
+    recordingId: evidenceRecordingId(sourceIdentity),
     sourceId: sourceIdentity.sourceId,
     revisionId: revision.id,
     sourceGeneration: sourceIdentity.generation,

@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import { fileAccess, type FileAccess } from "./files.js";
 import { CatalogError } from "./catalog.js";
@@ -22,8 +23,11 @@ import {
   type OrderedPageCodec,
 } from "./ordered-pages.js";
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
-const identitySchema = z.strictObject({
-  recordingId: z.string().min(1).max(256),
+export const evidenceIdentitySchema = z.strictObject({
+  owner: z.discriminatedUnion("kind", [
+    z.strictObject({ kind: z.literal("recording"), recordingId: z.string().min(1).max(256) }),
+    z.strictObject({ kind: z.literal("acquisition"), acquisitionId: z.string().min(1).max(256) }),
+  ]),
   sourceId: z.string().min(1).max(256),
   generation: z.string().min(1).max(256),
 });
@@ -41,7 +45,10 @@ function matches(index: EvidenceIndex, row: RecordRow, data: Record<string, unkn
   return row.event === "audioAcquired" && data.role === index;
 }
 
-const metadataSchema = z.strictObject({ kind: z.literal("source"), identity: identitySchema });
+const metadataSchema = z.strictObject({
+  kind: z.literal("source"),
+  identity: evidenceIdentitySchema,
+});
 const codec: OrderedPageCodec<RecordRow, z.infer<typeof metadataSchema>> = {
   metadata: metadataSchema,
   orders: Object.fromEntries(
@@ -72,10 +79,10 @@ export function writeSourceEvidencePages(
   directory: string,
   signal?: AbortSignal,
 ): Promise<void> {
-  const { recordingId, sourceId, generation } = identity;
+  const { owner, sourceId, generation } = identity;
   return writeOrderedPages(
     directory,
-    { kind: "source" as const, identity: { recordingId, sourceId, generation } },
+    { kind: "source" as const, identity: { owner, sourceId, generation } },
     codec,
     (index) => reader.exportRecords(identity, index as EvidenceIndex),
     signal,
@@ -91,7 +98,7 @@ export class FileSourceEvidence extends SourceEvidenceReader {
   protected requireComplete(identity: EvidenceIdentity): void {
     const expected = this.pages.metadata.identity;
     if (
-      identity.recordingId !== expected.recordingId ||
+      !isDeepStrictEqual(identity.owner, expected.owner) ||
       identity.sourceId !== expected.sourceId ||
       identity.generation !== expected.generation
     )
@@ -115,10 +122,10 @@ export function readSourceMetadata(
   } catch {
     throw new CatalogError("INVALID_EVIDENCE", "Invalid portable source metadata");
   }
-  const parsed = identitySchema.extend({ receipt: z.unknown() }).strict().safeParse(value);
+  const parsed = evidenceIdentitySchema.extend({ receipt: z.unknown() }).strict().safeParse(value);
   if (
     !parsed.success ||
-    parsed.data.recordingId !== identity.recordingId ||
+    !isDeepStrictEqual(parsed.data.owner, identity.owner) ||
     parsed.data.sourceId !== identity.sourceId ||
     parsed.data.generation !== identity.generation
   )

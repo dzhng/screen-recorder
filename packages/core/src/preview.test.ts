@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import { PreviewInspection, previewPolicy, type PreviewRenderer } from "./preview.js";
 
@@ -21,7 +21,7 @@ async function fixture(render: PreviewRenderer, prepare = true) {
   });
   const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 10000);
   await cache.reconcile();
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   let preview!: PreviewInspection, processing!: SourceProcessing;
   const jobs = new JobQueue({
     store,
@@ -246,7 +246,7 @@ test("a reopened catalog retains a ready movie and discards an interrupted reser
   });
   const cache = new DerivedCache(store, f.home, recordingCacheOwnerCheck(store), 10000);
   await cache.reconcile();
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   const jobs = new JobQueue({
     store,
     targets: recordingJobTargets(store),

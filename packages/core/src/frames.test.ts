@@ -24,7 +24,7 @@ import {
   type MaterializedFrame,
   type FrameDecoder,
 } from "./frame-materialization.js";
-import { SourceEvidenceStore } from "./evidence.js";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import type { VisualSampler } from "./scenes.js";
 
@@ -43,7 +43,7 @@ async function fixture(held?: () => Promise<void>, decodedOffset = 0) {
   await cache.reconcile();
   let frames!: LibraryFrameInspection;
   let processing!: SourceProcessing;
-  const evidence = new SourceEvidenceStore(store);
+  const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   const controls = {
     sourceFailure: false,
     badReceipt: false,
