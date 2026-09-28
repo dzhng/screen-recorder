@@ -1191,3 +1191,21 @@ trim and stretch replacements keep their single-interval behavior.
   Source and project requests share frame job/cache publication and the native
   color/orientation owner, while retaining different planning inputs. Landed in
   the selected-source picture integration.
+
+
+## Retained scene ownership decisions
+
+- **Sound; high confidence — A retained scene generation pins its selected stream and capture context.**
+  The same imported file can contain two video streams or be reused with different
+  capture context. A generation cannot change that selection between chunks even
+  when its support happens to be identical. Owner kind prevents collisions with a
+  real recording that happens to have the same ID. The plan left storage identity
+  details open; the shared source descriptor keeps one duration authority and the
+  queue remains responsible for declaring finished work ready.
+
+- **Sound; high confidence — Real recording packages keep their recording metadata.**
+  Opening an existing recording package still reads its established scene format.
+  Only the internal retained reader uses neutral asset-or-recording identity;
+  explicit conversions protect the package boundary. An imported asset is never
+  disguised as a recording package. This fills the plan's storage seam without
+  inventing a new portable format before editable project packaging is implemented.

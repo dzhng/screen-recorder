@@ -32,7 +32,11 @@ import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { PreviewInspection } from "@screenrec/core/preview";
-import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import {
+  SceneEvidenceStore,
+  recordingSceneOwner,
+  recordingSceneIdentity,
+} from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { TranscriptStore, recordingTranscriptOwner } from "@screenrec/core/transcript";
 import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
@@ -138,7 +142,7 @@ async function fixture(
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
   let processing, preview, exports, sceneOwner, indexOwner, transcriptOwner;
-  const sceneEvidence = new SceneEvidenceStore(store);
+  const sceneEvidence = new SceneEvidenceStore(store, recordingSceneOwner(store));
   const indexEvidence = new ScreenshotIndexStore(store, home);
   const transcriptEvidence = new TranscriptStore(store, home, recordingTranscriptOwner(store));
   const speech = { models: "ready", fail: null, requests: 0 };
@@ -2325,7 +2329,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(f.exports.retainsScenes(f.take.recordingId, pinnedScene.generation), true);
     assert.equal(f.evidence.hasAudio(pinnedSource, "narration"), false);
     assert.equal(
-      f.sceneEvidence.page({ identity: pinnedScene }).metadata.generation,
+      f.sceneEvidence.page({ identity: recordingSceneIdentity(pinnedScene) }).metadata.generation,
       pinnedScene.generation,
     );
     releaseIndex.resolve();
@@ -2343,7 +2347,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(f.exports.retainsScenes(f.take.recordingId, pinnedScene.generation), false);
     await f.processing.cleanup(new AbortController().signal);
     await f.sceneOwner.cleanup(new AbortController().signal);
-    assert.throws(() => f.sceneEvidence.page({ identity: pinnedScene }));
+    assert.throws(() => f.sceneEvidence.page({ identity: recordingSceneIdentity(pinnedScene) }));
   });
   test("committed package retains counted private cleanup until explicit retry and never republishes", async (t) => {
     let refuse = true,

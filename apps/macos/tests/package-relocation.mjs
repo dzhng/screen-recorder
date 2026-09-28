@@ -21,7 +21,11 @@ import { RevisionStore } from "@screenrec/core/library";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SourceProcessing } from "@screenrec/core/processing";
-import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import {
+  SceneEvidenceStore,
+  recordingSceneOwner,
+  recordingSceneIdentity,
+} from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { IndexProcessing } from "@screenrec/core/index-processing";
@@ -175,7 +179,7 @@ export async function inspect(context, root, readers, media, output) {
       images,
     },
     coverage: readers.index.coveragePage({ identity: context.index, limit: 200 }),
-    scenes: readers.scenes.page({ identity: context.scenes }),
+    scenes: readers.scenes.page({ identity: recordingSceneIdentity(context.scenes) }),
     history,
   };
 }
@@ -190,7 +194,10 @@ export async function relocatedReader(root, output, executable) {
     root,
     {
       source: new FileSourceEvidence(join(root, "source-pages"), context.source),
-      scenes: new FileSceneEvidence(join(root, "scene-pages"), context.scenes),
+      scenes: new FileSceneEvidence(
+        join(root, "scene-pages"),
+        recordingSceneIdentity(context.scenes),
+      ),
       index: new FileScreenshotIndex(join(root, "index-pages"), context.index, revision),
     },
     media,
@@ -412,7 +419,7 @@ export function registerRelocationTest({
           range: { startUs: 0, endUs: 1_000_000 },
         });
         const sourceEvidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
-          sceneEvidence = new SceneEvidenceStore(store),
+          sceneEvidence = new SceneEvidenceStore(store, recordingSceneOwner(store)),
           index = new ScreenshotIndexStore(store, original);
         let processing, scenes, indexing;
         jobs = new JobQueue({
@@ -536,7 +543,11 @@ export function registerRelocationTest({
           sourceMetadata,
           join(portable, "source-pages"),
         );
-        await writeSceneEvidencePages(sceneEvidence, sceneMetadata, join(portable, "scene-pages"));
+        await writeSceneEvidencePages(
+          sceneEvidence,
+          recordingSceneIdentity(sceneMetadata),
+          join(portable, "scene-pages"),
+        );
         await writeScreenshotIndexPages(
           index,
           indexMetadata,

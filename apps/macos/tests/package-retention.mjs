@@ -1,3 +1,4 @@
+import { recordingSceneIdentity } from "@screenrec/core/scene-evidence";
 import { writeArchiveFixture } from "./fixtures/write-archive.mjs";
 import { archiveFixture } from "./fixtures/retained-archive.mjs";
 import { admitArchive } from "../../service/dist/archive-input.js";
@@ -262,7 +263,7 @@ async function retainedReader(original, output, native) {
       ),
       scenes: new FileSceneEvidence(
         fileSubdirectory(context.files, "evidence/scenes"),
-        sceneIdentity,
+        recordingSceneIdentity(sceneIdentity),
       ),
       index: new FileScreenshotIndex(
         fileSubdirectory(context.files, "evidence/index"),

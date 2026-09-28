@@ -47,8 +47,8 @@ separate from the unrestricted two-worker run retained here.
 ## Boundary and next work
 
 This is a core store prerequisite, not asset scene preparation or screenshot-index
-acceptance. Service constructor/domain-boundary wiring is integrated by the parent
-pass. Asset job admission, sampling and retention through shared job/resource
+acceptance. [Service and harness integration](integration/README.md) preserves recording
+and package boundaries. Asset job admission, sampling and retention through shared job/resource
 owners remain next, including gap-aware observations and scene policy identity.
 The existing chunks cannot yet represent an unavailable sample grid.
 

@@ -24,8 +24,10 @@ branch: picture-only compilation and core revision/cache lifecycle are committed
 native still extraction, common-profile visual comparison and concurrent staging
 are integrated. [Public project pictures](assets/10d-public-project-frames/README.md)
 pass actual CLI/MCP delivery. [Selected-source routes](assets/10d-source-routing/README.md)
-and their actual journey pass; finish retaining that evidence, then continue
-scene ownership and retained indexes. Retain the full
+and their actual journey pass; retain the reviewed journey and product-skill
+evidence. [Scene ownership](assets/10d-scene-ownership/README.md) is integrated
+with recording/package preservation; selected-source scene sampling and retained
+indexes are next. Retain the full
 [10 evidence](slices/10-project-evidence.md) umbrella requirements.
 
 Source and project audio share jobs, cached delivery and locked render attempts.

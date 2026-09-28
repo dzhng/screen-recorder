@@ -1,0 +1,3 @@
+codex
+The changes consistently adapt service and test callers to the current scene-evidence ownership API. No actionable regressions were found; service type-checking and all eight deletion tests passed.
+The changes consistently adapt service and test callers to the current scene-evidence ownership API. No actionable regressions were found; service type-checking and all eight deletion tests passed.

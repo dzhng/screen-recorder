@@ -1,0 +1,14 @@
+{
+  "lazyRowValidation": true,
+  "lostOpenReplyRecovered": true,
+  "libraryDeletion": {
+    "recordingId": "ccbad68a-7499-4eeb-ab9b-c9bf63c3dde9",
+    "deleted": true
+  },
+  "imageSha256": "f7d616b8f50530ae3da76882f92cbb5fdb5d9534e27fd08588ec100780d8bbef",
+  "packageSha256": "594da095075a5b26493b4f51d4268d597885fcfe4fc23b0232b1d792aed9b526",
+  "sameContentIndependent": true,
+  "cliAndMcpBytes": true,
+  "closeBeforeExpiry": true,
+  "restartInvalidates": true
+}

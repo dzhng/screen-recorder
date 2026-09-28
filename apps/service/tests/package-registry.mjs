@@ -266,7 +266,7 @@ test("same-provenance library deletion and package close revoke only their own d
   const [
     { DerivedCache, recordingCacheOwnerCheck },
     { SourceEvidenceStore, recordingEvidenceOwner },
-    { SceneEvidenceStore },
+    { SceneEvidenceStore, recordingSceneOwner },
     { ScreenshotIndexStore },
     { TranscriptStore, recordingTranscriptOwner },
     { CaptureService },
@@ -318,7 +318,7 @@ test("same-provenance library deletion and package close revoke only their own d
     capture,
     delivery: f.delivery,
     source: new SourceEvidenceStore(f.store, recordingEvidenceOwner(f.store)),
-    scenes: new SceneEvidenceStore(f.store),
+    scenes: new SceneEvidenceStore(f.store, recordingSceneOwner(f.store)),
     index: new ScreenshotIndexStore(f.store, f.home),
     transcripts: new TranscriptStore(f.store, f.home, recordingTranscriptOwner(f.store)),
     cleanupReady: () => Promise.resolve(),

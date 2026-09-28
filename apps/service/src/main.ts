@@ -24,7 +24,7 @@ import type { NativeFrame } from "@screenrec/core/frame-materialization";
 import { RecordingDeletion } from "./deletion.js";
 import { ManagedFiles } from "./managed-files.js";
 import { DerivativeDelivery } from "./delivery.js";
-import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import { SceneEvidenceStore, recordingSceneOwner } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SpeechModels } from "@screenrec/core/speech-models";
@@ -211,7 +211,7 @@ async function main(): Promise<void> {
       ({ source, kept, atSourceUs }, signal) =>
         nativeData<VisualObservations>("media.visualSamples", { source, kept, atSourceUs }, signal),
     );
-    sceneEvidence = new SceneEvidenceStore(store);
+    sceneEvidence = new SceneEvidenceStore(store, recordingSceneOwner(store));
     indexEvidence = new ScreenshotIndexStore(store, home);
     scenes = new SceneProcessing(
       store,

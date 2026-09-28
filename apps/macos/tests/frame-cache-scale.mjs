@@ -12,7 +12,7 @@ import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
-import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import { SceneEvidenceStore, recordingSceneOwner } from "@screenrec/core/scene-evidence";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 // Optional companion to lab:index-scale; never regenerates or edits the supplied input.
@@ -68,7 +68,7 @@ async function fixture(home, input) {
     const scenes = new SceneProcessing(
       store,
       jobs,
-      new SceneEvidenceStore(store),
+      new SceneEvidenceStore(store, recordingSceneOwner(store)),
       home,
       async () => {
         throw new Error("No fixture sampler");

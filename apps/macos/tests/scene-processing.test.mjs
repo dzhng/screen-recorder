@@ -8,7 +8,11 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { callLocal } from "@screenrec/client";
 import { RevisionStore } from "@screenrec/core/library";
-import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import {
+  SceneEvidenceStore,
+  recordingSceneOwner,
+  recordingSceneIdentity,
+} from "@screenrec/core/scene-evidence";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
@@ -90,8 +94,8 @@ test("bundled canonical scene scan retains sparse actual-time transitions and su
   }, 20000);
   const inspect = open();
   try {
-    const evidence = new SceneEvidenceStore(inspect),
-      identity = ready.published.evidence;
+    const evidence = new SceneEvidenceStore(inspect, recordingSceneOwner(inspect)),
+      identity = recordingSceneIdentity(ready.published.evidence);
     let afterStartUs,
       total = 0;
     const transitions = [];

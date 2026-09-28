@@ -68,7 +68,7 @@ export class RecordingDeletion {
         files.removeCacheFiles(ids, root, signal),
       );
       await source.purge({ kind: "recording", recordingId }, signal);
-      await scenes.reclaim(recordingId, () => false, signal);
+      await scenes.reclaim({ kind: "recording", recordingId }, () => false, signal);
       await files.removeRecordingDirectory(recordingId, signal);
       await index.forgetRecording(recordingId, signal);
       // Native removed the transcript files with the recording root; only catalog rows remain.

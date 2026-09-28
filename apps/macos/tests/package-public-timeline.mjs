@@ -5,7 +5,12 @@ import { join, dirname } from "node:path";
 import { RevisionStore } from "@screenrec/core/library";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
-import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import {
+  SceneEvidenceStore,
+  recordingSceneOwner,
+  recordingSceneIdentity,
+  recordingSceneMetadata,
+} from "@screenrec/core/scene-evidence";
 import { FileSceneEvidence } from "@screenrec/core/scene-pages";
 import { scenePolicy } from "@screenrec/core/scenes";
 import { mediaWorker } from "../../service/dist/worker.js";
@@ -40,8 +45,11 @@ async function seed(home, portable, context) {
   for (const name of ["video.mov", "system.mov", "capture.journal.jsonl"])
     await cp(join(portable, "source", name), join(sourceRoot, name));
   const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
-    scenes = new SceneEvidenceStore(store);
-  const retained = new FileSceneEvidence(join(portable, "scene-pages"), context.scenes);
+    scenes = new SceneEvidenceStore(store, recordingSceneOwner(store));
+  const retained = new FileSceneEvidence(
+    join(portable, "scene-pages"),
+    recordingSceneIdentity(context.scenes),
+  );
   const jobs = new JobQueue({
     store,
     targets: recordingJobTargets(store),
@@ -77,12 +85,22 @@ async function seed(home, portable, context) {
       const sceneIdentity = { ...identity, policy: scenePolicy.id };
       let afterStartUs;
       for (;;) {
-        const page = retained.page({ identity: context.scenes, afterStartUs });
-        for (const chunk of page.chunks) scenes.append(sceneIdentity, chunk);
+        const page = retained.page({
+          identity: recordingSceneIdentity(context.scenes),
+          afterStartUs,
+        });
+        for (const chunk of page.chunks)
+          scenes.append(
+            recordingSceneIdentity(sceneIdentity),
+            { kind: "recording", durationUs: context.snapshot.sourceDurationUs },
+            chunk,
+          );
         if (page.nextStartUs === null) break;
         afterStartUs = page.nextStartUs;
       }
-      return JSON.stringify(scenes.finish(sceneIdentity, context.snapshot.sourceDurationUs));
+      return JSON.stringify(
+        recordingSceneMetadata(scenes.finish(recordingSceneIdentity(sceneIdentity))),
+      );
     },
   });
   try {

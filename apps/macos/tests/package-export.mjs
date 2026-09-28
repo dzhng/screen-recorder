@@ -7,7 +7,7 @@ import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
-import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import { SceneEvidenceStore, recordingSceneOwner } from "@screenrec/core/scene-evidence";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { PreviewInspection } from "@screenrec/core/preview";
@@ -22,7 +22,7 @@ const worker = mediaWorker({ SCREENREC_NATIVE: executable });
 let produced;
 async function exportFromLibrary({ store, home, recordingId, revisionId }) {
   const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
-    sceneEvidence = new SceneEvidenceStore(store),
+    sceneEvidence = new SceneEvidenceStore(store, recordingSceneOwner(store)),
     indexEvidence = new ScreenshotIndexStore(store, home);
   const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();

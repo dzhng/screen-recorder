@@ -4,7 +4,11 @@ import { TimelineInspection } from "@screenrec/core/timeline-inspection";
 import type { SourceProcessing } from "@screenrec/core/processing";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceEvidenceStore } from "@screenrec/core/evidence";
-import type { SceneEvidenceStore, SceneEvidenceIdentity } from "@screenrec/core/scene-evidence";
+import {
+  recordingSceneIdentity,
+  type SceneEvidenceStore,
+  type RecordingSceneEvidenceIdentity,
+} from "@screenrec/core/scene-evidence";
 import { FileSceneEvidence } from "@screenrec/core/scene-pages";
 import { fileSubdirectory } from "@screenrec/core/files";
 import { PackageMediaContext, portableIdentities, type PackageTarget } from "./package-media.js";
@@ -56,7 +60,9 @@ export class LibraryTimelineInspection extends TimelineInspection<{ recordingId:
 
 /** Package timelines read the retained package's own source and scene pages. */
 export class PackageTimelineInspection extends TimelineInspection<PackageTarget> {
-  private sceneRead: { identity: SceneEvidenceIdentity; reader: FileSceneEvidence } | undefined;
+  private sceneRead:
+    | { identity: RecordingSceneEvidenceIdentity; reader: FileSceneEvidence }
+    | undefined;
   constructor(private readonly media: PackageMediaContext) {
     super();
   }
@@ -70,7 +76,7 @@ export class PackageTimelineInspection extends TimelineInspection<PackageTarget>
         identity: sceneIdentity,
         reader: new FileSceneEvidence(
           fileSubdirectory(context.files, scenes.directory),
-          sceneIdentity,
+          recordingSceneIdentity(sceneIdentity),
         ),
       };
     }

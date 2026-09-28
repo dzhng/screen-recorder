@@ -8,7 +8,7 @@ import { CatalogError } from "@screenrec/core/catalog";
 import { JobQueue, type JobExecutor, recordingJobTargets } from "@screenrec/core/jobs";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { recordingEvidenceOwner, SourceEvidenceStore } from "@screenrec/core/evidence";
-import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import { SceneEvidenceStore, recordingSceneOwner } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { TranscriptStore, recordingTranscriptOwner } from "@screenrec/core/transcript";
 import { CaptureService } from "./capture.js";
@@ -62,7 +62,7 @@ async function fixture(
     capture,
     delivery,
     source: new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
-    scenes: new SceneEvidenceStore(store),
+    scenes: new SceneEvidenceStore(store, recordingSceneOwner(store)),
     index: new ScreenshotIndexStore(store, home),
     transcripts: new TranscriptStore(store, home, recordingTranscriptOwner(store)),
     cleanupReady: () => ready,

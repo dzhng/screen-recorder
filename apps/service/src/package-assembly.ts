@@ -15,7 +15,11 @@ import {
   readSourceMetadata,
   writeSourceEvidencePages,
 } from "@screenrec/core/evidence-pages";
-import type { SceneEvidenceMetadata, SceneEvidenceStore } from "@screenrec/core/scene-evidence";
+import {
+  recordingSceneIdentity,
+  type RecordingSceneEvidenceMetadata,
+  type SceneEvidenceStore,
+} from "@screenrec/core/scene-evidence";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
 import { FileSceneEvidence, writeSceneEvidencePages } from "@screenrec/core/scene-pages";
 import type { IndexProcessing } from "@screenrec/core/index-processing";
@@ -69,7 +73,7 @@ export type PackageOwners = {
   transcriptEvidence: TranscriptStore;
 };
 export type PackageEvidence = {
-  scenes: SceneEvidenceMetadata | null;
+  scenes: RecordingSceneEvidenceMetadata | null;
   index: ScreenshotIndexMetadata | null;
   /** Selected only when the pinned source acquired narration. */
   transcript: RecordingTranscriptMetadata | null;
@@ -113,7 +117,7 @@ export async function assemblePackage(
   selected: {
     snapshot: PackageSnapshot;
     source: SourceEvidenceMetadata;
-    scenes: SceneEvidenceMetadata;
+    scenes: RecordingSceneEvidenceMetadata;
     index: ScreenshotIndexMetadata;
     transcript: RecordingTranscriptMetadata | null;
   },
@@ -142,7 +146,12 @@ export async function assemblePackage(
   await mkdir(join(input.directory, "evidence"));
   const root = (kind: string) => join(input.directory, "evidence", kind);
   await writeSourceEvidencePages(owners.source, sourceIdentity, root("source"), signal);
-  await writeSceneEvidencePages(owners.sceneEvidence, sceneIdentity, root("scenes"), signal);
+  await writeSceneEvidencePages(
+    owners.sceneEvidence,
+    recordingSceneIdentity(sceneIdentity),
+    root("scenes"),
+    signal,
+  );
   await writeScreenshotIndexPages(owners.indexEvidence, index, revision, root("index"), signal);
   const eventMetadata = {
     sourceIdentity,
@@ -189,12 +198,12 @@ export async function assemblePackage(
     }
     if (!expected.next().done) invalid("Portable source evidence ended early");
   }
-  const sceneRead = new FileSceneEvidence(root("scenes"), sceneIdentity);
+  const sceneRead = new FileSceneEvidence(root("scenes"), recordingSceneIdentity(sceneIdentity));
   let sceneAfter: number | undefined;
   for (;;) {
     signal.throwIfAborted();
     const query = {
-      identity: sceneIdentity,
+      identity: recordingSceneIdentity(sceneIdentity),
       ...(sceneAfter === undefined ? {} : { afterStartUs: sceneAfter }),
       limit: 100,
     };

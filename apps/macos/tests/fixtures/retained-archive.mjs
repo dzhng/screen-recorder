@@ -1,3 +1,4 @@
+import { recordingSceneIdentity } from "@screenrec/core/scene-evidence";
 import assert from "node:assert/strict";
 import { hash } from "node:crypto";
 import { cp, mkdir, writeFile, readFile, readdir, stat } from "node:fs/promises";
@@ -62,7 +63,10 @@ export async function archiveFixture(original, destination) {
   const eventInput = {
     ...metadata,
     source: sourceReader,
-    scenes: new FileSceneEvidence(join(destination, "evidence/scenes"), old.scenes),
+    scenes: new FileSceneEvidence(
+      join(destination, "evidence/scenes"),
+      recordingSceneIdentity(old.scenes),
+    ),
   };
   await writeTimelineEventPages(eventInput, join(destination, "evidence/events"));
   const eventReader = new FileTimelineEvents(join(destination, "evidence/events"), metadata);
