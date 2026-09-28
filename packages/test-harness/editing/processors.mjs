@@ -30,7 +30,7 @@ if (!["--case routing", "--case ordered-edits"].includes(requested)) {
   };
   const context = {
     namespace: "routing-probe",
-    assets: [{ id: "still", streams: [{ id: "v", kind: "image" }] }],
+    assets: [{ id: "still", streams: [{ id: "v", kind: "image", width: 160, height: 96 }] }],
   };
   const label = (name) => ({ label: name });
   const setup = [

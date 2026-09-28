@@ -11,14 +11,26 @@ public final class PresentationSource {
         public let sampleTime: CMTime?
         public let end: CMTime
     }
-    let width: Int
-    let height: Int
-    public let transform: CGAffineTransform
+    struct Media {
+        let asset: AVURLAsset
+        let duration: CMTime
+        let track: AVAssetTrack
+        let segments: [AVAssetTrackSegment]
+        let occupied: [SourceSegment]
+        let transform: CGAffineTransform
+        let width: Int
+        let height: Int
+        let decodedPixels: Int64
+    }
+    let media: Media
+    var width: Int { media.width }
+    var height: Int { media.height }
+    public var transform: CGAffineTransform { media.transform }
+    var track: AVAssetTrack { media.track }
+    private var segments: [AVAssetTrackSegment] { media.segments }
+    private var occupied: [SourceSegment] { media.occupied }
     private let reader: AVAssetReader
     private let decoded: AVAssetReaderTrackOutput
-    let track: AVAssetTrack
-    private let segments: [AVAssetTrackSegment]
-    private let occupied: [SourceSegment]
     public private(set) var decodedCount = 0
     private var held: CMSampleBuffer?
     private var heldStart = CMTime.invalid
@@ -50,49 +62,79 @@ public final class PresentationSource {
         _ = try Self.duration(of: plan)
         try await self.init(
             source: source, streamId: nil, startUs: nil,
-            endUs: plan.last!.source.endUs, evenDimensions: true)
+            endUs: plan.last!.source.endUs)
     }
 
-    /// Compiled source timestamps are already resolved; this only seeks physical sample support.
-    public init(
-        source: URL, streamId: String?, startUs: Int64?, endUs: Int64? = nil,
-        evenDimensions: Bool = false
-    ) async throws {
+    static func prepare(source: URL, streamId: String?) async throws -> Media {
         let asset = AVURLAsset(
             url: source,
             options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-        let sourceDuration = try await asset.load(.duration)
+        let duration = try await asset.load(.duration)
         let tracks = try await asset.loadTracks(withMediaType: .video)
         guard
             let track = streamId.flatMap({ id in tracks.first { "track:\($0.trackID)" == id } })
                 ?? (streamId == nil ? tracks.first : nil),
-            try await track.load(.canProvideSampleCursors),
-            endUs.map({ time(microseconds: $0) <= sourceDuration }) ?? true
+            try await track.load(.canProvideSampleCursors)
         else { throw NativeFailure("UNAVAILABLE", "Render plan exceeds a usable video source.") }
         let segments = try await track.load(.segments)
         let occupied = SourceSegment.occupied(of: segments)
         let transform = try await track.load(.preferredTransform)
-        let natural = try await track.load(.naturalSize).applying(transform)
+        let formats = try await track.load(.formatDescriptions)
+        guard let format = formats.first else {
+            throw NativeFailure("UNAVAILABLE", "Video source has no decoded pixel format.")
+        }
+        let dimensions = formats.map(CMVideoFormatDescriptionGetDimensions)
+        guard dimensions.allSatisfy({ $0.width > 0 && $0.height > 0 }) else {
+            throw NativeFailure(
+                "UNAVAILABLE", "Video source has no positive decoded pixel dimensions.")
+        }
+        let decodedPixels = dimensions.map { Int64($0.width) * Int64($0.height) }.max()!
+        let pixels = CMVideoFormatDescriptionGetDimensions(format)
+        let natural = videoDisplayGeometry(
+            size: CGSize(width: Int(pixels.width), height: Int(pixels.height)), transform: transform
+        ).extent
+        guard natural.width.isFinite, natural.height.isFinite, natural.width > 0,
+            natural.height > 0,
+            natural.width <= 8192, natural.height <= 8192
+        else {
+            throw NativeFailure("UNAVAILABLE", "Video source exceeds oriented raster dimensions.")
+        }
         let width = Int(abs(natural.width).rounded())
         let height = Int(abs(natural.height).rounded())
-        guard width > 0, height > 0, width <= 8192, height <= 8192,
-            !evenDimensions || (width.isMultiple(of: 2) && height.isMultiple(of: 2))
+        guard width > 0, height > 0, width <= 8192, height <= 8192
         else {
             throw NativeFailure(
-                "UNAVAILABLE", "Video renderer requires even dimensions up to 8192 pixels.")
+                "UNAVAILABLE",
+                "Video source requires positive oriented raster dimensions up to 8192 pixels.")
         }
+        return Media(
+            asset: asset, duration: duration, track: track, segments: segments,
+            occupied: occupied, transform: transform, width: width, height: height,
+            decodedPixels: decodedPixels)
+    }
+
+    /// Compiled timestamps resolve to one prepared media source; preparation allocates no decoder.
+    public convenience init(source: URL, streamId: String?, startUs: Int64?, endUs: Int64? = nil)
+        async throws
+    {
+        let media = try await Self.prepare(source: source, streamId: streamId)
+        try self.init(media: media, startUs: startUs, endUs: endUs)
+    }
+
+    init(media: Media, startUs: Int64?, endUs: Int64? = nil) throws {
+        guard endUs.map({ time(microseconds: $0) <= media.duration }) ?? true else {
+            throw NativeFailure("UNAVAILABLE", "Render plan exceeds a usable video source.")
+        }
+        let asset = media.asset
+        let track = media.track
+        let occupied = media.occupied
         let reader = try AVAssetReader(asset: asset)
         let decoded = AVAssetReaderTrackOutput(
             track: track,
             outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
         decoded.alwaysCopiesSampleData = false
         reader.add(decoded)
-        self.track = track
-        self.segments = segments
-        self.occupied = occupied
-        self.transform = transform
-        self.width = width
-        self.height = height
+        self.media = media
         self.reader = reader
         self.decoded = decoded
         if let startUs {
@@ -106,7 +148,7 @@ public final class PresentationSource {
             }
             reader.timeRange = CMTimeRange(
                 start: decodeStart,
-                end: endUs.map { time(microseconds: $0) } ?? sourceDuration)
+                end: endUs.map { time(microseconds: $0) } ?? media.duration)
         }
         guard reader.startReading() else {
             throw NativeFailure.decodeFailed("Cannot start sequential presentation read.")
@@ -157,7 +199,9 @@ public final class PresentationSource {
 
     deinit { reader.cancelReading() }
 
-    public func selection(at: CMTime, end: CMTime, maximumDecodedSamples: Int? = nil) throws -> Selection {
+    public func selection(at: CMTime, end: CMTime, maximumDecodedSamples: Int? = nil) throws
+        -> Selection
+    {
         while segmentIndex < segments.count
             && CMTimeRangeGetEnd(segments[segmentIndex].timeMapping.target) <= at
         { segmentIndex += 1 }
@@ -175,7 +219,8 @@ public final class PresentationSource {
         while held == nil || heldEnd <= at {
             held = nil
             if let maximumDecodedSamples, decodedCount >= maximumDecodedSamples {
-                throw NativeFailure("LIMIT_EXCEEDED", "Presentation decode exceeds its sample budget.")
+                throw NativeFailure(
+                    "LIMIT_EXCEEDED", "Presentation decode exceeds its sample budget.")
             }
             guard let sample = autoreleasepool(invoking: { decoded.copyNextSampleBuffer() }) else {
                 throw NativeFailure("UNAVAILABLE", "Decoder ended before retained sample support.")

@@ -40,6 +40,8 @@ const assets = [
       {
         id: "video",
         kind: "video",
+        width: 640,
+        height: 480,
         bounds: { startUs: 0, endUs: 2000000 },
         available: [{ startUs: 0, endUs: 2000000 }],
       },
@@ -598,6 +600,8 @@ test("compiled availability distinguishes source gaps from unavailable ancestors
       {
         id: "v",
         kind: "video",
+        width: 640,
+        height: 480,
         bounds: { startUs: 0, endUs: 1000000 },
         available: [
           { startUs: 0, endUs: 100000 },
@@ -773,6 +777,8 @@ test("resampling domains exclude source and ancestor holes and never borrow a pa
         {
           id: "s",
           kind: "video",
+          width: 640,
+          height: 480,
           bounds: { startUs: 0, endUs: 1000000 },
           available: [
             { startUs: 0, endUs: 200000 },

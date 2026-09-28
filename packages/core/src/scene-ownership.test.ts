@@ -273,6 +273,8 @@ test("adopted acquisition contexts are authoritative and a generation cannot swi
               segments: [{ startUs: 0, endUs: 1000000, empty: false }],
               width: 32,
               height: 16,
+              orientedWidth: 32,
+              orientedHeight: 16,
             },
           ],
         }),

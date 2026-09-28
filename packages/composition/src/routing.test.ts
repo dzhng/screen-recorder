@@ -16,7 +16,7 @@ const empty = {
 };
 const context = {
   namespace: "routing",
-  assets: [{ id: "image", streams: [{ id: "v", kind: "image" }] }],
+  assets: [{ id: "image", streams: [{ id: "v", kind: "image", width: 640, height: 480 }] }],
 };
 const ref = (label: string) => ({ label });
 test("nested routing changes visual order without changing source timing or sync links", () => {

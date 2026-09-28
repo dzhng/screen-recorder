@@ -145,3 +145,38 @@ test("uniform canvas border pixels cannot disappear behind the interpolation all
         borderless.fill(0, (y * 64 + x) * 4, (y * 64 + x + 1) * 4);
   assert.throws(() => compareGeometry(borderless, expected, 64, 48), /Interior pixel/);
 });
+
+test("opaque full-domain crop keeps full alpha when destination pixel footprints are inside", () => {
+  const source = sourceSurface({
+    width: 2,
+    height: 2,
+    rgba: Buffer.alloc(16, 255),
+    encodedProfile: "srgb",
+  });
+  const canvas = { width: 16, height: 16 };
+  const image = geometrySurface(source, { crop: { x: 0, y: 0, width: 2, height: 2 } }, canvas);
+  assert.deepEqual(image.sample(0.5, 0.5), [1, 1, 1, 1]);
+  assert.deepEqual(image.sample(15.5, 15.5), [1, 1, 1, 1]);
+  const shifted = geometrySurface(
+    source,
+    { rect: { x: 0.25, y: 0.25, width: 16, height: 16 } },
+    canvas,
+  );
+  assert.deepEqual(shifted.sample(0.5, 0.5), [0.5625, 0.5625, 0.5625, 0.5625]);
+});
+
+test("crop clamps encoded sampling before outside poison can enter a scaled pixel", () => {
+  const bytes = Buffer.from([255, 255, 255, 255, 0, 0, 0, 255, 0, 0, 0, 255, 255, 255, 255, 255]);
+  const source = sourceSurface({
+    width: 4,
+    height: 1,
+    rgba: bytes,
+    encodedProfile: "corevideo709",
+  });
+  const canvas = { width: 16, height: 8 };
+  const picture = expectedRgba(
+    geometrySurface(source, { crop: { x: 1, y: 0, width: 2, height: 1 } }, canvas),
+  );
+  for (let i = 0; i < picture.length; i += 4)
+    assert.deepEqual([...picture.subarray(i, i + 4)], [0, 0, 0, 255]);
+});

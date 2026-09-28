@@ -4,25 +4,56 @@ const clear = [0, 0, 0, 0];
 const srgbToLinear = (v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
 const linearToSrgb = (v) => (v <= 0.0031308 ? v * 12.92 : 1.055 * v ** (1 / 2.4) - 0.055);
 
-// Independent point-sampling oracle in top-left coordinates. It never consumes compiled
-// transforms or native receipts. Pixel-edge interpolation is verified separately from interiors.
-export function sourceSurface({ width, height, rgba }) {
+// Independent inverse-coordinate oracle. Source sampling uses the fixture's verified
+// encoded profile; composition remains premultiplied linear light. CoreVideo's 709
+// transfer is gamma 1.961, per Apple's vImageBuffer_InitWithCVPixelBuffer docs.
+export function sourceSurface({ width, height, rgba, encodedProfile }) {
+  const decode = encodedProfile === "corevideo709" ? (v) => v ** 1.961 : srgbToLinear;
+  const encode = encodedProfile === "corevideo709" ? (v) => v ** (1 / 1.961) : linearToSrgb;
+  assert.ok(encodedProfile === undefined || ["corevideo709", "srgb"].includes(encodedProfile));
+  const pixel = (x, y) => {
+    const at =
+      (Math.max(0, Math.min(height - 1, y)) * width + Math.max(0, Math.min(width - 1, x))) * 4;
+    const alpha = rgba[at + 3] / 255;
+    return [0, 1, 2]
+      .map((c) => srgbToLinear(alpha ? rgba[at + c] / (255 * alpha) : 0) * alpha)
+      .concat(alpha);
+  };
   return {
     width,
     height,
     sample(x, y) {
+      if (!encodedProfile)
+        return x < 0 || y < 0 || x >= width || y >= height
+          ? clear
+          : pixel(Math.floor(x), Math.floor(y));
       if (x < 0 || y < 0 || x >= width || y >= height) return clear;
-      const at = (Math.floor(y) * width + Math.floor(x)) * 4,
-        alpha = rgba[at + 3] / 255;
-      return [0, 1, 2]
-        .map((c) => srgbToLinear(alpha ? rgba[at + c] / (255 * alpha) : 0) * alpha)
-        .concat(alpha);
+      const left = Math.floor(x - 0.5),
+        top = Math.floor(y - 0.5);
+      const fx = x - 0.5 - left,
+        fy = y - 0.5 - top;
+      const result = [0, 0, 0, 0];
+      for (const [dx, dy, weight] of [
+        [0, 0, (1 - fx) * (1 - fy)],
+        [1, 0, fx * (1 - fy)],
+        [0, 1, (1 - fx) * fy],
+        [1, 1, fx * fy],
+      ]) {
+        const p = pixel(left + dx, top + dy);
+        for (let c = 0; c < 3; c++) result[c] += encode(p[3] ? p[c] / p[3] : 0) * p[3] * weight;
+        result[3] += p[3] * weight;
+      }
+      return result
+        .slice(0, 3)
+        .map((v) => decode(result[3] ? v / result[3] : 0) * result[3])
+        .concat(result[3]);
     },
   };
 }
 export function background(canvas, rgba = [0, 0, 0, 1]) {
   return {
     ...canvas,
+    canvasDomain: true,
     sample: (x, y) => (x >= 0 && y >= 0 && x < canvas.width && y < canvas.height ? rgba : clear),
   };
 }
@@ -31,6 +62,7 @@ export function over(below, above) {
   return {
     width: below.width,
     height: below.height,
+    canvasDomain: true,
     sample(x, y) {
       const a = above.sample(x, y),
         b = below.sample(x, y);
@@ -41,8 +73,40 @@ export function over(below, above) {
 export function opacitySurface(surface, opacity) {
   return { ...surface, sample: (x, y) => surface.sample(x, y).map((v) => v * opacity) };
 }
+// A deliberate materialization boundary samples a pixel grid in linear premultiplied
+// space. Fractional crop coverage is the intersection with each unit pixel square.
+function rasterSurface(surface, rect) {
+  const pixel = (x, y) => {
+    const coverage =
+      Math.max(0, Math.min(x + 1, rect.x + rect.width) - Math.max(x, rect.x)) *
+      Math.max(0, Math.min(y + 1, rect.y + rect.height) - Math.max(y, rect.y));
+    return coverage ? surface.sample(x + 0.5, y + 0.5).map((v) => v * coverage) : clear;
+  };
+  return {
+    ...surface,
+    sample(x, y) {
+      const left = Math.floor(x - 0.5),
+        top = Math.floor(y - 0.5),
+        fx = x - 0.5 - left,
+        fy = y - 0.5 - top;
+      const result = [0, 0, 0, 0];
+      for (const [dx, dy, weight] of [
+        [0, 0, (1 - fx) * (1 - fy)],
+        [1, 0, fx * (1 - fy)],
+        [0, 1, (1 - fx) * fy],
+        [1, 1, fx * fy],
+      ])
+        pixel(left + dx, top + dy).forEach((v, c) => {
+          result[c] += v * weight;
+        });
+      return result;
+    },
+  };
+}
 export function geometrySurface(surface, settings, canvas) {
   const crop = settings.crop ?? { x: 0, y: 0, width: surface.width, height: surface.height };
+  if (surface.canvasDomain)
+    surface = rasterSurface(surface, { x: 0, y: 0, width: surface.width, height: surface.height });
   const rect = settings.rect ?? { x: 0, y: 0, ...canvas };
   const fit = settings.fit ?? "contain",
     scale = settings.scale ?? { x: 1, y: 1 };
@@ -55,25 +119,80 @@ export function geometrySurface(surface, settings, canvas) {
     sy = fit === "stretch" ? fitY : factor;
   const padX = (rect.width - crop.width * sx) / 2,
     padY = (rect.height - crop.height * sy) / 2;
+  const px = pivot.x * rect.width,
+    py = pivot.y * rect.height;
+  const bounds =
+    fit === "cover"
+      ? [0, 0, rect.width, rect.height]
+      : [padX, padY, crop.width * sx, crop.height * sy];
+  const polygon = [
+    [bounds[0], bounds[1]],
+    [bounds[0] + bounds[2], bounds[1]],
+    [bounds[0] + bounds[2], bounds[1] + bounds[3]],
+    [bounds[0], bounds[1] + bounds[3]],
+  ].map(([x, y]) => {
+    const dx = (x - px) * scale.x,
+      dy = (y - py) * scale.y;
+    return [
+      rect.x + px + dx * Math.cos(turn) - dy * Math.sin(turn),
+      rect.y + py + dx * Math.sin(turn) + dy * Math.cos(turn),
+    ];
+  });
+  const clamped = (value, start, length) => {
+    const first = Math.ceil(start - 0.5) + 0.5,
+      last = Math.floor(start + length - 0.5) + 0.5;
+    return first <= last ? Math.max(first, Math.min(last, value)) : start + length / 2;
+  };
   return {
     ...canvas,
+    canvasDomain: true,
     sample(x, y) {
       if (x < 0 || y < 0 || x >= canvas.width || y >= canvas.height || !scale.x || !scale.y)
         return clear;
-      const px = pivot.x * rect.width,
-        py = pivot.y * rect.height;
+      const coverage = polygonPixelCoverage(polygon, x, y);
+      if (!coverage) return clear;
       const dx = x - rect.x - px,
         dy = y - rect.y - py;
       const localX = (dx * Math.cos(turn) + dy * Math.sin(turn)) / scale.x + px;
       const localY = (-dx * Math.sin(turn) + dy * Math.cos(turn)) / scale.y + py;
-      if (localX < 0 || localY < 0 || localX >= rect.width || localY >= rect.height) return clear;
-      const fromX = (localX - padX) / sx,
-        fromY = (localY - padY) / sy;
-      if (fromX < 0 || fromY < 0 || fromX >= crop.width || fromY >= crop.height) return clear;
-      return surface.sample(fromX + crop.x, fromY + crop.y);
+      const fromX = clamped((localX - padX) / sx + crop.x, crop.x, crop.width);
+      const fromY = clamped((localY - padY) / sy + crop.y, crop.y, crop.height);
+      return surface.sample(fromX, fromY).map((v) => v * coverage);
     },
   };
 }
+// Independent polygon/unit-pixel intersection; no compiled coordinates or worker masks.
+function polygonPixelCoverage(polygon, x, y) {
+  let clipped = polygon;
+  for (const [axis, edge, direction] of [
+    [0, x - 0.5, 1],
+    [0, x + 0.5, -1],
+    [1, y - 0.5, 1],
+    [1, y + 0.5, -1],
+  ]) {
+    const next = [];
+    for (let i = 0; i < clipped.length; i++) {
+      const a = clipped[i],
+        b = clipped[(i + 1) % clipped.length];
+      const insideA = (a[axis] - edge) * direction >= 0,
+        insideB = (b[axis] - edge) * direction >= 0;
+      if (insideA) next.push(a);
+      if (insideA !== insideB) {
+        const t = (edge - a[axis]) / (b[axis] - a[axis]);
+        next.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+      }
+    }
+    clipped = next;
+  }
+  let area = 0;
+  for (let i = 0; i < clipped.length; i++) {
+    const a = clipped[i],
+      b = clipped[(i + 1) % clipped.length];
+    area += a[0] * b[1] - b[0] * a[1];
+  }
+  return Math.max(0, Math.min(1, Math.abs(area) / 2));
+}
+
 export function stackSurface(surface, steps, canvas, sourceDomain = false) {
   for (const { processor, enabled = true } of steps) {
     if (!enabled) continue;
@@ -159,6 +278,17 @@ export function compareGeometry(actual, expected, width, height) {
       }
     }
   assert.ok(compared > (width * height) / 2, "Reference has too few stable interior pixels");
+  return {
+    compared,
+    total: width * height,
+    maximumError,
+    ...compareLandmarks(actual, expected, width, height),
+  };
+}
+
+export function compareLandmarks(actual, expected, width, height) {
+  assert.equal(actual.length, width * height * 4);
+  assert.equal(expected.length, actual.length);
   const moments = (bytes, channel, threshold) => {
     let count = 0,
       sumX = 0,
@@ -226,5 +356,5 @@ export function compareGeometry(actual, expected, width, height) {
       { mask: _expectedMask, ...expectedShape } = e;
     shapes.push({ channel, actual: actualShape, expected: expectedShape });
   }
-  return { compared, total: width * height, maximumError, shapes };
+  return { shapes };
 }

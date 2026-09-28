@@ -17,9 +17,16 @@ function asset(id = "source", endUs = 20): Asset {
   return {
     id,
     streams: [
-      { id: "video", kind: "video", bounds: range(0, endUs), available: [range(0, endUs)] },
+      {
+        id: "video",
+        kind: "video",
+        width: 640,
+        height: 480,
+        bounds: range(0, endUs),
+        available: [range(0, endUs)],
+      },
       { id: "audio", kind: "audio", bounds: range(2, endUs), available: [range(2, endUs)] },
-      { id: "still", kind: "image" },
+      { id: "still", kind: "image", width: 640, height: 480 },
     ],
   };
 }
@@ -168,6 +175,8 @@ test("source gaps produce disjoint attachment availability without shortening pl
   source.streams[0] = {
     id: "video",
     kind: "video",
+    width: 640,
+    height: 480,
     bounds: range(0, 20),
     available: [range(0, 4), range(6, 20)],
   };
@@ -325,6 +334,8 @@ describe("semantic validation rejects documents that could silently change meani
     source.streams[0] = {
       id: "video",
       kind: "video",
+      width: 640,
+      height: 480,
       bounds: range(0, 20),
       available: [range(0, 10), range(9, 20)],
     };

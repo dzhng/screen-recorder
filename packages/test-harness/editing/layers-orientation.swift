@@ -10,7 +10,15 @@ import Foundation
         let movie = AVMutableComposition()
         let track = movie.addMutableTrack(withMediaType: .video, preferredTrackID: 1)!
         try track.insertTimeRange(try await source.load(.timeRange), of: source, at: .zero)
-        track.preferredTransform = CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: size.height, ty: 0)
+        if CommandLine.arguments.count > 3 {
+            let radians = Double(CommandLine.arguments[3])! * .pi / 180
+            track.preferredTransform = CGAffineTransform(rotationAngle: radians).scaledBy(
+                x: CommandLine.arguments.count > 4 ? Double(CommandLine.arguments[4])! : 1,
+                y: CommandLine.arguments.count > 4 ? Double(CommandLine.arguments[4])! : 1)
+        } else {
+            track.preferredTransform = CGAffineTransform(
+                a: 0, b: 1, c: -1, d: 0, tx: size.height, ty: 0)
+        }
         let export = AVAssetExportSession(asset: movie, presetName: AVAssetExportPresetPassthrough)!
         try await export.export(to: URL(fileURLWithPath: CommandLine.arguments[2]), as: .mov)
     }

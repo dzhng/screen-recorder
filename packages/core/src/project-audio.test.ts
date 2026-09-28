@@ -144,6 +144,8 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
         segments: [{ startUs: 0, endUs: durationUs, empty: false }],
         width: 32,
         height: 32,
+        orientedWidth: 32,
+        orientedHeight: 32,
       },
     ],
   }));
@@ -285,10 +287,18 @@ test("project audio taps bind only their descendants and target-owned processing
       ).toEqual(["audio"]);
       const nodes = request.window.manifest.processing;
       expect(nodes.map((n) => n.target)).toEqual(targets.slice(0, index + 1));
-      expect(nodes.slice(0, -1).map((n) => n.steps[0]!.processor.gain)).toEqual(
-        expected.slice(0, index),
-      );
-      expect(nodes.at(-1)!.steps.map((step) => step.processor.gain)).toEqual(
+      expect(
+        nodes
+          .slice(0, -1)
+          .map((n) =>
+            n.steps[0]!.processor.type === "gain" ? n.steps[0]!.processor.gain : undefined,
+          ),
+      ).toEqual(expected.slice(0, index));
+      expect(
+        nodes
+          .at(-1)!
+          .steps.map((step) => (step.processor.type === "gain" ? step.processor.gain : undefined)),
+      ).toEqual(
         point.kind === "dry"
           ? []
           : point.kind === "processed"

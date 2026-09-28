@@ -45,6 +45,8 @@ async function fixture(durationUs = 1000000, originUs = 0) {
         segments: [{ startUs: 0, endUs: durationUs, empty: false }],
         width: 64,
         height: 48,
+        orientedWidth: 64,
+        orientedHeight: 48,
       },
     ],
   }));

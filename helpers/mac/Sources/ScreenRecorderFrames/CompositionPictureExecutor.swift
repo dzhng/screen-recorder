@@ -24,12 +24,33 @@ public final class CompositionPictureExecutor {
             let streamId: String
             let sourceUs: Int64
             let availability: String
-            let placement: String
+            let width: Double
+            let height: Double
+        }
+        struct Node: Codable, Equatable {
+            let target: CompositionProcessing.Target
+            let inputs: [CompositionProcessing.Target]
+            let operations: [Operation]
+        }
+        struct Operation: Codable, Hashable {
+            struct Point: Codable, Hashable {
+                let x: Double
+                let y: Double
+            }
+            let points: [Point]?
+            let kind: String
+            let x: Double?
+            let y: Double?
+            let width: Double?
+            let height: Double?
+            let matrix: [Double]?
+            let opacity: Double?
         }
         let index: Int64
         let sampleAtUs: Int64
         let visibleRange: TimeSpan
         let layers: [Layer]
+        let visual: [Node]
     }
     public struct Sample: Encodable {
         let value: String
@@ -48,9 +69,27 @@ public final class CompositionPictureExecutor {
         var sample: Sample? = nil
         var reason: String? = nil
     }
-    private enum RasterKey: Equatable {
-        case background
-        case picture(reader: Int, sampleTime: CMTime)
+    private struct LayerKey: Equatable {
+        let clipId: String
+        let reader: Int
+        let sampleTime: CMTime?
+        let available: Bool
+    }
+    private struct RasterKey: Equatable {
+        let layers: [LayerKey]
+        let visual: [Frame.Node]
+    }
+    private final class Reader {
+        let source: PresentationSource
+        let binding: String
+        let ordinal: Int
+        var at: Int64
+        init(source: PresentationSource, binding: String, ordinal: Int, at: Int64) {
+            self.source = source
+            self.binding = binding
+            self.ordinal = ordinal
+            self.at = at
+        }
     }
     private let canvas: Canvas
     private let assets: [String: CompositionAsset]
@@ -62,39 +101,33 @@ public final class CompositionPictureExecutor {
                 kCVImageBufferTransferFunction_ITU_R_709_2,
             kCVImageBufferYCbCrMatrixKey as String: kCVImageBufferYCbCrMatrix_ITU_R_709_2,
         ] as CFDictionary)!.takeRetainedValue()
-    let context = CIContext(options: [.cacheIntermediates: false])
-    private var source: PresentationSource?
-    private var key: String?
-    private var sourceTime: Int64 = -1
+    // Provisional profile work bounds; representative release-scale capacity is a separate gate.
+    private static let maximumDecodedPixels: Int64 = 8192 * 8192
+    private static let maximumIntermediatePixels: Int64 = 8192 * 8192
+    private static let maximumCoverageBytes: Int64 = 64 * 1024 * 1024
+    private var coverageMasks: [Frame.Operation: CIImage] = [:]
+    let context = CIContext(options: [
+        .cacheIntermediates: false,
+        .workingColorSpace: CGColorSpace(name: CGColorSpace.extendedLinearSRGB)!,
+        .workingFormat: CIFormat.RGBAh.rawValue,
+    ])
+    private var readers: [String: Reader] = [:]
     private var decoded = 0
     private(set) var opens = 0
+    private(set) var maximumActiveSources = 0
     private(set) var rasterized = 0
     private var retainedRaster: (key: RasterKey, buffer: CVPixelBuffer)?
-    private(set) var picture = Picture(status: "background")
-    var decodedSamples: Int { decoded + (source?.decodedCount ?? 0) }
+    private(set) var pictures: [Picture] = []
+    private(set) var outputIsKnownOpaque = false
+    var decodedSamples: Int { decoded + readers.values.reduce(0) { $0 + $1.source.decodedCount } }
 
-    init(canvas: Canvas, processing: [CompositionProcessing], bindings: [CompositionAsset]) throws {
+    init(canvas: Canvas, bindings: [CompositionAsset]) throws {
         guard canvas.width > 0, canvas.height > 0, canvas.width <= 8192, canvas.height <= 8192,
             canvas.width.isMultiple(of: 2), canvas.height.isMultiple(of: 2),
             canvas.fps.numerator > 0, canvas.fps.denominator > 0
         else {
             throw Self.invalid(
                 "Pictures require even canvas dimensions up to 8192 and a positive frame rate.")
-        }
-        for node in processing {
-            guard ["audio", "video", "output"].contains(node.mediaKind) else {
-                throw Self.invalid("Unknown processing media kind.")
-            }
-            for step in node.steps {
-                guard step.processor.type == "gain", step.processor.gain.isFinite,
-                    step.processor.gain >= 0
-                else {
-                    throw Self.unsupported("Unknown processing step: \(step.processor.type).")
-                }
-                if node.mediaKind == "video" {
-                    throw Self.unsupported("Visual processing is not implemented.")
-                }
-            }
         }
         var assets: [String: CompositionAsset] = [:]
         for asset in bindings {
@@ -113,38 +146,71 @@ public final class CompositionPictureExecutor {
         -> CVPixelBuffer
     {
         try Task.checkCancellation()
-        guard frame.layers.count <= 1 else {
-            throw Self.unsupported("Layer composition is not implemented.")
+        guard frame.layers.count <= 256, !frame.visual.isEmpty, frame.visual.count <= 10_000 else {
+            throw Self.invalid("Compiled picture graph exceeds execution bounds.")
         }
-        picture = Picture(status: "background")
-        var image = background
-        var rasterKey = RasterKey.background
-        if let layer = frame.layers.first {
+        let requiredMasks = try preflightSurfaces(frame)
+        var media: [String: PresentationSource.Media] = [:]
+        for reader in readers.values { media[reader.binding] = reader.source.media }
+        var decodedPixels: Int64 = 0
+        for layer in frame.layers {
+            try Task.checkCancellation()
+            let key = layer.assetId + "\u{0}" + layer.streamId
+            guard let asset = assets[key] else {
+                throw Self.invalid("Missing retained source binding.")
+            }
+            if media[key] == nil {
+                let prepared = try await PresentationSource.prepare(
+                    source: URL(fileURLWithPath: asset.path), streamId: asset.streamId)
+                try await VideoColorPolicy.requireSupportedColor(prepared.track)
+                media[key] = prepared
+            }
+            decodedPixels += media[key]!.decodedPixels
+            try Self.requireBudget(
+                "decoded-source-pixels", requested: decodedPixels,
+                limit: Self.maximumDecodedPixels, frame: frame.index)
+        }
+        coverageMasks = coverageMasks.filter { requiredMasks.contains($0.key) }
+        let canvasRect = CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height)
+        let transparent = CIImage(color: .clear).cropped(to: canvasRect)
+        let active = Set(frame.layers.map(\.clipId))
+        guard active.count == frame.layers.count else {
+            throw Self.invalid("Duplicate picture occurrence.")
+        }
+        for id in readers.keys where !active.contains(id) {
+            decoded += readers.removeValue(forKey: id)!.source.decodedCount
+        }
+        var surfaces: [CompositionProcessing.Target: CIImage] = [:]
+        var keys: [LayerKey] = []
+        pictures = []
+        for layer in frame.layers {
+            try Task.checkCancellation()
             guard layer.sourceUs >= 0, layer.sourceUs <= TimeSpan.maximumMicroseconds,
-                layer.placement == "contain"
+                layer.width > 0, layer.height > 0, layer.width <= 32768, layer.height <= 32768
             else { throw Self.invalid("Invalid compiled layer.") }
-            let nextKey = layer.assetId + "\u{0}" + layer.streamId
-            guard let asset = assets[nextKey] else {
+            let binding = layer.assetId + "\u{0}" + layer.streamId
+            guard let asset = assets[binding] else {
                 throw Self.invalid("Missing retained source binding.")
             }
             let (at, overflow) = layer.sourceUs.addingReportingOverflow(asset.originUs)
-            guard !overflow, at >= -TimeSpan.maximumMicroseconds,
-                at <= TimeSpan.maximumMicroseconds
+            guard !overflow, at >= -TimeSpan.maximumMicroseconds, at <= TimeSpan.maximumMicroseconds
             else { throw Self.invalid("Source clock exceeds native precision.") }
-            if key != nextKey || at < sourceTime
-                || at - sourceTime > Self.maximumSequentialAdvanceUs
+            if let reader = readers[layer.clipId],
+                reader.binding != binding || at < reader.at
+                    || at - reader.at > Self.maximumSequentialAdvanceUs
             {
-                decoded += source?.decodedCount ?? 0
-                source = nil
-                source = try await PresentationSource(
-                    source: URL(fileURLWithPath: asset.path), streamId: asset.streamId,
-                    startUs: at)
-                try await VideoColorPolicy.requireSupportedColor(source!.track)
-                key = nextKey
-                opens += 1
+                decoded += readers.removeValue(forKey: layer.clipId)!.source.decodedCount
             }
-            sourceTime = at
-            let selected = try source!.selection(
+            if readers[layer.clipId] == nil {
+                let source = try PresentationSource(media: media[binding]!, startUs: at)
+                opens += 1
+                readers[layer.clipId] = Reader(
+                    source: source, binding: binding, ordinal: opens, at: at)
+            }
+            maximumActiveSources = max(maximumActiveSources, readers.count)
+            let reader = readers[layer.clipId]!
+            reader.at = at
+            let selected = try reader.source.selection(
                 at: time(microseconds: at), end: time(microseconds: at + 1))
             switch layer.availability {
             case "available", "source-unavailable": break
@@ -152,17 +218,26 @@ public final class CompositionPictureExecutor {
                 throw NativeFailure("UNAVAILABLE", "Compiled ancestor support is unavailable.")
             default: throw Self.invalid("Unknown compiled source availability.")
             }
-            picture = Picture(
+            var picture = Picture(
                 status: "unavailable", clipId: layer.clipId, assetId: layer.assetId,
                 streamId: layer.streamId, requestedSourceUs: layer.sourceUs,
                 reason: layer.availability == "source-unavailable"
                     ? "source-unavailable" : "physical-empty"
             )
-            // The compiler can exclude physically occupied media for this occurrence.
-            // Selection above still proves the exact stream's physical timing before masking.
-            if layer.availability == "available", let buffer = selected.buffer {
+            var image = CIImage(color: .clear).cropped(
+                to: CGRect(x: 0, y: 0, width: layer.width, height: layer.height))
+            let available = layer.availability == "available" && selected.buffer != nil
+            if available, let buffer = selected.buffer {
                 guard let sampleTime = selected.sampleTime else {
                     throw Self.invalid("Selected picture has no physical sample time.")
+                }
+                image = orientedVideoImage(buffer, transform: reader.source.transform)
+                guard abs(image.extent.width - Double(layer.width)) < 0.001,
+                    abs(image.extent.height - Double(layer.height)) < 0.001
+                else {
+                    throw Self.invalid(
+                        "Compiled source dimensions \(layer.width)x\(layer.height) disagree with oriented media \(image.extent.width)x\(image.extent.height)."
+                    )
                 }
                 picture = Picture(
                     status: "available", clipId: layer.clipId, assetId: layer.assetId,
@@ -171,13 +246,46 @@ public final class CompositionPictureExecutor {
                     sample: Sample(
                         value: String(sampleTime.value), timescale: sampleTime.timescale,
                         originUs: asset.originUs))
-                rasterKey = .picture(reader: opens, sampleTime: sampleTime)
-                if retainedRaster?.key != rasterKey {
-                    image = Self.contained(buffer, transform: source!.transform, canvas: canvas)
-                        .composited(over: background)
-                }
             }
+            pictures.append(picture)
+            keys.append(
+                LayerKey(
+                    clipId: layer.clipId, reader: reader.ordinal, sampleTime: selected.sampleTime,
+                    available: available))
+            surfaces[.init(kind: "clip", id: layer.clipId)] = image
         }
+        var seen = Set<CompositionProcessing.Target>()
+        var image = transparent
+        for node in frame.visual {
+            guard seen.insert(node.target).inserted, node.operations.count <= 1024,
+                ["clip", "track", "group", "output"].contains(node.target.kind),
+                node.target.kind == "output" ? node.target.id == nil : node.target.id != nil
+            else { throw Self.invalid("Invalid visual graph target.") }
+            if node.target.kind == "clip" {
+                guard node.inputs.isEmpty else {
+                    throw Self.invalid("A clip cannot have visual inputs.")
+                }
+                image = surfaces[node.target] ?? transparent
+            } else {
+                image = node.target.kind == "output" ? background : transparent
+                for input in node.inputs {
+                    guard seen.contains(input), let child = surfaces.removeValue(forKey: input)
+                    else {
+                        throw Self.invalid("Visual inputs must precede their one parent.")
+                    }
+                    image = child.composited(over: image)
+                }
+                image = image.cropped(to: canvasRect)
+            }
+            for operation in node.operations { image = try apply(operation, to: image) }
+            surfaces[node.target] = image
+        }
+        guard surfaces.count == 1 else {
+            throw Self.invalid("Visual graph has unconsumed surfaces.")
+        }
+        outputIsKnownOpaque =
+            frame.visual.last!.target.kind == "output" && frame.visual.last!.operations.isEmpty
+        let rasterKey = RasterKey(layers: keys, visual: frame.visual)
         let reused = retainedRaster?.key == rasterKey
         let destination = try await allocate(reused ? retainedRaster!.buffer : nil)
         if !reused {
@@ -199,27 +307,145 @@ public final class CompositionPictureExecutor {
                 destination, kCVImageBufferYCbCrMatrixKey,
                 kCVImageBufferYCbCrMatrix_ITU_R_709_2,
                 .shouldPropagate)
-            // Current supported visual inputs are static: one contained picture and canvas.
-            // Reuse only this immutable raster; every compiled interval still gets its own sample.
+            // Reuse pixels only when physical samples and every compiled operation agree.
             retainedRaster = (rasterKey, destination)
             rasterized += 1
         }
         return destination
     }
 
-    private static func contained(
-        _ buffer: CVPixelBuffer, transform: CGAffineTransform, canvas: Canvas
-    ) -> CIImage {
-        var image = orientedVideoImage(buffer, transform: transform)
-        let scale = min(
-            CGFloat(canvas.width) / image.extent.width, CGFloat(canvas.height) / image.extent.height
-        )
-        image = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
-        return image.transformed(
-            by: CGAffineTransform(
-                translationX: (CGFloat(canvas.width) - image.extent.width) / 2,
-                y: (CGFloat(canvas.height) - image.extent.height) / 2))
+    private func preflightSurfaces(_ frame: Frame) throws -> Set<Frame.Operation> {
+        var masks = Set<Frame.Operation>()
+        var intermediatePixels: Int64 = 0
+        let area = Int64(canvas.width) * Int64(canvas.height)
+        for node in frame.visual {
+            guard node.operations.count <= 1024 else {
+                throw Self.invalid("Picture operation count exceeds execution bounds.")
+            }
+            for operation in node.operations
+            where operation.kind == "rasterize" || operation.kind == "coverage" {
+                guard operation.width == Double(canvas.width),
+                    operation.height == Double(canvas.height)
+                else {
+                    throw Self.invalid("Compiled picture surface must match the fixed canvas.")
+                }
+                if operation.kind == "rasterize" {
+                    intermediatePixels += area
+                } else {
+                    masks.insert(operation)
+                }
+            }
+        }
+        try Self.requireBudget(
+            "intermediate-pixels", requested: intermediatePixels,
+            limit: Self.maximumIntermediatePixels, frame: frame.index)
+        try Self.requireBudget(
+            "coverage-mask-bytes", requested: Int64(masks.count) * area,
+            limit: Self.maximumCoverageBytes, frame: frame.index)
+        return masks
     }
+
+    private static func requireBudget(_ kind: String, requested: Int64, limit: Int64, frame: Int64)
+        throws
+    {
+        guard requested <= limit else {
+            throw unsupported(
+                "h264-rec709 profile limit \(kind): frame \(frame) requests \(requested), bound \(limit); reduce simultaneous sources or processing surfaces."
+            )
+        }
+    }
+
+    private func apply(_ operation: Frame.Operation, to image: CIImage) throws -> CIImage {
+        switch operation.kind {
+        case "clamp":
+            guard let x = operation.x, let y = operation.y, let width = operation.width,
+                let height = operation.height,
+                [x, y, width, height].allSatisfy({
+                    $0.isFinite && abs($0) <= Double(TimeSpan.maximumMicroseconds)
+                }), width > 0, height > 0
+            else { throw Self.invalid("Invalid sampling clamp primitive.") }
+            return image.clamped(to: CGRect(x: x, y: y, width: width, height: height))
+        case "coverage":
+            guard let points = operation.points, points.count == 4,
+                points.allSatisfy({ $0.x.isFinite && $0.y.isFinite }),
+                let width = operation.width, let height = operation.height,
+                width == Double(canvas.width), height == Double(canvas.height)
+            else { throw Self.invalid("Invalid polygon coverage primitive.") }
+            let mask: CIImage
+            if let cached = coverageMasks[operation] {
+                mask = cached
+            } else {
+                guard
+                    let bitmap = CGContext(
+                        data: nil, width: canvas.width, height: canvas.height,
+                        bitsPerComponent: 8, bytesPerRow: canvas.width,
+                        space: CGColorSpace(name: CGColorSpace.linearGray)!,
+                        bitmapInfo: CGImageAlphaInfo.none.rawValue)
+                else { throw Self.invalid("Cannot allocate polygon coverage.") }
+                bitmap.setShouldAntialias(true)
+                bitmap.setFillColor(gray: 1, alpha: 1)
+                bitmap.move(to: CGPoint(x: points[0].x, y: points[0].y))
+                for point in points.dropFirst() {
+                    bitmap.addLine(to: CGPoint(x: point.x, y: point.y))
+                }
+                bitmap.closePath()
+                bitmap.fillPath()
+                guard let picture = bitmap.makeImage() else {
+                    throw Self.invalid("Cannot rasterize polygon coverage.")
+                }
+                mask = CIImage(cgImage: picture)
+                coverageMasks[operation] = mask
+            }
+            return image.applyingFilter(
+                "CIBlendWithMask",
+                parameters: [
+                    kCIInputBackgroundImageKey: CIImage(color: .clear), kCIInputMaskImageKey: mask,
+                ]
+            ).cropped(to: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height))
+        case "rasterize":
+            guard let width = operation.width, let height = operation.height,
+                !image.extent.isInfinite, image.extent.width <= width, image.extent.height <= height
+            else {
+                throw Self.unsupported(
+                    "Rasterized picture domain exceeds the supported source dimensions.")
+            }
+            return image.insertingIntermediate(cache: false)
+        case "affine":
+            guard let m = operation.matrix, m.count == 6,
+                m.allSatisfy({ $0.isFinite && abs($0) <= Double(TimeSpan.maximumMicroseconds) })
+            else { throw Self.invalid("Invalid affine primitive.") }
+            if m[0] * m[3] - m[1] * m[2] == 0 { return CIImage.empty() }
+            return image.transformed(
+                by: CGAffineTransform(a: m[0], b: m[1], c: m[2], d: m[3], tx: m[4], ty: m[5]))
+        case "opacity":
+            guard let opacity = operation.opacity, opacity.isFinite, opacity >= 0, opacity <= 1
+            else {
+                throw Self.invalid("Invalid opacity primitive.")
+            }
+            return image.applyingFilter(
+                "CIColorMatrix",
+                parameters: ["inputAVector": CIVector(x: 0, y: 0, z: 0, w: opacity)])
+        default: throw Self.unsupported("Unknown compiled picture primitive.")
+        }
+    }
+
+    static func requireOpaque(_ buffer: CVPixelBuffer) throws {
+        CVPixelBufferLockBaseAddress(buffer, .readOnly)
+        defer { CVPixelBufferUnlockBaseAddress(buffer, .readOnly) }
+        guard let base = CVPixelBufferGetBaseAddress(buffer) else {
+            throw invalid("Missing rendered pixels.")
+        }
+        let bytes = base.assumingMemoryBound(to: UInt8.self)
+        for y in 0..<CVPixelBufferGetHeight(buffer) {
+            try Task.checkCancellation()
+            for x in 0..<CVPixelBufferGetWidth(buffer)
+            where bytes[y * CVPixelBufferGetBytesPerRow(buffer) + x * 4 + 3] != 255 {
+                throw unsupported(
+                    "The h264-rec709 profile requires opaque pixels after output processing.")
+            }
+        }
+    }
+
     private static func background(_ canvas: Canvas) throws -> CIImage {
         guard canvas.background.count == 9, canvas.background.first == "#",
             let rgba = UInt32(canvas.background.dropFirst(), radix: 16), rgba & 255 == 255

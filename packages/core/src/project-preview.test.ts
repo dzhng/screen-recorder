@@ -85,6 +85,8 @@ async function fixture(render = renderer) {
         segments: [{ startUs: 0, endUs: 1000000, empty: false }],
         width: 160,
         height: 96,
+        orientedWidth: 160,
+        orientedHeight: 96,
       },
     ],
   }));
@@ -260,6 +262,8 @@ test("deletion denies new previews while the existing queue drains before revisi
 test("binds supported gain throughout audio routing and output, but refuses unprepared retiming", async () => {
   const f = await fixture();
   expect(f.preview.capabilities()).toMatchObject([
+    { type: "geometry", execution: false, implementationId: null },
+    { type: "opacity", execution: false, implementationId: null },
     { type: "gain", execution: true, implementationId: renderer.implementationId },
   ]);
   const path = join(f.home, "voice.wav");

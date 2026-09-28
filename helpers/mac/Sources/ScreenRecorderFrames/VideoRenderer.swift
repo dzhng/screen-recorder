@@ -44,6 +44,10 @@ public enum VideoRenderer {
             even: maxLongEdge != nil)
         let width = delivered.width
         let height = delivered.height
+        guard width.isMultiple(of: 2), height.isMultiple(of: 2) else {
+            throw NativeFailure(
+                "NOT_READY", "The h264-rec709 profile requires even output raster dimensions.")
+        }
         var clock = try presentation.movieClock(plan: plan)
         if let pointers { try clock.include(pointers.clock.timescale) }
         let writer = try AVAssetWriter(outputURL: file, fileType: .mp4)

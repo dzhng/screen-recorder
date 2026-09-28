@@ -47,6 +47,7 @@ const assets = [
     streams: ["video", "audio"].map((kind) => ({
       id: kind,
       kind,
+      ...(kind === "video" ? { width: 640, height: 480 } : {}),
       bounds: { startUs: 0, endUs: 2000000 },
       available: [{ startUs: 0, endUs: 2000000 }],
     })),
@@ -201,7 +202,9 @@ const probed = [44100, 48000].map((sampleRate, index) => ({
       startUs: 0,
       endUs: 2000000,
       segments: [{ startUs: 0, endUs: 2000000, empty: false }],
-      ...(kind === "audio" ? { sampleRate, channels: 1 } : {}),
+      ...(kind === "audio"
+        ? { sampleRate, channels: 1 }
+        : { orientedWidth: 640, orientedHeight: 480 }),
     })),
   }),
 }));

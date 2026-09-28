@@ -1,0 +1,50 @@
+[
+  {
+    "frame": 21,
+    "count": 72,
+    "max": 4,
+    "bounds": [
+      0,
+      40,
+      9,
+      47
+    ],
+    "interior8": 12
+  },
+  {
+    "frame": 22,
+    "count": 96,
+    "max": 3,
+    "bounds": [
+      0,
+      40,
+      15,
+      47
+    ],
+    "interior8": 44
+  },
+  {
+    "frame": 23,
+    "count": 48,
+    "max": 2,
+    "bounds": [
+      0,
+      40,
+      9,
+      47
+    ],
+    "interior8": 12
+  },
+  {
+    "frame": 24,
+    "count": 48,
+    "max": 2,
+    "bounds": [
+      0,
+      40,
+      9,
+      47
+    ],
+    "interior8": 12
+  }
+]

@@ -1,3 +1,4 @@
+import { visualPlanner } from "./visual-plan.js";
 import { intervalIndex } from "./interval-index.js";
 import { sampleAt } from "./sample-clock.js";
 import { audioContexts } from "./audio-context.js";
@@ -70,6 +71,9 @@ function frameTiming(
 }
 
 function compileSchedules(
+  visual: ReturnType<typeof visualPlanner>,
+  processing: ReturnType<typeof processingPlanner>,
+  tap: import("./execution-window.js").ProcessingTap | undefined,
   clock: ReturnType<typeof frameClock>,
   query: ReturnType<typeof intervalIndex<Resolved>>,
   contexts: ReturnType<typeof audioContexts>,
@@ -133,7 +137,8 @@ function compileSchedules(
         const atUs = safeInteger(timestamp);
         const at = fromTime(atUs);
         const layers: CompiledFrame["layers"] = [];
-        for (const value of query(at)) {
+        const active = query(at);
+        for (const value of active) {
           const clip = value.clip;
           if (value.track.kind !== "video" || !isMediaClip(clip)) continue;
           const part = value.available[firstAvailable(value.available, at)];
@@ -150,13 +155,21 @@ function compileSchedules(
                 : part !== undefined && compare(part.start, at) <= 0
                   ? "available"
                   : "source-unavailable",
-            placement: "contain",
+            width: value.stream!.kind === "audio" ? 0 : value.stream!.width,
+            height: value.stream!.kind === "audio" ? 0 : value.stream!.height,
           });
         }
         const nextTimestamp = clock.timeAt(index + 1n);
         yield {
           ...frameTiming(clock, index, range),
           layers,
+          visual: visual(
+            processing(
+              active.filter((clip) => clip.track.kind === "video"),
+              tap,
+              "video",
+            ),
+          ),
         };
         index = clock.indexAt(nextTimestamp);
       }
@@ -170,6 +183,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
     throw new CompositionError("INVALID_COMPOSITION", "Expected a revision identity");
   const query = intervalIndex(model.clips, (clip) => clip.range, renderOrder);
   const processing = processingPlanner(model);
+  const visual = visualPlanner(model);
   const clock = frameClock(model.document.canvas.fps);
   const contexts = audioContexts(model);
   function contributors(range: Range, sampleRate = 48000) {
@@ -231,6 +245,9 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       plan,
       contexts,
       compileSchedules(
+        visual,
+        processing,
+        request.tap,
         clock,
         intervalIndex(inputs, (clip) => clip.range, renderOrder),
         contexts,
@@ -239,7 +256,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
     );
   }
   return {
-    ...compileSchedules(clock, query, contexts),
+    ...compileSchedules(visual, processing, undefined, clock, query, contexts),
     /** Neighbors of an exact boundary in the existing integer-microsecond picture clock. */
     frameBoundary(at: TimeValue) {
       const parsed = timeValueSchema.safeParse(at);

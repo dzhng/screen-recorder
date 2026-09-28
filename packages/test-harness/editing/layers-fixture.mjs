@@ -69,6 +69,8 @@ export async function prepareLayersFixture(home, out) {
       rgbaPath = join(refs, "source.rgba");
     const normalized = JSON.parse((await run(pixelTool, [reference.file, rgbaPath])).stdout);
     assert.deepEqual([normalized.width, normalized.height], [width, height]);
+    assert.equal(reference.sourceProfile, "kCGColorSpaceCoreMedia709");
+    await writeFile(join(refs, "receipt.json"), JSON.stringify({ reference, normalized }, null, 2));
     const rgba = await readFile(rgbaPath);
     for (let pixel = 0; pixel < width * height; pixel++) {
       assert.equal(rgba[pixel * 4 + 3], 255);
@@ -86,6 +88,7 @@ export async function prepareLayersFixture(home, out) {
       reference,
       normalized,
       rgba,
+      encodedProfile: "corevideo709",
     };
   }
   const media = {};
@@ -117,6 +120,8 @@ export async function prepareLayersFixture(home, out) {
         "10",
         "-i",
         input,
+        "-vf",
+        "format=yuv420p,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709",
         "-c:v",
         "libx264",
         "-qp",

@@ -131,6 +131,7 @@ async function fixture({
               {
                 id: "track:1",
                 kind,
+                ...(kind === "video" ? { orientedWidth: 64, orientedHeight: 48 } : {}),
                 codec: "fixture",
                 decodable: true,
                 startUs: 0,

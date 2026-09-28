@@ -1,0 +1,8 @@
+[
+  {
+    "case": "vfr-held-tail",
+    "before": "14e8fd3e4e67b6d01e82a22b5c905def2502c46c65b1407e7148ce17af204442",
+    "after": "e0edce102e42d7ad1fa631f0d69d928f57a08578efb823d076585dc6832bc5d7",
+    "reason": "Pixel-center source sampling corrects four uncompressed left-border pixels; the H264 difference remains in four adjacent encoded frames. All other historical movie cases retain exact prior decoded pixel hashes."
+  }
+]

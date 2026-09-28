@@ -4,6 +4,8 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createCompiler, validateComposition } from "../../composition/dist/index.js";
+import { compositionAsset } from "../../core/dist/assets.js";
 import { classify, corpusReferences } from "./render-membership.mjs";
 
 // Consume the independently asserted every-frame movie corpus, including physical empty edits,
@@ -51,7 +53,12 @@ const hash = (data) => createHash("sha256").update(data).digest("hex");
 const refs = corpusReferences((id) =>
   raw(join(root, "specs/agent-editing/assets/00-corpus", id + ".mov")),
 );
-const results = [];
+const results = [],
+  movieMismatches = [],
+  correctedMovies = [];
+const corrections = await json(
+  join(root, "specs/agent-editing/assets/15-layer-geometry/corrected-movie-pixels.json"),
+);
 const report = await json(join(rendered, "report.json"));
 const scenarios = caseName
   ? report.results.filter((scenario) => scenario.name === caseName)
@@ -62,18 +69,42 @@ for (const scenario of scenarios) {
   await mkdir(directory);
   const request = await json(join(rendered, scenario.name, "request.json"));
   const frames = (await readFile(request.frames, "utf8")).trim().split("\n").map(JSON.parse);
+  // The immutable baseline executable predates compiled visual instructions.
+  const frozenFrames = join(directory, "frozen-frames.jsonl");
+  await writeFile(
+    frozenFrames,
+    frames
+      .map((frame) => {
+        const old = structuredClone(frame);
+        delete old.visual;
+        old.layers.forEach((layer) => {
+          delete layer.width;
+          delete layer.height;
+          layer.placement = "contain";
+        });
+        return JSON.stringify(old) + "\n";
+      })
+      .join(""),
+  );
   const frozen = call(baseline, "media.renderCompositionVideo", {
     ...request,
+    frames: frozenFrames,
     output: join(directory, "frozen.mp4"),
   });
   assert.equal(frozen.ok, true, JSON.stringify(frozen));
   const oldPixels = raw(frozen.data.file),
     currentPixels = raw(request.output);
-  assert.equal(
-    hash(currentPixels),
-    hash(oldPixels),
-    `${scenario.name}: movie pixels changed during extraction`,
-  );
+  if (hash(currentPixels) !== hash(oldPixels)) {
+    const observed = { case: scenario.name, before: hash(oldPixels), after: hash(currentPixels) };
+    if (
+      corrections.some(
+        (c) =>
+          c.case === observed.case && c.before === observed.before && c.after === observed.after,
+      )
+    )
+      correctedMovies.push(observed);
+    else movieMismatches.push(observed);
+  }
   const receipts = [];
   for (const [index, frame] of frames.entries()) {
     const still = {
@@ -94,30 +125,30 @@ for (const scenario of scenarios) {
       `${scenario.name} still ${index}`,
     );
     const layer = frame.layers[0];
-    if (!layer) assert.deepEqual(receipt.picture, { status: "background" });
+    if (!layer) assert.deepEqual(receipt.pictures, []);
     else {
-      assert.equal(receipt.picture.clipId, layer.clipId);
-      assert.equal(receipt.picture.assetId, layer.assetId);
-      assert.equal(receipt.picture.streamId, layer.streamId);
-      assert.equal(receipt.picture.requestedSourceUs, layer.sourceUs);
+      assert.equal(receipt.pictures[0].clipId, layer.clipId);
+      assert.equal(receipt.pictures[0].assetId, layer.assetId);
+      assert.equal(receipt.pictures[0].streamId, layer.streamId);
+      assert.equal(receipt.pictures[0].requestedSourceUs, layer.sourceUs);
       if (layer.availability === "source-unavailable") {
-        assert.equal(receipt.picture.status, "unavailable");
-        assert.equal(receipt.picture.reason, "source-unavailable");
+        assert.equal(receipt.pictures[0].status, "unavailable");
+        assert.equal(receipt.pictures[0].reason, "source-unavailable");
       } else if (scenario.ids[index] === "black") {
-        assert.equal(receipt.picture.status, "unavailable");
-        assert.equal(receipt.picture.reason, "physical-empty");
+        assert.equal(receipt.pictures[0].status, "unavailable");
+        assert.equal(receipt.pictures[0].reason, "physical-empty");
       } else {
-        assert.equal(receipt.picture.status, "available");
-        const sample = receipt.picture.sample;
+        assert.equal(receipt.pictures[0].status, "available");
+        const sample = receipt.pictures[0].sample;
         const binding = request.assets.find(
           (a) => a.assetId === layer.assetId && a.streamId === layer.streamId,
         );
         assert.equal(sample.originUs, binding.originUs);
         assert.equal(
-          receipt.picture.actualSourceUs,
+          receipt.pictures[0].actualSourceUs,
           Math.round((Number(sample.value) * 1e6) / sample.timescale) - sample.originUs,
         );
-        assert.ok(receipt.picture.actualSourceUs <= layer.sourceUs);
+        assert.ok(receipt.pictures[0].actualSourceUs <= layer.sourceUs);
       }
     }
     receipts.push(receipt);
@@ -130,6 +161,10 @@ for (const scenario of scenarios) {
     ids: scenario.ids,
   });
 }
+await writeFile(
+  join(out, "movie-parity.json"),
+  JSON.stringify({ results, movieMismatches, correctedMovies }, null, 2),
+);
 const base = await json(join(rendered, "av-replacement/request.json"));
 const frame = JSON.parse((await readFile(base.frames, "utf8")).split("\n")[0]);
 const still = {
@@ -145,7 +180,11 @@ for (const [name, change, code] of [
   ["oversize-limit", { maxEncodedBytes: 33554433 }, "INVALID_REQUEST"],
   ["invalid-size", { maxLongEdge: 8193 }, "INVALID_REQUEST"],
   ["unknown-crop", { crop: { x: 0, y: 0, width: 20, height: 20 } }, "INVALID_REQUEST"],
-  ["layering", { frame: { ...frame, layers: [frame.layers[0], frame.layers[0]] } }, "NOT_READY"],
+  [
+    "duplicate-layer",
+    { frame: { ...frame, layers: [frame.layers[0], frame.layers[0]] } },
+    "INVALID_REQUEST",
+  ],
 ]) {
   const directory = join(out, name);
   await mkdir(directory);
@@ -186,8 +225,8 @@ const physical = call(native, "media.renderCompositionFrame", {
   output: join(out, "physical-empty.png"),
 });
 assert.equal(physical.ok, true, JSON.stringify(physical));
-assert.equal(physical.data.picture.status, "unavailable");
-assert.equal(physical.data.picture.reason, "physical-empty");
+assert.equal(physical.data.pictures[0].status, "unavailable");
+assert.equal(physical.data.pictures[0].reason, "physical-empty");
 assert.equal(classify(raw(physical.data.file), refs).id, "black");
 const fractionalFile = join(out, "fractional.mov");
 run("ffmpeg", [
@@ -210,6 +249,32 @@ run("ffmpeg", [
 const probed = call(native, "media.probe", { path: fractionalFile });
 assert.equal(probed.ok, true, JSON.stringify(probed));
 const fractionalStream = probed.data.streams.find((stream) => stream.kind === "video").id;
+const fractionalDocument = {
+  canvas: still.canvas,
+  tracks: [{ id: "fractional-track", kind: "video", order: 0 }],
+  groups: [],
+  clips: [
+    {
+      id: "fractional-picture",
+      trackId: "fractional-track",
+      assetId: "fractional",
+      streamId: fractionalStream,
+      source: { kind: "range", range: { startUs: 33367, endUs: 33368 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1 } },
+    },
+  ],
+  processing: [],
+  syncGroups: [],
+  captions: [],
+};
+const fractionalWindow = createCompiler(
+  validateComposition(fractionalDocument, [compositionAsset({ id: "fractional", ...probed.data })]),
+  "fractional-probe",
+).videoWindow({
+  range: { startUs: 0, endUs: 1 },
+  rendition: { sampleRate: 48000, channels: 2 },
+  tap: { target: { kind: "output" }, point: { kind: "processed" } },
+});
 const fractional = call(native, "media.renderCompositionFrame", {
   ...still,
   assets: [
@@ -220,22 +285,22 @@ const fractional = call(native, "media.renderCompositionFrame", {
       originUs: probed.data.originUs,
     },
   ],
-  frame: {
-    ...frame,
-    layers: [
-      { ...frame.layers[0], assetId: "fractional", streamId: fractionalStream, sourceUs: 33367 },
-    ],
-  },
+  frame: [...fractionalWindow.frames()][0],
+  processing: fractionalWindow.manifest.processing,
   output: join(out, "fractional.png"),
 });
 assert.equal(fractional.ok, true, JSON.stringify(fractional));
-assert.equal(fractional.data.picture.actualSourceUs, 33367);
-const sample = fractional.data.picture.sample;
+assert.equal(fractional.data.pictures[0].actualSourceUs, 33367);
+const sample = fractional.data.pictures[0].sample;
 assert.equal(BigInt(sample.value) * 30000n, 1001n * BigInt(sample.timescale));
 assert.notEqual((BigInt(sample.value) * 1000000n) % BigInt(sample.timescale), 0n);
 const defaultBound = call(native, "media.renderCompositionFrame", {
   ...still,
-  frame: { ...frame, layers: [] },
+  frame: {
+    ...frame,
+    layers: [],
+    visual: [{ target: { kind: "output" }, inputs: [], operations: [] }],
+  },
   canvas: { ...still.canvas, width: 3200, height: 1800 },
   output: join(out, "default-bound.png"),
 });
@@ -256,7 +321,11 @@ await writeFile(
   cancelRequest,
   JSON.stringify({
     ...still,
-    frame: { ...frame, layers: [] },
+    frame: {
+      ...frame,
+      layers: [],
+      visual: [{ target: { kind: "output" }, inputs: [], operations: [] }],
+    },
     canvas: { ...still.canvas, width: 4096, height: 4096 },
     output: join(cancelDirectory, "frame.png"),
   }),
@@ -270,17 +339,24 @@ await writeFile(
   JSON.stringify(
     {
       results,
+      movieMismatches,
+      correctedMovies,
       negatives,
       bounded: bounded.data,
       physical: physical.data,
       fractional: fractional.data,
       defaultBound: defaultBound.data,
       cancellation,
-      passed: true,
+      passed: movieMismatches.length === 0,
     },
     null,
     2,
   ),
+);
+assert.deepEqual(
+  movieMismatches,
+  [],
+  "Frozen movie pixels changed; all mismatches retained in report.json",
 );
 console.log(
   JSON.stringify({

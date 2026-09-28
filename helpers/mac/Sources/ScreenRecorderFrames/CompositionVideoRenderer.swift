@@ -30,7 +30,7 @@ public enum CompositionVideoRenderer {
         let decodedSamples: Int
         let readerOpens: Int
         let bytes: Int
-        let retainedSourceBuffersBound = 1
+        let retainedSourceBuffersBound: Int
         let pixelPoolAllocationThreshold = 4
         let maximumSequentialAdvanceUs = CompositionPictureExecutor.maximumSequentialAdvanceUs
     }
@@ -50,7 +50,7 @@ public enum CompositionVideoRenderer {
             throw invalid("Video requires a positive range.")
         }
         let pictures = try CompositionPictureExecutor(
-            canvas: canvas, processing: request.processing, bindings: request.assets)
+            canvas: canvas, bindings: request.assets)
         let output = try NewFile(at: request.output, assembledAs: "video.mp4")
         defer { output.discard() }
         let writer = try AVAssetWriter(outputURL: output.url, fileType: .mp4)
@@ -122,6 +122,9 @@ public enum CompositionVideoRenderer {
                 }
                 return destination!
             }
+            if !pictures.outputIsKnownOpaque {
+                try CompositionPictureExecutor.requireOpaque(destination)
+            }
             var format: CMVideoFormatDescription?
             var sample: CMSampleBuffer?
             var timing = CMSampleTimingInfo(
@@ -158,7 +161,7 @@ public enum CompositionVideoRenderer {
             file: request.output, durationUs: through - request.range.startUs, width: canvas.width,
             height: canvas.height, frames: frames, rasterizedFrames: pictures.rasterized,
             decodedSamples: pictures.decodedSamples, readerOpens: pictures.opens,
-            bytes: bytes)
+            bytes: bytes, retainedSourceBuffersBound: pictures.maximumActiveSources)
     }
 
     private static func invalid(_ message: String) -> NativeFailure {

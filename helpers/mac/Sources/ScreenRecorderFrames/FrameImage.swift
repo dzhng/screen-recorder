@@ -110,24 +110,6 @@ struct FrameImage {
     }
 }
 
-/// Display-coordinate orientation shared by still delivery and full-canvas rendering.
-public func orientedVideoImage(_ buffer: CVPixelBuffer, transform: CGAffineTransform) -> CIImage {
-    let decoded = CIImage(cvPixelBuffer: buffer)
-    // A track's preferred transform is stated in display coordinates, where y grows downward;
-    // Core Image grows y upward, so applying it directly turns a quarter turn into a
-    // three-quarter turn. Flipping into and out of display space keeps both agreeing.
-    let flipDecoded = CGAffineTransform(
-        a: 1, b: 0, c: 0, d: -1, tx: 0, ty: decoded.extent.height)
-    let displayed = decoded.extent.applying(transform)
-    let flipDisplayed = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: displayed.height)
-    var oriented = decoded.transformed(
-        by: flipDecoded.concatenating(transform).concatenating(flipDisplayed))
-    oriented = oriented.transformed(
-        by: CGAffineTransform(
-            translationX: -oriented.extent.origin.x, y: -oriented.extent.origin.y))
-    return oriented
-}
-
 /// Shared lossless encoder for pictures and measured acoustic plots.
 func encodePNG(_ rendered: CGImage) throws -> Data {
     let data = NSMutableData()

@@ -286,6 +286,8 @@ test("duplicate, ripple movement and deletion preserve target-owned stacks witho
     }),
   ).toEqual([]);
   expect(processingCapabilities()).toMatchObject([
+    { type: "geometry", mediaKind: "video", execution: false },
+    { type: "opacity", mediaKind: "video", execution: false },
     { type: "gain", mediaKind: "audio", execution: false },
   ]);
 });
@@ -355,9 +357,11 @@ test("fractional splits and insert boundaries copy gain; replacing a parent remo
     ],
     { ...env, namespace: "insert" },
   );
-  expect(inserted.document.processing.map((s) => s.steps[0]!.processor.gain)).toEqual([
-    0.75, 0.75, 0.75, 0.75,
-  ]);
+  expect(
+    inserted.document.processing.map((s) =>
+      s.steps[0]!.processor.type === "gain" ? s.steps[0]!.processor.gain : undefined,
+    ),
+  ).toEqual([0.75, 0.75, 0.75, 0.75]);
   expect(inserted.document.clips.find((c) => c.id === first.labels.parent)!.source).toEqual({
     kind: "range",
     range: { startUs: 0, endUs: { numerator: 10, denominator: 3 } },

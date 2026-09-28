@@ -1,3 +1,4 @@
+import { geometrySchema } from "./geometry.js";
 import { z } from "zod";
 import { compare, fromTime } from "./rational.js";
 
@@ -69,11 +70,37 @@ export const silenceClipSchema = z
   .strict();
 export const clipSchema = z.union([mediaClipSchema, silenceClipSchema]);
 export const streamSchema = z.discriminatedUnion("kind", [
-  z.object({ id, kind: z.literal("image") }).strict(),
   z
     .object({
       id,
-      kind: z.enum(["video", "audio"]),
+      kind: z.literal("image"),
+      width: z.number().finite().positive(),
+      height: z.number().finite().positive(),
+    })
+    .strict(),
+  z
+    .object({
+      id,
+      kind: z.literal("audio"),
+      bounds: rangeSchema,
+      available: z.array(rangeSchema),
+    })
+    .strict(),
+  z
+    .object({
+      id,
+      kind: z.literal("video"),
+      width: z.number().finite().positive(),
+      height: z.number().finite().positive(),
+      pixelBounds: z
+        .object({
+          x: z.number().finite(),
+          y: z.number().finite(),
+          width: z.number().finite().positive(),
+          height: z.number().finite().positive(),
+        })
+        .strict()
+        .optional(),
       bounds: rangeSchema,
       available: z.array(rangeSchema),
     })
@@ -102,6 +129,22 @@ export const processingTargetSchema = z.union([
   z.object({ kind: z.literal("output") }).strict(),
 ]);
 export const processorRegistry = {
+  geometry: {
+    schema: geometrySchema,
+    mediaKind: "video" as const,
+    units: {
+      crop: "preceding image pixels",
+      rect: "canvas pixels",
+      scale: "multiplier",
+      rotationDeg: "clockwise degrees",
+      pivot: "normalized rectangle",
+    },
+  },
+  opacity: {
+    schema: z.object({ type: z.literal("opacity"), opacity: z.number().min(0).max(1) }).strict(),
+    mediaKind: "video" as const,
+    units: { opacity: "linear alpha multiplier" },
+  },
   gain: {
     schema: z.object({ type: z.literal("gain"), gain: z.number().finite().nonnegative() }).strict(),
     mediaKind: "audio" as const,
@@ -112,7 +155,11 @@ export const processingStepSchema = z
   .object({
     id,
     enabled: z.boolean(),
-    processor: processorRegistry.gain.schema,
+    processor: z.discriminatedUnion("type", [
+      processorRegistry.gain.schema,
+      processorRegistry.geometry.schema,
+      processorRegistry.opacity.schema,
+    ]),
   })
   .strict();
 export const processingStackSchema = z

@@ -41,20 +41,21 @@ const projectReceiptSchema = z.object({
     .int()
     .positive()
     .max(32 * 1024 * 1024),
-  picture: z.discriminatedUnion("status", [
-    z.object({ status: z.literal("background") }),
-    z.object({ status: z.literal("unavailable"), ...selectedPicture, reason: z.string().min(1) }),
-    z.object({
-      status: z.literal("available"),
-      ...selectedPicture,
-      actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
-      sample: z.object({
-        value: z.string().regex(/^-?\d+$/),
-        timescale: z.int().positive(),
-        originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+  pictures: z.array(
+    z.discriminatedUnion("status", [
+      z.object({ status: z.literal("unavailable"), ...selectedPicture, reason: z.string().min(1) }),
+      z.object({
+        status: z.literal("available"),
+        ...selectedPicture,
+        actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+        sample: z.object({
+          value: z.string().regex(/^-?\d+$/),
+          timescale: z.int().positive(),
+          originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+        }),
       }),
-    }),
-  ]),
+    ]),
+  ),
 });
 const optionsSchema = z.strictObject({
   atUs: time,
@@ -96,7 +97,7 @@ const sourceOptionsSchema = z.strictObject({
   implementationId: z.string().min(1),
 });
 const sourceReceiptSchema = projectReceiptSchema
-  .omit({ profile: true, frame: true, picture: true })
+  .omit({ profile: true, frame: true, pictures: true })
   .extend({
     assetId: z.string().min(1),
     streamId: z.string().min(1),
@@ -342,11 +343,7 @@ export class MediaFrameInspection {
         scale = BigInt(sample.timescale),
         endScale = BigInt(sample.endTimescale);
       const at = BigInt(plan.options.atUs) + BigInt(plan.asset.originUs);
-      const numerator = start * 1000000n,
-        absolute = numerator < 0n ? -numerator : numerator;
-      const rounded =
-        (absolute / scale + ((absolute % scale) * 2n >= scale ? 1n : 0n)) *
-        (numerator < 0n ? -1n : 1n);
+      const rounded = roundedSampleUs(sample);
       const metadata = this.owners.assets
         .get(plan.asset.assetId)
         .streams.find((stream) => stream.id === plan.asset.streamId)!;
@@ -358,8 +355,8 @@ export class MediaFrameInspection {
         rounded - BigInt(sample.originUs) !== BigInt(value.actualSourceUs) ||
         start * 1000000n > at * scale ||
         end * 1000000n <= at * endScale ||
-        value.sourceWidth !== (metadata.orientedWidth ?? metadata.width) ||
-        value.sourceHeight !== (metadata.orientedHeight ?? metadata.height) ||
+        value.sourceWidth !== Math.round(metadata.orientedWidth ?? metadata.width!) ||
+        value.sourceHeight !== Math.round(metadata.orientedHeight ?? metadata.height!) ||
         value.width > value.sourceWidth ||
         value.height > value.sourceHeight ||
         Math.max(value.width, value.height) > plan.options.maxLongEdge
@@ -490,8 +487,7 @@ export class MediaFrameInspection {
         throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
       const value = parsedReceipt.data;
       const expected = plan.window.frames().next().value!;
-      const layer = expected.layers[0];
-      const { picture } = value;
+      const { pictures } = value;
       if (
         value.file !== output ||
         !isDeepStrictEqual(value.frame, expected) ||
@@ -500,25 +496,43 @@ export class MediaFrameInspection {
         value.width > value.sourceWidth ||
         value.height > value.sourceHeight ||
         Math.max(value.width, value.height) > plan.options.maxLongEdge ||
-        (layer === undefined
-          ? picture.status !== "background"
-          : picture.status === "background" ||
+        pictures.length !== expected.layers.length ||
+        pictures.some((picture, index) => {
+          const layer = expected.layers[index]!;
+          return (
             picture.clipId !== layer.clipId ||
             picture.assetId !== layer.assetId ||
             picture.streamId !== layer.streamId ||
             picture.requestedSourceUs !== layer.sourceUs ||
-            (layer.availability !== "available" && picture.status === "available"))
+            (layer.availability !== "available" && picture.status === "available")
+          );
+        })
       )
         throw new CatalogError("INVALID_RESPONSE", "Picture receipt differs from its pinned frame");
       if (
-        picture.status === "available" &&
-        picture.sample.originUs !==
-          plan.assets.find(
-            (asset) => asset.assetId === picture.assetId && asset.streamId === picture.streamId,
-          )?.originUs
+        pictures.some(
+          (picture) =>
+            picture.status === "available" &&
+            (roundedSampleUs(picture.sample) - BigInt(picture.sample.originUs) !==
+              BigInt(picture.actualSourceUs) ||
+              picture.sample.originUs !==
+                plan.assets.find(
+                  (asset) =>
+                    asset.assetId === picture.assetId && asset.streamId === picture.streamId,
+                )?.originUs),
+        )
       )
         throw new CatalogError("INVALID_RESPONSE", "Picture receipt changed its source clock");
       return { ...value, ...plan.options, projectId, revisionId: plan.window.manifest.revisionId };
     });
   }
+}
+
+function roundedSampleUs(sample: { value: string; timescale: number }): bigint {
+  const numerator = BigInt(sample.value) * 1000000n,
+    scale = BigInt(sample.timescale);
+  const absolute = numerator < 0n ? -numerator : numerator;
+  return (
+    (absolute / scale + ((absolute % scale) * 2n >= scale ? 1n : 0n)) * (numerator < 0n ? -1n : 1n)
+  );
 }

@@ -20,7 +20,7 @@ public enum CompositionFrameRenderer {
         let mediaType = "image/png"
         let profile = "h264-rec709"
         let frame: CompositionPictureExecutor.Frame
-        let picture: CompositionPictureExecutor.Picture
+        let pictures: [CompositionPictureExecutor.Picture]
         let width: Int
         let height: Int
         let sourceWidth: Int
@@ -45,7 +45,7 @@ public enum CompositionFrameRenderer {
             frame.visibleRange.endUs <= TimeSpan.maximumMicroseconds
         else { throw NativeFailure("INVALID_REQUEST", "Invalid compiled picture or image limits.") }
         let pictures = try CompositionPictureExecutor(
-            canvas: request.canvas, processing: request.processing, bindings: request.assets)
+            canvas: request.canvas, bindings: request.assets)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }
         let buffer = try await pictures.render(frame) { _ in
@@ -62,9 +62,10 @@ public enum CompositionFrameRenderer {
         let image = try FrameImage(
             buffer: buffer, transform: .identity, overlay: nil, agedFromUs: 0,
             crop: nil, maxLongEdge: edge)
-        let bytes = try image.publishPNG(to: output, context: pictures.context, maxEncodedBytes: limit)
+        let bytes = try image.publishPNG(
+            to: output, context: pictures.context, maxEncodedBytes: limit)
         return Result(
-            file: request.output, frame: frame, picture: pictures.picture,
+            file: request.output, frame: frame, pictures: pictures.pictures,
             width: image.width, height: image.height,
             sourceWidth: request.canvas.width, sourceHeight: request.canvas.height,
             decodedSamples: pictures.decodedSamples, readerOpens: pictures.opens, bytes: bytes)

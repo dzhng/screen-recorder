@@ -23,6 +23,8 @@ const context = {
         {
           id: "v",
           kind: "video",
+          width: 640,
+          height: 480,
           bounds: { startUs: 0, endUs: 2000000 },
           available: [{ startUs: 0, endUs: 2000000 }],
         },
@@ -1382,6 +1384,8 @@ test("retime propagates through held-parent attachments once and preserves gaps"
         {
           id: "v",
           kind: "video",
+          width: 640,
+          height: 480,
           bounds: { startUs: 0, endUs: 9 },
           available: [
             { startUs: 0, endUs: 3 },

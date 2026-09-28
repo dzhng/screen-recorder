@@ -1,19 +1,9 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import {
-  mkdtempSync,
-  writeFileSync,
-  readFileSync,
-  rmSync,
-  existsSync,
-  readdirSync,
-} from "node:fs";
+import { mkdtempSync, writeFileSync, readFileSync, rmSync, existsSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
-import {
-  createCompiler,
-  validateComposition,
-} from "../../composition/dist/index.js";
+import { createCompiler, validateComposition } from "../../composition/dist/index.js";
 const native = process.env.SCREENREC_NATIVE;
 assert(native);
 const scratch = mkdtempSync(join(tmpdir(), "sr-composition-movie-"));
@@ -30,11 +20,7 @@ function run(command, args, input) {
 }
 function call(operation, params, expected) {
   const response = JSON.parse(
-    run(
-      native,
-      [],
-      JSON.stringify({ id: String(++sequence), operation, params }) + "\n",
-    ),
+    run(native, [], JSON.stringify({ id: String(++sequence), operation, params }) + "\n"),
   );
   if (expected) {
     assert.equal(response.error?.code, expected, JSON.stringify(response));
@@ -73,9 +59,7 @@ function movieClock(path, durationUs) {
         let total = 0n;
         for (let entry = 0; entry < body.readUInt32BE(4); entry++) {
           const offset = 8 + entry * (body[0] ? 20 : 12);
-          total += body[0]
-            ? body.readBigUInt64BE(offset)
-            : BigInt(body.readUInt32BE(offset));
+          total += body[0] ? body.readBigUInt64BE(offset) : BigInt(body.readUInt32BE(offset));
         }
         edits.push(total);
       }
@@ -95,19 +79,9 @@ function movieClock(path, durationUs) {
 const checks = [];
 try {
   const tone = join(scratch, "tone.wav");
-  ff(
-    "-f",
-    "lavfi",
-    "-i",
-    "aevalsrc=0.1*sin(2*PI*997*t):s=44100:d=2",
-    "-c:a",
-    "pcm_s16le",
-    tone,
-  );
-  const picture = new URL(
-    "../../../specs/agent-editing/assets/00-corpus/a.mov",
-    import.meta.url,
-  ).pathname;
+  ff("-f", "lavfi", "-i", "aevalsrc=0.1*sin(2*PI*997*t):s=44100:d=2", "-c:a", "pcm_s16le", tone);
+  const picture = new URL("../../../specs/agent-editing/assets/00-corpus/a.mov", import.meta.url)
+    .pathname;
   const bindings = [],
     assets = [];
   for (const [id, path, kind] of [
@@ -120,6 +94,7 @@ try {
       streams: probe.streams.map((s) => ({
         id: s.id,
         kind: s.kind,
+        ...(s.kind === "video" ? { width: s.orientedWidth, height: s.orientedHeight } : {}),
         bounds: { startUs: s.startUs, endUs: s.endUs },
         available: s.segments
           ?.filter((segment) => !segment.empty)
@@ -163,9 +138,7 @@ try {
     processing: [
       {
         target: { kind: "output" },
-        steps: [
-          { id: "gain", enabled: true, processor: { type: "gain", gain: 0.5 } },
-        ],
+        steps: [{ id: "gain", enabled: true, processor: { type: "gain", gain: 0.5 } }],
       },
     ],
   };
@@ -174,10 +147,7 @@ try {
     { startUs: 123457, endUs: 812349 },
     { startUs: 1, endUs: 2 },
   ]) {
-    const compiler = createCompiler(
-      validateComposition(document, assets),
-      "movie-fixture",
-    );
+    const compiler = createCompiler(validateComposition(document, assets), "movie-fixture");
     const window = compiler.window({
       range,
       rendition: { sampleRate: 48000, channels: 2 },
@@ -186,9 +156,7 @@ try {
     const frames = join(scratch, `frames-${sequence}.jsonl`);
     writeFileSync(
       frames,
-      [...window.frames()]
-        .map((frame) => JSON.stringify(frame) + "\n")
-        .join(""),
+      [...window.frames()].map((frame) => JSON.stringify(frame) + "\n").join(""),
     );
     const base = {
       frames,
@@ -268,23 +236,10 @@ try {
       assets: bindings,
     });
     const decode = (path) =>
-      ff(
-        "-i",
-        path,
-        "-map",
-        "0:a:0",
-        "-c:a",
-        "pcm_f32le",
-        "-f",
-        "f32le",
-        "pipe:1",
-      );
+      ff("-i", path, "-map", "0:a:0", "-c:a", "pcm_f32le", "-f", "f32le", "pipe:1");
     const reference = decode(standaloneAudio.file),
       decoded = decode(output);
-    assert(
-      decoded.length >= reference.length,
-      "AAC must cover the requested PCM samples",
-    );
+    assert(decoded.length >= reference.length, "AAC must cover the requested PCM samples");
     let error = 0,
       energy = 0;
     for (let i = 2048; i < reference.length / 4 - 2048; i++) {
@@ -293,10 +248,7 @@ try {
       error += (actual - expected) ** 2;
       energy += expected ** 2;
     }
-    assert(
-      Math.sqrt(error / energy) < 0.08,
-      `AAC signal error ${Math.sqrt(error / energy)}`,
-    );
+    assert(Math.sqrt(error / energy) < 0.08, `AAC signal error ${Math.sqrt(error / energy)}`);
     const probe = JSON.parse(
       run("ffprobe", [
         "-v",
@@ -313,14 +265,8 @@ try {
       Number(probe.streams.find((s) => s.codec_type === "video").duration),
       result.durationUs / 1000000,
     );
-    assert(
-      Math.abs(Number(probe.format.duration) - result.durationUs / 1000000) <=
-        1 / 48000,
-    );
-    assert.deepEqual(probe.streams.map((s) => s.codec_name).sort(), [
-      "aac",
-      "h264",
-    ]);
+    assert(Math.abs(Number(probe.format.duration) - result.durationUs / 1000000) <= 1 / 48000);
+    assert.deepEqual(probe.streams.map((s) => s.codec_name).sort(), ["aac", "h264"]);
     checks.push({
       range,
       frames: result.audio.frames,
@@ -352,10 +298,7 @@ try {
   }
   const cancelRange = { startUs: 0, endUs: 100000000 };
   const empty = { ...document, tracks: [], clips: [], processing: [] };
-  const cancelWindow = createCompiler(
-    validateComposition(empty, []),
-    "cancel",
-  ).window({
+  const cancelWindow = createCompiler(validateComposition(empty, []), "cancel").window({
     range: cancelRange,
     rendition: { sampleRate: 48000, channels: 2 },
     tap: { target: { kind: "output" }, point: { kind: "processed" } },
@@ -364,9 +307,7 @@ try {
     cancelRequest = join(scratch, "cancel-request.json");
   writeFileSync(
     cancelFrames,
-    [...cancelWindow.frames()]
-      .map((frame) => JSON.stringify(frame) + "\n")
-      .join(""),
+    [...cancelWindow.frames()].map((frame) => JSON.stringify(frame) + "\n").join(""),
   );
   writeFileSync(
     cancelRequest,
@@ -381,26 +322,20 @@ try {
       audio: { range: { start: 0, end: 4800000 }, clips: [] },
     }),
   );
-  const cancellation = run(
-    join(dirname(native), "ScreenRecorderCompositionVideoTests"),
-    [cancelRequest, "media.renderCompositionMovie"],
-  )
+  const cancellation = run(join(dirname(native), "ScreenRecorderCompositionVideoTests"), [
+    cancelRequest,
+    "media.renderCompositionMovie",
+  ])
     .toString()
     .trim();
   assert(cancellation.startsWith("PASS"));
   checks.push({ cancellation });
   assert(
-    readdirSync(scratch).every(
-      (name) => !name.startsWith(".screenrec-output-"),
-    ),
+    readdirSync(scratch).every((name) => !name.startsWith(".screenrec-output-")),
     "Attempt scratch must be cleaned",
   );
   console.log(
-    JSON.stringify(
-      { nativeProductionEntry: true, liveMediaJourney: false, checks },
-      null,
-      2,
-    ),
+    JSON.stringify({ nativeProductionEntry: true, liveMediaJourney: false, checks }, null, 2),
   );
 } finally {
   if (process.env.SCREENREC_KEEP_TEST_FILES) console.error(scratch);

@@ -18,8 +18,9 @@ public struct ProbedStream: Encodable, Sendable {
     public var segments: [ProbedSegment]?
     public var width: Int?
     public var height: Int?
-    public var orientedWidth: Int?
-    public var orientedHeight: Int?
+    public var orientedWidth: Double?
+    public var orientedHeight: Double?
+    public var orientedPixelBounds: OrientedPixelBounds?
     public var transform: [Double]?
     public var orientation: Int?
     public var hasAlpha: Bool?
@@ -65,8 +66,8 @@ public enum MediaProbe {
                 id: "image:0", kind: "image", codec: type as String, decodable: true)
             stream.width = pixels.width
             stream.height = pixels.height
-            stream.orientedWidth = swapped ? pixels.height : pixels.width
-            stream.orientedHeight = swapped ? pixels.width : pixels.height
+            stream.orientedWidth = Double(swapped ? pixels.height : pixels.width)
+            stream.orientedHeight = Double(swapped ? pixels.width : pixels.height)
             stream.orientation = orientation
             stream.hasAlpha = [.first, .last, .premultipliedFirst, .premultipliedLast].contains(
                 pixels.alphaInfo)
@@ -119,12 +120,14 @@ public enum MediaProbe {
             if kind == "video" {
                 let size = CMVideoFormatDescriptionGetDimensions(format)
                 let transform = try await track.load(.preferredTransform)
-                let oriented = CGRect(x: 0, y: 0, width: Int(size.width), height: Int(size.height))
-                    .applying(transform)
+                let geometry = videoDisplayGeometry(
+                    size: CGSize(width: Int(size.width), height: Int(size.height)),
+                    transform: transform)
                 stream.width = Int(size.width)
                 stream.height = Int(size.height)
-                stream.orientedWidth = Int(abs(oriented.width).rounded())
-                stream.orientedHeight = Int(abs(oriented.height).rounded())
+                stream.orientedWidth = geometry.extent.width
+                stream.orientedHeight = geometry.extent.height
+                stream.orientedPixelBounds = geometry.pixelBounds
                 stream.transform = [
                     transform.a, transform.b, transform.c, transform.d, transform.tx, transform.ty,
                 ]

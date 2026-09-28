@@ -20,7 +20,6 @@ const renderer: ProjectFrameRenderer = {
     const bytes = Buffer.from("test frame payload");
     await writeFile(output, bytes, { flag: "wx" });
     const frame = [...window.frames()][0]!;
-    const layer = frame.layers[0]!;
     return {
       file: output,
       mediaType: "image/png",
@@ -33,7 +32,7 @@ const renderer: ProjectFrameRenderer = {
       decodedSamples: 1,
       readerOpens: 1,
       bytes: bytes.length,
-      picture: {
+      pictures: frame.layers.map((layer) => ({
         status: "available",
         clipId: layer.clipId,
         assetId: layer.assetId,
@@ -41,11 +40,18 @@ const renderer: ProjectFrameRenderer = {
         requestedSourceUs: layer.sourceUs,
         actualSourceUs: layer.sourceUs,
         sample: {
-          value: String(layer.sourceUs + assets[0]!.originUs),
+          value: String(
+            layer.sourceUs +
+              assets.find(
+                (asset) => asset.assetId === layer.assetId && asset.streamId === layer.streamId,
+              )!.originUs,
+          ),
           timescale: 1000000,
-          originUs: assets[0]!.originUs,
+          originUs: assets.find(
+            (asset) => asset.assetId === layer.assetId && asset.streamId === layer.streamId,
+          )!.originUs,
         },
-      },
+      })),
     };
   },
 };
@@ -108,6 +114,8 @@ async function fixture(render = renderer) {
         segments: [{ startUs: 0, endUs: 1000000, empty: false }],
         width: 160,
         height: 96,
+        orientedWidth: 160,
+        orientedHeight: 96,
       },
     ],
   }));
@@ -139,7 +147,7 @@ async function fixture(render = renderer) {
       },
     ],
   });
-  return { projects, cache, jobs, frames, projectId };
+  return { projects, cache, jobs, frames, projectId, assetId: asset.id };
 }
 test("demanded still pins global picture timing across head changes and cache regeneration", async () => {
   const f = await fixture();
@@ -160,7 +168,7 @@ test("demanded still pins global picture timing across head changes and cache re
     width: 160,
     height: 96,
     frame: { sampleAtUs: 50000, visibleRange: { startUs: 75001, endUs: 75002 } },
-    picture: { status: "available", requestedSourceUs: 50000, actualSourceUs: 50000 },
+    pictures: [{ status: "available", requestedSourceUs: 50000, actualSourceUs: 50000 }],
   });
   expect(await readFile(image.file, "utf8")).toBe("test frame payload");
   f.cache.remove(image.cacheId);
@@ -223,3 +231,51 @@ test("canceled late picture output is discarded and the same revision can retry"
     published: { frame: { revisionId: pending.revisionId, atUs: 75001 } },
   });
 });
+
+test.each(["complete", "missing", "reordered", "wrong-source"] as const)(
+  "physical provenance for repeated layers must be complete and ordered: %s",
+  async (mode) => {
+    const f = await fixture({
+      ...renderer,
+      async render(request, signal) {
+        const receipt = (await renderer.render(request, signal)) as {
+          pictures: { actualSourceUs: number }[];
+        };
+        if (mode === "missing") receipt.pictures.pop();
+        if (mode === "reordered") receipt.pictures.reverse();
+        if (mode === "wrong-source") receipt.pictures[1]!.actualSourceUs++;
+        return receipt;
+      },
+    });
+    f.projects.apply(f.projectId, {
+      requestId: "second-layer",
+      expectedRevisionId: f.projects.revision(f.projectId).id,
+      operations: [
+        { operation: "track.add", track: { kind: "video", order: 1 }, label: "second" },
+        {
+          operation: "place",
+          clip: {
+            trackId: { label: "second" },
+            assetId: f.assetId,
+            streamId: "track:7",
+            source: { kind: "range", range: { startUs: 100000, endUs: 900000 } },
+            placement: { kind: "project", range: { startUs: 0, endUs: 800000 } },
+          },
+        },
+      ],
+    });
+    const request = { projectId: f.projectId, atUs: 75001 };
+    f.frames.request(request);
+    await f.jobs.idle();
+    const result = f.frames.request(request);
+    if (mode === "complete")
+      expect(result.published!.frame.pictures).toMatchObject([
+        { requestedSourceUs: 50000, actualSourceUs: 50000 },
+        { requestedSourceUs: 150000, actualSourceUs: 150000 },
+      ]);
+    else {
+      expect(result).toMatchObject({ state: "failed", published: null });
+      expect(f.cache.bytes).toBe(0);
+    }
+  },
+);

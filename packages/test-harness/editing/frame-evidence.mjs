@@ -214,11 +214,11 @@ try {
     assert.deepEqual(receipt.frame.visibleRange, { startUs: atUs, endUs: atUs + 1 });
     assert.equal(receipt.width, 160);
     assert.equal(receipt.height, 128);
-    if (label === null) assert.equal(receipt.picture.status, "background");
+    if (label === null) assert.deepEqual(receipt.pictures, []);
     else {
-      assert.equal(receipt.picture.status, "available");
-      assert.equal(receipt.picture.clipId, edited.edit.labels[label]);
-      assert.equal(receipt.picture.requestedSourceUs, sourceUs);
+      assert.equal(receipt.pictures[0].status, "available");
+      assert.equal(receipt.pictures[0].clipId, edited.edit.labels[label]);
+      assert.equal(receipt.pictures[0].requestedSourceUs, sourceUs);
     }
     const pixels = await rgb(join(out, cli.name));
     assert.equal(pixels.length, 160 * 128 * 3);

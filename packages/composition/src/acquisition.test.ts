@@ -14,7 +14,14 @@ const assets: Asset[] = [
     id: "bytes",
     streams: [
       { id: "audio", kind: "audio", bounds: range(0, 2000000), available: [range(0, 2000000)] },
-      { id: "video", kind: "video", bounds: range(0, 2000000), available: [range(0, 2000000)] },
+      {
+        id: "video",
+        kind: "video",
+        width: 640,
+        height: 480,
+        bounds: range(0, 2000000),
+        available: [range(0, 2000000)],
+      },
     ],
   },
 ];

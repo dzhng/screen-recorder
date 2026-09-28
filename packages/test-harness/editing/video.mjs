@@ -555,20 +555,6 @@ await rejected(
   { assets: base.assets.map((a) => ({ ...a, streamId: "track:999" })) },
   "INVALID_REQUEST",
 );
-await rejected(
-  "visual-processing",
-  {
-    processing: [
-      {
-        target: { kind: "track", id: "video" },
-        mediaKind: "video",
-        inputs: [],
-        steps: [{ id: "visual", enabled: true, processor: { type: "gain", gain: 1 } }],
-      },
-    ],
-  },
-  "NOT_READY",
-);
 const first = JSON.parse((await readFile(base.frames, "utf8")).split("\n")[0]);
 for (const [name, frame, code] of [
   [
@@ -585,7 +571,17 @@ for (const [name, frame, code] of [
     "UNAVAILABLE",
   ]),
   ["unknown-frame-field", { ...first, guess: 1 }, "INVALID_REQUEST"],
-  ["multiple-layers", { ...first, layers: [first.layers[0], first.layers[0]] }, "NOT_READY"],
+  ["duplicate-layer", { ...first, layers: [first.layers[0], first.layers[0]] }, "INVALID_REQUEST"],
+  [
+    "unknown-picture-primitive",
+    {
+      ...first,
+      visual: first.visual.map((node, index) =>
+        index ? node : { ...node, operations: [{ kind: "unknown" }] },
+      ),
+    },
+    "NOT_READY",
+  ],
 ]) {
   const path = join(out, name + ".jsonl");
   await writeFile(path, JSON.stringify(frame) + "\n");

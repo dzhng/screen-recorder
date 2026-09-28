@@ -27,8 +27,16 @@ const stream = z.object({
   segments: z.array(segment).max(100_000).optional(),
   width: positive.optional(),
   height: positive.optional(),
-  orientedWidth: positive.optional(),
-  orientedHeight: positive.optional(),
+  orientedWidth: z.number().finite().positive().optional(),
+  orientedHeight: z.number().finite().positive().optional(),
+  orientedPixelBounds: z
+    .object({
+      x: z.number().finite(),
+      y: z.number().finite(),
+      width: z.number().finite().positive(),
+      height: z.number().finite().positive(),
+    })
+    .optional(),
   transform: z.array(z.number().finite()).length(6).optional(),
   orientation: integer.min(1).max(8).optional(),
   hasAlpha: z.boolean().optional(),
@@ -420,7 +428,15 @@ export function compositionAsset(asset: Asset): CompositionAsset {
     id: asset.id,
     streams: asset.streams.flatMap((stream): CompositionAsset["streams"] => {
       if (!stream.decodable || stream.kind === "unsupported") return [];
-      if (stream.kind === "image") return [{ id: stream.id, kind: "image" }];
+      if (stream.kind === "image")
+        return [
+          {
+            id: stream.id,
+            kind: "image",
+            width: stream.orientedWidth!,
+            height: stream.orientedHeight!,
+          },
+        ];
       const available: { startUs: number; endUs: number }[] = [];
       for (const segment of [...stream.segments!]
         .filter((s) => !s.empty)
@@ -435,7 +451,14 @@ export function compositionAsset(asset: Asset): CompositionAsset {
       return [
         {
           id: stream.id,
-          kind: stream.kind,
+          ...(stream.kind === "video"
+            ? {
+                kind: "video" as const,
+                width: stream.orientedWidth!,
+                height: stream.orientedHeight!,
+                ...(stream.orientedPixelBounds ? { pixelBounds: stream.orientedPixelBounds } : {}),
+              }
+            : { kind: "audio" as const }),
           bounds: { startUs: stream.startUs!, endUs: stream.endUs! },
           available,
         },

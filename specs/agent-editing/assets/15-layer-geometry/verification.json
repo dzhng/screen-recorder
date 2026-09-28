@@ -1,0 +1,1577 @@
+{
+  "scope": "Compiler and native geometry checkpoint; public integration, pointer adoption and general output/color profiles remain open",
+  "worker": {
+    "path": "/tmp/screenrec-geometry-checkpoint-native",
+    "sha256": "1e2884d35e5ba1adf52e79f0bbb729d7cdb2fa3094c6ab3747dfa67278cedd28"
+  },
+  "historicalWorker": {
+    "path": "/tmp/screenrec-source-frame-integrated-native",
+    "sha256": "e9da7a3ad9fcea28d95f7bdfa7b61a7fec505a246e08f3f624d8f1e17cb8b1ec"
+  },
+  "rendering": {
+    "sampling": "Encoded source bilinear sampling clamped to admitted pixel centers; geometric coverage is independently rasterized in destination space",
+    "workingFormat": "RGBAh premultiplied extended-linear-sRGB",
+    "coverage": "8-bit linear-gray CoreGraphics polygon coverage",
+    "coverageCacheMaximumBytes": 67108864
+  },
+  "tests": {
+    "composition": 126,
+    "corePassed": 546,
+    "coreSkipped": 1,
+    "oracleControls": 11,
+    "workspaceBuild": true,
+    "workspaceTypecheck": true,
+    "nativeFrameExecutable": true,
+    "historicalMovieMembershipCases": 18,
+    "historicalFrameMembershipCount": 386,
+    "historicalExactMovieCases": 17,
+    "historicalExactMovieFailure": [
+      {
+        "case": "vfr-held-tail",
+        "before": "14e8fd3e4e67b6d01e82a22b5c905def2502c46c65b1407e7148ce17af204442",
+        "after": "e0edce102e42d7ad1fa631f0d69d928f57a08578efb823d076585dc6832bc5d7"
+      }
+    ],
+    "correctedMovieGate": {
+      "passed": true,
+      "report": "/tmp/screenrec-geometry-picture-corrected/report.json",
+      "cases": 18,
+      "pictures": 386,
+      "correctedCases": [
+        "vfr-held-tail"
+      ],
+      "allOtherCasesExact": true
+    }
+  },
+  "matrix": [
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "baseline",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "explicit-default",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "full-domain-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "e41a090bde81859feb5c0a1aba419d48cc3cab4288d391e509ffa35a3e227771",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "fractional-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "2c133fbaffe9641c90366641da0456059a266e58ed53753fb4891c36352bdb5b",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "poison-exclusion",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "15128b90ea90777dcb5aef4b09e60ae0e876de9cdfa1f7b15b734df23f2dcecd",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "rotated-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "8f0ae1a7d4c6a7fe72b3145bef855a18b5f65314b43db5dd89672d5a0590c1a3",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "unaffectedPCM": true,
+          "durationUs": 1000000,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 55,
+                "mae": 0.2205078125,
+                "rmse": 1.1645535178055724,
+                "aboveLosslessThreshold": 261
+              }
+            },
+            {
+              "atUs": 900000,
+              "actualTimeValue": "900000",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 8,
+                "mae": 0.12411024305555556,
+                "rmse": 0.5433267829359745,
+                "aboveLosslessThreshold": 182
+              }
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "unaffectedPCM": true,
+          "durationUs": 688892,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 55,
+                "mae": 0.2205078125,
+                "rmse": 1.1645535178055724,
+                "aboveLosslessThreshold": 261
+              }
+            },
+            {
+              "atUs": 676543,
+              "actualTimeValue": "676543",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 8,
+                "mae": 0.12411024305555556,
+                "rmse": 0.5433267829359745,
+                "aboveLosslessThreshold": 182
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "source-orientation",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "a64fb2ad83bc12ba7cdc89fe7a5571122820c999ddb73a8deef2852e6f82bc7e",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "presenter",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "unaffectedPCM": true,
+          "durationUs": 1000000,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 18,
+                "mae": 0.7276909722222222,
+                "rmse": 1.4418262194946456,
+                "aboveLosslessThreshold": 1464
+              }
+            },
+            {
+              "atUs": 900000,
+              "actualTimeValue": "900000",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 7,
+                "mae": 0.5318359375,
+                "rmse": 1.0492949848721176,
+                "aboveLosslessThreshold": 660
+              }
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "unaffectedPCM": true,
+          "durationUs": 688892,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 18,
+                "mae": 0.7276909722222222,
+                "rmse": 1.4418262194946456,
+                "aboveLosslessThreshold": 1464
+              }
+            },
+            {
+              "atUs": 676543,
+              "actualTimeValue": "676543",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 7,
+                "mae": 0.5318359375,
+                "rmse": 1.0492949848721176,
+                "aboveLosslessThreshold": 660
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "presenter-reversed",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "b77c72aaf28771dec6d7b144f7ba0b3dcb4a9a946771b119f73423f5ca7c34f0",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "source-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "89942ee63c092e95762457f816faca491bc4ab3c14ca49c9e34af222b52800dd",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "contain",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "bbcb3f31113d5945221ea9eafc88aed00790b8e8ce6d85eaff7cff72d7850416",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "cover",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "b4cf36f7547bfe4955d70e23ca92b57f0ab634de6dc79b86a34e9a01fe613b40",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "stretch",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "ba7f275dc8a7d344db8b2108d14192cf2910893c1a7f1203721609f96d874fd9",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "pivot-0",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "3b707b0999788e39d3029b6e9d1c149b963d74d9b5d0b068ac3a413fca8d2eab",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "pivot-1",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "86da6ea55338f2683ae707b3d591b21f05f37425dffdbfb6e4dbfce9ee4546b8",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "mirror",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "12d45549b278dcd9dcc5d6468fd379bde0798695e693e1e8c6ab042ad293a588",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "collapse",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "15128b90ea90777dcb5aef4b09e60ae0e876de9cdfa1f7b15b734df23f2dcecd",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "order-placement-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "bd4ba48875b82cc63067e6dfde429148cc189b4d4344c62b09ee6ee0c2606253",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "order-crop-placement",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "3cb2201ebc276d36701adc0a2b393c822a00c419cd9f2684b5ec61dae773924e",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "parent-opacity",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "23265dee6eaa13c5aae239f5af92b3acaa5b653147d09efcd2b4e1fdaff55bf9",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "unaffectedPCM": true,
+          "durationUs": 1000000,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 2,
+                "mae": 0.7182291666666667,
+                "rmse": 1.1965662678403288,
+                "aboveLosslessThreshold": 0
+              }
+            },
+            {
+              "atUs": 900000,
+              "actualTimeValue": "900000",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 2,
+                "mae": 0.6833333333333333,
+                "rmse": 1.1679308626798077,
+                "aboveLosslessThreshold": 0
+              }
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "unaffectedPCM": true,
+          "durationUs": 688892,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 2,
+                "mae": 0.7182291666666667,
+                "rmse": 1.1965662678403288,
+                "aboveLosslessThreshold": 0
+              }
+            },
+            {
+              "atUs": 676543,
+              "actualTimeValue": "676543",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 2,
+                "mae": 0.6833333333333333,
+                "rmse": 1.1679308626798077,
+                "aboveLosslessThreshold": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "child-opacity",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "fa7aff98d5a03bdc97a5160e8a044e71c8afd88fd006107d1e45950a09a6437b",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "nested-taps",
+      "frames": [
+        {
+          "tap": "screen/dry",
+          "pngSHA256": "11d2989394843fd944938187e5f09bcb09f6cf5bcad7675b740a0cf4c02e4725",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen/after:screen-place",
+          "pngSHA256": "11d2989394843fd944938187e5f09bcb09f6cf5bcad7675b740a0cf4c02e4725",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen/after:screen-opacity",
+          "pngSHA256": "1c51911dc71066c3cec008a757103c6b515c883389b4e5244bf596ef48511f53",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen/processed",
+          "pngSHA256": "1c51911dc71066c3cec008a757103c6b515c883389b4e5244bf596ef48511f53",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter/dry",
+          "pngSHA256": "a4489638f042a798f892786b127d3f00f34c0ca5b3c53b8b3d8878dd187db90e",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter/after:presenter-layout",
+          "pngSHA256": "bbbf3b1663d9b3db39b7554f1a9683c10c2860477647537c2ca5324a2df08e2b",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter/after:presenter-opacity",
+          "pngSHA256": "dbed22b0c65448b2df78882bc60cf7133832cc6db3125b36af5e988344772332",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter/processed",
+          "pngSHA256": "dbed22b0c65448b2df78882bc60cf7133832cc6db3125b36af5e988344772332",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen-track/dry",
+          "pngSHA256": "1c51911dc71066c3cec008a757103c6b515c883389b4e5244bf596ef48511f53",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen-track/after:screen-track-opacity",
+          "pngSHA256": "4bce1d7296be7f1af6f33887710646d36a6c981b1ff4ab6650dfd4f5dab8ca01",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen-track/processed",
+          "pngSHA256": "4bce1d7296be7f1af6f33887710646d36a6c981b1ff4ab6650dfd4f5dab8ca01",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter-track/dry",
+          "pngSHA256": "dbed22b0c65448b2df78882bc60cf7133832cc6db3125b36af5e988344772332",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter-track/after:presenter-track-opacity",
+          "pngSHA256": "01613a31ba02499c8357596112e358e11815572ba0349605339d1e7de91b266e",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter-track/processed",
+          "pngSHA256": "01613a31ba02499c8357596112e358e11815572ba0349605339d1e7de91b266e",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "inner/dry",
+          "pngSHA256": "4d2582800f9104f6c84984449de2c42f162a6a031fa9b705b1b0445c5fbd7780",
+          "maximumInteriorError": 1
+        },
+        {
+          "tap": "inner/after:inner-opacity",
+          "pngSHA256": "f1fa5036022ddf4823fe7fbd1a16835540942e89bddf5a0436e5ae7c4b7b4eba",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "inner/processed",
+          "pngSHA256": "f1fa5036022ddf4823fe7fbd1a16835540942e89bddf5a0436e5ae7c4b7b4eba",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "outer/dry",
+          "pngSHA256": "f1fa5036022ddf4823fe7fbd1a16835540942e89bddf5a0436e5ae7c4b7b4eba",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "outer/after:outer-opacity",
+          "pngSHA256": "8aa6b735c429d7824b0c9698e882effff943526087bc31163087b2bd490c5e20",
+          "maximumInteriorError": 1
+        },
+        {
+          "tap": "outer/processed",
+          "pngSHA256": "8aa6b735c429d7824b0c9698e882effff943526087bc31163087b2bd490c5e20",
+          "maximumInteriorError": 1
+        },
+        {
+          "tap": "output/dry",
+          "pngSHA256": "7181aa79d6b014ca4c87ad16a81cf9bfbbb613ad5c29f173046275665e8f17d9",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "output/after:output-opacity",
+          "pngSHA256": "913a48457f3a3c0b8701574aa44fd8757215456163db21b2ccd6244365ea11cf",
+          "maximumInteriorError": 1
+        },
+        {
+          "tap": "output/processed",
+          "pngSHA256": "913a48457f3a3c0b8701574aa44fd8757215456163db21b2ccd6244365ea11cf",
+          "maximumInteriorError": 1
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "output-transparent-margin",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "ecfb27d763215c295473ee4e1ce905ac29487a3eaa5030419e5e2327c7d88ca7",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "unaffectedPCM": true,
+          "refusal": {
+            "code": "NOT_READY",
+            "details": {},
+            "message": "The h264-rec709 profile requires opaque pixels after output processing.",
+            "retryable": false
+          }
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "unaffectedPCM": true,
+          "refusal": {
+            "code": "NOT_READY",
+            "details": {},
+            "message": "The h264-rec709 profile requires opaque pixels after output processing.",
+            "retryable": false
+          }
+        }
+      ]
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "baseline",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "5f96b2aa330b11a69958a6af6b8d329fad182c8fb96a463cb4522105b866b7a0",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "explicit-default",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "5f96b2aa330b11a69958a6af6b8d329fad182c8fb96a463cb4522105b866b7a0",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "full-domain-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "d7e584583d059e59c61ddb348249f33a3e51b5a8c6110e504fc43894f957e390",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "fractional-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "c71ac6bdd040aecc50e412d40ef6290eb742e07a9e3f21a5de6649b1923c0327",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "poison-exclusion",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "9e171a03e27c2b54441d49df655c1a67196373aeb1c49ee1a35acc10550540b2",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "rotated-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "c44a1d7976626d92323178d5500fe76f7d1eb01bd596a5e6e2c1654c7026afbe",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "unaffectedPCM": true,
+          "durationUs": 1000000,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 55,
+                "mae": 0.20672607421875,
+                "rmse": 1.127574095057061,
+                "aboveLosslessThreshold": 261
+              }
+            },
+            {
+              "atUs": 900000,
+              "actualTimeValue": "900000",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 8,
+                "mae": 0.11663818359375,
+                "rmse": 0.5288510480178548,
+                "aboveLosslessThreshold": 184
+              }
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "unaffectedPCM": true,
+          "durationUs": 688892,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 55,
+                "mae": 0.20672607421875,
+                "rmse": 1.127574095057061,
+                "aboveLosslessThreshold": 261
+              }
+            },
+            {
+              "atUs": 676543,
+              "actualTimeValue": "676543",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 8,
+                "mae": 0.11663818359375,
+                "rmse": 0.5288510480178548,
+                "aboveLosslessThreshold": 184
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "source-orientation",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "a7a49aa2158446b1104a97c731a22958ebe0e02638704756a023b3a582960bd6",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "presenter",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "cee54d22036ca8c509d5ab9e94a4ede4b049710e5239c09b3ace96266e6287a9",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "unaffectedPCM": true,
+          "durationUs": 1000000,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 18,
+                "mae": 0.7090250651041666,
+                "rmse": 1.3832317514158645,
+                "aboveLosslessThreshold": 1499
+              }
+            },
+            {
+              "atUs": 900000,
+              "actualTimeValue": "900000",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 7,
+                "mae": 0.5483805338541666,
+                "rmse": 1.044598738003019,
+                "aboveLosslessThreshold": 666
+              }
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "unaffectedPCM": true,
+          "durationUs": 688892,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 18,
+                "mae": 0.7090250651041666,
+                "rmse": 1.3832317514158645,
+                "aboveLosslessThreshold": 1499
+              }
+            },
+            {
+              "atUs": 676543,
+              "actualTimeValue": "676543",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 7,
+                "mae": 0.5483805338541666,
+                "rmse": 1.044598738003019,
+                "aboveLosslessThreshold": 666
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "presenter-reversed",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "5f96b2aa330b11a69958a6af6b8d329fad182c8fb96a463cb4522105b866b7a0",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "source-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "d0eaf053d80ff30aecb5d6e83d33c8513e9449fab20494a5134540081a185112",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "contain",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "8347f5bc79906c25498a5b484354b52117b75c459b4565cfbc5a0d688011bbea",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "cover",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "98b84f7ff05676f63c9cb97193186730a7a2f36bd3cd0ff556d5491f69c2bca1",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "stretch",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "85f2883257c1d8b842d6a2a487662888ad58ad61df847b17ad862b5619827b47",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "pivot-0",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "9776cd189ecc6425c70459b200bda728e602804cf265c75a832b08dad8934547",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "pivot-1",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "166b58e750c565661cf150f24aa70dfef60ac16da1b613c54491f79e6f18d5c0",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "mirror",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "76ace8eefc0b242554ae8519b41aa5c34e31f1da7455aa28a36317408c30155e",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "collapse",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "9e171a03e27c2b54441d49df655c1a67196373aeb1c49ee1a35acc10550540b2",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "order-placement-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "72097a1986fa7ffc9bb62969b59f29dfb9630bda0acc3d70ac5c299b8ed73c9b",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "order-crop-placement",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "fd3df20a20bcc2e2abc7b7417bfc9c0588ce5ecb547d616e0ea759f0d63607a8",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "parent-opacity",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "3977e09c0fea8901392d3ac4d687b4428229e51916443e23fc30a51ce3bbf2d1",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "unaffectedPCM": true,
+          "durationUs": 1000000,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 2,
+                "mae": 0.67333984375,
+                "rmse": 1.1585703069947892,
+                "aboveLosslessThreshold": 0
+              }
+            },
+            {
+              "atUs": 900000,
+              "actualTimeValue": "900000",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 2,
+                "mae": 0.640625,
+                "rmse": 1.1308441951701393,
+                "aboveLosslessThreshold": 0
+              }
+            }
+          ]
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "unaffectedPCM": true,
+          "durationUs": 688892,
+          "frames": [
+            {
+              "atUs": 0,
+              "actualTimeValue": "0",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 2,
+                "mae": 0.67333984375,
+                "rmse": 1.1585703069947892,
+                "aboveLosslessThreshold": 0
+              }
+            },
+            {
+              "atUs": 676543,
+              "actualTimeValue": "676543",
+              "actualTimescale": 1000000,
+              "codecError": {
+                "maximum": 2,
+                "mae": 0.640625,
+                "rmse": 1.1308441951701393,
+                "aboveLosslessThreshold": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "child-opacity",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "0ad20dbf23fc895cfca0200fccb18d7c5f2cccfee3c98160233da736104e199a",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "nested-taps",
+      "frames": [
+        {
+          "tap": "screen/dry",
+          "pngSHA256": "c3b685c62d158f9461e403018acb62ad252ea5691fdcb813f506158ad527edda",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen/after:screen-place",
+          "pngSHA256": "c3b685c62d158f9461e403018acb62ad252ea5691fdcb813f506158ad527edda",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen/after:screen-opacity",
+          "pngSHA256": "93fcb16009b0794aa24176be9a57ca508238c7e7611557902eeee5d8619ef4e8",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen/processed",
+          "pngSHA256": "93fcb16009b0794aa24176be9a57ca508238c7e7611557902eeee5d8619ef4e8",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter/dry",
+          "pngSHA256": "68ed4d1b939f0966303bc76e7faa8a2ad24d00408336e02151388ea4f95a23a5",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter/after:presenter-layout",
+          "pngSHA256": "47d11f8be23531f275afea9803ca3a954688b4dcc1b84ae12689047714be01f6",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter/after:presenter-opacity",
+          "pngSHA256": "cdd63574f7620925096ca90f7244b30760f18054c8f944efffbb475c79abf5f1",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter/processed",
+          "pngSHA256": "cdd63574f7620925096ca90f7244b30760f18054c8f944efffbb475c79abf5f1",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen-track/dry",
+          "pngSHA256": "93fcb16009b0794aa24176be9a57ca508238c7e7611557902eeee5d8619ef4e8",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen-track/after:screen-track-opacity",
+          "pngSHA256": "d02b46954dff1e09d3b663b0db6a868bc1e46a5bb4ad7cf15f66847d1b0dcb56",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "screen-track/processed",
+          "pngSHA256": "d02b46954dff1e09d3b663b0db6a868bc1e46a5bb4ad7cf15f66847d1b0dcb56",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter-track/dry",
+          "pngSHA256": "cdd63574f7620925096ca90f7244b30760f18054c8f944efffbb475c79abf5f1",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter-track/after:presenter-track-opacity",
+          "pngSHA256": "80386e492cf9267165db819a5d36d2babe1d11600f55add5bc76020009b7d377",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "presenter-track/processed",
+          "pngSHA256": "80386e492cf9267165db819a5d36d2babe1d11600f55add5bc76020009b7d377",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "inner/dry",
+          "pngSHA256": "5c7a8a9d011f0ce0b8967fffaeb4bd43d95702613e53292195205f3e9bb9320b",
+          "maximumInteriorError": 1
+        },
+        {
+          "tap": "inner/after:inner-opacity",
+          "pngSHA256": "58d3232aab4248cabfaf693dd5166242dc5626518591d0c3f4095eb564e580cc",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "inner/processed",
+          "pngSHA256": "58d3232aab4248cabfaf693dd5166242dc5626518591d0c3f4095eb564e580cc",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "outer/dry",
+          "pngSHA256": "58d3232aab4248cabfaf693dd5166242dc5626518591d0c3f4095eb564e580cc",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "outer/after:outer-opacity",
+          "pngSHA256": "272f66ddab03852d5b8a547d8842a486693455d59f42863a43f0d6b3063265a3",
+          "maximumInteriorError": 1
+        },
+        {
+          "tap": "outer/processed",
+          "pngSHA256": "272f66ddab03852d5b8a547d8842a486693455d59f42863a43f0d6b3063265a3",
+          "maximumInteriorError": 1
+        },
+        {
+          "tap": "output/dry",
+          "pngSHA256": "f456281cd06dd3656d0a671186474e77b6fd6c2a50d01f502c09f3a1a7031d51",
+          "maximumInteriorError": 0
+        },
+        {
+          "tap": "output/after:output-opacity",
+          "pngSHA256": "59a16d20a0bd7339c3ec7589c1da6bcf54311c326d3cf590334a41293f27270b",
+          "maximumInteriorError": 1
+        },
+        {
+          "tap": "output/processed",
+          "pngSHA256": "59a16d20a0bd7339c3ec7589c1da6bcf54311c326d3cf590334a41293f27270b",
+          "maximumInteriorError": 1
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "output-transparent-margin",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "80f199846bbd2785f5d7ccfb8038ab3ed68b5949dccb9f3a4710607eb7216301",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": [
+        {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "unaffectedPCM": true,
+          "refusal": {
+            "code": "NOT_READY",
+            "details": {},
+            "message": "The h264-rec709 profile requires opaque pixels after output processing.",
+            "retryable": false
+          }
+        },
+        {
+          "range": {
+            "startUs": 123457,
+            "endUs": 812349
+          },
+          "unaffectedPCM": true,
+          "refusal": {
+            "code": "NOT_READY",
+            "details": {},
+            "message": "The h264-rec709 profile requires opaque pixels after output processing.",
+            "retryable": false
+          }
+        }
+      ]
+    },
+    {
+      "canvas": {
+        "width": 160,
+        "height": 96
+      },
+      "case": "negative-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "72e5067f69c07a3682eeb5cd9af0d18c9c70e2e1a985fc2b4ce45d97d80818ea",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    },
+    {
+      "canvas": {
+        "width": 128,
+        "height": 128
+      },
+      "case": "negative-crop",
+      "frames": [
+        {
+          "tap": "output/processed",
+          "pngSHA256": "90c68fcfd8963f08e868dc1838b1e4e8a08d06921c149dc5c5d5056f895614f0",
+          "maximumInteriorError": 0
+        }
+      ],
+      "movies": []
+    }
+  ],
+  "sourceDisplay": [
+    {
+      "name": "identity",
+      "changed": 0,
+      "maximum": 0,
+      "interiors": 1744,
+      "interiorMaximum": 0,
+      "orientedWidth": 64,
+      "orientedHeight": 48
+    },
+    {
+      "name": "quarter-turn",
+      "changed": 0,
+      "maximum": 0,
+      "interiors": 1744,
+      "interiorMaximum": 0,
+      "orientedWidth": 48,
+      "orientedHeight": 64
+    },
+    {
+      "name": "oblique",
+      "changed": 0,
+      "maximum": 0,
+      "interiors": 1867,
+      "interiorMaximum": 0,
+      "orientedWidth": 81,
+      "orientedHeight": 76
+    },
+    {
+      "name": "white-control",
+      "changed": 284,
+      "maximum": 29,
+      "interiors": 2028,
+      "interiorMaximum": 0,
+      "orientedWidth": 16,
+      "orientedHeight": 16
+    }
+  ],
+  "visualReview": {
+    "reviewer": "fresh unprimed final_geometry_visual",
+    "contactSheets": 11,
+    "images": 132,
+    "findings": [
+      {
+        "finding": "Historical white control gray rectangle fringe; corrected image and crop are uniform white",
+        "confidence": "high",
+        "disposition": "correction confirmed"
+      },
+      {
+        "finding": "Thin line above128x128presenter",
+        "confidence": "visible; uncertain defect",
+        "disposition": "The underlying square\u2019s filtered top edge remains outside the presenter rectangle; independent authored pixel reference agrees. Expected partial occlusion, not changed."
+      }
+    ],
+    "additionalActionableDefects": false,
+    "additionalHoldoutImages": 2
+  },
+  "rawEvidence": [
+    "/tmp/screenrec-layers-native-final",
+    "/tmp/screenrec-source-display-final",
+    "/tmp/screenrec-geometry-video-preservation",
+    "/tmp/screenrec-geometry-picture-all2",
+    "/tmp/screenrec-vfr-still",
+    "/tmp/screenrec-interpolation-isolated",
+    "/tmp/screenrec-interpolation-srgb-set",
+    "/tmp/screenrec-geometry-picture-corrected",
+    "/tmp/screenrec-layers-native-negative"
+  ],
+  "allocationAdmission": {
+    "report": "/tmp/screenrec-picture-admission-final/report.json",
+    "checks": [
+      {
+        "inactive": "dry",
+        "readerOpens": 0,
+        "transparent": true
+      },
+      {
+        "inactive": "processed",
+        "readerOpens": 0,
+        "transparent": true
+      },
+      {
+        "limit": "decoded-source-pixels",
+        "response": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "h264-rec709 profile limit decoded-source-pixels: frame 0 requests 80000000, bound 67108864; reduce simultaneous sources or processing surfaces.",
+          "retryable": false
+        }
+      },
+      {
+        "limit": "intermediate-pixels",
+        "response": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "h264-rec709 profile limit intermediate-pixels: frame 0 requests 68157440, bound 67108864; reduce simultaneous sources or processing surfaces.",
+          "retryable": false
+        }
+      },
+      {
+        "limit": "coverage-mask-bytes",
+        "response": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "h264-rec709 profile limit coverage-mask-bytes: frame 0 requests 68157440, bound 67108864; reduce simultaneous sources or processing surfaces.",
+          "retryable": false
+        }
+      },
+      {
+        "recovery": true,
+        "readerOpens": 1
+      }
+    ],
+    "oldWorkerAcceptedEveryOversizedRequest": "/tmp/screenrec-picture-budget-old",
+    "encodedDimensions": [
+      4000,
+      4000
+    ],
+    "orientedDimensions": [
+      40,
+      40
+    ],
+    "decodeCostOwner": "Maximum encoded area across all track format descriptions; each simultaneous occurrence counted",
+    "limitations": "Provisional dimension budgets, not measured peak RSS or release-scale acceptance"
+  },
+  "postAdmissionMatrix": {
+    "report": "/tmp/screenrec-layers-admission-final/report.json",
+    "cases": 48,
+    "stillTaps": 92,
+    "movieSamples": 24,
+    "nonopaqueMovieRefusals": 4,
+    "exactAudioComparisons": 16,
+    "exactPriorPngFiles": 94
+  },
+  "postAdmissionHistorical": {
+    "report": "/tmp/screenrec-admission-picture-preservation/report.json",
+    "cases": 18,
+    "pictures": 386,
+    "passed": true
+  },
+  "review": {
+    "first": "Inactive clip taps fixed with native red/green. Catalog and pixel recipe invalidation assigned to root integration.",
+    "final": "No additional actionable correctness issues in prepare/open lifecycle, aggregate admission, inactive clip taps, rasterize dimensions. Codex independently reran126 composition tests; native evidence is implementing agent owned.",
+    "log": "/tmp/screenrec-geometry-review-final.log"
+  }
+}

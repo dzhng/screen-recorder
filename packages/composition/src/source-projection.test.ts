@@ -20,6 +20,8 @@ function asset(id = "source", endUs = 20): Asset {
       {
         id: "video",
         kind: "video",
+        width: 640,
+        height: 480,
         bounds: range(0, endUs),
         available: [range(0, endUs)],
       },
@@ -29,7 +31,7 @@ function asset(id = "source", endUs = 20): Asset {
         bounds: range(2, endUs),
         available: [range(2, endUs)],
       },
-      { id: "still", kind: "image" },
+      { id: "still", kind: "image", width: 640, height: 480 },
     ],
   };
 }
@@ -100,6 +102,8 @@ test("range completeness sees internal stream and ancestor holes, not just endpo
   input.streams[0] = {
     id: "video",
     kind: "video",
+    width: 640,
+    height: 480,
     bounds: range(0, 20),
     available: [range(0, 4), range(6, 20)],
   };
@@ -272,6 +276,8 @@ test("named inverse windows seek exact source fragments without changing editori
   input.streams[0] = {
     id: "video",
     kind: "video",
+    width: 640,
+    height: 480,
     bounds: range(0, 20),
     available: [range(0, 4), range(6, 20)],
   };

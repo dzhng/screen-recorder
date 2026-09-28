@@ -225,10 +225,14 @@ public enum CompositionAudio {
                 }
             }
             for step in node.steps {
+                if node.mediaKind == "output",
+                    ["geometry", "opacity"].contains(step.processor.type)
+                {
+                    continue
+                }
                 guard !step.id.isEmpty, stepIds.insert(step.id).inserted,
-                    step.processor.type == "gain", step.processor.gain.isFinite,
-                    step.processor.gain >= 0,
-                    step.processor.gain <= Double(Float.greatestFiniteMagnitude)
+                    step.processor.type == "gain", let gain = step.processor.gain, gain.isFinite,
+                    gain >= 0, gain <= Double(Float.greatestFiniteMagnitude)
                 else { throw invalid("Only finite nonnegative float gain is supported.") }
             }
         }
@@ -394,8 +398,8 @@ public enum CompositionAudio {
                             guard let value = combined else { continue }
                             samples = value
                         }
-                        for step in node.steps where step.enabled {
-                            let gain = Float(step.processor.gain)
+                        for step in node.steps where step.enabled && step.processor.type == "gain" {
+                            let gain = Float(step.processor.gain!)
                             for index in samples.indices { samples[index] *= gain }
                         }
                         buffers[node.target] = samples

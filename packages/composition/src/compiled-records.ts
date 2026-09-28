@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { rangeSchema, selectionRangeSchema } from "./schema.js";
+import { picturePrimitiveSchema } from "./geometry.js";
+import { rangeSchema, selectionRangeSchema, processingTargetSchema } from "./schema.js";
 
 const id = z.string().min(1);
 const index = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -8,6 +9,15 @@ export const compiledFrameSchema = z
     index,
     sampleAtUs: index,
     visibleRange: rangeSchema,
+    visual: z.array(
+      z
+        .object({
+          target: processingTargetSchema,
+          inputs: z.array(processingTargetSchema),
+          operations: z.array(picturePrimitiveSchema),
+        })
+        .strict(),
+    ),
     layers: z.array(
       z
         .object({
@@ -17,7 +27,8 @@ export const compiledFrameSchema = z
           streamId: id,
           sourceUs: index,
           availability: z.enum(["available", "source-unavailable", "anchor-unavailable"]),
-          placement: z.literal("contain"),
+          width: z.number().finite().positive(),
+          height: z.number().finite().positive(),
         })
         .strict(),
     ),

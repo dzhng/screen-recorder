@@ -17,6 +17,7 @@ if (process.argv.slice(2).join(" ") !== "--fixture linked-replacement") {
     streams: ["video", "audio"].map((kind) => ({
       id: kind,
       kind,
+      ...(kind === "video" ? { width: 160, height: 96 } : {}),
       bounds: { startUs: 0, endUs: clip.durationUs },
       available: [{ startUs: 0, endUs: clip.durationUs }],
     })),

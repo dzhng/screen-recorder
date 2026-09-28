@@ -49,6 +49,7 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
     streams: ["speech", "empty", "short", "narrow", "video"].map((id) => ({
       id,
       kind: id === "video" ? "video" : "audio",
+      ...(id === "video" ? { orientedWidth: 160, orientedHeight: 96 } : {}),
       codec: "fixture",
       decodable: true,
       startUs: 0,

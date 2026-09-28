@@ -21,6 +21,23 @@ public struct CompositionProcessing: Codable, Sendable {
     }
     public struct Processor: Codable, Sendable {
         public let type: String
-        public let gain: Double
+        public let gain: Double?
+        public let opacity: Double?
+        public let crop: Rectangle?
+        public let rect: Rectangle?
+        public let fit: String?
+        public let scale: Point?
+        public let rotationDeg: Double?
+        public let pivot: Point?
+        public struct Point: Codable, Sendable {
+            public let x: Double
+            public let y: Double
+        }
+        public struct Rectangle: Codable, Sendable {
+            public let x: Double
+            public let y: Double
+            public let width: Double
+            public let height: Double
+        }
     }
 }
