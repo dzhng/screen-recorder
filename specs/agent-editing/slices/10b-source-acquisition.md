@@ -1,6 +1,6 @@
 # 10b — Source acquisition and selected-stream transcripts
 
-Status: in progress. Capture adoption, durable project bindings and native prerequisites are integrated and verified. Asset transcript reads are integrated; the actual native public transcript and differing-mask journey remain open. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
+Status: in progress. Capture adoption, durable project bindings and native prerequisites are integrated and verified. Asset transcript reads are integrated; the actual native public transcript and differing-mask journey pass; its true historical-head check is the last integration correction. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
 
 ## Contract
 
@@ -152,3 +152,8 @@ The [product skill source-transcript check](../assets/10b-transcript-skill/READM
 uses a fresh agent against actual CLI/native inference. It verifies import, explicit
 stream selection, recognized words and source phrase search, with the fixture-path
 setup correction and listening limitation retained.
+
+[Public source inference and differing masks](../assets/10b-source-transcript-journey/README.md)
+are integrated with exact root runtime hash matches. Final root review requires
+advancing the project head before the new journey's old-revision restart check;
+the current report pins the then-current revision. This correction is in progress.

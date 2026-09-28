@@ -14,16 +14,14 @@ slice's acceptance gates remain the scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill describes
 available public operations only; the installed app has not switched engines.
 
-Continue [10b source acquisition](slices/10b-source-acquisition.md). Capture adoption,
-immutable project context bindings, native selected-stream transcription and masked
-video are integrated. The actual CLI/MCP adoption/recovery/preview/export journey
-passes; a fresh agent also exported synchronized capture media through the product
-skill. Shared transcript storage now accepts real recording or asset owners, and
-source selection uses composition's same physical/acquisition intersection.
-Asset transcript preparation and source reads/search/retry are integrated with
-passing focused service gates. Run the real selected-stream transcript and
-differing-context hole/partial-word journey, currently in progress. Do not close 10b on its
-storage or native prerequisites alone.
+Finish the last [10b source acquisition](slices/10b-source-acquisition.md) audit:
+[the actual source journey](assets/10b-source-transcript-journey/README.md) now
+passes selected-stream native parity, cancellation/retry, donor deletion and
+same-byte A/B/physical preview masks. All recorded runtime hashes match main.
+Strengthen its restart check by advancing the project head before rereading the
+old revision; the initial check pinned the current revision, so true historical
+coverage is not yet established by that new harness. Existing adoption history
+coverage remains valid. Do not mark 10b complete until this correction lands.
 
 The [bounded transcript seek](assets/10b-transcript-seek/README.md) correction is
 integrated: portable admission enforces the same nonoverlap invariant as ingestion,
@@ -49,11 +47,11 @@ Evidence boundaries to preserve:
   405 passing core checks followed by broad-run deadlines and controlled passing
   reruns. Do not restate this as one green final broad invocation. Scale remains 24.
 - [10b source routing](assets/10b-source-routing/README.md) records focused public
-  readiness, source/recording preservation and model shutdown checks. Native public
-  inference and differing-mask media remain separate acceptance.
+  readiness, source/recording preservation and model shutdown checks. The actual
+  source journey separately verifies native inference and differing-mask media.
 - [10b transcript storage](assets/10b-transcript-ownership/README.md) preserves the
   306 retained native words and recording/package behavior; source planning and
-  public asset reads are integrated; full native journey acceptance remains open.
+  public asset reads are integrated; the final historical journey correction remains open.
 - Risk gates remain open in 06 (broader encoding/color), 08 (audio conformance/scale),
   12/12b (speech labels/timing and cleanup), 12c/15a (denoise state/quality), 13a
   (stretch speech/listening), 18/19 (voice identity/delivery/joins), and 20/21
