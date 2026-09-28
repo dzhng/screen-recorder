@@ -73,3 +73,8 @@ and the [targeted build](build.txt) retain the final verification. The
 [compiled-only negative control](mutation.json) drops only cut iterator rows and
 makes the actual public oracle fail; restoring that runtime passes the journey again. No native rendering capability
 or source-index acceptance follows from this event-only change.
+
+The [integrated root confirmation](integrated.json) reruns the actual public cut
+journey after merging the compiler frame-boundary seam. All authored checks pass,
+as do 59 focused compiler/cut/project-evidence tests and CLI/service dependency
+builds. Public changed-generation verification remains the separate gate above.

@@ -26,8 +26,9 @@ Current pickup and priority:
    [fresh product-skill use](assets/10d-source-index-skill/README.md) now pass,
    including dependency recovery, images, coverage and retained independence.
    [Project cuts](assets/10c-project-cuts/README.md) pass authored public and
-   capture/scene preservation journeys. Next implement project-index selection on
-   the compiler frame phase and finish 10c public changed-generation verification;
+   capture/scene preservation journeys. [Compiler frame-boundary selection](assets/10d-project-index-clock/README.md)
+   is integrated; next implement project-index candidates/materialization and finish
+   10c public changed-generation verification;
    generation invalidation/cache-owner eviction currently retain real-store core
    gates. Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).

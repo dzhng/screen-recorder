@@ -24,3 +24,8 @@ coverage extension, or processing-aware candidate selection. Those remain open.
 
 Independent review found no actionable issues and reran all compiler tests
 successfully. The choice ledger records the approved bounds and policy separation.
+
+Root integration with project-cut events passes CLI/service dependency builds and
+59 focused compiler/cut/project-evidence checks. The actual public cut journey
+also passes on that merged runtime. This still does not establish project index
+selection, processing-tap filtering, retained materialization or delivery.

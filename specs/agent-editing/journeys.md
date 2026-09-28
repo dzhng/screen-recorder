@@ -45,8 +45,9 @@ actual public delivery and numerical/pixel oracles. [Source/project scenes](asse
 pass authored physical-clock, mixed-event ordering, repeated/retimed occurrence
 and cancellation/retry checks. [Retained source screenshot indexes](assets/10d-source-index-public/README.md)
 pass actual CLI/MCP/native delivery and recovery, with controlled empty-admission
-cases labeled separately. Project-cut events, project screenshot indexes,
-processors beyond constant gain and subjective listening remain pending. Rows below
+cases labeled separately. [Project-cut events](assets/10c-project-cuts/README.md) pass actual public authored
+and preservation journeys. Project screenshot indexes, processors beyond constant
+gain and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |

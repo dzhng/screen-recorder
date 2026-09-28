@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "checks": {
+    "replacement": true,
+    "rateTransition": true,
+    "separatePlanes": true,
+    "overlayEdges": true,
+    "holdsAndSilence": true,
+    "physicalGaps": true,
+    "pureFractionalSplit": true,
+    "fractionalProjectBoundaries": true,
+    "queryOwnership": true,
+    "pageSizes": [
+      1,
+      2,
+      500
+    ],
+    "historicalRestart": true
+  },
+  "nativeSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "runtime": {
+    "packages/composition/dist/project-cuts.js": "749ac60c7253c317917f71bab3702691793e6bbc8bc1469afcf599093cf99989",
+    "packages/core/dist/project-events.js": "a845068184199550b525013eaf0299d2b8d54a8edc0b5af4e2ee07694c1f8d95",
+    "packages/core/dist/project-evidence.js": "79bb77f32a6cbd943b432dc36f8e1f720a2a17674dd886dd34e3e70af8f633d5",
+    "packages/protocol/dist/operations.js": "d422093850c488594d25b1917f09bdc276bc85e7e6d08f980e43c65ebbbfbf75",
+    "apps/service/dist/project-service.js": "dcc4df650e8385bbaa5263c6eb03f6022c5c54dee1e1466f07819a9d8964be59",
+    "packages/test-harness/editing/cut-evidence.mjs": "ca4b0af69513b483c883887e948300e23e348f6a886dec331995536cee74cdcb"
+  },
+  "sourceCommit": "1198e05",
+  "fullReport": "/tmp/screenrec-project-cuts-root-final/report.json",
+  "focusedTests": {
+    "command": "bunx vitest run packages/composition/src/compiler.test.ts packages/composition/src/project-cuts.test.ts packages/core/src/project-evidence.test.ts --maxWorkers=3",
+    "files": 3,
+    "passed": 59
+  }
+}
