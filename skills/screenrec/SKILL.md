@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, inspect selected-source screenshot indexes or edited-project pictures, or inspect source scene changes, captured cursor and timeline evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, inspect selected-source screenshot indexes or edited-project pictures, or inspect source scene changes, captured cursor and editorial project-cut evidence.
 ---
 
 # Screenrec
@@ -149,6 +149,14 @@ project cut; unsupported categories remain unknown. Initial reads may prepare
 scenes: inspect returned dependencies/jobs, poll the same selection and explicitly
 retry failed/canceled prerequisites using the advertised job operation. Retrying a
 project query alone does not repair its source dependencies.
+
+In project event results, distinguish editorial cuts from measured source scenes.
+A cut reports a track-local source-mapping transition: inspect both sides, exact
+project time and audio/video plane. Entrances/exits can belong to an overlay while
+underlying tracks continue. Pure splits add no cut; rate changes can, without
+proving an audible or visible discontinuity. Project cut authority comes from the
+pinned revision, not a source generation. Keep availability gaps separate and do
+not infer missing capture metadata from an empty cut list.
 
 For capture-specific cursor, pause, geometry and interruption evidence, use an
 explicit acquisition binding; a scene row does not supply capture provenance.

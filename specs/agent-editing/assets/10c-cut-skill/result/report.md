@@ -1,0 +1,17 @@
+# Editorial cut report
+
+Project `d697278c-ae0a-456c-99b7-ee890638bd97` (“Untitled”), pinned revision `31f5bf5f-06e0-4f49-8f55-53c2f8e20b65`, was queried across the full returned project range `[0, 800000)` µs. The ready project event page has no continuation cursor, so it covers all returned cut events for that revision and range.
+
+The project contains three editorial transitions, all marked `mediaKind: video`:
+
+- At project time **200000 µs**, track rank 1 (`track:e6312e1f1a903a79c7471d8c4c44d57e6b04e55410a7445a381b05df03481223:1`) has `before: null` and `after` clip `clip:e6312e1f1a903a79c7471d8c4c44d57e6b04e55410a7445a381b05df03481223:4`, mapped to asset `42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc`, stream `track:2`, source time **0 µs**, rate **1**. This is an entrance onto the track; it does not establish that the underlying track changed at the same project time.
+- At project time **400000 µs**, track rank 0 (`track:e6312e1f1a903a79c7471d8c4c44d57e6b04e55410a7445a381b05df03481223:0`) changes from clip `clip:c870cd667b88941b33ab76cde143dcb007f609c729153428a9b5777122eafbdf:0`, same asset, stream `track:1`, source time **400000 µs**, rate **1**, to clip `clip:e6312e1f1a903a79c7471d8c4c44d57e6b04e55410a7445a381b05df03481223:3`, same asset and stream, source time **600000 µs**, rate **1**. This is a same-track source-mapping jump forward by **200000 µs** at the join.
+- At project time **500000 µs**, track rank 1 / `track:e6312e1f1a903a79c7471d8c4c44d57e6b04e55410a7445a381b05df03481223:1` has `before` clip `clip:e6312e1f1a903a79c7471d8c4c44d57e6b04e55410a7445a381b05df03481223:4`, same asset, stream `track:2`, source time **300000 µs**, rate **1**, and `after: null`. This is an exit from that track; it does not establish a change in the continuing track.
+
+These are revision-authored project mapping transitions. The source-scene evidence is separate: both selected source streams (`track:1` and `track:2`) reached ready scene processing, with `boundaryCount: 0` (3 comparisons each); the project page contains no measured scene-change rows. That does not negate the editorial cut at 400000 µs, and source scene evidence does not create or define the project cut. Cut coverage is explicitly `ready` with `basis: revision`.
+
+The returned occurrence coverage spans the full project range with all four occurrences fully available and no unavailable subranges: track rank 0 clips cover `[0,200000)`, `[200000,400000)`, and `[400000,800000)`; track rank 1 clip covers `[200000,500000)`. Thus there is no missing-media coverage interval in this result. Separately, capture metadata coverage (pause, geometry and interruption) is unavailable because capture context is missing, and cut coverage for the raw source selections is `unsupported`; neither condition is missing-media evidence or a reason to infer no project cut.
+
+Verification limit: this report establishes edit mappings and coverage from the pinned revision’s public timeline event response. It does not assess whether any join is audible or visually discontinuous.
+
+Receipts: `project.json`; `timeline-page-1.json` (initial query and dependencies); `job-track1.json`, `job-track2.json`, and `project-events-job.json` (public readiness receipts); `timeline-page-2.json` (same query after source evidence became ready); `timeline-page-3.json` (final ready full-range page). CLI help/schema is saved as `cli-help.json`.

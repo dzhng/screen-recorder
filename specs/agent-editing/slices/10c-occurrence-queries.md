@@ -199,3 +199,9 @@ distinguishes actual public journeys from real-store owner gates. Public
 changed-generation acceptance remains the final 10c verification pickup; no new
 cut implementation is pending. This does not close umbrella 10 or screenshot-index
 projection in 10d, and does not establish ASR accuracy or listening quality.
+
+[Fresh project-cut skill use](../assets/10c-cut-skill/README.md) verifies an agent
+can identify the complete editorial transitions, distinguish source scenes and
+availability, and avoid inventing a cut at a pure split through public CLI reads.
+The project remains unchanged. This does not substitute for the remaining public
+changed-generation gate or for rendered/listening acceptance.
