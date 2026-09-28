@@ -1,0 +1,26 @@
+[
+  {
+    "index": 0,
+    "actualTimescale": 1000000,
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "actualValue": "49999",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "requestedUs": 49999,
+    "width": 3120,
+    "height": 1970,
+    "file": "/tmp/screenrec-recorded-rate-confirm/candidate-range/decoded/000.png"
+  },
+  {
+    "index": 1,
+    "actualTimescale": 1000000,
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "actualValue": "149999",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "requestedUs": 149999,
+    "width": 3120,
+    "height": 1970,
+    "file": "/tmp/screenrec-recorded-rate-confirm/candidate-range/decoded/001.png"
+  }
+]

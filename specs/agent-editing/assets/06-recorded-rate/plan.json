@@ -1,0 +1,11 @@
+{
+  "parent": "frozen instrumented pointer writer dcd24378b7e2da9c9d85ac029e29140ead91221fcba898a6b697cdbde9294ff1",
+  "candidate": "40Mbps compression setting only; original keyframe policy",
+  "newTask": "unchanged narrated-workbench recording, native3120x1970, full1second at20fps and clipped450001..650001us",
+  "samples": [0, 500000, 600000],
+  "criteria": "existing original four-code-value whole-image and fixed5x5 normalized lattice checks; no excluded edges; media source membership/timing exact",
+  "prediction": "high-rate candidate reduces or preserves errors on recorded frames; no assumption that it passes whole-image quality",
+  "regressionParent": "pointer3sample centroid pass retained unchanged; native composition-movie full/range/video-only/cancellation already passes",
+  "cost": "four1second-or-less movie renders plus sampled PNGs;60second pernative/decodecall timeout;one setup repair",
+  "promotion": "none until complete export profile quality/size acceptance; one recorded fixture is insufficient"
+}

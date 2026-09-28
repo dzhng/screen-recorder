@@ -105,6 +105,7 @@ legacy-byte acceptance stay open; no production encoding setting changed.
 [One-factor encoding trials](../assets/06-pointer-encoding/README.md) reject an
 all-intra keyframe policy for the frozen pointer cohort. A requested 40 Mbps rate
 passes its original three-sample centroid criterion with unchanged writer inputs,
-but exact pixels still differ. No production profile changes. Expand this candidate
-to retained recorded-content/temporal regressions before adopting any rate policy;
-do not conflate this scoped win with whole-image or legacy-byte acceptance.
+but exact pixels still differ. No production profile changes. [Recorded-content expansion](../assets/06-recorded-rate/README.md) yields identical
+sampled pictures/file sizes under both policies and still fails the whole-image
+gate. Investigate profile color/chroma preservation independently of bitrate; do
+not conflate the small pointer win with whole-image or legacy-byte acceptance.

@@ -52,8 +52,8 @@ before creating outputs because `map(resolve)` passed array callback arguments;
 trial. No models, network downloads, capture or playback were used.
 
 [Independent review and confirmation](review.md) verify the scoped result and
-existing native movie regression gates. Next expand the rate candidate to the
-recorded-content and broader temporal corpus, measuring original quality gates and output cost. Do not tune
+existing native movie regression gates. [Recorded-content expansion](../06-recorded-rate/README.md) finds no sampled
+pixel or file-size change from the rate setting, with whole-image quality still red. Do not tune
 more constants on these same three samples or promote 40 Mbps from this result.
 A production policy still needs whole-content quality, duration/size and range
 behavior evidence; all-intra is not a winner to combine with it.

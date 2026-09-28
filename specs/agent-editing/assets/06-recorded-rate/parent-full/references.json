@@ -1,0 +1,38 @@
+[
+  {
+    "width": 3120,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "actualValue": "0",
+    "requestedUs": 0,
+    "actualTimescale": 1000000,
+    "index": 0,
+    "file": "/tmp/screenrec-recorded-rate-confirm/parent-full/decoded/000.png",
+    "height": 1970
+  },
+  {
+    "width": 3120,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "actualValue": "500000",
+    "requestedUs": 500000,
+    "actualTimescale": 1000000,
+    "index": 1,
+    "file": "/tmp/screenrec-recorded-rate-confirm/parent-full/decoded/001.png",
+    "height": 1970
+  },
+  {
+    "width": 3120,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "actualValue": "600000",
+    "requestedUs": 600000,
+    "actualTimescale": 1000000,
+    "index": 2,
+    "file": "/tmp/screenrec-recorded-rate-confirm/parent-full/decoded/002.png",
+    "height": 1970
+  }
+]

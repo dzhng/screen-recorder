@@ -1,0 +1,26 @@
+[
+  {
+    "index": 0,
+    "file": "/tmp/screenrec-recorded-rate-confirm/parent-range/decoded/000.png",
+    "actualTimescale": 1000000,
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "actualValue": "49999",
+    "requestedUs": 49999,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "height": 1970,
+    "width": 3120,
+    "outputProfile": "kCGColorSpaceSRGB"
+  },
+  {
+    "index": 1,
+    "file": "/tmp/screenrec-recorded-rate-confirm/parent-range/decoded/001.png",
+    "actualTimescale": 1000000,
+    "actualValue": "149999",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "requestedUs": 149999,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "height": 1970,
+    "width": 3120,
+    "outputProfile": "kCGColorSpaceSRGB"
+  }
+]

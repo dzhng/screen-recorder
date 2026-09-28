@@ -1,0 +1,17 @@
+{
+  "bytes": 173081,
+  "decodedSamples": 28,
+  "durationUs": 1000000,
+  "file": "/tmp/screenrec-recorded-rate-confirm/candidate-full/movie.mp4",
+  "frames": 20,
+  "height": 1970,
+  "maximumSequentialAdvanceUs": 1000000,
+  "mediaType": "video/mp4",
+  "pixelPoolAllocationThreshold": 4,
+  "pointerRasterizations": 0,
+  "profile": "h264-rec709",
+  "rasterizedFrames": 20,
+  "readerOpens": 1,
+  "retainedSourceBuffersBound": 1,
+  "width": 3120
+}

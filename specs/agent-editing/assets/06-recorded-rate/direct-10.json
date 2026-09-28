@@ -1,0 +1,305 @@
+{
+  "params": {
+    "output": "/tmp/screenrec-recorded-rate-confirm/direct-10.png",
+    "frame": {
+      "index": 10,
+      "sampleAtUs": 500000,
+      "visibleRange": {
+        "startUs": 500000,
+        "endUs": 550000
+      },
+      "layers": [
+        {
+          "clipId": "recorded",
+          "trackId": "v",
+          "assetId": "recorded",
+          "streamId": "track:1",
+          "sourceUs": 500000,
+          "availability": "available",
+          "width": 3120,
+          "height": 1970
+        }
+      ],
+      "visual": [
+        {
+          "target": {
+            "kind": "clip",
+            "id": "recorded"
+          },
+          "inputs": [],
+          "operations": [
+            {
+              "kind": "clamp",
+              "x": 0.5,
+              "y": 0.5,
+              "width": 3119,
+              "height": 1969
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "coverage",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 3120,
+                  "y": 0
+                },
+                {
+                  "x": 3120,
+                  "y": 1970
+                },
+                {
+                  "x": 0,
+                  "y": 1970
+                }
+              ],
+              "width": 3120,
+              "height": 1970
+            }
+          ]
+        },
+        {
+          "target": {
+            "kind": "track",
+            "id": "v"
+          },
+          "inputs": [
+            {
+              "kind": "clip",
+              "id": "recorded"
+            }
+          ],
+          "operations": []
+        },
+        {
+          "target": {
+            "kind": "output"
+          },
+          "inputs": [
+            {
+              "kind": "track",
+              "id": "v"
+            }
+          ],
+          "operations": []
+        }
+      ]
+    },
+    "canvas": {
+      "width": 3120,
+      "height": 1970,
+      "fps": {
+        "numerator": 20,
+        "denominator": 1
+      },
+      "background": "#000000ff"
+    },
+    "profile": "h264-rec709",
+    "processing": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "recorded"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "v"
+        },
+        "mediaKind": "video",
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "recorded"
+          }
+        ],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "mediaKind": "output",
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "v"
+          }
+        ],
+        "steps": []
+      }
+    ],
+    "assets": [
+      {
+        "assetId": "recorded",
+        "streamId": "track:1",
+        "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/video.mov",
+        "originUs": 0
+      }
+    ],
+    "maxLongEdge": 8192
+  },
+  "receipt": {
+    "bytes": 933931,
+    "decodedSamples": 1,
+    "file": "/tmp/screenrec-recorded-rate-confirm/direct-10.png",
+    "frame": {
+      "index": 10,
+      "layers": [
+        {
+          "assetId": "recorded",
+          "availability": "available",
+          "clipId": "recorded",
+          "height": 1970,
+          "sourceUs": 500000,
+          "streamId": "track:1",
+          "trackId": "v",
+          "width": 3120
+        }
+      ],
+      "sampleAtUs": 500000,
+      "visibleRange": {
+        "endUs": 550000,
+        "startUs": 500000
+      },
+      "visual": [
+        {
+          "inputs": [],
+          "operations": [
+            {
+              "height": 1969,
+              "kind": "clamp",
+              "width": 3119,
+              "x": 0.5,
+              "y": 0.5
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "height": 1970,
+              "kind": "coverage",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 3120,
+                  "y": 0
+                },
+                {
+                  "x": 3120,
+                  "y": 1970
+                },
+                {
+                  "x": 0,
+                  "y": 1970
+                }
+              ],
+              "width": 3120
+            }
+          ],
+          "target": {
+            "id": "recorded",
+            "kind": "clip"
+          }
+        },
+        {
+          "inputs": [
+            {
+              "id": "recorded",
+              "kind": "clip"
+            }
+          ],
+          "operations": [],
+          "target": {
+            "id": "v",
+            "kind": "track"
+          }
+        },
+        {
+          "inputs": [
+            {
+              "id": "v",
+              "kind": "track"
+            }
+          ],
+          "operations": [],
+          "target": {
+            "kind": "output"
+          }
+        }
+      ]
+    },
+    "height": 1970,
+    "mediaType": "image/png",
+    "pictures": [
+      {
+        "actualSourceUs": 477913,
+        "assetId": "recorded",
+        "clipId": "recorded",
+        "requestedSourceUs": 500000,
+        "sample": {
+          "originUs": 0,
+          "timescale": 1000000,
+          "value": "477913"
+        },
+        "status": "available",
+        "streamId": "track:1"
+      }
+    ],
+    "profile": "h264-rec709",
+    "readerOpens": 1,
+    "sourceHeight": 1970,
+    "sourceWidth": 3120,
+    "width": 3120
+  }
+}

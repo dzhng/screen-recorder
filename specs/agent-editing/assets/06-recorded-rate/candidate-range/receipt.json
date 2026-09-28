@@ -1,0 +1,17 @@
+{
+  "bytes": 140282,
+  "decodedSamples": 6,
+  "durationUs": 200000,
+  "file": "/tmp/screenrec-recorded-rate-confirm/candidate-range/movie.mp4",
+  "frames": 5,
+  "height": 1970,
+  "maximumSequentialAdvanceUs": 1000000,
+  "mediaType": "video/mp4",
+  "pixelPoolAllocationThreshold": 4,
+  "pointerRasterizations": 0,
+  "profile": "h264-rec709",
+  "rasterizedFrames": 5,
+  "readerOpens": 1,
+  "retainedSourceBuffersBound": 1,
+  "width": 3120
+}

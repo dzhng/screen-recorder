@@ -1,0 +1,38 @@
+[
+  {
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "requestedUs": 0,
+    "height": 1970,
+    "file": "/tmp/screenrec-recorded-rate-confirm/candidate-full/decoded/000.png",
+    "width": 3120,
+    "actualValue": "0",
+    "actualTimescale": 1000000,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "index": 0,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+  },
+  {
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "requestedUs": 500000,
+    "height": 1970,
+    "file": "/tmp/screenrec-recorded-rate-confirm/candidate-full/decoded/001.png",
+    "width": 3120,
+    "actualValue": "500000",
+    "actualTimescale": 1000000,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "index": 1,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+  },
+  {
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "requestedUs": 600000,
+    "height": 1970,
+    "file": "/tmp/screenrec-recorded-rate-confirm/candidate-full/decoded/002.png",
+    "width": 3120,
+    "actualValue": "600000",
+    "actualTimescale": 1000000,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "index": 2,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+  }
+]

@@ -1,0 +1,160 @@
+{
+  "activeBytes" : 24585600,
+  "attachments" : {
+    "nonpropagate" : {
+
+    },
+    "propagate" : {
+      "CGColorSpace" : {
+        "components" : 3,
+        "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "model" : 1,
+        "name" : "kCGColorSpaceCoreMedia709"
+      },
+      "CVImageBufferColorPrimaries" : "ITU_R_709_2",
+      "CVImageBufferTransferFunction" : "ITU_R_709_2",
+      "CVImageBufferYCbCrMatrix" : "ITU_R_709_2",
+      "HorizontalDisparityAdjustment" : 0
+    }
+  },
+  "frame" : {
+    "index" : 10,
+    "layers" : [
+      {
+        "assetId" : "recorded",
+        "availability" : "available",
+        "clipId" : "recorded",
+        "height" : 1970,
+        "sourceUs" : 500000,
+        "streamId" : "track:1",
+        "trackId" : "v",
+        "width" : 3120
+      }
+    ],
+    "sampleAtUs" : 500000,
+    "visibleRange" : {
+      "endUs" : 550000,
+      "startUs" : 500000
+    },
+    "visual" : [
+      {
+        "inputs" : [
+
+        ],
+        "operations" : [
+          {
+            "height" : 1969,
+            "kind" : "clamp",
+            "width" : 3119,
+            "x" : 0.5,
+            "y" : 0.5
+          },
+          {
+            "kind" : "affine",
+            "matrix" : [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind" : "affine",
+            "matrix" : [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "height" : 1970,
+            "kind" : "coverage",
+            "points" : [
+              {
+                "x" : 0,
+                "y" : 0
+              },
+              {
+                "x" : 3120,
+                "y" : 0
+              },
+              {
+                "x" : 3120,
+                "y" : 1970
+              },
+              {
+                "x" : 0,
+                "y" : 1970
+              }
+            ],
+            "width" : 3120
+          }
+        ],
+        "target" : {
+          "id" : "recorded",
+          "kind" : "clip"
+        }
+      },
+      {
+        "inputs" : [
+          {
+            "id" : "recorded",
+            "kind" : "clip"
+          }
+        ],
+        "operations" : [
+
+        ],
+        "target" : {
+          "id" : "v",
+          "kind" : "track"
+        }
+      },
+      {
+        "inputs" : [
+          {
+            "id" : "v",
+            "kind" : "track"
+          }
+        ],
+        "operations" : [
+
+        ],
+        "target" : {
+          "kind" : "output"
+        }
+      }
+    ]
+  },
+  "height" : 1970,
+  "pictures" : [
+    {
+      "actualSourceUs" : 477913,
+      "assetId" : "recorded",
+      "clipId" : "recorded",
+      "requestedSourceUs" : 500000,
+      "sample" : {
+        "originUs" : 0,
+        "timescale" : 1000000,
+        "value" : "477913"
+      },
+      "status" : "available",
+      "streamId" : "track:1"
+    }
+  ],
+  "pixelFormat" : 1111970369,
+  "range" : {
+    "endUs" : 1000000,
+    "startUs" : 0
+  },
+  "sha256" : "7c96f09cc4146a533f1cabae3cd42294157b8389ed67aab8457c27bcd393776d",
+  "stride" : 12480,
+  "width" : 3120,
+  "writerDurationUs" : 50000,
+  "writerPTSUs" : 500000
+}
