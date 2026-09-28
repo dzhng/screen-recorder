@@ -47,3 +47,7 @@ export { CompositionError } from "./errors.js";
 export { getProcessing, processingCapabilities } from "./processing.js";
 export { processingTargetSchema, processingStepSchema } from "./schema.js";
 export type { ProcessingTarget, ProcessingStep } from "./schema.js";
+
+export { createCompiler } from "./compiler.js";
+export type { CompiledFrame, CompiledAudio } from "./compiler.js";
+export type { ProcessingInstruction } from "./processing-plan.js";

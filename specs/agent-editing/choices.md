@@ -528,3 +528,25 @@ trim and stretch replacements keep their single-interval behavior.
   graph instead of reconstructing what prior edits used.
 - **Verdict:** sound; ownership matches immutable revision lifetime.
 - **Confidence:** high.
+## Compiler scheduling pass — 2026-09-27
+
+- **Sound; medium confidence — Build once, query many windows.** When an agent
+  requests several previews from one revision, `createCompiler` builds an interval
+  index once and reuses it for frame, audio and processing queries. The plan named
+  a compile-window function but left index lifetime unspecified. A caller rebuilding
+  for every frame would repeatedly scan the whole project. The service must retain
+  this compiler with its immutable revision; execution and cache identity remain
+  separate unfinished compiler work.
+- **Sound; high confidence — Keep the full audio mapping beside bounded output.**
+  A preview starting halfway through speech receives only its requested sample
+  interval, but keeps the clip's original source selection and placement. Replacing
+  those with the preview bounds would restart stretch or resample timing. The plan
+  fixed phase preservation but left worker record shape open. Future preparation
+  consumes the original mapping and restricts its output, rather than treating a
+  preview as newly authored media.
+- **Sound; medium confidence — Omit inactive processing branches.** A short preview
+  returns the clips that overlap its window and only their track/group ancestors,
+  followed by output. Empty branches contain no signal, and the currently supported
+  gain processor cannot generate one. The plan required bounded work but left graph
+  pruning unspecified. A future processor that generates sound or has a tail beyond
+  its input must revisit this rule before its capability is admitted.

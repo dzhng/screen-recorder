@@ -13,7 +13,7 @@ when an edit requires them; whole values remain numbers. This preserves the sour
 mapping when a retimed clip is split. Command coordinates and admitted source
 metadata remain integer microseconds. Asset stream bounds and availability use the shared asset clock, including any
 leading stream offset. A still image has no invented duration and uses a hold at
-source time zero. Effects and captions are rejected until their typed capability
+source time zero. Unsupported processing variants and captions are rejected until their typed capability
 slices land. Canvas background is explicit `#RRGGBBAA`.
 
 `resolvePlacement(model, clipIdOrAnchor)` returns an exact placement envelope and
@@ -63,3 +63,16 @@ order shared by evidence and compilation. The [processing owner](src/processing.
 and preserves configuration across structural edits. Get/set and constant audio
 gain authoring are available in this pure package; capability discovery explicitly
 distinguishes that from native execution, which remains unimplemented.
+
+The [compiler](src/compiler.ts) builds an interval index once for a validated
+immutable revision. Frame iterators keep absolute project phase; audio schedules
+clip absolute sample bounds while retaining the whole source/placement mapping.
+Unavailable media remains marked, and missing contributors represent background
+or silence rather than invented source evidence. Processing instructions retain
+ordered steps and combine children before their parent stack. Their list is
+restricted to window contributors and their ancestors, so a late preview does
+not materialize earlier frames or unrelated processing branches.
+
+These are pure schedules, not executable native requests or readiness claims.
+The [compiler slice](../../specs/agent-editing/slices/05-compiler.md) owns remaining
+preparation, tap and dependency contracts before native consumers adopt them.

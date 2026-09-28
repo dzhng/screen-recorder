@@ -1,0 +1,11 @@
+{
+  "fixture": "phase-offset",
+  "scope": "pure composition schedules; no service or native execution",
+  "comparisons": 34,
+  "splitPreserved": true,
+  "outputSampleRates": [
+    44100,
+    48000
+  ],
+  "nestedProcessing": true
+}

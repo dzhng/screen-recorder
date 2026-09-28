@@ -1,6 +1,6 @@
 # 05 — Compile bounded execution plans
 
-Status: not started. Dependencies: [01](./01-composition.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
+Status: first pure scheduling pass verified; execution-plan completion remains open. See [evidence](../assets/05-compiler/README.md). Dependencies: [01](./01-composition.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
 
 ## Contract
 
@@ -8,7 +8,7 @@ One compiler produces bounded, windowed execution instructions used by every ins
 
 ## Seam and ownership
 
-`compileWindow(revision, assetMetadata, range, rendition)` and bounded frame/audio schedule iterators in composition. Outputs use asset/stream IDs, exact project bounds, source requests, layer order and prepared audio segments; service alone resolves assets to retained files.
+`createCompiler(validatedRevision)` builds one reusable interval index and exposes bounded frame/audio schedule iterators plus processing-tree instructions. The next pass completes the unified execution-window envelope, taps and dependency/preparation identities. Outputs use asset/stream IDs, exact project bounds, source requests, layer order and prepared audio segments; service alone resolves assets to retained files.
 
 ## Work and review surface
 

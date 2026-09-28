@@ -3,6 +3,16 @@ import type { Composition } from "./schema.js";
 type Node = Readonly<Composition["tracks"][number]>;
 export type RoutingTarget = Readonly<{ kind: "track" | "group"; id: string }>;
 type Entry = RoutingTarget & { node: Node };
+export function compareRoutingSiblings(
+  a: { kind: string; id: string; node: { order: number } },
+  b: { kind: string; id: string; node: { order: number } },
+) {
+  return (
+    a.node.order - b.node.order ||
+    (a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : 0) ||
+    (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
+  );
+}
 function invalid(message: string): never {
   throw new CompositionError("INVALID_COMPOSITION", message);
 }
@@ -37,12 +47,7 @@ export function resolveRouting(document: {
         if (visualOrders.has(node.order)) invalid(`Duplicate video layer order: ${node.order}`);
         visualOrders.add(node.order);
       }
-    siblings.sort(
-      (a, b) =>
-        a.node.order - b.node.order ||
-        (a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : 0) ||
-        (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
-    );
+    siblings.sort(compareRoutingSiblings);
   }
   const pending = [...(children.get(undefined) ?? [])].reverse();
   const tracks: string[] = [];
