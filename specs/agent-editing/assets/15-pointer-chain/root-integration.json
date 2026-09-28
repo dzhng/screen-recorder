@@ -1,0 +1,68 @@
+{
+  "date": "2026-09-28",
+  "rootCommit": "74ede7ff",
+  "artifactHashesVerified": 57,
+  "decodedPictureHashesReproduced": 21,
+  "workers": {
+    "baseline": {
+      "path": "/tmp/screenrec-project-image-integrated-native",
+      "sha256": "2b40350219d91abdb79d0872d2fa34aff64be0d60a711cacf3724d06749c0db2"
+    },
+    "instrumented": {
+      "path": "/tmp/screenrec-pointer-chain-writer-native",
+      "sha256": "7599a1b3253aab77114e2b3cf7b844bf99d3c4ee3b69832826c01d70f7aec387"
+    },
+    "40mbps": {
+      "path": "/tmp/screenrec-pointer-chain-40mbps-native",
+      "sha256": "b7c2f3c9b81d78ed45e100a2ada88cd39d27ef8dd949cd7eccd664a02817f8b6"
+    }
+  },
+  "candidatePasses": false,
+  "losslessControls": {
+    "untouched-709": [
+      {
+        "exactNormalizedWriter": false,
+        "geometryPassed": false,
+        "maximumCodeDifference": 11
+      },
+      {
+        "exactNormalizedWriter": false,
+        "geometryPassed": false,
+        "maximumCodeDifference": 11
+      },
+      {
+        "exactNormalizedWriter": false,
+        "geometryPassed": false,
+        "maximumCodeDifference": 11
+      },
+      {
+        "exactNormalizedWriter": false,
+        "geometryPassed": false,
+        "maximumCodeDifference": 11
+      }
+    ],
+    "normalized-srgb": [
+      {
+        "exactNormalizedWriter": true,
+        "geometryPassed": true,
+        "maximumCodeDifference": 1
+      },
+      {
+        "exactNormalizedWriter": true,
+        "geometryPassed": true,
+        "maximumCodeDifference": 1
+      },
+      {
+        "exactNormalizedWriter": true,
+        "geometryPassed": true,
+        "maximumCodeDifference": 1
+      },
+      {
+        "exactNormalizedWriter": true,
+        "geometryPassed": true,
+        "maximumCodeDifference": 0
+      }
+    ]
+  },
+  "runtimeAcceptanceClaimed": false
+}
