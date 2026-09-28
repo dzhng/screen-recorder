@@ -1,0 +1,17 @@
+Building for debugging...
+[0/4] Write sources
+[1/4] Write swift-version--1AB21518FC5DEDBE.txt
+[3/9] Compiling ScreenRecorderFrames PreparedPointers.swift
+[4/9] Compiling ScreenRecorderFrames CompositionVideoRenderer.swift
+[5/9] Compiling ScreenRecorderFrames CompositionFrameRenderer.swift
+[6/9] Emitting module ScreenRecorderFrames
+[7/9] Compiling ScreenRecorderFrames CompositionPictureExecutor.swift
+[8/15] Compiling ScreenRecorderWire CompositionMovieOperation.swift
+[9/15] Compiling ScreenRecorderWire Wire.swift
+[10/15] Compiling ScreenRecorderWire CompositionVideoOperation.swift
+[11/15] Emitting module ScreenRecorderWire
+[12/15] Compiling ScreenRecorderWire CompositionFrameOperation.swift
+[12/15] Write Objects.LinkFileList
+[13/15] Linking screenrec-native
+[14/15] Applying screenrec-native
+Build of product 'screenrec-native' complete! (6.44s)

@@ -18,7 +18,8 @@ Current pickup and priority:
 
 1. Integrate and verify the combined [10d picture/index](slices/10d-frame-inspection.md)
    and pointer renderer bindings. [Project still composition/indexes](assets/10d-project-image-public/README.md)
-   now pass their native public journey and fresh skill use. Raw PNG/JPEG
+   now pass their native public journey, fresh skill use and
+   [root integration checks](assets/10d-project-image-integration/README.md). Raw PNG/JPEG
    inspection passes its [public lifecycle and fresh skill checks](assets/10d-source-image-public/README.md).
    Source/project video pictures, scenes and retained indexes also pass their
    public journeys. [Compiler visibility](assets/10d-frame-visibility/README.md)
