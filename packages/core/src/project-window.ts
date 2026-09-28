@@ -23,7 +23,7 @@ export type CompositionAssetBinding = {
 const implementations = (id: string): ProcessorImplementations => ({ gain: id });
 export const projectCapabilities = (id: string) => processingCapabilities(implementations(id));
 
-/** Preview and PCM inspection resolve the same immutable dependencies and execution requirements. */
+/** Preview and media inspection resolve the same immutable dependencies and execution requirements. */
 export function projectWindow(
   projects: ProjectStore,
   assets: AssetStore,
@@ -34,7 +34,7 @@ export function projectWindow(
     tap?: ProcessingTap | undefined;
   },
   implementationId: string,
-  component?: "audio",
+  component?: "audio" | "video",
 ) {
   const revision = projects.revision(input.projectId, input.revisionId);
   const ids = [...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId))];
@@ -51,7 +51,13 @@ export function projectWindow(
       "Rendering requires a nonempty range within the pinned project",
     );
   const compiler = createCompiler(model, revision.id);
-  const window = (component === "audio" ? compiler.audioWindow : compiler.window)({
+  const window = (
+    component === "audio"
+      ? compiler.audioWindow
+      : component === "video"
+        ? compiler.videoWindow
+        : compiler.window
+  )({
     range: parsed.data,
     rendition: { sampleRate: 48000, channels: 2 },
     tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },

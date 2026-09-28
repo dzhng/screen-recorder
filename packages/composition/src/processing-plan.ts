@@ -59,7 +59,7 @@ export function processingPlanner(model: ValidatedComposition) {
   return (
     clips: readonly ValidatedComposition["clips"][number][],
     tap: ProcessingTap = { target: { kind: "output" }, point: { kind: "processed" } },
-    component?: "audio",
+    component?: "audio" | "video",
   ): ProcessingInstruction[] => {
     const output = entries.get(processingKey(tap.target));
     if (!output)
@@ -69,7 +69,9 @@ export function processingPlanner(model: ValidatedComposition) {
     if (component && output.mediaKind !== "output" && output.mediaKind !== component)
       throw new CompositionError(
         "INVALID_COMPOSITION",
-        "Audio inspection requires an audio target",
+        component === "audio"
+          ? "Audio inspection requires an audio target"
+          : "Video inspection requires a video target",
         { target: tap.target },
       );
     const point = tap.point;

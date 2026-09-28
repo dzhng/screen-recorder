@@ -1,0 +1,26 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+ ❯ packages/composition/src/compiler.test.ts (21 tests | 1 failed) 97ms
+   × picture inspection retains the globally visible frame without requiring unrelated retimed audio 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/compiler.test.ts > picture inspection retains the globally visible frame without requiring unrelated retimed audio
+TypeError: compiler.videoWindow is not a function
+ ❯ packages/composition/src/compiler.test.ts:1077:28
+    1075|   };
+    1076|   const movie = compiler.window(request);
+    1077|   const picture = compiler.videoWindow(request);
+       |                            ^
+    1078|   expect([...picture.frames()]).toEqual([...movie.frames()]);
+    1079|   expect([...picture.frames()][0]).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 20 passed (21)
+   Start at  01:06:11
+   Duration  277ms (tests 43%, transform 39%, import 17%, worker 1%)
+

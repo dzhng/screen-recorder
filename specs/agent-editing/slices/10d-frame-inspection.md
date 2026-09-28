@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: not started. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; video-only compiler selection is verified, native demanded-picture extraction is underway. Public still/index acceptance remains open. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -55,3 +55,12 @@ Unimplemented pointer/geometry features remain their named later gates.
 Delegated: extraction of the coherent native picture executor and index storage
 representation. Sampling, capability, identity and single-owner rules are fixed.
 Update slice Status and the README handoff after verified passes.
+
+
+## Picture planning checkpoint
+
+The compiler now selects the video plane through the same contributor, processing
+and execution-window owners used by movies and audio inspection. A narrow request
+inside a frame retains that frame's global sample timestamp; unrelated audio
+retiming and audio processing do not block the picture. [Focused evidence](../assets/10d-picture-window/README.md)
+covers this pure planning prerequisite, not delivered-image acceptance.

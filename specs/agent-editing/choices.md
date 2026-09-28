@@ -1101,3 +1101,10 @@ trim and stretch replacements keep their single-interval behavior.
   owners but select the audio plane. Generic movie windows retain both planes.
   The plan required shared binding without specifying this separation; later
   processors must preserve it rather than introducing another mixer.
+
+- **Sound; high confidence — A demanded picture ignores unrelated audio execution.**
+  A still from a project with retimed speech uses the same globally phased picture
+  as a movie, but does not need the audio stretch processor to be ready. The plan
+  required shared capability binding; extending its existing media-plane selection
+  keeps picture and audio inspection independent without duplicating timing.
+  Landed in the direct-picture planning prerequisite.

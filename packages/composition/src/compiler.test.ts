@@ -1049,3 +1049,65 @@ test("execution window owns exact sample endpoints and readiness requires every 
     }),
   );
 });
+
+test("picture inspection retains the globally visible frame without requiring unrelated retimed audio", () => {
+  const input = structuredClone(document);
+  input.tracks.push({ id: "a", kind: "audio", order: 1 });
+  input.clips.push({
+    id: "speech",
+    trackId: "a",
+    assetId: "sound",
+    streamId: "audio",
+    source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+    placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+  });
+  input.processing.push({
+    target: { kind: "output" },
+    steps: [{ id: "gain", enabled: true, processor: { type: "gain", gain: 0.5 } }],
+  });
+  const compiler = createCompiler(
+    validateComposition(input, [
+      ...assets,
+      {
+        id: "sound",
+        streams: [
+          {
+            id: "audio",
+            kind: "audio",
+            bounds: { startUs: 0, endUs: 2000000 },
+            available: [{ startUs: 0, endUs: 2000000 }],
+          },
+        ],
+      },
+    ]),
+    "picture",
+  );
+  const request = {
+    range: { startUs: 50001, endUs: 50030 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  };
+  const movie = compiler.window(request);
+  expect(movie.manifest.requirements.some((requirement) => requirement.kind === "retime")).toBe(
+    true,
+  );
+  const picture = compiler.videoWindow(request);
+  expect([...picture.frames()]).toEqual([...movie.frames()]);
+  expect([...picture.frames()][0]).toMatchObject({
+    index: 1,
+    sampleAtUs: 33366,
+    visibleRange: { startUs: 50001, endUs: 50030 },
+    layers: [{ clipId: "c", sourceUs: 533366 }],
+  });
+  expect(picture.manifest.sources.map((source) => source.clipId)).toEqual(["c"]);
+  expect(picture.manifest.requirements).toEqual([
+    { kind: "executor", mediaKind: "video", implementationId: null },
+  ]);
+  expect([...picture.audio()]).toEqual([]);
+  expect(() =>
+    compiler.videoWindow({
+      ...request,
+      tap: { target: { kind: "track", id: "a" }, point: { kind: "dry" } },
+    }),
+  ).toThrow("Video inspection requires a video target");
+});

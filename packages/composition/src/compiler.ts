@@ -184,12 +184,12 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       })
       .sort((a, b) => a.trackRank - b.trackRank || compare(a.range.start, b.range.start));
   }
-  function window(input: unknown, audioOnly: boolean) {
+  function window(input: unknown, component?: "audio" | "video") {
     const parsed = executionWindowRequestSchema.safeParse(input);
     if (!parsed.success) throw new CompositionError("INVALID_COMPOSITION", parsed.error.message);
     const request = parsed.data;
     const clips = contributors(request.range, request.rendition.sampleRate).filter(
-      (value) => !audioOnly || value.track.kind === "audio",
+      (value) => !component || value.track.kind === component,
     );
     const target = request.tap.target;
     if (
@@ -201,7 +201,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         "NOT_READY",
         "Audio clip tap has no output samples in the requested window",
       );
-    const plan = processing(clips, request.tap, audioOnly ? "audio" : undefined);
+    const plan = processing(clips, request.tap, component);
     const selected = new Set(
       plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
     );
@@ -218,7 +218,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         intervalIndex(inputs, (clip) => clip.range, renderOrder),
         contexts,
       ),
-      audioOnly ? "audio" : undefined,
+      component,
     );
   }
   return {
@@ -227,7 +227,8 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       const range = checkedRange(input);
       return processing(contributors(range));
     },
-    window: (input: unknown) => window(input, false),
-    audioWindow: (input: unknown) => window(input, true),
+    window: (input: unknown) => window(input),
+    audioWindow: (input: unknown) => window(input, "audio"),
+    videoWindow: (input: unknown) => window(input, "video"),
   };
 }

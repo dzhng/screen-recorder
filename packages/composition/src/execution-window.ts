@@ -116,7 +116,7 @@ export function executionWindow(
     frames(range: z.infer<typeof rangeSchema>): Generator<CompiledFrame>;
     audio(range: z.infer<typeof rangeSchema>, sampleRate: number): Generator<CompiledAudio>;
   },
-  component?: "audio",
+  component?: "audio" | "video",
 ) {
   const mediaKind = component ?? processing.at(-1)!.mediaKind;
   const sources: ExecutionWindowManifest["sources"] = [];

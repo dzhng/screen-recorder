@@ -1,0 +1,17 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:96003) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:95998) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  9 passed (9)
+      Tests  135 passed (135)
+   Start at  01:06:43
+   Duration  1.44s (transform 45%, tests 43%, import 12%)
+
+  Transform  transforming modules took 2.15s · 45% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

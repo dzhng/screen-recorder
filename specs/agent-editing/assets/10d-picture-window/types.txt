@@ -1,0 +1,37 @@
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/composition, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running check-types in 9 packages
+   • Remote caching disabled
+
+@screenrec/composition:check-types: cache miss, executing 881c05a9086290a2
+@screenrec/composition:build: cache hit, replaying logs 6821edd14d7ebeda
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/protocol:build: cache hit, replaying logs c418f40c82147bab
+@screenrec/core:check-types: cache miss, executing 54a40117b896750f
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/protocol:check-types: cache miss, executing 92902a0ab07b5c7d
+@screenrec/client:check-types: cache miss, executing 1a5a8cb34ae53f17
+@screenrec/client:build: cache hit, replaying logs 11c5ebe1b40c70c7
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:build: cache hit, replaying logs b5ffeb95d62eaf7c
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/service:check-types: cache miss, executing fb4c7c8738323ced
+@screenrec/test-harness:check-types: cache miss, executing 93524bae11d11c91
+@screenrec/service:build: cache hit, replaying logs b86698d91a2e0859
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:check-types: cache miss, executing 68e01b1728894a65
+@screenrec/cli:build: cache miss, executing d698c9ed0e9c4e2e
+@screenrec/composition:check-types: $ tsc -p tsconfig.check.json
+@screenrec/protocol:check-types: $ tsc -p tsconfig.check.json
+@screenrec/core:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:check-types: $ tsc -p tsconfig.check.json
+@screenrec/client:check-types: $ tsc -p tsconfig.check.json
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/cli:check-types: $ tsc -p tsconfig.check.json
+@screenrec/test-harness:check-types: $ tsc -p tsconfig.check.json
+
+ Tasks:    13 successful, 13 total
+Cached:    5 cached, 13 total
+  Time:    541ms 
+
