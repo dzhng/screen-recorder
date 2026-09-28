@@ -1748,3 +1748,15 @@ existing lifetime owner.
   not explicitly separate these representations. Advancing the project-picture
   recipe prevents an old cached receipt from reintroducing the confusing field;
   source pictures, movie pixels and the catalog format are unaffected.
+
+## Pointer wire integration — 2026-09-28
+
+- **Sound, high confidence — disabled effects still travel with processing metadata.**
+  A user can keep a pointer step in a clip's stack while bypassing it. The picture
+  then needs no pointer renderer, but its request still includes that authored
+  step. The native request decoder therefore accepts its trail-duration field;
+  otherwise bypass itself would break a previously renderable clip. This is wire
+  support only: enabled pointer execution remains unavailable until preparation
+  and rendering exist. The schema/compiler checkpoint did not originally name
+  this cross-language metadata requirement. Existing raw request validation stays
+  strict, and unrelated unknown fields remain errors.

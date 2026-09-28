@@ -1,5 +1,10 @@
 # Pointer authoring and compiled references
 
+[Combined-runtime verification](integrated.json) confirms composition and focused
+core gates, native disabled-pointer admission and the
+[live layer/split journey](../15-layer-edits/README.md). Enabled pointer rendering
+remains unbound.
+
 The pointer processor is source-attached and can occupy any position in a clip
 stack. Its acquisition requirement and target scopes live in the processor
 registry, so authoring validation and capability discovery agree. Missing capture

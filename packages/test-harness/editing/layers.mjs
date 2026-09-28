@@ -429,6 +429,117 @@ try {
     assert.notEqual(left.sha256, right.sha256, `${a}/${b} lost its noncommuting behavior`);
   }
   report.checks.noncommutingPairsDifferent = true;
+  const edited = await createProject(
+    { width: 160, height: 96 },
+    media,
+    "processed-split",
+    layerCases({ width: 160, height: 96 }).find((s) => s.name === "presenter"),
+  );
+  const splitAtUs = 333333;
+  const split = await call(
+    "edit.apply",
+    {
+      projectId: edited.projectId,
+      expectedRevisionId: edited.revisionId,
+      requestId: "split-processed-presenter",
+      operations: [
+        {
+          operation: "split",
+          clipIds: [edited.labels.presenter],
+          atUs: splitAtUs,
+          rightLabels: [{ clipId: edited.labels.presenter, label: "right" }],
+        },
+      ],
+    },
+    { transport: "mcp" },
+  );
+  const splitFrames = [];
+  for (const atUs of [0, 300000, splitAtUs - 1, splitAtUs, splitAtUs + 1, 400000, 999999]) {
+    const original = await delivered(
+      { projectId: edited.projectId, revisionId: edited.revisionId, atUs },
+      `split-original-${atUs}`,
+    );
+    const divided = await delivered(
+      { projectId: edited.projectId, revisionId: split.revision.id, atUs },
+      `split-divided-${atUs}`,
+    );
+    assert.equal(
+      hash(await readFile(divided.file)),
+      hash(await readFile(original.file)),
+      `Pure processed split changed picture at ${atUs}`,
+    );
+    assert.equal(divided.receipt.frame.sampleAtUs, original.receipt.frame.sampleAtUs);
+    splitFrames.push({ atUs, original, divided, sha256: hash(await readFile(divided.file)) });
+  }
+  report.checks.processedSplit = { splitAtUs, frames: splitFrames };
+  const splitMovie = join(out, "processed-split.mp4");
+  const splitSelection = { projectId: edited.projectId, revisionId: split.revision.id };
+  await poll(
+    () => call("preview.get", splitSelection, { output: splitMovie }),
+    (v) => v.state === "ready",
+    "processed split preview",
+  );
+  const splitCanvas = { width: 160, height: 96 };
+  const splitSurface = layerTree(
+    splitCanvas,
+    fixtures.media,
+    layerCases(splitCanvas).find((s) => s.name === "presenter").stacks,
+  ).output;
+  report.checks.processedSplit.movie = await movieGeometry(
+    splitMovie,
+    splitSurface,
+    splitCanvas,
+    { startUs: 0, endUs: 1000000 },
+    fixtures,
+    "processed-split",
+  );
+  report.checks.processedSplit.audio = await audioParity(
+    { ...splitSelection, range: { startUs: 0, endUs: 1000000 } },
+    fixtures.media.narration.pcm,
+    "processed-split",
+  );
+  const independent = await call("edit.apply", {
+    projectId: edited.projectId,
+    expectedRevisionId: split.revision.id,
+    requestId: "reset-right-presenter-processing",
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: split.edit.labels.right },
+        steps: [],
+      },
+    ],
+  });
+  const resetFrames = [];
+  for (const atUs of [100000, 600000]) {
+    const before = await delivered({ ...splitSelection, atUs }, `independent-before-${atUs}`);
+    const after = await delivered(
+      { projectId: edited.projectId, revisionId: independent.revision.id, atUs },
+      `independent-after-${atUs}`,
+    );
+    const beforeBytes = await readFile(before.file),
+      afterBytes = await readFile(after.file);
+    if (atUs < splitAtUs)
+      assert.ok(afterBytes.equals(beforeBytes), "Editing right piece changed left piece");
+    else {
+      assert.ok(
+        !afterBytes.equals(beforeBytes),
+        "Clearing the right layout did not change its picture",
+      );
+      const rgba = after.file + ".rgba";
+      await run(fixtures.pixelTool, [after.file, rgba]);
+      const expected = expectedRgba(layerTree(splitCanvas, fixtures.media, {}).output);
+      compareGeometry(await readFile(rgba), expected, splitCanvas.width, splitCanvas.height);
+    }
+    resetFrames.push({
+      atUs,
+      before,
+      after,
+      beforeSha256: hash(beforeBytes),
+      afterSha256: hash(afterBytes),
+    });
+  }
+  report.checks.independentSplitProcessing = resetFrames;
   const first = retained.find((r) => r.name === "160x96-presenter"),
     old = first.project;
   const newLayout = {

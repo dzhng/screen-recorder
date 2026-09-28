@@ -1,0 +1,31 @@
+{
+  "head": "8d1c741",
+  "worker": "/tmp/screenrec-pointer-contract-native",
+  "workerSha256": "46e823a5fca14970c4848d06007b21bc70b433f832bad14035b70b45f0fa43f0",
+  "command": "SCREENREC_NATIVE=/tmp/screenrec-pointer-contract-native node packages/test-harness/editing/layers.mjs --out /tmp/screenrec-layer-split-integrated",
+  "passed": true,
+  "existingPngHashesUnchanged": 62,
+  "splitAtUs": 333333,
+  "identicalPngPairs": 7,
+  "decodedSplitMovieFrames": 10,
+  "unchangedAudioFrames": 48000,
+  "pcmSha256": "f34cf319e6fe67a5453148685af98cd1eaa3b65292f9277e882c737ec1fd19d8",
+  "independentEdit": [
+    {
+      "atUs": 100000,
+      "beforeSha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73",
+      "afterSha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+    },
+    {
+      "atUs": 600000,
+      "beforeSha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73",
+      "afterSha256": "390a0464780c295fde078986c5342de47dbebbe2d0f62a6c25fee4ab6e678d0a"
+    }
+  ],
+  "limits": [
+    "Static footage; not moving-source boundary conformance",
+    "No listening acceptance",
+    "Trim/move/duplicate and pointer execution remain separate gates"
+  ],
+  "review": "Independent Codex found no actionable defects; actual native journey run by integrating agent."
+}

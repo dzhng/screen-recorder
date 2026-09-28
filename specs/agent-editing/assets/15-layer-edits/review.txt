@@ -1,0 +1,1385 @@
+2026-09-28T15:18:27.366510Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T15:18:27.366571Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/dev/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e898-8f0e-7d83-a7cf-9aa8594a5b37
+--------
+user
+current changes
+exec
+/bin/zsh -lc 'git status --short; cat .agents/skills/code-review/SKILL.md; find .. -name AGENTS.md -o -name AGENTS.override.md' in /Users/david/dev/screen-recorder
+exec
+/bin/zsh -lc 'git diff -- packages/test-harness/editing/layers.mjs; for d in . packages packages/test-harness packages/test-harness/editing; do for f in AGENTS.override.md AGENTS.md; do test ! -f "$d/$f" || { echo "$d/$f"; cat "$d/$f"; }; done; done; cat .agents/skills/write-tests/SKILL.md' in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+diff --git a/packages/test-harness/editing/layers.mjs b/packages/test-harness/editing/layers.mjs
+index 0a60211..857f6fa 100644
+--- a/packages/test-harness/editing/layers.mjs
++++ b/packages/test-harness/editing/layers.mjs
+@@ -429,6 +429,117 @@ try {
+     assert.notEqual(left.sha256, right.sha256, `${a}/${b} lost its noncommuting behavior`);
+   }
+   report.checks.noncommutingPairsDifferent = true;
++  const edited = await createProject(
++    { width: 160, height: 96 },
++    media,
++    "processed-split",
++    layerCases({ width: 160, height: 96 }).find((s) => s.name === "presenter"),
++  );
++  const splitAtUs = 333333;
++  const split = await call(
++    "edit.apply",
++    {
++      projectId: edited.projectId,
++      expectedRevisionId: edited.revisionId,
++      requestId: "split-processed-presenter",
++      operations: [
++        {
++          operation: "split",
++          clipIds: [edited.labels.presenter],
++          atUs: splitAtUs,
++          rightLabels: [{ clipId: edited.labels.presenter, label: "right" }],
++        },
++      ],
++    },
++    { transport: "mcp" },
++  );
++  const splitFrames = [];
++  for (const atUs of [0, 300000, splitAtUs - 1, splitAtUs, splitAtUs + 1, 400000, 999999]) {
++    const original = await delivered(
++      { projectId: edited.projectId, revisionId: edited.revisionId, atUs },
++      `split-original-${atUs}`,
++    );
++    const divided = await delivered(
++      { projectId: edited.projectId, revisionId: split.revision.id, atUs },
++      `split-divided-${atUs}`,
++    );
++    assert.equal(
++      hash(await readFile(divided.file)),
++      hash(await readFile(original.file)),
++      `Pure processed split changed picture at ${atUs}`,
++    );
++    assert.equal(divided.receipt.frame.sampleAtUs, original.receipt.frame.sampleAtUs);
++    splitFrames.push({ atUs, original, divided, sha256: hash(await readFile(divided.file)) });
++  }
++  report.checks.processedSplit = { splitAtUs, frames: splitFrames };
++  const splitMovie = join(out, "processed-split.mp4");
++  const splitSelection = { projectId: edited.projectId, revisionId: split.revision.id };
++  await poll(
++    () => call("preview.get", splitSelection, { output: splitMovie }),
++    (v) => v.state === "ready",
++    "processed split preview",
++  );
++  const splitCanvas = { width: 160, height: 96 };
++  const splitSurface = layerTree(
++    splitCanvas,
++    fixtures.media,
++    layerCases(splitCanvas).find((s) => s.name === "presenter").stacks,
++  ).output;
++  report.checks.processedSplit.movie = await movieGeometry(
++    splitMovie,
++    splitSurface,
++    splitCanvas,
++    { startUs: 0, endUs: 1000000 },
++    fixtures,
++    "processed-split",
++  );
++  report.checks.processedSplit.audio = await audioParity(
++    { ...splitSelection, range: { startUs: 0, endUs: 1000000 } },
++    fixtures.media.narration.pcm,
++    "processed-split",
++  );
++  const independent = await call("edit.apply", {
++    projectId: edited.projectId,
++    expectedRevisionId: split.revision.id,
++    requestId: "reset-right-presenter-processing",
++    operations: [
++      {
++        operation: "processing.set",
++        target: { kind: "clip", id: split.edit.labels.right },
++        steps: [],
++      },
++    ],
++  });
++  const resetFrames = [];
++  for (const atUs of [100000, 600000]) {
++    const before = await delivered({ ...splitSelection, atUs }, `independent-before-${atUs}`);
++    const after = await delivered(
++      { projectId: edited.projectId, revisionId: independent.revision.id, atUs },
++      `independent-after-${atUs}`,
++    );
++    const beforeBytes = await readFile(before.file),
++      afterBytes = await readFile(after.file);
++    if (atUs < splitAtUs)
++      assert.ok(afterBytes.equals(beforeBytes), "Editing right piece changed left piece");
++    else {
++      assert.ok(
++        !afterBytes.equals(beforeBytes),
++        "Clearing the right layout did not change its picture",
++      );
++      const rgba = after.file + ".rgba";
++      await run(fixtures.pixelTool, [after.file, rgba]);
++      const expected = expectedRgba(layerTree(splitCanvas, fixtures.media, {}).output);
++      compareGeometry(await readFile(rgba), expected, splitCanvas.width, splitCanvas.height);
++    }
++    resetFrames.push({
++      atUs,
++      before,
++      after,
++      beforeSha256: hash(beforeBytes),
++      afterSha256: hash(afterBytes),
++    });
++  }
++  report.checks.independentSplitProcessing = resetFrames;
+   const first = retained.find((r) => r.name === "160x96-presenter"),
+     old = first.project;
+   const newLayout = {
+./AGENTS.md
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T15:18:50.584231Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e898-8f0e-7d83-a7cf-9aa8594a5b37 turn_id=01a0e898-8f8e-72c1-8c7d-87cfdb29f30c item_id="exec-992819c1-1b4a-4a26-b400-b88837cf4bc4"
+exec
+/bin/zsh -lc 'cat packages/test-harness/editing/layers.mjs' in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { parseArgs } from "node:util";
+import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
+import { layerTree, expectedRgba, compareGeometry, compareLandmarks } from "./layers-oracle.mjs";
+import { layerCases } from "./layers-cases.mjs";
+import { prepareLayersFixture } from "./layers-fixture.mjs";
+
+const { values } = parseArgs({
+  options: { case: { type: "string", default: "presenter-and-screen" }, out: { type: "string" } },
+});
+assert.equal(values.case, "presenter-and-screen");
+assert.ok(
+  process.env.SCREENREC_NATIVE,
+  "Freeze the native compositor before running the layer journey",
+);
+const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "layers-evidence-"));
+await mkdir(out, { recursive: true });
+const home = await mkdtemp(join(tmpdir(), "sr-layers-"));
+const report = { passed: false, trace: [], checks: {}, frames: [] };
+const service = new JourneyService(home, report),
+  call = service.call.bind(service);
+const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, null, 2) + "\n");
+const ref = (label) => ({ label });
+const target = (name, identify = ref) =>
+  name === "output"
+    ? { kind: "output" }
+    : {
+        kind: ["inner", "outer"].includes(name)
+          ? "group"
+          : name.endsWith("Track")
+            ? "track"
+            : "clip",
+        id: identify(name),
+      };
+const scenarioNames = new Set([
+  "presenter",
+  "presenter-reversed",
+  "nested-taps",
+  "order-placement-crop",
+  "order-crop-placement",
+  "parent-opacity",
+  "child-opacity",
+  "rotated-crop",
+  "output-transparent-margin",
+]);
+let deliveryOrdinal = 0;
+async function delivered(params, name) {
+  const ready = await poll(
+    () => call("frame.get", params),
+    (v) => v.state === "ready",
+    name,
+  );
+  const file = join(out, `${deliveryOrdinal++}-${name}.png`);
+  const cli = await call("frame.get", params, { output: file });
+  const mcp = await service.mcp.callTool({ name: "frame.get", arguments: params });
+  assert.equal(mcp.structuredContent.ok, true);
+  const images = mcp.content.filter((item) => item.type === "image");
+  assert.equal(images.length, 1);
+  const bytes = await readFile(file);
+  assert.ok(
+    bytes.equals(Buffer.from(images[0].data, "base64")),
+    "CLI and MCP deliver different frames",
+  );
+  assert.equal(cli.revisionId, ready.revisionId);
+  return { file, receipt: cli.published.frame };
+}
+async function imported(fixture) {
+  const pending = await call("asset.import", { requestId: fixture.sha256, path: fixture.path });
+  await poll(
+    () => call("job.get", { jobId: pending.jobId }),
+    (v) => v.state === "ready",
+    "layer import",
+  );
+  const asset = await call("asset.get", { assetId: fixture.sha256 });
+  return { assetId: asset.id, streamId: asset.streams[0].id };
+}
+async function createProject(canvas, media, suffix, scenario) {
+  const processing = Object.entries(scenario.stacks)
+    .filter(([name, steps]) => name !== "reversed" && steps.length)
+    .map(([name, steps]) => ({ operation: "processing.set", target: target(name), steps }));
+  const initial = await call("project.create", {
+    requestId: suffix,
+    canvas: { ...canvas, fps: { numerator: 10, denominator: 1 }, background: "#000000ff" },
+  });
+  const projectId = initial.project.projectId;
+  const place = (label, track, source) => ({
+    operation: "place",
+    label,
+    clip: {
+      ...source,
+      trackId: ref(track),
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    },
+  });
+  const edit = await call("edit.apply", {
+    projectId,
+    requestId: `${suffix}-placements`,
+    expectedRevisionId: initial.revision.id,
+    operations: [
+      { operation: "group.add", label: "outer", group: { kind: "video", order: 0 } },
+      {
+        operation: "group.add",
+        label: "inner",
+        group: { kind: "video", order: 0, parentId: ref("outer") },
+      },
+      {
+        operation: "track.add",
+        label: "screenTrack",
+        track: { kind: "video", order: scenario.stacks.reversed ? 1 : 0, parentId: ref("inner") },
+      },
+      {
+        operation: "track.add",
+        label: "presenterTrack",
+        track: { kind: "video", order: scenario.stacks.reversed ? 0 : 1, parentId: ref("inner") },
+      },
+      { operation: "track.add", label: "voice-track", track: { kind: "audio", order: 1 } },
+      place("screen", "screenTrack", media[scenario.sources?.screen ?? "screen"]),
+      place("presenter", "presenterTrack", media[scenario.sources?.presenter ?? "presenter"]),
+      place("voice", "voice-track", media.narration),
+      ...processing,
+    ],
+  });
+  return { projectId, revisionId: edit.revision.id, labels: edit.edit.labels };
+}
+async function deliveryBytes(delivery) {
+  const chunks = [];
+  let offset = 0;
+  while (offset < delivery.bytes) {
+    const part = await call(
+      "artifact.read",
+      { token: delivery.token, offset, maxBytes: 65536 },
+      { transport: "mcp" },
+    );
+    const bytes = Buffer.from(part.data, "base64");
+    assert.ok(bytes.length > 0);
+    assert.equal(part.nextOffset, offset + bytes.length);
+    chunks.push(bytes);
+    offset = part.nextOffset;
+  }
+  assert.equal(offset, delivery.bytes);
+  await call("artifact.close", { token: delivery.token }, { transport: "mcp" });
+  return Buffer.concat(chunks);
+}
+async function audioParity(selection, original, name) {
+  const file = join(out, name + ".wav");
+  const ready = await poll(
+    () => call("audio.get", selection, { output: file }),
+    (v) => v.state === "ready",
+    "unchanged audio",
+  );
+  const decoded = (
+    await run(
+      "ffmpeg",
+      ["-v", "error", "-nostdin", "-i", file, "-f", "f32le", "-c:a", "pcm_f32le", "pipe:1"],
+      { encoding: "buffer", maxBuffer: 16 * 1024 * 1024 },
+    )
+  ).stdout;
+  const start = Math.floor((selection.range.startUs * 48000) / 1000000),
+    end = Math.floor((selection.range.endUs * 48000) / 1000000);
+  const probe = JSON.parse(
+    (
+      await run("ffprobe", [
+        "-v",
+        "error",
+        "-select_streams",
+        "a:0",
+        "-show_streams",
+        "-of",
+        "json",
+        file,
+      ])
+    ).stdout,
+  ).streams[0];
+  assert.equal(probe.sample_rate, "48000");
+  assert.equal(probe.channels, 2);
+  assert.equal(probe.codec_name, "pcm_f32le");
+  assert.equal(probe.time_base, "1/48000");
+  assert.equal(probe.duration_ts, end - start);
+  assert.ok(
+    decoded.equals(original.subarray(start * 8, end * 8)),
+    "Geometry changed narration PCM or phase",
+  );
+  return {
+    range: selection.range,
+    pcmSha256: hash(decoded),
+    frames: end - start,
+    receipt: ready.published.audio,
+  };
+}
+async function movieGeometry(file, surface, canvas, range, fixtures, name) {
+  const directory = join(out, `${name}-${range.startUs}-decoded`);
+  await mkdir(directory);
+  const request = join(directory, "request.json");
+  // Independent 10fps clock: range starts with the preceding global sample,
+  // subsequent images start at each global boundary strictly before range end.
+  const times = [0];
+  for (let us = (Math.floor(range.startUs / 100000) + 1) * 100000; us < range.endUs; us += 100000)
+    times.push(us - range.startUs);
+  await writeFile(request, JSON.stringify({ movie: file, output: directory, timesUs: times }));
+  const sample = JSON.parse(
+    (await run(join(home, "frame-reference"), [request], { timeout: 60000 })).stdout,
+  );
+  const expected = expectedRgba(surface),
+    results = [];
+  for (const frame of sample) {
+    const rgba = frame.file + ".rgba";
+    await run(fixtures.pixelTool, [frame.file, rgba]);
+    const actual = await readFile(rgba);
+    const verdict = compareLandmarks(actual, expected, canvas.width, canvas.height);
+    let sum = 0,
+      maximum = 0,
+      above = 0;
+    for (let pixel = 0; pixel < canvas.width * canvas.height; pixel++) {
+      let edge = 0;
+      for (let c = 0; c < 3; c++) {
+        const delta = Math.abs(actual[pixel * 4 + c] - expected[pixel * 4 + c]);
+        sum += delta;
+        maximum = Math.max(maximum, delta);
+        edge = Math.max(edge, delta);
+      }
+      if (edge > 2) above++;
+    }
+    results.push({
+      sample: frame,
+      verdict,
+      codecError: {
+        maximum,
+        mae: sum / (canvas.width * canvas.height * 3),
+        aboveLosslessThreshold: above,
+      },
+    });
+  }
+  const metadata = JSON.parse(
+    (
+      await run("ffprobe", [
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-show_frames",
+        "-show_entries",
+        "frame=best_effort_timestamp_time,duration_time",
+        "-of",
+        "json",
+        file,
+      ])
+    ).stdout,
+  );
+  assert.deepEqual(
+    metadata.frames.map((f) => Math.round(Number(f.best_effort_timestamp_time) * 1000000)),
+    times,
+  );
+  assert.deepEqual(
+    metadata.frames.map((f) => Math.round(Number(f.duration_time) * 1000000)),
+    times.map((at, i) => (times[i + 1] ?? range.endUs - range.startUs) - at),
+  );
+  return results;
+}
+try {
+  const fixtures = await prepareLayersFixture(home, out);
+  await service.start();
+  const media = {};
+  for (const [name, fixture] of Object.entries(fixtures.media))
+    media[name] = await imported(fixture);
+  // Imported bytes are now owned by the library. Every subsequent render must survive loss of donor paths.
+  for (const fixture of Object.values(fixtures.media)) await rm(fixture.path);
+  const retained = [];
+  for (const canvas of [
+    { width: 160, height: 96 },
+    { width: 128, height: 128 },
+  ]) {
+    for (const scenario of layerCases(canvas).filter((s) => scenarioNames.has(s.name))) {
+      const name = `${canvas.width}x${canvas.height}-${scenario.name}`;
+      const project = await createProject(canvas, media, name, scenario);
+      const surfaces = {
+        screen: fixtures.media[scenario.sources?.screen ?? "screen"],
+        presenter: fixtures.media[scenario.sources?.presenter ?? "presenter"],
+      };
+      const oracle = layerTree(canvas, surfaces, scenario.stacks);
+      const taps = scenario.taps
+        ? [...oracle.taps.entries()]
+        : [["output/processed", oracle.output]];
+      const row = { name, canvas, project, frames: [] };
+      report.frames.push(row);
+      for (const [tapName, surface] of taps) {
+        const [rawName, point] = tapName.split("/"),
+          selected = rawName.replace("-track", "Track");
+        const tap = {
+          target: target(selected, (n) => project.labels[n]),
+          point: point.startsWith("after:")
+            ? { kind: "after-step", stepId: project.labels[point.slice(6)] }
+            : { kind: point },
+        };
+        const params = {
+          projectId: project.projectId,
+          revisionId: project.revisionId,
+          atUs: 450001,
+          maxLongEdge: Math.max(canvas.width, canvas.height),
+          tap,
+        };
+        const picture = await delivered(
+          params,
+          `${name}-${tapName.replaceAll("/", "-").replaceAll(":", "-")}`,
+        );
+        const rgba = picture.file + ".rgba";
+        await run(fixtures.pixelTool, [picture.file, rgba]);
+        const expected = expectedRgba(surface),
+          actual = await readFile(rgba);
+        const verdict = compareGeometry(actual, expected, canvas.width, canvas.height);
+        assert.equal(picture.receipt.frame.sampleAtUs, 400000);
+        const sourceNames =
+          selected === "screen" || selected === "screenTrack"
+            ? ["screen"]
+            : selected === "presenter" || selected === "presenterTrack"
+              ? ["presenter"]
+              : scenario.stacks.reversed
+                ? ["presenter", "screen"]
+                : ["screen", "presenter"];
+        assert.deepEqual(
+          picture.receipt.pictures.map((p) => [
+            p.clipId,
+            p.assetId,
+            p.streamId,
+            p.requestedSourceUs,
+            p.actualSourceUs,
+            p.status,
+          ]),
+          sourceNames.map((n) => [
+            project.labels[n],
+            media[scenario.sources?.[n] ?? n].assetId,
+            media[scenario.sources?.[n] ?? n].streamId,
+            400000,
+            400000,
+            "available",
+          ]),
+        );
+        row.frames.push({
+          tapName,
+          ...picture,
+          verdict,
+          sha256: hash(await readFile(picture.file)),
+        });
+      }
+      if (["presenter", "rotated-crop"].includes(scenario.name)) {
+        row.movies = [];
+        for (const range of [
+          { startUs: 0, endUs: 1000000 },
+          { startUs: 123457, endUs: 812349 },
+        ]) {
+          const selection = { projectId: project.projectId, revisionId: project.revisionId, range };
+          const file = join(out, `${name}-${range.startUs}.mp4`);
+          const ready = await poll(
+            () => call("preview.get", selection, { output: file }),
+            (v) => v.state === "ready",
+            name,
+          );
+          assert.deepEqual(ready.range, range);
+          const mcp = await call("preview.get", selection, { transport: "mcp" });
+          assert.ok((await deliveryBytes(mcp.delivery)).equals(await readFile(file)));
+          const frames = await movieGeometry(file, oracle.output, canvas, range, fixtures, name);
+          const audio = await audioParity(
+            selection,
+            fixtures.media.narration.pcm,
+            `${name}-${range.startUs}`,
+          );
+          row.movies.push({ range, file, frames, audio });
+          if (range.startUs === 0) {
+            const request = {
+              projectId: project.projectId,
+              revisionId: project.revisionId,
+              kind: "video",
+              exportId: randomUUID(),
+              directory: out,
+              leaf: `${name}-export.mp4`,
+            };
+            await call("export.create", request);
+            const exported = await poll(
+              () => call("export.status", { exportId: request.exportId }, { transport: "mcp" }),
+              (v) => v.state === "committed",
+              "layer export",
+            );
+            assert.ok((await readFile(exported.output)).equals(await readFile(file)));
+            row.export = { request, receipt: exported.receipt, output: exported.output };
+          }
+        }
+      }
+      if (scenario.movie === "nonopaque" || scenario.name === "output-transparent-margin") {
+        const request = await call("preview.get", {
+          projectId: project.projectId,
+          revisionId: project.revisionId,
+        });
+        const failed = await poll(
+          () => call("job.get", { jobId: request.jobId }),
+          (v) => v.state === "failed",
+          "transparent movie refusal",
+        );
+        assert.equal(failed.errorCode, "NOT_READY");
+        assert.equal(failed.retryable, false);
+        row.movieRefusal = {
+          code: failed.errorCode,
+          reason: failed.reason,
+          retryable: failed.retryable,
+        };
+      }
+      retained.push(row);
+      await save("report.json", report);
+      console.log(`PASS ${name}: ${row.frames.length} public taps`);
+    }
+  }
+  const nested = retained.find((row) => row.name === "160x96-nested-taps");
+  const before = nested.frames.find((frame) => frame.tapName === "screen/after:screen-place");
+  const after = nested.frames.find((frame) => frame.tapName === "screen/processed");
+  const beforePixels = await readFile(before.file + ".rgba"),
+    afterPixels = await readFile(after.file + ".rgba");
+  assert.throws(() => compareGeometry(beforePixels, afterPixels, 160, 96));
+  report.checks.wrongTapRejected = true;
+  for (const [a, b] of [
+    ["presenter", "presenter-reversed"],
+    ["order-placement-crop", "order-crop-placement"],
+    ["parent-opacity", "child-opacity"],
+  ]) {
+    const left = retained.find((row) => row.name === `160x96-${a}`).frames[0];
+    const right = retained.find((row) => row.name === `160x96-${b}`).frames[0];
+    assert.notEqual(left.sha256, right.sha256, `${a}/${b} lost its noncommuting behavior`);
+  }
+  report.checks.noncommutingPairsDifferent = true;
+  const edited = await createProject(
+    { width: 160, height: 96 },
+    media,
+    "processed-split",
+    layerCases({ width: 160, height: 96 }).find((s) => s.name === "presenter"),
+  );
+  const splitAtUs = 333333;
+  const split = await call(
+    "edit.apply",
+    {
+      projectId: edited.projectId,
+      expectedRevisionId: edited.revisionId,
+      requestId: "split-processed-presenter",
+      operations: [
+        {
+          operation: "split",
+          clipIds: [edited.labels.presenter],
+          atUs: splitAtUs,
+          rightLabels: [{ clipId: edited.labels.presenter, label: "right" }],
+        },
+      ],
+    },
+    { transport: "mcp" },
+  );
+  const splitFrames = [];
+  for (const atUs of [0, 300000, splitAtUs - 1, splitAtUs, splitAtUs + 1, 400000, 999999]) {
+    const original = await delivered(
+      { projectId: edited.projectId, revisionId: edited.revisionId, atUs },
+      `split-original-${atUs}`,
+    );
+    const divided = await delivered(
+      { projectId: edited.projectId, revisionId: split.revision.id, atUs },
+      `split-divided-${atUs}`,
+    );
+    assert.equal(
+      hash(await readFile(divided.file)),
+      hash(await readFile(original.file)),
+      `Pure processed split changed picture at ${atUs}`,
+    );
+    assert.equal(divided.receipt.frame.sampleAtUs, original.receipt.frame.sampleAtUs);
+    splitFrames.push({ atUs, original, divided, sha256: hash(await readFile(divided.file)) });
+  }
+  report.checks.processedSplit = { splitAtUs, frames: splitFrames };
+  const splitMovie = join(out, "processed-split.mp4");
+  const splitSelection = { projectId: edited.projectId, revisionId: split.revision.id };
+  await poll(
+    () => call("preview.get", splitSelection, { output: splitMovie }),
+    (v) => v.state === "ready",
+    "processed split preview",
+  );
+  const splitCanvas = { width: 160, height: 96 };
+  const splitSurface = layerTree(
+    splitCanvas,
+    fixtures.media,
+    layerCases(splitCanvas).find((s) => s.name === "presenter").stacks,
+  ).output;
+  report.checks.processedSplit.movie = await movieGeometry(
+    splitMovie,
+    splitSurface,
+    splitCanvas,
+    { startUs: 0, endUs: 1000000 },
+    fixtures,
+    "processed-split",
+  );
+  report.checks.processedSplit.audio = await audioParity(
+    { ...splitSelection, range: { startUs: 0, endUs: 1000000 } },
+    fixtures.media.narration.pcm,
+    "processed-split",
+  );
+  const independent = await call("edit.apply", {
+    projectId: edited.projectId,
+    expectedRevisionId: split.revision.id,
+    requestId: "reset-right-presenter-processing",
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: split.edit.labels.right },
+        steps: [],
+      },
+    ],
+  });
+  const resetFrames = [];
+  for (const atUs of [100000, 600000]) {
+    const before = await delivered({ ...splitSelection, atUs }, `independent-before-${atUs}`);
+    const after = await delivered(
+      { projectId: edited.projectId, revisionId: independent.revision.id, atUs },
+      `independent-after-${atUs}`,
+    );
+    const beforeBytes = await readFile(before.file),
+      afterBytes = await readFile(after.file);
+    if (atUs < splitAtUs)
+      assert.ok(afterBytes.equals(beforeBytes), "Editing right piece changed left piece");
+    else {
+      assert.ok(
+        !afterBytes.equals(beforeBytes),
+        "Clearing the right layout did not change its picture",
+      );
+      const rgba = after.file + ".rgba";
+      await run(fixtures.pixelTool, [after.file, rgba]);
+      const expected = expectedRgba(layerTree(splitCanvas, fixtures.media, {}).output);
+      compareGeometry(await readFile(rgba), expected, splitCanvas.width, splitCanvas.height);
+    }
+    resetFrames.push({
+      atUs,
+      before,
+      after,
+      beforeSha256: hash(beforeBytes),
+      afterSha256: hash(afterBytes),
+    });
+  }
+  report.checks.independentSplitProcessing = resetFrames;
+  const first = retained.find((r) => r.name === "160x96-presenter"),
+    old = first.project;
+  const newLayout = {
+    label: "new-layout",
+    processor: { type: "geometry", rect: { x: 0, y: 0, width: 24, height: 40 }, fit: "stretch" },
+  };
+  const changed = await call("edit.apply", {
+    projectId: old.projectId,
+    requestId: "new-layout",
+    expectedRevisionId: old.revisionId,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: old.labels.presenter },
+        steps: [newLayout],
+      },
+    ],
+  });
+  await service.stop();
+  await service.start();
+  const historical = await delivered(
+    { projectId: old.projectId, revisionId: old.revisionId, atUs: 450001 },
+    "historical",
+  );
+  assert.equal(hash(await readFile(historical.file)), first.frames[0].sha256);
+  const current = await delivered({ projectId: old.projectId, atUs: 450001 }, "current");
+  assert.notEqual(hash(await readFile(current.file)), first.frames[0].sha256);
+  assert.equal(current.receipt.revisionId, changed.revision.id);
+  const currentRgba = current.file + ".rgba";
+  await run(fixtures.pixelTool, [current.file, currentRgba]);
+  const currentExpected = expectedRgba(
+    layerTree(first.canvas, fixtures.media, { presenter: [newLayout] }).output,
+  );
+  const currentVerdict = compareGeometry(
+    await readFile(currentRgba),
+    currentExpected,
+    first.canvas.width,
+    first.canvas.height,
+  );
+  report.checks.restartedLayout = currentVerdict;
+  const lease = await call(
+    "preview.get",
+    { projectId: old.projectId, revisionId: old.revisionId },
+    { transport: "mcp" },
+  );
+  await call("project.delete", { projectId: old.projectId });
+  assert.equal(
+    (await call("frame.get", { projectId: old.projectId, atUs: 450001 }, { error: true })).code,
+    "NOT_FOUND",
+  );
+  assert.equal(
+    (
+      await call(
+        "artifact.read",
+        { token: lease.delivery.token, offset: 0 },
+        { transport: "mcp", error: true },
+      )
+    ).code,
+    "ARTIFACT_EXPIRED",
+  );
+  assert.equal(hash(await readFile(first.export.output)), first.export.receipt.sha256);
+  // Re-render retained source bytes through a fresh project after donor unlink and original project deletion.
+  const again = await createProject(
+    first.canvas,
+    media,
+    "retained-again",
+    layerCases(first.canvas).find((s) => s.name === "presenter"),
+  );
+  const recovered = await delivered(
+    { projectId: again.projectId, revisionId: again.revisionId, atUs: 450001 },
+    "retained-again",
+  );
+  assert.equal(hash(await readFile(recovered.file)), first.frames[0].sha256);
+  report.checks.lifetime = {
+    donorsRemoved: true,
+    oldRevisionExact: true,
+    newRevisionDifferent: true,
+    deletedLeaseRevoked: true,
+    externalExportPreserved: true,
+    retainedSourcesRerendered: true,
+  };
+  report.passed = true;
+} catch (error) {
+  report.error = { message: error.message, stack: error.stack };
+  process.exitCode = 1;
+} finally {
+  await service.stop().catch((error) => {
+    report.passed = false;
+    report.shutdownError = error.message;
+    process.exitCode = 1;
+  });
+  try {
+    await save("report.json", report);
+    await writeFile(join(out, "service.log"), service.logs.join(""));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
+}
+
+console.log(JSON.stringify({ passed: report.passed, out, error: report.error?.message }));
+
+2026-09-28T15:18:53.764949Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e898-8f0e-7d83-a7cf-9aa8594a5b37 turn_id=01a0e898-8f8e-72c1-8c7d-87cfdb29f30c item_id="exec-26ef2f13-d214-4f80-a84d-1472382b6f35"
+exec
+/bin/zsh -lc "cat packages/test-harness/editing/layers-cases.mjs | head -95; cat packages/test-harness/editing/layers-fixture.mjs | head -100; rg -n 'split|layers' specs/recording-for-ai/README.md; git diff --cached --stat; rg -n 'rightLabels|case \"split\"' packages | head -25; cat package.json | head -65" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+const geometry = (label, settings = {}) => ({
+  label,
+  processor: { type: "geometry", ...settings },
+});
+const opacity = (label, value) => ({ label, processor: { type: "opacity", opacity: value } });
+
+export function layerCases(canvas) {
+  const hidden = [opacity("hide-presenter", 0)];
+  const layout = geometry("presenter-layout", {
+    rect: { x: canvas.width - 40, y: 24, width: 32, height: 56 },
+    fit: "stretch",
+  });
+  const first = geometry("first-layout", {
+    rect: { x: 16, y: 0, width: 64, height: 48 },
+    fit: "stretch",
+  });
+  const second = geometry("second-crop", {
+    crop: { x: 16, y: 0, width: 32, height: 48 },
+    rect: { x: 0, y: 0, width: 64, height: 96 },
+    fit: "stretch",
+  });
+  const left = geometry("left-plate", {
+    rect: { x: 8, y: 16, width: 64, height: 48 },
+    fit: "stretch",
+  });
+  const right = geometry("right-plate", {
+    rect: { x: 40, y: 32, width: 64, height: 48 },
+    fit: "stretch",
+  });
+  return [
+    { name: "baseline", stacks: { presenter: hidden } },
+    { name: "explicit-default", stacks: { presenter: hidden, screen: [geometry("default")] } },
+    {
+      name: "full-domain-crop",
+      sources: { screen: "plate" },
+      stacks: {
+        presenter: hidden,
+        screen: [geometry("full", { crop: { x: 0, y: 0, width: 16, height: 16 } })],
+      },
+    },
+    {
+      name: "negative-crop",
+      stacks: {
+        presenter: hidden,
+        screen: [geometry("outside", { crop: { x: -8, y: -6, width: 80, height: 60 } })],
+      },
+    },
+    {
+      name: "fractional-crop",
+      stacks: {
+        presenter: hidden,
+        screen: [
+          geometry("fractional", {
+            crop: { x: 4.25, y: 4.25, width: 31.5, height: 23.5 },
+            rect: { x: 16.25, y: 8.75, width: 63, height: 47 },
+            fit: "stretch",
+          }),
+        ],
+      },
+    },
+    {
+      name: "poison-exclusion",
+      stacks: {
+        presenter: hidden,
+        screen: [
+          geometry("poison", {
+            crop: { x: 12, y: 4, width: 32, height: 24 },
+            rect: { x: 16, y: 8, width: 96, height: 72 },
+            fit: "stretch",
+          }),
+        ],
+      },
+    },
+    {
+      name: "rotated-crop",
+      stacks: {
+        presenter: hidden,
+        screen: [
+          geometry("rotated", {
+            crop: { x: 4, y: 4, width: 32, height: 24 },
+            rect: { x: 48, y: 24, width: 64, height: 48 },
+            fit: "stretch",
+            rotationDeg: 33,
+          }),
+        ],
+      },
+    },
+    { name: "source-orientation", sources: { screen: "rotated" }, stacks: { presenter: hidden } },
+    { name: "presenter", stacks: { presenter: [layout] } },
+    { name: "presenter-reversed", stacks: { presenter: [layout], reversed: true } },
+    {
+      name: "source-crop",
+      stacks: {
+        presenter: hidden,
+        screen: [
+import assert from "node:assert/strict";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { hash, root, run } from "./source-evidence-fixture.mjs";
+
+// Unequal corner landmarks make flips, source-domain crops and cover alignment observable.
+function picture(width, height, presenter) {
+  const bytes = Buffer.alloc(width * height * 3);
+  for (let y = 0; y < height; y++)
+    for (let x = 0; x < width; x++) {
+      const light = presenter
+        ? x >= 4 &&
+          x < width - 4 &&
+          y >= 4 &&
+          y < height - 4 &&
+          !(x >= width / 2 && y < height / 3) &&
+          !(x < 8 && y >= height - 12)
+        : (x >= 4 && x < 12 && y >= 4 && y < height - 4) ||
+          (x >= 4 && x < width - 4 && y >= height - 12 && y < height - 4) ||
+          (x >= width - 16 && x < width - 8 && y >= 4 && y < 12);
+      const at = (y * width + x) * 3;
+      bytes.fill(light ? 255 : 0, at, at + 3);
+    }
+  return bytes;
+}
+export const narrationSample = (frame, channel) =>
+  (((frame * (channel ? 13 : 7)) % 127) - 63) / 4096;
+function narration() {
+  const frames = 48000,
+    bytes = Buffer.alloc(44 + frames * 8);
+  bytes.write("RIFF");
+  bytes.writeUInt32LE(bytes.length - 8, 4);
+  bytes.write("WAVEfmt ", 8);
+  bytes.writeUInt32LE(16, 16);
+  bytes.writeUInt16LE(3, 20);
+  bytes.writeUInt16LE(2, 22);
+  bytes.writeUInt32LE(48000, 24);
+  bytes.writeUInt32LE(384000, 28);
+  bytes.writeUInt16LE(8, 32);
+  bytes.writeUInt16LE(32, 34);
+  bytes.write("data", 36);
+  bytes.writeUInt32LE(frames * 8, 40);
+  for (let frame = 0; frame < frames; frame++)
+    for (let channel = 0; channel < 2; channel++)
+      bytes.writeFloatLE(narrationSample(frame, channel), 44 + frame * 8 + channel * 4);
+  return bytes;
+}
+export async function prepareLayersFixture(home, out) {
+  const directory = join(home, "authored-sources");
+  await mkdir(directory, { recursive: true });
+  const referenceTool = join(home, "frame-reference"),
+    pixelTool = join(home, "frame-pixels");
+  for (const [source, target] of [
+    ["FrameColorReference.swift", referenceTool],
+    ["FrameImagePixels.swift", pixelTool],
+  ])
+    await run(
+      "swiftc",
+      ["-parse-as-library", join(root, "packages/test-harness/editing", source), "-o", target],
+      { timeout: 120000 },
+    );
+  async function referenceSource(name, path, width, height, raw) {
+    const refs = join(out, `${name}-reference`);
+    await mkdir(refs, { recursive: true });
+    const request = join(home, `${name}-reference.json`);
+    await writeFile(request, JSON.stringify({ movie: path, output: refs, timesUs: [0] }));
+    const { stdout } = await run(referenceTool, [request], { timeout: 60000 });
+    const reference = JSON.parse(stdout)[0],
+      rgbaPath = join(refs, "source.rgba");
+    const normalized = JSON.parse((await run(pixelTool, [reference.file, rgbaPath])).stdout);
+    assert.deepEqual([normalized.width, normalized.height], [width, height]);
+    assert.equal(reference.sourceProfile, "kCGColorSpaceCoreMedia709");
+    await writeFile(join(refs, "receipt.json"), JSON.stringify({ reference, normalized }, null, 2));
+    const rgba = await readFile(rgbaPath);
+    for (let pixel = 0; pixel < width * height; pixel++) {
+      assert.equal(rgba[pixel * 4 + 3], 255);
+      for (let channel = 0; channel < 3; channel++)
+        assert.ok(
+          Math.abs(rgba[pixel * 4 + channel] - raw[pixel * 3 + channel]) <= 2,
+          "Encoded source lost the independently authored black/white landmark",
+        );
+    }
+    return {
+      path,
+      width,
+      height,
+      sha256: hash(await readFile(path)),
+      reference,
+      normalized,
+      rgba,
+      encodedProfile: "corevideo709",
+    };
+  }
+  const media = {};
+  for (const [name, width, height, presenter] of [
+    ["screen", 64, 48, false],
+    ["presenter", 24, 40, true],
+    ["plate", 16, 16, false],
+  ]) {
+    const raw =
+303:fog splitting, ownership review and link/contract review; these do not replace
+packages/composition/src/edits.test.ts:369:        rightLabels: [
+packages/test-harness/editing/edits.mjs:105:        rightLabels: [
+packages/composition/src/acquisition.test.ts:207:      rightLabels: [{ clipId: "original", label: "right" }],
+packages/composition/src/edits.ts:156:      rightLabels: z
+packages/composition/src/edits.ts:598:        case "split": {
+packages/composition/src/edits.ts:605:          for (const entry of operation.rightLabels) {
+packages/test-harness/editing/layers.mjs:450:          rightLabels: [{ clipId: edited.labels.presenter, label: "right" }],
+packages/test-harness/editing/projects.mjs:285:      rightLabels: [
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+
+2026-09-28T15:19:00.066317Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e898-8f0e-7d83-a7cf-9aa8594a5b37 turn_id=01a0e898-8f8e-72c1-8c7d-87cfdb29f30c item_id="exec-5ddf431f-3383-491c-9417-7e5752fce9af"
+2026-09-28T15:19:01.598156Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e898-8f0e-7d83-a7cf-9aa8594a5b37 turn_id=01a0e898-8f8e-72c1-8c7d-87cfdb29f30c item_id="exec-7eeb891a-f176-4285-8796-8de058a8ae69"
+ succeeded in 27076ms:
+../photoctl/target/ort-runtime/6d66f175d6c1405606dd46d05675ec725e10ebe39f187fa20972d43872e7926d/source/AGENTS.md
+../photoctl/target/ort-runtime/6d66f175d6c1405606dd46d05675ec725e10ebe39f187fa20972d43872e7926d/build/_deps/kleidiai-src/AGENTS.md
+../photoctl/AGENTS.md
+../agentphone/AGENTS.md
+../duet-agent/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet/AGENTS.md
+../screen-recorder-acquisition-composition/AGENTS.md
+../screen-recorder-acquisition-composition/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../chat-app/AGENTS.md
+../game/AGENTS.md
+../screen-recorder/AGENTS.md
+../screen-recorder/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screen-recorder/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../battlegame/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/research-assistant/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/writing-editor/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/AGENTS.md
+../agentlogs/node_modules/.bun/recharts@3.8.0+cc24ebc1a65b5eee/node_modules/recharts/AGENTS.md
+../agentlogs/AGENTS.md
+../factory/AGENTS.md
+../3d-harness/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+
+exec
+/bin/zsh -lc "sed -n '590,665p' packages/composition/src/edits.ts; sed -n '90,125p' packages/test-harness/editing/edits.mjs; rg -n 'async call|transport ===' packages/test-harness/editing/source-evidence-fixture.mjs; node --check packages/test-harness/editing/layers.mjs; git diff --check; git status --short" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+            next = shifted.document;
+            for (const anchor of shifted.touchedFixedAnchors)
+              touchedFixedAnchors.set(anchor.id, anchor);
+          }
+          clipLineage.push(...result.lineage);
+          removedAttachments.push(...result.removedAttachments);
+          break;
+        }
+        case "split": {
+          const result = partitionClips(
+            model,
+            clips(operation.clipIds),
+            { kind: "split", atUs: operation.atUs, scope: operation.scope },
+            allocate,
+          );
+          for (const entry of operation.rightLabels) {
+            const originalId = resolve(entry.clipId, "clip");
+            const right = result.lineage.find((item) => item.originalId === originalId)?.clipIds[1];
+            if (!right)
+              invalid("Label target did not split at the requested time", {
+                clipId: originalId,
+                atUs: operation.atUs,
+              });
+            bind(entry.label, "clip", right);
+          }
+          next = result.document;
+          clipLineage.push(...result.lineage);
+          break;
+        }
+        case "track.add": {
+          const id = allocate("track");
+          bind(operation.label, "track", id);
+          const { parentId, ...track } = operation.track;
+          next = {
+            ...before,
+            tracks: [
+              ...before.tracks,
+              {
+                ...track,
+                id,
+                ...(parentId === undefined ? {} : { parentId: resolve(parentId, "group") }),
+              },
+            ],
+          };
+          break;
+        }
+        case "track.remove": {
+          const id = resolve(operation.trackId, "track");
+          const occupants = before.clips
+            .filter((clip) => clip.trackId === id)
+            .map((clip) => clip.id);
+          if (occupants.length)
+            invalid("Remove or move the track's clips explicitly first", {
+              trackId: id,
+              clipIds: occupants,
+            });
+          next = {
+            ...before,
+            tracks: before.tracks.filter((track) => track.id !== id),
+            processing: before.processing.filter(
+              (stack) => stack.target.kind !== "track" || stack.target.id !== id,
+            ),
+          };
+          break;
+        }
+        case "group.add": {
+          const id = allocate("group");
+          bind(operation.label, "group", id);
+          const { parentId, ...group } = operation.group;
+          next = {
+            ...before,
+            groups: [
+              ...before.groups,
+              {
+                ...group,
+                id,
+        source: { kind: "hold", atUs: 0 },
+        placement: { kind: "project", range: { startUs: 2250000, endUs: 2500000 } },
+      },
+    },
+  ];
+  const first = run(empty, setup, "setup");
+  assert.deepEqual(run(empty, setup, "setup"), first);
+  const before = structuredClone(first.document);
+  const split = run(
+    first.document,
+    [
+      {
+        operation: "split",
+        clipIds: [first.labels.video],
+        atUs: 1000000,
+        rightLabels: [
+          { clipId: first.labels.video, label: "rightVideo" },
+          { clipId: first.labels.audio, label: "rightAudio" },
+          { clipId: first.labels.overlayClip, label: "rightOverlay" },
+        ],
+      },
+    ],
+    "split",
+  );
+  const replaced = run(
+    split.document,
+    [
+      {
+        operation: "replace",
+        clipId: split.labels.rightAudio,
+        kind: "audio",
+        media: {
+          assetId: "b",
+          streamId: "audio",
+          source: { kind: "range", range: { startUs: 0, endUs: 800000 } },
+        },
+97:  async call(operation, params, { transport = "cli", error = false, output } = {}) {
+99:      transport === "mcp"
+ M packages/test-harness/editing/layers.mjs
+
+2026-09-28T15:19:06.325832Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e898-8f0e-7d83-a7cf-9aa8594a5b37 turn_id=01a0e898-8f8e-72c1-8c7d-87cfdb29f30c item_id="exec-02023382-31c1-4720-9f84-5a9d61e44157"
+codex
+The added checks exercise processed-clip splitting and independent processing edits through public APIs, consistently with the existing harness. No actionable defects were found. Syntax and diff checks passed; the native integration journey was not run.
+The added checks exercise processed-clip splitting and independent processing edits through public APIs, consistently with the existing harness. No actionable defects were found. Syntax and diff checks passed; the native integration journey was not run.

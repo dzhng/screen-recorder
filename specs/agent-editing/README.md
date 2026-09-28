@@ -44,7 +44,11 @@ Current pickup and priority:
    media. The public receipt now excludes private execution coordinates;
    [fresh reinspection](assets/15-layer-skill/reinspection/report.md) correctly
    reads the same layout, and all 62 public journey images remain unchanged.
-   Finish edit-operation journeys and pointer geometry. The broader final-output profile remains open.
+   [Pointer authoring/compiler](assets/15-pointer-contract/README.md) is integrated;
+   execution remains unavailable pending exact source-history preparation and
+   native replay. [Processed split and independent-piece edits](assets/15-layer-edits/README.md)
+   pass live media checks. Finish trim/move/duplicate journeys and pointer geometry. The broader
+   final-output profile remains open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue

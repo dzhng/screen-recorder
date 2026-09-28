@@ -1,0 +1,52 @@
+{
+  "checks": [
+    {
+      "inactive": "dry",
+      "readerOpens": 0,
+      "transparent": true
+    },
+    {
+      "inactive": "processed",
+      "readerOpens": 0,
+      "transparent": true
+    },
+    {
+      "limit": "decoded-source-pixels",
+      "response": {
+        "code": "NOT_READY",
+        "details": {},
+        "message": "h264-rec709 profile limit decoded-source-pixels: frame 0 requests 80000000, bound 67108864; reduce simultaneous sources or processing surfaces.",
+        "retryable": false
+      }
+    },
+    {
+      "limit": "intermediate-pixels",
+      "response": {
+        "code": "NOT_READY",
+        "details": {},
+        "message": "h264-rec709 profile limit intermediate-pixels: frame 0 requests 68157440, bound 67108864; reduce simultaneous sources or processing surfaces.",
+        "retryable": false
+      }
+    },
+    {
+      "limit": "coverage-mask-bytes",
+      "response": {
+        "code": "NOT_READY",
+        "details": {},
+        "message": "h264-rec709 profile limit coverage-mask-bytes: frame 0 requests 68157440, bound 67108864; reduce simultaneous sources or processing surfaces.",
+        "retryable": false
+      }
+    },
+    {
+      "recovery": true,
+      "readerOpens": 1
+    },
+    {
+      "disabledPointer": {
+        "frameBytesExact": true,
+        "picturesExact": true,
+        "decodedMoviePixelsExact": true
+      }
+    }
+  ]
+}

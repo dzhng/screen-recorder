@@ -1,0 +1,16 @@
+{
+  "head": "8d1c741",
+  "build": {
+    "targets": [
+      "@screenrec/cli",
+      "@screenrec/service"
+    ],
+    "passed": true
+  },
+  "compositionTests": 141,
+  "focusedCoreTests": 41,
+  "nativeAdmissionChecks": 7,
+  "workerSha256": "46e823a5fca14970c4848d06007b21bc70b433f832bad14035b70b45f0fa43f0",
+  "liveLayers": "../15-layer-edits/verification.json",
+  "enabledPointerExecutionVerified": false
+}
