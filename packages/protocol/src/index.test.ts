@@ -51,6 +51,43 @@ it("artifact reads ask for one bounded chunk at a whole offset", () => {
     expect(read({ offset, maxBytes }).success).toBe(false);
 });
 
+it("project indexes use picture taps and retained references across paging and delivery", () => {
+  const reference = {
+    projectId: "project",
+    revisionId: "revision",
+    generation: "index",
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    maxLongEdge: 640,
+  };
+  const requests = [
+    { operation: "index.get", params: { projectId: "project" } },
+    {
+      operation: "index.get",
+      params: { projectId: "project", cursor: { ...reference, afterOrdinal: 0 } },
+    },
+    { operation: "index.retry", params: { projectId: "project", tap: reference.tap } },
+    {
+      operation: "index.coverage",
+      params: { ...reference, cursor: { ...reference, afterSequence: 0, candidateOrdinal: null } },
+    },
+    { operation: "index.frame", params: { ...reference, ordinal: 0 } },
+    { operation: "index.frames", params: { ...reference, ordinals: [1, 0, 1] } },
+  ];
+  for (const request of requests)
+    expect(operationSchema.safeParse(request).success, request.operation).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "index.get",
+      params: { projectId: "project", range: { startUs: 0, endUs: 1000 } },
+    }).success,
+  ).toBe(false);
+  const incomplete = { ...reference, tap: undefined };
+  expect(
+    operationSchema.safeParse({ operation: "index.frame", params: { ...incomplete, ordinal: 0 } })
+      .success,
+  ).toBe(false);
+});
+
 it("retained index requests bound paging, references and media batches", () => {
   const reference = { recordingId: "take", revisionId: "r0", generation: "attempt" };
   expect(

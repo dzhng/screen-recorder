@@ -6,6 +6,8 @@ import type { DerivativeDelivery } from "./delivery.js";
 import type { MediaExports } from "./exports.js";
 import type { ManagedFiles } from "./managed-files.js";
 import type { JobQueue } from "@screenrec/core/jobs";
+import type { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import type { ProjectIndexRecords } from "@screenrec/core/project-index";
 
 type Deleted = { projectId: string; deleted: true };
 
@@ -20,6 +22,7 @@ export class ProjectDeletion {
     private readonly files: Pick<ManagedFiles, "removeCacheFiles">,
     private readonly delivery: DerivativeDelivery,
     private readonly exports: Pick<MediaExports, "retireOwner">,
+    private readonly index: ScreenshotIndexStore<ProjectIndexRecords>,
   ) {}
 
   delete(projectId: string): Promise<Deleted> {
@@ -40,6 +43,8 @@ export class ProjectDeletion {
       await this.jobs.drainOwner(owner);
       this.lifetime.signal.throwIfAborted();
       await this.exports.retireOwner(owner, this.lifetime.signal);
+      this.lifetime.signal.throwIfAborted();
+      await this.index.reclaim(owner, () => false, this.lifetime.signal);
       this.lifetime.signal.throwIfAborted();
       await this.cache.purgeOwner(owner, ({ ids, root }) =>
         this.files.removeCacheFiles(ids, root, this.lifetime.signal),

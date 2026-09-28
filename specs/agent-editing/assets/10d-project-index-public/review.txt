@@ -1,0 +1,2945 @@
+2026-09-28T15:51:20.445574Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T15:51:20.445637Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/dev/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e8b6-aa5f-7ec0-b20f-62c9f695798b
+--------
+user
+current changes
+2026-09-28T15:51:20.774975Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T15:51:20.775000Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+exec
+/bin/zsh -lc 'git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md; find .. -name AGENTS.override.md -print' in /Users/david/dev/screen-recorder
+exec
+/bin/zsh -lc "git diff --stat; git diff; find apps packages skills -name 'AGENTS*.md'; cat packages/test-harness/editing/project-index-evidence.mjs" in /Users/david/dev/screen-recorder
+2026-09-28T15:51:39.937162Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-3ec76512-c797-4d07-9fa4-3460e60c3cb6"
+ succeeded in 139ms:
+apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+import assert from "node:assert/strict";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { parseArgs } from "node:util";
+import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
+import { prepareLayersFixture } from "./layers-fixture.mjs";
+import { layerTree, expectedRgba, compareGeometry } from "./layers-oracle.mjs";
+import { layerCases } from "./layers-cases.mjs";
+
+const { values } = parseArgs({ options: { out: { type: "string" } } });
+assert.ok(
+  process.env.SCREENREC_NATIVE,
+  "Freeze the native worker before the project-index journey",
+);
+const out = values.out
+  ? resolve(values.out)
+  : await mkdtemp(join(tmpdir(), "project-index-evidence-"));
+await mkdir(out, { recursive: true });
+const home = await mkdtemp(join(tmpdir(), "sr-project-index-"));
+const report = { passed: false, trace: [], checks: {} };
+const service = new JourneyService(home, report),
+  call = service.call.bind(service);
+const canvas = {
+  width: 160,
+  height: 96,
+  fps: { numerator: 10, denominator: 1 },
+  background: "#000000ff",
+};
+
+async function ready(input) {
+  return poll(
+    () => call("index.get", { ...input, limit: 1 }, { transport: "mcp" }),
+    (value) => {
+      assert.notEqual(value.state, "unavailable", JSON.stringify(value));
+      return value.state === "ready";
+    },
+    "project index",
+  );
+}
+async function inspect(input) {
+  const first = await ready(input),
+    metadata = first.page.metadata;
+  const reference = Object.fromEntries(
+    ["projectId", "revisionId", "generation", "tap", "maxLongEdge"].map((key) => [
+      key,
+      metadata[key],
+    ]),
+  );
+  const entries = [...first.page.entries];
+  let cursor = first.page.nextCursor;
+  let afterOrdinal = -1;
+  while (cursor) {
+    assert.ok(cursor.afterOrdinal > afterOrdinal, "Index continuation must advance");
+    afterOrdinal = cursor.afterOrdinal;
+    const page = await call("index.get", { ...input, cursor, limit: 1 });
+    assert.equal(page.page.metadata.generation, metadata.generation);
+    entries.push(...page.page.entries);
+    cursor = page.page.nextCursor;
+  }
+  const coverage = [];
+  let afterSequence = -1;
+  do {
+    if (cursor) {
+      assert.ok(cursor.afterSequence > afterSequence, "Coverage continuation must advance");
+      afterSequence = cursor.afterSequence;
+    }
+    const page = await call("index.coverage", {
+      ...reference,
+      limit: 1,
+      ...(cursor ? { cursor } : {}),
+    });
+    coverage.push(...page.coverage);
+    cursor = page.nextCursor;
+  } while (cursor);
+  assert.equal(entries.length, metadata.candidateCount);
+  assert.deepEqual(
+    entries.map((entry) => entry.candidate.ordinal),
+    entries.map((_, ordinal) => ordinal),
+  );
+  for (const entry of entries) {
+    assert.deepEqual(entry.reference, { ...reference, ordinal: entry.candidate.ordinal });
+    assert.deepEqual(
+      coverage
+        .filter((item) => item.ordinal === entry.candidate.ordinal)
+        .map(({ project, ordinal, equality }) => ({ project, ordinal, equality })),
+      [
+        {
+          project: entry.candidate.visibleRange,
+          ordinal: entry.candidate.ordinal,
+          equality: "sampled",
+        },
+      ],
+    );
+  }
+  return { reference, metadata, entries, coverage };
+}
+async function image(reference, ordinal, name) {
+  const output = join(out, `${name}.png`);
+  const receipt = await call("index.frame", { ...reference, ordinal }, { output });
+  const reply = await service.mcp.callTool({
+    name: "index.frame",
+    arguments: { ...reference, ordinal },
+  });
+  assert.equal(reply.structuredContent.ok, true, JSON.stringify(reply));
+  const images = reply.content.filter((item) => item.type === "image");
+  assert.equal(images.length, 1);
+  const bytes = await readFile(output);
+  assert.ok(bytes.equals(Buffer.from(images[0].data, "base64")));
+  return { output, sha256: hash(bytes), receipt };
+}
+try {
+  const fixtures = await prepareLayersFixture(home, out);
+  await service.start();
+  const created = await call("project.create", { requestId: "empty", canvas });
+  const projectId = created.project.projectId;
+  const empty = await inspect({ projectId });
+  assert.deepEqual(empty.entries, []);
+  assert.deepEqual(empty.coverage, []);
+  assert.equal(empty.metadata.durationUs, 0);
+  report.checks.empty = empty;
+
+  const narration = fixtures.media.narration;
+  const pending = await call("asset.import", { requestId: narration.sha256, path: narration.path });
+  await poll(
+    () => call("job.get", { jobId: pending.jobId }),
+    (value) => value.state === "ready",
+    "import narration",
+  );
+  const asset = await call("asset.get", { assetId: narration.sha256 });
+  const edited = await call("edit.apply", {
+    projectId,
+    expectedRevisionId: created.revision.id,
+    requestId: "audio-only",
+    operations: [
+      { operation: "track.add", label: "voice", track: { kind: "audio", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          assetId: asset.id,
+          streamId: asset.streams[0].id,
+          trackId: { label: "voice" },
+          source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+  });
+  const audio = await inspect({ projectId, revisionId: edited.revision.id, maxLongEdge: 160 });
+  assert.deepEqual(
+    audio.entries.map((entry) => entry.candidate.sampleAtUs),
+    [0, 900000],
+  );
+  assert.deepEqual(
+    audio.coverage.map(({ project, ordinal, equality }) => ({ project, ordinal, equality })),
+    [
+      { project: { startUs: 0, endUs: 100000 }, ordinal: 0, equality: "sampled" },
+      { project: { startUs: 100000, endUs: 900000 }, ordinal: null, equality: "unproven" },
+      { project: { startUs: 900000, endUs: 1000000 }, ordinal: 1, equality: "sampled" },
+    ],
+  );
+  audio.images = [];
+  for (const entry of audio.entries) {
+    const picture = await image(
+      audio.reference,
+      entry.candidate.ordinal,
+      `background-${entry.candidate.ordinal}`,
+    );
+    const rgba = picture.output + ".rgba";
+    await run(fixtures.pixelTool, [picture.output, rgba]);
+    const pixels = await readFile(rgba);
+    assert.equal(pixels.length, 160 * 96 * 4);
+    assert.ok(
+      pixels.every((value, index) => value === (index % 4 === 3 ? 255 : 0)),
+      "Audio-only canvas must be opaque black",
+    );
+    audio.images.push(picture);
+  }
+  report.checks.audioOnly = audio;
+  const media = {};
+  for (const name of ["screen", "presenter"]) {
+    const fixture = fixtures.media[name];
+    const pending = await call("asset.import", { requestId: fixture.sha256, path: fixture.path });
+    await poll(
+      () => call("job.get", { jobId: pending.jobId }),
+      (value) => value.state === "ready",
+      `import ${name}`,
+    );
+    const asset = await call("asset.get", { assetId: fixture.sha256 });
+    media[name] = { assetId: asset.id, streamId: asset.streams[0].id };
+    await rm(fixture.path);
+  }
+  const visual = await call("project.create", { requestId: "layered", canvas });
+  const presenter = layerCases(canvas).find((item) => item.name === "presenter");
+  const placed = await call(
+    "edit.apply",
+    {
+      projectId: visual.project.projectId,
+      expectedRevisionId: visual.revision.id,
+      requestId: "held-screen-and-presenter",
+      operations: [
+        { operation: "track.add", label: "screen-track", track: { kind: "video", order: 0 } },
+        { operation: "track.add", label: "presenter-track", track: { kind: "video", order: 1 } },
+        {
+          operation: "place",
+          label: "screen",
+          clip: {
+            ...media.screen,
+            trackId: { label: "screen-track" },
+            source: { kind: "hold", atUs: 0 },
+            placement: { kind: "project", range: { startUs: 0, endUs: 6000000 } },
+          },
+        },
+        {
+          operation: "place",
+          label: "presenter",
+          clip: {
+            ...media.presenter,
+            trackId: { label: "presenter-track" },
+            source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+            placement: { kind: "project", range: { startUs: 2250000, endUs: 3250000 } },
+          },
+        },
+        {
+          operation: "processing.set",
+          target: { kind: "clip", id: { label: "presenter" } },
+          steps: presenter.stacks.presenter,
+        },
+      ],
+    },
+    { transport: "mcp" },
+  );
+  const composition = await inspect({
+    projectId: visual.project.projectId,
+    revisionId: placed.revision.id,
+    maxLongEdge: 160,
+  });
+  assert.deepEqual(
+    composition.entries.map((entry) => entry.candidate.sampleAtUs),
+    [0, 2200000, 2300000, 3200000, 3300000, 5000000, 5900000],
+  );
+  assert.deepEqual(composition.metadata.scenes.map((scene) => scene.owner.assetId).sort(), [
+    media.presenter.assetId,
+  ]);
+  composition.images = [];
+  for (const entry of composition.entries) {
+    const atUs = entry.candidate.sampleAtUs;
+    const picture = await image(
+      composition.reference,
+      entry.candidate.ordinal,
+      `composition-${atUs}`,
+    );
+    const direct = join(out, `direct-${atUs}.png`);
+    await poll(
+      () =>
+        call(
+          "frame.get",
+          {
+            projectId: composition.reference.projectId,
+            revisionId: composition.reference.revisionId,
+            atUs,
+            maxLongEdge: 160,
+          },
+          { output: direct },
+        ),
+      (value) => value.state === "ready",
+      "direct composite frame",
+    );
+    assert.equal(hash(await readFile(direct)), picture.sha256);
+    const rgba = picture.output + ".rgba";
+    await run(fixtures.pixelTool, [picture.output, rgba]);
+    const stacks =
+      atUs >= 2250000 && atUs < 3250000
+        ? presenter.stacks
+        : {
+            presenter: [{ processor: { type: "opacity", opacity: 0 } }],
+          };
+    const verdict = compareGeometry(
+      await readFile(rgba),
+      expectedRgba(layerTree(canvas, fixtures.media, stacks).output),
+      canvas.width,
+      canvas.height,
+    );
+    composition.images.push({ atUs, ...picture, verdict });
+  }
+  report.checks.composition = composition;
+  const tapImages = [];
+  for (const point of ["dry", "processed"]) {
+    const selected = await inspect({
+      projectId: composition.reference.projectId,
+      revisionId: composition.reference.revisionId,
+      maxLongEdge: 160,
+      tap: { target: { kind: "clip", id: placed.edit.labels.presenter }, point: { kind: point } },
+    });
+    const entry = selected.entries.find((item) => item.candidate.sampleAtUs === 2300000);
+    assert.ok(entry);
+    const picture = await image(selected.reference, entry.candidate.ordinal, `presenter-${point}`);
+    const rgba = picture.output + ".rgba";
+    await run(fixtures.pixelTool, [picture.output, rgba]);
+    const surface = layerTree(canvas, fixtures.media, presenter.stacks).taps.get(
+      `presenter/${point}`,
+    );
+    const verdict = compareGeometry(
+      await readFile(rgba),
+      expectedRgba(surface),
+      canvas.width,
+      canvas.height,
+    );
+    tapImages.push({ point, ...selected, picture, verdict });
+  }
+  assert.notEqual(tapImages[0].picture.sha256, tapImages[1].picture.sha256);
+  report.checks.taps = tapImages;
+  const batch = await call(
+    "index.frames",
+    { ...composition.reference, ordinals: [2, 999, 0, 2] },
+    { transport: "mcp" },
+  );
+  assert.deepEqual(
+    batch.items.map((item) => [item.ordinal, item.ok]),
+    [
+      [2, true],
+      [999, false],
+      [0, true],
+      [2, true],
+    ],
+  );
+  assert.deepEqual(batch.items[0].data.candidate, composition.entries[2].candidate);
+  assert.deepEqual(batch.items[3].data.candidate, composition.entries[2].candidate);
+  const retried = await call("index.retry", {
+    projectId: composition.reference.projectId,
+    revisionId: composition.reference.revisionId,
+    maxLongEdge: 160,
+  });
+  assert.equal(retried.published.evidence.generation, composition.reference.generation);
+  const firstPage = await call("index.get", {
+    projectId: composition.reference.projectId,
+    maxLongEdge: 160,
+    limit: 1,
+  });
+  assert.ok(firstPage.page.nextCursor);
+  const changedTap = { target: { kind: "output" }, point: { kind: "dry" } };
+  assert.equal(
+    (
+      await call(
+        "index.get",
+        {
+          projectId: composition.reference.projectId,
+          tap: changedTap,
+          cursor: firstPage.page.nextCursor,
+        },
+        { error: true },
+      )
+    ).code,
+    "ARTIFACT_CHANGED",
+  );
+  for (const changed of [{ tap: changedTap }, { maxLongEdge: 320 }]) {
+    assert.equal(
+      (
+        await call(
+          "index.frame",
+          { ...composition.reference, ...changed, ordinal: 0 },
+          { error: true },
+        )
+      ).code,
+      "ARTIFACT_CHANGED",
+    );
+  }
+  const firstCoverage = await call("index.coverage", { ...composition.reference, limit: 1 });
+  assert.ok(firstCoverage.nextCursor);
+  assert.equal(
+    (
+      await call(
+        "index.coverage",
+        { ...composition.reference, candidateOrdinal: 0, cursor: firstCoverage.nextCursor },
+        { error: true },
+      )
+    ).code,
+    "ARTIFACT_CHANGED",
+  );
+  const changed = await call("edit.apply", {
+    projectId: composition.reference.projectId,
+    expectedRevisionId: placed.revision.id,
+    requestId: "hide-presenter",
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: placed.edit.labels.presenter },
+        steps: [{ processor: { type: "opacity", opacity: 0 } }],
+      },
+    ],
+  });
+  const old = await image(composition.reference, 2, "historical-before-restart");
+  assert.equal(old.sha256, composition.images[2].sha256);
+  await service.stop();
+  await service.start();
+  const continued = await call("index.get", {
+    projectId: composition.reference.projectId,
+    cursor: firstPage.page.nextCursor,
+    limit: 1,
+  });
+  assert.equal(continued.revisionId, composition.reference.revisionId);
+  assert.deepEqual(continued.page.entries[0].candidate, composition.entries[1].candidate);
+  const historical = await image(composition.reference, 2, "historical-after-restart");
+  assert.equal(historical.sha256, old.sha256);
+  const current = await inspect({
+    projectId: composition.reference.projectId,
+    revisionId: changed.revision.id,
+    maxLongEdge: 160,
+  });
+  const newEntry = current.entries.find((entry) => entry.candidate.sampleAtUs === 2300000);
+  assert.ok(newEntry);
+  const currentImage = await image(
+    current.reference,
+    newEntry.candidate.ordinal,
+    "current-hidden-presenter",
+  );
+  assert.notEqual(currentImage.sha256, old.sha256);
+  assert.equal(currentImage.sha256, composition.images[0].sha256);
+  const lease = await call("index.frame", { ...composition.reference, ordinal: 0 });
+  const liveRead = await call("artifact.read", {
+    token: lease.delivery.token,
+    offset: 0,
+    maxBytes: 16,
+  });
+  assert.equal(Buffer.from(liveRead.data, "base64").length, 16);
+  await call("project.delete", { projectId: composition.reference.projectId });
+  assert.equal(
+    (await call("artifact.read", { token: lease.delivery.token, offset: 0 }, { error: true })).code,
+    "ARTIFACT_EXPIRED",
+  );
+  assert.equal(
+    (await call("index.frame", { ...composition.reference, ordinal: 0 }, { error: true })).code,
+    "NOT_FOUND",
+  );
+  assert.equal(hash(await readFile(historical.output)), old.sha256);
+  const sibling = await image(audio.reference, 0, "unrelated-project-after-delete");
+  assert.equal(sibling.sha256, audio.images[0].sha256);
+  report.checks.lifetime = {
+    batch,
+    readyRetry: retried,
+    continuation: continued,
+    old,
+    historical,
+    current: { reference: current.reference, image: currentImage },
+    deletionRevoked: true,
+    externalFilePreserved: true,
+    unrelatedProjectPreserved: true,
+  };
+  report.passed = true;
+} catch (error) {
+  report.error = { message: error.message, stack: error.stack };
+  process.exitCode = 1;
+} finally {
+  await service.stop().catch((error) => {
+    report.passed = false;
+    report.shutdownError = error.message;
+    process.exitCode = 1;
+  });
+  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
+  await writeFile(join(out, "service.log"), service.logs.join(""));
+  await rm(home, { recursive: true, force: true });
+}
+console.log(JSON.stringify({ passed: report.passed, out, error: report.error?.message }));
+
+exec
+/bin/zsh -lc 'git diff packages/protocol/src/operations.ts; cat package.json; cat apps/service/src/project-deletion.ts; cat packages/core/src/index-processing.ts' in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+diff --git a/packages/protocol/src/operations.ts b/packages/protocol/src/operations.ts
+index 4313f62..506e573 100644
+--- a/packages/protocol/src/operations.ts
++++ b/packages/protocol/src/operations.ts
+@@ -202,6 +202,8 @@ const spectrogramParams = z.union([
+ ]);
+ 
+ const indexFields = { revisionId: id, generation: id };
++const projectIndexParams = projectFrameParams.omit({ atUs: true });
++const projectIndexReference = projectIndexParams.required().extend({ generation: id });
+ const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };
+ const coveragePosition = {
+   ...indexFields,
+@@ -496,6 +498,10 @@ export const operationSchema = z.discriminatedUnion("operation", [
+     .object({
+       operation: z.literal("index.get"),
+       params: z.union([
++        projectIndexParams.extend({
++          limit: z.int().min(1).max(200).default(50),
++          cursor: projectIndexReference.extend({ afterOrdinal: z.int().nonnegative() }).optional(),
++        }),
+         ...inspectionPage(
+           { revisionId: id.optional(), limit: z.int().min(1).max(200).default(50) },
+           indexPosition,
+@@ -512,21 +518,36 @@ export const operationSchema = z.discriminatedUnion("operation", [
+     })
+     .strict()
+     .describe(
+-      "Request a retained screenshot index for a recording, package or selected asset video stream. Source selectors use assetId/streamId and optional acquisitionId, without a recording revision. Scene preparation precedes source index preparation. Returns readiness until complete, then paged metadata with reasons and stable frame references. A ready source index may have no images; inspect coverage to distinguish known support gaps from unproven ranges around unavailable observations. Continue with the returned cursor to keep the same revision and generation; use index.frame or index.frames for image bytes.",
++      "Request a retained screenshot index for a project, recording, package or selected asset video stream. Projects select the whole revision and an optional video tap, defaulting to processed output; maxLongEdge controls picture size. Source selectors use assetId/streamId and optional acquisitionId. Scene preparation precedes index preparation. Returns readiness until complete, then paged metadata with selection reasons and stable frame references. An empty index may be ready. Project coverage marks only delivered frame visibility as sampled; intervening ranges remain unproven. Continue with the returned cursor to pin identity; use index.frame or index.frames for image bytes.",
+     ),
+   z
+     .object({
+       operation: z.literal("index.retry"),
+-      params: z.union([recording.extend({ revisionId: id.optional() }).strict(), sourceSelection]),
++      params: z.union([
++        projectIndexParams,
++        recording.extend({ revisionId: id.optional() }).strict(),
++        sourceSelection,
++      ]),
+     })
+     .strict()
+     .describe(
+-      "Explicitly retry failed or canceled screenshot index processing. Source selectors also retry their retryable terminal scene or frame prerequisite; ordinary reads do not restart terminal work. Recording source/scene dependencies require their own processing.retry.",
++      "Explicitly retry failed or canceled screenshot index processing. Project and source selectors also retry their retryable terminal scene or frame prerequisites; ordinary reads do not restart terminal work. Recording source/scene dependencies require their own processing.retry.",
+     ),
+   z
+     .object({
+       operation: z.literal("index.coverage"),
+       params: z.union([
++        paged(
++          projectIndexReference,
++          {
++            candidateOrdinal: z.int().nonnegative().optional(),
++            limit: z.int().min(1).max(200).default(50),
++          },
++          {
++            afterSequence: z.int().nonnegative(),
++            candidateOrdinal: z.int().nonnegative().nullable(),
++          },
++        ),
+         ...inspectionPage(
+           {
+             ...indexFields,
+@@ -558,6 +579,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
+     .object({
+       operation: z.literal("index.frame"),
+       params: z.union([
++        projectIndexReference.extend({ ordinal: z.int().nonnegative() }),
+         ...inspection({ ...indexFields, ordinal: z.int().nonnegative() }).options,
+         sourceSelection.extend({ generation: id, ordinal: z.int().nonnegative() }).strict(),
+       ]),
+@@ -570,6 +592,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
+     .object({
+       operation: z.literal("index.frames"),
+       params: z.union([
++        projectIndexReference.extend({ ordinals: z.array(z.int().nonnegative()).min(1).max(8) }),
+         ...inspection({
+           ...indexFields,
+           ordinals: z.array(z.int().nonnegative()).min(1).max(8),
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+import { setImmediate } from "node:timers/promises";
+import { CatalogError } from "@screenrec/core/catalog";
+import type { ProjectStore } from "@screenrec/core/projects";
+import type { DerivedCache } from "@screenrec/core/cache";
+import type { DerivativeDelivery } from "./delivery.js";
+import type { MediaExports } from "./exports.js";
+import type { ManagedFiles } from "./managed-files.js";
+import type { JobQueue } from "@screenrec/core/jobs";
+import type { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import type { ProjectIndexRecords } from "@screenrec/core/project-index";
+
+type Deleted = { projectId: string; deleted: true };
+
+/** Orders current project resource owners; retained revisions journal unfinished retirement. */
+export class ProjectDeletion {
+  private readonly active = new Map<string, Promise<Deleted>>();
+  private readonly lifetime = new AbortController();
+  constructor(
+    private readonly store: ProjectStore,
+    private readonly jobs: JobQueue,
+    private readonly cache: DerivedCache,
+    private readonly files: Pick<ManagedFiles, "removeCacheFiles">,
+    private readonly delivery: DerivativeDelivery,
+    private readonly exports: Pick<MediaExports, "retireOwner">,
+    private readonly index: ScreenshotIndexStore<ProjectIndexRecords>,
+  ) {}
+
+  delete(projectId: string): Promise<Deleted> {
+    if (this.lifetime.signal.aborted)
+      throw new CatalogError("SERVICE_STOPPED", "Project deletion is closed", {}, true);
+    const existing = this.active.get(projectId);
+    if (existing) return existing;
+    if (!this.store.markDeleting(projectId)) return Promise.resolve({ projectId, deleted: true });
+    this.delivery.revoke({ kind: "project", id: projectId });
+    const result = this.remove(projectId).finally(() => this.active.delete(projectId));
+    this.active.set(projectId, result);
+    return result;
+  }
+
+  private async remove(projectId: string): Promise<Deleted> {
+    try {
+      const owner = { kind: "project" as const, projectId };
+      await this.jobs.drainOwner(owner);
+      this.lifetime.signal.throwIfAborted();
+      await this.exports.retireOwner(owner, this.lifetime.signal);
+      this.lifetime.signal.throwIfAborted();
+      await this.index.reclaim(owner, () => false, this.lifetime.signal);
+      this.lifetime.signal.throwIfAborted();
+      await this.cache.purgeOwner(owner, ({ ids, root }) =>
+        this.files.removeCacheFiles(ids, root, this.lifetime.signal),
+      );
+      this.lifetime.signal.throwIfAborted();
+      await this.jobs.forgetOwner(owner);
+      for (;;) {
+        this.lifetime.signal.throwIfAborted();
+        if (this.store.finishDeletionPage(projectId)) break;
+        await setImmediate();
+      }
+      return { projectId, deleted: true };
+    } catch (error) {
+      throw new CatalogError(
+        "DELETE_FAILED",
+        `Project deletion could not finish: ${error instanceof Error ? error.message : String(error)}`,
+        { projectId },
+        true,
+      );
+    }
+  }
+
+  async resume(reportFailure: (error: unknown) => void): Promise<void> {
+    let afterId: string | undefined;
+    while (!this.lifetime.signal.aborted) {
+      const page = this.store.deletionsPage(afterId);
+      for (const projectId of page.projectIds) {
+        if (this.lifetime.signal.aborted) return;
+        try {
+          await this.delete(projectId);
+        } catch (error) {
+          reportFailure(error);
+        }
+      }
+      if (page.nextAfterId === null) return;
+      afterId = page.nextAfterId;
+    }
+  }
+
+  async close(): Promise<void> {
+    this.lifetime.abort();
+    await Promise.allSettled(this.active.values());
+  }
+}
+import type { ProjectStore } from "./projects.js";
+import type { ProjectFrameInput } from "./frame-inspection.js";
+import { projectComposition } from "./project-window.js";
+import {
+  projectIndexPlan,
+  type ProjectIndexIdentity,
+  type ProjectIndexRecords,
+} from "./project-index.js";
+import { materializeProjectIndex } from "./project-index-materialization.js";
+import { isDeepStrictEqual } from "node:util";
+import type { AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import type { DerivedCache } from "./cache.js";
+import type { MediaFrameInspection } from "./frame-inspection.js";
+import {
+  sceneGenerationResource,
+  type SceneEvidenceStore,
+  type SceneEvidenceMetadata,
+} from "./scene-evidence.js";
+import { type SourceSelection } from "./source-selection.js";
+import type { SourceIndexIdentity, SourceIndexRecords } from "./source-index.js";
+import { sourceIndexPolicy } from "./source-index-selection.js";
+import { materializeSourceIndex } from "./source-index-materialization.js";
+import { evidenceRecordingId } from "./evidence.js";
+import {
+  RetainedIndexRead,
+  validateIndexCoverageCursor,
+  type IndexCoverageCursor,
+  type IndexReadCursor,
+} from "./index-read.js";
+import { join } from "node:path";
+import { setImmediate } from "node:timers/promises";
+import { type RevisionStore } from "./library.js";
+import { CatalogError, type Catalog } from "./catalog.js";
+import type { JobExecution, JobQueue } from "./jobs.js";
+import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
+import type { SourceProcessing } from "./processing.js";
+import type { SceneProcessing } from "./scene-processing.js";
+import type { SceneEvidenceRead, RecordingSceneEvidenceMetadata } from "./scene-evidence.js";
+import { selectIndex, selectionPolicy } from "./selection.js";
+import { selectionEvidence } from "./selection-evidence.js";
+import { materializeFrame, framePolicy, type FrameDecoder } from "./frame-materialization.js";
+import { trailPolicy } from "./trails.js";
+import type { VisualSampler } from "./scenes.js";
+import {
+  encodeIndexRecord,
+  type ScreenshotIndexStore,
+  type ScreenshotIndexMetadata,
+} from "./screenshot-index.js";
+
+const artifact = "screenshot-index";
+export type IndexReference = Pick<
+  ScreenshotIndexMetadata,
+  "recordingId" | "revisionId" | "generation"
+>;
+export type IndexFrameReference = IndexReference & { ordinal: number };
+export type IndexEvidence = {
+  source: SourceEvidenceMetadata;
+  scenes: RecordingSceneEvidenceMetadata;
+};
+type IndexInput = IndexEvidence & {
+  selectionPolicy: string;
+  framePolicy: string;
+  trailPolicy: string;
+};
+export type SourceIndexReference = SourceSelection & { generation: string };
+type SourceIndexInput = Omit<SourceIndexIdentity, "generation">;
+export type ProjectIndexReference = Pick<
+  ProjectIndexIdentity,
+  "projectId" | "revisionId" | "generation" | "tap" | "maxLongEdge"
+>;
+export type ProjectIndexInput = Omit<ProjectFrameInput, "atUs">;
+type ProjectIndexRecipe = Omit<ProjectIndexIdentity, "generation">;
+type MediaIndexOwners = {
+  catalog: Catalog;
+  assets: AssetStore;
+  acquisitions: AcquisitionStore;
+  scenes: SceneProcessing;
+  records: SceneEvidenceStore;
+  frames: MediaFrameInspection;
+  cache: DerivedCache;
+};
+export type IndexProcessingOptions = {
+  jobs: JobQueue;
+  asset?: MediaIndexOwners & { index: ScreenshotIndexStore<SourceIndexRecords> };
+  project?: MediaIndexOwners & {
+    projects: ProjectStore;
+    index: ScreenshotIndexStore<ProjectIndexRecords>;
+    implementationId: string;
+  };
+  recording?: {
+    store: RevisionStore;
+    index: ScreenshotIndexStore;
+    source: SourceProcessing;
+    scenes: SceneProcessing;
+    evidence: { source: SourceTrailRead; scenes: SceneEvidenceRead };
+    home: string;
+    render: { decode: FrameDecoder; sample: VisualSampler };
+    retained?: (recordingId: string, generation: string) => boolean;
+  };
+};
+/** Dependency readiness is resolved before index admission to the existing work lanes. */
+export class IndexProcessing {
+  private readonly jobs: JobQueue;
+  constructor(private readonly options: IndexProcessingOptions) {
+    this.jobs = options.jobs;
+    if (options.project)
+      options.project.catalog.catalog.exec(`CREATE INDEX IF NOT EXISTS project_index_publication
+        ON artifacts(targetKind,targetId,revisionId,artifact,json_extract(result,'$.generation'))
+        WHERE targetKind='project' AND artifact='screenshot-index'`);
+    if (options.asset)
+      options.asset.catalog.catalog.exec(`
+      CREATE INDEX IF NOT EXISTS source_index_publication ON artifacts(targetKind,targetId,artifact,json_extract(result,'$.generation')) WHERE targetKind='asset' AND artifact='screenshot-index';
+    `);
+  }
+  private get recording() {
+    if (!this.options.recording)
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording indexes are unavailable");
+    return this.options.recording;
+  }
+
+  private get asset() {
+    if (!this.options.asset)
+      throw new CatalogError("UNSUPPORTED_JOB", "Source indexes are unavailable");
+    return this.options.asset;
+  }
+  private get project() {
+    if (!this.options.project)
+      throw new CatalogError("UNSUPPORTED_JOB", "Project indexes are unavailable");
+    return this.options.project;
+  }
+  private projectPlan(input: ProjectIndexInput) {
+    return projectIndexPlan(
+      projectComposition(this.project.projects, this.project.assets, input),
+      input,
+      this.project.implementationId,
+    );
+  }
+  requestProject(input: ProjectIndexInput) {
+    const plan = this.projectPlan(input);
+    const dependencies = plan.sources.map((selection) => ({
+      artifact: "source-scenes" as const,
+      ...this.project.scenes.publishedSource(selection),
+    }));
+    const waiting =
+      dependencies.find(
+        (value) => !value.published && ["failed", "unavailable"].includes(value.state),
+      ) ?? dependencies.find((value) => !value.published);
+    if (waiting)
+      return {
+        ...plan.identity,
+        state: waiting.state,
+        reason: waiting.reason,
+        retryable: waiting.retryable,
+        jobId: null,
+        published: null,
+        dependencies,
+      };
+    const recipe: ProjectIndexRecipe = {
+      ...plan.identity,
+      scenes: dependencies.map((value) => value.published!.evidence),
+    };
+    const identity = {
+      target: {
+        kind: "project" as const,
+        projectId: recipe.projectId,
+        revisionId: recipe.revisionId,
+      },
+      artifact,
+      input: encodeIndexRecord(recipe),
+    };
+    this.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
+      encodeIndexRecord({ ...recipe, generation: job.attemptId });
+      this.jobs.retainInputs(
+        job.jobId,
+        "scene-generation",
+        recipe.scenes.map(sceneGenerationResource),
+      );
+    });
+    const status = this.jobs.status(identity);
+    return {
+      ...plan.identity,
+      ...status,
+      dependencies: [],
+      published: status.published
+        ? {
+            generation: status.published.generation,
+            evidence: JSON.parse(
+              status.published.result,
+            ) as ScreenshotIndexMetadata<ProjectIndexRecords>,
+          }
+        : null,
+    };
+  }
+  retryProject(input: ProjectIndexInput) {
+    const status = this.requestProject(input);
+    if (status.jobId) this.jobs.retry(status.jobId);
+    else
+      for (const dependency of status.dependencies)
+        if (dependency.retryable && !["queued", "processing", "ready"].includes(dependency.state))
+          this.project.scenes.retrySource(dependency);
+    return this.requestProject(input);
+  }
+  publishedProject(reference: ProjectIndexReference) {
+    this.project.projects.get(reference.projectId);
+    const row = this.project.catalog.catalog
+      .prepare(`SELECT result FROM artifacts
+      WHERE targetKind='project' AND targetId=? AND revisionId=? AND artifact='screenshot-index'
+      AND json_extract(result,'$.generation')=? LIMIT 1`)
+      .get(reference.projectId, reference.revisionId, reference.generation) as
+      | { result: string }
+      | undefined;
+    if (!row)
+      throw new CatalogError("ARTIFACT_CHANGED", "Project screenshot index is not published");
+    const metadata = JSON.parse(row.result) as ScreenshotIndexMetadata<ProjectIndexRecords>;
+    if (!isDeepStrictEqual(this.projectReference(metadata), this.projectReference(reference)))
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Project screenshot index belongs to another selection",
+      );
+    return metadata;
+  }
+  private projectReference(input: ProjectIndexReference): ProjectIndexReference {
+    return {
+      projectId: input.projectId,
+      revisionId: input.revisionId,
+      generation: input.generation,
+      tap: input.tap,
+      maxLongEdge: input.maxLongEdge,
+    };
+  }
+  private projectRead(reference: ProjectIndexReference) {
+    const pinned = this.projectReference(reference);
+    return new RetainedIndexRead<ProjectIndexReference, ProjectIndexRecords>(
+      this.project.index,
+      this.publishedProject(pinned),
+      pinned,
+    );
+  }
+  getProject(
+    input: ProjectIndexInput & {
+      cursor?: IndexReadCursor<ProjectIndexReference> | undefined;
+      limit?: number;
+    },
+  ) {
+    if (
+      input.cursor &&
+      (input.cursor.projectId !== input.projectId ||
+        (input.revisionId !== undefined && input.cursor.revisionId !== input.revisionId) ||
+        (input.tap !== undefined && !isDeepStrictEqual(input.cursor.tap, input.tap)) ||
+        (input.maxLongEdge !== undefined && input.cursor.maxLongEdge !== input.maxLongEdge))
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Project index continuation belongs to another selection",
+      );
+    const status = input.cursor ? null : this.requestProject(input);
+    if (status && !status.published) return { ...status, page: null };
+    const metadata = input.cursor
+      ? this.publishedProject(input.cursor)
+      : status!.published!.evidence;
+    return this.projectRead(metadata).get({ cursor: input.cursor, limit: input.limit });
+  }
+  coverageProject(
+    input: ProjectIndexReference & {
+      candidateOrdinal?: number | undefined;
+      cursor?: IndexCoverageCursor<ProjectIndexReference> | undefined;
+      limit?: number | undefined;
+    },
+  ) {
+    return this.projectRead(input).coverage(input);
+  }
+  frameProject(input: ProjectIndexReference & { ordinal: number }) {
+    return this.projectRead(input).frame(input.ordinal);
+  }
+  openReadProject(input: ProjectIndexReference & { ordinal: number }) {
+    return this.projectRead(input).openRead(input.ordinal);
+  }
+  private async cleanupProject(projectId: string, signal: AbortSignal) {
+    const owner = { kind: "project" as const, projectId };
+    await this.project.index.reclaim(
+      owner,
+      ({ generation }) => this.jobs.retainsAttempt(owner, artifact, generation),
+      signal,
+    );
+  }
+  private async executeProject({ job, signal }: JobExecution) {
+    if (job.target.kind !== "project" || job.artifact !== artifact)
+      throw new CatalogError("UNSUPPORTED_JOB", "Project index requires a project job");
+    const input = JSON.parse(job.input) as ProjectIndexRecipe;
+    const plan = this.projectPlan(input);
+    const { scenes, ...identity } = input;
+    if (
+      job.target.projectId !== input.projectId ||
+      job.target.revisionId !== input.revisionId ||
+      !isDeepStrictEqual(identity, plan.identity)
+    )
+      throw new CatalogError("ARTIFACT_CHANGED", "Project index recipe changed");
+    await this.cleanupProject(input.projectId, signal);
+    return JSON.stringify(
+      await materializeProjectIndex(
+        { ...identity, scenes, generation: job.attemptId },
+        plan,
+        this.project,
+        job.generation > 1,
+        signal,
+      ),
+    );
+  }
+  private sourceRecipe(
+    selection: SourceSelection,
+    scenes: SceneEvidenceMetadata,
+  ): SourceIndexInput {
+    const { options } = this.asset.frames.sourcePlan({ ...selection, atUs: 0 });
+    return {
+      ...options.selection,
+      scenes,
+      selectionPolicy: sourceIndexPolicy.id,
+      implementationId: options.implementationId,
+      maxLongEdge: options.maxLongEdge,
+    };
+  }
+  requestSource(selection: SourceSelection) {
+    selection = this.asset.frames.sourcePlan({ ...selection, atUs: 0 }).source.selection;
+    const dependency = this.asset.scenes.publishedSource(selection);
+    if (!dependency.published)
+      return {
+        ...selection,
+        state: dependency.state,
+        reason: dependency.reason,
+        retryable: dependency.retryable,
+        jobId: null,
+        published: null,
+        dependencies: [{ artifact: "source-scenes", ...dependency }],
+      };
+    const input = this.sourceRecipe(selection, dependency.published.evidence);
+    const identity = {
+      target: { kind: "asset" as const, assetId: input.assetId },
+      artifact,
+      input: encodeIndexRecord(input),
+    };
+    this.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
+      encodeIndexRecord({ ...input, generation: job.attemptId });
+      this.jobs.retainInputs(job.jobId, "scene-generation", [
+        sceneGenerationResource(input.scenes),
+      ]);
+      const owner = { kind: "job" as const, id: job.jobId };
+      this.asset.assets.retain(owner, [input.assetId]);
+      if (input.acquisitionId) this.asset.acquisitions.retain(owner, [input.acquisitionId]);
+    });
+    const status = this.jobs.status(identity);
+    return {
+      ...selection,
+      ...status,
+      published: status.published
+        ? {
+            generation: status.published.generation,
+            evidence: JSON.parse(
+              status.published.result,
+            ) as ScreenshotIndexMetadata<SourceIndexRecords>,
+          }
+        : null,
+      dependencies: [],
+    };
+  }
+  retrySource(selection: SourceSelection) {
+    const status = this.requestSource(selection);
+    if (status.jobId) this.jobs.retry(status.jobId);
+    else if (status.retryable && !["queued", "processing", "ready"].includes(status.state))
+      this.asset.scenes.retrySource(
+        this.asset.frames.sourcePlan({ ...selection, atUs: 0 }).source.selection,
+      );
+    return this.requestSource(selection);
+  }
+  publishedSource(reference: SourceIndexReference) {
+    const selected = this.asset.frames.sourcePlan({ ...reference, atUs: 0 }).source;
+    const row = this.asset.catalog.catalog
+      .prepare(
+        `SELECT result FROM artifacts WHERE targetKind='asset' AND targetId=? AND artifact='screenshot-index' AND json_extract(result,'$.generation')=? LIMIT 1`,
+      )
+      .get(reference.assetId, reference.generation) as { result: string } | undefined;
+    if (!row)
+      throw new CatalogError("ARTIFACT_CHANGED", "Source screenshot index is not published");
+    const metadata = JSON.parse(row.result) as ScreenshotIndexMetadata<SourceIndexRecords>;
+    if (
+      metadata.assetId !== selected.selection.assetId ||
+      metadata.streamId !== selected.selection.streamId ||
+      metadata.acquisitionId !== selected.selection.acquisitionId
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Source screenshot index belongs to another selection",
+      );
+    return metadata;
+  }
+  private sourceRead(reference: SourceIndexReference) {
+    const pinned = {
+      assetId: reference.assetId,
+      streamId: reference.streamId,
+      ...(reference.acquisitionId === undefined ? {} : { acquisitionId: reference.acquisitionId }),
+      generation: reference.generation,
+    };
+    return new RetainedIndexRead<SourceIndexReference, SourceIndexRecords>(
+      this.asset.index,
+      this.publishedSource(pinned),
+      pinned,
+    );
+  }
+  getSource(
+    input: SourceSelection & {
+      cursor?: IndexReadCursor<SourceIndexReference> | undefined;
+      limit?: number;
+    },
+  ) {
+    if (
+      input.cursor &&
+      (input.cursor.assetId !== input.assetId ||
+        input.cursor.streamId !== input.streamId ||
+        input.cursor.acquisitionId !== input.acquisitionId)
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Source index continuation belongs to another selection",
+      );
+    const status = input.cursor ? null : this.requestSource(input);
+    if (status && !status.published) return { ...status, page: null };
+    const metadata = input.cursor
+      ? this.publishedSource(input.cursor)
+      : status!.published!.evidence;
+    return this.sourceRead(metadata).get({ cursor: input.cursor, limit: input.limit });
+  }
+  coverageSource(
+    input: SourceIndexReference & {
+      candidateOrdinal?: number | undefined;
+      cursor?: IndexCoverageCursor<SourceIndexReference> | undefined;
+      limit?: number | undefined;
+    },
+  ) {
+    return this.sourceRead(input).coverage(input);
+  }
+  frameSource(input: SourceIndexReference & { ordinal: number }) {
+    return this.sourceRead(input).frame(input.ordinal);
+  }
+  openReadSource(input: SourceIndexReference & { ordinal: number }) {
+    return this.sourceRead(input).openRead(input.ordinal);
+  }
+  /** Scene evidence stays pinned for unfinished recipes, including explicit retry after failure. */
+  retainsSourceScenes(assetId: string, generation: string) {
+    return this.jobs.retainsInput(
+      "scene-generation",
+      sceneGenerationResource({ owner: { kind: "asset", assetId }, generation }),
+    );
+  }
+  private async cleanupAsset(assetId: string, signal: AbortSignal) {
+    const owner = { kind: "asset" as const, assetId };
+    await this.asset.index.reclaim(
+      owner,
+      ({ generation }) => this.jobs.retainsAttempt(owner, artifact, generation),
+      signal,
+    );
+  }
+  private async executeSource({ job, signal }: JobExecution) {
+    if (job.target.kind !== "asset" || job.artifact !== artifact)
+      throw new CatalogError("UNSUPPORTED_JOB", "Source index requires an asset job");
+    const input = JSON.parse(job.input) as SourceIndexInput;
+    if (
+      job.target.assetId !== input.assetId ||
+      !isDeepStrictEqual(input, this.sourceRecipe(input, input.scenes))
+    )
+      throw new CatalogError("ARTIFACT_CHANGED", "Source index recipe changed");
+    const source = this.asset.frames.sourcePlan({ ...input, atUs: 0 }).source;
+    await this.cleanupAsset(input.assetId, signal);
+    return JSON.stringify(
+      await materializeSourceIndex(
+        { ...input, generation: job.attemptId },
+        { durationUs: source.durationUs, support: source.track.available },
+        this.asset,
+        job.generation > 1,
+        signal,
+      ),
+    );
+  }
+
+  request(input: {
+    recordingId: string;
+    revisionId?: string | undefined;
+    evidence?: IndexEvidence;
+  }) {
+    const revision = this.recording.store.revision(input.recordingId, input.revisionId);
+    let selected = input.evidence;
+    if (!selected) {
+      this.recording.source.prepare(input.recordingId);
+      this.recording.scenes.prepare(input.recordingId);
+      const source = this.recording.source.status(input.recordingId);
+      const scenes = this.recording.scenes.status(input.recordingId);
+      const dependencies = [
+        { artifact: "source", ...source },
+        { artifact: "scenes", ...scenes },
+      ];
+      if (!source.published || !scenes.published) {
+        const waiting =
+          dependencies.find((item) => ["failed", "unavailable"].includes(item.state)) ??
+          dependencies.find((item) => !item.published)!;
+        return {
+          recordingId: input.recordingId,
+          revisionId: revision.id,
+          state: waiting.state,
+          reason: waiting.reason,
+          retryable: waiting.retryable,
+          jobId: null,
+          published: null,
+          dependencies,
+        };
+      }
+      selected = { source: source.published.evidence, scenes: scenes.published.evidence };
+    }
+    const sourceId = this.recording.store.get(input.recordingId).sourceId;
+    if (
+      evidenceRecordingId(selected.source) !== input.recordingId ||
+      selected.scenes.recordingId !== input.recordingId ||
+      [selected.source, selected.scenes].some((value) => value.sourceId !== sourceId)
+    )
+      throw new CatalogError("INVALID_EVIDENCE", "Index evidence belongs to another source");
+    const options: IndexInput = {
+      ...selected,
+      selectionPolicy: selectionPolicy.id,
+      framePolicy,
+      trailPolicy: trailPolicy.id,
+    };
+    const identity = {
+      target: {
+        kind: "recording" as const,
+        recordingId: input.recordingId,
+        revisionId: revision.id,
+      },
+
+      artifact,
+      input: JSON.stringify(options),
+    };
+    const existing = this.jobs.status(identity);
+    if (!existing.jobId) this.requireSlot();
+    this.jobs.submit({ ...identity, lane: "frame" });
+    const status = this.jobs.status(identity);
+    return {
+      recordingId: input.recordingId,
+      revisionId: revision.id,
+      ...status,
+      published: status.published
+        ? {
+            generation: status.published.generation,
+            evidence: JSON.parse(status.published.result) as ScreenshotIndexMetadata,
+          }
+        : null,
+      dependencies: [],
+    };
+  }
+
+  get(input: {
+    recordingId: string;
+    revisionId?: string | undefined;
+    cursor?: IndexReadCursor<IndexReference> | undefined;
+    limit?: number | undefined;
+  }) {
+    const cursor = input.cursor;
+    if (
+      cursor &&
+      (cursor.recordingId !== input.recordingId ||
+        (input.revisionId !== undefined && input.revisionId !== cursor.revisionId))
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Index continuation belongs to another recording or revision",
+      );
+    const status = cursor ? null : this.request(input);
+    if (status && !status.published) return { ...status, page: null };
+    const metadata = cursor ? this.published(cursor) : status!.published!.evidence;
+    return new RetainedIndexRead(this.recording.index, metadata, {
+      recordingId: metadata.recordingId,
+      revisionId: metadata.revisionId,
+      generation: metadata.generation,
+    }).get({ cursor, limit: input.limit });
+  }
+
+  coverage(
+    input: IndexReference & {
+      candidateOrdinal?: number | undefined;
+      cursor?: IndexCoverageCursor<IndexReference> | undefined;
+      limit?: number | undefined;
+    },
+  ) {
+    const reference: IndexReference = {
+      recordingId: input.recordingId,
+      revisionId: input.revisionId,
+      generation: input.generation,
+    };
+    validateIndexCoverageCursor(reference, input);
+    return new RetainedIndexRead(
+      this.recording.index,
+      this.published(reference),
+      reference,
+    ).coverage(input);
+  }
+
+  frame(input: IndexFrameReference) {
+    return this.read(input).frame(input.ordinal);
+  }
+
+  openRead(input: IndexFrameReference) {
+    return this.read(input).openRead(input.ordinal);
+  }
+
+  private read(input: IndexReference) {
+    const reference: IndexReference = {
+      recordingId: input.recordingId,
+      revisionId: input.revisionId,
+      generation: input.generation,
+    };
+    return new RetainedIndexRead(this.recording.index, this.published(reference), reference);
+  }
+
+  /** Public references resolve through queue publication, never merely a completed store row. */
+  published(input: IndexReference) {
+    this.recording.store.revision(input.recordingId, input.revisionId);
+    const row = this.recording.store.catalog
+      .prepare(`SELECT result FROM artifacts WHERE targetKind='recording' AND targetId=? AND revisionId=? AND artifact=?
+        AND json_extract(result,'$.generation')=? LIMIT 1`)
+      .get(input.recordingId, input.revisionId, artifact, input.generation) as
+      | { result: string }
+      | undefined;
+    if (!row)
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Screenshot index reference is not published for this revision",
+      );
+    return JSON.parse(row.result) as ScreenshotIndexMetadata;
+  }
+
+  retry(input: { recordingId: string; revisionId?: string | undefined }) {
+    const status = this.request(input);
+    if (!status.jobId) return status;
+    const job = this.jobs.job(status.jobId);
+    if (!["queued", "running", "ready"].includes(job.state)) this.requireSlot();
+    this.jobs.retry(job.jobId);
+    return this.request({ ...input, revisionId: status.revisionId });
+  }
+  private requireSlot() {
+    if (this.jobs.isArtifactBusy(artifact))
+      throw new CatalogError(
+        "LIMIT_EXCEEDED",
+        "Another screenshot index is using the background frame slot",
+        {},
+        true,
+      );
+  }
+
+  async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind === "asset") return this.executeSource({ job, signal });
+    if (job.target.kind === "project") return this.executeProject({ job, signal });
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    const input = JSON.parse(job.input) as IndexInput;
+    if (
+      job.artifact !== artifact ||
+      input.selectionPolicy !== selectionPolicy.id ||
+      input.framePolicy !== framePolicy ||
+      input.trailPolicy !== trailPolicy.id
+    )
+      throw new CatalogError("UNSUPPORTED_JOB", "Index processor cannot execute this job");
+    const revision = this.recording.store.revision(job.target.recordingId, job.target.revisionId);
+    const sourceId = this.recording.store.get(job.target.recordingId).sourceId;
+    const sourceIdentity = {
+      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
+      sourceId,
+      generation: input.source.generation,
+    };
+    const sceneIdentity = {
+      recordingId: job.target.recordingId,
+      sourceId,
+      generation: input.scenes.generation,
+      policy: input.scenes.policy,
+    };
+    const identity = {
+      recordingId: job.target.recordingId,
+      sourceId,
+      revisionId: revision.id,
+      generation: job.attemptId,
+      sourceIdentity,
+      sceneIdentity,
+      selectionPolicy: input.selectionPolicy,
+      framePolicy: input.framePolicy,
+      trailPolicy: input.trailPolicy,
+    };
+    await this.cleanupRecording(job.target.recordingId, signal);
+    const selection = {
+      revision,
+      sourceIdentity,
+      sceneIdentity,
+      sourceWidth: input.scenes.sourceWidth,
+      sourceHeight: input.scenes.sourceHeight,
+    };
+    try {
+      this.recording.index.begin(identity);
+      for await (const row of selectIndex(
+        selection,
+        selectionEvidence(selection, this.recording.evidence, signal),
+        signal,
+      )) {
+        signal.throwIfAborted();
+        if (row.kind === "coverage") this.recording.index.appendCoverage(identity, row);
+        else {
+          const selectionEndUs = row.reasons.reduce(
+            (end, reason) => (reason.side === "before" ? Math.min(end, reason.eventSourceUs) : end),
+            row.kept.endUs,
+          );
+          const frame = await materializeFrame(
+            {
+              recordingId: job.target.recordingId,
+              sourceId,
+              revision,
+              source: join(
+                this.recording.home,
+                "recordings",
+                job.target.recordingId,
+                "source",
+                "video.mov",
+              ),
+              output: this.recording.index.outputPath(identity, row.ordinal),
+              atUs: row.requestedPlaybackUs,
+              ...(selectionEndUs < row.kept.endUs ? { selectionEndUs } : {}),
+              maxLongEdge: 1600,
+              crop: null,
+              clean: false,
+              trailUs: trailPolicy.defaultUs,
+              sourceEvidence: input.source,
+            },
+            { ...this.recording.render, evidence: this.recording.evidence.source },
+            signal,
+          );
+          this.recording.index.appendCandidate(identity, row, frame);
+        }
+        await setImmediate();
+      }
+      signal.throwIfAborted();
+      const result = await this.recording.index.finish(identity, signal);
+      signal.throwIfAborted();
+      return JSON.stringify(result);
+    } catch (error) {
+      await this.recording.index.remove(identity);
+      throw error;
+    }
+  }
+
+  private cleanupRecording(recordingId: string, signal: AbortSignal) {
+    return this.recording.index.reclaim(
+      { kind: "recording", recordingId },
+      ({ generation }) =>
+        this.jobs.retainsAttempt(
+          { kind: "recording", recordingId: recordingId },
+          artifact,
+          generation,
+        ) || !!this.recording.retained?.(recordingId, generation),
+      signal,
+    );
+  }
+  async cleanup(signal: AbortSignal): Promise<void> {
+    if (this.options.recording)
+      await this.recording.store.forEachRecording(signal, ({ recordingId }) =>
+        this.cleanupRecording(recordingId, signal),
+      );
+    if (this.options.project) {
+      let afterSequence = 0;
+      for (;;) {
+        signal.throwIfAborted();
+        const page = this.project.projects.list({ afterSequence, limit: 100 });
+        for (const project of page.projects) await this.cleanupProject(project.projectId, signal);
+        if (!page.nextCursor) break;
+        afterSequence = page.nextCursor.afterSequence;
+        await setImmediate(undefined, { signal });
+      }
+    }
+    if (this.options.asset) {
+      let afterSequence = 0,
+        failure: unknown;
+      for (;;) {
+        signal.throwIfAborted();
+        const page = this.asset.assets.list({ afterSequence, limit: 100 });
+        for (const asset of page.assets) {
+          try {
+            await this.cleanupAsset(asset.id, signal);
+          } catch (error) {
+            signal.throwIfAborted();
+            failure ??= error;
+          }
+        }
+        if (!page.nextCursor) break;
+        afterSequence = page.nextCursor.afterSequence;
+        await setImmediate(undefined, { signal });
+      }
+      if (failure) throw failure;
+    }
+  }
+}
+
+2026-09-28T15:51:44.976042Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-a3afda0c-8abc-4f63-b748-24f5d4752e3f"
+exec
+/bin/zsh -lc "sed -n '1,180p' apps/service/src/project-service.ts; sed -n '130,220p' packages/protocol/src/operations.ts; cat packages/core/src/project-index-materialization.ts; cat .agents/skills/write-tests/SKILL.md" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+import { writeFile } from "node:fs/promises";
+import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
+import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
+import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
+import { SourceEvents } from "@screenrec/core/source-events";
+import { SourceSceneRead } from "@screenrec/core/scene-source-read";
+import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evidence";
+import { IndexProcessing } from "@screenrec/core/index-processing";
+import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { sourceIndexDomain, type SourceIndexRecords } from "@screenrec/core/source-index";
+import { projectIndexDomain, type ProjectIndexRecords } from "@screenrec/core/project-index";
+import { SceneProcessing } from "@screenrec/core/scene-processing";
+import type { SourceVisualObservations } from "@screenrec/core/source-scenes";
+import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
+import { ProjectEvidenceInspection } from "@screenrec/core/project-evidence";
+import { SpeechModels } from "@screenrec/core/speech-models";
+import { TranscriptStore, type SpeechTranscriptionReceipt } from "@screenrec/core/transcript";
+import { TranscriptProcessing, assetTranscriptOwner } from "@screenrec/core/transcript-processing";
+import { SourceTranscriptRead } from "@screenrec/core/transcript-read";
+import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisitions";
+import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
+import { MediaExports } from "./exports.js";
+import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
+import {
+  projectMovieRenderer,
+  projectAudioRenderer,
+  projectFrameRenderer,
+} from "./project-render.js";
+import { clearRenderWorkspace, withRenderedFile } from "./render.js";
+import { DerivativeDelivery } from "./delivery.js";
+import { DerivedCache } from "@screenrec/core/cache";
+import { ManagedFiles } from "./managed-files.js";
+import { ProjectDeletion } from "./project-deletion.js";
+import { ProjectStore } from "@screenrec/core/projects";
+import { randomUUID } from "node:crypto";
+import { join } from "node:path";
+import { AssetStore } from "@screenrec/core/assets";
+import { Catalog, CatalogError } from "@screenrec/core/catalog";
+import { JobQueue, type JobTargets } from "@screenrec/core/jobs";
+import {
+  operationSchema,
+  operationNames,
+  operationError,
+  type OperationResult,
+} from "@screenrec/protocol";
+import {
+  listenLocal,
+  prepareRuntimeDirectory,
+  type LocalHandler,
+  type LocalListener,
+} from "./index.js";
+import { claimStartup } from "./startup.js";
+import {
+  renderWindowDeadlineMs,
+  mediaWorker,
+  nativeResult,
+  transcriptionDeadlineMs,
+  type MediaWorker,
+} from "./worker.js";
+import { operationFailure } from "./operations.js";
+
+/** Isolated development entry; production capture switches to these owners at cutover. */
+export async function startProjectService(options: { home: string; worker?: MediaWorker }) {
+  const library = join(options.home, "library");
+  const runtime = join(library, "run");
+  await prepareRuntimeDirectory(library);
+  const ownership = await claimStartup(runtime);
+  let catalog: Catalog | undefined;
+  let jobs: JobQueue | undefined;
+  let listener: LocalListener | undefined;
+  let deletion: ProjectDeletion | undefined;
+  let exports: MediaExports | undefined;
+  const delivery = new DerivativeDelivery();
+  const modelLifetime = new AbortController();
+  let modelPreparation: Promise<void> | undefined;
+  try {
+    catalog = new Catalog(join(library, "catalog.sqlite"));
+    const assets = new AssetStore(catalog, library);
+    await assets.recover();
+    const acquisitions = new AcquisitionStore(catalog);
+    const evidence = new SourceEvidenceStore(catalog, (identity) => {
+      if (identity.owner.kind !== "acquisition")
+        throw new CatalogError("NOT_FOUND", "Unsupported source evidence owner");
+      acquisitions.intent(identity.owner.acquisitionId);
+    });
+    const acquisitionImports = new AcquisitionImporter(
+      catalog,
+      acquisitions,
+      assets,
+      evidence,
+      library,
+    );
+    const projects = new ProjectStore(catalog, assets, acquisitions);
+    const capture = new CaptureSourceRead(assets, acquisitions, evidence);
+    const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
+    const worker = options.worker ?? mediaWorker();
+    const models = new SpeechModels(library);
+    const transcriptStore = new TranscriptStore(
+      catalog,
+      library,
+      assetTranscriptOwner(assets, acquisitions),
+    );
+    const files = new ManagedFiles(library, worker);
+    const cache = new DerivedCache(catalog, library, (owner) => {
+      if (owner.kind === "project") projects.get(owner.projectId);
+      else if (owner.kind === "asset") assets.get(owner.assetId);
+      else throw new CatalogError("NOT_FOUND", "Unsupported derived-file owner");
+    });
+    await cache.reconcile();
+    const workspace = join(library, "render");
+    await clearRenderWorkspace(worker, workspace, new AbortController().signal);
+    const targets: JobTargets = {
+      pin(target) {
+        if (target.kind === "import") assets.intent(target.importId);
+        else if (target.kind === "acquisition") acquisitions.intent(target.acquisitionId);
+        else if (target.kind === "asset") assets.get(target.assetId);
+        else if (target.kind === "project") projects.revision(target.projectId, target.revisionId);
+        else throw new CatalogError("NOT_READY", "Unsupported project service job target");
+        return target;
+      },
+      isAvailable(target) {
+        if (
+          target.kind !== "import" &&
+          target.kind !== "project" &&
+          target.kind !== "acquisition" &&
+          target.kind !== "asset"
+        )
+          return false;
+        try {
+          targets.pin(target);
+          return true;
+        } catch (error) {
+          if (error instanceof CatalogError && error.code === "NOT_FOUND") return false;
+          throw error;
+        }
+      },
+      isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
+      isCapturing: () => false,
+    };
+    await acquisitionImports.recover(new AbortController().signal);
+    let preview: ProjectPreviewInspection;
+    let mediaFrames: MediaFrameInspection;
+    let transcripts: TranscriptProcessing;
+    let projectEvidence: ProjectEvidenceInspection;
+    let mediaAudio: MediaAudioInspection;
+    let acoustics: AcousticInspection;
+    let scenes: SceneProcessing;
+    let indexes: IndexProcessing;
+    const queue = new JobQueue({
+      store: catalog,
+      targets,
+      providers: { newId: randomUUID },
+      onCapacity: () => {
+        for (const error of exports?.resumeRecovery() ?? []) console.error(error);
+      },
+      execute: async ({ job, signal }) => {
+        if (
+          (job.target.kind === "asset" || job.target.kind === "project") &&
+          job.artifact === "screenshot-index"
+        )
+          return indexes.execute({ job, signal });
+        if (job.target.kind === "asset" && job.artifact === "source-scenes")
+          return scenes.execute({ job, signal });
+        if (
+          (job.target.kind === "asset" || job.target.kind === "project") &&
+          ["waveform", "spectrum", "acoustic-image"].includes(job.artifact)
+        )
+          return acoustics.execute({ job, signal });
+        if (
+          (job.target.kind === "project" || job.target.kind === "asset") &&
+          job.artifact === "frame"
+        )
+          return mediaFrames.execute({ job, signal });
+        if (
+          (job.target.kind === "asset" || job.target.kind === "project") &&
+          job.artifact === "audio"
+        )
+          return mediaAudio.execute({ job, signal });
+        if (job.target.kind === "project" && job.artifact === "project.evidence")
+          return projectEvidence.execute({ job, signal });
+  atUs: time,
+  clean: z.boolean().optional(),
+  trailUs: time.max(10_000_000).optional(),
+  maxLongEdge: z.int().min(1).max(8192).optional(),
+  crop: z
+    .object({
+      x: z.int().nonnegative(),
+      y: z.int().nonnegative(),
+      width: z.int().positive(),
+      height: z.int().positive(),
+    })
+    .strict()
+    .optional(),
+};
+const projectFrameParams = project
+  .extend({
+    revisionId: id.optional(),
+    atUs: time,
+    maxLongEdge: frameFields.maxLongEdge,
+    tap: processingTapSchema.optional(),
+  })
+  .strict();
+const sourceFrameParams = sourceSelection
+  .extend({
+    atUs: time,
+    maxLongEdge: frameFields.maxLongEdge,
+  })
+  .strict();
+const frameParams = z.union([
+  projectFrameParams,
+  ...inspection(frameFields).options,
+  sourceFrameParams,
+]);
+
+const audioRange = range.refine(({ startUs, endUs }) => endUs > startUs, {
+  message: "Audio range must be positive",
+});
+const projectAudioParams = project
+  .extend({
+    revisionId: id.optional(),
+    range: audioRange.optional(),
+    tap: processingTapSchema.optional(),
+  })
+  .strict();
+const sourceAudioParams = sourceSelection.extend({ range: audioRange.optional() }).strict();
+const audioParams = z.union([
+  projectAudioParams,
+  ...inspection({
+    revisionId: id.optional(),
+    range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
+      message: "Audio range must be positive and no longer than 30 seconds",
+    }),
+    track: z.enum(["narration", "system", "mix"]).default("mix"),
+  }).options,
+  sourceAudioParams,
+]);
+const waveformFields = {
+  bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional(),
+  format: z.enum(["json", "image"]).optional(),
+};
+const waveformParams = z.union([
+  projectAudioParams.extend(waveformFields),
+  sourceAudioParams.extend(waveformFields),
+]);
+
+const spectrumFields = {
+  fftFrames: z.int().min(16).max(8192).optional(),
+  hopFrames: z.int().positive().max(8192).optional(),
+};
+const spectrogramParams = z.union([
+  projectAudioParams.extend(spectrumFields),
+  sourceAudioParams.extend(spectrumFields),
+]);
+
+const indexFields = { revisionId: id, generation: id };
+const projectIndexParams = projectFrameParams.omit({ atUs: true });
+const projectIndexReference = projectIndexParams.required().extend({ generation: id });
+const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };
+const coveragePosition = {
+  ...indexFields,
+  afterSequence: z.int().nonnegative(),
+  candidateOrdinal: z.int().nonnegative().nullable(),
+};
+const paged = <T extends z.ZodRawShape, S extends z.ZodRawShape, C extends z.ZodRawShape>(
+  target: z.ZodObject<T>,
+  fields: S,
+  position: C,
+) => target.extend({ ...fields, cursor: target.extend(position).strict().optional() }).strict();
+const inspectionPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields: S, position: C) =>
+  z.union([paged(recording, fields, position), paged(packageTarget, fields, position)]);
+const processingArtifact = z.enum(["source", "scenes", "transcript"]);
+import { setImmediate } from "node:timers/promises";
+import { CatalogError } from "./catalog.js";
+import type { DerivedCache } from "./cache.js";
+import type { MediaFrameInspection } from "./frame-inspection.js";
+import { waitForIndexFrame, retainIndexFrame } from "./index-frame.js";
+import { encodeIndexRecord, type ScreenshotIndexStore } from "./screenshot-index.js";
+import type { SceneEvidenceMetadata, SceneEvidenceStore } from "./scene-evidence.js";
+import { sourceSelectionKey } from "./source-selection.js";
+import { selectProjectIndex } from "./project-index-selection.js";
+import type {
+  ProjectIndexIdentity,
+  ProjectIndexRecords,
+  projectIndexPlan,
+} from "./project-index.js";
+import type { TimeRange } from "./timeline.js";
+
+async function* observedChunks(
+  records: SceneEvidenceStore,
+  identity: SceneEvidenceMetadata,
+  range: TimeRange,
+  signal: AbortSignal,
+) {
+  let afterStartUs: number | undefined;
+  for (;;) {
+    signal.throwIfAborted();
+    const page = records.sourceWindowPage({
+      identity,
+      range,
+      limit: 1,
+      ...(afterStartUs === undefined ? {} : { afterStartUs }),
+    });
+    yield* page.chunks;
+    if (page.nextStartUs === null) return;
+    afterStartUs = page.nextStartUs;
+    await setImmediate(undefined, { signal });
+  }
+}
+
+/** Identity and candidate row budgets are checked before asking the shared frame lane to produce any picture. */
+export async function materializeProjectIndex(
+  identity: ProjectIndexIdentity,
+  plan: ReturnType<typeof projectIndexPlan>,
+  owners: {
+    index: ScreenshotIndexStore<ProjectIndexRecords>;
+    records: SceneEvidenceStore;
+    frames: MediaFrameInspection;
+    cache: DerivedCache;
+  },
+  retryFrames: boolean,
+  signal: AbortSignal,
+) {
+  encodeIndexRecord(identity);
+  const dependencies = new Map(
+    identity.scenes.map((scene) => {
+      if (scene.owner.kind !== "asset" || scene.source.kind !== "asset")
+        throw new CatalogError("INVALID_EVIDENCE", "Project scenes require a video source");
+      return [
+        sourceSelectionKey({
+          assetId: scene.owner.assetId,
+          streamId: scene.source.streamId,
+          ...(scene.source.acquisitionId === undefined
+            ? {}
+            : { acquisitionId: scene.source.acquisitionId }),
+        }),
+        scene,
+      ];
+    }),
+  );
+  const candidates = await selectProjectIndex({
+    model: plan.model,
+    revisionId: identity.revisionId,
+    processing: plan.processing,
+    signal,
+    scenes(occurrence, range) {
+      const scene = dependencies.get(sourceSelectionKey(occurrence));
+      return scene
+        ? {
+            generation: scene.generation,
+            chunks: observedChunks(owners.records, scene, range, signal),
+          }
+        : null;
+    },
+  });
+  for (const candidate of candidates) {
+    signal.throwIfAborted();
+    encodeIndexRecord(candidate);
+    if (candidate.ordinal % 128 === 0) await setImmediate(undefined, { signal });
+  }
+  const { index, frames, cache } = owners;
+  let through = 0;
+  function gap(endUs: number) {
+    if (through < endUs)
+      index.appendCoverage(identity, {
+        ordinal: null,
+        equality: "unproven",
+        project: { startUs: through, endUs },
+      });
+  }
+  try {
+    index.begin(identity);
+    for (const candidate of candidates) {
+      const input = {
+        projectId: identity.projectId,
+        revisionId: identity.revisionId,
+        tap: identity.tap,
+        maxLongEdge: identity.maxLongEdge,
+        atUs: candidate.sampleAtUs,
+      };
+      const status = await waitForIndexFrame(
+        () => frames.request(input),
+        () => frames.retry(input),
+        retryFrames,
+        signal,
+      );
+      if (!status.published)
+        throw new CatalogError(
+          "FRAME_FAILED",
+          status.reason ?? "Picture preparation did not publish",
+          { dependency: { artifact: "frame", jobId: status.jobId, ...input } },
+          status.retryable,
+        );
+      const frame = status.published.frame;
+      if (frame.implementationId !== identity.implementationId)
+        throw new CatalogError("ARTIFACT_CHANGED", "Pinned picture renderer changed");
+      await retainIndexFrame(
+        cache,
+        frame,
+        index.outputPath(identity, candidate.ordinal),
+        signal,
+        (retained) => index.appendCandidate(identity, candidate, retained),
+      );
+      gap(candidate.visibleRange.startUs);
+      index.appendCoverage(identity, {
+        ordinal: candidate.ordinal,
+        equality: "sampled",
+        project: candidate.visibleRange,
+      });
+      through = candidate.visibleRange.endUs;
+    }
+    gap(plan.model.durationUs);
+    signal.throwIfAborted();
+    return await index.finish(identity, signal);
+  } catch (error) {
+    await index.remove(identity);
+    throw error;
+  }
+}
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T15:51:50.504882Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-53f3aba4-1a04-4331-af98-23ca2ac81f0b"
+2026-09-28T15:51:54.579018Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-02460be5-3956-471c-b01e-c6c3b736da33"
+ succeeded in 28273ms:
+exec
+/bin/zsh -lc "find . -name AGENTS.md -not -path '*/node_modules/*' -not -path '*/.build/*' -not -path './.git/*'; ls AGENTS.override.md 2>/dev/null; sed -n '400,455p' apps/service/src/project-service.ts; cat apps/service/package.json; sed -n '1,120p' specs/recording-for-ai/README.md; git diff packages/protocol/src/index.test.ts; sed -n '240,275p' packages/core/src/index-processing.ts" in /Users/david/dev/screen-recorder
+2026-09-28T15:52:02.692337Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-d6eebd1c-16d8-476a-91cb-b65051b4c282"
+ succeeded in 923ms:
+./AGENTS.md
+            "projectId" in status
+              ? { kind: "project", id: status.projectId }
+              : { kind: "asset", id: status.assetId },
+            () => cache.acquire(status.published!.frame.cacheId),
+          )
+        : null,
+    });
+    const mediaExports = new MediaExports({
+      catalog,
+      jobs: queue,
+      cache,
+      worker,
+      files,
+      project: { store: projects, preview },
+    });
+    exports = mediaExports;
+    queue.startAdmission((job) => mediaExports.admit(job));
+    await transcripts.cleanup(modelLifetime.signal);
+    await scenes.cleanup(modelLifetime.signal);
+    await indexes.cleanup(modelLifetime.signal);
+    const projectDeletion = new ProjectDeletion(
+      projects,
+      queue,
+      cache,
+      files,
+      delivery,
+      mediaExports,
+      projectIndex,
+    );
+    deletion = projectDeletion;
+    await projectDeletion.resume((error) => console.error(error));
+    for (const error of mediaExports.resumeRecovery()) console.error(error);
+    const status = (jobId: string) => {
+      const job = queue.job(jobId);
+      const publication = queue.status(job).published;
+      return { ...job, result: publication ? (JSON.parse(publication.result) as unknown) : null };
+    };
+    const pending = new Set<Promise<OperationResult>>();
+    let closing = false;
+    const handle: LocalHandler = async (request): Promise<OperationResult> => {
+      if (!operationNames.has(request.operation))
+        return operationError("UNKNOWN_OPERATION", "Unknown service operation");
+      const parsed = operationSchema.safeParse({
+        operation: request.operation,
+        params: request.params,
+      });
+      if (!parsed.success)
+        return operationError("INVALID_PARAMS", "Parameters do not match the operation schema");
+      const operation = parsed.data;
+      try {
+        switch (operation.operation) {
+          case "index.get": {
+            const params = operation.params;
+            if ("projectId" in params) return { ok: true, data: indexes.getProject(params) };
+            if (!("assetId" in params))
+              return operationError(
+{
+  "name": "@screenrec/service",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.check.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@screenrec/core": "workspace:*",
+    "@screenrec/protocol": "workspace:*",
+    "@screenrec/composition": "workspace:*"
+  },
+  "devDependencies": {
+    "@screenrec/client": "workspace:*"
+  }
+}
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
+outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
+it fixed three real defects, the worst of which let a cut of one word silently delete the next.
+
+Needing this person rather than a check:
+
+- **System audio:** a take with something playing, which a check must not make this Mac do,
+  and with it the A/V timing measurement that needs both tracks against a known event
+  ([01](slices/01-native-capture.md)).
+- **A region take:** proving where one landed means recording whatever is on the screen, and a
+  fixture launch is refused every source but its own window precisely so an automated run cannot
+  ([01](slices/01-native-capture.md), [03](slices/03-cursor-geometry.md)).
+- **The menu bar and the pointer:** clicking the status menu, dragging the floating controls, and
+  making the deliberate gestures the trail and index gates are about — computer-use reaches none
+  of them on this Mac ([07](slices/07-menu-bar-controls.md),
+  [10](slices/10-cursor-trails.md), [11](slices/11-screenshot-selection.md)).
+- **Ears:** an audio excerpt, a recovered tail (`bun run lab:recovery --microphone` writes the
+  clips), and a cut inside a rendered export
+  ([09](slices/09-frame-inspection.md), [02](slices/02-interruption-recovery.md),
+  [13](slices/13-edited-media.md)).
+- **An agent that is not this one:** the real-narration journey through CLI and MCP
+  ([12](slices/12-cli-mcp-operations.md)).
+
+The installed copy was rebuilt and replaced on 2026-09-26. `bun run install:personal`
+replaces it on subsequent changes and refuses while the app is running.
+
+Priority order: the two recorded capability decisions, then whatever the person answers above.
+
+The original [verification gates](verification.md) remain requirements. Fixtures
+and unit checks do not close the full read → edit → inspect → export journey.
+
+- [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
+- [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)
+- [ ] [01 — Native capture and separate audio](slices/01-native-capture.md)
+- [ ] [02 — Recover interrupted source media](slices/02-interruption-recovery.md)
+- [ ] [03 — Cursor positions in captured coordinates](slices/03-cursor-geometry.md)
+- [x] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
+- [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
+- [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
+  - [x] [06a — Durable revision transactions](slices/06a-revision-store.md)
+  - [x] [06b — Bounded local transport](slices/06b-local-transport.md)
+  - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md)
+  - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md)
+  - [x] [06e — Library operations through the service](slices/06e-library-operations.md)
+  - [x] [06f — Native capture service control](slices/06f-capture-service.md)
+  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md)
+  - [x] [06h — Normalized cursor evidence index](slices/06h-evidence-index.md)
+  - [x] [06i — Source processing integration](slices/06i-source-processing.md)
+  - [x] [06j — Source timing evidence](slices/06j-source-timing.md)
+- [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
+  - [x] [07a — Settings window, permissions and launch at login](slices/07a-settings-window.md)
+  - [ ] [07b — Countdown and recording overlay](slices/07b-recording-overlays.md)
+- [x] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
+- [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
+  - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md)
+  - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md)
+  - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md)
+  - [ ] [09d — Revision-bound public frame inspection](slices/09d-public-frames.md)
+  - [x] [09e — Revision-bound audio inspection](slices/09e-public-audio.md)
+- [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
+diff --git a/packages/protocol/src/index.test.ts b/packages/protocol/src/index.test.ts
+index 08889a6..d2dfa68 100644
+--- a/packages/protocol/src/index.test.ts
++++ b/packages/protocol/src/index.test.ts
+@@ -51,6 +51,43 @@ it("artifact reads ask for one bounded chunk at a whole offset", () => {
+     expect(read({ offset, maxBytes }).success).toBe(false);
+ });
+ 
++it("project indexes use picture taps and retained references across paging and delivery", () => {
++  const reference = {
++    projectId: "project",
++    revisionId: "revision",
++    generation: "index",
++    tap: { target: { kind: "output" }, point: { kind: "processed" } },
++    maxLongEdge: 640,
++  };
++  const requests = [
++    { operation: "index.get", params: { projectId: "project" } },
++    {
++      operation: "index.get",
++      params: { projectId: "project", cursor: { ...reference, afterOrdinal: 0 } },
++    },
++    { operation: "index.retry", params: { projectId: "project", tap: reference.tap } },
++    {
++      operation: "index.coverage",
++      params: { ...reference, cursor: { ...reference, afterSequence: 0, candidateOrdinal: null } },
++    },
++    { operation: "index.frame", params: { ...reference, ordinal: 0 } },
++    { operation: "index.frames", params: { ...reference, ordinals: [1, 0, 1] } },
++  ];
++  for (const request of requests)
++    expect(operationSchema.safeParse(request).success, request.operation).toBe(true);
++  expect(
++    operationSchema.safeParse({
++      operation: "index.get",
++      params: { projectId: "project", range: { startUs: 0, endUs: 1000 } },
++    }).success,
++  ).toBe(false);
++  const incomplete = { ...reference, tap: undefined };
++  expect(
++    operationSchema.safeParse({ operation: "index.frame", params: { ...incomplete, ordinal: 0 } })
++      .success,
++  ).toBe(false);
++});
++
+ it("retained index requests bound paging, references and media batches", () => {
+   const reference = { recordingId: "take", revisionId: "r0", generation: "attempt" };
+   expect(
+  getProject(
+    input: ProjectIndexInput & {
+      cursor?: IndexReadCursor<ProjectIndexReference> | undefined;
+      limit?: number;
+    },
+  ) {
+    if (
+      input.cursor &&
+      (input.cursor.projectId !== input.projectId ||
+        (input.revisionId !== undefined && input.cursor.revisionId !== input.revisionId) ||
+        (input.tap !== undefined && !isDeepStrictEqual(input.cursor.tap, input.tap)) ||
+        (input.maxLongEdge !== undefined && input.cursor.maxLongEdge !== input.maxLongEdge))
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Project index continuation belongs to another selection",
+      );
+    const status = input.cursor ? null : this.requestProject(input);
+    if (status && !status.published) return { ...status, page: null };
+    const metadata = input.cursor
+      ? this.publishedProject(input.cursor)
+      : status!.published!.evidence;
+    return this.projectRead(metadata).get({ cursor: input.cursor, limit: input.limit });
+  }
+  coverageProject(
+    input: ProjectIndexReference & {
+      candidateOrdinal?: number | undefined;
+      cursor?: IndexCoverageCursor<ProjectIndexReference> | undefined;
+      limit?: number | undefined;
+    },
+  ) {
+    return this.projectRead(input).coverage(input);
+  }
+  frameProject(input: ProjectIndexReference & { ordinal: number }) {
+    return this.projectRead(input).frame(input.ordinal);
+  }
+
+exec
+/bin/zsh -lc 'bun run check-types >/tmp/sr-review-types.log 2>&1; tail -30 /tmp/sr-review-types.log; bunx vitest run apps/service/src/project-deletion.test.ts packages/protocol/src/index.test.ts' in /Users/david/dev/screen-recorder
+ succeeded in 1417ms:
+@screenrec/composition:check-types: $ tsc -p tsconfig.check.json
+@screenrec/composition:build: cache hit, replaying logs 10afee285d64bb50
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/core:check-types: cache miss, executing 93bcfdee25c7c0bf
+@screenrec/protocol:check-types: cache miss, executing 0ec26a7d748c1805
+@screenrec/protocol:build: cache hit, replaying logs 131dec0fc23c5b82
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:check-types: cache miss, executing 9b1f2cf2591d9ca8
+@screenrec/client:build: cache hit, replaying logs 5036b94a749022ed
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:build: cache hit, replaying logs c523298f5c1beea5
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/test-harness:check-types: cache miss, executing f6e4aa75d0ceb312
+@screenrec/service:check-types: cache hit, replaying logs d4bbbf8af0ce1ea0
+@screenrec/service:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:build: cache hit, replaying logs df486b6e3e80c0db
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:check-types: cache hit, replaying logs f35f0973a46dd371
+@screenrec/cli:check-types: $ tsc -p tsconfig.check.json
+@screenrec/cli:build: cache hit, replaying logs 82b965efda98ca7f
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/core:check-types: $ tsc -p tsconfig.check.json
+@screenrec/client:check-types: $ tsc -p tsconfig.check.json
+@screenrec/protocol:check-types: $ tsc -p tsconfig.check.json
+@screenrec/test-harness:check-types: $ tsc -p tsconfig.check.json
+
+ Tasks:    13 successful, 13 total
+Cached:    8 cached, 13 total
+  Time:    714ms 
+
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:88337) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  08:52:03
+   Duration  442ms (transform 58%, import 25%, tests 15%, worker 1%)
+
+
+2026-09-28T15:52:04.268547Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-2f4826f4-703a-48f9-8f83-90e67639beb8"
+exec
+/bin/zsh -lc "cat packages/test-harness/editing/layers-oracle.mjs | tail -100; sed -n '280,320p' apps/service/src/project-service.ts; rg -n 'reclaim|remove\\(|validate' packages/core/src/screenshot-index.ts; rg -n 'admit\\(|heavy|frame' apps/service/src/exports.ts packages/core/src/jobs.ts | head -60; cat packages/core/src/project-index.ts | head -140" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+        for (let dx = -2; dx <= 2 && uniform; dx++) {
+          const nx = x + dx,
+            ny = y + dy;
+          if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+          for (let c = 0; c < 4; c++)
+            if (Math.abs(expected[(ny * width + nx) * 4 + c] - expected[at + c]) > 2)
+              uniform = false;
+        }
+      if (!uniform) continue;
+      compared++;
+      for (let c = 0; c < 4; c++) {
+        const error = Math.abs(actual[at + c] - expected[at + c]);
+        maximumError = Math.max(maximumError, error);
+        assert.ok(
+          error <= 2,
+          `Interior pixel (${x},${y}) channel ${c}: ${actual[at + c]} != ${expected[at + c]}`,
+        );
+      }
+    }
+  assert.ok(compared > (width * height) / 2, "Reference has too few stable interior pixels");
+  return {
+    compared,
+    total: width * height,
+    maximumError,
+    ...compareLandmarks(actual, expected, width, height),
+  };
+}
+
+export function compareLandmarks(actual, expected, width, height) {
+  assert.equal(actual.length, width * height * 4);
+  assert.equal(expected.length, actual.length);
+  const moments = (bytes, channel, threshold) => {
+    let count = 0,
+      sumX = 0,
+      sumY = 0;
+    const bounds = [width, height, -1, -1],
+      mask = new Uint8Array(width * height);
+    for (let y = 0; y < height; y++)
+      for (let x = 0; x < width; x++)
+        if (bytes[(y * width + x) * 4 + channel] > threshold) {
+          mask[y * width + x] = 1;
+          count++;
+          sumX += x + 0.5;
+          sumY += y + 0.5;
+          bounds[0] = Math.min(bounds[0], x);
+          bounds[1] = Math.min(bounds[1], y);
+          bounds[2] = Math.max(bounds[2], x);
+          bounds[3] = Math.max(bounds[3], y);
+        }
+    return { count, center: count ? [sumX / count, sumY / count] : null, bounds, mask };
+  };
+  const shapes = [];
+  for (const channel of [0, 1, 2, 3]) {
+    let maximum = 0;
+    for (let at = channel; at < expected.length; at += 4) maximum = Math.max(maximum, expected[at]);
+    // Half-light edges are localized to a raster pixel; color is normalized to sRGB.
+    const threshold =
+      channel === 3 ? maximum / 2 : linearToSrgb(srgbToLinear(maximum / 255) / 2) * 255;
+    const a = moments(actual, channel, threshold),
+      e = moments(expected, channel, threshold);
+    assert.equal(a.count === 0, e.count === 0, "Geometry unexpectedly added or lost a landmark");
+    assert.ok(
+      Math.abs(a.count - e.count) <= Math.max(1, e.count * 0.02),
+      "Landmark coverage count changed beyond the rasterization budget",
+    );
+    if (e.count) {
+      for (let axis = 0; axis < 2; axis++)
+        assert.ok(
+          Math.abs(a.center[axis] - e.center[axis]) <= 0.51,
+          `Landmark centroid shifted on axis ${axis}`,
+        );
+      for (let edge = 0; edge < 4; edge++)
+        assert.ok(
+          Math.abs(a.bounds[edge] - e.bounds[edge]) <= 1,
+          "Landmark boundary moved by more than one raster pixel",
+        );
+    }
+    for (const [from, to] of [
+      [a.mask, e.mask],
+      [e.mask, a.mask],
+    ])
+      for (let y = 0; y < height; y++)
+        for (let x = 0; x < width; x++) {
+          if (!from[y * width + x]) continue;
+          let matched = false;
+          for (let dy = -1; dy <= 1 && !matched; dy++)
+            for (let dx = -1; dx <= 1 && !matched; dx++) {
+              const nx = x + dx,
+                ny = y + dy;
+              if (nx >= 0 && nx < width && ny >= 0 && ny < height && to[ny * width + nx])
+                matched = true;
+            }
+          assert.ok(matched, `Landmark coverage missing near (${x},${y})`);
+        }
+    const { mask: _actualMask, ...actualShape } = a,
+      { mask: _expectedMask, ...expectedShape } = e;
+    shapes.push({ channel, actual: actualShape, expected: expectedShape });
+  }
+  return { shapes };
+}
+      asset: {
+        assets,
+        acquisitions,
+        implementationId: "native-source-scenes-v2",
+        retained: (assetId, generation) =>
+          indexes?.retainsSourceScenes(assetId, generation) ?? false,
+        sample: async (request, signal) =>
+          nativeResult(
+            await worker("media.sourceVisualSamples", request, { signal }),
+          ) as SourceVisualObservations,
+      },
+    });
+    const sourceEvents = new SourceEvents({
+      assets,
+      acquisitions,
+      capture,
+      scenes: new SourceSceneRead({
+        assets,
+        acquisitions,
+        processing: scenes,
+        records: sceneRecords,
+      }),
+    });
+    projectEvidence = new ProjectEvidenceInspection({
+      projects,
+      assets,
+      jobs: queue,
+      cache,
+      transcripts,
+      records: transcriptStore,
+      events: sourceEvents,
+    });
+    preview = new ProjectPreviewInspection(
+      projects,
+      assets,
+      queue,
+      cache,
+      projectMovieRenderer(worker, workspace),
+    );
+    const projectPictures = projectFrameRenderer(worker, workspace);
+    mediaFrames = new MediaFrameInspection({
+163:export function validateIndexEntry(
+230:      validateIndexEntry(
+562:  async remove(identity: D["identity"]): Promise<void> {
+637:  async reclaim(
+656:          if (!keep(identity)) await this.remove(identity);
+667:            `${failureCount} retained index generations could not be reclaimed`,
+packages/core/src/jobs.ts:6:/** What an attempt occupies while it runs. Frame work is small and parallel; heavy work is not. */
+packages/core/src/jobs.ts:7:export type JobLane = "heavy" | "frame";
+packages/core/src/jobs.ts:25:/** Contracts cap concurrent work at one heavy job and two frame jobs across library and package contexts. */
+packages/core/src/jobs.ts:26:const laneLimits: Readonly<Record<JobLane, number>> = { heavy: 1, frame: 2 };
+packages/core/src/jobs.ts:400:    this.admit();
+packages/core/src/jobs.ts:442:    this.admit();
+packages/core/src/jobs.ts:544:      else this.admit();
+packages/core/src/jobs.ts:631:    else this.admit();
+packages/core/src/jobs.ts:729:    // A take that can still produce media outranks heavy background work, so heavy attempts wait for
+packages/core/src/jobs.ts:733:      if (lane === "heavy" && capturing) continue;
+packages/core/src/jobs.ts:1017:            this.admit();
+packages/core/src/jobs.ts:1047:  private admit(): void {
+apps/service/src/exports.ts:331:            lane: "heavy",
+apps/service/src/exports.ts:358:  admit(job: Job): ReturnType<JobAdmission> {
+apps/service/src/exports.ts:721:          lane: "heavy",
+apps/service/src/exports.ts:789:      lane: "heavy",
+apps/service/src/exports.ts:1011:      lane: "heavy",
+apps/service/src/exports.ts:1022:    // Only runnable/active heavy jobs are returned: the shared queue bounds this set.
+apps/service/src/exports.ts:1222:      lane: "heavy",
+import { isDeepStrictEqual } from "node:util";
+import { isMediaClip } from "@screenrec/composition";
+import type { AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import type { ProjectStore } from "./projects.js";
+import { CatalogError } from "./catalog.js";
+import { projectComposition } from "./project-window.js";
+import {
+  projectPictureOptionsSchema,
+  validateRetainedProjectFrameReceipt,
+  type ProjectFrameArtifact,
+  type ProjectFrameInput,
+} from "./frame-inspection.js";
+import {
+  sourceSceneDescriptor,
+  type SceneEvidenceMetadata,
+  type SceneEvidenceStore,
+} from "./scene-evidence.js";
+import { selectSource, sourceSelectionKey, type SourceSelection } from "./source-selection.js";
+import { projectIndexPolicy, type ProjectIndexCandidate } from "./project-index-selection.js";
+import type { IndexDomain } from "./screenshot-index.js";
+import type { TimeRange } from "./timeline.js";
+
+export type ProjectIndexIdentity = Pick<
+  ProjectFrameArtifact,
+  "projectId" | "revisionId" | "tap" | "implementationId" | "maxLongEdge"
+> & { generation: string; selectionPolicy: string; scenes: SceneEvidenceMetadata[] };
+export type ProjectIndexCoverage = { project: TimeRange } & (
+  | { ordinal: number; equality: "sampled" }
+  | { ordinal: null; equality: "unproven" }
+);
+export type ProjectIndexRecords = {
+  identity: ProjectIndexIdentity;
+  candidate: ProjectIndexCandidate;
+  frame: Omit<ProjectFrameArtifact, "cacheId">;
+  coverage: ProjectIndexCoverage;
+};
+
+/** Empty targets validate their real processing scope without a synthetic render window. */
+export function projectIndexPlan(
+  composition: ReturnType<typeof projectComposition>,
+  input: Pick<ProjectFrameInput, "tap" | "maxLongEdge">,
+  implementationId: string,
+) {
+  const parsed = projectPictureOptionsSchema.safeParse({
+    tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
+    maxLongEdge: input.maxLongEdge ?? 1600,
+    implementationId,
+  });
+  if (!parsed.success) throw new CatalogError("INVALID_PARAMS", "Invalid project picture options");
+  const { model, compiler } = composition;
+  const processing = model.durationUs
+    ? composition.window({ tap: parsed.data.tap }, implementationId, "video").window.manifest
+        .processing
+    : compiler.tapPlan(parsed.data.tap, "video");
+  const selected = new Set(
+    processing.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
+  );
+  const bindings = new Map<string, SourceSelection>();
+  for (const value of model.clips) {
+    const clip = value.clip;
+    if (
+      !selected.has(clip.id) ||
+      !isMediaClip(clip) ||
+      clip.source.kind !== "range" ||
+      value.stream?.kind !== "video" ||
+      !value.available.length
+    )
+      continue;
+    const selection = {
+      assetId: clip.assetId,
+      streamId: clip.streamId,
+      ...(clip.acquisitionId === undefined ? {} : { acquisitionId: clip.acquisitionId }),
+    };
+    bindings.set(sourceSelectionKey(selection), selection);
+  }
+  return {
+    identity: {
+      projectId: composition.projectId,
+      revisionId: composition.revisionId,
+      ...parsed.data,
+      selectionPolicy: projectIndexPolicy.id,
+    },
+    model,
+    compiler,
+    processing,
+    sources: [...bindings.values()],
+  };
+}
+function invalid(message: string): never {
+  throw new CatalogError("INVALID_EVIDENCE", message);
+}
+
+/** Retained pixels keep their admitted identities even after their source analysis is reclaimed. */
+export function projectIndexDomain(
+  projects: ProjectStore,
+  assets: AssetStore,
+  acquisitions: AcquisitionStore,
+  scenes: SceneEvidenceStore,
+  implementationId: string,
+): IndexDomain<ProjectIndexRecords> {
+  // One write context bounds residency and avoids rebuilding a full revision for every appended PNG.
+  let active:
+    | {
+        key: string;
+        composition: ReturnType<typeof projectComposition>;
+        plan: ReturnType<typeof projectIndexPlan>;
+      }
+    | undefined;
+  function resolve(identity: ProjectIndexIdentity) {
+    projects.get(identity.projectId);
+    const key = JSON.stringify([
+      identity.projectId,
+      identity.revisionId,
+      identity.tap,
+      identity.maxLongEdge,
+      identity.implementationId,
+    ]);
+    if (active?.key !== key) {
+      const composition = projectComposition(projects, assets, identity);
+      active = {
+        key,
+        composition,
+        plan: projectIndexPlan(composition, identity, identity.implementationId),
+      };
+    }
+    return active;
+  }
+  return {
+    owner: (identity) => ({ kind: "project", projectId: identity.projectId }),
+    pin: (identity) => ({
+      projectId: identity.projectId,
+      revisionId: identity.revisionId,
+      generation: identity.generation,
+      tap: identity.tap,
+      implementationId: identity.implementationId,
+      maxLongEdge: identity.maxLongEdge,
+      selectionPolicy: identity.selectionPolicy,
+      scenes: identity.scenes,
+    }),
+
+2026-09-28T15:52:11.364474Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-f8effddc-1c8f-41ad-8000-dfbea1d97e5e"
+exec
+/bin/zsh -lc 'bunx vitest run apps/service/src packages/protocol/src >/tmp/sr-review-tests.log 2>&1; tail -18 /tmp/sr-review-tests.log' in /Users/david/dev/screen-recorder
+exec
+/bin/zsh -lc "sed -n '550,585p' packages/core/src/screenshot-index.ts; sed -n '637,680p' packages/core/src/screenshot-index.ts; git diff --check; git status --short; sed -n '140,200p' packages/core/src/project-index.ts" in /Users/david/dev/screen-recorder
+2026-09-28T15:52:19.661589Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-6f6b0f63-f9ca-495e-9d9f-c834a493290c"
+ succeeded in 34ms:
+ M apps/service/src/operations.ts
+ M apps/service/src/project-deletion.test.ts
+ M apps/service/src/project-deletion.ts
+ M apps/service/src/project-service.ts
+ M packages/protocol/src/index.test.ts
+ M packages/protocol/src/operations.ts
+ M skills/screenrec/SKILL.md
+?? packages/test-harness/editing/project-index-evidence.mjs
+    }),
+    begin(identity) {
+      if (identity.implementationId !== implementationId)
+        throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
+      if (!identity.generation || identity.selectionPolicy !== projectIndexPolicy.id)
+        invalid("Project index selection identity is unavailable");
+      const { plan } = resolve(identity);
+      const bindings = new Map(
+        plan.sources.map((selection) => [sourceSelectionKey(selection), selection]),
+      );
+      const seen = new Set<string>();
+      for (const dependency of identity.scenes) {
+        if (dependency.owner.kind !== "asset" || dependency.source.kind !== "asset")
+          invalid("Project scenes require a selected video source");
+        const selection = {
+          assetId: dependency.owner.assetId,
+          streamId: dependency.source.streamId,
+          ...(dependency.source.acquisitionId === undefined
+            ? {}
+            : { acquisitionId: dependency.source.acquisitionId }),
+        };
+        const key = sourceSelectionKey(selection);
+        if (seen.has(key) || !bindings.has(key))
+          invalid("Project index scene dependency is duplicated or outside its tap");
+        seen.add(key);
+        const retained = scenes.sourcePage({ identity: dependency, limit: 1 }).metadata;
+        if (
+          !isDeepStrictEqual(retained, dependency) ||
+          !isDeepStrictEqual(
+            dependency.source,
+            sourceSceneDescriptor(selectSource(assets, acquisitions, selection)),
+          )
+        )
+          invalid("Project index scenes differ from their pinned source");
+      }
+      return plan.model.durationUs;
+    },
+    candidate(identity, candidate, frame, path, previous) {
+      const { composition, plan } = resolve(identity);
+      const expected = plan.compiler.frameBoundary(candidate.sampleAtUs).after;
+      if (
+        !expected ||
+        !isDeepStrictEqual(expected, {
+          index: candidate.index,
+          sampleAtUs: candidate.sampleAtUs,
+          visibleRange: candidate.visibleRange,
+        }) ||
+        (previous && previous.index >= candidate.index)
+      )
+        invalid("Project index candidates must be distinct globally phased pictures in order");
+      if (
+        frame.projectId !== identity.projectId ||
+        frame.revisionId !== identity.revisionId ||
+        frame.implementationId !== identity.implementationId ||
+        frame.maxLongEdge !== identity.maxLongEdge ||
+        !isDeepStrictEqual(frame.tap, identity.tap) ||
+        frame.atUs !== candidate.sampleAtUs
+      )
+        invalid("Project index picture belongs to another request");
+      validateRetainedProjectFrameReceipt(
+        frame,
+
+exec
+/bin/zsh -lc 'tail -20 /tmp/sr-review-tests.log; git diff --cached --stat' in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+   × settles a native call whose answer is unreadable as soon as that answer arrives 228ms
+   × settles a stranded take before it accepts a start replayed onto it 250ms
+   × stops and recovers a take whose start went unanswered rather than calling it refused 536ms
+   × leaves a take it could not prove ended open to the native report that follows 216ms
+   × resolves a replayed start onto its own unproved take instead of starting it again 557ms
+   × refuses a start request ID reused for a different take instead of reinterpreting it 213ms
+   × refuses pause and resume on a settled take while every other repeat stays idempotent 212ms
+   × carries the product's audio default to native, and a caller's explicit refusal untouched 208ms
+   × stops an unproved start and registers its recovered media on the first stop call 506ms
+ ❯ apps/service/src/project-service.test.ts (10 tests | 10 failed) 5344ms
+   × failed probe retries through the shared job and publishes immutable media once 64ms
+   × cancel drains probing and refuses changed frozen inputs on retry 43ms
+   × process death after owned copy leaves a retryable job and no visible partial asset 5003ms
+   × queue capacity refusal leaves no frozen import receipt to poison a later admission 36ms
+   × large provenance history cannot hide metadata and every origin remains pageable 33ms
+   × startup resumes a committed project deletion marker before serving requests 32ms
+   × shutdown aborts an in-flight export destination admission before draining requests 34ms
+   × selected-source transcript reads report unprepared models without downloading or inventing a recording 32ms
+   × project transcript paging uses shared jobs and returns an empty historical revision 31ms
+   × selected-source audio publishes verified WAV bytes through artifact delivery 34ms
+
+2026-09-28T15:52:33.198076Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-207e1794-6172-4129-8006-50c3c12e523c"
+exec
+/bin/zsh -lc "head -35 /tmp/sr-review-tests.log; rg -n 'EPERM|Error:|FAIL' /tmp/sr-review-tests.log | head -15" in /Users/david/dev/screen-recorder
+2026-09-28T15:52:42.200173Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-c0736224-ae70-4180-a4d8-0de264b55a7e"
+ succeeded in 0ms:
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:89089) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89094) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89097) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89095) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89093) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89101) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89098) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89092) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89099) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89087) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89090) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89091) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/index.test.ts (6 tests | 6 failed) 17ms
+   × an occupied socket cannot be evicted, and ordinary close permits a fresh listener 8ms
+   × lets a complete inspection outlive the read deadline using the caller's timeout 2ms
+   × closing the listener disconnects pending calls and signals their handlers 1ms
+   × closes an incomplete request at the read deadline and stays available 2ms
+   × keeps abandoned work in the admission bound until its handler actually finishes 1ms
+   × closes excess connections before reading them and accepts clients after a slot is released 1ms
+ ❯ apps/service/src/round-trip.test.ts (4 tests | 4 failed) 658ms
+
+exec
+/bin/zsh -lc "bunx vitest run apps/service/src/project-service.test.ts -t 'startup resumes'" in /Users/david/dev/screen-recorder
+2026-09-28T15:52:46.287996Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-bd8a3f68-1f05-4c58-939f-8aab075d0623"
+ succeeded in 27841ms:
+Error: write EPIPE
+ ❯ WriteWrap.onWriteComplete [as oncomplete] node:internal/stream_base_commons:87:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { errno: -32, code: 'EPIPE', syscall: 'write' }
+This error originated in "apps/service/src/lifetime.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "answers unreadable and oversized control data without losing the next request". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  6 failed | 10 passed (16)
+      Tests  59 failed | 85 passed | 2 skipped (146)
+     Errors  1 error
+   Start at  08:52:18
+   Duration  27.52s (tests 86%, transform 10%, import 4%)
+
+
+2026-09-28T15:52:47.163392Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8b6-aa5f-7ec0-b20f-62c9f695798b turn_id=01a0e8b6-ab1a-79f1-907a-cdeb1f79c850 item_id="exec-10977ca8-e031-4745-a0df-77ae9e00597d"
+ exited 1 in 1625ms:
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:90841) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/project-service.test.ts (10 tests | 1 failed | 9 skipped) 52ms
+   × startup resumes a committed project deletion marker before serving requests 51ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-service.test.ts > startup resumes a committed project deletion marker before serving requests
+Error: listen EPERM: operation not permitted /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/asset-service-Zb3wOb/library/run/service.sock
+ ❯ apps/service/src/index.ts:142:12
+    140|   await new Promise<void>((resolve, reject) => {
+    141|     server.once("error", reject);
+    142|     server.listen(socketPath, resolve);
+       |            ^
+    143|   });
+    144|   try {
+ ❯ listenLocal apps/service/src/index.ts:140:9
+ ❯ startProjectService apps/service/src/project-service.ts:896:16
+ ❯ setup apps/service/src/project-service.test.ts:39:19
+ ❯ apps/service/src/project-service.test.ts:305:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  08:52:45
+   Duration  1.18s (transform 72%, import 23%, tests 5%)
+
+
+codex
+No actionable regressions were identified. Type checking and all 13 focused tests passed; broader service verification was limited by sandbox socket permissions.
+No actionable regressions were identified. Type checking and all 13 focused tests passed; broader service verification was limited by sandbox socket permissions.

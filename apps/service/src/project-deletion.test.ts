@@ -8,6 +8,11 @@ import { Catalog } from "@screenrec/core/catalog";
 import { AssetStore } from "@screenrec/core/assets";
 import { ProjectStore } from "@screenrec/core/projects";
 import { JobQueue } from "@screenrec/core/jobs";
+import { AcquisitionStore } from "@screenrec/core/acquisitions";
+import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evidence";
+import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { projectIndexDomain, projectIndexPlan } from "@screenrec/core/project-index";
+import { projectComposition } from "../../../packages/core/dist/project-window.js";
 import { DerivativeDelivery } from "./delivery.js";
 import { ProjectDeletion } from "./project-deletion.js";
 
@@ -24,6 +29,13 @@ test("deletion drains canceled executors before releasing shared media; interrup
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
   const projects = new ProjectStore(catalog, assets);
+  const acquisitions = new AcquisitionStore(catalog);
+  const scenes = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
+  const index = new ScreenshotIndexStore(
+    catalog,
+    home,
+    projectIndexDomain(projects, assets, acquisitions, scenes, "deletion-test"),
+  );
   const started = deferred();
   const aborted = deferred();
   const exit = deferred();
@@ -68,7 +80,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
   };
   const delivery = new DerivativeDelivery();
   const exports = { retireOwner: async () => {} };
-  const deletion = new ProjectDeletion(projects, queue, cache, files, delivery, exports);
+  const deletion = new ProjectDeletion(projects, queue, cache, files, delivery, exports, index);
   let releaseRead: (() => void) | undefined;
   try {
     await assets.recover();
@@ -100,6 +112,19 @@ test("deletion drains canceled executors before releasing shared media; interrup
       });
     const one = create("one"),
       two = create("two");
+    const indexIdentity = (projectId: string, generation: string) => ({
+      ...projectIndexPlan(projectComposition(projects, assets, { projectId }), {}, "deletion-test")
+        .identity,
+      generation,
+      scenes: [],
+    });
+    const interruptedIndex = indexIdentity(one.project.projectId, "unfinished");
+    index.begin(interruptedIndex);
+    const unfinishedPicture = index.outputPath(interruptedIndex, 0);
+    await writeFile(unfinishedPicture, "unpublished worker output");
+    const siblingIndex = indexIdentity(two.project.projectId, "ready-empty");
+    index.begin(siblingIndex);
+    const siblingMetadata = await index.finish(siblingIndex);
     const place = (project: typeof one) =>
       projects.apply(project.project.projectId, {
         requestId: "place",
@@ -144,6 +169,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
     const removing = deletion.delete(target.projectId);
     expect(deletion.delete(target.projectId)).toBe(removing);
     await aborted.promise;
+    expect(await readFile(unfinishedPicture, "utf8")).toBe("unpublished worker output");
     expect(() => delivery.read(delivered.token, 0, 32)).toThrow(
       expect.objectContaining({ code: "ARTIFACT_EXPIRED" }),
     );
@@ -167,7 +193,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
     await failed;
     await closing;
     expect(projects.deletionsPage().projectIds).toEqual([target.projectId]);
-    const resumed = new ProjectDeletion(projects, queue, cache, files, delivery, exports);
+    const resumed = new ProjectDeletion(projects, queue, cache, files, delivery, exports, index);
     try {
       const failures: unknown[] = [];
       await resumed.resume((error) => failures.push(error));
@@ -193,6 +219,15 @@ test("deletion drains canceled executors before releasing shared media; interrup
       expect(await readFile(sibling.path, "utf8")).toBe("cached second project");
       expect(await readFile(assets.path(asset.id), "utf8")).toBe("retained source bytes");
       expect(projects.deletionsPage().projectIds).toEqual([]);
+      await expect(readFile(unfinishedPicture)).rejects.toMatchObject({ code: "ENOENT" });
+      expect(index.metadata(siblingIndex)).toEqual(siblingMetadata);
+      expect(
+        catalog.catalog
+          .prepare(
+            "SELECT generation FROM screenshot_index_generations WHERE ownerKind='project' AND ownerId=?",
+          )
+          .all(target.projectId),
+      ).toEqual([]);
       expect(assets.references(asset.id)).toEqual([{ kind: "revision", id: second.revision.id }]);
       expect(assets.get(asset.id)).toEqual(asset);
       expect(() => queue.job(job.jobId)).toThrow(/not found|does not exist/i);

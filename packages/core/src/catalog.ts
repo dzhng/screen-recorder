@@ -1,8 +1,8 @@
 import { DatabaseSync } from "node:sqlite";
 /**
- * The format of every table in the catalog, including those sibling owners create in it. A new table
- * needs no bump: every owner creates its tables idempotently. Changing an existing table's shape
- * does, because an older catalog would keep the old shape; such a catalog is refused, never migrated.
+ * The persisted contract shared by catalog owners. Additive tables are created idempotently.
+ * Changes to existing shapes or required ownership records need a bump: old catalogs cannot
+ * reconstruct missing semantic inputs and are refused, never migrated.
  */
 const catalogFormat = 12;
 export class CatalogError extends Error {

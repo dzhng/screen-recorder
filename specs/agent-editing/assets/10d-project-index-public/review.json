@@ -1,0 +1,6 @@
+{
+  "shape": "Existing index domain, queue, delivery and deletion owners reused; no new endpoint, table, worker or dependency. Shared single/batch image delivery avoids duplicate routing.",
+  "diff": "Independent Codex review found no actionable regression; final changes strengthen live delivery/cancellation tests and align CLI advertised schema expectation. Focused lint/format pass.",
+  "docs": "Root/spec/journey handoff updated; public media acceptance separated from incomplete fresh-agent interpretation. Local links and acyclic 40-slice graph pass.",
+  "choices": "Existing project-index continuation/identity decisions remain banked. Reclamation uses the already-required store after work drain and token revocation; no new policy. Direct range semantics are explicitly left open for next pass."
+}

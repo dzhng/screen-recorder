@@ -202,6 +202,8 @@ const spectrogramParams = z.union([
 ]);
 
 const indexFields = { revisionId: id, generation: id };
+const projectIndexParams = projectFrameParams.omit({ atUs: true });
+const projectIndexReference = projectIndexParams.required().extend({ generation: id });
 const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };
 const coveragePosition = {
   ...indexFields,
@@ -496,6 +498,10 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("index.get"),
       params: z.union([
+        projectIndexParams.extend({
+          limit: z.int().min(1).max(200).default(50),
+          cursor: projectIndexReference.extend({ afterOrdinal: z.int().nonnegative() }).optional(),
+        }),
         ...inspectionPage(
           { revisionId: id.optional(), limit: z.int().min(1).max(200).default(50) },
           indexPosition,
@@ -512,21 +518,36 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a retained screenshot index for a recording, package or selected asset video stream. Source selectors use assetId/streamId and optional acquisitionId, without a recording revision. Scene preparation precedes source index preparation. Returns readiness until complete, then paged metadata with reasons and stable frame references. A ready source index may have no images; inspect coverage to distinguish known support gaps from unproven ranges around unavailable observations. Continue with the returned cursor to keep the same revision and generation; use index.frame or index.frames for image bytes.",
+      "Request a retained screenshot index for a project, recording, package or selected asset video stream. Projects select the whole revision and an optional video tap, defaulting to processed output; maxLongEdge controls picture size. Source selectors use assetId/streamId and optional acquisitionId. Scene preparation precedes index preparation. Returns readiness until complete, then paged metadata with selection reasons and stable frame references. An empty index may be ready. Project coverage marks only delivered frame visibility as sampled; intervening ranges remain unproven. Continue with the returned cursor to pin identity; use index.frame or index.frames for image bytes.",
     ),
   z
     .object({
       operation: z.literal("index.retry"),
-      params: z.union([recording.extend({ revisionId: id.optional() }).strict(), sourceSelection]),
+      params: z.union([
+        projectIndexParams,
+        recording.extend({ revisionId: id.optional() }).strict(),
+        sourceSelection,
+      ]),
     })
     .strict()
     .describe(
-      "Explicitly retry failed or canceled screenshot index processing. Source selectors also retry their retryable terminal scene or frame prerequisite; ordinary reads do not restart terminal work. Recording source/scene dependencies require their own processing.retry.",
+      "Explicitly retry failed or canceled screenshot index processing. Project and source selectors also retry their retryable terminal scene or frame prerequisites; ordinary reads do not restart terminal work. Recording source/scene dependencies require their own processing.retry.",
     ),
   z
     .object({
       operation: z.literal("index.coverage"),
       params: z.union([
+        paged(
+          projectIndexReference,
+          {
+            candidateOrdinal: z.int().nonnegative().optional(),
+            limit: z.int().min(1).max(200).default(50),
+          },
+          {
+            afterSequence: z.int().nonnegative(),
+            candidateOrdinal: z.int().nonnegative().nullable(),
+          },
+        ),
         ...inspectionPage(
           {
             ...indexFields,
@@ -558,6 +579,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("index.frame"),
       params: z.union([
+        projectIndexReference.extend({ ordinal: z.int().nonnegative() }),
         ...inspection({ ...indexFields, ordinal: z.int().nonnegative() }).options,
         sourceSelection.extend({ generation: id, ordinal: z.int().nonnegative() }).strict(),
       ]),
@@ -570,6 +592,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("index.frames"),
       params: z.union([
+        projectIndexReference.extend({ ordinals: z.array(z.int().nonnegative()).min(1).max(8) }),
         ...inspection({
           ...indexFields,
           ordinals: z.array(z.int().nonnegative()).min(1).max(8),

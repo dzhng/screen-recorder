@@ -1,0 +1,65 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/service
+
+(node:63573) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-deletion.test.ts (1 test | 1 failed) 92ms
+   × deletion drains canceled executors before releasing shared media; interruption resumes 92ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-deletion.test.ts > deletion drains canceled executors before releasing shared media; interruption resumes
+AssertionError: promise resolved "Buffer[ 117, 110, 112, 117, 98, …(-82) ]" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "data": [
++     117,
++     110,
++     112,
++     117,
++     98,
++     108,
++     105,
++     115,
++     104,
++     101,
++     100,
++     32,
++     119,
++     111,
++     114,
++     107,
++     101,
++     114,
++     32,
++     111,
++     117,
++     116,
++     112,
++     117,
++     116,
++   ],
++   "type": "Buffer",
+  }
+
+ ❯ src/project-deletion.test.ts:222:48
+    220|       expect(await readFile(assets.path(asset.id), "utf8")).toBe("reta…
+    221|       expect(projects.deletionsPage().projectIds).toEqual([]);
+    222|       await expect(readFile(unfinishedPicture)).rejects.toMatchObject(…
+       |                                                ^
+    223|       expect(index.metadata(siblingIndex)).toEqual(siblingMetadata);
+    224|       expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  08:35:19
+   Duration  330ms (transform 46%, tests 33%, import 20%, worker 1%)
+

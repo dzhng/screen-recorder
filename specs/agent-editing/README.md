@@ -31,8 +31,13 @@ Current pickup and priority:
    [Compiler frame-boundary selection](assets/10d-project-index-clock/README.md)
    and [candidate selection](assets/10d-project-index-selection/README.md) are
    integrated, along with the [retained project domain](assets/10d-project-index-domain/README.md).
-   Next implement project-index materialization and queued input retention, then
-   service delivery and actual public journeys.
+   [Queued materialization](assets/10d-project-index-processing/README.md) and
+   [public CLI/MCP/native journeys](assets/10d-project-index-public/README.md) now
+   pass, including retry, retained history and deletion.
+   [Fresh skill use](assets/10d-project-index-skill/README.md) exposed competing
+   frame-range meanings. Next make public frame visibility consistent with the
+   compiler clock, preserve images/native graph validation, and repeat fresh use.
+   Custom exclusion masks and raw still-image admission remain open.
    Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
@@ -45,9 +50,11 @@ Current pickup and priority:
    [fresh reinspection](assets/15-layer-skill/reinspection/report.md) correctly
    reads the same layout, and all 62 public journey images remain unchanged.
    [Pointer authoring/compiler](assets/15-pointer-contract/README.md) is integrated;
-   execution remains unavailable pending exact source-history preparation and
-   native replay. [Processed split, duplicate, move and trim](assets/15-layer-edits/README.md)
-   pass their static media/tap checks. Finish pointer preparation and geometry. The broader
+   [exact source history](assets/15-pointer-history/README.md) is integrated.
+   Execution remains unavailable pending queued preparation and native replay. [Processed split, duplicate, move and trim](assets/15-layer-edits/README.md)
+   pass their static media/tap checks. [Moving-source journeys](assets/15-layer-edit-motion/README.md)
+   now verify fractional edits, full/range previews and exact protected audio.
+   Finish pointer preparation and geometry. The broader
    final-output profile remains open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints

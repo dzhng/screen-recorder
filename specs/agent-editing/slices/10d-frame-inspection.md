@@ -247,5 +247,9 @@ readers. Source and project scene dependencies use normalized job-input referenc
 job retirement also releases ordinary asset/acquisition references. Catalog format
 12 refuses earlier development catalogs that lack those semantic input references.
 These are real-owner tests with controlled renderer receipts, not public/native
-acceptance. Public protocol/service/deletion integration and actual index journeys
-remain open; reuse existing retained-store reclamation after job/delivery drain.
+acceptance. [Public protocol/service/deletion integration and actual index journeys](../assets/10d-project-index-public/README.md)
+now pass with native pictures and retained coverage. Reclamation uses the existing
+store after job/delivery drain. [Fresh product-skill use](../assets/10d-project-index-skill/README.md)
+exposes competing one-microsecond request and full-frame visibility ranges; resolve
+that public metadata ambiguity through the compiler clock and repeat fresh use.
+These checks do not close custom exclusion masks, raw still admission or all 10d gates.

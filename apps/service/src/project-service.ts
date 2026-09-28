@@ -8,6 +8,7 @@ import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evide
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { sourceIndexDomain, type SourceIndexRecords } from "@screenrec/core/source-index";
+import { projectIndexDomain, type ProjectIndexRecords } from "@screenrec/core/project-index";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceVisualObservations } from "@screenrec/core/source-scenes";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
@@ -153,7 +154,10 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
-        if (job.target.kind === "asset" && job.artifact === "screenshot-index")
+        if (
+          (job.target.kind === "asset" || job.target.kind === "project") &&
+          job.artifact === "screenshot-index"
+        )
           return indexes.execute({ job, signal });
         if (job.target.kind === "asset" && job.artifact === "source-scenes")
           return scenes.execute({ job, signal });
@@ -312,12 +316,13 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       projectMovieRenderer(worker, workspace),
     );
+    const projectPictures = projectFrameRenderer(worker, workspace);
     mediaFrames = new MediaFrameInspection({
       assets,
       acquisitions,
       jobs: queue,
       cache,
-      project: { projects, renderer: projectFrameRenderer(worker, workspace) },
+      project: { projects, renderer: projectPictures },
       sourceRenderer: {
         implementationId: "native-source-picture-v3",
         render: async (request, signal) =>
@@ -330,8 +335,31 @@ export async function startProjectService(options: { home: string; worker?: Medi
           ),
       },
     });
+    const projectIndex = new ScreenshotIndexStore<ProjectIndexRecords>(
+      catalog,
+      library,
+      projectIndexDomain(
+        projects,
+        assets,
+        acquisitions,
+        sceneRecords,
+        projectPictures.implementationId,
+      ),
+    );
     indexes = new IndexProcessing({
       jobs: queue,
+      project: {
+        catalog,
+        assets,
+        acquisitions,
+        projects,
+        index: projectIndex,
+        scenes,
+        records: sceneRecords,
+        frames: mediaFrames,
+        cache,
+        implementationId: projectPictures.implementationId,
+      },
       asset: {
         catalog,
         assets,
@@ -347,6 +375,24 @@ export async function startProjectService(options: { home: string; worker?: Medi
         cache,
       },
     });
+    const indexFrame = (
+      input:
+        | Parameters<IndexProcessing["frameProject"]>[0]
+        | Parameters<IndexProcessing["frameSource"]>[0],
+    ) =>
+      "projectId" in input
+        ? {
+            ...indexes.frameProject(input),
+            delivery: delivery.open({ kind: "project", id: input.projectId }, () =>
+              indexes.openReadProject(input),
+            ),
+          }
+        : {
+            ...indexes.frameSource(input),
+            delivery: delivery.open({ kind: "asset", id: input.assetId }, () =>
+              indexes.openReadSource(input),
+            ),
+          };
     const frameDelivery = (status: ReturnType<MediaFrameInspection["request"]>) => ({
       ...status,
       delivery: status.published
@@ -378,6 +424,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       files,
       delivery,
       mediaExports,
+      projectIndex,
     );
     deletion = projectDeletion;
     await projectDeletion.resume((error) => console.error(error));
@@ -403,40 +450,53 @@ export async function startProjectService(options: { home: string; worker?: Medi
         switch (operation.operation) {
           case "index.get": {
             const params = operation.params;
+            if ("projectId" in params) return { ok: true, data: indexes.getProject(params) };
             if (!("assetId" in params))
-              return operationError("NOT_READY", "This service reads selected asset indexes");
+              return operationError(
+                "NOT_READY",
+                "This service reads project and selected asset indexes",
+              );
             return { ok: true, data: indexes.getSource(params) };
           }
           case "index.retry": {
             const params = operation.params;
+            if ("projectId" in params) return { ok: true, data: indexes.retryProject(params) };
             if (!("assetId" in params))
-              return operationError("NOT_READY", "This service reads selected asset indexes");
+              return operationError(
+                "NOT_READY",
+                "This service reads project and selected asset indexes",
+              );
             return { ok: true, data: indexes.retrySource(params) };
           }
           case "index.coverage": {
             const params = operation.params;
+            if ("projectId" in params) return { ok: true, data: indexes.coverageProject(params) };
             if (!("assetId" in params))
-              return operationError("NOT_READY", "This service reads selected asset indexes");
+              return operationError(
+                "NOT_READY",
+                "This service reads project and selected asset indexes",
+              );
             return { ok: true, data: indexes.coverageSource(params) };
           }
           case "index.frame": {
             const params = operation.params;
-            if (!("assetId" in params))
-              return operationError("NOT_READY", "This service reads selected asset indexes");
+            if (!("assetId" in params) && !("projectId" in params))
+              return operationError(
+                "NOT_READY",
+                "This service reads project and selected asset indexes",
+              );
             return {
               ok: true,
-              data: {
-                ...indexes.frameSource(params),
-                delivery: delivery.open({ kind: "asset", id: params.assetId }, () =>
-                  indexes.openReadSource(params),
-                ),
-              },
+              data: indexFrame(params),
             };
           }
           case "index.frames": {
             const params = operation.params;
-            if (!("assetId" in params))
-              return operationError("NOT_READY", "This service reads selected asset indexes");
+            if (!("assetId" in params) && !("projectId" in params))
+              return operationError(
+                "NOT_READY",
+                "This service reads project and selected asset indexes",
+              );
             const { ordinals, ...reference } = params;
             return {
               ok: true,
@@ -448,12 +508,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
                     return {
                       ordinal,
                       ok: true as const,
-                      data: {
-                        ...indexes.frameSource(input),
-                        delivery: delivery.open({ kind: "asset", id: reference.assetId }, () =>
-                          indexes.openReadSource(input),
-                        ),
-                      },
+                      data: indexFrame(input),
                     };
                   } catch (error) {
                     return { ordinal, ...operationFailure(error) };

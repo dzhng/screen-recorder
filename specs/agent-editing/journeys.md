@@ -50,10 +50,12 @@ and preservation journeys. [Static layers and geometry](assets/15-layer-public/R
 now pass actual CLI/MCP tap, preview, export, unchanged WAV and lifetime journeys.
 [Processed clip edits](assets/15-layer-edits/README.md) also pass fractional split
 stills, a full preview, unchanged WAV, independent-piece processing, and copied,
-moved and trimmed clip taps with exact source timestamps. These use static footage;
-moving-source conformance remains separate.
-Project screenshot indexes, speech/noise processing, animation and subjective
-listening remain pending. Rows below
+moved and trimmed clip taps with exact source timestamps. [Moving-source conformance](assets/15-layer-edit-motion/README.md)
+now adds independently changing landmarks, nonaligned moves and whole/range movie checks.
+[Project screenshot indexes](assets/10d-project-index-public/README.md) pass native
+CLI/MCP media and lifecycle journeys; [fresh-agent interpretation](assets/10d-project-index-skill/README.md)
+remains incomplete because frame-range metadata is ambiguous. Speech/noise
+processing, animation and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |

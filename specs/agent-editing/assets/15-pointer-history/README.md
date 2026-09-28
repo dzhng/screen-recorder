@@ -34,3 +34,7 @@ bound. Histories require a nonnegative representable capture clock; a translated
 sample before that clock or a CoreMedia subtraction that rounds is refused rather
 than clamped or invented. The exact clock format remains unchanged; incompatible
 timescales produce an explicit unavailable result with no partial publication.
+
+Root integration also passes [the actual native history journey](integrated.json)
+and [39 focused core checks](integrated-core.txt), using the frozen history worker
+and frozen prior native baseline. Pointer execution remains unbound.

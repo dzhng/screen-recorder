@@ -108,6 +108,7 @@ function expectCallableContract(tools: AdvertisedTool[]) {
   expect(required("artifact.read")).toEqual(["token", "offset"]);
   expect(required("processing.status")).toEqual(["recordingId"]);
   expect(required("index.get")).toEqual([
+    ["projectId"],
     ["recordingId"],
     ["packageHandle"],
     ["assetId", "streamId"],
