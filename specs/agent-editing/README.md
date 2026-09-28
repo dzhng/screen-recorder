@@ -19,7 +19,8 @@ nested targets [03b](slices/03b-processing-targets.md), constant-gain stacks
 pictures, strict streamed records and source/ancestor availability provenance.
 Next integrate [07 video](slices/07-video-execution.md) and
 [08 audio](slices/08-audio-mixing.md) from their isolated implementation worktrees
-after review and decoded-media verification. Audio resampling still needs its
+after review and decoded-media verification. Generalize [08a derived-file ownership](slices/08a-derived-cache.md)
+in parallel so project previews reuse the existing cache guarantees. Audio resampling still needs its
 bounded-context and fractional-phase gates settled; video is checking production
 parity, cancellation and resource bounds. Then wire the first public rendered
 editing checkpoint [09](slices/09-first-preview.md). State journeys do not close it.
@@ -184,6 +185,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
 - [ ] [07 — Execute video plans](slices/07-video-execution.md)
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
+- [ ] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [ ] [09 — First public preview and export](slices/09-first-preview.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
