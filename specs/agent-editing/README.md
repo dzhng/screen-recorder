@@ -37,8 +37,9 @@ Current pickup and priority:
    integrated. [Compiler/native geometry](assets/15-layer-geometry/README.md) now
    passes combined-worker admission, layer, source-orientation and existing public
    picture/index preservation gates. Immutable probe state and pixel recipes have
-   new identities. Geometry/opacity now bind to the shared executor; next verify
-   public presenter/stack journeys; pointer geometry and the final-output profile remain open.
+   new identities. [Public presenter/stack journeys](assets/15-layer-public/README.md)
+   pass; next verify fresh skill use and remaining edit-operation journeys, then
+   integrate pointer geometry. The broader final-output profile remains open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue

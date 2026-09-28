@@ -33,3 +33,7 @@ the final full run passes those stronger assertions. Fresh visual review covered
 the complete capture set. Its thin overlap remnants and edge observations match
 independent expected support, with targeted maximum errors of zero or one code
 value; these were not dismissed from appearance alone.
+
+[Integrated confirmation](integrated.json) repeats the entire actual public journey
+on the combined root runtime. All 62 public tap images retain the reviewed hashes,
+and strengthened duration, format, layout and lifetime assertions pass.

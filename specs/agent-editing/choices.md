@@ -1681,3 +1681,14 @@ unaffected capture-journal and audio identities alone.
   fail. Workbench requires wider independent evidence and listening, not label
   movement based on model agreement. The one-condition development trial therefore
   updates the diagnosis while leaving slices 12 and 12b open.
+
+## Public geometry acceptance — 2026-09-28
+
+The [public journey choices](assets/15-layer-public/choices.md) are adopted as
+sound with high confidence. Reusing independent authored geometry makes a public
+transport success insufficient on its own: delivered pixels and unchanged audio
+must still agree. The representative public subset is a checkpoint, not blanket
+acceptance of remaining edits, pointers or animation. Full export is tested through
+the actual whole-revision API; fractional windows use preview. Committed external
+exports survive deletion while service-owned deliveries are revoked by their
+existing lifetime owner.

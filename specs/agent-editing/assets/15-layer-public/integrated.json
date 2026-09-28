@@ -1,0 +1,147 @@
+{
+  "passed": true,
+  "reportSha256": "b06b0519579486383fe485ce6f10d038ea8cb6e0ca81c6ea2b2acf588f821ad6",
+  "projects": 18,
+  "exactReviewedPNGs": 62,
+  "previewCount": 8,
+  "checks": {
+    "wrongTapRejected": true,
+    "noncommutingPairsDifferent": true,
+    "restartedLayout": {
+      "compared": 12321,
+      "total": 15360,
+      "maximumError": 0,
+      "shapes": [
+        {
+          "channel": 0,
+          "actual": {
+            "count": 3463,
+            "center": [
+              60.837568582154205,
+              56.7668206757147
+            ],
+            "bounds": [
+              4,
+              4,
+              135,
+              87
+            ]
+          },
+          "expected": {
+            "count": 3463,
+            "center": [
+              60.837568582154205,
+              56.7668206757147
+            ],
+            "bounds": [
+              4,
+              4,
+              135,
+              87
+            ]
+          }
+        },
+        {
+          "channel": 1,
+          "actual": {
+            "count": 3463,
+            "center": [
+              60.837568582154205,
+              56.7668206757147
+            ],
+            "bounds": [
+              4,
+              4,
+              135,
+              87
+            ]
+          },
+          "expected": {
+            "count": 3463,
+            "center": [
+              60.837568582154205,
+              56.7668206757147
+            ],
+            "bounds": [
+              4,
+              4,
+              135,
+              87
+            ]
+          }
+        },
+        {
+          "channel": 2,
+          "actual": {
+            "count": 3463,
+            "center": [
+              60.837568582154205,
+              56.7668206757147
+            ],
+            "bounds": [
+              4,
+              4,
+              135,
+              87
+            ]
+          },
+          "expected": {
+            "count": 3463,
+            "center": [
+              60.837568582154205,
+              56.7668206757147
+            ],
+            "bounds": [
+              4,
+              4,
+              135,
+              87
+            ]
+          }
+        },
+        {
+          "channel": 3,
+          "actual": {
+            "count": 15360,
+            "center": [
+              80,
+              48
+            ],
+            "bounds": [
+              0,
+              0,
+              159,
+              95
+            ]
+          },
+          "expected": {
+            "count": 15360,
+            "center": [
+              80,
+              48
+            ],
+            "bounds": [
+              0,
+              0,
+              159,
+              95
+            ]
+          }
+        }
+      ]
+    },
+    "lifetime": {
+      "donorsRemoved": true,
+      "oldRevisionExact": true,
+      "newRevisionDifferent": true,
+      "deletedLeaseRevoked": true,
+      "externalExportPreserved": true,
+      "retainedSourcesRerendered": true
+    }
+  },
+  "worker": {
+    "path": "/tmp/screenrec-geometry-integrated-native",
+    "sha256": "27a7b97869cce53631e8ea7730bb82484b203553da6a23beed94bcf2f211c61d"
+  },
+  "acceptanceBoundary": "Static geometry public journey; pointers, remaining edit operations, animation and broader codec/alpha profiles remain open."
+}
