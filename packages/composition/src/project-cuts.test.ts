@@ -10,9 +10,16 @@ const range = (startUs: number, endUs: number) => ({ startUs, endUs });
 const asset: Asset = {
   id: "source",
   streams: [
-    { id: "video", kind: "video", bounds: range(0, 30), available: [range(0, 30)] },
+    {
+      id: "video",
+      kind: "video",
+      width: 100,
+      height: 100,
+      bounds: range(0, 30),
+      available: [range(0, 30)],
+    },
     { id: "audio", kind: "audio", bounds: range(0, 30), available: [range(0, 30)] },
-    { id: "image", kind: "image" },
+    { id: "image", kind: "image", width: 100, height: 100 },
   ],
 };
 const clip = (
@@ -111,7 +118,14 @@ test("support holes never author cuts, while editorial gaps and seams inside hol
   const sparse: Asset = {
     ...asset,
     streams: [
-      { id: "video", kind: "video", bounds: range(0, 30), available: [range(0, 2), range(8, 30)] },
+      {
+        id: "video",
+        kind: "video",
+        width: 100,
+        height: 100,
+        bounds: range(0, 30),
+        available: [range(0, 2), range(8, 30)],
+      },
     ],
   };
   expect(cuts([clip("whole", 0, 10)], sparse).window({ range: range(0, 10) })).toEqual([]);

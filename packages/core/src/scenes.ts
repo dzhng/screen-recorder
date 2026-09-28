@@ -3,7 +3,7 @@ import type { TimeRange } from "./timeline.js";
 
 /** Measured visual change, not recognition of a scene's meaning. */
 export const scenePolicy = Object.freeze({
-  id: "rgb-spatial-change-v2",
+  id: "rgb-spatial-change-v3",
   stepUs: 200_000,
   maximumRangeUs: 10_000_000,
   changedChannelDelta: 24,

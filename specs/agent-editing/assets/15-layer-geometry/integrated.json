@@ -1,0 +1,3367 @@
+{
+  "scope": "Combined native gates and public frame/source-index preservation; new public geometry capability not yet accepted.",
+  "worker": {
+    "path": "/tmp/screenrec-geometry-integrated-native",
+    "sha256": "27a7b97869cce53631e8ea7730bb82484b203553da6a23beed94bcf2f211c61d"
+  },
+  "compositionTests": 135,
+  "coreTests": {
+    "passed": 575,
+    "skipped": 1
+  },
+  "checks": {
+    "admission": {
+      "report": "/tmp/screenrec-geometry-root-admission/report.json",
+      "sha256": "ee26aa7dbe8ef7ed291ed145b0c999f37fb62682677aaf3100df6a6d9546cbbb",
+      "result": {
+        "checks": [
+          {
+            "inactive": "dry",
+            "readerOpens": 0,
+            "transparent": true
+          },
+          {
+            "inactive": "processed",
+            "readerOpens": 0,
+            "transparent": true
+          },
+          {
+            "limit": "decoded-source-pixels",
+            "response": {
+              "code": "NOT_READY",
+              "details": {},
+              "message": "h264-rec709 profile limit decoded-source-pixels: frame 0 requests 80000000, bound 67108864; reduce simultaneous sources or processing surfaces.",
+              "retryable": false
+            }
+          },
+          {
+            "limit": "intermediate-pixels",
+            "response": {
+              "code": "NOT_READY",
+              "details": {},
+              "message": "h264-rec709 profile limit intermediate-pixels: frame 0 requests 68157440, bound 67108864; reduce simultaneous sources or processing surfaces.",
+              "retryable": false
+            }
+          },
+          {
+            "limit": "coverage-mask-bytes",
+            "response": {
+              "code": "NOT_READY",
+              "details": {},
+              "message": "h264-rec709 profile limit coverage-mask-bytes: frame 0 requests 68157440, bound 67108864; reduce simultaneous sources or processing surfaces.",
+              "retryable": false
+            }
+          },
+          {
+            "recovery": true,
+            "readerOpens": 1
+          }
+        ]
+      }
+    },
+    "layers": {
+      "report": "/tmp/screenrec-geometry-root-layers/report.json",
+      "sha256": "dca2fd1b8a9490d5f58fa8895cfa1e83ab1a719459dd3eaad23d9fb3033909b4",
+      "result": {
+        "caseCount": 48
+      }
+    },
+    "display": {
+      "report": "/tmp/screenrec-geometry-root-display/report.json",
+      "sha256": "237ec78697693f2ec36a7b09ac73ec4bfb787098d6cbd05cc3e74893a34b2818",
+      "result": [
+        {
+          "name": "identity",
+          "probe": {
+            "originUs": 0,
+            "streams": [
+              {
+                "codec": "avc1",
+                "colorPrimaries": "ITU_R_709_2",
+                "decodable": true,
+                "endUs": 1000000,
+                "height": 48,
+                "id": "track:1",
+                "kind": "video",
+                "orientedHeight": 48,
+                "orientedPixelBounds": {
+                  "height": 48,
+                  "width": 64,
+                  "x": 0,
+                  "y": 0
+                },
+                "orientedWidth": 64,
+                "samples": {
+                  "count": 10,
+                  "firstPtsUs": 0,
+                  "lastPtsUs": 900000,
+                  "maxDurationUs": 100000,
+                  "minDurationUs": 100000
+                },
+                "segments": [
+                  {
+                    "empty": false,
+                    "endUs": 1000000,
+                    "mediaDurationUs": 1000000,
+                    "mediaStartUs": 200000,
+                    "startUs": 0
+                  }
+                ],
+                "startUs": 0,
+                "transferFunction": "ITU_R_709_2",
+                "transform": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ],
+                "width": 64,
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ]
+          },
+          "receipts": {
+            "before": {
+              "bytes": 350,
+              "decodedSamples": 1,
+              "file": "/tmp/screenrec-geometry-root-display/identity/before.png",
+              "frame": {
+                "index": 0,
+                "layers": [
+                  {
+                    "assetId": "source",
+                    "availability": "available",
+                    "clipId": "picture",
+                    "placement": "contain",
+                    "sourceUs": 0,
+                    "streamId": "track:1",
+                    "trackId": "v"
+                  }
+                ],
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "endUs": 1,
+                  "startUs": 0
+                }
+              },
+              "height": 48,
+              "mediaType": "image/png",
+              "picture": {
+                "actualSourceUs": 0,
+                "assetId": "source",
+                "clipId": "picture",
+                "requestedSourceUs": 0,
+                "sample": {
+                  "originUs": 0,
+                  "timescale": 1000,
+                  "value": "0"
+                },
+                "status": "available",
+                "streamId": "track:1"
+              },
+              "profile": "h264-rec709",
+              "readerOpens": 1,
+              "sourceHeight": 48,
+              "sourceWidth": 64,
+              "width": 64
+            },
+            "after": {
+              "bytes": 350,
+              "decodedSamples": 1,
+              "file": "/tmp/screenrec-geometry-root-display/identity/after.png",
+              "frame": {
+                "index": 0,
+                "layers": [
+                  {
+                    "assetId": "source",
+                    "availability": "available",
+                    "clipId": "picture",
+                    "height": 48,
+                    "sourceUs": 0,
+                    "streamId": "track:1",
+                    "trackId": "v",
+                    "width": 64
+                  }
+                ],
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "endUs": 1,
+                  "startUs": 0
+                },
+                "visual": [
+                  {
+                    "inputs": [],
+                    "operations": [
+                      {
+                        "height": 47,
+                        "kind": "clamp",
+                        "width": 63,
+                        "x": 0.5,
+                        "y": 0.5
+                      },
+                      {
+                        "kind": "affine",
+                        "matrix": [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "affine",
+                        "matrix": [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "height": 48,
+                        "kind": "coverage",
+                        "points": [
+                          {
+                            "x": 0,
+                            "y": 0
+                          },
+                          {
+                            "x": 64,
+                            "y": 0
+                          },
+                          {
+                            "x": 64,
+                            "y": 48
+                          },
+                          {
+                            "x": 0,
+                            "y": 48
+                          }
+                        ],
+                        "width": 64
+                      }
+                    ],
+                    "target": {
+                      "id": "picture",
+                      "kind": "clip"
+                    }
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "id": "picture",
+                        "kind": "clip"
+                      }
+                    ],
+                    "operations": [],
+                    "target": {
+                      "id": "v",
+                      "kind": "track"
+                    }
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "id": "v",
+                        "kind": "track"
+                      }
+                    ],
+                    "operations": [],
+                    "target": {
+                      "kind": "output"
+                    }
+                  }
+                ]
+              },
+              "height": 48,
+              "mediaType": "image/png",
+              "pictures": [
+                {
+                  "actualSourceUs": 0,
+                  "assetId": "source",
+                  "clipId": "picture",
+                  "requestedSourceUs": 0,
+                  "sample": {
+                    "originUs": 0,
+                    "timescale": 1000,
+                    "value": "0"
+                  },
+                  "status": "available",
+                  "streamId": "track:1"
+                }
+              ],
+              "profile": "h264-rec709",
+              "readerOpens": 1,
+              "sourceHeight": 48,
+              "sourceWidth": 64,
+              "width": 64
+            }
+          },
+          "changed": 0,
+          "maximum": 0,
+          "interiors": 1744,
+          "interiorMaximum": 0
+        },
+        {
+          "name": "quarter-turn",
+          "probe": {
+            "originUs": 0,
+            "streams": [
+              {
+                "codec": "avc1",
+                "colorPrimaries": "ITU_R_709_2",
+                "decodable": true,
+                "endUs": 1000000,
+                "height": 48,
+                "id": "track:1",
+                "kind": "video",
+                "orientedHeight": 64,
+                "orientedPixelBounds": {
+                  "height": 64,
+                  "width": 48,
+                  "x": 0,
+                  "y": 0
+                },
+                "orientedWidth": 48,
+                "samples": {
+                  "count": 10,
+                  "firstPtsUs": 0,
+                  "lastPtsUs": 900000,
+                  "maxDurationUs": 100000,
+                  "minDurationUs": 100000
+                },
+                "segments": [
+                  {
+                    "empty": false,
+                    "endUs": 1000000,
+                    "mediaDurationUs": 1000000,
+                    "mediaStartUs": 200000,
+                    "startUs": 0
+                  }
+                ],
+                "startUs": 0,
+                "transferFunction": "ITU_R_709_2",
+                "transform": [
+                  0,
+                  1,
+                  -1,
+                  0,
+                  48,
+                  0
+                ],
+                "width": 64,
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ]
+          },
+          "receipts": {
+            "before": {
+              "bytes": 388,
+              "decodedSamples": 1,
+              "file": "/tmp/screenrec-geometry-root-display/quarter-turn/before.png",
+              "frame": {
+                "index": 0,
+                "layers": [
+                  {
+                    "assetId": "source",
+                    "availability": "available",
+                    "clipId": "picture",
+                    "placement": "contain",
+                    "sourceUs": 0,
+                    "streamId": "track:1",
+                    "trackId": "v"
+                  }
+                ],
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "endUs": 1,
+                  "startUs": 0
+                }
+              },
+              "height": 64,
+              "mediaType": "image/png",
+              "picture": {
+                "actualSourceUs": 0,
+                "assetId": "source",
+                "clipId": "picture",
+                "requestedSourceUs": 0,
+                "sample": {
+                  "originUs": 0,
+                  "timescale": 10240,
+                  "value": "0"
+                },
+                "status": "available",
+                "streamId": "track:1"
+              },
+              "profile": "h264-rec709",
+              "readerOpens": 1,
+              "sourceHeight": 64,
+              "sourceWidth": 48,
+              "width": 48
+            },
+            "after": {
+              "bytes": 388,
+              "decodedSamples": 1,
+              "file": "/tmp/screenrec-geometry-root-display/quarter-turn/after.png",
+              "frame": {
+                "index": 0,
+                "layers": [
+                  {
+                    "assetId": "source",
+                    "availability": "available",
+                    "clipId": "picture",
+                    "height": 64,
+                    "sourceUs": 0,
+                    "streamId": "track:1",
+                    "trackId": "v",
+                    "width": 48
+                  }
+                ],
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "endUs": 1,
+                  "startUs": 0
+                },
+                "visual": [
+                  {
+                    "inputs": [],
+                    "operations": [
+                      {
+                        "height": 63,
+                        "kind": "clamp",
+                        "width": 47,
+                        "x": 0.5,
+                        "y": 0.5
+                      },
+                      {
+                        "kind": "affine",
+                        "matrix": [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "affine",
+                        "matrix": [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "height": 64,
+                        "kind": "coverage",
+                        "points": [
+                          {
+                            "x": 0,
+                            "y": 0
+                          },
+                          {
+                            "x": 48,
+                            "y": 0
+                          },
+                          {
+                            "x": 48,
+                            "y": 64
+                          },
+                          {
+                            "x": 0,
+                            "y": 64
+                          }
+                        ],
+                        "width": 48
+                      }
+                    ],
+                    "target": {
+                      "id": "picture",
+                      "kind": "clip"
+                    }
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "id": "picture",
+                        "kind": "clip"
+                      }
+                    ],
+                    "operations": [],
+                    "target": {
+                      "id": "v",
+                      "kind": "track"
+                    }
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "id": "v",
+                        "kind": "track"
+                      }
+                    ],
+                    "operations": [],
+                    "target": {
+                      "kind": "output"
+                    }
+                  }
+                ]
+              },
+              "height": 64,
+              "mediaType": "image/png",
+              "pictures": [
+                {
+                  "actualSourceUs": 0,
+                  "assetId": "source",
+                  "clipId": "picture",
+                  "requestedSourceUs": 0,
+                  "sample": {
+                    "originUs": 0,
+                    "timescale": 10240,
+                    "value": "0"
+                  },
+                  "status": "available",
+                  "streamId": "track:1"
+                }
+              ],
+              "profile": "h264-rec709",
+              "readerOpens": 1,
+              "sourceHeight": 64,
+              "sourceWidth": 48,
+              "width": 48
+            }
+          },
+          "changed": 0,
+          "maximum": 0,
+          "interiors": 1744,
+          "interiorMaximum": 0
+        },
+        {
+          "name": "oblique",
+          "probe": {
+            "originUs": 0,
+            "streams": [
+              {
+                "codec": "avc1",
+                "colorPrimaries": "ITU_R_709_2",
+                "decodable": true,
+                "endUs": 1000000,
+                "height": 48,
+                "id": "track:1",
+                "kind": "video",
+                "orientedHeight": 76,
+                "orientedPixelBounds": {
+                  "height": 75.112548828125,
+                  "width": 79.817138671875,
+                  "x": 0.857666015625,
+                  "y": 0.887451171875
+                },
+                "orientedWidth": 81,
+                "samples": {
+                  "count": 10,
+                  "firstPtsUs": 0,
+                  "lastPtsUs": 900000,
+                  "maxDurationUs": 100000,
+                  "minDurationUs": 100000
+                },
+                "segments": [
+                  {
+                    "empty": false,
+                    "endUs": 1000000,
+                    "mediaDurationUs": 1000000,
+                    "mediaStartUs": 200000,
+                    "startUs": 0
+                  }
+                ],
+                "startUs": 0,
+                "transferFunction": "ITU_R_709_2",
+                "transform": [
+                  0.8386688232421875,
+                  0.5446319580078125,
+                  -0.5446319580078125,
+                  0.8386688232421875,
+                  0,
+                  0
+                ],
+                "width": 64,
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ]
+          },
+          "receipts": {
+            "before": {
+              "bytes": 1008,
+              "decodedSamples": 1,
+              "file": "/tmp/screenrec-geometry-root-display/oblique/before.png",
+              "frame": {
+                "index": 0,
+                "layers": [
+                  {
+                    "assetId": "source",
+                    "availability": "available",
+                    "clipId": "picture",
+                    "placement": "contain",
+                    "sourceUs": 0,
+                    "streamId": "track:1",
+                    "trackId": "v"
+                  }
+                ],
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "endUs": 1,
+                  "startUs": 0
+                }
+              },
+              "height": 48,
+              "mediaType": "image/png",
+              "picture": {
+                "actualSourceUs": 0,
+                "assetId": "source",
+                "clipId": "picture",
+                "requestedSourceUs": 0,
+                "sample": {
+                  "originUs": 0,
+                  "timescale": 10240,
+                  "value": "0"
+                },
+                "status": "available",
+                "streamId": "track:1"
+              },
+              "profile": "h264-rec709",
+              "readerOpens": 1,
+              "sourceHeight": 48,
+              "sourceWidth": 64,
+              "width": 64
+            },
+            "after": {
+              "bytes": 1008,
+              "decodedSamples": 1,
+              "file": "/tmp/screenrec-geometry-root-display/oblique/after.png",
+              "frame": {
+                "index": 0,
+                "layers": [
+                  {
+                    "assetId": "source",
+                    "availability": "available",
+                    "clipId": "picture",
+                    "height": 76,
+                    "sourceUs": 0,
+                    "streamId": "track:1",
+                    "trackId": "v",
+                    "width": 81
+                  }
+                ],
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "endUs": 1,
+                  "startUs": 0
+                },
+                "visual": [
+                  {
+                    "inputs": [],
+                    "operations": [
+                      {
+                        "height": 75,
+                        "kind": "clamp",
+                        "width": 80,
+                        "x": 0.5,
+                        "y": 0.5
+                      },
+                      {
+                        "kind": "affine",
+                        "matrix": [
+                          0.631578947368421,
+                          0,
+                          0,
+                          0.631578947368421,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "affine",
+                        "matrix": [
+                          1,
+                          0,
+                          0,
+                          1,
+                          6.5,
+                          0
+                        ]
+                      },
+                      {
+                        "height": 48,
+                        "kind": "coverage",
+                        "points": [
+                          {
+                            "x": 6.5,
+                            "y": 0
+                          },
+                          {
+                            "x": 57.6578947368421,
+                            "y": 0
+                          },
+                          {
+                            "x": 57.6578947368421,
+                            "y": 48
+                          },
+                          {
+                            "x": 6.5,
+                            "y": 48
+                          }
+                        ],
+                        "width": 64
+                      }
+                    ],
+                    "target": {
+                      "id": "picture",
+                      "kind": "clip"
+                    }
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "id": "picture",
+                        "kind": "clip"
+                      }
+                    ],
+                    "operations": [],
+                    "target": {
+                      "id": "v",
+                      "kind": "track"
+                    }
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "id": "v",
+                        "kind": "track"
+                      }
+                    ],
+                    "operations": [],
+                    "target": {
+                      "kind": "output"
+                    }
+                  }
+                ]
+              },
+              "height": 48,
+              "mediaType": "image/png",
+              "pictures": [
+                {
+                  "actualSourceUs": 0,
+                  "assetId": "source",
+                  "clipId": "picture",
+                  "requestedSourceUs": 0,
+                  "sample": {
+                    "originUs": 0,
+                    "timescale": 10240,
+                    "value": "0"
+                  },
+                  "status": "available",
+                  "streamId": "track:1"
+                }
+              ],
+              "profile": "h264-rec709",
+              "readerOpens": 1,
+              "sourceHeight": 48,
+              "sourceWidth": 64,
+              "width": 64
+            }
+          },
+          "changed": 0,
+          "maximum": 0,
+          "interiors": 1867,
+          "interiorMaximum": 0
+        },
+        {
+          "name": "white-control",
+          "probe": {
+            "originUs": 0,
+            "streams": [
+              {
+                "codec": "avc1",
+                "colorPrimaries": "ITU_R_709_2",
+                "decodable": true,
+                "endUs": 1000000,
+                "height": 16,
+                "id": "track:1",
+                "kind": "video",
+                "orientedHeight": 16,
+                "orientedPixelBounds": {
+                  "height": 16,
+                  "width": 16,
+                  "x": 0,
+                  "y": 0
+                },
+                "orientedWidth": 16,
+                "samples": {
+                  "count": 10,
+                  "firstPtsUs": 0,
+                  "lastPtsUs": 900000,
+                  "maxDurationUs": 100000,
+                  "minDurationUs": 100000
+                },
+                "segments": [
+                  {
+                    "empty": false,
+                    "endUs": 1000000,
+                    "mediaDurationUs": 1000000,
+                    "mediaStartUs": 200000,
+                    "startUs": 0
+                  }
+                ],
+                "startUs": 0,
+                "transferFunction": "ITU_R_709_2",
+                "transform": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ],
+                "width": 16,
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ]
+          },
+          "receipts": {
+            "before": {
+              "bytes": 359,
+              "decodedSamples": 1,
+              "file": "/tmp/screenrec-geometry-root-display/white-control/before.png",
+              "frame": {
+                "index": 0,
+                "layers": [
+                  {
+                    "assetId": "source",
+                    "availability": "available",
+                    "clipId": "picture",
+                    "placement": "contain",
+                    "sourceUs": 0,
+                    "streamId": "track:1",
+                    "trackId": "v"
+                  }
+                ],
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "endUs": 1,
+                  "startUs": 0
+                }
+              },
+              "height": 48,
+              "mediaType": "image/png",
+              "picture": {
+                "actualSourceUs": 0,
+                "assetId": "source",
+                "clipId": "picture",
+                "requestedSourceUs": 0,
+                "sample": {
+                  "originUs": 0,
+                  "timescale": 1000,
+                  "value": "0"
+                },
+                "status": "available",
+                "streamId": "track:1"
+              },
+              "profile": "h264-rec709",
+              "readerOpens": 1,
+              "sourceHeight": 48,
+              "sourceWidth": 64,
+              "width": 64
+            },
+            "after": {
+              "bytes": 298,
+              "decodedSamples": 1,
+              "file": "/tmp/screenrec-geometry-root-display/white-control/after.png",
+              "frame": {
+                "index": 0,
+                "layers": [
+                  {
+                    "assetId": "source",
+                    "availability": "available",
+                    "clipId": "picture",
+                    "height": 16,
+                    "sourceUs": 0,
+                    "streamId": "track:1",
+                    "trackId": "v",
+                    "width": 16
+                  }
+                ],
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "endUs": 1,
+                  "startUs": 0
+                },
+                "visual": [
+                  {
+                    "inputs": [],
+                    "operations": [
+                      {
+                        "height": 15,
+                        "kind": "clamp",
+                        "width": 15,
+                        "x": 0.5,
+                        "y": 0.5
+                      },
+                      {
+                        "kind": "affine",
+                        "matrix": [
+                          3,
+                          0,
+                          0,
+                          3,
+                          0,
+                          0
+                        ]
+                      },
+                      {
+                        "kind": "affine",
+                        "matrix": [
+                          1,
+                          0,
+                          0,
+                          1,
+                          8,
+                          0
+                        ]
+                      },
+                      {
+                        "height": 48,
+                        "kind": "coverage",
+                        "points": [
+                          {
+                            "x": 8,
+                            "y": 0
+                          },
+                          {
+                            "x": 56,
+                            "y": 0
+                          },
+                          {
+                            "x": 56,
+                            "y": 48
+                          },
+                          {
+                            "x": 8,
+                            "y": 48
+                          }
+                        ],
+                        "width": 64
+                      }
+                    ],
+                    "target": {
+                      "id": "picture",
+                      "kind": "clip"
+                    }
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "id": "picture",
+                        "kind": "clip"
+                      }
+                    ],
+                    "operations": [],
+                    "target": {
+                      "id": "v",
+                      "kind": "track"
+                    }
+                  },
+                  {
+                    "inputs": [
+                      {
+                        "id": "v",
+                        "kind": "track"
+                      }
+                    ],
+                    "operations": [],
+                    "target": {
+                      "kind": "output"
+                    }
+                  }
+                ]
+              },
+              "height": 48,
+              "mediaType": "image/png",
+              "pictures": [
+                {
+                  "actualSourceUs": 0,
+                  "assetId": "source",
+                  "clipId": "picture",
+                  "requestedSourceUs": 0,
+                  "sample": {
+                    "originUs": 0,
+                    "timescale": 1000,
+                    "value": "0"
+                  },
+                  "status": "available",
+                  "streamId": "track:1"
+                }
+              ],
+              "profile": "h264-rec709",
+              "readerOpens": 1,
+              "sourceHeight": 48,
+              "sourceWidth": 64,
+              "width": 64
+            }
+          },
+          "changed": 284,
+          "maximum": 29,
+          "interiors": 2028,
+          "interiorMaximum": 0
+        }
+      ]
+    },
+    "frames": {
+      "report": "/tmp/screenrec-geometry-root-frames/report.json",
+      "sha256": "b1dd38736f06df28ef88835b15fc77fe0ca0e1101f57d38d4af429593e1964c9",
+      "result": {
+        "passed": true,
+        "checks": {
+          "unavailableAudioDoesNotBlockPictures": true,
+          "pictures": [
+            {
+              "atUs": 0,
+              "sampleAtUs": 0,
+              "expected": "A0",
+              "observed": {
+                "id": "A0",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A6",
+                  "differingPixels": 28
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/2218ae9e-6803-439f-9d32-b14e53c435a8.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 0,
+                  "sampleAtUs": 0,
+                  "visibleRange": {
+                    "startUs": 0,
+                    "endUs": 1
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 0,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3336,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 0,
+                    "actualSourceUs": 0,
+                    "sample": {
+                      "value": "0",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 0,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "2218ae9e-6803-439f-9d32-b14e53c435a8"
+              },
+              "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+              "cli": "00-cli.png",
+              "mcp": "01-mcp.png"
+            },
+            {
+              "atUs": 20,
+              "sampleAtUs": 0,
+              "expected": "A0",
+              "observed": {
+                "id": "A0",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A6",
+                  "differingPixels": 28
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/0cf8a00b-edb3-44de-9487-e0aec4879b66.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 0,
+                  "sampleAtUs": 0,
+                  "visibleRange": {
+                    "startUs": 20,
+                    "endUs": 21
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 0,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3336,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 0,
+                    "actualSourceUs": 0,
+                    "sample": {
+                      "value": "0",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 20,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "0cf8a00b-edb3-44de-9487-e0aec4879b66"
+              },
+              "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+              "cli": "02-cli.png",
+              "mcp": "03-mcp.png"
+            },
+            {
+              "atUs": 50001,
+              "sampleAtUs": 0,
+              "expected": "A0",
+              "observed": {
+                "id": "A0",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A6",
+                  "differingPixels": 28
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/aecf9bec-06a6-4118-b05d-df9958e57430.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 0,
+                  "sampleAtUs": 0,
+                  "visibleRange": {
+                    "startUs": 50001,
+                    "endUs": 50002
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 0,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3336,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 0,
+                    "actualSourceUs": 0,
+                    "sample": {
+                      "value": "0",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 50001,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "aecf9bec-06a6-4118-b05d-df9958e57430"
+              },
+              "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+              "cli": "04-cli.png",
+              "mcp": "05-mcp.png"
+            },
+            {
+              "atUs": 249999,
+              "sampleAtUs": 200000,
+              "expected": "A0",
+              "observed": {
+                "id": "A0",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A6",
+                  "differingPixels": 28
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/80a01000-8a23-4266-b241-e087152819ae.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 2,
+                  "sampleAtUs": 200000,
+                  "visibleRange": {
+                    "startUs": 249999,
+                    "endUs": 250000
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 200000,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3336,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 200000,
+                    "actualSourceUs": 0,
+                    "sample": {
+                      "value": "0",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 249999,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "80a01000-8a23-4266-b241-e087152819ae"
+              },
+              "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+              "cli": "06-cli.png",
+              "mcp": "07-mcp.png"
+            },
+            {
+              "atUs": 499999,
+              "sampleAtUs": 400000,
+              "expected": "A1",
+              "observed": {
+                "id": "A1",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A2",
+                  "differingPixels": 56
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/4ae10e1b-57a7-4b20-872b-21a06b5951c4.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 4,
+                  "sampleAtUs": 400000,
+                  "visibleRange": {
+                    "startUs": 499999,
+                    "endUs": 500000
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 400000,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3070,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 400000,
+                    "actualSourceUs": 250000,
+                    "sample": {
+                      "value": "4096",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 499999,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "4ae10e1b-57a7-4b20-872b-21a06b5951c4"
+              },
+              "sha256": "6911eca2667bb2daccc9e1e02547e473fe7a51b249630c0b118fff8de97cbcf0",
+              "cli": "08-cli.png",
+              "mcp": "09-mcp.png"
+            },
+            {
+              "atUs": 500001,
+              "sampleAtUs": 500000,
+              "expected": "B1",
+              "observed": {
+                "id": "B1",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "B2",
+                  "differingPixels": 56
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/dcd949b9-6172-40d3-9347-eeadf0090698.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 5,
+                  "sampleAtUs": 500000,
+                  "visibleRange": {
+                    "startUs": 500001,
+                    "endUs": 500002
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:4"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 95,
+                          "height": 127
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            32,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 32,
+                              "y": 0
+                            },
+                            {
+                              "x": 128,
+                              "y": 0
+                            },
+                            {
+                              "x": 128,
+                              "y": 128
+                            },
+                            {
+                              "x": 32,
+                              "y": 128
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:4"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:4",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+                      "streamId": "track:1",
+                      "sourceUs": 200000,
+                      "availability": "available",
+                      "width": 96,
+                      "height": 128
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 2993,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:4",
+                    "assetId": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 200000,
+                    "actualSourceUs": 200000,
+                    "sample": {
+                      "value": "2048",
+                      "timescale": 10240,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 500001,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "dcd949b9-6172-40d3-9347-eeadf0090698"
+              },
+              "sha256": "06beac3a4e501a5101306612ce720ad4c0743a9e264921e940e5ce9244eb21ac",
+              "cli": "10-cli.png",
+              "mcp": "11-mcp.png"
+            },
+            {
+              "atUs": 899999,
+              "sampleAtUs": 800000,
+              "expected": "B2",
+              "observed": {
+                "id": "B2",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "B3",
+                  "differingPixels": 32
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/8b35a2f9-371c-45f1-85dd-c8b554258255.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 8,
+                  "sampleAtUs": 800000,
+                  "visibleRange": {
+                    "startUs": 899999,
+                    "endUs": 900000
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:4"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 95,
+                          "height": 127
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            32,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 32,
+                              "y": 0
+                            },
+                            {
+                              "x": 128,
+                              "y": 0
+                            },
+                            {
+                              "x": 128,
+                              "y": 128
+                            },
+                            {
+                              "x": 32,
+                              "y": 128
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:4"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:4",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+                      "streamId": "track:1",
+                      "sourceUs": 500000,
+                      "availability": "available",
+                      "width": 96,
+                      "height": 128
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3241,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:4",
+                    "assetId": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 500000,
+                    "actualSourceUs": 400000,
+                    "sample": {
+                      "value": "4096",
+                      "timescale": 10240,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 899999,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "8b35a2f9-371c-45f1-85dd-c8b554258255"
+              },
+              "sha256": "d5c118c769816848938f04df1b071eb8fe725bd93d1f43915f2d0a666f68c161",
+              "cli": "12-cli.png",
+              "mcp": "13-mcp.png"
+            },
+            {
+              "atUs": 950000,
+              "sampleAtUs": 900000,
+              "expected": "black",
+              "observed": {
+                "id": "black",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A1",
+                  "differingPixels": 188
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/b1653972-b389-4822-9344-ba964c0ea200.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 9,
+                  "sampleAtUs": 900000,
+                  "visibleRange": {
+                    "startUs": 950000,
+                    "endUs": 950001
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [],
+                      "operations": []
+                    }
+                  ],
+                  "layers": []
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 0,
+                "readerOpens": 0,
+                "bytes": 724,
+                "pictures": [],
+                "atUs": 950000,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "b1653972-b389-4822-9344-ba964c0ea200"
+              },
+              "sha256": "0558bbbca614fd16513e6308978bfadd6a00643e8689eb227dd80749f82a4668",
+              "cli": "14-cli.png",
+              "mcp": "15-mcp.png"
+            },
+            {
+              "atUs": 1000000,
+              "sampleAtUs": 1000000,
+              "expected": "A0",
+              "observed": {
+                "id": "A0",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A6",
+                  "differingPixels": 28
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/5fc5d52f-ddef-4345-9ee9-8b6e69a27cfa.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 10,
+                  "sampleAtUs": 1000000,
+                  "visibleRange": {
+                    "startUs": 1000000,
+                    "endUs": 1000001
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:5"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:5"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:5",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 0,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3336,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:5",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 0,
+                    "actualSourceUs": 0,
+                    "sample": {
+                      "value": "0",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 1000000,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "5fc5d52f-ddef-4345-9ee9-8b6e69a27cfa"
+              },
+              "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+              "cli": "16-cli.png",
+              "mcp": "17-mcp.png"
+            },
+            {
+              "atUs": 1499999,
+              "sampleAtUs": 1400000,
+              "expected": "A1",
+              "observed": {
+                "id": "A1",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A2",
+                  "differingPixels": 56
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/822bc0ce-a706-4e1f-a218-67c4e1de3641.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 14,
+                  "sampleAtUs": 1400000,
+                  "visibleRange": {
+                    "startUs": 1499999,
+                    "endUs": 1500000
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:5"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:5"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:5",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 400000,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3070,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:5",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 400000,
+                    "actualSourceUs": 250000,
+                    "sample": {
+                      "value": "4096",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 1499999,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "822bc0ce-a706-4e1f-a218-67c4e1de3641"
+              },
+              "sha256": "6911eca2667bb2daccc9e1e02547e473fe7a51b249630c0b118fff8de97cbcf0",
+              "cli": "18-cli.png",
+              "mcp": "19-mcp.png"
+            },
+            {
+              "atUs": 1500001,
+              "sampleAtUs": 1500000,
+              "expected": "A3",
+              "observed": {
+                "id": "A3",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A5",
+                  "differingPixels": 28
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/4e22b8b1-0f4a-4e92-88bd-108e4d646fa1.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 15,
+                  "sampleAtUs": 1500000,
+                  "visibleRange": {
+                    "startUs": 1500001,
+                    "endUs": 1500002
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:6"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:6"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:6",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 750000,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3269,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:6",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 750000,
+                    "actualSourceUs": 750000,
+                    "sample": {
+                      "value": "12288",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 1500001,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "4e22b8b1-0f4a-4e92-88bd-108e4d646fa1"
+              },
+              "sha256": "8730d9bf5a9946ad3d44ee5f136fe169ec2a4e2ac5de86092a1073aca053c0c0",
+              "cli": "20-cli.png",
+              "mcp": "21-mcp.png"
+            },
+            {
+              "atUs": 1799999,
+              "sampleAtUs": 1700000,
+              "expected": "A3",
+              "observed": {
+                "id": "A3",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A5",
+                  "differingPixels": 28
+                }
+              },
+              "receipt": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/b7d8ad6d-3d58-44f5-bac8-98e262258da0.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 17,
+                  "sampleAtUs": 1700000,
+                  "visibleRange": {
+                    "startUs": 1799999,
+                    "endUs": 1800000
+                  },
+                  "visual": [
+                    {
+                      "target": {
+                        "kind": "clip",
+                        "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:6"
+                      },
+                      "inputs": [],
+                      "operations": [
+                        {
+                          "kind": "clamp",
+                          "x": 0.5,
+                          "y": 0.5,
+                          "width": 159,
+                          "height": 95
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0
+                          ]
+                        },
+                        {
+                          "kind": "affine",
+                          "matrix": [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            16
+                          ]
+                        },
+                        {
+                          "kind": "coverage",
+                          "points": [
+                            {
+                              "x": 0,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 16
+                            },
+                            {
+                              "x": 160,
+                              "y": 112
+                            },
+                            {
+                              "x": 0,
+                              "y": 112
+                            }
+                          ],
+                          "width": 160,
+                          "height": 128
+                        }
+                      ]
+                    },
+                    {
+                      "target": {
+                        "kind": "track",
+                        "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "clip",
+                          "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:6"
+                        }
+                      ],
+                      "operations": []
+                    },
+                    {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "inputs": [
+                        {
+                          "kind": "track",
+                          "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                        }
+                      ],
+                      "operations": []
+                    }
+                  ],
+                  "layers": [
+                    {
+                      "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:6",
+                      "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 750000,
+                      "availability": "available",
+                      "width": 160,
+                      "height": 96
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3269,
+                "pictures": [
+                  {
+                    "status": "available",
+                    "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:6",
+                    "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                    "streamId": "track:1",
+                    "requestedSourceUs": 750000,
+                    "actualSourceUs": 750000,
+                    "sample": {
+                      "value": "12288",
+                      "timescale": 16384,
+                      "originUs": 0
+                    }
+                  }
+                ],
+                "atUs": 1799999,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v2",
+                "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                "cacheId": "b7d8ad6d-3d58-44f5-bac8-98e262258da0"
+              },
+              "sha256": "8730d9bf5a9946ad3d44ee5f136fe169ec2a4e2ac5de86092a1073aca053c0c0",
+              "cli": "22-cli.png",
+              "mcp": "23-mcp.png"
+            }
+          ],
+          "batch": {
+            "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+            "items": [
+              {
+                "ok": true,
+                "data": {
+                  "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                  "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                  "atUs": 0,
+                  "maxLongEdge": 1600,
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "implementationId": "native-composition-picture-v2",
+                  "state": "ready",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "6c4cdc3c-3718-42af-a834-8399f985d6fe",
+                  "published": {
+                    "generation": 1,
+                    "frame": {
+                      "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/2218ae9e-6803-439f-9d32-b14e53c435a8.cache",
+                      "mediaType": "image/png",
+                      "profile": "h264-rec709",
+                      "frame": {
+                        "index": 0,
+                        "sampleAtUs": 0,
+                        "visibleRange": {
+                          "startUs": 0,
+                          "endUs": 1
+                        },
+                        "visual": [
+                          {
+                            "target": {
+                              "kind": "clip",
+                              "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                            },
+                            "inputs": [],
+                            "operations": [
+                              {
+                                "kind": "clamp",
+                                "x": 0.5,
+                                "y": 0.5,
+                                "width": 159,
+                                "height": 95
+                              },
+                              {
+                                "kind": "affine",
+                                "matrix": [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  0,
+                                  0
+                                ]
+                              },
+                              {
+                                "kind": "affine",
+                                "matrix": [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  0,
+                                  16
+                                ]
+                              },
+                              {
+                                "kind": "coverage",
+                                "points": [
+                                  {
+                                    "x": 0,
+                                    "y": 16
+                                  },
+                                  {
+                                    "x": 160,
+                                    "y": 16
+                                  },
+                                  {
+                                    "x": 160,
+                                    "y": 112
+                                  },
+                                  {
+                                    "x": 0,
+                                    "y": 112
+                                  }
+                                ],
+                                "width": 160,
+                                "height": 128
+                              }
+                            ]
+                          },
+                          {
+                            "target": {
+                              "kind": "track",
+                              "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                            },
+                            "inputs": [
+                              {
+                                "kind": "clip",
+                                "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                              }
+                            ],
+                            "operations": []
+                          },
+                          {
+                            "target": {
+                              "kind": "output"
+                            },
+                            "inputs": [
+                              {
+                                "kind": "track",
+                                "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                              }
+                            ],
+                            "operations": []
+                          }
+                        ],
+                        "layers": [
+                          {
+                            "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                            "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                            "streamId": "track:1",
+                            "sourceUs": 0,
+                            "availability": "available",
+                            "width": 160,
+                            "height": 96
+                          }
+                        ]
+                      },
+                      "width": 160,
+                      "height": 128,
+                      "sourceWidth": 160,
+                      "sourceHeight": 128,
+                      "decodedSamples": 1,
+                      "readerOpens": 1,
+                      "bytes": 3336,
+                      "pictures": [
+                        {
+                          "status": "available",
+                          "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                          "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                          "streamId": "track:1",
+                          "requestedSourceUs": 0,
+                          "actualSourceUs": 0,
+                          "sample": {
+                            "value": "0",
+                            "timescale": 16384,
+                            "originUs": 0
+                          }
+                        }
+                      ],
+                      "atUs": 0,
+                      "maxLongEdge": 1600,
+                      "tap": {
+                        "target": {
+                          "kind": "output"
+                        },
+                        "point": {
+                          "kind": "processed"
+                        }
+                      },
+                      "implementationId": "native-composition-picture-v2",
+                      "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                      "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                      "cacheId": "2218ae9e-6803-439f-9d32-b14e53c435a8"
+                    }
+                  },
+                  "delivery": {
+                    "token": "0ca22bca-47e8-4443-ba0f-e661bd6b506d",
+                    "bytes": 3336,
+                    "expiresAt": 1790605678811
+                  },
+                  "output": "/tmp/screenrec-geometry-root-frames/batch/01.png"
+                },
+                "atUs": 0
+              },
+              {
+                "ok": false,
+                "error": {
+                  "code": "INVALID_PARAMS",
+                  "message": "Rendering requires a nonempty range within the pinned project",
+                  "retryable": false,
+                  "details": {}
+                },
+                "atUs": 1800000
+              },
+              {
+                "ok": true,
+                "data": {
+                  "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                  "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                  "atUs": 0,
+                  "maxLongEdge": 1600,
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "implementationId": "native-composition-picture-v2",
+                  "state": "ready",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "6c4cdc3c-3718-42af-a834-8399f985d6fe",
+                  "published": {
+                    "generation": 1,
+                    "frame": {
+                      "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-JT8z3g/library/cache/derived/2218ae9e-6803-439f-9d32-b14e53c435a8.cache",
+                      "mediaType": "image/png",
+                      "profile": "h264-rec709",
+                      "frame": {
+                        "index": 0,
+                        "sampleAtUs": 0,
+                        "visibleRange": {
+                          "startUs": 0,
+                          "endUs": 1
+                        },
+                        "visual": [
+                          {
+                            "target": {
+                              "kind": "clip",
+                              "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                            },
+                            "inputs": [],
+                            "operations": [
+                              {
+                                "kind": "clamp",
+                                "x": 0.5,
+                                "y": 0.5,
+                                "width": 159,
+                                "height": 95
+                              },
+                              {
+                                "kind": "affine",
+                                "matrix": [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  0,
+                                  0
+                                ]
+                              },
+                              {
+                                "kind": "affine",
+                                "matrix": [
+                                  1,
+                                  0,
+                                  0,
+                                  1,
+                                  0,
+                                  16
+                                ]
+                              },
+                              {
+                                "kind": "coverage",
+                                "points": [
+                                  {
+                                    "x": 0,
+                                    "y": 16
+                                  },
+                                  {
+                                    "x": 160,
+                                    "y": 16
+                                  },
+                                  {
+                                    "x": 160,
+                                    "y": 112
+                                  },
+                                  {
+                                    "x": 0,
+                                    "y": 112
+                                  }
+                                ],
+                                "width": 160,
+                                "height": 128
+                              }
+                            ]
+                          },
+                          {
+                            "target": {
+                              "kind": "track",
+                              "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                            },
+                            "inputs": [
+                              {
+                                "kind": "clip",
+                                "id": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3"
+                              }
+                            ],
+                            "operations": []
+                          },
+                          {
+                            "target": {
+                              "kind": "output"
+                            },
+                            "inputs": [
+                              {
+                                "kind": "track",
+                                "id": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0"
+                              }
+                            ],
+                            "operations": []
+                          }
+                        ],
+                        "layers": [
+                          {
+                            "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                            "trackId": "track:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:0",
+                            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                            "streamId": "track:1",
+                            "sourceUs": 0,
+                            "availability": "available",
+                            "width": 160,
+                            "height": 96
+                          }
+                        ]
+                      },
+                      "width": 160,
+                      "height": 128,
+                      "sourceWidth": 160,
+                      "sourceHeight": 128,
+                      "decodedSamples": 1,
+                      "readerOpens": 1,
+                      "bytes": 3336,
+                      "pictures": [
+                        {
+                          "status": "available",
+                          "clipId": "clip:27fcf2e5231f5a7a01625bc0a875cf28ea4b899fc710d580e93a702bc6cbf2d3:3",
+                          "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                          "streamId": "track:1",
+                          "requestedSourceUs": 0,
+                          "actualSourceUs": 0,
+                          "sample": {
+                            "value": "0",
+                            "timescale": 16384,
+                            "originUs": 0
+                          }
+                        }
+                      ],
+                      "atUs": 0,
+                      "maxLongEdge": 1600,
+                      "tap": {
+                        "target": {
+                          "kind": "output"
+                        },
+                        "point": {
+                          "kind": "processed"
+                        }
+                      },
+                      "implementationId": "native-composition-picture-v2",
+                      "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e",
+                      "revisionId": "8636a53a-97bf-4189-bffa-5763566a3a67",
+                      "cacheId": "2218ae9e-6803-439f-9d32-b14e53c435a8"
+                    }
+                  },
+                  "delivery": {
+                    "token": "cdb01335-3995-4674-8b5d-c26a072d759d",
+                    "bytes": 3336,
+                    "expiresAt": 1790605678813
+                  },
+                  "output": "/tmp/screenrec-geometry-root-frames/batch/03.png"
+                },
+                "atUs": 0
+              }
+            ],
+            "projectId": "f866251e-e79e-4a33-a4eb-db9620f1ad5e"
+          },
+          "mcpBatch": true,
+          "history": {
+            "old": "8636a53a-97bf-4189-bffa-5763566a3a67",
+            "head": "467fd683-3a82-49d1-b03f-1e97a68df627",
+            "sameOldPng": true
+          },
+          "cancelRetry": true,
+          "originals": true,
+          "deletionPreservesSources": [
+            {
+              "expected": "A0",
+              "observed": {
+                "id": "A0",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "A6",
+                  "differingPixels": 28
+                }
+              },
+              "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f"
+            },
+            {
+              "expected": "B1",
+              "observed": {
+                "id": "B1",
+                "differingPixels": 0,
+                "runnerUp": {
+                  "id": "B2",
+                  "differingPixels": 56
+                }
+              },
+              "sha256": "06beac3a4e501a5101306612ce720ad4c0743a9e264921e940e5ce9244eb21ac"
+            }
+          ]
+        }
+      }
+    },
+    "source-index": {
+      "report": "/tmp/screenrec-geometry-root-source-index/report.json",
+      "sha256": "6daa232b6c0c318a7aaa72d58ddf79b89c188e863696eb7d911aa8a860b942a0",
+      "result": {
+        "passed": true,
+        "checks": {
+          "canceledSceneRetry": true,
+          "batchErrors": true,
+          "coverageFilterBinding": true,
+          "canceledFrameRetry": true,
+          "physicalShortIsland": {
+            "nativeRequests": [
+              [
+                0,
+                200000,
+                400000,
+                600000,
+                799999
+              ]
+            ],
+            "selectedRequests": [
+              50000,
+              99999,
+              600000,
+              799999
+            ]
+          },
+          "retainedAcquisition": {
+            "scope": "Synthetic capture journal around real native video",
+            "acquisitionId": "2d40de74-d020-4b68-bc91-4e5d806e60c0",
+            "donorRemoved": true
+          },
+          "projectHistoryAndDeletionIndependence": true,
+          "importedDonorRemoved": true,
+          "restart": true
+        }
+      }
+    }
+  },
+  "review": "Independent cache/catalog integration review found no actionable defects; four cut tests passed."
+}

@@ -11,7 +11,7 @@ import { renderWindowDeadlineMs, nativeResult, type MediaWorker } from "./worker
 /** Compiled pictures and PCM share the existing attempt and final movie publication boundary. */
 export function projectMovieRenderer(worker: MediaWorker, workspace: string): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v2",
+    implementationId: "native-composition-movie-v3",
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
       const { manifest } = request.window;
@@ -105,7 +105,7 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
 
 export function projectFrameRenderer(worker: MediaWorker, workspace: string): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v1",
+    implementationId: "native-composition-picture-v2",
     render: async ({ window, assets, output, maxLongEdge }, signal) =>
       withRenderedFile(
         worker,

@@ -33,12 +33,11 @@ Current pickup and priority:
    Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
-   integrated. The isolated compiler/native pass is not yet accepted: inactive clip
-   taps and aggregate allocation preflight are the current red contracts. Crop-edge
-   leakage and grouping-dependent rasterization now pass isolated gates.
-   Preserve independent pixel thresholds, actual orientation domains and old
-   identity rendering. Public presenter/stack-order journeys, pointer geometry
-   and the final-output profile remain gates.
+   integrated. [Compiler/native geometry](assets/15-layer-geometry/README.md) now
+   passes combined-worker admission, layer, source-orientation and existing public
+   picture/index preservation gates. Immutable probe state and pixel recipes have
+   new identities. Next bind public geometry/opacity and verify presenter/stack
+   journeys; pointer geometry and the final-output profile remain open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue

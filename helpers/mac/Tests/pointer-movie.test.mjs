@@ -59,7 +59,7 @@ function schedule(name, states, moviePlan = plan) {
     durationUs: moviePlan.at(-1).playback.endUs,
     spanCount: moviePlan.length,
     trailPolicy: "requested-time-trail-v1",
-    scenePolicy: "rgb-spatial-change-v2",
+    scenePolicy: "rgb-spatial-change-v3",
   };
   const bytes = Buffer.from([header, ...states].map((x) => JSON.stringify(x) + "\n").join(""));
   const file = join(dir, name + ".jsonl");

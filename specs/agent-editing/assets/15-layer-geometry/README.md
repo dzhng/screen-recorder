@@ -50,3 +50,11 @@ source-attached pointer adoption, image-asset execution and additional output
 profiles are not accepted by this evidence. The main integration must invalidate
 old immutable probe/catalog state and every affected source/project/scene pixel
 recipe; ordinary reads must not re-probe or reinterpret old metadata.
+
+[Combined-runtime confirmation](integrated.json) preserves compiler frame-boundary
+selection and source no-picture behavior after integration. Native layer/admission
+and display probes, full composition/core tests and existing public project-frame
+and source-index journeys pass. Catalog format and all affected pixel/scene recipe
+identities now invalidate earlier admitted geometry and rendered data; capture
+journal and audio recipes remain unchanged because this correction does not reach
+their execution paths. Public geometry activation and its journeys remain next.

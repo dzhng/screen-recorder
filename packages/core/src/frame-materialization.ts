@@ -10,7 +10,7 @@ import {
   type TimelineRevision,
 } from "./timeline.js";
 
-export const framePolicy = "frame-v3";
+export const framePolicy = "frame-v4";
 
 export type FrameCrop = { x: number; y: number; width: number; height: number };
 export type NativeFrame = {

@@ -1628,3 +1628,20 @@ preparation job or persistent reader lifetime. Slice 24 owns release-scale budge
   can still show their canvas. Processing windows will contribute their own timing
   boundaries when their composition owner exists, rather than inspection guessing
   anchor or interpolation rules.
+
+## Compiled geometry integration — 2026-09-28
+
+The [geometry decision record](assets/15-layer-geometry/choices.md) owns the
+sampling/coverage, fixed-canvas, orientation, full-layer receipt and alpha choices.
+These are adopted as sound with high confidence: compiler instructions define the
+picture, one native executor applies them, and independent pixel controls expose
+crop leakage and incorrect source borders. Its provisional allocation limits are
+sound with medium confidence; they reject multiplied source/surface work before
+allocation but do not establish measured memory or release-scale acceptance.
+
+When a previously imported source has old orientation metadata, silently probing
+it again would change immutable evidence underneath an edit. Reject old catalog
+format instead, as the user-approved no-migration contract allows, and change every
+affected image/scene recipe so cached old pictures cannot masquerade as corrected
+output. This integration choice is sound with high confidence; it leaves the
+unaffected capture-journal and audio identities alone.
