@@ -25,6 +25,12 @@ export type SceneEvidenceIdentity = {
   generation: string;
   policy: string;
 };
+/** Scene generations belong to an owner even when test/provider generation names coincide. */
+export function sceneGenerationResource(
+  identity: Pick<SceneEvidenceIdentity, "owner" | "generation">,
+): string {
+  return JSON.stringify([...ownerIdentity(identity.owner), identity.generation]);
+}
 export type SceneSource = { durationUs: number } & (
   | { kind: "recording" }
   | {

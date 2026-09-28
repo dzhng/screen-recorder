@@ -53,6 +53,27 @@ export function projectIndexPlan(
     ? composition.window({ tap: parsed.data.tap }, implementationId, "video").window.manifest
         .processing
     : compiler.tapPlan(parsed.data.tap, "video");
+  const selected = new Set(
+    processing.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
+  );
+  const bindings = new Map<string, SourceSelection>();
+  for (const value of model.clips) {
+    const clip = value.clip;
+    if (
+      !selected.has(clip.id) ||
+      !isMediaClip(clip) ||
+      clip.source.kind !== "range" ||
+      value.stream?.kind !== "video" ||
+      !value.available.length
+    )
+      continue;
+    const selection = {
+      assetId: clip.assetId,
+      streamId: clip.streamId,
+      ...(clip.acquisitionId === undefined ? {} : { acquisitionId: clip.acquisitionId }),
+    };
+    bindings.set(sourceSelectionKey(selection), selection);
+  }
   return {
     identity: {
       projectId: composition.projectId,
@@ -63,6 +84,7 @@ export function projectIndexPlan(
     model,
     compiler,
     processing,
+    sources: [...bindings.values()],
   };
 }
 function invalid(message: string): never {
@@ -122,27 +144,9 @@ export function projectIndexDomain(
       if (!identity.generation || identity.selectionPolicy !== projectIndexPolicy.id)
         invalid("Project index selection identity is unavailable");
       const { plan } = resolve(identity);
-      const selected = new Set(
-        plan.processing.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
+      const bindings = new Map(
+        plan.sources.map((selection) => [sourceSelectionKey(selection), selection]),
       );
-      const bindings = new Map<string, SourceSelection>();
-      for (const value of plan.model.clips) {
-        const clip = value.clip;
-        if (
-          !selected.has(clip.id) ||
-          !isMediaClip(clip) ||
-          clip.source.kind !== "range" ||
-          value.stream?.kind !== "video" ||
-          !value.available.length
-        )
-          continue;
-        const selection = {
-          assetId: clip.assetId,
-          streamId: clip.streamId,
-          ...(clip.acquisitionId === undefined ? {} : { acquisitionId: clip.acquisitionId }),
-        };
-        bindings.set(sourceSelectionKey(selection), selection);
-      }
       const seen = new Set<string>();
       for (const dependency of identity.scenes) {
         if (dependency.owner.kind !== "asset" || dependency.source.kind !== "asset")

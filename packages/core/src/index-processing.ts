@@ -1,9 +1,22 @@
+import type { ProjectStore } from "./projects.js";
+import type { ProjectFrameInput } from "./frame-inspection.js";
+import { projectComposition } from "./project-window.js";
+import {
+  projectIndexPlan,
+  type ProjectIndexIdentity,
+  type ProjectIndexRecords,
+} from "./project-index.js";
+import { materializeProjectIndex } from "./project-index-materialization.js";
 import { isDeepStrictEqual } from "node:util";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import type { DerivedCache } from "./cache.js";
 import type { MediaFrameInspection } from "./frame-inspection.js";
-import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
+import {
+  sceneGenerationResource,
+  type SceneEvidenceStore,
+  type SceneEvidenceMetadata,
+} from "./scene-evidence.js";
 import { type SourceSelection } from "./source-selection.js";
 import type { SourceIndexIdentity, SourceIndexRecords } from "./source-index.js";
 import { sourceIndexPolicy } from "./source-index-selection.js";
@@ -29,7 +42,11 @@ import { selectionEvidence } from "./selection-evidence.js";
 import { materializeFrame, framePolicy, type FrameDecoder } from "./frame-materialization.js";
 import { trailPolicy } from "./trails.js";
 import type { VisualSampler } from "./scenes.js";
-import type { ScreenshotIndexStore, ScreenshotIndexMetadata } from "./screenshot-index.js";
+import {
+  encodeIndexRecord,
+  type ScreenshotIndexStore,
+  type ScreenshotIndexMetadata,
+} from "./screenshot-index.js";
 
 const artifact = "screenshot-index";
 export type IndexReference = Pick<
@@ -48,17 +65,28 @@ type IndexInput = IndexEvidence & {
 };
 export type SourceIndexReference = SourceSelection & { generation: string };
 type SourceIndexInput = Omit<SourceIndexIdentity, "generation">;
+export type ProjectIndexReference = Pick<
+  ProjectIndexIdentity,
+  "projectId" | "revisionId" | "generation" | "tap" | "maxLongEdge"
+>;
+export type ProjectIndexInput = Omit<ProjectFrameInput, "atUs">;
+type ProjectIndexRecipe = Omit<ProjectIndexIdentity, "generation">;
+type MediaIndexOwners = {
+  catalog: Catalog;
+  assets: AssetStore;
+  acquisitions: AcquisitionStore;
+  scenes: SceneProcessing;
+  records: SceneEvidenceStore;
+  frames: MediaFrameInspection;
+  cache: DerivedCache;
+};
 export type IndexProcessingOptions = {
   jobs: JobQueue;
-  asset?: {
-    catalog: Catalog;
-    assets: AssetStore;
-    acquisitions: AcquisitionStore;
-    index: ScreenshotIndexStore<SourceIndexRecords>;
-    scenes: SceneProcessing;
-    records: SceneEvidenceStore;
-    frames: MediaFrameInspection;
-    cache: DerivedCache;
+  asset?: MediaIndexOwners & { index: ScreenshotIndexStore<SourceIndexRecords> };
+  project?: MediaIndexOwners & {
+    projects: ProjectStore;
+    index: ScreenshotIndexStore<ProjectIndexRecords>;
+    implementationId: string;
   };
   recording?: {
     store: RevisionStore;
@@ -76,9 +104,12 @@ export class IndexProcessing {
   private readonly jobs: JobQueue;
   constructor(private readonly options: IndexProcessingOptions) {
     this.jobs = options.jobs;
+    if (options.project)
+      options.project.catalog.catalog.exec(`CREATE INDEX IF NOT EXISTS project_index_publication
+        ON artifacts(targetKind,targetId,revisionId,artifact,json_extract(result,'$.generation'))
+        WHERE targetKind='project' AND artifact='screenshot-index'`);
     if (options.asset)
       options.asset.catalog.catalog.exec(`
-      CREATE INDEX IF NOT EXISTS source_index_scene_dependencies ON jobs(targetKind,targetId,artifact,json_extract(input,'$.scenes.generation'),state) WHERE targetKind='asset' AND artifact='screenshot-index';
       CREATE INDEX IF NOT EXISTS source_index_publication ON artifacts(targetKind,targetId,artifact,json_extract(result,'$.generation')) WHERE targetKind='asset' AND artifact='screenshot-index';
     `);
   }
@@ -92,6 +123,189 @@ export class IndexProcessing {
     if (!this.options.asset)
       throw new CatalogError("UNSUPPORTED_JOB", "Source indexes are unavailable");
     return this.options.asset;
+  }
+  private get project() {
+    if (!this.options.project)
+      throw new CatalogError("UNSUPPORTED_JOB", "Project indexes are unavailable");
+    return this.options.project;
+  }
+  private projectPlan(input: ProjectIndexInput) {
+    return projectIndexPlan(
+      projectComposition(this.project.projects, this.project.assets, input),
+      input,
+      this.project.implementationId,
+    );
+  }
+  requestProject(input: ProjectIndexInput) {
+    const plan = this.projectPlan(input);
+    const dependencies = plan.sources.map((selection) => ({
+      artifact: "source-scenes" as const,
+      ...this.project.scenes.publishedSource(selection),
+    }));
+    const waiting =
+      dependencies.find(
+        (value) => !value.published && ["failed", "unavailable"].includes(value.state),
+      ) ?? dependencies.find((value) => !value.published);
+    if (waiting)
+      return {
+        ...plan.identity,
+        state: waiting.state,
+        reason: waiting.reason,
+        retryable: waiting.retryable,
+        jobId: null,
+        published: null,
+        dependencies,
+      };
+    const recipe: ProjectIndexRecipe = {
+      ...plan.identity,
+      scenes: dependencies.map((value) => value.published!.evidence),
+    };
+    const identity = {
+      target: {
+        kind: "project" as const,
+        projectId: recipe.projectId,
+        revisionId: recipe.revisionId,
+      },
+      artifact,
+      input: encodeIndexRecord(recipe),
+    };
+    this.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
+      encodeIndexRecord({ ...recipe, generation: job.attemptId });
+      this.jobs.retainInputs(
+        job.jobId,
+        "scene-generation",
+        recipe.scenes.map(sceneGenerationResource),
+      );
+    });
+    const status = this.jobs.status(identity);
+    return {
+      ...plan.identity,
+      ...status,
+      dependencies: [],
+      published: status.published
+        ? {
+            generation: status.published.generation,
+            evidence: JSON.parse(
+              status.published.result,
+            ) as ScreenshotIndexMetadata<ProjectIndexRecords>,
+          }
+        : null,
+    };
+  }
+  retryProject(input: ProjectIndexInput) {
+    const status = this.requestProject(input);
+    if (status.jobId) this.jobs.retry(status.jobId);
+    else
+      for (const dependency of status.dependencies)
+        if (dependency.retryable && !["queued", "processing", "ready"].includes(dependency.state))
+          this.project.scenes.retrySource(dependency);
+    return this.requestProject(input);
+  }
+  publishedProject(reference: ProjectIndexReference) {
+    this.project.projects.get(reference.projectId);
+    const row = this.project.catalog.catalog
+      .prepare(`SELECT result FROM artifacts
+      WHERE targetKind='project' AND targetId=? AND revisionId=? AND artifact='screenshot-index'
+      AND json_extract(result,'$.generation')=? LIMIT 1`)
+      .get(reference.projectId, reference.revisionId, reference.generation) as
+      | { result: string }
+      | undefined;
+    if (!row)
+      throw new CatalogError("ARTIFACT_CHANGED", "Project screenshot index is not published");
+    const metadata = JSON.parse(row.result) as ScreenshotIndexMetadata<ProjectIndexRecords>;
+    if (!isDeepStrictEqual(this.projectReference(metadata), this.projectReference(reference)))
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Project screenshot index belongs to another selection",
+      );
+    return metadata;
+  }
+  private projectReference(input: ProjectIndexReference): ProjectIndexReference {
+    return {
+      projectId: input.projectId,
+      revisionId: input.revisionId,
+      generation: input.generation,
+      tap: input.tap,
+      maxLongEdge: input.maxLongEdge,
+    };
+  }
+  private projectRead(reference: ProjectIndexReference) {
+    const pinned = this.projectReference(reference);
+    return new RetainedIndexRead<ProjectIndexReference, ProjectIndexRecords>(
+      this.project.index,
+      this.publishedProject(pinned),
+      pinned,
+    );
+  }
+  getProject(
+    input: ProjectIndexInput & {
+      cursor?: IndexReadCursor<ProjectIndexReference> | undefined;
+      limit?: number;
+    },
+  ) {
+    if (
+      input.cursor &&
+      (input.cursor.projectId !== input.projectId ||
+        (input.revisionId !== undefined && input.cursor.revisionId !== input.revisionId) ||
+        (input.tap !== undefined && !isDeepStrictEqual(input.cursor.tap, input.tap)) ||
+        (input.maxLongEdge !== undefined && input.cursor.maxLongEdge !== input.maxLongEdge))
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Project index continuation belongs to another selection",
+      );
+    const status = input.cursor ? null : this.requestProject(input);
+    if (status && !status.published) return { ...status, page: null };
+    const metadata = input.cursor
+      ? this.publishedProject(input.cursor)
+      : status!.published!.evidence;
+    return this.projectRead(metadata).get({ cursor: input.cursor, limit: input.limit });
+  }
+  coverageProject(
+    input: ProjectIndexReference & {
+      candidateOrdinal?: number | undefined;
+      cursor?: IndexCoverageCursor<ProjectIndexReference> | undefined;
+      limit?: number | undefined;
+    },
+  ) {
+    return this.projectRead(input).coverage(input);
+  }
+  frameProject(input: ProjectIndexReference & { ordinal: number }) {
+    return this.projectRead(input).frame(input.ordinal);
+  }
+  openReadProject(input: ProjectIndexReference & { ordinal: number }) {
+    return this.projectRead(input).openRead(input.ordinal);
+  }
+  private async cleanupProject(projectId: string, signal: AbortSignal) {
+    const owner = { kind: "project" as const, projectId };
+    await this.project.index.reclaim(
+      owner,
+      ({ generation }) => this.jobs.retainsAttempt(owner, artifact, generation),
+      signal,
+    );
+  }
+  private async executeProject({ job, signal }: JobExecution) {
+    if (job.target.kind !== "project" || job.artifact !== artifact)
+      throw new CatalogError("UNSUPPORTED_JOB", "Project index requires a project job");
+    const input = JSON.parse(job.input) as ProjectIndexRecipe;
+    const plan = this.projectPlan(input);
+    const { scenes, ...identity } = input;
+    if (
+      job.target.projectId !== input.projectId ||
+      job.target.revisionId !== input.revisionId ||
+      !isDeepStrictEqual(identity, plan.identity)
+    )
+      throw new CatalogError("ARTIFACT_CHANGED", "Project index recipe changed");
+    await this.cleanupProject(input.projectId, signal);
+    return JSON.stringify(
+      await materializeProjectIndex(
+        { ...identity, scenes, generation: job.attemptId },
+        plan,
+        this.project,
+        job.generation > 1,
+        signal,
+      ),
+    );
   }
   private sourceRecipe(
     selection: SourceSelection,
@@ -123,9 +337,13 @@ export class IndexProcessing {
     const identity = {
       target: { kind: "asset" as const, assetId: input.assetId },
       artifact,
-      input: JSON.stringify(input),
+      input: encodeIndexRecord(input),
     };
     this.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
+      encodeIndexRecord({ ...input, generation: job.attemptId });
+      this.jobs.retainInputs(job.jobId, "scene-generation", [
+        sceneGenerationResource(input.scenes),
+      ]);
       const owner = { kind: "job" as const, id: job.jobId };
       this.asset.assets.retain(owner, [input.assetId]);
       if (input.acquisitionId) this.asset.acquisitions.retain(owner, [input.acquisitionId]);
@@ -228,11 +446,10 @@ export class IndexProcessing {
   }
   /** Scene evidence stays pinned for unfinished recipes, including explicit retry after failure. */
   retainsSourceScenes(assetId: string, generation: string) {
-    return !!this.asset.catalog.catalog
-      .prepare(
-        `SELECT 1 FROM jobs WHERE targetKind='asset' AND targetId=? AND artifact='screenshot-index' AND json_extract(input,'$.scenes.generation')=? AND (state IN ('waiting','queued','running','canceled') OR (state='failed' AND retryable=1)) LIMIT 1`,
-      )
-      .get(assetId, generation);
+    return this.jobs.retainsInput(
+      "scene-generation",
+      sceneGenerationResource({ owner: { kind: "asset", assetId }, generation }),
+    );
   }
   private async cleanupAsset(assetId: string, signal: AbortSignal) {
     const owner = { kind: "asset" as const, assetId };
@@ -438,6 +655,7 @@ export class IndexProcessing {
 
   async execute({ job, signal }: JobExecution): Promise<string> {
     if (job.target.kind === "asset") return this.executeSource({ job, signal });
+    if (job.target.kind === "project") return this.executeProject({ job, signal });
     if (job.target.kind !== "recording")
       throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
     const input = JSON.parse(job.input) as IndexInput;
@@ -549,6 +767,17 @@ export class IndexProcessing {
       await this.recording.store.forEachRecording(signal, ({ recordingId }) =>
         this.cleanupRecording(recordingId, signal),
       );
+    if (this.options.project) {
+      let afterSequence = 0;
+      for (;;) {
+        signal.throwIfAborted();
+        const page = this.project.projects.list({ afterSequence, limit: 100 });
+        for (const project of page.projects) await this.cleanupProject(project.projectId, signal);
+        if (!page.nextCursor) break;
+        afterSequence = page.nextCursor.afterSequence;
+        await setImmediate(undefined, { signal });
+      }
+    }
     if (this.options.asset) {
       let afterSequence = 0,
         failure: unknown;

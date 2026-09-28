@@ -2,6 +2,7 @@ import { test, expect, afterEach } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { ResourceReferences } from "./references.js";
 import { RevisionStore } from "./library.js";
 import { Catalog, CatalogError } from "./catalog.js";
 import {
@@ -2030,4 +2031,154 @@ test("acquisition jobs retain their domain across restart and retirement without
     expect.objectContaining({ code: "NOT_FOUND" }),
   );
   expect(next.queue.status(asset).published?.result).toBe("physical records");
+});
+
+test("preparation inputs survive canceled workers and explicit retry but retire with success", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const references = new ResourceReferences(store);
+  const request = {
+    target: { kind: "recording" as const, recordingId },
+    artifact: "screenshot-index",
+    lane: "heavy" as const,
+    input: "frozen-scenes",
+  };
+  const admit = (job: Job) => {
+    references.retain("asset", { kind: "job", id: job.jobId }, ["original"]);
+    queue.retainInputs(job.jobId, "scene-generation", ["scene-a", "scene-b"]);
+  };
+  const job = queue.submit(request, admit);
+  const first = await started(job.attemptId);
+  expect(queue.retainsInput("scene-generation", "scene-a")).toBe(true);
+  queue.cancel(job.jobId);
+  expect(queue.retainsInput("scene-generation", "scene-b")).toBe(true);
+  expect(() => queue.forgetJob(job.jobId)).toThrow("still active");
+  first.fail(new Error("canceled"));
+  await queue.idle();
+  expect(queue.retainsInput("scene-generation", "scene-a")).toBe(true);
+  const retry = queue.retry(job.jobId);
+  (await started(retry.attemptId)).finish("retained-pngs");
+  await queue.idle();
+  expect(queue.retainsInput("scene-generation", "scene-a")).toBe(false);
+  expect(references.owners("scene-generation", "scene-a")).toEqual([]);
+  expect(references.owners("asset", "original")).toEqual([{ kind: "job", id: job.jobId }]);
+  queue.submit(request, admit);
+  expect(references.owners("scene-generation", "scene-b")).toEqual([]);
+  queue.forgetJob(job.jobId);
+  expect(references.owners("asset", "original")).toEqual([]);
+});
+
+test("retryable failures and restart keep inputs while permanent failures release them", async () => {
+  const { store, queue, started, path } = fixture();
+  const recordingId = finished(store);
+  const refs = new ResourceReferences(store);
+  const job = queue.submit(
+    {
+      target: { kind: "recording", recordingId },
+      artifact: "index",
+      lane: "heavy",
+      input: "scenes",
+    },
+    (job) => queue.retainInputs(job.jobId, "scene-generation", ["frozen"]),
+  );
+  (await started(job.attemptId)).fail(new CatalogError("NOT_READY", "try later", {}, true));
+  await queue.idle();
+  expect(queue.retainsInput("scene-generation", "frozen")).toBe(true);
+  const retried = queue.retry(job.jobId);
+  const interrupted = await started(retried.attemptId);
+  const restarted = open(path, "restart-inputs");
+  expect(restarted.queue.retainsInput("scene-generation", "frozen")).toBe(true);
+  expect(restarted.queue.job(job.jobId)).toMatchObject({ state: "failed", retryable: true });
+  interrupted.fail(new Error("old worker closed"));
+  await queue.idle();
+  const last = restarted.queue.retry(job.jobId);
+  (await restarted.started(last.attemptId)).fail(new CatalogError("BAD_INPUT", "permanent"));
+  await restarted.queue.idle();
+  expect(restarted.queue.retainsInput("scene-generation", "frozen")).toBe(false);
+  expect(refs.owners("scene-generation", "frozen")).toEqual([]);
+});
+
+test("an older canceled worker pins inputs after a concurrent retry publishes", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const refs = new ResourceReferences(store);
+  const job = queue.submit(
+    {
+      target: { kind: "recording", recordingId },
+      artifact: "frame-index",
+      lane: "frame",
+      input: "scenes",
+    },
+    (job) => queue.retainInputs(job.jobId, "scene-generation", ["frozen"]),
+  );
+  const old = await started(job.attemptId);
+  queue.cancel(job.jobId);
+  const retry = queue.retry(job.jobId);
+  (await started(retry.attemptId)).finish("ready");
+  // The newer frame lane can complete while the older canceled executor still holds its input.
+  await new Promise<void>((resolve) => setTimeout(resolve, 0));
+  expect(queue.job(job.jobId).state).toBe("ready");
+  expect(queue.retainsInput("scene-generation", "frozen")).toBe(true);
+  old.finish("stale");
+  await queue.idle();
+  expect(queue.retainsInput("scene-generation", "frozen")).toBe(false);
+  expect(refs.owners("scene-generation", "frozen")).toEqual([]);
+});
+
+test("deleting a drained owner reclaims all ordinary and input reference pages", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const refs = new ResourceReferences(store);
+  const job = queue.submit(
+    {
+      target: { kind: "recording", recordingId },
+      artifact: "index",
+      lane: "heavy",
+      input: "scenes",
+    },
+    (job) => {
+      queue.retainInputs(
+        job.jobId,
+        "scene-generation",
+        Array.from({ length: 513 }, (_, i) => `s${i}`),
+      );
+      refs.retain("asset", { kind: "job", id: job.jobId }, ["original"]);
+    },
+  );
+  const active = await started(job.attemptId);
+  store.markDeleting(recordingId);
+  const draining = queue.drainOwner({ kind: "recording", recordingId });
+  expect(queue.retainsInput("scene-generation", "s512")).toBe(true);
+  await expect(queue.forgetOwner({ kind: "recording", recordingId })).rejects.toThrow("closing");
+  active.fail(new Error("canceled"));
+  await draining;
+  expect(queue.retainsInput("scene-generation", "s512")).toBe(false);
+  await queue.forgetOwner({ kind: "recording", recordingId });
+  expect(refs.owners("scene-generation", "s0")).toEqual([]);
+  expect(refs.owners("asset", "original")).toEqual([]);
+});
+
+test("settling one job cannot release a scene still pinned by another retryable job", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const refs = new ResourceReferences(store);
+  const submit = (input: string) =>
+    queue.submit(
+      { target: { kind: "recording", recordingId }, artifact: "index", lane: "frame", input },
+      (job) => queue.retainInputs(job.jobId, "scene-generation", ["shared"]),
+    );
+  const first = submit("first"),
+    second = submit("second");
+  (await started(second.attemptId)).fail(new CatalogError("TEMPORARY", "try later", {}, true));
+  (await started(first.attemptId)).finish("ready");
+  await queue.idle();
+  expect(refs.owners("scene-generation", "shared")).toEqual([
+    { kind: "job-input", id: second.jobId },
+  ]);
+  expect(queue.retainsInput("scene-generation", "shared")).toBe(true);
+  queue.forgetJob(first.jobId);
+  expect(queue.retainsInput("scene-generation", "shared")).toBe(true);
+  queue.forgetJob(second.jobId);
+  expect(queue.retainsInput("scene-generation", "shared")).toBe(false);
+  expect(refs.owners("scene-generation", "shared")).toEqual([]);
 });

@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 src/project-index-processing.test.ts -t "overloaded single-frame"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:67101) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-index-processing.test.ts (8 tests | 1 failed | 7 skipped) 448ms
+   × an overloaded single-frame reason row refuses before any project picture work 447ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-index-processing.test.ts > an overloaded single-frame reason row refuses before any project picture work
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/project-index-processing.test.ts:236:19
+    234|     retryable: false,
+    235|   });
+    236|   expect(f.calls).toBe(0);
+       |                   ^
+    237|   expect(
+    238|     f.catalog.catalog.prepare("SELECT 1 FROM jobs WHERE artifact='fram…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  08:38:09
+   Duration  824ms (tests 59%, transform 31%, import 10%)
+
+error: script "test" exited with code 1

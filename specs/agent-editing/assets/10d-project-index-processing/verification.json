@@ -1,0 +1,57 @@
+{
+  "date": "2026-09-28",
+  "scope": "Core project screenshot index materialization, retained readers, normalized job-input lifetime",
+  "catalogFormat": 12,
+  "verification": {
+    "core": {
+      "command": "bun run --cwd packages/core test",
+      "passed": 608,
+      "skipped": 1,
+      "files": 59,
+      "exitCode": 0
+    },
+    "composition": {
+      "command": "bun run --cwd packages/composition test",
+      "passed": 141,
+      "files": 12,
+      "exitCode": 0
+    },
+    "dependentTypes": {
+      "command": "bun x turbo check-types --filter=@screenrec/core --filter=@screenrec/service --filter=@screenrec/cli",
+      "tasks": 8,
+      "exitCode": 0
+    },
+    "finalProject": {
+      "passed": 8,
+      "exitCode": 0
+    },
+    "finalQueue": {
+      "passed": 57,
+      "exitCode": 0
+    },
+    "changedFileLintAndFormat": true,
+    "independentReview": {
+      "tool": "codex review --uncommitted",
+      "verdict": "No actionable regressions found",
+      "focusedTests": 104,
+      "exitCode": 0
+    }
+  },
+  "negativeControls": [
+    {
+      "mutation": "Remove candidate byte preflight",
+      "result": "Meaningful red: one renderer call instead of zero; restored and green"
+    },
+    {
+      "mutation": "Release preparation references without job-owner scoping",
+      "result": "Meaningful red: removed the other retryable job's shared scene reference; restored and green"
+    }
+  ],
+  "honestBoundaries": [
+    "Real catalogs/jobs/cache/scene/retained/files with synthetic native receipts and frozen PNGs; no native pixel or public index acceptance claimed.",
+    "Coordinator restart and interrupted-job durable reconciliation covered separately; no new process-kill native producer journey.",
+    "Public protocol/service/deletion integration and actual CLI/MCP/native journey are immediate root follow-up.",
+    "Two immutable composition contexts can coexist during a materialization (execution + retained validation), plus bounded candidates; slice24 scale measurements remain open.",
+    "Standalone source index preflight now pins identity and normalized scene input; existing source selection/materialization behavior is preserved."
+  ]
+}

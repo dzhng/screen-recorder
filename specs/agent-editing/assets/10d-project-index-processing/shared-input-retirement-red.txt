@@ -1,0 +1,42 @@
+$ vitest run --maxWorkers=4 src/jobs.test.ts -t "settling one job cannot release"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:67106) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/jobs.test.ts (57 tests | 1 failed | 56 skipped) 16ms
+   × settling one job cannot release a scene still pinned by another retryable job 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/jobs.test.ts > settling one job cannot release a scene still pinned by another retryable job
+AssertionError: expected [] to deeply equal [ { kind: 'job-input', id: 'run-5' } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "id": "run-5",
+-     "kind": "job-input",
+-   },
+- ]
++ []
+
+ ❯ src/jobs.test.ts:2175:53
+    2173|   (await started(first.attemptId)).finish("ready");
+    2174|   await queue.idle();
+    2175|   expect(refs.owners("scene-generation", "shared")).toEqual([
+       |                                                     ^
+    2176|     { kind: "job-input", id: second.jobId },
+    2177|   ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 56 skipped (57)
+   Start at  08:38:10
+   Duration  178ms (transform 59%, import 26%, tests 14%, worker 1%)
+
+error: script "test" exited with code 1

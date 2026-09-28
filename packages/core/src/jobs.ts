@@ -1,3 +1,4 @@
+import { ResourceReferences, type ResourceKind } from "./references.js";
 import { setImmediate } from "node:timers/promises";
 import { type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
@@ -289,6 +290,7 @@ function failure(error: unknown): Pick<
  */
 export class JobQueue {
   private readonly store: Catalog;
+  private readonly references: ResourceReferences;
   private readonly targets: JobTargets;
   private readonly execute: JobExecutor;
   private readonly newId: () => string;
@@ -320,6 +322,7 @@ export class JobQueue {
     onCapacity?: () => void;
   }) {
     this.store = options.store;
+    this.references = new ResourceReferences(this.store);
     this.targets = options.targets;
     this.execute = options.execute;
     this.newId = options.providers.newId;
@@ -759,6 +762,10 @@ export class JobQueue {
           "DELETE FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?",
         )
         .run(...targetValues(job.target), job.artifact, job.input);
+      for (const kind of ["job", "job-input"] as const)
+        while (this.references.releaseOwnerPage({ kind, id: jobId })) {
+          /* Atomic retirement. */
+        }
       this.store.catalog.prepare("DELETE FROM jobs WHERE jobId=?").run(jobId);
     });
   }
@@ -792,15 +799,25 @@ export class JobQueue {
         .get(...ownerIdentity(owner))
     )
       throw new CatalogError("PROCESSING_BUSY", "Target jobs have not finished closing", {}, true);
-    for (const table of ["artifacts", "jobs"]) {
-      for (;;) {
-        const removed = this.store.catalog
-          .prepare(`DELETE FROM ${table} WHERE rowid IN
-          (SELECT rowid FROM ${table} WHERE targetKind=? AND targetId=? LIMIT 256)`)
-          .run(...ownerIdentity(owner));
-        if (Number(removed.changes) === 0) break;
-        await setImmediate();
+    for (;;) {
+      const jobs = this.store.catalog
+        .prepare("SELECT jobId FROM jobs WHERE targetKind=? AND targetId=? LIMIT 256")
+        .all(...ownerIdentity(owner)) as { jobId: string }[];
+      if (!jobs.length) break;
+      for (const { jobId } of jobs) {
+        for (const kind of ["job", "job-input"] as const)
+          while (this.references.releaseOwnerPage({ kind, id: jobId })) await setImmediate();
+        this.store.catalog.prepare("DELETE FROM jobs WHERE jobId=?").run(jobId);
       }
+      await setImmediate();
+    }
+    for (;;) {
+      const removed = this.store.catalog
+        .prepare(`DELETE FROM artifacts WHERE rowid IN
+        (SELECT rowid FROM artifacts WHERE targetKind=? AND targetId=? LIMIT 256)`)
+        .run(...ownerIdentity(owner));
+      if (Number(removed.changes) === 0) break;
+      await setImmediate();
     }
   }
   /** Resolves once no attempt is in flight. Work still queued behind a lane or capture stays queued. */
@@ -853,6 +870,50 @@ export class JobQueue {
           .get(artifact),
       )
     );
+  }
+
+  /** Called within admission's transaction; published replays no longer need preparation inputs. */
+  retainInputs(jobId: string, kind: ResourceKind, ids: readonly string[]): void {
+    const job = this.job(jobId);
+    if (!["waiting", "queued", "running"].includes(job.state) && !job.retryable) return;
+    this.references.retain(kind, { kind: "job-input", id: jobId }, ids);
+  }
+
+  /** Normalized resource-first lookup, independent of recipe shape and scene count. */
+  retainsInput(kind: ResourceKind, id: string): boolean {
+    if (
+      this.store.catalog
+        .prepare(`SELECT 1 FROM resource_references AS ref
+      JOIN jobs ON jobs.jobId=ref.ownerId
+      WHERE ref.resourceKind=? AND ref.resourceId=? AND ref.ownerKind='job-input'
+      AND (jobs.state IN ('waiting','queued','running') OR jobs.retryable=1) LIMIT 1`)
+        .get(kind, id)
+    )
+      return true;
+    // A canceled worker may still read its inputs; concurrency caps this scan at three attempts.
+    for (const attempt of this.attempts.values())
+      if (
+        this.store.catalog
+          .prepare(`SELECT 1 FROM resource_references
+        WHERE resourceKind=? AND resourceId=? AND ownerKind='job-input' AND ownerId=?`)
+          .get(kind, id, attempt.jobId)
+      )
+        return true;
+    return false;
+  }
+
+  private releaseFinishedInputs(jobId: string, completedAttempt?: string): void {
+    if (
+      [...this.attempts.entries()].some(
+        ([id, attempt]) => attempt.jobId === jobId && id !== completedAttempt,
+      )
+    )
+      return;
+    this.store.catalog
+      .prepare(`DELETE FROM resource_references
+      WHERE ownerKind='job-input' AND ownerId=? AND EXISTS
+      (SELECT 1 FROM jobs WHERE jobId=? AND state NOT IN ('waiting','queued','running') AND retryable=0)`)
+      .run(jobId, jobId);
   }
 
   /**
@@ -941,7 +1002,7 @@ export class JobQueue {
         if (this.closed) break;
         if (this.job(row.jobId).state !== "waiting") continue;
         if (this.targets.isDeleting(targetFrom(row))) {
-          this.discard(row.jobId, `${row.targetKind}_unavailable`);
+          this.store.transaction(() => this.discard(row.jobId, `${row.targetKind}_unavailable`));
           continue;
         }
         try {
@@ -961,7 +1022,7 @@ export class JobQueue {
         } catch (error) {
           if (error instanceof CatalogError && error.code === "LIMIT_EXCEEDED") continue;
           if (this.job(row.jobId).state !== "waiting") continue;
-          this.fail(row.jobId, error);
+          this.store.transaction(() => this.fail(row.jobId, error));
         }
       }
     } finally {
@@ -1001,7 +1062,7 @@ export class JobQueue {
       );
   }
 
-  private fail(jobId: string, error: unknown): void {
+  private fail(jobId: string, error: unknown, completedAttempt?: string): void {
     const { state, reason, retryable, errorCode, errorDetails } = failure(error);
     this.store.catalog
       .prepare(
@@ -1015,6 +1076,7 @@ export class JobQueue {
         errorDetails === null ? null : JSON.stringify(errorDetails),
         jobId,
       );
+    this.releaseFinishedInputs(jobId, completedAttempt);
   }
 
   private discard(jobId: string, reason: string): void {
@@ -1023,6 +1085,7 @@ export class JobQueue {
         "UPDATE jobs SET state='canceled',reason=?,errorCode=NULL,errorDetails=NULL,retryable=? WHERE jobId=?",
       )
       .run(reason, reason === "canceled" ? 1 : 0, jobId);
+    this.releaseFinishedInputs(jobId);
   }
 
   /** Takes the oldest startable job in a lane, dropping work whose owner was discarded meanwhile. */
@@ -1121,6 +1184,7 @@ export class JobQueue {
       )
       .finally(() => {
         this.attempts.delete(job.attemptId);
+        if ("target" in owner) this.store.transaction(() => this.releaseFinishedInputs(job.jobId));
       });
     this.attempts.set(job.attemptId, {
       ...owner,
@@ -1170,7 +1234,7 @@ export class JobQueue {
             }
           }
         }
-        this.fail(job.jobId, error);
+        this.fail(job.jobId, error, job.attemptId);
         return;
       }
       this.store.catalog
@@ -1192,6 +1256,7 @@ export class JobQueue {
           "UPDATE jobs SET state='ready',reason=NULL,errorCode=NULL,errorDetails=NULL,retryable=0 WHERE jobId=?",
         )
         .run(job.jobId);
+      this.releaseFinishedInputs(job.jobId, job.attemptId);
     });
   }
 }

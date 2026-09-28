@@ -207,8 +207,8 @@ project.
 this policy with bounded work and cancellation. Candidate visibility is a timing
 plan, not proof that a PNG was delivered. [Retained project ownership](../assets/10d-project-index-domain/README.md)
 validates identity, PNG receipts, exact sampled coverage and store lifetime.
-Next connect preparation and frame materialization, retaining multi-source scene
-dependencies through indexed job references. Reclaim retained project indexes
+Preparation and frame materialization now retain multi-source scene dependencies
+through indexed job references. Reclaim retained project indexes
 through the existing deletion owner after work drains and delivery leases are
 revoked. Public routing and real CLI/MCP/native journeys follow those owners.
 Selection/reason budgets refuse explicitly rather than truncate; slice 24 owns
@@ -227,8 +227,8 @@ between periodic samples must get candidates before temporal processing is accep
 empty/audio-only projects, selected scene pins, frame identity, full sampled
 visibility, restart, reader fencing and reclamation. Their frozen PNGs and synthetic
 native receipts prove ownership, not visual/native or public index acceptance.
-The shared record encoder exposes the existing byte preflight for the future
-producer; invoking it before actual frame work remains a materialization gate.
+The shared record encoder supplies the producer byte preflight before actual
+frame work; public materialization acceptance remains a separate gate.
 
 Public picture receipts omit renderer-private visual instructions. Native
 publication still compares the complete compiled graph before projecting timing,
@@ -237,3 +237,15 @@ projection. The project-picture recipe advances for this artifact-shape change.
 [Actual CLI/MCP delivery and fresh reinspection](../assets/10d-project-index-domain/integrated.json)
 confirm the public receipt boundary with unchanged images. This does not close
 project-index queue or public producer acceptance.
+
+## Project materialization checkpoint
+
+[Project producer and lifetime checks](../assets/10d-project-index-processing/README.md)
+now exercise the shared heavy/frame queue, retained PNG copies, exact coverage,
+empty/background projects, byte preflight, cancellation/retry/restart and retained
+readers. Source and project scene dependencies use normalized job-input references;
+job retirement also releases ordinary asset/acquisition references. Catalog format
+12 refuses earlier development catalogs that lack those semantic input references.
+These are real-owner tests with controlled renderer receipts, not public/native
+acceptance. Public protocol/service/deletion integration and actual index journeys
+remain open; reuse existing retained-store reclamation after job/delivery drain.

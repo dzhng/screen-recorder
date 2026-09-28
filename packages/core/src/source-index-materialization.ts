@@ -1,4 +1,4 @@
-import { setTimeout } from "node:timers/promises";
+import { waitForIndexFrame, retainIndexFrame } from "./index-frame.js";
 import { CatalogError } from "./catalog.js";
 import type { DerivedCache } from "./cache.js";
 import type { MediaFrameInspection, SourceFrameArtifact } from "./frame-inspection.js";
@@ -6,7 +6,6 @@ import type { SceneEvidenceStore } from "./scene-evidence.js";
 import type { SourceSceneChunk } from "./source-scene-chunks.js";
 import { scenePolicy } from "./scenes.js";
 import { compareSceneSampleClocks } from "./source-scenes.js";
-import { copyRetainedFile } from "./files.js";
 import type { ScreenshotIndexStore } from "./screenshot-index.js";
 import type {
   SourceIndexIdentity,
@@ -108,18 +107,12 @@ export async function materializeSourceIndex(
       atUs: request.requestedSourceUs,
       maxLongEdge: identity.maxLongEdge,
     };
-    let status = frames.request(input);
-    if (
-      retryFrames &&
-      status.retryable &&
-      !["queued", "processing", "ready"].includes(status.state)
-    )
-      status = frames.retry(input);
-    while (status.state === "queued" || status.state === "processing") {
-      await setTimeout(10, undefined, { signal });
-      status = frames.request(input);
-    }
-    signal.throwIfAborted();
+    const status = await waitForIndexFrame(
+      () => frames.request(input),
+      () => frames.retry(input),
+      retryFrames,
+      signal,
+    );
     const dependency = { artifact: "frame", jobId: status.jobId, ...input };
     if (status.state === "unavailable") {
       try {
@@ -149,27 +142,24 @@ export async function materializeSourceIndex(
     const frame = status.published.frame;
     if (frame.implementationId !== identity.implementationId)
       throw new CatalogError("ARTIFACT_CHANGED", "Pinned picture renderer changed");
-    const lease = cache.acquire(frame.cacheId);
-    if (!lease)
-      throw new CatalogError("NOT_READY", "Picture was evicted before index retention", {}, true);
-    const file = index.outputPath(identity, ordinal);
-    try {
-      await copyRetainedFile(lease, file, signal);
-      signal.throwIfAborted();
-      const { cacheId: _cache, ...retained } = frame;
-      index.appendCandidate(
-        identity,
-        {
-          ordinal,
-          requestedSourceUs: request.requestedSourceUs,
-          support: request.support,
-          reasons: request.reasons,
-        },
-        { ...retained, file },
-      );
-    } finally {
-      lease.release();
-    }
+    await retainIndexFrame(
+      cache,
+      frame,
+      index.outputPath(identity, ordinal),
+      signal,
+      (retained) => {
+        index.appendCandidate(
+          identity,
+          {
+            ordinal,
+            requestedSourceUs: request.requestedSourceUs,
+            support: request.support,
+            reasons: request.reasons,
+          },
+          retained,
+        );
+      },
+    );
     return { request, ordinal: ordinal++, frame };
   }
   async function cover(value: Resolved | undefined, endUs: number) {

@@ -1,8 +1,8 @@
 import type { Catalog } from "./catalog.js";
 
-export type ResourceKind = "asset" | "acquisition";
+export type ResourceKind = "asset" | "acquisition" | "scene-generation";
 export type ResourceOwner = {
-  kind: "asset" | "acquisition" | "project" | "revision" | "job" | "export";
+  kind: "asset" | "acquisition" | "project" | "revision" | "job" | "job-input" | "export";
   id: string;
 };
 
@@ -29,6 +29,15 @@ export class ResourceReferences {
     this.store.catalog
       .prepare("DELETE FROM resource_references WHERE resourceKind=? AND ownerKind=? AND ownerId=?")
       .run(kind, owner.kind, owner.id);
+  }
+  /** Retirement walks the existing owner index in bounded pages. */
+  releaseOwnerPage(owner: ResourceOwner): number {
+    return Number(
+      this.store.catalog
+        .prepare(`DELETE FROM resource_references WHERE rowid IN
+      (SELECT rowid FROM resource_references WHERE ownerKind=? AND ownerId=? LIMIT 256)`)
+        .run(owner.kind, owner.id).changes,
+    );
   }
   owners(kind: ResourceKind, id: string): ResourceOwner[] {
     return this.store.catalog

@@ -1760,3 +1760,34 @@ existing lifetime owner.
   and rendering exist. The schema/compiler checkpoint did not originally name
   this cross-language metadata requirement. Existing raw request validation stays
   strict, and unrelated unknown fields remain errors.
+
+## Project index production and preparation inputs — 2026-09-28
+
+- **Sound, medium confidence — distinguish preparation inputs from durable job-owned media.**
+  An index needs its exact scene analysis to finish or retry, but after it copies
+  its PNGs it can release that analysis. An import job's result asset and a frame
+  job's source asset still need their existing lifetime. Add a preparation-input
+  owner to the existing resource references rather than releasing every job
+  reference at success or creating a separate scene table. The plan required
+  multisource retention but left retirement ownership open. The queue releases
+  preparation inputs with successful/permanent settlement; canceled older workers
+  keep them until they exit, and explicit retryable failures keep their recipe.
+  Forgetting a job releases both kinds. This becomes the shared lifetime for future
+  preparation dependencies, with bounded owner cleanup under deletion fences.
+- **Sound, medium confidence — refuse old unshipped catalogs when dependency meaning changes.**
+  An old source-index job can look ready to retry but has no normalized record of
+  which scene generation it needs. Keeping the old catalog would require a JSON
+  dependency fallback or a migration. Format 12 instead refuses it explicitly,
+  using the project's unshipped reset policy; it does not delete or modify an old
+  library. The plan did not say whether semantic reference changes require a
+  format change. This avoids two retention interpreters and means development
+  libraries must be recreated for this version.
+- **Sound, high confidence — a continuation reads the retained generation's pins.**
+  An agent can page an old storyboard after a new revision, renderer update or
+  scene cleanup. The cursor carries project, revision, generation, tap and picture
+  size; stored metadata supplies its renderer and scene identities. Explicit new
+  selectors must agree, while omitted optional selectors inherit the cursor.
+  Re-resolving current analysis would make valid retained PNGs unreadable. The plan
+  left cursor shape and optional-selector behavior open. This keeps continuations
+  compact and stable without embedding the potentially large scene list in every
+  reference, while deletion still prevents new reads.
