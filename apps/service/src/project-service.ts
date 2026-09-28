@@ -2,6 +2,11 @@ import { writeFile } from "node:fs/promises";
 import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
 import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
 import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
+import { SourceEvents } from "@screenrec/core/source-events";
+import { SourceSceneRead } from "@screenrec/core/scene-source-read";
+import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evidence";
+import { SceneProcessing } from "@screenrec/core/scene-processing";
+import type { SourceVisualObservations } from "@screenrec/core/source-scenes";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
 import { ProjectEvidenceInspection } from "@screenrec/core/project-evidence";
 import { SpeechModels } from "@screenrec/core/speech-models";
@@ -83,6 +88,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     );
     const projects = new ProjectStore(catalog, assets, acquisitions);
     const capture = new CaptureSourceRead(assets, acquisitions, evidence);
+    const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
     const worker = options.worker ?? mediaWorker();
     const models = new SpeechModels(library);
     const transcriptStore = new TranscriptStore(
@@ -134,6 +140,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
     let acoustics: AcousticInspection;
+    let scenes: SceneProcessing;
     const queue = new JobQueue({
       store: catalog,
       targets,
@@ -142,6 +149,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.target.kind === "asset" && job.artifact === "source-scenes")
+          return scenes.execute({ job, signal });
         if (
           (job.target.kind === "asset" || job.target.kind === "project") &&
           ["waveform", "spectrum", "acoustic-image"].includes(job.artifact)
@@ -255,6 +264,30 @@ export async function startProjectService(options: { home: string; worker?: Medi
           ),
       },
     });
+    scenes = new SceneProcessing({
+      jobs: queue,
+      evidence: sceneRecords,
+      asset: {
+        assets,
+        acquisitions,
+        implementationId: "native-source-scenes-v1",
+        sample: async (request, signal) =>
+          nativeResult(
+            await worker("media.sourceVisualSamples", request, { signal }),
+          ) as SourceVisualObservations,
+      },
+    });
+    const sourceEvents = new SourceEvents({
+      assets,
+      acquisitions,
+      capture,
+      scenes: new SourceSceneRead({
+        assets,
+        acquisitions,
+        processing: scenes,
+        records: sceneRecords,
+      }),
+    });
     projectEvidence = new ProjectEvidenceInspection({
       projects,
       assets,
@@ -262,7 +295,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       transcripts,
       records: transcriptStore,
-      capture,
+      events: sourceEvents,
     });
     preview = new ProjectPreviewInspection(
       projects,
@@ -311,6 +344,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     exports = mediaExports;
     queue.startAdmission((job) => mediaExports.admit(job));
     await transcripts.cleanup(modelLifetime.signal);
+    await scenes.cleanup(modelLifetime.signal);
     const projectDeletion = new ProjectDeletion(
       projects,
       queue,
@@ -408,7 +442,11 @@ export async function startProjectService(options: { home: string; worker?: Medi
             const method = operation.operation === "timeline.events" ? "events" : "cursor";
             if ("projectId" in params)
               return { ok: true, data: await projectEvidence[method](params) };
-            if ("assetId" in params) return { ok: true, data: capture[method](params) };
+            if ("assetId" in params)
+              return {
+                ok: true,
+                data: method === "events" ? sourceEvents.events(params) : capture.cursor(params),
+              };
             return operationError(
               "NOT_READY",
               "This service inspects asset and project capture evidence",

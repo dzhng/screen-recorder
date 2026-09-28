@@ -1443,6 +1443,10 @@ test("scene-only tied tracks preserve bounded empty-page progress and acquisitio
   const selected = { assetId: f.asset.id, streamId: "video", acquisitionId: context.id };
   f.sourceEvents.events(selected);
   await f.jobs.idle();
+  expect(f.sourceEvents.events(selected).available).toEqual([
+    { startUs: 0, endUs: 300000 },
+    { startUs: 600000, endUs: 1000000 },
+  ]);
   const coverage = f.sceneRead.coverage(f.sceneRead.resolve(selected), {
     startUs: 600000,
     endUs: 900000,
@@ -1480,5 +1484,7 @@ test("scene-only tied tracks preserve bounded empty-page progress and acquisitio
       JSON.stringify({ numerator: 3999998, denominator: 5 }),
     ]),
   );
-  expect(first.coverage!.occurrences![0]!.unavailable).toEqual([{ startUs: 300000, endUs: 600000 }]);
+  expect(first.coverage!.occurrences![0]!.unavailable).toEqual([
+    { startUs: 300000, endUs: 600000 },
+  ]);
 });

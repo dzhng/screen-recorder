@@ -22,8 +22,10 @@ recording/package preservation. [Selected-source sampling](assets/10d-source-sce
 and [capture-end projection](assets/10c-capture-interruption/README.md) are integrated
 mechanisms. [Retained scene indexes](assets/10d-source-scene-retention/README.md)
 and [queued preparation](assets/10d-source-scene-preparation/README.md) are integrated.
-Finish source/project scene reads, public preparation/events and screenshot selection;
-project-cut semantics still need a concrete definition. [Public interruption](assets/10c-public-interruption/README.md)
+[Public source/project scene events](assets/10d-public-scenes/README.md) now pass
+actual preparation, physical clocks, repeated/retimed occurrences and recovery.
+Finish retained screenshot selection/index delivery; project-cut semantics still
+need a concrete definition. [Public interruption](assets/10c-public-interruption/README.md)
 now passes actual CLI/MCP continuation and the combined-runtime journey.
 Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
 
@@ -54,7 +56,8 @@ Current public evidence:
 - [Capture journey](assets/10c-public-capture/README.md) uses actual acquisition
   normalization and complete cursor/pause/geometry row oracles; the interruption
   extension includes synthetic terminal journals and frozen-transcript preservation.
-  Scene/cut categories remain visible as unsupported until their paths land.
+  [Source/project scene events](assets/10d-public-scenes/README.md) are now verified;
+  project-cut events remain explicitly unsupported.
 - [Project pictures](assets/10d-public-project-frames/README.md) verify actual
   membership, history and owned-media survival after project deletion.
   [Source pictures](assets/10d-source-frame-public/README.md) verify selected

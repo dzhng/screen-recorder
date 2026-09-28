@@ -1,0 +1,49 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "scene-only tied tracks"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:90836) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (28 tests | 1 failed | 27 skipped) 54ms
+   × scene-only tied tracks preserve bounded empty-page progress and acquisition gaps 53ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > scene-only tied tracks preserve bounded empty-page progress and acquisition gaps
+AssertionError: expected [ { startUs: 600000, …(1) }, …(1) ] to deeply equal [ Array(2) ]
+
+- Expected
++ Received
+
+  [
+    {
+-     "endUs": 300000,
+-     "startUs": 0,
+-   },
+-   {
+      "endUs": 1000000,
+      "startUs": 600000,
++   },
++   {
++     "endUs": 300000,
++     "startUs": 0,
+    },
+  ]
+
+ ❯ src/project-evidence.test.ts:1446:53
+    1444|   f.sourceEvents.events(selected);
+    1445|   await f.jobs.idle();
+    1446|   expect(f.sourceEvents.events(selected).available).toEqual([
+       |                                                     ^
+    1447|     { startUs: 0, endUs: 300000 },
+    1448|     { startUs: 600000, endUs: 1000000 },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 27 skipped (28)
+   Start at  05:07:05
+   Duration  481ms (transform 66%, import 21%, tests 13%)
+
+error: script "test" exited with code 1

@@ -41,7 +41,9 @@ public journeys. [Project stills](assets/10d-public-project-frames/README.md)
 verify delivered picture membership and retained media after project deletion. [Waveform JSON](assets/11-waveform-public/README.md) now verifies actual
 raw and processed bucket measurements. [Capture interruptions](assets/10c-public-interruption/README.md) also pass actual
 public continuation and terminal-provenance checks. [Acoustic images/spectrograms](assets/11-public-acoustic-images/README.md) pass
-actual public delivery and numerical/pixel oracles. Scene/cut categories,
+actual public delivery and numerical/pixel oracles. [Source/project scenes](assets/10d-public-scenes/README.md)
+pass authored physical-clock, mixed-event ordering, repeated/retimed occurrence
+and cancellation/retry checks. Project-cut events, retained screenshot indexes,
 processors beyond constant gain and subjective
 listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.

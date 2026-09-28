@@ -115,7 +115,8 @@ actual public routing, independent phrase oracles and historical continuation.
 The [fresh-agent skill check](../assets/10c-project-skill/README.md) validates use
 without implementation instructions. Core capture events/cursor domains are next;
 [expanded live coverage](../assets/10c-public-bounds/README.md) now verifies acquired
-gaps, empty continuation and bounded late reads. Event/cursor domains remain open.
+gaps, empty continuation and bounded late reads. Event/cursor acceptance is
+recorded in the checkpoints below.
 
 ## Core capture checkpoint
 
@@ -123,16 +124,15 @@ gaps, empty continuation and bounded late reads. Event/cursor domains remain ope
 source/project clock separation, visual cursor/geometry applicability, pause
 occurrences, explicit unavailable categories and acquired-window coverage. Capture
 uses the shared query lifecycle and bounded heap with its own source traversal.
-Public event/cursor routing and journeys, plus unsupported scene/project-cut/
-interruption categories, remain required pickup work.
+Public event/cursor routing, scene and interruption journeys are verified below;
+project-cut events remain required pickup work.
 
 ## Public capture checkpoint
 
 [The actual CLI/MCP journey](../assets/10c-public-capture/README.md) verifies
 source and project clocks, repeats, rational retimes, coverage, complete rows,
-historical restart, checkpoint loss and bounded late reads. Scene/cut/interruption
-categories still report unsupported; completing their required semantics remains
-open. Earlier checkpoint notes describe their evidence boundary at that time.
+historical restart, checkpoint loss and bounded late reads. The interruption and
+scene checkpoints below extend this coverage; project-cut events remain open.
 
 ## Acquisition lifecycle prerequisite
 
@@ -140,16 +140,16 @@ open. Earlier checkpoint notes describe their evidence boundary at that time.
 adds bounded optional lifecycle/completion facts without changing normalized
 observations or recording/package readers. Only a valid finished payload supplies
 the capture/video endpoint; missing or damaged tails do not prove interruption.
-Source/project interruption rows and public delivery remain a separate pass.
+Source/project interruption rows and public delivery are verified below.
 
 ## Core interruption checkpoint
 
 [Capture-end inspection](../assets/10c-capture-interruption/README.md) preserves
 explicit completion authority, exact capture offsets, left-supported endpoints and
 existing occurrence ordering through bounded adjacent-head merging. Unknown,
-damaged or conflicting termination stays qualified as unavailable. Public
-source/project interruption routing and live delivery remain unverified here;
-ordinary frame/sample point semantics remain half-open.
+damaged or conflicting termination stays qualified as unavailable. The public
+checkpoint below verifies delivery; ordinary frame/sample point semantics remain
+half-open.
 
 ## Public interruption checkpoint
 
@@ -158,7 +158,7 @@ verifies retained journal qualifications, exact nonzero-origin capture endpoints
 short audio, adjacent occurrence ordering, page-one continuations and historical
 restart. The public schema now accepts the reader's interruption continuation head.
 Existing capture and frozen transcript journeys pass on matching shared runtime
-hashes. Source scene and project-cut semantics remain separate open work.
+hashes. Source scenes are verified below; project-cut semantics remain open.
 
 ## Public scene event checkpoint
 

@@ -165,10 +165,12 @@ export class SourceEvents {
       sourceRange: range,
       ...(input.cursor === undefined
         ? {
-            available: support(fromTime(range.startUs), fromTime(range.endUs)).map((r) => ({
-              startUs: Math.max(range.startUs, r.startUs),
-              endUs: Math.min(range.endUs, r.endUs),
-            })),
+            available: support(fromTime(range.startUs), fromTime(range.endUs))
+              .map((r) => ({
+                startUs: Math.max(range.startUs, r.startUs),
+                endUs: Math.min(range.endUs, r.endUs),
+              }))
+              .sort((a, b) => a.startUs - b.startUs),
           }
         : {}),
       page:

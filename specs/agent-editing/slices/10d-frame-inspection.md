@@ -89,15 +89,16 @@ Source clocks, sample support, acquisition exclusion and source-only references 
 verified; [public routing](../assets/10d-source-routing/README.md) and actual
 source delivery also pass. Raw still-image source
 requests remain explicitly unsupported under 10d/06, without inventing timed media.
-Scene/cut/interruption and retained index generalization remain required follow-up.
+Scene/interruption events are verified below; project-cut events and retained
+index generalization remain required follow-up.
 
 ## Retained scene-store prerequisite
 
 The [scene ownership checkpoint](../assets/10d-scene-ownership/README.md) separates
 asset/stream/context identity from actual recording/package views while retaining
-the canonical chunk and generation owners. Sampling, source scene preparation,
-retained screenshot selection/index generalization and projected scene events
-remain open; a completed store generation alone does not establish readiness.
+the canonical chunk and generation owners. Sampling, preparation and projected scene events are verified in the checkpoints
+below. Retained screenshot selection/index generalization remains open; a
+completed store generation alone does not establish index readiness.
 
 ## Selected-source public delivery checkpoint
 
@@ -121,4 +122,6 @@ separate presentation policy does not change recording nearest-sample evidence.
 now preserve this policy through paging and restart. [Source preparation jobs](../assets/10d-source-scene-preparation/README.md)
 use the shared queue and retain their selected dependencies. [Core scene event readers](../assets/10d-scene-event-readers/README.md)
 merge exact boundaries into repeated project occurrences and preserve source
-stillness/gap context. Public scene readiness and retained screenshot selection remain next.
+stillness/gap context. [Public scene journeys](../assets/10d-public-scenes/README.md)
+now verify actual preparation, source/project event reads and capture preservation.
+Retained screenshot selection and project-cut semantics remain next.

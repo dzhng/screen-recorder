@@ -1,0 +1,12 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "scene-only tied tracks"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:91062) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 27 skipped (28)
+   Start at  05:07:17
+   Duration  937ms (tests 53%, transform 35%, import 11%)
+

@@ -38,3 +38,6 @@ This verifies numeric event evidence and native scene preparation, not visual
 screenshot-index acceptance, physical capture, broad scene-detector quality or
 project-cut events. No installed app, capture session, speaker playback or model
 preparation was used.
+
+[Integrated root verification](../10d-scene-integration/README.md) retains the
+service wiring, ordering regression and actual combined-runtime reruns.
