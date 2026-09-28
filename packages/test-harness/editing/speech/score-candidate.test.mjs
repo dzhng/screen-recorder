@@ -16,7 +16,7 @@ test("candidate file seconds map to source marks; omitted and ambiguous edges ca
     ] });
     const score = (words) => {
       const candidate = save("candidate.json", { duration: 3, words });
-      const run = spawnSync(process.execPath, [new URL("score-verbatim.mjs", import.meta.url).pathname, candidate, marks, labels], { encoding: "utf8" });
+      const run = spawnSync(process.execPath, [new URL("score-candidate.mjs", import.meta.url).pathname, candidate, marks, labels], { encoding: "utf8" });
       assert.equal(run.status, 0, run.stderr);
       return JSON.parse(run.stdout);
     };

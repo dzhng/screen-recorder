@@ -1,6 +1,6 @@
 # 12 — Validate speech cleanup evidence
 
-Status: current local baseline reproduced with frozen partial labels; timing still fails at 135 ms median / 578.1 ms p95. The [matched verbatim alternative](../assets/12-verbatim/README.md) also fails (13/15 matched, subset median 20 ms / p95 352 ms); no engine selected. Full labels, independent joins and a separate alignment trial remain open. [Evidence](../assets/12-speech/README.md). Dependencies: [00](./00-corpus.md).
+Status: current local baseline reproduced with frozen partial labels; timing still fails at 135 ms median / 578.1 ms p95. The [matched verbatim alternative](../assets/12-verbatim/README.md) also fails (13/15 matched, subset median 20 ms / p95 352 ms); no engine selected. The [frozen-text alignment trial](../assets/12-alignment/README.md) also fails p95 (15/15 matched, median 35 ms / p95 556.5 ms). Full labels, independent joins and boundary diagnosis remain open. [Evidence](../assets/12-speech/README.md). Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

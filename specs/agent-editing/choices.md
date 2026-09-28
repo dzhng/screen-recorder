@@ -1426,3 +1426,19 @@ The native plotting operation receives bounded waveform or spectral measurements
   reproducible probes. This lets later work audit the experiment without silently
   making the model or its outputs part of operational app behavior. The plan
   required license evidence but did not specify artifact placement.
+
+## Frozen-text alignment research — 2026-09-28
+
+- **Sound, medium confidence — use full-recording MPS float32 before tuning context.**
+  The aligner accepts this complete recording within its documented five-minute
+  range. Feed the entire frozen transcript and audio once, using 32-bit numbers on
+  the Mac GPU, so chunk boundaries and reduced precision do not become extra
+  variables in the first comparison. The plan did not choose a device, precision
+  or chunk policy. This is an experimental starting point, not a product memory
+  policy; any later chunking or lower precision gets a separately named trial.
+- **Sound, high confidence — retain permissively licensed alignment output with its supplied-text identity.**
+  This model accepts our existing words and adds timing; its card declares
+  Apache-2.0. Keep the full timed output and the hash of supplied text so another
+  agent can rescore every edge without rerunning inference. The separate verbatim
+  candidate's research restrictions still apply to its own output. The plan left
+  evidence storage unspecified; neither output can serve as independent labels.

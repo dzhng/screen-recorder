@@ -1,0 +1,18 @@
+{
+  "model": "Qwen/Qwen3-ForcedAligner-0.6B-hf",
+  "modelRevision": "c07281df297b9905d24a508279258cccf987a064",
+  "baseline": "specs/agent-editing/assets/12-speech/transcript.json",
+  "audio": "/tmp/screenrec-speech-verbatim-input.wav",
+  "marksSha256": "23e893cae933ca9c9a0947b40cd09c26143c7de845cad57ecfe333e2582e96ad",
+  "medianMaxMs": 100,
+  "p95MaxMs": 250,
+  "requiredMatchedEdges": 15,
+  "independentMarkedEdges": 15,
+  "unmarkedEdges": 1,
+  "fullFillerInventory": "unknown",
+  "inferenceDeadlineSeconds": 900,
+  "repairAllowance": 1,
+  "dtype": "float32",
+  "device": "mps",
+  "promotion": "none; numerical experiment only"
+}

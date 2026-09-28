@@ -1,0 +1,15 @@
+{
+  "verdict": "fails unchanged p95 and memory targets; no adoption",
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "marksSha256": "23e893cae933ca9c9a0947b40cd09c26143c7de845cad57ecfe333e2582e96ad",
+  "labelsSha256": "d6b4188e7a461a36e937e3018fb4e707233a986561c4fe02636fe88416c61faf",
+  "resultSha256": "f6b116aae4dbd6fb308280415a6ec583283bf093bab536d8a2ebf1ee3c35ea80",
+  "modelRevision": "c07281df297b9905d24a508279258cccf987a064",
+  "license": "Apache-2.0 as declared in pinned official model card",
+  "scoreCommand": "node packages/test-harness/editing/speech/score-candidate.mjs specs/agent-editing/assets/12-alignment/result.json specs/recording-for-ai/assets/speech/boundaries/marks.json specs/agent-editing/assets/00-baseline/speech-labels.json",
+  "repairs": 0,
+  "timingScope": "model load and alignment only; excludes Python/import startup",
+  "process": "one new offline process on shared host",
+  "listening": "not performed",
+  "fillerDiscovery": "not measured; supplied text only"
+}

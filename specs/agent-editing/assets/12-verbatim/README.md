@@ -62,7 +62,7 @@ The first prepared attempt completed; no runtime repair or repeat was used.
 retain the quantitative record. Raw generated words remain at the path in the
 attempt record. No user capture or speaker playback occurred.
 
-The [scorer test](../../../../../packages/test-harness/editing/speech/score-verbatim.test.mjs)
+The [scorer test](../../../../../packages/test-harness/editing/speech/score-candidate.test.mjs)
 checks source-clock translation, unchanged unmarked edges, missing/ambiguous
 failures and deliberately shifted timing. Removing the source-origin translation
 produced the retained [red control](origin-red.txt); restoring it passed all four
@@ -77,7 +77,7 @@ uv pip install --python /tmp/screenrec-speech-verbatim-venv/bin/python 'crisperw
 hf download nyralabs/CrisperWhisper2.0_large --revision f4334f6e8193f2691212d49b20fa12d370e13896 --local-dir /tmp/screenrec-speech-verbatim-model
 ffmpeg -v error -i fixtures/narrated-workbench/narration.mov -map 0:a:0 -ar 16000 -ac 1 -c:a pcm_s16le -n /tmp/screenrec-speech-verbatim-input.wav
 /usr/bin/sandbox-exec -p '(version 1)(allow default)(deny network*)' /tmp/screenrec-speech-verbatim-venv/bin/python packages/test-harness/editing/speech/verbatim-probe.py --model /tmp/screenrec-speech-verbatim-model --audio /tmp/screenrec-speech-verbatim-input.wav --out /tmp/screenrec-speech-verbatim-run
-node packages/test-harness/editing/speech/score-verbatim.mjs /tmp/screenrec-speech-verbatim-run/result.json specs/recording-for-ai/assets/speech/boundaries/marks.json specs/agent-editing/assets/00-baseline/speech-labels.json
+node packages/test-harness/editing/speech/score-candidate.mjs /tmp/screenrec-speech-verbatim-run/result.json specs/recording-for-ai/assets/speech/boundaries/marks.json specs/agent-editing/assets/00-baseline/speech-labels.json
 ```
 
 Run with a fresh output path and enforce the fifteen-minute process deadline.
@@ -89,8 +89,7 @@ millisecond-scale failures.
 
 ## Next
 
-Do not promote this candidate. Test a permissively licensed local forced
-alignment model on the frozen baseline text next, retaining identical independent
-marks and reporting every unmatched edge. This isolates timing from verbatim
-word discovery. Alignment cannot recover words omitted by ASR; independent
-audible filler/protected-word inventory and join acceptance remain open.
+Do not promote this candidate. The separate [frozen-text alignment experiment](../12-alignment/README.md)
+now records the next numerical comparison and its still-failing p95 gate.
+Alignment cannot recover words omitted by ASR; independent audible filler and
+protected-word inventory and join acceptance remain open.
