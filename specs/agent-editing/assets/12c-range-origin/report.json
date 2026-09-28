@@ -1,0 +1,64 @@
+{
+  "planSha256": "a61d21b1e5ba62d85d3003671ea02a9596fa0948d4b6771bb3af9217f9db87a7",
+  "sourceSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+  "fullOutputSha256": "64323229c2b4d4b8412cff23972920e216c029a777c59e567ebf5e24a222d4c2",
+  "processorSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "requestFrames": [
+    144000,
+    192000
+  ],
+  "cases": [
+    {
+      "prehistoryFrames": 0,
+      "inputOriginFrame": 144000,
+      "inputSha256": "f556d4d0c2e3210d3e407830463705f40025e58aee6256bf1b3076c082a352bd",
+      "windowSha256": "f4cb01a3f5556c3710bf041c3ab7e3254e655cb999d407c3142a0583f4a6edcb",
+      "differentSamples": 48000,
+      "maximumAbsoluteDifference": 0.003553306683897972,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-api",
+        "/tmp/screenrec-denoise-range-origin/before-0-input.f32",
+        "/tmp/screenrec-denoise-range-origin/before-0-raw.f32",
+        "2"
+      ]
+    },
+    {
+      "prehistoryFrames": 48000,
+      "inputOriginFrame": 96000,
+      "inputSha256": "8d3fa2de0915a6a5d3b47a7a8e4d5c205dba30df73550c01206cdafd9c0831c5",
+      "windowSha256": "9d1ab7c8731c338747d54f8a64f9799fb87a87b9e768c81261588ce5951bcd35",
+      "differentSamples": 47999,
+      "maximumAbsoluteDifference": 0.0029092933982610703,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-api",
+        "/tmp/screenrec-denoise-range-origin/before-48000-input.f32",
+        "/tmp/screenrec-denoise-range-origin/before-48000-raw.f32",
+        "2"
+      ]
+    },
+    {
+      "prehistoryFrames": 144000,
+      "inputOriginFrame": 0,
+      "inputSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+      "windowSha256": "be469ac211f68da5cf72b573d25c00621cb4dd5a7eaac9dcaedc01b0eb6bfa97",
+      "differentSamples": 0,
+      "maximumAbsoluteDifference": 0.0,
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-api",
+        "/tmp/screenrec-denoise-range-origin/before-144000-input.f32",
+        "/tmp/screenrec-denoise-range-origin/before-144000-raw.f32",
+        "2"
+      ]
+    }
+  ],
+  "elapsedSeconds": 0.353990875009913
+}

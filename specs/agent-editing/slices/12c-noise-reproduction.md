@@ -85,3 +85,7 @@ these cohorts; mixed-speech error still cannot establish protected speech qualit
 [Channel-relation controls](../assets/12c-channel-relations/README.md) measure
 identical, inverted and half-level channels without adopting independent stereo
 processing. The small measured balance change is not an audible acceptance verdict.
+
+[Range-origin evidence](../assets/12c-range-origin/README.md) rejects the tested
+one-second warmup for exact range/full equality. Investigate retained prepared
+output or verified checkpoints; do not silently replay an unbounded prefix.

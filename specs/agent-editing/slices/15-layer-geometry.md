@@ -257,3 +257,11 @@ checks pass. Thin encoded colored-trail and legacy byte diagnostics remain open
 under slice06; source-reset/physical-gap evidence remains at the shared sampler
 checkpoint. Release-scale capacity and fresh product-skill pointer authoring stay
 separate gates. No whole-slice15 acceptance follows from public admission alone.
+
+## Remaining acceptance reconciliation
+
+[The current audit](../assets/15-acceptance-audit/README.md) identifies missing
+whole-chain pointer and processed lifecycle media coverage. The named static
+public journey remains green. Reconcile final nonopaque movie handling against
+the explicit H.264 output contract; do not add an implicit matte or assume a new
+codec is required. Final geometry review remains open.

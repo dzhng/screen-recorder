@@ -17,7 +17,9 @@ verified public operations only; the installed app has not switched engines.
 Current pickup and priority:
 
 1. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
-   skill use and remaining geometry acceptance. Static presenter/stack/edit behavior passes
+   skill use and [remaining delivered-media gaps](assets/15-acceptance-audit/README.md).
+   Whole-chain pointer transforms and replacement/undo coverage are next.
+   Static presenter/stack/edit behavior passes
    [public journeys](assets/15-layer-public/README.md),
    [fresh skill use](assets/15-layer-skill/README.md) and
    [moving-source conformance](assets/15-layer-edit-motion/README.md).
@@ -77,7 +79,9 @@ Compact evidence ledger:
   protected phonemes, joins and broader listening remain open.
   [Transient noise](assets/12c-transient-noise/README.md) and
   [channel relations](assets/12c-channel-relations/README.md) extend measured
-  coverage without selecting a stereo policy.
+  coverage without selecting a stereo policy. [Range-origin evidence](assets/12c-range-origin/README.md)
+  rejects a one-second warmup for exact previews; prepared outputs/checkpoints remain
+  the next state mechanism to verify.
 - [Stretch endpoint and guarded-join evidence](assets/13a-endpoint-verification/README.md)
   retains full-support measurements and real-speech auditions. Root integration
   reproduces all 32 renders and nine retained WAVs exactly. Listening, independent
