@@ -1,10 +1,19 @@
 import { afterEach, expect, it } from "vitest";
+import { spawn } from "node:child_process";
+import { once } from "node:events";
+import { stripTypeScriptTypes } from "node:module";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { chmod, mkdtemp, mkdir, readdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { MAX_MEDIA_TIMEOUT_MS, mediaWorker, type MediaWorker } from "./worker.js";
+import { MAX_MEDIA_TIMEOUT_MS, mediaWorker, nativeResult, type MediaWorker } from "./worker.js";
 import { CatalogError } from "@screenrec/core/catalog";
-import { clearRenderWorkspace, renderDeadlineMs, withRenderedMedia } from "./render.js";
+import {
+  clearRenderWorkspace,
+  renderDeadlineMs,
+  withRenderedAudio,
+  withRenderedMedia,
+} from "./render.js";
 
 const homes: string[] = [];
 afterEach(async () => {
@@ -45,7 +54,7 @@ let text=''; process.stdin.on('data',x=>text+=x); process.stdin.on('end',()=>{
 });`,
   );
   await chmod(executable, 0o755);
-  return { parent, run: mediaWorker({ SCREENREC_NATIVE: executable }) };
+  return { home, parent, executable, run: mediaWorker({ SCREENREC_NATIVE: executable }) };
 }
 async function ready(parent: string) {
   const end = Date.now() + 5000;
@@ -361,3 +370,141 @@ it("startup cancellation during cleanup settles after cleanup and releases autho
   expect(await readdir(parent)).toEqual([]);
   await clearRenderWorkspace(run, parent, new AbortController().signal);
 });
+
+it("audio attempts retain only their completed output and reject a substituted receipt path", async () => {
+  const { home, parent, run } = await fixture();
+  const output = join(home, "audio.cache");
+  const produce = async (file: string, worker: MediaWorker) =>
+    nativeResult(await worker("media.mixCompositionAudio", { source: "success", output: file }));
+  const signal = new AbortController().signal;
+  const receipt = await withRenderedAudio(run, { attemptParent: parent, output }, signal, produce);
+  expect(receipt).toMatchObject({ file: output, bytes: 8 });
+  expect(await readFile(output, "utf8")).toBe("finished");
+  expect(await readdir(parent)).toEqual([]);
+  // The cache reservation is exclusive even when an older file already occupies its path.
+  await expect(
+    withRenderedAudio(run, { attemptParent: parent, output }, signal, produce),
+  ).rejects.toMatchObject({ code: "EEXIST" });
+  expect(await readFile(output, "utf8")).toBe("finished");
+  expect(await readdir(parent)).toEqual([]);
+  const substituted = join(home, "unrelated.cache");
+  await expect(
+    withRenderedAudio(
+      run,
+      { attemptParent: parent, output: substituted },
+      signal,
+      async (file, worker) => {
+        await produce(file, worker);
+        return { file: output };
+      },
+    ),
+  ).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
+  await expect(readFile(substituted)).rejects.toMatchObject({ code: "ENOENT" });
+  expect(await readdir(parent)).toEqual([]);
+});
+
+it("audio abort reclaims native side staging after child close without publishing cache bytes", async () => {
+  const { home, parent, run } = await fixture();
+  const output = join(home, "audio.cache");
+  const controller = new AbortController();
+  const pending = withRenderedAudio(
+    run,
+    { attemptParent: parent, output },
+    controller.signal,
+    async (file, worker) =>
+      nativeResult(await worker("media.mixCompositionAudio", { source: "hold", output: file })),
+  );
+  const rejected = expect(pending).rejects.toMatchObject({ code: "CANCELED" });
+  const active = await ready(parent);
+  controller.abort();
+  await rejected;
+  expect(() => process.kill(active.pid, 0)).toThrowError(
+    expect.objectContaining({ code: "ESRCH" }),
+  );
+  expect(await readdir(parent)).toEqual([]);
+  await expect(readFile(output)).rejects.toMatchObject({ code: "ENOENT" });
+});
+
+it("audio owner SIGKILL preserves the orphan child's lock until restart can reclaim staging", async () => {
+  const { home, parent, executable, run } = await fixture();
+  // Launch freshly stripped source, not a possibly stale dist build, in a separate service owner.
+  for (const name of ["render", "worker"])
+    await writeFile(
+      join(home, `${name}.mjs`),
+      stripTypeScriptTypes(
+        await readFile(new URL(`./${name}.ts`, import.meta.url), "utf8"),
+      ).replace('"./worker.js"', '"./worker.mjs"'),
+    );
+  await symlink(
+    fileURLToPath(new URL("../node_modules", import.meta.url)),
+    join(home, "node_modules"),
+  );
+  const output = join(home, "audio.cache");
+  const code = `
+    import {withRenderedAudio} from ${JSON.stringify(pathToFileURL(join(home, "render.mjs")).href)};
+    import {mediaWorker,nativeResult} from ${JSON.stringify(pathToFileURL(join(home, "worker.mjs")).href)};
+    await withRenderedAudio(mediaWorker({SCREENREC_NATIVE:${JSON.stringify(executable)}}),
+      {attemptParent:${JSON.stringify(parent)},output:${JSON.stringify(output)}},
+      new AbortController().signal,async(output,worker)=>nativeResult(await worker('media.mixCompositionAudio',{source:'hold',output})));
+  `;
+  const owner = spawn(process.execPath, ["--input-type=module", "-e", code], {
+    stdio: ["ignore", "ignore", "pipe"],
+  });
+  let errors = "";
+  owner.stderr.on("data", (bytes) => {
+    errors += bytes.toString();
+  });
+  const closed = once(owner, "close");
+  let nativePid: number | undefined;
+  const killNative = async () => {
+    if (!nativePid) return;
+    try {
+      process.kill(nativePid, "SIGKILL");
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ESRCH") throw error;
+    }
+    await expect
+      .poll(
+        () => {
+          try {
+            process.kill(nativePid!, 0);
+            return false;
+          } catch (error) {
+            if ((error as NodeJS.ErrnoException).code === "ESRCH") return true;
+            throw error;
+          }
+        },
+        { timeout: 5000 },
+      )
+      .toBe(true);
+    nativePid = undefined;
+  };
+  try {
+    const active = await ready(parent).catch((error) => {
+      throw new Error(`${error.message}: ${errors}`);
+    });
+    nativePid = active.pid;
+    owner.kill("SIGKILL");
+    const [code, signal] = await closed;
+    expect(code).toBeNull();
+    expect(signal).toBe("SIGKILL");
+    expect(() => process.kill(nativePid!, 0)).not.toThrow();
+    const staged = await readdir(parent);
+    expect(staged).toHaveLength(1);
+    await expect(
+      clearRenderWorkspace(run, parent, new AbortController().signal),
+    ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY", retryable: true });
+    expect(await readdir(parent)).toEqual(staged);
+    expect(await readFile(join(active.dir, ".movie-render-held", "partial"), "utf8")).toBe(
+      "partial",
+    );
+    await killNative();
+    await clearRenderWorkspace(run, parent, new AbortController().signal);
+    expect(await readdir(parent)).toEqual([]);
+    await expect(readFile(output)).rejects.toMatchObject({ code: "ENOENT" });
+  } finally {
+    owner.kill("SIGKILL");
+    await closed;
+    await killNative();
+  }
+}, 15000);

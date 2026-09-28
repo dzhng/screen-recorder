@@ -242,6 +242,37 @@ export async function withRenderedMedia<T>(
   );
 }
 
+/** Native encoders may stage beside their output. Keep that entire lifetime under
+ * the render workspace lock; only completed bytes enter the disposable cache. */
+export async function withRenderedAudio(
+  worker: MediaWorker,
+  request: { attemptParent: string; output: string },
+  signal: AbortSignal,
+  produce: (output: string, worker: MediaWorker) => Promise<unknown>,
+): Promise<unknown> {
+  await mkdir(request.attemptParent, { recursive: true, mode: 0o700 });
+  return withRenderAttempt(
+    worker,
+    request.attemptParent,
+    signal,
+    async (directory, boundWorker) => {
+      const file = join(directory, "audio.wav");
+      const receipt = await produce(file, boundWorker);
+      if (!receipt || typeof receipt !== "object" || !("file" in receipt) || receipt.file !== file)
+        throw new CatalogError("INVALID_RESPONSE", "Audio receipt changed the render attempt path");
+      return { ...receipt, file };
+    },
+    async (audio) => {
+      await copyFile(
+        audio.file,
+        request.output,
+        constants.COPYFILE_EXCL | constants.COPYFILE_FICLONE,
+      );
+      return { ...audio, file: request.output };
+    },
+  );
+}
+
 /** The render action owns media semantics; this owner fences late results and
  * retains the workspace lock until the consumer and native children finish.
  * Actions must await all preparation/render calls before returning. */
