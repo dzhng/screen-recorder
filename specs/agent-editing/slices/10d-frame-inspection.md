@@ -268,3 +268,14 @@ sample; the base-only 2.20-second sample remains displayed through 2.30 seconds.
 This distinguishes authored intent from sampled output without another clock.
 The project-picture recipe advances to v4 because cached metadata changed; native
 pixels, source-picture identity and movie windows are unchanged.
+
+## Timeless still-image native prerequisite
+
+[Native image evidence](../assets/10d-still-image-native/README.md) pins a shared
+PNG/JPEG metadata, orientation and bounded-decode owner. Image delivery carries
+identity, oriented dimensions and alpha without a fabricated sample clock. Import
+and raw rendering refuse incomplete images and animation consistently; the
+existing timed video frame path is preserved. This is internal preparation only:
+public source and project still rendering must consume this owner, preserve image
+identity through cache/delivery, and pass actual CLI/MCP/native journeys before
+advertising support. Fresh visual acceptance remains pending.

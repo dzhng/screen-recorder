@@ -44,6 +44,7 @@ public enum NativeWire {
             "media.mixCompositionAudio": media { try json(await CompositionAudioOperation.execute($0)) },
             "media.sourceVisualSamples": media { try json(await SourceVisualSamplesOperation.execute($0)) },
             "media.acousticImage": media { try json(AcousticImageOperation.execute($0)) },
+            "media.sourceImage": media { try json(SourceImageOperation.execute($0)) },
             "media.sourceFrame": media { try json(await SourceFrameOperation.execute($0)) },
             "media.sourceAudio": media { try json(await SourceAudioOperation.execute($0)) },
             "media.audio": media { try json(await AudioOperation.execute($0)) },

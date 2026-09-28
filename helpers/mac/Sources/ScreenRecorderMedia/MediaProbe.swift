@@ -1,7 +1,5 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ImageIO
-import UniformTypeIdentifiers
 
 public struct ProbedMedia: Encodable, Sendable {
     public let originUs: Int64
@@ -52,25 +50,15 @@ public struct ProbedSamples: Encodable, Sendable {
 /// Metadata describes the admitted bytes. It never normalizes or rewrites them.
 public enum MediaProbe {
     public static func inspect(url: URL) async throws -> ProbedMedia {
-        if let image = CGImageSourceCreateWithURL(url as CFURL, nil),
-            let type = CGImageSourceGetType(image),
-            [UTType.png.identifier, UTType.jpeg.identifier].contains(type as String)
-        {
-            guard CGImageSourceGetCount(image) == 1,
-                let pixels = CGImageSourceCreateImageAtIndex(image, 0, nil)
-            else { throw NativeFailure("UNSUPPORTED_MEDIA", "Expected one decodable still image.") }
-            let properties = CGImageSourceCopyPropertiesAtIndex(image, 0, nil) as? [CFString: Any]
-            let orientation = (properties?[kCGImagePropertyOrientation] as? NSNumber)?.intValue ?? 1
-            let swapped = (5...8).contains(orientation)
+        if let image = try StillImageSource.open(url) {
             var stream = ProbedStream(
-                id: "image:0", kind: "image", codec: type as String, decodable: true)
-            stream.width = pixels.width
-            stream.height = pixels.height
-            stream.orientedWidth = Double(swapped ? pixels.height : pixels.width)
-            stream.orientedHeight = Double(swapped ? pixels.width : pixels.height)
-            stream.orientation = orientation
-            stream.hasAlpha = [.first, .last, .premultipliedFirst, .premultipliedLast].contains(
-                pixels.alphaInfo)
+                id: "image:0", kind: "image", codec: image.codec, decodable: true)
+            stream.width = image.width
+            stream.height = image.height
+            stream.orientedWidth = Double(image.orientedWidth)
+            stream.orientedHeight = Double(image.orientedHeight)
+            stream.orientation = image.orientation
+            stream.hasAlpha = image.hasAlpha
             return ProbedMedia(originUs: 0, streams: [stream])
         }
         let input = try MediaInput(url: url)

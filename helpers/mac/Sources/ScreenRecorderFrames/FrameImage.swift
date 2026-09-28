@@ -66,12 +66,18 @@ struct FrameImage {
             oriented = oriented.cropped(to: visible).transformed(
                 by: CGAffineTransform(translationX: -visible.origin.x, y: -visible.origin.y))
         }
+        self.init(oriented: oriented, maxLongEdge: maxLongEdge, evenDimensions: evenDimensions)
+    }
+
+    /// Timeless ImageIO sources and video samples share delivery sizing and lossless PNG publication.
+    init(oriented: CIImage, maxLongEdge: Int, evenDimensions: Bool = false) {
+        let visible = oriented.extent
         let delivered = FrameImage.delivered(
-            width: sourceWidth, height: sourceHeight, maxLongEdge: maxLongEdge,
-            even: evenDimensions)
+            width: Int(visible.width.rounded()), height: Int(visible.height.rounded()),
+            maxLongEdge: maxLongEdge, even: evenDimensions)
         width = delivered.width
         height = delivered.height
-        if width != sourceWidth || height != sourceHeight {
+        if width != Int(visible.width.rounded()) || height != Int(visible.height.rounded()) {
             image = oriented.transformed(
                 by: CGAffineTransform(
                     scaleX: CGFloat(width) / visible.width, y: CGFloat(height) / visible.height))

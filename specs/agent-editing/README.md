@@ -81,7 +81,7 @@ Compact evidence ledger:
   [source pictures](assets/10d-source-frame-public/README.md) and
   [typed no-picture delivery](assets/10d-source-empty-observation/README.md) pass
   their named gates. Custom public exclusion masks and raw still-image admission
-  remain open. No new layer capability is verified by those picture checks.
+  remain open. [Native still preparation](assets/10d-still-image-native/README.md) passes behavior checks; fresh visual acceptance and public source/project integration are pending. No new layer capability is verified by those picture checks.
 - [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
   project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),
   [acoustic images/lifecycle](assets/11-acoustic-lifecycle/README.md) and

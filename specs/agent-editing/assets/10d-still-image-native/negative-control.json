@@ -1,0 +1,11 @@
+{
+  "mutation": "Replace pixels <= maximumPixels with pixels <= maximumDecodedPixels, ignoring lower caller budget.",
+  "expected": "Refuse maxDecodedPixels:1 without publication.",
+  "actual": "Native operation returned ok:true and published the image; refusal assertion failed.",
+  "exitCode": 1,
+  "error": {
+    "message": "Expected values to be strictly equal:\n\ntrue !== false\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\ntrue !== false\n\n    at refused (file:///private/tmp/screenrec-project-evidence-paging/packages/test-harness/editing/still-image-native.mjs:27:10)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///private/tmp/screenrec-project-evidence-paging/packages/test-harness/editing/still-image-native.mjs:108:3"
+  },
+  "restoredFinalReport": "report.json"
+}

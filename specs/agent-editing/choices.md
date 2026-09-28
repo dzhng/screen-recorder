@@ -1846,3 +1846,28 @@ existing lifetime owner.
   but left the counters unspecified. Future preparation can refuse excessive work
   explicitly instead of silently truncating overlays; resource thresholds remain
   provisional until the scale slice measures them.
+
+## Timeless still-image preparation — 2026-09-28
+
+- **Sound, medium confidence — bound decoded pixels before asking ImageIO for pixels.**
+  A small compressed image can expand into a large memory allocation. Both import
+  and picture delivery now reject images above a shared 8192×8192 pixel-count
+  ceiling before decoding; a caller can request a smaller budget. This is a
+  provisional bound at the existing compositor's source-work magnitude, not a
+  measured release-scale memory guarantee. The plan required bounded work but
+  left image admission limits open. The one-pixel negative control proves the
+  budget affects execution; release measurement may lower this single owner.
+- **Sound, high confidence — share image admission and rendering, including refusal.**
+  A partially downloaded JPEG may let ImageIO return plausible partial pixels.
+  Importing that file and later treating it as complete would make the same asset
+  mean different things. Both paths now require one fully decoded PNG/JPEG frame,
+  valid dimensions and orientation; animation and incomplete data are refused.
+  The plan did not define recoverable truncation. This preserves original bytes
+  and makes admission match the pixels future project rendering can consume.
+- **Sound, high confidence — image receipts have no pretend video clock.**
+  Inspecting a photograph should return its identity, orientation, alpha and
+  dimensions. It should not invent a sample at time zero or a duration merely to
+  fit a video response. The native receipt therefore identifies an image, and
+  existing frame sizing/publication is shared below the timing boundary. The plan
+  required still admission but left this shape open. Public source selection and
+  project image provenance must preserve that distinction in the next pass.
