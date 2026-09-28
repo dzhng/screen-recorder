@@ -1,0 +1,1021 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "project.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "mcp",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "audio.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "project.delete",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "5274b635-161c-4aed-8133-3a29a4d5e76a"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "checks": {
+    "taps": [
+      {
+        "target": "voice-clip",
+        "mode": "dry",
+        "gain": 1,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "821228d2bb3b2e061096ea7b559ee436e18d8cac1c0fae76493380b6e6d7112d",
+        "wavSha256": "e52f860bd4245e5ba4bbe19912a3aa45fe02d56f9f524ab0af9d547b9e816927",
+        "cli": "00-cli.wav",
+        "mcp": "01-mcp.wav"
+      },
+      {
+        "target": "voice-clip",
+        "mode": "after-step",
+        "gain": 3,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "34962760bbaf0ebc4e320a534515b4ffc4d9083746cecd6de83fee74a559cd0b",
+        "wavSha256": "ab76a102f48f18b49d05e2f7920ea3d1aeb90c66fd3b8bacccdbabb591437e58",
+        "cli": "02-cli.wav",
+        "mcp": "03-mcp.wav"
+      },
+      {
+        "target": "voice-clip",
+        "mode": "processed",
+        "gain": 1.5,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1f94398c352da3454013ebba2ea8b5fe31660ca99ea2835eeb89e2a23c46bf4f",
+        "wavSha256": "c6c9019296f24493104d6472506b4208f750738758c8e5813c7288cd4eb27b57",
+        "cli": "04-cli.wav",
+        "mcp": "05-mcp.wav"
+      },
+      {
+        "target": "voice",
+        "mode": "dry",
+        "gain": 1.5,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1f94398c352da3454013ebba2ea8b5fe31660ca99ea2835eeb89e2a23c46bf4f",
+        "wavSha256": "c6c9019296f24493104d6472506b4208f750738758c8e5813c7288cd4eb27b57",
+        "cli": "06-cli.wav",
+        "mcp": "07-mcp.wav"
+      },
+      {
+        "target": "voice",
+        "mode": "after-step",
+        "gain": 7.5,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "54e50c9d3f35053ab8dad103a8ee436d2954c88c77f1653467d46ca1bc26505d",
+        "wavSha256": "d653b31a89e38691b3f7b72277cdeb47fd20f21684cc31c6758bc33667ed7b93",
+        "cli": "08-cli.wav",
+        "mcp": "09-mcp.wav"
+      },
+      {
+        "target": "voice",
+        "mode": "processed",
+        "gain": 3.75,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "cc1a5eca5909c8b8278c9332de4494142b3f1d61f5f166c7324f1d043f1dd429",
+        "wavSha256": "1a75f666bd0554b819c4ea1683d0ecfcdca19d8d56210ea5d6fb56b006c792de",
+        "cli": "10-cli.wav",
+        "mcp": "11-mcp.wav"
+      },
+      {
+        "target": "inner",
+        "mode": "dry",
+        "gain": 3.75,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "cc1a5eca5909c8b8278c9332de4494142b3f1d61f5f166c7324f1d043f1dd429",
+        "wavSha256": "1a75f666bd0554b819c4ea1683d0ecfcdca19d8d56210ea5d6fb56b006c792de",
+        "cli": "12-cli.wav",
+        "mcp": "13-mcp.wav"
+      },
+      {
+        "target": "inner",
+        "mode": "after-step",
+        "gain": 26.25,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "5e2a3778321047060ec8e8236871bd9dc355998afaac2d710d3c20a45c4d6133",
+        "wavSha256": "9c6202da33a0945a2a034c489ae660b62341d8d5b0bdb558c1e68ee1aa3ca5b2",
+        "cli": "14-cli.wav",
+        "mcp": "15-mcp.wav"
+      },
+      {
+        "target": "inner",
+        "mode": "processed",
+        "gain": 13.125,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "f75d2b3eb61acd7ef26302cd83cf01845d4c0589006f2897e57b2e4c451fdf34",
+        "wavSha256": "1c7a99b6beb49ee5c9e9555b1dc42c1b3e6321626e1ed00ec9d7f1843fe894f0",
+        "cli": "16-cli.wav",
+        "mcp": "17-mcp.wav"
+      },
+      {
+        "target": "outer",
+        "mode": "dry",
+        "gain": 13.125,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "f75d2b3eb61acd7ef26302cd83cf01845d4c0589006f2897e57b2e4c451fdf34",
+        "wavSha256": "1c7a99b6beb49ee5c9e9555b1dc42c1b3e6321626e1ed00ec9d7f1843fe894f0",
+        "cli": "18-cli.wav",
+        "mcp": "19-mcp.wav"
+      },
+      {
+        "target": "outer",
+        "mode": "after-step",
+        "gain": 144.375,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "22f14dace9efb1e3d31de2173f9bc60e84d7ed7f833f25a45ba7ba984698f19d",
+        "wavSha256": "e24b5a9cd535610674da28a51fd6ce37f1626cd4148d4db12a5b63f790d88714",
+        "cli": "20-cli.wav",
+        "mcp": "21-mcp.wav"
+      },
+      {
+        "target": "outer",
+        "mode": "processed",
+        "gain": 72.1875,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1c1ef164bf3aaf8f324c6992a1d9e16051368d24056b64eb71e997ebbf230376",
+        "wavSha256": "3eba690c3007de1123e0fc13ec17f9753530d7603894f9a65c60c2f6c756d7b6",
+        "cli": "22-cli.wav",
+        "mcp": "23-mcp.wav"
+      },
+      {
+        "target": "output",
+        "mode": "dry",
+        "gain": 72.1875,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1c1ef164bf3aaf8f324c6992a1d9e16051368d24056b64eb71e997ebbf230376",
+        "wavSha256": "3eba690c3007de1123e0fc13ec17f9753530d7603894f9a65c60c2f6c756d7b6",
+        "cli": "24-cli.wav",
+        "mcp": "25-mcp.wav"
+      },
+      {
+        "target": "output",
+        "mode": "after-step",
+        "gain": 938.4375,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1825f981d74cbb8d8666654707fd849b80d7c5588403783e1f61d8064c36daff",
+        "wavSha256": "ba162b9282bfb5c86803529c68bb8d1bfece5c030bd324730bbcd8c9758a2ee3",
+        "cli": "26-cli.wav",
+        "mcp": "27-mcp.wav"
+      },
+      {
+        "target": "output",
+        "mode": "processed",
+        "gain": 469.21875,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "28080e1a0fe71657415d304c299c3428f7784efa71622499674891fa04aa0228",
+        "wavSha256": "a858950e90ed2bf1947e6777d4b624a3d7fcc8023f801b0d3a20226d11292627",
+        "cli": "28-cli.wav",
+        "mcp": "29-mcp.wav"
+      }
+    ],
+    "full": {
+      "start": 0,
+      "end": 48000,
+      "pcmSha256": "c427e1f91bc6e71c5de1b1c06bd76cd72316f27eadc09c45d0e70d8cc34e6545",
+      "wavSha256": "37f0c566b51014307b776d3103db1ea93b3d2e70c0e7f0ecc22b4bf511fd338a"
+    },
+    "changed": {
+      "start": 15,
+      "end": 47952,
+      "pcmSha256": "90be4f6c47706fe115ddb9a0212157cfc6ab5167ad8c0d1bd853714d2e680111",
+      "wavSha256": "19eeaed9ddf7d7fa9f568ae5308eb883d294ffbf55d6c5168f485f507e647537"
+    },
+    "historyRestart": true,
+    "head": {
+      "start": 15,
+      "end": 47952,
+      "pcmSha256": "1c1ef164bf3aaf8f324c6992a1d9e16051368d24056b64eb71e997ebbf230376",
+      "wavSha256": "3eba690c3007de1123e0fc13ec17f9753530d7603894f9a65c60c2f6c756d7b6"
+    },
+    "cancelRetry": {
+      "start": 37,
+      "end": 42666,
+      "pcmSha256": "8f30586b9c3cf9a53157e337b09adc54028f15503e446b11bdabad9f700569e7",
+      "wavSha256": "9cc5b139df0bf5676187d6aab19045bf25f007c73f950de9e80264b4ab4c151f"
+    },
+    "deletionPreservesSource": true
+  },
+  "pending": [
+    "Unavailable video processor: none is authorable in the current registry"
+  ],
+  "sourceSha256": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1",
+  "nativeSha256": "611ee1097c95fa2eae4ef7c6a0cb11facc39d236c642b953e9ccf072f8f05137",
+  "admitted": {
+    "audio": {
+      "id": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1",
+      "bytes": 384044,
+      "createdAt": "2026-09-28T07:48:11.503Z",
+      "fileName": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1.wav",
+      "originUs": 0,
+      "streams": [
+        {
+          "id": "track:1",
+          "kind": "audio",
+          "codec": "lpcm",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 1000000,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 1000000,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 1000000
+            }
+          ],
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ]
+    },
+    "video": {
+      "id": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "bytes": 29414120,
+      "createdAt": "2026-09-28T07:48:11.953Z",
+      "fileName": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov",
+      "originUs": 0,
+      "streams": [
+        {
+          "id": "track:1",
+          "kind": "video",
+          "codec": "avc1",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 134025574,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 134025574,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 134025574
+            }
+          ],
+          "width": 3120,
+          "height": 1970,
+          "orientedWidth": 3120,
+          "orientedHeight": 1970,
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "samples": {
+            "count": 3951,
+            "firstPtsUs": 0,
+            "lastPtsUs": 134006597,
+            "minDurationUs": 18977,
+            "maxDurationUs": 39661
+          }
+        }
+      ]
+    }
+  },
+  "project": {
+    "projectId": "5274b635-161c-4aed-8133-3a29a4d5e76a",
+    "revisionId": "1cdec995-a613-4af4-9136-f9fb083837ce"
+  }
+}

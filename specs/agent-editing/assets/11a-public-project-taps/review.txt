@@ -1,0 +1,36 @@
+Initial independent review (exit 0):
+The journey has demonstrable oracle blind spots and failure paths that misreport success or skip cleanup. Review was limited to the new harness; no production-source changes are requested.
+
+Full review comments:
+
+- [P2] Use a non-identity completed clip stack — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:134-134
+  The clip gains multiply to `2 * 0.5 = 1`, so returning dry audio for the processed clip and bypassing its completed stack in every ancestor produces exactly the expected samples. All 15 tap comparisons still pass under that regression; the after-step check only proves the prefix executes. Use a non-unity clip product and update downstream expectations. This also enables the required falsification check in [write-tests](.agents/skills/write-tests/SKILL.md#L120-L125).
+
+- [P2] Validate the delivered WAV format before comparing PCM — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:43-48
+  `pcm()` ignores the format chunk, so the oracle accepts float sample bytes labeled as integer PCM or with the wrong playback rate/channel layout. An in-memory probe changing the fixture to integer format and 24000 Hz still passes `verify()`. Checking the service's JSON sample rate and channels does not validate the delivered file. Assert the WAV encoding, sample rate, channels, bit depth and block alignment before treating its data as stereo float32.
+
+- [P2] Mark the evidence failed when shutdown fails — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:276-279
+  If the final `service.stop()` rejects, `report.passed` remains true even though the process exits unsuccessfully and records `shutdownError`. Both the saved report and final console summary therefore advertise success for a failed journey. Clear the success flag in this failure path, or set it only after shutdown succeeds.
+
+- [P2] Guarantee scratch cleanup when evidence writing fails — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:280-282
+  If either evidence write rejects, such as when the output volume fills or the output directory disappears, execution skips `rm(home)` and leaves the scratch library behind. Put scratch removal in a nested `finally` independent of evidence serialization. The applicable [write-tests cleanup rule](.agents/skills/write-tests/SKILL.md#L115-L116) explicitly requires cleanup on failure.
+The journey has demonstrable oracle blind spots and failure paths that misreport success or skip cleanup. Review was limited to the new harness; no production-source changes are requested.
+
+Full review comments:
+
+- [P2] Use a non-identity completed clip stack — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:134-134
+  The clip gains multiply to `2 * 0.5 = 1`, so returning dry audio for the processed clip and bypassing its completed stack in every ancestor produces exactly the expected samples. All 15 tap comparisons still pass under that regression; the after-step check only proves the prefix executes. Use a non-unity clip product and update downstream expectations. This also enables the required falsification check in [write-tests](.agents/skills/write-tests/SKILL.md#L120-L125).
+
+- [P2] Validate the delivered WAV format before comparing PCM — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:43-48
+  `pcm()` ignores the format chunk, so the oracle accepts float sample bytes labeled as integer PCM or with the wrong playback rate/channel layout. An in-memory probe changing the fixture to integer format and 24000 Hz still passes `verify()`. Checking the service's JSON sample rate and channels does not validate the delivered file. Assert the WAV encoding, sample rate, channels, bit depth and block alignment before treating its data as stereo float32.
+
+- [P2] Mark the evidence failed when shutdown fails — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:276-279
+  If the final `service.stop()` rejects, `report.passed` remains true even though the process exits unsuccessfully and records `shutdownError`. Both the saved report and final console summary therefore advertise success for a failed journey. Clear the success flag in this failure path, or set it only after shutdown succeeds.
+
+- [P2] Guarantee scratch cleanup when evidence writing fails — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:280-282
+  If either evidence write rejects, such as when the output volume fills or the output directory disappears, execution skips `rm(home)` and leaves the scratch library behind. Put scratch removal in a nested `finally` independent of evidence serialization. The applicable [write-tests cleanup rule](.agents/skills/write-tests/SKILL.md#L115-L116) explicitly requires cleanup on failure.
+
+Resolution: all four findings fixed; full actual public journey run4 passed. Completed-clip bypass mutation now fails gain 1.5 exact PCM. Format controls reject bad WAV headers. Shutdown sets passed:false; scratch removal is independent of evidence writes.
+
+Independent re-review (exit 0), session 01a0e6fc-ffe9-7511-ab5e-e4167408a4dc:
+All four previously flagged defects are resolved; no actionable remaining false positives were found. Syntax checking and read-only, in-memory failure probes passed. The full native journey was not rerun, and no files or frozen runtime artifacts were changed.

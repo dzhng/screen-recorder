@@ -1,0 +1,5 @@
+integer encoding: rejected
+wrong rate: rejected
+wrong channels: rejected
+wrong block alignment: rejected
+unmodified stereo float32: accepted

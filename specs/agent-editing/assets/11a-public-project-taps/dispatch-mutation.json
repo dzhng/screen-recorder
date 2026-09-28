@@ -1,0 +1,140 @@
+{
+  "passed": false,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "checks": {
+    "taps": []
+  },
+  "pending": [
+    "Unavailable video processor: none is authorable in the current registry"
+  ],
+  "sourceSha256": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1",
+  "nativeSha256": "611ee1097c95fa2eae4ef7c6a0cb11facc39d236c642b953e9ccf072f8f05137",
+  "admitted": {
+    "audio": {
+      "id": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1",
+      "bytes": 384044,
+      "createdAt": "2026-09-28T07:45:06.056Z",
+      "fileName": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1.wav",
+      "originUs": 0,
+      "streams": [
+        {
+          "id": "track:1",
+          "kind": "audio",
+          "codec": "lpcm",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 1000000,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 1000000,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 1000000
+            }
+          ],
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ]
+    },
+    "video": {
+      "id": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "bytes": 29414120,
+      "createdAt": "2026-09-28T07:45:06.360Z",
+      "fileName": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov",
+      "originUs": 0,
+      "streams": [
+        {
+          "id": "track:1",
+          "kind": "video",
+          "codec": "avc1",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 134025574,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 134025574,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 134025574
+            }
+          ],
+          "width": 3120,
+          "height": 1970,
+          "orientedWidth": 3120,
+          "orientedHeight": 1970,
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "samples": {
+            "count": 3951,
+            "firstPtsUs": 0,
+            "lastPtsUs": 134006597,
+            "minDurationUs": 18977,
+            "maxDurationUs": 39661
+          }
+        }
+      ]
+    }
+  },
+  "project": {
+    "projectId": "56a078d5-81b9-4e3a-b877-ad9387315f05",
+    "revisionId": "5676ee70-300d-412e-bc0d-885c3a7bc90e"
+  },
+  "error": {
+    "message": "audio.get: {\"ok\":false,\"error\":{\"code\":\"NOT_READY\",\"message\":\"Mutation removes project audio dispatch\",\"retryable\":false,\"details\":{}},\"id\":\"2181d8cf-6f0e-4e39-8f6c-f021ec787ff7\"}\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: audio.get: {\"ok\":false,\"error\":{\"code\":\"NOT_READY\",\"message\":\"Mutation removes project audio dispatch\",\"retryable\":false,\"details\":{}},\"id\":\"2181d8cf-6f0e-4e39-8f6c-f021ec787ff7\"}\n\nfalse !== true\n\n    at JourneyService.call (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/source-evidence-fixture.mjs:110:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async poll (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/source-evidence-fixture.mjs:20:19)\n    at async delivered (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:68:17)\n    at async file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-taps.mjs:197:19"
+  }
+}
