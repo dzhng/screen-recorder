@@ -8,114 +8,76 @@ the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
 
 ## Next Agent Prompt
 
-Implement the entire local agent-operated editor; the checklist below and each
-slice's acceptance gates remain the scope. Read [contracts](contracts.md),
+Implement the entire local agent-operated editor. Every open slice and global
+requirement below remains in scope. Read [contracts](contracts.md),
 [architecture](architecture.md), [verification](verification.md),
-[journeys](journeys.md) and [processing](processing.md). The product skill describes
-available public operations only; the installed app has not switched engines.
+[journeys](journeys.md) and [processing](processing.md). The product skill teaches
+verified public operations only; the installed app has not switched engines.
 
-Complete [10c occurrence queries](slices/10c-occurrence-queries.md) and
-[10d picture/index inspection](slices/10d-frame-inspection.md). Public source and
-project frames pass, including [blind product-skill use](assets/10d-frame-skill/README.md).
-[Scene ownership](assets/10d-scene-ownership/README.md) is integrated with actual
-recording/package preservation. [Selected-source sampling](assets/10d-source-scene-sampling/README.md)
-and [capture-end projection](assets/10c-capture-interruption/README.md) are integrated
-mechanisms. [Retained scene indexes](assets/10d-source-scene-retention/README.md)
-and [queued preparation](assets/10d-source-scene-preparation/README.md) are integrated.
-[Public source/project scene events](assets/10d-public-scenes/README.md) now pass
-actual preparation, physical clocks, repeated/retimed occurrences and recovery.
-[Fresh scene skill use](assets/10d-scene-skill/README.md) verifies complete project
-coverage and explicit prerequisite retry. [Screenshot ownership](assets/10d-index-ownership/README.md)
-now preserves source indexes and recording packages under Catalog 10.
-[Raw source selection](assets/10d-source-index-selection/README.md) preserves
-observed scene sides and short support islands; typed no-picture observations
-stay distinct from failures. [Queued index materialization](assets/10d-source-index-jobs/README.md)
-is integrated, including canceled prerequisite recovery and retained-generation reads.
-[Service routing](assets/10d-source-index-service/README.md) is wired and checked;
-finish its native CLI/MCP journey. Project-cut semantics still
-need a concrete definition. [Public interruption](assets/10c-public-interruption/README.md)
-now passes actual CLI/MCP continuation and the combined-runtime journey.
-Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
+Current pickup and priority:
 
-In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md):
-compiler-owned crop/fit/transforms and native layered execution, with independent
-public presenter/stack-order journeys. The opaque-output profile and pointer
-presentation gates remain explicit. [Authored fixtures and oracle controls](assets/15-layer-fixtures/README.md)
-are integrated; no new geometry capability is verified yet.
+1. Finish [10c occurrence queries](slices/10c-occurrence-queries.md) and
+   [10d picture/index inspection](slices/10d-frame-inspection.md). Source index
+   [ownership](assets/10d-index-ownership/README.md),
+   [selection](assets/10d-source-index-selection/README.md),
+   [queued preparation](assets/10d-source-index-jobs/README.md) and
+   [service delivery](assets/10d-source-index-service/README.md) are integrated.
+   Complete the actual native CLI/MCP journey and fresh product-skill use. Its
+   initial run exposed the now-fixed source batch-response parser; final native
+   evidence is still being collected. Project index projection and project-cut
+   event semantics remain open; retain the complete [10 umbrella](slices/10-project-evidence.md).
+2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
+   [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
+   integrated. The isolated compiler/native pass is not yet accepted: crop-edge
+   leakage and grouping-dependent rasterization are the current red contract.
+   Preserve independent pixel thresholds, actual orientation domains and old
+   identity rendering. Public presenter/stack-order journeys, pointer geometry
+   and the final-output profile remain gates.
+3. Advance the unresolved media risks before adopting processors: speech
+   evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
+   and listening (13/13a/14), then local voice identity/joins (18/19). Continue
+   other dependency-ready slices; these priorities do not remove later scope.
 
-Retain [11 acoustic artifacts](slices/11-audio-inspection.md).
-[Public waveform JSON](assets/11-waveform-public/README.md) verifies raw/processed
-measurements, all nested taps, automatic overview, history and dependency retry.
-[Blind waveform skill use](assets/11-waveform-skill/README.md) also passes.
-[Labeled native images](assets/11-acoustic-raster/README.md) pass visual review.
-[Public acoustic lifecycle](assets/11-acoustic-lifecycle/README.md) passes masked FFT
-context, cache eviction, explicit retry, history and restart. [Fresh image-based skill use](assets/11-acoustic-skill/README.md) also passes.
-Track retiming-dependent conformance before closing 11. PCM analysis is independent of event queries.
+Compact evidence ledger:
 
-[11a PCM delivery](slices/11a-audio-delivery.md) is verified, including actual
-[source WAVs](assets/11a-audio-extraction/README.md) and
-[multi-source project WAVs](assets/11a-large-project-audio/README.md) above 1 GiB.
-Execution pins and concurrent staging pass combined-runtime preservation.
-[Continuous availability](assets/11a-touching-support/README.md) preserves exact
-WAV bytes across touching support while retaining real holes.
-AAC comparisons retain the documented bounded seek-dependent float difference;
-counts/clocks/endpoints and lossless byte parity remain exact. Never pad missing
-samples, shorten source support or change thresholds to hide failures.
+- [Preview](assets/09-first-preview/README.md) and
+  [export](assets/09-first-export/README.md) verify independent audio/video
+  replacement, insertion, music, constant gain stacks and historical results.
+  General layering, retiming and processors beyond constant gain are not implied.
+- [Source acquisition/transcription](slices/10b-source-acquisition.md) includes
+  actual native inference. [Project phrase paging](assets/10c-public-phrases/README.md)
+  uses frozen transcript rows to verify projection, not fresh speech accuracy.
+  [Capture interruption](assets/10c-public-interruption/README.md) and
+  [source/project scenes](assets/10d-public-scenes/README.md) pass actual public
+  journeys; [fresh scene skill use](assets/10d-scene-skill/README.md) also passes.
+- [Project pictures](assets/10d-public-project-frames/README.md),
+  [source pictures](assets/10d-source-frame-public/README.md) and
+  [typed no-picture delivery](assets/10d-source-empty-observation/README.md) pass
+  their named gates. Custom public exclusion masks and raw still-image admission
+  remain open. No new layer capability is verified by those picture checks.
+- [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
+  project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),
+  [acoustic images/lifecycle](assets/11-acoustic-lifecycle/README.md) and
+  [fresh image-based skill use](assets/11-acoustic-skill/README.md) pass. Preserve
+  [touching-support continuity](assets/11a-touching-support/README.md), exact
+  lossless counts/bytes and the documented bounded AAC seek difference.
+  [11 acoustic inspection](slices/11-audio-inspection.md) still needs retiming conformance.
+- [Verbatim speech](assets/12-verbatim/README.md) and
+  [forced alignment](assets/12-alignment/README.md) fail their timing/memory gates.
+  [Conventional denoise](assets/12c-denoise-timing/README.md) and
+  [learned denoise](assets/12c-rnnoise-timing/README.md) have measured compensation
+  and state sensitivity. Both reject independent resets for a pure split;
+  neither establishes protected speech quality or a production state policy.
 
-Current public evidence:
-- [Paging/search](assets/10c-public-phrases/README.md) and
-  [bounded/acquired-gap reads](assets/10c-public-bounds/README.md) use frozen ASR
-  rows for exact projection, not fresh inference. [Source acquisition](slices/10b-source-acquisition.md)
-  separately retains actual native transcription and capture-mask media evidence.
-- [Capture journey](assets/10c-public-capture/README.md) uses actual acquisition
-  normalization and complete cursor/pause/geometry row oracles; the interruption
-  extension includes synthetic terminal journals and frozen-transcript preservation.
-  [Source/project scene events](assets/10d-public-scenes/README.md) are now verified;
-  project-cut events remain explicitly unsupported.
-- [Project pictures](assets/10d-public-project-frames/README.md) verify actual
-  membership, history and owned-media survival after project deletion.
-  [Source pictures](assets/10d-source-frame-public/README.md) verify selected
-  streams, physical gaps, retained capture bindings and exact reviewed pixels.
-  Custom public video exclusion masks and raw still-image admission remain open.
-- [Transcript](assets/10c-project-skill/README.md),
-  [audio/capture](assets/11a-10c-inspection-skill/README.md) and picture skills
-  pass blind agent use, as does waveform measurement; none establishes listening.
-
-Use isolated homes and frozen workers. Imported sources never fabricate recording
-rows or narration roles. Preserve capture clocks/acquisition provenance separately
-from physical support. The installed app still uses the recording engine; cutover,
-scale and physical/listening acceptance remain explicit later gates.
-
-Evidence boundaries to preserve:
-
-- [09 public preview/export](slices/09-first-preview.md) is verified. The complete
-  journey still passes after 10b integration, with all 19 reviewed images unchanged.
-- [10b integration evidence](assets/10b-acquisition-integration/README.md) records
-  405 passing core checks followed by broad-run deadlines and controlled passing
-  reruns. Do not restate this as one green final broad invocation. Scale remains 24.
-- [10b source routing](assets/10b-source-routing/README.md) records focused public
-  readiness, source/recording preservation and model shutdown checks. The actual
-  source journey separately verifies native inference and differing-mask media.
-- [10b transcript storage](assets/10b-transcript-ownership/README.md) preserves the
-  306 retained native words and recording/package behavior; source planning and
-  public asset reads and their actual native/historical journey are verified.
-- Risk gates remain open in 06 (broader encoding/color), 08 (audio conformance/scale),
-  12/12b (speech labels/timing and cleanup), 12c/15a (denoise state/quality), 13a
-  (stretch speech/listening), 18/19 (voice identity/delivery/joins), and 20/21
-  (physical camera/capture). Numerical success does not establish listening quality.
-  The [matched speech alternative](assets/12-verbatim/README.md) fails completeness
-  and p95 timing. [Separate forced alignment](assets/12-alignment/README.md) also
-  fails p95 and memory; independent audible labels and joins remain open.
-  [Denoise compensation](assets/12c-denoise-timing/README.md) passes limited
-  numerical timing gates, as does the [RNNoise frame probe](assets/12c-rnnoise-timing/README.md).
-  Matched speech quality and production state remain open.
-
-Keep sources intact, use isolated homes and frozen native binaries, and never
-change test thresholds to hide failures. No history migration, editing GUI,
-lip-sync model or mandatory creative approval is required. Each committed pass
-updates its slice evidence and this pickup, audits choices and synchronizes the
-product skill only with verified public operations. Full release acceptance and
-installed-app cutover remain later checkpoints, not consequences of green unit tests.
+Use isolated homes and frozen workers. Imported assets never fabricate recording
+rows or narration roles; preserve physical support and acquisition provenance.
+Never pad missing samples, truncate support or relax thresholds to conceal a
+failure. Numerical checks cannot close listening or physical-camera acceptance.
+Broader encoding/color (06), audio conformance/scale (08), camera (20/21),
+portability (22), cutover (23), scale (24) and autonomous acceptance (25) remain
+explicit gates. No history migration, editing GUI, lip-sync model or mandatory
+creative approval is required. Each committed pass updates its owning evidence,
+choices and this pickup; the global checklist is the completion boundary.
 
 ## Outcome and boundaries
 
