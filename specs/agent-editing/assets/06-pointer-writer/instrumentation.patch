@@ -1,0 +1,59 @@
+--- a/Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift
++++ b/Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift
+@@ -2,0 +3 @@
++import CryptoKit
+@@ -129,0 +131 @@
++            try traceWriterInput(destination, frame: frame, pictures: pictures.pictures, range: request.range, through: through)
+@@ -178,0 +181,52 @@
++
++private func traceWriterInput(
++    _ buffer: CVPixelBuffer, frame: CompositionPictureExecutor.Frame,
++    pictures: [CompositionPictureExecutor.Picture], range: TimeSpan, through: Int64
++) throws {
++    guard (10...12).contains(frame.index),
++        let directory = ProcessInfo.processInfo.environment["SCREENREC_WRITER_TRACE"] else { return }
++    let width = CVPixelBufferGetWidth(buffer), height = CVPixelBufferGetHeight(buffer)
++    guard CVPixelBufferGetPixelFormatType(buffer) == kCVPixelFormatType_32BGRA,
++        CVPixelBufferLockBaseAddress(buffer, .readOnly) == kCVReturnSuccess,
++        let address = CVPixelBufferGetBaseAddress(buffer) else {
++        throw NativeFailure("INVALID_REQUEST", "Writer trace requires packed BGRA")
++    }
++    defer { CVPixelBufferUnlockBaseAddress(buffer, .readOnly) }
++    let stride = CVPixelBufferGetBytesPerRow(buffer)
++    var active = Data(capacity: width * height * 4)
++    for y in 0..<height { active.append(address.advanced(by: y * stride).assumingMemoryBound(to: UInt8.self), count: width * 4) }
++    let path = URL(fileURLWithPath: directory).appendingPathComponent("frame-\(frame.index)")
++    try active.write(to: path.appendingPathExtension("bgra"), options: .withoutOverwriting)
++    func hash(_ bytes: Data) -> String { SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined() }
++    var attachments: [String: Any] = [:]
++    for mode in [CVAttachmentMode.shouldPropagate, .shouldNotPropagate] {
++        let values = CVBufferCopyAttachments(buffer, mode) as? [String: Any] ?? [:]
++        var normalized: [String: Any] = [:]
++        for (key, value) in values {
++            if CFGetTypeID(value as CFTypeRef) == CGColorSpace.typeID {
++                let space = value as! CGColorSpace
++                var color: [String: Any] = ["model": space.model.rawValue, "components": space.numberOfComponents]
++                color["name"] = space.name as String?
++                if let icc = space.copyICCData() { color["iccSHA256"] = hash(icc as Data) }
++                normalized[key] = color
++            } else if JSONSerialization.isValidJSONObject([value]) {
++                normalized[key] = value
++            } else {
++                normalized[key] = String(describing: value)
++            }
++        }
++        attachments[mode == .shouldPropagate ? "propagate" : "nonpropagate"] = normalized
++    }
++    let record: [String: Any] = [
++        "frame": try JSONSerialization.jsonObject(with: JSONEncoder().encode(frame)),
++        "pictures": try JSONSerialization.jsonObject(with: JSONEncoder().encode(pictures)),
++        "range": ["startUs": range.startUs, "endUs": range.endUs],
++        "writerPTSUs": through - range.startUs,
++        "writerDurationUs": frame.visibleRange.endUs - through,
++        "width": width, "height": height, "stride": stride,
++        "pixelFormat": CVPixelBufferGetPixelFormatType(buffer),
++        "activeBytes": active.count, "sha256": hash(active), "attachments": attachments,
++    ]
++    try JSONSerialization.data(withJSONObject: record, options: [.prettyPrinted, .sortedKeys])
++        .write(to: path.appendingPathExtension("json"), options: .withoutOverwriting)
++}

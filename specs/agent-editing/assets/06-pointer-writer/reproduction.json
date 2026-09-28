@@ -1,0 +1,42 @@
+{
+  "baseCommit": "55a91eee2ec8685e3d442904660aa7e6c5426faf",
+  "baselineWorker": "/tmp/screenrec-pointer-execution-native",
+  "instrumentedWorker": "/tmp/screenrec-pointer-writer-probe-native",
+  "instrumentedPackage": "/tmp/screenrec-writer-probe-package",
+  "instrumentedBuild": "/tmp/screenrec-writer-probe-build",
+  "sourceBeforeSHA256": "a9d37c2a677ef18b3ba3304c8ab9ed7facf3b70aa74c54cc2da0a53c4d761080",
+  "sourceAfterSHA256": "0e780c78d82761d4d12567b11bad1f7690bb6f1cbbdbdc4ed21de46b998ac8dd",
+  "packageResolvedSHA256": "c56a6e0b25958389401872266213b75dfa631eb0080556cd08ea6ea1c10a490b",
+  "buildCommand": "swift build --package-path /tmp/screenrec-writer-probe-package --scratch-path /tmp/screenrec-writer-probe-build --disable-automatic-resolution -j 4",
+  "runCommand": "node specs/agent-editing/assets/06-pointer-writer/run.mjs /tmp/screenrec-pointer-execution-native /tmp/screenrec-pointer-writer-probe-native /tmp/screenrec-pointer-writer-final",
+  "attempts": [
+    {
+      "id": "build1",
+      "verdict": "invalid",
+      "reason": "Reusing another package scratch path retained its old source plan. Detected absent instrumentation marker and old sources path before executing any trial."
+    },
+    {
+      "id": "build2",
+      "verdict": "invalid",
+      "reason": "New isolated build used obsolete CGColorSpaceGetTypeID Swift spelling. Compiler required CGColorSpace.typeID; no measurement taken."
+    },
+    {
+      "id": "trial",
+      "verdict": "localization",
+      "directory": "/tmp/screenrec-pointer-writer-trial",
+      "result": "Matched writer bytes and attachments exact; all23 decoded baseline/instrumented frames exact; original magenta criterion fails."
+    },
+    {
+      "id": "confirmation",
+      "verdict": "confirmed",
+      "directory": "/tmp/screenrec-pointer-writer-confirm",
+      "result": "Same result; added exact six-frame reproduction against frozen prior PNGs."
+    },
+    {
+      "id": "final-strict-boundary",
+      "verdict": "confirmed",
+      "directory": "/tmp/screenrec-pointer-writer-final",
+      "result": "Research comparator corrected from <=1 to original strict <1. All measured values and complete report identical to prior confirmation; both evaluate red. No acceptance threshold changed."
+    }
+  ]
+}

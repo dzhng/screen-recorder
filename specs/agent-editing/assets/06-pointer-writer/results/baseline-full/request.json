@@ -1,0 +1,79 @@
+{
+  "output": "/tmp/screenrec-pointer-writer-final/baseline-full/movie.mp4",
+  "frames": "/private/tmp/screenrec-editing-speech/specs/agent-editing/assets/06-pointer-writer/input/full.frames.jsonl",
+  "range": {
+    "startUs": 0,
+    "endUs": 2000000
+  },
+  "canvas": {
+    "width": 256,
+    "height": 160,
+    "fps": {
+      "numerator": 10,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "profile": "h264-rec709",
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "clip"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": [
+        {
+          "id": "pointer",
+          "enabled": true,
+          "processor": {
+            "type": "pointer",
+            "trailUs": 600000
+          }
+        }
+      ]
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "clip"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+      "streamId": "track:1",
+      "path": "/private/tmp/screenrec-editing-speech/specs/agent-editing/assets/06-pointer-writer/input/source.mov",
+      "originUs": 0
+    }
+  ],
+  "pointers": {
+    "file": "/private/tmp/screenrec-editing-speech/specs/agent-editing/assets/06-pointer-writer/input/full.pointers.jsonl",
+    "bytes": 12978,
+    "records": 20,
+    "sha256": "5579583e6a989b96913caa9ff846677ef875ec7d7f35b42fc69970baf30de183"
+  }
+}

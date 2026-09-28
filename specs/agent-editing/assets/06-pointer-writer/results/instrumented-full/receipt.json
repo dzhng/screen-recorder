@@ -1,0 +1,17 @@
+{
+  "bytes": 2479,
+  "decodedSamples": 20,
+  "durationUs": 2000000,
+  "file": "/tmp/screenrec-pointer-writer-final/instrumented-full/movie.mp4",
+  "frames": 20,
+  "height": 160,
+  "maximumSequentialAdvanceUs": 1000000,
+  "mediaType": "video/mp4",
+  "pixelPoolAllocationThreshold": 4,
+  "pointerRasterizations": 19,
+  "profile": "h264-rec709",
+  "rasterizedFrames": 20,
+  "readerOpens": 1,
+  "retainedSourceBuffersBound": 1,
+  "width": 256
+}

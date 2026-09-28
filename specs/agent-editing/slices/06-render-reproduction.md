@@ -90,8 +90,14 @@ verification. Independent audit is retained with that experiment; broader export
 
 The [prepared-pointer measurements](../assets/15-pointer-execution/README.md)
 retain a further open color boundary: exact full/range pre-encode pointer PNGs can
-accompany different thin colored-trail membership in decoded H264. Actual movie
-writer inputs have not been compared, so the sequential render/cache versus
-encode/decode cause remains unresolved. Sampled white
+accompany different thin colored-trail membership in decoded H264. Standalone PNG equality alone cannot distinguish sequential render/cache from
+writer/encode/decode differences. Sampled white
 cursor geometry is checked separately; it does not waive the failed trail-color
 diagnostic or establish whole-movie acceptance.
+
+[Actual writer-input localization](../assets/06-pointer-writer/README.md) resolves
+that boundary for the three frozen samples: active pixel bytes, color attachments
+and source identities match before append, and read-only instrumentation changes
+none of the 23 decoded outputs. The unchanged magenta criterion still fails, so
+these discrepancies are downstream of the supplied pixels. General quality and
+legacy-byte acceptance stay open; no production encoding setting changed.

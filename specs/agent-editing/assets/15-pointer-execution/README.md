@@ -83,9 +83,7 @@ fixture draws once, while a bad second row still fails without publishing a movi
 No pointer raster cache or second geometry owner was added. The no-pointer layer
 matrix and all inspected PNG bytes remain unchanged after this correction.
 
-The exact next slice06 experiment is scratch instrumentation of actual writer-input
-active pixel rows, color attachments and mapped timestamps at the matched movie
-frames. Unequal inputs point back to sequential rendering/cache; equal inputs
-localize the difference downstream to writer/encoding/decoding. This is an open
-diagnostic, not an assumed codec cause or a new production debug API. Threshold
-sensitivity and best-fit translation cannot prove preservation of every trail pixel.
+The subsequent [actual writer-input localization](../06-pointer-writer/README.md)
+compares active rows, color attachments and mapped timestamps on the pinned movie
+samples. It narrows the cause for that cohort while preserving both red diagnostics;
+no general colored-trail or codec acceptance follows from it.

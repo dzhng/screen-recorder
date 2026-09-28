@@ -1,0 +1,503 @@
+{
+  "baselineWorkerSHA256": "d1ff639f4e8018d470ed470d9cfff8737700867ece375fc3eee532840a707661",
+  "instrumentedWorkerSHA256": "dcd24378b7e2da9c9d85ac029e29140ead91221fcba898a6b697cdbde9294ff1",
+  "sourceSHA256": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+  "inputSHA256": {
+    "full.frames.jsonl": "0a0ac9772f597da8fcdf736c7bdf80855bf9872c29be4f1d1139c2a89f3062d0",
+    "full.pointers.jsonl": "5579583e6a989b96913caa9ff846677ef875ec7d7f35b42fc69970baf30de183",
+    "range.frames.jsonl": "6e4305fcd68647c0e80ccb3c6d3abcb0875f372faf1d0157ac628c1418ddeb76",
+    "range.pointers.jsonl": "9e1d9d0526b6d9b2182ed8303b918e0b55889bf14944678e8e867ade808d4a5a"
+  },
+  "instrumentation": [
+    {
+      "cohort": "full",
+      "index": 0,
+      "sha256": "0438d0370b83dc54b590274f01b20bf614264b4260185b09e0095da1ee8c052d",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 1,
+      "sha256": "d44773405177b84cf9e54e72ff192bede8d9bf7aacf71e3f128a2ef77bc0fbbf",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 2,
+      "sha256": "63f5a892c100bcb678c56dd99c60292f20e95cf6051bd04f8d7951f4b9b5534f",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 3,
+      "sha256": "210a8ee0265b3cb1581e4cb354936ad9d92ffdfcd89e1e146642c4253d9d8837",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 4,
+      "sha256": "0f28c8b7771d6ae55c6ebb4d4c65765a94ac4a95b0c7c219c069aef75613947d",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 5,
+      "sha256": "4a339c836eadcf3e8dd7ff9dbb21ad4e25e8273326d5f059856d991dffa01e06",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 6,
+      "sha256": "7eb35875d1b643d40e8eea2b240c8e5a4cb27566d890a95713d4c22eedcbafed",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 7,
+      "sha256": "2e23c30dd3c53fe2d75cda077db2661f7e490fa68add5351e4d8e39860c9bda5",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 8,
+      "sha256": "27a8ea4dd6d1e33e51e2613aeda936b370f66ffd674c0bc4200707ebc92fa77c",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 9,
+      "sha256": "8e2a6c6630cb1b1b6514367a2936b4f16884f2f050cdc743ca22e31f933da480",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 10,
+      "sha256": "2d11d22f571f6933033c27d98fb72b7d33e10814aeddd44470242b70346f920b",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 11,
+      "sha256": "527492cc5e9df42ed8a6db7de391d6a8a41e7876c0a75e417d12435caf32a6ee",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 12,
+      "sha256": "a69b75aa625dbbd77ce4d95f7cf8b51f8659f910d9546e19887a6ec5b4ec1f17",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 13,
+      "sha256": "d63660138d6bebd0df3a4adac36ce1157525d8b98bf7f73e775726f3c6c78890",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 14,
+      "sha256": "dcdc0de301d53161dbabbe15f847868440f46ef0c8da7ab19bfb80e57bb167e6",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 15,
+      "sha256": "c12c6ff8bb7278571fe7e5dcf5502a36de678a746566814ccde689040ed16ebb",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 16,
+      "sha256": "c182e9c0308aa7059f9dd71ee70794e57683bab047f3d569ab9b0865fc87940b",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 17,
+      "sha256": "bcaa62aa7db2fef2c0bcbd6f6637ec0fd80411e4956345648a873a1651744080",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 18,
+      "sha256": "314160084cfc288d42b8276e33803f8ced62822f40d9af0536006d06e30e3b03",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 19,
+      "sha256": "1f8147b8e2e6b3f64e5a8e4a9fe053420ffbf17c08254bfacd1f152144306f8c",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "range",
+      "index": 10,
+      "sha256": "83281cc6280a68e15b965dcdede41c159d0fef89f02cc8432f72be05f3f3b734",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "range",
+      "index": 11,
+      "sha256": "cc74d805270f7b829443ef0d10bdcf39330a45393089b05b4d570ff5cbab95d6",
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "range",
+      "index": 12,
+      "sha256": "bcfa3c989dd6848e4f81ea17ae44594fc0d527af97908f5cc794aaf18b867af1",
+      "changedChannels": 0,
+      "maximum": 0
+    }
+  ],
+  "baselineReproduction": [
+    {
+      "cohort": "full",
+      "index": 10,
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 11,
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "full",
+      "index": 12,
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "range",
+      "index": 10,
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "range",
+      "index": 11,
+      "changedChannels": 0,
+      "maximum": 0
+    },
+    {
+      "cohort": "range",
+      "index": 12,
+      "changedChannels": 0,
+      "maximum": 0
+    }
+  ],
+  "writerInputs": [
+    {
+      "frameIndex": 10,
+      "pixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "fullHash": "74aaa4f959d910be73440dc23ae06a768a1f0a8d370512a0cd2dba4d58c6a495",
+      "rangeHash": "74aaa4f959d910be73440dc23ae06a768a1f0a8d370512a0cd2dba4d58c6a495",
+      "attachmentsEqual": true,
+      "fullPTSUs": 1000000,
+      "rangePTSUs": 0,
+      "fullDurationUs": 100000,
+      "rangeDurationUs": 49999
+    },
+    {
+      "frameIndex": 11,
+      "pixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "fullHash": "7faeca31c6016cdffb35490abbd12b4f53aac4b5cea982a75cf4bf2036b74e8d",
+      "rangeHash": "7faeca31c6016cdffb35490abbd12b4f53aac4b5cea982a75cf4bf2036b74e8d",
+      "attachmentsEqual": true,
+      "fullPTSUs": 1100000,
+      "rangePTSUs": 49999,
+      "fullDurationUs": 100000,
+      "rangeDurationUs": 100000
+    },
+    {
+      "frameIndex": 12,
+      "pixels": {
+        "changedChannels": 0,
+        "maximum": 0
+      },
+      "fullHash": "f735d7bfbe33b253832889b831555e4aad9ecc303ede8b70e57721cdeca24425",
+      "rangeHash": "f735d7bfbe33b253832889b831555e4aad9ecc303ede8b70e57721cdeca24425",
+      "attachmentsEqual": true,
+      "fullPTSUs": 1200000,
+      "rangePTSUs": 149999,
+      "fullDurationUs": 100000,
+      "rangeDurationUs": 50001
+    }
+  ],
+  "trail": [
+    {
+      "index": 10,
+      "threshold": 19,
+      "fullCount": 111,
+      "rangeCount": 85,
+      "fullCentroid": [
+        86.09009009009009,
+        60.03603603603604
+      ],
+      "rangeCentroid": [
+        87.03529411764706,
+        60.11764705882353
+      ],
+      "centroidDelta": [
+        0.9452040275569686,
+        0.08161102278749155
+      ],
+      "fullOnly": 30,
+      "rangeOnly": 4,
+      "intersection": 81,
+      "iou": 0.7043478260869566,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.7043478260869566
+      }
+    },
+    {
+      "index": 10,
+      "threshold": 20,
+      "fullCount": 110,
+      "rangeCount": 85,
+      "fullCentroid": [
+        85.94545454545455,
+        60.018181818181816
+      ],
+      "rangeCentroid": [
+        87.03529411764706,
+        60.11764705882353
+      ],
+      "centroidDelta": [
+        1.0898395721925027,
+        0.09946524064171314
+      ],
+      "fullOnly": 30,
+      "rangeOnly": 5,
+      "intersection": 80,
+      "iou": 0.6956521739130435,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.6956521739130435
+      }
+    },
+    {
+      "index": 10,
+      "threshold": 21,
+      "fullCount": 108,
+      "rangeCount": 85,
+      "fullCentroid": [
+        86.23148148148148,
+        60.05555555555556
+      ],
+      "rangeCentroid": [
+        87.03529411764706,
+        60.11764705882353
+      ],
+      "centroidDelta": [
+        0.8038126361655742,
+        0.06209150326797186
+      ],
+      "fullOnly": 28,
+      "rangeOnly": 5,
+      "intersection": 80,
+      "iou": 0.7079646017699115,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.7079646017699115
+      }
+    },
+    {
+      "index": 11,
+      "threshold": 19,
+      "fullCount": 161,
+      "rangeCount": 145,
+      "fullCentroid": [
+        97.75776397515529,
+        62.38509316770186
+      ],
+      "rangeCentroid": [
+        99.39310344827587,
+        62.641379310344824
+      ],
+      "centroidDelta": [
+        1.635339473120581,
+        0.25628614264296345
+      ],
+      "fullOnly": 23,
+      "rangeOnly": 7,
+      "intersection": 138,
+      "iou": 0.8214285714285714,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.8214285714285714
+      }
+    },
+    {
+      "index": 11,
+      "threshold": 20,
+      "fullCount": 157,
+      "rangeCount": 145,
+      "fullCentroid": [
+        98.3312101910828,
+        62.49044585987261
+      ],
+      "rangeCentroid": [
+        99.39310344827587,
+        62.641379310344824
+      ],
+      "centroidDelta": [
+        1.0618932571930628,
+        0.15093345047221618
+      ],
+      "fullOnly": 20,
+      "rangeOnly": 8,
+      "intersection": 137,
+      "iou": 0.8303030303030303,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.8303030303030303
+      }
+    },
+    {
+      "index": 11,
+      "threshold": 21,
+      "fullCount": 148,
+      "rangeCount": 141,
+      "fullCentroid": [
+        99.82432432432432,
+        62.777027027027025
+      ],
+      "rangeCentroid": [
+        99.43262411347517,
+        62.638297872340424
+      ],
+      "centroidDelta": [
+        -0.39170021084915163,
+        -0.13872915468660096
+      ],
+      "fullOnly": 14,
+      "rangeOnly": 7,
+      "intersection": 134,
+      "iou": 0.864516129032258,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.864516129032258
+      }
+    },
+    {
+      "index": 12,
+      "threshold": 19,
+      "fullCount": 111,
+      "rangeCount": 111,
+      "fullCentroid": [
+        105.64864864864865,
+        63.891891891891895
+      ],
+      "rangeCentroid": [
+        104.96396396396396,
+        63.711711711711715
+      ],
+      "centroidDelta": [
+        -0.684684684684683,
+        -0.18018018018018012
+      ],
+      "fullOnly": 11,
+      "rangeOnly": 11,
+      "intersection": 100,
+      "iou": 0.819672131147541,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.819672131147541
+      }
+    },
+    {
+      "index": 12,
+      "threshold": 20,
+      "fullCount": 109,
+      "rangeCount": 111,
+      "fullCentroid": [
+        105.97247706422019,
+        63.96330275229358
+      ],
+      "rangeCentroid": [
+        104.96396396396396,
+        63.711711711711715
+      ],
+      "centroidDelta": [
+        -1.0085131002562235,
+        -0.25159104058186443
+      ],
+      "fullOnly": 11,
+      "rangeOnly": 13,
+      "intersection": 98,
+      "iou": 0.8032786885245902,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.8032786885245902
+      }
+    },
+    {
+      "index": 12,
+      "threshold": 21,
+      "fullCount": 107,
+      "rangeCount": 110,
+      "fullCentroid": [
+        106.20560747663552,
+        64.01869158878505
+      ],
+      "rangeCentroid": [
+        105.08181818181818,
+        63.71818181818182
+      ],
+      "centroidDelta": [
+        -1.1237892948173425,
+        -0.30050977060322737
+      ],
+      "fullOnly": 11,
+      "rangeOnly": 14,
+      "intersection": 96,
+      "iou": 0.7933884297520661,
+      "bestShift": {
+        "dx": 0,
+        "dy": 0,
+        "iou": 0.7933884297520661
+      }
+    }
+  ],
+  "matchedWriterInputsEqual": true,
+  "originalMagentaCriterionPassed": false
+}
