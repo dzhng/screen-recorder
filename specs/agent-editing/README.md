@@ -15,13 +15,14 @@ nested targets [03b](slices/03b-processing-targets.md), constant-gain stacks
 [03c](slices/03c-processing-stacks.md), and durable public project state/deletion
 [04](slices/04-projects.md) are verified at their declared boundaries.
 
-Next complete [05 compiler](slices/05-compiler.md): its revision-pinned windows
-are integrated, but a discovered leading-partial-frame omission and source-versus-
-anchor availability provenance are being corrected before native adoption.
-[07 video](slices/07-video-execution.md) and [08 audio](slices/08-audio-mixing.md)
-are underway independently in isolated worktrees. Integrate only reviewed commits
-and verify their media evidence. The first public rendered editing checkpoint
-remains [09](slices/09-first-preview.md); state journeys do not close it.
+[05 compiler](slices/05-compiler.md) is verified, including leading partial
+pictures, strict streamed records and source/ancestor availability provenance.
+Next integrate [07 video](slices/07-video-execution.md) and
+[08 audio](slices/08-audio-mixing.md) from their isolated implementation worktrees
+after review and decoded-media verification. Audio resampling still needs its
+bounded-context and fractional-phase gates settled; video is checking production
+parity, cancellation and resource bounds. Then wire the first public rendered
+editing checkpoint [09](slices/09-first-preview.md). State journeys do not close it.
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
 are integrated in the isolated service. Import identity and job admission commit
@@ -75,6 +76,8 @@ Current evidence:
 - [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.
+- [05 compiler](assets/05-compiler/README.md): 92 tests, integrated composition/core
+  builds, core typecheck and strict-record probe pass; no native readiness claim.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
   independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
   verifies profile conversion on the tested frames; encoding loss remains explicit.
@@ -177,7 +180,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [03b — Processing targets and nested routing](slices/03b-processing-targets.md)
 - [x] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)
 - [x] [04 — Durable projects and shared commands](slices/04-projects.md)
-- [ ] [05 — Compile bounded execution plans](slices/05-compiler.md)
+- [x] [05 — Compile bounded execution plans](slices/05-compiler.md)
 - [ ] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
 - [ ] [07 — Execute video plans](slices/07-video-execution.md)
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)

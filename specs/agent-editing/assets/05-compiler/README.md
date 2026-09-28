@@ -52,3 +52,7 @@ Final independent Codex review found no actionable regressions and reran the
 92-test suite, typecheck/build and compiler conformance harness after the
 availability-provenance change. Pure slice 05 acceptance is complete; downstream
 media and live-route gates remain unchanged.
+
+Root integration repeats all 92 composition tests, composition/core builds, core
+type checking and the independent probe successfully. The only merge conflict
+was the append-only choices ledger; both reviewed decisions were retained.

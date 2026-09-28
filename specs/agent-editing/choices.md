@@ -545,7 +545,7 @@ trim and stretch replacements keep their single-interval behavior.
   consumes the original mapping and restricts its output, rather than treating a
   preview as newly authored media.
 - **Sound; medium confidence — Omit inactive processing branches.** A short preview
-  returns the clips that overlap its window and only their track/group ancestors,
+  returns the clips contributing audio or sampled pictures to its window and their track/group ancestors,
   followed by output. Empty branches contain no signal, and the currently supported
   gain processor cannot generate one. The plan required bounded work but left graph
   pruning unspecified. A future processor that generates sound or has a tail beyond
