@@ -1,7 +1,24 @@
 @preconcurrency import AVFoundation
 import Foundation
+#if DEBUG
+@testable import ScreenRecorderAudio
+#else
 import ScreenRecorderAudio
+#endif
 import ScreenRecorderMedia
+
+#if DEBUG
+// Imported asset origins may be negative. Decoder context must never advance the
+// requested start, even when a source's presentation clock begins before zero.
+for (startFrame, expectedFrame) in [(-4096, -4096), (-1, -1), (0, 0), (1, 0), (4096, 2048)] {
+    let actual = AudioSourceReader.decodeStart(
+        at: CMTime(value: Int64(startFrame), timescale: 48000),
+        packetFrames: 1024, sampleRate: 48000)
+    precondition(actual == CMTime(value: Int64(expectedFrame), timescale: 48000),
+        "Decoder lookbehind advanced or misaligned the requested source start")
+}
+
+#endif
 
 let directory = URL(
     fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_SOURCE_AUDIO_EVIDENCE"]

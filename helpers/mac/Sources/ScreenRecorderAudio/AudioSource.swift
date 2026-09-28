@@ -292,6 +292,14 @@ final class AudioSourceReader {
         requireContinuation = false
     }
 
+    static func decodeStart(at start: CMTime, packetFrames: Int, sampleRate: Int) -> CMTime {
+        let context = CMTime(value: Int64(packetFrames) * 2,
+            timescale: CMTimeScale(sampleRate))
+        // Negative presentation origins are valid; keep their requested seek rather than
+        // advancing it to zero. Nonnegative seeks retain bounded packet lookbehind.
+        return min(start, max(.zero, CMTimeSubtract(start, context)))
+    }
+
     private func open(at start: CMTime) throws {
         reader?.cancelReading()
         pending = nil
@@ -304,9 +312,8 @@ final class AudioSourceReader {
         // Seeking inside the last compressed packet can refuse or omit its PCM. Two packet
         // widths include the preceding packet even when start lies inside a packet. next()
         // discards this bounded context before any selected samples reach the converter.
-        let context = CMTime(value: Int64(source.packetFrames) * 2,
-            timescale: CMTimeScale(source.sampleRate))
-        let decodeStart = max(.zero, CMTimeSubtract(start, context))
+        let decodeStart = Self.decodeStart(at: start,
+            packetFrames: source.packetFrames, sampleRate: source.sampleRate)
         opened.timeRange = CMTimeRange(start: decodeStart, duration: .positiveInfinity)
         let output = AVAssetReaderTrackOutput(
             track: source.track,

@@ -1,0 +1,9 @@
+Building for production...
+[0/6] Write sources
+[3/6] Write swift-version--1AB21518FC5DEDBE.txt
+[5/7] Compiling ScreenRecorderMedia CompositionAsset.swift
+[6/8] Compiling ScreenRecorderAudio AudioExcerpts.swift
+[7/9] Compiling ScreenRecorderSourceAudioTests main.swift
+[7/9] Write Objects.LinkFileList
+[8/9] Linking ScreenRecorderSourceAudioTests
+Build of product 'ScreenRecorderSourceAudioTests' complete! (35.06s)

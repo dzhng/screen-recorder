@@ -1,0 +1,2 @@
+Late 20ms window decoded 8192 native frames from a 60-second source
+Source windows passed 6 full/range comparisons, dual stream mono/stereo, physical/acquisition gaps and poison isolation; unsupported rate/channel count refused. Evidence: /tmp/audio-negative-green

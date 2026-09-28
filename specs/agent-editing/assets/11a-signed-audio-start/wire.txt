@@ -1,0 +1,10 @@
+✔ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (3131.548125ms)
+✔ AAC terminal windows decode bounded real packet context and truncated sources fail cleanly (525.107ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3688.955375
