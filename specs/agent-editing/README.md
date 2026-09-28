@@ -25,8 +25,8 @@ Current pickup and priority:
    Complete the actual native CLI/MCP journey. [Fresh product-skill use](assets/10d-source-index-skill/README.md)
    passes canceled-prerequisite recovery and complete source storyboard delivery. The journey’s
    initial run exposed the now-fixed source batch-response parser; final native
-   evidence is still being collected. Project index projection and project-cut
-   event semantics remain open; retain the complete [10 umbrella](slices/10-project-evidence.md).
+   evidence is still being collected. Project index projection remains open; implement project-cut
+   events from the now-explicit track-local mapping contract; retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
    integrated. The isolated compiler/native pass is not yet accepted: crop-edge

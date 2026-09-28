@@ -1533,3 +1533,26 @@ The native plotting operation receives bounded waveform or spectral measurements
   one new attempt, including canceled jobs represented as `not_requested` by the
   queue. A terminal child failure ends the parent with its exact dependency, rather
   than leaving a polling parent waiting forever or hiding which request failed.
+
+## Project cut event meaning
+
+- **Sound, medium confidence — report a rate change as an editorial mapping transition.**
+  When narration continues from the same source position but changes speed, the
+  source-to-project mapping changes. A project cut row exposes both rates so an
+  agent can inspect that boundary; it does not claim an audible click or visual
+  jump. The earlier plan required cut evidence without defining this case. This
+  interpretation gives inspection one deterministic meaning across audio/video,
+  holds and replacements, while excluding processor changes from the category.
+- **Sound, medium confidence — omit the whole-project opening and terminal boundary.**
+  An otherwise unedited single clip has no editorial cuts merely because playback
+  begins and ends. An overlay starting later or ending earlier still reports its
+  track entrance/exit, because those boundaries are internal to the composition.
+  The plan left the outer-boundary convention open. Screenshot indexes must select
+  their first/last pictures separately rather than infer them from cut events.
+- **Sound, high confidence — derive cuts from mapping continuity, not clip IDs or history.**
+  Splitting a clip into two unchanged pieces should not add an apparent edit to
+  the inspection report. Compare exact source binding, boundary and rate on each
+  side; a source jump or replacement remains visible even if both pieces use the
+  same file. The immutable revision supplies authority without a detector job or
+  synthetic source generation. This preserves pure splits, fractional timing and
+  stable results when the same final composition was reached by different edits.

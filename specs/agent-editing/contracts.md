@@ -423,6 +423,32 @@ Processed target/tap inspection uses the same stack executor as preview/export;
 raw source evidence remains unchanged. Artifacts identify which target and step
 they represent, including whether later parent processing is excluded.
 
+Project `cut` events describe exact, track-local editorial source-mapping
+transitions, not measured scene changes or proof that the final composite changes
+visibly. A row names `projectAtUs`, track/rank, audio/video plane and nullable
+`before`/`after` sides. Each side names its clip and source kind, with complete source
+binding, exact boundary coordinate and rate when applicable. The pinned revision
+is the authority; no source generation, removed-source span or capture provenance
+is invented for a project cut.
+
+Derive transitions from full revision neighbors before applying the query range.
+Suppress a seam between the same binding/source kind with continuous exact source
+coordinates and equal affine rate, regardless of clip IDs. Adjacent identical
+holds and adjacent silence likewise do not create a cut. A jump, replacement,
+rate change or transition between media/hold/silence does. Internal track entrances
+and exits are included, so an overlay reports its own boundaries without changing
+underlying tracks. Exclude the whole project's opening and true rational terminal
+boundary. Physical/acquisition support gaps are availability evidence, not new
+editorial cuts; authored transitions inside gaps do not establish visible content.
+Processing changes are outside this narrowly defined event category.
+
+Cut times remain rational and use ordinary `[start,end)` query ownership, including
+exits. Clipping a query must never create artificial cuts. Capture interruption
+markers retain their separately documented closing-boundary ownership. Screenshot
+selection quantizes through the compiler's global frame phase independently;
+it must not round the editorial event itself. Cut coverage is available from the
+pinned project revision and does not pretend that a raw source supplied cut evidence.
+
 Import baseline: AVFoundation-decodable MOV/MP4 H.264/HEVC, WAV/AIFF/M4A/MP3 audio,
 and PNG/JPEG stills, verified by the import slice's fixtures. Probe unsupported
 streams and report them; no claim to every format. Preserve original frame timing,

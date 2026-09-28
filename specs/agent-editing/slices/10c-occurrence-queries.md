@@ -168,3 +168,20 @@ clocks, physical gaps, mixed capture ordering, explicit cancellation/retry,
 repeated and retimed occurrences, pagination and historical restart. Existing
 capture/interruption journeys pass without dropping scene rows. Screenshot-index
 acceptance and project-cut semantics remain separate open work.
+
+## Project-native cut events: next implementation seam
+
+The [inspection contract](../contracts.md#inspection-exports-and-supported-media)
+now defines cuts as track-local editorial mapping transitions. Composition owns
+a pure seekable boundary selector over all resolved clip kinds, including holds
+and silence, using exact placement/source/rate arithmetic. Core adds a distinct
+project-native event union arm and merges its bounded iterator with source events
+through existing checkpoints. There is no cut store, job, source generation or
+independent lifecycle. Source-event relative ordering remains unchanged.
+
+Public authored gates cover fractional pure-split invariance; A–B–A with protected
+audio; overlay entrance/exit and simultaneous audio rows; editorial versus physical
+gaps; same-rate continuity versus rate change; hold/silence transitions; seam-start
+and seam-end query ownership; tied scene/cut/interruption pages at several limits;
+history/restart and independence from later source generations. Compare complete
+expected rows, not counts. Raw still-image admission remains its separate gate.
