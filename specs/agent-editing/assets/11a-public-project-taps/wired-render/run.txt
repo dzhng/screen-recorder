@@ -1,0 +1,1 @@
+{"passed":true,"out":"/tmp/audio-taps-wired-1"}

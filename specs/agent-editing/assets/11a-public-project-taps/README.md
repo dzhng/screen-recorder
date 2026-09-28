@@ -37,3 +37,6 @@ currently be authored: the registry exposes only audio gain. That future process
 case remains pending rather than being manufactured. This journey does not prove
 outstanding-lease deletion, source capture masks, excluded-source poison or large-WAV
 memory; their separate named gates still apply before closing 11a.
+
+[The wired-render integration rerun](./wired-render/README.md) preserves the same
+public WAV bytes after adopting locked audio attempts.
