@@ -1,0 +1,6 @@
+Command: python3 - <<'PY' (auxiliary inspection script beginning `from PIL import Image`; it exited before opening any image)
+Exit: 1
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'PIL'
+Recovery: python3 /tmp/screenrec-image-skill-M1kDJn/agent-output/inspect-delivered.py (stdlib only); exit 0.

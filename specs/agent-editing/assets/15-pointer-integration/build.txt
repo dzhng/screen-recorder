@@ -1,0 +1,22 @@
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/service
+   • Running build in 2 packages
+   • Remote caching disabled
+
+@screenrec/composition:build: cache hit, replaying logs 10afee285d64bb50
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/protocol:build: cache miss, executing 3c763154e0fc7d0b
+@screenrec/core:build: cache miss, executing 0ce14fa0a5d71741
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/client:build: cache miss, executing 4c519a87d7590987
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/service:build: cache miss, executing 78823ce5a414cf51
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:build: cache miss, executing 872d9e04f358f26c
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+
+ Tasks:    6 successful, 6 total
+Cached:    1 cached, 6 total
+  Time:    3.663s

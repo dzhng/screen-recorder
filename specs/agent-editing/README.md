@@ -41,8 +41,8 @@ Current pickup and priority:
    now correctly distinguishes authored edges, displayed intervals and unknown gaps.
    [Public acquisition-gap pictures](assets/10d-acquisition-pictures/README.md)
    now verify audio-anchored video across selected capture gaps, including
-   [combined native verification](assets/10d-inspection-integration/README.md). Next complete raw
-   still-image inspection through the same frame owner; direct custom video-mask
+   [combined native verification](assets/10d-inspection-integration/README.md). Raw still-image inspection and fresh skill use now pass. Next complete project
+   still-image composition and indexing; direct custom video-mask
    admission is not provided by the current capture producer.
    Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
@@ -58,10 +58,10 @@ Current pickup and priority:
    [Pointer authoring/compiler](assets/15-pointer-contract/README.md) is integrated;
    [exact source history](assets/15-pointer-history/README.md) is integrated.
    [Shared source-time sampling](assets/15-pointer-sampling/README.md) is integrated;
-   execution remains unavailable pending queued preparation and native replay. [Processed split, duplicate, move and trim](assets/15-layer-edits/README.md)
+   [Queued preparation and native replay](assets/15-pointer-execution/README.md) now pass their scoped checks; public admission and renderer bindings remain unavailable. [Processed split, duplicate, move and trim](assets/15-layer-edits/README.md)
    pass their static media/tap checks. [Moving-source journeys](assets/15-layer-edit-motion/README.md)
    now verify fractional edits, full/range previews and exact protected audio.
-   Finish pointer preparation and geometry. The broader
+   [Combined verification](assets/15-pointer-integration/README.md) preserves source-image, acquisition and layer behavior. Finish public pointer admission and geometry. The broader
    final-output profile remains open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
@@ -86,8 +86,8 @@ Compact evidence ledger:
   their named gates. [Acquisition-gap project pictures](assets/10d-acquisition-pictures/README.md)
   use public audio-context anchors; direct narrower video masks remain native/core-only.
   [Raw image inspection](assets/10d-source-image-public/README.md) passes its native
-  CLI/MCP lifecycle journey with unchanged reviewed native pixels; fresh skill use
-  and resized recovery review remain pending. Project still composition/indexing
+  CLI/MCP lifecycle journey with unchanged reviewed native pixels, fresh skill use
+  and resized recovery review. Project still composition/indexing
   remains required. No new layer capability is implied by raw inspection.
 - [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
   project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),

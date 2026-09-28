@@ -1,0 +1,29 @@
+{
+  "base": "97c50f41",
+  "worker": {
+    "path": "/tmp/screenrec-combined-pointer-native",
+    "sha256": "8ce4a5879162af33d8f662c2b9d2a96fd7698f3834ccdae38e6b2c4116368a8b"
+  },
+  "reports": {
+    "pointer": {
+      "report": "pointer.json.gz",
+      "uncompressedSha256": "4abc8b1de23ec9d5442c7dbe1d1895dcc0eb1a72f97c96159edc1dccd6ea0eac",
+      "status": "prepared-execution-geometry-only; full visual acceptance open"
+    },
+    "source-image": {
+      "report": "source-image.json.gz",
+      "uncompressedSha256": "909da87a24896440c88bf563f14bbfcaf597f689bde831dc988c9480bbbf4738",
+      "status": true
+    },
+    "acquisition": {
+      "report": "acquisition.json.gz",
+      "uncompressedSha256": "ccd217df4c54e9d8860e63c63c956e3733559deccfc63e63473baea6c187c80c",
+      "status": true
+    },
+    "layers": {
+      "report": "layers.json.gz",
+      "uncompressedSha256": "f548cbccb55ea6f07f1ccad68c72fab1c3abe18102f5b93eef4c774e81356434",
+      "status": "completed native matrix; see per-case verdicts"
+    }
+  }
+}

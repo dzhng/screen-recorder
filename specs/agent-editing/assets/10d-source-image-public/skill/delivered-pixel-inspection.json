@@ -1,0 +1,194 @@
+[
+  {
+    "name": "diagram-full",
+    "size": [
+      40,
+      64
+    ],
+    "pngColorType": 6,
+    "alphaRange": [
+      0,
+      255
+    ],
+    "alphaValues": [
+      0,
+      128,
+      255
+    ],
+    "samples": {
+      "topLeft": [
+        255,
+        255,
+        0,
+        255
+      ],
+      "topRight": [
+        255,
+        0,
+        0,
+        255
+      ],
+      "bottomLeft": [
+        0,
+        0,
+        255,
+        255
+      ],
+      "bottomRight": [
+        0,
+        255,
+        0,
+        255
+      ],
+      "center": [
+        255,
+        255,
+        255,
+        128
+      ]
+    }
+  },
+  {
+    "name": "diagram-small",
+    "size": [
+      20,
+      32
+    ],
+    "pngColorType": 6,
+    "alphaRange": [
+      0,
+      255
+    ],
+    "alphaValues": [
+      0,
+      128,
+      255
+    ],
+    "samples": {
+      "topLeft": [
+        255,
+        255,
+        0,
+        255
+      ],
+      "topRight": [
+        255,
+        0,
+        0,
+        255
+      ],
+      "bottomLeft": [
+        0,
+        0,
+        255,
+        255
+      ],
+      "bottomRight": [
+        0,
+        255,
+        0,
+        255
+      ],
+      "center": [
+        255,
+        255,
+        255,
+        128
+      ]
+    }
+  },
+  {
+    "name": "card-full",
+    "size": [
+      64,
+      40
+    ],
+    "pngColorType": 2,
+    "alphaRange": [
+      255,
+      255
+    ],
+    "alphaValues": [
+      255
+    ],
+    "samples": {
+      "topLeft": [
+        0,
+        254,
+        1,
+        255
+      ],
+      "topRight": [
+        253,
+        0,
+        0,
+        255
+      ],
+      "bottomLeft": [
+        0,
+        0,
+        253,
+        255
+      ],
+      "bottomRight": [
+        254,
+        254,
+        1,
+        255
+      ],
+      "center": [
+        254,
+        254,
+        254,
+        255
+      ]
+    }
+  },
+  {
+    "name": "card-small",
+    "size": [
+      32,
+      20
+    ],
+    "pngColorType": 2,
+    "alphaRange": [
+      255,
+      255
+    ],
+    "alphaValues": [
+      255
+    ],
+    "samples": {
+      "topLeft": [
+        0,
+        254,
+        1,
+        255
+      ],
+      "topRight": [
+        253,
+        0,
+        0,
+        255
+      ],
+      "bottomLeft": [
+        0,
+        0,
+        253,
+        255
+      ],
+      "bottomRight": [
+        254,
+        254,
+        1,
+        255
+      ],
+      "center": [
+        254,
+        254,
+        254,
+        255
+      ]
+    }
+  }
+]

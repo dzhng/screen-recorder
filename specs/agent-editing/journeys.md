@@ -58,7 +58,9 @@ moved and trimmed clip taps with exact source timestamps. [Moving-source conform
 now adds independently changing landmarks, nonaligned moves and whole/range movie checks.
 [Project screenshot indexes](assets/10d-project-index-public/README.md) pass native
 CLI/MCP media and lifecycle journeys; [fresh-agent interpretation](assets/10d-frame-visibility/skill/report.md)
-now correctly distinguishes authored boundaries, displayed frame intervals and gaps. Speech/noise
+now correctly distinguishes authored boundaries, displayed frame intervals and gaps.
+[Raw PNG/JPEG inspection](assets/10d-source-image-public/README.md) passes public
+delivery, lifecycle and fresh skill use; project image composition remains pending. Speech/noise
 processing, animation and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
