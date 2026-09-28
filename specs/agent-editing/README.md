@@ -31,8 +31,10 @@ Current pickup and priority:
    in parallel. The shared [scalar prerequisite](slices/16b-scalar-program.md) and
    retained source transcripts pass combined-build confirmation. Caption work follows animation/evidence contracts. No segmentation
    scope is active.
-3. Build the shared durable prepared-audio prerequisite for retiming and ordered
-   processors, using existing assets, queue publication and revision references.
+3. Complete portable closure and public consumers for the shared
+   [prepared-audio prerequisite](slices/14a-prepared-audio.md). Its first core
+   lifecycle checkpoint passes combined-build tests and exact native PCM/restart
+   checks using existing assets, queue publication and revision references.
    The [retained RNNoise proof](assets/12c-prepared-output/README.md) establishes
    scoped selection/state behavior, not speech quality or production readiness.
    Continue 08 codec/rate/narration, 12/12b speech evidence, 12c/15a protected speech,

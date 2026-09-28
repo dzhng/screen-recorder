@@ -39,3 +39,8 @@ with the original pre-change ProjectStore restored. No timeout was increased.
 Focused final results are retained in `gates.txt`. Portable relocation and public
 processor integration remain the next checkpoint; RNNoise and stretch quality
 and readiness are unchanged.
+
+[Combined root confirmation](root-integration.json) reproduces the native oracles
+and focused lifecycle tests after integration. The retained initial test failure
+came from overlapping a dependency rebuild; the completed build and isolated
+rerun pass without a code or assertion change.
