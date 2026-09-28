@@ -1,0 +1,34 @@
+✔ empty-edit membership rejects colored frames with no white counter (5.858167ms)
+✖ empty-edit membership tolerates codec error without admitting visible content (1.466208ms)
+✔ empty-edit membership accepts the actual frozen black output (62.012292ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 166.2995
+
+✖ failing tests:
+
+test at packages/test-harness/editing/render-membership.test.mjs:27:1
+✖ empty-edit membership tolerates codec error without admitting visible content (1.466208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'counter' !== 'black'
+  
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/render-membership.test.mjs:31:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'counter',
+    expected: 'black',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

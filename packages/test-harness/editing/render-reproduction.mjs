@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mask, classify } from "./render-membership.mjs";
+import { mask, classify, codecChannelTolerance } from "./render-membership.mjs";
 import { createHash } from "node:crypto";
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -12,6 +12,8 @@ const source = join(root, "packages/test-harness/editing/RenderReproduction.swif
 const timing = join(root, "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift");
 const corpus = join(root, "specs/agent-editing/assets/00-corpus");
 const args = process.argv.slice(2);
+const platformRate = args.at(-1) === "--platform-rate";
+if (platformRate) args.pop();
 assert.equal(args[0], "--case");
 assert.equal(args[1], "av-replacement");
 assert.ok(args.length === 2 || (args.length === 4 && args[2] === "--out"));
@@ -393,6 +395,7 @@ try {
       height: 128,
       fps: 20,
       colorPolicy: "native",
+      ...(platformRate ? { platformRate: true } : {}),
       pictures: scenario.pictures,
       audio: scenario.audio,
       range: scenario.range,
@@ -481,9 +484,9 @@ try {
             .find((frame) => frame.id === "A0")
             .rgb.subarray(redOffset, redOffset + 3);
           measurement.redRgb = [...raw.subarray(redOffset, redOffset + 3)];
-          measurement.sourceColorTolerance = 4;
+          measurement.sourceColorTolerance = codecChannelTolerance;
           measurement.sourceColorPassed = measurement.redRgb.every(
-            (value, channel) => Math.abs(value - target[channel]) <= 4,
+            (value, channel) => Math.abs(value - target[channel]) <= codecChannelTolerance,
           );
           if (method === "composition")
             ff(
@@ -587,7 +590,8 @@ try {
   const report = {
     sourceCommit: run("git", ["rev-parse", "HEAD"]).stdout.toString().trim(),
     invocation:
-      "node packages/test-harness/editing/render-reproduction.mjs --case av-replacement --out EMPTY_DIRECTORY",
+      "node packages/test-harness/editing/render-reproduction.mjs --case av-replacement --out EMPTY_DIRECTORY" +
+      (platformRate ? " --platform-rate" : ""),
     sourceHashes: [
       { path: source, sha256: hash(await readFile(source)) },
       { path: timing, sha256: hash(await readFile(timing)) },

@@ -1,0 +1,335 @@
+{
+  "status": 0,
+  "audioFrames": 0,
+  "decodedPerOccurrence": {
+    "held": 1
+  },
+  "elapsedSeconds": 0.799916875,
+  "pixelPoolAllocationThreshold": 4,
+  "retainedSourceBuffersBound": 1,
+  "rows": [
+    {
+      "clipId": "held",
+      "sampleProjectUs": 0,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 50000,
+      "visibleStartUs": 0
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 50000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 100000,
+      "visibleStartUs": 50000
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 100000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 150000,
+      "visibleStartUs": 100000
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 150000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 200000,
+      "visibleStartUs": 150000
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 200000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 250000,
+      "visibleStartUs": 200000
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 250000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 300000,
+      "visibleStartUs": 250000
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 300000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 350000,
+      "visibleStartUs": 300000
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 350000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 400000,
+      "visibleStartUs": 350000
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 400000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 450000,
+      "visibleStartUs": 400000
+    },
+    {
+      "clipId": "held",
+      "sampleProjectUs": 450000,
+      "sourceSampleUs": 250000,
+      "sourceUs": 375000,
+      "visibleEndUs": 500000,
+      "visibleStartUs": 450000
+    }
+  ],
+  "peakRSSBytes": 38666240,
+  "peakFootprintBytes": 78512848,
+  "observations": [
+    {
+      "atUs": 0,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 50000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 100000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 150000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 200000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 250000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 300000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 350000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 400000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 450000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    }
+  ],
+  "wanted": [
+    {
+      "atUs": 0,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 49999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 50000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 99999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 100000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 149999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 150000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 199999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 200000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 249999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 250000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 299999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 300000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 349999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 350000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 399999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 400000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 449999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 450000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 499999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    }
+  ],
+  "membershipPassed": true,
+  "durationUs": 500000,
+  "durationPassed": true,
+  "realTimeFactor": 1.59983375,
+  "outputSha256": "7d328d2310cff708a581de155a2b4dc09b2c92b94cdfb1dfd260415e7d58feb5",
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 160,
+      "height": 128,
+      "color_space": "bt709",
+      "color_transfer": "iec61966-2-1",
+      "color_primaries": "bt709"
+    }
+  ],
+  "temporalPassed": true
+}

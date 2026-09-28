@@ -571,3 +571,13 @@ trim and stretch replacements keep their single-interval behavior.
   The compiler can validate this request now; native adoption later supplies media.
   This fills the plan's worker-binding gap without adding pretend executor identities
   or allowing inspection to silently substitute dry or unstretched audio.
+
+## Decoded gap oracle — 2026-09-27
+
+- **Sound; high confidence — Judge compressed black with the existing codec tolerance.**
+  A correctly blank H.264 gap may decode a few channels slightly above zero. The
+  old exact-byte test labeled such a gap as footage even though source timing and
+  pixel inspection showed black. The corpus now applies its existing four-level
+  color tolerance to every channel in a gap; timestamp/duration checks and
+  rejection of colored glyph-free frames remain. This is an oracle correction,
+  not a new production quality threshold or a relaxed whole-image color gate.

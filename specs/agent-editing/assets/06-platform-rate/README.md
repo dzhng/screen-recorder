@@ -19,3 +19,7 @@ policy before introducing a fixed bitrate, but broader quality, frame checks and
 [independent audit follow-ups](review.md) remain open. The audit verifies the
 retained hashes, one-frame pixel equality and three-second decoded timing; it
 does not accept general encoding quality. No production encoding setting changed.
+
+The subsequent [nine-case temporal reproduction](../06-platform-temporal/README.md)
+verifies the platform bitrate policy on counters, gaps, holds and nonzero previews.
+It does not close this recorded-content quality gate.

@@ -1,0 +1,56 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "platformRate": true,
+  "pictures": [
+    {
+      "id": "retained-video",
+      "file": "/tmp/screenrec-platform-temporal-final/tagged-a.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 1600000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 1600000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/a-audio.wav",
+      "source": {
+        "startUs": 0,
+        "endUs": 400000
+      },
+      "atUs": 0,
+      "gain": 1
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/b-audio.wav",
+      "source": {
+        "startUs": 600000,
+        "endUs": 1200000
+      },
+      "atUs": 400000,
+      "gain": 1
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/a-audio.wav",
+      "source": {
+        "startUs": 1000000,
+        "endUs": 1600000
+      },
+      "atUs": 1000000,
+      "gain": 1
+    }
+  ],
+  "range": {
+    "startUs": 0,
+    "endUs": 1600000
+  },
+  "output": "/tmp/screenrec-platform-temporal-final/audio-replacement"
+}

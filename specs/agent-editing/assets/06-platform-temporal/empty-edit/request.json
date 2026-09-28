@@ -1,0 +1,28 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "platformRate": true,
+  "pictures": [
+    {
+      "id": "gapped",
+      "file": "/tmp/screenrec-platform-temporal-final/empty-edit.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 1250000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 1250000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "range": {
+    "startUs": 0,
+    "endUs": 1250000
+  },
+  "output": "/tmp/screenrec-platform-temporal-final/empty-edit"
+}

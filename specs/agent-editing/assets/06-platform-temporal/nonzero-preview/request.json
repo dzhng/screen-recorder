@@ -1,0 +1,73 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "platformRate": true,
+  "pictures": [
+    {
+      "id": "a-first",
+      "file": "/tmp/screenrec-platform-temporal-final/tagged-a.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 500000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 500000
+      },
+      "holdUs": null
+    },
+    {
+      "id": "b-middle",
+      "file": "/tmp/screenrec-platform-temporal-final/tagged-b.mov",
+      "source": {
+        "startUs": 400000,
+        "endUs": 1000000
+      },
+      "project": {
+        "startUs": 500000,
+        "endUs": 1100000
+      },
+      "holdUs": null
+    },
+    {
+      "id": "a-last",
+      "file": "/tmp/screenrec-platform-temporal-final/tagged-a.mov",
+      "source": {
+        "startUs": 1000000,
+        "endUs": 1500000
+      },
+      "project": {
+        "startUs": 1100000,
+        "endUs": 1600000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/a-audio.wav",
+      "source": {
+        "startUs": 0,
+        "endUs": 1600000
+      },
+      "atUs": 0,
+      "gain": 1
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/b-audio.wav",
+      "source": {
+        "startUs": 200000,
+        "endUs": 1200000
+      },
+      "atUs": 400000,
+      "gain": 0.5
+    }
+  ],
+  "range": {
+    "startUs": 375000,
+    "endUs": 1375000
+  },
+  "output": "/tmp/screenrec-platform-temporal-final/nonzero-preview"
+}

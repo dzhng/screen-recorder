@@ -1,0 +1,325 @@
+{
+  "status": 0,
+  "durationUs": 650000,
+  "elapsedSeconds": 0.340591625,
+  "peakRSSBytes": 37437440,
+  "peakFootprintBytes": 78103248,
+  "observations": [
+    {
+      "atUs": 0,
+      "durationUs": 50000,
+      "id": "black",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 188
+      }
+    },
+    {
+      "atUs": 50000,
+      "durationUs": 50000,
+      "id": "black",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 188
+      }
+    },
+    {
+      "atUs": 100000,
+      "durationUs": 50000,
+      "id": "black",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 188
+      }
+    },
+    {
+      "atUs": 150000,
+      "durationUs": 50000,
+      "id": "black",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 188
+      }
+    },
+    {
+      "atUs": 200000,
+      "durationUs": 50000,
+      "id": "black",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 188
+      }
+    },
+    {
+      "atUs": 250000,
+      "durationUs": 50000,
+      "id": "black",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 188
+      }
+    },
+    {
+      "atUs": 300000,
+      "durationUs": 50000,
+      "id": "black",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 188
+      }
+    },
+    {
+      "atUs": 350000,
+      "durationUs": 50000,
+      "id": "black",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A1",
+        "differingPixels": 188
+      }
+    },
+    {
+      "atUs": 400000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 450000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 500000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 550000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 600000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    }
+  ],
+  "wanted": [
+    {
+      "atUs": 0,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 24999,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 25000,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 74999,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 75000,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 124999,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 125000,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 174999,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 175000,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 224999,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 225000,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 274999,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 275000,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 324999,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 325000,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 374999,
+      "expected": "black",
+      "actual": "black",
+      "passed": true
+    },
+    {
+      "atUs": 375000,
+      "expected": "A1",
+      "actual": "black",
+      "passed": false
+    },
+    {
+      "atUs": 424999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 425000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 474999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 475000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 524999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 525000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 574999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 575000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 624999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 625000,
+      "expected": "A2",
+      "actual": "A1",
+      "passed": false
+    },
+    {
+      "atUs": 649999,
+      "expected": "A2",
+      "actual": "A1",
+      "passed": false
+    }
+  ],
+  "membershipPassed": false,
+  "durationPassed": true,
+  "realTimeFactor": 0.5239871153846154,
+  "outputSha256": "4cf1122a48bbbe1d03c76d4e420a8a6cf8cb8f74670d3d544898c4c019701d3e",
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 160,
+      "height": 128,
+      "color_space": "bt709",
+      "color_transfer": "bt709",
+      "color_primaries": "bt709"
+    }
+  ],
+  "temporalPassed": false
+}

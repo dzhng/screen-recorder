@@ -1,0 +1,537 @@
+{
+  "status": 0,
+  "durationUs": 1050000,
+  "elapsedSeconds": 0.473257708,
+  "peakRSSBytes": 37437440,
+  "peakFootprintBytes": 78152400,
+  "observations": [
+    {
+      "atUs": 0,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 50000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 100000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 150000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 200000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 250000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 300000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 350000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 400000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 450000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 500000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 550000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 600000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 650000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 700000,
+      "durationUs": 50000,
+      "id": "A0",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A6",
+        "differingPixels": 28
+      }
+    },
+    {
+      "atUs": 750000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 800000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 850000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 900000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 950000,
+      "durationUs": 50000,
+      "id": "A1",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A2",
+        "differingPixels": 56
+      }
+    },
+    {
+      "atUs": 1000000,
+      "durationUs": 50000,
+      "id": "A2",
+      "differingPixels": 0,
+      "runnerUp": {
+        "id": "A3",
+        "differingPixels": 32
+      }
+    }
+  ],
+  "wanted": [
+    {
+      "atUs": 0,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 49999,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 50000,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 99999,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 100000,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 149999,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 150000,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 199999,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 200000,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 249999,
+      "expected": "A0",
+      "actual": "A0",
+      "passed": true
+    },
+    {
+      "atUs": 250000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 299999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 300000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 349999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 350000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 399999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 400000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 449999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 450000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 499999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 500000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 549999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 550000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 599999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 600000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 649999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 650000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 699999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 700000,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 749999,
+      "expected": "black",
+      "actual": "A0",
+      "passed": false
+    },
+    {
+      "atUs": 750000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 799999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 800000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 849999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 850000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 899999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 900000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 949999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 950000,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 999999,
+      "expected": "A1",
+      "actual": "A1",
+      "passed": true
+    },
+    {
+      "atUs": 1000000,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 1049999,
+      "expected": "A2",
+      "actual": "A2",
+      "passed": true
+    },
+    {
+      "atUs": 1050000,
+      "expected": "A2",
+      "actual": null,
+      "passed": false
+    },
+    {
+      "atUs": 1099999,
+      "expected": "A2",
+      "actual": null,
+      "passed": false
+    },
+    {
+      "atUs": 1100000,
+      "expected": "A2",
+      "actual": null,
+      "passed": false
+    },
+    {
+      "atUs": 1149999,
+      "expected": "A2",
+      "actual": null,
+      "passed": false
+    },
+    {
+      "atUs": 1150000,
+      "expected": "A2",
+      "actual": null,
+      "passed": false
+    },
+    {
+      "atUs": 1199999,
+      "expected": "A2",
+      "actual": null,
+      "passed": false
+    },
+    {
+      "atUs": 1200000,
+      "expected": "A2",
+      "actual": null,
+      "passed": false
+    },
+    {
+      "atUs": 1249999,
+      "expected": "A2",
+      "actual": null,
+      "passed": false
+    }
+  ],
+  "membershipPassed": false,
+  "durationPassed": false,
+  "realTimeFactor": 0.3786061664,
+  "outputSha256": "1941c871c3f417aab84d6fc3bf1ac9bf148d10854cc66b28f10734fd7808a31d",
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 160,
+      "height": 128,
+      "color_space": "bt709",
+      "color_transfer": "bt709",
+      "color_primaries": "bt709"
+    }
+  ],
+  "temporalPassed": false
+}

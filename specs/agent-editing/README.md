@@ -75,6 +75,8 @@ Current evidence:
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
   independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
   verifies profile conversion on the tested frames; encoding loss remains explicit.
+  [Platform-rate temporal cases](assets/06-platform-temporal/README.md) also pass;
+  no production bitrate or broader quality claim is adopted.
 - [12 speech](assets/12-speech/README.md): 15 independent timing marks still fail
   the existing gate; full semantic labels remain incomplete.
 - [13a support](assets/13a-support-review/README.md): corrected whole-output

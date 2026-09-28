@@ -15,7 +15,7 @@ The [negative checks](render-reproduction.test.mjs) use disposable copies to pro
 that output corruption and a failed timing verdict are rejected. The shared
 [frame-membership oracle](render-membership.mjs) uses the white counter glyphs
 for labeled frames, but accepts an empty black frame only when every RGB channel
-is zero, as in this frozen corpus. A colored frame without white text is not
+is within the corpus's four-level codec tolerance of zero. A colored frame without white text is not
 proof of an empty edit. The oracle regression checks that distinction separately;
 this does not establish a general photographic image classifier or color policy.
 
@@ -75,3 +75,7 @@ The reproduction follows Apple's documented [composition track editing](https://
 and [YCbCr conversion-matrix attachment](https://developer.apple.com/documentation/corevideo/kcvimagebufferycbcrmatrixkey)
 mechanisms. Their published Markdown documentation was read during this pass;
 the runtime verdict comes from the frozen experiments, not the documentation.
+
+The [platform-rate temporal reproduction](../../../specs/agent-editing/assets/06-platform-temporal/README.md)
+runs the same nine cases with `--platform-rate`; the default experiment remains
+unchanged. This establishes temporal conformance, not production encoding quality.

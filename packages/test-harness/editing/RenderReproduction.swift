@@ -19,6 +19,7 @@ struct Request: Codable {
     let pictures: [Picture]; let audio: [Sound]; let output: String
     let colorPolicy: String
     let videoBitrate: Int?
+    let platformRate: Bool?
     let savePreEncode: Bool?
     let outputProfile: OutputProfile?
 }
@@ -155,7 +156,9 @@ func bounded(_ request: Request) async throws -> [String: Any] {
         kCVImageBufferYCbCrMatrixKey as String: kCVImageBufferYCbCrMatrix_ITU_R_709_2,
     ] as CFDictionary)!.takeRetainedValue() : srgb
     let transfer = rec709 ? kCVImageBufferTransferFunction_ITU_R_709_2 : kCVImageBufferTransferFunction_sRGB
-    var settings: [String: Any] = [AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: request.width, AVVideoHeightKey: request.height, AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false, AVVideoAverageBitRateKey: request.videoBitrate ?? 4_000_000]]
+    var compression: [String: Any] = [AVVideoAllowFrameReorderingKey: false]
+    if request.platformRate != true { compression[AVVideoAverageBitRateKey] = request.videoBitrate ?? 4_000_000 }
+    var settings: [String: Any] = [AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: request.width, AVVideoHeightKey: request.height, AVVideoCompressionPropertiesKey: compression]
     if rec709 { settings[AVVideoColorPropertiesKey] = [AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_709_2, AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_709_2, AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_709_2] }
     let video = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
     video.mediaTimeScale = 1_000_000; writer.movieTimeScale = 1_000_000; writer.add(video)

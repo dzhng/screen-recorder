@@ -24,6 +24,15 @@ test("empty-edit membership rejects colored frames with no white counter", () =>
   }
 });
 
+test("empty-edit membership tolerates codec error without admitting visible content", () => {
+  const decoded = Buffer.from(black);
+  decoded[0] = 2;
+  decoded[101] = 4;
+  assert.equal(classify(decoded, references).id, "black");
+  decoded[101] = 5;
+  assert.notEqual(classify(decoded, references).id, "black");
+});
+
 test("empty-edit membership accepts the actual frozen black output", () => {
   const file = fileURLToPath(
     new URL(

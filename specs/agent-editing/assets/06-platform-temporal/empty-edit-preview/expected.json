@@ -1,0 +1,34 @@
+{
+  "frameIDsOnFullProjectGrid": [
+    "A0",
+    "A0",
+    "A0",
+    "A0",
+    "A0",
+    "black",
+    "black",
+    "black",
+    "black",
+    "black",
+    "black",
+    "black",
+    "black",
+    "black",
+    "black",
+    "A1",
+    "A1",
+    "A1",
+    "A1",
+    "A1",
+    "A2",
+    "A2",
+    "A2",
+    "A2",
+    "A2"
+  ],
+  "range": {
+    "startUs": 375000,
+    "endUs": 1025000
+  },
+  "rejects": null
+}

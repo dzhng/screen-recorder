@@ -1,0 +1,28 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "platformRate": true,
+  "pictures": [
+    {
+      "id": "vfr",
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/timestamp-gap.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      "holdUs": null
+    }
+  ],
+  "audio": [],
+  "range": {
+    "startUs": 0,
+    "endUs": 2000000
+  },
+  "output": "/tmp/screenrec-platform-temporal-final/vfr-held-tail"
+}

@@ -1,0 +1,34 @@
+{
+  "width": 160,
+  "height": 128,
+  "fps": 20,
+  "colorPolicy": "native",
+  "platformRate": true,
+  "pictures": [
+    {
+      "id": "unknown-content",
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/timestamp-gap.mov",
+      "source": {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      "project": {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      "holdUs": null,
+      "unavailable": [
+        {
+          "startUs": 500000,
+          "endUs": 1000000
+        }
+      ]
+    }
+  ],
+  "audio": [],
+  "range": {
+    "startUs": 0,
+    "endUs": 2000000
+  },
+  "output": "/tmp/screenrec-platform-temporal-final/unavailable-acquisition"
+}

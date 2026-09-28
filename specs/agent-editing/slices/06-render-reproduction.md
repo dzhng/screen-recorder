@@ -86,4 +86,4 @@ no universal 40Mbps policy is inferred from one recorded frame.
 The [platform-rate comparison](../assets/06-platform-rate/README.md) reproduces
 the existing renderer's unset-bitrate policy. Its first frame matches the
 higher-bitrate candidate exactly; a short multi-frame run is retained for further
-verification. Independent review and broader export-quality judgment are pending.
+verification. Independent audit is retained with that experiment; broader export-quality judgment remains pending. The subsequent [nine-case platform-rate comparison](../assets/06-platform-temporal/README.md) passes the same temporal gates, with a reviewed codec-tolerant empty-edit oracle.
