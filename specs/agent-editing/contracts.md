@@ -475,6 +475,16 @@ to capability probing; a request outside its capability is rejected with support
 profiles. An explicit pad-to-even profile may preserve an odd requested content
 rectangle inside even encoded dimensions. Report both; never silently crop/resize.
 
+Output controls are agent-facing settings, not only quality presets. Expose the
+supported encoding controls through the shared CLI/MCP schema and capabilities.
+Presets expand to inspectable defaults with explicit overrides; the default MP4
+preset balances sharpness and file size. Resolve and pin the complete settings
+before admission, include them in derivative/job/export identity, and report them
+with results. Unsupported combinations fail explicitly rather than being ignored
+or silently substituted. Geometry remains owned by canvas and processing controls.
+[Output-settings adoption](slices/09b-output-settings.md) owns the capability
+inventory and verification; new codecs are not implied merely by exposing controls.
+
 Preview and export use the same compiler/executor and differ only in declared
 rendition/encoding. Compare decoded matched timestamps with codec tolerance rather
 than expecting byte-identical compressed files. Exports pin intent and publish

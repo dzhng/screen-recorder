@@ -1,6 +1,6 @@
 # 25 — Autonomous agent acceptance
 
-Status: not started. Dependencies: [24](./24-scale.md).
+Status: not started. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
 
 ## Contract
 
@@ -28,7 +28,8 @@ Add the scenarios assigned here in the [live journey inventory](../journeys.md)
 through actual public CLI/MCP and service paths. State-only checks do not replace
 delivered-media or listening/physical gates.
 
-Verify the normalized edit result, protected words, accepted audio-quality gates, visual composition, requested text/captions, output geometry and package relocation/undo. The agent discovers schemas, handles a forced stale edit and a lost response, exports autonomously, and reports changes/provenance/verification limits. Run broad repository/native gates once at closeout and record independent review findings.
+Have the agent discover encoder settings, override a preset, and verify the resolved
+settings and delivered streams. Verify the normalized edit result, protected words, accepted audio-quality gates, visual composition, requested text/captions, output geometry and package relocation/undo. The agent discovers schemas, handles a forced stale edit and a lost response, exports autonomously, and reports changes/provenance/verification limits. Run broad repository/native gates once at closeout and record independent review findings.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 
