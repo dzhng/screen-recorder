@@ -32,8 +32,12 @@ preview-byte parity, cancellation/recovery, abandonment and external-file preser
 [Selected-source transcripts](assets/10b-source-transcript-journey/README.md)
 now pass actual native CLI/MCP stream selection, source paging/search, retry and
 restart, plus same-byte capture-mask preview audio. [Project transcript paging and phrase search](assets/10c-public-phrases/README.md)
-also pass live CLI/MCP delivery against frozen source transcripts. Project event/cursor queries,
-processors beyond constant gain and subjective listening remain pending. Rows below
+also pass live CLI/MCP delivery against frozen source transcripts.
+[Capture cursor/pause/geometry queries](assets/10c-public-capture/README.md),
+[project audio taps](assets/11a-public-project-taps/wired-render/README.md) and
+[large source WAV delivery](assets/11a-audio-extraction/README.md) now have actual
+public journeys. Scene/cut/interruption categories, processors beyond constant
+gain and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |

@@ -64,8 +64,9 @@ native rate/channel metadata is available, and again against actual publication 
 This check is not a reservation: active leases can still cause retryable publication
 pressure, and unfinished outputs can temporarily consume disk beyond the published budget.
 The [capacity pass](../assets/11a-cache-capacity/README.md) proves real sparse publication
-above 1 GiB and bounded reading, not a native render of that size. A real full native
-WAV above 1 GiB and project-tap preflight remain required before closing this gate.
+above 1 GiB and bounded reading, not a native render of that size. The source journey below supplies real native
+extraction above 1 GiB; project tap preflight is covered in the core tap evidence.
+Full multi-source project extraction still needs its own scale observation.
 
 ## Failure boundary and discretion
 
@@ -99,17 +100,23 @@ and processing taps remain required before this slice can close.
 selected-source admission through audio.get/retry, shared artifact leases and
 bounded CLI file streaming. Large MCP audio remains an explicit renewable
 artifact; small audio can be inline. Actual native source/large-WAV acceptance
-belongs to the audio-extraction journey, and project tap binding remains open.
+belongs to the audio-extraction journey below. Project taps are covered by their
+separate public journey.
 
 
-## Active native coverage defect
+## Native source delivery checkpoint
 
-The long AAC source journey reproduces a 1024-frame decoded shortfall in a direct
-native extraction; a plain AVAssetReader diagnostic can retrieve the complete
-source. No support shortening or compensating silence is accepted as a fix.
-Lossless extraction and full CLI delivery above 1 GiB pass separately; their
-retained evidence is pending integration. Resolve the AAC native owner and
-preserve the existing recording/composition audio gates before closing this slice.
+[The real source WAV journey](../assets/11a-audio-extraction/README.md) verifies
+selected streams, masks, gaps, poison, cancellation and complete CLI transfer
+above 1 GiB for silent and non-silent AAC, with bounded MCP reads. The shared
+decoder's missing tail is corrected with bounded context and once-only exact
+continuation; no missing speech is padded. [Signed-start preservation](../assets/11a-signed-audio-start/README.md)
+also protects admitted negative origins.
+
+[Execution pins](../assets/11a-audio-execution-pins/README.md) distinguish new work
+without changing retained portable transcript schemas. Final root service pin
+and concurrent-render integration reruns remain open. Long multi-source project
+extraction and the broader format/scale contracts remain separate gates.
 
 ## Public project audio and render lifetime
 
