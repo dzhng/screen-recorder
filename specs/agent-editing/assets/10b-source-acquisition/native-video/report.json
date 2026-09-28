@@ -1,0 +1,972 @@
+{
+  "productionNativeEntry": true,
+  "livePublicJourney": false,
+  "resourceChecksRun": true,
+  "sourceProfiles": [
+    {
+      "name": "hdr-pq",
+      "colorPrimaries": "bt2020",
+      "transfer": "smpte2084",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "Source color profile requires an explicit HDR, wide-gamut or custom-profile conversion.",
+          "retryable": false
+        },
+        "id": "video",
+        "ok": false
+      }
+    },
+    {
+      "name": "hdr-hlg",
+      "colorPrimaries": "bt2020",
+      "transfer": "arib-std-b67",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "Source color profile requires an explicit HDR, wide-gamut or custom-profile conversion.",
+          "retryable": false
+        },
+        "id": "video",
+        "ok": false
+      }
+    },
+    {
+      "name": "wide-p3",
+      "colorPrimaries": "smpte432",
+      "transfer": "iec61966-2-1",
+      "response": {
+        "error": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "Source color profile requires an explicit HDR, wide-gamut or custom-profile conversion.",
+          "retryable": false
+        },
+        "id": "video",
+        "ok": false
+      }
+    }
+  ],
+  "results": [
+    {
+      "name": "av-replacement",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "B2",
+        "B2",
+        "B2",
+        "B2",
+        "B3",
+        "B3",
+        "B3",
+        "B3",
+        "B4",
+        "B4",
+        "B4",
+        "B4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A5"
+      ],
+      "receipt": {
+        "bytes": 5898,
+        "decodedSamples": 7,
+        "durationUs": 1600000,
+        "file": "/tmp/acquisition-video-full-retry/av-replacement/video.mp4",
+        "frames": 32,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 7,
+        "readerOpens": 3,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "audio-replacement",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A6",
+        "A6"
+      ],
+      "receipt": {
+        "bytes": 5348,
+        "decodedSamples": 7,
+        "durationUs": 1600000,
+        "file": "/tmp/acquisition-video-full-retry/audio-replacement/video.mp4",
+        "frames": 32,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 7,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "nonzero-preview",
+      "ids": [
+        "A1",
+        "A1",
+        "A1",
+        "B2",
+        "B2",
+        "B2",
+        "B2",
+        "B3",
+        "B3",
+        "B3",
+        "B3",
+        "B4",
+        "B4",
+        "B4",
+        "B4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5"
+      ],
+      "receipt": {
+        "bytes": 4193,
+        "decodedSamples": 6,
+        "durationUs": 1000000,
+        "file": "/tmp/acquisition-video-full-retry/nonzero-preview/video.mp4",
+        "frames": 21,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 6,
+        "readerOpens": 3,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "held-frame",
+      "ids": [
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1"
+      ],
+      "receipt": {
+        "bytes": 1836,
+        "decodedSamples": 1,
+        "durationUs": 500000,
+        "file": "/tmp/acquisition-video-full-retry/held-frame/video.mp4",
+        "frames": 10,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "subframe-source",
+      "ids": [
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3"
+      ],
+      "receipt": {
+        "bytes": 2460,
+        "decodedSamples": 3,
+        "durationUs": 500000,
+        "file": "/tmp/acquisition-video-full-retry/subframe-source/video.mp4",
+        "frames": 10,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 3,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "vfr-held-tail",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A6",
+        "A6",
+        "A6",
+        "A6",
+        "A6",
+        "A7",
+        "A7",
+        "A7",
+        "A7",
+        "A7"
+      ],
+      "receipt": {
+        "bytes": 5319,
+        "decodedSamples": 6,
+        "durationUs": 2000000,
+        "file": "/tmp/acquisition-video-full-retry/vfr-held-tail/video.mp4",
+        "frames": 40,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 6,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "empty-edit",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2"
+      ],
+      "receipt": {
+        "bytes": 3541,
+        "decodedSamples": 4,
+        "durationUs": 1250000,
+        "file": "/tmp/acquisition-video-full-retry/empty-edit/video.mp4",
+        "frames": 25,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 4,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "empty-edit-preview",
+      "ids": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2"
+      ],
+      "receipt": {
+        "bytes": 2259,
+        "decodedSamples": 3,
+        "durationUs": 650000,
+        "file": "/tmp/acquisition-video-full-retry/empty-edit-preview/video.mp4",
+        "frames": 14,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 3,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "repeat-reorder",
+      "ids": [
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "B0",
+        "B0",
+        "B0",
+        "B0",
+        "B1",
+        "B1",
+        "B1",
+        "B1",
+        "B2",
+        "B2"
+      ],
+      "receipt": {
+        "bytes": 5887,
+        "decodedSamples": 7,
+        "durationUs": 1750000,
+        "file": "/tmp/acquisition-video-full-retry/repeat-reorder/video.mp4",
+        "frames": 35,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 8,
+        "readerOpens": 3,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "leading-partial-picture",
+      "ids": [
+        "A0",
+        "black"
+      ],
+      "receipt": {
+        "bytes": 1391,
+        "decodedSamples": 1,
+        "durationUs": 19999,
+        "file": "/tmp/acquisition-video-full-retry/leading-partial-picture/video.mp4",
+        "frames": 2,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 2,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "retimed-picture",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1"
+      ],
+      "receipt": {
+        "bytes": 2486,
+        "decodedSamples": 2,
+        "durationUs": 1000000,
+        "file": "/tmp/acquisition-video-full-retry/retimed-picture/video.mp4",
+        "frames": 20,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 2,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "selected-second-stream",
+      "ids": [
+        "B0",
+        "B0",
+        "B0",
+        "B0",
+        "B1",
+        "B1",
+        "B1",
+        "B1",
+        "B2",
+        "B2"
+      ],
+      "receipt": {
+        "bytes": 2442,
+        "decodedSamples": 3,
+        "durationUs": 500000,
+        "file": "/tmp/acquisition-video-full-retry/selected-second-stream/video.mp4",
+        "frames": 10,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 3,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "raster-reuse-transitions",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "black",
+        "black",
+        "black",
+        "A0",
+        "A0",
+        "A0",
+        "B0",
+        "B0",
+        "B0",
+        "A0",
+        "A0",
+        "A0",
+        "B0",
+        "B0",
+        "B0"
+      ],
+      "receipt": {
+        "bytes": 4595,
+        "decodedSamples": 5,
+        "durationUs": 900000,
+        "file": "/tmp/acquisition-video-full-retry/raster-reuse-transitions/video.mp4",
+        "frames": 18,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 6,
+        "readerOpens": 5,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "sparse-forward-cuts",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4"
+      ],
+      "receipt": {
+        "bytes": 2420,
+        "decodedSamples": 2,
+        "durationUs": 500000,
+        "file": "/tmp/acquisition-video-full-retry/sparse-forward-cuts/video.mp4",
+        "frames": 10,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 2,
+        "readerOpens": 2,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "sparse-forward-retime",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0"
+      ],
+      "receipt": {
+        "bytes": 1920,
+        "decodedSamples": 10,
+        "durationUs": 500000,
+        "file": "/tmp/acquisition-video-full-retry/sparse-forward-retime/video.mp4",
+        "frames": 10,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 10,
+        "readerOpens": 10,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "acquisition-occurrences",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A3"
+      ],
+      "receipt": {
+        "bytes": 8447,
+        "decodedSamples": 12,
+        "durationUs": 3000000,
+        "file": "/tmp/acquisition-video-full-retry/acquisition-occurrences/video.mp4",
+        "frames": 60,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 12,
+        "readerOpens": 3,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "acquisition-boundary-window",
+      "ids": [
+        "A0",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A2"
+      ],
+      "receipt": {
+        "bytes": 1947,
+        "decodedSamples": 3,
+        "durationUs": 250002,
+        "file": "/tmp/acquisition-video-full-retry/acquisition-boundary-window/video.mp4",
+        "frames": 7,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 3,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "name": "acquisition-held-pictures",
+      "ids": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2"
+      ],
+      "receipt": {
+        "bytes": 3642,
+        "decodedSamples": 4,
+        "durationUs": 1500000,
+        "file": "/tmp/acquisition-video-full-retry/acquisition-held-pictures/video.mp4",
+        "frames": 30,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 5,
+        "readerOpens": 2,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    }
+  ],
+  "negatives": [
+    {
+      "name": "odd-canvas",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Video requires a positive range and even canvas dimensions up to 8192.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "transparent-canvas",
+      "error": {
+        "code": "NOT_READY",
+        "details": {},
+        "message": "H.264 canvas requires an opaque RGBA background.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "unknown-profile",
+      "error": {
+        "code": "NOT_READY",
+        "details": {},
+        "message": "Unknown video export profile.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "missing-stream",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Missing retained source binding.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "visual-processing",
+      "error": {
+        "code": "NOT_READY",
+        "details": {},
+        "message": "Visual processing is not implemented.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "unknown-availability",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Unknown compiled source availability.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "outside-physical-support-available",
+      "error": {
+        "code": "UNAVAILABLE",
+        "details": {},
+        "message": "Retained time has no proven track support.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "outside-physical-support-source-unavailable",
+      "error": {
+        "code": "UNAVAILABLE",
+        "details": {},
+        "message": "Retained time has no proven track support.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "unknown-frame-field",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Request has fields this operation does not read.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "multiple-layers",
+      "error": {
+        "code": "NOT_READY",
+        "details": {},
+        "message": "Layer composition is not implemented.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "anchor-unavailable",
+      "error": {
+        "code": "UNAVAILABLE",
+        "details": {},
+        "message": "Compiled ancestor support is unavailable.",
+        "retryable": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "seconds": 3,
+      "peakRSSBytes": 37388288,
+      "receipt": {
+        "bytes": 4015,
+        "decodedSamples": 1,
+        "durationUs": 3000000,
+        "file": "/tmp/acquisition-video-full-retry/held-3s/video.mp4",
+        "frames": 60,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    },
+    {
+      "seconds": 600,
+      "peakRSSBytes": 38027264,
+      "receipt": {
+        "bytes": 632160,
+        "decodedSamples": 1,
+        "durationUs": 600000000,
+        "file": "/tmp/acquisition-video-full-retry/held-600s/video.mp4",
+        "frames": 12000,
+        "height": 128,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 160
+      }
+    }
+  ],
+  "cancellation": "PASS production NativeWire task cancellation drains writer and removes staging; same-path worker restart renders the expected A1 frame",
+  "preservation": [
+    {
+      "name": "old-cuts",
+      "decodedPixelSHA256": "8019a8dca97c642936e56f10219b61c4fab180d47b510d89dbcaf73049729e60"
+    },
+    {
+      "name": "old-empty-edit",
+      "decodedPixelSHA256": "78b8aca75778f1118e36618e4f020af4cf0dbdd11ebe1556084277e6f58bcafb"
+    }
+  ]
+}

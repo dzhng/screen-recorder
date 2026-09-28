@@ -1,0 +1,14 @@
+[
+  {
+    "path": "/tmp/acquisition-video-baseline-native",
+    "sha256": "fae5e9122b1805b6c03fad000c1c27db4705222763aecb02049f63e1826df655"
+  },
+  {
+    "path": "helpers/mac/.build/debug/screenrec-native",
+    "sha256": "329d439b1a42153d797228c987c55503e5e549009d6e70b3516a9f30cbe6075b"
+  },
+  {
+    "path": "specs/agent-editing/assets/06-platform-temporal/tagged-a.mov",
+    "sha256": "c2610e5c9f02ccaeedb4a54ffee52782b51eca75c453ad69e743f93aac2fb771"
+  }
+]

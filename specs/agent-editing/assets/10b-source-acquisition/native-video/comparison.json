@@ -1,0 +1,38 @@
+[
+  {
+    "label": "masked-vs-full",
+    "frameIndices": [
+      6,
+      26
+    ],
+    "grayscaleMAE": 37.06898725586362,
+    "diffRatio16": 0.75
+  },
+  {
+    "label": "unmasked-vs-full",
+    "frameIndices": [
+      2,
+      22
+    ],
+    "grayscaleMAE": 0.170438720703127,
+    "diffRatio16": 0.000048828125
+  },
+  {
+    "label": "resumed-vs-full",
+    "frameIndices": [
+      12,
+      32
+    ],
+    "grayscaleMAE": 0.15143869140625182,
+    "diffRatio16": 0.000244140625
+  },
+  {
+    "label": "full-vs-physical",
+    "frameIndices": [
+      26,
+      46
+    ],
+    "grayscaleMAE": 0.10786144531249968,
+    "diffRatio16": 0.000048828125
+  }
+]

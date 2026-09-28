@@ -25,8 +25,11 @@ sample support and executes pixels; it never reconstructs cuts or frame phase.
 The [video renderer](Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift)
 shares source support and orientation with existing delivery. Its wire reader
 consumes bounded JSONL records, and publication uses the existing new-file owner.
-A container-proven empty edit can explain missing source support, but cannot repair
-an unavailable attached ancestor. Profile adoption evidence belongs to the
+A compiler-excluded source picture becomes background after native validation of
+its exact stream and physical timestamp, even when that occurrence's acquisition
+mask excludes existing samples. Physical empty edits also become background;
+unknown physical timing and unavailable attached ancestors still refuse. Decoder
+reuse remains keyed by media, while the exclusion applies to each compiled picture. Profile adoption evidence belongs to the
 [editing spec](../../specs/agent-editing/assets/07-video/README.md).
 
 ## Capture timing

@@ -1,0 +1,31 @@
+PASS fixture presents 30 samples from 0 to 2900000us
+PASS nearest sample 140000us -> 100000us showing frame 1
+PASS tie at 150000us -> earlier frame 1 at 100000us
+PASS interval end 200000us excludes its own sample, held frame 1 at distance 95000us
+PASS interval start 200000us keeps its own sample, frame 2
+PASS removed neighbour at 1000000us rejected for kept frame 11 at 1100000us
+PASS removed neighbour at 1200000us rejected for kept frame at 1100000us
+PASS interval [1010000,1090000) holds no sample: No video sample inside [1010000,1090000) microseconds of steps-10fps.mp4.
+PASS sparse media holds frame 2 at 100000us, reports 1500000us distance, and never crosses its interval
+PASS crop 20,20 60x60 places the marker, background, bit block and block gap where the source has them
+PASS a 60x60 crop bounded to 30 pixels scales after cropping
+PASS 64-pixel bound gives 64x48 and the default bound leaves 320x240
+PASS rotated source is oriented 240x320 with corners matching the image-generator oracle
+PASS clean RGB observations reuse selection, sparse holds and rotated top-left pixel geometry
+PASS crops are validated against the oriented image, not the stored raster
+PASS pointer-only overlay draws an asymmetric glyph at its hot spot and leaves the clean frame clean
+PASS trail draws every supplied point and fades with age: newest 0.52, oldest 0.31
+PASS two runs are drawn without a path across the gap between them
+PASS overlay coordinates are source pixels: a 140,190 crop keeps the trail and pointer in place
+PASS the overlay is drawn before the long-edge bound and scales with the frame
+PASS a halved frame keeps 2 core and 2 halo pixels across the trail
+PASS repeating an overlay request produces identical bytes
+PASS mode renders written full size, halved and as a thumbnail; the circled button keeps 92% of its pixels full size and 83% halved, the label keeps 82% and 69%, and the pointer covers 11x15 halved against 5x5 on a thumbnail
+PASS 19 invalid requests rejected, source media unchanged
+PASS encoded size limit rejects Encoded frame is 18086 bytes, over the 2000 byte limit. and accepts 1837 bytes at 64 pixels
+PASS all 30 decoded sample timestamps are reachable and self-selecting
+PASS 20 random frames from a 10-minute file: slowest 0.041s, total 0.563s, whole-file decode 2.960s
+PASS evidence written to /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-frame-tests
+PASS decoded frame 7 matches its generated reference, mean difference 0.0211
+PASS presentation evidence never replaces a destination created while it was written
+PASS descriptor source survives caller close/unlink and releases its duplicate

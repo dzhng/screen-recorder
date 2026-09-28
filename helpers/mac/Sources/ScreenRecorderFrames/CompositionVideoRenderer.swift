@@ -198,14 +198,15 @@ public enum CompositionVideoRenderer {
                 sourceTime = at
                 let selected = try source!.selection(
                     at: time(microseconds: at), end: time(microseconds: at + 1))
-                guard
-                    layer.availability == "available"
-                        || (layer.availability == "source-unavailable" && selected.buffer == nil)
-                else {
-                    throw NativeFailure(
-                        "UNAVAILABLE", "Compiled source availability is not proven.")
+                switch layer.availability {
+                case "available", "source-unavailable": break
+                case "anchor-unavailable":
+                    throw NativeFailure("UNAVAILABLE", "Compiled ancestor support is unavailable.")
+                default: throw invalid("Unknown compiled source availability.")
                 }
-                if let buffer = selected.buffer {
+                // The compiler can exclude physically occupied media for this occurrence.
+                // Selection above still proves the exact stream's physical timing before masking.
+                if layer.availability == "available", let buffer = selected.buffer {
                     guard let sampleTime = selected.sampleTime else {
                         throw invalid("Selected picture has no physical sample time.")
                     }

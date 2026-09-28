@@ -81,7 +81,13 @@ async function asset(file) {
   files.set(file, result);
   return result;
 }
-async function compile(pictures, range, directory, fps = { numerator: 20, denominator: 1 }) {
+async function compile(
+  pictures,
+  range,
+  directory,
+  fps = { numerator: 20, denominator: 1 },
+  acquisitions = [],
+) {
   const clips = [],
     bindings = [],
     assets = [];
@@ -101,6 +107,7 @@ async function compile(pictures, range, directory, fps = { numerator: 20, denomi
       trackId: "video",
       assetId: a.asset.id,
       streamId: binding.streamId,
+      ...(picture.acquisitionId ? { acquisitionId: picture.acquisitionId } : {}),
       source:
         picture.holdUs === null
           ? { kind: "range", range: picture.source }
@@ -122,6 +129,7 @@ async function compile(pictures, range, directory, fps = { numerator: 20, denomi
     validateComposition(
       document,
       unique(assets, (a) => a.id),
+      acquisitions,
     ),
     "fixture",
   ).window({
@@ -371,10 +379,106 @@ scenarios.push({
   },
   expected: { frameIDsOnFullProjectGrid: repeated(["A0", 10]) },
 });
-for (const { name, original, expected, fps } of scenarios) {
+const acquisitionSource = await asset(join(frozen, "tagged-a.mov"));
+const acquisitionContexts = [
+  {
+    id: "masked",
+    bindings: [
+      {
+        assetId: acquisitionSource.asset.id,
+        streamId: acquisitionSource.binding.streamId,
+        available: [
+          { startUs: 0, endUs: 250000 },
+          { startUs: 500000, endUs: 2000000 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "complete",
+    bindings: [
+      {
+        assetId: acquisitionSource.asset.id,
+        streamId: acquisitionSource.binding.streamId,
+        available: [{ startUs: 0, endUs: 2000000 }],
+      },
+    ],
+  },
+];
+const acquiredPictures = [
+  {
+    ...picture("masked-occurrence", "tagged-a.mov", 0, 1000000, 0, 1000000),
+    acquisitionId: "masked",
+  },
+  {
+    ...picture("complete-occurrence", "tagged-a.mov", 0, 1000000, 1000000, 2000000),
+    acquisitionId: "complete",
+  },
+  picture("physical-occurrence", "tagged-a.mov", 0, 1000000, 2000000, 3000000),
+];
+const acquisitionIDs = repeated(
+  ["A0", 5],
+  ["black", 5],
+  ["A2", 5],
+  ["A3", 5],
+  ["A0", 5],
+  ["A1", 5],
+  ["A2", 5],
+  ["A3", 5],
+  ["A0", 5],
+  ["A1", 5],
+  ["A2", 5],
+  ["A3", 5],
+);
+for (const [name, range] of [
+  ["acquisition-occurrences", { startUs: 0, endUs: 3000000 }],
+  ["acquisition-boundary-window", { startUs: 249999, endUs: 500001 }],
+])
+  scenarios.push({
+    name,
+    acquisitions: acquisitionContexts,
+    original: { pictures: acquiredPictures, range },
+    expected: { frameIDsOnFullProjectGrid: acquisitionIDs },
+  });
+scenarios.push({
+  name: "acquisition-held-pictures",
+  acquisitions: acquisitionContexts,
+  original: {
+    pictures: [
+      ["masked", 300000],
+      ["complete", 300000],
+      [undefined, 300000],
+      ["masked", 249999],
+      ["masked", 250000],
+      ["masked", 500000],
+    ].map(([acquisitionId, holdUs], index) => ({
+      ...picture(`held-${index}`, "tagged-a.mov", 0, 1000000, index * 250000, (index + 1) * 250000),
+      acquisitionId,
+      holdUs,
+    })),
+    range: { startUs: 0, endUs: 1500000 },
+  },
+  expected: {
+    frameIDsOnFullProjectGrid: repeated(
+      ["black", 5],
+      ["A1", 5],
+      ["A1", 5],
+      ["A0", 5],
+      ["black", 5],
+      ["A2", 5],
+    ),
+  },
+});
+for (const { name, original, expected, fps, acquisitions } of scenarios) {
   const directory = join(out, name);
   await mkdir(directory);
-  const { request, frames } = await compile(original.pictures, original.range, directory, fps);
+  const { request, frames } = await compile(
+    original.pictures,
+    original.range,
+    directory,
+    fps,
+    acquisitions,
+  );
   await save(join(directory, "request.json"), request);
   const response = call("media.renderCompositionVideo", request);
   assert.equal(response.ok, true, `${name}: ${JSON.stringify(response)}`);
@@ -483,10 +587,18 @@ await rejected(
 const first = JSON.parse((await readFile(base.frames, "utf8")).split("\n")[0]);
 for (const [name, frame, code] of [
   [
-    "unknown-acquisition",
-    { ...first, layers: first.layers.map((l) => ({ ...l, availability: "source-unavailable" })) },
-    "UNAVAILABLE",
+    "unknown-availability",
+    { ...first, layers: first.layers.map((l) => ({ ...l, availability: "mystery" })) },
+    "INVALID_REQUEST",
   ],
+  ...["available", "source-unavailable"].map((availability) => [
+    `outside-physical-support-${availability}`,
+    {
+      ...first,
+      layers: first.layers.map((layer) => ({ ...layer, sourceUs: 2000000, availability })),
+    },
+    "UNAVAILABLE",
+  ]),
   ["unknown-frame-field", { ...first, guess: 1 }, "INVALID_REQUEST"],
   ["multiple-layers", { ...first, layers: [first.layers[0], first.layers[0]] }, "NOT_READY"],
 ]) {
