@@ -62,6 +62,10 @@ Current pickup and priority:
 slice distinguishes verified snapshot/archive checkpoints from open dependency
 classes and full acceptance.
 
+[Fresh package/fade skill use](assets/22-package-fade-skill/README.md) verifies
+continued editing after adoption, exact direct-frame controls, and corrected
+delivery polling; it retains failed attempts and handoff-ID errors.
+
 Compact evidence ledger:
 
 - [Preview](assets/09-first-preview/README.md) and

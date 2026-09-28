@@ -35,8 +35,10 @@ non-destructive edits and verify the result.
    coordinates. After a stale-revision rejection, inspect the new state and
    recompute the edit instead of simply replacing the expected revision ID.
 6. Inspect the returned revision and request its audio, frames, or playable
-   preview around changed joins. Poll the same pinned request while processing
-   is pending; a failed job requires diagnosis and an explicit supported retry.
+   preview around changed joins. Poll the same pinned request without `--output`
+   while processing is pending; deliver once ready. A directory destination must
+   not already exist, including when repeating an inspection. A failed job requires
+   diagnosis and an explicit supported retry.
    If your tools cannot listen to audio or play video, disclose that verification
    limit. A successful render alone does not establish a clean-sounding cut.
 7. Export the requested revision and format only after checking the changes.

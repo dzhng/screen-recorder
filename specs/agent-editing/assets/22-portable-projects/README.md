@@ -38,7 +38,9 @@ acquisitions and retained source/project evidence generations are explicitly
 refused until their owning stores support portable adoption. Prepared model-dependent
 outputs, fonts and actual 15a output remain [slice 22](../../slices/22-portable-projects.md)
 acceptance. Native media equality does not close listening or physical-camera gates.
-A fresh autonomous skill trial remains a separate acceptance check.
+A [fresh autonomous package/fade skill trial](../22-package-fade-skill/README.md)
+now verifies export/adoption and continued editing, retaining workflow and handoff
+errors separately from the verified result.
 
 Root integration reproduces every public check and the current/historical decoded
 RGB and WAV hashes on the combined worker. Service (16), protocol (19), and core
